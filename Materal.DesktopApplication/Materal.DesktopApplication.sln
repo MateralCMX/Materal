@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WPFUI", "Materal.WPFUI\Materal.WPFUI.csproj", "{954860F0-5EAC-4A90-9F29-1BF7F01902BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WPFCustomControlLib", "Materal.WPFCustomControlLib\Materal.WPFCustomControlLib.csproj", "{53DA42CA-C05B-498E-A4EE-8BD8DDAE93DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WinFormUI", "Materal.WinFormUI\Materal.WinFormUI.csproj", "{E642FD62-E812-4A3A-9D83-33BF6A1C79B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WPFPageUI", "Materal.WPFPageUI\Materal.WPFPageUI.csproj", "{82862502-6DCE-45DF-9242-4C69A00E5074}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WPFBrowserApp", "Materal.WPFBrowserApp\Materal.WPFBrowserApp.csproj", "{A0570D96-2466-439D-BEA8-38B8654A008E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{954860F0-5EAC-4A90-9F29-1BF7F01902BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954860F0-5EAC-4A90-9F29-1BF7F01902BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954860F0-5EAC-4A90-9F29-1BF7F01902BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954860F0-5EAC-4A90-9F29-1BF7F01902BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53DA42CA-C05B-498E-A4EE-8BD8DDAE93DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53DA42CA-C05B-498E-A4EE-8BD8DDAE93DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53DA42CA-C05B-498E-A4EE-8BD8DDAE93DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53DA42CA-C05B-498E-A4EE-8BD8DDAE93DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E642FD62-E812-4A3A-9D83-33BF6A1C79B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E642FD62-E812-4A3A-9D83-33BF6A1C79B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E642FD62-E812-4A3A-9D83-33BF6A1C79B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E642FD62-E812-4A3A-9D83-33BF6A1C79B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82862502-6DCE-45DF-9242-4C69A00E5074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82862502-6DCE-45DF-9242-4C69A00E5074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82862502-6DCE-45DF-9242-4C69A00E5074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82862502-6DCE-45DF-9242-4C69A00E5074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0570D96-2466-439D-BEA8-38B8654A008E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0570D96-2466-439D-BEA8-38B8654A008E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0570D96-2466-439D-BEA8-38B8654A008E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0570D96-2466-439D-BEA8-38B8654A008E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {34B9F76C-A1A3-4B37-A4D0-710A8990E8C7}
+	EndGlobalSection
+EndGlobal
