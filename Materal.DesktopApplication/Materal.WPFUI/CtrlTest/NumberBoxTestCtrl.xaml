@@ -14,6 +14,7 @@
     </UserControl.DataContext>
     <UserControl.CommandBindings>
         <CommandBinding x:Name="GetViewModelValueCommand" Command="local:CtrlTestCommands.GetViewModelValue" Executed="GetViewModelValueCommand_Executed"></CommandBinding>
+        <CommandBinding x:Name="UpdateViewModelValueCommand" Command="local:CtrlTestCommands.UpdateViewModelValue" Executed="UpdateViewModelValueCommand_Executed"></CommandBinding>
     </UserControl.CommandBindings>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -22,6 +23,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
@@ -43,6 +45,7 @@
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=MyNumberBox,Path=DecimalPlaces}"></TextBox>
         <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2" Width="110">Increment(增/减值):</TextBlock>
         <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding ElementName=MyNumberBox,Path=Increment}"></TextBox>
-        <Button Grid.Row="6" Grid.Column="1" Command="local:CtrlTestCommands.GetViewModelValue">获取ViewModel绑定值</Button>
+        <Button Grid.Row="6" Grid.Column="1" Command="local:CtrlTestCommands.UpdateViewModelValue">更新ViewModel绑定值</Button>
+        <Button Grid.Row="7" Grid.Column="1" Command="local:CtrlTestCommands.GetViewModelValue">获取ViewModel绑定值</Button>
     </Grid>
 </UserControl>

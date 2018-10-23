@@ -1,6 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Materal.WPFUI.CtrlTest
@@ -8,7 +8,7 @@ namespace Materal.WPFUI.CtrlTest
     /// <summary>
     /// NumberBoxTestCtrl.xaml 的交互逻辑
     /// </summary>
-    public partial class NumberBoxTestCtrl : UserControl
+    public partial class NumberBoxTestCtrl
     {
         public NumberBoxTestCtrl()
         {
@@ -18,6 +18,11 @@ namespace Materal.WPFUI.CtrlTest
         private void GetViewModelValueCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MessageBox.Show(ViewModel.TestValue.ToString(CultureInfo.InvariantCulture), "获取结果");
+        }
+
+        private void UpdateViewModelValueCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            ViewModel.TestValue = new Random().Next((int)MyNumberBox.MinValue, (int)MyNumberBox.MaxValue);
         }
     }
 }

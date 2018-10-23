@@ -33,6 +33,23 @@ namespace Materal.WPFCustomControlLib.DateTimePicker
             if (dateTimePicker.Value < dateTimePicker.MinValue) dateTimePicker.SetValue(ValueProperty, dateTimePicker.MinValue);
             dateTimePicker.ShowValue =
                 dateTimePicker.Value.ToString(dateTimePicker.Format, DateTimeFormatInfo.InvariantInfo);
+            if (dateTimePicker.GetTemplateChild("CalendarDate") is System.Windows.Controls.Calendar calendarDate)
+            {
+                calendarDate.DisplayDate = dateTimePicker.Value.Date;
+                calendarDate.SelectedDate = dateTimePicker.Value.Date;
+            }
+            if (dateTimePicker.GetTemplateChild("NumberHour") is NumberBox.NumberBox numberHour)
+            {
+                numberHour.Value = dateTimePicker.Value.Hour;
+            }
+            if (dateTimePicker.GetTemplateChild("NumberMinute") is NumberBox.NumberBox numberMinute)
+            {
+                numberMinute.Value = dateTimePicker.Value.Minute;
+            }
+            if (dateTimePicker.GetTemplateChild("NumberSecond") is NumberBox.NumberBox numberSecond)
+            {
+                numberSecond.Value = dateTimePicker.Value.Second;
+            }
         }
         /// <summary>
         /// 最大值

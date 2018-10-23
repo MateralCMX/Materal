@@ -1,10 +1,25 @@
-﻿namespace Materal.WPFUI.CtrlTest
+﻿using Materal.WPFCommon;
+
+namespace Materal.WPFUI.CtrlTest
 {
-    public class NumberBoxViewModel
+    public class NumberBoxViewModel : NotifyPropertyChanged
     {
         /// <summary>
         /// 测试值
         /// </summary>
-        public decimal TestValue { get; set; } = 40;
+        private decimal _testValue = 40;
+
+        /// <summary>
+        /// 测试值
+        /// </summary>
+        public decimal TestValue
+        {
+            get => _testValue;
+            set
+            {
+                _testValue = value;
+                OnPropertyChanged(nameof(TestValue));
+            }
+        }
     }
 }
