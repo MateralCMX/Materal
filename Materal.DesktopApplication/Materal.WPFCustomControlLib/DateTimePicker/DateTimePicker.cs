@@ -6,7 +6,6 @@ using System.Windows.Controls.Primitives;
 
 namespace Materal.WPFCustomControlLib.DateTimePicker
 {
-
     public class DateTimePicker : Control
     {
         /// <summary>
@@ -34,7 +33,7 @@ namespace Materal.WPFCustomControlLib.DateTimePicker
         /// </summary>
         public DateTime MaxValue { get => (DateTime)GetValue(MaxValueProperty); set => SetValue(MaxValueProperty, value); }
         public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register(nameof(MaxValue),
-            typeof(DateTime), typeof(DateTimePicker), new PropertyMetadata(DateTime.MaxValue, OnMaxValueChanged));
+            typeof(DateTime), typeof(DateTimePicker), new FrameworkPropertyMetadata(DateTime.MaxValue, OnMaxValueChanged));
         private static void OnMaxValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             if (!(sender is DateTimePicker dateTimePicker)) return;
@@ -45,7 +44,7 @@ namespace Materal.WPFCustomControlLib.DateTimePicker
         /// </summary>
         public DateTime MinValue { get => (DateTime)GetValue(MinValueProperty); set => SetValue(MinValueProperty, value); }
         public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register(nameof(MinValue),
-            typeof(DateTime), typeof(DateTimePicker), new PropertyMetadata(DateTime.MinValue, OnMinValueChanged));
+            typeof(DateTime), typeof(DateTimePicker), new FrameworkPropertyMetadata(DateTime.MinValue, OnMinValueChanged));
         private static void OnMinValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             if (!(sender is DateTimePicker dateTimePicker)) return;
@@ -56,7 +55,7 @@ namespace Materal.WPFCustomControlLib.DateTimePicker
         /// </summary>
         public string Format { get => (string)GetValue(FormatProperty); set => SetValue(FormatProperty, value); }
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format),
-            typeof(string), typeof(DateTimePicker), new PropertyMetadata("yyyy/MM/dd HH:mm:ss", OnFormatChanged));
+            typeof(string), typeof(DateTimePicker), new FrameworkPropertyMetadata("yyyy/MM/dd HH:mm:ss", OnFormatChanged));
         private static void OnFormatChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             if (!(sender is DateTimePicker dateTimePicker)) return;

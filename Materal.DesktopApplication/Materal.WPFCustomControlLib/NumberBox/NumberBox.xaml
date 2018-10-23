@@ -13,7 +13,7 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition Width="{TemplateBinding ButtonWidth}"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Grid.Row="0" Height="{TemplateBinding Height}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,0,1" Text="{TemplateBinding Value, Converter={StaticResource NumberBoxValueConverter}}"></TextBox>
+                        <TextBox x:Name="TextValue" Grid.Column="0" Grid.Row="0" Height="{TemplateBinding Height}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,0,1" Text="{TemplateBinding Property=Value, Converter={StaticResource NumberBoxValueConverter}}"></TextBox>
                         <Border Grid.Column="1" Grid.Row="0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,1,1,1">
                             <Grid>
                                 <Grid.RowDefinitions>
