@@ -54,13 +54,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DateTimePicker\DateTimePicker.xaml.cs">
-      <DependentUpon>DateTimePicker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DateTimePicker\DateTimePickerCommands.cs" />
-    <Compile Include="DateTimePicker\DateTimePickerValueConverter.cs" />
-    <Compile Include="DateTimePicker\DateTimePickerViewModel.cs" />
-    <Compile Include="DateTimePicker\DatetTimePickerExeption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -95,10 +88,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DateTimePicker\DateTimePicker.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="WPFUserControlLibResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

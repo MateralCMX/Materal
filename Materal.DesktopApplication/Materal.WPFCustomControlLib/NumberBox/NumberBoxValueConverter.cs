@@ -1,10 +1,10 @@
-﻿using Materal.StringHelper;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
+using Materal.StringHelper;
 
-namespace Materal.WPFCustomControlLib
+namespace Materal.WPFCustomControlLib.NumberBox
 {
 
     public class NumberBoxValueConverter : IValueConverter

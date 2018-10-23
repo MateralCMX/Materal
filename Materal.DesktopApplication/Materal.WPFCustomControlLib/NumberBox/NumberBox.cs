@@ -1,13 +1,14 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
 
-namespace Materal.WPFCustomControlLib
+namespace Materal.WPFCustomControlLib.NumberBox
 {
     public class NumberBox : Control
     {
-
+        public event Action<NumberBox, decimal> OnValueChange;
         /// <summary>
         /// 按钮宽度
         /// </summary>
@@ -27,6 +28,7 @@ namespace Materal.WPFCustomControlLib
             if (!placesValue.Equals(numberBox.Value)) numberBox.SetValue(ValueProperty, placesValue);
             if (numberBox.Value > numberBox.MaxValue) numberBox.SetValue(ValueProperty, numberBox.MaxValue);
             if (numberBox.Value < numberBox.MinValue) numberBox.SetValue(ValueProperty, numberBox.MinValue);
+            numberBox.OnValueChange?.Invoke(numberBox, numberBox.Value);
         }
         /// <summary>
         /// 最大值

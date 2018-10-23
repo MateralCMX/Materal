@@ -5,6 +5,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/Themes/TestCustomControl.xaml"/>
         <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/Themes/ImageButton.xaml"/>
-        <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/Themes/NumberBox.xaml"/>
+        <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/NumberBox/NumberBox.xaml"/>
+        <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/DateTimePicker/DateTimePicker.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

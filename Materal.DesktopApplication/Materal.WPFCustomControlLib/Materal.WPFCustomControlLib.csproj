@@ -54,6 +54,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="DateTimePicker\DateTimePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -62,7 +66,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\NumberBox.xaml">
+    <Page Include="NumberBox\NumberBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -72,9 +76,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimePicker\DateTimePicker.cs" />
     <Compile Include="ImageButton.cs" />
-    <Compile Include="NumberBox.cs" />
-    <Compile Include="NumberBoxValueConverter.cs" />
+    <Compile Include="NumberBox\NumberBox.cs" />
+    <Compile Include="NumberBox\NumberBoxValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
