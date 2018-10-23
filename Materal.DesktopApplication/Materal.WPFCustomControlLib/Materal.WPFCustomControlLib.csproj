@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Materal.Common, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.Common.0.0.1\lib\netstandard2.0\Materal.Common.dll</HintPath>
+    </Reference>
     <Reference Include="Materal.StringHelper, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.StringHelper.0.0.2\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
     </Reference>
@@ -95,6 +98,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.WPFCommon\Materal.WPFCommon.csproj">
+      <Project>{fa709e3f-57b5-4161-bd9a-fa701adf34b6}</Project>
+      <Name>Materal.WPFCommon</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

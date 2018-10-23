@@ -53,13 +53,47 @@ namespace Materal.WPFUserControlLib.DateTimePicker
         public static readonly DependencyProperty FormatProperty = DependencyProperty.Register(nameof(Format),
             typeof(string), typeof(DateTimePicker), new PropertyMetadata("yyyy/MM/dd HH:mm:ss"));
 
-
+        public DateTime Date
+        {
+            get => Value.Date;
+            set
+            {
+                value = value.AddHours(Hour);
+                value = value.AddMinutes(Minute);
+                value = value.AddSeconds(Second);
+                Value = value;
+            }
+        }
         /// <summary>
         /// 小时
         /// </summary>
-        public int Hour { get => (int)GetValue(HourProperty); set => SetValue(HourProperty, value); }
-        public static readonly DependencyProperty HourProperty = DependencyProperty.Register(nameof(Hour),
-            typeof(int), typeof(DateTimePicker), new PropertyMetadata(DateTime.Now.Hour));
+        public int Hour
+        {
+            get => Value.Hour;
+            set => Value = new DateTime(Value.Year, Value.Month, Value.Day, value, Value.Minute, Value.Second);
+        }
+        /// <summary>
+        /// 分钟
+        /// </summary>
+        public int Minute
+        {
+            get => Value.Minute;
+            set => Value = new DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, value, Value.Second);
+        }
+        /// <summary>
+        /// 秒
+        /// </summary>
+        public int Second
+        {
+            get => Value.Second;
+            set => Value = new DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, Value.Minute, value);
+        }
+        ///// <summary>
+        ///// 小时
+        ///// </summary>
+        //public int Hour { get => (int)GetValue(HourProperty); set => SetValue(HourProperty, value); }
+        //public static readonly DependencyProperty HourProperty = DependencyProperty.Register(nameof(Hour),
+        //    typeof(int), typeof(DateTimePicker), new PropertyMetadata(DateTime.Now.Hour));
 
         /// <summary>
         /// 构造方法
@@ -77,7 +111,7 @@ namespace Materal.WPFUserControlLib.DateTimePicker
         {
             if (IsEnabled)
             {
-                MateralDateTimePickerPopup.IsOpen = !MateralDateTimePickerPopup.IsOpen;
+                PopupPanel.IsOpen = !PopupPanel.IsOpen;
             }
         }
         /// <summary>

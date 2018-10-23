@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wpfCustomControlLib="clr-namespace:Materal.WPFCustomControlLib;assembly=Materal.WPFCustomControlLib"
+        xmlns:dateTimePicker="clr-namespace:Materal.WPFUserControlLib.DateTimePicker;assembly=Materal.WPFUserControlLib"
         mc:Ignorable="d"
         Title="MainWindow" Loaded="Window_Loaded" Height="450" Width="800" d:DataContext="{d:DesignData Type=MainWindow }">
     <Window.Resources>
@@ -18,10 +19,10 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Grid.Column="0">
-            <wpfCustomControlLib:NumberBox Value="{Binding StringValue}"></wpfCustomControlLib:NumberBox>
-            <!--<dateTimePicker:DateTimePicker VerticalAlignment="Center"></dateTimePicker:DateTimePicker>-->
+            <dateTimePicker:DateTimePicker x:Name="qwer" Value="2018-01-01 01:02:03" VerticalAlignment="Center"></dateTimePicker:DateTimePicker>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1">
+            <Button Click="Button_Click">aaaaaaa</Button>
             <!--<wpfCustomControlLib:TestCustomControl VerticalAlignment="Center" Value="{Binding StringValue}"></wpfCustomControlLib:TestCustomControl>-->
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0">

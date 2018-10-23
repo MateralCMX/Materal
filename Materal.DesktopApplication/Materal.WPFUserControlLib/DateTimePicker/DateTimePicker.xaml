@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:locl="clr-namespace:Materal.WPFUserControlLib.DateTimePicker"
+             xmlns:wpfCustomControlLib="clr-namespace:Materal.WPFCustomControlLib;assembly=Materal.WPFCustomControlLib"
              mc:Ignorable="d" Loaded="UserControl_Loaded" d:DataContext="{d:DesignData Type=DateTimePicker }">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -21,7 +22,7 @@
             <ColumnDefinition />
             <ColumnDefinition Width="25" />
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Row="0" Grid.Column="0" x:Name="MateralDateTimePickerTextBox" IsReadOnly="True">
+        <TextBox Grid.Row="0" Grid.Column="0" x:Name="TextValue" IsReadOnly="True">
             <TextBox.Text>
                 <MultiBinding Converter="{StaticResource DateTimePickerValueConverter}">
                     <Binding Path="Value"></Binding>
@@ -29,15 +30,15 @@
                 </MultiBinding>
             </TextBox.Text>
         </TextBox>
-        <Button x:Name="MateralDateTimeButton" Grid.Row="0" Grid.Column="1" Focusable="False" Command="locl:DateTimePickerCommands.SwitchPopup" Style="{DynamicResource MateralDataTimePickerButton}" />
-        <Popup Grid.Row="0" Grid.Column="0" x:Name="MateralDateTimePickerPopup" HorizontalOffset="5"  PopupAnimation="Fade" AllowsTransparency="True" Placement="Bottom" StaysOpen="False" PlacementTarget="{Binding ElementName = MateralDateTimePickerTextBox}">
-            <Border CornerRadius="3" Background="White" BorderBrush="#abadb3" BorderThickness="1" Padding="2">
+        <Button x:Name="BtnOpenPopup" Grid.Row="0" Grid.Column="1" Focusable="False" Command="locl:DateTimePickerCommands.SwitchPopup" Style="{DynamicResource MateralDataTimePickerButton}" />
+        <Popup x:Name="PopupPanel" Grid.Row="0" Grid.Column="0" HorizontalOffset="5"  PopupAnimation="Fade" AllowsTransparency="True" Placement="Bottom" StaysOpen="False" PlacementTarget="{Binding ElementName = TextValue}">
+            <Border CornerRadius="3" Background="White" BorderBrush="#abadb3" BorderThickness="1" Padding="4,2">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="18"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Calendar Grid.Row="0" Grid.Column="0" SelectedDate="{Binding Value}"></Calendar>
+                    <Calendar Grid.Row="0" Grid.Column="0" DisplayDate="{Binding Date}" SelectedDate="{Binding Date}"></Calendar>
                     <Grid Grid.Row="1" Grid.Column="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -47,22 +48,13 @@
                             <ColumnDefinition />
                             <ColumnDefinition Width="15" />
                         </Grid.ColumnDefinitions>
-                        <!--<numberBox:NumberBox Grid.Column="0" Grid.Row="0" MinValue="0" MaxValue="23" Value="{Binding Hour}"></numberBox:NumberBox>
+                        <wpfCustomControlLib:NumberBox Grid.Column="0" Grid.Row="0" MinValue="0" MaxValue="23" Value="{Binding Hour}"></wpfCustomControlLib:NumberBox>
                         <TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">时</TextBlock>
-                        <numberBox:NumberBox Grid.Column="2" Grid.Row="0" MinValue="0" MaxValue="59" Value="{Binding Minute}"></numberBox:NumberBox>
+                        <wpfCustomControlLib:NumberBox Grid.Column="2" Grid.Row="0" MinValue="0" MaxValue="59" Value="{Binding Minute}"></wpfCustomControlLib:NumberBox>
                         <TextBlock Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">分</TextBlock>
-                        <numberBox:NumberBox Grid.Column="4" Grid.Row="0" MinValue="0" MaxValue="59" Value="{Binding Second}"></numberBox:NumberBox>
-                        <TextBlock Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">秒</TextBlock>-->
+                        <wpfCustomControlLib:NumberBox Grid.Column="4" Grid.Row="0" MinValue="0" MaxValue="59" Value="{Binding Second}"></wpfCustomControlLib:NumberBox>
+                        <TextBlock Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">秒</TextBlock>
                     </Grid>
-                    <!--<Grid Grid.Row="2" Grid.Column="0" Margin="0,5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="44" />
-                            <ColumnDefinition Width="44" />
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="1" Grid.Row="0" Cursor="Hand" VerticalAlignment="Center" Padding="6,0" HorizontalAlignment="Center">确定</Button>
-                        <Button Grid.Column="2" Grid.Row="0" Cursor="Hand" VerticalAlignment="Center" Padding="6,0" HorizontalAlignment="Center">取消</Button>
-                    </Grid>-->
                 </Grid>
             </Border>
         </Popup>
