@@ -4,19 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{954860F0-5EAC-4A90-9F29-1BF7F01902BC}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>Materal.WPFUI</RootNamespace>
-    <AssemblyName>Materal.WPFUI</AssemblyName>
+    <ProjectGuid>{7E6EA77C-7C9B-4194-B316-7088E4401DB2}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Materal.WPFUserControlLib</RootNamespace>
+    <AssemblyName>Materal.WPFUserControlLib</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -26,7 +24,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -35,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Materal.Common, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.Common.0.0.1\lib\netstandard2.0\Materal.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Materal.StringHelper, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.StringHelper.0.0.2\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -49,27 +52,20 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="DateTimePicker\DateTimePicker.xaml.cs">
+      <DependentUpon>DateTimePicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="DateTimePicker\DateTimePickerCommands.cs" />
+    <Compile Include="DateTimePicker\DateTimePickerValueConverter.cs" />
+    <Compile Include="DateTimePicker\DateTimePickerViewModel.cs" />
+    <Compile Include="DateTimePicker\DatetTimePickerExeption.cs" />
+    <Compile Include="NumberBox\NumberBox.xaml.cs">
+      <DependentUpon>NumberBox.xaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="NumberBox\NumberBoxException.cs" />
+    <Compile Include="NumberBox\NumberBoxValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -87,23 +83,35 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Materal.WPFCommon\Materal.WPFCommon.csproj">
+      <Project>{FA709E3F-57B5-4161-BD9A-FA701ADF34B6}</Project>
+      <Name>Materal.WPFCommon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Materal.WPFCustomControlLib\Materal.WPFCustomControlLib.csproj">
       <Project>{53da42ca-c05b-498e-a4ee-8bd8ddae93df}</Project>
       <Name>Materal.WPFCustomControlLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Materal.WPFUserControlLib\Materal.WPFUserControlLib.csproj">
-      <Project>{7E6EA77C-7C9B-4194-B316-7088E4401DB2}</Project>
-      <Name>Materal.WPFUserControlLib</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="DateTimePicker\DateTimePicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="NumberBox\NumberBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WPFUserControlLibResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

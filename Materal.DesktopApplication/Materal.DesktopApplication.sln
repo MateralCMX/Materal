@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WPFPageUI", "Matera
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WPFBrowserApp", "Materal.WPFBrowserApp\Materal.WPFBrowserApp.csproj", "{A0570D96-2466-439D-BEA8-38B8654A008E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WPFUserControlLib", "Materal.WPFUserControlLib\Materal.WPFUserControlLib.csproj", "{7E6EA77C-7C9B-4194-B316-7088E4401DB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WPFCommon", "Materal.WPFCommon\Materal.WPFCommon.csproj", "{FA709E3F-57B5-4161-BD9A-FA701ADF34B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{A0570D96-2466-439D-BEA8-38B8654A008E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0570D96-2466-439D-BEA8-38B8654A008E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0570D96-2466-439D-BEA8-38B8654A008E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E6EA77C-7C9B-4194-B316-7088E4401DB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E6EA77C-7C9B-4194-B316-7088E4401DB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E6EA77C-7C9B-4194-B316-7088E4401DB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E6EA77C-7C9B-4194-B316-7088E4401DB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA709E3F-57B5-4161-BD9A-FA701ADF34B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA709E3F-57B5-4161-BD9A-FA701ADF34B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA709E3F-57B5-4161-BD9A-FA701ADF34B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA709E3F-57B5-4161-BD9A-FA701ADF34B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
