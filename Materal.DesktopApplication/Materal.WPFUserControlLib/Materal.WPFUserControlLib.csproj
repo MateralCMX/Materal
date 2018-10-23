@@ -61,11 +61,6 @@
     <Compile Include="DateTimePicker\DateTimePickerValueConverter.cs" />
     <Compile Include="DateTimePicker\DateTimePickerViewModel.cs" />
     <Compile Include="DateTimePicker\DatetTimePickerExeption.cs" />
-    <Compile Include="NumberBox\NumberBox.xaml.cs">
-      <DependentUpon>NumberBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="NumberBox\NumberBoxException.cs" />
-    <Compile Include="NumberBox\NumberBoxValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -103,10 +98,6 @@
     <Page Include="DateTimePicker\DateTimePicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="NumberBox\NumberBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="WPFUserControlLibResources.xaml">
       <SubType>Designer</SubType>

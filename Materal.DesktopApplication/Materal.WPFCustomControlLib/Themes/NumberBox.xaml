@@ -3,17 +3,18 @@
                     xmlns:local="clr-namespace:Materal.WPFCustomControlLib">
     <local:NumberBoxValueConverter x:Key="NumberBoxValueConverter"/>
     <Style TargetType="local:NumberBox">
+        <Setter Property="BorderBrush" Value="#abadb3"></Setter>
+        <Setter Property="Height" Value="17"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:NumberBox">
-                    <Grid Height="18">
+                    <Grid x:Name="RootElement" Height="{TemplateBinding Height}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition Width="10"></ColumnDefinition>
+                            <ColumnDefinition Width="{TemplateBinding ButtonWidth}"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Grid.Row="0" BorderThickness="1,1,0,1" Text="{TemplateBinding Value, Converter={StaticResource NumberBoxValueConverter}}"></TextBox>
-                        <!--<TextBox Grid.Column="0" Grid.Row="0" BorderThickness="1,1,0,1" Text="{TemplateBinding Value}"></TextBox>-->
-                        <Border Grid.Column="1" Grid.Row="0" BorderBrush="#abadb3" BorderThickness="0,1,1,1">
+                        <TextBox Grid.Column="0" Grid.Row="0" Height="{TemplateBinding Height}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,0,1" Text="{TemplateBinding Value, Converter={StaticResource NumberBoxValueConverter}}"></TextBox>
+                        <Border Grid.Column="1" Grid.Row="0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,1,1,1">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>

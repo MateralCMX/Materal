@@ -3,9 +3,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:numberBox="clr-namespace:Materal.WPFUserControlLib.NumberBox;assembly=Materal.WPFUserControlLib"
-        xmlns:dateTimePicker="clr-namespace:Materal.WPFUserControlLib.DateTimePicker;assembly=Materal.WPFUserControlLib"
-        xmlns:wpfUserControlLib="clr-namespace:Materal.WPFUserControlLib;assembly=Materal.WPFUserControlLib"
         xmlns:wpfCustomControlLib="clr-namespace:Materal.WPFCustomControlLib;assembly=Materal.WPFCustomControlLib"
         mc:Ignorable="d"
         Title="MainWindow" Loaded="Window_Loaded" Height="450" Width="800" d:DataContext="{d:DesignData Type=MainWindow }">
