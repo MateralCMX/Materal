@@ -45,6 +45,10 @@ namespace Materal.WPFUI
         {
             LoadUserControl(new NumberBoxTestCtrl());
         }
+        private void LoadDateTimePickerTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LoadUserControl(new DateTimePickerTestCtrl());
+        }
         #endregion
 
         #region 私有方法

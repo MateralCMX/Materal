@@ -9,9 +9,13 @@ namespace Materal.WPFUI
         /// </summary>
         public static RoutedUICommand ReloadCtrl { get; }
         /// <summary>
-        /// 加载数字文本测试控件
+        /// 加载数字测试控件
         /// </summary>
         public static RoutedUICommand LoadNumberBoxTestCtrl { get; }
+        /// <summary>
+        /// 加载日期时间测试控件
+        /// </summary>
+        public static RoutedUICommand LoadDateTimePickerTestCtrl { get; }
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -28,6 +32,10 @@ namespace Materal.WPFUI
             LoadNumberBoxTestCtrl = new RoutedUICommand(
                 "NumberBox",
                 nameof(LoadNumberBoxTestCtrl),
+                typeof(MainWindowCommands));
+            LoadDateTimePickerTestCtrl = new RoutedUICommand(
+                "DateTimePicker",
+                nameof(LoadDateTimePickerTestCtrl),
                 typeof(MainWindowCommands));
         }
     }

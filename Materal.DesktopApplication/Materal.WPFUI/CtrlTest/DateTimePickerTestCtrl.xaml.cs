@@ -6,11 +6,11 @@ using System.Windows.Input;
 namespace Materal.WPFUI.CtrlTest
 {
     /// <summary>
-    /// NumberBoxTestCtrl.xaml 的交互逻辑
+    /// DateTimePickerTestCtrl.xaml 的交互逻辑
     /// </summary>
-    public partial class NumberBoxTestCtrl : UserControl
+    public partial class DateTimePickerTestCtrl : UserControl
     {
-        public NumberBoxTestCtrl()
+        public DateTimePickerTestCtrl()
         {
             InitializeComponent();
         }
