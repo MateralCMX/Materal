@@ -1,14 +1,9 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Controls;
 
-namespace Materal.WPFUserControlLib.NumberBox
+namespace Materal.WPFCustomControlLib
 {
-    /// <summary>
-    /// NumberBox.xaml 的交互逻辑
-    /// </summary>
-    public partial class NumberBox
+    public class NumberBox : Control
     {
         /// <summary>
         /// 值
@@ -61,46 +56,13 @@ namespace Materal.WPFUserControlLib.NumberBox
         public int DecimalPlaces { get => (int)GetValue(DecimalPlacesProperty); set => SetValue(DecimalPlacesProperty, value); }
         public static readonly DependencyProperty DecimalPlacesProperty = DependencyProperty.Register(nameof(DecimalPlaces),
             typeof(int), typeof(NumberBox), new PropertyMetadata(0));
-
+        /// <inheritdoc />
         /// <summary>
-        /// 构造函数
+        /// 构造方法
         /// </summary>
-        public NumberBox()
+        static NumberBox()
         {
-            InitializeComponent();
-        }
-        /// <summary>
-        /// 控件加载事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            //DataContext = this;
-        }
-        /// <summary>
-        /// 增加按钮
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BtnUp_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (Value + Increment <= MaxValue)
-            {
-                Value += Increment;
-            }
-        }
-        /// <summary>
-        /// 减少按钮
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BtnDown_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (Value - Increment >= MinValue)
-            {
-                Value -= Increment;
-            }
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(NumberBox), new FrameworkPropertyMetadata(typeof(NumberBox)));
         }
     }
 }

@@ -20,26 +20,10 @@ namespace Materal.WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string DisplayValue { get => (string)GetValue(DisplayValueProperty); set => SetValue(DisplayValueProperty, value); }
-        public static readonly DependencyProperty DisplayValueProperty = DependencyProperty.Register(nameof(DisplayValue),
-            typeof(string), typeof(MainWindow),
-            new FrameworkPropertyMetadata(
-                "12345",
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                OnValueChanged,
-                CoerceText,
-                true,
-                UpdateSourceTrigger.LostFocus));
-        private static void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (sender is MainWindow mainWindow)
-            {
-            }
-        }
-        private static object CoerceText(DependencyObject d, object value)
-        {
-            return value;
-        }
+        public string StringValue { get => (string)GetValue(StringValueProperty); set => SetValue(StringValueProperty, value); }
+        public static readonly DependencyProperty StringValueProperty = DependencyProperty.Register(nameof(StringValue), typeof(string), typeof(MainWindow), new FrameworkPropertyMetadata("1234"));
+        public decimal DecimalValue { get => (decimal)GetValue(DecimalValueProperty); set => SetValue(DecimalValueProperty, value); }
+        public static readonly DependencyProperty DecimalValueProperty = DependencyProperty.Register(nameof(DecimalValue), typeof(decimal), typeof(MainWindow), new FrameworkPropertyMetadata(1234m));
         public MainWindow()
         {
             InitializeComponent();
