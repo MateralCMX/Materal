@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Materal.WPFUI"
         mc:Ignorable="d"
-        Title="Materal" Height="450" Width="800" WindowStartupLocation="CenterScreen"
+        Title="{Binding Title}" Height="450" Width="800" WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded">
+    <Window.DataContext>
+        <local:MainWindowViewModel x:Name="ViewModel"/>
+    </Window.DataContext>
     <Window.CommandBindings>
         <CommandBinding x:Name="ReloadCtrlCommand" Command="local:MainWindowCommands.ReloadCtrl" Executed="ReloadCtrlCommand_Executed" CanExecute="ReloadCtrlCommand_CanExecute"></CommandBinding>
         <CommandBinding x:Name="LoadNumberBoxTestCtrlCommand" Command="local:MainWindowCommands.LoadNumberBoxTestCtrl" Executed="LoadNumberBoxTestCtrlCommand_Executed"></CommandBinding>
