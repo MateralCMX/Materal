@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.Common", "Materal.TTA.Common\Materal.TTA.Common.csproj", "{53144387-B373-4C4B-B125-F30F78F4365B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{19B1C1FB-1B6C-46E1-A149-787CD499A291}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTADemo.Domain", "Materal.TTADemo.Domain\Materal.TTADemo.Domain.csproj", "{23C9139B-6818-44FB-BE5F-36952084D767}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53144387-B373-4C4B-B125-F30F78F4365B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53144387-B373-4C4B-B125-F30F78F4365B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53144387-B373-4C4B-B125-F30F78F4365B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53144387-B373-4C4B-B125-F30F78F4365B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23C9139B-6818-44FB-BE5F-36952084D767}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23C9139B-6818-44FB-BE5F-36952084D767}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23C9139B-6818-44FB-BE5F-36952084D767}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23C9139B-6818-44FB-BE5F-36952084D767}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{23C9139B-6818-44FB-BE5F-36952084D767} = {19B1C1FB-1B6C-46E1-A149-787CD499A291}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ACCFD0EA-CC61-442C-8D0A-E4FF8C626326}
+	EndGlobalSection
+EndGlobal
