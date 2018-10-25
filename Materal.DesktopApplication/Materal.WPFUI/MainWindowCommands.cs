@@ -17,6 +17,10 @@ namespace Materal.WPFUI
         /// </summary>
         public static RoutedUICommand LoadDateTimePickerTestCtrl { get; }
         /// <summary>
+        /// 加载网页浏览器测试控件
+        /// </summary>
+        public static RoutedUICommand LoadWebBrowserTestCtrl { get; }
+        /// <summary>
         /// 构造方法
         /// </summary>
         static MainWindowCommands()
@@ -36,6 +40,10 @@ namespace Materal.WPFUI
             LoadDateTimePickerTestCtrl = new RoutedUICommand(
                 "DateTimePicker",
                 nameof(LoadDateTimePickerTestCtrl),
+                typeof(MainWindowCommands));
+            LoadWebBrowserTestCtrl = new RoutedUICommand(
+                "WebBrowser",
+                nameof(LoadWebBrowserTestCtrl),
                 typeof(MainWindowCommands));
         }
     }

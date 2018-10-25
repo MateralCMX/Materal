@@ -14,6 +14,7 @@
         <CommandBinding x:Name="ReloadCtrlCommand" Command="local:MainWindowCommands.ReloadCtrl" Executed="ReloadCtrlCommand_Executed" CanExecute="ReloadCtrlCommand_CanExecute"></CommandBinding>
         <CommandBinding x:Name="LoadNumberBoxTestCtrlCommand" Command="local:MainWindowCommands.LoadNumberBoxTestCtrl" Executed="LoadNumberBoxTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadDateTimePickerTestCtrlCommand" Command="local:MainWindowCommands.LoadDateTimePickerTestCtrl" Executed="LoadDateTimePickerTestCtrlCommand_Executed"></CommandBinding>
+        <CommandBinding x:Name="LoadWebBrowserTestCtrlCommand" Command="local:MainWindowCommands.LoadWebBrowserTestCtrl" Executed="LoadWebBrowserTestCtrlCommand_Executed"></CommandBinding>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -25,6 +26,7 @@
                 <MenuItem Command="local:MainWindowCommands.ReloadCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadNumberBoxTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadDateTimePickerTestCtrl"></MenuItem>
+                <MenuItem Command="local:MainWindowCommands.LoadWebBrowserTestCtrl"></MenuItem>
             </MenuItem>
         </Menu>
         <Grid x:Name="MainPanel" Grid.Row="1" Grid.Column="0"></Grid>

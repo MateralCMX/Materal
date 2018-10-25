@@ -19,18 +19,18 @@ namespace Materal.TTA.Common
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
-        void RegisterNew<T>(T obj);
+        void RegisterAdd<T>(T obj);
         /// <summary>
         /// 注册修改
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
-        void RegisterModified<T>(T obj);
+        void RegisterEdit<T>(T obj);
         /// <summary>
         /// 注册删除
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
-        void RegisterDeleted<T>(T obj);
+        void RegisterDelete<T>(T obj);
     }
 }

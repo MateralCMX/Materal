@@ -23,7 +23,7 @@ namespace Materal.WPFUI
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadNumberBoxTestCtrlCommand_Executed(null, null);
+            LoadWebBrowserTestCtrlCommand_Executed(null, null);
         }
 
         #region 命令实现
@@ -49,6 +49,10 @@ namespace Materal.WPFUI
         {
             LoadUserControl(new DateTimePickerTestCtrl());
         }
+        private void LoadWebBrowserTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LoadUserControl(new WebBrowserTestCtrl());
+        }
         #endregion
 
         #region 私有方法
@@ -70,5 +74,6 @@ namespace Materal.WPFUI
             _nowControl = userControl;
         }
         #endregion
+
     }
 }
