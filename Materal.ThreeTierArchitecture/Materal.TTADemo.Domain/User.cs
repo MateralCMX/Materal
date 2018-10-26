@@ -1,4 +1,5 @@
 ﻿using Materal.TTA.Common;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 
 namespace Materal.TTADemo.Domain
@@ -12,14 +13,17 @@ namespace Materal.TTADemo.Domain
         /// <summary>
         /// 唯一标识
         /// </summary>
+        [BsonId]
         public Guid ID { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime CreateTime { get; set; }
         /// <summary>
         /// 修改时间
         /// </summary>
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime UpdateTime { get; set; }
         /// <summary>
         /// 姓名
