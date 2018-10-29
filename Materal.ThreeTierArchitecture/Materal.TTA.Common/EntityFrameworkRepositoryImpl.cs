@@ -5,11 +5,13 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.Common
 {
-    public class EntityFrameworkRepositoryImpl<T1, TPrimaryKeyType> : IEntityFrameworkRepository<T1, TPrimaryKeyType>
+    public abstract class EntityFrameworkRepositoryImpl<T, TPrimaryKeyType> : IEntityFrameworkRepository<T, TPrimaryKeyType>
     {
+        protected readonly DbContext dbContext;
         public bool Existed(TPrimaryKeyType id)
         {
             throw new NotImplementedException();
@@ -20,105 +22,105 @@ namespace Materal.TTA.Common
             throw new NotImplementedException();
         }
 
-        public int Count(Expression<Func<T1, bool>> expression)
+        public int Count(Expression<Func<T, bool>> expression)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<int> CountAsync(Expression<Func<T1, bool>> expression)
+        public async Task<int> CountAsync(Expression<Func<T, bool>> expression)
         {
             throw new NotImplementedException();
         }
 
-        public IQueryable<T1> Where(Expression<Func<T1, bool>> expression)
+        public IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
             throw new NotImplementedException();
         }
 
-        public IAsyncEnumerable<T1> WhereAsync(Expression<Func<T1, bool>> expression)
+        public IAsyncEnumerable<T> WhereAsync(Expression<Func<T, bool>> expression)
         {
             throw new NotImplementedException();
         }
 
-        public List<T1> Find(Expression<Func<T1, bool>> expression)
+        public List<T> Find(Expression<Func<T, bool>> expression)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<T1>> FindAsync(Expression<Func<T1, bool>> expression)
+        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression)
         {
             throw new NotImplementedException();
         }
 
-        public T1 Retrieve(TPrimaryKeyType id)
+        public T Retrieve(TPrimaryKeyType id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<T1> RetrieveAsync(TPrimaryKeyType id)
+        public async Task<T> RetrieveAsync(TPrimaryKeyType id)
         {
             throw new NotImplementedException();
         }
 
-        public PageResultModel<T1> Paging(Expression<Func<T1, bool>> filterExpression, PageRequestModel pageRequestModel)
+        public PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
         {
             throw new NotImplementedException();
         }
 
-        public PageResultModel<T1> Paging(Expression<Func<T1, bool>> filterExpression, uint skip, uint take)
+        public PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, uint skip, uint take)
         {
             throw new NotImplementedException();
         }
 
-        public PageResultModel<T1> Paging(Expression<Func<T1, bool>> filterExpression, Expression<Func<T1, bool>> orderExpression, PageRequestModel pageRequestModel)
+        public PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, PageRequestModel pageRequestModel)
         {
             throw new NotImplementedException();
         }
 
-        public PageResultModel<T1> Paging(Expression<Func<T1, bool>> filterExpression, Expression<Func<T1, bool>> orderExpression, SortOrder sortOrder,
+        public PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder,
             PageRequestModel pageRequestModel)
         {
             throw new NotImplementedException();
         }
 
-        public PageResultModel<T1> Paging(Expression<Func<T1, bool>> filterExpression, Expression<Func<T1, bool>> orderExpression, uint skip, uint take)
+        public PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, uint skip, uint take)
         {
             throw new NotImplementedException();
         }
 
-        public PageResultModel<T1> Paging(Expression<Func<T1, bool>> filterExpression, Expression<Func<T1, bool>> orderExpression, SortOrder sortOrder, uint skip,
+        public PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder, uint skip,
             uint take)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PageResultModel<T1>> PagingAsync(Expression<Func<T1, bool>> filterExpression, PageRequestModel pageRequestModel)
+        public async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PageResultModel<T1>> PagingAsync(Expression<Func<T1, bool>> filterExpression, uint skip, uint take)
+        public async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, uint skip, uint take)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PageResultModel<T1>> PagingAsync(Expression<Func<T1, bool>> filterExpression, Expression<Func<T1, bool>> orderExpression, PageRequestModel pageRequestModel)
+        public async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, PageRequestModel pageRequestModel)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PageResultModel<T1>> PagingAsync(Expression<Func<T1, bool>> filterExpression, Expression<Func<T1, bool>> orderExpression, SortOrder sortOrder,
+        public async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder,
             PageRequestModel pageRequestModel)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PageResultModel<T1>> PagingAsync(Expression<Func<T1, bool>> filterExpression, Expression<Func<T1, bool>> orderExpression, uint skip, uint take)
+        public async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, uint skip, uint take)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<PageResultModel<T1>> PagingAsync(Expression<Func<T1, bool>> filterExpression, Expression<Func<T1, bool>> orderExpression, SortOrder sortOrder, uint skip, uint take)
+        public async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder, uint skip, uint take)
         {
             throw new NotImplementedException();
         }
