@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Materal.StringHelper\Materal.StringHelper.csproj" />
+    <ProjectReference Include="..\Materal.WindowsHelper\Materal.WindowsHelper.csproj" />
   </ItemGroup>
 
 </Project>

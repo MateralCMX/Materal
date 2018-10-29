@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Threading.Tasks;
-using Materal.StringHelper;
+﻿using Materal.WindowsHelper;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Materal.ConsoleUI
 {
@@ -13,7 +12,8 @@ namespace Materal.ConsoleUI
     {
         static void Main(string[] args)
         {
-            Task.Run(async () => { await Init(); });
+            //Task.Run(async () => { await Init(); });
+            IEHelper.ClearCache();
             Console.ReadKey();
         }
 
