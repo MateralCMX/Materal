@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="Materal.WPFUI.CtrlTest.SearchBoxTestCtrl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:searchBox="clr-namespace:Materal.WPFCustomControlLib.SearchBox;assembly=Materal.WPFCustomControlLib"
+             xmlns:local="clr-namespace:Materal.WPFUI.CtrlTest"
+             mc:Ignorable="d" Loaded="UserControl_Loaded">
+    <UserControl.DataContext>
+        <local:SearchBoxViewModel x:Name="ViewModel"></local:SearchBoxViewModel>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="21"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <searchBox:SearchBox x:Name="SearchBox" DisplayMemberPath="Name" CandidateData="{Binding DataSource,Mode=TwoWay}"></searchBox:SearchBox>
+    </Grid>
+</UserControl>

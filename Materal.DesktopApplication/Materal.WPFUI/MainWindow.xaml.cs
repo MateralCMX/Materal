@@ -23,7 +23,7 @@ namespace Materal.WPFUI
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadWebBrowserTestCtrlCommand_Executed(null, null);
+            LoadTestCtrlCommand_Executed(null, null);
         }
 
         #region 命令实现
@@ -41,6 +41,10 @@ namespace Materal.WPFUI
         {
             e.CanExecute = _nowControl != null;
         }
+        private void LoadTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LoadUserControl(new TestCtrl());
+        }
         private void LoadNumberBoxTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             LoadUserControl(new NumberBoxTestCtrl());
@@ -52,6 +56,11 @@ namespace Materal.WPFUI
         private void LoadWebBrowserTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             LoadUserControl(new WebBrowserTestCtrl());
+        }
+
+        private void LoadSearchBoxTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LoadUserControl(new SearchBoxTestCtrl());
         }
         #endregion
 
@@ -74,6 +83,5 @@ namespace Materal.WPFUI
             _nowControl = userControl;
         }
         #endregion
-
     }
 }

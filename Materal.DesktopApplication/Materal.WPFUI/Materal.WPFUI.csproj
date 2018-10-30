@@ -71,6 +71,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -100,6 +101,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CtrlTest\SearchBoxTestCtrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtrlTest\TestCtrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CtrlTest\WebBrowserTestCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +130,14 @@
       <DependentUpon>NumberBoxTestCtrl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CtrlTest\NumberBoxViewModel.cs" />
+    <Compile Include="CtrlTest\SearchBoxTestCtrl.xaml.cs">
+      <DependentUpon>SearchBoxTestCtrl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtrlTest\SearchBoxViewModel.cs" />
+    <Compile Include="CtrlTest\TestCtrl.xaml.cs">
+      <DependentUpon>TestCtrl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtrlTest\TestCtrlViewModel.cs" />
     <Compile Include="CtrlTest\WebBrowserTestCtrl.xaml.cs">
       <DependentUpon>WebBrowserTestCtrl.xaml</DependentUpon>
     </Compile>
@@ -176,6 +193,10 @@
     <ProjectReference Include="..\Materal.WPFUserControlLib\Materal.WPFUserControlLib.csproj">
       <Project>{7E6EA77C-7C9B-4194-B316-7088E4401DB2}</Project>
       <Name>Materal.WPFUserControlLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{DA19B571-4967-4163-B926-CDE9C0ACC0F4}</Project>
+      <Name>Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

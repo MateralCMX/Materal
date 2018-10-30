@@ -97,7 +97,6 @@ namespace Materal.WPFUI.CtrlTest
 
         private void CleanUpCacheCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            WebBrowserHelper.ClearCache();
             MessageBox.Show("清理缓存成功");
         }
 

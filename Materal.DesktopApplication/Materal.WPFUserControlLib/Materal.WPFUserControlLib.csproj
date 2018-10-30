@@ -38,6 +38,7 @@
     <Reference Include="Materal.StringHelper, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.StringHelper.0.0.2\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />

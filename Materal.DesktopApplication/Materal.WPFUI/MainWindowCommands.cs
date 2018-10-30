@@ -9,6 +9,14 @@ namespace Materal.WPFUI
         /// </summary>
         public static RoutedUICommand ReloadCtrl { get; }
         /// <summary>
+        /// 加载测试控件
+        /// </summary>
+        public static RoutedUICommand LoadTestCtrl { get; }
+        /// <summary>
+        /// 加载查询框测试控件
+        /// </summary>
+        public static RoutedUICommand LoadSearchBoxTestCtrl { get; }
+        /// <summary>
         /// 加载数字测试控件
         /// </summary>
         public static RoutedUICommand LoadNumberBoxTestCtrl { get; }
@@ -33,6 +41,14 @@ namespace Materal.WPFUI
                 {
                     new KeyGesture(Key.R, ModifierKeys.Control, "Ctrl+R")
                 });
+            LoadTestCtrl = new RoutedUICommand(
+                "测试控件",
+                nameof(LoadTestCtrl),
+                typeof(MainWindowCommands));
+            LoadSearchBoxTestCtrl = new RoutedUICommand(
+                "SearchBox",
+                nameof(LoadSearchBoxTestCtrl),
+                typeof(MainWindowCommands));
             LoadNumberBoxTestCtrl = new RoutedUICommand(
                 "NumberBox",
                 nameof(LoadNumberBoxTestCtrl),
