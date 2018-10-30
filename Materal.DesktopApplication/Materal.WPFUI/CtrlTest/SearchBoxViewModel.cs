@@ -1,13 +1,14 @@
 ﻿using Materal.WPFCommon;
 using Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Materal.WPFUI.CtrlTest
 {
     public class SearchBoxViewModel : NotifyPropertyChanged
     {
-        public ObservableCollection<UserModel> DataSource { get; set; } = new ObservableCollection<UserModel>();
+        public List<UserModel> DataSource { get; set; } = new List<UserModel>();
 
         public SearchBoxViewModel()
         {

@@ -6,6 +6,13 @@
              xmlns:searchBox="clr-namespace:Materal.WPFCustomControlLib.SearchBox;assembly=Materal.WPFCustomControlLib"
              xmlns:local="clr-namespace:Materal.WPFUI.CtrlTest"
              mc:Ignorable="d" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="SearchBoxMagnifier.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <UserControl.DataContext>
         <local:SearchBoxViewModel x:Name="ViewModel"></local:SearchBoxViewModel>
     </UserControl.DataContext>
@@ -19,6 +26,6 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <searchBox:SearchBox x:Name="SearchBox" DisplayMemberPath="Name" CandidateData="{Binding DataSource,Mode=TwoWay}"></searchBox:SearchBox>
+        <searchBox:SearchBox x:Name="SearchBox" DisplayMemberPath="Name" CandidateData="{Binding DataSource,Mode=TwoWay}" Style="{StaticResource MagnifierSearchBox}"></searchBox:SearchBox>
     </Grid>
 </UserControl>

@@ -4,13 +4,13 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace Materal.WPFCustomControlLib.SearchBox
 {
     public class SearchBox : ComboBox
     {
-
-
         /// <summary>
         /// 查询方法
         /// </summary>
