@@ -4,8 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace Materal.WPFCustomControlLib.SearchBox
 {
@@ -15,6 +13,10 @@ namespace Materal.WPFCustomControlLib.SearchBox
         /// 查询方法
         /// </summary>
         public Func<object, bool> SearchFun { get; set; } = m => true;
+        /// <summary>
+        /// 选中方法
+        /// </summary>
+        public Func<object, bool> SelectedFun { get; set; } = m => true;
 
         /// <summary>
         /// 候选数据
@@ -76,6 +78,8 @@ namespace Materal.WPFCustomControlLib.SearchBox
             {
                 CandidateShowData.Add(item);
             }
+            object obj = CandidateData.FirstOrDefault(SelectedFun);
+            if (obj != null) SelectedItem = obj;
         }
 
         /// <inheritdoc />

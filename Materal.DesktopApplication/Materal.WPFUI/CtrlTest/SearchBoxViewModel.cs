@@ -10,6 +10,8 @@ namespace Materal.WPFUI.CtrlTest
     {
         public List<UserModel> DataSource { get; set; } = new List<UserModel>();
 
+        public UserModel SelectedData { get; set; }
+
         public SearchBoxViewModel()
         {
             for (var i = 0; i < 100000; i++)
@@ -20,12 +22,6 @@ namespace Materal.WPFUI.CtrlTest
                     Name = "云A" + DataSource.Count
                 });
             }
-        }
-
-        public void AddData(UserModel userModel)
-        {
-            DataSource.Add(userModel);
-            OnPropertyChanged(nameof(DataSource));
         }
     }
 }

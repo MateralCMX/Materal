@@ -11,21 +11,43 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SearchBoxMagnifier.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <GridLength x:Key="DefaultRowHeight">21</GridLength>
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
         <local:SearchBoxViewModel x:Name="ViewModel"></local:SearchBoxViewModel>
     </UserControl.DataContext>
+    <UserControl.CommandBindings>
+        <CommandBinding x:Name="GetViewModelValueCommand" Command="local:CtrlTestCommands.GetViewModelValue"></CommandBinding>
+        <CommandBinding x:Name="UpdateViewModelValueCommand" Command="local:CtrlTestCommands.UpdateViewModelValue"></CommandBinding>
+    </UserControl.CommandBindings>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="220"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="21"/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <searchBox:SearchBox x:Name="SearchBox" DisplayMemberPath="Name" CandidateData="{Binding DataSource,Mode=TwoWay}" Style="{StaticResource MagnifierSearchBox}"></searchBox:SearchBox>
+        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2">NumberBox:</TextBlock>
+        <searchBox:SearchBox x:Name="SearchBox" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Name" CandidateData="{Binding DataSource,Mode=TwoWay}" SelectedItem="{Binding SelectedData,Mode=TwoWay}" Style="{StaticResource MagnifierSearchBox}"></searchBox:SearchBox>
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2">Text(文本):</TextBlock>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=SearchBox,Path=Text}" IsReadOnly="True"></TextBox>
+        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2">SelectedIndex(选中位序):</TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=SearchBox,Path=SelectedIndex}"></TextBox>
+        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2">SelectedValue(选中值):</TextBlock>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=SearchBox,Path=SelectedValue}"></TextBox>
+        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2">SelectedItem(选中对象):</TextBlock>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=SearchBox,Path=SelectedItem}"></TextBox>
+        <Button Grid.Row="5" Grid.Column="1" Command="local:CtrlTestCommands.UpdateViewModelValue">更新ViewModel绑定值</Button>
+        <Button Grid.Row="6" Grid.Column="1" Command="local:CtrlTestCommands.GetViewModelValue">获取ViewModel绑定值</Button>
     </Grid>
 </UserControl>
