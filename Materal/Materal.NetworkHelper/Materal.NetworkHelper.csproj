@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />
+    <ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
+    <ProjectReference Include="..\Materal.StringHelper\Materal.StringHelper.csproj" />
+  </ItemGroup>
+
+</Project>

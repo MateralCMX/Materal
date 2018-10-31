@@ -11,15 +11,6 @@ namespace Materal.StringHelper
     public static class StringExtended
     {
         /// <summary>
-        /// 是否为空或空字符串
-        /// </summary>
-        /// <param name="obj">要验证的字符串</param>
-        /// <returns>验证结果</returns>
-        public static bool IsNullOrEmpty(this string obj)
-        {
-            return string.IsNullOrEmpty(obj);
-        }
-        /// <summary>
         /// 验证字符串
         /// </summary>
         /// <param name="obj">要验证的字符串</param>
@@ -27,12 +18,7 @@ namespace Materal.StringHelper
         /// <returns>验证结果</returns>
         public static bool VerifyRegex(this string obj, string regStr)
         {
-            bool resM = regStr.IsNullOrEmpty();
-            if (!resM && !obj.IsNullOrEmpty())
-            {
-                resM = Regex.IsMatch(obj, regStr);
-            }
-            return resM;
+            return !string.IsNullOrEmpty(regStr) && !string.IsNullOrEmpty(obj) && Regex.IsMatch(obj, regStr);
         }
         /// <summary>
         /// 验证字符串
@@ -55,7 +41,7 @@ namespace Materal.StringHelper
         public static MatchCollection GetVerifyRegex(this string obj, string regStr)
         {
             MatchCollection resM = null;
-            if (!obj.IsNullOrEmpty() && !regStr.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(regStr) && !string.IsNullOrEmpty(obj))
             {
                 resM = Regex.Matches(obj, regStr);
             }
@@ -830,7 +816,7 @@ namespace Materal.StringHelper
         /// </returns>
         public static bool IsIDCardForChina(this string obj, bool accurate = false)
         {
-            if (obj.IsNullOrEmpty()) return false;
+            if (string.IsNullOrEmpty(obj)) return false;
             switch (obj.Length)
             {
                 case 18 when accurate:
