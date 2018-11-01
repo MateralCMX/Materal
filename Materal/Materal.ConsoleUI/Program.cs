@@ -1,16 +1,12 @@
 ﻿using Materal.WindowsHelper;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Materal.ConsoleUI
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Task.Run(async () => { await Init(); });
             Console.ReadKey();
