@@ -1,11 +1,12 @@
 ﻿using Materal.Common;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.Common
 {
@@ -27,12 +28,36 @@ namespace Materal.TTA.Common
         protected DbQuery<T> DBQuery => DBContext.Query<T>();
 
         /// <summary>
+        /// 数据库对象
+        /// </summary>
+        protected IQueryable<T> DBQueryable => _isView ? (IQueryable<T>) DBContext.Query<T>() : DBContext.Set<T>();
+
+        /// <summary>
+        /// 视图标识
+        /// </summary>
+        private readonly bool _isView;
+        /// <summary>
+        /// 主键名称
+        /// </summary>
+        private readonly string _primaryKeyName;
+        /// <summary>
+        /// 主键属性信息
+        /// </summary>
+        private readonly PropertyInfo _primaryKeyInfo;
+
+        /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="dbContext"></param>
         protected EntityFrameworkRepositoryImpl(DbContext dbContext)
         {
+            Type tType = typeof(T);
+            var entityAttribute = tType.GetCustomAttribute<EntityAttribute>(false);
+            if (entityAttribute == null) throw new MateralException("该实体未标记为EntityAttribute");
             DBContext = dbContext;
+            _isView = entityAttribute.IsView;
+            _primaryKeyName = entityAttribute.PrimaryKeyName;
+            _primaryKeyInfo = tType.GetProperty(_primaryKeyName);
         }
         public virtual bool Existed(TPrimaryKeyType id)
         {

@@ -38,7 +38,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2">NumberBox:</TextBlock>
-        <searchBox:SearchBox x:Name="SearchBox" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Name" CandidateData="{Binding DataSource,Mode=TwoWay}" SelectedItem="{Binding SelectedData,Mode=TwoWay}" Style="{StaticResource MagnifierSearchBox}"></searchBox:SearchBox>
+        <searchBox:SearchBox x:Name="SearchBox" Grid.Row="0" Grid.Column="1" DisplayMemberPath="Name" CandidateData="{Binding DataSource,Mode=TwoWay}" SelectedItem="{Binding SelectedData,Mode=TwoWay}" Style="{StaticResource MagnifierSearchBox}" ShowMaxNum="50"></searchBox:SearchBox>
         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2">Text(文本):</TextBlock>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=SearchBox,Path=Text}" IsReadOnly="True"></TextBox>
         <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2">SelectedIndex(选中位序):</TextBlock>
