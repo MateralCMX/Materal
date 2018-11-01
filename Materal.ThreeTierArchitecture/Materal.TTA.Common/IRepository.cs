@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Materal.TTA.Common
 {
-    public interface IRepository<T, in TPrimaryKeyType> where T : class
+    public interface IRepository<T, in TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
     {
         /// <summary>
         /// 是否存在
@@ -70,13 +70,25 @@ namespace Materal.TTA.Common
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        T Retrieve(TPrimaryKeyType id);
+        T FirstOrDefault(TPrimaryKeyType id);
         /// <summary>
         /// 检索
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<T> RetrieveAsync(TPrimaryKeyType id);
+        Task<T> FirstOrDefaultAsync(TPrimaryKeyType id);
+        /// <summary>
+        /// 检索
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        T FirstOrDefault(Expression<Func<T, bool>> expression);
+        /// <summary>
+        /// 检索
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 分页
         /// </summary>
@@ -88,10 +100,10 @@ namespace Materal.TTA.Common
         /// 分页
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
-        /// <param name="skip">跳过数量</param>
-        /// <param name="take">获取数量</param>
+        /// <param name="pagingIndex">页数</param>
+        /// <param name="pagingSize">每页显示数量</param>
         /// <returns></returns>
-        PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, uint skip, uint take);
+        PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize);
         /// <summary>
         /// 分页
         /// </summary>
@@ -99,7 +111,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="pageRequestModel">分页请求模型</param>
         /// <returns></returns>
-        PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, PageRequestModel pageRequestModel);
+        PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页
         /// </summary>
@@ -108,26 +120,27 @@ namespace Materal.TTA.Common
         /// <param name="sortOrder">排序方式</param>
         /// <param name="pageRequestModel">分页请求模型</param>
         /// <returns></returns>
-        PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel);
+        PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel);
+
         /// <summary>
         /// 分页
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
         /// <param name="orderExpression">排序表达式</param>
-        /// <param name="skip">跳过数量</param>
-        /// <param name="take">获取数量</param>
+        /// <param name="pagingIndex">页数</param>
+        /// <param name="pagingSize">每页显示数量</param>
         /// <returns></returns>
-        PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, uint skip, uint take);
+        PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize);
         /// <summary>
         /// 分页
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
-        /// <param name="skip">跳过数量</param>
-        /// <param name="take">获取数量</param>
+        /// <param name="pagingIndex">页数</param>
+        /// <param name="pagingSize">每页显示数量</param>
         /// <returns></returns>
-        PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder, uint skip, uint take);
+        PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize);
         /// <summary>
         /// 分页
         /// </summary>
@@ -139,10 +152,10 @@ namespace Materal.TTA.Common
         /// 分页
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
-        /// <param name="skip">跳过数量</param>
-        /// <param name="take">获取数量</param>
+        /// <param name="pagingIndex">页数</param>
+        /// <param name="pagingSize">每页显示数量</param>
         /// <returns></returns>
-        Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, uint skip, uint take);
+        Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize);
         /// <summary>
         /// 分页
         /// </summary>
@@ -150,7 +163,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="pageRequestModel">分页请求模型</param>
         /// <returns></returns>
-        Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, PageRequestModel pageRequestModel);
+        Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页
         /// </summary>
@@ -159,25 +172,25 @@ namespace Materal.TTA.Common
         /// <param name="sortOrder">排序方式</param>
         /// <param name="pageRequestModel">分页请求模型</param>
         /// <returns></returns>
-        Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel);
+        Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
         /// <param name="orderExpression">排序表达式</param>
-        /// <param name="skip">跳过数量</param>
-        /// <param name="take">获取数量</param>
+        /// <param name="pagingIndex">页数</param>
+        /// <param name="pagingSize">每页显示数量</param>
         /// <returns></returns>
-        Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, uint skip, uint take);
+        Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize);
         /// <summary>
         /// 分页
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
-        /// <param name="skip">跳过数量</param>
-        /// <param name="take">获取数量</param>
+        /// <param name="pagingIndex">页数</param>
+        /// <param name="pagingSize">每页显示数量</param>
         /// <returns></returns>
-        Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder, uint skip, uint take);
+        Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize);
     }
 }

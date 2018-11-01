@@ -7,8 +7,8 @@ namespace Materal.TTADemo.Domain
     /// <summary>
     /// 用户
     /// </summary>
-    [Entity]
-    public class User
+    [ViewEntity]
+    public class User : IEntity<Guid>
     {
         /// <summary>
         /// 唯一标识

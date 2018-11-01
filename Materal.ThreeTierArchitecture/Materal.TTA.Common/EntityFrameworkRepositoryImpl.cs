@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Materal.TTA.Common
 {
-    public abstract class EntityFrameworkRepositoryImpl<T, TPrimaryKeyType> : IEntityFrameworkRepository<T, TPrimaryKeyType> where T : class
+    public abstract class EntityFrameworkRepositoryImpl<T, TPrimaryKeyType> : IEntityFrameworkRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
     {
         /// <summary>
         /// 数据库上下文
@@ -30,20 +30,12 @@ namespace Materal.TTA.Common
         /// <summary>
         /// 数据库对象
         /// </summary>
-        protected IQueryable<T> DBQueryable => _isView ? (IQueryable<T>) DBContext.Query<T>() : DBContext.Set<T>();
+        protected IQueryable<T> DBQueryable => _isView ? (IQueryable<T>)DBContext.Query<T>() : DBContext.Set<T>();
 
         /// <summary>
         /// 视图标识
         /// </summary>
         private readonly bool _isView;
-        /// <summary>
-        /// 主键名称
-        /// </summary>
-        private readonly string _primaryKeyName;
-        /// <summary>
-        /// 主键属性信息
-        /// </summary>
-        private readonly PropertyInfo _primaryKeyInfo;
 
         /// <summary>
         /// 构造方法
@@ -52,124 +44,159 @@ namespace Materal.TTA.Common
         protected EntityFrameworkRepositoryImpl(DbContext dbContext)
         {
             Type tType = typeof(T);
-            var entityAttribute = tType.GetCustomAttribute<EntityAttribute>(false);
-            if (entityAttribute == null) throw new MateralException("该实体未标记为EntityAttribute");
+            var entityAttribute = tType.GetCustomAttribute<ViewEntityAttribute>(false);
+            _isView = entityAttribute != null;
             DBContext = dbContext;
-            _isView = entityAttribute.IsView;
-            _primaryKeyName = entityAttribute.PrimaryKeyName;
-            _primaryKeyInfo = tType.GetProperty(_primaryKeyName);
         }
+
         public virtual bool Existed(TPrimaryKeyType id)
         {
-            throw new NotImplementedException();
+            return DBQueryable.Any(m => m.ID.Equals(id));
         }
 
         public virtual async Task<bool> ExistedAsync(TPrimaryKeyType id)
         {
-            throw new NotImplementedException();
+            return await DBQueryable.AnyAsync(m => m.ID.Equals(id));
         }
 
         public virtual int Count(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return DBQueryable.Count(expression);
         }
 
         public virtual async Task<int> CountAsync(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return await DBQueryable.CountAsync(expression);
         }
 
         public virtual IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return DBQueryable.Where(expression);
         }
 
         public virtual IAsyncEnumerable<T> WhereAsync(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return DBQueryable.Where(expression).ToAsyncEnumerable();
         }
 
         public virtual List<T> Find(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return Where(expression).ToList();
         }
 
         public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression)
         {
-            throw new NotImplementedException();
+            return await Where(expression).ToListAsync();
         }
 
-        public virtual T Retrieve(TPrimaryKeyType id)
+        public virtual T FirstOrDefault(TPrimaryKeyType id)
         {
-            throw new NotImplementedException();
+            return DBQueryable.FirstOrDefault(m => m.ID.Equals(id));
         }
 
-        public virtual async Task<T> RetrieveAsync(TPrimaryKeyType id)
+        public virtual async Task<T> FirstOrDefaultAsync(TPrimaryKeyType id)
         {
-            throw new NotImplementedException();
+            return await DBQueryable.FirstOrDefaultAsync(m => m.ID.Equals(id));
+        }
+
+        public T FirstOrDefault(Expression<Func<T, bool>> expression)
+        {
+            return DBQueryable.FirstOrDefault(expression);
+        }
+
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
+        {
+            return await DBQueryable.FirstOrDefaultAsync(expression);
         }
 
         public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
         {
-            throw new NotImplementedException();
+            return Paging(filterExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, uint skip, uint take)
+        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
         {
-            throw new NotImplementedException();
+            return Paging(filterExpression, m => m.ID, pagingIndex, pagingSize);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, PageRequestModel pageRequestModel)
+        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
         {
-            throw new NotImplementedException();
+            return Paging(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder,
-            PageRequestModel pageRequestModel)
+        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
         {
-            throw new NotImplementedException();
+            return Paging(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, uint skip, uint take)
+        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
         {
-            throw new NotImplementedException();
+            return Paging(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder, uint skip,
-            uint take)
+        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
         {
-            throw new NotImplementedException();
+            var result = new PageResultModel<T>();
+            IQueryable<T> queryable = Where(filterExpression);
+            result.PageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
+            switch (sortOrder)
+            {
+                case SortOrder.Ascending:
+                    result.Data = queryable.OrderBy(orderExpression).Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToList();
+                    break;
+                case SortOrder.Descending:
+                    result.Data = queryable.OrderByDescending(orderExpression).Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToList();
+                    break;
+                default:
+                    result.Data = queryable.Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToList();
+                    break;
+            }
+            return result;
         }
 
         public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
         {
-            throw new NotImplementedException();
+            return await PagingAsync(filterExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, uint skip, uint take)
+        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
         {
-            throw new NotImplementedException();
+            return await PagingAsync(filterExpression, m => m.ID, pagingIndex, pagingSize);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, PageRequestModel pageRequestModel)
+        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
         {
-            throw new NotImplementedException();
+            return await PagingAsync(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder,
-            PageRequestModel pageRequestModel)
+        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
         {
-            throw new NotImplementedException();
+            return await PagingAsync(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, uint skip, uint take)
+        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
         {
-            throw new NotImplementedException();
+            return await PagingAsync(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, bool>> orderExpression, SortOrder sortOrder, uint skip, uint take)
+        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
         {
-            throw new NotImplementedException();
+            var result = new PageResultModel<T>();
+            IQueryable<T> queryable = Where(filterExpression);
+            result.PageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
+            switch (sortOrder)
+            {
+                case SortOrder.Ascending:
+                    result.Data = await queryable.OrderBy(orderExpression).Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToListAsync();
+                    break;
+                case SortOrder.Descending:
+                    result.Data = await queryable.OrderByDescending(orderExpression).Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToListAsync();
+                    break;
+                default:
+                    result.Data = await queryable.Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToListAsync();
+                    break;
+            }
+            return result;
         }
     }
 }

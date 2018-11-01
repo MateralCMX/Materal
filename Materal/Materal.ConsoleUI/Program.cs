@@ -8,7 +8,10 @@ namespace Materal.ConsoleUI
     {
         static void Main()
         {
-            Task.Run(async () => { await Init(); });
+            Guid id = Guid.NewGuid();
+            Guid id2 = Guid.Parse(id.ToString());
+            Console.WriteLine(id.Equals(id2));
+            //Task.Run(async () => { await Init(); });
             Console.ReadKey();
         }
 

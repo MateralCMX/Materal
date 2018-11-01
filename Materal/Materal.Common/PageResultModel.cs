@@ -50,7 +50,7 @@ namespace Materal.Common
         /// <param name="dataCount">数据总数</param>
         /// <param name="message">返回消息</param>
         /// <returns></returns>
-        public static PageResultModel<T> Success(ICollection<T> data, PageRequestModel pageRequestModel, uint dataCount, string message = "")
+        public static PageResultModel<T> Success(ICollection<T> data, PageRequestModel pageRequestModel, int dataCount, string message = "")
         {
             return new PageResultModel<T>(ResultTypeEnum.Success, data, new PageModel(pageRequestModel, dataCount), message);
         }
@@ -74,7 +74,7 @@ namespace Materal.Common
         /// <param name="dataCount">数据总数</param>
         /// <param name="message">返回消息</param>
         /// <returns></returns>
-        public static PageResultModel<T> Fail(ICollection<T> data, PageRequestModel pageRequestModel, uint dataCount, string message = "")
+        public static PageResultModel<T> Fail(ICollection<T> data, PageRequestModel pageRequestModel, int dataCount, string message = "")
         {
             return new PageResultModel<T>(ResultTypeEnum.Fail, data, new PageModel(pageRequestModel, dataCount), message);
         }

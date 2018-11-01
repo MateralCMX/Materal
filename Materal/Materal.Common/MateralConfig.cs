@@ -9,6 +9,6 @@ namespace Materal.Common
         /// <summary>
         /// 分页起始数
         /// </summary>
-        public static uint PageStartNumber { get; set; } = 0;
+        public static int PageStartNumber { get; set; } = 0;
     }
 }
