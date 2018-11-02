@@ -179,7 +179,7 @@ namespace Materal.ConvertHelper
         /// </summary>
         /// <param name="obj">被转换对象</param>
         /// <returns>转换后byte数组</returns>
-        public static byte[] MToBytes(this object obj)
+        public static byte[] ToBytes(this object obj)
         {
             byte[] buff;
             using (var ms = new MemoryStream())
