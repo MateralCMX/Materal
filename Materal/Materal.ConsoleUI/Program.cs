@@ -1,7 +1,7 @@
-﻿using Materal.FileHelper;
-using Materal.WindowsHelper;
+﻿using Materal.ConfigurationHelper;
+using Materal.ConsoleUI.Model;
 using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Materal.ConsoleUI
@@ -10,15 +10,13 @@ namespace Materal.ConsoleUI
     {
         static void Main()
         {
-            Task.Run(async () => { await Init(); });
+            List<ConfigurationHelperArrayModel> result = ApplicationConfig.Configuration.GetArrayObjectValue<ConfigurationHelperArrayModel>("ConfigurationHelper:Array");
+            //Task.Run(async () => { await Init(); });
             Console.ReadKey();
         }
 
         public static async Task Init()
         {
-            var fileName = @"D:\Log.txt";
-            var fileInfo = new FileInfo(fileName);
-            await TextFileHelper.WriteText(fileName, "1234");
         }
     }
 }

@@ -1,16 +1,17 @@
-﻿<UserControl x:Class="Materal.WPFUI.CtrlTest.DateTimePickerTestCtrl"
+﻿<UserControl x:Class="Materal.WPFUI.CtrlTest.DateTimePicker.DateTimePickerTestCtrl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dateTimePicker="clr-namespace:Materal.WPFCustomControlLib.DateTimePicker;assembly=Materal.WPFCustomControlLib"
              xmlns:local="clr-namespace:Materal.WPFUI.CtrlTest"
+             xmlns:dateTimePicker1="clr-namespace:Materal.WPFUI.CtrlTest.DateTimePicker"
              mc:Ignorable="d">
     <UserControl.Resources>
         <GridLength x:Key="DefaultRowHeight">18</GridLength>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <local:DateTimePickerViewModel x:Name="ViewModel"></local:DateTimePickerViewModel>
+        <dateTimePicker1:DateTimePickerViewModel x:Name="ViewModel"></dateTimePicker1:DateTimePickerViewModel>
     </UserControl.DataContext>
     <UserControl.CommandBindings>
         <CommandBinding x:Name="GetViewModelValueCommand" Command="local:CtrlTestCommands.GetViewModelValue" Executed="GetViewModelValueCommand_Executed"></CommandBinding>

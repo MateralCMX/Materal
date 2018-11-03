@@ -1,15 +1,16 @@
-﻿<UserControl x:Class="Materal.WPFUI.CtrlTest.WebBrowserTestCtrl"
+﻿<UserControl x:Class="Materal.WPFUI.CtrlTest.WebBrowser.WebBrowserTestCtrl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Materal.WPFUI.CtrlTest"
+             xmlns:webBrowser="clr-namespace:Materal.WPFUI.CtrlTest.WebBrowser"
              mc:Ignorable="d" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <GridLength x:Key="OperationButtonWidth">60</GridLength>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <local:WebBrowserTestCtrlViewModel x:Name="ViewModel"/>
+        <webBrowser:WebBrowserTestCtrlViewModel x:Name="ViewModel"/>
     </UserControl.DataContext>
     <UserControl.CommandBindings>
         <CommandBinding x:Name="BrowseBackCommand" Command="NavigationCommands.BrowseBack" Executed="BrowseBackCommand_Executed" CanExecute="BrowseBackCommand_CanExecute"></CommandBinding>
@@ -17,8 +18,8 @@
         <CommandBinding x:Name="BrowseHomeCommand" Command="NavigationCommands.BrowseHome" Executed="BrowseHomeCommand_Executed" CanExecute="BrowseHomeCommand_CanExecute"></CommandBinding>
         <CommandBinding x:Name="BrowseStopCommand" Command="NavigationCommands.BrowseStop" Executed="BrowseStopCommand_Executed" CanExecute="BrowseStopCommand_CanExecute"></CommandBinding>
         <CommandBinding x:Name="RefreshCommand" Command="NavigationCommands.Refresh" Executed="RefreshCommand_Executed" CanExecute="RefreshCommand_CanExecute"></CommandBinding>
-        <CommandBinding x:Name="CleanUpCacheCommand" Command="local:WebBrowserTestCtrlCommands.CleanUpCache" Executed="CleanUpCacheCommand_Executed" CanExecute="CleanUpCacheCommand_CanExecute"></CommandBinding>
-        <CommandBinding x:Name="GotoPageCommand" Command="local:WebBrowserTestCtrlCommands.GotoPage" Executed="GotoPageCommand_Executed" CanExecute="GotoPageCommand_CanExecute"></CommandBinding>
+        <CommandBinding x:Name="CleanUpCacheCommand" Command="webBrowser:WebBrowserTestCtrlCommands.CleanUpCache" Executed="CleanUpCacheCommand_Executed" CanExecute="CleanUpCacheCommand_CanExecute"></CommandBinding>
+        <CommandBinding x:Name="GotoPageCommand" Command="webBrowser:WebBrowserTestCtrlCommands.GotoPage" Executed="GotoPageCommand_Executed" CanExecute="GotoPageCommand_CanExecute"></CommandBinding>
     </UserControl.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -45,9 +46,9 @@
             <Button Grid.Row="0" Grid.Column="2" Command="NavigationCommands.BrowseHome">主页</Button>
             <Button Grid.Row="0" Grid.Column="3" Command="NavigationCommands.Refresh">刷新</Button>
             <Button Grid.Row="0" Grid.Column="4" Command="NavigationCommands.BrowseStop">停止</Button>
-            <Button Grid.Row="0" Grid.Column="5" Command="local:WebBrowserTestCtrlCommands.CleanUpCache">清理缓存</Button>
+            <Button Grid.Row="0" Grid.Column="5" Command="webBrowser:WebBrowserTestCtrlCommands.CleanUpCache">清理缓存</Button>
             <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding NowAddress}"></TextBox>
-            <Button Grid.Row="1" Grid.Column="2" Command="local:WebBrowserTestCtrlCommands.GotoPage">跳转</Button>
+            <Button Grid.Row="1" Grid.Column="2" Command="webBrowser:WebBrowserTestCtrlCommands.GotoPage">跳转</Button>
         </Grid>
     </Grid>
 </UserControl>

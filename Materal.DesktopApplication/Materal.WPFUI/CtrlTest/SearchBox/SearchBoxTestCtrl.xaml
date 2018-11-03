@@ -1,10 +1,11 @@
-﻿<UserControl x:Class="Materal.WPFUI.CtrlTest.SearchBoxTestCtrl"
+﻿<UserControl x:Class="Materal.WPFUI.CtrlTest.SearchBox.SearchBoxTestCtrl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:searchBox="clr-namespace:Materal.WPFCustomControlLib.SearchBox;assembly=Materal.WPFCustomControlLib"
              xmlns:local="clr-namespace:Materal.WPFUI.CtrlTest"
+             xmlns:searchBox1="clr-namespace:Materal.WPFUI.CtrlTest.SearchBox"
              mc:Ignorable="d" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -15,7 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <local:SearchBoxViewModel x:Name="ViewModel"></local:SearchBoxViewModel>
+        <searchBox1:SearchBoxViewModel x:Name="ViewModel"></searchBox1:SearchBoxViewModel>
     </UserControl.DataContext>
     <UserControl.CommandBindings>
         <CommandBinding x:Name="GetViewModelValueCommand" Command="local:CtrlTestCommands.GetViewModelValue"></CommandBinding>

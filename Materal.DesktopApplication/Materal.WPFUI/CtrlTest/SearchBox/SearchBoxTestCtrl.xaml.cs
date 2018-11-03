@@ -1,10 +1,8 @@
-﻿using Model;
-using System;
-using System.Timers;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using Model;
 
-namespace Materal.WPFUI.CtrlTest
+namespace Materal.WPFUI.CtrlTest.SearchBox
 {
     /// <summary>
     /// SearchBoxTestCtrl.xaml 的交互逻辑

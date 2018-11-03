@@ -1,16 +1,17 @@
-﻿<UserControl x:Class="Materal.WPFUI.CtrlTest.NumberBoxTestCtrl"
+﻿<UserControl x:Class="Materal.WPFUI.CtrlTest.NumberBox.NumberBoxTestCtrl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Materal.WPFUI.CtrlTest"
              xmlns:numberBox="clr-namespace:Materal.WPFCustomControlLib.NumberBox;assembly=Materal.WPFCustomControlLib"
+             xmlns:numberBox1="clr-namespace:Materal.WPFUI.CtrlTest.NumberBox"
              mc:Ignorable="d">
     <UserControl.Resources>
         <GridLength x:Key="DefaultRowHeight">18</GridLength>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <local:NumberBoxViewModel x:Name="ViewModel"></local:NumberBoxViewModel>
+        <numberBox1:NumberBoxViewModel x:Name="ViewModel"></numberBox1:NumberBoxViewModel>
     </UserControl.DataContext>
     <UserControl.CommandBindings>
         <CommandBinding x:Name="GetViewModelValueCommand" Command="local:CtrlTestCommands.GetViewModelValue" Executed="GetViewModelValueCommand_Executed"></CommandBinding>

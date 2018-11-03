@@ -1,6 +1,4 @@
-﻿using Materal.ConvertHelper;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
 
 namespace Materal.FileHelper

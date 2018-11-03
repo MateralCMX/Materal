@@ -1,10 +1,7 @@
-﻿using System;
-using Model;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Materal.WPFUI.CtrlTest
+namespace Materal.WPFUI.CtrlTest.Test
 {
     /// <summary>
     /// TestCtrl.xaml 的交互逻辑

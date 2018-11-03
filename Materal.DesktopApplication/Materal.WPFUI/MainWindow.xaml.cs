@@ -4,6 +4,13 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Materal.WPFUI.CtrlTest.DateTimePicker;
+using Materal.WPFUI.CtrlTest.NumberBox;
+using Materal.WPFUI.CtrlTest.SearchBox;
+using Materal.WPFUI.CtrlTest.Test;
+using Materal.WPFUI.CtrlTest.WebBrowser;
+using Materal.WPFUI.Tools;
+using NuGetToolsCtrl = Materal.WPFUI.Tools.NuGetTools.NuGetToolsCtrl;
 
 namespace Materal.WPFUI
 {
@@ -23,6 +30,8 @@ namespace Materal.WPFUI
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            WPFUIHelper.RegisterCustomerService();
+            WPFUIHelper.BulidService();
             LoadTestCtrlCommand_Executed(null, null);
         }
 
@@ -61,6 +70,11 @@ namespace Materal.WPFUI
         private void LoadSearchBoxTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             LoadUserControl(new SearchBoxTestCtrl());
+        }
+
+        private void LoadNuGetToolsCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LoadUserControl(new NuGetToolsCtrl());
         }
         #endregion
 

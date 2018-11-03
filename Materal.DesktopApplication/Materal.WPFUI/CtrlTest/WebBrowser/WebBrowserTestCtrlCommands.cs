@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Materal.WPFUI.CtrlTest
+namespace Materal.WPFUI.CtrlTest.WebBrowser
 {
     public class WebBrowserTestCtrlCommands
     {

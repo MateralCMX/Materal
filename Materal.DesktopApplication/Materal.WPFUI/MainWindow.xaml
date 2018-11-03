@@ -17,6 +17,7 @@
         <CommandBinding x:Name="LoadNumberBoxTestCtrlCommand" Command="local:MainWindowCommands.LoadNumberBoxTestCtrl" Executed="LoadNumberBoxTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadDateTimePickerTestCtrlCommand" Command="local:MainWindowCommands.LoadDateTimePickerTestCtrl" Executed="LoadDateTimePickerTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadWebBrowserTestCtrlCommand" Command="local:MainWindowCommands.LoadWebBrowserTestCtrl" Executed="LoadWebBrowserTestCtrlCommand_Executed"></CommandBinding>
+        <CommandBinding x:Name="LoadNuGetToolsCtrlCommand" Command="local:MainWindowCommands.LoadNuGetToolsCtrl" Executed="LoadNuGetToolsCtrlCommand_Executed"></CommandBinding>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -31,6 +32,9 @@
                 <MenuItem Command="local:MainWindowCommands.LoadDateTimePickerTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadWebBrowserTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadSearchBoxTestCtrl"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="工具">
+                <MenuItem Command="local:MainWindowCommands.LoadNuGetToolsCtrl"></MenuItem>
             </MenuItem>
         </Menu>
         <Grid x:Name="MainPanel" Grid.Row="1" Grid.Column="0"></Grid>

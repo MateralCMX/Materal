@@ -71,9 +71,64 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Materal.Common, Version=0.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.Common.0.0.3\lib\netstandard2.0\Materal.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Materal.ConvertHelper, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConvertHelper.0.0.1\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Materal.StringHelper, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.StringHelper.0.0.2\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.FileExtensions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Json.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.1.1\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.1.1\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Physical.2.1.1\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileSystemGlobbing.2.1.1\lib\netstandard2.0\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -93,27 +148,34 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="CtrlTest\DateTimePickerTestCtrl.xaml">
+    <Compile Include="ApplicationConfig.cs" />
+    <Compile Include="Tools\NuGetTools\Model\NuGetToolsConfigTemplateModel.cs" />
+    <Compile Include="Tools\NuGetTools\NuGetToolsCtrl.xaml.cs">
+      <DependentUpon>NuGetToolsCtrl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Tools\NuGetTools\NuGetToolsViewModel.cs" />
+    <Compile Include="WPFUIHelper.cs" />
+    <Page Include="CtrlTest\DateTimePicker\DateTimePickerTestCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CtrlTest\SearchBoxMagnifier.xaml">
+    <Page Include="CtrlTest\SearchBox\SearchBoxMagnifier.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="CtrlTest\NumberBoxTestCtrl.xaml">
+    <Page Include="CtrlTest\NumberBox\NumberBoxTestCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CtrlTest\SearchBoxTestCtrl.xaml">
+    <Page Include="CtrlTest\SearchBox\SearchBoxTestCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CtrlTest\TestCtrl.xaml">
+    <Page Include="CtrlTest\Test\TestCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CtrlTest\WebBrowserTestCtrl.xaml">
+    <Page Include="CtrlTest\WebBrowser\WebBrowserTestCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -126,32 +188,36 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CtrlTest\CtrlTestCommands.cs" />
-    <Compile Include="CtrlTest\DateTimePickerTestCtrl.xaml.cs">
+    <Compile Include="CtrlTest\DateTimePicker\DateTimePickerTestCtrl.xaml.cs">
       <DependentUpon>DateTimePickerTestCtrl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CtrlTest\DateTimePickerViewModel.cs" />
-    <Compile Include="CtrlTest\NumberBoxTestCtrl.xaml.cs">
+    <Compile Include="CtrlTest\DateTimePicker\DateTimePickerViewModel.cs" />
+    <Compile Include="CtrlTest\NumberBox\NumberBoxTestCtrl.xaml.cs">
       <DependentUpon>NumberBoxTestCtrl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CtrlTest\NumberBoxViewModel.cs" />
-    <Compile Include="CtrlTest\SearchBoxTestCtrl.xaml.cs">
+    <Compile Include="CtrlTest\NumberBox\NumberBoxViewModel.cs" />
+    <Compile Include="CtrlTest\SearchBox\SearchBoxTestCtrl.xaml.cs">
       <DependentUpon>SearchBoxTestCtrl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CtrlTest\SearchBoxViewModel.cs" />
-    <Compile Include="CtrlTest\TestCtrl.xaml.cs">
+    <Compile Include="CtrlTest\SearchBox\SearchBoxViewModel.cs" />
+    <Compile Include="CtrlTest\Test\TestCtrl.xaml.cs">
       <DependentUpon>TestCtrl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CtrlTest\TestCtrlViewModel.cs" />
-    <Compile Include="CtrlTest\WebBrowserTestCtrl.xaml.cs">
+    <Compile Include="CtrlTest\Test\TestCtrlViewModel.cs" />
+    <Compile Include="CtrlTest\WebBrowser\WebBrowserTestCtrl.xaml.cs">
       <DependentUpon>WebBrowserTestCtrl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CtrlTest\WebBrowserTestCtrlCommands.cs" />
-    <Compile Include="CtrlTest\WebBrowserTestCtrlViewModel.cs" />
+    <Compile Include="CtrlTest\WebBrowser\WebBrowserTestCtrlCommands.cs" />
+    <Compile Include="CtrlTest\WebBrowser\WebBrowserTestCtrlViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MainWindowResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tools\NuGetTools\NuGetToolsCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -176,7 +242,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Materal.WPFUI_TemporaryKey.pfx" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -216,4 +286,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties appsettings_1json__JSONSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

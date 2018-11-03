@@ -29,6 +29,10 @@ namespace Materal.WPFUI
         /// </summary>
         public static RoutedUICommand LoadWebBrowserTestCtrl { get; }
         /// <summary>
+        /// 加载NuGet工具控件
+        /// </summary>
+        public static RoutedUICommand LoadNuGetToolsCtrl { get; }
+        /// <summary>
         /// 构造方法
         /// </summary>
         static MainWindowCommands()
@@ -60,6 +64,10 @@ namespace Materal.WPFUI
             LoadWebBrowserTestCtrl = new RoutedUICommand(
                 "WebBrowser",
                 nameof(LoadWebBrowserTestCtrl),
+                typeof(MainWindowCommands));
+            LoadNuGetToolsCtrl = new RoutedUICommand(
+                "NuGetTools",
+                nameof(LoadNuGetToolsCtrl),
                 typeof(MainWindowCommands));
         }
     }

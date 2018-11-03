@@ -1,18 +1,19 @@
-﻿using Materal.WPFCommon;
+﻿using System;
+using Materal.WPFCommon;
 
-namespace Materal.WPFUI.CtrlTest
+namespace Materal.WPFUI.CtrlTest.DateTimePicker
 {
-    public class NumberBoxViewModel : NotifyPropertyChanged
+    public class DateTimePickerViewModel : NotifyPropertyChanged
     {
         /// <summary>
         /// 测试值
         /// </summary>
-        private decimal _testValue = 40;
+        private DateTime _testValue = new DateTime(1993, 4, 20, 8, 22, 43);
 
         /// <summary>
         /// 测试值
         /// </summary>
-        public decimal TestValue
+        public DateTime TestValue
         {
             get => _testValue;
             set

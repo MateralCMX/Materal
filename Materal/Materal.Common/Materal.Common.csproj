@@ -6,6 +6,8 @@
     <Version>0.0.3</Version>
     <Description>Materal公共类库</Description>
     <PackageReleaseNotes>1、修改-分页模型中uint为int</PackageReleaseNotes>
+    <Authors>Materal</Authors>
+    <Product>Materal</Product>
   </PropertyGroup>
 
 </Project>

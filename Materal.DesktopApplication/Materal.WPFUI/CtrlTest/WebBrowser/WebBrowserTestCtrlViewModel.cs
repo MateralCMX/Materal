@@ -1,4 +1,4 @@
-﻿namespace Materal.WPFUI.CtrlTest
+﻿namespace Materal.WPFUI.CtrlTest.WebBrowser
 {
     public class WebBrowserTestCtrlViewModel
     {

@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Materal.Common, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.Common.0.0.1\lib\netstandard2.0\Materal.Common.dll</HintPath>
+    <Reference Include="Materal.Common, Version=0.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.Common.0.0.3\lib\netstandard2.0\Materal.Common.dll</HintPath>
     </Reference>
     <Reference Include="Materal.StringHelper, Version=0.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.StringHelper.0.0.2\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>

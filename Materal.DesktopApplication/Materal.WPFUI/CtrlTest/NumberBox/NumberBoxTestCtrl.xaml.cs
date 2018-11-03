@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 
-namespace Materal.WPFUI.CtrlTest
+namespace Materal.WPFUI.CtrlTest.NumberBox
 {
     /// <summary>
     /// NumberBoxTestCtrl.xaml 的交互逻辑

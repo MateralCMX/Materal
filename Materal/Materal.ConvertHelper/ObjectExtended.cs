@@ -19,21 +19,22 @@ namespace Materal.ConvertHelper
         /// <summary>
         /// 可转换类型字典
         /// </summary>
-        private static readonly Dictionary<Type, Func<object, object>> Dict = new Dictionary<Type, Func<object, object>>();
+        private static readonly Dictionary<Type, Func<object, object>> ConvertDictionary = new Dictionary<Type, Func<object, object>>();
         /// <summary>
         /// 构造方法
         /// </summary>
         static ObjectExtended()
         {
-            Dict.Add(typeof(int), WrapValueConvert(Convert.ToInt32));
-            Dict.Add(typeof(long), WrapValueConvert(Convert.ToInt64));
-            Dict.Add(typeof(short), WrapValueConvert(Convert.ToInt16));
-            Dict.Add(typeof(int?), WrapValueConvert(Convert.ToInt32));
-            Dict.Add(typeof(double), WrapValueConvert(Convert.ToDouble));
-            Dict.Add(typeof(float), WrapValueConvert(Convert.ToSingle));
-            Dict.Add(typeof(Guid), f => new Guid(f.ToString()));
-            Dict.Add(typeof(string), Convert.ToString);
-            Dict.Add(typeof(DateTime), WrapValueConvert(Convert.ToDateTime));
+            ConvertDictionary.Add(typeof(bool), WrapValueConvert(Convert.ToBoolean));
+            ConvertDictionary.Add(typeof(int), WrapValueConvert(Convert.ToInt32));
+            ConvertDictionary.Add(typeof(long), WrapValueConvert(Convert.ToInt64));
+            ConvertDictionary.Add(typeof(short), WrapValueConvert(Convert.ToInt16));
+            ConvertDictionary.Add(typeof(int?), WrapValueConvert(Convert.ToInt32));
+            ConvertDictionary.Add(typeof(double), WrapValueConvert(Convert.ToDouble));
+            ConvertDictionary.Add(typeof(float), WrapValueConvert(Convert.ToSingle));
+            ConvertDictionary.Add(typeof(Guid), f => new Guid(f.ToString()));
+            ConvertDictionary.Add(typeof(string), Convert.ToString);
+            ConvertDictionary.Add(typeof(DateTime), WrapValueConvert(Convert.ToDateTime));
         }
         /// <summary>
         /// 写入值转换类型
@@ -199,7 +200,7 @@ namespace Materal.ConvertHelper
         /// <returns></returns>
         public static bool CanConvertTo(this object obj, Type targetType)
         {
-            return Dict.ContainsKey(targetType);
+            return ConvertDictionary.ContainsKey(targetType);
         }
         /// <summary>
         /// 转换到特定类型
@@ -219,16 +220,16 @@ namespace Materal.ConvertHelper
         /// <returns></returns>
         public static object ConvertTo(this object obj, Type targetType)
         {
-            if (obj == null)return !targetType.IsValueType ? (object) null : throw new ArgumentNullException(nameof(obj), "不能将null转换为" + targetType.Name);
-            if (obj.GetType() == targetType || targetType.IsInstanceOfType(obj))return obj;
-            if (Dict.ContainsKey(targetType))return Dict[targetType](obj);
+            if (obj == null) return !targetType.IsValueType ? (object)null : throw new ArgumentNullException(nameof(obj), "不能将null转换为" + targetType.Name);
+            if (obj.GetType() == targetType || targetType.IsInstanceOfType(obj)) return obj;
+            if (ConvertDictionary.ContainsKey(targetType)) return ConvertDictionary[targetType](obj);
             try
             {
                 return Convert.ChangeType(obj, targetType);
             }
             catch
             {
-                throw new NotImplementedException("未实现到" + targetType.Name + "的转换");
+                throw new MateralConvertException("未实现到" + targetType.Name + "的转换");
             }
         }
 
