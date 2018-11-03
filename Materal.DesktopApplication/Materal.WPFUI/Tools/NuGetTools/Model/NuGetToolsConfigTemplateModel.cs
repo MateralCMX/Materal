@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Materal.WPFUI.Tools.NuGetTools.Model
+﻿namespace Materal.WPFUI.Tools.NuGetTools.Model
 {
     /// <summary>
     /// NuGetTools配置文件模板模型

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Materal.ConvertHelper;
+﻿using Materal.ConfigurationHelper;
 using Materal.WPFCommon;
 using Materal.WPFUI.Tools.NuGetTools.Model;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
 namespace Materal.WPFUI.Tools.NuGetTools
 {
@@ -15,7 +10,7 @@ namespace Materal.WPFUI.Tools.NuGetTools
         /// <summary>
         /// 配置模版模型组
         /// </summary>
-        public List<NuGetToolsConfigTemplateModel> ConfigTemplateModels { get; set; }
+        public List<NuGetToolsConfigTemplateModel> ConfigTemplateModels { get; set; } = new List<NuGetToolsConfigTemplateModel>();
 
         /// <summary>
         /// 当前选择的配置模板模型
@@ -62,31 +57,11 @@ namespace Materal.WPFUI.Tools.NuGetTools
         /// </summary>
         public void Init()
         {
-            IConfigurationSection configurationSection = ApplicationConfig.Configuration.GetSection("Tools:NuGetToos");
-            IEnumerable<IConfigurationSection> configurationSections = configurationSection.GetChildren();
-            Type modelType = typeof(NuGetToolsConfigTemplateModel);
-            foreach (IConfigurationSection item in configurationSections)
-            {
-                IEnumerable<IConfigurationSection> tempChildrens = item.GetChildren();
-                var tempModel = new NuGetToolsConfigTemplateModel();
-                foreach (IConfigurationSection children in tempChildrens)
-                {
-                    PropertyInfo propertyInfo = modelType.GetProperty(children.Key);
-                    if (propertyInfo != null)
-                    {
-                        propertyInfo.SetValue(tempModel, children.Value.ConvertTo(propertyInfo.DeclaringType));
-                    }
-                }
-                ConfigTemplateModels.Add(tempModel);
-            }
-            //var spOne = new ServiceCollection().AddOptions()
-            //    .Configure<NuGetToolsConfigTemplateModel>(configurationSection)
-            //    .BuildServiceProvider();
-            //var jobConfigList2 = spOne.GetService<IOptions<RedisConfiguration>>().Value;
-            //var tempList = configJsonString?.JsonToObject<List<NuGetToolsConfigTemplateModel>>();
-            //if (tempList == null) return;
-            //ConfigTemplateModels.AddRange(tempList);
+            List<NuGetToolsConfigTemplateModel> models = ApplicationConfig.Configuration.GetArrayObjectValue<NuGetToolsConfigTemplateModel>("Tools:NuGetToos");
+            ConfigTemplateModels.AddRange(models);
+            SelectedConfigTemplateModel = ConfigTemplateModels[0];
             OnPropertyChanged(nameof(ConfigTemplateModels));
+            OnPropertyChanged(nameof(SelectedConfigTemplateModel));
         }
 
         /// <summary>

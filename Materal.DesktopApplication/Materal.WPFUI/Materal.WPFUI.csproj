@@ -74,6 +74,9 @@
     <Reference Include="Materal.Common, Version=0.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.Common.0.0.3\lib\netstandard2.0\Materal.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Materal.ConfigurationHelper, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConfigurationHelper.0.0.1\lib\netstandard2.0\Materal.ConfigurationHelper.dll</HintPath>
+    </Reference>
     <Reference Include="Materal.ConvertHelper, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.ConvertHelper.0.0.1\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
     </Reference>
@@ -214,6 +217,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MainWindowResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Tools\NuGetTools\NuGetToolResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
