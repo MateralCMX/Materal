@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.NetworkHelper", "Ma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConvertHelper", "Materal.ConvertHelper\Materal.ConvertHelper.csproj", "{03589A52-1D79-4762-A2E1-E1547BD146FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigurationHelper", "Materal.ConfigurationHelper\Materal.ConfigurationHelper.csproj", "{1FF9F095-C832-4A1B-920D-C66D8C3BEAAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigurationHelper", "Materal.ConfigurationHelper\Materal.ConfigurationHelper.csproj", "{1FF9F095-C832-4A1B-920D-C66D8C3BEAAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{D618B600-502D-4FDA-AD98-C79485A2596F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{177A4D6E-CDD9-406B-BF45-54E6C6943E42} = {D618B600-502D-4FDA-AD98-C79485A2596F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44D71214-490E-42D6-969C-BDC35C93BEA5}

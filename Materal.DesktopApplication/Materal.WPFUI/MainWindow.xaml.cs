@@ -10,7 +10,7 @@ using Materal.WPFUI.CtrlTest.SearchBox;
 using Materal.WPFUI.CtrlTest.Test;
 using Materal.WPFUI.CtrlTest.WebBrowser;
 using Materal.WPFUI.Tools;
-using NuGetToolsCtrl = Materal.WPFUI.Tools.NuGetTools.NuGetToolsCtrl;
+using Materal.WPFUI.Tools.NuGetTools;
 
 namespace Materal.WPFUI
 {
@@ -74,7 +74,7 @@ namespace Materal.WPFUI
 
         private void LoadNuGetToolsCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            LoadUserControl(new NuGetToolsCtrl());
+            LoadUserControl(new NuGetToolCtrl());
         }
         #endregion
 
