@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Materal.ConvertHelper;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Materal.ConvertHelper;
-using Microsoft.Extensions.Configuration;
 
 namespace Materal.ConfigurationHelper
 {
@@ -36,6 +37,42 @@ namespace Materal.ConfigurationHelper
                 result.Add(tempModel);
             }
             return result;
+        }
+
+        /// <summary>
+        /// 设置值
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public static void SetValue(this IConfigurationProvider provider, string key, string value)
+        {
+            if (provider is JsonConfigurationProvider jsonProvider)
+            {
+                var configurationProvider = new MateralJsonConfigurationProvider(jsonProvider);
+                configurationProvider.Load();
+                configurationProvider.Set(key, value);
+                configurationProvider.Save();
+            }
+            /*
+             * todo:其它配置类型
+             */
+            provider.Load();
+        }
+
+        /// <summary>
+        /// 设置值
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public static void SetValue(this IConfiguration configuration, string key, string value)
+        {
+            if (!(configuration is ConfigurationRoot configurationRoot)) return;
+            foreach (IConfigurationProvider provider in configurationRoot.Providers)
+            {
+                SetValue(provider, key, value);
+            }
         }
     }
 }

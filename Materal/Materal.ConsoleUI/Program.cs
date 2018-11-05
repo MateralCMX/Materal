@@ -1,8 +1,5 @@
 ﻿using Materal.ConfigurationHelper;
-using Materal.ConsoleUI.Model;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Materal.ConsoleUI
 {
@@ -10,13 +7,15 @@ namespace Materal.ConsoleUI
     {
         static void Main()
         {
-            List<ConfigurationHelperArrayModel> result = ApplicationConfig.Configuration.GetArrayObjectValue<ConfigurationHelperArrayModel>("ConfigurationHelper:Array");
-            //Task.Run(async () => { await Init(); });
-            Console.ReadKey();
-        }
-
-        public static async Task Init()
-        {
+            string config = ApplicationConfig.Configuration["ConfigurationHelper:Set"];
+            Console.WriteLine($"当前值：{config}");
+            while (true)
+            {
+                config = Console.ReadLine();
+                ApplicationConfig.Configuration.SetValue("ConfigurationHelper:Set", config);
+                config = ApplicationConfig.Configuration["ConfigurationHelper:Set"];
+                Console.WriteLine($"当前值：{config}");
+            }
         }
     }
 }
