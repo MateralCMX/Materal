@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Deployment.Application;
+using System.Reflection;
 
 namespace Materal.WPFUI
 {
@@ -16,6 +17,21 @@ namespace Materal.WPFUI
         /// <summary>
         /// 版本号
         /// </summary>
-        private string Version => Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        public string Version
+        {
+            get
+            {
+                var result = "版本号：";
+                try
+                {
+                    result += ApplicationDeployment.CurrentDeployment.CurrentVersion;
+                }
+                catch
+                {
+                    result += Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                }
+                return result;
+            }
+        }
     }
 }
