@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Materal.ConvertHelper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -71,6 +72,8 @@ namespace Materal.DBHelper
 
         public int ExecuteNonQuery(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
+            if (connection == null) throw new ArgumentNullException(nameof(connection));
+            if (commandText == null) throw new ArgumentNullException(nameof(commandText));
             var cmd = new SqlCommand();
             bool mustCloseConnection = PrepareCommand(cmd, connection, null, commandType, commandText, commandParameters);
             int retval = cmd.ExecuteNonQuery();
@@ -84,6 +87,7 @@ namespace Materal.DBHelper
 
         public int ExecuteNonQuery(SqlConnection connection, string spName, params object[] parameterValues)
         {
+            if (connection == null) throw new ArgumentNullException(nameof(connection));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
             string connectionString = connection.ConnectionString;
             if (parameterValues == null || parameterValues.Length <= 0) return ExecuteNonQuery(connectionString, CommandType.StoredProcedure, spName);
@@ -101,6 +105,7 @@ namespace Materal.DBHelper
         public int ExecuteNonQuery(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            if (commandText == null) throw new ArgumentNullException(nameof(commandText));
             var cmd = new SqlCommand();
             PrepareCommand(cmd, transaction.Connection, transaction, commandType, commandText, commandParameters); 
             int retval = cmd.ExecuteNonQuery(); 
@@ -135,239 +140,340 @@ namespace Materal.DBHelper
 
         public DataSet ExecuteDataSet(string connectionString, CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteDataSet(GetDBConnection(connectionString), commandType, commandText);
         }
 
-        public DataSet ExecuteDataSet(string connectionString, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public DataSet ExecuteDataSet(string connectionString, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            return ExecuteDataSet(GetDBConnection(connectionString), commandType, commandText, commandParameters);
         }
 
         public DataSet ExecuteDataSet(string connectionString, string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            return ExecuteDataSet(GetDBConnection(connectionString), spName, parameterValues);
         }
 
         public DataSet ExecuteDataSet(SqlConnection connection, CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteDataSet(connection, commandType, commandText, null);
         }
 
-        public DataSet ExecuteDataSet(SqlConnection connection, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public DataSet ExecuteDataSet(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            if (connection == null) throw new ArgumentNullException(nameof(connection));
+            var cmd = new SqlCommand();
+            bool mustCloseConnection = PrepareCommand(cmd, connection, null, commandType, commandText, commandParameters); 
+            var ds = new DataSet();
+            using (var da = new SqlDataAdapter(cmd))
+            { 
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+                if (mustCloseConnection)
+                {
+                    connection.Close();
+                }
+            }
+            return ds;
         }
 
         public DataSet ExecuteDataSet(SqlConnection connection, string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            if (connection == null) throw new ArgumentNullException(nameof(connection));
+            if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
+            if (parameterValues == null || parameterValues.Length <= 0) return ExecuteDataSet(connection, CommandType.StoredProcedure, spName);
+            SqlParameter[] commandParameters = SqlServerHelperParameterCache.GetSpParameterSet(connection, spName);
+            AssignParameterValues(commandParameters, parameterValues);
+            return ExecuteDataSet(connection, CommandType.StoredProcedure, spName, commandParameters);
+
         }
 
         public DataSet ExecuteDataSet(SqlTransaction transaction, CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteDataSet(transaction, commandType, commandText, null);
         }
 
-        public DataSet ExecuteDataSet(SqlTransaction transaction, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public DataSet ExecuteDataSet(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            var cmd = new SqlCommand();
+            PrepareCommand(cmd, transaction.Connection, transaction, commandType, commandText, commandParameters); 
+            var ds = new DataSet();
+            using (var da = new SqlDataAdapter(cmd))
+            {
+                da.Fill(ds);
+                cmd.Parameters.Clear();
+            }
+            return ds;
         }
 
         public DataSet ExecuteDataSet(SqlTransaction transaction, string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
+            if (parameterValues == null || parameterValues.Length <= 0) return ExecuteDataSet(transaction, CommandType.StoredProcedure, spName);
+            SqlParameter[] commandParameters = SqlServerHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+            AssignParameterValues(commandParameters, parameterValues);
+            return ExecuteDataSet(transaction, CommandType.StoredProcedure, spName, commandParameters);
         }
 
-        public DataTable ExecuteDataTable(CommandType commandType, string commandText)
+        public DataTable ExecuteDataTable(CommandType commandType, string commandText, int tableIndex = 0)
         {
-            throw new NotImplementedException();
+            return ExecuteDataTable(GetDBConnection(), commandType, commandText, tableIndex);
         }
 
-        public DataTable ExecuteDataTable(CommandType commandType, string commandText, params SqlParameter[] commandParameters)
+        public DataTable ExecuteDataTable(CommandType commandType, string commandText, int tableIndex = 0, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            return ExecuteDataTable(GetDBConnection(), commandType, commandText, tableIndex, commandParameters);
         }
 
-        public DataTable ExecuteDataTable(string spName, params object[] parameterValues)
+        public DataTable ExecuteDataTable(string spName, int tableIndex = 0, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            return ExecuteDataTable(GetDBConnection(), spName, tableIndex, parameterValues);
         }
 
-        public DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText)
+        public DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText, int tableIndex = 0)
         {
-            throw new NotImplementedException();
+            return ExecuteDataTable(GetDBConnection(connectionString), commandType, commandText, tableIndex);
         }
 
-        public DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText, int tableIndex = 0, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            return ExecuteDataTable(GetDBConnection(connectionString), commandType, commandText, tableIndex, commandParameters);
         }
 
-        public DataTable ExecuteDataTable(string connectionString, string spName, params object[] parameterValues)
+        public DataTable ExecuteDataTable(string connectionString, string spName, int tableIndex = 0, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            return ExecuteDataTable(GetDBConnection(connectionString), spName, tableIndex, parameterValues);
         }
 
-        public DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText)
+        public DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText, int tableIndex = 0)
         {
-            throw new NotImplementedException();
+            return ExecuteDataTable(connection, commandType, commandText, tableIndex, null);
         }
 
-        public DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText, int tableIndex = 0, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            DataSet dataSet = ExecuteDataSet(connection, commandType, commandText, commandParameters);
+            if (dataSet.Tables.Count <= tableIndex) throw new IndexOutOfRangeException("索引超出范围。必须为非负值并小于集合大小");
+            return dataSet.Tables[tableIndex];
         }
 
-        public DataTable ExecuteDataTable(SqlConnection connection, string spName, params object[] parameterValues)
+        public DataTable ExecuteDataTable(SqlConnection connection, string spName, int tableIndex = 0, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            DataSet dataSet = ExecuteDataSet(connection, spName, parameterValues);
+            if (dataSet.Tables.Count <= tableIndex) throw new IndexOutOfRangeException("索引超出范围。必须为非负值并小于集合大小");
+            return dataSet.Tables[tableIndex];
         }
 
-        public DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText)
+        public DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText, int tableIndex = 0)
         {
-            throw new NotImplementedException();
+            return ExecuteDataTable(transaction, commandType, commandText, tableIndex, null);
         }
 
-        public DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText, int tableIndex = 0, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            DataSet dataSet = ExecuteDataSet(transaction, commandType, commandText, commandParameters);
+            if (dataSet.Tables.Count <= tableIndex) throw new IndexOutOfRangeException("索引超出范围。必须为非负值并小于集合大小");
+            return dataSet.Tables[tableIndex];
         }
 
-        public DataTable ExecuteDataTable(SqlTransaction transaction, string spName, params object[] parameterValues)
+        public DataTable ExecuteDataTable(SqlTransaction transaction, string spName, int tableIndex = 0, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            DataSet dataSet = ExecuteDataSet(transaction, spName, parameterValues);
+            if (dataSet.Tables.Count <= tableIndex) throw new IndexOutOfRangeException("索引超出范围。必须为非负值并小于集合大小");
+            return dataSet.Tables[tableIndex];
+        }
+
+        public DataTable ExecuteDataTable(CommandType commandType, string commandText, string tableName)
+        {
+            return ExecuteDataTable(GetDBConnection(), commandType, commandText, tableName);
+        }
+
+        public DataTable ExecuteDataTable(CommandType commandType, string commandText, string tableName, params SqlParameter[] commandParameters)
+        {
+            return ExecuteDataTable(GetDBConnection(), commandType, commandText, tableName, commandParameters);
+        }
+
+        public DataTable ExecuteDataTable(string spName, string tableName, params object[] parameterValues)
+        {
+            return ExecuteDataTable(GetDBConnection(), spName, tableName, parameterValues);
+        }
+
+        public DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText, string tableName)
+        {
+            return ExecuteDataTable(GetDBConnection(connectionString), commandType, commandText, tableName);
+        }
+
+        public DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText, string tableName, params SqlParameter[] commandParameters)
+        {
+            return ExecuteDataTable(GetDBConnection(connectionString), commandType, commandText, tableName, commandParameters);
+        }
+
+        public DataTable ExecuteDataTable(string connectionString, string spName, string tableName, params object[] parameterValues)
+        {
+            return ExecuteDataTable(GetDBConnection(connectionString), spName, tableName, parameterValues);
+        }
+
+        public DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText, string tableName)
+        {
+            return ExecuteDataTable(connection, commandType, commandText, tableName, null);
+        }
+
+        public DataTable ExecuteDataTable(SqlConnection connection, CommandType commandType, string commandText, string tableName, params SqlParameter[] commandParameters)
+        {
+            DataSet dataSet = ExecuteDataSet(connection, commandType, commandText, commandParameters);
+            return dataSet.Tables[tableName];
+        }
+
+        public DataTable ExecuteDataTable(SqlConnection connection, string spName, string tableName, params object[] parameterValues)
+        {
+            DataSet dataSet = ExecuteDataSet(connection, spName, parameterValues);
+            return dataSet.Tables[tableName];
+        }
+
+        public DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText, string tableName)
+        {
+            return ExecuteDataTable(transaction, commandType, commandText, tableName, null);
+        }
+
+        public DataTable ExecuteDataTable(SqlTransaction transaction, CommandType commandType, string commandText, string tableName, params SqlParameter[] commandParameters)
+        {
+            DataSet dataSet = ExecuteDataSet(transaction, commandType, commandText, commandParameters);
+            return dataSet.Tables[tableName];
+        }
+
+        public DataTable ExecuteDataTable(SqlTransaction transaction, string spName, string tableName, params object[] parameterValues)
+        {
+            DataSet dataSet = ExecuteDataSet(transaction, spName, parameterValues);
+            return dataSet.Tables[tableName];
         }
 
         public IList<T> ExecuteList<T>(CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteList<T>(GetDBConnection(), commandType, commandText);
         }
 
         public IList<T> ExecuteList<T>(CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            return ExecuteList<T>(GetDBConnection(), commandType, commandText, commandParameters);
         }
 
         public IList<T> ExecuteList<T>(string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            return ExecuteList<T>(GetDBConnection(), spName, parameterValues);
         }
 
         public IList<T> ExecuteList<T>(string connectionString, CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteList<T>(GetDBConnection(connectionString), commandType, commandText);
         }
 
-        public IList<T> ExecuteList<T>(string connectionString, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public IList<T> ExecuteList<T>(string connectionString, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            return ExecuteList<T>(GetDBConnection(connectionString), commandType, commandText, commandParameters);
         }
 
         public IList<T> ExecuteList<T>(string connectionString, string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            return ExecuteList<T>(GetDBConnection(connectionString), spName, parameterValues);
         }
 
         public IList<T> ExecuteList<T>(SqlConnection connection, CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteList<T>(connection, commandType, commandText, null);
         }
 
-        public IList<T> ExecuteList<T>(SqlConnection connection, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public IList<T> ExecuteList<T>(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            DataTable dataTable = ExecuteDataTable(connection, commandType, commandText, 0, commandParameters);
+            return dataTable != null ? dataTable.ToList<T>() : throw new MateralDBHelperException("无结果");
         }
 
         public IList<T> ExecuteList<T>(SqlConnection connection, string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            DataTable dataTable = ExecuteDataTable(connection, spName, 0, parameterValues);
+            return dataTable != null ? dataTable.ToList<T>() : throw new MateralDBHelperException("无结果");
         }
 
         public IList<T> ExecuteList<T>(SqlTransaction transaction, CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteList<T>(transaction, commandType, commandText, null);
         }
 
-        public IList<T> ExecuteList<T>(SqlTransaction transaction, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public IList<T> ExecuteList<T>(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            DataTable dataTable = ExecuteDataTable(transaction, commandType, commandText, 0, commandParameters);
+            return dataTable != null ? dataTable.ToList<T>() : throw new MateralDBHelperException("无结果");
         }
 
         public IList<T> ExecuteList<T>(SqlTransaction transaction, string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            DataTable dataTable = ExecuteDataTable(transaction, spName, 0, parameterValues);
+            return dataTable != null ? dataTable.ToList<T>() : throw new MateralDBHelperException("无结果");
         }
 
         public T[] ExecuteArray<T>(CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteArray<T>(GetDBConnection(), commandType, commandText);
         }
 
         public T[] ExecuteArray<T>(CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            return ExecuteArray<T>(GetDBConnection(), commandType, commandText, commandParameters);
         }
 
         public T[] ExecuteArray<T>(string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            return ExecuteArray<T>(GetDBConnection(), spName, parameterValues);
         }
 
         public T[] ExecuteArray<T>(string connectionString, CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteArray<T>(GetDBConnection(connectionString), commandType, commandText);
         }
 
-        public T[] ExecuteArray<T>(string connectionString, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public T[] ExecuteArray<T>(string connectionString, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            return ExecuteArray<T>(GetDBConnection(connectionString), commandType, commandText, commandParameters);
         }
 
         public T[] ExecuteArray<T>(string connectionString, string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            return ExecuteArray<T>(GetDBConnection(connectionString), spName, parameterValues);
         }
 
         public T[] ExecuteArray<T>(SqlConnection connection, CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteArray<T>(connection, commandType, commandText, null);
         }
 
-        public T[] ExecuteArray<T>(SqlConnection connection, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public T[] ExecuteArray<T>(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            DataTable dataTable = ExecuteDataTable(connection, commandType, commandText, 0, commandParameters);
+            return dataTable != null ? dataTable.ToArray<T>() : throw new MateralDBHelperException("无结果");
         }
 
         public T[] ExecuteArray<T>(SqlConnection connection, string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            DataTable dataTable = ExecuteDataTable(connection, spName, 0, parameterValues);
+            return dataTable != null ? dataTable.ToArray<T>() : throw new MateralDBHelperException("无结果");
         }
 
         public T[] ExecuteArray<T>(SqlTransaction transaction, CommandType commandType, string commandText)
         {
-            throw new NotImplementedException();
+            return ExecuteArray<T>(transaction, commandType, commandText, null);
         }
 
-        public T[] ExecuteArray<T>(SqlTransaction transaction, CommandType commandType, string commandText,
-            params SqlParameter[] commandParameters)
+        public T[] ExecuteArray<T>(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
-            throw new NotImplementedException();
+            DataTable dataTable = ExecuteDataTable(transaction, commandType, commandText, 0, commandParameters);
+            return dataTable != null ? dataTable.ToArray<T>() : throw new MateralDBHelperException("无结果");
         }
 
         public T[] ExecuteArray<T>(SqlTransaction transaction, string spName, params object[] parameterValues)
         {
-            throw new NotImplementedException();
+            DataTable dataTable = ExecuteDataTable(transaction, spName, 0, parameterValues);
+            return dataTable != null ? dataTable.ToArray<T>() : throw new MateralDBHelperException("无结果");
         }
 
         public T ExecuteScalar<T>(CommandType commandType, string commandText)

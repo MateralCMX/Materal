@@ -268,26 +268,28 @@ namespace Materal.DBHelper
         /// </summary>
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
+        /// <param name="tableIndex"></param>
         /// <returns>数据表</returns>
-        DataTable ExecuteDataTable(CommandType commandType, string commandText);
+        DataTable ExecuteDataTable(CommandType commandType, string commandText, int tableIndex = 0);
 
         /// <summary>
         /// 执行命令,返回数据表对象
         /// </summary>
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
+        /// <param name="tableIndex"></param>
         /// <param name="commandParameters">命令参数</param>
         /// <returns>数据表</returns>
-        DataTable ExecuteDataTable(CommandType commandType, string commandText,
-            params TParams[] commandParameters);
+        DataTable ExecuteDataTable(CommandType commandType, string commandText, int tableIndex = 0, params TParams[] commandParameters);
 
         /// <summary>
         /// 执行命令,返回数据表对象
         /// </summary>
         /// <param name="spName">存储过程名称</param>
+        /// <param name="tableIndex"></param>
         /// <param name="parameterValues">参数</param>
         /// <returns>数据表</returns>
-        DataTable ExecuteDataTable(string spName, params object[] parameterValues);
+        DataTable ExecuteDataTable(string spName, int tableIndex = 0, params object[] parameterValues);
 
         /// <summary>
         /// 执行命令,返回数据表对象
@@ -295,8 +297,9 @@ namespace Materal.DBHelper
         /// <param name="connectionString">连接字符串</param>
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
+        /// <param name="tableIndex"></param>
         /// <returns>数据表</returns>
-        DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText);
+        DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText, int tableIndex = 0);
 
         /// <summary>
         /// 执行命令,返回数据表对象
@@ -304,18 +307,19 @@ namespace Materal.DBHelper
         /// <param name="connectionString">连接字符串</param>
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
+        /// <param name="tableIndex"></param>
         /// <param name="commandParameters">命令参数</param>
-        DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText,
-            params TParams[] commandParameters);
+        DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText, int tableIndex = 0, params TParams[] commandParameters);
 
         /// <summary>
         /// 执行命令,返回数据表对象
         /// </summary>
         /// <param name="connectionString">连接字符串</param>
         /// <param name="spName">存储过程名称</param>
+        /// <param name="tableIndex"></param>
         /// <param name="parameterValues">参数</param>
         /// <returns>数据表</returns>
-        DataTable ExecuteDataTable(string connectionString, string spName, params object[] parameterValues);
+        DataTable ExecuteDataTable(string connectionString, string spName, int tableIndex = 0, params object[] parameterValues);
 
         /// <summary>
         /// 执行命令,返回数据表对象
@@ -323,8 +327,9 @@ namespace Materal.DBHelper
         /// <param name="connection">连接对象</param>
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
+        /// <param name="tableIndex"></param>
         /// <returns>数据表</returns>
-        DataTable ExecuteDataTable(TConnection connection, CommandType commandType, string commandText);
+        DataTable ExecuteDataTable(TConnection connection, CommandType commandType, string commandText, int tableIndex = 0);
 
         /// <summary>
         /// 执行命令,返回数据表对象
@@ -332,18 +337,19 @@ namespace Materal.DBHelper
         /// <param name="connection">连接对象</param>
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
+        /// <param name="tableIndex"></param>
         /// <param name="commandParameters">命令参数</param>
-        DataTable ExecuteDataTable(TConnection connection, CommandType commandType, string commandText,
-            params TParams[] commandParameters);
+        DataTable ExecuteDataTable(TConnection connection, CommandType commandType, string commandText, int tableIndex = 0, params TParams[] commandParameters);
 
         /// <summary>
         /// 执行命令,返回数据表对象
         /// </summary>
         /// <param name="connection">连接对象</param>
         /// <param name="spName">存储过程名称</param>
+        /// <param name="tableIndex"></param>
         /// <param name="parameterValues">参数</param>
         /// <returns>数据表</returns>
-        DataTable ExecuteDataTable(TConnection connection, string spName, params object[] parameterValues);
+        DataTable ExecuteDataTable(TConnection connection, string spName, int tableIndex = 0, params object[] parameterValues);
 
         /// <summary>
         /// 执行命令,返回数据表对象
@@ -351,8 +357,9 @@ namespace Materal.DBHelper
         /// <param name="transaction">事务对象</param>
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
+        /// <param name="tableIndex"></param>
         /// <returns>数据表</returns>
-        DataTable ExecuteDataTable(TTransaction transaction, CommandType commandType, string commandText);
+        DataTable ExecuteDataTable(TTransaction transaction, CommandType commandType, string commandText, int tableIndex = 0);
 
         /// <summary>
         /// 执行命令,返回数据表对象
@@ -360,18 +367,137 @@ namespace Materal.DBHelper
         /// <param name="transaction">事务对象</param>
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
+        /// <param name="tableIndex"></param>
         /// <param name="commandParameters">命令参数</param>
-        DataTable ExecuteDataTable(TTransaction transaction, CommandType commandType, string commandText,
-            params TParams[] commandParameters);
+        DataTable ExecuteDataTable(TTransaction transaction, CommandType commandType, string commandText, int tableIndex = 0, params TParams[] commandParameters);
 
         /// <summary>
         /// 执行命令,返回数据表对象
         /// </summary>
         /// <param name="transaction">事务对象</param>
         /// <param name="spName">存储过程名称</param>
+        /// <param name="tableIndex"></param>
         /// <param name="parameterValues">参数</param>
         /// <returns>数据表</returns>
-        DataTable ExecuteDataTable(TTransaction transaction, string spName, params object[] parameterValues);
+        DataTable ExecuteDataTable(TTransaction transaction, string spName, int tableIndex = 0, params object[] parameterValues);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="commandText">命令文本</param>
+        /// <param name="tableName"></param>
+        /// <returns>数据表</returns>
+        DataTable ExecuteDataTable(CommandType commandType, string commandText, string tableName);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="commandText">命令文本</param>
+        /// <param name="tableName"></param>
+        /// <param name="commandParameters">命令参数</param>
+        /// <returns>数据表</returns>
+        DataTable ExecuteDataTable(CommandType commandType, string commandText, string tableName, params TParams[] commandParameters);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="spName">存储过程名称</param>
+        /// <param name="tableName"></param>
+        /// <param name="parameterValues">参数</param>
+        /// <returns>数据表</returns>
+        DataTable ExecuteDataTable(string spName, string tableName, params object[] parameterValues);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="commandText">命令文本</param>
+        /// <param name="tableName"></param>
+        /// <returns>数据表</returns>
+        DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText, string tableName);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="commandText">命令文本</param>
+        /// <param name="tableName"></param>
+        /// <param name="commandParameters">命令参数</param>
+        DataTable ExecuteDataTable(string connectionString, CommandType commandType, string commandText, string tableName, params TParams[] commandParameters);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        /// <param name="spName">存储过程名称</param>
+        /// <param name="tableName"></param>
+        /// <param name="parameterValues">参数</param>
+        /// <returns>数据表</returns>
+        DataTable ExecuteDataTable(string connectionString, string spName, string tableName, params object[] parameterValues);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="connection">连接对象</param>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="commandText">命令文本</param>
+        /// <param name="tableName"></param>
+        /// <returns>数据表</returns>
+        DataTable ExecuteDataTable(TConnection connection, CommandType commandType, string commandText, string tableName);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="connection">连接对象</param>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="commandText">命令文本</param>
+        /// <param name="tableName"></param>
+        /// <param name="commandParameters">命令参数</param>
+        DataTable ExecuteDataTable(TConnection connection, CommandType commandType, string commandText, string tableName, params TParams[] commandParameters);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="connection">连接对象</param>
+        /// <param name="spName">存储过程名称</param>
+        /// <param name="tableName"></param>
+        /// <param name="parameterValues">参数</param>
+        /// <returns>数据表</returns>
+        DataTable ExecuteDataTable(TConnection connection, string spName, string tableName, params object[] parameterValues);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="transaction">事务对象</param>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="commandText">命令文本</param>
+        /// <param name="tableName"></param>
+        /// <returns>数据表</returns>
+        DataTable ExecuteDataTable(TTransaction transaction, CommandType commandType, string commandText, string tableName);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="transaction">事务对象</param>
+        /// <param name="commandType">命令类型</param>
+        /// <param name="commandText">命令文本</param>
+        /// <param name="tableName"></param>
+        /// <param name="commandParameters">命令参数</param>
+        DataTable ExecuteDataTable(TTransaction transaction, CommandType commandType, string commandText, string tableName, params TParams[] commandParameters);
+
+        /// <summary>
+        /// 执行命令,返回数据表对象
+        /// </summary>
+        /// <param name="transaction">事务对象</param>
+        /// <param name="spName">存储过程名称</param>
+        /// <param name="tableName"></param>
+        /// <param name="parameterValues">参数</param>
+        /// <returns>数据表</returns>
+        DataTable ExecuteDataTable(TTransaction transaction, string spName, string tableName, params object[] parameterValues);
 
         #endregion
 
