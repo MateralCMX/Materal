@@ -42,27 +42,6 @@ namespace Materal.ConfigurationHelper
         /// <summary>
         /// 设置值
         /// </summary>
-        /// <param name="provider"></param>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        public static void SetValue(this IConfigurationProvider provider, string key, string value)
-        {
-            if (provider is JsonConfigurationProvider jsonProvider)
-            {
-                var configurationProvider = new MateralJsonConfigurationProvider(jsonProvider);
-                configurationProvider.Load();
-                configurationProvider.Set(key, value);
-                configurationProvider.Save();
-            }
-            /*
-             * todo:其它配置类型
-             */
-            provider.Load();
-        }
-
-        /// <summary>
-        /// 设置值
-        /// </summary>
         /// <param name="configuration"></param>
         /// <param name="key"></param>
         /// <param name="value"></param>
@@ -71,7 +50,17 @@ namespace Materal.ConfigurationHelper
             if (!(configuration is ConfigurationRoot configurationRoot)) return;
             foreach (IConfigurationProvider provider in configurationRoot.Providers)
             {
-                SetValue(provider, key, value);
+                if (provider is JsonConfigurationProvider jsonProvider)
+                {
+                    var configurationProvider = new MateralJsonConfigurationProvider(jsonProvider);
+                    configurationProvider.Load();
+                    configurationProvider.Set(key, value);
+                    configurationProvider.Save();
+                }
+                /*
+                 * todo:其它配置类型
+                 */
+                provider.Load();
             }
         }
     }

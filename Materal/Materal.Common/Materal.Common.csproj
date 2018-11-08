@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.5</Version>
+    <Version>0.0.9</Version>
     <Description>Materal公共类库</Description>
     <PackageReleaseNotes>1、修改-分页模型中uint为int</PackageReleaseNotes>
     <Authors>Materal</Authors>

@@ -1,5 +1,6 @@
 ﻿using Materal.ConfigurationHelper;
 using System;
+using Materal.StringHelper;
 
 namespace Materal.ConsoleUI
 {
@@ -7,15 +8,10 @@ namespace Materal.ConsoleUI
     {
         static void Main()
         {
-            try
-            {
-                int[] a = new int[2];
-                int b = a[5];
-            }
-            catch (Exception ex)
-            {
-
-            }
+            var a = new UrlAndPortModel("http://www.baidu.com");
+            a = new UrlAndPortModel("http://www.baidu.com:3096");
+            a = new UrlAndPortModel("http://127.0.0.1");
+            a = new UrlAndPortModel("http://127.0.0.1:3096");
         }
     }
 }
