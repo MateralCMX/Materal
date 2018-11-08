@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Materal.DBHelper
 {
-    public class SqlServerDBHelper : IDBHelper<SqlConnection, SqlCommand, SqlParameter, SqlTransaction>
+    public class SqlServerHelper : IDBHelper<SqlConnection, SqlCommand, SqlParameter, SqlTransaction>
     {
         /// <summary>
         /// 连接字符串
