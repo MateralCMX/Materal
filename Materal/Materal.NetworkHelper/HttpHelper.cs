@@ -13,7 +13,7 @@ namespace Materal.NetworkHelper
     public class HttpHelper
     {
         /// <summary>
-        /// 发送Get请求
+        /// 发送请求
         /// </summary>
         /// <param name="url">url地址</param>
         /// <param name="type"></param>
@@ -24,8 +24,7 @@ namespace Materal.NetworkHelper
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MateralHttpException"></exception>
-        private static async Task<string> SendAsync(string url, HttpMethodType type = HttpMethodType.Get, object data = null,
-            Dictionary<string, string> heads = null, Encoding encoding = null)
+        private static string Send(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url), "Url地址不能为空");
             if (!url.IsUrl()) throw new ArgumentException("Url地址错误", nameof(url));
@@ -40,6 +39,151 @@ namespace Materal.NetworkHelper
                 Method = new HttpMethod(type.ToString()),
                 RequestUri = new Uri(url),
                 Content = content
+            };
+            if (heads != null)
+            {
+                foreach (KeyValuePair<string, string> item in heads)
+                {
+                    httpRequestMessage.Headers.TryAddWithoutValidation(item.Key, item.Value);
+                    httpRequestMessage.Content.Headers.TryAddWithoutValidation(item.Key, item.Value);
+                }
+            }
+            HttpResponseMessage httpResponseMessage = client.SendAsync(httpRequestMessage).Result;
+            byte[] resultBytes = httpResponseMessage.Content.ReadAsByteArrayAsync().Result;
+            string result = encoding.GetString(resultBytes);
+            if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
+                throw new MateralHttpException(httpResponseMessage.StatusCode, result);
+            return result;
+        }
+        /// <summary>
+        /// 发送Get请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="data">参数字典</param>
+        /// <param name="heads">heads</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        public static string SendGet(string url, Dictionary<string, string> data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        {
+            url = SpliceUrlParams(url, data);
+            return Send(url, HttpMethodType.Get, null, heads, encoding);
+        }
+        /// <summary>
+        /// 发送Get请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="data">参数字典</param>
+        /// <param name="heads">heads</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        public static T SendGet<T>(string url, Dictionary<string, string> data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        {
+            string result = SendGet(url, data, heads, encoding);
+            return result.JsonToObject<T>();
+        }
+        /// <summary>
+        /// 发送Post请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="data"></param>
+        /// <param name="heads"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static string SendPost(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        {
+            return Send(url, HttpMethodType.Post, data, heads, encoding);
+        }
+        /// <summary>
+        /// 发送Post请求
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <param name="heads"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static T SendPost<T>(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        {
+            string result = SendPost(url, data, heads, encoding);
+            return result.JsonToObject<T>();
+        }
+        /// <summary>
+        /// 发送Put请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="data"></param>
+        /// <param name="heads"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static string SendPut(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        {
+            return Send(url, HttpMethodType.Put, data, heads, encoding);
+        }
+        /// <summary>
+        /// 发送Put请求
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <param name="heads"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static T SendPut<T>(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        {
+            string result = SendPut(url, data, heads, encoding);
+            return result.JsonToObject<T>();
+        }
+        /// <summary>
+        /// 发送Delete请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="data"></param>
+        /// <param name="heads"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static string SendDelete(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        {
+            return Send(url, HttpMethodType.Delete, data, heads, encoding);
+        }
+        /// <summary>
+        /// 发送Delete请求
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <param name="heads"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static T SendDelete<T>(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        {
+            string result = SendDelete(url, data, heads, encoding);
+            return result.JsonToObject<T>();
+        }
+        /// <summary>
+        /// 发送请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="type"></param>
+        /// <param name="data">参数字典</param>
+        /// <param name="heads">heads</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        private static async Task<string> SendAsync(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        {
+            if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url), "Url地址不能为空");
+            if (!url.IsUrl()) throw new ArgumentException("Url地址错误", nameof(url));
+            if (encoding == null) encoding = Encoding.UTF8;
+            if (data == null) data = string.Empty;
+            var handler = new HttpClientHandler();
+            var client = new HttpClient(handler);
+            var ms = new MemoryStream();
+            HttpContent content = GetHttpContentByFormDataBytes(ms, data);
+            var httpRequestMessage = new HttpRequestMessage()
+            {
+                Method = new HttpMethod(type.ToString()),     RequestUri = new Uri(url),     Content = content
             };
             if (heads != null)
             {
@@ -64,8 +208,7 @@ namespace Materal.NetworkHelper
         /// <param name="heads">heads</param>
         /// <param name="encoding">字符集</param>
         /// <returns></returns>
-        public static async Task<string> SendGetAsync(string url, Dictionary<string, string> data = null,
-            Dictionary<string, string> heads = null, Encoding encoding = null)
+        public static async Task<string> SendGetAsync(string url, Dictionary<string, string> data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             url = SpliceUrlParams(url, data);
             return await SendAsync(url, HttpMethodType.Get, null, heads, encoding);
@@ -78,8 +221,7 @@ namespace Materal.NetworkHelper
         /// <param name="heads">heads</param>
         /// <param name="encoding">字符集</param>
         /// <returns></returns>
-        public static async Task<T> SendGetAsync<T>(string url, Dictionary<string, string> data = null,
-            Dictionary<string, string> heads = null, Encoding encoding = null)
+        public static async Task<T> SendGetAsync<T>(string url, Dictionary<string, string> data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             string result = await SendGetAsync(url, data, heads, encoding);
             return result.JsonToObject<T>();
@@ -92,8 +234,7 @@ namespace Materal.NetworkHelper
         /// <param name="heads"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task<string> SendPostAsync(string url, object data = null,
-            Dictionary<string, string> heads = null, Encoding encoding = null)
+        public static async Task<string> SendPostAsync(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             return await SendAsync(url, HttpMethodType.Post, data, heads, encoding);
         }
@@ -106,8 +247,7 @@ namespace Materal.NetworkHelper
         /// <param name="heads"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task<T> SendPostAsync<T>(string url, object data = null,
-            Dictionary<string, string> heads = null, Encoding encoding = null)
+        public static async Task<T> SendPostAsync<T>(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             string result = await SendPostAsync(url, data, heads, encoding);
             return result.JsonToObject<T>();
@@ -120,8 +260,7 @@ namespace Materal.NetworkHelper
         /// <param name="heads"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task<string> SendPutAsync(string url, object data = null,
-            Dictionary<string, string> heads = null, Encoding encoding = null)
+        public static async Task<string> SendPutAsync(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             return await SendAsync(url, HttpMethodType.Put, data, heads, encoding);
         }
@@ -134,8 +273,7 @@ namespace Materal.NetworkHelper
         /// <param name="heads"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task<T> SendPutAsync<T>(string url, object data = null,
-            Dictionary<string, string> heads = null, Encoding encoding = null)
+        public static async Task<T> SendPutAsync<T>(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             string result = await SendPutAsync(url, data, heads, encoding);
             return result.JsonToObject<T>();
@@ -148,8 +286,7 @@ namespace Materal.NetworkHelper
         /// <param name="heads"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task<string> SendDeleteAsync(string url, object data = null,
-            Dictionary<string, string> heads = null, Encoding encoding = null)
+        public static async Task<string> SendDeleteAsync(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             return await SendAsync(url, HttpMethodType.Delete, data, heads, encoding);
         }
@@ -162,8 +299,7 @@ namespace Materal.NetworkHelper
         /// <param name="heads"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task<T> SendDeleteAsync<T>(string url, object data = null,
-            Dictionary<string, string> heads = null, Encoding encoding = null)
+        public static async Task<T> SendDeleteAsync<T>(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             string result = await SendDeleteAsync(url, data, heads, encoding);
             return result.JsonToObject<T>();
