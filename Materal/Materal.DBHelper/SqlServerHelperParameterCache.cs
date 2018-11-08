@@ -11,11 +11,7 @@ namespace Materal.DBHelper
     public static class SqlServerHelperParameterCache
     {
         #region 私有方法,字段,构造函数   
-        // 私有构造函数,妨止类被实例化.   
-
-        // 这个方法要注意   
-        private static Hashtable paramCache = Hashtable.Synchronized(new Hashtable());
-
+        private static readonly Hashtable ParamCache = Hashtable.Synchronized(new Hashtable());
         /// <summary>   
         /// 探索运行时的存储过程,返回SqlParameter参数数组.   
         /// 初始化参数值为 DBNull.Value.   
@@ -26,28 +22,18 @@ namespace Materal.DBHelper
         /// <returns>返回SqlParameter参数数组</returns>   
         private static SqlParameter[] DiscoverSpParameterSet(SqlConnection connection, string spName, bool includeReturnValueParameter)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            if (spName == null || spName.Length == 0) throw new ArgumentNullException("spName");
-
-            SqlCommand cmd = new SqlCommand(spName, connection);
-            cmd.CommandType = CommandType.StoredProcedure;
-
-            connection.Open();
-            // 检索cmd指定的存储过程的参数信息,并填充到cmd的Parameters参数集中.   
+            if (connection == null) throw new ArgumentNullException(nameof(connection));
+            if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
+            var cmd = new SqlCommand(spName, connection) {CommandType = CommandType.StoredProcedure};
+            connection.Open();  
             SqlCommandBuilder.DeriveParameters(cmd);
             connection.Close();
-            // 如果不包含返回值参数,将参数集中的每一个参数删除.   
             if (!includeReturnValueParameter)
             {
                 cmd.Parameters.RemoveAt(0);
-            }
-
-            // 创建参数数组   
-            SqlParameter[] discoveredParameters = new SqlParameter[cmd.Parameters.Count];
-            // 将cmd的Parameters参数集复制到discoveredParameters数组.   
+            } 
+            var discoveredParameters = new SqlParameter[cmd.Parameters.Count];
             cmd.Parameters.CopyTo(discoveredParameters, 0);
-
-            // 初始化参数值为 DBNull.Value.   
             foreach (SqlParameter discoveredParameter in discoveredParameters)
             {
                 discoveredParameter.Value = DBNull.Value;
@@ -62,13 +48,11 @@ namespace Materal.DBHelper
         /// <returns>返回一个同样的参数数组</returns>   
         private static SqlParameter[] CloneParameters(SqlParameter[] originalParameters)
         {
-            SqlParameter[] clonedParameters = new SqlParameter[originalParameters.Length];
-
+            var clonedParameters = new SqlParameter[originalParameters.Length];
             for (int i = 0, j = originalParameters.Length; i < j; i++)
             {
                 clonedParameters[i] = (SqlParameter)((ICloneable)originalParameters[i]).Clone();
             }
-
             return clonedParameters;
         }
 
@@ -84,12 +68,10 @@ namespace Materal.DBHelper
         /// <param name="commandParameters">要缓存的参数数组</param>   
         public static void CacheParameterSet(string connectionString, string commandText, params SqlParameter[] commandParameters)
         {
-            if (connectionString == null || connectionString.Length == 0) throw new ArgumentNullException("connectionString");
-            if (commandText == null || commandText.Length == 0) throw new ArgumentNullException("commandText");
-
+            if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException(nameof(connectionString));
+            if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException(nameof(commandText));
             string hashKey = connectionString + ":" + commandText;
-
-            paramCache[hashKey] = commandParameters;
+            ParamCache[hashKey] = commandParameters;
         }
 
         /// <summary>   
@@ -100,20 +82,10 @@ namespace Materal.DBHelper
         /// <returns>参数数组</returns>   
         public static SqlParameter[] GetCachedParameterSet(string connectionString, string commandText)
         {
-            if (connectionString == null || connectionString.Length == 0) throw new ArgumentNullException("connectionString");
-            if (commandText == null || commandText.Length == 0) throw new ArgumentNullException("commandText");
-
+            if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException(nameof(connectionString));
+            if (string.IsNullOrEmpty(commandText)) throw new ArgumentNullException(nameof(commandText));
             string hashKey = connectionString + ":" + commandText;
-
-            SqlParameter[] cachedParameters = paramCache[hashKey] as SqlParameter[];
-            if (cachedParameters == null)
-            {
-                return null;
-            }
-            else
-            {
-                return CloneParameters(cachedParameters);
-            }
+            return ParamCache[hashKey] is SqlParameter[] cachedParameters ? CloneParameters(cachedParameters) : null;
         }
 
         #endregion 缓存方法结束  
@@ -146,10 +118,9 @@ namespace Materal.DBHelper
         /// <returns>返回SqlParameter参数数组</returns>   
         public static SqlParameter[] GetSpParameterSet(string connectionString, string spName, bool includeReturnValueParameter)
         {
-            if (connectionString == null || connectionString.Length == 0) throw new ArgumentNullException("connectionString");
-            if (spName == null || spName.Length == 0) throw new ArgumentNullException("spName");
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            if (string.IsNullOrEmpty(connectionString)) throw new ArgumentNullException(nameof(connectionString));
+            if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
+            using (var connection = new SqlConnection(connectionString))
             {
                 return GetSpParameterSetInternal(connection, spName, includeReturnValueParameter);
             }
@@ -183,8 +154,8 @@ namespace Materal.DBHelper
         /// <returns>返回SqlParameter参数数组</returns>   
         internal static SqlParameter[] GetSpParameterSet(SqlConnection connection, string spName, bool includeReturnValueParameter)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            using (SqlConnection clonedConnection = (SqlConnection)((ICloneable)connection).Clone())
+            if (connection == null) throw new ArgumentNullException(nameof(connection));
+            using (var clonedConnection = (SqlConnection)((ICloneable)connection).Clone())
             {
                 return GetSpParameterSetInternal(clonedConnection, spName, includeReturnValueParameter);
             }
@@ -199,21 +170,13 @@ namespace Materal.DBHelper
         /// <returns>返回SqlParameter参数数组</returns>   
         private static SqlParameter[] GetSpParameterSetInternal(SqlConnection connection, string spName, bool includeReturnValueParameter)
         {
-            if (connection == null) throw new ArgumentNullException("connection");
-            if (spName == null || spName.Length == 0) throw new ArgumentNullException("spName");
-
+            if (connection == null) throw new ArgumentNullException(nameof(connection));
+            if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
             string hashKey = connection.ConnectionString + ":" + spName + (includeReturnValueParameter ? ":include ReturnValue Parameter" : "");
-
-            SqlParameter[] cachedParameters;
-
-            cachedParameters = paramCache[hashKey] as SqlParameter[];
-            if (cachedParameters == null)
-            {
-                SqlParameter[] spParameters = DiscoverSpParameterSet(connection, spName, includeReturnValueParameter);
-                paramCache[hashKey] = spParameters;
-                cachedParameters = spParameters;
-            }
-
+            if (ParamCache[hashKey] is SqlParameter[] cachedParameters) return CloneParameters(cachedParameters);
+            SqlParameter[] spParameters = DiscoverSpParameterSet(connection, spName, includeReturnValueParameter);
+            ParamCache[hashKey] = spParameters;
+            cachedParameters = spParameters;
             return CloneParameters(cachedParameters);
         }
 
