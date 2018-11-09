@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Materal.ConfigurationHelper\Materal.ConfigurationHelper.csproj" />
     <ProjectReference Include="..\Materal.FileHelper\Materal.FileHelper.csproj" />
+    <ProjectReference Include="..\Materal.NetworkHelper\Materal.NetworkHelper.csproj" />
     <ProjectReference Include="..\Materal.StringHelper\Materal.StringHelper.csproj" />
     <ProjectReference Include="..\Materal.WindowsHelper\Materal.WindowsHelper.csproj" />
   </ItemGroup>

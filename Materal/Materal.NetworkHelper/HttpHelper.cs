@@ -1,4 +1,5 @@
-﻿using Materal.StringHelper;
+﻿using Materal.ConvertHelper;
+using Materal.StringHelper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +7,6 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Materal.ConvertHelper;
 
 namespace Materal.NetworkHelper
 {
@@ -29,23 +29,24 @@ namespace Materal.NetworkHelper
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url), "Url地址不能为空");
             if (!url.IsUrl()) throw new ArgumentException("Url地址错误", nameof(url));
             if (encoding == null) encoding = Encoding.UTF8;
-            if (data == null) data = string.Empty;
             var handler = new HttpClientHandler();
             var client = new HttpClient(handler);
             var ms = new MemoryStream();
-            HttpContent content = GetHttpContentByFormDataBytes(ms, data);
-            var httpRequestMessage = new HttpRequestMessage()
+            var httpRequestMessage = new HttpRequestMessage
             {
                 Method = new HttpMethod(type.ToString()),
-                RequestUri = new Uri(url),
-                Content = content
+                RequestUri = new Uri(url)
             };
+            if (data != null)
+            {
+                httpRequestMessage.Content = GetHttpContentByFormDataBytes(ms, data);
+            }
             if (heads != null)
             {
                 foreach (KeyValuePair<string, string> item in heads)
                 {
                     httpRequestMessage.Headers.TryAddWithoutValidation(item.Key, item.Value);
-                    httpRequestMessage.Content.Headers.TryAddWithoutValidation(item.Key, item.Value);
+                    httpRequestMessage.Content?.Headers.TryAddWithoutValidation(item.Key, item.Value);
                 }
             }
             HttpResponseMessage httpResponseMessage = client.SendAsync(httpRequestMessage).Result;
@@ -176,21 +177,24 @@ namespace Materal.NetworkHelper
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url), "Url地址不能为空");
             if (!url.IsUrl()) throw new ArgumentException("Url地址错误", nameof(url));
             if (encoding == null) encoding = Encoding.UTF8;
-            if (data == null) data = string.Empty;
             var handler = new HttpClientHandler();
             var client = new HttpClient(handler);
             var ms = new MemoryStream();
-            HttpContent content = GetHttpContentByFormDataBytes(ms, data);
             var httpRequestMessage = new HttpRequestMessage()
             {
-                Method = new HttpMethod(type.ToString()),     RequestUri = new Uri(url),     Content = content
+                Method = new HttpMethod(type.ToString()),
+                RequestUri = new Uri(url),
             };
+            if (data != null)
+            {
+                httpRequestMessage.Content = GetHttpContentByFormDataBytes(ms, data);
+            }
             if (heads != null)
             {
                 foreach (KeyValuePair<string, string> item in heads)
                 {
                     httpRequestMessage.Headers.TryAddWithoutValidation(item.Key, item.Value);
-                    httpRequestMessage.Content.Headers.TryAddWithoutValidation(item.Key, item.Value);
+                    httpRequestMessage.Content?.Headers.TryAddWithoutValidation(item.Key, item.Value);
                 }
             }
             HttpResponseMessage httpResponseMessage = await client.SendAsync(httpRequestMessage);
