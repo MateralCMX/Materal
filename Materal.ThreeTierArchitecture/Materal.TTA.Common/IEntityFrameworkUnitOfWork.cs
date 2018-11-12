@@ -1,6 +1,8 @@
-﻿namespace Materal.TTA.Common
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Materal.TTA.Common
 {
-    public interface IEntityFrameworkUnitOfWork : IUnitOfWork
+    public interface IEntityFrameworkUnitOfWork<in T> : IUnitOfWork where T: DbContext
     {
     }
 }
