@@ -5,7 +5,7 @@ namespace Materal.TTA.SqlServerRepository
     /// <summary>
     /// SqlServer仓储
     /// </summary>
-    public interface ISqlServerRepository<T,in TPrimaryKeyType> : IEntityFrameworkRepository<T, TPrimaryKeyType>
+    public interface ISqlServerRepository<T,in TPrimaryKeyType> : IEntityFrameworkRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
     {
     }
 }

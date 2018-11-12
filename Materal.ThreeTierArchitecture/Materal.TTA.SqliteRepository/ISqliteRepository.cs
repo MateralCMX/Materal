@@ -5,7 +5,7 @@ namespace Materal.TTA.SqliteRepository
     /// <summary>
     /// Sqlite仓储
     /// </summary>
-    public interface ISqliteRepository<T,in TPrimaryKeyType> : IEntityFrameworkRepository<T, TPrimaryKeyType>
+    public interface ISqliteRepository<T,in TPrimaryKeyType> : IEntityFrameworkRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
     {
     }
 }

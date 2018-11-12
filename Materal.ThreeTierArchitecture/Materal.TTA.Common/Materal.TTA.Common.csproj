@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Materal.ThreeTierArchitecture.Common</PackageId>
+    <Product>Materal.ThreeTierArchitecture</Product>
+    <Company>Materal</Company>
+    <Authors>Materal</Authors>
+    <Version>0.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>
