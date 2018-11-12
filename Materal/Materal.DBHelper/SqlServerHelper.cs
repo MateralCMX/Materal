@@ -15,6 +15,34 @@ namespace Materal.DBHelper
 
         private static SqlConnection _sqlConnection;
 
+        public bool ConnectionTest()
+        {
+            return ConnectionTest(GetDBConnection());
+        }
+
+        public bool ConnectionTest(string connectionString)
+        {
+            return ConnectionTest(GetDBConnection(connectionString));
+        }
+
+        public bool ConnectionTest(SqlConnection connection)
+        {
+            if (connection == null) throw new ArgumentNullException(nameof(connection));
+            try
+            {
+                connection.Open();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
         public void SetDBConnection(string connectionString)
         {
             _connectionString = connectionString;

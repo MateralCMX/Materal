@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{E6641727-5571-4537-94C8-4B2A00BB3E1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.DotNetty.ClientDemo", "Materal.DotNetty.ClientDemo\Materal.DotNetty.ClientDemo.csproj", "{1827BEC3-9365-40E3-A038-F1AFB135A8C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.DotNetty.ServerDome", "Materal.DotNetty.ServerDome\Materal.DotNetty.ServerDome.csproj", "{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1827BEC3-9365-40E3-A038-F1AFB135A8C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1827BEC3-9365-40E3-A038-F1AFB135A8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1827BEC3-9365-40E3-A038-F1AFB135A8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1827BEC3-9365-40E3-A038-F1AFB135A8C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1827BEC3-9365-40E3-A038-F1AFB135A8C8} = {E6641727-5571-4537-94C8-4B2A00BB3E1E}
+		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E} = {E6641727-5571-4537-94C8-4B2A00BB3E1E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {718ED6B6-C54A-46E5-8137-3681A2AE6A6D}
+	EndGlobalSection
+EndGlobal

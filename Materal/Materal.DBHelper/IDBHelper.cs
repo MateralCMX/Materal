@@ -5,6 +5,27 @@ namespace Materal.DBHelper
 {
     public interface IDBHelper<TConnection, TCommand, in TParams, in TTransaction> where TConnection : IDbConnection where TCommand : IDbCommand where TParams : IDbDataParameter where TTransaction : IDbTransaction
     {
+        #region ConnectionTest
+        /// <summary>
+        /// 链接测试
+        /// </summary>
+        /// <returns>测试结果</returns>
+        bool ConnectionTest();
+
+        /// <summary>
+        /// 链接测试
+        /// </summary>
+        /// <param name="connectionString">连接字符串</param>
+        /// <returns>测试结果</returns>
+        bool ConnectionTest(string connectionString);
+
+        /// <summary>
+        /// 链接测试
+        /// </summary>
+        /// <param name="connection">连接对象</param>
+        /// <returns>测试结果</returns>
+        bool ConnectionTest(TConnection connection);
+        #endregion
         #region SetDbConnection
 
         /// <summary>
@@ -1582,6 +1603,5 @@ namespace Materal.DBHelper
         TCommand CreateCommand(TConnection connection, string spName, params string[] sourceColumns);
 
         #endregion
-
     }
 }
