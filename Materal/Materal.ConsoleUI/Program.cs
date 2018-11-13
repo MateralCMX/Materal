@@ -1,27 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Timers;
 using Materal.NetworkHelper;
 
 namespace Materal.ConsoleUI
 {
     internal class Program
     {
-        static void Main()
+        private static readonly Timer _timer = new Timer(10);
+        public static void Main()
         {
-            Task.Run(async () => { await Init(); });
+            _timer.Elapsed += _timer_Elapsed;
+            _timer.Start();
+            //Task.Run(async () => { await Init(); });
             Console.ReadKey();
         }
 
-        public static async Task Init()
+        private static void _timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            var data = new Dictionary<string, string>
+            Task.WaitAll(InitAsync());
+        }
+
+        public static async Task InitAsync()
+        {
+            try
             {
-                ["key"] = "be13b619c6b775c29a49294cbad4d8d2",
-                ["locations"] = "102.667131,25.052108|102.655771,25.059705|102.716076,25.010839",
-                ["coordsys"] = "gps"
-            };
-            string httpResult = await HttpHelper.SendGetAsync("https://restapi.amap.com/v3/assistant/coordinate/convert", data);
+                int a = 0;
+                int b = 1;
+                int c = b / a;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
