@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageId>Materal.ThreeTierArchitecture.Common</PackageId>
+    <PackageId>Materal.TTA.Common</PackageId>
     <Product>Materal.ThreeTierArchitecture</Product>
     <Company>Materal</Company>
     <Authors>Materal</Authors>
-    <Version>0.0.4</Version>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

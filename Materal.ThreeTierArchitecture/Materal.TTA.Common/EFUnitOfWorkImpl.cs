@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Materal.TTA.Common
 {
-    public class EntityFrameworkUnitOfWorkImpl<T> : IEntityFrameworkUnitOfWork<T> where T: DbContext
+    public class EFUnitOfWorkImpl<T> : IEFUnitOfWork<T> where T: DbContext
     {
         private T _dbContext;
-        public EntityFrameworkUnitOfWorkImpl(T context)
+        public EFUnitOfWorkImpl(T context)
         {
             _dbContext = context;
         }
