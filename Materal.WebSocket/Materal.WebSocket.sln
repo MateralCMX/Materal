@@ -5,9 +5,11 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{E6641727-5571-4537-94C8-4B2A00BB3E1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.DotNetty.ClientDemo", "Materal.DotNetty.ClientDemo\Materal.DotNetty.ClientDemo.csproj", "{1827BEC3-9365-40E3-A038-F1AFB135A8C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.ClientDemo", "Materal.DotNetty.ClientDemo\Materal.DotNetty.ClientDemo.csproj", "{1827BEC3-9365-40E3-A038-F1AFB135A8C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.DotNetty.ServerDome", "Materal.DotNetty.ServerDome\Materal.DotNetty.ServerDome.csproj", "{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.ServerDome", "Materal.DotNetty.ServerDome\Materal.DotNetty.ServerDome.csproj", "{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.DotNetty.Client", "Materal.DotNetty.Client\Materal.DotNetty.Client.csproj", "{942D5DE8-033C-4D2E-8176-EBB28DC48AE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{942D5DE8-033C-4D2E-8176-EBB28DC48AE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{942D5DE8-033C-4D2E-8176-EBB28DC48AE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{942D5DE8-033C-4D2E-8176-EBB28DC48AE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{942D5DE8-033C-4D2E-8176-EBB28DC48AE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
