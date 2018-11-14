@@ -13,9 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TestClient.CommandHandlers\TestClient.CommandHandlers.csproj" />
-    <ProjectReference Include="..\TestClient.Common\TestClient.Common.csproj" />
-    <ProjectReference Include="..\TestClient.EventHandlers\TestClient.EventHandlers.csproj" />
     <ProjectReference Include="..\TestClient.WebSocketClient\TestClient.WebSocketClient.csproj" />
   </ItemGroup>
 
