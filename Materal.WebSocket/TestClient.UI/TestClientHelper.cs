@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
-using TestClient.WebStockClient;
+using TestClient.WebSocketClient;
 
 namespace TestClient.UI
 {
@@ -18,7 +18,7 @@ namespace TestClient.UI
             Services = new ServiceCollection();
             Services.AddCommandBus(Assembly.Load("TestClient.CommandHandlers"));
             Services.AddEventBus(Assembly.Load("TestClient.EventHandlers"));
-            Services.AddSingleton<ITestClientClient, TestClientClientImpl>();
+            Services.AddSingleton<ITestWebSocketClient, TestWebSocketClientImpl>();
         }
         /// <summary>
         /// Bulid服务

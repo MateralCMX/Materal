@@ -1,10 +1,10 @@
-﻿using Materal.WebSocket;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Materal.WebSocket;
 using TestClient.Events;
 
-namespace TestClient.WebStockClient
+namespace TestClient.WebSocketClient
 {
-    public interface ITestClientClient : IClient
+    public interface ITestWebSocketClient : IWebSocketClient
     {
         /// <summary>
         /// 处理消息

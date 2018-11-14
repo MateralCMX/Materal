@@ -3,7 +3,7 @@ using System;
 
 namespace TestClient.Events
 {
-    public class TestClientEventException : EventException
+    public class TestClientEventException : MateralWebSocketEventException
     {
         public TestClientEventException()
         {

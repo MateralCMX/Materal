@@ -17,6 +17,6 @@ namespace Materal.WebSocket.Model
         /// <summary>
         /// 状态
         /// </summary>
-        public ClientStateEnum State { get; set; }
+        public WebSocketClientStateEnum State { get; set; }
     }
 }

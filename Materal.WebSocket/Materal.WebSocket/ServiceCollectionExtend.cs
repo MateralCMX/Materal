@@ -16,9 +16,9 @@ namespace Materal.WebSocket
         public static void AddCommandBus(this IServiceCollection services, params Assembly[] assemblies)
         {
             services.AddSingleton<ICommandBus, CommandBusImpl>();
-            services.AddWebStockClientCommandHandlersSingleton(assemblies);
+            services.AddCommandHandlersSingleton(assemblies);
         }
-        public static void AddWebStockClientCommandHandlersSingleton(this IServiceCollection services, params Assembly[] assemblies)
+        public static void AddCommandHandlersSingleton(this IServiceCollection services, params Assembly[] assemblies)
         {
             var commandHandlerTypes = new List<Type>();
             foreach (Assembly item in assemblies)
@@ -47,9 +47,9 @@ namespace Materal.WebSocket
         public static void AddEventBus(this IServiceCollection services, params Assembly[] assemblies)
         {
             services.AddSingleton<IEventBus, EventBusImpl>();
-            services.AddWebStockClientEventHandlersSingleton(assemblies);
+            services.AddEventHandlersSingleton(assemblies);
         }
-        public static void AddWebStockClientEventHandlersSingleton(this IServiceCollection services, params Assembly[] assemblies)
+        public static void AddEventHandlersSingleton(this IServiceCollection services, params Assembly[] assemblies)
         {
             var commandHandlerTypes = new List<Type>();
             foreach (Assembly item in assemblies)

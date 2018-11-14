@@ -27,7 +27,7 @@ namespace Materal.WebSocket.EventHandlers
                     return item;
                 }
             }
-            throw new EventHandlerException($"未找到处理器{handlerName}");
+            throw new MateralWebSocketEventHandlerException($"未找到处理器{handlerName}");
         }
     }
 }

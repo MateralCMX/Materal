@@ -3,7 +3,7 @@ using System;
 
 namespace Materal.WebSocket.CommandHandlers.Model
 {
-    public class CommandHandlerException : WebStockException
+    public class CommandHandlerException : MateralWebSocketException
     {
         public CommandHandlerException()
         {

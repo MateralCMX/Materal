@@ -1,17 +1,18 @@
-﻿using Materal.WebSocket;
-using Materal.WebSocket.Events;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Materal.WebSocket;
+using Materal.WebSocket.Events;
+using Materal.WebSocket.Model;
+using Microsoft.Extensions.DependencyInjection;
 using TestClient.Common;
 using TestClient.Events;
 
-namespace TestClient.WebStockClient
+namespace TestClient.WebSocketClient
 {
-    public class TestClientClientImpl : ClientImpl, ITestClientClient
+    public class TestWebSocketClientImpl : WebSocketClientImpl, ITestWebSocketClient
     {
         private readonly IServiceProvider _serviceProvider;
-        public TestClientClientImpl(IServiceProvider serviceProvider)
+        public TestWebSocketClientImpl(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -23,7 +24,7 @@ namespace TestClient.WebStockClient
                 var commandBus = (IEventBus)_serviceProvider.GetRequiredService(typeof(IEventBus));
                 await commandBus.SendAsync(eventM);
             }
-            catch (Exception ex)
+            catch (MateralWebSocketException ex)
             {
                 ConsoleHelper.TestClientWriteLine(ex.Message, "未能解析事件");
             }

@@ -5,7 +5,7 @@ namespace Materal.WebSocket.Model
     /// <summary>
     /// 服务器状态枚举
     /// </summary>
-    public enum ClientStateEnum
+    public enum WebSocketClientStateEnum
     {
         /// <summary>
         /// 未进行配置

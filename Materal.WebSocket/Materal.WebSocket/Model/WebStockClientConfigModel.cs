@@ -7,7 +7,7 @@ namespace Materal.WebSocket.Model
     /// <summary>
     /// 配置模型
     /// </summary>
-    public class ClientConfigModel
+    public class WebSocketClientConfigModel
     {
         /// <summary>
         /// 连接地址

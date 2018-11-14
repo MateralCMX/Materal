@@ -7,7 +7,7 @@ namespace TestClient.UI
     internal class Program
     {
         /// <summary>
-        /// 数据解析服务
+        /// 测试客户端
         /// </summary>
         private static ITestClient _testClient;
         /// <summary>
@@ -59,7 +59,7 @@ namespace TestClient.UI
             }
         }
         /// <summary>
-        /// 停止数据解析服务
+        /// 停止测试客户端
         /// </summary>
         private static void StopTestClient(bool writeMessage = true)
         {
@@ -70,7 +70,7 @@ namespace TestClient.UI
             _testClient?.Dispose();
         }
         /// <summary>
-        /// 开始数据解析服务
+        /// 开始测试客户端
         /// </summary>
         private static void StartTestClient()
         {

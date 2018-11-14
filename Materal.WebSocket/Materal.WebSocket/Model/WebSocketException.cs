@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Materal.Common;
+using System;
 
 namespace Materal.WebSocket.Model
 {
-    public class WebStockException : Exception
+    public class MateralWebSocketException : MateralException
     {
-        public WebStockException()
+        public MateralWebSocketException()
         {
         }
 
-        public WebStockException(string message) : base(message)
+        public MateralWebSocketException(string message) : base(message)
         {
         }
 
-        public WebStockException(string message, Exception innerException) : base(message, innerException)
+        public MateralWebSocketException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }

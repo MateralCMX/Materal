@@ -1,6 +1,6 @@
 ﻿namespace Materal.WebSocket
 {
-    public interface IServer
+    public interface IWebSocketServer
     {
     }
 }

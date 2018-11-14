@@ -15,6 +15,6 @@ namespace Materal.WebSocket.Model
         /// <summary>
         /// 配置对象
         /// </summary>
-        public ClientConfigModel Config { get; set; }
+        public WebSocketClientConfigModel Config { get; set; }
     }
 }

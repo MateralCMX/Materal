@@ -3,7 +3,7 @@ using System;
 
 namespace Materal.WebSocket.Commands.Model
 {
-    public class CommandException : WebStockException
+    public class CommandException : MateralWebSocketException
     {
         public CommandException()
         {

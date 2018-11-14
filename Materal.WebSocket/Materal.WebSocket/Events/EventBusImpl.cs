@@ -32,7 +32,7 @@ namespace Materal.WebSocket.Events
         {
             Type handlerType = _eventHandlerHelper.GetHandlerType(handlerName);
             var handler = (IEventHandler)ActivatorUtilities.CreateInstance(_serviceProvider, handlerType);
-            if (handler == null) throw new EventException("未找到对应处理器");
+            if (handler == null) throw new MateralWebSocketEventException("未找到对应处理器");
             return handler;
         }
     }

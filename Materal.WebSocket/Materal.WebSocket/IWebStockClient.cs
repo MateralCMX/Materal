@@ -7,9 +7,9 @@ namespace Materal.WebSocket
 {
     /// <inheritdoc />
     /// <summary>
-    /// WebStock客户端
+    /// WebSocket客户端
     /// </summary>
-    public interface IClient : IDisposable
+    public interface IWebSocketClient : IDisposable
     {
         #region 事件
         /// <summary>
@@ -29,13 +29,13 @@ namespace Materal.WebSocket
         /// </summary>
         event SendCommandEvent OnSendCommand;
         #endregion
-        ClientConfigModel Config { get; }
-        ClientStateEnum State { get;}
+        WebSocketClientConfigModel Config { get; }
+        WebSocketClientStateEnum State { get;}
         /// <summary>
         /// 配置服务
         /// </summary>
         /// <param name="config">配置对象</param>
-        void SetConfig(ClientConfigModel config);
+        void SetConfig(WebSocketClientConfigModel config);
         /// <summary>
         /// 启动客户端
         /// </summary>

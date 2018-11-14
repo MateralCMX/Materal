@@ -5,4 +5,9 @@
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.WebSocket\Materal.WebSocket.csproj" />
+    <ProjectReference Include="..\TestClient.Common\TestClient.Common.csproj" />
+  </ItemGroup>
+
 </Project>

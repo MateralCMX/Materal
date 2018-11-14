@@ -5,16 +5,15 @@ using System.Collections.Generic;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
-using Materal.FileHelper;
 
 namespace Materal.WebSocket
 {
-    public abstract class ClientImpl : IClient
+    public abstract class WebSocketClientImpl : IWebSocketClient
     {
         /// <summary>
         /// 构造方法
         /// </summary>
-        protected ClientImpl()
+        protected WebSocketClientImpl()
         {
             _cancellationToken = new CancellationToken();
         }
@@ -23,7 +22,7 @@ namespace Materal.WebSocket
         /// 构造方法
         /// </summary>
         /// <param name="config"></param>
-        protected ClientImpl(ClientConfigModel config)
+        protected WebSocketClientImpl(WebSocketClientConfigModel config)
         {
             _cancellationToken = new CancellationToken();
             SetConfig(config);
@@ -32,12 +31,12 @@ namespace Materal.WebSocket
         /// <summary>
         /// 配置对象
         /// </summary>
-        private ClientConfigModel _config;
+        private WebSocketClientConfigModel _config;
 
         /// <summary>
         /// 配置对象
         /// </summary>
-        public ClientConfigModel Config
+        public WebSocketClientConfigModel Config
         {
             get => _config;
             protected set
@@ -65,9 +64,9 @@ namespace Materal.WebSocket
         /// <summary>
         /// 客户端状态
         /// </summary>
-        private ClientStateEnum _state = ClientStateEnum.NotConfigured;
+        private WebSocketClientStateEnum _state = WebSocketClientStateEnum.NotConfigured;
 
-        public ClientStateEnum State
+        public WebSocketClientStateEnum State
         {
             get => _state;
             private set
@@ -88,46 +87,46 @@ namespace Materal.WebSocket
 
         public event SendCommandEvent OnSendCommand;
 
-        public void SetConfig(ClientConfigModel config)
+        public void SetConfig(WebSocketClientConfigModel config)
         {
             if (config.Verification(out List<string> messages))
             {
                 Config = config;
-                State = ClientStateEnum.Ready;
+                State = WebSocketClientStateEnum.Ready;
             }
             else
             {
-                throw new ClientException(string.Join(",", messages));
+                throw new MateralWebSocketClientException(string.Join(",", messages));
             }
         }
 
         public void Dispose()
         {
-            if (State == ClientStateEnum.Runing)
+            if (State == WebSocketClientStateEnum.Runing)
             {
                 _cancellationToken = new CancellationToken();
                 StopAsync().Wait(_cancellationToken);
             }
             _cancellationToken = new CancellationToken();
-            State = ClientStateEnum.Stop;
+            State = WebSocketClientStateEnum.Stop;
         }
 
         public async Task ReloadAsync()
         {
             switch (State)
             {
-                case ClientStateEnum.NotConfigured:
-                    throw new ClientException("服务尚未配置");
-                case ClientStateEnum.Ready:
-                case ClientStateEnum.ConnectionFailed:
-                    await OpenWebStockClientAsync();
+                case WebSocketClientStateEnum.NotConfigured:
+                    throw new MateralWebSocketClientException("服务尚未配置");
+                case WebSocketClientStateEnum.Ready:
+                case WebSocketClientStateEnum.ConnectionFailed:
+                    await OpenWebSocketClientAsync();
                     break;
-                case ClientStateEnum.Runing:
+                case WebSocketClientStateEnum.Runing:
                     await StopAsync();
-                    await OpenWebStockClientAsync();
+                    await OpenWebSocketClientAsync();
                     break;
-                case ClientStateEnum.Stop:
-                    throw new ClientException("服务已经停止,请重新配置");
+                case WebSocketClientStateEnum.Stop:
+                    throw new MateralWebSocketClientException("服务已经停止,请重新配置");
             }
         }
 
@@ -145,7 +144,7 @@ namespace Materal.WebSocket
 
         public virtual async Task SendCommandByBytesAsync(ICommand command)
         {
-            if (State != ClientStateEnum.Runing) throw new ClientException("服务尚未启动");
+            if (State != WebSocketClientStateEnum.Runing) throw new MateralWebSocketClientException("服务尚未启动");
             var buffer = new ArraySegment<byte>(command.ByteArrayData);
             await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Binary, true, _cancellationToken);
             OnSendCommand?.Invoke(new SendCommandEventArgs
@@ -157,7 +156,7 @@ namespace Materal.WebSocket
 
         public virtual async Task SendCommandByStringAsync(ICommand command)
         {
-            if (State != ClientStateEnum.Runing) throw new ClientException("服务尚未启动");
+            if (State != WebSocketClientStateEnum.Runing) throw new MateralWebSocketClientException("服务尚未启动");
             byte[] byteArray = _config.EncodingType.GetBytes(command.StringData);
             var buffer = new ArraySegment<byte>(byteArray);
             await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, _cancellationToken);
@@ -172,22 +171,22 @@ namespace Materal.WebSocket
         {
             switch (State)
             {
-                case ClientStateEnum.NotConfigured:
-                    throw new ClientException("服务尚未配置");
-                case ClientStateEnum.Ready:
-                case ClientStateEnum.ConnectionFailed:
-                    await OpenWebStockClientAsync();
+                case WebSocketClientStateEnum.NotConfigured:
+                    throw new MateralWebSocketClientException("服务尚未配置");
+                case WebSocketClientStateEnum.Ready:
+                case WebSocketClientStateEnum.ConnectionFailed:
+                    await OpenWebSocketClientAsync();
                     break;
-                case ClientStateEnum.Runing:
-                    throw new ClientException("服务已在运行");
-                case ClientStateEnum.Stop:
-                    throw new ClientException("服务已经停止,请重新配置");
+                case WebSocketClientStateEnum.Runing:
+                    throw new MateralWebSocketClientException("服务已在运行");
+                case WebSocketClientStateEnum.Stop:
+                    throw new MateralWebSocketClientException("服务已经停止,请重新配置");
             }
         }
 
         public virtual async Task StartListeningEventAsync()
         {
-            while (State == ClientStateEnum.Runing && ClientWebSocket != null && ClientWebSocket.State == WebSocketState.Open)
+            while (State == WebSocketClientStateEnum.Runing && ClientWebSocket != null && ClientWebSocket.State == WebSocketState.Open)
             {
                 try
                 {
@@ -209,21 +208,17 @@ namespace Materal.WebSocket
                         case WebSocketState.CloseSent:
                         case WebSocketState.CloseReceived:
                         case WebSocketState.Closed:
-                            State = ClientStateEnum.ConnectionFailed;
-                            break;
-                        case WebSocketState.Connecting:
-                        case WebSocketState.None:
-                        case WebSocketState.Open:
+                            State = WebSocketClientStateEnum.ConnectionFailed;
                             break;
                     }
-                    throw new ClientException(ex.Message, ex);
+                    throw new MateralWebSocketClientException(ex.Message, ex);
                 }
             }
         }
 
         public virtual async Task StopAsync()
         {
-            if (State == ClientStateEnum.Runing)
+            if (State == WebSocketClientStateEnum.Runing)
             {
                 if (ClientWebSocket.State == WebSocketState.Connecting || ClientWebSocket.State == WebSocketState.Open)
                 {
@@ -234,7 +229,7 @@ namespace Materal.WebSocket
                     }
                     catch (Exception ex)
                     {
-                        throw new ClientException("已发送关闭请求，但服务器没有回应", ex);
+                        throw new MateralWebSocketClientException("已发送关闭请求，但服务器没有回应", ex);
                     }
                     finally
                     {
@@ -245,21 +240,21 @@ namespace Materal.WebSocket
         }
 
         /// <summary>
-        /// 打开WebStock客户端
+        /// 打开WebSocket客户端
         /// </summary>
         /// <returns></returns>
-        private async Task OpenWebStockClientAsync()
+        private async Task OpenWebSocketClientAsync()
         {
             ClientWebSocket = new ClientWebSocket();
             var uri = new Uri(_config.Url);
             try
             {
                 await ClientWebSocket.ConnectAsync(uri, _cancellationToken);
-                State = ClientStateEnum.Runing;
+                State = WebSocketClientStateEnum.Runing;
             }
             catch (Exception)
             {
-                State = ClientStateEnum.ConnectionFailed;
+                State = WebSocketClientStateEnum.ConnectionFailed;
             }
         }
     }

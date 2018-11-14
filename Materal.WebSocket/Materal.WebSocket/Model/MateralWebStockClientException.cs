@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Materal.WebSocket.Model
 {
-    public class ClientException : WebStockException
+    public class MateralWebSocketClientException : MateralWebSocketException
     {
         /// <inheritdoc />
         /// <summary>
         /// 构造方法
         /// </summary>
-        public ClientException()
+        public MateralWebSocketClientException()
         {
         }
         /// <inheritdoc />
@@ -17,7 +16,7 @@ namespace Materal.WebSocket.Model
         /// 构造方法
         /// </summary>
         /// <param name="message">A message that describes the error.</param>
-        public ClientException(string message) : base(message)
+        public MateralWebSocketClientException(string message) : base(message)
         {
         }
         /// <inheritdoc />
@@ -30,7 +29,7 @@ namespace Materal.WebSocket.Model
         ///     parameter is not a null reference, the current exception is raised in a catch
         ///     block that handles the inner exception.
         /// </param>
-        public ClientException(string message, Exception innerException) : base(message, innerException)
+        public MateralWebSocketClientException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }
