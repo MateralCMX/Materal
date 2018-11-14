@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Materal.TTA.Common
 {
-    public abstract class EntityFrameworkRepositoryImpl<T, TPrimaryKeyType> : IEntityFrameworkRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
+    public abstract class EFRepositoryImpl<T, TPrimaryKeyType> : IEFRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
     {
         /// <summary>
         /// 数据库上下文
@@ -41,7 +41,7 @@ namespace Materal.TTA.Common
         /// 构造方法
         /// </summary>
         /// <param name="dbContext"></param>
-        protected EntityFrameworkRepositoryImpl(DbContext dbContext)
+        protected EFRepositoryImpl(DbContext dbContext)
         {
             Type tType = typeof(T);
             var entityAttribute = tType.GetCustomAttribute<ViewEntityAttribute>(false);
