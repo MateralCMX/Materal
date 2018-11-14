@@ -9,13 +9,13 @@ namespace Materal.WebSocket.Client
     /// </summary>
     public interface IWebSocketClient
     {
-        event ConfigEvent OnConfigChange;
+        //event ConfigEvent OnConfigChange;
 
-        event ConnectServerEvent OnStateChange;
+        //event ConnectServerEvent OnStateChange;
 
-        event ReceiveEventEvent OnReceiveEvent;
+        //event ReceiveEventEvent OnReceiveEvent;
 
-        event SendCommandEvent OnSendCommand;
+        //event SendCommandEvent OnSendCommand;
 
         WebSocketClientConfigModel Config { get; }
 
@@ -37,8 +37,8 @@ namespace Materal.WebSocket.Client
 
         Task StartListeningEventAsync();
     }
-    public delegate void ConfigEvent(ConfigEventArgs args);
-    public delegate void ConnectServerEvent(ConnectServerEventArgs args);
-    public delegate void ReceiveEventEvent(ReceiveEventEventArgs args);
-    public delegate void SendCommandEvent(SendCommandEventArgs args);
+    //public delegate void ConfigEvent(ConfigEventArgs args);
+    //public delegate void ConnectServerEvent(ConnectServerEventArgs args);
+    //public delegate void ReceiveEventEvent(ReceiveEventEventArgs args);
+    //public delegate void SendCommandEvent(SendCommandEventArgs args);
 }

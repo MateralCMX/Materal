@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Materal.WebSocket;
+﻿using Materal.WebSocket.Client;
+using System.Threading.Tasks;
 using TestClient.Events;
 
 namespace TestClient.WebSocketClient

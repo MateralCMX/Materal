@@ -43,12 +43,12 @@ namespace Materal.WebSocket.Client
             protected set
             {
                 _config = value;
-                var args = new ConfigEventArgs
-                {
-                    Config = _config,
-                    Message = _config == null ? "未进行配置" : "" + _config.Url
-                };
-                OnConfigChange?.Invoke(args);
+                //var args = new ConfigEventArgs
+                //{
+                //    Config = _config,
+                //    Message = _config == null ? "未进行配置" : "" + _config.Url
+                //};
+                //OnConfigChange?.Invoke(args);
             }
         }
 
@@ -73,20 +73,20 @@ namespace Materal.WebSocket.Client
             private set
             {
                 _state = value;
-                OnStateChange?.Invoke(new ConnectServerEventArgs
-                {
-                    State = State
-                });
+                //OnStateChange?.Invoke(new ConnectServerEventArgs
+                //{
+                //    State = State
+                //});
             }
         }
 
-        public event ConfigEvent OnConfigChange;
+        //public event ConfigEvent OnConfigChange;
 
-        public event ConnectServerEvent OnStateChange;
+        //public event ConnectServerEvent OnStateChange;
 
-        public event ReceiveEventEvent OnReceiveEvent;
+        //public event ReceiveEventEvent OnReceiveEvent;
 
-        public event SendCommandEvent OnSendCommand;
+        //public event SendCommandEvent OnSendCommand;
 
         public void SetConfig(WebSocketClientConfigModel config)
         {
@@ -148,11 +148,11 @@ namespace Materal.WebSocket.Client
             if (State != WebSocketClientStateEnum.Runing) throw new MateralWebSocketClientException("服务尚未启动");
             var buffer = new ArraySegment<byte>(command.ByteArrayData);
             await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Binary, true, _cancellationToken);
-            OnSendCommand?.Invoke(new SendCommandEventArgs
-            {
-                Message = command.Message,
-                Command = command
-            });
+            //OnSendCommand?.Invoke(new SendCommandEventArgs
+            //{
+            //    Message = command.Message,
+            //    Command = command
+            //});
         }
 
         public virtual async Task SendCommandByStringAsync(ICommand command)
@@ -161,11 +161,11 @@ namespace Materal.WebSocket.Client
             byte[] byteArray = _config.EncodingType.GetBytes(command.StringData);
             var buffer = new ArraySegment<byte>(byteArray);
             await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, _cancellationToken);
-            OnSendCommand?.Invoke(new SendCommandEventArgs
-            {
-                Message = command.Message,
-                Command = command
-            });
+            //OnSendCommand?.Invoke(new SendCommandEventArgs
+            //{
+            //    Message = command.Message,
+            //    Command = command
+            //});
         }
 
         public async Task StartAsync()
@@ -196,10 +196,10 @@ namespace Materal.WebSocket.Client
                     WebSocketReceiveResult wsdata = await ClientWebSocket.ReceiveAsync(buffer, _cancellationToken);
                     var bRec = new byte[wsdata.Count];
                     Array.Copy(serverByteArray, bRec, wsdata.Count);
-                    OnReceiveEvent?.Invoke(new ReceiveEventEventArgs
-                    {
-                        ByteArrayData = bRec
-                    });
+                    //OnReceiveEvent?.Invoke(new ReceiveEventEventArgs
+                    //{
+                    //    ByteArrayData = bRec
+                    //});
                 }
                 catch (Exception ex)
                 {

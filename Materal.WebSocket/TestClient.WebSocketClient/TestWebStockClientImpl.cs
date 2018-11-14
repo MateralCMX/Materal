@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Materal.WebSocket;
+﻿using Materal.WebSocket.Client;
 using Materal.WebSocket.Events;
 using Materal.WebSocket.Model;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 using TestClient.Common;
 using TestClient.Events;
 
