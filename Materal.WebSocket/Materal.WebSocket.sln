@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Client", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WebSocket", "Materal.WebSocket\Materal.WebSocket.csproj", "{22D5E7CD-7450-423B-810B-E74861CFFA2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WebSocket.Client", "Materal.WebSocket.Client\Materal.WebSocket.Client.csproj", "{4C778909-FC12-4E6C-B9C1-454403DA7D64}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{22D5E7CD-7450-423B-810B-E74861CFFA2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22D5E7CD-7450-423B-810B-E74861CFFA2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22D5E7CD-7450-423B-810B-E74861CFFA2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C778909-FC12-4E6C-B9C1-454403DA7D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C778909-FC12-4E6C-B9C1-454403DA7D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C778909-FC12-4E6C-B9C1-454403DA7D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C778909-FC12-4E6C-B9C1-454403DA7D64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
