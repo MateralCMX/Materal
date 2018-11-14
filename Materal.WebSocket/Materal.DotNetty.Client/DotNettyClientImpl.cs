@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Materal.DotNetty.Client
 {
-    public class DotNettyClientImpl : IWebSocketClient
+    public class DotNettyClientImpl
     {
         public DotNettyClientConfig ClientConfig { get; set; }
 

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Materal.StringHelper;
+using System;
 using System.Net;
-using DotNetty.Transport.Channels;
-using Materal.StringHelper;
 
 namespace Materal.DotNetty.Client.Model
 {
