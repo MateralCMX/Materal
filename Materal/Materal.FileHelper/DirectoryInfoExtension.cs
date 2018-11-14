@@ -5,7 +5,7 @@ namespace Materal.FileHelper
     /// <summary>
     /// 文件夹信息扩展
     /// </summary>
-    public static class DirectoryInfoExtended
+    public static class DirectoryInfoExtension
     {
         /// <summary>
         /// 复制

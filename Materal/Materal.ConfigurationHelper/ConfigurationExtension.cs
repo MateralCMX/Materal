@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Materal.ConfigurationHelper
 {
-    public static class ConfigurationExtended
+    public static class ConfigurationExtension
     {
         /// <summary>
         /// 获取配置文件数组对象值

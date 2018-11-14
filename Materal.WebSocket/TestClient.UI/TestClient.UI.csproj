@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MateralTools.MResult" Version="1.3.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestClient.CommandHandlers\TestClient.CommandHandlers.csproj" />
+    <ProjectReference Include="..\TestClient.Common\TestClient.Common.csproj" />
+    <ProjectReference Include="..\TestClient.EventHandlers\TestClient.EventHandlers.csproj" />
+    <ProjectReference Include="..\TestClient.WebSocketClient\TestClient.WebSocketClient.csproj" />
+  </ItemGroup>
+
+</Project>

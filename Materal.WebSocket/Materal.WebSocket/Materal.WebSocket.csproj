@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.9</Version>
+    <Authors>Materal</Authors>
+    <Product>Materal.WebSocket</Product>
+    <Description>Materal.WebSocket</Description>
+    <LangVersion>7.1</LangVersion>
+    <PackageReleaseNotes>修复重连异常</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.FileHelper" Version="0.0.14" />
+    <PackageReference Include="Materal.StringHelper" Version="0.0.14" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+  </ItemGroup>
+
+</Project>

@@ -8,7 +8,7 @@ namespace Materal.ConvertHelper
     /// <summary>
     /// Byte数组扩展
     /// </summary>
-    public static class ByteArrayExtended
+    public static class ByteArrayExtension
     {
         /// <summary>
         /// 将byte数组转换成对象

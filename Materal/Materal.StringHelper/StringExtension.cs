@@ -8,7 +8,7 @@ namespace Materal.StringHelper
     /// <summary>
     /// 字符串扩展类
     /// </summary>
-    public static class StringExtended
+    public static class StringExtension
     {
         /// <summary>
         /// 验证字符串

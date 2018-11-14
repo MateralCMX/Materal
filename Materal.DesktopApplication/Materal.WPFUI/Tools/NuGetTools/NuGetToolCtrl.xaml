@@ -58,6 +58,7 @@
         <DockPanel Grid.Row="4" Grid.Column="1">
             <CheckBox VerticalAlignment="Center" IsChecked="{Binding OpenExplorer}">导出后打开资源管理器</CheckBox>
             <CheckBox VerticalAlignment="Center" IsChecked="{Binding ClearTargetDirectory}">清空目标文件夹</CheckBox>
+            <CheckBox VerticalAlignment="Center" IsChecked="{Binding DeleteSourceFile}">删除源文件</CheckBox>
         </DockPanel>
         <Button Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" Command="local:NuGetToolCommands.Export">导出</Button>
     </Grid>

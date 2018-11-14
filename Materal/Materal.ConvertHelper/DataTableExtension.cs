@@ -7,7 +7,7 @@ namespace Materal.ConvertHelper
     /// <summary>
     /// DataTable扩展
     /// </summary>
-    public static class DataTableExtended
+    public static class DataTableExtension
     {
         /// <summary>
         /// 数据行转换为目标对象

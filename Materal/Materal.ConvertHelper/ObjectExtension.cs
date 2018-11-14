@@ -14,7 +14,7 @@ namespace Materal.ConvertHelper
     /// <summary>
     /// Object扩展
     /// </summary>
-    public static class ObjectExtended
+    public static class ObjectExtension
     {
         /// <summary>
         /// 可转换类型字典
@@ -23,7 +23,7 @@ namespace Materal.ConvertHelper
         /// <summary>
         /// 构造方法
         /// </summary>
-        static ObjectExtended()
+        static ObjectExtension()
         {
             ConvertDictionary.Add(typeof(bool), WrapValueConvert(Convert.ToBoolean));
             ConvertDictionary.Add(typeof(int), WrapValueConvert(Convert.ToInt32));

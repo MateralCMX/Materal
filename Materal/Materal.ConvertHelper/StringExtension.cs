@@ -9,7 +9,7 @@ namespace Materal.ConvertHelper
     /// <summary>
     /// 字符串扩展
     /// </summary>
-    public static class StringExtended
+    public static class StringExtension
     {
         /// <summary>
         /// Json转换为XML文档对象

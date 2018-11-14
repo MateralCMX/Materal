@@ -6,7 +6,7 @@ namespace Materal.ConvertHelper
     /// <summary>
     /// XML扩展
     /// </summary>
-    public static class XmlExtended
+    public static class XmlExtension
     {
         /// <summary>
         /// XML文档对象转换为Json字符串

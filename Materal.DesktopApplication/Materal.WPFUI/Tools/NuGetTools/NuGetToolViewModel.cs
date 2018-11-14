@@ -140,6 +140,11 @@ namespace Materal.WPFUI.Tools.NuGetTools
         public bool ClearTargetDirectory { get; set; } = true;
 
         /// <summary>
+        /// 删除源文件
+        /// </summary>
+        public bool DeleteSourceFile { get; set; } = true;
+
+        /// <summary>
         /// 是否可以导出
         /// </summary>
         public bool CanExport
@@ -281,7 +286,14 @@ namespace Materal.WPFUI.Tools.NuGetTools
             FileInfo[] fileInfos = projectDirectoryInfo.GetFiles(fileExpression);
             foreach (FileInfo fileInfo in fileInfos)
             {
-                fileInfo.CopyTo($"{targetDirectoryInfo.FullName}/{fileInfo.Name}", true);
+                if (DeleteSourceFile)
+                {
+                    fileInfo.MoveTo($"{targetDirectoryInfo.FullName}/{fileInfo.Name}");
+                }
+                else
+                {
+                    fileInfo.CopyTo($"{targetDirectoryInfo.FullName}/{fileInfo.Name}", true);
+                }
             }
         }
     }

@@ -3,9 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.13</Version>
+    <Version>0.0.14</Version>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
+    <Description>Materal数据库帮助类</Description>
   </PropertyGroup>
 
   <ItemGroup>

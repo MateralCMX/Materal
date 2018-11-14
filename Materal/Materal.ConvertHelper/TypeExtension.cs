@@ -7,7 +7,7 @@ namespace Materal.ConvertHelper
     /// <summary>
     /// Type扩展
     /// </summary>
-    public static class TypeExtended
+    public static class TypeExtension
     {
         /// <summary>
         /// 将类型转换为数据表
