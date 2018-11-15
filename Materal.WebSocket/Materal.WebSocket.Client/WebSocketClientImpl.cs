@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Materal.ConvertHelper;
 using Materal.WebSocket.Client.Model;
 using Materal.WebSocket.Commands;
+using Materal.WebSocket.Events;
 using Materal.WebSocket.Model;
 
 namespace Materal.WebSocket.Client
@@ -113,6 +114,7 @@ namespace Materal.WebSocket.Client
                 }
             }
         }
+        public abstract Task HandleEventAsync(IEvent eventM);
 
         /// <summary>
         /// 打开WebSocket客户端

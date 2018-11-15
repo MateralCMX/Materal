@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using Materal.WebSocket.Client;
+﻿using Materal.WebSocket.Client;
 using Materal.WebSocket.Events;
 using Materal.WebSocket.Model;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 using TestClient.Common;
-using TestClient.Events;
 
 namespace TestClient.WebSocketClient.WebStock
 {
@@ -17,7 +16,7 @@ namespace TestClient.WebSocketClient.WebStock
             _serviceProvider = serviceProvider;
         }
 
-        public async Task HandleEventAsync(Event eventM)
+        public override async Task HandleEventAsync(IEvent eventM)
          {
             try
             {

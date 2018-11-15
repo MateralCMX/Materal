@@ -9,7 +9,7 @@ namespace TestClient.EventHandlers
     {
         public async Task ExcuteAsync(IEvent @event)
         {
-            ConsoleHelper.TestClientWriteLine(@event.StringData);
+            ConsoleHelper.TestClientWriteLine(@event.StringData, "Handler");
         }
 
         public void Excute(IEvent @event)

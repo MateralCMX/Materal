@@ -1,6 +1,7 @@
 ﻿using Materal.WebSocket.Client.Model;
 using System.Threading.Tasks;
 using Materal.WebSocket.Commands;
+using Materal.WebSocket.Events;
 
 namespace Materal.WebSocket.Client
 {
@@ -17,8 +18,6 @@ namespace Materal.WebSocket.Client
 
         Task StartAsync();
 
-        //Task ReloadAsync();
-
         Task StopAsync();
 
         Task SendCommandAsync(ICommand command);
@@ -27,6 +26,6 @@ namespace Materal.WebSocket.Client
 
         Task SendCommandByBytesAsync(ICommand command);
 
-        //Task StartListeningEventAsync();
+        Task HandleEventAsync(IEvent eventM);
     }
 }

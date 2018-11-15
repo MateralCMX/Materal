@@ -3,6 +3,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Materal.WebSocket.Client;
 using Materal.WebSocket.Client.Model;
+using Materal.WebSocket.Events;
+using TestClient.Events;
 
 namespace TestClient.WebSocketClient.WebStock
 {
@@ -22,6 +24,13 @@ namespace TestClient.WebSocketClient.WebStock
         public override void ChannelRead0(WebSocketClientImpl channel, byte[] msg)
         {
             string message = Encoding.UTF8.GetString(msg);
+            IEvent @event = new Event("TestEventHandler")
+            {
+                Message = "测试命令",
+                ByteArrayData = null,
+                StringData = message
+            };
+            channel.HandleEventAsync(@event);
             Console.WriteLine(message);
         }
 

@@ -11,6 +11,7 @@ using Materal.DotNetty.Client.Model;
 using Materal.WebSocket.Client;
 using Materal.WebSocket.Client.Model;
 using Materal.WebSocket.Commands;
+using Materal.WebSocket.Events;
 using Materal.WebSocket.Model;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ using System.Threading.Tasks;
 
 namespace Materal.DotNetty.Client
 {
-    public class DotNettyClientImpl : IWebSocketClient
+    public abstract class DotNettyClientImpl : IWebSocketClient
     {
         public IChannel Channel { get; set; }
         private IEventLoopGroup _eventLoopGroup;
@@ -65,6 +66,8 @@ namespace Materal.DotNetty.Client
             await SendMessageAsync(frame);
             _clientHandler.OnSendMessage(command.ByteArrayData);
         }
+
+        public abstract Task HandleEventAsync(IEvent eventM);
 
         public IWebSocketClientConfig Config { get; private set; }
         private DotNettyClientHandler _clientHandler;
