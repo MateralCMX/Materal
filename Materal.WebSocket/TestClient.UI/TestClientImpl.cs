@@ -15,10 +15,6 @@ namespace TestClient.UI
             _testWebSocketClient = testWebSocketClient;
             _testWebSocketClientConfig = testWebSocketClientConfig;
         }
-        public void Dispose()
-        {
-            Stop();
-        }
         public void Init()
         {
             _testWebSocketClient.SetConfig(_testWebSocketClientConfig);
