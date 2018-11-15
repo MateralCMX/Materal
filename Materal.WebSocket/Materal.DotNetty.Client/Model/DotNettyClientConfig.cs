@@ -1,10 +1,12 @@
 ﻿using Materal.StringHelper;
 using System;
+using System.Collections.Generic;
 using System.Net;
+using Materal.WebSocket.Client.Model;
 
 namespace Materal.DotNetty.Client.Model
 {
-    public class DotNettyClientConfig
+    public class DotNettyClientConfig : IWebSocketClientConfig
     {
         /// <summary>
         /// Uri生成器
@@ -28,6 +30,18 @@ namespace Materal.DotNetty.Client.Model
         /// SSL配置
         /// </summary>
         public DotNettyClientSSLConfig SSLConfig { get; set; }
+
+        public bool Verification(out List<string> messages)
+        {
+            messages = new List<string>();
+            var isOk = true;
+            if (UriBuilder == null)
+            {
+                isOk = false;
+                messages.Add("未指定Url配置");
+            }
+            return isOk;
+        }
     }
 
     public class DotNettyClientSSLConfig

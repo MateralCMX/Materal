@@ -22,40 +22,40 @@ namespace Materal.DotNetty.ClientDemo
     {
         public static void Main(string[] args)
         {
-            var clientConfig = new DotNettyClientConfig
-            {
-                UriBuilder = new UriBuilder
-                {
-                    Scheme = "ws",
-                    //Host = "127.0.0.1",
-                    //Port = 10001,
-                    Host = "220.165.9.44",
-                    Port = 26075,
-                    Path = string.Empty
-                },
-                SSLConfig = new DotNettyClientSSLConfig
-                {
-                    UseSSL = false,
-                    PfxFilePath = "",
-                    PfxPassword = ""
-                },
-                UseLibuv = true
-            };
-            var dotNettyClientImpl = new DotNettyClientImpl();
-            dotNettyClientImpl.SetConfig(clientConfig);
-            Console.WriteLine("配置完毕");
-            dotNettyClientImpl.RunClientAsync<WebSocketClientHandler>().Wait();
-            Console.WriteLine("握手成功");
-            string inputKey = string.Empty;
-            while (!string.Equals(inputKey, "Exit", StringComparison.Ordinal))
-            {
-                inputKey = Console.ReadLine();
-                if (string.Equals(inputKey, "Exit", StringComparison.Ordinal))
-                {
-                    break;
-                }
-                dotNettyClientImpl.SendMessageAsync(inputKey).Wait();
-            }
+            //var clientConfig = new DotNettyClientConfig
+            //{
+            //    UriBuilder = new UriBuilder
+            //    {
+            //        Scheme = "ws",
+            //        //Host = "127.0.0.1",
+            //        //Port = 10001,
+            //        Host = "220.165.9.44",
+            //        Port = 26075,
+            //        Path = string.Empty
+            //    },
+            //    SSLConfig = new DotNettyClientSSLConfig
+            //    {
+            //        UseSSL = false,
+            //        PfxFilePath = "",
+            //        PfxPassword = ""
+            //    },
+            //    UseLibuv = true
+            //};
+            //var dotNettyClientImpl = new DotNettyClientImpl();
+            //dotNettyClientImpl.SetConfig(clientConfig);
+            //Console.WriteLine("配置完毕");
+            //dotNettyClientImpl.RunClientAsync<WebSocketClientHandler>().Wait();
+            //Console.WriteLine("握手成功");
+            //string inputKey = string.Empty;
+            //while (!string.Equals(inputKey, "Exit", StringComparison.Ordinal))
+            //{
+            //    inputKey = Console.ReadLine();
+            //    if (string.Equals(inputKey, "Exit", StringComparison.Ordinal))
+            //    {
+            //        break;
+            //    }
+            //    dotNettyClientImpl.SendMessageAsync(inputKey).Wait();
+            //}
         }
     }
 }

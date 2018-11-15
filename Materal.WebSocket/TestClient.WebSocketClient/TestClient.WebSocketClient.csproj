@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Materal.DotNetty.Client\Materal.DotNetty.Client.csproj" />
     <ProjectReference Include="..\Materal.WebSocket.Client\Materal.WebSocket.Client.csproj" />
     <ProjectReference Include="..\Materal.WebSocket\Materal.WebSocket.csproj" />
     <ProjectReference Include="..\TestClient.Common\TestClient.Common.csproj" />

@@ -1,18 +1,27 @@
-﻿using System;
-using System.Text;
+﻿using DotNetty.Codecs.Http;
 using DotNetty.Codecs.Http.WebSockets;
 using DotNetty.Common.Concurrency;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
+using Materal.WebSocket.Client.Model;
+using System.Net;
 using System.Threading.Tasks;
-using DotNetty.Codecs.Http;
 
 namespace Materal.DotNetty.Client.Model
 {
-    public abstract class DotNettyClientHandler : SimpleChannelInboundHandler<object>
+    public abstract class DotNettyClientHandler : SimpleChannelInboundHandler<object>, IWebSocketClientHandler
     {
         protected readonly WebSocketClientHandshaker Handshaker;
         protected readonly TaskCompletionSource CompletionSource;
+        protected DotNettyClientImpl ClientImpl;
+
+        public void SetClient(DotNettyClientImpl clientImpl)
+        {
+            if (ClientImpl == null)
+            {
+                ClientImpl = clientImpl;
+            }
+        }
 
         protected DotNettyClientHandler(WebSocketClientHandshaker handshaker)
         {
@@ -38,5 +47,7 @@ namespace Materal.DotNetty.Client.Model
                 CompletionSource.TrySetException(e);
             }
         }
+        public abstract void ChannelStart(IChannel ctx);
+        public abstract void OnSendMessage(object message);
     }
 }

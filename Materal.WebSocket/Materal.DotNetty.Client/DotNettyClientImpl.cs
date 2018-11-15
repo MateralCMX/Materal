@@ -8,8 +8,12 @@ using DotNetty.Transport.Channels.Sockets;
 using DotNetty.Transport.Libuv;
 using Materal.ConvertHelper;
 using Materal.DotNetty.Client.Model;
-using Materal.WebSocket;
+using Materal.WebSocket.Client;
+using Materal.WebSocket.Client.Model;
+using Materal.WebSocket.Commands;
+using Materal.WebSocket.Model;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
@@ -17,47 +21,112 @@ using System.Threading.Tasks;
 
 namespace Materal.DotNetty.Client
 {
-    public class DotNettyClientImpl
+    public class DotNettyClientImpl : IWebSocketClient
     {
-        public DotNettyClientConfig ClientConfig { get; set; }
-
         public IChannel Channel { get; set; }
-
         private IEventLoopGroup _eventLoopGroup;
-        private string _targetHost = null;
-        private X509Certificate2 _x509Certificate2 = null;
-        public void SetConfig(DotNettyClientConfig clientConfig)
+        private string _targetHost;
+        private X509Certificate2 _x509Certificate2;
+
+        public async Task SendMessageAsync(WebSocketFrame frame)
         {
-            ClientConfig = clientConfig;
-            if (ClientConfig.UseLibuv)
+            await Channel.WriteAndFlushAsync(frame);
+        }
+
+        public async Task StopAsync()
+        {
+            await Channel.CloseAsync();
+            await _eventLoopGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
+        }
+
+        public async Task SendCommandAsync(ICommand command)
+        {
+            if (command.ByteArrayData != null && command.ByteArrayData.Length > 0)
             {
-                _eventLoopGroup = new EventLoopGroup();
+                await SendCommandByBytesAsync(command);
             }
             else
             {
-                _eventLoopGroup = new MultithreadEventLoopGroup();
-            }
-            if (ClientConfig.SSLConfig != null && ClientConfig.SSLConfig.UseSSL)
-            {
-                _x509Certificate2 = new X509Certificate2(ClientConfig.SSLConfig.PfxFilePath, ClientConfig.SSLConfig.PfxPassword);
-                _targetHost = _x509Certificate2.GetNameInfo(X509NameType.DnsName, false);
+                await SendCommandByStringAsync(command);
             }
         }
-        public async Task RunClientAsync<T>() where T: DotNettyClientHandler
+
+        public async Task SendCommandByStringAsync(ICommand command)
         {
-            var bootstrap = new Bootstrap();
-            if (ClientConfig.UseLibuv)
+            WebSocketFrame frame = new TextWebSocketFrame(command.StringData);
+            await SendMessageAsync(frame);
+            _clientHandler.OnSendMessage(command.StringData);
+        }
+
+        public async Task SendCommandByBytesAsync(ICommand command)
+        {
+            WebSocketFrame frame = new BinaryWebSocketFrame();
+            frame.Content.SetBytes(0, command.ByteArrayData);
+            await SendMessageAsync(frame);
+            _clientHandler.OnSendMessage(command.ByteArrayData);
+        }
+
+        public IWebSocketClientConfig Config { get; private set; }
+        private DotNettyClientHandler _clientHandler;
+        public Bootstrap Bootstrap;
+        public void SetConfig(IWebSocketClientConfig config)
+        {
+            if (config is DotNettyClientConfig webSocketClientConfig)
             {
-                bootstrap.Channel<TcpChannel>();
+                if (webSocketClientConfig.Verification(out List<string> messages))
+                {
+                    Config = webSocketClientConfig;
+                    if (webSocketClientConfig.UseLibuv)
+                    {
+                        _eventLoopGroup = new EventLoopGroup();
+                    }
+                    else
+                    {
+                        _eventLoopGroup = new MultithreadEventLoopGroup();
+                    }
+                    if (webSocketClientConfig.SSLConfig != null && webSocketClientConfig.SSLConfig.UseSSL)
+                    {
+                        _x509Certificate2 = new X509Certificate2(webSocketClientConfig.SSLConfig.PfxFilePath, webSocketClientConfig.SSLConfig.PfxPassword);
+                        _targetHost = _x509Certificate2.GetNameInfo(X509NameType.DnsName, false);
+                    }
+                }
+                else
+                {
+                    throw new MateralWebSocketClientException(string.Join(",", messages));
+                }
             }
             else
             {
-                bootstrap.Channel<TcpSocketChannel>();
+                throw new MateralWebSocketClientException("Config类型必须派生于DotNettyClientConfig");
             }
-            bootstrap.Group(_eventLoopGroup).Option(ChannelOption.TcpNodelay, true);
-            WebSocketClientHandshaker webSocketClientHandshaker = WebSocketClientHandshakerFactory.NewHandshaker(ClientConfig.UriBuilder.Uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders());
+        }
+
+        public async Task StartAsync<T>() where T : IWebSocketClientHandler
+        {
+            if (!(Config is DotNettyClientConfig webSocketClientConfig)) throw new MateralWebSocketClientException("Config类型必须派生于DotNettyClientConfig");
+            WebSocketClientHandshaker webSocketClientHandshaker = WebSocketClientHandshakerFactory.NewHandshaker(webSocketClientConfig.UriBuilder.Uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders());
             var handler = ConvertManager.GetDefultObject<T>(webSocketClientHandshaker);
-            bootstrap.Handler(new ActionChannelInitializer<IChannel>(channel =>
+            if (!(handler is DotNettyClientHandler clientHandler)) throw new MateralWebSocketClientException("Handler类型必须派生于DotNettyClientHandler");
+            _clientHandler = clientHandler;
+            _clientHandler.SetClient(this);
+            await StartAsync();
+        }
+
+        public async Task StartAsync()
+        {
+            if (_clientHandler == null) throw new MateralWebSocketClientException("未设置Handler");
+            if (!(Config is DotNettyClientConfig webSocketClientConfig)) throw new MateralWebSocketClientException("Config类型必须派生于DotNettyClientConfig");
+            Bootstrap = new Bootstrap();
+            if (webSocketClientConfig.UseLibuv)
+            {
+                Bootstrap.Channel<TcpChannel>();
+            }
+            else
+            {
+                Bootstrap.Channel<TcpSocketChannel>();
+            }
+            Bootstrap.Group(_eventLoopGroup).Option(ChannelOption.TcpNodelay, true);
+            Bootstrap.Handler(new ActionChannelInitializer<IChannel>(channel =>
             {
                 IChannelPipeline pipeline = channel.Pipeline;
                 if (_x509Certificate2 != null)
@@ -68,34 +137,11 @@ namespace Materal.DotNetty.Client
                     new HttpClientCodec(),
                     new HttpObjectAggregator(8192),
                     WebSocketClientCompressionHandler.Instance,
-                    handler);
+                    _clientHandler);
             }));
-            Channel = await bootstrap.ConnectAsync(new IPEndPoint(ClientConfig.IPAddress, ClientConfig.UriBuilder.Port));
-            await handler.HandshakeCompletion;
-        }
-
-        public async Task SendMessageAsync(string message)
-        {
-            WebSocketFrame frame = new TextWebSocketFrame(message);
-            await SendMessageAsync(frame);
-        }
-
-        public async Task SendMessageAsync(byte[] bytes)
-        {
-            WebSocketFrame frame = new BinaryWebSocketFrame();
-            frame.Content.SetBytes(0, bytes);
-            await SendMessageAsync(frame);
-        }
-
-        public async Task SendMessageAsync(WebSocketFrame frame)
-        {
-            await Channel.WriteAndFlushAsync(frame);
-        }
-
-        public async Task StopClientAsync()
-        {
-            await Channel.CloseAsync();
-            await _eventLoopGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
+            _clientHandler.ChannelStart(Channel);
+            Channel = await Bootstrap.ConnectAsync(new IPEndPoint(webSocketClientConfig.IPAddress, webSocketClientConfig.UriBuilder.Port));
+            await _clientHandler.HandshakeCompletion;
         }
     }
 }

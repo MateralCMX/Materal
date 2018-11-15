@@ -42,7 +42,7 @@ namespace TestClient.UI
                             StartTestClient();
                             break;
                         default:
-                            ConsoleHelper.TestClientWriteLine("未识别命令，输入Help查看命令");
+                            _testClient.SendMessage(readStr);
                             break;
                     }
                     if (isExit)

@@ -3,17 +3,22 @@ using DotNetty.Transport.Channels;
 using Materal.DotNetty.Client.Model;
 using System;
 
-namespace Materal.DotNetty.ClientDemo
+namespace TestClient.WebSocketClient.DotNetty
 {
-    public class WebSocketClientHandler : DotNettyClientHandler
+    public class DotNettyTestWebStockHandler : DotNettyClientHandler
     {
-
-        public WebSocketClientHandler(WebSocketClientHandshaker handshaker) : base(handshaker)
+        public DotNettyTestWebStockHandler(WebSocketClientHandshaker handshaker) : base(handshaker)
         {
+        }
+        public override void ChannelActive(IChannelHandlerContext ctx)
+        {
+            base.ChannelActive(ctx);
+            Console.WriteLine("客户端已连接");
         }
 
         public override void ChannelInactive(IChannelHandlerContext context)
         {
+            if(context != null) base.ChannelInactive(context);
             Console.WriteLine("客户端已断开连接");
         }
 
@@ -22,8 +27,6 @@ namespace Materal.DotNetty.ClientDemo
             base.ChannelRead0(ctx, msg);
             switch (msg)
             {
-                //case IFullHttpResponse response:
-                    //throw new InvalidOperationException($"Unexpected FullHttpResponse (getStatus={response.Status}, content={response.Content.ToString(Encoding.UTF8)})");
                 case TextWebSocketFrame textFrame:
                     Console.WriteLine($"WebSocket Client received message: {textFrame.Text()}");
                     break;

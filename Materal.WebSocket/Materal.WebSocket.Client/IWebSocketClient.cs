@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Materal.WebSocket.Client.Model;
+﻿using Materal.WebSocket.Client.Model;
+using System.Threading.Tasks;
 using Materal.WebSocket.Commands;
 
 namespace Materal.WebSocket.Client
@@ -9,23 +9,15 @@ namespace Materal.WebSocket.Client
     /// </summary>
     public interface IWebSocketClient
     {
-        //event ConfigEvent OnConfigChange;
+        IWebSocketClientConfig Config { get; }
 
-        //event ConnectServerEvent OnStateChange;
+        void SetConfig(IWebSocketClientConfig config);
 
-        //event ReceiveEventEvent OnReceiveEvent;
-
-        //event SendCommandEvent OnSendCommand;
-
-        WebSocketClientConfigModel Config { get; }
-
-        WebSocketClientStateEnum State { get; }
-
-        void SetConfig(WebSocketClientConfigModel config);
+        Task StartAsync<T>() where T : IWebSocketClientHandler;
 
         Task StartAsync();
 
-        Task ReloadAsync();
+        //Task ReloadAsync();
 
         Task StopAsync();
 
@@ -35,10 +27,6 @@ namespace Materal.WebSocket.Client
 
         Task SendCommandByBytesAsync(ICommand command);
 
-        Task StartListeningEventAsync();
+        //Task StartListeningEventAsync();
     }
-    //public delegate void ConfigEvent(ConfigEventArgs args);
-    //public delegate void ConnectServerEvent(ConnectServerEventArgs args);
-    //public delegate void ReceiveEventEvent(ReceiveEventEventArgs args);
-    //public delegate void SendCommandEvent(SendCommandEventArgs args);
 }

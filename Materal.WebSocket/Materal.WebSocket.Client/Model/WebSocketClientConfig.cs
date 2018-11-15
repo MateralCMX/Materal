@@ -7,7 +7,7 @@ namespace Materal.WebSocket.Client.Model
     /// <summary>
     /// 配置模型
     /// </summary>
-    public class WebSocketClientConfigModel
+    public class WebSocketClientConfig : IWebSocketClientConfig
     {
         /// <summary>
         /// 连接地址
@@ -21,11 +21,7 @@ namespace Materal.WebSocket.Client.Model
         /// 服务器消息最大长度
         /// </summary>
         public int ServerMessageMaxLength { get; set; }
-        /// <summary>
-        /// 验证合法性
-        /// </summary>
-        /// <param name="messages">验证消息</param>
-        /// <returns>验证结果</returns>
+
         public bool Verification(out List<string> messages)
         {
             messages = new List<string>();

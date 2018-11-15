@@ -14,7 +14,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Materal.WebSocket.Client\Materal.WebSocket.Client.csproj" />
+    <ProjectReference Include="..\TestClient.CommandHandlers\TestClient.CommandHandlers.csproj" />
+    <ProjectReference Include="..\TestClient.Commands\TestClient.Commands.csproj" />
     <ProjectReference Include="..\TestClient.Common\TestClient.Common.csproj" />
+    <ProjectReference Include="..\TestClient.EventHandlers\TestClient.EventHandlers.csproj" />
     <ProjectReference Include="..\TestClient.WebSocketClient\TestClient.WebSocketClient.csproj" />
   </ItemGroup>
 

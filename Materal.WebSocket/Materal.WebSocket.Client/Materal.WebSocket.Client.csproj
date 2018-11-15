@@ -5,10 +5,12 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.0.2</Version>
     <Authors>Materal</Authors>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Materal.Common" Version="0.0.14" />
+    <PackageReference Include="Materal.ConvertHelper" Version="0.0.14" />
     <PackageReference Include="Materal.StringHelper" Version="0.0.14" />
   </ItemGroup>
 

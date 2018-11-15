@@ -5,6 +5,7 @@
     <Version>0.0.2</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Materal</Authors>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Materal.WebSocket.Client\Materal.WebSocket.Client.csproj" />
     <ProjectReference Include="..\Materal.WebSocket\Materal.WebSocket.csproj" />
   </ItemGroup>
 
