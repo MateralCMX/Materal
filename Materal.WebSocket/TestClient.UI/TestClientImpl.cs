@@ -7,7 +7,6 @@ namespace TestClient.UI
 {
     public class TestClientImpl : ITestClient
     {
-        public bool IsAutoReload { get; set; }
         private readonly ITestWebSocketClient _testWebSocketClient;
         private readonly ITestWebSocketClientConfig _testWebSocketClientConfig;
         public TestClientImpl(ITestWebSocketClient testWebSocketClient, ITestWebSocketClientConfig testWebSocketClientConfig)

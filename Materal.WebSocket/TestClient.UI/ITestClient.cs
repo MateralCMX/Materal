@@ -1,13 +1,7 @@
-﻿using System;
-
-namespace TestClient.UI
+﻿namespace TestClient.UI
 {
-    public interface ITestClient : IDisposable
+    public interface ITestClient
     {
-        /// <summary>
-        /// 自动重连标识
-        /// </summary>
-        bool IsAutoReload { get; set; }
         /// <summary>
         /// 初始化
         /// </summary>

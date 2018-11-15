@@ -67,7 +67,7 @@ namespace TestClient.UI
             {
                 ConsoleHelper.TestClientWriteLine("正在关闭服务");
             }
-            _testClient?.Dispose();
+            _testClient?.Stop();
         }
         /// <summary>
         /// 开始测试客户端
@@ -76,7 +76,6 @@ namespace TestClient.UI
         {
             ConsoleHelper.TestClientWriteLine("正在启动服务");
             _testClient = TestClientHelper.ServiceProvider.GetService<ITestClient>();
-            _testClient.IsAutoReload = true;
             _testClient.Init();
             _testClient.Start();
         }
@@ -85,7 +84,6 @@ namespace TestClient.UI
         /// </summary>
         private static void CloseApplication()
         {
-            _testClient.IsAutoReload = false;
             StopTestClient();
             ExitApplication();
         }
