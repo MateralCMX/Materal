@@ -27,5 +27,7 @@ namespace Materal.WebSocket.Client
         Task SendCommandByBytesAsync(ICommand command);
 
         Task HandleEventAsync(IEvent eventM);
+
+        void HandleEvent(IEvent eventM);
     }
 }

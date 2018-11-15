@@ -29,5 +29,18 @@ namespace TestClient.WebSocketClient.DotNetty
                 ConsoleHelper.TestClientWriteLine(ex.Message, "未能解析事件");
             }
         }
+
+        public override void HandleEvent(IEvent eventM)
+        {
+            try
+            {
+                var commandBus = (IEventBus)_serviceProvider.GetRequiredService(typeof(IEventBus));
+                Task.Run(() => commandBus.SendAsync(eventM));
+            }
+            catch (MateralWebSocketException ex)
+            {
+                ConsoleHelper.TestClientWriteLine(ex.Message, "未能解析事件");
+            }
+        }
     }
 }

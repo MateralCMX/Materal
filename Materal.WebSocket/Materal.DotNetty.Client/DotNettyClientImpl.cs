@@ -68,6 +68,7 @@ namespace Materal.DotNetty.Client
         }
 
         public abstract Task HandleEventAsync(IEvent eventM);
+        public abstract void HandleEvent(IEvent eventM);
 
         public IWebSocketClientConfig Config { get; private set; }
         private DotNettyClientHandler _clientHandler;

@@ -46,8 +46,8 @@ namespace TestClient.UI
         /// </summary>
         private void StartTestWebSocketClient()
         {
-            //_testWebSocketClient.StartAsync<DotNettyTestWebStockHandler>();
-            _testWebSocketClient.StartAsync<TestWebStockHandler>();
+            _testWebSocketClient.StartAsync<DotNettyTestWebStockHandler>();
+            //_testWebSocketClient.StartAsync<TestWebStockHandler>();
         }
     }
 }

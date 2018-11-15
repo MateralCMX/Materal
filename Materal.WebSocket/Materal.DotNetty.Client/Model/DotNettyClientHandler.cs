@@ -4,7 +4,6 @@ using DotNetty.Common.Concurrency;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
 using Materal.WebSocket.Client.Model;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Materal.DotNetty.Client.Model

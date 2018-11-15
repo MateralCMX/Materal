@@ -20,10 +20,10 @@ namespace TestClient.UI
             Services = new ServiceCollection();
             Services.AddCommandBus(Assembly.Load("TestClient.CommandHandlers"));
             Services.AddEventBus(Assembly.Load("TestClient.EventHandlers"));
-            Services.AddSingleton<ITestWebSocketClient, TestWebSocketClientImpl>();
-            Services.AddSingleton<ITestWebSocketClientConfig, WebSocketTestWebSocketClientConfig>();
-            //Services.AddSingleton<ITestWebSocketClient, DotNettyTestWebStockClientImpl>();
-            //Services.AddSingleton<ITestWebSocketClientConfig, DotNettyTestWebSocketClientConfig>();
+            //Services.AddSingleton<ITestWebSocketClient, TestWebSocketClientImpl>();
+            //Services.AddSingleton<ITestWebSocketClientConfig, WebSocketTestWebSocketClientConfig>();
+            Services.AddSingleton<ITestWebSocketClient, DotNettyTestWebStockClientImpl>();
+            Services.AddSingleton<ITestWebSocketClientConfig, DotNettyTestWebSocketClientConfig>();
         }
         /// <summary>
         /// Bulid服务

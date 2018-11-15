@@ -115,6 +115,7 @@ namespace Materal.WebSocket.Client
             }
         }
         public abstract Task HandleEventAsync(IEvent eventM);
+        public abstract void HandleEvent(IEvent eventM);
 
         /// <summary>
         /// 打开WebSocket客户端

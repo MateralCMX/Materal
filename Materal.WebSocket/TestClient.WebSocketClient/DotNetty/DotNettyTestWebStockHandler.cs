@@ -37,8 +37,8 @@ namespace TestClient.WebSocketClient.DotNetty
                         ByteArrayData = null,
                         StringData = textFrame.Text()
                     };
-                    ClientImpl.HandleEventAsync(@event);
-                    ConsoleHelper.TestClientWriteLine($"接收到{@event.StringData}");
+                    ClientImpl.HandleEvent(@event);
+                    //ConsoleHelper.TestClientWriteLine($"接收到{@event.StringData}");
                     break;
                 case BinaryWebSocketFrame binaryFrame:
                     @event = new Event("TestEventHandler")

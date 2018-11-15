@@ -30,8 +30,8 @@ namespace TestClient.WebSocketClient.WebStock
                 ByteArrayData = null,
                 StringData = message
             };
-            channel.HandleEventAsync(@event);
-            Console.WriteLine(message);
+            channel.HandleEvent(@event);
+            //Console.WriteLine(message);
         }
 
         public override void ExceptionCaught(WebSocketClientImpl channel, Exception ex)
