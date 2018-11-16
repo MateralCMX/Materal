@@ -44,6 +44,8 @@ namespace Materal.WebSocket.Client
         }
         public IWebSocketClientConfig Config { get; private set; }
 
+        public WebSocketState WebSocketState => ClientWebSocket?.State ?? WebSocketState.None;
+
         /// <summary>
         /// WebSocket客户端
         /// </summary>

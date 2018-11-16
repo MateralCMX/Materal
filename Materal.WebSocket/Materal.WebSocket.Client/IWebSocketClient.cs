@@ -1,4 +1,5 @@
-﻿using Materal.WebSocket.Client.Model;
+﻿using System.Net.WebSockets;
+using Materal.WebSocket.Client.Model;
 using System.Threading.Tasks;
 using Materal.WebSocket.Commands;
 using Materal.WebSocket.Events;
@@ -11,6 +12,8 @@ namespace Materal.WebSocket.Client
     public interface IWebSocketClient
     {
         IWebSocketClientConfig Config { get; }
+
+        WebSocketState WebSocketState { get; }
 
         void SetConfig(IWebSocketClientConfig config);
 

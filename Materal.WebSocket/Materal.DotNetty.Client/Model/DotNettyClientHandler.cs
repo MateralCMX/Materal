@@ -1,4 +1,5 @@
-﻿using DotNetty.Codecs.Http;
+﻿using System.Net.WebSockets;
+using DotNetty.Codecs.Http;
 using DotNetty.Codecs.Http.WebSockets;
 using DotNetty.Common.Concurrency;
 using DotNetty.Common.Utilities;
@@ -30,7 +31,24 @@ namespace Materal.DotNetty.Client.Model
 
         public Task HandshakeCompletion => CompletionSource.Task;
 
-        public override void ChannelActive(IChannelHandlerContext ctx) => Handshaker.HandshakeAsync(ctx.Channel).LinkOutcome(CompletionSource);
+        public override void ChannelActive(IChannelHandlerContext ctx)
+        {
+            base.ChannelActive(ctx);
+            Handshaker.HandshakeAsync(ctx.Channel).LinkOutcome(CompletionSource);
+            if (ClientImpl is DotNettyClientImpl dotNettyClientImpl)
+            {
+                dotNettyClientImpl.WebSocketState = WebSocketState.Open;
+            }
+        }
+
+        public override void ChannelInactive(IChannelHandlerContext context)
+        {
+            if (context != null) base.ChannelInactive(context);
+            if (ClientImpl is DotNettyClientImpl dotNettyClientImpl)
+            {
+                dotNettyClientImpl.WebSocketState = WebSocketState.Closed;
+            }
+        }
 
         protected override void ChannelRead0(IChannelHandlerContext ctx, object msg)
         {

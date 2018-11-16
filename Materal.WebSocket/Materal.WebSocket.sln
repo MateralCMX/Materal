@@ -5,15 +5,13 @@ VisualStudioVersion = 15.0.28010.2048
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{E6641727-5571-4537-94C8-4B2A00BB3E1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.ClientDemo", "Materal.DotNetty.ClientDemo\Materal.DotNetty.ClientDemo.csproj", "{1827BEC3-9365-40E3-A038-F1AFB135A8C8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.ServerDome", "Materal.DotNetty.ServerDome\Materal.DotNetty.ServerDome.csproj", "{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Client", "Materal.DotNetty.Client\Materal.DotNetty.Client.csproj", "{942D5DE8-033C-4D2E-8176-EBB28DC48AE9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WebSocket", "Materal.WebSocket\Materal.WebSocket.csproj", "{22D5E7CD-7450-423B-810B-E74861CFFA2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WebSocket.Client", "Materal.WebSocket.Client\Materal.WebSocket.Client.csproj", "{4C778909-FC12-4E6C-B9C1-454403DA7D64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WebSocket.Client", "Materal.WebSocket.Client\Materal.WebSocket.Client.csproj", "{4C778909-FC12-4E6C-B9C1-454403DA7D64}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestClient.CommandHandlers", "TestClient.CommandHandlers\TestClient.CommandHandlers.csproj", "{82BB7031-177C-41D1-96B6-1F11E4A3E907}"
 EndProject
@@ -35,10 +33,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1827BEC3-9365-40E3-A038-F1AFB135A8C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1827BEC3-9365-40E3-A038-F1AFB135A8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1827BEC3-9365-40E3-A038-F1AFB135A8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1827BEC3-9365-40E3-A038-F1AFB135A8C8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -88,7 +82,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1827BEC3-9365-40E3-A038-F1AFB135A8C8} = {E6641727-5571-4537-94C8-4B2A00BB3E1E}
 		{F15E21F8-80BD-4205-9BF9-A0E6790EA21E} = {E6641727-5571-4537-94C8-4B2A00BB3E1E}
 		{82BB7031-177C-41D1-96B6-1F11E4A3E907} = {E6641727-5571-4537-94C8-4B2A00BB3E1E}
 		{30C44191-3920-40E7-BAC6-6625536D5700} = {E6641727-5571-4537-94C8-4B2A00BB3E1E}

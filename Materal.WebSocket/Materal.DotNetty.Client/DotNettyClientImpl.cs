@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Security;
+using System.Net.WebSockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
@@ -28,6 +29,12 @@ namespace Materal.DotNetty.Client
         private IEventLoopGroup _eventLoopGroup;
         private string _targetHost;
         private X509Certificate2 _x509Certificate2;
+        public abstract Task HandleEventAsync(IEvent eventM);
+        public abstract void HandleEvent(IEvent eventM);
+        public IWebSocketClientConfig Config { get; private set; }
+        public WebSocketState WebSocketState { get; set; } = WebSocketState.None;
+        private DotNettyClientHandler _clientHandler;
+        public Bootstrap Bootstrap;
 
         public async Task SendMessageAsync(WebSocketFrame frame)
         {
@@ -38,6 +45,7 @@ namespace Materal.DotNetty.Client
         {
             await Channel.CloseAsync();
             await _eventLoopGroup.ShutdownGracefullyAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromSeconds(1));
+            WebSocketState = WebSocketState.Closed;
         }
 
         public async Task SendCommandAsync(ICommand command)
@@ -67,12 +75,6 @@ namespace Materal.DotNetty.Client
             _clientHandler.OnSendMessage(command.ByteArrayData);
         }
 
-        public abstract Task HandleEventAsync(IEvent eventM);
-        public abstract void HandleEvent(IEvent eventM);
-
-        public IWebSocketClientConfig Config { get; private set; }
-        private DotNettyClientHandler _clientHandler;
-        public Bootstrap Bootstrap;
         public void SetConfig(IWebSocketClientConfig config)
         {
             if (config is DotNettyClientConfig webSocketClientConfig)
@@ -146,6 +148,7 @@ namespace Materal.DotNetty.Client
             _clientHandler.ChannelStart(Channel);
             Channel = await Bootstrap.ConnectAsync(new IPEndPoint(webSocketClientConfig.IPAddress, webSocketClientConfig.UriBuilder.Port));
             await _clientHandler.HandshakeCompletion;
+            WebSocketState = WebSocketState.Open;
         }
     }
 }
