@@ -7,7 +7,7 @@
     <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
     <Style TargetType="numberBox:NumberBox">
         <Setter Property="BorderBrush" Value="#abadb3"></Setter>
-        <Setter Property="Height" Value="17"></Setter>
+        <Setter Property="Height" Value="18"></Setter>
         <Setter Property="BorderCornerRadius" Value="2"></Setter>
         <Setter Property="LeftBorderCornerRadius" Value="1,0,0,1"></Setter>
         <Setter Property="Template">
