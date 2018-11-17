@@ -26,7 +26,7 @@
             <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <subtitletextbox:SubTitleTextBox VerticalAlignment="Center" Text="Text" SubTitle="SubTitle" SubTitleWidth="48" Foreground="#FF333333"></subtitletextbox:SubTitleTextBox>
+        <subtitletextbox:SubTitleTextBox IsEnabled="False" VerticalAlignment="Center" Text="Text" SubTitle="SubTitle" SubTitleWidth="48"></subtitletextbox:SubTitleTextBox>
         <cornerradiustextbox:CornerRadiusTextBox Grid.Row="1" VerticalAlignment="Center" Text="Text"></cornerradiustextbox:CornerRadiusTextBox>
     </Grid>
 </UserControl>
