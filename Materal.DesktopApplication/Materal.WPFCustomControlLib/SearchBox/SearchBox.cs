@@ -24,9 +24,7 @@ namespace Materal.WPFCustomControlLib.SearchBox
         public static readonly DependencyProperty ShowMaxNumProperty = DependencyProperty.Register(nameof(ShowMaxNum), typeof(int), typeof(SearchBox),
             new FrameworkPropertyMetadata(
                 -1,
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal,
-                OnCandidateDataChanged,
-                CoerceCandidateData));
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
 
         /// <summary>
         /// 候选数据

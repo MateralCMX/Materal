@@ -5,17 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Materal.WPFUI.CtrlTest"
              xmlns:searchBox="clr-namespace:Materal.WPFCustomControlLib.SearchBox;assembly=Materal.WPFCustomControlLib"
-             x:Class="Materal.WPFUI.CtrlTest.Test.TestCtrl"
+    xmlns:subtitletextbox="clr-namespace:Materal.WPFCustomControlLib.SubTitleTextBox;assembly=Materal.WPFCustomControlLib"
+    xmlns:cornerradiustextbox="clr-namespace:Materal.WPFCustomControlLib.CornerRadiusTextBox;assembly=Materal.WPFCustomControlLib"
+    x:Class="Materal.WPFUI.CtrlTest.Test.TestCtrl"
              mc:Ignorable="d" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="TestCtrlResources.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="21"/>
-            <RowDefinition/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <subtitletextbox:SubTitleTextBox VerticalAlignment="Center" Text="Text" SubTitle="SubTitle" SubTitleWidth="48" Foreground="#FF333333"></subtitletextbox:SubTitleTextBox>
+        <cornerradiustextbox:CornerRadiusTextBox Grid.Row="1" VerticalAlignment="Center" Text="Text"></cornerradiustextbox:CornerRadiusTextBox>
     </Grid>
 </UserControl>
