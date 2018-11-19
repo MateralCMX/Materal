@@ -1,6 +1,5 @@
-﻿using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -20,6 +19,7 @@ using System.Windows;
 //对 COM 组件不可见。  如果需要从 COM 访问此程序集中的类型，
 //请将此类型的 ComVisible 特性设置为 true。
 [assembly: ComVisible(false)]
+[assembly: Description("Materal.WPFCustomControlLib")]
 
 //若要开始生成可本地化的应用程序，请设置
 //.csproj 文件中的 <UICulture>CultureYouAreCodingWith</UICulture>
@@ -31,13 +31,13 @@ using System.Windows;
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 
-[assembly:ThemeInfo(
+[assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //主题特定资源词典所处位置
-                             //(未在页面中找到资源时使用，
-                             //或应用程序资源字典中找到时使用)
+                                     //(未在页面中找到资源时使用，
+                                     //或应用程序资源字典中找到时使用)
     ResourceDictionaryLocation.SourceAssembly //常规资源词典所处位置
-                                      //(未在页面中找到资源时使用，
-                                      //、应用程序或任何主题专用资源字典中找到时使用)
+                                              //(未在页面中找到资源时使用，
+                                              //、应用程序或任何主题专用资源字典中找到时使用)
 )]
 
 

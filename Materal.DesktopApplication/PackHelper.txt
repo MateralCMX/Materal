@@ -1,0 +1,9 @@
+1、在AssemblyInfo.cs中添加
+[assembly:Description("XXXX")]
+[assembly:ComVisible(false)]
+[assembly:Guid("XXXXXX")]
+[assembly:AssemblyVersion("X.X.X.X")]
+2、nuget spec生成配置
+3、打包
+nuget pack Materal.WPFCommon.csproj -Prop Configuration=Release
+nuget pack Materal.WPFCustomControlLib.csproj -Prop Configuration=Release
