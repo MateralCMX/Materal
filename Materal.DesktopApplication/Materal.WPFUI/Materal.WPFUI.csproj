@@ -175,10 +175,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationConfig.cs" />
+    <Compile Include="CtrlTest\CornerRadiusButton\CornerRadiusButtonTestCtrl.xaml.cs">
+      <DependentUpon>CornerRadiusButtonTestCtrl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtrlTest\CornerRadiusButton\CornerRadiusButtonViewModel.cs" />
     <Compile Include="CtrlTest\CornerRadiusTextBox\CornerRadiusTextBoxTestCtrl.xaml.cs">
       <DependentUpon>CornerRadiusTextBoxTestCtrl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CtrlTest\CornerRadiusTextBox\CornerRadiusTextBoxViewModel.cs" />
+    <Compile Include="CtrlTest\CornerRadiusToggleButton\CornerRadiusToggleButtonTestCtrl.xaml.cs">
+      <DependentUpon>CornerRadiusToggleButtonTestCtrl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtrlTest\CornerRadiusToggleButton\CornerRadiusToggleButtonViewModel.cs" />
     <Compile Include="Tools\NuGetTools\Model\NuGetToolsConfigTemplateModel.cs" />
     <Compile Include="Tools\NuGetTools\NuGetToolCommands.cs" />
     <Compile Include="Tools\NuGetTools\NuGetToolCtrl.xaml.cs">
@@ -186,7 +194,15 @@
     </Compile>
     <Compile Include="Tools\NuGetTools\NuGetToolViewModel.cs" />
     <Compile Include="WPFUIHelper.cs" />
+    <Page Include="CtrlTest\CornerRadiusButton\CornerRadiusButtonTestCtrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CtrlTest\CornerRadiusTextBox\CornerRadiusTextBoxTestCtrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CtrlTest\CornerRadiusToggleButton\CornerRadiusToggleButtonTestCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -7,6 +7,8 @@
              xmlns:searchBox="clr-namespace:Materal.WPFCustomControlLib.SearchBox;assembly=Materal.WPFCustomControlLib"
     xmlns:subtitletextbox="clr-namespace:Materal.WPFCustomControlLib.SubTitleTextBox;assembly=Materal.WPFCustomControlLib"
     xmlns:cornerradiustextbox="clr-namespace:Materal.WPFCustomControlLib.CornerRadiusTextBox;assembly=Materal.WPFCustomControlLib"
+    xmlns:numberBox="clr-namespace:Materal.WPFCustomControlLib.NumberBox;assembly=Materal.WPFCustomControlLib"
+    xmlns:cornerRadiusButton="clr-namespace:Materal.WPFCustomControlLib.CornerRadiusButton;assembly=Materal.WPFCustomControlLib"
     x:Class="Materal.WPFUI.CtrlTest.Test.TestCtrl"
              mc:Ignorable="d" Loaded="UserControl_Loaded">
     <UserControl.Resources>
@@ -16,9 +18,19 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <TabControl Style="{DynamicResource TabControlStyle1}">
-        <TabItem Header="qwe">
-            <Grid></Grid>
-        </TabItem>
-    </TabControl>
+    <Grid Margin="40,20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120"></ColumnDefinition>
+            <ColumnDefinition Width="120"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <searchBox:SearchBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Text="1234" CornerRadius="4"></searchBox:SearchBox>
+        <!--<numberBox:NumberBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center"></numberBox:NumberBox>
+        <ToggleButton Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Style="{DynamicResource ToggleButtonStyle1}">1234</ToggleButton>-->
+    </Grid>
 </UserControl>

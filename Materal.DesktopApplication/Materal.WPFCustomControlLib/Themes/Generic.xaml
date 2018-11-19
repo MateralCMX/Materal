@@ -10,5 +10,7 @@
         <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/SearchBox/SearchBox.xaml"/>
         <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/SubTitleTextBox/SubTitleTextBox.xaml"/>
         <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/CornerRadiusTextBox/CornerRadiusTextBox.xaml"/>
+        <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/CornerRadiusButton/CornerRadiusButton.xaml"/>
+        <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/CornerRadiusToggleButton/CornerRadiusToggleButton.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

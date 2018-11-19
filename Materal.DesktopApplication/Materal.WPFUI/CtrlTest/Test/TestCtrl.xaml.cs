@@ -15,7 +15,7 @@ namespace Materal.WPFUI.CtrlTest.Test
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //SearchBox.SearchFun = m => m is UserModel userModel && userModel.Name.Contains(SearchBox.Text);
+            //MyControl.SearchFun = m => m is UserModel userModel && userModel.Name.Contains(MyControl.Text);
             //var data = new List<object>();
             //for (var i = 0; i < 100000; i++)
             //{
@@ -25,7 +25,7 @@ namespace Materal.WPFUI.CtrlTest.Test
             //        Name = "云A" + i
             //    });
             //}
-            //SearchBox.CandidateData = data;
+            //MyControl.CandidateData = data;
         }
     }
 }

@@ -42,7 +42,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">项目地址：</TextBlock>
-        <searchBox:SearchBox x:Name="ProjectSearchBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" IsTextSearchEnabled="False" CandidateData="{Binding ConfigTemplateModels}" SelectedItem="{Binding SelectedConfigTemplateModel}" Text="{Binding ProjectAddress}" DisplayMemberPath="ProjectAddress"></searchBox:SearchBox>
+        <!--<searchBox:SearchBox x:Name="ProjectSearchBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" IsTextSearchEnabled="False" CandidateData="{Binding ConfigTemplateModels}" SelectedItem="{Binding SelectedConfigTemplateModel}" Text="{Binding ProjectAddress}" DisplayMemberPath="ProjectAddress"></searchBox:SearchBox>-->
         <Button Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Command="local:NuGetToolCommands.BrowseProjectAddress">浏览...</Button>
         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">目标地址：</TextBlock>
         <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Text="{Binding TargetAddress}"></TextBox>

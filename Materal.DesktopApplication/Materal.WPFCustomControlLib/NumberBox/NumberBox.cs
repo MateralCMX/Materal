@@ -145,7 +145,22 @@ namespace Materal.WPFCustomControlLib.NumberBox
             if (GetTemplateChild("BtnUp") is Path btnUp) btnUp.MouseLeftButtonDown += BtnUp_Click;
             if (GetTemplateChild("BtnDown") is Path btnDown) btnDown.MouseLeftButtonDown += BtnDown_Click;
             if (GetTemplateChild("RootElement") is Grid rootElement) rootElement.MouseWheel += RootElement_MouseWheel;
-            if (GetTemplateChild("TextValue") is TextBox textValue) textValue.LostFocus += TextValue_LostFocus;
+            if (GetTemplateChild("TextValue") is CornerRadiusTextBox.CornerRadiusTextBox textValue)
+            {
+                textValue.LostFocus += TextValue_LostFocus;
+                switch (ButtonShowType)
+                {
+                    case NumberBoxButtonShowTypeEnum.None:
+                        textValue.CornerRadius = new CornerRadius(CornerRadius.TopLeft, CornerRadius.TopRight, CornerRadius.BottomRight, CornerRadius.BottomLeft);
+                        break;
+                    case NumberBoxButtonShowTypeEnum.Left:
+                        textValue.CornerRadius = new CornerRadius(0, CornerRadius.TopRight, CornerRadius.BottomRight, 0);
+                        break;
+                    case NumberBoxButtonShowTypeEnum.Right:
+                        textValue.CornerRadius = new CornerRadius(CornerRadius.TopLeft, 0, 0, CornerRadius.BottomLeft);
+                        break;
+                }
+            }
         }
 
         /// <summary>

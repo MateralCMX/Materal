@@ -38,7 +38,9 @@
     <Reference Include="Materal.StringHelper, Version=0.0.15.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.StringHelper.0.0.15\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="PresentationFramework.Aero2, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\PresentationFramework.Aero2.1.0.1\lib\PresentationFramework.Aero2.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -55,9 +57,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CornerRadiusButton\CornerRadiusButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CornerRadiusTextBox\CornerRadiusTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CornerRadiusToggleButton\CornerRadiusToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="DateTimePicker\DateTimePicker.xaml">
       <SubType>Designer</SubType>
@@ -89,7 +99,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CornerRadiusButton\CornerRadiusButton.cs" />
     <Compile Include="CornerRadiusTextBox\CornerRadiusTextBox.cs" />
+    <Compile Include="CornerRadiusToggleButton\CornerRadiusToggleButton.cs" />
     <Compile Include="DateTimePicker\DateTimePicker.cs" />
     <Compile Include="ImageButton.cs" />
     <Compile Include="NumberBox\NumberBox.cs" />

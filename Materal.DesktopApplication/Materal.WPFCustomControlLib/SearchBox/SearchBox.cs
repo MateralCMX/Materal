@@ -10,6 +10,35 @@ namespace Materal.WPFCustomControlLib.SearchBox
     public class SearchBox : ComboBox
     {
         /// <summary>
+        /// 边框圆角
+        /// </summary>
+        public CornerRadius CornerRadius { get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value); }
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(SearchBox),
+            new FrameworkPropertyMetadata(
+                new CornerRadius(0),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal,
+                OnCornerRadiusChanged));
+        private static void OnCornerRadiusChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(sender is SearchBox searchBox)) return;
+            if (searchBox.GetTemplateChild("PART_EditableTextBox") is CornerRadiusTextBox.CornerRadiusTextBox textValue)
+            {
+                textValue.CornerRadius = new CornerRadius(searchBox.CornerRadius.TopLeft, 0, 0, searchBox.CornerRadius.BottomLeft);
+            }
+            if (searchBox.GetTemplateChild("toggleButton") is CornerRadiusToggleButton.CornerRadiusToggleButton toggleButton)
+            {
+                toggleButton.CornerRadius = new CornerRadius(0, searchBox.CornerRadius.TopRight, searchBox.CornerRadius.BottomRight, 0);
+            }
+        }
+        /// <summary>
+        /// 弹出框是否打开
+        /// </summary>
+        public bool PopupIsOpen { get => (bool)GetValue(PopupIsOpenProperty); set => SetValue(PopupIsOpenProperty, value); }
+        public static readonly DependencyProperty PopupIsOpenProperty = DependencyProperty.Register(nameof(PopupIsOpen), typeof(bool), typeof(SearchBox),
+            new FrameworkPropertyMetadata(
+                false,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
+        /// <summary>
         /// 查询方法
         /// </summary>
         public Func<object, bool> SearchFun { get; set; } = m => true;
@@ -64,7 +93,15 @@ namespace Materal.WPFCustomControlLib.SearchBox
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            if (GetTemplateChild("PART_EditableTextBox") is TextBox textBox) textBox.TextChanged += TextBox_TextChanged;
+            if (GetTemplateChild("PART_EditableTextBox") is CornerRadiusTextBox.CornerRadiusTextBox textValue)
+            {
+                textValue.CornerRadius = new CornerRadius(CornerRadius.TopLeft, 0, 0, CornerRadius.BottomLeft);
+                textValue.TextChanged += TextBox_TextChanged;
+            }
+            if (GetTemplateChild("toggleButton") is CornerRadiusToggleButton.CornerRadiusToggleButton toggleButton)
+            {
+                toggleButton.CornerRadius = new CornerRadius(0, CornerRadius.TopRight, CornerRadius.BottomRight, 0);
+            }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

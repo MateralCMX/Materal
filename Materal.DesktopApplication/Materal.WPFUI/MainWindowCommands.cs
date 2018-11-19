@@ -29,6 +29,14 @@ namespace Materal.WPFUI
         /// </summary>
         public static RoutedUICommand LoadWebBrowserTestCtrl { get; }
         /// <summary>
+        /// 加载圆角按钮测试控件
+        /// </summary>
+        public static RoutedUICommand LoadCornerRadiusButtonTestCtrl { get; }
+        /// <summary>
+        /// 加载圆角选择按钮测试控件
+        /// </summary>
+        public static RoutedUICommand LoadCornerRadiusToggleButtonTestCtrl { get; }
+        /// <summary>
         /// 加载圆角文本框测试控件
         /// </summary>
         public static RoutedUICommand LoadCornerRadiusTextBoxTestCtrl { get; }
@@ -76,6 +84,14 @@ namespace Materal.WPFUI
             LoadCornerRadiusTextBoxTestCtrl = new RoutedUICommand(
                 "CornerRadiusTextBox",
                 nameof(LoadCornerRadiusTextBoxTestCtrl),
+                typeof(MainWindowCommands));
+            LoadCornerRadiusButtonTestCtrl = new RoutedUICommand(
+                "CornerRadiusButton",
+                nameof(LoadCornerRadiusButtonTestCtrl),
+                typeof(MainWindowCommands));
+            LoadCornerRadiusToggleButtonTestCtrl = new RoutedUICommand(
+                "CornerRadiusToggleButton",
+                nameof(LoadCornerRadiusToggleButtonTestCtrl),
                 typeof(MainWindowCommands));
         }
     }

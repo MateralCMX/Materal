@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Materal.WPFUI.CtrlTest.CornerRadiusButton;
+using Materal.WPFUI.CtrlTest.CornerRadiusToggleButton;
 
 namespace Materal.WPFUI
 {
@@ -79,6 +81,16 @@ namespace Materal.WPFUI
         private void LoadCornerRadiusTextBoxCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             LoadUserControl(new CornerRadiusTextBoxTestCtrl());
+        }
+
+        private void LoadCornerRadiusButtonCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LoadUserControl(new CornerRadiusButtonTestCtrl());
+        }
+
+        private void LoadCornerRadiusToggleButtonCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LoadUserControl(new CornerRadiusToggleButtonTestCtrl());
         }
         #endregion
 

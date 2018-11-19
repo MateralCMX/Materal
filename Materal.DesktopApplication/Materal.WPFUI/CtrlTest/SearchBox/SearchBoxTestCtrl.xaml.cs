@@ -16,8 +16,8 @@ namespace Materal.WPFUI.CtrlTest.SearchBox
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            SearchBox.SearchFun = m => m is UserModel userModel && userModel.Name.Contains(SearchBox.Text);
-            SearchBox.SelectedFun = m => m is UserModel userModel && userModel.Name.Equals(SearchBox.Text);
+            MyControl.SearchFun = m => m is UserModel userModel && userModel.Name.Contains(MyControl.Text);
+            MyControl.SelectedFun = m => m is UserModel userModel && userModel.Name.Equals(MyControl.Text);
         }
     }
 }

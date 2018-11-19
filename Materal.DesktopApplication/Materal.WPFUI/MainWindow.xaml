@@ -13,12 +13,14 @@
     <Window.CommandBindings>
         <CommandBinding x:Name="ReloadCtrlCommand" Command="local:MainWindowCommands.ReloadCtrl" Executed="ReloadCtrlCommand_Executed" CanExecute="ReloadCtrlCommand_CanExecute"></CommandBinding>
         <CommandBinding x:Name="LoadTestCtrlCommand" Command="local:MainWindowCommands.LoadTestCtrl" Executed="LoadTestCtrlCommand_Executed"></CommandBinding>
-        <CommandBinding x:Name="LoadSearchBoxTestCtrlCommand" Command="local:MainWindowCommands.LoadSearchBoxTestCtrl" Executed="LoadSearchBoxTestCtrlCommand_Executed"></CommandBinding>
+        <CommandBinding x:Name="LoadMyControlTestCtrlCommand" Command="local:MainWindowCommands.LoadSearchBoxTestCtrl" Executed="LoadSearchBoxTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadNumberBoxTestCtrlCommand" Command="local:MainWindowCommands.LoadNumberBoxTestCtrl" Executed="LoadNumberBoxTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadDateTimePickerTestCtrlCommand" Command="local:MainWindowCommands.LoadDateTimePickerTestCtrl" Executed="LoadDateTimePickerTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadWebBrowserTestCtrlCommand" Command="local:MainWindowCommands.LoadWebBrowserTestCtrl" Executed="LoadWebBrowserTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadNuGetToolCtrlCommand" Command="local:MainWindowCommands.LoadNuGetToolsCtrl" Executed="LoadNuGetToolsCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadCornerRadiusTextBoxCtrlCommand" Command="local:MainWindowCommands.LoadCornerRadiusTextBoxTestCtrl" Executed="LoadCornerRadiusTextBoxCtrlCommand_Executed"></CommandBinding>
+        <CommandBinding x:Name="LoadCornerRadiusButtonCtrlCommand" Command="local:MainWindowCommands.LoadCornerRadiusButtonTestCtrl" Executed="LoadCornerRadiusButtonCtrlCommand_Executed"></CommandBinding>
+        <CommandBinding x:Name="LoadCornerRadiusToggleButtonCtrlCommand" Command="local:MainWindowCommands.LoadCornerRadiusToggleButtonTestCtrl" Executed="LoadCornerRadiusToggleButtonCtrlCommand_Executed"></CommandBinding>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -29,6 +31,8 @@
             <MenuItem Header="测试">
                 <MenuItem Command="local:MainWindowCommands.ReloadCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadTestCtrl"></MenuItem>
+                <MenuItem Command="local:MainWindowCommands.LoadCornerRadiusButtonTestCtrl"></MenuItem>
+                <MenuItem Command="local:MainWindowCommands.LoadCornerRadiusToggleButtonTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadCornerRadiusTextBoxTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadNumberBoxTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadDateTimePickerTestCtrl"></MenuItem>

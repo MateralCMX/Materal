@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="Materal.WPFUI.CtrlTest.CornerRadiusButton.CornerRadiusButtonTestCtrl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Materal.WPFUI.CtrlTest.CornerRadiusButton"
+             xmlns:cornerRadiusButton="clr-namespace:Materal.WPFCustomControlLib.CornerRadiusButton;assembly=Materal.WPFCustomControlLib"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <local:CornerRadiusButtonViewModel x:Name="ViewModel"></local:CornerRadiusButtonViewModel>
+    </UserControl.DataContext>
+    <Grid Margin="0,20,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="220"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">圆角按钮：</TextBlock>
+        <cornerRadiusButton:CornerRadiusButton x:Name="MyControl" Grid.Row="0" Grid.Column="1" CornerRadius="{Binding CornerRadius,Mode=OneWay}" VerticalAlignment="Center">CornerRadiusButton</cornerRadiusButton:CornerRadiusButton>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">左上圆角：</TextBlock>
+        <Slider Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Value="{Binding TopLeftCornerRadius}"></Slider>
+        <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Text="{Binding TopLeftCornerRadius}"></TextBlock>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">右上圆角：</TextBlock>
+        <Slider Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Value="{Binding TopRightCornerRadius}"></Slider>
+        <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Text="{Binding TopRightCornerRadius}"></TextBlock>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">左下圆角：</TextBlock>
+        <Slider Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Value="{Binding BottomLeftCornerRadius}"></Slider>
+        <TextBlock Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Text="{Binding BottomLeftCornerRadius}"></TextBlock>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">右下圆角：</TextBlock>
+        <Slider Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Value="{Binding BottomRightCornerRadius}"></Slider>
+        <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Text="{Binding BottomRightCornerRadius}"></TextBlock>
+
+        <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">启用：</TextBlock>
+        <CheckBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyControl,Path=IsEnabled}"></CheckBox>
+        <TextBlock Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=IsEnabled}"></TextBlock>
+    </Grid>
+</UserControl>
