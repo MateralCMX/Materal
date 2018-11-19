@@ -34,7 +34,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">圆角文本框：</TextBlock>
-        <cornerRadiusTextBox:CornerRadiusTextBox x:Name="MyNumberBox" Grid.Row="0" Grid.Column="1" CornerRadius="{Binding CornerRadius,Mode=OneWay}" VerticalAlignment="Center" Text="{Binding TestValue}"></cornerRadiusTextBox:CornerRadiusTextBox>
+        <cornerRadiusTextBox:CornerRadiusTextBox x:Name="MyControl" Grid.Row="0" Grid.Column="1" CornerRadius="{Binding CornerRadius,Mode=OneWay}" VerticalAlignment="Center" Text="{Binding TestValue}"></cornerRadiusTextBox:CornerRadiusTextBox>
         <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Text="{Binding TestValue}"></TextBlock>
 
         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">左上圆角：</TextBlock>
@@ -54,12 +54,12 @@
         <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Text="{Binding BottomRightCornerRadius}"></TextBlock>
 
         <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">只读：</TextBlock>
-        <CheckBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyNumberBox,Path=IsReadOnly}"></CheckBox>
-        <TextBlock Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=IsReadOnly}"></TextBlock>
+        <CheckBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyControl,Path=IsReadOnly}"></CheckBox>
+        <TextBlock Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=IsReadOnly}"></TextBlock>
 
         <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">启用：</TextBlock>
-        <CheckBox Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyNumberBox,Path=IsEnabled}"></CheckBox>
-        <TextBlock Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=IsEnabled}"></TextBlock>
+        <CheckBox Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyControl,Path=IsEnabled}"></CheckBox>
+        <TextBlock Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=IsEnabled}"></TextBlock>
 
         <Button Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" Command="ctrlTest:CtrlTestCommands.UpdateViewModelValue">更新ViewModel绑定值</Button>
         <Button Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Command="ctrlTest:CtrlTestCommands.GetViewModelValue">获取ViewModel绑定值</Button>

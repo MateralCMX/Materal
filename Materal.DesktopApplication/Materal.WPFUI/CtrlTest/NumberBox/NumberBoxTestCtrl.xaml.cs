@@ -22,7 +22,7 @@ namespace Materal.WPFUI.CtrlTest.NumberBox
 
         private void UpdateViewModelValueCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ViewModel.TestValue = new Random().Next((int)MyNumberBox.MinValue, (int)MyNumberBox.MaxValue);
+            ViewModel.TestValue = new Random().Next((int)MyControl.MinValue, (int)MyControl.MaxValue);
         }
     }
 }

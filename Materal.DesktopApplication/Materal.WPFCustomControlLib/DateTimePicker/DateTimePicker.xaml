@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cornerRadiusTextBox="clr-namespace:Materal.WPFCustomControlLib.CornerRadiusTextBox"
                     xmlns:dateTimePicker="clr-namespace:Materal.WPFCustomControlLib.DateTimePicker"
                     xmlns:numberBox="clr-namespace:Materal.WPFCustomControlLib.NumberBox">
     <Style x:Key="DataTimePickerButton" TargetType="{x:Type Button}">
@@ -116,14 +117,14 @@
                             <ColumnDefinition />
                             <ColumnDefinition Width="25" />
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Row="0" Grid.Column="0" x:Name="TextValue" IsReadOnly="True" Text="{TemplateBinding ShowValue}"></TextBox>
+                        <cornerRadiusTextBox:CornerRadiusTextBox Grid.Row="0" Grid.Column="0" x:Name="TextValue" CornerRadius="{TemplateBinding CornerRadius}" IsReadOnly="True" Text="{TemplateBinding ShowValue}"></cornerRadiusTextBox:CornerRadiusTextBox>
                         <Button x:Name="BtnOpenPopup" Grid.Row="0" Grid.Column="1" Focusable="False" Style="{StaticResource DataTimePickerButton}" />
-                        <Popup x:Name="PopupPanel" Grid.Row="0" Grid.Column="0" HorizontalOffset="5"  PopupAnimation="Fade" AllowsTransparency="True" Placement="Bottom" StaysOpen="False" PlacementTarget="{Binding ElementName = TextValue}">
+                        <Popup x:Name="PopupPanel" Grid.Row="0" Grid.Column="0" VerticalOffset="-1" PopupAnimation="Fade" AllowsTransparency="True" Placement="Bottom" StaysOpen="False" PlacementTarget="{Binding ElementName = TextValue}">
                             <Border CornerRadius="3" Background="White" BorderBrush="#abadb3" BorderThickness="1" Padding="4,2">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition></RowDefinition>
-                                        <RowDefinition Height="18"></RowDefinition>
+                                        <RowDefinition Height="21"></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <Calendar x:Name="CalendarDate" Grid.Row="0" Grid.Column="0"></Calendar>
                                     <Grid Grid.Row="1" Grid.Column="0">
@@ -135,11 +136,11 @@
                                             <ColumnDefinition />
                                             <ColumnDefinition Width="15" />
                                         </Grid.ColumnDefinitions>
-                                        <numberBox:NumberBox x:Name="NumberHour" Grid.Column="0" Grid.Row="0" MinValue="0" MaxValue="23"></numberBox:NumberBox>
+                                        <numberBox:NumberBox x:Name="NumberHour" Grid.Column="0" Grid.Row="0" CornerRadius="{TemplateBinding CornerRadius}" MinValue="0" MaxValue="23"></numberBox:NumberBox>
                                         <TextBlock Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">时</TextBlock>
-                                        <numberBox:NumberBox x:Name="NumberMinute" Grid.Column="2" Grid.Row="0" MinValue="0" MaxValue="59"></numberBox:NumberBox>
+                                        <numberBox:NumberBox x:Name="NumberMinute" Grid.Column="2" Grid.Row="0" CornerRadius="{TemplateBinding CornerRadius}" MinValue="0" MaxValue="59"></numberBox:NumberBox>
                                         <TextBlock Grid.Column="3" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">分</TextBlock>
-                                        <numberBox:NumberBox x:Name="NumberSecond" Grid.Column="4" Grid.Row="0" MinValue="0" MaxValue="59"></numberBox:NumberBox>
+                                        <numberBox:NumberBox x:Name="NumberSecond" Grid.Column="4" Grid.Row="0" CornerRadius="{TemplateBinding CornerRadius}" MinValue="0" MaxValue="59"></numberBox:NumberBox>
                                         <TextBlock Grid.Column="5" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">秒</TextBlock>
                                     </Grid>
                                 </Grid>

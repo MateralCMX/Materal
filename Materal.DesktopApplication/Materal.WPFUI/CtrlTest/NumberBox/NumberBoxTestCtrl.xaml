@@ -41,24 +41,24 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">NumberBox：</TextBlock>
-        <numberBox:NumberBox x:Name="MyNumberBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" ButtonShowType="Right" ButtonWidth="{Binding ButtonGridWidth,Mode=OneWay}" CornerRadius="{Binding CornerRadius,Mode=OneWay}" Value="{Binding TestValue}" MinValue="-100" MaxValue="100" DecimalPlaces="4" Increment="1"></numberBox:NumberBox>
+        <numberBox:NumberBox x:Name="MyControl" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" ButtonShowType="Right" ButtonWidth="{Binding ButtonGridWidth,Mode=OneWay}" CornerRadius="{Binding CornerRadius,Mode=OneWay}" Value="{Binding TestValue}" MinValue="-100" MaxValue="100" DecimalPlaces="4" Increment="1"></numberBox:NumberBox>
         <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Text="{Binding TestValue}"></TextBlock>
 
         <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">最小值：</TextBlock>
-        <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=MinValue}"></TextBox>
-        <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=MinValue}"></TextBlock>
+        <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=MinValue}"></TextBox>
+        <TextBlock Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=MinValue}"></TextBlock>
 
         <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">最大值：</TextBlock>
-        <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=MaxValue}"></TextBox>
-        <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=MaxValue}"></TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=MaxValue}"></TextBox>
+        <TextBlock Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=MaxValue}"></TextBlock>
 
         <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">保留小数位：</TextBlock>
-        <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=DecimalPlaces}"></TextBox>
-        <TextBlock Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=DecimalPlaces}"></TextBlock>
+        <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=DecimalPlaces}"></TextBox>
+        <TextBlock Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=DecimalPlaces}"></TextBlock>
 
         <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Increment(增/减值)：</TextBlock>
-        <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=Increment}"></TextBox>
-        <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=Increment}"></TextBlock>
+        <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=Increment}"></TextBox>
+        <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=Increment}"></TextBlock>
 
         <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">左上圆角：</TextBlock>
         <Slider Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Value="{Binding TopLeftCornerRadius}"></Slider>
@@ -81,15 +81,15 @@
         <TextBlock Grid.Row="9" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ButtonWidth}"></TextBlock>
 
         <TextBlock Grid.Row="10" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">只读：</TextBlock>
-        <CheckBox Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyNumberBox,Path=IsReadOnly}"></CheckBox>
-        <TextBlock Grid.Row="10" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=IsReadOnly}"></TextBlock>
+        <CheckBox Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyControl,Path=IsReadOnly}"></CheckBox>
+        <TextBlock Grid.Row="10" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=IsReadOnly}"></TextBlock>
 
         <TextBlock Grid.Row="11" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">启用：</TextBlock>
-        <CheckBox Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyNumberBox,Path=IsEnabled}"></CheckBox>
-        <TextBlock Grid.Row="11" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=IsEnabled}"></TextBlock>
+        <CheckBox Grid.Row="11" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyControl,Path=IsEnabled}"></CheckBox>
+        <TextBlock Grid.Row="11" Grid.Column="3" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=IsEnabled}"></TextBlock>
 
         <TextBlock Grid.Row="12" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">显示类型：</TextBlock>
-        <ComboBox Grid.Row="12" Grid.Column="1" VerticalAlignment="Center" ItemsSource="{wpfCommon:EnumValues numberBox:NumberBoxButtonShowTypeEnum}" SelectedItem="{Binding  ElementName=MyNumberBox,Path=ButtonShowType}"></ComboBox>
+        <ComboBox Grid.Row="12" Grid.Column="1" VerticalAlignment="Center" ItemsSource="{wpfCommon:EnumValues numberBox:NumberBoxButtonShowTypeEnum}" SelectedItem="{Binding  ElementName=MyControl,Path=ButtonShowType}"></ComboBox>
 
         <Button Grid.Row="13" Grid.Column="1" VerticalAlignment="Center" Command="ctrlTest:CtrlTestCommands.UpdateViewModelValue">更新ViewModel绑定值</Button>
         <Button Grid.Row="14" Grid.Column="1" VerticalAlignment="Center" Command="ctrlTest:CtrlTestCommands.GetViewModelValue">获取ViewModel绑定值</Button>

@@ -9,6 +9,14 @@ namespace Materal.WPFCustomControlLib.DateTimePicker
     public class DateTimePicker : Control
     {
         /// <summary>
+        /// 边框圆角
+        /// </summary>
+        public CornerRadius CornerRadius { get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value); }
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(DateTimePicker),
+            new FrameworkPropertyMetadata(
+                new CornerRadius(0),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
+        /// <summary>
         /// 显示值
         /// </summary>
         public string ShowValue { get => (string)GetValue(ShowValueProperty); set => SetValue(ShowValueProperty, value); }

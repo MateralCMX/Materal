@@ -7,9 +7,6 @@
              xmlns:local="clr-namespace:Materal.WPFUI.CtrlTest"
              xmlns:dateTimePicker1="clr-namespace:Materal.WPFUI.CtrlTest.DateTimePicker"
              mc:Ignorable="d">
-    <UserControl.Resources>
-        <GridLength x:Key="DefaultRowHeight">18</GridLength>
-    </UserControl.Resources>
     <UserControl.DataContext>
         <dateTimePicker1:DateTimePickerViewModel x:Name="ViewModel"></dateTimePicker1:DateTimePickerViewModel>
     </UserControl.DataContext>
@@ -21,6 +18,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160"></ColumnDefinition>
             <ColumnDefinition Width="220"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -31,19 +29,41 @@
             <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2" Width="72">NumberBox:</TextBlock>
-        <dateTimePicker:DateTimePicker x:Name="MyNumberBox" Grid.Row="0" Grid.Column="1" Value="{Binding TestValue}"></dateTimePicker:DateTimePicker>
-        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2" Width="79">Value(当前值):</TextBlock>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=MyNumberBox,Path=Value}" IsReadOnly="True"></TextBox>
-        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2" Width="101">MinValue(最小值):</TextBlock>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=MyNumberBox,Path=MinValue}"></TextBox>
-        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2" Width="103">MaxValue(最大值):</TextBlock>
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=MyNumberBox,Path=MaxValue}"></TextBox>
-        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Height="14" Margin="0,2" Width="103">ForMat(格式化):</TextBlock>
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=MyNumberBox,Path=Format}"></TextBox>
-        <Button Grid.Row="5" Grid.Column="1" Command="local:CtrlTestCommands.UpdateViewModelValue">更新ViewModel绑定值</Button>
-        <Button Grid.Row="6" Grid.Column="1" Command="local:CtrlTestCommands.GetViewModelValue">获取ViewModel绑定值</Button>
+        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">时间日期控件：</TextBlock>
+        <dateTimePicker:DateTimePicker x:Name="MyControl" Grid.Row="0" Grid.Column="1" CornerRadius="{Binding CornerRadius,Mode=OneWay}" VerticalAlignment="Center" Value="{Binding TestValue}"></dateTimePicker:DateTimePicker>
+        <TextBlock Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" Text="{Binding TestValue}"></TextBlock>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">最小值：</TextBlock>
+        <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=MinValue}"></TextBox>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">最大值：</TextBlock>
+        <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=MaxValue}"></TextBox>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">格式化：</TextBlock>
+        <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyControl,Path=Format}"></TextBox>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">左上圆角：</TextBlock>
+        <Slider Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Value="{Binding TopLeftCornerRadius}"></Slider>
+        <TextBlock Grid.Row="4" Grid.Column="3" VerticalAlignment="Center" Text="{Binding TopLeftCornerRadius}"></TextBlock>
+
+        <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">右上圆角：</TextBlock>
+        <Slider Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Value="{Binding TopRightCornerRadius}"></Slider>
+        <TextBlock Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" Text="{Binding TopRightCornerRadius}"></TextBlock>
+
+        <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">左下圆角：</TextBlock>
+        <Slider Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Value="{Binding BottomLeftCornerRadius}"></Slider>
+        <TextBlock Grid.Row="6" Grid.Column="3" VerticalAlignment="Center" Text="{Binding BottomLeftCornerRadius}"></TextBlock>
+
+        <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">右下圆角：</TextBlock>
+        <Slider Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="10" IsSnapToTickEnabled="True" Value="{Binding BottomRightCornerRadius}"></Slider>
+        <TextBlock Grid.Row="7" Grid.Column="3" VerticalAlignment="Center" Text="{Binding BottomRightCornerRadius}"></TextBlock>
+
+        <Button Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Command="local:CtrlTestCommands.UpdateViewModelValue">更新ViewModel绑定值</Button>
+        <Button Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" Command="local:CtrlTestCommands.GetViewModelValue">获取ViewModel绑定值</Button>
     </Grid>
 </UserControl>
