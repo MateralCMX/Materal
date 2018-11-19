@@ -33,9 +33,13 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.MouseOver.Border}"/>
                         </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="BtnUp" Property="Fill" Value="#FF797979"></Setter>
+                            <Setter TargetName="BtnDown" Property="Fill" Value="#FF797979"></Setter>
                         </Trigger>
+                        <!--<Trigger Property="IsKeyboardFocused" Value="true">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
+                        </Trigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

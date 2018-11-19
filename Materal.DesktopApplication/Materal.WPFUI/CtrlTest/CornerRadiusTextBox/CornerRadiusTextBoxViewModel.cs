@@ -43,7 +43,9 @@ namespace Materal.WPFUI.CtrlTest.CornerRadiusTextBox
                 return _cornerRadius;
             }
         }
-
+        /// <summary>
+        /// 左上圆角
+        /// </summary>
         public double TopLeftCornerRadius
         {
             get => _topLeftCornerRadius;
@@ -54,7 +56,9 @@ namespace Materal.WPFUI.CtrlTest.CornerRadiusTextBox
                 OnPropertyChanged(nameof(TopLeftCornerRadius));
             }
         }
-
+        /// <summary>
+        /// 左下圆角
+        /// </summary>
         public double BottomLeftCornerRadius
         {
             get => _bottomLeftCornerRadius;
@@ -65,7 +69,9 @@ namespace Materal.WPFUI.CtrlTest.CornerRadiusTextBox
                 OnPropertyChanged(nameof(BottomLeftCornerRadius));
             }
         }
-
+        /// <summary>
+        /// 右上圆角
+        /// </summary>
         public double TopRightCornerRadius
         {
             get => _topRightCornerRadius;
@@ -76,7 +82,9 @@ namespace Materal.WPFUI.CtrlTest.CornerRadiusTextBox
                 OnPropertyChanged(nameof(TopRightCornerRadius));
             }
         }
-
+        /// <summary>
+        /// 右下圆角
+        /// </summary>
         public double BottomRightCornerRadius
         {
             get => _bottomRightCornerRadius;
