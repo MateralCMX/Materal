@@ -11,6 +11,13 @@ namespace Materal.WPFCustomControlLib.NumberBox
     public class NumberBox : Control
     {
         /// <summary>
+        /// 按钮显示类型
+        /// </summary>
+        public NumberBoxButtonShowTypeEnum ButtonShowType { get => (NumberBoxButtonShowTypeEnum)GetValue(ButtonShowTypeProperty); set => SetValue(ButtonShowTypeProperty, value); }
+        public static readonly DependencyProperty ButtonShowTypeProperty = DependencyProperty.Register(nameof(ButtonShowType),
+            typeof(NumberBoxButtonShowTypeEnum), typeof(NumberBox), new FrameworkPropertyMetadata(NumberBoxButtonShowTypeEnum.Right));
+
+        /// <summary>
         /// 值更改事件
         /// </summary>
         public event Action<NumberBox, decimal> OnValueChange;
@@ -42,7 +49,17 @@ namespace Materal.WPFCustomControlLib.NumberBox
             if (!(sender is NumberBox numberBox)) return;
             if (numberBox.GetTemplateChild("TextValue") is CornerRadiusTextBox.CornerRadiusTextBox textValue)
             {
-                textValue.CornerRadius = new CornerRadius(numberBox.CornerRadius.TopLeft, 0, 0, numberBox.CornerRadius.BottomLeft);
+                switch (numberBox.ButtonShowType) {
+                    case NumberBoxButtonShowTypeEnum.None:
+                        textValue.CornerRadius = new CornerRadius(numberBox.CornerRadius.TopLeft, numberBox.CornerRadius.TopRight, numberBox.CornerRadius.BottomRight, numberBox.CornerRadius.BottomLeft);
+                        break;
+                    case NumberBoxButtonShowTypeEnum.Left:
+                        textValue.CornerRadius = new CornerRadius(0, numberBox.CornerRadius.TopRight, numberBox.CornerRadius.BottomRight, 0);
+                        break;
+                    case NumberBoxButtonShowTypeEnum.Right:
+                        textValue.CornerRadius = new CornerRadius(numberBox.CornerRadius.TopLeft, 0, 0, numberBox.CornerRadius.BottomLeft);
+                        break;
+                }
             }
         }
 

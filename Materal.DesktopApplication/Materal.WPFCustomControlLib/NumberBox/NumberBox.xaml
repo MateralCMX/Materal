@@ -15,11 +15,11 @@
                     <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid x:Name="RootElement">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition Width="{TemplateBinding ButtonWidth}"></ColumnDefinition>
+                                <ColumnDefinition x:Name="LeftColumn"></ColumnDefinition>
+                                <ColumnDefinition x:Name="RightColumn" Width="{TemplateBinding ButtonWidth}"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <cornerRadiusTextBox:CornerRadiusTextBox x:Name="TextValue" Grid.Column="0" Grid.Row="0" Margin="-1,0,0,0" IsReadOnly="{TemplateBinding IsReadOnly}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,1,0" Text="{TemplateBinding Property=Value, Converter={StaticResource NumberBoxValueConverter}}"></cornerRadiusTextBox:CornerRadiusTextBox>
-                            <Grid Grid.Column="1" Grid.Row="0" >
+                            <Grid x:Name="ButtonGroup" Grid.Column="1" Grid.Row="0" >
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
                                     <RowDefinition></RowDefinition>
@@ -37,9 +37,17 @@
                             <Setter TargetName="BtnUp" Property="Fill" Value="#FF797979"></Setter>
                             <Setter TargetName="BtnDown" Property="Fill" Value="#FF797979"></Setter>
                         </Trigger>
-                        <!--<Trigger Property="IsKeyboardFocused" Value="true">
-                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource TextBox.Focus.Border}"/>
-                        </Trigger>-->
+                        <Trigger Property="ButtonShowType" Value="Left">
+                            <Setter TargetName="TextValue" Property="Grid.Column" Value="1"></Setter>
+                            <Setter TargetName="TextValue" Property="Margin" Value="0,0,-1,0"></Setter>
+                            <Setter TargetName="ButtonGroup" Property="Grid.Column" Value="0"></Setter>
+                            <Setter TargetName="LeftColumn" Property="Width" Value="{Binding ButtonWidth, RelativeSource={RelativeSource TemplatedParent}}"></Setter>
+                            <Setter TargetName="RightColumn" Property="Width" Value="1*"></Setter>
+                        </Trigger>
+                        <Trigger Property="ButtonShowType" Value="None">
+                            <Setter TargetName="RightColumn" Property="Width" Value="0*"></Setter>
+                            <Setter TargetName="TextValue" Property="Margin" Value="-1,0,-1,0"></Setter>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

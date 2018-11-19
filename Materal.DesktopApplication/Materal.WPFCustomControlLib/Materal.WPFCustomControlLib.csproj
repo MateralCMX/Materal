@@ -93,6 +93,7 @@
     <Compile Include="DateTimePicker\DateTimePicker.cs" />
     <Compile Include="ImageButton.cs" />
     <Compile Include="NumberBox\NumberBox.cs" />
+    <Compile Include="NumberBox\NumberBoxButtonShowTypeEnum.cs" />
     <Compile Include="NumberBox\NumberBoxValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

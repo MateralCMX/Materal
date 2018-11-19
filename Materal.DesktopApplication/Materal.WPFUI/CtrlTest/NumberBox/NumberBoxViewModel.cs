@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Materal.WPFCommon;
+using Materal.WPFCustomControlLib.NumberBox;
 
 namespace Materal.WPFUI.CtrlTest.NumberBox
 {
@@ -27,6 +28,7 @@ namespace Materal.WPFUI.CtrlTest.NumberBox
         private double _bottomLeftCornerRadius;
         private double _topRightCornerRadius;
         private double _bottomRightCornerRadius;
+        private double _buttonWidth = 10;
 
         /// <summary>
         /// 圆角
@@ -92,6 +94,25 @@ namespace Materal.WPFUI.CtrlTest.NumberBox
                 _bottomRightCornerRadius = value;
                 OnPropertyChanged(nameof(CornerRadius));
                 OnPropertyChanged(nameof(BottomRightCornerRadius));
+            }
+        }
+
+        /// <summary>
+        /// 按钮宽度
+        /// </summary>
+        public GridLength ButtonGridWidth => new GridLength(ButtonWidth);
+
+        /// <summary>
+        /// 按钮宽度
+        /// </summary>
+        public double ButtonWidth
+        {
+            get => _buttonWidth;
+            set
+            {
+                _buttonWidth = value;
+                OnPropertyChanged(nameof(ButtonGridWidth));
+                OnPropertyChanged(nameof(ButtonWidth));
             }
         }
     }

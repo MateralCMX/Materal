@@ -16,17 +16,9 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <subtitletextbox:SubTitleTextBox IsEnabled="False" VerticalAlignment="Center" Text="Text" SubTitle="SubTitle" SubTitleWidth="48"></subtitletextbox:SubTitleTextBox>
-        <cornerradiustextbox:CornerRadiusTextBox Grid.Row="1" VerticalAlignment="Center" Text="Text"></cornerradiustextbox:CornerRadiusTextBox>
-    </Grid>
+    <TabControl Style="{DynamicResource TabControlStyle1}">
+        <TabItem Header="qwe">
+            <Grid></Grid>
+        </TabItem>
+    </TabControl>
 </UserControl>

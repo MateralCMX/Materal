@@ -7,9 +7,6 @@
              xmlns:ctrlTest="clr-namespace:Materal.WPFUI.CtrlTest"
              xmlns:local="clr-namespace:Materal.WPFUI.CtrlTest.CornerRadiusTextBox"
              mc:Ignorable="d">
-    <UserControl.Resources>
-        <GridLength x:Key="DefaultRowHeight">20</GridLength>
-    </UserControl.Resources>
     <UserControl.DataContext>
         <local:CornerRadiusTextBoxViewModel x:Name="ViewModel"></local:CornerRadiusTextBoxViewModel>
     </UserControl.DataContext>

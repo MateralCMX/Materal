@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Materal.WPFUI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <GridLength x:Key="DefaultRowHeight">24</GridLength>
     </Application.Resources>
 </Application>
