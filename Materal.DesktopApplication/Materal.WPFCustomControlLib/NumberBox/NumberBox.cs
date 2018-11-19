@@ -10,6 +10,9 @@ namespace Materal.WPFCustomControlLib.NumberBox
 {
     public class NumberBox : Control
     {
+        /// <summary>
+        /// 值更改事件
+        /// </summary>
         public event Action<NumberBox, decimal> OnValueChange;
         /// <summary>
         /// 按钮宽度
@@ -19,27 +22,29 @@ namespace Materal.WPFCustomControlLib.NumberBox
             typeof(GridLength), typeof(NumberBox), new FrameworkPropertyMetadata(new GridLength(10)));
 
         /// <summary>
-        /// 按钮宽度
+        /// 只读
         /// </summary>
         public bool IsReadOnly { get => (bool)GetValue(IsReadOnlyProperty); set => SetValue(IsReadOnlyProperty, value); }
         public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(nameof(IsReadOnly),
             typeof(bool), typeof(NumberBox), new FrameworkPropertyMetadata(false));
+
         /// <summary>
         /// 边框圆角
         /// </summary>
-        public CornerRadius BorderCornerRadius { get => (CornerRadius)GetValue(BorderCornerRadiusProperty); set => SetValue(BorderCornerRadiusProperty, value); }
-        public static readonly DependencyProperty BorderCornerRadiusProperty = DependencyProperty.Register(nameof(BorderCornerRadius), typeof(CornerRadius), typeof(NumberBox),
+        public CornerRadius CornerRadius { get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value); }
+        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(NumberBox),
             new FrameworkPropertyMetadata(
-                new CornerRadius(2),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
-        /// <summary>
-        /// 左边边框圆角
-        /// </summary>
-        public CornerRadius LeftBorderCornerRadius { get => (CornerRadius)GetValue(LeftBorderCornerRadiusProperty); set => SetValue(LeftBorderCornerRadiusProperty, value); }
-        public static readonly DependencyProperty LeftBorderCornerRadiusProperty = DependencyProperty.Register(nameof(LeftBorderCornerRadius), typeof(CornerRadius), typeof(NumberBox),
-            new FrameworkPropertyMetadata(
-                new CornerRadius(1, 0, 0, 1),
-                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
+                new CornerRadius(0),
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal,
+                OnCornerRadiusChanged));
+        private static void OnCornerRadiusChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (!(sender is NumberBox numberBox)) return;
+            if (numberBox.GetTemplateChild("TextValue") is CornerRadiusTextBox.CornerRadiusTextBox textValue)
+            {
+                textValue.CornerRadius = new CornerRadius(numberBox.CornerRadius.TopLeft, 0, 0, numberBox.CornerRadius.BottomLeft);
+            }
+        }
 
         /// <summary>
         /// 值
@@ -113,6 +118,7 @@ namespace Materal.WPFCustomControlLib.NumberBox
             decimal placesValue = decimal.Round(numberBox.Value, numberBox.DecimalPlaces);
             if (!placesValue.Equals(numberBox.Value)) numberBox.SetValue(ValueProperty, placesValue);
         }
+        /// <inheritdoc />
         /// <summary>
         /// 应用模版
         /// </summary>

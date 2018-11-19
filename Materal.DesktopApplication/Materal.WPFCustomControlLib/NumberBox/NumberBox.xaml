@@ -8,18 +8,17 @@
     <Style TargetType="numberBox:NumberBox">
         <Setter Property="BorderBrush" Value="#abadb3"></Setter>
         <Setter Property="Height" Value="18"></Setter>
-        <Setter Property="BorderCornerRadius" Value="2"></Setter>
-        <Setter Property="LeftBorderCornerRadius" Value="1,0,0,1"></Setter>
+        <Setter Property="CornerRadius" Value="0"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="numberBox:NumberBox">
-                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="{TemplateBinding BorderCornerRadius}">
+                    <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="{TemplateBinding CornerRadius}">
                         <Grid x:Name="RootElement">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
                                 <ColumnDefinition Width="{TemplateBinding ButtonWidth}"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <cornerRadiusTextBox:CornerRadiusTextBox x:Name="TextValue" Grid.Column="0" Grid.Row="0" CornerRadius="{TemplateBinding LeftBorderCornerRadius}" IsReadOnly="{TemplateBinding IsReadOnly}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,0" Text="{TemplateBinding Property=Value, Converter={StaticResource NumberBoxValueConverter}}"></cornerRadiusTextBox:CornerRadiusTextBox>
+                            <cornerRadiusTextBox:CornerRadiusTextBox x:Name="TextValue" Grid.Column="0" Grid.Row="0" Margin="-1,0,0,0" IsReadOnly="{TemplateBinding IsReadOnly}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,0,1,0" Text="{TemplateBinding Property=Value, Converter={StaticResource NumberBoxValueConverter}}"></cornerRadiusTextBox:CornerRadiusTextBox>
                             <Grid Grid.Column="1" Grid.Row="0" >
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>

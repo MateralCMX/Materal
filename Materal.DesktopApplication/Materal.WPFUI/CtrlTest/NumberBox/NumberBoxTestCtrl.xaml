@@ -21,6 +21,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160"></ColumnDefinition>
             <ColumnDefinition Width="220"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -37,31 +38,31 @@
             <RowDefinition Height="{StaticResource DefaultRowHeight}"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">NumberBox:</TextBlock>
-        <numberBox:NumberBox x:Name="MyNumberBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Value="{Binding TestValue}" MinValue="-100" MaxValue="100" DecimalPlaces="4" Increment="1"></numberBox:NumberBox>
+        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">NumberBox：</TextBlock>
+        <numberBox:NumberBox x:Name="MyNumberBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" CornerRadius="2" Value="{Binding TestValue}" MinValue="-100" MaxValue="100" DecimalPlaces="4" Increment="1"></numberBox:NumberBox>
         
-        <TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Value(当前值):</TextBlock>
+        <!--<TextBlock Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Value(当前值)：</TextBlock>
         <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=Value}" IsReadOnly="True"></TextBox>
 
-        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">MinValue(最小值):</TextBlock>
+        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">MinValue(最小值)：</TextBlock>
         <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=MinValue}"></TextBox>
 
-        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">MaxValue(最大值):</TextBlock>
+        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">MaxValue(最大值)：</TextBlock>
         <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=MaxValue}"></TextBox>
 
-        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">DecimalPlaces(保留小数位):</TextBlock>
+        <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">DecimalPlaces(保留小数位)：</TextBlock>
         <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=DecimalPlaces}"></TextBox>
 
-        <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Increment(增/减值):</TextBlock>
+        <TextBlock Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">Increment(增/减值)：</TextBlock>
         <TextBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Text="{Binding ElementName=MyNumberBox,Path=Increment}"></TextBox>
 
-        <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">只读:</TextBlock>
+        <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">只读：</TextBlock>
         <CheckBox Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyNumberBox,Path=IsReadOnly}"></CheckBox>
 
-        <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">启用:</TextBlock>
+        <TextBlock Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right">启用：</TextBlock>
         <CheckBox Grid.Row="7" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding ElementName=MyNumberBox,Path=IsEnabled}"></CheckBox>
 
         <Button Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" Command="local:CtrlTestCommands.UpdateViewModelValue">更新ViewModel绑定值</Button>
-        <Button Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" Command="local:CtrlTestCommands.GetViewModelValue">获取ViewModel绑定值</Button>
+        <Button Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" Command="local:CtrlTestCommands.GetViewModelValue">获取ViewModel绑定值</Button>-->
     </Grid>
 </UserControl>
