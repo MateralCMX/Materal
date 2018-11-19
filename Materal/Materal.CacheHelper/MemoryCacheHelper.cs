@@ -29,7 +29,7 @@ namespace Materal.CacheHelper
 
         public void SetBySliding(string key, object content, double timer, DateTimeTypeEnum dateTimeType)
         {
-            double millisecond = DateTimeConverHelper.ToMilliseconds(timer, dateTimeType);
+            double millisecond = DateTimeManager.ToMilliseconds(timer, dateTimeType);
             SetBySliding(key, content, TimeSpan.FromMilliseconds(millisecond));
         }
 
@@ -52,7 +52,7 @@ namespace Materal.CacheHelper
 
         public void SetByAbsolute(string key, object content, double timer, DateTimeTypeEnum dateTimeType)
         {
-            double millisecond = DateTimeConverHelper.ToMilliseconds(timer, dateTimeType);
+            double millisecond = DateTimeManager.ToMilliseconds(timer, dateTimeType);
             SetByAbsolute(key, content, TimeSpan.FromMilliseconds(millisecond));
         }
 

@@ -3,11 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.14</Version>
+    <Version>0.0.15</Version>
     <Description>Materal字符串帮助类</Description>
-    <PackageReleaseNotes>1、修复-验证数字</PackageReleaseNotes>
+    <PackageReleaseNotes>1、新增-获取随机字符串</PackageReleaseNotes>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />
+  </ItemGroup>
 
 </Project>

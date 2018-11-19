@@ -77,23 +77,23 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Materal.Common, Version=0.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.Common.0.0.13\lib\netstandard2.0\Materal.Common.dll</HintPath>
+    <Reference Include="Materal.Common, Version=0.0.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.Common.0.0.15\lib\netstandard2.0\Materal.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.ConfigurationHelper, Version=0.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.ConfigurationHelper.0.0.13\lib\netstandard2.0\Materal.ConfigurationHelper.dll</HintPath>
+    <Reference Include="Materal.ConfigurationHelper, Version=0.0.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConfigurationHelper.0.0.15\lib\netstandard2.0\Materal.ConfigurationHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.ConvertHelper, Version=0.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.ConvertHelper.0.0.13\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
+    <Reference Include="Materal.ConvertHelper, Version=0.0.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConvertHelper.0.0.15\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.FileHelper, Version=0.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.FileHelper.0.0.13\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
+    <Reference Include="Materal.FileHelper, Version=0.0.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.FileHelper.0.0.15\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.StringHelper, Version=0.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.StringHelper.0.0.13\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
+    <Reference Include="Materal.StringHelper, Version=0.0.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.StringHelper.0.0.15\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.WindowsHelper, Version=0.0.13.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.WindowsHelper.0.0.13\lib\netstandard2.0\Materal.WindowsHelper.dll</HintPath>
+    <Reference Include="Materal.WindowsHelper, Version=0.0.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.WindowsHelper.0.0.15\lib\netstandard2.0\Materal.WindowsHelper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.2.1.1\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
@@ -175,6 +175,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationConfig.cs" />
+    <Compile Include="CtrlTest\CornerRadiusTextBox\CornerRadiusTextBoxTestCtrl.xaml.cs">
+      <DependentUpon>CornerRadiusTextBoxTestCtrl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CtrlTest\CornerRadiusTextBox\CornerRadiusTextBoxViewModel.cs" />
     <Compile Include="Tools\NuGetTools\Model\NuGetToolsConfigTemplateModel.cs" />
     <Compile Include="Tools\NuGetTools\NuGetToolCommands.cs" />
     <Compile Include="Tools\NuGetTools\NuGetToolCtrl.xaml.cs">
@@ -182,6 +186,10 @@
     </Compile>
     <Compile Include="Tools\NuGetTools\NuGetToolViewModel.cs" />
     <Compile Include="WPFUIHelper.cs" />
+    <Page Include="CtrlTest\CornerRadiusTextBox\CornerRadiusTextBoxTestCtrl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CtrlTest\DateTimePicker\DateTimePickerTestCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -321,9 +329,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CtrlTest\CornerRadiusTextBox\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>

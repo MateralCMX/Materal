@@ -11,7 +11,7 @@ namespace Materal.WPFCustomControlLib.CornerRadiusTextBox
         public CornerRadius CornerRadius { get => (CornerRadius)GetValue(CornerRadiusProperty); set => SetValue(CornerRadiusProperty, value); }
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(CornerRadiusTextBox),
             new FrameworkPropertyMetadata(
-                new CornerRadius(2),
+                new CornerRadius(0),
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal));
         /// <inheritdoc />
         /// <summary>

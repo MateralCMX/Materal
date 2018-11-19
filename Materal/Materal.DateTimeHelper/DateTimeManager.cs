@@ -1,7 +1,19 @@
-﻿namespace Materal.DateTimeHelper
+﻿using System;
+
+namespace Materal.DateTimeHelper
 {
-    public static class DateTimeConverHelper
+    public static class DateTimeManager
     {
+        /// <summary>
+        /// 获得时间戳
+        /// 1970年1月1日 0点0分0秒以来的秒数
+        /// </summary>
+        /// <returns>时间戳</returns>
+        public static string GetTimeStamp()
+        {
+            TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(timeSpan.TotalSeconds).ToString();
+        }
         /// <summary>
         /// 转换为毫秒
         /// </summary>

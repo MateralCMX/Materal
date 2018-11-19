@@ -1,0 +1,91 @@
+﻿using System.Windows;
+using Materal.WPFCommon;
+
+namespace Materal.WPFUI.CtrlTest.CornerRadiusTextBox
+{
+    public class CornerRadiusTextBoxViewModel : NotifyPropertyChanged
+    {
+        /// <summary>
+        /// 测试值
+        /// </summary>
+        private string _testValue = "Materal";
+
+        /// <summary>
+        /// 测试值
+        /// </summary>
+        public string TestValue
+        {
+            get => _testValue;
+            set
+            {
+                _testValue = value;
+                OnPropertyChanged(nameof(TestValue));
+            }
+        }
+
+        private CornerRadius _cornerRadius = new CornerRadius(0);
+        private double _topLeftCornerRadius;
+        private double _bottomLeftCornerRadius;
+        private double _topRightCornerRadius;
+        private double _bottomRightCornerRadius;
+
+        /// <summary>
+        /// 圆角
+        /// </summary>
+        public CornerRadius CornerRadius
+        {
+            get
+            {
+                _cornerRadius.TopLeft = TopLeftCornerRadius;
+                _cornerRadius.TopRight = TopRightCornerRadius;
+                _cornerRadius.BottomRight = BottomRightCornerRadius;
+                _cornerRadius.BottomLeft = BottomLeftCornerRadius;
+                return _cornerRadius;
+            }
+        }
+
+        public double TopLeftCornerRadius
+        {
+            get => _topLeftCornerRadius;
+            set
+            {
+                _topLeftCornerRadius = value;
+                OnPropertyChanged(nameof(CornerRadius));
+                OnPropertyChanged(nameof(TopLeftCornerRadius));
+            }
+        }
+
+        public double BottomLeftCornerRadius
+        {
+            get => _bottomLeftCornerRadius;
+            set
+            {
+                _bottomLeftCornerRadius = value;
+                OnPropertyChanged(nameof(CornerRadius));
+                OnPropertyChanged(nameof(BottomLeftCornerRadius));
+            }
+        }
+
+        public double TopRightCornerRadius
+        {
+            get => _topRightCornerRadius;
+            set
+            {
+                _topRightCornerRadius = value;
+                OnPropertyChanged(nameof(CornerRadius));
+                OnPropertyChanged(nameof(TopRightCornerRadius));
+            }
+        }
+
+        public double BottomRightCornerRadius
+        {
+            get => _bottomRightCornerRadius;
+            set
+            {
+                _bottomRightCornerRadius = value;
+                OnPropertyChanged(nameof(CornerRadius));
+                OnPropertyChanged(nameof(BottomRightCornerRadius));
+            }
+        }
+    }
+}

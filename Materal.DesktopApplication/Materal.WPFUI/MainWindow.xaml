@@ -18,6 +18,7 @@
         <CommandBinding x:Name="LoadDateTimePickerTestCtrlCommand" Command="local:MainWindowCommands.LoadDateTimePickerTestCtrl" Executed="LoadDateTimePickerTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadWebBrowserTestCtrlCommand" Command="local:MainWindowCommands.LoadWebBrowserTestCtrl" Executed="LoadWebBrowserTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadNuGetToolCtrlCommand" Command="local:MainWindowCommands.LoadNuGetToolsCtrl" Executed="LoadNuGetToolsCtrlCommand_Executed"></CommandBinding>
+        <CommandBinding x:Name="LoadCornerRadiusTextBoxCtrlCommand" Command="local:MainWindowCommands.LoadCornerRadiusTextBoxTestCtrl" Executed="LoadCornerRadiusTextBoxCtrlCommand_Executed"></CommandBinding>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -28,6 +29,7 @@
             <MenuItem Header="测试">
                 <MenuItem Command="local:MainWindowCommands.ReloadCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadTestCtrl"></MenuItem>
+                <MenuItem Command="local:MainWindowCommands.LoadCornerRadiusTextBoxTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadNumberBoxTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadDateTimePickerTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadWebBrowserTestCtrl"></MenuItem>
