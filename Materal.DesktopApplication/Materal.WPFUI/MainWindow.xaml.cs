@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Materal.WPFUI.CtrlTest.CefSharp;
 using Materal.WPFUI.CtrlTest.CornerRadiusButton;
 using Materal.WPFUI.CtrlTest.CornerRadiusToggleButton;
 
@@ -66,6 +67,10 @@ namespace Materal.WPFUI
         private void LoadWebBrowserTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             LoadUserControl(new WebBrowserTestCtrl());
+        }
+        private void LoadCefSharpTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LoadUserControl(new CefSharpTestCtrl());
         }
 
         private void LoadSearchBoxTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)

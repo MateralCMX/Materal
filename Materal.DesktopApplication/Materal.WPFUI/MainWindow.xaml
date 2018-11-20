@@ -17,6 +17,7 @@
         <CommandBinding x:Name="LoadNumberBoxTestCtrlCommand" Command="local:MainWindowCommands.LoadNumberBoxTestCtrl" Executed="LoadNumberBoxTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadDateTimePickerTestCtrlCommand" Command="local:MainWindowCommands.LoadDateTimePickerTestCtrl" Executed="LoadDateTimePickerTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadWebBrowserTestCtrlCommand" Command="local:MainWindowCommands.LoadWebBrowserTestCtrl" Executed="LoadWebBrowserTestCtrlCommand_Executed"></CommandBinding>
+        <CommandBinding x:Name="LoadCefSharpTestCtrlCommand" Command="local:MainWindowCommands.LoadCefSharpTestCtrl" Executed="LoadCefSharpTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadNuGetToolCtrlCommand" Command="local:MainWindowCommands.LoadNuGetToolsCtrl" Executed="LoadNuGetToolsCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadCornerRadiusTextBoxCtrlCommand" Command="local:MainWindowCommands.LoadCornerRadiusTextBoxTestCtrl" Executed="LoadCornerRadiusTextBoxCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadCornerRadiusButtonCtrlCommand" Command="local:MainWindowCommands.LoadCornerRadiusButtonTestCtrl" Executed="LoadCornerRadiusButtonCtrlCommand_Executed"></CommandBinding>
@@ -36,8 +37,9 @@
                 <MenuItem Command="local:MainWindowCommands.LoadCornerRadiusTextBoxTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadNumberBoxTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadDateTimePickerTestCtrl"></MenuItem>
-                <MenuItem Command="local:MainWindowCommands.LoadWebBrowserTestCtrl"></MenuItem>
                 <MenuItem Command="local:MainWindowCommands.LoadSearchBoxTestCtrl"></MenuItem>
+                <MenuItem Command="local:MainWindowCommands.LoadWebBrowserTestCtrl"></MenuItem>
+                <MenuItem Command="local:MainWindowCommands.LoadCefSharpTestCtrl"></MenuItem>
             </MenuItem>
             <MenuItem Header="工具">
                 <MenuItem Command="local:MainWindowCommands.LoadNuGetToolsCtrl"></MenuItem>
