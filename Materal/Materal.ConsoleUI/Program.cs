@@ -1,39 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Materal.NetworkHelper;
+using System;
 using System.Threading.Tasks;
-using System.Timers;
-using Materal.NetworkHelper;
 
 namespace Materal.ConsoleUI
 {
     internal class Program
     {
-        private static readonly Timer _timer = new Timer(10);
         public static void Main()
         {
-            _timer.Elapsed += _timer_Elapsed;
-            _timer.Start();
-            //Task.Run(async () => { await Init(); });
+            Task.Run(async () => { await RunTask(); });
             Console.ReadKey();
         }
 
-        private static void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        public static async Task RunTask()
         {
-            Task.WaitAll(InitAsync());
-        }
+            const string downloadUrl = "http://www.yncwbd.com:13510/setup.exe";
+            const string filePath = "D:/MateralDownload/setup.exe";
+            decimal sumSize = 0;
+            void FileSumSize(long fileSize)
+            {
+                sumSize = fileSize;
+                Console.WriteLine($"文件总大小{fileSize / 1024d:F2}KB");
+            }
+            void Progress(long sum)
+            {
+                Console.WriteLine($"已下载{sum / sumSize * 100:F2}%");
+            }
 
-        public static async Task InitAsync()
-        {
-            try
-            {
-                int a = 0;
-                int b = 1;
-                int c = b / a;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            await HttpHelper.HttpDownload(downloadUrl, filePath, 1024, FileSumSize, Progress);
+            Console.WriteLine("下载完毕");
         }
     }
 }

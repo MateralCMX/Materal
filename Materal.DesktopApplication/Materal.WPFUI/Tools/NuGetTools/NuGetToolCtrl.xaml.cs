@@ -16,16 +16,16 @@ namespace Materal.WPFUI.Tools.NuGetTools
 
         private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            //ProjectSearchBox.SearchFun = m =>
-            //{
-            //    if (!(m is NuGetToolsConfigTemplateModel model)) return false;
-            //    return string.IsNullOrEmpty(ViewModel.ProjectAddress) || model.ProjectAddress.Contains(ViewModel.ProjectAddress);
-            //};
-            //ProjectSearchBox.SelectedFun = m =>
-            //{
-            //    if (!(m is NuGetToolsConfigTemplateModel model)) return false;
-            //    return !string.IsNullOrEmpty(ViewModel.ProjectAddress) && model.ProjectAddress.Equals(ProjectSearchBox.Text);
-            //};
+            ProjectSearchBox.SearchFun = m =>
+            {
+                if (!(m is NuGetToolsConfigTemplateModel model)) return false;
+                return string.IsNullOrEmpty(ViewModel.ProjectAddress) || model.ProjectAddress.Contains(ViewModel.ProjectAddress);
+            };
+            ProjectSearchBox.SelectedFun = m =>
+            {
+                if (!(m is NuGetToolsConfigTemplateModel model)) return false;
+                return !string.IsNullOrEmpty(ViewModel.ProjectAddress) && model.ProjectAddress.Equals(ProjectSearchBox.Text);
+            };
             ViewModel.Init();
         }
 

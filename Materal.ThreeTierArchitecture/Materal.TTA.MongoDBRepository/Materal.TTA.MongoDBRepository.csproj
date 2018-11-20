@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Product>Materal.ThreeTierArchitecture</Product>
+    <Authors>Materal</Authors>
+    <Version>0.0.2</Version>
+    <Description>Materal.TTA.MongoDBRepository</Description>
   </PropertyGroup>
 
   <ItemGroup>
