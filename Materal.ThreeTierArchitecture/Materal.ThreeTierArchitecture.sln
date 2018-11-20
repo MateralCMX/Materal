@@ -9,15 +9,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{19B1C1FB-1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTADemo.Domain", "Materal.TTADemo.Domain\Materal.TTADemo.Domain.csproj", "{23C9139B-6818-44FB-BE5F-36952084D767}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.SqlServerRepository", "Materal.TTA.SqlServerRepository\Materal.TTA.SqlServerRepository.csproj", "{7D6C040A-0264-412C-8493-4D776D0832F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqlServerRepository", "Materal.TTA.SqlServerRepository\Materal.TTA.SqlServerRepository.csproj", "{7D6C040A-0264-412C-8493-4D776D0832F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.MySqlRepository", "Materal.TTA.MySqlRepository\Materal.TTA.MySqlRepository.csproj", "{1199743A-C231-4CFC-89C5-168DE06BDDE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.MySqlRepository", "Materal.TTA.MySqlRepository\Materal.TTA.MySqlRepository.csproj", "{1199743A-C231-4CFC-89C5-168DE06BDDE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.SqliteRepository", "Materal.TTA.SqliteRepository\Materal.TTA.SqliteRepository.csproj", "{92D59B0A-C963-4F74-BC82-4E874B7431E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqliteRepository", "Materal.TTA.SqliteRepository\Materal.TTA.SqliteRepository.csproj", "{92D59B0A-C963-4F74-BC82-4E874B7431E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.RedisRepository", "Materal.TTA.RedisRepository\Materal.TTA.RedisRepository.csproj", "{466C380E-9614-4472-B6F6-B8B6B8BD7EC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.RedisRepository", "Materal.TTA.RedisRepository\Materal.TTA.RedisRepository.csproj", "{466C380E-9614-4472-B6F6-B8B6B8BD7EC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.MongoDBRepository", "Materal.TTA.MongoDBRepository\Materal.TTA.MongoDBRepository.csproj", "{9DD5A882-DD7D-4A70-8DC1-EFB9801CE876}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.MongoDBRepository", "Materal.TTA.MongoDBRepository\Materal.TTA.MongoDBRepository.csproj", "{9DD5A882-DD7D-4A70-8DC1-EFB9801CE876}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ThreeTierArchitecture.DependencyInjection", "Materal.ThreeTierArchitecture.DependencyInjection\Materal.ThreeTierArchitecture.DependencyInjection.csproj", "{E6680526-3D39-4211-BA31-EB19F0282291}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{9DD5A882-DD7D-4A70-8DC1-EFB9801CE876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DD5A882-DD7D-4A70-8DC1-EFB9801CE876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DD5A882-DD7D-4A70-8DC1-EFB9801CE876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6680526-3D39-4211-BA31-EB19F0282291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6680526-3D39-4211-BA31-EB19F0282291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6680526-3D39-4211-BA31-EB19F0282291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6680526-3D39-4211-BA31-EB19F0282291}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
