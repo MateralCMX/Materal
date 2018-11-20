@@ -12,6 +12,7 @@
     </Window.DataContext>
     <Window.CommandBindings>
         <CommandBinding x:Name="ReloadCtrlCommand" Command="local:MainWindowCommands.ReloadCtrl" Executed="ReloadCtrlCommand_Executed" CanExecute="ReloadCtrlCommand_CanExecute"></CommandBinding>
+        <CommandBinding x:Name="CheckForUpdatesCommand" Command="local:MainWindowCommands.CheckForUpdates" Executed="CheckForUpdatesCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadTestCtrlCommand" Command="local:MainWindowCommands.LoadTestCtrl" Executed="LoadTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadMyControlTestCtrlCommand" Command="local:MainWindowCommands.LoadSearchBoxTestCtrl" Executed="LoadSearchBoxTestCtrlCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="LoadNumberBoxTestCtrlCommand" Command="local:MainWindowCommands.LoadNumberBoxTestCtrl" Executed="LoadNumberBoxTestCtrlCommand_Executed"></CommandBinding>
@@ -43,6 +44,9 @@
             </MenuItem>
             <MenuItem Header="工具">
                 <MenuItem Command="local:MainWindowCommands.LoadNuGetToolsCtrl"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="帮助">
+                <MenuItem Command="local:MainWindowCommands.CheckForUpdates"></MenuItem>
             </MenuItem>
         </Menu>
         <Grid x:Name="MainPanel" Grid.Row="1" Grid.Column="0"></Grid>

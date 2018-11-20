@@ -49,10 +49,18 @@ namespace Materal.WPFUI
         /// </summary>
         public static RoutedUICommand LoadNuGetToolsCtrl { get; }
         /// <summary>
+        /// 检查更新
+        /// </summary>
+        public static RoutedUICommand CheckForUpdates { get; }
+        /// <summary>
         /// 构造方法
         /// </summary>
         static MainWindowCommands()
         {
+            CheckForUpdates = new RoutedUICommand(
+                "检查更新",
+                nameof(CheckForUpdates),
+                typeof(MainWindowCommands));
             ReloadCtrl = new RoutedUICommand(
                 "重新加载当前控件",
                 nameof(ReloadCtrl),

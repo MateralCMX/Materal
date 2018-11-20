@@ -118,5 +118,10 @@ namespace Materal.WPFUI
             _nowControl = userControl;
         }
         #endregion
+
+        private void CheckForUpdatesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
     }
 }
