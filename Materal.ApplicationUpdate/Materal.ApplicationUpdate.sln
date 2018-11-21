@@ -17,7 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ApplicationUpdate.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ApplicationUpdate.ServiceImpl", "Materal.ApplicationUpdate.ServiceImpl\Materal.ApplicationUpdate.ServiceImpl.csproj", "{8AE9C52D-35B1-41B1-BEE9-CEAA1622DD32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ApplicationUpdate.DependencyInjection", "Materal.ApplicationUpdate.DependencyInjection\Materal.ApplicationUpdate.DependencyInjection.csproj", "{B313785F-7CD9-4411-B0C0-ADAA942EB1D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ApplicationUpdate.DependencyInjection", "Materal.ApplicationUpdate.DependencyInjection\Materal.ApplicationUpdate.DependencyInjection.csproj", "{B313785F-7CD9-4411-B0C0-ADAA942EB1D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{C3DB9B34-9605-4513-95FD-5633CAECFA3B}"
+	ProjectSection(SolutionItems) = preProject
+		MigrationReadme.txt = MigrationReadme.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

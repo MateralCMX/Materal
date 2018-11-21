@@ -11,6 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Materal.ApplicationUpdate.DependencyInjection\Materal.ApplicationUpdate.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Materal.ApplicationUpdate.EFRepository\Materal.ApplicationUpdate.EFRepository.csproj" />
+    <ProjectReference Include="..\Materal.ApplicationUpdate.ServiceImpl\Materal.ApplicationUpdate.ServiceImpl.csproj" />
     <ProjectReference Include="..\Materal.ApplicationUpdate.Service\Materal.ApplicationUpdate.Service.csproj" />
   </ItemGroup>
 

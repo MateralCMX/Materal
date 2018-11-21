@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ApplicationUpdate.Domain\Materal.ApplicationUpdate.Domain.csproj" />
+    <ProjectReference Include="..\Materal.ApplicationUpdate.Service\Materal.ApplicationUpdate.Service.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -19,7 +19,12 @@ namespace Materal.ApplicationUpdate.WebAPI.Controllers.API
         {
             _userService = userService;
         }
-
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        [HttpPost]
         public async Task<ResultModel<LoginUserDTO>> Login(UserLoginRequestModel requestModel)
         {
             LoginUserDTO loginUser = await _userService.Login(requestModel.Account, requestModel.Password);

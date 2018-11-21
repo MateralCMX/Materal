@@ -14,11 +14,11 @@ namespace Materal.ApplicationUpdate.Domain
         /// <summary>
         /// 唯一标识
         /// </summary>
-        public Guid ID { get; }
+        public Guid ID { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime CreateTime { get; }
+        public DateTime CreateTime { get; set; }
         /// <summary>
         /// 修改时间
         /// </summary>

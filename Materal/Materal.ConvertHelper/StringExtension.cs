@@ -1,6 +1,7 @@
 ﻿using Materal.StringHelper;
 using Newtonsoft.Json;
 using System;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 
@@ -115,6 +116,58 @@ namespace Materal.ConvertHelper
                 bytes[i] = Convert.ToByte(inputStr.Substring(digit * i, digit), 2);
             }
             return Encoding.UTF8.GetString(bytes);
+        }
+        /// <summary>
+        /// 转换为32位Md5加密字符串
+        /// </summary>
+        /// <param name="inputStr">输入字符串</param>
+        /// <param name="isLower">小写</param>
+        /// <returns></returns>
+        public static string ToMd5_32(this string inputStr, bool isLower = false)
+        {
+            if (inputStr == null) throw new ArgumentNullException(nameof(inputStr));
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] output = md5.ComputeHash(Encoding.Default.GetBytes(inputStr));
+            string outputStr = BitConverter.ToString(output).Replace("-", "");
+            outputStr = isLower ? outputStr.ToLower() : outputStr.ToUpper();
+            return outputStr;
+        }
+        /// <summary>
+        /// 转换为16位Md5加密字符串
+        /// </summary>
+        /// <param name="inputStr">输入字符串</param>
+        /// <param name="isLower">小写</param>
+        /// <returns></returns>
+        public static string ToMd5_16(this string inputStr, bool isLower = false)
+        {
+            return ToMd5_32(inputStr, isLower).Substring(8, 16);
+        }
+        /// <summary>
+        /// 转换为Base64字符串
+        /// </summary>
+        /// <param name="inputStr">输入字符串</param>
+        /// <returns></returns>
+        public static string ToBase64(this string inputStr)
+        {
+            byte[] input = Encoding.ASCII.GetBytes(inputStr);
+            return Convert.ToBase64String(input);
+        }
+        /// <summary>
+        /// Base64解密
+        /// </summary>
+        /// <param name="inputStr"></param>
+        /// <returns></returns>
+        public static string Base64Decode(this string inputStr)
+        {
+            try
+            {
+                byte[] input = Convert.FromBase64String(inputStr);
+                return Encoding.Default.GetString(input);
+            }
+            catch (Exception ex)
+            {
+                throw new MateralConvertException("解密错误", ex);
+            }
         }
     }
 }

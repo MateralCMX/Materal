@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Materal.WPFCustomControlLib.SearchBox"
-                    xmlns:themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
                     xmlns:cornerRadiusTextBox="clr-namespace:Materal.WPFCustomControlLib.CornerRadiusTextBox"
-                    xmlns:cornerRadiusToggleButton="clr-namespace:Materal.WPFCustomControlLib.CornerRadiusToggleButton">
+                    xmlns:cornerRadiusToggleButton="clr-namespace:Materal.WPFCustomControlLib.CornerRadiusToggleButton"
+                    xmlns:themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero">
     <Style x:Key="FocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>

@@ -3,6 +3,7 @@ using Materal.ApplicationUpdate.Common;
 using Materal.ApplicationUpdate.EFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NetCore.AutoRegisterDi;
 
 namespace Materal.ApplicationUpdate.DependencyInjection
 {
@@ -16,9 +17,12 @@ namespace Materal.ApplicationUpdate.DependencyInjection
         {
             services.AddDbContext<AppUpdateContext>(options => options.UseSqlite(ApplicationConfig.Configuration["ConnectionStrings:ApplicationUpdateDB"]), ServiceLifetime.Transient);
 
-            //services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("BeiDou.UserEFRepository"))
-            //    .Where(c => c.Name.EndsWith("RepositoryImpl"))
-            //    .AsPublicImplementedInterfaces();
+            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.ApplicationUpdate.EFRepository"))
+                .Where(c => c.Name.EndsWith("RepositoryImpl"))
+                .AsPublicImplementedInterfaces();
+            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.ApplicationUpdate.ServiceImpl"))
+                .Where(c => c.Name.EndsWith("ServiceImpl"))
+                .AsPublicImplementedInterfaces();
         }
     }
 }

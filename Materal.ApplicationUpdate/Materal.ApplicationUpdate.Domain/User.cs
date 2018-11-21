@@ -4,6 +4,11 @@ namespace Materal.ApplicationUpdate.Domain
 {
     public class User : EntityModel
     {
+        public User()
+        {
+            Token = string.Empty;
+            TokenExpireDate = DateTime.MinValue;
+        }
         /// <summary>
         /// 账号
         /// </summary>
