@@ -2,12 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.0.16</Version>
+    <Version>0.0.17</Version>
     <PackageId>Materal.ConvertHelper</PackageId>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
     <Description>Materal转换帮助类</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageReleaseNotes>1、新增一些字符串加密
+2、新增一些字符串解密</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

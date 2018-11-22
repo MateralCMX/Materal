@@ -7,7 +7,7 @@ using NetCore.AutoRegisterDi;
 
 namespace Materal.ApplicationUpdate.DependencyInjection
 {
-    public static class BaseDependencyInjectionExtension
+    public static class BaseDIExtension
     {
         /// <summary>
         /// 添加基础依赖注入

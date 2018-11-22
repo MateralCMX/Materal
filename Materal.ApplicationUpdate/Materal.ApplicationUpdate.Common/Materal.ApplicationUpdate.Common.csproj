@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Materal.Common" Version="0.0.17" />
+    <PackageReference Include="Materal.ConvertHelper" Version="0.0.17" />
+    <PackageReference Include="Materal.StringHelper" Version="0.0.17" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
   </ItemGroup>
 

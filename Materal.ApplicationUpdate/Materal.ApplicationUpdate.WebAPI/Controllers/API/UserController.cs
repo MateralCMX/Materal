@@ -27,7 +27,7 @@ namespace Materal.ApplicationUpdate.WebAPI.Controllers.API
         [HttpPost]
         public async Task<ResultModel<LoginUserDTO>> Login(UserLoginRequestModel requestModel)
         {
-            LoginUserDTO loginUser = await _userService.Login(requestModel.Account, requestModel.Password);
+            LoginUserDTO loginUser = await _userService.LoginAsync(null);
             return loginUser == null ? 
                 ResultModel<LoginUserDTO>.Fail("登录失败，用户名或者密码错误。") : 
                 ResultModel<LoginUserDTO>.Success("登录成功。");

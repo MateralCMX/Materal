@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="Materal.Common" Version="0.0.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ApplicationUpdate.Common\Materal.ApplicationUpdate.Common.csproj" />
+    <ProjectReference Include="..\Materal.ApplicationUpdate.Domain\Materal.ApplicationUpdate.Domain.csproj" />
     <ProjectReference Include="..\Materal.ApplicationUpdate.DTO\Materal.ApplicationUpdate.DTO.csproj" />
   </ItemGroup>
 

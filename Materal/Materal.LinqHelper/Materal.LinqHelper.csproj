@@ -6,8 +6,7 @@
     <Version>0.0.17</Version>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
-    <Description>Materal时间帮助类</Description>
-    <PackageReleaseNotes>1、新增-过去时间戳</PackageReleaseNotes>
+    <Description>MateralLinq帮助类</Description>
   </PropertyGroup>
 
 </Project>

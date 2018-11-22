@@ -109,94 +109,95 @@ namespace Materal.TTA.Common
             return await DBQueryable.FirstOrDefaultAsync(expression);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
+        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
         {
             return Paging(filterExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
+        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
         {
             return Paging(filterExpression, m => m.ID, pagingIndex, pagingSize);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
+        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
         {
             return Paging(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
+        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
         {
             return Paging(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
+        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
         {
             return Paging(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
         }
 
-        public virtual PageResultModel<T> Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
+        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
         {
-            var result = new PageResultModel<T>();
+            List<T> result;
             IQueryable<T> queryable = Where(filterExpression);
-            result.PageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
+            var pageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
             switch (sortOrder)
             {
                 case SortOrder.Ascending:
-                    result.Data = queryable.OrderBy(orderExpression).Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToList();
+                    result = queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList();
                     break;
                 case SortOrder.Descending:
-                    result.Data = queryable.OrderByDescending(orderExpression).Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToList();
+                    result = queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList();
                     break;
                 default:
-                    result.Data = queryable.Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToList();
+                    result = queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToList();
                     break;
             }
-            return result;
+            return (result, pageModel);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
+        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
         {
             return await PagingAsync(filterExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
+        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
         {
             return await PagingAsync(filterExpression, m => m.ID, pagingIndex, pagingSize);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
+        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
         {
             return await PagingAsync(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
+        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
         {
             return await PagingAsync(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
+        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
         {
             return await PagingAsync(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
         }
 
-        public virtual async Task<PageResultModel<T>> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
+        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
         {
-            var result = new PageResultModel<T>();
+
+            List<T> result;
             IQueryable<T> queryable = Where(filterExpression);
-            result.PageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
+            var pageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
             switch (sortOrder)
             {
                 case SortOrder.Ascending:
-                    result.Data = await queryable.OrderBy(orderExpression).Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToListAsync();
+                    result = await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
                     break;
                 case SortOrder.Descending:
-                    result.Data = await queryable.OrderByDescending(orderExpression).Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToListAsync();
+                    result = await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
                     break;
                 default:
-                    result.Data = await queryable.Skip(result.PageModel.Skip).Take(result.PageModel.Take).ToListAsync();
+                    result = await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
                     break;
             }
-            return result;
+            return (result, pageModel);
         }
     }
 }

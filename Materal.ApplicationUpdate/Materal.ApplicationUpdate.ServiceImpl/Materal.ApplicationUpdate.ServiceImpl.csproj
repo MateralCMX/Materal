@@ -5,7 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Materal.CacheHelper" Version="0.0.17" />
+    <PackageReference Include="Materal.ConvertHelper" Version="0.0.17" />
+    <PackageReference Include="Materal.LinqHelper" Version="0.0.17" />
+    <PackageReference Include="Materal.TTA.SqliteRepository" Version="0.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ApplicationUpdate.Common\Materal.ApplicationUpdate.Common.csproj" />
     <ProjectReference Include="..\Materal.ApplicationUpdate.Domain\Materal.ApplicationUpdate.Domain.csproj" />
+    <ProjectReference Include="..\Materal.ApplicationUpdate.EFRepository\Materal.ApplicationUpdate.EFRepository.csproj" />
     <ProjectReference Include="..\Materal.ApplicationUpdate.Service\Materal.ApplicationUpdate.Service.csproj" />
   </ItemGroup>
 

@@ -40,7 +40,8 @@ namespace Materal.ApplicationUpdate.WebAPI
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddBaseServices();
-            services.AddFrameWorkTransient();
+            services.AddFrameWorkServices();
+            services.AddAutoMapperServices();
         }
         /// <summary>
         /// 配置
