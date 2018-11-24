@@ -70,6 +70,6 @@ namespace Materal.ApplicationUpdate.Service
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="ApplicationUpdateException"></exception>
-        Task ChangePassword(ChangePasswordModel changePasswordModel);
+        Task ChangePasswordAsync(ChangePasswordModel changePasswordModel);
     }
 }

@@ -13,7 +13,8 @@ namespace Materal.ApplicationUpdate.EFRepository
         {
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<ApplicationLog> ApplicationLog { get; set; }
 
         /// <inheritdoc />
         /// <summary>

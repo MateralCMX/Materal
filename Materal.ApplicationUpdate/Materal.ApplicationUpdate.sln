@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		MigrationReadme.txt = MigrationReadme.txt
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ApplicationUpdate.SystemLog", "Materal.ApplicationUpdate.SystemLog\Materal.ApplicationUpdate.SystemLog.csproj", "{9ACFF7A3-016D-4DA1-8BDD-6313D0112124}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,10 @@ Global
 		{B313785F-7CD9-4411-B0C0-ADAA942EB1D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B313785F-7CD9-4411-B0C0-ADAA942EB1D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B313785F-7CD9-4411-B0C0-ADAA942EB1D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ACFF7A3-016D-4DA1-8BDD-6313D0112124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ACFF7A3-016D-4DA1-8BDD-6313D0112124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ACFF7A3-016D-4DA1-8BDD-6313D0112124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ACFF7A3-016D-4DA1-8BDD-6313D0112124}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

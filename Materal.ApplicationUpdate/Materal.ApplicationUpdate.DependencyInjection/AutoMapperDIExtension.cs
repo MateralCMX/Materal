@@ -5,10 +5,13 @@ using System.Reflection;
 
 namespace Materal.ApplicationUpdate.DependencyInjection
 {
+    /// <summary>
+    /// AutoMapper依赖注入扩展
+    /// </summary>
     public static class AutoMapperDIExtension
     {
         /// <summary>
-        /// 使用AutoMapper
+        /// 添加AutoMapper服务
         /// </summary>
         /// <param name="services"></param>
         public static void AddAutoMapperServices(this IServiceCollection services)

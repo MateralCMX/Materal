@@ -4,6 +4,9 @@ using System;
 
 namespace Materal.ApplicationUpdate.Common
 {
+    /// <summary>
+    /// 应用程序配置
+    /// </summary>
     public static class ApplicationConfig
     {
         /// <summary>

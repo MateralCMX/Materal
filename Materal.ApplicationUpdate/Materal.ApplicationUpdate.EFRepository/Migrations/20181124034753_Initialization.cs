@@ -8,7 +8,26 @@ namespace Materal.ApplicationUpdate.EFRepository.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "ApplicationLog",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Application = table.Column<string>(nullable: true),
+                    CreateTime = table.Column<DateTime>(nullable: false),
+                    Level = table.Column<string>(nullable: true),
+                    Message = table.Column<string>(nullable: true),
+                    Logger = table.Column<string>(nullable: true),
+                    Callsite = table.Column<string>(nullable: true),
+                    Exception = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationLog", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(nullable: false),
@@ -22,14 +41,17 @@ namespace Materal.ApplicationUpdate.EFRepository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.ID);
+                    table.PrimaryKey("PK_User", x => x.ID);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "ApplicationLog");
+
+            migrationBuilder.DropTable(
+                name: "User");
         }
     }
 }

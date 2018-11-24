@@ -5,19 +5,19 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.ApplicationUpdate.DependencyInjection
 {
+    /// <summary>
+    /// 框架依赖注入扩展
+    /// </summary>
     public static class FrameworkDIExtension
     {
         /// <summary>
-        /// 添加框架
+        /// 添加框架服务
         /// </summary>
         /// <param name="services"></param>
         public static void AddFrameWorkServices(this IServiceCollection services)
         {
-            //services.AddTransient(typeof(IEfRepository<,>), typeof(EfRepositoryImpl<,>));
-            //services.AddTransient(typeof(IUserEfRepository<,>), typeof(UserEfRepositoryImpl<,>));
             services.AddTransient<IUnitOfWork, AppUpdateUnitOfWorkImpl>();
             services.AddTransient<IAppUpdateUnitOfWork, AppUpdateUnitOfWorkImpl>();
-            //services.AddTransient<IUserUnitOfWork, UserUnitOfWork>();
             services.AddTransient<ICacheHelper, MemoryCacheHelper>();
         }
     }

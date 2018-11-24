@@ -2,8 +2,16 @@
 
 namespace Materal.ApplicationUpdate.Domain
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// 用户
+    /// </summary>
     public class User : EntityModel
     {
+        /// <inheritdoc />
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         public User()
         {
             Token = string.Empty;

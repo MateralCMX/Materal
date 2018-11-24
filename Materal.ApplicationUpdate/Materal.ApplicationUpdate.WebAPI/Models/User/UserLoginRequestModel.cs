@@ -2,6 +2,9 @@
 
 namespace Materal.ApplicationUpdate.WebAPI.Models.User
 {
+    /// <summary>
+    /// 用户登录请求模型
+    /// </summary>
     public class UserLoginRequestModel
     {
         /// <summary>

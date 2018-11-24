@@ -123,7 +123,7 @@ namespace Materal.ApplicationUpdate.ServiceImpl
             return result;
         }
 
-        public async Task ChangePassword(ChangePasswordModel changePasswordModel)
+        public async Task ChangePasswordAsync(ChangePasswordModel changePasswordModel)
         {
             if (changePasswordModel == null) throw new ArgumentNullException(nameof(changePasswordModel));
             if (string.IsNullOrEmpty(changePasswordModel.OldPassword)) throw new ArgumentNullException(nameof(changePasswordModel.OldPassword), "旧密码不能为空");

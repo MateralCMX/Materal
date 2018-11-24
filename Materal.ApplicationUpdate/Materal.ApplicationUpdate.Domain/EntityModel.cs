@@ -3,8 +3,14 @@ using System;
 
 namespace Materal.ApplicationUpdate.Domain
 {
+    /// <summary>
+    /// 实体模型
+    /// </summary>
     public class EntityModel : IEntity<Guid>
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         public EntityModel()
         {
             ID = Guid.NewGuid();
