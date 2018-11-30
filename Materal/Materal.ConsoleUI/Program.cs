@@ -1,7 +1,7 @@
-﻿using Materal.NetworkHelper;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System;
+using System.Text.RegularExpressions;
+using Materal.ConvertHelper;
+using Materal.StringHelper;
 
 namespace Materal.ConsoleUI
 {
@@ -9,17 +9,10 @@ namespace Materal.ConsoleUI
     {
         public static void Main()
         {
-            ClassA.TempList.Add("1123");
-            var a = new ClassA();
-            ClassA.TempList.Add("1123");
-            var b = new ClassA();
-            ClassA.TempList.Add("1123");
+            const string inputStr = "2007-02-29 06:14:44";
+
+            bool result = inputStr.IsDateTime();
             Console.ReadKey();
         }
-    }
-
-    public class ClassA
-    {
-        public static List<string> TempList = new List<string>();
     }
 }

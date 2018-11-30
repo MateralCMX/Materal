@@ -338,7 +338,7 @@ namespace Materal.ConvertHelper
         public static string DesDecode(this string inputStr, string inputKey, string inputIv, Encoding ed = null)
         {
             var resM = "";
-            if (inputKey.Length != 8 || inputIv.Length != 8) return resM;
+            //if (inputKey.Length != 8 || inputIv.Length != 8) return resM;
             if (ed == null)
             {
                 ed = Encoding.UTF8;

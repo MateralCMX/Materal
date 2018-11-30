@@ -513,7 +513,12 @@ namespace Materal.StringHelper
         /// </returns>
         public static bool IsDateTime(this string obj, string delimiter = "-/.")
         {
-            return obj.VerifyRegex(RegexData.DateTime(delimiter), true);
+            if (!obj.VerifyRegex(RegexData.DateTime(delimiter), true)) return false;
+            int index = obj.IndexOf(' ');
+            if (index < 0) index = obj.IndexOf('T');
+            if (index < 0) return false;
+            string dataStr = obj.Substring(0, index);
+            return dataStr.IsDate(delimiter);
         }
         /// <summary>
         /// 获取输入字符串中所有的日期和时间
