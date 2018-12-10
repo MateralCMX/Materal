@@ -20,6 +20,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{7A7B49C3-2B3C-4482-ABC4-0BD0301DCC20}"
 	ProjectSection(SolutionItems) = preProject
 		PackHelper.txt = PackHelper.txt
+		RunNuGet.cmd = RunNuGet.cmd
 	EndProjectSection
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Materal.WPFInstaller", "Materal.WPFInstaller\Materal.WPFInstaller.vdproj", "{8049ACB5-5943-47D2-8B4F-3C6D22F38DD3}"

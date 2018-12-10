@@ -286,9 +286,14 @@ namespace Materal.WPFUI.Tools.NuGetTools
             FileInfo[] fileInfos = projectDirectoryInfo.GetFiles(fileExpression);
             foreach (FileInfo fileInfo in fileInfos)
             {
+                string targetFileName = $"{targetDirectoryInfo.FullName}/{fileInfo.Name}";
+                if (File.Exists(targetFileName))
+                {
+                    File.Delete(targetFileName);
+                }
                 if (DeleteSourceFile)
                 {
-                    fileInfo.MoveTo($"{targetDirectoryInfo.FullName}/{fileInfo.Name}");
+                    fileInfo.MoveTo(targetFileName);
                 }
                 else
                 {

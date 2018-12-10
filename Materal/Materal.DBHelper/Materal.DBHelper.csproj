@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.18</Version>
+    <Version>0.0.19</Version>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
     <Description>Materal数据库帮助类</Description>
@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.13" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.109.2" />
   </ItemGroup>
 
