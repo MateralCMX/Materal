@@ -362,41 +362,34 @@ namespace Materal.NetworkHelper
         /// </summary>
         /// <param name="downloadUrl">下载地址</param>
         /// <param name="saveFilePath">保存文件地址</param>
-        /// <param name="bufferSize">流大小</param>
-        /// <param name="fileSumSize">文件总大小</param>
-        /// <param name="progress">下载进度(当前下载大小,总大小)</param>
+        /// <param name="cover">覆盖</param>
         /// <returns></returns>
-        public static async Task<bool> HttpDownload(string downloadUrl, string saveFilePath, int bufferSize = 1024, Action<long> fileSumSize = null, Action<long> progress = null)
+        public static void HttpDownload(string downloadUrl, string saveFilePath, bool cover = false)
         {
-            string filePath = GetSaveFilePath(saveFilePath);
-            using (var fileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
-            {
-                WebRequest webRequest = WebRequest.Create(downloadUrl);
-                WebResponse webResponse = webRequest.GetResponse();
-                using (Stream responseStream = webResponse.GetResponseStream())
-                {
-                    if (responseStream == null) return false;
-                    fileSumSize?.Invoke(webResponse.ContentLength);
-                    var buffer = new byte[bufferSize];
-                    var sum = 0L;
-                    while (true)
-                    {
-                        int size = await responseStream.ReadAsync(buffer, 0, buffer.Length);
-                        if (size == 0) break;
-                        await fileStream.WriteAsync(buffer, 0, size);
-                        sum += size;
-                        progress?.Invoke(sum);
-                    }
-                }
-            }
-            return true;
+            string filePath = GetSaveFilePath(saveFilePath, cover);
+            var uri = new Uri(downloadUrl);
+            new WebClient().DownloadFile(uri, filePath);
+        }
+        /// <summary>
+        /// Http下载
+        /// </summary>
+        /// <param name="downloadUrl">下载地址</param>
+        /// <param name="saveFilePath">保存文件地址</param>
+        /// <param name="cover">覆盖</param>
+        /// <returns></returns>
+        public static void HttpDownloadAsync(string downloadUrl, string saveFilePath, bool cover = false)
+        {
+            string filePath = GetSaveFilePath(saveFilePath, cover);
+            var uri = new Uri(downloadUrl);
+            new WebClient().DownloadFileAsync(uri, filePath);
         }
         /// <summary>
         /// 获取保存文件路径
         /// </summary>
         /// <param name="saveFilePath"></param>
+        /// <param name="cover">覆盖</param>
         /// <returns></returns>
-        private static string GetSaveFilePath(string saveFilePath)
+        private static string GetSaveFilePath(string saveFilePath, bool cover)
         {
             if (saveFilePath == null) throw new ArgumentNullException(nameof(saveFilePath));
             string directoryName = Path.GetDirectoryName(saveFilePath);
@@ -405,22 +398,31 @@ namespace Materal.NetworkHelper
             {
                 Directory.CreateDirectory(directoryName);
             }
-            var fileIndex = 1;
             string filePath = saveFilePath;
-            while (File.Exists(filePath))
+            if (cover)
             {
-                string fileName = Path.GetFileNameWithoutExtension(saveFilePath);
-                string extension = Path.GetExtension(saveFilePath);
-                if (string.IsNullOrEmpty(extension))
+                if (File.Exists(filePath))
                 {
-                    filePath = directoryName + @"\" + fileName + "(" + fileIndex++ + ")";
-                }
-                else
-                {
-                    filePath = directoryName + @"\" + fileName + "(" + fileIndex++ + ")" + extension;
+                    File.Delete(filePath);
                 }
             }
-
+            else
+            {
+                var fileIndex = 1;
+                while (File.Exists(filePath))
+                {
+                    string fileName = Path.GetFileNameWithoutExtension(saveFilePath);
+                    string extension = Path.GetExtension(saveFilePath);
+                    if (string.IsNullOrEmpty(extension))
+                    {
+                        filePath = directoryName + @"\" + fileName + "(" + fileIndex++ + ")";
+                    }
+                    else
+                    {
+                        filePath = directoryName + @"\" + fileName + "(" + fileIndex++ + ")" + extension;
+                    }
+                }
+            }
             return filePath;
         }
     }

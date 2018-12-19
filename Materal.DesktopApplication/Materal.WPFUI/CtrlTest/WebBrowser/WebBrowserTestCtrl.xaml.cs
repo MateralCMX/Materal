@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,6 +20,7 @@ namespace Materal.WPFUI.CtrlTest.WebBrowser
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             MainWebBrowser.Source = new Uri(ViewModel.HomeAddress, UriKind.RelativeOrAbsolute);
+            MainWebBrowser.ObjectForScripting = new HelloJS();
         }
 
         private void BrowseBackCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -104,5 +106,20 @@ namespace Materal.WPFUI.CtrlTest.WebBrowser
         {
             ViewModel.IsLoad = true;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
+
+    [ComVisible(true)]
+    public class HelloJS
+    {
+        public string GetToken()
+        {
+            return "qqqqqqqqqqqqqqq";
+        }
+    }
+
 }

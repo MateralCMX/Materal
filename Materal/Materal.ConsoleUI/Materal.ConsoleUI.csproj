@@ -20,4 +20,9 @@
     <PackageReference Include="MongoDB.Driver" Version="2.7.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
+    <ProjectReference Include="..\Materal.NetworkHelper\Materal.NetworkHelper.csproj" />
+  </ItemGroup>
+
 </Project>

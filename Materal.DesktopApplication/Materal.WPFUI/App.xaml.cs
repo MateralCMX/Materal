@@ -1,10 +1,9 @@
-﻿using System;
+﻿using CefSharp;
+using CefSharp.Wpf;
+using System;
 using System.IO;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Windows;
-using CefSharp;
-using CefSharp.Wpf;
 
 namespace Materal.WPFUI
 {

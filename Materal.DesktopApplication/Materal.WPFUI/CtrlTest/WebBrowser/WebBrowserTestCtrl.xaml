@@ -59,6 +59,7 @@
             <Button Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Command="local:WebBrowserTestCtrlCommands.CleanUpCache">清理缓存</Button>
             <TextBox Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" Grid.ColumnSpan="4" Text="{Binding NowAddress}"></TextBox>
             <Button Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Command="local:WebBrowserTestCtrlCommands.GotoPage">跳转</Button>
+            <Button Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Click">执行JS</Button>
         </Grid>
     </Grid>
 </UserControl>

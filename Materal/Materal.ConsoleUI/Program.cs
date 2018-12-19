@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using Materal.NetworkHelper;
+using System;
 
 namespace Materal.ConsoleUI
 {
@@ -8,31 +7,9 @@ namespace Materal.ConsoleUI
     {
         public static void Main()
         {
-            const int count = 100000000;
-            var intArray = new int[count];
-            var intList = new List<int>();
-            for (var i = 0; i < count; i++)
-            {
-                intArray[i] = i;
-                intList.Add(i);
-            }
-
-            var temp = 0;
-            var stopWatch = new Stopwatch();
-            stopWatch.Start();
-            foreach (int item in intArray)
-            {
-                temp = item;
-            }
-            stopWatch.Stop();
-            Console.WriteLine("Array:" + stopWatch.Elapsed);
-            stopWatch.Restart();
-            foreach (int item in intList)
-            {
-                temp = item;
-            }
-            stopWatch.Stop();
-            Console.WriteLine("List:" + stopWatch.Elapsed);
+            //Task.Run(Start);
+            const string updateConfigFile = "http://www.yncwbd.com:13510/Update.txt";
+            HttpHelper.HttpDownload(updateConfigFile, "temp/Update.txt", true);
             Console.ReadKey();
         }
     }

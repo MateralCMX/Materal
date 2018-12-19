@@ -29,15 +29,15 @@ namespace Materal.WPFUI.CtrlTest.CefSharp
             CleanUpCache = new RoutedUICommand(
                 "清理缓存",
                 nameof(CleanUpCache),
-                typeof(MainWindowCommands));
+                typeof(CefSharpCommands));
             GotoPage = new RoutedUICommand(
                 "跳转页面",
                 nameof(GotoPage),
-                typeof(MainWindowCommands));
+                typeof(CefSharpCommands));
             DevTool = new RoutedUICommand(
                 "调试工具",
                 nameof(DevTool),
-                typeof(MainWindowCommands));
+                typeof(CefSharpCommands));
         }
     }
 }
