@@ -1,12 +1,11 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Materal.WindowsHelper
 {
     /// <summary>
     /// 资源管理器帮助类
     /// </summary>
-    public static class ExplorerHelper
+    public static class ExplorerManager
     {
         /// <summary>
         /// 打开资源管理器

@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Materal.Common" Version="0.0.14" />
-    <PackageReference Include="Materal.ConvertHelper" Version="0.0.14" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
+    <PackageReference Include="Materal.Common" Version="0.0.22" />
+    <PackageReference Include="Materal.ConvertHelper" Version="0.0.22" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

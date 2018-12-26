@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.22</Version>
+    <Authors>Materal</Authors>
+    <Company>Materal</Company>
+    <Product>Materal</Product>
+    <Description>Materal枚举帮助类</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />
+  </ItemGroup>
+
+</Project>

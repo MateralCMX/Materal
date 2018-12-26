@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Materal.WindowsHelper
 {
-    public static class CmdHelper
+    public static class CmdManager
     {
         /// <summary>
         /// 运行命令提示符命令

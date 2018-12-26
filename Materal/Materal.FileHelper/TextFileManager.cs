@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Materal.FileHelper
 {
-    public class TextFileHelper
+    public class TextFileManager
     {
         /// <summary>
         /// 写入文本

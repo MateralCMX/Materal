@@ -33,6 +33,10 @@ namespace Materal.WPFUI
         /// </summary>
         public static RoutedUICommand LoadCefSharpTestCtrl { get; }
         /// <summary>
+        /// 加载网页浏览器测试控件
+        /// </summary>
+        public static RoutedUICommand LoadEdgeTestCtrl { get; }
+        /// <summary>
         /// 加载圆角按钮测试控件
         /// </summary>
         public static RoutedUICommand LoadCornerRadiusButtonTestCtrl { get; }
@@ -92,6 +96,10 @@ namespace Materal.WPFUI
             LoadCefSharpTestCtrl = new RoutedUICommand(
                 "CefSharp",
                 nameof(LoadCefSharpTestCtrl),
+                typeof(MainWindowCommands));
+            LoadEdgeTestCtrl = new RoutedUICommand(
+                "Edge",
+                nameof(LoadEdgeTestCtrl),
                 typeof(MainWindowCommands));
             LoadNuGetToolsCtrl = new RoutedUICommand(
                 "NuGetTools",

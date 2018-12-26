@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
 using System.Collections.Generic;
-using System.Text;
-using Microsoft.Win32;
 
 namespace Materal.WindowsHelper
 {
-    public class RegistryHelper
+    public class RegistryManager
     {
         /// <summary>
         /// 是否存在

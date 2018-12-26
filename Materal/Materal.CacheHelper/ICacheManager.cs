@@ -3,7 +3,7 @@ using System;
 
 namespace Materal.CacheHelper
 {
-    public interface ICacheHelper
+    public interface ICacheManager
     {
         void SetBySliding(string key, object content, double hours);
         void SetBySliding(string key, object content, double timer, DateTimeTypeEnum dateTimeType);

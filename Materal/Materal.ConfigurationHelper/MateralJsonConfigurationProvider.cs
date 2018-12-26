@@ -18,7 +18,7 @@ namespace Materal.ConfigurationHelper
         public async Task SaveAsync()
         {
             string jsonStr = Data.ToJson();
-            await TextFileHelper.WriteTextAsync(Source.Path, jsonStr);
+            await TextFileManager.WriteTextAsync(Source.Path, jsonStr);
         }
         /// <summary>
         /// 保存
@@ -26,7 +26,7 @@ namespace Materal.ConfigurationHelper
         public void Save()
         {
             string jsonStr = Data.ToJson();
-            TextFileHelper.WriteText(Source.Path, jsonStr);
+            TextFileManager.WriteText(Source.Path, jsonStr);
         }
     }
 }

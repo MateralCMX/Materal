@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Materal.NetworkHelper
 {
-    public class HttpHelper
+    public static class HttpManager
     {
         /// <summary>
         /// 发送请求

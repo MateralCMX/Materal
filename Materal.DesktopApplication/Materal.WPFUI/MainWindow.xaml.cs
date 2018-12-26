@@ -13,6 +13,7 @@ using System.Windows.Input;
 using Materal.WPFUI.CtrlTest.CefSharp;
 using Materal.WPFUI.CtrlTest.CornerRadiusButton;
 using Materal.WPFUI.CtrlTest.CornerRadiusToggleButton;
+using Materal.WPFUI.CtrlTest.Edge;
 
 namespace Materal.WPFUI
 {
@@ -122,6 +123,11 @@ namespace Materal.WPFUI
         private void CheckForUpdatesCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
 
+        }
+
+        private void LoadEdgeTestCtrlCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            LoadUserControl(new EdgeTestCtrl());
         }
     }
 }

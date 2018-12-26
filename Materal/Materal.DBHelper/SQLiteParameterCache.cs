@@ -8,7 +8,7 @@ namespace Materal.DBHelper
     /// <summary>   
     /// MSSQLHelperParameterCache提供缓存存储过程参数,并能够在运行时从存储过程中探索参数.   
     /// </summary>   
-    public static class SQLiteHelperParameterCache
+    public static class SQLiteParameterCache
     {
         #region 私有方法,字段,构造函数   
         private static readonly Hashtable ParamCache = Hashtable.Synchronized(new Hashtable());

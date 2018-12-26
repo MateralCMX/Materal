@@ -15,9 +15,9 @@
     <PackageReference Include="DotNetty.Common" Version="0.6.0" />
     <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
     <PackageReference Include="DotNetty.Transport.Libuv" Version="0.6.0" />
-    <PackageReference Include="Materal.ConvertHelper" Version="0.0.14" />
-    <PackageReference Include="Materal.StringHelper" Version="0.0.14" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="Materal.ConvertHelper" Version="0.0.22" />
+    <PackageReference Include="Materal.StringHelper" Version="0.0.22" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

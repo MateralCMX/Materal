@@ -3,7 +3,7 @@ using System.Data;
 
 namespace Materal.DBHelper
 {
-    public interface IDBHelper<TConnection, TCommand, in TParams, in TTransaction> where TConnection : IDbConnection where TCommand : IDbCommand where TParams : IDbDataParameter where TTransaction : IDbTransaction
+    public interface IDBManager<TConnection, TCommand, in TParams, in TTransaction> where TConnection : IDbConnection where TCommand : IDbCommand where TParams : IDbDataParameter where TTransaction : IDbTransaction
     {
         #region ConnectionTest
         /// <summary>

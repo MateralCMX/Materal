@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.CacheHelper", "Mate
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DateTimeHelper", "Materal.DateTimeHelper\Materal.DateTimeHelper.csproj", "{D89E25A3-D717-48CA-A104-CCA402AEAB77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.LinqHelper", "Materal.LinqHelper\Materal.LinqHelper.csproj", "{83ADA8FC-0A15-4BEC-898F-584A2CC71915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.LinqHelper", "Materal.LinqHelper\Materal.LinqHelper.csproj", "{83ADA8FC-0A15-4BEC-898F-584A2CC71915}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.EnumHelper", "Materal.EnumHelper\Materal.EnumHelper.csproj", "{F502855D-EBA3-47F6-870D-1E3F73E815D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{83ADA8FC-0A15-4BEC-898F-584A2CC71915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83ADA8FC-0A15-4BEC-898F-584A2CC71915}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83ADA8FC-0A15-4BEC-898F-584A2CC71915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F502855D-EBA3-47F6-870D-1E3F73E815D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F502855D-EBA3-47F6-870D-1E3F73E815D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F502855D-EBA3-47F6-870D-1E3F73E815D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F502855D-EBA3-47F6-870D-1E3F73E815D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

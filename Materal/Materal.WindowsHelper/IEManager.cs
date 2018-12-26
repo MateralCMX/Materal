@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Materal.WindowsHelper
 {
-    public static class IEHelper
+    public static class IEManager
     {
         public enum ShowCommands
         {

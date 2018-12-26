@@ -23,8 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nuget", "Nuget", "{7A7B49C3
 		RunNuGet.cmd = RunNuGet.cmd
 	EndProjectSection
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Materal.WPFInstaller", "Materal.WPFInstaller\Materal.WPFInstaller.vdproj", "{8049ACB5-5943-47D2-8B4F-3C6D22F38DD3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,10 +87,6 @@ Global
 		{DA19B571-4967-4163-B926-CDE9C0ACC0F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DA19B571-4967-4163-B926-CDE9C0ACC0F4}.Release|x64.ActiveCfg = Release|x64
 		{DA19B571-4967-4163-B926-CDE9C0ACC0F4}.Release|x64.Build.0 = Release|x64
-		{8049ACB5-5943-47D2-8B4F-3C6D22F38DD3}.Debug|Any CPU.ActiveCfg = Debug
-		{8049ACB5-5943-47D2-8B4F-3C6D22F38DD3}.Debug|x64.ActiveCfg = Debug
-		{8049ACB5-5943-47D2-8B4F-3C6D22F38DD3}.Release|Any CPU.ActiveCfg = Release
-		{8049ACB5-5943-47D2-8B4F-3C6D22F38DD3}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

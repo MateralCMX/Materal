@@ -6,7 +6,7 @@ using System.Data;
 
 namespace Materal.DBHelper
 {
-    public class MySqlHelper : IDBHelper<MySqlConnection, MySqlCommand, MySqlParameter, MySqlTransaction>
+    public class MySqlManager : IDBManager<MySqlConnection, MySqlCommand, MySqlParameter, MySqlTransaction>
     {
         /// <summary>
         /// 连接字符串
@@ -119,7 +119,7 @@ namespace Materal.DBHelper
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
             string connectionString = connection.ConnectionString;
             if (parameterValues == null || parameterValues.Length <= 0) return ExecuteNonQuery(connectionString, CommandType.StoredProcedure, spName);
-            MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(connectionString, spName);
+            MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(connectionString, spName);
             AssignParameterValues(commandParameters, parameterValues);
             return ExecuteNonQuery(connectionString, CommandType.StoredProcedure, spName, commandParameters);
 
@@ -146,7 +146,7 @@ namespace Materal.DBHelper
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
             if (parameterValues == null || parameterValues.Length <= 0) return ExecuteNonQuery(transaction, CommandType.StoredProcedure, spName);
-            MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+            MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(transaction.Connection, spName);
             AssignParameterValues(commandParameters, parameterValues);
             return ExecuteNonQuery(transaction, CommandType.StoredProcedure, spName, commandParameters);
         }
@@ -534,7 +534,7 @@ namespace Materal.DBHelper
             if (connection == null) throw new ArgumentNullException(nameof(connection));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
             if (parameterValues == null || parameterValues.Length <= 0) return ExecuteScalar(connection, CommandType.StoredProcedure, spName);
-            MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(connection, spName);
+            MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(connection, spName);
             AssignParameterValues(commandParameters, parameterValues);
             return ExecuteScalar(connection, CommandType.StoredProcedure, spName, commandParameters);
         }
@@ -559,7 +559,7 @@ namespace Materal.DBHelper
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
             if (parameterValues == null || parameterValues.Length <= 0) return ExecuteScalar(transaction, CommandType.StoredProcedure, spName);
-            MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+            MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(transaction.Connection, spName);
             AssignParameterValues(commandParameters, parameterValues);
             return ExecuteScalar(transaction, CommandType.StoredProcedure, spName, commandParameters);
 
@@ -834,7 +834,7 @@ namespace Materal.DBHelper
             if (connection == null) throw new ArgumentNullException(nameof(connection));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
             if (parameterValues == null || parameterValues.Length <= 0) return ExecuteReader(connection, CommandType.StoredProcedure, spName);
-            MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(connection, spName);
+            MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(connection, spName);
             AssignParameterValues(commandParameters, parameterValues);
             return ExecuteReader(connection, CommandType.StoredProcedure, spName, commandParameters);
         }
@@ -855,7 +855,7 @@ namespace Materal.DBHelper
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
             if (parameterValues == null || parameterValues.Length <= 0) return ExecuteReader(transaction, CommandType.StoredProcedure, spName);
-            MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+            MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(transaction.Connection, spName);
             AssignParameterValues(commandParameters, parameterValues);
             return ExecuteReader(transaction, CommandType.StoredProcedure, spName, commandParameters);
         }
@@ -934,7 +934,7 @@ namespace Materal.DBHelper
             if (connection == null) throw new ArgumentNullException(nameof(connection));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
             if (parameterValues == null || parameterValues.Length <= 0) FillDataset(connection, CommandType.StoredProcedure, spName, dataSet);
-            MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(connection, spName);
+            MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(connection, spName);
             AssignParameterValues(commandParameters, parameterValues);
             FillDataset(connection, CommandType.StoredProcedure, spName, dataSet, commandParameters);
         }
@@ -956,7 +956,7 @@ namespace Materal.DBHelper
             if (parameterValues == null || parameterValues.Length <= 0) FillDataset(transaction, CommandType.StoredProcedure, spName, dataSet);
             else
             {
-                MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(transaction.Connection, spName);
                 AssignParameterValues(commandParameters, parameterValues);
                 FillDataset(transaction, CommandType.StoredProcedure, spName, dataSet, commandParameters);
             }
@@ -1027,7 +1027,7 @@ namespace Materal.DBHelper
             if (parameterValues == null || parameterValues.Length <= 0) FillDataset(connection, CommandType.StoredProcedure, spName, dataSet, tableNames);
             else
             {
-                MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(connection, spName);
+                MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(connection, spName);
                 AssignParameterValues(commandParameters, parameterValues);
                 FillDataset(connection, CommandType.StoredProcedure, spName, dataSet, tableNames, commandParameters);
             }
@@ -1050,7 +1050,7 @@ namespace Materal.DBHelper
             if (parameterValues == null || parameterValues.Length <= 0) FillDataset(transaction, CommandType.StoredProcedure, spName, dataSet, tableNames);
             else
             {
-                MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(transaction.Connection, spName);
+                MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(transaction.Connection, spName);
                 AssignParameterValues(commandParameters, parameterValues);
                 FillDataset(transaction, CommandType.StoredProcedure, spName, dataSet, tableNames, commandParameters);
             }
@@ -1122,7 +1122,7 @@ namespace Materal.DBHelper
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
             var cmd = new MySqlCommand(spName, connection) { CommandType = CommandType.StoredProcedure };
             if ((sourceColumns == null) || (sourceColumns.Length <= 0)) return cmd;
-            MySqlParameter[] commandParameters = MySqlHelperParameterCache.GetSpParameterSet(connection, spName);
+            MySqlParameter[] commandParameters = MySqlParameterCache.GetSpParameterSet(connection, spName);
             for (var index = 0; index < sourceColumns.Length; index++)
             {
                 commandParameters[index].SourceColumn = sourceColumns[index];

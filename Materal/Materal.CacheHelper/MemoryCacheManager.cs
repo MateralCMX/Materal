@@ -8,16 +8,16 @@ using System.Reflection;
 
 namespace Materal.CacheHelper
 {
-    public class MemoryCacheHelper : ICacheHelper
+    public class MemoryCacheManager : ICacheManager
     {
         private readonly IMemoryCache _memoryCache;
 
-        public MemoryCacheHelper()
+        public MemoryCacheManager()
         {
             _memoryCache = new MemoryCache(Options.Create(new MemoryCacheOptions()));
         }
 
-        public MemoryCacheHelper(IMemoryCache memoryCache)
+        public MemoryCacheManager(IMemoryCache memoryCache)
         {
             _memoryCache = memoryCache;
         }
