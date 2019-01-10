@@ -188,7 +188,7 @@ namespace Materal.WPFUI.Tools.NuGetTools
                 DirectoryInfo targetDirectoryInfo = Directory.Exists(TargetAddress) ? new DirectoryInfo(TargetAddress) : Directory.CreateDirectory(TargetAddress);
                 if (ClearTargetDirectory) targetDirectoryInfo.Clear();
                 Export(projectDirectoryInfo, targetDirectoryInfo);
-                if (OpenExplorer) ExplorerHelper.OpenExplorer(TargetAddress);
+                if (OpenExplorer) ExplorerManager.OpenExplorer(TargetAddress);
             }
             finally
             {
@@ -235,10 +235,10 @@ namespace Materal.WPFUI.Tools.NuGetTools
         /// </summary>
         /// <param name="projectDirectoryInfo">项目文件夹</param>
         /// <param name="targetDirectoryInfo">目标文件夹</param>
-        /// <param name="subdirectoryName">子文件夹名称</param>
-        private void ExportNuGet(DirectoryInfo projectDirectoryInfo, DirectoryInfo targetDirectoryInfo, string subdirectoryName)
+        /// <param name="subDirectoryName">子文件夹名称</param>
+        private void ExportNuGet(DirectoryInfo projectDirectoryInfo, DirectoryInfo targetDirectoryInfo, string subDirectoryName)
         {
-            ExportFile(projectDirectoryInfo, targetDirectoryInfo, $"NuGet/{subdirectoryName}", "*.nupkg");
+            ExportFile(projectDirectoryInfo, targetDirectoryInfo, $"NuGet/{subDirectoryName}", "*.nupkg");
         }
 
         /// <summary>
@@ -246,10 +246,10 @@ namespace Materal.WPFUI.Tools.NuGetTools
         /// </summary>
         /// <param name="projectDirectoryInfo">项目文件夹</param>
         /// <param name="targetDirectoryInfo">目标文件夹</param>
-        /// <param name="subdirectoryName">子文件夹名称</param>
-        private void ExportDLL(DirectoryInfo projectDirectoryInfo, DirectoryInfo targetDirectoryInfo, string subdirectoryName)
+        /// <param name="subDirectoryName">子文件夹名称</param>
+        private void ExportDLL(DirectoryInfo projectDirectoryInfo, DirectoryInfo targetDirectoryInfo, string subDirectoryName)
         {
-            ExportFile(projectDirectoryInfo, targetDirectoryInfo, $"DLL/{subdirectoryName}", "*.dll");
+            ExportFile(projectDirectoryInfo, targetDirectoryInfo, $"DLL/{subDirectoryName}", "*.dll");
         }
 
         /// <summary>
@@ -257,11 +257,11 @@ namespace Materal.WPFUI.Tools.NuGetTools
         /// </summary>
         /// <param name="projectDirectoryInfo">项目文件夹</param>
         /// <param name="targetDirectoryInfo">目标文件夹</param>
-        /// <param name="subdirectoryName">子文件夹名称</param>
+        /// <param name="subDirectoryName">子文件夹名称</param>
         /// <param name="fileExpression">文件表达式</param>
-        private void ExportFile(DirectoryInfo projectDirectoryInfo, DirectoryInfo targetDirectoryInfo, string subdirectoryName, string fileExpression)
+        private void ExportFile(DirectoryInfo projectDirectoryInfo, DirectoryInfo targetDirectoryInfo, string subDirectoryName, string fileExpression)
         {
-            DirectoryInfo directoryInfo = targetDirectoryInfo.CreateSubdirectory(subdirectoryName);
+            DirectoryInfo directoryInfo = targetDirectoryInfo.CreateSubdirectory(subDirectoryName);
             DirectoryInfo[] directoryInfos = projectDirectoryInfo.GetDirectories();
             ExportFile(projectDirectoryInfo, directoryInfo, fileExpression);
             foreach (DirectoryInfo item in directoryInfos)

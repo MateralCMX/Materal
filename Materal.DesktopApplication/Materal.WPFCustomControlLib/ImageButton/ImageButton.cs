@@ -2,7 +2,7 @@
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
-namespace Materal.WPFCustomControlLib
+namespace Materal.WPFCustomControlLib.ImageButton
 {
     public class ImageButton : ButtonBase
     {

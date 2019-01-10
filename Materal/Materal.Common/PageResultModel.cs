@@ -54,6 +54,16 @@ namespace Materal.Common
         {
             return new PageResultModel<T>(ResultTypeEnum.Success, data, new PageModel(pageRequestModel, dataCount), message);
         }
+
+        /// <summary>
+        /// 失败
+        /// </summary>
+        /// <param name="message">返回消息</param>
+        /// <returns></returns>
+        public new static PageResultModel<T> Fail(string message = "")
+        {
+            return new PageResultModel<T>(ResultTypeEnum.Fail, null, null, message);
+        }
         /// <summary>
         /// 失败
         /// </summary>

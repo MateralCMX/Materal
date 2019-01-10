@@ -15,6 +15,20 @@
         /// <summary>
         /// 构造方法
         /// </summary>
+        public PageModel() { }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="pagingIndex">页面位序</param>
+        /// <param name="pagingSize">显示数量</param>
+        public PageModel(int pagingIndex, int pagingSize) : base(pagingIndex, pagingSize)
+        {
+            DataCount = 0;
+        }
+
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         /// <param name="pageRequestModel"></param>
         /// <param name="dataCount">数据总数</param>
         public PageModel(PageRequestModel pageRequestModel, int dataCount) : base(pageRequestModel.PageIndex, pageRequestModel.PageSize)

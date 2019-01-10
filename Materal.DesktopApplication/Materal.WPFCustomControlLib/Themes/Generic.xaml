@@ -4,7 +4,7 @@
     xmlns:local="clr-namespace:Materal.WPFCustomControlLib">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/Themes/TestCustomControl.xaml"/>
-        <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/Themes/ImageButton.xaml"/>
+        <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/ImageButton/ImageButton.xaml"/>
         <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/NumberBox/NumberBox.xaml"/>
         <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/DateTimePicker/DateTimePicker.xaml"/>
         <ResourceDictionary Source="/Materal.WPFCustomControlLib;component/SearchBox/SearchBox.xaml"/>
