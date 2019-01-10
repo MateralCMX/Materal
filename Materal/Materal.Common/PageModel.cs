@@ -8,6 +8,11 @@
         public int PageCount => DataCount % PageSize > 0 ? DataCount / PageSize + 1 : DataCount / PageSize;
 
         /// <summary>
+        /// 开始序号
+        /// </summary>
+        public int StartIndex => (PageIndex - MateralConfig.PageStartNumber) * PageSize + 1;
+
+        /// <summary>
         /// 数据总数
         /// </summary>
         public int DataCount { get; set; }

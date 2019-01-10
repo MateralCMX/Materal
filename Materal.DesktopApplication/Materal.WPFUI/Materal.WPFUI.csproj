@@ -104,23 +104,23 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Materal.Common, Version=0.0.23.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.Common.0.0.23\lib\netstandard2.0\Materal.Common.dll</HintPath>
+    <Reference Include="Materal.Common, Version=0.0.25.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.Common.0.0.25\lib\netstandard2.0\Materal.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.ConfigurationHelper, Version=0.0.23.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.ConfigurationHelper.0.0.23\lib\netstandard2.0\Materal.ConfigurationHelper.dll</HintPath>
+    <Reference Include="Materal.ConfigurationHelper, Version=0.0.25.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConfigurationHelper.0.0.25\lib\netstandard2.0\Materal.ConfigurationHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.ConvertHelper, Version=0.0.23.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.ConvertHelper.0.0.23\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
+    <Reference Include="Materal.ConvertHelper, Version=0.0.25.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConvertHelper.0.0.25\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.FileHelper, Version=0.0.23.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.FileHelper.0.0.23\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
+    <Reference Include="Materal.FileHelper, Version=0.0.25.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.FileHelper.0.0.25\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.StringHelper, Version=0.0.23.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.StringHelper.0.0.23\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
+    <Reference Include="Materal.StringHelper, Version=0.0.25.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.StringHelper.0.0.25\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.WindowsHelper, Version=0.0.23.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.WindowsHelper.0.0.23\lib\netstandard2.0\Materal.WindowsHelper.dll</HintPath>
+    <Reference Include="Materal.WindowsHelper, Version=0.0.25.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.WindowsHelper.0.0.25\lib\netstandard2.0\Materal.WindowsHelper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.dll</HintPath>
@@ -177,7 +177,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+      <HintPath>..\packages\System.Memory.4.5.2\lib\netstandard2.0\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
