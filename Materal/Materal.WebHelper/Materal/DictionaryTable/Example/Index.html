@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <title>DictionaryTable</title>
+    <link href="Index.css" rel="stylesheet" />
+</head>
+<body>
+    <table id="dicTable">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>值</th>
+                <th>AA</th>
+                <th>BB</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr m-target>
+                <td m-model="Name"></td>
+                <td m-model="Value"></td>
+                <td m-model="Temp.AA"></td>
+                <td m-model="Temp.BB"></td>
+                <td>
+                    <button type="button">编辑</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div>
+        <button id="BtnUp">Up</button>
+        <button id="BtnDown">Down</button>
+    </div>
+    <script src="../../Materal.js"></script>
+    <script src="../DictionaryTable.js"></script>
+    <script src="Index.js"></script>
+</body>
+</html>

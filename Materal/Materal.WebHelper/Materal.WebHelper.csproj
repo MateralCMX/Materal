@@ -32,6 +32,19 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -65,18 +78,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Css\Index.css" />
+    <Content Include="MateralReset\MateralReset.css" />
     <Content Include="Index.html" />
+    <Content Include="Materal\DictionaryTable\Example\Index.css" />
+    <Content Include="Materal\DictionaryTable\Example\Index.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="MateralReset\MateralReset.ts" />
+    <TypeScriptCompile Include="Materal\DictionaryTable\Example\Index.ts" />
     <TypeScriptCompile Include="Scripts\Index.ts" />
-    <TypeScriptCompile Include="Scripts\Materal\DictionaryTable.ts" />
-    <TypeScriptCompile Include="Scripts\Materal\Materal.ts" />
+    <TypeScriptCompile Include="Materal\DictionaryTable\DictionaryTable.ts" />
+    <TypeScriptCompile Include="Materal\Materal.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Css\Materal\" />
     <Folder Include="Libs\" />
     <Folder Include="Properties\" />
     <Folder Include="Views\" />
