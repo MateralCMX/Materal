@@ -93,7 +93,7 @@ var Materal;
             }
             if (element.hasAttribute("m-model")) {
                 var modelName = element.getAttribute("m-model");
-                if (Materal.Common.isNullOrrUndefinedOrEmpty(modelName))
+                if (Materal.StringHelper.isNullOrrUndefinedOrEmpty(modelName))
                     throw "\u672A\u8BC6\u522Bm-model";
                 var modelNames = modelName.split(".");
                 var modelValue = data;

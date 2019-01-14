@@ -95,7 +95,7 @@
             }
             if (element.hasAttribute("m-model")) {
                 const modelName = element.getAttribute("m-model");
-                if (Common.isNullOrrUndefinedOrEmpty(modelName)) throw `未识别m-model`;
+                if (StringHelper.isNullOrrUndefinedOrEmpty(modelName)) throw `未识别m-model`;
                 const modelNames = modelName.split(".");
                 let modelValue = data;
                 for (let i = 0; i < modelNames.length; i++) {
