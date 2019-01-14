@@ -1,4 +1,4 @@
-﻿namespace Materal
+﻿namespace Materal.Component
 {
     export class DictionaryTable
     {

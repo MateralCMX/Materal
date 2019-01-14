@@ -1,6 +1,6 @@
 ﻿class DictionaryTableIndexViewModel
 {
-    private readonly dictionaryTable: Materal.DictionaryTable;
+    private readonly dictionaryTable: Materal.Component.DictionaryTable;
     private readonly tableData: Materal.Dictionary;
     constructor()
     {
@@ -8,7 +8,7 @@
         for (let i = 0; i < 100000; i++) {
             this.tableData.set(`temp${i}`, { Name: `Name${i}`, Value: `Value${i}`, Temp: { AA: `AA${i}`, BB: i } });
         }
-        this.dictionaryTable = new Materal.DictionaryTable("dicTable", this.tableData, 20);
+        this.dictionaryTable = new Materal.Component.DictionaryTable("dicTable", this.tableData, 20);
         const btnUp = document.getElementById("BtnUp");
         btnUp.addEventListener("click", (event) =>
         {

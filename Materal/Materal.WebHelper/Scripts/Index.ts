@@ -1,4 +1,4 @@
-﻿class IndexViewModel
+﻿export class IndexViewModel
 {
 }
 
