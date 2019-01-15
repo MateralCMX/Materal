@@ -5,7 +5,6 @@ declare namespace Materal.Component {
         private readonly targetRow;
         private readonly tableData;
         private readonly showNumber;
-        private upIndex;
         dataIndex: number;
         /**
          * 构造方法

@@ -10,7 +10,6 @@ var Materal;
              * @param showNumber 显示行数
              */
             constructor(elementId, data, showNumber) {
-                this.upIndex = -1;
                 this.dataIndex = 0;
                 const targetElement = document.getElementById(elementId);
                 if (!targetElement)
@@ -53,11 +52,8 @@ var Materal;
                     this.dataIndex = minIndex;
                 if (this.dataIndex > maxIndex)
                     this.dataIndex = maxIndex;
-                if (this.upIndex !== this.dataIndex) {
-                    this.upIndex = this.dataIndex;
-                    for (let count = 0; count < showNumber; count++) {
-                        this.updateRow(this.dataIndex + count);
-                    }
+                for (let count = 0; count < showNumber; count++) {
+                    this.updateRow(this.dataIndex + count);
                 }
             }
             /**
@@ -103,9 +99,13 @@ var Materal;
                     const modelNames = modelName.split(".");
                     let modelValue = data;
                     for (let i = 0; i < modelNames.length; i++) {
-                        if (!modelValue.hasOwnProperty(modelNames[i]))
-                            throw `数据源无此属性`;
-                        modelValue = modelValue[modelNames[i]];
+                        if (!modelValue.hasOwnProperty(modelNames[i])) {
+                            modelValue = "";
+                            break;
+                        }
+                        else {
+                            modelValue = modelValue[modelNames[i]];
+                        }
                     }
                     const valueType = Materal.Common.getType(modelValue);
                     switch (valueType) {

@@ -7,7 +7,6 @@
         private readonly targetRow: HTMLTableRowElement;
         private readonly tableData: Dictionary;
         private readonly showNumber: number;
-        private upIndex = -1;
         dataIndex = 0;
         /**
          * 构造方法
@@ -52,11 +51,8 @@
             const maxIndex = tableDataCount - showNumber;
             if (this.dataIndex < minIndex) this.dataIndex = minIndex;
             if (this.dataIndex > maxIndex) this.dataIndex = maxIndex;
-            if (this.upIndex !== this.dataIndex) {
-                this.upIndex = this.dataIndex;
-                for (let count = 0; count < showNumber; count++) {
-                    this.updateRow(this.dataIndex + count);
-                }
+            for (let count = 0; count < showNumber; count++) {
+                this.updateRow(this.dataIndex + count);
             }
         }
         /**
@@ -102,8 +98,13 @@
                 const modelNames = modelName.split(".");
                 let modelValue = data;
                 for (let i = 0; i < modelNames.length; i++) {
-                    if (!modelValue.hasOwnProperty(modelNames[i])) throw `数据源无此属性`;
-                    modelValue = modelValue[modelNames[i]];
+                    if (!modelValue.hasOwnProperty(modelNames[i])) {
+                        modelValue = "";
+                        break;
+                    }
+                    else {
+                        modelValue = modelValue[modelNames[i]];
+                    }
                 }
                 const valueType = Common.getType(modelValue);
                 switch (valueType) {
