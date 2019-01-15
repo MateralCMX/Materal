@@ -55,7 +55,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TypeScriptTarget>ES2015</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
@@ -88,6 +88,7 @@
     <Content Include="Font\iconfont.css" />
     <Content Include="Font\iconfont.js" />
     <Content Include="Font\iconfont.svg" />
+    <Content Include="gulpfile.js" />
     <Content Include="MateralReset\MateralReset.css" />
     <Content Include="Index.html" />
     <Content Include="Materal\DictionaryTable\Example\Index.css" />

@@ -1,2 +1,2 @@
-export declare class IndexViewModel {
+declare class IndexViewModel {
 }

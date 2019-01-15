@@ -10,6 +10,7 @@ var Materal;
              * @param showNumber 显示行数
              */
             constructor(elementId, data, showNumber) {
+                this.upIndex = -1;
                 this.dataIndex = 0;
                 const targetElement = document.getElementById(elementId);
                 if (!targetElement)
@@ -44,17 +45,19 @@ var Materal;
              * 更新表
              */
             updateTable() {
-                if (this.dataIndex < 0)
-                    this.dataIndex = 0;
-                const dataCount1 = this.tableData.getCount();
-                if (this.dataIndex > dataCount1)
-                    this.dataIndex = dataCount1;
-                const tempIndex = (dataCount1 - this.dataIndex) >= this.showNumber
-                    ? this.dataIndex
-                    : this.showNumber;
-                const dataCount2 = tempIndex + this.showNumber;
-                for (let index = tempIndex; index < dataCount1 && index < dataCount2; index++) {
-                    this.updateRow(index);
+                const minIndex = 0;
+                const tableDataCount = this.tableData.getCount();
+                const showNumber = tableDataCount > this.showNumber ? this.showNumber : tableDataCount;
+                const maxIndex = tableDataCount - showNumber;
+                if (this.dataIndex < minIndex)
+                    this.dataIndex = minIndex;
+                if (this.dataIndex > maxIndex)
+                    this.dataIndex = maxIndex;
+                if (this.upIndex !== this.dataIndex) {
+                    this.upIndex = this.dataIndex;
+                    for (let count = 0; count < showNumber; count++) {
+                        this.updateRow(this.dataIndex + count);
+                    }
                 }
             }
             /**

@@ -5,10 +5,10 @@
     constructor()
     {
         this.tableData = new Materal.Dictionary();
-        for (let i = 0; i < 100000; i++) {
+        for (let i = 0; i < 5; i++) {
             this.tableData.set(`temp${i}`, { Name: `Name${i}`, Value: `Value${i}`, Temp: { AA: `AA${i}`, BB: i } });
         }
-        this.dictionaryTable = new Materal.Component.DictionaryTable("dicTable", this.tableData, 20);
+        this.dictionaryTable = new Materal.Component.DictionaryTable("dicTable", this.tableData, 10);
         const btnUp = document.getElementById("BtnUp");
         btnUp.addEventListener("click", (event) =>
         {
