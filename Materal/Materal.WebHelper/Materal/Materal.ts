@@ -607,7 +607,7 @@
          */
         static clear<T>(inputArray: Array<T>): Array<T>
         {
-            inputArray = inputArray.splice(0, inputArray.length);
+            inputArray = inputArray.splice(0, 0);
             return inputArray;
         }
     }

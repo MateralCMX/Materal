@@ -1,3 +1,5 @@
-declare class IndexViewModel {
-    constructor();
+declare namespace WebHelper {
+    class IndexViewModel {
+        constructor();
+    }
 }

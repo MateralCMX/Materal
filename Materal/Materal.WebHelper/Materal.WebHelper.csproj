@@ -33,7 +33,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <TypeScriptTarget>ES2015</TypeScriptTarget>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
@@ -93,12 +93,16 @@
     <Content Include="Index.html" />
     <Content Include="Materal\DictionaryTable\Example\Index.css" />
     <Content Include="Materal\DictionaryTable\Example\Index.html" />
+    <Content Include="Template\Debug.html" />
     <Content Include="Views\Document\Index.html" />
+    <Content Include="Template\Header.html" />
+    <Content Include="Views\Web\ComponentsList.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="MateralReset\MateralReset.ts" />
     <TypeScriptCompile Include="Materal\DictionaryTable\Example\Index.ts" />
+    <TypeScriptCompile Include="Scripts\Common.ts" />
     <TypeScriptCompile Include="Scripts\Index.ts" />
     <TypeScriptCompile Include="Materal\DictionaryTable\DictionaryTable.ts" />
     <TypeScriptCompile Include="Materal\Materal.ts" />
@@ -109,6 +113,7 @@
   <ItemGroup>
     <Folder Include="Css\Materal\" />
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Scripts\Views\" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.DataSetExtensions" />
