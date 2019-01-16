@@ -52,6 +52,10 @@ var Materal;
                     this.dataIndex = minIndex;
                 if (this.dataIndex > maxIndex)
                     this.dataIndex = maxIndex;
+                while (this.tableBodyElement.children.length > showNumber) {
+                    var index = this.tableBodyElement.children.length - 1;
+                    this.tableBodyElement.removeChild(this.tableBodyElement.children[index]);
+                }
                 for (var count = 0; count < showNumber; count++) {
                     this.updateRow(this.dataIndex + count);
                 }

@@ -51,6 +51,10 @@
             const maxIndex = tableDataCount - showNumber;
             if (this.dataIndex < minIndex) this.dataIndex = minIndex;
             if (this.dataIndex > maxIndex) this.dataIndex = maxIndex;
+            while (this.tableBodyElement.children.length > showNumber) {
+                const index = this.tableBodyElement.children.length - 1;
+                this.tableBodyElement.removeChild(this.tableBodyElement.children[index]);
+            }
             for (let count = 0; count < showNumber; count++) {
                 this.updateRow(this.dataIndex + count);
             }

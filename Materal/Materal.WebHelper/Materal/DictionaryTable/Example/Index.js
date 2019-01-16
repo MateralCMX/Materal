@@ -34,16 +34,19 @@ var DictionaryTableIndexViewModel = /** @class */ (function () {
      * 添加事件监听
      */
     DictionaryTableIndexViewModel.prototype.addEventListener = function () {
+        var _this = this;
         var btnUp = document.getElementById("BtnUp");
-        btnUp.addEventListener("click", this.btnUpClickEvent);
+        btnUp.addEventListener("click", function () { return _this.btnUpClickEvent(); });
         var btnDown = document.getElementById("BtnDown");
-        btnDown.addEventListener("click", this.btnDownClickEvent);
+        btnDown.addEventListener("click", function () { return _this.btnDownClickEvent(); });
         var btnSearch = document.getElementById("BtnSearch");
-        btnSearch.addEventListener("click", this.btnSearchClickEvent);
+        btnSearch.addEventListener("click", function () { return _this.btnSearchClickEvent(); });
         var btnReduction = document.getElementById("BtnReduction");
-        btnReduction.addEventListener("click", this.btnReductionClickEvent);
+        btnReduction.addEventListener("click", function () { return _this.btnReductionClickEvent(); });
+        var btnClear = document.getElementById("BtnClear");
+        btnClear.addEventListener("click", function () { return _this.btnClearClickEvent(); });
         var dicTable = document.getElementById("dicTable");
-        dicTable.addEventListener("mousewheel", this.tableMouseWheelEvent);
+        dicTable.addEventListener("mousewheel", function (event) { return _this.tableMouseWheelEvent(event); });
     };
     /**
      * 向上按钮单击事件
@@ -68,7 +71,10 @@ var DictionaryTableIndexViewModel = /** @class */ (function () {
         for (var key in allKeys) {
             if (allKeys.hasOwnProperty(key)) {
                 var temp = this.data.get(allKeys[key]);
-                if (temp.Name.indexOf("2") >= 0) {
+                //if (temp.Name.indexOf("2") >= 0) {
+                //    this.tableData.set(allKeys[key], temp);
+                //}
+                if (temp.Name === "Name99") {
                     this.tableData.set(allKeys[key], temp);
                 }
             }
@@ -92,6 +98,14 @@ var DictionaryTableIndexViewModel = /** @class */ (function () {
         this.dictionaryTable.updateTable();
     };
     /**
+     * 清空按钮单击事件
+     */
+    DictionaryTableIndexViewModel.prototype.btnClearClickEvent = function () {
+        this.tableData.clear();
+        this.dictionaryTable.dataIndex = 0;
+        this.dictionaryTable.updateTable();
+    };
+    /**
      * 表格鼠标滚轮事件
      * @param event
      */
@@ -108,6 +122,5 @@ var DictionaryTableIndexViewModel = /** @class */ (function () {
 }());
 window.addEventListener("load", function () {
     var viewModel = new DictionaryTableIndexViewModel();
-    console.log(viewModel);
 });
 //# sourceMappingURL=Index.js.map

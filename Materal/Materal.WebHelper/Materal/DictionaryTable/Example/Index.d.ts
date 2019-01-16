@@ -35,6 +35,10 @@ declare class DictionaryTableIndexViewModel {
      */
     private btnReductionClickEvent;
     /**
+     * 清空按钮单击事件
+     */
+    private btnClearClickEvent;
+    /**
      * 表格鼠标滚轮事件
      * @param event
      */

@@ -43,15 +43,17 @@
     private addEventListener()
     {
         const btnUp = document.getElementById("BtnUp");
-        btnUp.addEventListener("click", this.btnUpClickEvent);
+        btnUp.addEventListener("click", () => this.btnUpClickEvent());
         const btnDown = document.getElementById("BtnDown");
-        btnDown.addEventListener("click", this.btnDownClickEvent);
+        btnDown.addEventListener("click", () => this.btnDownClickEvent());
         const btnSearch = document.getElementById("BtnSearch");
-        btnSearch.addEventListener("click", this.btnSearchClickEvent);
+        btnSearch.addEventListener("click", () => this.btnSearchClickEvent());
         const btnReduction = document.getElementById("BtnReduction");
-        btnReduction.addEventListener("click", this.btnReductionClickEvent);
+        btnReduction.addEventListener("click", () => this.btnReductionClickEvent());
+        const btnClear = document.getElementById("BtnClear");
+        btnClear.addEventListener("click", () => this.btnClearClickEvent());
         const dicTable = document.getElementById("dicTable");
-        dicTable.addEventListener("mousewheel", this.tableMouseWheelEvent);
+        dicTable.addEventListener("mousewheel", (event: WheelEvent) => this.tableMouseWheelEvent(event));
     }
     /**
      * 向上按钮单击事件
@@ -79,7 +81,10 @@
         for (let key in allKeys) {
             if (allKeys.hasOwnProperty(key)) {
                 const temp = this.data.get(allKeys[key]);
-                if (temp.Name.indexOf("2") >= 0) {
+                //if (temp.Name.indexOf("2") >= 0) {
+                //    this.tableData.set(allKeys[key], temp);
+                //}
+                if (temp.Name === "Name99") {
                     this.tableData.set(allKeys[key], temp);
                 }
             }
@@ -104,6 +109,15 @@
         this.dictionaryTable.updateTable();
     }
     /**
+     * 清空按钮单击事件
+     */
+    private btnClearClickEvent()
+    {
+        this.tableData.clear();
+        this.dictionaryTable.dataIndex = 0;
+        this.dictionaryTable.updateTable();
+    }
+    /**
      * 表格鼠标滚轮事件
      * @param event
      */
@@ -121,5 +135,4 @@
 window.addEventListener("load", () =>
 {
     const viewModel = new DictionaryTableIndexViewModel();
-    console.log(viewModel);
 });
