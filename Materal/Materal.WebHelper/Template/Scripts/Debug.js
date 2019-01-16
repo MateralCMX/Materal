@@ -2,22 +2,31 @@ var WebHelper;
 (function (WebHelper) {
     var Template;
     (function (Template) {
-        var StringHelper = Materal.StringHelper;
         var DebugViewModel = /** @class */ (function () {
-            function DebugViewModel(element, name) {
-                if (!element)
-                    return;
-                if (StringHelper.isNullOrrUndefinedOrEmpty(name))
-                    return;
-                var url = "/Template/" + name + ".html";
-                var config = new Materal.HttpConfigModel(url, Materal.HttpMethod.GET);
-                config.success = function (result, xhr, state) {
-                    element.innerHTML = result;
-                };
-                config.error = function (result, xhr, state) {
-                    console.error("加载模板失败");
-                };
-                Materal.HttpManager.send(config);
+            function DebugViewModel() {
+                var templateConfigs = [
+                    {
+                        element: document.createElement("header"),
+                        url: "/Template/Header.html",
+                        style: null,
+                        cssClass: null
+                    },
+                    {
+                        element: document.createElement("footer"),
+                        url: "/Template/Footer.html",
+                        style: null,
+                        cssClass: null
+                    }
+                ];
+                for (var i = 0; i < templateConfigs.length; i++) {
+                    document.body.appendChild(templateConfigs[i].element);
+                }
+                WebHelper.Common.loadTemplate(templateConfigs, function () {
+                    var topNavLi = document.getElementById("TopNavDebug");
+                    if (topNavLi) {
+                        Materal.ElementHelper.addClass(topNavLi, "active");
+                    }
+                });
             }
             return DebugViewModel;
         }());
@@ -25,7 +34,6 @@ var WebHelper;
     })(Template = WebHelper.Template || (WebHelper.Template = {}));
 })(WebHelper || (WebHelper = {}));
 window.addEventListener("load", function () {
-    var element = document.getElementById("DebugBody");
-    var viewModel = new WebHelper.Template.DebugViewModel(element, "Header");
+    var viewModel = new WebHelper.Template.DebugViewModel();
 });
 //# sourceMappingURL=Debug.js.map

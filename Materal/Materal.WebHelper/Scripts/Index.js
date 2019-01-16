@@ -2,10 +2,7 @@ var WebHelper;
 (function (WebHelper) {
     var IndexViewModel = /** @class */ (function () {
         function IndexViewModel() {
-            var headers = document.getElementsByTagName("header");
-            if (headers.length <= 0)
-                throw "加载头部失败";
-            WebHelper.Common.loadHeader(headers[0]);
+            WebHelper.Common.loadDefaultTemplate();
         }
         return IndexViewModel;
     }());
