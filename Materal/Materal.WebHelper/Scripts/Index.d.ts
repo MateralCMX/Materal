@@ -1,2 +1,3 @@
 declare class IndexViewModel {
+    constructor();
 }

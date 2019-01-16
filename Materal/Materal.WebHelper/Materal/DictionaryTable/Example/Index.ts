@@ -21,6 +21,16 @@
             this.dictionaryTable.dataIndex++;
             this.dictionaryTable.updateTable();
         });
+        const dicTable = document.getElementById("dicTable");
+        dicTable.addEventListener("mousewheel", (event: WheelEvent) =>
+        {
+            if (event.deltaY > 0) {
+                this.dictionaryTable.dataIndex++;
+            } else {
+                this.dictionaryTable.dataIndex--;
+            }
+            this.dictionaryTable.updateTable();
+        });
     }
 }
 

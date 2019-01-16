@@ -15,6 +15,16 @@ class DictionaryTableIndexViewModel {
             this.dictionaryTable.dataIndex++;
             this.dictionaryTable.updateTable();
         });
+        const dicTable = document.getElementById("dicTable");
+        dicTable.addEventListener("mousewheel", (event) => {
+            if (event.deltaY > 0) {
+                this.dictionaryTable.dataIndex++;
+            }
+            else {
+                this.dictionaryTable.dataIndex--;
+            }
+            this.dictionaryTable.updateTable();
+        });
     }
 }
 window.addEventListener("load", () => {
