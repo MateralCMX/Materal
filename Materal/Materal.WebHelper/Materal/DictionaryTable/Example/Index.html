@@ -10,29 +10,35 @@
 </head>
 <body>
     <header></header>
-    <main>
-        <table id="dicTable">
-            <thead>
-                <tr>
-                    <th>名称</th>
-                    <th>值</th>
-                    <th>AA</th>
-                    <th>BB</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr m-target>
-                    <td m-model="Name"></td>
-                    <td m-model="Value"></td>
-                    <td m-model="Temp.AA"></td>
-                    <td m-model="Temp.BB"></td>
-                    <td>
-                        <button type="button">编辑</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div>
+    <main id="tablePanel" class="container">
+        <div class="row">
+            <table id="dicTable" class="col-sm table dicTable">
+                <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>值</th>
+                        <th>AA</th>
+                        <th>BB</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr m-target>
+                        <td m-model="Name"></td>
+                        <td m-model="Value"></td>
+                        <td m-model="Temp.AA"></td>
+                        <td m-model="Temp.BB"></td>
+                        <td>
+                            <button type="button" onclick="btnGetRowID(event)">查看ID</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="scrollPanel" class="col-sm">
+                <div id="scrollBlock"></div>
+            </div>
+        </div>
+        <div class="row">
             <button id="BtnUp">Up</button>
             <button id="BtnDown">Down</button>
             <button id="BtnSearch">Search</button>

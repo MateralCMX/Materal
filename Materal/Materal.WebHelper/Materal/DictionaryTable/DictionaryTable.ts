@@ -38,12 +38,11 @@
             this.tableBodyElement.innerHTML = "";
             this.tableData = data;
             this.showNumber = showNumber;
-            this.updateTable();
         }
         /**
          * 更新表
          */
-        updateTable()
+        updateTable(): number
         {
             const minIndex = 0;
             const tableDataCount = this.tableData.getCount();
@@ -58,12 +57,13 @@
             for (let count = 0; count < showNumber; count++) {
                 this.updateRow(this.dataIndex + count);
             }
+            return showNumber;
         }
         /**
          * 更新行
          * @param index
          */
-        updateRow(index)
+        updateRow(index): void
         {
             let addTr = false;
             let trElement = this.tableBodyElement.children[index - this.dataIndex];
@@ -72,6 +72,24 @@
                 addTr = true;
             }
             const data: Object = this.tableData.getByIndex(index);
+            while (trElement.attributes.length > 0) {
+                trElement.removeAttribute(trElement.attributes[0].name);
+            }
+            if (data.hasOwnProperty("Attribute")) {
+                const attribute = data["Attribute"];
+                if (Common.getType(attribute) === "Object" && !Common.isNullOrUndefined(attribute)) {
+                    for (let key in attribute) {
+                        if (attribute.hasOwnProperty(key)) {
+                            const attributeItem = attribute[key];
+                            if (Common.getType(attributeItem) === "string" && !StringHelper.isNullOrrUndefinedOrEmpty(attributeItem)) {
+                                trElement.setAttribute(key, attributeItem);
+                            } else {
+                                trElement.removeAttribute(key);
+                            }
+                        }
+                    }
+                }
+            }
             if (Common.getType(data, false) !== "Object") throw `数据源${this.tableData.getKeyByIndex(index)}不是Object`;
             for (let i = 0; i < this.targetRow.children.length; i++) {
                 this.updateCell(trElement as HTMLTableRowElement, i, data);
@@ -86,7 +104,7 @@
          * @param index
          * @param data
          */
-        updateCell(trElement: HTMLTableRowElement, index: number, data: Object)
+        updateCell(trElement: HTMLTableRowElement, index: number, data: Object): void
         {
             const element = this.targetRow.children[index];
             let tdElement = trElement.children[index];

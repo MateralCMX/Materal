@@ -16,7 +16,7 @@ declare namespace Materal.Component {
         /**
          * 更新表
          */
-        updateTable(): void;
+        updateTable(): number;
         /**
          * 更新行
          * @param index

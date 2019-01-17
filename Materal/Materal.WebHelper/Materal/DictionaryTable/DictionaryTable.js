@@ -38,7 +38,6 @@ var Materal;
                 this.tableBodyElement.innerHTML = "";
                 this.tableData = data;
                 this.showNumber = showNumber;
-                this.updateTable();
             }
             /**
              * 更新表
@@ -59,6 +58,7 @@ var Materal;
                 for (var count = 0; count < showNumber; count++) {
                     this.updateRow(this.dataIndex + count);
                 }
+                return showNumber;
             };
             /**
              * 更新行
@@ -72,6 +72,25 @@ var Materal;
                     addTr = true;
                 }
                 var data = this.tableData.getByIndex(index);
+                while (trElement.attributes.length > 0) {
+                    trElement.removeAttribute(trElement.attributes[0].name);
+                }
+                if (data.hasOwnProperty("Attribute")) {
+                    var attribute = data["Attribute"];
+                    if (Materal.Common.getType(attribute) === "Object" && !Materal.Common.isNullOrUndefined(attribute)) {
+                        for (var key in attribute) {
+                            if (attribute.hasOwnProperty(key)) {
+                                var attributeItem = attribute[key];
+                                if (Materal.Common.getType(attributeItem) === "string" && !Materal.StringHelper.isNullOrrUndefinedOrEmpty(attributeItem)) {
+                                    trElement.setAttribute(key, attributeItem);
+                                }
+                                else {
+                                    trElement.removeAttribute(key);
+                                }
+                            }
+                        }
+                    }
+                }
                 if (Materal.Common.getType(data, false) !== "Object")
                     throw "\u6570\u636E\u6E90" + this.tableData.getKeyByIndex(index) + "\u4E0D\u662FObject";
                 for (var i = 0; i < this.targetRow.children.length; i++) {
