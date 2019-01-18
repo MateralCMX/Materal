@@ -8,7 +8,7 @@ namespace Materal.ConvertHelper
     /// <summary>
     /// 列表扩展
     /// </summary>
-    public static class IEnumerableExtension
+    public static class EnumerableExtension
     {
         /// <summary>
         /// 将列表转换为动态数据集合

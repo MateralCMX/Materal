@@ -14,9 +14,9 @@ namespace Materal.ConvertHelper
         /// </summary>
         /// <typeparam name="T">要设置的类型</typeparam>
         /// <returns>默认对象</returns>
-        public static T GetDefultObject<T>()
+        public static T GetDefaultObject<T>()
         {
-            return (T)GetDefultObject(typeof(T));
+            return (T)GetDefaultObject(typeof(T));
         }
         /// <summary>
         /// 获得默认对象
@@ -24,16 +24,16 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T">要设置的类型</typeparam>
         /// <param name="parameters">参数</param>
         /// <returns>默认对象</returns>
-        public static T GetDefultObject<T>(params object[] parameters)
+        public static T GetDefaultObject<T>(params object[] parameters)
         {
-            return (T)GetDefultObject(typeof(T), parameters);
+            return (T)GetDefaultObject(typeof(T), parameters);
         }
         /// <summary>
         /// 获得默认对象
         /// </summary>
         /// <param name="type">要设置的类型</param>
         /// <returns>默认对象</returns>
-        public static object GetDefultObject(Type type)
+        public static object GetDefaultObject(Type type)
         {
             ConstructorInfo[] constructors = type.GetConstructors();
             ConstructorInfo constructor = (from m in constructors
@@ -49,7 +49,7 @@ namespace Materal.ConvertHelper
         /// <param name="type">类型</param>
         /// <param name="parameters">参数</param>
         /// <returns></returns>
-        public static object GetDefultObject(Type type, params object[] parameters)
+        public static object GetDefaultObject(Type type, params object[] parameters)
         {
             ConstructorInfo[] constructors = type.GetConstructors();
             ConstructorInfo constructor = (from m in constructors

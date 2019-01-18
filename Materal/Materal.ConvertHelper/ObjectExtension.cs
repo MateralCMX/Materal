@@ -83,9 +83,9 @@ namespace Materal.ConvertHelper
         /// <returns>数据行</returns>
         public static DataRow ToDataRow(this object obj)
         {
-            var type = obj.GetType();
-            var dt = type.ToDataTable();
-            var dr = dt.NewRow();
+            Type type = obj.GetType();
+            DataTable dt = type.ToDataTable();
+            DataRow dr = dt.NewRow();
             return obj.ToDataRow(dr);
         }
         /// <summary>
@@ -95,9 +95,9 @@ namespace Materal.ConvertHelper
         /// <param name="dr">数据行</param>
         public static void SetValueByDataRow(this object obj, DataRow dr)
         {
-            var type = obj.GetType();
+            Type type = obj.GetType();
             var props = type.GetProperties();
-            foreach (var prop in props)
+            foreach (PropertyInfo prop in props)
             {
                 try
                 {
@@ -115,9 +115,9 @@ namespace Materal.ConvertHelper
         /// <param name="obj">要设置的对象</param>
         /// <param name="type">要设置的类型</param>
         /// <returns>默认对象</returns>
-        public static object GetDefultObject(this object obj, Type type)
+        public static object GetDefaultObject(this object obj, Type type)
         {
-            return ConvertManager.GetDefultObject(type);
+            return ConvertManager.GetDefaultObject(type);
         }
         /// <summary>
         /// 获得默认对象
@@ -125,9 +125,9 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T">要设置的类型</typeparam>
         /// <param name="obj">要设置的对象</param>
         /// <returns>默认对象</returns>
-        public static T GetDefultObject<T>(this object obj)
+        public static T GetDefaultObject<T>(this object obj)
         {
-            return ConvertManager.GetDefultObject<T>();
+            return ConvertManager.GetDefaultObject<T>();
         }
         /// <summary>
         /// 对象转换为Josn
@@ -151,10 +151,10 @@ namespace Materal.ConvertHelper
             if (sourceM == null) return;
             var t1Props = sourceM.GetType().GetProperties();
             var t2Props = typeof(T).GetProperties();
-            foreach (var prop in t1Props)
+            foreach (PropertyInfo prop in t1Props)
             {
                 if (notCopyPropertieNames.Contains(prop.Name)) continue;
-                var tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
+                PropertyInfo tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
                 if (tempProp != null && tempProp.CanWrite)
                 {
                     tempProp.SetValue(targetM, prop.GetValue(sourceM, null), null);
@@ -171,7 +171,7 @@ namespace Materal.ConvertHelper
         public static T CopyProperties<T>(this object sourceM, params string[] notCopyPropertieNames)
         {
             if (sourceM == null) return default(T);
-            var targetM = ConvertManager.GetDefultObject<T>();
+            var targetM = ConvertManager.GetDefaultObject<T>();
             sourceM.CopyProperties(targetM, notCopyPropertieNames);
             return targetM;
         }

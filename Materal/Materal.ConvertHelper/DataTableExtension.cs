@@ -17,7 +17,7 @@ namespace Materal.ConvertHelper
         /// <returns>目标对象</returns>
         public static T ToObject<T>(this DataRow dataRow)
         {
-            var result = ConvertManager.GetDefultObject<T>();
+            var result = ConvertManager.GetDefaultObject<T>();
             if (result != null)
             {
                 result.SetValueByDataRow(dataRow);

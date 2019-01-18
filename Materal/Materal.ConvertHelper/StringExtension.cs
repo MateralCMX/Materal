@@ -52,7 +52,7 @@ namespace Materal.ConvertHelper
         {
             try
             {
-                var model = ConvertManager.GetDefultObject<T>();
+                var model = ConvertManager.GetDefaultObject<T>();
                 JsonConvert.PopulateObject(jsonStr, model);
                 return model;
             }
@@ -374,7 +374,7 @@ namespace Materal.ConvertHelper
         /// <returns>解密后的字符串</returns>
         public static string DesDecode(this string inputStr, string inputKey, string inputIv, Encoding ed = null)
         {
-            var resM = "";
+            string result;
             //if (inputKey.Length != 8 || inputIv.Length != 8) return resM;
             if (ed == null)
             {
@@ -390,14 +390,14 @@ namespace Materal.ConvertHelper
             {
                 cStream.Write(str, 0, str.Length);
                 cStream.FlushFinalBlock();
-                resM = ed.GetString(mStream.ToArray());
+                result = ed.GetString(mStream.ToArray());
             }
             finally
             {
                 cStream.Close();
                 mStream.Close();
             }
-            return resM;
+            return result;
         }
     }
 }

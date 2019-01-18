@@ -24,9 +24,9 @@ namespace Materal.ConfigurationHelper
             Type modelType = typeof(T);
             foreach (IConfigurationSection item in configurationSections)
             {
-                IEnumerable<IConfigurationSection> tempChildrens = item.GetChildren();
-                var tempModel = ConvertManager.GetDefultObject<T>();
-                foreach (IConfigurationSection children in tempChildrens)
+                IEnumerable<IConfigurationSection> tempChildren = item.GetChildren();
+                var tempModel = ConvertManager.GetDefaultObject<T>();
+                foreach (IConfigurationSection children in tempChildren)
                 {
                     PropertyInfo propertyInfo = modelType.GetProperty(children.Key);
                     if (propertyInfo != null)
