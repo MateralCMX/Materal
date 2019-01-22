@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Materal.WindowsHelper;
+using System;
 using System.IO;
 
 namespace Materal.ConsoleUI
@@ -7,8 +8,6 @@ namespace Materal.ConsoleUI
     {
         public static void Main()
         {
-            const string filePath = @"E:\Test\Vue\hello-world\src\assets\icons";
-            var directoryInfo = new DirectoryInfo(filePath);
         }
     }
 }

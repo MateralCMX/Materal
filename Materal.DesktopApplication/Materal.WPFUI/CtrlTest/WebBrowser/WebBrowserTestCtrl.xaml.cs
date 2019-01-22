@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -94,12 +95,12 @@ namespace Materal.WPFUI.CtrlTest.WebBrowser
 
         private void GotoPageCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-
+            e.CanExecute = true;
         }
 
         private void GotoPageCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-
+            MainWebBrowser.Navigate(ViewModel.NowAddress);
         }
 
         private void MainWebBrowser_LoadCompleted(object sender, NavigationEventArgs e)

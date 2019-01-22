@@ -94,6 +94,7 @@
     <Content Include="Index.html" />
     <Content Include="Materal\DictionaryTable\Example\Index.css" />
     <Content Include="Materal\DictionaryTable\Example\Index.html" />
+    <Content Include="Template\Test.html" />
     <Content Include="Template\Debug.html" />
     <Content Include="Template\Footer.html" />
     <Content Include="Views\Document\Index.html" />
