@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
-using TestClient.Common;
+using TestWebSocket.Common;
 
 namespace TestClient.UI
 {
@@ -32,12 +32,12 @@ namespace TestClient.UI
                             isExit = true;
                             break;
                         case "Help":
-                            ConsoleHelper.TestClientWriteLine("Exit 或 按下Ctrl + C | 退出程序");
-                            ConsoleHelper.TestClientWriteLine("Reload               | 重启服务");
-                            ConsoleHelper.TestClientWriteLine("Help                 | 退出");
+                            ConsoleHelper.TestWriteLine("Exit 或 按下Ctrl + C | 退出程序");
+                            ConsoleHelper.TestWriteLine("Reload               | 重启服务");
+                            ConsoleHelper.TestWriteLine("Help                 | 退出");
                             break;
                         case "Reload":
-                            ConsoleHelper.TestClientWriteLine("正在重启服务");
+                            ConsoleHelper.TestWriteLine("正在重启服务");
                             StopTestClient();
                             StartTestClient();
                             break;
@@ -54,7 +54,7 @@ namespace TestClient.UI
             }
             catch (Exception ex)
             {
-                ConsoleHelper.TestClientWriteLine("发生未知错误：" + ex.Message);
+                ConsoleHelper.TestWriteLine("发生未知错误：" + ex.Message);
                 ExitApplication();
             }
         }
@@ -65,7 +65,7 @@ namespace TestClient.UI
         {
             if (writeMessage)
             {
-                ConsoleHelper.TestClientWriteLine("正在关闭服务");
+                ConsoleHelper.TestWriteLine("正在关闭服务");
             }
             _testClient?.Stop();
         }
@@ -74,7 +74,7 @@ namespace TestClient.UI
         /// </summary>
         private static void StartTestClient()
         {
-            ConsoleHelper.TestClientWriteLine("正在启动服务");
+            ConsoleHelper.TestWriteLine("正在启动服务");
             _testClient = TestClientHelper.ServiceProvider.GetService<ITestClient>();
             _testClient.Init();
             _testClient.Start();
@@ -92,7 +92,7 @@ namespace TestClient.UI
         /// </summary>
         private static void ExitApplication()
         {
-            ConsoleHelper.TestClientWriteLine("按任意键退出......");
+            ConsoleHelper.TestWriteLine("按任意键退出......");
             Console.ReadKey();
         }
     }

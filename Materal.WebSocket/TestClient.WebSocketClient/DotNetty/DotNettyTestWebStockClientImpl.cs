@@ -4,7 +4,7 @@ using Materal.WebSocket.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using TestClient.Common;
+using TestWebSocket.Common;
 
 namespace TestClient.WebSocketClient.DotNetty
 {
@@ -21,12 +21,12 @@ namespace TestClient.WebSocketClient.DotNetty
         {
             try
             {
-                var commandBus = (IEventBus)_serviceProvider.GetRequiredService(typeof(IEventBus));
-                await commandBus.SendAsync(eventM);
+                var eventBus = (IEventBus)_serviceProvider.GetRequiredService(typeof(IEventBus));
+                await eventBus.SendAsync(eventM);
             }
             catch (MateralWebSocketException ex)
             {
-                ConsoleHelper.TestClientWriteLine(ex.Message, "未能解析事件");
+                ConsoleHelper.TestWriteLine(ex.Message, "未能解析事件");
             }
         }
 
@@ -34,12 +34,12 @@ namespace TestClient.WebSocketClient.DotNetty
         {
             try
             {
-                var commandBus = (IEventBus)_serviceProvider.GetRequiredService(typeof(IEventBus));
-                Task.Run(() => commandBus.SendAsync(eventM));
+                var eventBus = (IEventBus)_serviceProvider.GetRequiredService(typeof(IEventBus));
+                Task.Run(() => eventBus.SendAsync(eventM));
             }
             catch (MateralWebSocketException ex)
             {
-                ConsoleHelper.TestClientWriteLine(ex.Message, "未能解析事件");
+                ConsoleHelper.TestWriteLine(ex.Message, "未能解析事件");
             }
         }
     }

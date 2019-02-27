@@ -1,18 +1,16 @@
-﻿using System;
-using System.Threading;
-using Materal.WebSocket.EventHandlers;
+﻿using Materal.WebSocket.EventHandlers;
 using Materal.WebSocket.Events;
 using System.Threading.Tasks;
-using TestClient.Common;
+using TestWebSocket.Common;
 
-namespace TestClient.EventHandlers
+namespace TestWebSocket.EventHandlers
 {
     public class TestEventHandler : IEventHandler
     {
         public async Task ExcuteAsync(IEvent @event)
         {
-            Thread.Sleep(500);
-            ConsoleHelper.TestClientWriteLine(@event.StringData + DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.ffff"), "Handler");
+            await Task.Delay(1000);
+            ConsoleHelper.TestWriteLine(@event.HandlerName, "接受到事件");
         }
 
         public void Excute(IEvent @event)

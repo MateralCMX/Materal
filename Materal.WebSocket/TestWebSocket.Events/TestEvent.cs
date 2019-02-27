@@ -1,4 +1,4 @@
-﻿namespace TestClient.Events
+﻿namespace TestWebSocket.Events
 {
     public class TestEvent : Event
     {

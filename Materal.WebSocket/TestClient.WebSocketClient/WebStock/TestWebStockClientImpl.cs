@@ -4,7 +4,7 @@ using Materal.WebSocket.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using TestClient.Common;
+using TestWebSocket.Common;
 
 namespace TestClient.WebSocketClient.WebStock
 {
@@ -25,7 +25,7 @@ namespace TestClient.WebSocketClient.WebStock
             }
             catch (MateralWebSocketException ex)
             {
-                ConsoleHelper.TestClientWriteLine(ex.Message, "未能解析事件");
+                ConsoleHelper.TestWriteLine(ex.Message, "未能解析事件");
             }
         }
 
@@ -38,7 +38,7 @@ namespace TestClient.WebSocketClient.WebStock
             }
             catch (MateralWebSocketException ex)
             {
-                ConsoleHelper.TestClientWriteLine(ex.Message, "未能解析事件");
+                ConsoleHelper.TestWriteLine(ex.Message, "未能解析事件");
             }
         }
     }

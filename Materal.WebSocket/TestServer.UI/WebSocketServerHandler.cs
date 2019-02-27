@@ -3,17 +3,22 @@ using DotNetty.Codecs.Http;
 using DotNetty.Codecs.Http.WebSockets;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
+using Materal.ConvertHelper;
+using Materal.WebSocket.Commands;
 using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using TestWebSocket.Commands;
+using TestWebSocket.Common;
 
-namespace Materal.DotNetty.ServerDome
+namespace TestServer.UI
 {
     public class WebSocketServerHandler : SimpleChannelInboundHandler<object>
     {
         const string WebsocketPath = "/websocket";
-        WebSocketServerHandshaker handshaker;
+        private WebSocketServerHandshaker _handShaker;
         protected override void ChannelRead0(IChannelHandlerContext ctx, object msg)
         {
             switch (msg)
@@ -41,7 +46,7 @@ namespace Materal.DotNetty.ServerDome
                 SendHttpResponse(ctx, req, new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.Forbidden));
                 return;
             }
-            if ("/".Equals(req.Uri))
+            if ("/api".Equals(req.Uri))
             {
                 IByteBuffer content = WebSocketServerBenchmarkPage.GetContent(GetWebSocketLocation(req));
                 var res = new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.OK, content);
@@ -58,18 +63,17 @@ namespace Materal.DotNetty.ServerDome
                 SendHttpResponse(ctx, req, res);
                 return;
             }
-
             // Handshake
             var wsFactory = new WebSocketServerHandshakerFactory(
                 GetWebSocketLocation(req), null, true, 5 * 1024 * 1024);
-            this.handshaker = wsFactory.NewHandshaker(req);
-            if (this.handshaker == null)
+            _handShaker = wsFactory.NewHandshaker(req);
+            if (_handShaker == null)
             {
                 WebSocketServerHandshakerFactory.SendUnsupportedVersionResponse(ctx.Channel);
             }
             else
             {
-                this.handshaker.HandshakeAsync(ctx.Channel, req);
+                _handShaker.HandshakeAsync(ctx.Channel, req);
             }
         }
 
@@ -78,13 +82,24 @@ namespace Materal.DotNetty.ServerDome
             switch (frame)
             {
                 case CloseWebSocketFrame _:
-                    handshaker.CloseAsync(ctx.Channel, (CloseWebSocketFrame)frame.Retain());
+                    _handShaker.CloseAsync(ctx.Channel, (CloseWebSocketFrame)frame.Retain());
                     return;
                 case PingWebSocketFrame _:
                     ctx.WriteAsync(new PongWebSocketFrame((IByteBuffer)frame.Content.Retain()));
                     return;
                 case TextWebSocketFrame _:
-                    ctx.WriteAsync(frame.Retain());
+                    try
+                    {
+                        string commandString = frame.Content.ReadString(frame.Content.WriterIndex, Encoding.UTF8);
+                        var command = commandString.JsonToObject<Command>();
+                        command.StringData = commandString;
+                        var commandBus = (ICommandBus)TestServerHelper.ServiceProvider.GetRequiredService(typeof(ICommandBus));
+                        commandBus.SendAsync(ctx, frame, command);
+                    }
+                    catch (Exception ex)
+                    {
+                        ConsoleHelper.TestWriteLine(ex.Message, "未能解析事件");
+                    }
                     return;
                 case BinaryWebSocketFrame _:
                     ctx.WriteAsync(frame.Retain());
@@ -124,7 +139,7 @@ namespace Materal.DotNetty.ServerDome
             Debug.Assert(result, "Host header does not exist.");
             string location = value.ToString() + WebsocketPath;
 
-            if (ServerSettings.IsSsl)
+            if (ApplicationConfig.TestWebSocket.IsSsl)
             {
                 return "wss://" + location;
             }

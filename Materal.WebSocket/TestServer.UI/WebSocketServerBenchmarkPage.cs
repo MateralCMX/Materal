@@ -1,10 +1,9 @@
 ﻿using DotNetty.Buffers;
 using System.Text;
 
-namespace Materal.DotNetty.ServerDome
+namespace TestServer.UI
 {
-
-    public static class WebSocketServerBenchmarkPage
+    public class WebSocketServerBenchmarkPage
     {
         private const string Newline = "\r\n";
 

@@ -2,15 +2,21 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Materal.DotNetty.Client\Materal.DotNetty.Client.csproj" />
-    <ProjectReference Include="..\Materal.WebSocket.Client\Materal.WebSocket.Client.csproj" />
     <ProjectReference Include="..\Materal.WebSocket\Materal.WebSocket.csproj" />
     <ProjectReference Include="..\TestWebSocket.Common\TestWebSocket.Common.csproj" />
     <ProjectReference Include="..\TestWebSocket.Events\TestWebSocket.Events.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="DotNetty.Codecs.Http">
+      <HintPath>C:\Users\cloom\.nuget\packages\dotnetty.codecs.http\0.6.0\lib\netstandard1.3\DotNetty.Codecs.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Materal.ConvertHelper">
+      <HintPath>C:\Users\cloom\.nuget\packages\materal.converthelper\0.0.25\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

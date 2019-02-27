@@ -1,6 +1,6 @@
 ﻿using Materal.WebSocket.Commands;
 
-namespace TestClient.Commands
+namespace TestWebSocket.Commands
 {
     public class Command : ICommand
     {

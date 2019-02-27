@@ -1,10 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Threading.Tasks;
-using Materal.WebSocket.Client;
+﻿using Materal.WebSocket.Client;
 using Materal.WebSocket.Client.Model;
 using Materal.WebSocket.Events;
-using TestClient.Events;
+using System;
+using System.Text;
+using System.Threading.Tasks;
+using TestWebSocket.Events;
 
 namespace TestClient.WebSocketClient.WebStock
 {

@@ -1,7 +1,6 @@
-﻿using TestClient.Commands;
-using TestClient.WebSocketClient;
-using TestClient.WebSocketClient.DotNetty;
+﻿using TestClient.WebSocketClient;
 using TestClient.WebSocketClient.WebStock;
+using TestWebSocket.Commands;
 
 namespace TestClient.UI
 {
@@ -41,8 +40,8 @@ namespace TestClient.UI
         /// </summary>
         private void StartTestWebSocketClient()
         {
-            _testWebSocketClient.StartAsync<DotNettyTestWebStockHandler>();
-            //_testWebSocketClient.StartAsync<TestWebStockHandler>();
+            //_testWebSocketClient.StartAsync<DotNettyTestWebStockHandler>();
+            _testWebSocketClient.StartAsync<TestWebStockHandler>();
         }
     }
 }
