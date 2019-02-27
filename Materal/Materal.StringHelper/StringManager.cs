@@ -30,7 +30,7 @@ namespace Materal.StringHelper
             if (length <= 0) throw new MateralStringHelperException("长度必须大于0");
             string resM = string.Empty;
             int count = length % 32 == 0 ? length / 32 : length / 32 + 1;
-            for (var i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 resM += Guid.NewGuid().ToString().Replace("-", "");
             }
@@ -39,34 +39,34 @@ namespace Materal.StringHelper
         /// <summary>
         /// 获取随机字符串(字典模式)
         /// </summary>
-        /// <param name="dictionarie">字典</param>
+        /// <param name="dictionary">字典</param>
         /// <param name="minLength">最小长度</param>
         /// <param name="maxLength">最大长度</param>
         /// <returns>随机字符串</returns>
         /// <exception cref="MateralStringHelperException"></exception>
-        public static string GetRandomStrByDictionarie(int minLength, int maxLength, string dictionarie = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        public static string GetRandomStrByDictionary(int minLength, int maxLength, string dictionary = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
         {
             if (minLength <= 0) throw new MateralStringHelperException("长度必须大于0");
             if (minLength >= maxLength) throw new MateralStringHelperException("最大长度必须大于最小长度");
             var rd = new Random();
             int length = rd.Next(minLength, maxLength);
-            return GetRandomStrByDictionarie(length, dictionarie);
+            return GetRandomStrByDictionary(length, dictionary);
         }
         /// <summary>
         /// 获取随机字符串(字典模式)
         /// </summary>
-        /// <param name="dictionarie">字典</param>
+        /// <param name="dictionary">字典</param>
         /// <param name="length">长度</param>
         /// <returns>随机字符串</returns>
         /// <exception cref="MateralStringHelperException"></exception>
-        public static string GetRandomStrByDictionarie(int length = 32, string dictionarie = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+        public static string GetRandomStrByDictionary(int length = 32, string dictionary = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
         {
             if (length <= 0) throw new MateralStringHelperException("长度必须大于0");
             string resM = string.Empty;
             var rd = new Random();
-            for (var i = 0; i < length; i++)
+            for (int i = 0; i < length; i++)
             {
-                resM += dictionarie[rd.Next(0, dictionarie.Length)];
+                resM += dictionary[rd.Next(0, dictionary.Length)];
             }
             return resM;
         }
@@ -79,11 +79,11 @@ namespace Materal.StringHelper
         public static string GetRandomStrByTick(int length)
         {
             if (length <= 0) throw new MateralStringHelperException("长度必须大于0");
-            var rep = 0;
+            int rep = 0;
             string str = string.Empty;
             long tick = DateTime.Now.Ticks + rep++;
             var random = new Random((int)((ulong)tick & 0xffffffffL) | (int)(tick >> rep));
-            for (var i = 0; i < length; i++)
+            for (int i = 0; i < length; i++)
             {
                 char ch;
                 int num = random.Next();

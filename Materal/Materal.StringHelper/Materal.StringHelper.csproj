@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.25</Version>
+    <Version>0.0.26</Version>
     <Description>Materal字符串帮助类</Description>
     <PackageReleaseNotes>1、新增-获取随机字符串</PackageReleaseNotes>
     <Authors>Materal</Authors>

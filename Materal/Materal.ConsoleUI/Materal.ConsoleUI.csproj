@@ -11,7 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Materal.ConfigurationHelper\Materal.ConfigurationHelper.csproj" />
     <ProjectReference Include="..\Materal.WindowsHelper\Materal.WindowsHelper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ocelot.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
