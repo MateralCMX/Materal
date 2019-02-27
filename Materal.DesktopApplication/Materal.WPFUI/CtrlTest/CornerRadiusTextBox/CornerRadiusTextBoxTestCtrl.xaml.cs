@@ -34,7 +34,7 @@ namespace Materal.WPFUI.CtrlTest.CornerRadiusTextBox
 
         private void UpdateViewModelValueCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            ViewModel.TestValue = StringManager.GetRandomStrByDictionarie(10);
+            ViewModel.TestValue = StringManager.GetRandomStrByDictionary(10);
         }
     }
 }

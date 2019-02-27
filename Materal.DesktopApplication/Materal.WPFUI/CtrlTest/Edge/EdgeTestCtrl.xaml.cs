@@ -1,5 +1,4 @@
-﻿using Microsoft.Toolkit.Win32.UI.Controls.WPF;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,9 +16,9 @@ namespace Materal.WPFUI.CtrlTest.Edge
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            var webView = new WebView();
-            Content = webView;
-            webView.Navigate(new Uri("http://www.baidu.com"));
+            //var webView = new WebView();
+            //Content = webView;
+            //webView.Navigate(new Uri("http://www.baidu.com"));
         }
     }
 }
