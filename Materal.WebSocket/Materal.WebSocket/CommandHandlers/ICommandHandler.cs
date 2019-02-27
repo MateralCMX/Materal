@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-using DotNetty.Buffers;
-using DotNetty.Transport.Channels;
-using Materal.WebSocket.Commands;
+﻿using DotNetty.Transport.Channels;
+using System.Threading.Tasks;
 
 namespace Materal.WebSocket.CommandHandlers
 {
@@ -14,16 +12,14 @@ namespace Materal.WebSocket.CommandHandlers
         /// 执行
         /// </summary>
         /// <param name="ctx">Channel</param>
-        /// <param name="frame">Frame</param>
-        /// <param name="command">命令对象</param>
+        /// <param name="commandData">命令数据</param>
         /// <returns></returns>
-        Task ExcuteAsync(IChannelHandlerContext ctx, IByteBufferHolder frame, ICommand command);
+        Task ExcuteAsync(IChannelHandlerContext ctx, object commandData);
         /// <summary>
         /// 执行
         /// </summary>
         /// <param name="ctx">Channel</param>
-        /// <param name="frame">Frame</param>
-        /// <param name="command">命令对象</param>
-        void Excute(IChannelHandlerContext ctx, IByteBufferHolder frame, ICommand command);
+        /// <param name="commandData">命令数据</param>
+        void Excute(IChannelHandlerContext ctx, object commandData);
     }
 }

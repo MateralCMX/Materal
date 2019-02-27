@@ -12,8 +12,5 @@ namespace TestWebSocket.Events
             HandlerName = handlerName;
         }
         public string HandlerName { get; }
-        public string StringData { get; set; }
-        public byte[] ByteArrayData { get; set; }
-        public string Message { get; set; }
     }
 }

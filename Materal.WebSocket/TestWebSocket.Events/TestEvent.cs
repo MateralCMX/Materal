@@ -5,5 +5,6 @@
         public TestEvent() : base("TestEventHandler")
         {
         }
+        public string StringData { get; set; }
     }
 }

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Materal.WebSocket\Materal.WebSocket.csproj" />
+    <ProjectReference Include="..\TestWebSocket.Commands\TestWebSocket.Commands.csproj" />
     <ProjectReference Include="..\TestWebSocket.Common\TestWebSocket.Common.csproj" />
     <ProjectReference Include="..\TestWebSocket.Events\TestWebSocket.Events.csproj" />
   </ItemGroup>

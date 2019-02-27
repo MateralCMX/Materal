@@ -48,31 +48,20 @@ namespace Materal.DotNetty.Client
             WebSocketState = WebSocketState.Closed;
         }
 
-        public async Task SendCommandAsync(ICommand command)
-        {
-            if (command.ByteArrayData != null && command.ByteArrayData.Length > 0)
-            {
-                await SendCommandByBytesAsync(command);
-            }
-            else
-            {
-                await SendCommandByStringAsync(command);
-            }
-        }
-
         public async Task SendCommandByStringAsync(ICommand command)
         {
-            WebSocketFrame frame = new TextWebSocketFrame(command.StringData);
+            string commandJson = command.ToJson();
+            WebSocketFrame frame = new TextWebSocketFrame(commandJson);
             await SendMessageAsync(frame);
-            _clientHandler.OnSendMessage(command.StringData);
+            _clientHandler.OnSendMessage(commandJson);
         }
 
         public async Task SendCommandByBytesAsync(ICommand command)
         {
             WebSocketFrame frame = new BinaryWebSocketFrame();
-            frame.Content.SetBytes(0, command.ByteArrayData);
+            frame.Content.SetBytes(0, command.ToBytes());
             await SendMessageAsync(frame);
-            _clientHandler.OnSendMessage(command.ByteArrayData);
+            _clientHandler.OnSendMessage(command.ToJson());
         }
 
         public void SetConfig(IWebSocketClientConfig config)

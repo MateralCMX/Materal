@@ -4,6 +4,7 @@ using Materal.WebSocket.Events;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using Materal.ConvertHelper;
 using TestWebSocket.Events;
 
 namespace TestClient.WebSocketClient.WebStock
@@ -24,14 +25,9 @@ namespace TestClient.WebSocketClient.WebStock
         public override void ChannelRead0(WebSocketClientImpl channel, byte[] msg)
         {
             string message = Encoding.UTF8.GetString(msg);
-            IEvent @event = new Event("TestEventHandler")
-            {
-                Message = "测试命令",
-                ByteArrayData = null,
-                StringData = message
-            };
+            IEvent @event = message.JsonToObject<Event>();
             channel.HandleEvent(@event);
-            //Console.WriteLine(message);
+            Console.WriteLine(message);
         }
 
         public override void ExceptionCaught(WebSocketClientImpl channel, Exception ex)

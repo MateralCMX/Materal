@@ -2,6 +2,9 @@
 using DotNetty.Transport.Channels;
 using Materal.DotNetty.Client.Model;
 using System;
+using System.Text;
+using Materal.ConvertHelper;
+using Materal.WebSocket.Events;
 using TestWebSocket.Common;
 using TestWebSocket.Events;
 
@@ -27,27 +30,18 @@ namespace TestClient.WebSocketClient.DotNetty
         protected override void ChannelRead0(IChannelHandlerContext ctx, object msg)
         {
             base.ChannelRead0(ctx, msg);
-            Event @event;
+            IEvent @event;
             switch (msg)
             {
                 case TextWebSocketFrame textFrame:
-                    @event = new Event("TestEventHandler")
-                    {
-                        Message = "测试命令",
-                        ByteArrayData = null,
-                        StringData = textFrame.Text()
-                    };
+                    @event = textFrame.Text().JsonToObject<Event>();
                     ClientImpl.HandleEvent(@event);
-                    //ConsoleHelper.TestWriteLine($"接收到{@event.StringData}");
+                    ConsoleHelper.TestWriteLine($"接收到String[{textFrame.Text()}]");
                     break;
                 case BinaryWebSocketFrame binaryFrame:
-                    @event = new Event("TestEventHandler")
-                    {
-                        Message = "测试命令",
-                        ByteArrayData = binaryFrame.Content.Array,
-                        StringData = null
-                    };
-                    ConsoleHelper.TestWriteLine($"接收到Bytes[{@event.ByteArrayData.Length}]");
+                    @event = binaryFrame.GetDefultObject<Event>();
+                    ClientImpl.HandleEvent(@event);
+                    ConsoleHelper.TestWriteLine($"接收到Bytes[{@event.ToJson()}]");
                     break;
                 case PongWebSocketFrame _:
                     ConsoleHelper.TestWriteLine("接收到心跳");

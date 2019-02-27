@@ -23,8 +23,6 @@ namespace Materal.WebSocket.Client
 
         Task StopAsync();
 
-        Task SendCommandAsync(ICommand command);
-
         Task SendCommandByStringAsync(ICommand command);
 
         Task SendCommandByBytesAsync(ICommand command);

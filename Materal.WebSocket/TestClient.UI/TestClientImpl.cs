@@ -32,7 +32,7 @@ namespace TestClient.UI
             {
                 StringData = message
             };
-            _testWebSocketClient.SendCommandAsync(command);
+            _testWebSocketClient.SendCommandByStringAsync(command);
         }
 
         /// <summary>

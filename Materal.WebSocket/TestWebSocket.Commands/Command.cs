@@ -12,8 +12,5 @@ namespace TestWebSocket.Commands
             HandlerName = handlerName;
         }
         public string HandlerName { get; set; }
-        public string StringData { get; set; }
-        public byte[] ByteArrayData { get; set; }
-        public string Message { get; set; }
     }
 }

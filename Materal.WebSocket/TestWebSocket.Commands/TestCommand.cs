@@ -5,5 +5,6 @@
         public TestCommand() : base("TestCommandHandler")
         {
         }
+        public string StringData { get; set; }
     }
 }

@@ -13,18 +13,18 @@ namespace Materal.WebSocket.Commands
         /// 发送
         /// </summary>
         /// <param name="ctx">Channel</param>
-        /// <param name="frame">Frame</param>
+        /// <param name="commandData">命令数据</param>
         /// <param name="command">命令对象</param>
         /// <returns></returns>
-        void Send(IChannelHandlerContext ctx, IByteBufferHolder frame, ICommand command);
+        void Send(IChannelHandlerContext ctx, object commandData, ICommand command);
         /// <summary>
         /// 发送
         /// </summary>
         /// <param name="ctx">Channel</param>
-        /// <param name="frame">Frame</param>
+        /// <param name="commandData">命令数据</param>
         /// <param name="command">命令对象</param>
         /// <returns></returns>
-        Task SendAsync(IChannelHandlerContext ctx, IByteBufferHolder frame, ICommand command);
+        Task SendAsync(IChannelHandlerContext ctx, object commandData, ICommand command);
 
     }
 }

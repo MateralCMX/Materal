@@ -13,34 +13,23 @@ namespace Materal.WebSocket.Client
 {
     public abstract class WebSocketClientImpl : IWebSocketClient
     {
-        public async Task SendCommandAsync(ICommand command)
-        {
-            if (command.ByteArrayData != null && command.ByteArrayData.Length > 0)
-            {
-                await SendCommandByBytesAsync(command);
-            }
-            else
-            {
-                await SendCommandByStringAsync(command);
-            }
-        }
-
         public virtual async Task SendCommandByBytesAsync(ICommand command)
         {
             if (ClientWebSocket.State != WebSocketState.Open) throw new MateralWebSocketClientException("服务尚未启动");
-            var buffer = new ArraySegment<byte>(command.ByteArrayData);
+            var buffer = new ArraySegment<byte>(command.ToBytes());
             await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Binary, true, _cancellationToken);
-            _clientHandler.OnSendMessage(command.ByteArrayData);
+            _clientHandler.OnSendMessage(command.ToJson());
         }
 
         public virtual async Task SendCommandByStringAsync(ICommand command)
         {
             if (ClientWebSocket.State != WebSocketState.Open) throw new MateralWebSocketClientException("服务尚未启动");
             if (!(Config is WebSocketClientConfig clientConfig)) throw new MateralWebSocketClientException("Config类型必须派生于WebSocketClientConfig");
-            byte[] byteArray = clientConfig.EncodingType.GetBytes(command.StringData);
+            string commandJson = command.ToJson();
+            byte[] byteArray = clientConfig.EncodingType.GetBytes(commandJson);
             var buffer = new ArraySegment<byte>(byteArray);
             await ClientWebSocket.SendAsync(buffer, WebSocketMessageType.Text, true, _cancellationToken);
-            _clientHandler.OnSendMessage(command.StringData);
+            _clientHandler.OnSendMessage(commandJson);
         }
         public IWebSocketClientConfig Config { get; private set; }
 

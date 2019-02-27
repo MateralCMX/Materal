@@ -1,10 +1,9 @@
-﻿using Materal.WebSocket.CommandHandlers;
+﻿using DotNetty.Transport.Channels;
+using Materal.WebSocket.CommandHandlers;
 using Materal.WebSocket.Commands.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
-using DotNetty.Buffers;
-using DotNetty.Transport.Channels;
 
 namespace Materal.WebSocket.Commands
 {
@@ -17,13 +16,13 @@ namespace Materal.WebSocket.Commands
             _serviceProvider = serviceProvider;
             _handlerHelper = handlerHelper;
         }
-        public void Send(IChannelHandlerContext ctx, IByteBufferHolder frame, ICommand command)
+        public void Send(IChannelHandlerContext ctx, object commandData, ICommand command)
         {
-            GetHandler(command.HandlerName).Excute(ctx, frame, command);
+            GetHandler(command.HandlerName).Excute(ctx, commandData);
         }
-        public async Task SendAsync(IChannelHandlerContext ctx, IByteBufferHolder frame, ICommand command)
+        public async Task SendAsync(IChannelHandlerContext ctx, object commandData, ICommand command)
         {
-            await GetHandler(command.HandlerName).ExcuteAsync(ctx, frame, command);
+            await GetHandler(command.HandlerName).ExcuteAsync(ctx, commandData);
         }
         /// <summary>
         /// 获得处理器
