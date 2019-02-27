@@ -7,7 +7,7 @@ namespace TestClient.WebSocketClient.WebStock
     {
         public WebSocketTestWebSocketClientConfig()
         {
-            Url = "ws://127.0.0.1:10001";
+            Url = "ws://127.0.0.1:8080";
             EncodingType = Encoding.UTF8;
             ServerMessageMaxLength = 102400;
         }

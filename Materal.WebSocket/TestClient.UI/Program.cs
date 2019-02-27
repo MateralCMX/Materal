@@ -17,7 +17,7 @@ namespace TestClient.UI
         {
             TestClientHelper.RegisterCustomerService();
             TestClientHelper.Services.AddSingleton<ITestClient, TestClientImpl>();
-            TestClientHelper.BulidService();
+            TestClientHelper.BuildService();
             try
             {
                 StopTestClient(false);

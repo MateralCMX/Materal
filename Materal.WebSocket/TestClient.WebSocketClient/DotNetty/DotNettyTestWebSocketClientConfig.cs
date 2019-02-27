@@ -11,7 +11,7 @@ namespace TestClient.WebSocketClient.DotNetty
             {
                 Scheme = "ws",
                 Host = "127.0.0.1",
-                Port = 10001,
+                Port = 8080,
                 //Host = "220.165.9.44",
                 //Port = 26075,
                 Path = string.Empty

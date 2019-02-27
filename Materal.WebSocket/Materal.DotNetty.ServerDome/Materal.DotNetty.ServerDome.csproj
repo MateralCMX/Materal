@@ -29,4 +29,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.WebSocket.Server\Materal.WebSocket.Server.csproj" />
+  </ItemGroup>
+
 </Project>

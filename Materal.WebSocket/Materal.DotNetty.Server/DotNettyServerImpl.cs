@@ -4,46 +4,36 @@ using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
 using DotNetty.Transport.Libuv;
+using Materal.WebSocket.Server;
+using Materal.WebSocket.Server.Model;
 using System;
-using System.IO;
 using System.Net;
 using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace Materal.DotNetty.ServerDome
+namespace Materal.DotNetty.Server
 {
-    public class Program
+    public class DotNettyServerImpl : IWebSocketServer
     {
-        public static void Main(string[] args)
-        {
-            Task.Run(async () => await RunServerAsync());
-            string inputKey = string.Empty;
-            while (!string.Equals(inputKey, "Exit", StringComparison.Ordinal))
-            {
-                inputKey = Console.ReadLine();
-            }
-        }
-
-        private static async Task RunServerAsync()
+        public async Task RunServerAsync(ServerConfigModel configModel)
         {
             Console.WriteLine("WebSocket服务器启动");
             Console.WriteLine(
                 $"系统版本：{RuntimeInformation.OSArchitecture} {RuntimeInformation.OSDescription}\r\n" +
                 $".NET版本：{RuntimeInformation.ProcessArchitecture} {RuntimeInformation.FrameworkDescription}\r\n" +
                 $"CPU核心数：{Environment.ProcessorCount}");
-            Console.WriteLine("传输类型：" + (ServerSettings.UseLibuv ? "Libuv" : "Socket"));
+            Console.WriteLine("传输类型：" + (configModel.UserLibuv ? "Libuv" : "Socket"));
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 GCSettings.LatencyMode = GCLatencyMode.SustainedLowLatency;
             }
             Console.WriteLine($"服务器垃圾回收机制：{(GCSettings.IsServerGC ? "启用" : "禁用")}");
             Console.WriteLine($"垃圾回收延迟模式：{GCSettings.LatencyMode}");
-
             IEventLoopGroup bossGroup;
             IEventLoopGroup workGroup;
-            if (ServerSettings.UseLibuv)
+            if (configModel.UserLibuv)
             {
                 var dispatcher = new DispatcherEventLoopGroup();
                 bossGroup = dispatcher;
@@ -55,18 +45,18 @@ namespace Materal.DotNetty.ServerDome
                 workGroup = new MultithreadEventLoopGroup();
             }
             X509Certificate2 tlsCertificate = null;
-            if (ServerSettings.IsSsl)
+            if (configModel.IsSsl)
             {
-                tlsCertificate = new X509Certificate2(Path.Combine(ExampleHelper.ProcessDirectory, "dotnetty.com.pfx"), "password");
+                tlsCertificate = new X509Certificate2(configModel.CertificatePath, configModel.CertificatePassword);
             }
             try
             {
                 var bootstrap = new ServerBootstrap();
                 bootstrap.Group(bossGroup, workGroup);
-                if (ServerSettings.UseLibuv)
+                if (configModel.UserLibuv)
                 {
                     bootstrap.Channel<TcpServerChannel>();
-                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)|| 
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
                         RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
                         bootstrap.Option(ChannelOption.SoReuseport, true)
@@ -87,17 +77,18 @@ namespace Materal.DotNetty.ServerDome
                         }
                         pipeline.AddLast(new HttpServerCodec());
                         pipeline.AddLast(new HttpObjectAggregator(65536));
-                        pipeline.AddLast(new WebSocketServerHandler());
+                        if (configModel.ServerHandler is BaseDotNettyServerHandler serverHandler)
+                        {
+                            pipeline.AddLast(serverHandler);
+                        }
                     }));
-
-                int port = ServerSettings.Port;
-                IPAddress iPAddress = IPAddress.Parse("127.0.0.1");
-                IChannel bootstrapChannel = await bootstrap.BindAsync(iPAddress, port);
+                IPAddress iPAddress = IPAddress.Parse(configModel.Host);
+                IChannel bootstrapChannel = await bootstrap.BindAsync(iPAddress, configModel.Port);
                 Console.WriteLine("打开你的浏览器跳转到："
-                    + $"{(ServerSettings.IsSsl ? "https" : "http")}"
-                    + $"://{iPAddress}:{port}/api");
-                Console.WriteLine("监听中："+ $"{(ServerSettings.IsSsl ? "wss" : "ws")}"
-                    + $"://{iPAddress}:{port}/websocket");
+                    + $"{(configModel.IsSsl ? "https" : "http")}"
+                    + $"://{iPAddress}:{configModel.Port}/api");
+                Console.WriteLine("监听中：" + $"{(configModel.IsSsl ? "wss" : "ws")}"
+                    + $"://{iPAddress}:{configModel.Port}/websocket");
                 Console.ReadLine();
                 await bootstrapChannel.CloseAsync();
             }

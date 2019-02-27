@@ -28,7 +28,7 @@ namespace TestClient.UI
         /// <summary>
         /// Bulid服务
         /// </summary>
-        public static void BulidService()
+        public static void BuildService()
         {
             ServiceProvider = Services.BuildServiceProvider();
         }
