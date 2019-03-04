@@ -5,7 +5,7 @@ using StackExchange.Redis;
 
 namespace Materal.RedisHelper
 {
-    interface IRedisRepository
+    public interface IRedisRepository
     {
         /// <summary>
         /// 哈希表存放
