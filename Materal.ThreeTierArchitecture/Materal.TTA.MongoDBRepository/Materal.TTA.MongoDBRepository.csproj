@@ -6,7 +6,12 @@
     <Authors>Materal</Authors>
     <Version>0.0.4</Version>
     <Description>Materal.TTA.MongoDBRepository</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.7.3" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />
