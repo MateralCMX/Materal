@@ -1,10 +1,9 @@
 ﻿using DotNetty.Codecs.Http.WebSockets;
 using DotNetty.Transport.Channels;
-using Materal.DotNetty.Client.Model;
-using System;
-using System.Text;
 using Materal.ConvertHelper;
+using Materal.DotNetty.Client.Model;
 using Materal.WebSocket.Events;
+using System;
 using TestWebSocket.Common;
 using TestWebSocket.Events;
 
@@ -39,7 +38,7 @@ namespace TestClient.WebSocketClient.DotNetty
                     ConsoleHelper.TestWriteLine($"接收到String[{textFrame.Text()}]");
                     break;
                 case BinaryWebSocketFrame binaryFrame:
-                    @event = binaryFrame.GetDefultObject<Event>();
+                    @event = binaryFrame.GetDefaultObject<Event>();
                     ClientImpl.HandleEvent(@event);
                     ConsoleHelper.TestWriteLine($"接收到Bytes[{@event.ToJson()}]");
                     break;

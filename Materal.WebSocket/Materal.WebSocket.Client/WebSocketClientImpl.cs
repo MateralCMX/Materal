@@ -66,7 +66,7 @@ namespace Materal.WebSocket.Client
         private WebSocketClientHandler _clientHandler;
         public async Task StartAsync<T>() where T : IWebSocketClientHandler
         {
-            var handler = ConvertManager.GetDefultObject<T>();
+            var handler = ConvertManager.GetDefaultObject<T>();
             if (!(handler is WebSocketClientHandler clientHandler)) throw new MateralWebSocketClientException("Handler类型必须派生于WebSocketClientHandler");
             _clientHandler = clientHandler;
             await StartAsync();

@@ -35,6 +35,14 @@ namespace Materal.RabbitMQHelper
         public void SendMessage(string message)
         {
             byte[] body = _serverMQConfig.Encoding.GetBytes(message);
+            SendBytes(body);
+        }
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="body"></param>
+        public void SendBytes(byte[] body)
+        {
             _channel.BasicPublish(_serverMQConfig.ExchangeName, _serverMQConfig.RoutingKey, null, body);
         }
     }

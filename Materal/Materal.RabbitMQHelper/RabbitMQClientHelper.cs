@@ -24,15 +24,11 @@ namespace Materal.RabbitMQHelper
                 channel.BasicConsume(clientConfig.QueueName, clientConfig.AutoAck, consumer);
                 consumer.Received += async (sender, e) =>
                 {
-                    string message = clientConfig.Encoding.GetString(e.Body);
                     if (clientConfig.ReceivedAsync != null)
                     {
-                        await clientConfig.ReceivedAsync(channel, message, sender, e);
+                        await clientConfig.ReceivedAsync(channel, e.Body, sender, e, clientConfig);
                     }
-                    else
-                    {
-                        clientConfig.Received?.Invoke(channel, message, sender, e);
-                    }
+                    clientConfig.Received?.Invoke(channel, e.Body, sender, e, clientConfig);
                 };
             })
         {

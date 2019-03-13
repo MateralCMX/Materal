@@ -100,7 +100,7 @@ namespace Materal.DotNetty.Client
         {
             if (!(Config is DotNettyClientConfig webSocketClientConfig)) throw new MateralWebSocketClientException("Config类型必须派生于DotNettyClientConfig");
             WebSocketClientHandshaker webSocketClientHandshaker = WebSocketClientHandshakerFactory.NewHandshaker(webSocketClientConfig.UriBuilder.Uri, WebSocketVersion.V13, null, true, new DefaultHttpHeaders());
-            var handler = ConvertManager.GetDefultObject<T>(webSocketClientHandshaker);
+            var handler = ConvertManager.GetDefaultObject<T>(webSocketClientHandshaker);
             if (!(handler is DotNettyClientHandler clientHandler)) throw new MateralWebSocketClientException("Handler类型必须派生于DotNettyClientHandler");
             _clientHandler = clientHandler;
             _clientHandler.SetClient(this);
