@@ -92,7 +92,7 @@ namespace TestServer.UI
                     {
                         string commandString = frame.Content.ReadString(frame.Content.WriterIndex, Encoding.UTF8);
                         var command = commandString.JsonToObject<Command>();
-                        var commandBus = (ICommandBus)TestServerHelper.ServiceProvider.GetRequiredService(typeof(ICommandBus));
+                        var commandBus = TestServerHelper.ServiceProvider.GetRequiredService<ICommandBus>();
                         commandBus.SendAsync(ctx, commandString, command);
                     }
                     catch (Exception ex)

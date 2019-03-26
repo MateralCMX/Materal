@@ -21,7 +21,7 @@ namespace Materal.WPFUI
         {
             get
             {
-                var result = "版本号：";
+                string result = "版本号：";
                 try
                 {
                     result += ApplicationDeployment.CurrentDeployment.CurrentVersion;

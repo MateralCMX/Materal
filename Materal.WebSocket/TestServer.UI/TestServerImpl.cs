@@ -10,6 +10,8 @@ using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
 using DotNetty.Transport.Libuv;
+using Materal.WebSocket.Commands;
+using Microsoft.Extensions.DependencyInjection;
 using TestWebSocket.Common;
 
 namespace TestServer.UI

@@ -1,5 +1,6 @@
-﻿using DotNetty.Buffers;
-using DotNetty.Transport.Channels;
+﻿using DotNetty.Transport.Channels;
+using Materal.WebSocket.CommandHandlers.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Materal.WebSocket.Commands
@@ -25,6 +26,10 @@ namespace Materal.WebSocket.Commands
         /// <param name="command">命令对象</param>
         /// <returns></returns>
         Task SendAsync(IChannelHandlerContext ctx, object commandData, ICommand command);
-
+        /// <summary>
+        /// 获得所有命令处理器
+        /// </summary>
+        /// <returns></returns>
+        List<CommandHandlerModel> GetAllCommandHandler();
     }
 }

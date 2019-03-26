@@ -10,6 +10,7 @@ namespace TestServer.UI
         {
             try
             {
+                Console.Title = "WebSocketServer";
                 var socketServer = TestServerHelper.GetService<ITestServer>();
                 Task.WaitAll(socketServer.RunServerAsync());
             }

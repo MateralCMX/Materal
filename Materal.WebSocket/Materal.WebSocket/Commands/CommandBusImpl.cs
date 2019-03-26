@@ -1,9 +1,14 @@
 ﻿using DotNetty.Transport.Channels;
 using Materal.WebSocket.CommandHandlers;
+using Materal.WebSocket.CommandHandlers.Model;
 using Materal.WebSocket.Commands.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
+using Materal.Common;
 
 namespace Materal.WebSocket.Commands
 {
@@ -24,6 +29,37 @@ namespace Materal.WebSocket.Commands
         {
             await GetHandler(command.HandlerName).ExcuteAsync(ctx, commandData);
         }
+
+        public List<CommandHandlerModel> GetAllCommandHandler()
+        {
+            var result = new List<CommandHandlerModel>();
+            IEnumerable<Type> handlerTypes = _handlerHelper.GetAllHandlerTypes();
+            foreach (Type handlerType in handlerTypes)
+            {
+                object[] attributes = handlerType.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                CommandHandlerModel temp;
+                if (attributes.Length > 0)
+                {
+                    var handler = (ICommandHandler) ActivatorUtilities.CreateInstance(_serviceProvider, handlerType);
+                    temp = new CommandHandlerModel
+                    {
+                        Description = handler.GetDescription(),
+                        HandlerName = handlerType.Name
+                    };
+                }
+                else
+                {
+                    temp = new CommandHandlerModel
+                    {
+                        Description = "",
+                        HandlerName = handlerType.Name
+                    };
+                }
+                result.Add(temp);
+            }
+            return result;
+        }
+
         /// <summary>
         /// 获得处理器
         /// </summary>

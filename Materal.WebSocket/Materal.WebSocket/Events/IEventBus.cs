@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Materal.WebSocket.Events.Model;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Materal.WebSocket.Events
 {
@@ -19,6 +21,10 @@ namespace Materal.WebSocket.Events
         /// <param name="event">事件对象</param>
         /// <returns></returns>
         Task SendAsync(IEvent @event);
-
+        /// <summary>
+        /// 获得所有时间处理器
+        /// </summary>
+        /// <returns></returns>
+        List<EventHandlerModel> GetAllEventHandler();
     }
 }

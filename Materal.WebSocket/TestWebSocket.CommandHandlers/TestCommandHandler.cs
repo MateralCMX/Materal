@@ -3,12 +3,14 @@ using DotNetty.Transport.Channels;
 using Materal.ConvertHelper;
 using Materal.WebSocket.CommandHandlers;
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using TestWebSocket.Common;
 using TestWebSocket.Events;
 
 namespace TestWebSocket.CommandHandlers
 {
+    [Description("测试命令")]
     public class TestCommandHandler : ICommandHandler
     {
         public async Task ExcuteAsync(IChannelHandlerContext ctx, object commandData)

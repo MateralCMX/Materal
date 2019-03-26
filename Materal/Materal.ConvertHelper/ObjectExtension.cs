@@ -144,16 +144,16 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T">复制的模型</typeparam>
         /// <param name="sourceM">复制源头对象</param>
         /// <param name="targetM">复制目标对象</param>
-        /// <param name="notCopyPropertieNames">不复制的属性名称</param>
+        /// <param name="notCopyPropertyNames">不复制的属性名称</param>
         /// <returns>复制的对象</returns>
-        public static void CopyProperties<T>(this object sourceM, T targetM, params string[] notCopyPropertieNames)
+        public static void CopyProperties<T>(this object sourceM, T targetM, params string[] notCopyPropertyNames)
         {
             if (sourceM == null) return;
             var t1Props = sourceM.GetType().GetProperties();
             var t2Props = typeof(T).GetProperties();
             foreach (PropertyInfo prop in t1Props)
             {
-                if (notCopyPropertieNames.Contains(prop.Name)) continue;
+                if (notCopyPropertyNames.Contains(prop.Name)) continue;
                 PropertyInfo tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
                 if (tempProp != null && tempProp.CanWrite)
                 {
@@ -166,13 +166,13 @@ namespace Materal.ConvertHelper
         /// </summary>
         /// <typeparam name="T">复制的模型</typeparam>
         /// <param name="sourceM">复制源头对象</param>
-        /// <param name="notCopyPropertieNames">不复制的属性名称</param>
+        /// <param name="notCopyPropertyNames">不复制的属性名称</param>
         /// <returns>复制的对象</returns>
-        public static T CopyProperties<T>(this object sourceM, params string[] notCopyPropertieNames)
+        public static T CopyProperties<T>(this object sourceM, params string[] notCopyPropertyNames)
         {
             if (sourceM == null) return default(T);
             var targetM = ConvertManager.GetDefaultObject<T>();
-            sourceM.CopyProperties(targetM, notCopyPropertieNames);
+            sourceM.CopyProperties(targetM, notCopyPropertyNames);
             return targetM;
         }
         /// <summary>
