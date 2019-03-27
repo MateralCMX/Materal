@@ -22,5 +22,22 @@ namespace Materal.Common
                 descriptionAttribute.Description :
                 throw new MateralException("需要特性DescriptionAttribute");
         }
+        /// <summary>
+        /// 是否为空或者空字符串
+        /// </summary>
+        /// <param name="inputObj"></param>
+        /// <returns></returns>
+        public static bool IsNullOrEmptyStr(this object inputObj)
+        {
+            switch (inputObj)
+            {
+                case null:
+                    return true;
+                case string inputStr:
+                    return string.IsNullOrEmpty(inputStr);
+                default:
+                    return false;
+            }
+        }
     }
 }

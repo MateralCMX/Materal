@@ -37,7 +37,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConsoleApp", "Mater
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.RedisHelper", "Materal.RedisHelper\Materal.RedisHelper.csproj", "{287EB629-C256-41B1-B054-FF868EFB07CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.RabbitMQHelper", "Materal.RabbitMQHelper\Materal.RabbitMQHelper.csproj", "{B48D5756-130F-436B-AE71-74B33308DEF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.RabbitMQHelper", "Materal.RabbitMQHelper\Materal.RabbitMQHelper.csproj", "{B48D5756-130F-436B-AE71-74B33308DEF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ExcelHelper", "Materal.ExcelHelper\Materal.ExcelHelper.csproj", "{DEC300EC-24E1-464E-9BB7-9A87D277F64A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +115,10 @@ Global
 		{B48D5756-130F-436B-AE71-74B33308DEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B48D5756-130F-436B-AE71-74B33308DEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B48D5756-130F-436B-AE71-74B33308DEF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEC300EC-24E1-464E-9BB7-9A87D277F64A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEC300EC-24E1-464E-9BB7-9A87D277F64A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEC300EC-24E1-464E-9BB7-9A87D277F64A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEC300EC-24E1-464E-9BB7-9A87D277F64A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
