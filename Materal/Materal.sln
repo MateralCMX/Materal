@@ -39,7 +39,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.RedisHelper", "Mate
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.RabbitMQHelper", "Materal.RabbitMQHelper\Materal.RabbitMQHelper.csproj", "{B48D5756-130F-436B-AE71-74B33308DEF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ExcelHelper", "Materal.ExcelHelper\Materal.ExcelHelper.csproj", "{DEC300EC-24E1-464E-9BB7-9A87D277F64A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ExcelHelper", "Materal.ExcelHelper\Materal.ExcelHelper.csproj", "{DEC300EC-24E1-464E-9BB7-9A87D277F64A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.CacheHelper.Example", "Materal.CacheHelper.Example\Materal.CacheHelper.Example.csproj", "{4416E538-FC02-4A2B-A4D0-190818BCE0A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -119,6 +121,10 @@ Global
 		{DEC300EC-24E1-464E-9BB7-9A87D277F64A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEC300EC-24E1-464E-9BB7-9A87D277F64A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEC300EC-24E1-464E-9BB7-9A87D277F64A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4416E538-FC02-4A2B-A4D0-190818BCE0A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4416E538-FC02-4A2B-A4D0-190818BCE0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4416E538-FC02-4A2B-A4D0-190818BCE0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4416E538-FC02-4A2B-A4D0-190818BCE0A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,6 +132,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{177A4D6E-CDD9-406B-BF45-54E6C6943E42} = {D618B600-502D-4FDA-AD98-C79485A2596F}
 		{AF14C971-D1C6-411A-981F-1C5893F5AB7E} = {D618B600-502D-4FDA-AD98-C79485A2596F}
+		{4416E538-FC02-4A2B-A4D0-190818BCE0A9} = {D618B600-502D-4FDA-AD98-C79485A2596F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44D71214-490E-42D6-969C-BDC35C93BEA5}
