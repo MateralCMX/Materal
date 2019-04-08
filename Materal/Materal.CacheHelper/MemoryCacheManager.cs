@@ -85,12 +85,13 @@ namespace Materal.CacheHelper
         public List<string> GetCacheKeys()
         {
             FieldInfo field = _memoryCache.GetType().GetField("_entries", BindingFlags.Instance | BindingFlags.NonPublic);
-            var dictionary = field?.GetValue(_memoryCache) as IDictionary;
             var stringList = new List<string>();
-            if (dictionary == null)
-                return stringList;
+            if (!(field?.GetValue(_memoryCache) is IDictionary dictionary)) return stringList;
+
             foreach (DictionaryEntry dictionaryEntry in dictionary)
+            {
                 stringList.Add(dictionaryEntry.Key.ToString());
+            }
             return stringList;
         }
         public void Clear()

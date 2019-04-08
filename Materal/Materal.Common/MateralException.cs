@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Materal.Common
 {
@@ -18,10 +17,6 @@ namespace Materal.Common
         }
 
         public MateralException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected MateralException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

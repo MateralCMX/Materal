@@ -1,6 +1,5 @@
 ﻿using Materal.Common;
 using System;
-using System.Runtime.Serialization;
 
 namespace Materal.EnumHelper
 {
@@ -15,10 +14,6 @@ namespace Materal.EnumHelper
         }
 
         public MateralEnumHelperException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected MateralEnumHelperException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

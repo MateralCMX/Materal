@@ -1,6 +1,5 @@
 ﻿using Materal.Common;
 using System;
-using System.Runtime.Serialization;
 
 namespace Materal.DBHelper
 {
@@ -15,10 +14,6 @@ namespace Materal.DBHelper
         }
 
         public MateralDBHelperException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected MateralDBHelperException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
