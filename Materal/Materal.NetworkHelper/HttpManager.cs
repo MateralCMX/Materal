@@ -19,16 +19,14 @@ namespace Materal.NetworkHelper
         /// <param name="type"></param>
         /// <param name="data">参数字典</param>
         /// <param name="heads">heads</param>
-        /// <param name="encoding">字符集</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MateralHttpException"></exception>
-        private static string Send(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        private static byte[] SendBytes(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null)
         {
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url), "Url地址不能为空");
             if (!url.IsUrl()) throw new ArgumentException("Url地址错误", nameof(url));
-            if (encoding == null) encoding = Encoding.UTF8;
             var handler = new HttpClientHandler();
             var client = new HttpClient(handler);
             var ms = new MemoryStream();
@@ -51,9 +49,25 @@ namespace Materal.NetworkHelper
             }
             HttpResponseMessage httpResponseMessage = client.SendAsync(httpRequestMessage).Result;
             byte[] resultBytes = httpResponseMessage.Content.ReadAsByteArrayAsync().Result;
+            return resultBytes;
+        }
+        /// <summary>
+        /// 发送请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="type"></param>
+        /// <param name="data">参数字典</param>
+        /// <param name="heads">heads</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        private static string Send(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        {
+            if (encoding == null) encoding = Encoding.UTF8;
+            byte[] resultBytes = SendBytes(url, type, data, heads);
             string result = encoding.GetString(resultBytes);
-            if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
-                throw new MateralHttpException(httpResponseMessage.StatusCode, result);
             return result;
         }
         /// <summary>
@@ -68,6 +82,18 @@ namespace Materal.NetworkHelper
         {
             url = SpliceUrlParams(url, data);
             return Send(url, HttpMethodType.Get, null, heads, encoding);
+        }
+        /// <summary>
+        /// 发送Get请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="data">参数字典</param>
+        /// <param name="heads">heads</param>
+        /// <returns></returns>
+        public static byte[] SendGetBytes(string url, Dictionary<string, string> data = null, Dictionary<string, string> heads = null)
+        {
+            url = SpliceUrlParams(url, data);
+            return SendBytes(url, HttpMethodType.Get, null, heads);
         }
         /// <summary>
         /// 发送Get请求
@@ -93,6 +119,18 @@ namespace Materal.NetworkHelper
         public static string SendPost(string url, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             return Send(url, HttpMethodType.Post, data, heads, encoding);
+        }
+        /// <summary>
+        /// 发送Get请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="data">参数字典</param>
+        /// <param name="heads">heads</param>
+        /// <returns></returns>
+        public static byte[] SendPostBytes(string url, Dictionary<string, string> data = null, Dictionary<string, string> heads = null)
+        {
+            url = SpliceUrlParams(url, data);
+            return SendBytes(url, HttpMethodType.Post, null, heads);
         }
         /// <summary>
         /// 发送Post请求

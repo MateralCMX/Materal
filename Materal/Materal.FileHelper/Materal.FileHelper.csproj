@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
-    <Version>0.0.30</Version>
+    <Version>0.0.31</Version>
     <Description>Materal文件、文件夹帮助类库</Description>
     <PackageReleaseNotes>1、新增文件夹清空、复制
 2、文本文件帮助类</PackageReleaseNotes>

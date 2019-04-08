@@ -43,6 +43,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ExcelHelper", "Mate
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.CacheHelper.Example", "Materal.CacheHelper.Example\Materal.CacheHelper.Example.csproj", "{4416E538-FC02-4A2B-A4D0-190818BCE0A9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WeChatHelper", "Materal.WeChatHelper\Materal.WeChatHelper.csproj", "{A480CE75-FB2B-4F52-8C48-9F22FBC309D9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.SystemHelper", "Materal.SystemHelper\Materal.SystemHelper.csproj", "{B4C29B9D-23E4-4FB0-8B45-D692AE9E9E77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -125,6 +129,14 @@ Global
 		{4416E538-FC02-4A2B-A4D0-190818BCE0A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4416E538-FC02-4A2B-A4D0-190818BCE0A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4416E538-FC02-4A2B-A4D0-190818BCE0A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A480CE75-FB2B-4F52-8C48-9F22FBC309D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A480CE75-FB2B-4F52-8C48-9F22FBC309D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A480CE75-FB2B-4F52-8C48-9F22FBC309D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A480CE75-FB2B-4F52-8C48-9F22FBC309D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4C29B9D-23E4-4FB0-8B45-D692AE9E9E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4C29B9D-23E4-4FB0-8B45-D692AE9E9E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4C29B9D-23E4-4FB0-8B45-D692AE9E9E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4C29B9D-23E4-4FB0-8B45-D692AE9E9E77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
