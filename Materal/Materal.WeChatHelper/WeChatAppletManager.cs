@@ -12,7 +12,7 @@ namespace Materal.WeChatHelper
         /// <summary>
         /// 配置文件
         /// </summary>
-        protected WeChatConfigModel Config;
+        protected readonly WeChatConfigModel Config;
         /// <summary>
         /// 构造方法
         /// </summary>
