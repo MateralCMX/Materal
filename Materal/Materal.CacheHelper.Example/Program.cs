@@ -4,7 +4,8 @@
     {
         public static void Main(string[] args)
         {
-            ICacheManagerExample.SetBySlidingExample1();
+            var example = new ExampleByICacheManager();
+            example.SetBySlidingExample1();
         }
     }
 }

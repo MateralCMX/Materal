@@ -1,6 +1,5 @@
-﻿using System;
-using System.Runtime.Serialization;
-using Materal.Common;
+﻿using Materal.Common;
+using System;
 
 namespace Materal.ConvertHelper
 {
@@ -15,10 +14,6 @@ namespace Materal.ConvertHelper
         }
 
         public MateralConvertException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected MateralConvertException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

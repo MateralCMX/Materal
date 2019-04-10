@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Materal.Common
+﻿namespace Materal.Common
 {
     public static class MateralConfig
     {

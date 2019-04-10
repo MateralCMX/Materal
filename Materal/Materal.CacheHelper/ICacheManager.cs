@@ -1,5 +1,6 @@
 ﻿using Materal.DateTimeHelper;
 using System;
+using System.Collections.Generic;
 
 namespace Materal.CacheHelper
 {
@@ -85,5 +86,10 @@ namespace Materal.CacheHelper
         /// 清空缓存
         /// </summary>
         void Clear();
+        /// <summary>
+        /// 获得所有的缓存键
+        /// </summary>
+        /// <returns></returns>
+        List<string> GetCacheKeys();
     }
 }
