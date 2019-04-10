@@ -16,7 +16,6 @@ namespace Materal.CacheHelper.Example
             cacheManager.SetBySliding(cacheKey, inputString, saveHours);
             string cacheSaveString = cacheManager.Get<string>(cacheKey);
             Console.WriteLine(cacheSaveString);
-            Console.ReadKey();
         }
         public void SetBySlidingExample2()
         {
@@ -27,7 +26,6 @@ namespace Materal.CacheHelper.Example
             cacheManager.SetBySliding(cacheKey, inputString, saveTime, DateTimeTypeEnum.Day);
             string cacheSaveString = cacheManager.Get<string>(cacheKey);
             Console.WriteLine(cacheSaveString);
-            Console.ReadKey();
         }
         public void SetBySlidingExample3()
         {
@@ -38,7 +36,6 @@ namespace Materal.CacheHelper.Example
             cacheManager.SetBySliding(cacheKey, inputString, saveTime);
             string cacheSaveString = cacheManager.Get<string>(cacheKey);
             Console.WriteLine(cacheSaveString);
-            Console.ReadKey();
         }
         public void SetBySlidingExample4()
         {
@@ -49,7 +46,6 @@ namespace Materal.CacheHelper.Example
             cacheManager.SetBySliding(cacheKey, inputString, saveTimeSpan);
             string cacheSaveString = cacheManager.Get<string>(cacheKey);
             Console.WriteLine(cacheSaveString);
-            Console.ReadKey();
         }
         #endregion
         #region SetByAbsolute

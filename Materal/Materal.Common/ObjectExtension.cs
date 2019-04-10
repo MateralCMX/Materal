@@ -23,11 +23,27 @@ namespace Materal.Common
                 throw new MateralException("需要特性DescriptionAttribute");
         }
         /// <summary>
-        /// 是否为空或者空字符串
+        /// 获得描述
+        /// </summary>
+        /// <param name="inputObj">对象</param>
+        /// <param name="propertyName">属性名称</param>
+        /// <returns>描述</returns>
+        public static string GetDescription(this object inputObj, string propertyName)
+        {
+            Type objType = inputObj.GetType();
+            PropertyInfo propertyInfo = objType.GetProperty(propertyName);
+            if(propertyInfo == null) throw new MateralException($"未找到名称是{propertyName}的属性");
+            var attribute = propertyInfo.GetCustomAttribute<DescriptionAttribute>();
+            return attribute != null ?
+                attribute.Description :
+                throw new MateralException("需要特性DescriptionAttribute");
+        }
+        /// <summary>
+        /// 对象是否为空或者空字符串
         /// </summary>
         /// <param name="inputObj"></param>
         /// <returns></returns>
-        public static bool IsNullOrEmptyStr(this object inputObj)
+        public static bool IsNullOrEmptyString(this object inputObj)
         {
             switch (inputObj)
             {
@@ -35,6 +51,23 @@ namespace Materal.Common
                     return true;
                 case string inputStr:
                     return string.IsNullOrEmpty(inputStr);
+                default:
+                    return false;
+            }
+        }
+        /// <summary>
+        /// 对象是否为空或者空或者空格字符串
+        /// </summary>
+        /// <param name="inputObj"></param>
+        /// <returns></returns>
+        public static bool IsNullOrWhiteSpaceString(this object inputObj)
+        {
+            switch (inputObj)
+            {
+                case null:
+                    return true;
+                case string inputStr:
+                    return string.IsNullOrWhiteSpace(inputStr);
                 default:
                     return false;
             }

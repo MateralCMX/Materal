@@ -1,4 +1,6 @@
-﻿namespace Materal.CacheHelper.Example
+﻿using System;
+
+namespace Materal.CacheHelper.Example
 {
     public class Program
     {
@@ -6,6 +8,7 @@
         {
             var example = new ExampleByICacheManager();
             example.SetBySlidingExample1();
+            Console.ReadKey();
         }
     }
 }

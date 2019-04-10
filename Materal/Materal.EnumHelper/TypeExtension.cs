@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Materal.EnumHelper
 {
-    public static class TypeEnumExtension
+    public static class TypeExtension
     {
         /// <summary>
         /// 获取所有枚举
