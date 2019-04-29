@@ -1,11 +1,13 @@
-﻿namespace Materal.Common
+﻿using System;
+
+namespace Materal.Common
 {
     public class PageModel : PageRequestModel
     {
         /// <summary>
         /// 总页数
         /// </summary>
-        public int PageCount => DataCount % PageSize > 0 ? DataCount / PageSize + 1 : DataCount / PageSize;
+        public int PageCount => (int)Math.Ceiling(DataCount / (decimal)PageSize);
 
         /// <summary>
         /// 开始序号

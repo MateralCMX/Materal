@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.31</Version>
+    <Version>0.0.33</Version>
     <Authors>Materal</Authors>
     <Company>Materal</Company>
     <Product>Materal</Product>

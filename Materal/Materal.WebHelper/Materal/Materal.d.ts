@@ -153,9 +153,10 @@ declare namespace Materal {
          * @param inputDateTime 输入时间
          * @param targetDate 对比时间
          * @param TimeType 返回类型
+         * @param isFloor 向下取整
          * @returns 时间差
          */
-        static getTimeDifference(inputDateTime: Date, targetDate: Date, timeType: TimeType): number;
+        static getTimeDifference(inputDateTime: Date, targetDate: Date, timeType: TimeType, isFloor?: boolean): number;
         /**
          * 时间字符串格式化
          * @param inputDateTime 输入时间

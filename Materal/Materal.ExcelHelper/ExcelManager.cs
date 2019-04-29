@@ -130,7 +130,7 @@ namespace Materal.ExcelHelper
                 bool isAdd = false;
                 for (int i = 0; i < row.LastCellNum; i++)
                 {
-                    if (row.GetCell(i).IsNullOrEmptyStr()) continue;
+                    if (row.GetCell(i).IsNullOrEmptyString()) continue;
                     isAdd = true;
                     dataRow[i] = row.GetCell(i).ToString();
                 }

@@ -20,9 +20,5 @@ namespace Materal.WPFCommon
         public MateralWPFException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        protected MateralWPFException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace Materal.ConfigurationHelper
@@ -37,6 +38,18 @@ namespace Materal.ConfigurationHelper
                 result.Add(tempModel);
             }
             return result;
+        }
+        /// <summary>
+        /// 获取配置文件数组对象值
+        /// </summary>
+        /// <param name="configuration">配置文件对象</param>
+        /// <param name="rootName">根节点名称</param>
+        /// <returns>类型组</returns>
+        public static List<string> GetArrayValue(this IConfiguration configuration, string rootName)
+        {
+            IConfigurationSection configurationSection = configuration.GetSection(rootName);
+            IEnumerable<IConfigurationSection> configurationSections = configurationSection.GetChildren();
+            return (from item in configurationSections let tempChildren = item.GetChildren() select item.Value).ToList();
         }
 
         /// <summary>

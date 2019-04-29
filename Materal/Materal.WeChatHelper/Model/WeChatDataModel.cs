@@ -192,7 +192,7 @@ namespace Materal.WeChatHelper.Model
         /// <returns>检测结果</returns>
         public bool CheckSign(string key)
         {
-            if (!IsSet("sign") || GetValue("sign").IsNullOrEmptyStr()) return false;
+            if (!IsSet("sign") || GetValue("sign").IsNullOrEmptyString()) return false;
             string returnSign = GetValue("sign").ToString();
             return MakeSign(key) == returnSign;
 

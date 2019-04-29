@@ -423,27 +423,32 @@ var Materal;
          * @param inputDateTime 输入时间
          * @param targetDate 对比时间
          * @param TimeType 返回类型
+         * @param isFloor 向下取整
          * @returns 时间差
          */
-        DateHelper.getTimeDifference = function (inputDateTime, targetDate, timeType) {
+        DateHelper.getTimeDifference = function (inputDateTime, targetDate, timeType, isFloor) {
+            if (isFloor === void 0) { isFloor = true; }
             var timeDifference = inputDateTime.getTime() - targetDate.getTime();
             switch (timeType) {
                 case TimeType.Day:
-                    timeDifference = Math.floor(timeDifference / (24 * 3600 * 1000));
+                    timeDifference = timeDifference / (24 * 3600 * 1000);
                     break;
                 case TimeType.Hours:
-                    timeDifference = Math.floor(timeDifference / (3600 * 1000));
+                    timeDifference = timeDifference / (3600 * 1000);
                     break;
                 case TimeType.Minutes:
-                    timeDifference = Math.floor(timeDifference / (60 * 1000));
+                    timeDifference = timeDifference / (60 * 1000);
                     break;
                 case TimeType.Seconds:
-                    timeDifference = Math.floor(timeDifference / 1000);
+                    timeDifference = timeDifference / 1000;
                     break;
                 case TimeType.Milliseconds:
                     break;
                 default:
                     throw "参数timeType错误";
+            }
+            if (isFloor) {
+                timeDifference = Math.floor(timeDifference);
             }
             return timeDifference;
         };
