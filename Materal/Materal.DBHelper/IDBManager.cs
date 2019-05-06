@@ -1311,7 +1311,7 @@ namespace Materal.DBHelper
 
         #endregion
 
-        #region FillDataset
+        #region FillDataSet
 
         /// <summary>
         /// 填充数据集
@@ -1319,7 +1319,7 @@ namespace Materal.DBHelper
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
         /// <param name="dataSet">数据集</param>
-        void FillDataset(CommandType commandType, string commandText, DataSet dataSet);
+        void FillDataSet(CommandType commandType, string commandText, DataSet dataSet);
 
         /// <summary>
         /// 填充数据集
@@ -1328,7 +1328,7 @@ namespace Materal.DBHelper
         /// <param name="commandText">命令文本</param>
         /// <param name="commandParameters">命令参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(CommandType commandType, string commandText, DataSet dataSet, params TParams[] commandParameters);
+        void FillDataSet(CommandType commandType, string commandText, DataSet dataSet, params TParams[] commandParameters);
 
         /// <summary>
         /// 填充数据集
@@ -1336,7 +1336,7 @@ namespace Materal.DBHelper
         /// <param name="spName">存储过程名称</param>
         /// <param name="parameterValues">参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(string spName, DataSet dataSet, params object[] parameterValues);
+        void FillDataSet(string spName, DataSet dataSet, params object[] parameterValues);
 
         /// <summary>
         /// 填充数据集
@@ -1345,7 +1345,7 @@ namespace Materal.DBHelper
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
         /// <param name="dataSet">数据集</param>
-        void FillDataset(string connectionString, CommandType commandType, string commandText, DataSet dataSet);
+        void FillDataSet(string connectionString, CommandType commandType, string commandText, DataSet dataSet);
 
         /// <summary>
         /// 填充数据集
@@ -1355,7 +1355,7 @@ namespace Materal.DBHelper
         /// <param name="commandText">命令文本</param>
         /// <param name="commandParameters">命令参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(string connectionString, CommandType commandType, string commandText, DataSet dataSet, params TParams[] commandParameters);
+        void FillDataSet(string connectionString, CommandType commandType, string commandText, DataSet dataSet, params TParams[] commandParameters);
 
         /// <summary>
         /// 填充数据集
@@ -1364,7 +1364,7 @@ namespace Materal.DBHelper
         /// <param name="spName">存储过程名称</param>
         /// <param name="parameterValues">参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(string connectionString, string spName, DataSet dataSet, params object[] parameterValues);
+        void FillDataSet(string connectionString, string spName, DataSet dataSet, params object[] parameterValues);
 
         /// <summary>
         /// 填充数据集
@@ -1373,7 +1373,7 @@ namespace Materal.DBHelper
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
         /// <param name="dataSet">数据集</param>
-        void FillDataset(TConnection connection, CommandType commandType, string commandText, DataSet dataSet);
+        void FillDataSet(TConnection connection, CommandType commandType, string commandText, DataSet dataSet);
 
         /// <summary>
         /// 填充数据集
@@ -1383,7 +1383,7 @@ namespace Materal.DBHelper
         /// <param name="commandText">命令文本</param>
         /// <param name="commandParameters">命令参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(TConnection connection, CommandType commandType, string commandText, DataSet dataSet, params TParams[] commandParameters);
+        void FillDataSet(TConnection connection, CommandType commandType, string commandText, DataSet dataSet, params TParams[] commandParameters);
 
         /// <summary>
         /// 填充数据集
@@ -1392,7 +1392,7 @@ namespace Materal.DBHelper
         /// <param name="spName">存储过程名称</param>
         /// <param name="parameterValues">参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(TConnection connection, string spName, DataSet dataSet, params object[] parameterValues);
+        void FillDataSet(TConnection connection, string spName, DataSet dataSet, params object[] parameterValues);
 
         /// <summary>
         /// 填充数据集
@@ -1401,7 +1401,7 @@ namespace Materal.DBHelper
         /// <param name="commandType">命令类型</param>
         /// <param name="commandText">命令文本</param>
         /// <param name="dataSet">数据集</param>
-        void FillDataset(TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet);
+        void FillDataSet(TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet);
 
         /// <summary>
         /// 填充数据集
@@ -1411,7 +1411,7 @@ namespace Materal.DBHelper
         /// <param name="commandText">命令文本</param>
         /// <param name="commandParameters">命令参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, params TParams[] commandParameters);
+        void FillDataSet(TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, params TParams[] commandParameters);
 
         /// <summary>
         /// 填充数据集
@@ -1420,7 +1420,7 @@ namespace Materal.DBHelper
         /// <param name="spName">存储过程名称</param>
         /// <param name="parameterValues">参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(TTransaction transaction, string spName, DataSet dataSet, params object[] parameterValues);
+        void FillDataSet(TTransaction transaction, string spName, DataSet dataSet, params object[] parameterValues);
 
         /// <summary>
         /// 填充数据集
@@ -1431,7 +1431,7 @@ namespace Materal.DBHelper
         /// <param name="commandText">命令文本</param>
         /// <param name="dataSet">数据集</param>
         /// <param name="commandParameters">命令参数</param>
-        void FillDataset(TConnection connection, TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, params TParams[] commandParameters);
+        void FillDataSet(TConnection connection, TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, params TParams[] commandParameters);
 
         /// <summary>
         /// 填充数据集
@@ -1440,7 +1440,7 @@ namespace Materal.DBHelper
         /// <param name="commandText">命令文本</param>
         /// <param name="dataSet">数据集</param>
         /// <param name="tableNames">表名</param>
-        void FillDataset(CommandType commandType, string commandText, DataSet dataSet, string[] tableNames);
+        void FillDataSet(CommandType commandType, string commandText, DataSet dataSet, string[] tableNames);
 
         /// <summary>
         /// 填充数据集
@@ -1450,7 +1450,7 @@ namespace Materal.DBHelper
         /// <param name="tableNames"></param>
         /// <param name="commandParameters">命令参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params TParams[] commandParameters);
+        void FillDataSet(CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params TParams[] commandParameters);
 
         /// <summary>
         /// 填充数据集
@@ -1459,7 +1459,7 @@ namespace Materal.DBHelper
         /// <param name="tableNames"></param>
         /// <param name="parameterValues">参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues);
+        void FillDataSet(string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues);
 
         /// <summary>
         /// 填充数据集
@@ -1469,7 +1469,7 @@ namespace Materal.DBHelper
         /// <param name="commandText">命令文本</param>
         /// <param name="dataSet">数据集</param>
         /// <param name="tableNames">表名</param>
-        void FillDataset(string connectionString, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames);
+        void FillDataSet(string connectionString, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames);
 
         /// <summary>
         /// 填充数据集
@@ -1480,7 +1480,7 @@ namespace Materal.DBHelper
         /// <param name="tableNames"></param>
         /// <param name="commandParameters">命令参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(string connectionString, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params TParams[] commandParameters);
+        void FillDataSet(string connectionString, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params TParams[] commandParameters);
 
         /// <summary>
         /// 填充数据集
@@ -1490,7 +1490,7 @@ namespace Materal.DBHelper
         /// <param name="tableNames"></param>
         /// <param name="parameterValues">参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(string connectionString, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues);
+        void FillDataSet(string connectionString, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues);
 
         /// <summary>
         /// 填充数据集
@@ -1500,7 +1500,7 @@ namespace Materal.DBHelper
         /// <param name="commandText">命令文本</param>
         /// <param name="dataSet">数据集</param>
         /// <param name="tableNames">表名</param>
-        void FillDataset(TConnection connection, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames);
+        void FillDataSet(TConnection connection, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames);
 
         /// <summary>
         /// 填充数据集
@@ -1511,7 +1511,7 @@ namespace Materal.DBHelper
         /// <param name="tableNames"></param>
         /// <param name="commandParameters">命令参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(TConnection connection, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params TParams[] commandParameters);
+        void FillDataSet(TConnection connection, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params TParams[] commandParameters);
 
         /// <summary>
         /// 填充数据集
@@ -1521,7 +1521,7 @@ namespace Materal.DBHelper
         /// <param name="tableNames"></param>
         /// <param name="parameterValues">参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(TConnection connection, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues);
+        void FillDataSet(TConnection connection, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues);
 
         /// <summary>
         /// 填充数据集
@@ -1531,7 +1531,7 @@ namespace Materal.DBHelper
         /// <param name="commandText">命令文本</param>
         /// <param name="dataSet">数据集</param>
         /// <param name="tableNames">表名</param>
-        void FillDataset(TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames);
+        void FillDataSet(TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames);
 
         /// <summary>
         /// 填充数据集
@@ -1542,7 +1542,7 @@ namespace Materal.DBHelper
         /// <param name="tableNames"></param>
         /// <param name="commandParameters">命令参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params TParams[] commandParameters);
+        void FillDataSet(TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params TParams[] commandParameters);
 
         /// <summary>
         /// 填充数据集
@@ -1552,7 +1552,7 @@ namespace Materal.DBHelper
         /// <param name="tableNames"></param>
         /// <param name="parameterValues">参数</param>
         /// <param name="dataSet"></param>
-        void FillDataset(TTransaction transaction, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues);
+        void FillDataSet(TTransaction transaction, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues);
 
         /// <summary>
         /// 填充数据集
@@ -1564,7 +1564,7 @@ namespace Materal.DBHelper
         /// <param name="dataSet">数据集</param>
         /// <param name="tableNames">表名</param>
         /// <param name="commandParameters">命令参数</param>
-        void FillDataset(TConnection connection, TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params TParams[] commandParameters);
+        void FillDataSet(TConnection connection, TTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params TParams[] commandParameters);
 
         #endregion
 

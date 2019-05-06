@@ -189,14 +189,14 @@ namespace Materal.DBHelper
         public DataSet ExecuteDataSet(SqlConnection connection, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
             var dataSet = new DataSet();
-            FillDataset(connection, commandType, commandText, dataSet);
+            FillDataSet(connection, commandType, commandText, dataSet, commandParameters);
             return dataSet;
         }
 
         public DataSet ExecuteDataSet(SqlConnection connection, string spName, params object[] parameterValues)
         {
             var dataSet = new DataSet();
-            FillDataset(connection, spName, dataSet, parameterValues);
+            FillDataSet(connection, spName, dataSet, parameterValues);
             return dataSet;
         }
 
@@ -208,14 +208,14 @@ namespace Materal.DBHelper
         public DataSet ExecuteDataSet(SqlTransaction transaction, CommandType commandType, string commandText, params SqlParameter[] commandParameters)
         {
             var dataSet = new DataSet();
-            FillDataset(transaction, commandType, commandText, dataSet, commandParameters);
+            FillDataSet(transaction, commandType, commandText, dataSet, commandParameters);
             return dataSet;
         }
 
         public DataSet ExecuteDataSet(SqlTransaction transaction, string spName, params object[] parameterValues)
         {
             var dataSet = new DataSet();
-            FillDataset(transaction, spName, dataSet, parameterValues);
+            FillDataSet(transaction, spName, dataSet, parameterValues);
             return dataSet;
         }
 
@@ -889,80 +889,80 @@ namespace Materal.DBHelper
             }
         }
 
-        public void FillDataset(CommandType commandType, string commandText, DataSet dataSet)
+        public void FillDataSet(CommandType commandType, string commandText, DataSet dataSet)
         {
-            FillDataset(GetDBConnection(), commandType, commandText, dataSet);
+            FillDataSet(GetDBConnection(), commandType, commandText, dataSet);
         }
 
-        public void FillDataset(CommandType commandType, string commandText, DataSet dataSet, params SqlParameter[] commandParameters)
+        public void FillDataSet(CommandType commandType, string commandText, DataSet dataSet, params SqlParameter[] commandParameters)
         {
-            FillDataset(GetDBConnection(), commandType, commandText, dataSet, commandParameters);
+            FillDataSet(GetDBConnection(), commandType, commandText, dataSet, commandParameters);
         }
 
-        public void FillDataset(string spName, DataSet dataSet, params object[] parameterValues)
+        public void FillDataSet(string spName, DataSet dataSet, params object[] parameterValues)
         {
-            FillDataset(GetDBConnection(), spName, dataSet, parameterValues);
+            FillDataSet(GetDBConnection(), spName, dataSet, parameterValues);
         }
 
-        public void FillDataset(string connectionString, CommandType commandType, string commandText, DataSet dataSet)
+        public void FillDataSet(string connectionString, CommandType commandType, string commandText, DataSet dataSet)
         {
-            FillDataset(GetDBConnection(connectionString), commandType, commandText, dataSet);
+            FillDataSet(GetDBConnection(connectionString), commandType, commandText, dataSet);
         }
 
-        public void FillDataset(string connectionString, CommandType commandType, string commandText, DataSet dataSet, params SqlParameter[] commandParameters)
+        public void FillDataSet(string connectionString, CommandType commandType, string commandText, DataSet dataSet, params SqlParameter[] commandParameters)
         {
-            FillDataset(GetDBConnection(connectionString), commandType, commandText, dataSet, commandParameters);
+            FillDataSet(GetDBConnection(connectionString), commandType, commandText, dataSet, commandParameters);
         }
 
-        public void FillDataset(string connectionString, string spName, DataSet dataSet, params object[] parameterValues)
+        public void FillDataSet(string connectionString, string spName, DataSet dataSet, params object[] parameterValues)
         {
-            FillDataset(GetDBConnection(connectionString), spName, dataSet, parameterValues);
+            FillDataSet(GetDBConnection(connectionString), spName, dataSet, parameterValues);
         }
 
-        public void FillDataset(SqlConnection connection, CommandType commandType, string commandText, DataSet dataSet)
+        public void FillDataSet(SqlConnection connection, CommandType commandType, string commandText, DataSet dataSet)
         {
-            FillDataset(connection, commandType, commandText, dataSet, (SqlParameter)null);
+            FillDataSet(connection, commandType, commandText, dataSet, (SqlParameter)null);
         }
 
-        public void FillDataset(SqlConnection connection, CommandType commandType, string commandText, DataSet dataSet, params SqlParameter[] commandParameters)
+        public void FillDataSet(SqlConnection connection, CommandType commandType, string commandText, DataSet dataSet, params SqlParameter[] commandParameters)
         {
-            FillDataset(connection, null, commandType, commandText, dataSet, commandParameters);
+            FillDataSet(connection, null, commandType, commandText, dataSet, commandParameters);
         }
 
-        public void FillDataset(SqlConnection connection, string spName, DataSet dataSet, params object[] parameterValues)
+        public void FillDataSet(SqlConnection connection, string spName, DataSet dataSet, params object[] parameterValues)
         {
             if (connection == null) throw new ArgumentNullException(nameof(connection));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
-            if (parameterValues == null || parameterValues.Length <= 0) FillDataset(connection, CommandType.StoredProcedure, spName, dataSet);
+            if (parameterValues == null || parameterValues.Length <= 0) FillDataSet(connection, CommandType.StoredProcedure, spName, dataSet);
             SqlParameter[] commandParameters = SqlServerParameterCache.GetSpParameterSet(connection, spName);
             AssignParameterValues(commandParameters, parameterValues);
-            FillDataset(connection, CommandType.StoredProcedure, spName, dataSet, commandParameters);
+            FillDataSet(connection, CommandType.StoredProcedure, spName, dataSet, commandParameters);
         }
 
-        public void FillDataset(SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet)
+        public void FillDataSet(SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet)
         {
-            FillDataset(transaction, commandType, commandText, dataSet, (SqlParameter)null);
+            FillDataSet(transaction, commandType, commandText, dataSet, (SqlParameter)null);
         }
 
-        public void FillDataset(SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, params SqlParameter[] commandParameters)
+        public void FillDataSet(SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, params SqlParameter[] commandParameters)
         {
-            FillDataset(transaction.Connection, transaction, commandType, commandText, dataSet, commandParameters);
+            FillDataSet(transaction.Connection, transaction, commandType, commandText, dataSet, commandParameters);
         }
 
-        public void FillDataset(SqlTransaction transaction, string spName, DataSet dataSet, params object[] parameterValues)
+        public void FillDataSet(SqlTransaction transaction, string spName, DataSet dataSet, params object[] parameterValues)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
-            if (parameterValues == null || parameterValues.Length <= 0) FillDataset(transaction, CommandType.StoredProcedure, spName, dataSet);
+            if (parameterValues == null || parameterValues.Length <= 0) FillDataSet(transaction, CommandType.StoredProcedure, spName, dataSet);
             else
             {
                 SqlParameter[] commandParameters = SqlServerParameterCache.GetSpParameterSet(transaction.Connection, spName);
                 AssignParameterValues(commandParameters, parameterValues);
-                FillDataset(transaction, CommandType.StoredProcedure, spName, dataSet, commandParameters);
+                FillDataSet(transaction, CommandType.StoredProcedure, spName, dataSet, commandParameters);
             }
         }
 
-        public void FillDataset(SqlConnection connection, SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, params SqlParameter[] commandParameters)
+        public void FillDataSet(SqlConnection connection, SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, params SqlParameter[] commandParameters)
         {
             if (connection == null) throw new ArgumentNullException(nameof(connection));
             if (string.IsNullOrEmpty(commandText)) throw new ArgumentException("message", nameof(commandText));
@@ -980,83 +980,83 @@ namespace Materal.DBHelper
             }
         }
 
-        public void FillDataset(CommandType commandType, string commandText, DataSet dataSet, string[] tableNames)
+        public void FillDataSet(CommandType commandType, string commandText, DataSet dataSet, string[] tableNames)
         {
-            FillDataset(GetDBConnection(), commandType, commandText, dataSet, tableNames, null);
+            FillDataSet(GetDBConnection(), commandType, commandText, dataSet, tableNames, null);
         }
 
-        public void FillDataset(CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params SqlParameter[] commandParameters)
+        public void FillDataSet(CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params SqlParameter[] commandParameters)
         {
-            FillDataset(GetDBConnection(), commandType, commandText, dataSet, tableNames, commandParameters);
+            FillDataSet(GetDBConnection(), commandType, commandText, dataSet, tableNames, commandParameters);
         }
 
-        public void FillDataset(string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues)
+        public void FillDataSet(string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues)
         {
-            FillDataset(GetDBConnection(), spName, dataSet, tableNames, parameterValues);
+            FillDataSet(GetDBConnection(), spName, dataSet, tableNames, parameterValues);
         }
 
-        public void FillDataset(string connectionString, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames)
+        public void FillDataSet(string connectionString, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames)
         {
-            FillDataset(GetDBConnection(connectionString), commandType, commandText, dataSet, tableNames, null);
+            FillDataSet(GetDBConnection(connectionString), commandType, commandText, dataSet, tableNames, null);
         }
 
-        public void FillDataset(string connectionString, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params SqlParameter[] commandParameters)
+        public void FillDataSet(string connectionString, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params SqlParameter[] commandParameters)
         {
-            FillDataset(GetDBConnection(connectionString), commandType, commandText, dataSet, tableNames, commandParameters);
+            FillDataSet(GetDBConnection(connectionString), commandType, commandText, dataSet, tableNames, commandParameters);
         }
 
-        public void FillDataset(string connectionString, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues)
+        public void FillDataSet(string connectionString, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues)
         {
-            FillDataset(GetDBConnection(connectionString), spName, dataSet, tableNames, parameterValues);
+            FillDataSet(GetDBConnection(connectionString), spName, dataSet, tableNames, parameterValues);
         }
 
-        public void FillDataset(SqlConnection connection, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames)
+        public void FillDataSet(SqlConnection connection, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames)
         {
-            FillDataset(connection, commandType, commandText, dataSet, tableNames, null);
+            FillDataSet(connection, commandType, commandText, dataSet, tableNames, null);
         }
 
-        public void FillDataset(SqlConnection connection, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params SqlParameter[] commandParameters)
+        public void FillDataSet(SqlConnection connection, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params SqlParameter[] commandParameters)
         {
-            FillDataset(connection, null, commandType, commandText, dataSet, tableNames, commandParameters);
+            FillDataSet(connection, null, commandType, commandText, dataSet, tableNames, commandParameters);
         }
 
-        public void FillDataset(SqlConnection connection, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues)
+        public void FillDataSet(SqlConnection connection, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues)
         {
             if (connection == null) throw new ArgumentNullException(nameof(connection)); if (dataSet == null) throw new ArgumentNullException(nameof(dataSet));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
-            if (parameterValues == null || parameterValues.Length <= 0) FillDataset(connection, CommandType.StoredProcedure, spName, dataSet, tableNames);
+            if (parameterValues == null || parameterValues.Length <= 0) FillDataSet(connection, CommandType.StoredProcedure, spName, dataSet, tableNames);
             else
             {
                 SqlParameter[] commandParameters = SqlServerParameterCache.GetSpParameterSet(connection, spName);
                 AssignParameterValues(commandParameters, parameterValues);
-                FillDataset(connection, CommandType.StoredProcedure, spName, dataSet, tableNames, commandParameters);
+                FillDataSet(connection, CommandType.StoredProcedure, spName, dataSet, tableNames, commandParameters);
             }
         }
 
-        public void FillDataset(SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames)
+        public void FillDataSet(SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames)
         {
-            FillDataset(transaction, commandType, commandText, dataSet, tableNames, null);
+            FillDataSet(transaction, commandType, commandText, dataSet, tableNames, null);
         }
 
-        public void FillDataset(SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params SqlParameter[] commandParameters)
+        public void FillDataSet(SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params SqlParameter[] commandParameters)
         {
-            FillDataset(transaction.Connection, transaction, commandType, commandText, dataSet, tableNames, commandParameters);
+            FillDataSet(transaction.Connection, transaction, commandType, commandText, dataSet, tableNames, commandParameters);
         }
 
-        public void FillDataset(SqlTransaction transaction, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues)
+        public void FillDataSet(SqlTransaction transaction, string spName, DataSet dataSet, string[] tableNames, params object[] parameterValues)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));if (dataSet == null) throw new ArgumentNullException(nameof(dataSet));
             if (string.IsNullOrEmpty(spName)) throw new ArgumentNullException(nameof(spName));
-            if (parameterValues == null || parameterValues.Length <= 0) FillDataset(transaction, CommandType.StoredProcedure, spName, dataSet, tableNames);
+            if (parameterValues == null || parameterValues.Length <= 0) FillDataSet(transaction, CommandType.StoredProcedure, spName, dataSet, tableNames);
             else
             {
                 SqlParameter[] commandParameters = SqlServerParameterCache.GetSpParameterSet(transaction.Connection, spName);
                 AssignParameterValues(commandParameters, parameterValues);
-                FillDataset(transaction, CommandType.StoredProcedure, spName, dataSet, tableNames, commandParameters);
+                FillDataSet(transaction, CommandType.StoredProcedure, spName, dataSet, tableNames, commandParameters);
             }
         }
 
-        public void FillDataset(SqlConnection connection, SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params SqlParameter[] commandParameters)
+        public void FillDataSet(SqlConnection connection, SqlTransaction transaction, CommandType commandType, string commandText, DataSet dataSet, string[] tableNames, params SqlParameter[] commandParameters)
         {
             if (connection == null) throw new ArgumentNullException(nameof(connection));
             if (string.IsNullOrEmpty(commandText)) throw new ArgumentException("message", nameof(commandText));

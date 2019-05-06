@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
-    <Version>0.0.33</Version>
+    <Version>0.0.34</Version>
     <Description>MateralExcel帮助类</Description>
   </PropertyGroup>
 
