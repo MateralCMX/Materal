@@ -36,15 +36,15 @@ namespace Materal.TTA.Common
             _dbContext.Dispose();
             _dbContext = null;
         }
-        public virtual void RegisterAdd<TEntity>(TEntity obj) where TEntity : class, IEntity<Guid>
+        public virtual void RegisterAdd<TEntity>(TEntity obj) where TEntity : class
         {
             _dbContext.Set<TEntity>().Add(obj);
         }
-        public virtual void RegisterEdit<TEntity>(TEntity obj) where TEntity : class, IEntity<Guid>
+        public virtual void RegisterEdit<TEntity>(TEntity obj) where TEntity : class
         {
             _dbContext.Entry(obj).State = EntityState.Modified;
         }
-        public virtual void RegisterDelete<TEntity>(TEntity obj) where TEntity : class, IEntity<Guid>
+        public virtual void RegisterDelete<TEntity>(TEntity obj) where TEntity : class
         {
             _dbContext.Entry(obj).State = EntityState.Deleted;
         }

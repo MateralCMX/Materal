@@ -1,11 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
-    <Version>0.0.34</Version>
+    <Version>0.0.35</Version>
     <Description>MateralExcel帮助类</Description>
   </PropertyGroup>
 

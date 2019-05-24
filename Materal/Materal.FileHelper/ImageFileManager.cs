@@ -14,7 +14,7 @@ namespace Materal.FileHelper
         {
             using (var fileStream = new FileStream(filePath, FileMode.Open))
             {
-                byte[] imageArray = new byte[fileStream.Length];
+                var imageArray = new byte[fileStream.Length];
                 fileStream.Position = 0;
                 fileStream.Read(imageArray, 0, (int)fileStream.Length);
                 return "data:image/png;base64," + Convert.ToBase64String(imageArray);

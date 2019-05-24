@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using Materal.ConsoleApp.Model;
+﻿using Materal.ConsoleApp.Model;
 using Materal.ConvertHelper;
 using Materal.FileHelper;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Materal.ConsoleApp
 {
@@ -22,7 +20,7 @@ namespace Materal.ConsoleApp
                 {
                     var directoryInfo = new DirectoryInfo(filePath);
                     DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
-                    List<Base64ImageModel> images = new List<Base64ImageModel>();
+                    var images = new List<Base64ImageModel>();
                     foreach (DirectoryInfo item in directoryInfos)
                     {
                         FileInfo[] fileInfos = item.GetFiles();

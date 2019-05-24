@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Materal.TTA.Common
 {
-    public abstract class EFRepositoryImpl<T, TPrimaryKeyType> : IEFRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
+    public abstract class EFRepositoryImpl<T, TPrimaryKeyType> : IEFRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
     {
         /// <summary>
         /// 数据库上下文

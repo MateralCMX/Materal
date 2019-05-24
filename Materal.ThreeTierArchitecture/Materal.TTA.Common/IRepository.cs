@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Materal.TTA.Common
 {
-    public interface IRepository<T, in TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
+    public interface IRepository<T, in TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
     {
         /// <summary>
         /// 是否存在

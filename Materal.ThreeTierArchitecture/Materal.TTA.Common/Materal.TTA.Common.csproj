@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -7,13 +7,13 @@
     <Product>Materal.ThreeTierArchitecture</Product>
     <Company>Materal</Company>
     <Authors>Materal</Authors>
-    <Version>0.0.5</Version>
+    <Version>0.0.7</Version>
     <Description>Materal.TTA.Common</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Materal.Common" Version="0.0.29" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.3" />
+    <PackageReference Include="Materal.Common" Version="0.0.34" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
     <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
     <PackageReference Include="System.Interactive.Async" Version="3.2.0" />
   </ItemGroup>
