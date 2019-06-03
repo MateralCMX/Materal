@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Common", "Materal.TTA.Common\Materal.TTA.Common.csproj", "{53144387-B373-4C4B-B125-F30F78F4365B}"
 EndProject
@@ -18,6 +18,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.RedisRepository", "Materal.TTA.RedisRepository\Materal.TTA.RedisRepository.csproj", "{466C380E-9614-4472-B6F6-B8B6B8BD7EC8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.MongoDBRepository", "Materal.TTA.MongoDBRepository\Materal.TTA.MongoDBRepository.csproj", "{9DD5A882-DD7D-4A70-8DC1-EFB9801CE876}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeCreate", "CodeCreate", "{11BE93DD-3B31-4B93-BCFD-CF88FE1465CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeCreate.Common", "CodeCreate.Common\CodeCreate.Common.csproj", "{1C674E9A-A566-4D97-ABBD-2EA27F567867}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeCreate.Model", "CodeCreate.Model\CodeCreate.Model.csproj", "{6EE68433-0D50-4EAF-A319-CB09782145CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCreate.UI", "CodeCreate.UI\CodeCreate.UI.csproj", "{3DCE451D-296E-46F7-A0CE-D7480ED3C509}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,12 +61,27 @@ Global
 		{9DD5A882-DD7D-4A70-8DC1-EFB9801CE876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DD5A882-DD7D-4A70-8DC1-EFB9801CE876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DD5A882-DD7D-4A70-8DC1-EFB9801CE876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C674E9A-A566-4D97-ABBD-2EA27F567867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C674E9A-A566-4D97-ABBD-2EA27F567867}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C674E9A-A566-4D97-ABBD-2EA27F567867}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C674E9A-A566-4D97-ABBD-2EA27F567867}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EE68433-0D50-4EAF-A319-CB09782145CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EE68433-0D50-4EAF-A319-CB09782145CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EE68433-0D50-4EAF-A319-CB09782145CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EE68433-0D50-4EAF-A319-CB09782145CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DCE451D-296E-46F7-A0CE-D7480ED3C509}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DCE451D-296E-46F7-A0CE-D7480ED3C509}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DCE451D-296E-46F7-A0CE-D7480ED3C509}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DCE451D-296E-46F7-A0CE-D7480ED3C509}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{23C9139B-6818-44FB-BE5F-36952084D767} = {19B1C1FB-1B6C-46E1-A149-787CD499A291}
+		{1C674E9A-A566-4D97-ABBD-2EA27F567867} = {11BE93DD-3B31-4B93-BCFD-CF88FE1465CB}
+		{6EE68433-0D50-4EAF-A319-CB09782145CF} = {11BE93DD-3B31-4B93-BCFD-CF88FE1465CB}
+		{3DCE451D-296E-46F7-A0CE-D7480ED3C509} = {11BE93DD-3B31-4B93-BCFD-CF88FE1465CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ACCFD0EA-CC61-442C-8D0A-E4FF8C626326}

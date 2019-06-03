@@ -1,0 +1,56 @@
+{
+  "Name": "Authority",
+  "HasEFRepository": true,
+  "Domains": [
+    {
+      "Name": "ActionAuthority",
+      "DomainName": "功能权限"
+    },
+    {
+      "Name": "APIAuthority",
+      "DomainName": "API权限"
+    },
+    {
+      "Name": "Department",
+      "DomainName": "部门"
+    },
+    {
+      "Name": "Job",
+      "DomainName": "职务"
+    },
+    {
+      "Name": "User",
+      "DomainName": "用户"
+    },
+    {
+      "Name": "WebMenuAuthority",
+      "DomainName": "网页菜单权限"
+    },
+    {
+      "Name": "JobActionAuthority",
+      "DomainName": "职务功能权限",
+      "HasService": false
+    },
+    {
+      "Name": "JobActionAuthority",
+      "DomainName": "职务功能权限",
+      "HasService": false
+    },
+    {
+      "Name": "JobAPIAuthority",
+      "DomainName": "职务API权限",
+      "HasService": false
+    },
+    {
+      "Name": "JobWebMenuAuthority",
+      "DomainName": "职务网页菜单权限",
+      "HasService": false
+    }
+  ],
+  "Views": [
+    {
+      "Name": "UserHasAPIAuthorityCode",
+      "ViewName": "用户拥有API权限代码"
+    }
+  ]
+}
