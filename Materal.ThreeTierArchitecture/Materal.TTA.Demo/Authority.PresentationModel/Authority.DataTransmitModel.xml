@@ -273,6 +273,16 @@
             邮箱
             </summary>
         </member>
+        <member name="T:Authority.PresentationModel.User.Request.EditUserRequestModel">
+            <summary>
+            用户修改请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.EditUserRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
         <member name="T:Authority.PresentationModel.User.Request.ExchangePasswordRequestModel">
             <summary>
             更改密码请求模型
@@ -291,16 +301,6 @@
         <member name="P:Authority.PresentationModel.User.Request.ExchangePasswordRequestModel.NewPassword">
             <summary>
             新密码
-            </summary>
-        </member>
-        <member name="T:Authority.PresentationModel.User.Request.EditUserRequestModel">
-            <summary>
-            用户修改请求模型
-            </summary>
-        </member>
-        <member name="P:Authority.PresentationModel.User.Request.EditUserRequestModel.ID">
-            <summary>
-            唯一标识
             </summary>
         </member>
         <member name="T:Authority.PresentationModel.User.Request.GetUserInfoByTokenRequestModel">
@@ -356,6 +356,57 @@
         <member name="P:Authority.PresentationModel.User.Request.UserLoginRequestModel.Password">
             <summary>
             密码
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.User.Result.TokenResultModel">
+            <summary>
+            Token返回模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.TokenResultModel.access_token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.TokenResultModel.expires_in">
+            <summary>
+            有效秒数
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.TokenResultModel.token_type">
+            <summary>
+            Token类型
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.User.Result.UserLoginResultModel">
+            <summary>
+            用户登录返回模型
+            </summary>
+        </member>
+        <member name="M:Authority.PresentationModel.User.Result.UserLoginResultModel.#ctor">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:Authority.PresentationModel.User.Result.UserLoginResultModel.#ctor(Authority.PresentationModel.User.Result.TokenResultModel)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="model"></param>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.UserLoginResultModel.AccessToken">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.UserLoginResultModel.ExpiresSecond">
+            <summary>
+            有效秒数
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.UserLoginResultModel.TokenType">
+            <summary>
+            Token类型
             </summary>
         </member>
         <member name="T:Authority.PresentationModel.WebMenuAuthority.Request.AddWebMenuAuthorityRequestModel">
@@ -416,6 +467,16 @@
         <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.EditWebMenuAuthorityRequestModel.Remark">
             <summary>
             备注
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.WebMenuAuthority.Request.GetUserHasWebMenuAuthorityTreeRequestModel">
+            <summary>
+            获取用户拥有的网页菜单权限树
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.GetUserHasWebMenuAuthorityTreeRequestModel.Token">
+            <summary>
+            Token
             </summary>
         </member>
     </members>

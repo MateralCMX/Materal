@@ -4,6 +4,21 @@
         <name>Model</name>
     </assembly>
     <members>
+        <member name="T:Model.ExchangeIndexRequestModel`1">
+            <summary>
+            调换网页菜单权限位序请求模型
+            </summary>
+        </member>
+        <member name="P:Model.ExchangeIndexRequestModel`1.ID1">
+            <summary>
+            唯一标识1
+            </summary>
+        </member>
+        <member name="P:Model.ExchangeIndexRequestModel`1.ID2">
+            <summary>
+            唯一标识2
+            </summary>
+        </member>
         <member name="T:Model.ExchangeParentIDNotIndexIDRequestModel`1">
             <summary>
             更改父级请求模型
@@ -44,21 +59,6 @@
         <member name="P:Model.ExchangeParentIDRequestModel`1.ForUnder">
             <summary>
             位置
-            </summary>
-        </member>
-        <member name="T:Model.ExchangeIndexRequestModel`1">
-            <summary>
-            调换网页菜单权限位序请求模型
-            </summary>
-        </member>
-        <member name="P:Model.ExchangeIndexRequestModel`1.ID1">
-            <summary>
-            唯一标识1
-            </summary>
-        </member>
-        <member name="P:Model.ExchangeIndexRequestModel`1.ID2">
-            <summary>
-            唯一标识2
             </summary>
         </member>
     </members>
