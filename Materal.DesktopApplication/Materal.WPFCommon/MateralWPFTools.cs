@@ -15,9 +15,9 @@ namespace Materal.WPFCommon
         public static T GetDescendantByType<T>(DependencyObject element) where T : DependencyObject
         {
             Type tType = typeof(T);
-            if (element == null) return default(T);
+            if (element == null) return null;
             if (element.GetType() == tType || element.GetType().BaseType == tType) return element as T;
-            if (!(element is FrameworkElement frameworkElement)) return default(T);
+            if (!(element is FrameworkElement frameworkElement)) return null;
             frameworkElement.ApplyTemplate();
             int cnt = VisualTreeHelper.GetChildrenCount(element);
             for (var i = 0; i < cnt; i++)
@@ -39,7 +39,7 @@ namespace Materal.WPFCommon
                     return (T)dependencyObject;
                 }
             }
-            return default(T);
+            return null;
         }
     }
 }

@@ -3,16 +3,16 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.8</Version>
+    <Version>0.0.9</Version>
     <Authors>Materal</Authors>
     <LangVersion>7.1</LangVersion>
     <Description>Materal.WebSocket.Client</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Materal.Common" Version="0.0.29" />
-    <PackageReference Include="Materal.ConvertHelper" Version="0.0.29" />
-    <PackageReference Include="Materal.StringHelper" Version="0.0.29" />
+    <PackageReference Include="Materal.Common" Version="0.0.36" />
+    <PackageReference Include="Materal.ConvertHelper" Version="0.0.36" />
+    <PackageReference Include="Materal.StringHelper" Version="0.0.36" />
   </ItemGroup>
 
   <ItemGroup>

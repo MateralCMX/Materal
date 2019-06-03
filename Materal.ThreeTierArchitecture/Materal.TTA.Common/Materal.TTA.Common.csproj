@@ -7,14 +7,14 @@
     <Product>Materal.ThreeTierArchitecture</Product>
     <Company>Materal</Company>
     <Authors>Materal</Authors>
-    <Version>0.0.7</Version>
+    <Version>0.0.8</Version>
     <Description>Materal.TTA.Common</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Materal.Common" Version="0.0.34" />
+    <PackageReference Include="Materal.Common" Version="0.0.36" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
     <PackageReference Include="System.Interactive.Async" Version="3.2.0" />
   </ItemGroup>
 
