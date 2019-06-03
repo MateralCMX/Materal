@@ -29,6 +29,7 @@ namespace Common
         public static SqlServerConfigModel AuthorityDB => _authorityDBConfig ?? (_authorityDBConfig = new SqlServerConfigModel
         {
             Address = Configuration["SQLServerDB:AuthorityDB:Address"],
+            AttachDbFilename = Configuration["SQLServerDB:AuthorityDB:AttachDbFilename"],
             Port = Configuration["SQLServerDB:AuthorityDB:Port"],
             Name = Configuration["SQLServerDB:AuthorityDB:Name"],
             UserID = Configuration["SQLServerDB:AuthorityDB:UserID"],
@@ -40,6 +41,7 @@ namespace Common
         public static SqlServerConfigModel LogDB => _logDBConfig ?? (_logDBConfig = new SqlServerConfigModel
         {
             Address = Configuration["SQLServerDB:LogDB:Address"],
+            AttachDbFilename = Configuration["SQLServerDB:LogDB:AttachDbFilename"],
             Port = Configuration["SQLServerDB:LogDB:Port"],
             Name = Configuration["SQLServerDB:LogDB:Name"],
             UserID = Configuration["SQLServerDB:LogDB:UserID"],
@@ -57,6 +59,18 @@ namespace Common
             Scope = Configuration["Application:IdentityServer:Scope"],
             Secret = Configuration["Application:IdentityServer:Secret"]
         });
+        #endregion
+        #region 应用程序名称
+        private static string _logApplicationName;
+        /// <summary>
+        /// 日志系统应用程序名称
+        /// </summary>
+        public static string LogApplicationName => _logApplicationName ?? (_logApplicationName = Configuration["ApplicationName:Log"]);
+        private static string _authorityApplicationName;
+        /// <summary>
+        /// 权限系统应用程序名称
+        /// </summary>
+        public static string AuthorityApplicationName => _authorityApplicationName ?? (_authorityApplicationName = Configuration["ApplicationName:Authority"]);
         #endregion
         #region 私有方法
         /// <summary>

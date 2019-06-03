@@ -4,6 +4,31 @@
         <name>Log.WebAPI</name>
     </assembly>
     <members>
+        <member name="T:Log.WebAPI.Controllers.LogController">
+            <summary>
+            日志控制器
+            </summary>
+        </member>
+        <member name="M:Log.WebAPI.Controllers.LogController.#ctor(Log.Service.ILogService,AutoMapper.IMapper)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="logService"></param>
+        </member>
+        <member name="M:Log.WebAPI.Controllers.LogController.GetLogInfo(System.Int32)">
+            <summary>
+            获取日志信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Log.WebAPI.Controllers.LogController.GetLogList(Log.PresentationModel.Log.Request.QueryLogFilterRequestModel)">
+            <summary>
+            获取日志列表信息
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
         <member name="T:Log.WebAPI.LogWebAPIDIExtension">
             <summary>
             WebAPI依赖注入扩展
@@ -60,13 +85,12 @@
             </summary>
             <param name="services"></param>
         </member>
-        <member name="M:Log.WebAPI.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Microsoft.Extensions.Logging.ILoggerFactory)">
+        <member name="M:Log.WebAPI.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
             <summary>
             配置
             </summary>
             <param name="app"></param>
             <param name="env"></param>
-            <param name="loggerFactory"></param>
         </member>
     </members>
 </doc>

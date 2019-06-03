@@ -16,14 +16,15 @@
 
   <ItemGroup>
     <PackageReference Include="JWT" Version="5.1.1" />
-    <PackageReference Include="Materal.Common" Version="0.0.35" />
-    <PackageReference Include="Materal.EnumHelper" Version="0.0.35" />
-    <PackageReference Include="Materal.RabbitMQHelper" Version="0.0.35" />
+    <PackageReference Include="Materal.Common" Version="0.0.36" />
+    <PackageReference Include="Materal.EnumHelper" Version="0.0.36" />
+    <PackageReference Include="Materal.RabbitMQHelper" Version="0.0.36" />
+    <PackageReference Include="Materal.StringHelper" Version="0.0.36" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1Development_1json__JSONSchema="" appsettings_1125_1json__JSONSchema="http://json.schemastore.org/avro-avsc" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1125_1json__JSONSchema="http://json.schemastore.org/avro-avsc" /></VisualStudio></ProjectExtensions>
 
 </Project>

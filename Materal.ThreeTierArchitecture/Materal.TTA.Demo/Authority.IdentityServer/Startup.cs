@@ -40,7 +40,7 @@ namespace Authority.IdentityServer
             NLogBuilder.ConfigureNLog("NLog.config").GetCurrentClassLogger();
             LogManager.Configuration.Install(new InstallationContext());
             LogManager.Configuration.Variables["NlogConnectionString"] = ApplicationConfig.LogDB.ConnectionString;
-            LogManager.Configuration.Variables["AppName"] = "UserIdentityServer";
+            LogManager.Configuration.Variables["AppName"] = "认证服务器";
             #endregion
         }
     }

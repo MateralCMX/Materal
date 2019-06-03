@@ -1,4 +1,4 @@
-﻿using Log.Domain.Repositorys;
+﻿using Log.Domain.Repositories;
 
 namespace Log.EFRepository.RepositoryImpl
 {

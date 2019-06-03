@@ -1,13 +1,12 @@
 ﻿using BaseWebAPI;
 using BaseWebAPI.Model;
+using Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
-using Common;
 
 namespace Log.WebAPI
 {
@@ -19,7 +18,7 @@ namespace Log.WebAPI
         /// <summary>
         /// 应用程序名称
         /// </summary>
-        public const string AppName = "LogWebAPI";
+        public string AppName = ApplicationConfig.LogApplicationName;
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -60,10 +59,9 @@ namespace Log.WebAPI
         /// </summary>
         /// <param name="app"></param>
         /// <param name="env"></param>
-        /// <param name="loggerFactory"></param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            WebAPIHelper.BaseConfigure(app, env, loggerFactory, AppName);
+            WebAPIHelper.BaseConfigure(app, env, AppName);
         }
     }
 }

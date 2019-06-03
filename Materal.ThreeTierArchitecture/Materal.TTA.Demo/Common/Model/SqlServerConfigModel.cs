@@ -1,4 +1,6 @@
-﻿namespace Common.Model
+﻿using Materal.StringHelper;
+
+namespace Common.Model
 {
     /// <summary>
     /// 数据库配置模型
@@ -9,6 +11,10 @@
         /// 地址
         /// </summary>
         public string Address { get; set; }
+        /// <summary>
+        /// 文件名
+        /// </summary>
+        public string AttachDbFilename { get; set; }
         /// <summary>
         /// 端口号
         /// </summary>
@@ -25,11 +31,22 @@
         /// 密码
         /// </summary>
         public string Password { get; set; }
+
         /// <summary>
         /// 链接字符串
         /// </summary>
-        public string ConnectionString => string.IsNullOrEmpty(Port) ? 
-            $"Data Source={Address}; Database={Name}; User ID={UserID}; Password={Password};": 
-            $"Data Source={Address},{Port}; Database={Name}; User ID={UserID}; Password={Password};";
+        public string ConnectionString
+        {
+            get
+            {
+                if (Address.IsIPv4())
+                {
+                   return string.IsNullOrEmpty(Port) ?
+                        $"Data Source={Address}; Database={Name}; User ID={UserID}; Password={Password};" :
+                        $"Data Source={Address},{Port}; Database={Name}; User ID={UserID}; Password={Password};";
+                }
+                return $@"Data Source={Address};AttachDbFilename={AttachDbFilename};Integrated Security=True";
+            }
+        }
     }
 }

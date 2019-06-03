@@ -4,6 +4,16 @@
         <name>Log.PresentationModel</name>
     </assembly>
     <members>
+        <member name="T:Log.PresentationModel.AutoMapperProfile.LogProfile">
+            <summary>
+            日志AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:Log.PresentationModel.AutoMapperProfile.LogProfile.#ctor">
+            <summary>
+            日志AutoMapper配置
+            </summary>
+        </member>
         <member name="T:Log.PresentationModel.ExceptionProcessFilter">
             <summary>
             异常拦截器
@@ -25,6 +35,31 @@
             发生异常时
             </summary>
             <param name="context"></param>
+        </member>
+        <member name="T:Log.PresentationModel.Log.Request.QueryLogFilterRequestModel">
+            <summary>
+            日志查询访问模型
+            </summary>
+        </member>
+        <member name="P:Log.PresentationModel.Log.Request.QueryLogFilterRequestModel.Application">
+            <summary>
+            应用程序
+            </summary>
+        </member>
+        <member name="P:Log.PresentationModel.Log.Request.QueryLogFilterRequestModel.Level">
+            <summary>
+            等级
+            </summary>
+        </member>
+        <member name="P:Log.PresentationModel.Log.Request.QueryLogFilterRequestModel.MinTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:Log.PresentationModel.Log.Request.QueryLogFilterRequestModel.MaxTime">
+            <summary>
+            结束时间
+            </summary>
         </member>
     </members>
 </doc>

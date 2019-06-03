@@ -1,22 +1,17 @@
-﻿using Authority.PresentationModel;
-using BaseWebAPI.Model;
+﻿using BaseWebAPI.Model;
 using Common;
 using Log.PresentationModel;
 using Materal.Common;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NLog;
 using NLog.Config;
 using NLog.Web;
 using Swashbuckle.AspNetCore.Swagger;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -87,11 +82,11 @@ namespace BaseWebAPI
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
             #endregion
-            ServiceProvider provider = services.BuildServiceProvider();
+            //ServiceProvider provider = services.BuildServiceProvider();
             //AuthorityFilter.ServiceProvider = provider;
         }
 
-        public static void BaseConfigure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, string appName)
+        public static void BaseConfigure(IApplicationBuilder app, IHostingEnvironment env, string appName)
         {
             if (env.IsDevelopment())
             {
