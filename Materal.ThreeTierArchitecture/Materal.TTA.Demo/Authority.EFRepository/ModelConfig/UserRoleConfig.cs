@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Authority.Domain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Authority.Domain;
+
 namespace Authority.EFRepository.ModelConfig
 {
-    /// <summary>
-    /// 用户角色模型配置
-    /// </summary>
     internal sealed class UserRoleConfig : IEntityTypeConfiguration<UserRole>
     {
         public void Configure(EntityTypeBuilder<UserRole> builder)
@@ -15,6 +13,19 @@ namespace Authority.EFRepository.ModelConfig
                 .IsRequired();
             builder.Property(e => e.UpdateTime)
                 .IsRequired();
+            builder.Property(e => e.RoleID)
+                .IsRequired();
+            builder.Property(e => e.UserID)
+                .IsRequired();
+
+            builder.HasOne(d => d.Role)
+                .WithMany(p => p.UserRoles)
+                .HasForeignKey(d => d.RoleID)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(d => d.User)
+                .WithMany(p => p.UserRoles)
+                .HasForeignKey(d => d.UserID)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

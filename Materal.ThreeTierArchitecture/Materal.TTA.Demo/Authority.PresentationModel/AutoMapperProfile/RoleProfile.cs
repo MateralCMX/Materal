@@ -15,7 +15,6 @@ namespace Authority.PresentationModel.AutoMapperProfile
         {
             CreateMap<AddRoleRequestModel, AddRoleModel>();
             CreateMap<EditRoleRequestModel, EditRoleModel>();
-            CreateMap<QueryRoleFilterRequestModel, QueryRoleFilterModel>();
         }
     }
 }

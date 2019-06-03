@@ -30,23 +30,43 @@ namespace Authority.ServiceImpl
             _mapper = mapper;
             _authorityUnitOfWork = authorityUnitOfWork;
         }
+
         public async Task AddAPIAuthorityAsync(AddAPIAuthorityModel model)
         {
             throw new NotImplementedException();
         }
+
         public async Task EditAPIAuthorityAsync(EditAPIAuthorityModel model)
         {
             throw new NotImplementedException();
         }
+
         public async Task DeleteAPIAuthorityAsync(Guid id)
         {
             throw new NotImplementedException();
         }
+
         public async Task<APIAuthorityDTO> GetAPIAuthorityInfoAsync(Guid id)
         {
             throw new NotImplementedException();
         }
-        public async Task<(List<APIAuthorityListDTO> result, PageModel pageModel)> GetAPIAuthorityListAsync(QueryAPIAuthorityFilterModel filterModel)
+
+        public async Task<List<APIAuthorityTreeDTO>> GetAPIAuthorityTreeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task ExchangeAPIAuthorityParentIDAsync(Guid id, Guid? parentID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> HasAPIAuthorityAsync(Guid userID, params string[] codes)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> HasLoginAuthorityAsync(Guid userID)
         {
             throw new NotImplementedException();
         }

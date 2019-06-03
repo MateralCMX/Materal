@@ -1,10 +1,13 @@
 ﻿using System;
-namespace Authority.Service.Model.WebMenuAuthority
+using System.Collections.Generic;
+using System.Text;
+
+namespace Authority.DataTransmitModel.Role
 {
     /// <summary>
-    /// 网页菜单权限修改模型
+    /// 角色网页菜单权限树数据传输模型
     /// </summary>
-    public class EditWebMenuAuthorityModel
+    public class RoleWebMenuAuthorityTreeDTO
     {
         /// <summary>
         /// 唯一标识
@@ -15,16 +18,20 @@ namespace Authority.Service.Model.WebMenuAuthority
         /// </summary>
         public string Code { get; set; }
         /// <summary>
-        /// 名称
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
         /// 样式
         /// </summary>
         public string Style { get; set; }
         /// <summary>
-        /// 备注
+        /// 名称
         /// </summary>
-        public string Remark { get; set; }
+        public string Name { get; set; }
+        /// <summary>
+        /// 子级
+        /// </summary>
+        public List<RoleWebMenuAuthorityTreeDTO> Child { get; set; }
+        /// <summary>
+        /// 拥有标识
+        /// </summary>
+        public bool Owned { get; set; }
     }
 }

@@ -10,8 +10,6 @@
     <Folder Include="Model\ActionAuthority" />
     <Folder Include="Model\APIAuthority" />
     <Folder Include="Model\Role" />
-    <Folder Include="Model\User" />
     <Folder Include="Model\WebMenuAuthority" />
-    <Folder Include="Model\Incident" />
   </ItemGroup>
 </Project>

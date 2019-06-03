@@ -24,12 +24,12 @@
             API权限数据传输模型
             </summary>
         </member>
-        <member name="T:Authority.DataTransmitModel.APIAuthority.APIAuthorityListDTO">
+        <member name="T:Authority.DataTransmitModel.APIAuthority.APIAuthorityTreeDTO">
             <summary>
             API权限列表数据传输模型
             </summary>
         </member>
-        <member name="P:Authority.DataTransmitModel.APIAuthority.APIAuthorityListDTO.ID">
+        <member name="P:Authority.DataTransmitModel.APIAuthority.APIAuthorityTreeDTO.ID">
             <summary>
             唯一标识
             </summary>
@@ -54,12 +54,12 @@
             角色数据传输模型
             </summary>
         </member>
-        <member name="T:Authority.DataTransmitModel.Role.RoleListDTO">
+        <member name="T:Authority.DataTransmitModel.Role.RoleTreeDTO">
             <summary>
             角色列表数据传输模型
             </summary>
         </member>
-        <member name="P:Authority.DataTransmitModel.Role.RoleListDTO.ID">
+        <member name="P:Authority.DataTransmitModel.Role.RoleTreeDTO.ID">
             <summary>
             唯一标识
             </summary>
@@ -84,12 +84,12 @@
             网页菜单权限数据传输模型
             </summary>
         </member>
-        <member name="T:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityListDTO">
+        <member name="T:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO">
             <summary>
             网页菜单权限列表数据传输模型
             </summary>
         </member>
-        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityListDTO.ID">
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO.ID">
             <summary>
             唯一标识
             </summary>

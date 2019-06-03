@@ -1,9 +1,8 @@
-﻿using System;
+﻿using Authority.DataTransmitModel.WebMenuAuthority;
+using Authority.Service.Model.WebMenuAuthority;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Materal.Common;
-using Authority.DataTransmitModel.WebMenuAuthority;
-using Authority.Service.Model.WebMenuAuthority;
 namespace Authority.Service
 {
     /// <summary>
@@ -40,11 +39,32 @@ namespace Authority.Service
         /// <exception cref="InvalidOperationException"></exception>
         Task<WebMenuAuthorityDTO> GetWebMenuAuthorityInfoAsync(Guid id);
         /// <summary>
-        /// 获得网页菜单权限列表
+        /// 获得网页菜单权限树形
         /// </summary>
-        /// <param name="filterModel">查询模型</param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        Task<(List<WebMenuAuthorityListDTO> result, PageModel pageModel)> GetWebMenuAuthorityListAsync(QueryWebMenuAuthorityFilterModel filterModel);
+        Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync();
+        /// <summary>
+        /// 获得用户拥有的网页菜单权限树形
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityListAsync(Guid userID);
+        /// <summary>
+        /// 调换位序
+        /// </summary>
+        /// <param name="id1"></param>
+        /// <param name="id2"></param>
+        /// <returns></returns>
+        Task ExchangeWebMenuAuthorityIndexAsync(Guid id1, Guid id2);
+        /// <summary>
+        /// 更换父级
+        /// </summary>
+        /// <param name="id">唯一标识</param>
+        /// <param name="parentID">父级唯一标识</param>
+        /// <param name="indexID">位序目标唯一标识</param>
+        /// <param name="forUnder">在位序目标之下</param>
+        /// <returns></returns>
+        Task ExchangeWebMenuAuthorityParentIDAsync(Guid id, Guid? parentID, Guid? indexID, bool forUnder = true);
     }
 }

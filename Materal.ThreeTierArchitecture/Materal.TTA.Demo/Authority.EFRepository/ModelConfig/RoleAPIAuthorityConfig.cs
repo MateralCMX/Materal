@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Authority.Domain;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Authority.Domain;
+
 namespace Authority.EFRepository.ModelConfig
 {
-    /// <summary>
-    /// 角色API权限模型配置
-    /// </summary>
     internal sealed class RoleAPIAuthorityConfig : IEntityTypeConfiguration<RoleAPIAuthority>
     {
         public void Configure(EntityTypeBuilder<RoleAPIAuthority> builder)
@@ -15,6 +13,19 @@ namespace Authority.EFRepository.ModelConfig
                 .IsRequired();
             builder.Property(e => e.UpdateTime)
                 .IsRequired();
+            builder.Property(e => e.RoleID)
+                .IsRequired();
+            builder.Property(e => e.APIAuthorityID)
+                .IsRequired();
+
+            builder.HasOne(d => d.Role)
+                .WithMany(p => p.RoleAPIAuthorities)
+                .HasForeignKey(d => d.RoleID)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(d => d.APIAuthority)
+                .WithMany(p => p.RoleAPIAuthorities)
+                .HasForeignKey(d => d.APIAuthorityID)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

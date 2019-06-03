@@ -10,7 +10,7 @@ namespace Authority.ServiceImpl.AutoMapperProfile
     {
         public APIAuthorityProfile()
         {
-            CreateMap<APIAuthority, APIAuthorityListDTO>();
+            CreateMap<APIAuthority, APIAuthorityTreeDTO>();
             CreateMap<APIAuthority, APIAuthorityDTO>();
         }
     }

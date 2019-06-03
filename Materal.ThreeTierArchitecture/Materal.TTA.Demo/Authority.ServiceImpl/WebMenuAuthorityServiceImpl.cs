@@ -46,7 +46,23 @@ namespace Authority.ServiceImpl
         {
             throw new NotImplementedException();
         }
-        public async Task<(List<WebMenuAuthorityListDTO> result, PageModel pageModel)> GetWebMenuAuthorityListAsync(QueryWebMenuAuthorityFilterModel filterModel)
+
+        public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityListAsync(Guid userID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task ExchangeWebMenuAuthorityIndexAsync(Guid id1, Guid id2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task ExchangeWebMenuAuthorityParentIDAsync(Guid id, Guid? parentID, Guid? indexID, bool forUnder = true)
         {
             throw new NotImplementedException();
         }

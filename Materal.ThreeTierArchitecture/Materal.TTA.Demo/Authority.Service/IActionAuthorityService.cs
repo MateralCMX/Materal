@@ -46,5 +46,12 @@ namespace Authority.Service
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
         Task<(List<ActionAuthorityListDTO> result, PageModel pageModel)> GetActionAuthorityListAsync(QueryActionAuthorityFilterModel filterModel);
+        /// <summary>
+        /// 获得用户拥有的功能权限列表
+        /// </summary>
+        /// <param name="userID">用户唯一标识</param>
+        /// <param name="actionGroupCode">功能组标识</param>
+        /// <returns></returns>
+        Task<List<ActionAuthorityListDTO>> GetUserOwnedActionAuthorityListAsync(Guid userID, string actionGroupCode);
     }
 }

@@ -30,23 +30,33 @@ namespace Authority.ServiceImpl
             _mapper = mapper;
             _authorityUnitOfWork = authorityUnitOfWork;
         }
+
         public async Task AddRoleAsync(AddRoleModel model)
         {
             throw new NotImplementedException();
         }
+
         public async Task EditRoleAsync(EditRoleModel model)
         {
             throw new NotImplementedException();
         }
+
         public async Task DeleteRoleAsync(Guid id)
         {
             throw new NotImplementedException();
         }
+
         public async Task<RoleDTO> GetRoleInfoAsync(Guid id)
         {
             throw new NotImplementedException();
         }
-        public async Task<(List<RoleListDTO> result, PageModel pageModel)> GetRoleListAsync(QueryRoleFilterModel filterModel)
+
+        public async Task<List<RoleTreeDTO>> GetRoleTreeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task ExchangeRoleParentIDAsync(Guid id, Guid? parentID)
         {
             throw new NotImplementedException();
         }

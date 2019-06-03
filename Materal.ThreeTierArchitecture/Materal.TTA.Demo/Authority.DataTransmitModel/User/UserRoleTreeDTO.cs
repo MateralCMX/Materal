@@ -1,10 +1,13 @@
 ﻿using System;
-namespace Authority.Service.Model.APIAuthority
+using System.Collections.Generic;
+using System.Text;
+
+namespace Authority.DataTransmitModel.User
 {
     /// <summary>
-    /// API权限修改模型
+    /// 用户所属角色
     /// </summary>
-    public class EditAPIAuthorityModel
+    public class UserRoleTreeDTO
     {
         /// <summary>
         /// 唯一标识
@@ -19,8 +22,12 @@ namespace Authority.Service.Model.APIAuthority
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// 备注
+        /// 子级
         /// </summary>
-        public string Remark { get; set; }
+        public List<UserRoleTreeDTO> Child { get; set; }
+        /// <summary>
+        /// 拥有标识
+        /// </summary>
+        public bool Owned { get; set; }
     }
 }

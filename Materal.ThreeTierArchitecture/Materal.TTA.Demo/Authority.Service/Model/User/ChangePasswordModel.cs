@@ -1,22 +1,23 @@
 ﻿using System;
-namespace Authority.Service.Model.Role
+
+namespace Authority.Service.Model.User
 {
     /// <summary>
-    /// 角色修改模型
+    /// 更改密码模型
     /// </summary>
-    public class EditRoleModel
+    public sealed class ChangePasswordModel
     {
         /// <summary>
         /// 唯一标识
         /// </summary>
         public Guid ID { get; set; }
         /// <summary>
-        /// 名称
+        /// 旧密码
         /// </summary>
-        public string Name { get; set; }
+        public string OldPassword { get; set; }
         /// <summary>
-        /// 代码
+        /// 新密码
         /// </summary>
-        public string Code { get; set; }
+        public string NewPassword { get; set; }
     }
 }

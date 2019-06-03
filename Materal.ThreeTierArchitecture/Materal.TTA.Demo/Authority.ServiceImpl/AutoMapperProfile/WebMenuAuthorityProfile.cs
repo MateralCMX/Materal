@@ -10,7 +10,7 @@ namespace Authority.ServiceImpl.AutoMapperProfile
     {
         public WebMenuAuthorityProfile()
         {
-            CreateMap<WebMenuAuthority, WebMenuAuthorityListDTO>();
+            CreateMap<WebMenuAuthority, WebMenuAuthorityTreeDTO>();
             CreateMap<WebMenuAuthority, WebMenuAuthorityDTO>();
         }
     }

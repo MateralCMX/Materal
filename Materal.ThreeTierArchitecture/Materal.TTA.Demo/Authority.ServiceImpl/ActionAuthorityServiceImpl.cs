@@ -50,5 +50,10 @@ namespace Authority.ServiceImpl
         {
             throw new NotImplementedException();
         }
+
+        public async Task<List<ActionAuthorityListDTO>> GetUserOwnedActionAuthorityListAsync(Guid userID, string actionGroupCode)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

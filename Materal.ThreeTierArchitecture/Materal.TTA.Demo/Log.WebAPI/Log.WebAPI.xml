@@ -13,7 +13,6 @@
             <summary>
             构造方法
             </summary>
-            <param name="logService"></param>
         </member>
         <member name="M:Log.WebAPI.Controllers.LogController.GetLogInfo(System.Int32)">
             <summary>

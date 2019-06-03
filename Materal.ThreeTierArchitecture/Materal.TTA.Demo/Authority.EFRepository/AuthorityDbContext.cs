@@ -33,10 +33,6 @@ namespace Authority.EFRepository
         /// </summary>
         public DbSet<WebMenuAuthority> WebMenuAuthority { get; set; }
         /// <summary>
-        /// 事件
-        /// </summary>
-        public DbSet<Incident> Incident { get; set; }
-        /// <summary>
         /// 角色功能权限
         /// </summary>
         public DbSet<RoleActionAuthority> RoleActionAuthority { get; set; }

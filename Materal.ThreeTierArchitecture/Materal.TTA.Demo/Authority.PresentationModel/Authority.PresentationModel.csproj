@@ -2,10 +2,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup  Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <DocumentationFile>Authority.DataTransmitModel.xml</DocumentationFile>
   </PropertyGroup>
-  <PropertyGroup  Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DocumentationFile>Authority.DataTransmitModel.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
@@ -23,8 +23,6 @@
     <Folder Include="ActionAuthority\Request" />
     <Folder Include="APIAuthority\Request" />
     <Folder Include="Role\Request" />
-    <Folder Include="User\Request" />
     <Folder Include="WebMenuAuthority\Request" />
-    <Folder Include="Incident\Request" />
   </ItemGroup>
 </Project>

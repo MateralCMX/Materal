@@ -10,7 +10,7 @@ namespace Authority.ServiceImpl.AutoMapperProfile
     {
         public RoleProfile()
         {
-            CreateMap<Role, RoleListDTO>();
+            CreateMap<Role, RoleTreeDTO>();
             CreateMap<Role, RoleDTO>();
         }
     }

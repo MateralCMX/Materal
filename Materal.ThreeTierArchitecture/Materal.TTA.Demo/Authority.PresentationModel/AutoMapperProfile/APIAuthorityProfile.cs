@@ -15,7 +15,6 @@ namespace Authority.PresentationModel.AutoMapperProfile
         {
             CreateMap<AddAPIAuthorityRequestModel, AddAPIAuthorityModel>();
             CreateMap<EditAPIAuthorityRequestModel, EditAPIAuthorityModel>();
-            CreateMap<QueryAPIAuthorityFilterRequestModel, QueryAPIAuthorityFilterModel>();
         }
     }
 }

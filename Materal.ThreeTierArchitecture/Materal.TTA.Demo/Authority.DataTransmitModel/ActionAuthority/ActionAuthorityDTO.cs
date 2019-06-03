@@ -6,5 +6,9 @@ namespace Authority.DataTransmitModel.ActionAuthority
     /// </summary>
     public class ActionAuthorityDTO : ActionAuthorityListDTO
     {
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
     }
 }

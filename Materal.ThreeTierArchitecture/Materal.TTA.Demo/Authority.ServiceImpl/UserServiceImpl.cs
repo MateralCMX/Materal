@@ -30,23 +30,58 @@ namespace Authority.ServiceImpl
             _mapper = mapper;
             _authorityUnitOfWork = authorityUnitOfWork;
         }
+
         public async Task AddUserAsync(AddUserModel model)
         {
             throw new NotImplementedException();
         }
+
         public async Task EditUserAsync(EditUserModel model)
         {
             throw new NotImplementedException();
         }
+
         public async Task DeleteUserAsync(Guid id)
         {
             throw new NotImplementedException();
         }
+
         public async Task<UserDTO> GetUserInfoAsync(Guid id)
         {
             throw new NotImplementedException();
         }
+
+        public async Task<UserDTO> GetUserInfoAsync(string token)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Guid GetUserID(string token)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<(List<UserListDTO> result, PageModel pageModel)> GetUserListAsync(QueryUserFilterModel filterModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task ExchangePasswordAsync(ChangePasswordModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<string> ResetPasswordAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<UserListDTO> LoginAsync(string account, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetEncodePassword(string password)
         {
             throw new NotImplementedException();
         }

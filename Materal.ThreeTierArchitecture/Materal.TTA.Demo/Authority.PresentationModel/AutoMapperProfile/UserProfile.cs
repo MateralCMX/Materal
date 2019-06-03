@@ -16,6 +16,7 @@ namespace Authority.PresentationModel.AutoMapperProfile
             CreateMap<AddUserRequestModel, AddUserModel>();
             CreateMap<EditUserRequestModel, EditUserModel>();
             CreateMap<QueryUserFilterRequestModel, QueryUserFilterModel>();
+            CreateMap<ChangePasswordRequestModel, ChangePasswordModel>();
         }
     }
 }

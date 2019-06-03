@@ -40,11 +40,17 @@ namespace Authority.Service
         /// <exception cref="InvalidOperationException"></exception>
         Task<RoleDTO> GetRoleInfoAsync(Guid id);
         /// <summary>
-        /// 获得角色列表
+        /// 获得角色树形
         /// </summary>
-        /// <param name="filterModel">查询模型</param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        Task<(List<RoleListDTO> result, PageModel pageModel)> GetRoleListAsync(QueryRoleFilterModel filterModel);
+        Task<List<RoleTreeDTO>> GetRoleTreeAsync();
+        /// <summary>
+        /// 更换父级
+        /// </summary>
+        /// <param name="id">唯一标识</param>
+        /// <param name="parentID">父级唯一标识</param>
+        /// <returns></returns>
+        Task ExchangeRoleParentIDAsync(Guid id, Guid? parentID);
     }
 }

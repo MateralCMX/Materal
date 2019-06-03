@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using Authority.PresentationModel.WebMenuAuthority.Request;
+﻿using Authority.PresentationModel.WebMenuAuthority.Request;
 using Authority.Service.Model.WebMenuAuthority;
+using AutoMapper;
 namespace Authority.PresentationModel.AutoMapperProfile
 {
     /// <summary>
@@ -15,7 +15,6 @@ namespace Authority.PresentationModel.AutoMapperProfile
         {
             CreateMap<AddWebMenuAuthorityRequestModel, AddWebMenuAuthorityModel>();
             CreateMap<EditWebMenuAuthorityRequestModel, EditWebMenuAuthorityModel>();
-            CreateMap<QueryWebMenuAuthorityFilterRequestModel, QueryWebMenuAuthorityFilterModel>();
         }
     }
 }

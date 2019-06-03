@@ -10,9 +10,11 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+// ReSharper disable All
 
 namespace Common
 {
+#pragma warning disable IDE1006 // 命名样式
     /// <summary>
     /// JWT帮助类
     /// </summary>
@@ -26,24 +28,23 @@ namespace Common
         /// <returns></returns>
         public static IDictionary<string, object> DecodeJWT(string token, string key)
         {
-            //var webClient = new WebClient();
-            //string endpoint = ApplicationConfig.IdentityServer.DocumentUrl;
-            //string json = webClient.DownloadString(endpoint);
-            //var metadata = JsonConvert.DeserializeObject<JObject>(json);
-            //string hawksUri = metadata["jwks_uri"].ToString();
-            //json = webClient.DownloadString(hawksUri);
-            //var keys = JsonConvert.DeserializeObject<JWKModel>(json);
-            //var tokenParts = token.Split('.');
-            //var bytes = FromBase64Url(tokenParts[0]);
-            //string head = Encoding.UTF8.GetString(bytes);
-            //string kid = JsonConvert.DeserializeObject<JObject>(head)["kid"].ToString();
-            //var jwkItem = keys.keys.FirstOrDefault(t => t.kid == kid);
-            //if (jwkItem == null)
-            //{
-            //    throw new InvalidOperationException("未找到匹配的kid");
-            //}
-            //return DecodeRs256(token, key, jwkItem.e, jwkItem.n);
-            throw new NotImplementedException();
+            var webClient = new WebClient();
+            string endpoint = ApplicationConfig.IdentityServer.DocumentUrl;
+            string json = webClient.DownloadString(endpoint);
+            var metadata = JsonConvert.DeserializeObject<JObject>(json);
+            string hawksUri = metadata["jwks_uri"].ToString();
+            json = webClient.DownloadString(hawksUri);
+            var keys = JsonConvert.DeserializeObject<JWKModel>(json);
+            var tokenParts = token.Split('.');
+            var bytes = FromBase64Url(tokenParts[0]);
+            string head = Encoding.UTF8.GetString(bytes);
+            string kid = JsonConvert.DeserializeObject<JObject>(head)["kid"].ToString();
+            var jwkItem = keys.keys.FirstOrDefault(t => t.kid == kid);
+            if (jwkItem == null)
+            {
+                throw new InvalidOperationException("未找到匹配的kid");
+            }
+            return DecodeRs256(token, key, jwkItem.e, jwkItem.n);
         }
         /// <summary>
         /// 解密RS256
@@ -139,4 +140,5 @@ namespace Common
         /// </summary>
         public string alg { get; set; }
     }
+#pragma warning restore IDE1006 // 命名样式
 }

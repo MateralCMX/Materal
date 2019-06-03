@@ -6,5 +6,17 @@ namespace Authority.Service.Model.Role
     /// </summary>
     public class AddRoleModel
     {
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 父级ID
+        /// </summary>
+        public Guid? ParentID { get; set; }
+        /// <summary>
+        /// 代码
+        /// </summary>
+        public string Code { get; set; }
     }
 }

@@ -14,10 +14,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ActionAuthority" />
-    <Folder Include="APIAuthority" />
-    <Folder Include="Role" />
-    <Folder Include="User" />
-    <Folder Include="WebMenuAuthority" />
-    <Folder Include="Incident" />
   </ItemGroup>
 </Project>

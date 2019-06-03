@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+
 namespace Authority.DataTransmitModel.User
 {
     /// <summary>
@@ -6,5 +7,9 @@ namespace Authority.DataTransmitModel.User
     /// </summary>
     public class UserDTO : UserListDTO
     {
+        /// <summary>
+        /// 用户子系统角色对象
+        /// </summary>
+        public ICollection<UserRoleTreeDTO> UserRoleTreeList { get; set; }
     }
 }
