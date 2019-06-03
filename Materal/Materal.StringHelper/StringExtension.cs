@@ -11,6 +11,26 @@ namespace Materal.StringHelper
     public static class StringExtension
     {
         /// <summary>
+        /// 首字母小写
+        /// </summary>
+        /// <param name="inputString"></param>
+        /// <returns></returns>
+        public static string FirstLower(this string inputString)
+        {
+            if (string.IsNullOrWhiteSpace(inputString)) return inputString;
+            return inputString[0].ToString().ToLower() + inputString.Substring(1);
+        }
+        /// <summary>
+        /// 首字母大写
+        /// </summary>
+        /// <param name="inputString"></param>
+        /// <returns></returns>
+        public static string FirstUpper(this string inputString)
+        {
+            if (string.IsNullOrWhiteSpace(inputString)) return inputString;
+            return inputString[0].ToString().ToUpper() + inputString.Substring(1);
+        }
+        /// <summary>
         /// 验证字符串
         /// </summary>
         /// <param name="obj">要验证的字符串</param>
