@@ -3,10 +3,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <DocumentationFile>Authority.DataTransmitModel.xml</DocumentationFile>
+    <DocumentationFile>Authority.PresentationModel.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DocumentationFile>Authority.DataTransmitModel.xml</DocumentationFile>
+    <DocumentationFile>Authority.PresentationModel.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.0" />

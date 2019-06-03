@@ -1,19 +1,18 @@
-﻿using AutoMapper;
+﻿using Authority.DataTransmitModel.ActionAuthority;
+using Authority.Domain;
+using Authority.Domain.Repositories;
+using Authority.EFRepository;
+using Authority.Service;
+using Authority.Service.Model.ActionAuthority;
+using AutoMapper;
 using Materal.Common;
 using Materal.ConvertHelper;
 using Materal.LinqHelper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Authority.DataTransmitModel.ActionAuthority;
-using Authority.Domain;
-using Authority.Domain.Repositories;
-using Authority.EFRepository;
-using Authority.Service;
-using Authority.Service.Model.ActionAuthority;
 namespace Authority.ServiceImpl
 {
     /// <summary>
@@ -32,23 +31,56 @@ namespace Authority.ServiceImpl
         }
         public async Task AddActionAuthorityAsync(AddActionAuthorityModel model)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(model.ActionGroupCode)) throw new InvalidOperationException("功能组标识不能为空");
+            if (string.IsNullOrEmpty(model.Code)) throw new InvalidOperationException("代码不能为空");
+            if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称不能为空");
+            if (await _actionAuthorityRepository.CountAsync(m => m.Code == model.Code && m.ActionGroupCode == model.ActionGroupCode) > 0) throw new InvalidOperationException("同一个功能组下只允许存在一个唯一的代码");
+            var actionAuthority = model.CopyProperties<ActionAuthority>();
+            _authorityUnitOfWork.RegisterAdd(actionAuthority);
+            await _authorityUnitOfWork.CommitAsync();
         }
         public async Task EditActionAuthorityAsync(EditActionAuthorityModel model)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(model.ActionGroupCode)) throw new InvalidOperationException("功能组标识不能为空");
+            if (string.IsNullOrEmpty(model.Code)) throw new InvalidOperationException("代码不能为空");
+            if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称不能为空");
+            if (await _actionAuthorityRepository.CountAsync(m => m.ID != model.ID && m.Code == model.Code && m.ActionGroupCode == model.ActionGroupCode) > 0) throw new InvalidOperationException("同一个功能组下只允许存在一个唯一的代码");
+            ActionAuthority actionAuthorityFromDB = await _actionAuthorityRepository.FirstOrDefaultAsync(model.ID);
+            if (actionAuthorityFromDB == null) throw new InvalidOperationException("该功能权限不存在");
+            model.CopyProperties(actionAuthorityFromDB);
+            _authorityUnitOfWork.RegisterEdit(actionAuthorityFromDB);
+            await _authorityUnitOfWork.CommitAsync();
         }
         public async Task DeleteActionAuthorityAsync(Guid id)
         {
-            throw new NotImplementedException();
+            ActionAuthority actionAuthorityFromDB = await _actionAuthorityRepository.FirstOrDefaultAsync(id);
+            if (actionAuthorityFromDB == null) throw new InvalidOperationException("该功能权限不存在");
+            _authorityUnitOfWork.RegisterDelete(actionAuthorityFromDB);
+            await _authorityUnitOfWork.CommitAsync();
         }
         public async Task<ActionAuthorityDTO> GetActionAuthorityInfoAsync(Guid id)
         {
-            throw new NotImplementedException();
+            ActionAuthority actionAuthorityFromDB = await _actionAuthorityRepository.FirstOrDefaultAsync(id);
+            if (actionAuthorityFromDB == null) throw new InvalidOperationException("该功能权限不存在");
+            return _mapper.Map<ActionAuthorityDTO>(actionAuthorityFromDB);
         }
         public async Task<(List<ActionAuthorityListDTO> result, PageModel pageModel)> GetActionAuthorityListAsync(QueryActionAuthorityFilterModel filterModel)
         {
-            throw new NotImplementedException();
+            Expression<Func<ActionAuthority, bool>> expression = m => true;
+            if (!string.IsNullOrEmpty(filterModel.ActionGroupCode))
+            {
+                expression = expression.And(m => m.ActionGroupCode == filterModel.ActionGroupCode);
+            }
+            if (!string.IsNullOrEmpty(filterModel.Code))
+            {
+                expression = expression.And(m => m.Code == filterModel.Code);
+            }
+            if (!string.IsNullOrEmpty(filterModel.Name))
+            {
+                expression = expression.And(m => EF.Functions.Like(m.Name, $"%{filterModel.Name}%"));
+            }
+            (List<ActionAuthority> actionAuthoritiesFromDB, PageModel pageModel) = await _actionAuthorityRepository.PagingAsync(expression, filterModel);
+            return (_mapper.Map<List<ActionAuthorityListDTO>>(actionAuthoritiesFromDB), pageModel);
         }
 
         public async Task<List<ActionAuthorityListDTO>> GetUserOwnedActionAuthorityListAsync(Guid userID, string actionGroupCode)
