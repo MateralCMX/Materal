@@ -63,7 +63,7 @@ namespace Authority.Service
         /// </summary>
         /// <param name="model">更改密码模型</param>
         /// <returns></returns>
-        Task ExchangePasswordAsync(ChangePasswordModel model);
+        Task ExchangePasswordAsync(ExchangePasswordModel model);
         /// <summary>
         /// 重置密码
         /// </summary>

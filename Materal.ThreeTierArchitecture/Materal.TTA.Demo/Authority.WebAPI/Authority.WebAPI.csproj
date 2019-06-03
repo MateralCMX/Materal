@@ -32,8 +32,4 @@
     <ProjectReference Include="..\Model\Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

@@ -1,4 +1,5 @@
-﻿using BaseWebAPI.Model;
+﻿using System;
+using BaseWebAPI.Model;
 using Common;
 using Log.PresentationModel;
 using Materal.Common;
@@ -14,6 +15,9 @@ using NLog.Web;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
 using System.Linq;
+using Authority.PresentationModel;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace BaseWebAPI
 {
@@ -25,8 +29,8 @@ namespace BaseWebAPI
             services
                 .AddMvc(options =>
                 {
-                    //AuthorizationPolicy policy = ScopePolicy.Create(ApplicationConfig.IdentityServer.Scope);
-                    //options.Filters.Add(new AuthorizeFilter(policy));
+                    AuthorizationPolicy policy = ScopePolicy.Create(ApplicationConfig.IdentityServer.Scope);
+                    options.Filters.Add(new AuthorizeFilter(policy));
                     options.Filters.Add(typeof(ExceptionProcessFilter));
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -37,16 +41,16 @@ namespace BaseWebAPI
                 });
             #endregion
             #region 配置Authentication
-            //services.AddAuthentication("Bearer")
-            //    .AddIdentityServerAuthentication(options =>
-            //    {
-            //        options.Authority = ApplicationConfig.IdentityServer.Url;
-            //        options.RequireHttpsMetadata = false;
-            //        options.ApiName = ApplicationConfig.IdentityServer.Scope;
-            //        options.ApiSecret = ApplicationConfig.IdentityServer.Secret;
-            //        options.EnableCaching = true;
-            //        options.CacheDuration = TimeSpan.FromMinutes(10);
-            //    });
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = ApplicationConfig.IdentityServer.Url;
+                    options.RequireHttpsMetadata = false;
+                    options.ApiName = ApplicationConfig.IdentityServer.Scope;
+                    options.ApiSecret = ApplicationConfig.IdentityServer.Secret;
+                    options.EnableCaching = true;
+                    options.CacheDuration = TimeSpan.FromMinutes(10);
+                });
             #endregion
             #region 帮助文档
             /*Swashbuckle.AspNetCore*/
@@ -82,8 +86,8 @@ namespace BaseWebAPI
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
             #endregion
-            //ServiceProvider provider = services.BuildServiceProvider();
-            //AuthorityFilter.ServiceProvider = provider;
+            ServiceProvider provider = services.BuildServiceProvider();
+            AuthorityFilter.ServiceProvider = provider;
         }
 
         public static void BaseConfigure(IApplicationBuilder app, IHostingEnvironment env, string appName)

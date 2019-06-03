@@ -66,7 +66,7 @@ namespace Authority.ServiceImpl
             throw new NotImplementedException();
         }
 
-        public async Task ExchangePasswordAsync(ChangePasswordModel model)
+        public async Task ExchangePasswordAsync(ExchangePasswordModel model)
         {
             throw new NotImplementedException();
         }

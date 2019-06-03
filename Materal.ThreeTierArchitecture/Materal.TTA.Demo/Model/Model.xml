@@ -4,44 +4,44 @@
         <name>Model</name>
     </assembly>
     <members>
-        <member name="T:Model.ChangeParentIDNotIndexIDRequestModel`1">
+        <member name="T:Model.ExchangeParentIDNotIndexIDRequestModel`1">
             <summary>
             更改父级请求模型
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:Model.ChangeParentIDNotIndexIDRequestModel`1.ID">
+        <member name="P:Model.ExchangeParentIDNotIndexIDRequestModel`1.ID">
             <summary>
             唯一标识
             </summary>
         </member>
-        <member name="P:Model.ChangeParentIDNotIndexIDRequestModel`1.ParentID">
+        <member name="P:Model.ExchangeParentIDNotIndexIDRequestModel`1.ParentID">
             <summary>
             父级唯一标识
             </summary>
         </member>
-        <member name="T:Model.ChangeParentIDRequestModel`1">
+        <member name="T:Model.ExchangeParentIDRequestModel`1">
             <summary>
             更改父级请求模型
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:Model.ChangeParentIDRequestModel`1.ID">
+        <member name="P:Model.ExchangeParentIDRequestModel`1.ID">
             <summary>
             唯一标识
             </summary>
         </member>
-        <member name="P:Model.ChangeParentIDRequestModel`1.ParentID">
+        <member name="P:Model.ExchangeParentIDRequestModel`1.ParentID">
             <summary>
             父级唯一标识
             </summary>
         </member>
-        <member name="P:Model.ChangeParentIDRequestModel`1.IndexID">
+        <member name="P:Model.ExchangeParentIDRequestModel`1.IndexID">
             <summary>
             位序唯一标识
             </summary>
         </member>
-        <member name="P:Model.ChangeParentIDRequestModel`1.ForUnder">
+        <member name="P:Model.ExchangeParentIDRequestModel`1.ForUnder">
             <summary>
             位置
             </summary>

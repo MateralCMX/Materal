@@ -52,7 +52,7 @@ namespace Authority.ServiceImpl
             throw new NotImplementedException();
         }
 
-        public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityListAsync(Guid userID)
+        public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync(Guid userID)
         {
             throw new NotImplementedException();
         }

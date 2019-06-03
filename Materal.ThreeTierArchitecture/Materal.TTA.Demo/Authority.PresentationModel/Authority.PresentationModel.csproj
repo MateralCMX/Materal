@@ -20,9 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AutoMapperProfile" />
-    <Folder Include="ActionAuthority\Request" />
     <Folder Include="APIAuthority\Request" />
     <Folder Include="Role\Request" />
-    <Folder Include="WebMenuAuthority\Request" />
   </ItemGroup>
 </Project>

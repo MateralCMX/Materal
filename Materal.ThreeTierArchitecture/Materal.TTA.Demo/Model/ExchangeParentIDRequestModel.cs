@@ -6,7 +6,7 @@ namespace Model
     /// 更改父级请求模型
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ChangeParentIDNotIndexIDRequestModel<T> where T:struct
+    public class ExchangeParentIDRequestModel<T> where T:struct
     {
         /// <summary>
         /// 唯一标识
@@ -17,5 +17,13 @@ namespace Model
         /// 父级唯一标识
         /// </summary>
         public T? ParentID { get; set; }
+        /// <summary>
+        /// 位序唯一标识
+        /// </summary>
+        public T? IndexID { get; set; }
+        /// <summary>
+        /// 位置
+        /// </summary>
+        public bool ForUnder { get; set; } = true;
     }
 }

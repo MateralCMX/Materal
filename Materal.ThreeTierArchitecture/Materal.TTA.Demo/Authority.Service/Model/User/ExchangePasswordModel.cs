@@ -5,7 +5,7 @@ namespace Authority.Service.Model.User
     /// <summary>
     /// 更改密码模型
     /// </summary>
-    public sealed class ChangePasswordModel
+    public sealed class ExchangePasswordModel
     {
         /// <summary>
         /// 唯一标识

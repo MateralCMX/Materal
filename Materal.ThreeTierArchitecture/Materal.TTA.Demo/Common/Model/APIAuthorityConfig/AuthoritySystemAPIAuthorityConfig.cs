@@ -1,9 +1,9 @@
 ﻿namespace Common.Model.APIAuthorityConfig
 {
     /// <summary>
-    /// 用户子系统API权限配置
+    /// 权限子系统API权限配置
     /// </summary>
-    public class UserSystemAPIAuthorityConfig
+    public class AuthoritySystemAPIAuthorityConfig
     {
         #region Base
         /// <summary>

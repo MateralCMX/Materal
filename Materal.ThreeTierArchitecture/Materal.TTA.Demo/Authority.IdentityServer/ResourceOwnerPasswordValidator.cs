@@ -20,22 +20,22 @@ namespace Authority.IdentityServer
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            //try
-            //{
-            //    UserListDTO userFromDb = await _userService.LoginAsync(context.UserName, context.Password);
-            //    if (await _apiAuthorityService.HasLoginAuthorityAsync(userFromDb.ID))
-            //    {
-            //        context.Result = new GrantValidationResult(userFromDb.ID.ToString(), "custom");
-            //    }
-            //    else
-            //    {
-            //        context.Result = new GrantValidationResult(TokenRequestErrors.UnauthorizedClient, "权限不足");
-            //    }
-            //}
-            //catch (InvalidOperationException ex)
-            //{
-            //    context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, ex.Message);
-            //}
+            try
+            {
+                UserListDTO userFromDb = await _userService.LoginAsync(context.UserName, context.Password);
+                if (await _apiAuthorityService.HasLoginAuthorityAsync(userFromDb.ID))
+                {
+                    context.Result = new GrantValidationResult(userFromDb.ID.ToString(), "custom");
+                }
+                else
+                {
+                    context.Result = new GrantValidationResult(TokenRequestErrors.UnauthorizedClient, "权限不足");
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, ex.Message);
+            }
         }
     }
 }

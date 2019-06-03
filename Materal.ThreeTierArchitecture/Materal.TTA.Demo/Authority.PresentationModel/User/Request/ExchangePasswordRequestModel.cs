@@ -5,7 +5,7 @@ namespace Authority.PresentationModel.User.Request
     /// <summary>
     /// 更改密码请求模型
     /// </summary>
-    public class ChangePasswordRequestModel
+    public class ExchangePasswordRequestModel
     {
         /// <summary>
         /// Token
