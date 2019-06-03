@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Log.WebAPI</name>
+    </assembly>
+    <members>
+        <member name="T:Log.WebAPI.LogWebAPIDIExtension">
+            <summary>
+            WebAPI依赖注入扩展
+            </summary>
+        </member>
+        <member name="M:Log.WebAPI.LogWebAPIDIExtension.AddLogWebAPIServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加WebAPI服务
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:Log.WebAPI.Program">
+            <summary>
+            主程序
+            </summary>
+        </member>
+        <member name="M:Log.WebAPI.Program.Main(System.String[])">
+            <summary>
+            主入口
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Log.WebAPI.Program.CreateWebHostBuilder(System.String[])">
+            <summary>
+            创建器
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Log.WebAPI.Startup">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="F:Log.WebAPI.Startup.AppName">
+            <summary>
+            应用程序名称
+            </summary>
+        </member>
+        <member name="M:Log.WebAPI.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:Log.WebAPI.Startup.Configuration">
+            <summary>
+            配置对象
+            </summary>
+        </member>
+        <member name="M:Log.WebAPI.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            配置服务
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Log.WebAPI.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,Microsoft.Extensions.Logging.ILoggerFactory)">
+            <summary>
+            配置
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+            <param name="loggerFactory"></param>
+        </member>
+    </members>
+</doc>

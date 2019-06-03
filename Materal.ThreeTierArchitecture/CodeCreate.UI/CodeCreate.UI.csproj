@@ -54,8 +54,8 @@
     <Reference Include="Materal.ConvertHelper, Version=0.0.35.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.ConvertHelper.0.0.35\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.FileHelper, Version=0.0.35.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.FileHelper.0.0.35\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
+    <Reference Include="Materal.FileHelper, Version=0.0.36.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.FileHelper.0.0.36\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
     </Reference>
     <Reference Include="Materal.StringHelper, Version=0.0.35.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.StringHelper.0.0.35\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>

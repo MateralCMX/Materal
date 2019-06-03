@@ -11,12 +11,8 @@
       "DomainName": "API权限"
     },
     {
-      "Name": "Department",
-      "DomainName": "部门"
-    },
-    {
-      "Name": "Job",
-      "DomainName": "职务"
+      "Name": "Role",
+      "DomainName": "角色"
     },
     {
       "Name": "User",
@@ -27,30 +23,50 @@
       "DomainName": "网页菜单权限"
     },
     {
-      "Name": "JobActionAuthority",
-      "DomainName": "职务功能权限",
+      "Name": "Incident",
+      "DomainName": "事件"
+    },
+    {
+      "Name": "RoleActionAuthority",
+      "DomainName": "角色功能权限",
       "HasService": false
     },
     {
-      "Name": "JobActionAuthority",
-      "DomainName": "职务功能权限",
+      "Name": "RoleAPIAuthority",
+      "DomainName": "角色API权限",
       "HasService": false
     },
     {
-      "Name": "JobAPIAuthority",
-      "DomainName": "职务API权限",
+      "Name": "RoleWebMenuAuthority",
+      "DomainName": "角色网页菜单权限",
       "HasService": false
     },
     {
-      "Name": "JobWebMenuAuthority",
-      "DomainName": "职务网页菜单权限",
+      "Name": "UserRole",
+      "DomainName": "用户角色",
       "HasService": false
     }
   ],
   "Views": [
     {
-      "Name": "UserHasAPIAuthorityCode",
-      "ViewName": "用户拥有API权限代码"
+      "Name": "UserOwnedAPIAuthority",
+      "ViewName": "用户拥有的API权限"
+    },
+    {
+      "Name": "UserOwnedActionAuthority",
+      "ViewName": "用户拥有的功能权限"
+    },
+    {
+      "Name": "UserOwnedWebMenuAuthority",
+      "ViewName": "用户拥有的网页菜单权限"
     }
-  ]
+  ],
+  "NugetPackVersion": {
+    "AutoMapper": "8.1.0",
+    "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
+    "System.ComponentModel.Annotations": "4.5.0",
+    "Microsoft.EntityFrameworkCore.SqlServer": "2.2.4",
+    "Materal": "0.0.36",
+    "Materal.TTA": "0.0.8"
+  }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Log.PresentationModel</name>
+    </assembly>
+    <members>
+        <member name="T:Log.PresentationModel.ExceptionProcessFilter">
+            <summary>
+            异常拦截器
+            </summary>
+        </member>
+        <member name="F:Log.PresentationModel.ExceptionProcessFilter._logger">
+            <summary>
+            日志对象
+            </summary>
+        </member>
+        <member name="M:Log.PresentationModel.ExceptionProcessFilter.#ctor(Microsoft.Extensions.Logging.ILogger{Log.PresentationModel.ExceptionProcessFilter})">
+            <summary>
+            构造方法
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Log.PresentationModel.ExceptionProcessFilter.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+            发生异常时
+            </summary>
+            <param name="context"></param>
+        </member>
+    </members>
+</doc>

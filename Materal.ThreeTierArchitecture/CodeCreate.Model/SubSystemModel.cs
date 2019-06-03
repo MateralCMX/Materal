@@ -25,6 +25,10 @@ namespace CodeCreate.Model
         /// </summary>
         public List<ViewModel> Views { get; set; }
         /// <summary>
+        /// Nuget包版本
+        /// </summary>
+        public Dictionary<string,string> NugetPackVersion { get; set; }
+        /// <summary>
         /// 创建Common文件
         /// </summary>
         /// <param name="targetPath">目标路径</param>
@@ -78,7 +82,7 @@ namespace CodeCreate.Model
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "Materal.TTA.Common",
-                            Version="0.0.7"
+                            Version = NugetPackVersion["Materal.TTA"]
                         }
                     }
                 }
@@ -126,13 +130,13 @@ namespace CodeCreate.Model
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "Materal.TTA.SqlServerRepository",
-                            Version="0.0.7"
+                            Version = NugetPackVersion["Materal.TTA"]
                         },
                         new ItemGroupModel
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "Microsoft.EntityFrameworkCore.SqlServer",
-                            Version="2.2.3"
+                            Version = NugetPackVersion["Microsoft.EntityFrameworkCore.SqlServer"]
                         }
                     },
                     new[]
@@ -289,25 +293,25 @@ namespace CodeCreate.Model
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "AutoMapper",
-                            Version = "8.1.0"
+                            Version = NugetPackVersion["AutoMapper"]
                         },
                         new ItemGroupModel
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "Materal.CacheHelper",
-                            Version = "0.0.34"
+                            Version = NugetPackVersion["Materal"]
                         },
                         new ItemGroupModel
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "Materal.ConvertHelper",
-                            Version = "0.0.34"
+                            Version = NugetPackVersion["Materal"]
                         },
                         new ItemGroupModel
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "Materal.LinqHelper",
-                            Version = "0.0.34"
+                            Version = NugetPackVersion["Materal"]
                         }
                     },
                     new[]
@@ -391,25 +395,25 @@ namespace CodeCreate.Model
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "AutoMapper",
-                            Version = "8.1.0"
+                            Version = NugetPackVersion["AutoMapper"]
                         },
                         new ItemGroupModel
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "Materal.Common",
-                            Version = "0.0.34"
+                            Version = NugetPackVersion["Materal"]
                         },
                         new ItemGroupModel
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "Microsoft.AspNetCore.Mvc.Core",
-                            Version = "2.2.5"
+                            Version = NugetPackVersion["Microsoft.AspNetCore.Mvc.Core"]
                         },
                         new ItemGroupModel
                         {
                             Type = ItemGroupType.PackageReference,
                             Value = "System.ComponentModel.Annotations",
-                            Version = "4.5.0"
+                            Version = NugetPackVersion["System.ComponentModel.Annotations"]
                         }
                     },
                     new[]
