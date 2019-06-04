@@ -28,5 +28,9 @@ namespace Authority.Service.Model.User
         /// 邮箱
         /// </summary>
         public string Email { get; set; }
+        /// <summary>
+        /// 角色ID组
+        /// </summary>
+        public Guid[] RoleIDs { get; set; }
     }
 }

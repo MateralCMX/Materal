@@ -31,9 +31,9 @@ namespace Authority.ServiceImpl
         }
         public async Task AddActionAuthorityAsync(AddActionAuthorityModel model)
         {
-            if (string.IsNullOrEmpty(model.ActionGroupCode)) throw new InvalidOperationException("功能组标识不能为空");
-            if (string.IsNullOrEmpty(model.Code)) throw new InvalidOperationException("代码不能为空");
-            if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称不能为空");
+            if (string.IsNullOrEmpty(model.ActionGroupCode)) throw new InvalidOperationException("功能组标识为空");
+            if (string.IsNullOrEmpty(model.Code)) throw new InvalidOperationException("代码为空");
+            if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称为空");
             if (await _actionAuthorityRepository.CountAsync(m => m.Code == model.Code && m.ActionGroupCode == model.ActionGroupCode) > 0) throw new InvalidOperationException("同一个功能组下只允许存在一个唯一的代码");
             var actionAuthority = model.CopyProperties<ActionAuthority>();
             _authorityUnitOfWork.RegisterAdd(actionAuthority);
@@ -41,12 +41,12 @@ namespace Authority.ServiceImpl
         }
         public async Task EditActionAuthorityAsync(EditActionAuthorityModel model)
         {
-            if (string.IsNullOrEmpty(model.ActionGroupCode)) throw new InvalidOperationException("功能组标识不能为空");
-            if (string.IsNullOrEmpty(model.Code)) throw new InvalidOperationException("代码不能为空");
-            if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称不能为空");
+            if (string.IsNullOrEmpty(model.ActionGroupCode)) throw new InvalidOperationException("功能组标识为空");
+            if (string.IsNullOrEmpty(model.Code)) throw new InvalidOperationException("代码为空");
+            if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称为空");
             if (await _actionAuthorityRepository.CountAsync(m => m.ID != model.ID && m.Code == model.Code && m.ActionGroupCode == model.ActionGroupCode) > 0) throw new InvalidOperationException("同一个功能组下只允许存在一个唯一的代码");
             ActionAuthority actionAuthorityFromDB = await _actionAuthorityRepository.FirstOrDefaultAsync(model.ID);
-            if (actionAuthorityFromDB == null) throw new InvalidOperationException("该功能权限不存在");
+            if (actionAuthorityFromDB == null) throw new InvalidOperationException("功能权限不存在");
             model.CopyProperties(actionAuthorityFromDB);
             _authorityUnitOfWork.RegisterEdit(actionAuthorityFromDB);
             await _authorityUnitOfWork.CommitAsync();
@@ -54,14 +54,14 @@ namespace Authority.ServiceImpl
         public async Task DeleteActionAuthorityAsync(Guid id)
         {
             ActionAuthority actionAuthorityFromDB = await _actionAuthorityRepository.FirstOrDefaultAsync(id);
-            if (actionAuthorityFromDB == null) throw new InvalidOperationException("该功能权限不存在");
+            if (actionAuthorityFromDB == null) throw new InvalidOperationException("功能权限不存在");
             _authorityUnitOfWork.RegisterDelete(actionAuthorityFromDB);
             await _authorityUnitOfWork.CommitAsync();
         }
         public async Task<ActionAuthorityDTO> GetActionAuthorityInfoAsync(Guid id)
         {
             ActionAuthority actionAuthorityFromDB = await _actionAuthorityRepository.FirstOrDefaultAsync(id);
-            if (actionAuthorityFromDB == null) throw new InvalidOperationException("该功能权限不存在");
+            if (actionAuthorityFromDB == null) throw new InvalidOperationException("功能权限不存在");
             return _mapper.Map<ActionAuthorityDTO>(actionAuthorityFromDB);
         }
         public async Task<(List<ActionAuthorityListDTO> result, PageModel pageModel)> GetActionAuthorityListAsync(QueryActionAuthorityFilterModel filterModel)

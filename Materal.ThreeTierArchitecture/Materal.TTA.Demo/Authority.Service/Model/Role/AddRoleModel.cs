@@ -18,5 +18,17 @@ namespace Authority.Service.Model.Role
         /// 代码
         /// </summary>
         public string Code { get; set; }
+        /// <summary>
+        /// 功能权限唯一标识组
+        /// </summary>
+        public Guid[] ActionAuthorityIDs { get; set; }
+        /// <summary>
+        /// API权限唯一标识组
+        /// </summary>
+        public Guid[] APIAuthorityIDs { get; set; }
+        /// <summary>
+        /// 网页菜单权限唯一标识组
+        /// </summary>
+        public Guid[] WebMenuAuthorityIDs { get; set; }
     }
 }

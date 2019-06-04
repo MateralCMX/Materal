@@ -33,5 +33,9 @@ namespace Authority.PresentationModel.User.Request
         /// 邮箱
         /// </summary>
         public string Email { get; set; }
+        /// <summary>
+        /// 角色ID组
+        /// </summary>
+        public Guid[] RoleIDs { get; set; }
     }
 }

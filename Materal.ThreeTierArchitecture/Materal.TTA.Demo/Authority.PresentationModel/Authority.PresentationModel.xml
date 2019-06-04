@@ -223,6 +223,21 @@
             代码
             </summary>
         </member>
+        <member name="P:Authority.PresentationModel.Role.Request.AddRoleRequestModel.ActionAuthorityIDs">
+            <summary>
+            功能权限唯一标识组
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.AddRoleRequestModel.APIAuthorityIDs">
+            <summary>
+            API权限唯一标识组
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.AddRoleRequestModel.WebMenuAuthorityIDs">
+            <summary>
+            网页菜单权限唯一标识组
+            </summary>
+        </member>
         <member name="T:Authority.PresentationModel.Role.Request.EditRoleRequestModel">
             <summary>
             角色修改请求模型
@@ -241,6 +256,21 @@
         <member name="P:Authority.PresentationModel.Role.Request.EditRoleRequestModel.Code">
             <summary>
             代码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.EditRoleRequestModel.ActionAuthorityIDs">
+            <summary>
+            功能权限唯一标识组
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.EditRoleRequestModel.APIAuthorityIDs">
+            <summary>
+            API权限唯一标识组
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.EditRoleRequestModel.WebMenuAuthorityIDs">
+            <summary>
+            网页菜单权限唯一标识组
             </summary>
         </member>
         <member name="T:Authority.PresentationModel.User.Request.AddUserRequestModel">
@@ -271,6 +301,11 @@
         <member name="P:Authority.PresentationModel.User.Request.AddUserRequestModel.Email">
             <summary>
             邮箱
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.AddUserRequestModel.RoleIDs">
+            <summary>
+            角色ID组
             </summary>
         </member>
         <member name="T:Authority.PresentationModel.User.Request.EditUserRequestModel">
