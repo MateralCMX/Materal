@@ -4,7 +4,7 @@ using System;
 namespace Log.Service.Model.Log
 {
     /// <summary>
-    /// 日志查询模型
+    /// 查询日志过滤器模型
     /// </summary>
     public class QueryLogFilterModel : PageRequestModel
     {
@@ -17,11 +17,11 @@ namespace Log.Service.Model.Log
         /// </summary>
         public string Level { get; set; }
         /// <summary>
-        /// 开始时间
+        /// 最小时间
         /// </summary>
         public DateTime? MinTime { get; set; }
         /// <summary>
-        /// 结束时间
+        /// 最大时间
         /// </summary>
         public DateTime? MaxTime { get; set; }
     }

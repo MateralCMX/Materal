@@ -16,6 +16,7 @@
             <param name="services"></param>
         </member>
         <member name="T:Authority.WebAPI.Controllers.ActionAuthorityController">
+            <inheritdoc />
             <summary>
             功能权限控制器
             </summary>
@@ -59,6 +60,242 @@
             <summary>
             获得用户拥有的功能权限列表
             </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Authority.WebAPI.Controllers.APIAuthorityController">
+            <inheritdoc />
+            <summary>
+            API权限控制器
+            </summary>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.APIAuthorityController.#ctor(Authority.Service.IAPIAuthorityService,AutoMapper.IMapper)">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.APIAuthorityController.AddAPIAuthority(Authority.PresentationModel.APIAuthority.Request.AddAPIAuthorityRequestModel)">
+            <summary>
+            添加API权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.APIAuthorityController.EditAPIAuthority(Authority.PresentationModel.APIAuthority.Request.EditAPIAuthorityRequestModel)">
+            <summary>
+            修改API权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.APIAuthorityController.DeleteAPIAuthority(System.Guid)">
+            <summary>
+            删除API权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.APIAuthorityController.GetAPIAuthorityInfo(System.Guid)">
+            <summary>
+            获得API权限信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.APIAuthorityController.GetAPIAuthorityTree">
+            <summary>
+            获得API权限树
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.APIAuthorityController.ExchangeAPIAuthorityParentID(Model.ExchangeParentIDNotIndexIDRequestModel{System.Guid})">
+            <summary>
+            更换API权限父级
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Authority.WebAPI.Controllers.RoleController">
+            <inheritdoc />
+            <summary>
+            角色控制器
+            </summary>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.RoleController.#ctor(Authority.Service.IRoleService,AutoMapper.IMapper)">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.RoleController.AddRole(Authority.PresentationModel.Role.Request.AddRoleRequestModel)">
+            <summary>
+            添加角色
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.RoleController.EditRole(Authority.PresentationModel.Role.Request.EditRoleRequestModel)">
+            <summary>
+            修改角色
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.RoleController.DeleteRole(System.Guid)">
+            <summary>
+            删除角色
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.RoleController.GetRoleInfo(System.Guid)">
+            <summary>
+            获得角色信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.RoleController.GetRoleTree">
+            <summary>
+            获得角色权限树
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.RoleController.ExchangeRoleParentID(Model.ExchangeParentIDNotIndexIDRequestModel{System.Guid})">
+            <summary>
+            更换角色权限父级
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Authority.WebAPI.Controllers.UserController">
+            <inheritdoc />
+            <summary>
+            用户控制器
+            </summary>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.#ctor(Authority.Service.IUserService,AutoMapper.IMapper)">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.Login(Authority.PresentationModel.User.Request.UserLoginRequestModel)">
+            <summary>
+            登录
+            </summary>
+            <param name="requestModel">请求模型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.GetUserInfoByToken(Authority.PresentationModel.User.Request.GetUserInfoByTokenRequestModel)">
+            <summary>
+            根据Token获取用户信息
+            </summary>
+            <param name="requestModel">请求模型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.GetAllSexEnum">
+            <summary>
+            获得所有性别类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.AddUser(Authority.PresentationModel.User.Request.AddUserRequestModel)">
+            <summary>
+            添加用户
+            </summary>
+            <param name="requestModel">请求模型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.EditUser(Authority.PresentationModel.User.Request.EditUserRequestModel)">
+            <summary>
+            修改用户
+            </summary>
+            <param name="requestModel">请求模型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.DeleteUser(System.Guid)">
+            <summary>
+            删除用户
+            </summary>
+            <param name="id">唯一标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.GetUserInfo(System.Guid)">
+            <summary>
+            根据UserId获得用户信息及所属角色信息
+            </summary>
+            <param name="id">唯一标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.ResetPassword(System.Guid)">
+            <summary>
+            重置密码
+            </summary>
+            <param name="id">唯一标识</param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.ExchangePassword(Authority.PresentationModel.User.Request.ExchangePasswordRequestModel)">
+            <summary>
+            更改密码
+            </summary>
+            <param name="requestModel">请求模型</param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.UserController.GetUserList(Authority.PresentationModel.User.Request.QueryUserFilterRequestModel)">
+            <summary>
+            获得用户列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Authority.WebAPI.Controllers.WebMenuAuthorityController">
+            <inheritdoc />
+            <summary>
+            网页菜单权限控制器
+            </summary>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.WebMenuAuthorityController.#ctor(Authority.Service.IWebMenuAuthorityService,AutoMapper.IMapper,Authority.Service.IUserService)">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.WebMenuAuthorityController.AddWebMenuAuthority(Authority.PresentationModel.WebMenuAuthority.Request.AddWebMenuAuthorityRequestModel)">
+            <summary>
+            添加网页菜单权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.WebMenuAuthorityController.EditWebMenuAuthority(Authority.PresentationModel.WebMenuAuthority.Request.EditWebMenuAuthorityRequestModel)">
+            <summary>
+            修改网页菜单权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.WebMenuAuthorityController.DeleteWebMenuAuthority(System.Guid)">
+            <summary>
+            删除网页菜单权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.WebMenuAuthorityController.GetWebMenuAuthorityInfo(System.Guid)">
+            <summary>
+            获得网页菜单权限信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.WebMenuAuthorityController.ExchangeWebMenuAuthorityIndex(Model.ExchangeIndexRequestModel{System.Guid})">
+            <summary>
+            调换网页菜单权限位序
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.WebMenuAuthorityController.GetWebMenuAuthorityTree">
+            <summary>
+            获得网页菜单权限树
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.WebMenuAuthorityController.GetUserHasWebMenuAuthorityTree(Authority.PresentationModel.WebMenuAuthority.Request.GetUserHasWebMenuAuthorityTreeRequestModel)">
+            <summary>
+            获得用户拥有的网页菜单权限树
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.WebAPI.Controllers.WebMenuAuthorityController.ExchangeWebMenuAuthorityParentID(Model.ExchangeParentIDRequestModel{System.Guid})">
+            <summary>
+            更换网页菜单权限父级
+            </summary>
+            <param name="requestModel"></param>
             <returns></returns>
         </member>
         <member name="T:Authority.WebAPI.Program">

@@ -21,11 +21,11 @@ namespace Authority.EFRepository.ModelConfig
             builder.HasOne(d => d.Role)
                 .WithMany(p => p.RoleActionAuthorities)
                 .HasForeignKey(d => d.RoleID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(d => d.ActionAuthority)
                 .WithMany(p => p.RoleActionAuthorities)
                 .HasForeignKey(d => d.ActionAuthorityID)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -38,7 +38,7 @@
         </member>
         <member name="T:Log.PresentationModel.Log.Request.QueryLogFilterRequestModel">
             <summary>
-            日志查询访问模型
+            查询日志过滤器请求模型
             </summary>
         </member>
         <member name="P:Log.PresentationModel.Log.Request.QueryLogFilterRequestModel.Application">
@@ -53,12 +53,12 @@
         </member>
         <member name="P:Log.PresentationModel.Log.Request.QueryLogFilterRequestModel.MinTime">
             <summary>
-            开始时间
+            最小时间
             </summary>
         </member>
         <member name="P:Log.PresentationModel.Log.Request.QueryLogFilterRequestModel.MaxTime">
             <summary>
-            结束时间
+            最大时间
             </summary>
         </member>
     </members>
