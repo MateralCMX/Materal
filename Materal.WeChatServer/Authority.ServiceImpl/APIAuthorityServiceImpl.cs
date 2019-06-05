@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Model.APIAuthorityConfig;
 
 namespace Authority.ServiceImpl
 {
@@ -104,7 +105,7 @@ namespace Authority.ServiceImpl
         }
         public async Task<bool> HasLoginAuthorityAsync(Guid userID)
         {
-            return await HasAPIAuthorityAsync(userID, APIAuthorityCode.AuthorityUserLogin);
+            return await HasAPIAuthorityAsync(userID, AuthoritySystemAPIAuthorityConfig.LoginCode);
         }
 
         #region 私有方法

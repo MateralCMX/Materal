@@ -1,5 +1,4 @@
-﻿using System;
-using BaseWebAPI.Model;
+﻿using BaseWebAPI.Model;
 using Common;
 using Log.PresentationModel;
 using Materal.Common;
@@ -15,9 +14,6 @@ using NLog.Web;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
 using System.Linq;
-using Authority.PresentationModel;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace BaseWebAPI
 {

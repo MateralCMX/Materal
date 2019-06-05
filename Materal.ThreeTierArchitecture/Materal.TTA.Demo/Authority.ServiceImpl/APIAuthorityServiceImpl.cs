@@ -1,5 +1,4 @@
-﻿using Authority.Common;
-using Authority.DataTransmitModel.APIAuthority;
+﻿using Authority.DataTransmitModel.APIAuthority;
 using Authority.Domain;
 using Authority.Domain.Repositories;
 using Authority.Domain.Repositories.Views;
@@ -8,6 +7,7 @@ using Authority.EFRepository;
 using Authority.Service;
 using Authority.Service.Model.APIAuthority;
 using AutoMapper;
+using Common.Model.APIAuthorityConfig;
 using Materal.ConvertHelper;
 using System;
 using System.Collections.Generic;
@@ -104,7 +104,7 @@ namespace Authority.ServiceImpl
         }
         public async Task<bool> HasLoginAuthorityAsync(Guid userID)
         {
-            return await HasAPIAuthorityAsync(userID, APIAuthorityCode.AuthorityUserLogin);
+            return await HasAPIAuthorityAsync(userID, AuthoritySystemAPIAuthorityConfig.LoginCode);
         }
 
         #region 私有方法
