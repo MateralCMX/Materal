@@ -1,6 +1,7 @@
-﻿using AutoMapper;
-using Authority.DataTransmitModel.ActionAuthority;
+﻿using Authority.DataTransmitModel.ActionAuthority;
 using Authority.Domain;
+using Authority.Domain.Views;
+using AutoMapper;
 namespace Authority.ServiceImpl.AutoMapperProfile
 {
     /// <summary>
@@ -10,6 +11,7 @@ namespace Authority.ServiceImpl.AutoMapperProfile
     {
         public ActionAuthorityProfile()
         {
+            CreateMap<UserOwnedActionAuthority, ActionAuthorityListDTO>();
             CreateMap<ActionAuthority, ActionAuthorityListDTO>();
             CreateMap<ActionAuthority, ActionAuthorityDTO>();
         }

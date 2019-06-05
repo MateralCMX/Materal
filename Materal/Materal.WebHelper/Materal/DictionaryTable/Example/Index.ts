@@ -34,7 +34,7 @@
         private loadData()
         {
             this.data = new Materal.Dictionary();
-            for (let i = 0; i < 10000; i++) {
+            for (let i = 0; i < 2000000; i++) {
                 const temp = {
                     Name: `Name${i}`,
                     Value: `Value${i}`,

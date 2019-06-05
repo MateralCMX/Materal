@@ -1,6 +1,9 @@
-﻿using Authority.DataTransmitModel.APIAuthority;
+﻿using Authority.Common;
+using Authority.DataTransmitModel.APIAuthority;
 using Authority.Domain;
 using Authority.Domain.Repositories;
+using Authority.Domain.Repositories.Views;
+using Authority.Domain.Views;
 using Authority.EFRepository;
 using Authority.Service;
 using Authority.Service.Model.APIAuthority;
@@ -19,14 +22,15 @@ namespace Authority.ServiceImpl
     public sealed class APIAuthorityServiceImpl : IAPIAuthorityService
     {
         private readonly IAPIAuthorityRepository _apiAuthorityRepository;
+        private readonly IUserOwnedAPIAuthorityRepository _userOwnedAPIAuthorityRepository;
         private readonly IMapper _mapper;
         private readonly IAuthorityUnitOfWork _authorityUnitOfWork;
-        private const string AllAPIAuthorityInfoCacheName = "AllAPIAuthorityInfoCacheName";
-        public APIAuthorityServiceImpl(IAPIAuthorityRepository apiAuthorityRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork)
+        public APIAuthorityServiceImpl(IAPIAuthorityRepository apiAuthorityRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork, IUserOwnedAPIAuthorityRepository userOwnedAPIAuthorityRepository)
         {
             _apiAuthorityRepository = apiAuthorityRepository;
             _mapper = mapper;
             _authorityUnitOfWork = authorityUnitOfWork;
+            _userOwnedAPIAuthorityRepository = userOwnedAPIAuthorityRepository;
         }
         public async Task AddAPIAuthorityAsync(AddAPIAuthorityModel model)
         {
@@ -53,7 +57,7 @@ namespace Authority.ServiceImpl
         public async Task DeleteAPIAuthorityAsync(Guid id)
         {
             List<APIAuthority> allAPIAuthorities = await _apiAuthorityRepository.GetAllInfoFromCacheAsync();
-            APIAuthority apiAuthorityFromDB = allAPIAuthorities.FirstOrDefault(m=>m.ID == id);
+            APIAuthority apiAuthorityFromDB = allAPIAuthorities.FirstOrDefault(m => m.ID == id);
             if (apiAuthorityFromDB == null) throw new InvalidOperationException("API权限不存在");
             ICollection<APIAuthority> allChild = GetAllChild(allAPIAuthorities, id);
             foreach (APIAuthority apiAuthority in allChild)
@@ -75,20 +79,32 @@ namespace Authority.ServiceImpl
             List<APIAuthority> allAPIAuthorities = await _apiAuthorityRepository.GetAllInfoFromCacheAsync();
             return GetTreeList(allAPIAuthorities);
         }
-
         public async Task ExchangeAPIAuthorityParentIDAsync(Guid id, Guid? parentID)
         {
-            throw new NotImplementedException();
+            if (parentID.HasValue && !await _apiAuthorityRepository.ExistedAsync(parentID.Value))
+            {
+                throw new InvalidOperationException("父级唯一标识不存在");
+            }
+            APIAuthority apiAuthorityFromDB = await _apiAuthorityRepository.FirstOrDefaultAsync(id);
+            if (apiAuthorityFromDB == null) throw new InvalidOperationException("该API权限不存在");
+            apiAuthorityFromDB.ParentID = parentID;
+            _authorityUnitOfWork.RegisterEdit(apiAuthorityFromDB);
+            await _authorityUnitOfWork.CommitAsync();
         }
-
         public async Task<bool> HasAPIAuthorityAsync(Guid userID, params string[] codes)
         {
-            throw new NotImplementedException();
+            List<UserOwnedAPIAuthority> userOwnedAPIAuthorities = await _userOwnedAPIAuthorityRepository.WhereAsync(m => m.UserID == userID).ToList();
+            foreach (string code in codes)
+            {
+                UserOwnedAPIAuthority userOwnedAPIAuthority = userOwnedAPIAuthorities.FirstOrDefault(m => m.Code == code);
+                if (userOwnedAPIAuthority?.ParentID == null) return false;
+                if (!HasParentAPIAuthority(userOwnedAPIAuthorities, userOwnedAPIAuthority.ParentID.Value)) return false;
+            }
+            return true;
         }
-
         public async Task<bool> HasLoginAuthorityAsync(Guid userID)
         {
-            throw new NotImplementedException();
+            return await HasAPIAuthorityAsync(userID, APIAuthorityCode.AuthorityUserLogin);
         }
 
         #region 私有方法
@@ -129,6 +145,18 @@ namespace Authority.ServiceImpl
                 });
             }
             return result;
+        }
+        /// <summary>
+        /// 是否拥有父级API权限
+        /// </summary>
+        /// <param name="userOwnedAPIAuthorities"></param>
+        /// <param name="parentID"></param>
+        /// <returns></returns>
+        private bool HasParentAPIAuthority(List<UserOwnedAPIAuthority> userOwnedAPIAuthorities, Guid parentID)
+        {
+            UserOwnedAPIAuthority userOwnedAPIAuthority = userOwnedAPIAuthorities.FirstOrDefault(m => m.ID == parentID);
+            if (userOwnedAPIAuthority == null) return false;
+            return !userOwnedAPIAuthority.ParentID.HasValue || HasParentAPIAuthority(userOwnedAPIAuthorities, userOwnedAPIAuthority.ParentID.Value);
         }
         #endregion
     }

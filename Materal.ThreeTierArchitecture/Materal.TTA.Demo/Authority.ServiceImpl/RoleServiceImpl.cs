@@ -80,12 +80,18 @@ namespace Authority.ServiceImpl
             List<Role> allRoles = await _roleRepository.GetAllInfoFromCacheAsync();
             return GetTreeList(allRoles);
         }
-
         public async Task ExchangeRoleParentIDAsync(Guid id, Guid? parentID)
         {
-            throw new NotImplementedException();
+            if (parentID.HasValue && !await _roleRepository.ExistedAsync(parentID.Value))
+            {
+                throw new InvalidOperationException("父级唯一标识不存在");
+            }
+            Role roleFromDB = await _roleRepository.FirstOrDefaultAsync(id);
+            if (roleFromDB == null) throw new InvalidOperationException("该角色不存在");
+            roleFromDB.ParentID = parentID;
+            _authorityUnitOfWork.RegisterEdit(roleFromDB);
+            await _authorityUnitOfWork.CommitAsync();
         }
-
         #region 私有方法
         /// <summary>
         /// 获取树形列表

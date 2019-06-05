@@ -1,6 +1,7 @@
 ﻿using Authority.DataTransmitModel.WebMenuAuthority;
 using Authority.Domain;
 using Authority.Domain.Repositories;
+using Authority.Domain.Repositories.Views;
 using Authority.EFRepository;
 using Authority.Service;
 using Authority.Service.Model.WebMenuAuthority;
@@ -10,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Authority.Domain.Views;
+
 namespace Authority.ServiceImpl
 {
     /// <summary>
@@ -18,13 +21,15 @@ namespace Authority.ServiceImpl
     public sealed class WebMenuAuthorityServiceImpl : IWebMenuAuthorityService
     {
         private readonly IWebMenuAuthorityRepository _webMenuAuthorityRepository;
+        private readonly IUserOwnedWebMenuAuthorityRepository _userOwnedWebMenuAuthorityRepository;
         private readonly IMapper _mapper;
         private readonly IAuthorityUnitOfWork _authorityUnitOfWork;
-        public WebMenuAuthorityServiceImpl(IWebMenuAuthorityRepository webMenuAuthorityRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork)
+        public WebMenuAuthorityServiceImpl(IWebMenuAuthorityRepository webMenuAuthorityRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork, IUserOwnedWebMenuAuthorityRepository userOwnedWebMenuAuthorityRepository)
         {
             _webMenuAuthorityRepository = webMenuAuthorityRepository;
             _mapper = mapper;
             _authorityUnitOfWork = authorityUnitOfWork;
+            _userOwnedWebMenuAuthorityRepository = userOwnedWebMenuAuthorityRepository;
         }
         public async Task AddWebMenuAuthorityAsync(AddWebMenuAuthorityModel model)
         {
@@ -72,22 +77,47 @@ namespace Authority.ServiceImpl
         public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync()
         {
             List<WebMenuAuthority> allWebMenuAuthorities = await _webMenuAuthorityRepository.GetAllInfoFromCacheAsync();
-            return GetTreeList(allWebMenuAuthorities);
+            return GetTreeList(allWebMenuAuthorities.OrderBy(m => m.Index).ToList());
         }
 
         public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync(Guid userID)
         {
-            throw new NotImplementedException();
+            List<UserOwnedWebMenuAuthority> userOwnedWebMenuAuthorities = await _userOwnedWebMenuAuthorityRepository.WhereAsync(m => m.UserID == userID).OrderBy(m => m.Index).ToList();
+            return GetTreeList(userOwnedWebMenuAuthorities);
         }
 
         public async Task ExchangeWebMenuAuthorityIndexAsync(Guid id1, Guid id2)
         {
-            throw new NotImplementedException();
+            List<WebMenuAuthority> webMenuAuthorities = await _webMenuAuthorityRepository.WhereAsync(m => m.ID == id1 || m.ID == id2).ToList();
+            if (webMenuAuthorities.Count != 2) throw new InvalidOperationException("该网页菜单权限不存在");
+            ExchangeIndex(webMenuAuthorities[0], webMenuAuthorities[1]);
+            _authorityUnitOfWork.RegisterEdit(webMenuAuthorities[0]);
+            _authorityUnitOfWork.RegisterEdit(webMenuAuthorities[1]);
+            await _authorityUnitOfWork.CommitAsync();
         }
 
         public async Task ExchangeWebMenuAuthorityParentIDAsync(Guid id, Guid? parentID, Guid? indexID, bool forUnder = true)
         {
-            throw new NotImplementedException();
+            if (parentID.HasValue && !await _webMenuAuthorityRepository.ExistedAsync(parentID.Value))
+            {
+                throw new InvalidOperationException("父级唯一标识不存在");
+            }
+            WebMenuAuthority webMenuAuthorityFromDB = await _webMenuAuthorityRepository.FirstOrDefaultAsync(id);
+            if (webMenuAuthorityFromDB == null) throw new InvalidOperationException("该网页菜单权限不存在");
+            webMenuAuthorityFromDB.ParentID = parentID;
+            if (indexID.HasValue)
+            {
+                WebMenuAuthority indexWebMenuAuthority = await _webMenuAuthorityRepository.FirstOrDefaultAsync(indexID.Value);
+                if (indexWebMenuAuthority == null) throw new InvalidOperationException("位序唯一标项不存在");
+                if (forUnder && webMenuAuthorityFromDB.Index < indexWebMenuAuthority.Index ||
+                    !forUnder && webMenuAuthorityFromDB.Index > indexWebMenuAuthority.Index)
+                {
+                    ExchangeIndex(webMenuAuthorityFromDB, indexWebMenuAuthority);
+                    _authorityUnitOfWork.RegisterEdit(indexWebMenuAuthority);
+                }
+            }
+            _authorityUnitOfWork.RegisterEdit(webMenuAuthorityFromDB);
+            await _authorityUnitOfWork.CommitAsync();
         }
         #region 私有方法
         /// <summary>
@@ -127,6 +157,38 @@ namespace Authority.ServiceImpl
                 });
             }
             return result;
+        }
+        /// <summary>
+        /// 获取树形列表
+        /// </summary>
+        /// <param name="allWebMenuAuthorities">所有网页菜单权限信息</param>
+        /// <param name="parentID">父级唯一标识</param>
+        /// <returns></returns>
+        private List<WebMenuAuthorityTreeDTO> GetTreeList(List<UserOwnedWebMenuAuthority> allWebMenuAuthorities, Guid? parentID = null)
+        {
+            var result = new List<WebMenuAuthorityTreeDTO>();
+            List<UserOwnedWebMenuAuthority> webMenuAuthorities = allWebMenuAuthorities.Where(m => m.ParentID == parentID).ToList();
+            foreach (UserOwnedWebMenuAuthority webMenuAuthority in webMenuAuthorities)
+            {
+                result.Add(new WebMenuAuthorityTreeDTO
+                {
+                    ID = webMenuAuthority.ID,
+                    Name = webMenuAuthority.Name,
+                    Child = GetTreeList(allWebMenuAuthorities, webMenuAuthority.ID)
+                });
+            }
+            return result;
+        }
+        /// <summary>
+        /// 调换位序
+        /// </summary>
+        /// <param name="webMenuAuthority1"></param>
+        /// <param name="webMenuAuthority2"></param>
+        private void ExchangeIndex(WebMenuAuthority webMenuAuthority1, WebMenuAuthority webMenuAuthority2)
+        {
+            int temp = webMenuAuthority1.Index;
+            webMenuAuthority1.Index = webMenuAuthority2.Index;
+            webMenuAuthority2.Index = temp;
         }
         #endregion
     }

@@ -329,6 +329,16 @@
             名称
             </summary>
         </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO.Style">
+            <summary>
+            样式
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
         <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO.Child">
             <summary>
             子级

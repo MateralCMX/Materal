@@ -15,7 +15,7 @@ namespace Materal.TimeServer.UI
 
         public void Execute()
         {
-            Console.WriteLine("任务04");
+            Console.WriteLine($"任务04{DateTime.Now}");
         }
     }
 }

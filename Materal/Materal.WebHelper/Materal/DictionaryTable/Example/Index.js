@@ -26,7 +26,7 @@ var WebHelper;
              */
             DictionaryTableIndexViewModel.prototype.loadData = function () {
                 this.data = new Materal.Dictionary();
-                for (var i = 0; i < 10000; i++) {
+                for (var i = 0; i < 2000000; i++) {
                     var temp = {
                         Name: "Name" + i,
                         Value: "Value" + i,

@@ -1,7 +1,5 @@
-﻿using Domain;
-using Materal.TTA.Common;
+﻿using Materal.TTA.Common;
 using System;
-using System.Collections.Generic;
 namespace Authority.Domain.Views
 {
     /// <summary>
@@ -14,5 +12,21 @@ namespace Authority.Domain.Views
         /// 唯一标识
         /// </summary>
         public Guid ID { get; set; }
+        /// <summary>
+        /// 用户唯一标识
+        /// </summary>
+        public Guid UserID { get; set; }
+        /// <summary>
+        /// 代码
+        /// </summary>
+        public string Code { get; set; }
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 功能组标识
+        /// </summary>
+        public string ActionGroupCode { get; set; }
     }
 }

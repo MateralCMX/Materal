@@ -17,6 +17,14 @@ namespace Authority.DataTransmitModel.WebMenuAuthority
         /// </summary>
         public string Name { get; set; }
         /// <summary>
+        /// 样式
+        /// </summary>
+        public string Style { get; set; }
+        /// <summary>
+        /// 代码
+        /// </summary>
+        public string Code { get; set; }
+        /// <summary>
         /// 子级
         /// </summary>
         public ICollection<WebMenuAuthorityTreeDTO> Child { get; set; }

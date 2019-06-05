@@ -1,6 +1,7 @@
 ﻿using Authority.DataTransmitModel.ActionAuthority;
 using Authority.Domain;
 using Authority.Domain.Repositories;
+using Authority.Domain.Repositories.Views;
 using Authority.EFRepository;
 using Authority.Service;
 using Authority.Service.Model.ActionAuthority;
@@ -11,8 +12,11 @@ using Materal.LinqHelper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Authority.Domain.Views;
+
 namespace Authority.ServiceImpl
 {
     /// <summary>
@@ -21,6 +25,7 @@ namespace Authority.ServiceImpl
     public sealed class ActionAuthorityServiceImpl : IActionAuthorityService
     {
         private readonly IActionAuthorityRepository _actionAuthorityRepository;
+        private readonly IUserOwnedActionAuthorityRepository _userOwnedActionAuthorityRepository;
         private readonly IMapper _mapper;
         private readonly IAuthorityUnitOfWork _authorityUnitOfWork;
         public ActionAuthorityServiceImpl(IActionAuthorityRepository actionAuthorityRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork)
@@ -82,10 +87,10 @@ namespace Authority.ServiceImpl
             (List<ActionAuthority> actionAuthoritiesFromDB, PageModel pageModel) = await _actionAuthorityRepository.PagingAsync(expression, filterModel);
             return (_mapper.Map<List<ActionAuthorityListDTO>>(actionAuthoritiesFromDB), pageModel);
         }
-
         public async Task<List<ActionAuthorityListDTO>> GetUserOwnedActionAuthorityListAsync(Guid userID, string actionGroupCode)
         {
-            throw new NotImplementedException();
+            List<UserOwnedActionAuthority> userOwnedActionAuthorities = await _userOwnedActionAuthorityRepository.WhereAsync(m => m.UserID == userID && m.ActionGroupCode == actionGroupCode).ToList();
+            return _mapper.Map<List<ActionAuthorityListDTO>>(userOwnedActionAuthorities);
         }
     }
 }
