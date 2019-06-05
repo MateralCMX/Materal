@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Model</name>
+    </assembly>
+    <members>
+        <member name="T:Model.ExchangeIndexRequestModel`1">
+            <summary>
+            调换网页菜单权限位序请求模型
+            </summary>
+        </member>
+        <member name="P:Model.ExchangeIndexRequestModel`1.ID1">
+            <summary>
+            唯一标识1
+            </summary>
+        </member>
+        <member name="P:Model.ExchangeIndexRequestModel`1.ID2">
+            <summary>
+            唯一标识2
+            </summary>
+        </member>
+        <member name="T:Model.ExchangeParentIDNotIndexIDRequestModel`1">
+            <summary>
+            更改父级请求模型
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Model.ExchangeParentIDNotIndexIDRequestModel`1.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Model.ExchangeParentIDNotIndexIDRequestModel`1.ParentID">
+            <summary>
+            父级唯一标识
+            </summary>
+        </member>
+        <member name="T:Model.ExchangeParentIDRequestModel`1">
+            <summary>
+            更改父级请求模型
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Model.ExchangeParentIDRequestModel`1.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Model.ExchangeParentIDRequestModel`1.ParentID">
+            <summary>
+            父级唯一标识
+            </summary>
+        </member>
+        <member name="P:Model.ExchangeParentIDRequestModel`1.IndexID">
+            <summary>
+            位序唯一标识
+            </summary>
+        </member>
+        <member name="P:Model.ExchangeParentIDRequestModel`1.ForUnder">
+            <summary>
+            位置
+            </summary>
+        </member>
+    </members>
+</doc>

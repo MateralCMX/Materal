@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Migrations\20190603132312_Init.cs" />
+    <Compile Remove="Migrations\20190603132312_Init.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Materal.CacheHelper" Version="0.0.36" />
+    <PackageReference Include="Materal.TTA.SqlServerRepository" Version="0.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ModelConfig\" />
+    <Folder Include="RepositoryImpl\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Authority.Domain\Authority.Domain.csproj" />
+  </ItemGroup>
+</Project>

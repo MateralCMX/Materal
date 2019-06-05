@@ -1,0 +1,348 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Authority.DataTransmitModel</name>
+    </assembly>
+    <members>
+        <member name="T:Authority.DataTransmitModel.ActionAuthority.ActionAuthorityDTO">
+            <summary>
+            功能权限数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.ActionAuthority.ActionAuthorityDTO.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.ActionAuthority.ActionAuthorityListDTO">
+            <summary>
+            功能权限列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.ActionAuthority.ActionAuthorityListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.ActionAuthority.ActionAuthorityListDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.ActionAuthority.ActionAuthorityListDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.ActionAuthority.ActionAuthorityListDTO.ActionGroupCode">
+            <summary>
+            功能组标识
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.APIAuthority.APIAuthorityDTO">
+            <summary>
+            API权限数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.APIAuthority.APIAuthorityDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.APIAuthority.APIAuthorityDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.APIAuthority.APIAuthorityDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.APIAuthority.APIAuthorityDTO.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.APIAuthority.APIAuthorityTreeDTO">
+            <summary>
+            API权限树形数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.APIAuthority.APIAuthorityTreeDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.APIAuthority.APIAuthorityTreeDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.APIAuthority.APIAuthorityTreeDTO.Child">
+            <summary>
+            子级
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.Role.RoleAPIAuthorityTreeDTO">
+            <summary>
+            角色权限树数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleAPIAuthorityTreeDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleAPIAuthorityTreeDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleAPIAuthorityTreeDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleAPIAuthorityTreeDTO.Child">
+            <summary>
+            子级
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleAPIAuthorityTreeDTO.Owned">
+            <summary>
+            拥有标识
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.Role.RoleDTO">
+            <summary>
+            角色数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleDTO.ActionAuthorityList">
+            <summary>
+            功能权限列表
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleDTO.APIAuthorityTreeList">
+            <summary>
+            API权限列表
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleDTO.WebMenuAuthorityTreeList">
+            <summary>
+            网页菜单权限列表
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.Role.RoleTreeDTO">
+            <summary>
+            角色树形数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleTreeDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleTreeDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleTreeDTO.Child">
+            <summary>
+            子级
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.Role.RoleWebMenuAuthorityTreeDTO">
+            <summary>
+            角色网页菜单权限树数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleWebMenuAuthorityTreeDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleWebMenuAuthorityTreeDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleWebMenuAuthorityTreeDTO.Style">
+            <summary>
+            样式
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleWebMenuAuthorityTreeDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleWebMenuAuthorityTreeDTO.Child">
+            <summary>
+            子级
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleWebMenuAuthorityTreeDTO.Owned">
+            <summary>
+            拥有标识
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.User.UserDTO">
+            <summary>
+            用户数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserDTO.UserRoleTreeList">
+            <summary>
+            用户子系统角色对象
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.User.UserListDTO">
+            <summary>
+            用户列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserListDTO.Account">
+            <summary>
+            账户
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserListDTO.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserListDTO.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserListDTO.SexStr">
+            <summary>
+            性别字符串
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserListDTO.PhoneNumber">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserListDTO.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.User.UserRoleTreeDTO">
+            <summary>
+            用户所属角色
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserRoleTreeDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserRoleTreeDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserRoleTreeDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserRoleTreeDTO.Child">
+            <summary>
+            子级
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserRoleTreeDTO.Owned">
+            <summary>
+            拥有标识
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityDTO">
+            <summary>
+            网页菜单权限数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityDTO.Style">
+            <summary>
+            样式
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityDTO.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO">
+            <summary>
+            网页菜单权限树形数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO.Style">
+            <summary>
+            样式
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO.Child">
+            <summary>
+            子级
+            </summary>
+        </member>
+    </members>
+</doc>

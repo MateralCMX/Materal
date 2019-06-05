@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Authority.DataTransmitModel\Authority.DataTransmitModel.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\ActionAuthority" />
+    <Folder Include="Model\APIAuthority" />
+    <Folder Include="Model\Role" />
+    <Folder Include="Model\WebMenuAuthority" />
+  </ItemGroup>
+</Project>

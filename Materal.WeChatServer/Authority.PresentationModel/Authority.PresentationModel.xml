@@ -1,0 +1,518 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Authority.PresentationModel</name>
+    </assembly>
+    <members>
+        <member name="T:Authority.PresentationModel.ActionAuthority.Request.AddActionAuthorityRequestModel">
+            <summary>
+            功能权限添加请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.ActionAuthority.Request.AddActionAuthorityRequestModel.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.ActionAuthority.Request.AddActionAuthorityRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.ActionAuthority.Request.AddActionAuthorityRequestModel.ActionGroupCode">
+            <summary>
+            功能组标识
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.ActionAuthority.Request.AddActionAuthorityRequestModel.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.ActionAuthority.Request.EditActionAuthorityRequestModel">
+            <summary>
+            功能权限修改请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.ActionAuthority.Request.EditActionAuthorityRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.ActionAuthority.Request.GetUserOwnedActionAuthorityListRequestModel">
+            <summary>
+            获取用户拥有的功能组列表请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.ActionAuthority.Request.GetUserOwnedActionAuthorityListRequestModel.ActionGroupCode">
+            <summary>
+            功能组唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.ActionAuthority.Request.GetUserOwnedActionAuthorityListRequestModel.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.ActionAuthority.Request.QueryActionAuthorityFilterRequestModel">
+            <summary>
+            功能权限查询请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.ActionAuthority.Request.QueryActionAuthorityFilterRequestModel.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.ActionAuthority.Request.QueryActionAuthorityFilterRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.ActionAuthority.Request.QueryActionAuthorityFilterRequestModel.ActionGroupCode">
+            <summary>
+            功能组标识
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.APIAuthority.Request.AddAPIAuthorityRequestModel">
+            <summary>
+            API权限添加请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.APIAuthority.Request.AddAPIAuthorityRequestModel.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.APIAuthority.Request.AddAPIAuthorityRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.APIAuthority.Request.AddAPIAuthorityRequestModel.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.APIAuthority.Request.AddAPIAuthorityRequestModel.ParentID">
+            <summary>
+            父级ID
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.APIAuthority.Request.EditAPIAuthorityRequestModel">
+            <summary>
+            API权限修改请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.APIAuthority.Request.EditAPIAuthorityRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.APIAuthority.Request.EditAPIAuthorityRequestModel.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.APIAuthority.Request.EditAPIAuthorityRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.APIAuthority.Request.EditAPIAuthorityRequestModel.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.AuthorityFilter">
+            <summary>
+            权限拦截器
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.AuthorityFilter.ServiceProvider">
+            <summary>
+            依赖注入服务
+            </summary>
+        </member>
+        <member name="F:Authority.PresentationModel.AuthorityFilter._codes">
+            <summary>
+            权限代码
+            </summary>
+        </member>
+        <member name="M:Authority.PresentationModel.AuthorityFilter.#ctor(System.String[])">
+            <summary>
+            构造方法
+            </summary>
+            <param name="codes"></param>
+        </member>
+        <member name="M:Authority.PresentationModel.AuthorityFilter.OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)">
+            <summary>
+            方法执行之前
+            </summary>
+            <param name="context"></param>
+            <param name="next"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Authority.PresentationModel.AutoMapperProfile.ActionAuthorityProfile">
+            <summary>
+            功能权限AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:Authority.PresentationModel.AutoMapperProfile.ActionAuthorityProfile.#ctor">
+            <summary>
+            功能权限AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.AutoMapperProfile.APIAuthorityProfile">
+            <summary>
+            API权限AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:Authority.PresentationModel.AutoMapperProfile.APIAuthorityProfile.#ctor">
+            <summary>
+            API权限AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.AutoMapperProfile.RoleProfile">
+            <summary>
+            角色AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:Authority.PresentationModel.AutoMapperProfile.RoleProfile.#ctor">
+            <summary>
+            角色AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.AutoMapperProfile.UserProfile">
+            <summary>
+            用户AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:Authority.PresentationModel.AutoMapperProfile.UserProfile.#ctor">
+            <summary>
+            用户AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.AutoMapperProfile.WebMenuAuthorityProfile">
+            <summary>
+            网页菜单权限AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:Authority.PresentationModel.AutoMapperProfile.WebMenuAuthorityProfile.#ctor">
+            <summary>
+            网页菜单权限AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.Role.Request.AddRoleRequestModel">
+            <summary>
+            角色添加请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.AddRoleRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.AddRoleRequestModel.ParentID">
+            <summary>
+            父级ID
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.AddRoleRequestModel.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.AddRoleRequestModel.ActionAuthorityIDs">
+            <summary>
+            功能权限唯一标识组
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.AddRoleRequestModel.APIAuthorityIDs">
+            <summary>
+            API权限唯一标识组
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.AddRoleRequestModel.WebMenuAuthorityIDs">
+            <summary>
+            网页菜单权限唯一标识组
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.Role.Request.EditRoleRequestModel">
+            <summary>
+            角色修改请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.EditRoleRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.EditRoleRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.EditRoleRequestModel.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.EditRoleRequestModel.ActionAuthorityIDs">
+            <summary>
+            功能权限唯一标识组
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.EditRoleRequestModel.APIAuthorityIDs">
+            <summary>
+            API权限唯一标识组
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.Role.Request.EditRoleRequestModel.WebMenuAuthorityIDs">
+            <summary>
+            网页菜单权限唯一标识组
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.User.Request.AddUserRequestModel">
+            <summary>
+            用户添加请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.AddUserRequestModel.Account">
+            <summary>
+            账户
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.AddUserRequestModel.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.AddUserRequestModel.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.AddUserRequestModel.PhoneNumber">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.AddUserRequestModel.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.AddUserRequestModel.RoleIDs">
+            <summary>
+            角色ID组
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.User.Request.EditUserRequestModel">
+            <summary>
+            用户修改请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.EditUserRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.User.Request.ExchangePasswordRequestModel">
+            <summary>
+            更改密码请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.ExchangePasswordRequestModel.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.ExchangePasswordRequestModel.OldPassword">
+            <summary>
+            旧密码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.ExchangePasswordRequestModel.NewPassword">
+            <summary>
+            新密码
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.User.Request.GetUserInfoByTokenRequestModel">
+            <summary>
+            根据Token获取用户信息请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.GetUserInfoByTokenRequestModel.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.User.Request.QueryUserFilterRequestModel">
+            <summary>
+            用户查询请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.QueryUserFilterRequestModel.Account">
+            <summary>
+            账户
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.QueryUserFilterRequestModel.Name">
+            <summary>
+            姓名
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.QueryUserFilterRequestModel.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.QueryUserFilterRequestModel.PhoneNumber">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.QueryUserFilterRequestModel.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.User.Request.UserLoginRequestModel">
+            <summary>
+            用户登录请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.UserLoginRequestModel.Account">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Request.UserLoginRequestModel.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.User.Result.TokenResultModel">
+            <summary>
+            Token返回模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.TokenResultModel.access_token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.TokenResultModel.expires_in">
+            <summary>
+            有效秒数
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.TokenResultModel.token_type">
+            <summary>
+            Token类型
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.User.Result.UserLoginResultModel">
+            <summary>
+            用户登录返回模型
+            </summary>
+        </member>
+        <member name="M:Authority.PresentationModel.User.Result.UserLoginResultModel.#ctor">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:Authority.PresentationModel.User.Result.UserLoginResultModel.#ctor(Authority.PresentationModel.User.Result.TokenResultModel)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="model"></param>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.UserLoginResultModel.AccessToken">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.UserLoginResultModel.ExpiresSecond">
+            <summary>
+            有效秒数
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.User.Result.UserLoginResultModel.TokenType">
+            <summary>
+            Token类型
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.WebMenuAuthority.Request.AddWebMenuAuthorityRequestModel">
+            <summary>
+            网页菜单权限添加请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.AddWebMenuAuthorityRequestModel.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.AddWebMenuAuthorityRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.AddWebMenuAuthorityRequestModel.Style">
+            <summary>
+            样式
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.AddWebMenuAuthorityRequestModel.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.AddWebMenuAuthorityRequestModel.ParentID">
+            <summary>
+            父级ID
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.WebMenuAuthority.Request.EditWebMenuAuthorityRequestModel">
+            <summary>
+            网页菜单权限修改请求模型
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.EditWebMenuAuthorityRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.EditWebMenuAuthorityRequestModel.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.EditWebMenuAuthorityRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.EditWebMenuAuthorityRequestModel.Style">
+            <summary>
+            样式
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.EditWebMenuAuthorityRequestModel.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Authority.PresentationModel.WebMenuAuthority.Request.GetUserHasWebMenuAuthorityTreeRequestModel">
+            <summary>
+            获取用户拥有的网页菜单权限树
+            </summary>
+        </member>
+        <member name="P:Authority.PresentationModel.WebMenuAuthority.Request.GetUserHasWebMenuAuthorityTreeRequestModel.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
+    </members>
+</doc>

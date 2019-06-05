@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.0" />
+    <PackageReference Include="Materal.CacheHelper" Version="0.0.36" />
+    <PackageReference Include="Materal.RabbitMQHelper" Version="0.0.36" />
+    <PackageReference Include="Materal.RedisHelper" Version="0.0.36" />
+    <PackageReference Include="Materal.TTA.SqlServerRepository" Version="0.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
+    <PackageReference Include="NetCore.AutoRegisterDi" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Authority.EFRepository\Authority.EFRepository.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Log.EFRepository\Log.EFRepository.csproj" />
+  </ItemGroup>
+
+</Project>

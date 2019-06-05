@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Log.DataTransmitModel</name>
+    </assembly>
+    <members>
+        <member name="T:Log.DataTransmitModel.Log.LogDTO">
+            <summary>
+            日志数据传输模型
+            </summary>
+        </member>
+        <member name="P:Log.DataTransmitModel.Log.LogDTO.Logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="P:Log.DataTransmitModel.Log.LogDTO.Callsite">
+            <summary>
+            调用点
+            </summary>
+        </member>
+        <member name="P:Log.DataTransmitModel.Log.LogDTO.Exception">
+            <summary>
+            异常
+            </summary>
+        </member>
+        <member name="T:Log.DataTransmitModel.Log.LogListDTO">
+            <summary>
+            日志列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:Log.DataTransmitModel.Log.LogListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Log.DataTransmitModel.Log.LogListDTO.Application">
+            <summary>
+            应用程序名称
+            </summary>
+        </member>
+        <member name="P:Log.DataTransmitModel.Log.LogListDTO.Level">
+            <summary>
+            日志等级
+            </summary>
+        </member>
+        <member name="P:Log.DataTransmitModel.Log.LogListDTO.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+    </members>
+</doc>

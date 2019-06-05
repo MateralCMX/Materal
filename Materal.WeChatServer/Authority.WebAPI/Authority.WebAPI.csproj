@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>Authority.WebAPI.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>Authority.WebAPI.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Authority.DataTransmitModel\Authority.DataTransmitModel.csproj" />
+    <ProjectReference Include="..\Authority.EFRepository\Authority.EFRepository.csproj" />
+    <ProjectReference Include="..\Authority.PresentationModel\Authority.PresentationModel.csproj" />
+    <ProjectReference Include="..\Authority.ServiceImpl\Authority.ServiceImpl.csproj" />
+    <ProjectReference Include="..\BaseWebAPI\BaseWebAPI.csproj" />
+    <ProjectReference Include="..\DependencyInjection\DependencyInjection.csproj" />
+    <ProjectReference Include="..\Log.Common\Log.Common.csproj" />
+    <ProjectReference Include="..\Log.EFRepository\Log.EFRepository.csproj" />
+    <ProjectReference Include="..\Log.ServiceImpl\Log.ServiceImpl.csproj" />
+    <ProjectReference Include="..\Model\Model.csproj" />
+  </ItemGroup>
+
+</Project>

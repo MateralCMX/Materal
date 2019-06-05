@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.Development.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JWT" Version="5.1.1" />
+    <PackageReference Include="Materal.Common" Version="0.0.36" />
+    <PackageReference Include="Materal.EnumHelper" Version="0.0.36" />
+    <PackageReference Include="Materal.RabbitMQHelper" Version="0.0.36" />
+    <PackageReference Include="Materal.StringHelper" Version="0.0.36" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1125_1json__JSONSchema="http://json.schemastore.org/avro-avsc" /></VisualStudio></ProjectExtensions>
+
+</Project>

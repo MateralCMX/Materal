@@ -51,10 +51,10 @@ namespace CodeCreate.Model
             if (HasXmlFile)
             {
                 result += "  <PropertyGroup  Condition=\"'$(Configuration)|$(Platform)' == 'Release|AnyCPU'\">\r\n";
-                result += $"    <DocumentationFile>{subSystemName}.DataTransmitModel.xml</DocumentationFile>\r\n";
+                result += $"    <DocumentationFile>{subSystemName}.{Name}.xml</DocumentationFile>\r\n";
                 result += "  </PropertyGroup>\r\n";
                 result += "  <PropertyGroup  Condition=\"'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'\">\r\n";
-                result += $"    <DocumentationFile>{subSystemName}.DataTransmitModel.xml</DocumentationFile>\r\n";
+                result += $"    <DocumentationFile>{subSystemName}.{Name}.xml</DocumentationFile>\r\n";
                 result += "  </PropertyGroup>\r\n";
             }
             if (ItemGroups != null)
