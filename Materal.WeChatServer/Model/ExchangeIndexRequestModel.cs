@@ -11,12 +11,12 @@ namespace Model
         /// 唯一标识1
         /// </summary>
         [Required(ErrorMessage = "唯一标识1不可以为空")]
-        public T ID1 { get; set; }
+        public T ExchangeID { get; set; }
         /// <summary>
         /// 唯一标识2
         /// </summary>
         [Required(ErrorMessage = "唯一标识2不可以为空")]
-        public T ID2 { get; set; }
+        public T TargetID { get; set; }
         /// <summary>
         /// 位置
         /// </summary>

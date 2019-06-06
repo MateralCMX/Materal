@@ -63,9 +63,9 @@ namespace Authority.Service
         /// </summary>
         /// <param name="id">唯一标识</param>
         /// <param name="parentID">父级唯一标识</param>
-        /// <param name="indexID">位序目标唯一标识</param>
+        /// <param name="targetID">位序目标唯一标识</param>
         /// <param name="forUnder">在位序目标之下</param>
         /// <returns></returns>
-        Task ExchangeWebMenuAuthorityParentIDAsync(Guid id, Guid? parentID, Guid? indexID, bool forUnder = true);
+        Task ExchangeWebMenuAuthorityParentIDAsync(Guid id, Guid? parentID, Guid? targetID, bool forUnder = true);
     }
 }

@@ -9,12 +9,12 @@
             调换网页菜单权限位序请求模型
             </summary>
         </member>
-        <member name="P:Model.ExchangeIndexRequestModel`1.ID1">
+        <member name="P:Model.ExchangeIndexRequestModel`1.ExchangeID">
             <summary>
             唯一标识1
             </summary>
         </member>
-        <member name="P:Model.ExchangeIndexRequestModel`1.ID2">
+        <member name="P:Model.ExchangeIndexRequestModel`1.TargetID">
             <summary>
             唯一标识2
             </summary>
@@ -24,18 +24,18 @@
             位置
             </summary>
         </member>
-        <member name="T:Model.ExchangeParentIDNotIndexIDRequestModel`1">
+        <member name="T:Model.ExchangeParentIDNotTargetIDRequestModel`1">
             <summary>
             更改父级请求模型
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:Model.ExchangeParentIDNotIndexIDRequestModel`1.ID">
+        <member name="P:Model.ExchangeParentIDNotTargetIDRequestModel`1.ID">
             <summary>
             唯一标识
             </summary>
         </member>
-        <member name="P:Model.ExchangeParentIDNotIndexIDRequestModel`1.ParentID">
+        <member name="P:Model.ExchangeParentIDNotTargetIDRequestModel`1.ParentID">
             <summary>
             父级唯一标识
             </summary>
@@ -56,7 +56,7 @@
             父级唯一标识
             </summary>
         </member>
-        <member name="P:Model.ExchangeParentIDRequestModel`1.IndexID">
+        <member name="P:Model.ExchangeParentIDRequestModel`1.TargetID">
             <summary>
             位序唯一标识
             </summary>

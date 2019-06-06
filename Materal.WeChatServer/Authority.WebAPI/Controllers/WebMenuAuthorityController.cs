@@ -113,7 +113,7 @@ namespace Authority.WebAPI.Controllers
         {
             try
             {
-                await _webMenuAuthorityService.ExchangeWebMenuAuthorityIndexAsync(requestModel.ID1, requestModel.ID2, requestModel.ForUnder);
+                await _webMenuAuthorityService.ExchangeWebMenuAuthorityIndexAsync(requestModel.ExchangeID, requestModel.TargetID, requestModel.ForUnder);
                 return ResultModel.Success("调换成功");
             }
             catch (InvalidOperationException ex)
@@ -168,7 +168,7 @@ namespace Authority.WebAPI.Controllers
         {
             try
             {
-                await _webMenuAuthorityService.ExchangeWebMenuAuthorityParentIDAsync(requestModel.ID, requestModel.ParentID, requestModel.IndexID, requestModel.ForUnder);
+                await _webMenuAuthorityService.ExchangeWebMenuAuthorityParentIDAsync(requestModel.ID, requestModel.ParentID, requestModel.TargetID, requestModel.ForUnder);
                 return ResultModel.Success("修改成功");
             }
             catch (InvalidOperationException ex)

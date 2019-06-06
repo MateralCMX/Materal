@@ -20,7 +20,7 @@ namespace Model
         /// <summary>
         /// 位序唯一标识
         /// </summary>
-        public T? IndexID { get; set; }
+        public T? TargetID { get; set; }
         /// <summary>
         /// 位置
         /// </summary>

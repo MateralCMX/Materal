@@ -94,7 +94,7 @@ namespace Authority.ServiceImpl
             ExchangeIndex(exchangeID, forUnder, webMenuAuthorities);
             await _authorityUnitOfWork.CommitAsync();
         }
-        public async Task ExchangeWebMenuAuthorityParentIDAsync(Guid id, Guid? parentID, Guid? indexID, bool forUnder = true)
+        public async Task ExchangeWebMenuAuthorityParentIDAsync(Guid id, Guid? parentID, Guid? targetID, bool forUnder = true)
         {
             if (parentID.HasValue && !await _webMenuAuthorityRepository.ExistedAsync(parentID.Value))
             {
@@ -103,9 +103,9 @@ namespace Authority.ServiceImpl
             WebMenuAuthority webMenuAuthorityFromDB = await _webMenuAuthorityRepository.FirstOrDefaultAsync(id);
             if (webMenuAuthorityFromDB == null) throw new InvalidOperationException("该网页菜单权限不存在");
             webMenuAuthorityFromDB.ParentID = parentID;
-            if (indexID.HasValue)
+            if (targetID.HasValue)
             {
-                WebMenuAuthority indexWebMenuAuthority = await _webMenuAuthorityRepository.FirstOrDefaultAsync(indexID.Value);
+                WebMenuAuthority indexWebMenuAuthority = await _webMenuAuthorityRepository.FirstOrDefaultAsync(targetID.Value);
                 List<WebMenuAuthority> webMenuAuthorities = await GetWebMenuAuthoritiesByIndex(webMenuAuthorityFromDB, indexWebMenuAuthority);
                 ExchangeIndex(id, forUnder, webMenuAuthorities);
             }

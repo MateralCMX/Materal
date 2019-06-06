@@ -103,7 +103,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Authority.WebAPI.Controllers.APIAuthorityController.ExchangeAPIAuthorityParentID(Model.ExchangeParentIDNotIndexIDRequestModel{System.Guid})">
+        <member name="M:Authority.WebAPI.Controllers.APIAuthorityController.ExchangeAPIAuthorityParentID(Model.ExchangeParentIDNotTargetIDRequestModel{System.Guid})">
             <summary>
             更换API权限父级
             </summary>
@@ -151,7 +151,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Authority.WebAPI.Controllers.RoleController.ExchangeRoleParentID(Model.ExchangeParentIDNotIndexIDRequestModel{System.Guid})">
+        <member name="M:Authority.WebAPI.Controllers.RoleController.ExchangeRoleParentID(Model.ExchangeParentIDNotTargetIDRequestModel{System.Guid})">
             <summary>
             更换角色权限父级
             </summary>
