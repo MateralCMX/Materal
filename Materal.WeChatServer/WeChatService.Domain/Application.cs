@@ -24,9 +24,9 @@ namespace WeChatService.Domain
         /// </summary>
         public string AppSecret { get; set; }
         /// <summary>
-        /// Token
+        /// WeChatToken
         /// </summary>
-        public string Token { get; set; }
+        public string WeChatToken { get; set; }
         /// <summary>
         /// EncodingAESKey
         /// </summary>

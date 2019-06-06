@@ -39,7 +39,7 @@ namespace WeChatService.EFRepository.Migrations
 
                     b.Property<string>("Remark");
 
-                    b.Property<string>("Token")
+                    b.Property<string>("WeChatToken")
                         .IsRequired();
 
                     b.Property<DateTime>("UpdateTime");

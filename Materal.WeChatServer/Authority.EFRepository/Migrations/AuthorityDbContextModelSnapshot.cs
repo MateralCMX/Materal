@@ -241,8 +241,7 @@ namespace Authority.EFRepository.Migrations
                     b.Property<DateTime>("CreateTime");
 
                     b.Property<int>("Index")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .IsRequired();
 
                     b.Property<string>("Name")
                         .IsRequired()

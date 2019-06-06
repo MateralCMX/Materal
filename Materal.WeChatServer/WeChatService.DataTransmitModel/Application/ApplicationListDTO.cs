@@ -10,5 +10,21 @@ namespace WeChatService.DataTransmitModel.Application
         /// 唯一标识
         /// </summary>
         public Guid ID { get; set; }
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// AppID
+        /// </summary>
+        public string AppID { get; set; }
+        /// <summary>
+        /// AppSecret
+        /// </summary>
+        public string AppSecret { get; set; }
+        /// <summary>
+        /// WeChatToken
+        /// </summary>
+        public string WeChatToken { get; set; }
     }
 }

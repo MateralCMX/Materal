@@ -18,7 +18,7 @@ namespace WeChatService.EFRepository.Migrations
                     UserID = table.Column<Guid>(nullable: false),
                     AppID = table.Column<string>(nullable: false),
                     AppSecret = table.Column<string>(nullable: false),
-                    Token = table.Column<string>(nullable: false),
+                    WeChatToken = table.Column<string>(nullable: false),
                     EncodingAESKey = table.Column<string>(nullable: true),
                     Remark = table.Column<string>(nullable: true)
                 },
