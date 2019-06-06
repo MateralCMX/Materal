@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
@@ -30,10 +30,6 @@
     <ProjectReference Include="..\WeChatService.EFRepository\WeChatService.EFRepository.csproj" />
     <ProjectReference Include="..\WeChatService.PresentationModel\WeChatService.PresentationModel.csproj" />
     <ProjectReference Include="..\WeChatService.ServiceImpl\WeChatService.ServiceImpl.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

@@ -10,5 +10,13 @@ namespace WeChatService.DataTransmitModel.WeChatDomain
         /// 唯一标识
         /// </summary>
         public Guid ID { get; set; }
+        /// <summary>
+        /// Url
+        /// </summary>
+        public string Url { get; set; }
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; }
     }
 }

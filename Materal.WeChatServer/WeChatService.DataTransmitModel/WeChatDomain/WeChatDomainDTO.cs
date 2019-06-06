@@ -1,5 +1,4 @@
-﻿using System;
-namespace WeChatService.DataTransmitModel.WeChatDomain
+﻿namespace WeChatService.DataTransmitModel.WeChatDomain
 {
     /// <summary>
     /// 微信域名数据传输模型

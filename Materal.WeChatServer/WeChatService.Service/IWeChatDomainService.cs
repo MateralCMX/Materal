@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Materal.Common;
 using WeChatService.DataTransmitModel.WeChatDomain;
 using WeChatService.Service.Model.WeChatDomain;
 namespace WeChatService.Service
@@ -42,9 +41,15 @@ namespace WeChatService.Service
         /// <summary>
         /// 获得微信域名列表
         /// </summary>
-        /// <param name="filterModel">查询模型</param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        Task<(List<WeChatDomainListDTO> result, PageModel pageModel)> GetWeChatDomainListAsync(QueryWeChatDomainFilterModel filterModel);
+        Task<List<WeChatDomainListDTO>> GetWeChatDomainListAsync();
+        /// <summary>
+        /// 调换位序
+        /// </summary>
+        /// <param name="exchangeID"></param>
+        /// <param name="targetID"></param>
+        /// <returns></returns>
+        Task ExchangeWeChatDomainIndexAsync(Guid exchangeID, Guid targetID);
     }
 }

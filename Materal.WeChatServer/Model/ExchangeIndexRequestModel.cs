@@ -3,7 +3,7 @@
 namespace Model
 {
     /// <summary>
-    /// 调换网页菜单权限位序请求模型
+    /// 调换位序请求模型
     /// </summary>
     public sealed class ExchangeIndexRequestModel<T>
     {

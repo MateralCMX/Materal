@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
-using Materal.Common;
 using Materal.ConvertHelper;
-using Materal.LinqHelper;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WeChatService.DataTransmitModel.WeChatDomain;
 using WeChatService.Domain;
@@ -32,23 +28,42 @@ namespace WeChatService.ServiceImpl
         }
         public async Task AddWeChatDomainAsync(AddWeChatDomainModel model)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(model.Url)) throw new InvalidOperationException("Url为空");
+            if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称为空");
+            if (await _weChatDomainRepository.CountAsync(m => m.Url == model.Url) > 0) throw new InvalidOperationException("Url已存在");
+            var weChatDomain = model.CopyProperties<WeChatDomain>();
+            _weChatServiceUnitOfWork.RegisterAdd(weChatDomain);
+            await _weChatServiceUnitOfWork.CommitAsync();
         }
         public async Task EditWeChatDomainAsync(EditWeChatDomainModel model)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(model.Url)) throw new InvalidOperationException("代码为空");
+            if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称为空");
+            if (await _weChatDomainRepository.CountAsync(m => m.ID != model.ID && m.Url == model.Url) > 0) throw new InvalidOperationException("Url已存在");
+            WeChatDomain weChatDomainFromDB = await _weChatDomainRepository.FirstOrDefaultAsync(model.ID);
+            if (weChatDomainFromDB == null) throw new InvalidOperationException("微信域名不存在");
+            model.CopyProperties(weChatDomainFromDB);
+            weChatDomainFromDB.UpdateTime = DateTime.Now;
+            _weChatServiceUnitOfWork.RegisterEdit(weChatDomainFromDB);
+            await _weChatServiceUnitOfWork.CommitAsync();
         }
         public async Task DeleteWeChatDomainAsync(Guid id)
         {
-            throw new NotImplementedException();
+            WeChatDomain weChatDomainFromDB = await _weChatDomainRepository.FirstOrDefaultAsync(id);
+            if (weChatDomainFromDB == null) throw new InvalidOperationException("微信域名不存在");
+            _weChatServiceUnitOfWork.RegisterDelete(weChatDomainFromDB);
+            await _weChatServiceUnitOfWork.CommitAsync();
         }
         public async Task<WeChatDomainDTO> GetWeChatDomainInfoAsync(Guid id)
         {
-            throw new NotImplementedException();
+            WeChatDomain weChatDomainFromDB = await _weChatDomainRepository.FirstOrDefaultAsync(id);
+            if (weChatDomainFromDB == null) throw new InvalidOperationException("微信域名不存在");
+            return _mapper.Map<WeChatDomainDTO>(weChatDomainFromDB);
         }
-        public async Task<(List<WeChatDomainListDTO> result, PageModel pageModel)> GetWeChatDomainListAsync(QueryWeChatDomainFilterModel filterModel)
+        public async Task<List<WeChatDomainListDTO>> GetWeChatDomainListAsync()
         {
-            throw new NotImplementedException();
+            List<WeChatDomain> actionAuthoritiesFromDB = await _weChatDomainRepository.WhereAsync(m => true).OrderBy(m => m.Index).ToList();
+            return _mapper.Map<List<WeChatDomainListDTO>>(actionAuthoritiesFromDB);
         }
         public async Task ExchangeWeChatDomainIndexAsync(Guid id1, Guid id2)
         {
