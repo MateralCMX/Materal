@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WeChatService.PresentationModel</name>
+    </assembly>
+    <members>
+        <member name="T:WeChatService.PresentationModel.Application.Request.AddApplicationRequestModel">
+            <summary>
+            应用添加请求模型
+            </summary>
+        </member>
+        <member name="T:WeChatService.PresentationModel.Application.Request.EditApplicationRequestModel">
+            <summary>
+            应用修改请求模型
+            </summary>
+        </member>
+        <member name="P:WeChatService.PresentationModel.Application.Request.EditApplicationRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="T:WeChatService.PresentationModel.Application.Request.QueryApplicationFilterRequestModel">
+            <summary>
+            应用查询请求模型
+            </summary>
+        </member>
+        <member name="T:WeChatService.PresentationModel.AutoMapperProfile.ApplicationProfile">
+            <summary>
+            应用AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:WeChatService.PresentationModel.AutoMapperProfile.ApplicationProfile.#ctor">
+            <summary>
+            应用AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:WeChatService.PresentationModel.AutoMapperProfile.WeChatDomainProfile">
+            <summary>
+            微信域名AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:WeChatService.PresentationModel.AutoMapperProfile.WeChatDomainProfile.#ctor">
+            <summary>
+            微信域名AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:WeChatService.PresentationModel.WeChatDomain.Request.AddWeChatDomainRequestModel">
+            <summary>
+            微信域名添加请求模型
+            </summary>
+        </member>
+        <member name="T:WeChatService.PresentationModel.WeChatDomain.Request.EditWeChatDomainRequestModel">
+            <summary>
+            微信域名修改请求模型
+            </summary>
+        </member>
+        <member name="P:WeChatService.PresentationModel.WeChatDomain.Request.EditWeChatDomainRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="T:WeChatService.PresentationModel.WeChatDomain.Request.QueryWeChatDomainFilterRequestModel">
+            <summary>
+            微信域名查询请求模型
+            </summary>
+        </member>
+    </members>
+</doc>

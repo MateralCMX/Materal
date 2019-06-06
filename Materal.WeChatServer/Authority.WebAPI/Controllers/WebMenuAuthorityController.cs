@@ -37,7 +37,7 @@ namespace Authority.WebAPI.Controllers
         /// 添加网页菜单权限
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.AddWebMenuAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.AddWebMenuAuthorityCode)]
         public async Task<ResultModel> AddWebMenuAuthority(AddWebMenuAuthorityRequestModel requestModel)
         {
             try
@@ -55,7 +55,7 @@ namespace Authority.WebAPI.Controllers
         /// 修改网页菜单权限
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.EditWebMenuAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditWebMenuAuthorityCode)]
         public async Task<ResultModel> EditWebMenuAuthority(EditWebMenuAuthorityRequestModel requestModel)
         {
             try
@@ -73,7 +73,7 @@ namespace Authority.WebAPI.Controllers
         /// 删除网页菜单权限
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.DeleteWebMenuAuthorityCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.DeleteWebMenuAuthorityCode)]
         public async Task<ResultModel> DeleteWebMenuAuthority(Guid id)
         {
             try
@@ -90,7 +90,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得网页菜单权限信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryWebMenuAuthorityCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryWebMenuAuthorityCode)]
         public async Task<ResultModel<WebMenuAuthorityDTO>> GetWebMenuAuthorityInfo(Guid id)
         {
             try
@@ -108,12 +108,12 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.EditWebMenuAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditWebMenuAuthorityCode)]
         public async Task<ResultModel> ExchangeWebMenuAuthorityIndex(ExchangeIndexRequestModel<Guid> requestModel)
         {
             try
             {
-                await _webMenuAuthorityService.ExchangeWebMenuAuthorityIndexAsync(requestModel.ID1, requestModel.ID2);
+                await _webMenuAuthorityService.ExchangeWebMenuAuthorityIndexAsync(requestModel.ID1, requestModel.ID2, requestModel.ForUnder);
                 return ResultModel.Success("调换成功");
             }
             catch (InvalidOperationException ex)
@@ -125,7 +125,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得网页菜单权限树
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryWebMenuAuthorityCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryWebMenuAuthorityCode)]
         public async Task<ResultModel<List<WebMenuAuthorityTreeDTO>>> GetWebMenuAuthorityTree()
         {
             try
@@ -142,7 +142,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得用户拥有的网页菜单权限树
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryWebMenuAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryWebMenuAuthorityCode)]
         public async Task<ResultModel<List<WebMenuAuthorityTreeDTO>>> GetUserHasWebMenuAuthorityTree(GetUserHasWebMenuAuthorityTreeRequestModel requestModel)
         {
             try
@@ -163,7 +163,7 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.EditWebMenuAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditWebMenuAuthorityCode)]
         public async Task<ResultModel> ExchangeWebMenuAuthorityParentID(ExchangeParentIDRequestModel<Guid> requestModel)
         {
             try

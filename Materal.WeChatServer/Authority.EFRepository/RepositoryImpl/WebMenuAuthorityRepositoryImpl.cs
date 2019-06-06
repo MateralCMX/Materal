@@ -19,6 +19,12 @@ namespace Authority.EFRepository.RepositoryImpl
         {
             _cacheManager = cacheManager;
         }
+
+        public int GetMaxIndex()
+        {
+            return DBSet.Any() ? DBSet.Max(m => m.Index) : 0;
+        }
+
         public async Task<List<WebMenuAuthority>> GetAllInfoFromCacheAsync()
         {
             var result = _cacheManager.Get<List<WebMenuAuthority>>(AllInfoCacheName);

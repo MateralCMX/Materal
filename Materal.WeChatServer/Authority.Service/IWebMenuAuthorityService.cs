@@ -53,10 +53,11 @@ namespace Authority.Service
         /// <summary>
         /// 调换位序
         /// </summary>
-        /// <param name="id1"></param>
-        /// <param name="id2"></param>
+        /// <param name="exchangeID"></param>
+        /// <param name="targetID"></param>
+        /// <param name="forUnder"></param>
         /// <returns></returns>
-        Task ExchangeWebMenuAuthorityIndexAsync(Guid id1, Guid id2);
+        Task ExchangeWebMenuAuthorityIndexAsync(Guid exchangeID, Guid targetID, bool forUnder = true);
         /// <summary>
         /// 更换父级
         /// </summary>

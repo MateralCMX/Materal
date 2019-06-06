@@ -101,8 +101,7 @@ namespace Authority.EFRepository.Migrations
                     Code = table.Column<string>(maxLength: 100, nullable: true),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
                     Style = table.Column<string>(nullable: true),
-                    Index = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Index = table.Column<int>(nullable: false),
                     Remark = table.Column<string>(nullable: false),
                     ParentID = table.Column<Guid>(nullable: true)
                 },

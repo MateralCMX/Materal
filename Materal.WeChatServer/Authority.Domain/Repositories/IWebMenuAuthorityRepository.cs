@@ -11,6 +11,11 @@ namespace Authority.Domain.Repositories
     public interface IWebMenuAuthorityRepository : IRepository<WebMenuAuthority, Guid>
     {
         /// <summary>
+        /// 获得最大位序
+        /// </summary>
+        /// <returns></returns>
+        int GetMaxIndex();
+        /// <summary>
         /// 从缓存中获取所有信息
         /// </summary>
         /// <returns></returns>

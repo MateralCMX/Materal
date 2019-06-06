@@ -35,7 +35,7 @@ namespace Authority.WebAPI.Controllers
         /// 添加角色
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.AddRoleCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.AddRoleCode)]
         public async Task<ResultModel> AddRole(AddRoleRequestModel requestModel)
         {
             try
@@ -53,7 +53,7 @@ namespace Authority.WebAPI.Controllers
         /// 修改角色
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.EditRoleCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditRoleCode)]
         public async Task<ResultModel> EditRole(EditRoleRequestModel requestModel)
         {
             try
@@ -71,7 +71,7 @@ namespace Authority.WebAPI.Controllers
         /// 删除角色
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.DeleteRoleCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.DeleteRoleCode)]
         public async Task<ResultModel> DeleteRole(Guid id)
         {
             try
@@ -88,7 +88,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得角色信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryUserCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryUserCode)]
         public async Task<ResultModel<RoleDTO>> GetRoleInfo(Guid id)
         {
             try
@@ -106,7 +106,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得角色权限树
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryUserCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryUserCode)]
         public async Task<ResultModel<List<RoleTreeDTO>>> GetRoleTree()
         {
             try
@@ -125,7 +125,7 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.EditRoleCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditRoleCode)]
         public async Task<ResultModel> ExchangeRoleParentID(ExchangeParentIDNotIndexIDRequestModel<Guid> requestModel)
         {
             try

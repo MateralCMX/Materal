@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Materal.TTA.SqlServerRepository" Version="0.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WeChatService.Domain\WeChatService.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ModelConfig\" />
+    <Folder Include="RepositoryImpl\" />
+  </ItemGroup>
+</Project>

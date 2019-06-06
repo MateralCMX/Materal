@@ -17,5 +17,9 @@ namespace Model
         /// </summary>
         [Required(ErrorMessage = "唯一标识2不可以为空")]
         public T ID2 { get; set; }
+        /// <summary>
+        /// 位置
+        /// </summary>
+        public bool ForUnder { get; set; } = true;
     }
 }

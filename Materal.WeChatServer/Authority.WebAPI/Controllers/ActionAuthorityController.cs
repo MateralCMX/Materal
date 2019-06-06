@@ -37,7 +37,7 @@ namespace Authority.WebAPI.Controllers
         /// 添加功能权限
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.AddActionAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.AddActionAuthorityCode)]
         public async Task<ResultModel> AddActionAuthority(AddActionAuthorityRequestModel requestModel)
         {
             try
@@ -55,7 +55,7 @@ namespace Authority.WebAPI.Controllers
         /// 修改功能权限
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.EditActionAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditActionAuthorityCode)]
         public async Task<ResultModel> EditActionAuthority(EditActionAuthorityRequestModel requestModel)
         {
             try
@@ -74,7 +74,7 @@ namespace Authority.WebAPI.Controllers
         /// 删除功能权限
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.DeleteActionAuthorityCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.DeleteActionAuthorityCode)]
         public async Task<ResultModel> DeleteActionAuthority(Guid id)
         {
             try
@@ -91,7 +91,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得功能权限信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryActionAuthorityCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryActionAuthorityCode)]
         public async Task<ResultModel<ActionAuthorityDTO>> GetActionAuthorityInfo(Guid id)
         {
             try
@@ -108,7 +108,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得功能权限列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryActionAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryActionAuthorityCode)]
         public async Task<PageResultModel<ActionAuthorityListDTO>> GetActionAuthorityList(QueryActionAuthorityFilterRequestModel requestModel)
         {
             try
@@ -126,7 +126,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得用户拥有的功能权限列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.BaseAPICode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.BaseAPICode)]
         public async Task<ResultModel<List<ActionAuthorityListDTO>>> GetUserHasActionAuthorityList(GetUserOwnedActionAuthorityListRequestModel requestModel)
         {
             try

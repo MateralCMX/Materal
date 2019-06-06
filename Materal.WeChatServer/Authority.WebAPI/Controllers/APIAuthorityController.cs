@@ -35,7 +35,7 @@ namespace Authority.WebAPI.Controllers
         /// 添加API权限
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.AddAPIAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.AddAPIAuthorityCode)]
         public async Task<ResultModel> AddAPIAuthority(AddAPIAuthorityRequestModel requestModel)
         {
             try
@@ -53,7 +53,7 @@ namespace Authority.WebAPI.Controllers
         /// 修改API权限
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.EditAPIAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditAPIAuthorityCode)]
         public async Task<ResultModel> EditAPIAuthority(EditAPIAuthorityRequestModel requestModel)
         {
             try
@@ -71,7 +71,7 @@ namespace Authority.WebAPI.Controllers
         /// 删除API权限
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.DeleteAPIAuthorityCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.DeleteAPIAuthorityCode)]
         public async Task<ResultModel> DeleteAPIAuthority(Guid id)
         {
             try
@@ -88,7 +88,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得API权限信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryAPIAuthorityCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryAPIAuthorityCode)]
         public async Task<ResultModel<APIAuthorityDTO>> GetAPIAuthorityInfo(Guid id)
         {
             try
@@ -105,7 +105,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得API权限树
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryAPIAuthorityCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryAPIAuthorityCode)]
         public async Task<ResultModel<List<APIAuthorityTreeDTO>>> GetAPIAuthorityTree()
         {
             try
@@ -128,7 +128,7 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.EditAPIAuthorityCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditAPIAuthorityCode)]
         public async Task<ResultModel> ExchangeAPIAuthorityParentID(ExchangeParentIDNotIndexIDRequestModel<Guid> requestModel)
         {
             try

@@ -22,9 +22,8 @@ namespace Common
         }
         #region SQLServer
         private static SqlServerConfigModel _authorityDBConfig;
-        private static SqlServerConfigModel _logDBConfig;
         /// <summary>
-        /// User数据库
+        /// 权限数据库
         /// </summary>
         public static SqlServerConfigModel AuthorityDB => _authorityDBConfig ?? (_authorityDBConfig = new SqlServerConfigModel
         {
@@ -35,6 +34,7 @@ namespace Common
             UserID = Configuration["SQLServerDB:AuthorityDB:UserID"],
             Password = Configuration["SQLServerDB:AuthorityDB:Password"],
         });
+        private static SqlServerConfigModel _logDBConfig;
         /// <summary>
         /// 日志数据库
         /// </summary>
@@ -46,6 +46,19 @@ namespace Common
             Name = Configuration["SQLServerDB:LogDB:Name"],
             UserID = Configuration["SQLServerDB:LogDB:UserID"],
             Password = Configuration["SQLServerDB:LogDB:Password"],
+        });
+        private static SqlServerConfigModel _weChatServiceDBConfig;
+        /// <summary>
+        /// 微信服务数据库
+        /// </summary>
+        public static SqlServerConfigModel WeChatServiceDB => _weChatServiceDBConfig ?? (_weChatServiceDBConfig = new SqlServerConfigModel
+        {
+            Address = Configuration["SQLServerDB:WeChatServiceDB:Address"],
+            AttachDbFilename = Configuration["SQLServerDB:WeChatServiceDB:AttachDbFilename"],
+            Port = Configuration["SQLServerDB:WeChatServiceDB:Port"],
+            Name = Configuration["SQLServerDB:WeChatServiceDB:Name"],
+            UserID = Configuration["SQLServerDB:WeChatServiceDB:UserID"],
+            Password = Configuration["SQLServerDB:WeChatServiceDB:Password"],
         });
         #endregion
         #region 应用程序
@@ -71,6 +84,11 @@ namespace Common
         /// 权限系统应用程序名称
         /// </summary>
         public static string AuthorityApplicationName => _authorityApplicationName ?? (_authorityApplicationName = Configuration["ApplicationName:Authority"]);
+        private static string _weChatServiceApplicationName;
+        /// <summary>
+        /// 微信服务应用程序名称
+        /// </summary>
+        public static string WeChatServiceApplicationName => _weChatServiceApplicationName ?? (_weChatServiceApplicationName = Configuration["ApplicationName:WeChatService"]);
         #endregion
         #region 私有方法
         /// <summary>

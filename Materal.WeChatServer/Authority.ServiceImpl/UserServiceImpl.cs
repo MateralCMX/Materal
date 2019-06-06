@@ -59,6 +59,7 @@ namespace Authority.ServiceImpl
             User userFromDB = await _userRepository.FirstOrDefaultAsync(model.ID);
             if (userFromDB == null) throw new InvalidOperationException("用户不存在");
             model.CopyProperties(userFromDB);
+            userFromDB.UpdateTime = DateTime.Now;
             await EditUserRoles(userFromDB, model.RoleIDs);
             _authorityUnitOfWork.RegisterEdit(userFromDB);
             await _authorityUnitOfWork.CommitAsync();
@@ -128,28 +129,30 @@ namespace Authority.ServiceImpl
         }
         public async Task ExchangePasswordAsync(ExchangePasswordModel model)
         {
-            User user = await _userRepository.FirstOrDefaultAsync(model.ID);
-            if (GetEncodePassword(user.Password) != model.OldPassword) throw new InvalidOperationException("输入的旧密码错误");
+            User userFromDB = await _userRepository.FirstOrDefaultAsync(model.ID);
+            if (GetEncodePassword(userFromDB.Password) != model.OldPassword) throw new InvalidOperationException("输入的旧密码错误");
             model.NewPassword = GetEncodePassword(model.NewPassword);
-            if (model.NewPassword == user.Password) throw new InvalidOperationException("新密码与旧密码相同");
-            user.Password = model.NewPassword;
-            _authorityUnitOfWork.RegisterEdit(user);
+            if (model.NewPassword == userFromDB.Password) throw new InvalidOperationException("新密码与旧密码相同");
+            userFromDB.Password = model.NewPassword;
+            userFromDB.UpdateTime = DateTime.Now;
+            _authorityUnitOfWork.RegisterEdit(userFromDB);
             await _authorityUnitOfWork.CommitAsync();
         }
         public async Task<string> ResetPasswordAsync(Guid id)
         {
-            User user = await _userRepository.FirstOrDefaultAsync(id);
-            user.Password = GetEncodePassword(DefaultPassword);
-            _authorityUnitOfWork.RegisterEdit(user);
+            User userFormDB = await _userRepository.FirstOrDefaultAsync(id);
+            userFormDB.Password = GetEncodePassword(DefaultPassword);
+            userFormDB.UpdateTime = DateTime.Now;
+            _authorityUnitOfWork.RegisterEdit(userFormDB);
             await _authorityUnitOfWork.CommitAsync();
             return DefaultPassword;
         }
         public async Task<UserListDTO> LoginAsync(string account, string password)
         {
             password = GetEncodePassword(password);
-            User user = await _userRepository.FirstOrDefaultAsync(m => m.Account == account && m.Password == password);
-            if (user == null) throw new InvalidOperationException("帐户名或密码错误");
-            var result = _mapper.Map<UserListDTO>(user);
+            User userFromDB = await _userRepository.FirstOrDefaultAsync(m => m.Account == account && m.Password == password);
+            if (userFromDB == null) throw new InvalidOperationException("帐户名或密码错误");
+            var result = _mapper.Map<UserListDTO>(userFromDB);
             return result;
         }
         public string GetEncodePassword(string password)

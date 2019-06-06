@@ -74,7 +74,7 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="requestModel">请求模型</param>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.BaseAPICode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.BaseAPICode)]
         public async Task<ResultModel<UserDTO>> GetUserInfoByToken(GetUserInfoByTokenRequestModel requestModel)
         {
             try
@@ -91,7 +91,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得所有性别类型
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.BaseAPICode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.BaseAPICode)]
         public ResultModel<List<KeyValueModel>> GetAllSexEnum()
         {
             try
@@ -109,7 +109,7 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="requestModel">请求模型</param>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.AddUserCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.AddUserCode)]
         public async Task<ResultModel> AddUser(AddUserRequestModel requestModel)
         {
             try
@@ -128,7 +128,7 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="requestModel">请求模型</param>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.EditUserCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditUserCode)]
         public async Task<ResultModel> EditUser(EditUserRequestModel requestModel)
         {
             try
@@ -147,7 +147,7 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="id">唯一标识</param>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.DeleteUserCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.DeleteUserCode)]
         public async Task<ResultModel> DeleteUser(Guid id)
         {
             try
@@ -165,7 +165,7 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="id">唯一标识</param>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryUserCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryUserCode)]
         public async Task<ResultModel<UserDTO>> GetUserInfo(Guid id)
         {
             try
@@ -185,7 +185,7 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="id">唯一标识</param>
         /// <returns></returns>
-        [HttpGet, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.ResetPasswordCode)]
+        [HttpGet, AuthorityFilter(AuthorityAPIAuthorityConfig.ResetPasswordCode)]
         public async Task<ResultModel<string>> ResetPassword(Guid id)
         {
             try
@@ -203,7 +203,7 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <param name="requestModel">请求模型</param>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.BaseAPICode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.BaseAPICode)]
         public async Task<ResultModel> ExchangePassword(ExchangePasswordRequestModel requestModel)
         {
             try
@@ -222,7 +222,7 @@ namespace Authority.WebAPI.Controllers
         /// 获得用户列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(AuthoritySystemAPIAuthorityConfig.QueryUserCode)]
+        [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryUserCode)]
         public async Task<PageResultModel<UserListDTO>> GetUserList(QueryUserFilterRequestModel requestModel)
         {
             try

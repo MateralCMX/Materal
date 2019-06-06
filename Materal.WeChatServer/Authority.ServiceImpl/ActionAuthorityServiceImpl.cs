@@ -28,11 +28,12 @@ namespace Authority.ServiceImpl
         private readonly IUserOwnedActionAuthorityRepository _userOwnedActionAuthorityRepository;
         private readonly IMapper _mapper;
         private readonly IAuthorityUnitOfWork _authorityUnitOfWork;
-        public ActionAuthorityServiceImpl(IActionAuthorityRepository actionAuthorityRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork)
+        public ActionAuthorityServiceImpl(IActionAuthorityRepository actionAuthorityRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork, IUserOwnedActionAuthorityRepository userOwnedActionAuthorityRepository)
         {
             _actionAuthorityRepository = actionAuthorityRepository;
             _mapper = mapper;
             _authorityUnitOfWork = authorityUnitOfWork;
+            _userOwnedActionAuthorityRepository = userOwnedActionAuthorityRepository;
         }
         public async Task AddActionAuthorityAsync(AddActionAuthorityModel model)
         {
@@ -53,6 +54,7 @@ namespace Authority.ServiceImpl
             ActionAuthority actionAuthorityFromDB = await _actionAuthorityRepository.FirstOrDefaultAsync(model.ID);
             if (actionAuthorityFromDB == null) throw new InvalidOperationException("功能权限不存在");
             model.CopyProperties(actionAuthorityFromDB);
+            actionAuthorityFromDB.UpdateTime = DateTime.Now;
             _authorityUnitOfWork.RegisterEdit(actionAuthorityFromDB);
             await _authorityUnitOfWork.CommitAsync();
         }

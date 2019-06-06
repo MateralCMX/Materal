@@ -53,6 +53,7 @@ namespace Authority.ServiceImpl
             Role roleFromDB = await _roleRepository.FirstOrDefaultAsync(model.ID);
             if (roleFromDB == null) throw new InvalidOperationException("角色不存在");
             model.CopyProperties(roleFromDB);
+            roleFromDB.UpdateTime = DateTime.Now;
             await EditRoleActionAuthorities(roleFromDB, model.ActionAuthorityIDs);
             await EditRoleAPIAuthorities(roleFromDB, model.APIAuthorityIDs);
             await EditRoleWebMenuAuthorities(roleFromDB, model.WebMenuAuthorityIDs);
@@ -89,6 +90,7 @@ namespace Authority.ServiceImpl
             Role roleFromDB = await _roleRepository.FirstOrDefaultAsync(id);
             if (roleFromDB == null) throw new InvalidOperationException("该角色不存在");
             roleFromDB.ParentID = parentID;
+            roleFromDB.UpdateTime = DateTime.Now;
             _authorityUnitOfWork.RegisterEdit(roleFromDB);
             await _authorityUnitOfWork.CommitAsync();
         }

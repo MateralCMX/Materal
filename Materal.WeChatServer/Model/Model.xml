@@ -19,6 +19,11 @@
             唯一标识2
             </summary>
         </member>
+        <member name="P:Model.ExchangeIndexRequestModel`1.ForUnder">
+            <summary>
+            位置
+            </summary>
+        </member>
         <member name="T:Model.ExchangeParentIDNotIndexIDRequestModel`1">
             <summary>
             更改父级请求模型

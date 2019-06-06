@@ -20,6 +20,7 @@
     <ProjectReference Include="..\Authority.EFRepository\Authority.EFRepository.csproj" />
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\Log.EFRepository\Log.EFRepository.csproj" />
+    <ProjectReference Include="..\WeChatService.EFRepository\WeChatService.EFRepository.csproj" />
   </ItemGroup>
 
 </Project>

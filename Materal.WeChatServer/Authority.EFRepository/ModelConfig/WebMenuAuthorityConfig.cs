@@ -20,8 +20,7 @@ namespace Authority.EFRepository.ModelConfig
                 .HasMaxLength(100);
             builder.Property(e => e.Style);
             builder.Property(e => e.Index)
-                .IsRequired()
-                .ValueGeneratedOnAdd();
+                .IsRequired();
             builder.Property(e => e.Remark)
                 .IsRequired();
             builder.Property(e => e.ParentID);

@@ -1,5 +1,4 @@
-﻿using Authority.Common;
-using Authority.DataTransmitModel.APIAuthority;
+﻿using Authority.DataTransmitModel.APIAuthority;
 using Authority.Domain;
 using Authority.Domain.Repositories;
 using Authority.Domain.Repositories.Views;
@@ -8,12 +7,12 @@ using Authority.EFRepository;
 using Authority.Service;
 using Authority.Service.Model.APIAuthority;
 using AutoMapper;
+using Common.Model.APIAuthorityConfig;
 using Materal.ConvertHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Common.Model.APIAuthorityConfig;
 
 namespace Authority.ServiceImpl
 {
@@ -51,6 +50,7 @@ namespace Authority.ServiceImpl
             APIAuthority apiAuthorityFromDB = await _apiAuthorityRepository.FirstOrDefaultAsync(model.ID);
             if (apiAuthorityFromDB == null) throw new InvalidOperationException("API权限不存在");
             model.CopyProperties(apiAuthorityFromDB);
+            apiAuthorityFromDB.UpdateTime = DateTime.Now;
             _authorityUnitOfWork.RegisterEdit(apiAuthorityFromDB);
             await _authorityUnitOfWork.CommitAsync();
             _apiAuthorityRepository.ClearCache();
@@ -89,6 +89,7 @@ namespace Authority.ServiceImpl
             APIAuthority apiAuthorityFromDB = await _apiAuthorityRepository.FirstOrDefaultAsync(id);
             if (apiAuthorityFromDB == null) throw new InvalidOperationException("该API权限不存在");
             apiAuthorityFromDB.ParentID = parentID;
+            apiAuthorityFromDB.UpdateTime = DateTime.Now;
             _authorityUnitOfWork.RegisterEdit(apiAuthorityFromDB);
             await _authorityUnitOfWork.CommitAsync();
         }
@@ -105,7 +106,7 @@ namespace Authority.ServiceImpl
         }
         public async Task<bool> HasLoginAuthorityAsync(Guid userID)
         {
-            return await HasAPIAuthorityAsync(userID, AuthoritySystemAPIAuthorityConfig.LoginCode);
+            return await HasAPIAuthorityAsync(userID, AuthorityAPIAuthorityConfig.LoginCode);
         }
 
         #region 私有方法

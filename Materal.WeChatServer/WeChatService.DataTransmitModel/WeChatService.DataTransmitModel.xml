@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WeChatService.DataTransmitModel</name>
+    </assembly>
+    <members>
+        <member name="T:WeChatService.DataTransmitModel.Application.ApplicationDTO">
+            <summary>
+            应用数据传输模型
+            </summary>
+        </member>
+        <member name="T:WeChatService.DataTransmitModel.Application.ApplicationListDTO">
+            <summary>
+            应用列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:WeChatService.DataTransmitModel.Application.ApplicationListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="T:WeChatService.DataTransmitModel.WeChatDomain.WeChatDomainDTO">
+            <summary>
+            微信域名数据传输模型
+            </summary>
+        </member>
+        <member name="T:WeChatService.DataTransmitModel.WeChatDomain.WeChatDomainListDTO">
+            <summary>
+            微信域名列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:WeChatService.DataTransmitModel.WeChatDomain.WeChatDomainListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+    </members>
+</doc>
