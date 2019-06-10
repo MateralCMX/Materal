@@ -1,5 +1,6 @@
 ﻿using Materal.TTA.Common;
 using System;
+
 namespace WeChatService.Domain.Repositories
 {
     /// <summary>

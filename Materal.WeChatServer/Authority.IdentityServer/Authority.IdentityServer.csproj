@@ -28,4 +28,10 @@
     <ProjectReference Include="..\Log.ServiceImpl\Log.ServiceImpl.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="tempkey.rsa">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

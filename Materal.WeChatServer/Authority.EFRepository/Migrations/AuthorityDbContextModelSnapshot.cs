@@ -240,8 +240,7 @@ namespace Authority.EFRepository.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<int>("Index")
-                        .IsRequired();
+                    b.Property<int>("Index");
 
                     b.Property<string>("Name")
                         .IsRequired()

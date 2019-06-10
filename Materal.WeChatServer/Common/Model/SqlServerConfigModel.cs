@@ -39,7 +39,7 @@ namespace Common.Model
         {
             get
             {
-                if (Address.IsIPv4())
+                if (string.IsNullOrEmpty(AttachDbFilename))
                 {
                    return string.IsNullOrEmpty(Port) ?
                         $"Data Source={Address}; Database={Name}; User ID={UserID}; Password={Password};" :

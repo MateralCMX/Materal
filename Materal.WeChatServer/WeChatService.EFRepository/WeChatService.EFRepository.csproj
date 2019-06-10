@@ -7,8 +7,11 @@
     <Compile Remove="Migrations\20190606032623_Init.Designer.cs" />
     <Compile Remove="Migrations\20190610012318_Init.cs" />
     <Compile Remove="Migrations\20190610012318_Init.Designer.cs" />
+    <Compile Remove="Migrations\20190610013027_Init.cs" />
+    <Compile Remove="Migrations\20190610013027_Init.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Materal.CacheHelper" Version="0.0.36" />
     <PackageReference Include="Materal.TTA.SqlServerRepository" Version="0.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
   </ItemGroup>

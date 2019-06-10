@@ -1,9 +1,11 @@
-$targetVersion = "Development"
-$codeDir = "E:\OA"
-$publishDir = "E:\Application\OA"
+$targetVersion = "Development"#148,Development
+$codeDir = "E:\Project\Materal\Project\Materal.WeChatServer"
+$publishDir = "E:\Project\Materal\Application\WeChatServer"
 $version = "Release"#Debug Release
 $applications = 
-"Authority.IdentityServer","Authority.WebAPI"
+"Authority.IdentityServer","Authority.WebAPI",
+"WeChatService.WebAPI",
+"Log.WebAPI"
 Remove-Item -Path:"$publishDir\*" -Recurse:$true
 for($i=0;$i -lt $applications.Length; $i++){
     $application = $applications[$i]

@@ -32,8 +32,10 @@ namespace WeChatService.ServiceImpl
             if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称为空");
             if (await _weChatDomainRepository.CountAsync(m => m.Url == model.Url) > 0) throw new InvalidOperationException("Url已存在");
             var weChatDomain = model.CopyProperties<WeChatDomain>();
+            weChatDomain.Index = _weChatDomainRepository.GetMaxIndex() + 1;
             _weChatServiceUnitOfWork.RegisterAdd(weChatDomain);
             await _weChatServiceUnitOfWork.CommitAsync();
+            _weChatDomainRepository.ClearCache();
         }
         public async Task EditWeChatDomainAsync(EditWeChatDomainModel model)
         {
@@ -46,6 +48,7 @@ namespace WeChatService.ServiceImpl
             weChatDomainFromDB.UpdateTime = DateTime.Now;
             _weChatServiceUnitOfWork.RegisterEdit(weChatDomainFromDB);
             await _weChatServiceUnitOfWork.CommitAsync();
+            _weChatDomainRepository.ClearCache();
         }
         public async Task DeleteWeChatDomainAsync(Guid id)
         {
@@ -53,6 +56,7 @@ namespace WeChatService.ServiceImpl
             if (weChatDomainFromDB == null) throw new InvalidOperationException("微信域名不存在");
             _weChatServiceUnitOfWork.RegisterDelete(weChatDomainFromDB);
             await _weChatServiceUnitOfWork.CommitAsync();
+            _weChatDomainRepository.ClearCache();
         }
         public async Task<WeChatDomainDTO> GetWeChatDomainInfoAsync(Guid id)
         {
@@ -62,8 +66,9 @@ namespace WeChatService.ServiceImpl
         }
         public async Task<List<WeChatDomainListDTO>> GetWeChatDomainListAsync()
         {
-            List<WeChatDomain> actionAuthoritiesFromDB = await _weChatDomainRepository.WhereAsync(m => true).OrderBy(m => m.Index).ToList();
-            return _mapper.Map<List<WeChatDomainListDTO>>(actionAuthoritiesFromDB);
+            List<WeChatDomain> weChatDomainsFromCache = await _weChatDomainRepository.GetAllInfoFromCacheAsync();
+            List<WeChatDomain> weChatDomains = weChatDomainsFromCache.OrderBy(m => m.Index).ToList();
+            return _mapper.Map<List<WeChatDomainListDTO>>(weChatDomains);
         }
         public async Task ExchangeWeChatDomainIndexAsync(Guid id1, Guid id2)
         {
