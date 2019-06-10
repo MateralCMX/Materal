@@ -121,7 +121,7 @@ namespace WeChatService.WebAPI.Controllers
             }
         }
         /// <summary>
-        /// 调换网页菜单权限位序
+        /// 调换微信域名位序
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>

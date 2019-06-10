@@ -35,16 +35,17 @@ namespace WeChatService.EFRepository.Migrations
                     b.Property<string>("EncodingAESKey");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<string>("Remark");
-
-                    b.Property<string>("WeChatToken")
-                        .IsRequired();
 
                     b.Property<DateTime>("UpdateTime");
 
                     b.Property<Guid>("UserID");
+
+                    b.Property<string>("WeChatToken")
+                        .IsRequired();
 
                     b.HasKey("ID");
 
@@ -58,16 +59,17 @@ namespace WeChatService.EFRepository.Migrations
 
                     b.Property<DateTime>("CreateTime");
 
-                    b.Property<int>("Index")
-                        .ValueGeneratedOnAddOrUpdate();
+                    b.Property<int>("Index");
 
                     b.Property<string>("Name")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.Property<DateTime>("UpdateTime");
 
                     b.Property<string>("Url")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(100);
 
                     b.HasKey("ID");
 

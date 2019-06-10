@@ -4,6 +4,95 @@
         <name>WeChatService.WebAPI</name>
     </assembly>
     <members>
+        <member name="T:WeChatService.WebAPI.Controllers.ApplicationController">
+            <inheritdoc />
+            <summary>
+            应用控制器
+            </summary>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.ApplicationController.#ctor(WeChatService.Service.IApplicationService,AutoMapper.IMapper)">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.ApplicationController.AddApplication(WeChatService.PresentationModel.Application.Request.AddApplicationRequestModel)">
+            <summary>
+            添加应用
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.ApplicationController.EditApplication(WeChatService.PresentationModel.Application.Request.EditApplicationRequestModel)">
+            <summary>
+            修改应用
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.ApplicationController.DeleteApplication(System.Guid)">
+            <summary>
+            删除应用
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.ApplicationController.GetApplicationInfo(System.Guid)">
+            <summary>
+            获得应用信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.ApplicationController.GetApplicationList(WeChatService.PresentationModel.Application.Request.QueryApplicationFilterRequestModel)">
+            <summary>
+            获得应用列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:WeChatService.WebAPI.Controllers.WeChatDomainController">
+            <inheritdoc />
+            <summary>
+            微信域名控制器
+            </summary>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatDomainController.#ctor(WeChatService.Service.IWeChatDomainService,AutoMapper.IMapper)">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatDomainController.AddWeChatDomain(WeChatService.PresentationModel.WeChatDomain.Request.AddWeChatDomainRequestModel)">
+            <summary>
+            添加微信域名
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatDomainController.EditWeChatDomain(WeChatService.PresentationModel.WeChatDomain.Request.EditWeChatDomainRequestModel)">
+            <summary>
+            修改微信域名
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatDomainController.DeleteWeChatDomain(System.Guid)">
+            <summary>
+            删除微信域名
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatDomainController.GetWeChatDomainInfo(System.Guid)">
+            <summary>
+            获得微信域名信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatDomainController.GetWeChatDomainList">
+            <summary>
+            获得微信域名列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatDomainController.ExchangeWebMenuAuthorityIndex(Model.ExchangeIndexNotFoUnderRequestModel{System.Guid})">
+            <summary>
+            调换微信域名位序
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
         <member name="T:WeChatService.WebAPI.Program">
             <summary>
             主程序

@@ -18,7 +18,7 @@
             <summary>
             获取日志信息
             </summary>
-            <param name="exchangeID"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:Log.WebAPI.Controllers.LogController.GetLogList(Log.PresentationModel.Log.Request.QueryLogFilterRequestModel)">

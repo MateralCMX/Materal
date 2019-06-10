@@ -15,7 +15,6 @@ namespace WeChatService.PresentationModel.AutoMapperProfile
         {
             CreateMap<AddWeChatDomainRequestModel, AddWeChatDomainModel>();
             CreateMap<EditWeChatDomainRequestModel, EditWeChatDomainModel>();
-            CreateMap<QueryWeChatDomainFilterRequestModel, QueryWeChatDomainFilterModel>();
         }
     }
 }

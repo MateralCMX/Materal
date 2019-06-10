@@ -37,7 +37,7 @@ namespace WeChatService.ServiceImpl
         }
         public async Task EditWeChatDomainAsync(EditWeChatDomainModel model)
         {
-            if (string.IsNullOrEmpty(model.Url)) throw new InvalidOperationException("代码为空");
+            if (string.IsNullOrEmpty(model.Url)) throw new InvalidOperationException("Url为空");
             if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称为空");
             if (await _weChatDomainRepository.CountAsync(m => m.ID != model.ID && m.Url == model.Url) > 0) throw new InvalidOperationException("Url已存在");
             WeChatDomain weChatDomainFromDB = await _weChatDomainRepository.FirstOrDefaultAsync(model.ID);
@@ -68,7 +68,7 @@ namespace WeChatService.ServiceImpl
         public async Task ExchangeWeChatDomainIndexAsync(Guid id1, Guid id2)
         {
             List<WeChatDomain> weChatDomains = await _weChatDomainRepository.WhereAsync(m => m.ID == id1 || m.ID == id2).ToList();
-            if (weChatDomains.Count != 2) throw new InvalidOperationException("该网页菜单权限不存在");
+            if (weChatDomains.Count != 2) throw new InvalidOperationException("该微信域名不存在");
             ExchangeIndex(weChatDomains[0], weChatDomains[1]);
             _weChatServiceUnitOfWork.RegisterEdit(weChatDomains[0]);
             _weChatServiceUnitOfWork.RegisterEdit(weChatDomains[1]);

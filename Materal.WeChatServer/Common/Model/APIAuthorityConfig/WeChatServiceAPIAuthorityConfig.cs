@@ -5,11 +5,31 @@
     /// </summary>
     public static class WeChatServiceAPIAuthorityConfig
     {
-        #region 应用
+        #region Application
         /// <summary>
         /// 开启微信应用服务
         /// </summary>
         public const string OpenApplicationCode = "OpenApplication";
+        /// <summary>
+        /// 应用操作
+        /// </summary>
+        public const string ApplicationOperationCode = "ApplicationOperation";
+        /// <summary>
+        /// 添加应用
+        /// </summary>
+        public const string AddApplicationCode = "AddApplication";
+        /// <summary>
+        /// 修改应用
+        /// </summary>
+        public const string EditApplicationCode = "EditApplication";
+        /// <summary>
+        /// 删除应用
+        /// </summary>
+        public const string DeleteApplicationCode = "DeleteApplication";
+        /// <summary>
+        /// 查询应用
+        /// </summary>
+        public const string QueryApplicationCode = "QueryApplication";
         #endregion
         #region WeChatDomain
         /// <summary>

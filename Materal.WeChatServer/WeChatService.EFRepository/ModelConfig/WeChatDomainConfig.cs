@@ -16,12 +16,13 @@ namespace WeChatService.EFRepository.ModelConfig
             builder.Property(e => e.UpdateTime)
                 .IsRequired();
             builder.Property(e => e.Index)
-                .IsRequired()
-                .ValueGeneratedOnAddOrUpdate();
+                .IsRequired();
             builder.Property(e => e.Name)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(100);
             builder.Property(e => e.Url)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(100);
         }
     }
 }
