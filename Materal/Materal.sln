@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2036
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Common", "Materal.Common\Materal.Common.csproj", "{4486623A-E2F2-4656-92DE-65024EB3B9B7}"
 EndProject
@@ -49,7 +49,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.SystemHelper", "Mat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Example", "Example", "{53CDE784-9315-4C8D-8A58-4953B97648CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Common.Example", "Materal.Common.Example\Materal.Common.Example.csproj", "{424B4312-1DA3-4A07-BA39-EF4E56EAFA11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Common.Example", "Materal.Common.Example\Materal.Common.Example.csproj", "{424B4312-1DA3-4A07-BA39-EF4E56EAFA11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WeChatHelper.Example", "Materal.WeChatHelper.Example\Materal.WeChatHelper.Example.csproj", "{890C6E38-D240-47F8-B56D-35F6A0A9602D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -145,6 +147,10 @@ Global
 		{424B4312-1DA3-4A07-BA39-EF4E56EAFA11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{424B4312-1DA3-4A07-BA39-EF4E56EAFA11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{424B4312-1DA3-4A07-BA39-EF4E56EAFA11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890C6E38-D240-47F8-B56D-35F6A0A9602D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890C6E38-D240-47F8-B56D-35F6A0A9602D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890C6E38-D240-47F8-B56D-35F6A0A9602D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890C6E38-D240-47F8-B56D-35F6A0A9602D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,6 +160,7 @@ Global
 		{AF14C971-D1C6-411A-981F-1C5893F5AB7E} = {D618B600-502D-4FDA-AD98-C79485A2596F}
 		{4416E538-FC02-4A2B-A4D0-190818BCE0A9} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 		{424B4312-1DA3-4A07-BA39-EF4E56EAFA11} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
+		{890C6E38-D240-47F8-B56D-35F6A0A9602D} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44D71214-490E-42D6-969C-BDC35C93BEA5}

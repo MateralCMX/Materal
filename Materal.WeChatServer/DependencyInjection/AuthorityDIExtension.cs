@@ -20,6 +20,7 @@ namespace DependencyInjection
         {
             services.AddDbContextPool<AuthorityDbContext>(options => options.UseSqlServer(ApplicationConfig.AuthorityDB.ConnectionString, m =>
             {
+                m.UseRowNumberForPaging();
                 m.EnableRetryOnFailure();
             }));
             services.AddTransient(typeof(IAuthorityUnitOfWork), typeof(AuthorityUnitOfWorkImpl));

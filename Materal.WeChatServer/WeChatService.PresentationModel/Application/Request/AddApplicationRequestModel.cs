@@ -31,7 +31,6 @@ namespace WeChatService.PresentationModel.Application.Request
         /// <summary>
         /// WeChatToken
         /// </summary>
-        [Required(ErrorMessage = "WeChatToken不可以为空")]
         public string WeChatToken { get; set; }
         /// <summary>
         /// EncodingAESKey

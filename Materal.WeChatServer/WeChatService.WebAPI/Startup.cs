@@ -39,7 +39,7 @@ namespace WeChatService.WebAPI
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddWeChatServiceServices();
+            services.AddWeChatServiceWebAPIServices();
             string basePath = PlatformServices.Default.Application.ApplicationBasePath;
             string[] swaggerHelperXmlPathArray =
             {

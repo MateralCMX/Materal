@@ -16,6 +16,8 @@ declare @BaseAPIID uniqueidentifier;
 select @BaseAPIID = ID from [dbo].[APIAuthority] where [dbo].[APIAuthority].[Code] = 'BaseAPI';
 insert into [dbo].[APIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'Login', N'登录', '', @BaseAPIID);
+declare @LoginID uniqueidentifier;
+select @LoginID = ID from [dbo].[APIAuthority] where [dbo].[APIAuthority].[Code] = 'Login';
 --基础结束
 ----用户
 insert into [dbo].[APIAuthority]
@@ -170,6 +172,10 @@ values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @My
 insert into [dbo].[RoleAPIAuthority]
 select NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @SuperAdministratorID, [dbo].[APIAuthority].[ID]
 from [dbo].[APIAuthority]
+insert into [dbo].[RoleAPIAuthority]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @BaseAPIID);
+insert into [dbo].[RoleAPIAuthority]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @LoginID);
 --用户
 declare @DefaultPassword varchar(32);
 set @DefaultPassword = 'F876A34227DE18F8B8AB176594B64D64';
@@ -177,6 +183,18 @@ insert into [dbo].[User]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'Admin', @DefaultPassword, N'超级管理员', 0, '', '', 0);
 declare @UserAdminID uniqueidentifier;
 select @UserAdminID = ID from [dbo].[User] where [dbo].[User].[Account] = 'Admin';
+insert into [dbo].[User]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'User00', @DefaultPassword, N'用户00', 0, '', '', 0);
+declare @UserUser00ID uniqueidentifier;
+select @UserUser00ID = ID from [dbo].[User] where [dbo].[User].[Account] = 'User00';
+insert into [dbo].[User]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'User01', @DefaultPassword, N'用户01', 0, '', '', 0);
+declare @UserUser01ID uniqueidentifier;
+select @UserUser01ID = ID from [dbo].[User] where [dbo].[User].[Account] = 'User01';
 --用户角色
 insert into [dbo].[UserRole]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @UserAdminID, @SuperAdministratorID);
+insert into [dbo].[UserRole]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @UserUser00ID, @PlatformUserID);
+insert into [dbo].[UserRole]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @UserUser01ID, @PlatformUserID);

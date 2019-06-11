@@ -6,6 +6,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using Materal.ConvertHelper;
 
 namespace Materal.WeChatHelper
 {
@@ -29,13 +30,13 @@ namespace Materal.WeChatHelper
         /// <summary>
         /// POST请求
         /// </summary>
-        /// <param name="xml">xml</param>
         /// <param name="url">url地址</param>
+        /// <param name="xml">xml</param>
         /// <param name="isUseCert">是否使用证书</param>
         /// <param name="timeout">超时时间</param>
         /// <param name="config">微信支付配置对象</param>
         /// <returns>请求返回数据</returns>
-        public static string Post(string xml, string url, bool isUseCert, int timeout, WeChatConfigModel config)
+        public static string PostXml(string url, string xml, bool isUseCert, int timeout, WeChatConfigModel config)
         {
             GC.Collect();
             string result = "";
@@ -52,15 +53,67 @@ namespace Materal.WeChatHelper
                 request.Method = "POST";
                 request.Timeout = timeout * 1000;
                 request.ContentType = "text/xml";
-                byte[] data = Encoding.UTF8.GetBytes(xml);
-                request.ContentLength = data.Length;
+                byte[] buffer = Encoding.UTF8.GetBytes(xml);
+                request.ContentLength = buffer.Length;
                 if (isUseCert)
                 {
                     var cert = new X509Certificate2($"{AppDomain.CurrentDomain.BaseDirectory}{config.SSLCERT_PATH}", config.SSLCERT_PASSWORD);
                     request.ClientCertificates.Add(cert);
                 }
                 Stream reqStream = request.GetRequestStream();
-                reqStream.Write(data, 0, data.Length);
+                reqStream.Write(buffer, 0, buffer.Length);
+                reqStream.Close();
+                response = (HttpWebResponse)request.GetResponse();
+                var sr = new StreamReader(response.GetResponseStream() ?? throw new InvalidOperationException("读取流失败"), Encoding.UTF8);
+                result = sr.ReadToEnd().Trim();
+                sr.Close();
+            }
+            catch (ThreadAbortException)
+            {
+                Thread.ResetAbort();
+            }
+            finally
+            {
+                response?.Close();
+                request?.Abort();
+            }
+            return result;
+        }
+        /// <summary>
+        /// POST请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="data">xml</param>
+        /// <param name="isUseCert">是否使用证书</param>
+        /// <param name="timeout">超时时间</param>
+        /// <param name="config">微信支付配置对象</param>
+        /// <returns>请求返回数据</returns>
+        public static string PostJson(string url, object data, bool isUseCert, int timeout, WeChatConfigModel config)
+        {
+            GC.Collect();
+            string result = "";
+            HttpWebRequest request = null;
+            HttpWebResponse response = null;
+            try
+            {
+                ServicePointManager.DefaultConnectionLimit = 200;
+                if (url.StartsWith("https", StringComparison.OrdinalIgnoreCase))
+                {
+                    ServicePointManager.ServerCertificateValidationCallback = CheckValidationResult;
+                }
+                request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "POST";
+                request.Timeout = timeout * 1000;
+                request.ContentType = "application/json";
+                byte[] dataBuffer = Encoding.UTF8.GetBytes(data.ToJson());
+                request.ContentLength = dataBuffer.Length;
+                if (isUseCert)
+                {
+                    var cert = new X509Certificate2($"{AppDomain.CurrentDomain.BaseDirectory}{config.SSLCERT_PATH}", config.SSLCERT_PASSWORD);
+                    request.ClientCertificates.Add(cert);
+                }
+                Stream reqStream = request.GetRequestStream();
+                reqStream.Write(dataBuffer, 0, dataBuffer.Length);
                 reqStream.Close();
                 response = (HttpWebResponse)request.GetResponse();
                 var sr = new StreamReader(response.GetResponseStream() ?? throw new InvalidOperationException("读取流失败"), Encoding.UTF8);

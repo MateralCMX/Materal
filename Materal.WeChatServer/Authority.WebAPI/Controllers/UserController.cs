@@ -65,7 +65,10 @@ namespace Authority.WebAPI.Controllers
                 Password = requestModel.Password,
                 Scope = ApplicationConfig.IdentityServer.Scope
             });
-            if (tokenResponse.IsError) return ResultModel<UserLoginResultModel>.Fail(tokenResponse.ErrorDescription);
+            if (tokenResponse.IsError)
+                return ResultModel<UserLoginResultModel>.Fail(string.IsNullOrEmpty(tokenResponse.ErrorDescription)
+                    ? tokenResponse.Error
+                    : tokenResponse.ErrorDescription);
             var result = new UserLoginResultModel(tokenResponse.Raw.JsonToObject<TokenResultModel>());
             return ResultModel<UserLoginResultModel>.Success(result, "登录成功");
         }

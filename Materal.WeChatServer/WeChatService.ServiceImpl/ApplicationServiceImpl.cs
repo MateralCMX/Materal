@@ -34,7 +34,6 @@ namespace WeChatService.ServiceImpl
             if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称为空");
             if (string.IsNullOrEmpty(model.AppID)) throw new InvalidOperationException("AppID为空");
             if (string.IsNullOrEmpty(model.AppSecret)) throw new InvalidOperationException("AppSecret为空");
-            if (string.IsNullOrEmpty(model.WeChatToken)) throw new InvalidOperationException("WeChatToken为空");
             if (await _applicationRepository.CountAsync(m => m.Name == model.Name) > 0) throw new InvalidOperationException("名称重复");
             if (await _applicationRepository.CountAsync(m => m.AppID == model.AppID) > 0) throw new InvalidOperationException("AppID重复");
             if (await _applicationRepository.CountAsync(m => m.WeChatToken == model.WeChatToken) > 0) throw new InvalidOperationException("WeChatToken重复");
@@ -47,7 +46,6 @@ namespace WeChatService.ServiceImpl
             if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称为空");
             if (string.IsNullOrEmpty(model.AppID)) throw new InvalidOperationException("AppID为空");
             if (string.IsNullOrEmpty(model.AppSecret)) throw new InvalidOperationException("AppSecret为空");
-            if (string.IsNullOrEmpty(model.WeChatToken)) throw new InvalidOperationException("WeChatToken为空");
             if (await _applicationRepository.CountAsync(m => m.ID != model.ID && m.Name == model.Name) > 0) throw new InvalidOperationException("名称重复");
             if (await _applicationRepository.CountAsync(m => m.ID != model.ID && m.AppID == model.AppID) > 0) throw new InvalidOperationException("AppID重复");
             if (await _applicationRepository.CountAsync(m => m.ID != model.ID && m.WeChatToken == model.WeChatToken) > 0) throw new InvalidOperationException("WeChatToken重复");

@@ -44,8 +44,7 @@ namespace WeChatService.EFRepository.Migrations
 
                     b.Property<Guid>("UserID");
 
-                    b.Property<string>("WeChatToken")
-                        .IsRequired();
+                    b.Property<string>("WeChatToken");
 
                     b.HasKey("ID");
 

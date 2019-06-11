@@ -107,7 +107,7 @@ namespace WeChatService.WebAPI.Controllers
         /// 获得微信域名列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost, AuthorityFilter(WeChatServiceAPIAuthorityConfig.QueryWeChatDomainCode)]
+        [HttpGet, AuthorityFilter(WeChatServiceAPIAuthorityConfig.QueryWeChatDomainCode)]
         public async Task<ResultModel<List<WeChatDomainListDTO>>> GetWeChatDomainList()
         {
             try

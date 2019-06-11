@@ -51,6 +51,11 @@ namespace Materal.WeChatHelper.Model
         {
             return GetValue(key) != null;
         }
+
+        public object ToObject()
+        {
+            return Data;
+        }
         /// <summary>
         /// 转换为XML
         /// </summary>

@@ -23,8 +23,7 @@ namespace WeChatService.EFRepository.ModelConfig
             builder.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(100);
-            builder.Property(e => e.WeChatToken)
-                .IsRequired();
+            builder.Property(e => e.WeChatToken);
             builder.Property(e => e.UserID)
                 .IsRequired();
             builder.Property(e => e.Remark);

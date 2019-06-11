@@ -20,6 +20,7 @@ namespace DependencyInjection
         {
             services.AddDbContextPool<WeChatServiceDbContext>(options => options.UseSqlServer(ApplicationConfig.WeChatServiceDB.ConnectionString, m =>
             {
+                m.UseRowNumberForPaging();
                 m.EnableRetryOnFailure();
             }));
             services.AddTransient(typeof(IWeChatServiceUnitOfWork), typeof(WeChatServiceUnitOfWorkImpl));

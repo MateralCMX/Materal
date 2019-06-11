@@ -93,6 +93,28 @@
             <param name="requestModel"></param>
             <returns></returns>
         </member>
+        <member name="T:WeChatService.WebAPI.Controllers.WeChatServiceController">
+            <inheritdoc />
+            <summary>
+            微信域名控制器
+            </summary>
+        </member>
+        <member name="F:WeChatService.WebAPI.Controllers.WeChatServiceController._logger">
+            <summary>
+            日志对象
+            </summary>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatServiceController.#ctor(Microsoft.Extensions.Logging.ILogger{WeChatService.WebAPI.Controllers.WeChatServiceController})">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatServiceController.VerifyDomain">
+            <summary>
+            验证域名
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:WeChatService.WebAPI.Program">
             <summary>
             主程序
@@ -144,6 +166,17 @@
             </summary>
             <param name="app"></param>
             <param name="env"></param>
+        </member>
+        <member name="T:WeChatService.WebAPI.WeChatServiceWebAPIDIExtension">
+            <summary>
+            WebAPI依赖注入扩展
+            </summary>
+        </member>
+        <member name="M:WeChatService.WebAPI.WeChatServiceWebAPIDIExtension.AddWeChatServiceWebAPIServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加WebAPI服务
+            </summary>
+            <param name="services"></param>
         </member>
     </members>
 </doc>

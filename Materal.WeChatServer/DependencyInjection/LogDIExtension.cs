@@ -21,8 +21,9 @@ namespace DependencyInjection
         {
             services.AddDbContext<LogDbContext>(options => options.UseSqlServer(ApplicationConfig.LogDB.ConnectionString, m =>
             {
+                m.UseRowNumberForPaging();
                 m.EnableRetryOnFailure();
-            }), ServiceLifetime.Transient);
+            }));
             services.AddTransient<IRedisRepository, RedisRepositoryImpl>();
             services.AddTransient(typeof(ILogUnitOfWork), typeof(LogUnitOfWorkImpl));
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Log.ServiceImpl"))
