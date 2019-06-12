@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29001.49
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.Server", "Materal.Dispatcher.Server\Materal.Dispatcher.Server.csproj", "{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.QuartzNet", "Materal.Dispatcher.QuartzNet\Materal.Dispatcher.QuartzNet.csproj", "{73E95CF7-D2A0-4361-AEEE-AE19154C1D69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.Common", "Materal.Dispatcher.Common\Materal.Dispatcher.Common.csproj", "{F4AACA68-D90C-469F-BBA3-AE17176BC89B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{FF105F47-438D-44EA-90F2-26287FD8AFA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.Jobs", "Materal.Dispatcher.Jobs\Materal.Dispatcher.Jobs.csproj", "{D3C454A1-878B-48C8-8E1F-7445B093A413}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73E95CF7-D2A0-4361-AEEE-AE19154C1D69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73E95CF7-D2A0-4361-AEEE-AE19154C1D69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73E95CF7-D2A0-4361-AEEE-AE19154C1D69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73E95CF7-D2A0-4361-AEEE-AE19154C1D69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4AACA68-D90C-469F-BBA3-AE17176BC89B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4AACA68-D90C-469F-BBA3-AE17176BC89B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4AACA68-D90C-469F-BBA3-AE17176BC89B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4AACA68-D90C-469F-BBA3-AE17176BC89B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3C454A1-878B-48C8-8E1F-7445B093A413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3C454A1-878B-48C8-8E1F-7445B093A413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3C454A1-878B-48C8-8E1F-7445B093A413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3C454A1-878B-48C8-8E1F-7445B093A413}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8} = {FF105F47-438D-44EA-90F2-26287FD8AFA5}
+		{F4AACA68-D90C-469F-BBA3-AE17176BC89B} = {FF105F47-438D-44EA-90F2-26287FD8AFA5}
+		{D3C454A1-878B-48C8-8E1F-7445B093A413} = {FF105F47-438D-44EA-90F2-26287FD8AFA5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5DD94239-3178-47DD-B365-E0EA5C3F6D2F}
+	EndGlobalSection
+EndGlobal
