@@ -27,8 +27,9 @@ namespace Materal.Dispatcher.QuartzNet
                 // 远程输出配置
                 ["quartz.scheduler.exporter.type"] = "Quartz.Simpl.RemotingSchedulerExporter, Quartz",
                 ["quartz.scheduler.exporter.port"] = config.Port.ToString(),
-                ["quartz.scheduler.exporter.bindName"] = "QuartzScheduler",
-                ["quartz.scheduler.exporter.channelType"] = "tcp"
+                ["quartz.scheduler.exporter.bindName"] = config.BindName,
+                ["quartz.scheduler.exporter.channelType"] = "tcp",
+                ["quartz.scheduler.exporter.channelName"] = "httpQuartz"
             };
             var schedulerFactory = new StdSchedulerFactory(nameValueCollection);
             IScheduler scheduler = await schedulerFactory.GetScheduler();

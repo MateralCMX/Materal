@@ -18,6 +18,10 @@
         /// </summary>
         public uint Port { get; set; } = 8008;
         /// <summary>
+        /// 绑定名称
+        /// </summary>
+        public string BindName { get; set; } = "QuartzScheduler";
+        /// <summary>
         /// 启用作业日志
         /// </summary>
         public bool EnableJobLog { get; set; } = true;

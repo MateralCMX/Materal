@@ -20,6 +20,7 @@ namespace Materal.Dispatcher.Server
                     EnableSchedulerLog = true,
                     EnableTriggerLog = true,
                     Name = "MateralDispatcherServer",
+                    BindName = "QuartzScheduler",
                     Port = 8008,
                     TreadCount = 5
                 }

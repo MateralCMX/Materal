@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.Dispatcher.Common\Materal.Dispatcher.Common.csproj" />
+    <ProjectReference Include="..\Materal.Dispatcher.Server\Materal.Dispatcher.Server.csproj" />
+  </ItemGroup>
+
+</Project>

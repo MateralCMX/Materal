@@ -1,5 +1,6 @@
 ﻿using Quartz;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Materal.Dispatcher.Jobs
@@ -12,7 +13,7 @@ namespace Materal.Dispatcher.Jobs
             await Task.Run(() => {
                 Console.WriteLine();
                 Console.WriteLine("********************************************");
-                Console.WriteLine($"[{DateTime.Now}]TestJob00执行");
+                Console.WriteLine($"[{DateTime.Now}]TestJob00执行,线程ID:{Thread.CurrentThread.ManagedThreadId}");
                 Console.WriteLine("********************************************");
             });
         }

@@ -3,15 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29001.49
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.Server", "Materal.Dispatcher.Server\Materal.Dispatcher.Server.csproj", "{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Dispatcher.QuartzNet", "Materal.Dispatcher.QuartzNet\Materal.Dispatcher.QuartzNet.csproj", "{73E95CF7-D2A0-4361-AEEE-AE19154C1D69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.QuartzNet", "Materal.Dispatcher.QuartzNet\Materal.Dispatcher.QuartzNet.csproj", "{73E95CF7-D2A0-4361-AEEE-AE19154C1D69}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.Common", "Materal.Dispatcher.Common\Materal.Dispatcher.Common.csproj", "{F4AACA68-D90C-469F-BBA3-AE17176BC89B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Dispatcher.Common", "Materal.Dispatcher.Common\Materal.Dispatcher.Common.csproj", "{F4AACA68-D90C-469F-BBA3-AE17176BC89B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{FF105F47-438D-44EA-90F2-26287FD8AFA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.Jobs", "Materal.Dispatcher.Jobs\Materal.Dispatcher.Jobs.csproj", "{D3C454A1-878B-48C8-8E1F-7445B093A413}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Dispatcher.Jobs", "Materal.Dispatcher.Jobs\Materal.Dispatcher.Jobs.csproj", "{D3C454A1-878B-48C8-8E1F-7445B093A413}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.WebUI", "Materal.Dispatcher.WebUI\Materal.Dispatcher.WebUI.csproj", "{75191464-DB7A-42BF-9F42-E4C4C1564ED9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.Server", "Materal.Dispatcher.Server\Materal.Dispatcher.Server.csproj", "{5CE7ABEB-638B-460D-ACAE-A57849B644CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.CoreUI", "Materal.Dispatcher.CoreUI\Materal.Dispatcher.CoreUI.csproj", "{FED75910-CDFD-40CF-B28C-532863C62E49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Dispatcher.ServerUI", "Materal.Dispatcher.ServerUI\Materal.Dispatcher.ServerUI.csproj", "{010CC1A9-8CB7-4FEA-9C74-055CFC39B182}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +25,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73E95CF7-D2A0-4361-AEEE-AE19154C1D69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73E95CF7-D2A0-4361-AEEE-AE19154C1D69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73E95CF7-D2A0-4361-AEEE-AE19154C1D69}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -35,14 +37,33 @@ Global
 		{D3C454A1-878B-48C8-8E1F-7445B093A413}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3C454A1-878B-48C8-8E1F-7445B093A413}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3C454A1-878B-48C8-8E1F-7445B093A413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75191464-DB7A-42BF-9F42-E4C4C1564ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75191464-DB7A-42BF-9F42-E4C4C1564ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75191464-DB7A-42BF-9F42-E4C4C1564ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75191464-DB7A-42BF-9F42-E4C4C1564ED9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CE7ABEB-638B-460D-ACAE-A57849B644CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE7ABEB-638B-460D-ACAE-A57849B644CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE7ABEB-638B-460D-ACAE-A57849B644CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE7ABEB-638B-460D-ACAE-A57849B644CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FED75910-CDFD-40CF-B28C-532863C62E49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED75910-CDFD-40CF-B28C-532863C62E49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED75910-CDFD-40CF-B28C-532863C62E49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED75910-CDFD-40CF-B28C-532863C62E49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{010CC1A9-8CB7-4FEA-9C74-055CFC39B182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{010CC1A9-8CB7-4FEA-9C74-055CFC39B182}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{010CC1A9-8CB7-4FEA-9C74-055CFC39B182}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{010CC1A9-8CB7-4FEA-9C74-055CFC39B182}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C6C3E8A0-5EC7-42C5-80A5-679B641FFED8} = {FF105F47-438D-44EA-90F2-26287FD8AFA5}
 		{F4AACA68-D90C-469F-BBA3-AE17176BC89B} = {FF105F47-438D-44EA-90F2-26287FD8AFA5}
 		{D3C454A1-878B-48C8-8E1F-7445B093A413} = {FF105F47-438D-44EA-90F2-26287FD8AFA5}
+		{75191464-DB7A-42BF-9F42-E4C4C1564ED9} = {FF105F47-438D-44EA-90F2-26287FD8AFA5}
+		{5CE7ABEB-638B-460D-ACAE-A57849B644CC} = {FF105F47-438D-44EA-90F2-26287FD8AFA5}
+		{FED75910-CDFD-40CF-B28C-532863C62E49} = {FF105F47-438D-44EA-90F2-26287FD8AFA5}
+		{010CC1A9-8CB7-4FEA-9C74-055CFC39B182} = {FF105F47-438D-44EA-90F2-26287FD8AFA5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5DD94239-3178-47DD-B365-E0EA5C3F6D2F}

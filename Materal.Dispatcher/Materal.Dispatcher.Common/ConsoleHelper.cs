@@ -23,9 +23,9 @@ namespace Materal.Dispatcher.Common
         /// <param name="message">消息</param>
         /// <param name="subTitle">副标题</param>
         /// <param name="consoleColor">颜色</param>
-        public static void TestWriteLine(string message, string subTitle = null, ConsoleColor consoleColor = ConsoleColor.White)
+        public static void ServerWriteLine(string message, string subTitle = null, ConsoleColor consoleColor = ConsoleColor.White)
         {
-            WriteLine("Test", message, subTitle, consoleColor);
+            WriteLine("Server", message, subTitle, consoleColor);
         }
     }
 }
