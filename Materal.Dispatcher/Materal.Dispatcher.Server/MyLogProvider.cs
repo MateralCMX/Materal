@@ -10,7 +10,11 @@ namespace Materal.Dispatcher.Server
         {
             return (level, func, exception, parameters) =>
             {
-                if (level >= LogLevel.Info && func != null)
+                if (level == LogLevel.Error && exception != null)
+                {
+                    Console.WriteLine($"[{DateTime.Now}][{ level}]异常:{exception.Message}");
+                }
+                else if (level >= LogLevel.Info && func != null)
                 {
                     Console.WriteLine($"[{DateTime.Now}][{ level}]{ func()}{string.Join(";", parameters.Select(p => p == null ? " " : p.ToString()))}  自定义日志{name}");
                 }

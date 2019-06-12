@@ -2,7 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Quartz.Logging;
+using Quartz.Spi;
 using System;
+using System.Reflection;
 
 namespace Materal.Dispatcher.Server
 {
@@ -28,6 +30,12 @@ namespace Materal.Dispatcher.Server
             Services.AddTransient<ITriggerListener, MyTriggerListener>();
             Services.AddTransient<ISchedulerListener, MySchedulerListener>();
             Services.AddTransient<IJobListener, MyJobListener>();
+            Services.AddTransient<IJobFactory, MyJobFactory>();
+            Assembly assembly = Assembly.Load("Materal.Dispatcher.Jobs");
+            foreach (Type assemblyExportedType in assembly.ExportedTypes)
+            {
+                Services.AddTransient(assemblyExportedType);
+            }
         }
 
         /// <summary>

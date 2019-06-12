@@ -4,6 +4,7 @@ using Quartz.Impl;
 using System;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using Quartz.Spi;
 
 namespace Materal.Dispatcher.QuartzNet
 {
@@ -36,6 +37,7 @@ namespace Materal.Dispatcher.QuartzNet
             if (config.EnableJobLog) scheduler.ListenerManager.AddJobListener(_serviceProvider.GetService<IJobListener>());
             if (config.EnableTriggerLog) scheduler.ListenerManager.AddTriggerListener(_serviceProvider.GetService<ITriggerListener>());
             if (config.EnableSchedulerLog) scheduler.ListenerManager.AddSchedulerListener(_serviceProvider.GetService<ISchedulerListener>());
+            if (config.EnableSchedulerLog) scheduler.JobFactory = _serviceProvider.GetService<IJobFactory>();
             return scheduler;
         }
     }

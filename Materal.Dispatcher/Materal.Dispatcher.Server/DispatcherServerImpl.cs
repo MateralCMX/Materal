@@ -19,6 +19,7 @@ namespace Materal.Dispatcher.Server
                     EnableJobLog = true,
                     EnableSchedulerLog = true,
                     EnableTriggerLog = true,
+                    EnableCustomJobFactory = true,
                     Name = "MateralDispatcherServer",
                     BindName = "QuartzScheduler",
                     Port = 8008,

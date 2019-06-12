@@ -30,6 +30,10 @@
         /// </summary>
         public bool EnableSchedulerLog { get; set; } = true;
         /// <summary>
+        /// 启用自定义作业工厂
+        /// </summary>
+        public bool EnableCustomJobFactory { get; set; } = true;
+        /// <summary>
         /// 启用触发器日志
         /// </summary>
         public bool EnableTriggerLog { get; set; } = true;
