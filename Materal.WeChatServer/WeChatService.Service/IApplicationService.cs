@@ -39,6 +39,15 @@ namespace WeChatService.Service
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
         Task<ApplicationDTO> GetApplicationInfoAsync(Guid id);
+
+        /// <summary>
+        /// 获得应用信息
+        /// </summary>
+        /// <param name="appID"></param>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        Task<ApplicationDTO> GetApplicationInfoAsync(string appID, Guid userID);
         /// <summary>
         /// 获得应用列表
         /// </summary>

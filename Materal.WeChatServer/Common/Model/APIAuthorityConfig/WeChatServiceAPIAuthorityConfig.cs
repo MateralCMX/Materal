@@ -53,5 +53,15 @@
         /// </summary>
         public const string QueryWeChatDomainCode = "QueryWeChatDomain";
         #endregion
+        #region WeChatMiniProgram
+        /// <summary>
+        /// 获得OpenID
+        /// </summary>
+        public const string WeChatMiniProgramServer = "WeChatMiniProgramServer";
+        /// <summary>
+        /// 获得OpenID
+        /// </summary>
+        public const string GetWeChatMiniProgramOpenIDCode = "GetWeChatMiniProgramOpenIDCode";
+        #endregion
     }
 }

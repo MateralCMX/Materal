@@ -40,40 +40,39 @@ namespace Authority.PresentationModel
         /// <returns></returns>
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            await base.OnActionExecutionAsync(context, next);
-            //IHeaderDictionary header = context.HttpContext.Request.Headers;
-            //if (header.ContainsKey("Authorization"))
-            //{
-            //    string[] values = header.GetCommaSeparatedValues("Authorization");
-            //    string token = string.Empty;
-            //    foreach (string value in values)
-            //    {
-            //        string[] tempValue = value.Split(' ');
-            //        if (tempValue.Length == 2 && tempValue[0] == "Bearer")
-            //        {
-            //            token = tempValue[1];
-            //            break;
-            //        }
-            //    }
-            //    if (string.IsNullOrEmpty(token))
-            //    {
-            //        context.HttpContext.Response.StatusCode = 403;
-            //        return;
-            //    }
-            //    Guid userID = _userService.GetUserID(token);
-            //    if (await _apiAuthorityService.HasAPIAuthorityAsync(userID, _codes))
-            //    {
-            //        await base.OnActionExecutionAsync(context, next);
-            //    }
-            //    else
-            //    {
-            //        context.HttpContext.Response.StatusCode = 403;
-            //    }
-            //}
-            //else
-            //{
-            //    context.HttpContext.Response.StatusCode = 403;
-            //}
+            IHeaderDictionary header = context.HttpContext.Request.Headers;
+            if (header.ContainsKey("Authorization"))
+            {
+                string[] values = header.GetCommaSeparatedValues("Authorization");
+                string token = string.Empty;
+                foreach (string value in values)
+                {
+                    string[] tempValue = value.Split(' ');
+                    if (tempValue.Length == 2 && tempValue[0] == "Bearer")
+                    {
+                        token = tempValue[1];
+                        break;
+                    }
+                }
+                if (string.IsNullOrEmpty(token))
+                {
+                    context.HttpContext.Response.StatusCode = 403;
+                    return;
+                }
+                Guid userID = _userService.GetUserID(token);
+                if (await _apiAuthorityService.HasAPIAuthorityAsync(userID, _codes))
+                {
+                    await base.OnActionExecutionAsync(context, next);
+                }
+                else
+                {
+                    context.HttpContext.Response.StatusCode = 403;
+                }
+            }
+            else
+            {
+                context.HttpContext.Response.StatusCode = 403;
+            }
         }
     }
 }

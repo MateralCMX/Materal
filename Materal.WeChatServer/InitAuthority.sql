@@ -112,6 +112,17 @@ insert into [dbo].[APIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'DeleteWeChatDomain', N'删除微信域名', '', @WeChatDomainOperationID);
 insert into [dbo].[APIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'QueryWeChatDomain', N'查询微信域名', '', @WeChatDomainOperationID);
+insert into [dbo].[APIAuthority]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'QueryWeChatDomain', N'查询微信域名', '', @WeChatDomainOperationID);
+----微信小程序服务
+insert into [dbo].[APIAuthority]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'WeChatMiniProgramServer', N'微信小程序服务', '', @BaseAPIID);
+declare @WeChatMiniProgramServerID uniqueidentifier;
+select @WeChatMiniProgramServerID = ID from [dbo].[APIAuthority] where [dbo].[APIAuthority].[Code] = 'WeChatMiniProgramServer';
+insert into [dbo].[APIAuthority]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'GetWeChatMiniProgramOpenIDCode', N'获取小程序OpenID', '', @WeChatMiniProgramServerID);
+declare @GetWeChatMiniProgramOpenIDCodeID uniqueidentifier;
+select @GetWeChatMiniProgramOpenIDCodeID = ID from [dbo].[APIAuthority] where [dbo].[APIAuthority].[Code] = 'GetWeChatMiniProgramOpenIDCode';
 --网页菜单权限
 declare @Index int;
 set @Index = 1;
@@ -176,6 +187,10 @@ insert into [dbo].[RoleAPIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @BaseAPIID);
 insert into [dbo].[RoleAPIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @LoginID);
+insert into [dbo].[RoleAPIAuthority]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @WeChatMiniProgramServerID);
+insert into [dbo].[RoleAPIAuthority]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @GetWeChatMiniProgramOpenIDCodeID);
 --用户
 declare @DefaultPassword varchar(32);
 set @DefaultPassword = 'F876A34227DE18F8B8AB176594B64D64';
@@ -187,14 +202,8 @@ insert into [dbo].[User]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'User00', @DefaultPassword, N'用户00', 0, '', '', 0);
 declare @UserUser00ID uniqueidentifier;
 select @UserUser00ID = ID from [dbo].[User] where [dbo].[User].[Account] = 'User00';
-insert into [dbo].[User]
-values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'User01', @DefaultPassword, N'用户01', 0, '', '', 0);
-declare @UserUser01ID uniqueidentifier;
-select @UserUser01ID = ID from [dbo].[User] where [dbo].[User].[Account] = 'User01';
 --用户角色
 insert into [dbo].[UserRole]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @UserAdminID, @SuperAdministratorID);
 insert into [dbo].[UserRole]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @UserUser00ID, @PlatformUserID);
-insert into [dbo].[UserRole]
-values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @UserUser01ID, @PlatformUserID);

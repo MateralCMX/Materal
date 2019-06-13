@@ -154,5 +154,25 @@
             唯一标识
             </summary>
         </member>
+        <member name="T:WeChatService.PresentationModel.WeChatMiniProgram.Request.GetOpenIDRequestModel">
+            <summary>
+            获取OpenID请求模型
+            </summary>
+        </member>
+        <member name="P:WeChatService.PresentationModel.WeChatMiniProgram.Request.GetOpenIDRequestModel.Token">
+            <summary>
+            Token
+            </summary>
+        </member>
+        <member name="P:WeChatService.PresentationModel.WeChatMiniProgram.Request.GetOpenIDRequestModel.AppID">
+            <summary>
+            AppID
+            </summary>
+        </member>
+        <member name="P:WeChatService.PresentationModel.WeChatMiniProgram.Request.GetOpenIDRequestModel.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
     </members>
 </doc>

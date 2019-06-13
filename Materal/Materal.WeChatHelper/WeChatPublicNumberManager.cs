@@ -2,7 +2,6 @@
 using Materal.WeChatHelper.Model;
 using System;
 using System.Collections.Generic;
-using Materal.ConvertHelper;
 
 namespace Materal.WeChatHelper
 {

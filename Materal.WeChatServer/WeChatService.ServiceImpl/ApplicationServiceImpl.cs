@@ -69,6 +69,14 @@ namespace WeChatService.ServiceImpl
             if (applicationFromDB == null) throw new InvalidOperationException("应用不存在");
             return _mapper.Map<ApplicationDTO>(applicationFromDB);
         }
+
+        public async Task<ApplicationDTO> GetApplicationInfoAsync(string appID, Guid userID)
+        {
+            Application applicationFromDB = await _applicationRepository.FirstOrDefaultAsync(m=>m.AppID == appID && m.UserID == userID);
+            if (applicationFromDB == null) throw new InvalidOperationException("应用不存在");
+            return _mapper.Map<ApplicationDTO>(applicationFromDB);
+        }
+
         public async Task<(List<ApplicationListDTO> result, PageModel pageModel)> GetApplicationListAsync(QueryApplicationFilterModel filterModel)
         {
             Expression<Func<Application, bool>> expression = m => filterModel.UserID == m.UserID;

@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using NLog;
 using NLog.Config;
 using NLog.Web;
-using System.Reflection;
 
 namespace Authority.IdentityServer
 {
@@ -25,8 +24,7 @@ namespace Authority.IdentityServer
             {
                 options.Filters.Add(typeof(ExceptionProcessFilter));
             });
-            string migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-            services.AddIdentityServerServices(_environment, migrationsAssembly);
+            services.AddIdentityServerServices();
         }
 
         public void Configure(IApplicationBuilder app)

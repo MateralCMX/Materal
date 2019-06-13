@@ -93,27 +93,34 @@
             <param name="requestModel"></param>
             <returns></returns>
         </member>
-        <member name="T:WeChatService.WebAPI.Controllers.WeChatServiceController">
+        <member name="T:WeChatService.WebAPI.Controllers.WeChatMiniProgramController">
             <inheritdoc />
             <summary>
-            微信域名控制器
+            微信小程序控制器
             </summary>
         </member>
-        <member name="F:WeChatService.WebAPI.Controllers.WeChatServiceController._logger">
-            <summary>
-            日志对象
-            </summary>
-        </member>
-        <member name="M:WeChatService.WebAPI.Controllers.WeChatServiceController.#ctor(Microsoft.Extensions.Logging.ILogger{WeChatService.WebAPI.Controllers.WeChatServiceController})">
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatMiniProgramController.#ctor(Authority.Service.IUserService,WeChatService.Service.IApplicationService)">
             <summary>
             构造方法
             </summary>
         </member>
-        <member name="M:WeChatService.WebAPI.Controllers.WeChatServiceController.VerifyDomain">
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatMiniProgramController.GetOpenID(WeChatService.PresentationModel.WeChatMiniProgram.Request.GetOpenIDRequestModel)">
             <summary>
-            验证域名
+            获取OpenID
             </summary>
+            <param name="requestModel"></param>
             <returns></returns>
+        </member>
+        <member name="T:WeChatService.WebAPI.Controllers.WeChatPublicNumberController">
+            <inheritdoc />
+            <summary>
+            微信公众号控制器
+            </summary>
+        </member>
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatPublicNumberController.#ctor">
+            <summary>
+            构造方法
+            </summary>
         </member>
         <member name="T:WeChatService.WebAPI.Program">
             <summary>

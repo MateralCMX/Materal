@@ -49,8 +49,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Materal.Common, Version=0.0.36.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.Common.0.0.36\lib\netstandard2.0\Materal.Common.dll</HintPath>
+    <Reference Include="Materal.Common, Version=0.0.37.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.Common.0.0.37\lib\netstandard2.0\Materal.Common.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
