@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common;
 
 namespace Authority.ServiceImpl
 {
@@ -78,7 +79,7 @@ namespace Authority.ServiceImpl
         public async Task<List<APIAuthorityTreeDTO>> GetAPIAuthorityTreeAsync()
         {
             List<APIAuthority> allAPIAuthorities = await _apiAuthorityRepository.GetAllInfoFromCacheAsync();
-            return GetTreeList(allAPIAuthorities);
+            return TreeHelper.GetTreeList<APIAuthorityTreeDTO, APIAuthority, Guid>(allAPIAuthorities);
         }
         public async Task ExchangeAPIAuthorityParentIDAsync(Guid id, Guid? parentID)
         {
@@ -124,27 +125,6 @@ namespace Authority.ServiceImpl
             foreach (APIAuthority apiAuthority in child)
             {
                 result.AddRange(GetAllChild(apiAuthorities, apiAuthority.ID));
-            }
-            return result;
-        }
-        /// <summary>
-        /// 获取树形列表
-        /// </summary>
-        /// <param name="allAPIAuthorities">所有API权限</param>
-        /// <param name="parentID">父级唯一标识</param>
-        /// <returns></returns>
-        private List<APIAuthorityTreeDTO> GetTreeList(List<APIAuthority> allAPIAuthorities, Guid? parentID = null)
-        {
-            var result = new List<APIAuthorityTreeDTO>();
-            List<APIAuthority> apiAuthorities = allAPIAuthorities.Where(m => m.ParentID == parentID).ToList();
-            foreach (APIAuthority apiAuthority in apiAuthorities)
-            {
-                result.Add(new APIAuthorityTreeDTO
-                {
-                    ID = apiAuthority.ID,
-                    Name = apiAuthority.Name,
-                    Child = GetTreeList(allAPIAuthorities, apiAuthority.ID)
-                });
             }
             return result;
         }

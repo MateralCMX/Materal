@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Common;
 using Domain;
+using System;
+using System.Collections.Generic;
 
 namespace Authority.Domain
 {
     /// <summary>
     /// API权限
     /// </summary>
-    public class APIAuthority : BaseEntity<Guid>
+    public class APIAuthority : BaseEntity<Guid>, ITreeDomain<Guid>
     {
         /// <summary>
         /// 代码

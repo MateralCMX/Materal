@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Common;
 using Domain;
+using System;
+using System.Collections.Generic;
 
 namespace Authority.Domain
 {
     /// <summary>
     /// 角色
     /// </summary>
-    public sealed class Role : BaseEntity<Guid>
+    public sealed class Role : BaseEntity<Guid>, ITreeDomain<Guid>
     {
         /// <summary>
         /// 名称

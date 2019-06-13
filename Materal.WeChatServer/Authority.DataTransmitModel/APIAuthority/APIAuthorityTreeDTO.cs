@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common;
 
 namespace Authority.DataTransmitModel.APIAuthority
 {
     /// <summary>
     /// API权限树形数据传输模型
     /// </summary>
-    public class APIAuthorityTreeDTO
+    public class APIAuthorityTreeDTO : ITreeModel<APIAuthorityTreeDTO, Guid>
     {
         /// <summary>
         /// 唯一标识

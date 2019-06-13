@@ -7,6 +7,7 @@ using Authority.EFRepository;
 using Authority.Service;
 using Authority.Service.Model.WebMenuAuthority;
 using AutoMapper;
+using Common;
 using Materal.ConvertHelper;
 using Materal.LinqHelper;
 using System;
@@ -80,12 +81,12 @@ namespace Authority.ServiceImpl
         public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync()
         {
             List<WebMenuAuthority> allWebMenuAuthorities = await _webMenuAuthorityRepository.GetAllInfoFromCacheAsync();
-            return GetTreeList(allWebMenuAuthorities.OrderBy(m => m.Index).ToList());
+            return TreeHelper.GetTreeList<WebMenuAuthorityTreeDTO, WebMenuAuthority, Guid>(allWebMenuAuthorities.OrderBy(m => m.Index).ToList());
         }
         public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync(Guid userID)
         {
             List<UserOwnedWebMenuAuthority> userOwnedWebMenuAuthorities = await _userOwnedWebMenuAuthorityRepository.WhereAsync(m => m.UserID == userID).OrderBy(m => m.Index).ToList();
-            return GetTreeList(userOwnedWebMenuAuthorities);
+            return TreeHelper.GetTreeList<WebMenuAuthorityTreeDTO, UserOwnedWebMenuAuthority, Guid>(userOwnedWebMenuAuthorities);
         }
         public async Task ExchangeWebMenuAuthorityIndexAsync(Guid exchangeID, Guid targetID, bool forUnder = true)
         {
@@ -127,48 +128,6 @@ namespace Authority.ServiceImpl
             foreach (WebMenuAuthority webMenuAuthority in child)
             {
                 result.AddRange(GetAllChild(webMenuAuthorities, webMenuAuthority.ID));
-            }
-            return result;
-        }
-        /// <summary>
-        /// 获取树形列表
-        /// </summary>
-        /// <param name="allWebMenuAuthorities">所有网页菜单权限信息</param>
-        /// <param name="parentID">父级唯一标识</param>
-        /// <returns></returns>
-        private List<WebMenuAuthorityTreeDTO> GetTreeList(List<WebMenuAuthority> allWebMenuAuthorities, Guid? parentID = null)
-        {
-            var result = new List<WebMenuAuthorityTreeDTO>();
-            List<WebMenuAuthority> webMenuAuthorities = allWebMenuAuthorities.Where(m => m.ParentID == parentID).ToList();
-            foreach (WebMenuAuthority webMenuAuthority in webMenuAuthorities)
-            {
-                result.Add(new WebMenuAuthorityTreeDTO
-                {
-                    ID = webMenuAuthority.ID,
-                    Name = webMenuAuthority.Name,
-                    Child = GetTreeList(allWebMenuAuthorities, webMenuAuthority.ID)
-                });
-            }
-            return result;
-        }
-        /// <summary>
-        /// 获取树形列表
-        /// </summary>
-        /// <param name="allWebMenuAuthorities">所有网页菜单权限信息</param>
-        /// <param name="parentID">父级唯一标识</param>
-        /// <returns></returns>
-        private List<WebMenuAuthorityTreeDTO> GetTreeList(List<UserOwnedWebMenuAuthority> allWebMenuAuthorities, Guid? parentID = null)
-        {
-            var result = new List<WebMenuAuthorityTreeDTO>();
-            List<UserOwnedWebMenuAuthority> webMenuAuthorities = allWebMenuAuthorities.Where(m => m.ParentID == parentID).ToList();
-            foreach (UserOwnedWebMenuAuthority webMenuAuthority in webMenuAuthorities)
-            {
-                result.Add(new WebMenuAuthorityTreeDTO
-                {
-                    ID = webMenuAuthority.ID,
-                    Name = webMenuAuthority.Name,
-                    Child = GetTreeList(allWebMenuAuthorities, webMenuAuthority.ID)
-                });
             }
             return result;
         }

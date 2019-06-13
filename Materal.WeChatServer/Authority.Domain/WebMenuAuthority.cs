@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Common;
 using Domain;
+using System;
+using System.Collections.Generic;
 
 namespace Authority.Domain
 {
     /// <summary>
     /// 菜单权限
     /// </summary>
-    public sealed class WebMenuAuthority : BaseEntity<Guid>
+    public sealed class WebMenuAuthority : BaseEntity<Guid>, ITreeDomain<Guid>
     {
         /// <summary>
         /// 代码

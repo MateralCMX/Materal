@@ -5,11 +5,13 @@ using Authority.EFRepository;
 using Authority.Service;
 using Authority.Service.Model.Role;
 using AutoMapper;
+using Common;
 using Materal.ConvertHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 namespace Authority.ServiceImpl
 {
     /// <summary>
@@ -79,7 +81,7 @@ namespace Authority.ServiceImpl
         public async Task<List<RoleTreeDTO>> GetRoleTreeAsync()
         {
             List<Role> allRoles = await _roleRepository.GetAllInfoFromCacheAsync();
-            return GetTreeList(allRoles);
+            return TreeHelper.GetTreeList<RoleTreeDTO, Role, Guid>(allRoles);
         }
         public async Task ExchangeRoleParentIDAsync(Guid id, Guid? parentID)
         {
@@ -95,27 +97,6 @@ namespace Authority.ServiceImpl
             await _authorityUnitOfWork.CommitAsync();
         }
         #region 私有方法
-        /// <summary>
-        /// 获取树形列表
-        /// </summary>
-        /// <param name="allRoles">所有角色信息</param>
-        /// <param name="parentID">父级唯一标识</param>
-        /// <returns></returns>
-        private List<RoleTreeDTO> GetTreeList(List<Role> allRoles, Guid? parentID = null)
-        {
-            var result = new List<RoleTreeDTO>();
-            List<Role> roles = allRoles.Where(m => m.ParentID == parentID).ToList();
-            foreach (Role role in roles)
-            {
-                result.Add(new RoleTreeDTO
-                {
-                    ID = role.ID,
-                    Name = role.Name,
-                    Child = GetTreeList(allRoles, role.ID)
-                });
-            }
-            return result;
-        }
         /// <summary>
         /// 添加角色功能权限
         /// </summary>

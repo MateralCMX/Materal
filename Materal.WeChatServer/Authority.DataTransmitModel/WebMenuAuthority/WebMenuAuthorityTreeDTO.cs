@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 
 namespace Authority.DataTransmitModel.WebMenuAuthority
@@ -6,7 +7,7 @@ namespace Authority.DataTransmitModel.WebMenuAuthority
     /// <summary>
     /// 网页菜单权限树形数据传输模型
     /// </summary>
-    public class WebMenuAuthorityTreeDTO
+    public class WebMenuAuthorityTreeDTO : ITreeModel<WebMenuAuthorityTreeDTO, Guid>
     {
         /// <summary>
         /// 唯一标识

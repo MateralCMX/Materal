@@ -1,14 +1,14 @@
-﻿using Domain;
+﻿using Common;
 using Materal.TTA.Common;
 using System;
-using System.Collections.Generic;
+
 namespace Authority.Domain.Views
 {
     /// <summary>
     /// 用户拥有的网页菜单权限
     /// </summary>
     [ViewEntity]
-    public sealed class UserOwnedWebMenuAuthority : IEntity<Guid>
+    public sealed class UserOwnedWebMenuAuthority : IEntity<Guid>, ITreeDomain<Guid>
     {
         /// <summary>
         /// 唯一标识

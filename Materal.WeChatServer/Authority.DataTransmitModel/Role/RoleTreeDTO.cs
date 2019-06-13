@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 
 namespace Authority.DataTransmitModel.Role
@@ -6,7 +7,7 @@ namespace Authority.DataTransmitModel.Role
     /// <summary>
     /// 角色树形数据传输模型
     /// </summary>
-    public class RoleTreeDTO
+    public class RoleTreeDTO : ITreeModel<RoleTreeDTO, Guid>
     {
         /// <summary>
         /// 唯一标识
