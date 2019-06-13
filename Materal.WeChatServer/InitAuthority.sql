@@ -99,6 +99,8 @@ insert into [dbo].[APIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'DeleteApplication', N'删除应用', '', @ApplicationOperationID);
 insert into [dbo].[APIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'QueryApplication', N'查询应用', '', @ApplicationOperationID);
+declare @QueryApplicationID uniqueidentifier;
+select @QueryApplicationID = ID from [dbo].[APIAuthority] where [dbo].[APIAuthority].[Code] = 'QueryApplication';
 ----微信域名
 insert into [dbo].[APIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'WeChatDomainOperation', N'微信域名操作', '', @BaseAPIID);
@@ -156,6 +158,12 @@ values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'WeChatDomainOperati
 set @Index = @Index + 1;
 declare @WebWeChatDomainOperationID uniqueidentifier;
 select @WebWeChatDomainOperationID = ID from [dbo].[WebMenuAuthority] where [dbo].[WebMenuAuthority].[Code] = 'WeChatDomainOperation';
+----应用管理
+insert into [dbo].[WebMenuAuthority]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'ApplicationOperation', N'应用管理', '', @Index, '', NULL);
+set @Index = @Index + 1;
+declare @ApplicationOperationID uniqueidentifier;
+select @ApplicationOperationID = ID from [dbo].[WebMenuAuthority] where [dbo].[WebMenuAuthority].[Code] = 'ApplicationOperation';
 ----我的应用管理
 insert into [dbo].[WebMenuAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', 'MyApplicationOperation', N'应用管理', '', @Index, '', NULL);
@@ -187,6 +195,10 @@ insert into [dbo].[RoleAPIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @BaseAPIID);
 insert into [dbo].[RoleAPIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @LoginID);
+insert into [dbo].[RoleAPIAuthority]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @ApplicationOperationID);
+insert into [dbo].[RoleAPIAuthority]
+values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @QueryApplicationID);
 insert into [dbo].[RoleAPIAuthority]
 values (NEWID(), SYSDATETIME(), '0001-01-01 00:00:00.0000', @PlatformUserID, @WeChatMiniProgramServerID);
 insert into [dbo].[RoleAPIAuthority]

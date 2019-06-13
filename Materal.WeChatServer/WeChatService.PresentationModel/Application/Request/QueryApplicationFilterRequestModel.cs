@@ -14,7 +14,7 @@ namespace WeChatService.PresentationModel.Application.Request
         /// <summary>
         /// 用户唯一标识
         /// </summary>
-        public Guid UserID { get; set; }
+        public Guid? UserID { get; set; }
         /// <summary>
         /// AppID
         /// </summary>

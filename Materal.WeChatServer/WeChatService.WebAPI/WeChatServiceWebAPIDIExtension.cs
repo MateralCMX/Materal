@@ -18,7 +18,7 @@ namespace WeChatService.WebAPI
             services.AddBaseServices();
             services.AddAuthorityServices();
             services.AddWeChatServiceServices();
-            services.AddAutoMapperService(Assembly.Load("Authority.ServiceImpl"), Assembly.Load("Authority.PresentationModel"));
+            services.AddAutoMapperService(Assembly.Load("WeChatService.ServiceImpl"), Assembly.Load("WeChatService.PresentationModel"));
         }
     }
 }

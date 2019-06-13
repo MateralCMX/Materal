@@ -79,7 +79,11 @@ namespace WeChatService.ServiceImpl
 
         public async Task<(List<ApplicationListDTO> result, PageModel pageModel)> GetApplicationListAsync(QueryApplicationFilterModel filterModel)
         {
-            Expression<Func<Application, bool>> expression = m => filterModel.UserID == m.UserID;
+            Expression<Func<Application, bool>> expression = m => true;
+            if (filterModel.UserID.HasValue)
+            {
+                expression = expression.And(m => filterModel.UserID == m.UserID);
+            }
             if (!string.IsNullOrEmpty(filterModel.AppID))
             {
                 expression = expression.And(m => m.AppID == filterModel.AppID);
