@@ -7,7 +7,7 @@ using Authority.EFRepository;
 using Authority.Service;
 using Authority.Service.Model.WebMenuAuthority;
 using AutoMapper;
-using Common;
+using Common.Tree;
 using Materal.ConvertHelper;
 using Materal.LinqHelper;
 using System;
@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Common.Tree;
 
 namespace Authority.ServiceImpl
 {
@@ -37,9 +36,8 @@ namespace Authority.ServiceImpl
         }
         public async Task AddWebMenuAuthorityAsync(AddWebMenuAuthorityModel model)
         {
-            if (string.IsNullOrEmpty(model.Code)) throw new InvalidOperationException("代码为空");
             if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称为空");
-            if (await _webMenuAuthorityRepository.CountAsync(m => m.Code == model.Code) > 0) throw new InvalidOperationException("代码重复");
+            if (!string.IsNullOrEmpty(model.Code) && await _webMenuAuthorityRepository.CountAsync(m => m.Code == model.Code) > 0) throw new InvalidOperationException("代码重复");
             var webMenuAuthority = model.CopyProperties<WebMenuAuthority>();
             webMenuAuthority.Index = _webMenuAuthorityRepository.GetMaxIndex() + 1;
             _authorityUnitOfWork.RegisterAdd(webMenuAuthority);
@@ -48,9 +46,8 @@ namespace Authority.ServiceImpl
         }
         public async Task EditWebMenuAuthorityAsync(EditWebMenuAuthorityModel model)
         {
-            if (string.IsNullOrEmpty(model.Code)) throw new InvalidOperationException("代码为空");
             if (string.IsNullOrEmpty(model.Name)) throw new InvalidOperationException("名称为空");
-            if (await _webMenuAuthorityRepository.CountAsync(m => m.ID != model.ID && m.Code == model.Code) > 0) throw new InvalidOperationException("代码重复");
+            if (!string.IsNullOrEmpty(model.Code) && await _webMenuAuthorityRepository.CountAsync(m => m.ID != model.ID && m.Code == model.Code) > 0) throw new InvalidOperationException("代码重复");
             WebMenuAuthority webMenuAuthorityFromDB = await _webMenuAuthorityRepository.FirstOrDefaultAsync(model.ID);
             if (webMenuAuthorityFromDB == null) throw new InvalidOperationException("网页菜单权限不存在");
             model.CopyProperties(webMenuAuthorityFromDB);
@@ -82,12 +79,29 @@ namespace Authority.ServiceImpl
         public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync()
         {
             List<WebMenuAuthority> allWebMenuAuthorities = await _webMenuAuthorityRepository.GetAllInfoFromCacheAsync();
-            return TreeHelper.GetTreeList<WebMenuAuthorityTreeDTO, WebMenuAuthority, Guid>(allWebMenuAuthorities.OrderBy(m => m.Index).ToList());
+            return TreeHelper.GetTreeList<WebMenuAuthorityTreeDTO, WebMenuAuthority, Guid>(allWebMenuAuthorities.OrderBy(m => m.Index).ToList(), null,
+                webMenuAuthority =>new WebMenuAuthorityTreeDTO
+                {
+                    ID = webMenuAuthority.ID,
+                    Code = webMenuAuthority.Code,
+                    Style = webMenuAuthority.Style,
+                    Name = webMenuAuthority.Name,
+                });
         }
-        public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync(Guid userID)
+        public async Task<List<WebMenuAuthorityOwnedTreeDTO>> GetWebMenuAuthorityTreeAsync(Guid userID)
         {
+            List<WebMenuAuthority> allWebMenuAuthorities = await _webMenuAuthorityRepository.GetAllInfoFromCacheAsync();
             List<UserOwnedWebMenuAuthority> userOwnedWebMenuAuthorities = await _userOwnedWebMenuAuthorityRepository.WhereAsync(m => m.UserID == userID).OrderBy(m => m.Index).ToList();
-            return TreeHelper.GetTreeList<WebMenuAuthorityTreeDTO, UserOwnedWebMenuAuthority, Guid>(userOwnedWebMenuAuthorities);
+            Guid[] userHasID = userOwnedWebMenuAuthorities.Select(m => m.ID).ToArray();
+            return TreeHelper.GetTreeList<WebMenuAuthorityOwnedTreeDTO, WebMenuAuthority, Guid>(allWebMenuAuthorities, null,
+                webMenuAuthority => new WebMenuAuthorityOwnedTreeDTO
+                {
+                    ID = webMenuAuthority.ID,
+                    Code = webMenuAuthority.Code,
+                    Style = webMenuAuthority.Style,
+                    Name = webMenuAuthority.Name,
+                    Owned = userHasID.Contains(webMenuAuthority.ID)
+                });
         }
         public async Task ExchangeWebMenuAuthorityIndexAsync(Guid exchangeID, Guid targetID, bool forUnder = true)
         {

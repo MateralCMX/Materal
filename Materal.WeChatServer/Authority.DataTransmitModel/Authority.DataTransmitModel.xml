@@ -314,6 +314,41 @@
             备注
             </summary>
         </member>
+        <member name="T:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityOwnedTreeDTO">
+            <summary>
+            网页菜单权限树形数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityOwnedTreeDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityOwnedTreeDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityOwnedTreeDTO.Style">
+            <summary>
+            样式
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityOwnedTreeDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityOwnedTreeDTO.Owned">
+            <summary>
+            是否拥有
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityOwnedTreeDTO.Child">
+            <summary>
+            子级
+            </summary>
+        </member>
         <member name="T:Authority.DataTransmitModel.WebMenuAuthority.WebMenuAuthorityTreeDTO">
             <summary>
             网页菜单权限树形数据传输模型

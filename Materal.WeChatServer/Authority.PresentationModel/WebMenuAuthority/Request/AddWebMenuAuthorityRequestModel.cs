@@ -10,7 +10,7 @@ namespace Authority.PresentationModel.WebMenuAuthority.Request
         /// <summary>
         /// 代码
         /// </summary>
-        [Required(ErrorMessage = "代码不可以为空"), MaxLength(100, ErrorMessage = "代码长度不能超过100")]
+        [MaxLength(100, ErrorMessage = "代码长度不能超过100")]
         public string Code { get; set; }
         /// <summary>
         /// 名称
