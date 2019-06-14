@@ -1,6 +1,7 @@
 ﻿using Common;
 using Materal.TTA.Common;
 using System;
+using Common.Tree;
 
 namespace Authority.Domain.Views
 {

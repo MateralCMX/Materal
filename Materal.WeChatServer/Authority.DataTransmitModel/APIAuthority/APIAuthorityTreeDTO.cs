@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common;
+using Common.Tree;
 
 namespace Authority.DataTransmitModel.APIAuthority
 {

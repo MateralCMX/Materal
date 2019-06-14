@@ -3,10 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.37</Version>
+    <Version>1.0.0</Version>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
     <Description>Materal网络帮助类</Description>
+    <PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

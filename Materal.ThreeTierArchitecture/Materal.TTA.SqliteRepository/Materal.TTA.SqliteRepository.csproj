@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.0.8</Version>
-    <Authors>Materal</Authors>
-    <Product>Materal.ThreeTierArchitecture</Product>
-    <Description>Materal.TTA.SqliteRepository</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Product>Materal.ThreeTierArchitecture</Product>
+    <Company>Materal</Company>
+    <Authors>Materal</Authors>
+    <Version>1.0.0</Version>
+    <Copyright>Materal</Copyright>
+    <Description>Materal.TTA.SqliteRepository</Description>
   </PropertyGroup>
 
   <ItemGroup>

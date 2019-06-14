@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Common
+namespace Common.Tree
 {
     public interface ITreeModel<T1, T2> where T1 : ITreeModel<T1, T2> where T2 : struct
     {

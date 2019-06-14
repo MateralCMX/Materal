@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using Common.Tree;
 
 namespace Authority.DataTransmitModel.Role
 {
