@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Authority.DataTransmitModel.WebMenuAuthority;
 using Authority.Domain;
+using Authority.Domain.Views;
+
 namespace Authority.ServiceImpl.AutoMapperProfile
 {
     /// <summary>
@@ -11,6 +13,7 @@ namespace Authority.ServiceImpl.AutoMapperProfile
         public WebMenuAuthorityProfile()
         {
             CreateMap<WebMenuAuthority, WebMenuAuthorityTreeDTO>();
+            CreateMap<UserOwnedWebMenuAuthority, WebMenuAuthorityTreeDTO>();
             CreateMap<WebMenuAuthority, WebMenuAuthorityDTO>();
         }
     }

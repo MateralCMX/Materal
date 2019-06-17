@@ -78,13 +78,15 @@ namespace Authority.ServiceImpl
         }
         public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync()
         {
-            List<WebMenuAuthority> allWebMenuAuthorities = await _webMenuAuthorityRepository.GetAllInfoFromCacheAsync();
-            return TreeHelper.GetTreeList<WebMenuAuthorityTreeDTO, WebMenuAuthority, Guid>(allWebMenuAuthorities.OrderBy(m => m.Index).ToList(), null, webMenuAuthority => webMenuAuthority.CopyProperties<WebMenuAuthorityTreeDTO>());
+            List<WebMenuAuthority> allWebMenuAuthorities = (await _webMenuAuthorityRepository.GetAllInfoFromCacheAsync()).OrderBy(m => m.Index).ToList();
+            return TreeHelper.GetTreeList<WebMenuAuthorityTreeDTO, WebMenuAuthority, Guid>(allWebMenuAuthorities, null, 
+                webMenuAuthority => _mapper.Map<WebMenuAuthorityTreeDTO>(webMenuAuthority));
         }
         public async Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync(Guid userID)
         {
             List<UserOwnedWebMenuAuthority> userOwnedWebMenuAuthorities = await _userOwnedWebMenuAuthorityRepository.WhereAsync(m => m.UserID == userID).OrderBy(m => m.Index).ToList();
-            return TreeHelper.GetTreeList<WebMenuAuthorityTreeDTO, UserOwnedWebMenuAuthority, Guid>(userOwnedWebMenuAuthorities.OrderBy(m => m.Index).ToList(), null, webMenuAuthority => webMenuAuthority.CopyProperties<WebMenuAuthorityTreeDTO>());
+            return TreeHelper.GetTreeList<WebMenuAuthorityTreeDTO, UserOwnedWebMenuAuthority, Guid>(userOwnedWebMenuAuthorities, null, 
+                webMenuAuthority => _mapper.Map<WebMenuAuthorityTreeDTO>(webMenuAuthority));
         }
         public async Task ExchangeWebMenuAuthorityIndexAsync(Guid exchangeID, Guid targetID, bool forUnder = true)
         {

@@ -9,7 +9,7 @@ namespace Authority.EFRepository.Migrations
             migrationBuilder.Sql(@"
 create view UserOwnedActionAuthority
 as
-select 
+select Distinct 
 	[dbo].[ActionAuthority].[ID],
 	[dbo].[ActionAuthority].[Code],
 	[dbo].[ActionAuthority].[Name],
@@ -25,7 +25,7 @@ where [dbo].[Role].[IsDelete] = 0 and [dbo].[User].[IsDelete] = 0");
             migrationBuilder.Sql(@"
 create view UserOwnedAPIAuthority
 as
-select 
+select Distinct 
 	[dbo].[APIAuthority].[ID],
 	[dbo].[APIAuthority].[Code],
 	[dbo].[APIAuthority].[ParentID],
@@ -40,7 +40,7 @@ where [dbo].[Role].[IsDelete] = 0 and [dbo].[User].[IsDelete] = 0");
             migrationBuilder.Sql(@"
 create view UserOwnedWebMenuAuthority
 as
-select 
+select Distinct 
 	[dbo].[WebMenuAuthority].[ID],
 	[dbo].[WebMenuAuthority].[Code],
 	[dbo].[WebMenuAuthority].[Name],
