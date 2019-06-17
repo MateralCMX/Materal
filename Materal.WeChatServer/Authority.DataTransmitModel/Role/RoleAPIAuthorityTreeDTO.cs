@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Tree;
+using System;
 using System.Collections.Generic;
 
 namespace Authority.DataTransmitModel.Role
@@ -6,7 +7,7 @@ namespace Authority.DataTransmitModel.Role
     /// <summary>
     /// 角色权限树数据传输模型
     /// </summary>
-    public class RoleAPIAuthorityTreeDTO
+    public class RoleAPIAuthorityTreeDTO : ITreeModel<RoleAPIAuthorityTreeDTO, Guid>
     {
         /// <summary>
         /// 唯一标识
@@ -23,7 +24,7 @@ namespace Authority.DataTransmitModel.Role
         /// <summary>
         /// 子级
         /// </summary>
-        public List<RoleAPIAuthorityTreeDTO> Child { get; set; }
+        public ICollection<RoleAPIAuthorityTreeDTO> Child { get; set; }
         /// <summary>
         /// 拥有标识
         /// </summary>

@@ -84,6 +84,36 @@
             子级
             </summary>
         </member>
+        <member name="T:Authority.DataTransmitModel.Role.RoleActionAuthorityListDTO">
+            <summary>
+            角色功能权限列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleActionAuthorityListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleActionAuthorityListDTO.Code">
+            <summary>
+            代码
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleActionAuthorityListDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleActionAuthorityListDTO.ActionGroupCode">
+            <summary>
+            功能组标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.Role.RoleActionAuthorityListDTO.Owned">
+            <summary>
+            拥有标识
+            </summary>
+        </member>
         <member name="T:Authority.DataTransmitModel.Role.RoleAPIAuthorityTreeDTO">
             <summary>
             角色权限树数据传输模型

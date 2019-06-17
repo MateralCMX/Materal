@@ -5,13 +5,12 @@ using Authority.EFRepository;
 using Authority.Service;
 using Authority.Service.Model.Role;
 using AutoMapper;
-using Common;
+using Common.Tree;
 using Materal.ConvertHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Common.Tree;
 
 namespace Authority.ServiceImpl
 {
@@ -24,9 +23,12 @@ namespace Authority.ServiceImpl
         private readonly IRoleActionAuthorityRepository _roleActionAuthorityRepository;
         private readonly IRoleAPIAuthorityRepository _roleAPIAuthorityRepository;
         private readonly IRoleWebMenuAuthorityRepository _roleWebMenuAuthorityRepository;
+        private readonly IWebMenuAuthorityRepository _webMenuAuthorityRepository;
+        private readonly IAPIAuthorityRepository _apiAuthorityRepository;
+        private readonly IActionAuthorityRepository _actionAuthorityRepository;
         private readonly IMapper _mapper;
         private readonly IAuthorityUnitOfWork _authorityUnitOfWork;
-        public RoleServiceImpl(IRoleRepository roleRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork, IRoleActionAuthorityRepository roleActionAuthorityRepository, IRoleAPIAuthorityRepository roleAPIAuthorityRepository, IRoleWebMenuAuthorityRepository roleWebMenuAuthorityRepository)
+        public RoleServiceImpl(IRoleRepository roleRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork, IRoleActionAuthorityRepository roleActionAuthorityRepository, IRoleAPIAuthorityRepository roleAPIAuthorityRepository, IRoleWebMenuAuthorityRepository roleWebMenuAuthorityRepository, IWebMenuAuthorityRepository webMenuAuthorityRepository, IAPIAuthorityRepository apiAuthorityRepository, IActionAuthorityRepository actionAuthorityRepository)
         {
             _roleRepository = roleRepository;
             _mapper = mapper;
@@ -34,6 +36,9 @@ namespace Authority.ServiceImpl
             _roleActionAuthorityRepository = roleActionAuthorityRepository;
             _roleAPIAuthorityRepository = roleAPIAuthorityRepository;
             _roleWebMenuAuthorityRepository = roleWebMenuAuthorityRepository;
+            _webMenuAuthorityRepository = webMenuAuthorityRepository;
+            _apiAuthorityRepository = apiAuthorityRepository;
+            _actionAuthorityRepository = actionAuthorityRepository;
         }
         public async Task AddRoleAsync(AddRoleModel model)
         {
@@ -77,7 +82,39 @@ namespace Authority.ServiceImpl
         {
             Role roleFromDB = await _roleRepository.FirstOrDefaultAsync(id);
             if (roleFromDB == null) throw new InvalidOperationException("角色不存在");
-            return _mapper.Map<RoleDTO>(roleFromDB);
+            var result = _mapper.Map<RoleDTO>(roleFromDB);
+            List<WebMenuAuthority> allWebMenuAuthorities = await _webMenuAuthorityRepository.GetAllInfoFromCacheAsync();
+            List<RoleWebMenuAuthority> roleOwnedWebMenus = await _roleWebMenuAuthorityRepository.WhereAsync(m => m.RoleID == id).ToList();
+            Guid[] roleHasWebMenuID = roleOwnedWebMenus.Select(m => m.WebMenuAuthorityID).ToArray();
+            result.WebMenuAuthorityTreeList = TreeHelper.GetTreeList<RoleWebMenuAuthorityTreeDTO, WebMenuAuthority, Guid>(allWebMenuAuthorities, null,
+                webMenuAuthority =>
+                {
+                    var temp = webMenuAuthority.CopyProperties<RoleWebMenuAuthorityTreeDTO>(nameof(WebMenuAuthority.Child), nameof(WebMenuAuthority.RoleWebMenuAuthorities));
+                    temp.Owned = roleHasWebMenuID.Contains(webMenuAuthority.ID);
+                    return temp;
+                });
+            List<APIAuthority> allAPIAuthorities = await _apiAuthorityRepository.GetAllInfoFromCacheAsync();
+            List<RoleAPIAuthority> roleOwnedAPIs = await _roleAPIAuthorityRepository.WhereAsync(m => m.RoleID == id).ToList();
+            Guid[] roleHasAPIID = roleOwnedAPIs.Select(m => m.APIAuthorityID).ToArray();
+            result.APIAuthorityTreeList = TreeHelper.GetTreeList<RoleAPIAuthorityTreeDTO, APIAuthority, Guid>(allAPIAuthorities, null,
+                apiAuthority =>
+                {
+                    var temp = apiAuthority.CopyProperties<RoleAPIAuthorityTreeDTO>(nameof(APIAuthority.Child), nameof(APIAuthority.RoleAPIAuthorities));
+                    temp.Owned = roleHasAPIID.Contains(apiAuthority.ID);
+                    return temp;
+                });
+            List<ActionAuthority> allActionAuthorities = await _actionAuthorityRepository.WhereAsync(m => true).ToList();
+            List<RoleActionAuthority> roleOwnedActions = await _roleActionAuthorityRepository.WhereAsync(m => m.RoleID == id).ToList();
+            Guid[] roleHasActionID = roleOwnedActions.Select(m => m.ActionAuthorityID).ToArray();
+            result.ActionAuthorityList = allActionAuthorities.Select(m => new RoleActionAuthorityListDTO
+            {
+                ActionGroupCode = m.ActionGroupCode,
+                Code = m.Code,
+                ID = m.ID,
+                Name = m.Name,
+                Owned = roleHasActionID.Contains(m.ID)
+            }).ToList();
+            return result;
         }
         public async Task<List<RoleTreeDTO>> GetRoleTreeAsync()
         {

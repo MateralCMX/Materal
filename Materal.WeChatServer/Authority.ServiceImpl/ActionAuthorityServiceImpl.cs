@@ -2,6 +2,7 @@
 using Authority.Domain;
 using Authority.Domain.Repositories;
 using Authority.Domain.Repositories.Views;
+using Authority.Domain.Views;
 using Authority.EFRepository;
 using Authority.Service;
 using Authority.Service.Model.ActionAuthority;
@@ -15,7 +16,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Authority.Domain.Views;
 
 namespace Authority.ServiceImpl
 {

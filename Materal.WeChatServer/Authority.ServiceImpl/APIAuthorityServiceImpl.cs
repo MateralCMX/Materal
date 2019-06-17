@@ -8,13 +8,12 @@ using Authority.Service;
 using Authority.Service.Model.APIAuthority;
 using AutoMapper;
 using Common.Model.APIAuthorityConfig;
+using Common.Tree;
 using Materal.ConvertHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Common;
-using Common.Tree;
 
 namespace Authority.ServiceImpl
 {
@@ -101,7 +100,7 @@ namespace Authority.ServiceImpl
             foreach (string code in codes)
             {
                 UserOwnedAPIAuthority userOwnedAPIAuthority = userOwnedAPIAuthorities.FirstOrDefault(m => m.Code == code);
-                if (userOwnedAPIAuthority?.ParentID == null) return false;
+                if (userOwnedAPIAuthority?.ParentID == null) return true;
                 if (!HasParentAPIAuthority(userOwnedAPIAuthorities, userOwnedAPIAuthority.ParentID.Value)) return false;
             }
             return true;

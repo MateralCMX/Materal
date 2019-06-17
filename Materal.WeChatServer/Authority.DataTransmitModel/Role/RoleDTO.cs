@@ -24,7 +24,7 @@ namespace Authority.DataTransmitModel.Role
         /// <summary>
         /// 功能权限列表
         /// </summary>
-        public ICollection<ActionAuthorityListDTO> ActionAuthorityList { get; set; }
+        public ICollection<RoleActionAuthorityListDTO> ActionAuthorityList { get; set; }
         /// <summary>
         /// API权限列表
         /// </summary>

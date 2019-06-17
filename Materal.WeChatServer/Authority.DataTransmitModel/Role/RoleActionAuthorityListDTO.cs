@@ -1,13 +1,11 @@
-﻿using Common.Tree;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace Authority.DataTransmitModel.Role
 {
     /// <summary>
-    /// 角色网页菜单权限树数据传输模型
+    /// 角色功能权限列表数据传输模型
     /// </summary>
-    public class RoleWebMenuAuthorityTreeDTO : ITreeModel<RoleWebMenuAuthorityTreeDTO, Guid>
+    public class RoleActionAuthorityListDTO
     {
         /// <summary>
         /// 唯一标识
@@ -18,17 +16,13 @@ namespace Authority.DataTransmitModel.Role
         /// </summary>
         public string Code { get; set; }
         /// <summary>
-        /// 样式
-        /// </summary>
-        public string Style { get; set; }
-        /// <summary>
         /// 名称
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// 子级
+        /// 功能组标识
         /// </summary>
-        public ICollection<RoleWebMenuAuthorityTreeDTO> Child { get; set; }
+        public string ActionGroupCode { get; set; }
         /// <summary>
         /// 拥有标识
         /// </summary>

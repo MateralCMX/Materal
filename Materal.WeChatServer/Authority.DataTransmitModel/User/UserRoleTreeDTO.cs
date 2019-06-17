@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Common.Tree;
+using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Authority.DataTransmitModel.User
 {
     /// <summary>
     /// 用户所属角色
     /// </summary>
-    public class UserRoleTreeDTO
+    public class UserRoleTreeDTO : ITreeModel<UserRoleTreeDTO, Guid>
     {
         /// <summary>
         /// 唯一标识
@@ -24,7 +24,7 @@ namespace Authority.DataTransmitModel.User
         /// <summary>
         /// 子级
         /// </summary>
-        public List<UserRoleTreeDTO> Child { get; set; }
+        public ICollection<UserRoleTreeDTO> Child { get; set; }
         /// <summary>
         /// 拥有标识
         /// </summary>

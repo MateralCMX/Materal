@@ -49,7 +49,7 @@ namespace Authority.Service
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        Task<List<WebMenuAuthorityOwnedTreeDTO>> GetWebMenuAuthorityTreeAsync(Guid userID);
+        Task<List<WebMenuAuthorityTreeDTO>> GetWebMenuAuthorityTreeAsync(Guid userID);
         /// <summary>
         /// 调换位序
         /// </summary>

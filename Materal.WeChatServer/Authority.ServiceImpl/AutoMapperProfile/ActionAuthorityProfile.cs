@@ -1,4 +1,5 @@
 ﻿using Authority.DataTransmitModel.ActionAuthority;
+using Authority.DataTransmitModel.Role;
 using Authority.Domain;
 using Authority.Domain.Views;
 using AutoMapper;
@@ -12,6 +13,7 @@ namespace Authority.ServiceImpl.AutoMapperProfile
         public ActionAuthorityProfile()
         {
             CreateMap<UserOwnedActionAuthority, ActionAuthorityListDTO>();
+            CreateMap<ActionAuthority, RoleActionAuthorityListDTO>();
             CreateMap<ActionAuthority, ActionAuthorityListDTO>();
             CreateMap<ActionAuthority, ActionAuthorityDTO>();
         }

@@ -143,18 +143,18 @@ namespace Authority.WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.QueryWebMenuAuthorityCode)]
-        public async Task<ResultModel<List<WebMenuAuthorityOwnedTreeDTO>>> GetUserHasWebMenuAuthorityTree(GetUserHasWebMenuAuthorityTreeRequestModel requestModel)
+        public async Task<ResultModel<List<WebMenuAuthorityTreeDTO>>> GetUserHasWebMenuAuthorityTree(GetUserHasWebMenuAuthorityTreeRequestModel requestModel)
         {
             try
             {
                 Guid userID = _userService.GetUserID(requestModel.Token);
-                List<WebMenuAuthorityOwnedTreeDTO> result =
+                List<WebMenuAuthorityTreeDTO> result =
                     await _webMenuAuthorityService.GetWebMenuAuthorityTreeAsync(userID);
-                return ResultModel<List<WebMenuAuthorityOwnedTreeDTO>>.Success(result, "查询成功");
+                return ResultModel<List<WebMenuAuthorityTreeDTO>>.Success(result, "查询成功");
             }
             catch (ArgumentException ex)
             {
-                return ResultModel<List<WebMenuAuthorityOwnedTreeDTO>>.Fail(null, ex.Message);
+                return ResultModel<List<WebMenuAuthorityTreeDTO>>.Fail(null, ex.Message);
             }
         }
 

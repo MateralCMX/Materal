@@ -6,6 +6,7 @@ using Authority.Service;
 using Authority.Service.Model.User;
 using AutoMapper;
 using Common;
+using Common.Tree;
 using Materal.Common;
 using Materal.ConvertHelper;
 using Materal.LinqHelper;
@@ -33,14 +34,16 @@ namespace Authority.ServiceImpl
         private const string PasswordSalt = "Materal";
         private readonly IUserRepository _userRepository;
         private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         private readonly IAuthorityUnitOfWork _authorityUnitOfWork;
-        public UserServiceImpl(IUserRepository userRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork, IUserRoleRepository userRoleRepository)
+        public UserServiceImpl(IUserRepository userRepository, IMapper mapper, IAuthorityUnitOfWork authorityUnitOfWork, IUserRoleRepository userRoleRepository, IRoleRepository roleRepository)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _authorityUnitOfWork = authorityUnitOfWork;
             _userRoleRepository = userRoleRepository;
+            _roleRepository = roleRepository;
         }
         public async Task AddUserAsync(AddUserModel model)
         {
@@ -76,7 +79,18 @@ namespace Authority.ServiceImpl
         {
             User userFromDB = await _userRepository.FirstOrDefaultAsync(id);
             if (userFromDB == null) throw new InvalidOperationException("用户不存在");
-            return _mapper.Map<UserDTO>(userFromDB);
+            var result = _mapper.Map<UserDTO>(userFromDB);
+            List<Role> allRoles = await _roleRepository.GetAllInfoFromCacheAsync();
+            List<UserRole> userOwnedRoles = await _userRoleRepository.WhereAsync(m => m.UserID == id).ToList();
+            Guid[] userHasID = userOwnedRoles.Select(m => m.RoleID).ToArray();
+            result.UserRoleTreeList = TreeHelper.GetTreeList<UserRoleTreeDTO, Role, Guid>(allRoles, null,
+                webMenuAuthority =>
+                {
+                    var temp = webMenuAuthority.CopyProperties<UserRoleTreeDTO>(nameof(Role.Child), nameof(Role.RoleWebMenuAuthorities), nameof(Role.RoleAPIAuthorities), nameof(Role.RoleActionAuthorities), nameof(Role.UserRoles));
+                    temp.Owned = userHasID.Contains(webMenuAuthority.ID);
+                    return temp;
+                });
+            return result;
         }
         public async Task<UserDTO> GetUserInfoAsync(string token)
         {
