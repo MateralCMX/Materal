@@ -86,7 +86,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WeChatService.WebAPI.Controllers.WeChatDomainController.ExchangeWebMenuAuthorityIndex(Model.ExchangeIndexNotFoUnderRequestModel{System.Guid})">
+        <member name="M:WeChatService.WebAPI.Controllers.WeChatDomainController.ExchangeWeChatDomainIndex(Model.ExchangeIndexNotFoUnderRequestModel{System.Guid})">
             <summary>
             调换微信域名位序
             </summary>

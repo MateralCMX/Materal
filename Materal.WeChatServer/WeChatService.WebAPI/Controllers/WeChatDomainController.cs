@@ -126,7 +126,7 @@ namespace WeChatService.WebAPI.Controllers
         /// <param name="requestModel"></param>
         /// <returns></returns>
         [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditWebMenuAuthorityCode)]
-        public async Task<ResultModel> ExchangeWebMenuAuthorityIndex(ExchangeIndexNotFoUnderRequestModel<Guid> requestModel)
+        public async Task<ResultModel> ExchangeWeChatDomainIndex(ExchangeIndexNotFoUnderRequestModel<Guid> requestModel)
         {
             try
             {
