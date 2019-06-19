@@ -94,6 +94,7 @@ namespace Authority.ServiceImpl
             webMenuAuthorities = await GetWebMenuAuthoritiesByIndex(webMenuAuthorities[0], webMenuAuthorities[1]);
             ExchangeIndex(exchangeID, forUnder, webMenuAuthorities);
             await _authorityUnitOfWork.CommitAsync();
+            _webMenuAuthorityRepository.ClearCache();
         }
         public async Task ExchangeWebMenuAuthorityParentIDAsync(Guid id, Guid? parentID, Guid? targetID, bool forUnder = true)
         {
@@ -112,6 +113,7 @@ namespace Authority.ServiceImpl
             }
             _authorityUnitOfWork.RegisterEdit(webMenuAuthorityFromDB);
             await _authorityUnitOfWork.CommitAsync();
+            _webMenuAuthorityRepository.ClearCache();
         }
         #region 私有方法
         /// <summary>

@@ -30,5 +30,13 @@
         /// 大小写敏感
         /// </summary>
         public bool ReRouteIsCaseSensitive { get; set; }
+        /// <summary>
+        /// 路由名称
+        /// </summary>
+        public string RoutName { get; set; }
+        /// <summary>
+        /// 显示
+        /// </summary>
+        public bool Display { get; set; }
     }
 }

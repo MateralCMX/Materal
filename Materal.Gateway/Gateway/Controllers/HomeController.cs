@@ -7,8 +7,7 @@ namespace Gateway.Controllers
     {
         public IActionResult Index()
         {
-            ViewData["OcelotConfig"] = ApplicationConfig.OcelotConfigModel;
-            return View();
+            return View(ApplicationConfig.OcelotConfigModel);
         }
     }
 }

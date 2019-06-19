@@ -3,13 +3,16 @@ using Materal.ConvertHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Materal.LinqHelper;
 using WeChatService.DataTransmitModel.WeChatDomain;
 using WeChatService.Domain;
 using WeChatService.Domain.Repositories;
 using WeChatService.EFRepository;
 using WeChatService.Service;
 using WeChatService.Service.Model.WeChatDomain;
+
 namespace WeChatService.ServiceImpl
 {
     /// <summary>
@@ -70,27 +73,87 @@ namespace WeChatService.ServiceImpl
             List<WeChatDomain> weChatDomains = weChatDomainsFromCache.OrderBy(m => m.Index).ToList();
             return _mapper.Map<List<WeChatDomainListDTO>>(weChatDomains);
         }
-        public async Task ExchangeWeChatDomainIndexAsync(Guid id1, Guid id2)
+        public async Task ExchangeWeChatDomainIndexAsync(Guid exchangeID, Guid targetID, bool forUnder = true)
         {
-            List<WeChatDomain> weChatDomains = await _weChatDomainRepository.WhereAsync(m => m.ID == id1 || m.ID == id2).ToList();
-            if (weChatDomains.Count != 2) throw new InvalidOperationException("该微信域名不存在");
-            ExchangeIndex(weChatDomains[0], weChatDomains[1]);
-            _weChatServiceUnitOfWork.RegisterEdit(weChatDomains[0]);
-            _weChatServiceUnitOfWork.RegisterEdit(weChatDomains[1]);
+            List<WeChatDomain> weChatDomains = await GetWeChatDomainsByIDs(exchangeID, targetID);
+            weChatDomains = await GetWeChatDomainsByIndex(weChatDomains[0], weChatDomains[1]);
+            ExchangeIndex(exchangeID, forUnder, weChatDomains);
             await _weChatServiceUnitOfWork.CommitAsync();
+            _weChatDomainRepository.ClearCache();
         }
-
         #region 私有方法
         /// <summary>
-        /// 调换位序
+        /// 根据ID组获取信息
+        /// </summary>
+        /// <param name="id1"></param>
+        /// <param name="id2"></param>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        private async Task<List<WeChatDomain>> GetWeChatDomainsByIDs(Guid id1, Guid id2, params Guid[] ids)
+        {
+            Expression<Func<WeChatDomain, bool>> expression = m => m.ID == id1 || m.ID == id2;
+            expression = ids.Aggregate(expression, (current, id) => current.Or(m => m.ID == id));
+            List<WeChatDomain> weChatDomains = await _weChatDomainRepository.WhereAsync(expression).ToList();
+            if (weChatDomains.Count != ids.Length + 2) throw new InvalidOperationException("该微信域名不存在");
+            return weChatDomains;
+        }
+        /// <summary>
+        /// 根据位序获取同级的位序内信息
         /// </summary>
         /// <param name="weChatDomain1"></param>
         /// <param name="weChatDomain2"></param>
-        private void ExchangeIndex(WeChatDomain weChatDomain1, WeChatDomain weChatDomain2)
+        /// <returns></returns>
+        private async Task<List<WeChatDomain>> GetWeChatDomainsByIndex(WeChatDomain weChatDomain1, WeChatDomain weChatDomain2)
         {
-            int temp = weChatDomain1.Index;
-            weChatDomain1.Index = weChatDomain2.Index;
-            weChatDomain2.Index = temp;
+            var weChatDomains = new List<WeChatDomain>
+            {
+                weChatDomain1,
+                weChatDomain2
+            };
+            weChatDomains = weChatDomains.OrderBy(m => m.Index).ToList();
+            WeChatDomain firstWeChatDomain = weChatDomains[0];
+            WeChatDomain lastWeChatDomain = weChatDomains[1];
+            weChatDomains.AddRange(await _weChatDomainRepository.WhereAsync(m => m.Index > firstWeChatDomain.Index && m.Index < lastWeChatDomain.Index).ToList());
+            weChatDomains = weChatDomains.OrderBy(m => m.Index).ToList();
+            return weChatDomains;
+        }
+        /// <summary>
+        /// 调换位序
+        /// </summary>
+        /// <param name="exchangeID"></param>
+        /// <param name="forUnder"></param>
+        /// <param name="weChatDomains"></param>
+        private void ExchangeIndex(Guid exchangeID, bool forUnder, IReadOnlyList<WeChatDomain> weChatDomains)
+        {
+            var count = 0;
+            int startIndex;
+            int indexTemp;
+            if (exchangeID == weChatDomains[0].ID)
+            {
+                startIndex = forUnder ? weChatDomains.Count - 1 : weChatDomains.Count - 2;
+                indexTemp = weChatDomains[startIndex].Index;
+                for (int i = startIndex; i > count; i--)
+                {
+                    weChatDomains[i].Index = weChatDomains[i - 1].Index;
+                    weChatDomains[i].UpdateTime = DateTime.Now;
+                    _weChatServiceUnitOfWork.RegisterEdit(weChatDomains[i]);
+                }
+            }
+            else
+            {
+                count = weChatDomains.Count - 1;
+                startIndex = forUnder ? 1 : 0;
+                indexTemp = weChatDomains[startIndex].Index;
+                for (int i = startIndex; i < count; i++)
+                {
+                    weChatDomains[i].Index = weChatDomains[i + 1].Index;
+                    weChatDomains[i].UpdateTime = DateTime.Now;
+                    _weChatServiceUnitOfWork.RegisterEdit(weChatDomains[i]);
+                }
+            }
+            weChatDomains[count].Index = indexTemp;
+            weChatDomains[count].UpdateTime = DateTime.Now;
+            _weChatServiceUnitOfWork.RegisterEdit(weChatDomains[count]);
         }
         #endregion
     }

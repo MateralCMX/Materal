@@ -60,7 +60,7 @@ namespace WeChatService.ServiceImpl
         {
             Application applicationFromDB = await _applicationRepository.FirstOrDefaultAsync(id);
             if (applicationFromDB == null) throw new InvalidOperationException("应用不存在");
-            _weChatServiceUnitOfWork.RegisterEdit(applicationFromDB);
+            _weChatServiceUnitOfWork.RegisterDelete(applicationFromDB);
             await _weChatServiceUnitOfWork.CommitAsync();
         }
         public async Task<ApplicationDTO> GetApplicationInfoAsync(Guid id)

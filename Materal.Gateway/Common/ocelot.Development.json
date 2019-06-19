@@ -1,60 +1,20 @@
 {
   "ReRoutes": [
-    { //RecordBill
-      "DownstreamPathTemplate": "/api/{everything}", //下游路径模板
-      "DownstreamScheme": "http", //下游
-      "DownstreamHostAndPorts": [ //下游主机和端口
+    {
+      "RoutName": "Test",
+      "Display": true,
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
         {
           "Host": "119.23.57.68",
           "Port": 8902
         }
       ],
-      "UpstreamPathTemplate": "/api/{everything}", //上游路径模板
-      "UpstreamHttpMethod": [ "Get", "Post" ], //上游HttpMethod
-      "DangerousAcceptAnyServerCertificateValidator": true, //忽略SSL错误
-      "ReRouteIsCaseSensitive": true //大小写敏感
-    },
-    { //WeChatServer.Authority
-      "DownstreamPathTemplate": "/api/{everything}", //下游路径模板
-      "DownstreamScheme": "http", //下游
-      "DownstreamHostAndPorts": [ //下游主机和端口
-        {
-          "Host": "119.23.57.68",
-          "Port": 8904
-        }
-      ],
-      "UpstreamPathTemplate": "/WXAuthorityAPI/{everything}", //上游路径模板
-      "UpstreamHttpMethod": [ "Get", "Post" ], //上游HttpMethod
-      "DangerousAcceptAnyServerCertificateValidator": true, //忽略SSL错误
-      "ReRouteIsCaseSensitive": true //大小写敏感
-    },
-    { //WeChatServer.Authority
-      "DownstreamPathTemplate": "/api/{everything}", //下游路径模板
-      "DownstreamScheme": "http", //下游
-      "DownstreamHostAndPorts": [ //下游主机和端口
-        {
-          "Host": "119.23.57.68",
-          "Port": 8905
-        }
-      ],
-      "UpstreamPathTemplate": "/WXLogAPI/{everything}", //上游路径模板
-      "UpstreamHttpMethod": [ "Get", "Post" ], //上游HttpMethod
-      "DangerousAcceptAnyServerCertificateValidator": true, //忽略SSL错误
-      "ReRouteIsCaseSensitive": true //大小写敏感
-    },
-    { //WeChatServer.Authority
-      "DownstreamPathTemplate": "/api/{everything}", //下游路径模板
-      "DownstreamScheme": "http", //下游
-      "DownstreamHostAndPorts": [ //下游主机和端口
-        {
-          "Host": "119.23.57.68",
-          "Port": 8906
-        }
-      ],
-      "UpstreamPathTemplate": "/WXServiceAPI/{everything}", //上游路径模板
-      "UpstreamHttpMethod": [ "Get", "Post" ], //上游HttpMethod
-      "DangerousAcceptAnyServerCertificateValidator": true, //忽略SSL错误
-      "ReRouteIsCaseSensitive": true //大小写敏感
+      "UpstreamPathTemplate": "/TestAPI/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "ReRouteIsCaseSensitive": true
     }
   ],
   "GlobalConfiguration": {

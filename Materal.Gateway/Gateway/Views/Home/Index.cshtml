@@ -2,7 +2,6 @@
 @model Common.Model.OcelotConfigModel
 @{
     Layout = null;
-    var ocelotConfig = ViewData["OcelotConfig"] as Common.Model.OcelotConfigModel;
 }
 <!DOCTYPE html>
 <html>
@@ -20,27 +19,32 @@
         <table class="table table-sm table-hover">
             <thead>
                 <tr>
-                    <th>网关请求</th>
+                    <th>路由名称</th>
+                    <th>路由请求</th>
                     <th>映射地址</th>
                 </tr>
             </thead>
             <tbody>
                 @{
-                    if (ocelotConfig != null)
+                    if (Model != null)
                     {
-                        foreach (ReRouteModel reRoute in ocelotConfig.ReRoutes)
+                        foreach (ReRouteModel reRoute in Model.ReRoutes)
                         {
                             if (reRoute.DownstreamHostAndPorts != null && reRoute.DownstreamHostAndPorts.Length > 0)
                             {
-                                <tr>
-                                    <td rowspan="@reRoute.DownstreamHostAndPorts.Length">@ocelotConfig.GlobalConfiguration.BaseUrl@reRoute.UpstreamPathTemplate</td>
-                                    <td>@reRoute.DownstreamHostAndPorts[0].Host:@reRoute.DownstreamHostAndPorts[0].Port@reRoute.DownstreamPathTemplate</td>
-                                </tr>
-                                for (int i = 1; i < reRoute.DownstreamHostAndPorts.Length; i++)
+                                if (reRoute.Display)
                                 {
                                     <tr>
-                                        <td>@reRoute.DownstreamHostAndPorts[i].Host:@reRoute.DownstreamHostAndPorts[i].Port@reRoute.DownstreamPathTemplate</td>
+                                        <td rowspan="@reRoute.DownstreamHostAndPorts.Length">@reRoute.RoutName</td>
+                                        <td rowspan="@reRoute.DownstreamHostAndPorts.Length">@Model.GlobalConfiguration.BaseUrl@reRoute.UpstreamPathTemplate</td>
+                                        <td>@reRoute.DownstreamHostAndPorts[0].Host:@reRoute.DownstreamHostAndPorts[0].Port@reRoute.DownstreamPathTemplate</td>
                                     </tr>
+                                    for (int i = 1; i < reRoute.DownstreamHostAndPorts.Length; i++)
+                                    {
+                                        <tr>
+                                            <td>@reRoute.DownstreamHostAndPorts[i].Host:@reRoute.DownstreamHostAndPorts[i].Port@reRoute.DownstreamPathTemplate</td>
+                                        </tr>
+                                    }
                                 }
                             }
                         }

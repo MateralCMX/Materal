@@ -13,6 +13,7 @@ using Materal.LinqHelper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -86,7 +87,7 @@ namespace Authority.ServiceImpl
             {
                 expression = expression.And(m => EF.Functions.Like(m.Name, $"%{filterModel.Name}%"));
             }
-            (List<ActionAuthority> actionAuthoritiesFromDB, PageModel pageModel) = await _actionAuthorityRepository.PagingAsync(expression, filterModel);
+            (List<ActionAuthority> actionAuthoritiesFromDB, PageModel pageModel) = await _actionAuthorityRepository.PagingAsync(expression, m=>m.ActionGroupCode, SortOrder.Ascending, filterModel);
             return (_mapper.Map<List<ActionAuthorityListDTO>>(actionAuthoritiesFromDB), pageModel);
         }
         public async Task<List<ActionAuthorityListDTO>> GetUserOwnedActionAuthorityListAsync(Guid userID, string actionGroupCode)

@@ -44,12 +44,14 @@ namespace WeChatService.Service
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
         Task<List<WeChatDomainListDTO>> GetWeChatDomainListAsync();
+
         /// <summary>
         /// 调换位序
         /// </summary>
         /// <param name="exchangeID"></param>
         /// <param name="targetID"></param>
+        /// <param name="forUnder"></param>
         /// <returns></returns>
-        Task ExchangeWeChatDomainIndexAsync(Guid exchangeID, Guid targetID);
+        Task ExchangeWeChatDomainIndexAsync(Guid exchangeID, Guid targetID, bool forUnder = true);
     }
 }

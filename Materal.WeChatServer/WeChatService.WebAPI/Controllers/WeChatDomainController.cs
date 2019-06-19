@@ -126,11 +126,11 @@ namespace WeChatService.WebAPI.Controllers
         /// <param name="requestModel"></param>
         /// <returns></returns>
         [HttpPost, AuthorityFilter(AuthorityAPIAuthorityConfig.EditWebMenuAuthorityCode)]
-        public async Task<ResultModel> ExchangeWeChatDomainIndex(ExchangeIndexNotFoUnderRequestModel<Guid> requestModel)
+        public async Task<ResultModel> ExchangeWeChatDomainIndex(ExchangeIndexRequestModel<Guid> requestModel)
         {
             try
             {
-                await _weChatDomainService.ExchangeWeChatDomainIndexAsync(requestModel.ExchangeID, requestModel.TargetID);
+                await _weChatDomainService.ExchangeWeChatDomainIndexAsync(requestModel.ExchangeID, requestModel.TargetID, requestModel.ForUnder);
                 return ResultModel.Success("调换成功");
             }
             catch (InvalidOperationException ex)

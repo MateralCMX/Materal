@@ -79,6 +79,7 @@ namespace Authority.ServiceImpl
         public async Task<List<APIAuthorityTreeDTO>> GetAPIAuthorityTreeAsync()
         {
             List<APIAuthority> allAPIAuthorities = await _apiAuthorityRepository.GetAllInfoFromCacheAsync();
+            allAPIAuthorities = allAPIAuthorities.OrderBy(m => m.Name).ToList();
             return TreeHelper.GetTreeList<APIAuthorityTreeDTO, APIAuthority, Guid>(allAPIAuthorities);
         }
         public async Task ExchangeAPIAuthorityParentIDAsync(Guid id, Guid? parentID)
@@ -93,6 +94,7 @@ namespace Authority.ServiceImpl
             apiAuthorityFromDB.UpdateTime = DateTime.Now;
             _authorityUnitOfWork.RegisterEdit(apiAuthorityFromDB);
             await _authorityUnitOfWork.CommitAsync();
+            _apiAuthorityRepository.ClearCache();
         }
         public async Task<bool> HasAPIAuthorityAsync(Guid userID, params string[] codes)
         {

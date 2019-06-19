@@ -119,6 +119,7 @@ namespace Authority.ServiceImpl
         public async Task<List<RoleTreeDTO>> GetRoleTreeAsync()
         {
             List<Role> allRoles = await _roleRepository.GetAllInfoFromCacheAsync();
+            allRoles = allRoles.OrderBy(m => m.Name).ToList();
             return TreeHelper.GetTreeList<RoleTreeDTO, Role, Guid>(allRoles);
         }
         public async Task ExchangeRoleParentIDAsync(Guid id, Guid? parentID)
@@ -133,6 +134,7 @@ namespace Authority.ServiceImpl
             roleFromDB.UpdateTime = DateTime.Now;
             _authorityUnitOfWork.RegisterEdit(roleFromDB);
             await _authorityUnitOfWork.CommitAsync();
+            _roleRepository.ClearCache();
         }
         #region 私有方法
         /// <summary>

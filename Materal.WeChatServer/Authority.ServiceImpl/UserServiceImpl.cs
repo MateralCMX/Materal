@@ -13,6 +13,7 @@ using Materal.LinqHelper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -138,7 +139,7 @@ namespace Authority.ServiceImpl
             {
                 expression = expression.And(m => m.Sex == filterModel.Sex.Value);
             }
-            (List<User> usersFromDB, PageModel pageModel) = await _userRepository.PagingAsync(expression, filterModel);
+            (List<User> usersFromDB, PageModel pageModel) = await _userRepository.PagingAsync(expression,m=>m.CreateTime,SortOrder.Descending, filterModel);
             return (_mapper.Map<List<UserListDTO>>(usersFromDB), pageModel);
         }
         public async Task ExchangePasswordAsync(ExchangePasswordModel model)
