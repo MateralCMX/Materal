@@ -1,7 +1,13 @@
 ﻿using LitJson;
+using Materal.ConvertHelper;
 using Materal.WeChatHelper.Model;
+using Materal.WeChatHelper.Model.Basis.Result;
+using Materal.WeChatHelper.Model.Material.Request;
+using Materal.WeChatHelper.Model.Material.Result;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Materal.WeChatHelper.Model.Material;
 
 namespace Materal.WeChatHelper
 {
@@ -19,8 +25,9 @@ namespace Materal.WeChatHelper
         {
             Config = configM;
         }
+        #region 基础支持
         /// <summary>
-        /// 根据Code获得OpenID
+        /// 获取AccessToken
         /// </summary>
         /// <returns>OpenID</returns>
         public AccessTokenResultModel GetAccessToken()
@@ -40,6 +47,7 @@ namespace Materal.WeChatHelper
             };
             return accessToken;
         }
+        #endregion
         /// <summary>
         /// 获取微信IP地址
         /// </summary>
@@ -152,5 +160,75 @@ namespace Materal.WeChatHelper
             JsonData jsonData = JsonMapper.ToObject(weChatResult);
             if (WeChatPublicNumberErrorHelper.IsError(jsonData)) throw WeChatPublicNumberErrorHelper.GetWeChatException(jsonData);
         }
+        #region 素材管理
+        /// <summary>
+        /// 获取素材总数
+        /// </summary>
+        public GetMaterialCountResultModel GetMaterialCount(string accessToken)
+        {
+            var data = new WeChatDataModel();
+            data.SetValue("access_token", accessToken);
+            string url = $"{Config.WeChatAPIUrl}cgi-bin/material/get_materialcount?{data.ToUrlParams()}";
+            string weChatResult = WeChatHttpManager.Get(url);
+            JsonData jsonData = JsonMapper.ToObject(weChatResult);
+            if (WeChatPublicNumberErrorHelper.IsError(jsonData)) throw WeChatPublicNumberErrorHelper.GetWeChatException(jsonData);
+            var result = weChatResult.JsonToObject<GetMaterialCountResultModel>();
+            return result;
+        }
+        /// <summary>
+        /// 添加临时素材
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="materialType"></param>
+        /// <param name="formItems"></param>
+        public AddTemporaryMaterialResultModel AddTemporaryMaterial(string accessToken, MaterialTypeEnum materialType, params FormItemModel[] formItems)
+        {
+            var data = new WeChatDataModel();
+            data.SetValue("access_token", accessToken);
+            data.SetValue("type", materialType.ToString().ToLower());
+            string url = $"{Config.WeChatAPIUrl}cgi-bin/media/upload?{data.ToUrlParams()}";
+            string weChatResult = WeChatHttpManager.PostFormData(url, formItems, false, 3000, Config);
+            JsonData jsonData = JsonMapper.ToObject(weChatResult);
+            if (WeChatPublicNumberErrorHelper.IsError(jsonData)) throw WeChatPublicNumberErrorHelper.GetWeChatException(jsonData);
+            var result = weChatResult.JsonToObject<AddTemporaryMaterialResultModel>();
+            return result;
+        }
+
+        /// <summary>
+        /// 获取临时素材
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="mediaID"></param>
+        /// <param name="isVideo"></param>
+        public void GetTemporaryMaterial(string accessToken, string mediaID, bool isVideo = false)
+        {
+            var data = new WeChatDataModel();
+            data.SetValue("access_token", accessToken);
+            data.SetValue("media_id", mediaID);
+            string url = $"{Config.WeChatAPIUrl}cgi-bin/media/get?{data.ToUrlParams()}";
+            if (isVideo)
+            {
+                string weChatResult = WeChatHttpManager.Get(url);
+                JsonData jsonData = JsonMapper.ToObject(weChatResult);
+                if (WeChatPublicNumberErrorHelper.IsError(jsonData)) throw WeChatPublicNumberErrorHelper.GetWeChatException(jsonData);
+            }
+            else
+            {
+                StreamReader weChatResult = WeChatHttpManager.GetStreamReader(url);
+            }
+        }
+        /// <summary>
+        /// 获取素材列表
+        /// </summary>
+        public void GetMaterialList(string accessToken, GetMaterialListRequestModel model)
+        {
+            var data = new WeChatDataModel();
+            data.SetValue("access_token", accessToken);
+            string url = $"{Config.WeChatAPIUrl}cgi-bin/material/batchget_material?{data.ToUrlParams()}";
+            string weChatResult = WeChatHttpManager.PostJson(url, model, false, 3000, Config);
+            JsonData jsonData = JsonMapper.ToObject(weChatResult);
+            if (WeChatPublicNumberErrorHelper.IsError(jsonData)) throw WeChatPublicNumberErrorHelper.GetWeChatException(jsonData);
+        }
+        #endregion
     }
 }

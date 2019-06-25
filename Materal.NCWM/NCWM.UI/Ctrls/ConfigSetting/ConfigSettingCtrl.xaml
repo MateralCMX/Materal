@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="NCWM.UI.Ctrls.ConfigSetting.ConfigSettingCtrl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NCWM.UI.Ctrls.ConfigSetting"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ConfigSettingResources.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <local:ConfigSettingViewModel x:Name="ViewModel"/>
+    </UserControl.DataContext>
+    <UserControl.CommandBindings>
+        <CommandBinding x:Name="AddConfigCommand" Command="local:ConfigSettingCommands.AddConfig" Executed="AddConfigCommand_Executed"></CommandBinding>
+        <CommandBinding x:Name="SaveConfigsCommand" Command="local:ConfigSettingCommands.SaveConfigs" Executed="SaveConfigsCommand_Executed" CanExecute="SaveConfigsCommand_CanExecute"></CommandBinding>
+        <CommandBinding x:Name="DeleteConfigCommand" Command="local:ConfigSettingCommands.DeleteConfig" Executed="DeleteConfigCommand_Executed" CanExecute="DeleteConfigCommand_CanExecute"></CommandBinding>
+        <CommandBinding x:Name="BrowseCatalogCommand" Command="local:ConfigSettingCommands.BrowseCatalog" Executed="BrowseCatalogCommand_Executed" CanExecute="BrowseCatalogCommand_CanExecute"></CommandBinding>
+    </UserControl.CommandBindings>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" Grid.Column="0">
+                <Button Width="73" Margin="0,0,4,0" Command="local:ConfigSettingCommands.AddConfig">新增配置</Button>
+                <Button Width="73" Command="local:ConfigSettingCommands.DeleteConfig">删除配置</Button>
+            </DockPanel>
+            <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Configs}" SelectedItem="{Binding SelectConfig}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1" Margin="0,30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="140"></ColumnDefinition>
+                <ColumnDefinition Width="70"></ColumnDefinition>
+                <ColumnDefinition Width="30"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{StaticResource ConfigRowHeight}"></RowDefinition>
+                <RowDefinition Height="{StaticResource ConfigRowHeight}"></RowDefinition>
+                <RowDefinition Height="{StaticResource ConfigRowHeight}"></RowDefinition>
+                <RowDefinition Height="{StaticResource ConfigRowHeight}"></RowDefinition>
+                <RowDefinition Height="{StaticResource ConfigRowHeight}"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="{StaticResource ConfigRowHeight}"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0">名称：</TextBlock>
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SelectConfig.Name}"></TextBox>
+            <TextBlock Grid.Row="1" Grid.Column="0">目标名称：</TextBlock>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SelectConfig.TargetName}"></TextBox>
+            <TextBlock Grid.Row="2" Grid.Column="0">参数：</TextBlock>
+            <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SelectConfig.Arguments}"></TextBox>
+            <TextBlock Grid.Row="3" Grid.Column="0">.NetCore版本：</TextBlock>
+            <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SelectConfig.DotNetCoreVersion}"></TextBox>
+            <TextBlock Grid.Row="4" Grid.Column="0">目录：</TextBlock>
+            <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding SelectConfig.Path}"></TextBox>
+            <Button Grid.Row="4" Grid.Column="3" Command="local:ConfigSettingCommands.BrowseCatalog" Height="19" Margin="5">浏览...</Button>
+            <Button Grid.Row="6" Grid.Column="2" Command="local:ConfigSettingCommands.SaveConfigs" Margin="5">保存配置</Button>
+        </Grid>
+    </Grid>
+</UserControl>

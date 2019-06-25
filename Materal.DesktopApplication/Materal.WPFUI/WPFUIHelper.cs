@@ -16,9 +16,9 @@ namespace Materal.WPFUI
             Services.AddSingleton(ApplicationConfig.Configuration);
         }
         /// <summary>
-        /// Bulid服务
+        /// Build服务
         /// </summary>
-        public static void BulidService()
+        public static void BuildService()
         {
             ServiceProvider = Services.BuildServiceProvider();
         }

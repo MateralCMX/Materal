@@ -1,7 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Materal.Common;
 using Materal.WeChatHelper.Model;
-using Materal.Common;
+using Materal.WeChatHelper.Model.Basis.Result;
+using Materal.WeChatHelper.Model.Material;
+using Materal.WeChatHelper.Model.Material.Result;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 namespace Materal.WeChatHelper.Example
 {
@@ -16,13 +21,21 @@ namespace Materal.WeChatHelper.Example
                 APPSECRET = appSecret
             };
         }
-        public void GetAccessToken()
+
+        #region 基础服务
+        /// <summary>
+        /// 获取AccessToken
+        /// </summary>
+        /// <returns></returns>
+        public string GetAccessToken()
         {
             var manager = new WeChatPublicNumberManager(_weChatConfig);
             AccessTokenResultModel result = manager.GetAccessToken();
-            Console.WriteLine($"AccessToken为:{result.AccessToken},有效期:{result.ExpiresIn}");
+            ConsoleWriteProperties(result);
+            return result.AccessToken;
         }
-        public void GetAccessToken(string accessToken)
+        #endregion
+        public void GetWeChatIPAddress(string accessToken)
         {
             var manager = new WeChatPublicNumberManager(_weChatConfig);
             List<string> result = manager.GetWeChatIPAddress(accessToken);
@@ -123,5 +136,65 @@ namespace Materal.WeChatHelper.Example
             manager.CreateMenu(accessToken, model);
             Console.WriteLine("创建菜单成功");
         }
+        #region 素材管理
+        /// <summary>
+        /// 获取素材总数
+        /// </summary>
+        /// <param name="accessToken"></param>
+        public void AddTemporaryMaterial(string accessToken)
+        {
+            var manager = new WeChatPublicNumberManager(_weChatConfig);
+            using (FileStream fileStream = File.OpenRead(@"D:\SystemFiles\Pictures\头像.jpg"))
+            {
+                var formItemModel = new FormItemModel
+                {
+                    Key = "F",
+                    FileName = "头像.jpg",
+                    FileContent = fileStream
+                };
+                AddTemporaryMaterialResultModel result = manager.AddTemporaryMaterial(accessToken, MaterialTypeEnum.Image, formItemModel);
+                ConsoleWriteProperties(result);
+            }
+        }
+        /// <summary>
+        /// 获取素材总数
+        /// </summary>
+        /// <param name="accessToken"></param>
+        public void GetTemporaryMaterial(string accessToken)
+        {
+            var manager = new WeChatPublicNumberManager(_weChatConfig);
+            //AddTemporaryMaterialResultModel result = 
+            manager.GetTemporaryMaterial(accessToken, "jmN3U2UJFxbqQ1e7rzSrkvQSJvdNqIBWo7mcrAEzkdobQFQSv5u3PqW7wF326nO9");
+            //ConsoleWriteProperties(result);
+        }
+        /// <summary>
+        /// 获取素材总数
+        /// </summary>
+        /// <param name="accessToken"></param>
+        public void GetMaterialCount(string accessToken)
+        {
+            var manager = new WeChatPublicNumberManager(_weChatConfig);
+            GetMaterialCountResultModel result = manager.GetMaterialCount(accessToken);
+            ConsoleWriteProperties(result);
+        }
+
+        #endregion
+
+        #region 私有方法
+        /// <summary>
+        /// 控制台输出属性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="weChatResult"></param>
+        private void ConsoleWriteProperties<T>(T weChatResult) where T : class
+        {
+            Type resultType = typeof(T);
+            foreach (PropertyInfo propertyInfo in resultType.GetProperties())
+            {
+                Console.WriteLine($"{weChatResult.GetDescription(propertyInfo.Name)}为:{propertyInfo.GetValue(weChatResult)}");
+            }
+        }
+
+        #endregion
     }
 }

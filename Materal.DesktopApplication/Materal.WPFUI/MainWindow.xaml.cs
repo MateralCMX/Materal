@@ -34,7 +34,7 @@ namespace Materal.WPFUI
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             WPFUIHelper.RegisterCustomerService();
-            WPFUIHelper.BulidService();
+            WPFUIHelper.BuildService();
             LoadTestCtrlCommand_Executed(null, null);
         }
 

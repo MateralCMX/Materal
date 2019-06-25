@@ -8,10 +8,16 @@ namespace Materal.WeChatHelper.Model
     /// </summary>
     public class WeChatConfigModel
     {
+        private string _weChatAPIUrl = "https://api.weixin.qq.com/";
+
         /// <summary>
         /// 微信域名
         /// </summary>
-        public string WeChatAPIUrl { get; set; } = "https://api.weixin.qq.com/";
+        public string WeChatAPIUrl
+        {
+            get => _weChatAPIUrl;
+            set => _weChatAPIUrl = value[value.Length - 1] != '/' ? $"{value}/" : value;
+        }
         #region 基本信息配置
         /// <summary>
         /// 绑定支付的APPID（必须配置）

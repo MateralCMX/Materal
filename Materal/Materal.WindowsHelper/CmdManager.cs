@@ -3,14 +3,12 @@ using System.Threading.Tasks;
 
 namespace Materal.WindowsHelper
 {
-    public static class CmdManager
+    public class CmdManager
     {
-        /// <summary>
-        /// 运行命令提示符命令
-        /// </summary>
-        /// <param name="commands">命令组</param>
-        /// <returns>输出结果</returns>
-        public static async Task<string> RunCmdCommandsAsync(params string[] commands)
+        public event DataReceivedEventHandler OutputDataReceived;
+
+        public event DataReceivedEventHandler ErrorDataReceived;
+        private ProcessStartInfo GetProcessStartInfo()
         {
             var processStartInfo = new ProcessStartInfo
             {
@@ -22,10 +20,24 @@ namespace Materal.WindowsHelper
                 UseShellExecute = false,
                 Verb = "RunAs"
             };
+            return processStartInfo;
+        }
+        public async Task<string> RunCmdCommandsAsync(params string[] commands)
+        {
+            ProcessStartInfo processStartInfo = GetProcessStartInfo();
             string output;
-            using (var process = new Process{StartInfo = processStartInfo })
+            using (var process = new Process { StartInfo = processStartInfo })
             {
                 process.Start();
+                if (OutputDataReceived != null)
+                {
+                    process.OutputDataReceived += OutputDataReceived;
+                }
+
+                if (ErrorDataReceived != null)
+                {
+                    process.OutputDataReceived += ErrorDataReceived;
+                }
                 foreach (string command in commands)
                 {
                     await process.StandardInput.WriteLineAsync(command);

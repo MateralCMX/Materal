@@ -9,10 +9,31 @@ namespace Materal.DateTimeHelper
         /// 1970年1月1日 0点0分0秒以来的秒数
         /// </summary>
         /// <returns>时间戳</returns>
-        public static string GetTimeStamp()
+        public static long GetTimeStamp()
         {
-            TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return Convert.ToInt64(timeSpan.TotalSeconds).ToString();
+            return GetTimeStamp(DateTime.UtcNow);
+        }
+        /// <summary>
+        /// 获得时间戳
+        /// 1970年1月1日 0点0分0秒以来的秒数
+        /// </summary>
+        /// <returns>时间戳</returns>
+        public static long GetTimeStamp(DateTime dateTime)
+        {
+            TimeSpan timeSpan = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return timeSpan.Ticks;
+        }
+        /// <summary>
+        /// 时间戳转换为时间
+        /// 1970年1月1日 0点0分0秒以来的秒数
+        /// </summary>
+        /// <param name="timeStamp"></param>
+        /// <returns></returns>
+        public static DateTime TimeStampToDateTime(long timeStamp)
+        {
+            var dtStart = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            var toNow = new TimeSpan(timeStamp);
+            return dtStart.Add(toNow) + (DateTime.Now - DateTime.UtcNow);
         }
         /// <summary>
         /// 转换为毫秒
