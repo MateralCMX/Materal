@@ -7,6 +7,10 @@ namespace NCWM.UI
     {
         private string _title = "Materal.NetCore启动器";
         /// <summary>
+        /// 运行状态
+        /// </summary>
+        public bool IsRun { get; set; }
+        /// <summary>
         /// 标题
         /// </summary>
         public string Title

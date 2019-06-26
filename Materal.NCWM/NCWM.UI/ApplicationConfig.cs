@@ -38,9 +38,10 @@ namespace NCWM.UI
             _configuration = builder.Build();
             return _configuration;
         }
-
+        /// <summary>
+        /// Configs
+        /// </summary>
         private static List<ConfigModel> _configs;
-
         /// <summary>
         /// Configs
         /// </summary>

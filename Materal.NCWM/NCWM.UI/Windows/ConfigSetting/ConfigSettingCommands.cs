@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace NCWM.UI.Ctrls.ConfigSetting
+namespace NCWM.UI.Windows.ConfigSetting
 {
     public class ConfigSettingCommands
     {

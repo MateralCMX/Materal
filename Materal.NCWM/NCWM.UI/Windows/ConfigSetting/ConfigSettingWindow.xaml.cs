@@ -1,15 +1,15 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace NCWM.UI.Ctrls.ConfigSetting
+namespace NCWM.UI.Windows.ConfigSetting
 {
     /// <summary>
-    /// ConfigSettingCtrl.xaml 的交互逻辑
+    /// ConfigSettingWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class ConfigSettingCtrl
+    public partial class ConfigSettingWindow
     {
         private readonly System.Windows.Forms.FolderBrowserDialog _folderBrowserDialog;
-        public ConfigSettingCtrl()
+        public ConfigSettingWindow()
         {
             InitializeComponent();
             _folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog
@@ -65,7 +65,6 @@ namespace NCWM.UI.Ctrls.ConfigSetting
             ViewModel.SaveConfig();
             MessageBox.Show("保存成功", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-        #endregion
         /// <summary>
         /// 是否可以浏览目录
         /// </summary>
@@ -88,5 +87,6 @@ namespace NCWM.UI.Ctrls.ConfigSetting
                 ViewModel.ChangeSelectConfigPath(_folderBrowserDialog.SelectedPath);
             }
         }
+        #endregion
     }
 }

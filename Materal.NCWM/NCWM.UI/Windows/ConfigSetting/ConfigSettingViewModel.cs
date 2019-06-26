@@ -1,12 +1,12 @@
 ﻿using System;
-using Materal.WPFCommon;
-using Materal.ConfigurationHelper;
-using NCWM.Model;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using Materal.ConfigurationHelper;
+using Materal.WPFCommon;
+using NCWM.Model;
 
-namespace NCWM.UI.Ctrls.ConfigSetting
+namespace NCWM.UI.Windows.ConfigSetting
 {
     public class ConfigSettingViewModel : NotifyPropertyChanged
     {

@@ -34,6 +34,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Materal.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.Common.1.0.0\lib\netstandard2.0\Materal.Common.dll</HintPath>
@@ -122,16 +142,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ApplicationConfig.cs" />
-    <Compile Include="Ctrls\ConfigSetting\ConfigSettingCommands.cs" />
-    <Compile Include="Ctrls\ConfigSetting\ConfigSettingCtrl.xaml.cs">
-      <DependentUpon>ConfigSettingCtrl.xaml</DependentUpon>
+    <Compile Include="Ctrls\Server\ServerCommands.cs" />
+    <Compile Include="Ctrls\Server\ServerCtrl.xaml.cs">
+      <DependentUpon>ServerCtrl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ctrls\ConfigSetting\ConfigSettingViewModel.cs" />
-    <Page Include="Ctrls\ConfigSetting\ConfigSettingCtrl.xaml">
+    <Compile Include="Ctrls\Server\ServerViewModel.cs" />
+    <Compile Include="Windows\ConfigSetting\ConfigSettingCommands.cs" />
+    <Compile Include="Windows\ConfigSetting\ConfigSettingViewModel.cs" />
+    <Compile Include="Windows\ConfigSetting\ConfigSettingWindow.xaml.cs">
+      <DependentUpon>ConfigSettingWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Ctrls\Server\ServerCtrl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ctrls\ConfigSetting\ConfigSettingResources.xaml">
+    <Page Include="Ctrls\Server\ServerResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,6 +173,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MainWindowResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ConfigSetting\ConfigSettingResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\ConfigSetting\ConfigSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

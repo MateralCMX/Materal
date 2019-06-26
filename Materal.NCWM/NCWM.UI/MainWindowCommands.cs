@@ -46,7 +46,7 @@ namespace NCWM.UI
                 nameof(StartServer),
                 typeof(MainWindowCommands));
             ReStartServer = new RoutedUICommand(
-                "重新启动服务",
+                "重启服务",
                 nameof(ReStartServer),
                 typeof(MainWindowCommands));
             StopServer = new RoutedUICommand(

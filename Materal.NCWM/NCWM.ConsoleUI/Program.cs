@@ -19,7 +19,7 @@ namespace NCWM.ConsoleUI
                 Arguments = "--ConfigTarget Development --urls=http://*:8800"
             };
             _manager = new NCWMService(config);
-            Task.Run(RunAsync);
+            Run();
             string inputString;
             do
             {
@@ -27,19 +27,19 @@ namespace NCWM.ConsoleUI
                 switch (inputString)
                 {
                     case "Stop":
-                        Task.Run(StopAsync);
+                        Stop();
                         break;
                 }
             } while (inputString != "Exit");
         }
 
-        public static async Task RunAsync()
+        public static void Run()
         {
             try
             {
                 _manager.OutputDataReceived += Manager_OutputDataReceived;
                 _manager.ErrorDataReceived += Manager_ErrorDataReceived;
-                await _manager.StartAsync();
+                _manager.Start();
             }
             catch (InvalidOperationException ex)
             {
@@ -48,11 +48,11 @@ namespace NCWM.ConsoleUI
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
-        public static async Task StopAsync()
+        public static void Stop()
         {
             try
             {
-                await _manager.StopAsync();
+                _manager.Stop();
             }
             catch (InvalidOperationException ex)
             {

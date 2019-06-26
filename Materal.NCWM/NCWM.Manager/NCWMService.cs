@@ -11,6 +11,9 @@ namespace NCWM.Manager
         public event DataReceivedEventHandler ErrorDataReceived;
         private Process _process;
         private readonly ConfigModel _config;
+        private readonly object _runLock = new object();
+        private readonly object _commandLock = new object();
+        public bool IsRun { get; private set; }
         public NCWMService(ConfigModel config)
         {
             _config = config;
@@ -19,34 +22,58 @@ namespace NCWM.Manager
         /// 开始
         /// </summary>
         /// <returns></returns>
-        public async Task StartAsync()
+        public void Start()
         {
-            ProcessStartInfo processStartInfo = GetProcessStartInfo();
-            _process = new Process { StartInfo = processStartInfo };
-            if (OutputDataReceived != null) _process.OutputDataReceived += OutputDataReceived;
-            if (ErrorDataReceived != null) _process.ErrorDataReceived += ErrorDataReceived;
-            if (_process.Start())
+            if (IsRun) return;
+            lock (_runLock)
             {
-                if (OutputDataReceived != null) _process.BeginOutputReadLine();
-                if (ErrorDataReceived != null) _process.BeginErrorReadLine();
+                if (IsRun) return;
+                ProcessStartInfo processStartInfo = GetProcessStartInfo();
+                _process = new Process { StartInfo = processStartInfo };
+                if (OutputDataReceived != null) _process.OutputDataReceived += OutputDataReceived;
+                if (ErrorDataReceived != null) _process.ErrorDataReceived += ErrorDataReceived;
+                if (_process.Start())
+                {
+                    if (OutputDataReceived != null) _process.BeginOutputReadLine();
+                    if (ErrorDataReceived != null) _process.BeginErrorReadLine();
+                }
+                else
+                {
+                    throw new InvalidOperationException("启动失败");
+                }
+                _process.StandardInput.WriteLine(_config.CmdCommand);
+                IsRun = true;
             }
-            else
+        }
+        /// <summary>
+        /// 发送命令
+        /// </summary>
+        /// <param name="command"></param>
+        public void SendCommand(string command)
+        {
+            if (!IsRun || _process == null) return;
+            lock (_commandLock)
             {
-                throw new InvalidOperationException("启动失败");
+                _process.StandardInput.WriteLine(command);
             }
-            await _process.StandardInput.WriteLineAsync(_config.CmdCommand);
         }
         /// <summary>
         /// 停止
         /// </summary>
         /// <returns></returns>
-        public async Task StopAsync()
+        public void Stop()
         {
-            KillProgram();
-            await _process.StandardInput.WriteLineAsync("exit");
-            _process.WaitForExit();
-            _process.Close();
-            _process.Dispose();
+            if (!IsRun) return;
+            lock (_runLock)
+            {
+                if (!IsRun) return;
+                KillProgram();
+                _process.StandardInput.WriteLine("exit");
+                _process.WaitForExit();
+                _process.Close();
+                _process.Dispose();
+                IsRun = false;
+            }
         }
         /// <summary>
         /// 杀死程序

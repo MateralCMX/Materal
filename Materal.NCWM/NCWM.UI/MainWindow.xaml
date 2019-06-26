@@ -11,10 +11,10 @@
         <local:MainWindowViewModel x:Name="ViewModel"/>
     </Window.DataContext>
     <Window.CommandBindings>
-        <CommandBinding x:Name="ExitCommand" Command="local:MainWindowCommands.Exit"></CommandBinding>
-        <CommandBinding x:Name="StartServerCommand" Command="local:MainWindowCommands.StartServer"></CommandBinding>
-        <CommandBinding x:Name="ReStartServerCommand" Command="local:MainWindowCommands.ReStartServer"></CommandBinding>
-        <CommandBinding x:Name="StopServerCommand" Command="local:MainWindowCommands.StopServer"></CommandBinding>
+        <CommandBinding x:Name="ExitCommand" Command="local:MainWindowCommands.Exit" Executed="ExitCommand_Executed"></CommandBinding>
+        <CommandBinding x:Name="StartServerCommand" Command="local:MainWindowCommands.StartServer" Executed="StartServerCommand_Executed" CanExecute="StartServerCommand_CanExecute"></CommandBinding>
+        <CommandBinding x:Name="ReStartServerCommand" Command="local:MainWindowCommands.ReStartServer" Executed="ReStartServerCommand_Executed"  CanExecute="ReStartOrStopServerCommand_CanExecute"></CommandBinding>
+        <CommandBinding x:Name="StopServerCommand" Command="local:MainWindowCommands.StopServer" Executed="StopServerCommand_Executed" CanExecute="ReStartOrStopServerCommand_CanExecute"></CommandBinding>
         <CommandBinding x:Name="ConfigSettingCommand" Command="local:MainWindowCommands.ConfigSetting" Executed="ConfigSettingCommand_Executed"></CommandBinding>
         <CommandBinding x:Name="AboutCommand" Command="local:MainWindowCommands.About"></CommandBinding>
     </Window.CommandBindings>
@@ -35,6 +35,6 @@
                 <MenuItem Command="local:MainWindowCommands.About"></MenuItem>
             </MenuItem>
         </Menu>
-        <Grid x:Name="MainPanel" Grid.Row="1" Grid.Column="0"></Grid>
+        <TabControl x:Name="MainTabControl" Grid.Row="1" Grid.Column="0"></TabControl>
     </Grid>
 </Window>
