@@ -1,12 +1,12 @@
 ﻿<Window x:Class="NCWM.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NCWM.UI"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="500" Width="800" WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded" Closing="Window_Closing">
     <Window.DataContext>
         <local:MainWindowViewModel x:Name="ViewModel"/>
     </Window.DataContext>
@@ -16,7 +16,7 @@
         <CommandBinding x:Name="ReStartServerCommand" Command="local:MainWindowCommands.ReStartServer" Executed="ReStartServerCommand_Executed"  CanExecute="ReStartOrStopServerCommand_CanExecute"></CommandBinding>
         <CommandBinding x:Name="StopServerCommand" Command="local:MainWindowCommands.StopServer" Executed="StopServerCommand_Executed" CanExecute="ReStartOrStopServerCommand_CanExecute"></CommandBinding>
         <CommandBinding x:Name="ConfigSettingCommand" Command="local:MainWindowCommands.ConfigSetting" Executed="ConfigSettingCommand_Executed"></CommandBinding>
-        <CommandBinding x:Name="AboutCommand" Command="local:MainWindowCommands.About"></CommandBinding>
+        <CommandBinding x:Name="AboutCommand" Command="local:MainWindowCommands.About" Executed="AboutCommand_Executed"></CommandBinding>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>

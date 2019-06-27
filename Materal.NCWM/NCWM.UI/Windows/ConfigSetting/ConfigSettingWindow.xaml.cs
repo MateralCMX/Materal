@@ -81,7 +81,10 @@ namespace NCWM.UI.Windows.ConfigSetting
         /// <param name="e"></param>
         private void BrowseCatalogCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            _folderBrowserDialog.SelectedPath = ViewModel.SelectConfig.Path;
+            if (!string.IsNullOrEmpty(ViewModel.SelectConfig.Path))
+            {
+                _folderBrowserDialog.SelectedPath = ViewModel.SelectConfig.Path;
+            }
             if (_folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 ViewModel.ChangeSelectConfigPath(_folderBrowserDialog.SelectedPath);

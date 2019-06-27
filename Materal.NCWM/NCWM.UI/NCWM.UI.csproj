@@ -54,6 +54,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Materal.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.Common.1.0.0\lib\netstandard2.0\Materal.Common.dll</HintPath>
@@ -147,6 +150,10 @@
       <DependentUpon>ServerCtrl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ctrls\Server\ServerViewModel.cs" />
+    <Compile Include="Windows\About\AboutViewModel.cs" />
+    <Compile Include="Windows\About\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ConfigSetting\ConfigSettingCommands.cs" />
     <Compile Include="Windows\ConfigSetting\ConfigSettingViewModel.cs" />
     <Compile Include="Windows\ConfigSetting\ConfigSettingWindow.xaml.cs">
@@ -173,6 +180,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MainWindowResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\About\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -227,6 +238,13 @@
       <Name>NCWM.Model</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Data\About.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="favicon.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

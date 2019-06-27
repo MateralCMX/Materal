@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using NCWM.Model;
+﻿using NCWM.Model;
+using NCWM.UI.Ctrls.Server;
 using NCWM.UI.Windows.ConfigSetting;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using NCWM.UI.Ctrls.Server;
+using NCWM.UI.Windows.About;
 
 namespace NCWM.UI
 {
@@ -19,9 +19,23 @@ namespace NCWM.UI
             InitializeComponent();
         }
         #region 事件
+        /// <summary>
+        /// 窗体加载事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             KillProgram();
+        }
+        /// <summary>
+        /// 窗体关闭事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            StopServer();
         }
         /// <summary>
         /// 配置管理
@@ -60,7 +74,6 @@ namespace NCWM.UI
         {
             StartServer();
         }
-
         /// <summary>
         /// 停止服务
         /// </summary>
@@ -70,37 +83,6 @@ namespace NCWM.UI
         {
             StopServer();
         }
-
-        private void StartServer()
-        {
-            ViewModel.IsRun = true;
-            foreach (ConfigModel config in ApplicationConfig.Configs)
-            {
-                var serverCtrl = new ServerCtrl(config);
-                MainTabControl.Items.Add(new TabItem
-                {
-                    Header = config.Name,
-                    Content = serverCtrl
-                });
-            }
-
-            if (MainTabControl.Items.Count > 0)
-            {
-                MainTabControl.SelectedIndex = 0;
-            }
-        }
-        private void StopServer()
-        {
-            ViewModel.IsRun = false;
-            for (var i = 0; i < MainTabControl.Items.Count; i++)
-            {
-                object item = MainTabControl.Items[i];
-                if (!(item is TabItem tabItem) || !(tabItem.Content is ServerCtrl serverCtrl)) continue;
-                serverCtrl.StopServer();
-                MainTabControl.Items.RemoveAt(i--);
-            }
-        }
-
         /// <summary>
         /// 重启服务
         /// </summary>
@@ -118,10 +100,20 @@ namespace NCWM.UI
         /// <param name="e"></param>
         private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            StopServerCommand_Executed(sender, e);
             Close();
         }
+        /// <summary>
+        /// 关于
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AboutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var window = new AboutWindow();
+            window.ShowDialog();
+        }
         #endregion
+        #region 私有方法
         /// <summary>
         /// 杀死程序
         /// </summary>
@@ -149,5 +141,41 @@ namespace NCWM.UI
                 }
             }
         }
+        /// <summary>
+        /// 开启服务
+        /// </summary>
+        private void StartServer()
+        {
+            ViewModel.IsRun = true;
+            foreach (ConfigModel config in ApplicationConfig.Configs)
+            {
+                var serverCtrl = new ServerCtrl(config);
+                MainTabControl.Items.Add(new TabItem
+                {
+                    Header = config.Name,
+                    Content = serverCtrl
+                });
+            }
+
+            if (MainTabControl.Items.Count > 0)
+            {
+                MainTabControl.SelectedIndex = 0;
+            }
+        }
+        /// <summary>
+        /// 关闭服务
+        /// </summary>
+        private void StopServer()
+        {
+            ViewModel.IsRun = false;
+            for (var i = 0; i < MainTabControl.Items.Count; i++)
+            {
+                object item = MainTabControl.Items[i];
+                if (!(item is TabItem tabItem) || !(tabItem.Content is ServerCtrl serverCtrl)) continue;
+                serverCtrl.StopServer();
+                MainTabControl.Items.RemoveAt(i--);
+            }
+        }
+        #endregion
     }
 }

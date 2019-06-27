@@ -1,11 +1,19 @@
-Copyright (c) <2019> <陈明旭>
+﻿using Materal.WPFCommon;
 
-"Anti 996" License Version 1.0 (Draft)
+namespace NCWM.UI.Windows.About
+{
+    public class AboutViewModel : NotifyPropertyChanged
+    {
+        public string Email { get; } = "mailto:cloomcmx1554@hotmail.com";
+        public string GitHubAddress { get; } = "https://github.com/MateralCMX/Materal";
+        public string License{ get; } = $@"Copyright (c) <2019> <陈明旭>
+
+{"\""}Anti 996{"\""} License Version 1.0 (Draft)
 
 Permission is hereby granted to any individual or legal entity
 obtaining a copy of this licensed work (including the source code,
 documentation and/or related items, hereinafter collectively referred
-to as the "licensed work"), free of charge, to deal with the licensed
+to as the {"\""}licensed work{"\""}), free of charge, to deal with the licensed
 work for any purpose, including without limitation, the rights to use,
 reproduce, modify, prepare derivative works of, distribute, publish
 and sublicense the licensed work, subject to the following conditions:
@@ -18,7 +26,7 @@ or derivative copy of the Licensed Work.
 applicable laws, regulations, rules and standards of the jurisdiction
 relating to labor and employment where the individual is physically
 located or where the individual was born or naturalized; or where the
-legal entity is registered or is operating (whichever is stricter). In
+legal entity is registered or is operating(whichever is stricter). In
 case that the jurisdiction has no such laws, regulations, rules and
 standards or its laws, regulations, rules and standards are
 unenforceable, the individual or the legal entity are required to
@@ -37,10 +45,12 @@ contractor(s) from reporting or complaining to the copyright holder or
 relevant authorities monitoring the compliance of the license about
 its violation(s) of the said license.
 
-THE LICENSED WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+THE LICENSED WORK IS PROVIDED {"\""}AS IS{"\""}, WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
 IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM,
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 OTHERWISE, ARISING FROM, OUT OF OR IN ANY WAY CONNECTION WITH THE
-LICENSED WORK OR THE USE OR OTHER DEALINGS IN THE LICENSED WORK.
+LICENSED WORK OR THE USE OR OTHER DEALINGS IN THE LICENSED WORK.";
+    }
+}

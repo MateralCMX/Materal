@@ -1,11 +1,12 @@
-﻿using System.Deployment.Application;
+﻿using Materal.WPFCommon;
+using System.Deployment.Application;
 using System.Reflection;
 
 namespace NCWM.UI
 {
-    public class MainWindowViewModel
+    public class MainWindowViewModel : NotifyPropertyChanged
     {
-        private string _title = "Materal.NetCore启动器";
+        private string _title = string.Empty;
         /// <summary>
         /// 运行状态
         /// </summary>
@@ -15,8 +16,12 @@ namespace NCWM.UI
         /// </summary>
         public string Title
         {
-            get => _title + " 当前版本：" + Version;
-            set => _title = value;
+            get => ApplicationConfig.TitleConfig.DisplayVersion ? $"{_title} {Version}" : _title;
+            set
+            {
+                _title = value;
+                OnPropertyChanged();
+            }
         }
         /// <summary>
         /// 版本号
@@ -36,6 +41,11 @@ namespace NCWM.UI
                 }
                 return result;
             }
+        }
+
+        public MainWindowViewModel()
+        {
+            Title = ApplicationConfig.TitleConfig.Text;
         }
     }
 }

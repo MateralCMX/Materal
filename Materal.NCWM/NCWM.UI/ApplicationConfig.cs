@@ -42,6 +42,7 @@ namespace NCWM.UI
         /// Configs
         /// </summary>
         private static List<ConfigModel> _configs;
+
         /// <summary>
         /// Configs
         /// </summary>
@@ -49,6 +50,20 @@ namespace NCWM.UI
         {
             get => _configs ?? (_configs = Configuration.GetArrayObjectValue<ConfigModel>("Configs"));
             set => _configs = value;
+        }
+
+        private static TitleConfig _titleConfig;
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public static TitleConfig TitleConfig
+        {
+            get => _titleConfig ?? (_titleConfig = new TitleConfig
+            {
+                Text = Configuration["Title:Text"] ?? "Materal .NetCore启动器",
+                DisplayVersion = Convert.ToBoolean(Configuration["Title:DisplayVersion"] ?? "true")
+            });
+            set => _titleConfig = value;
         }
     }
 }
