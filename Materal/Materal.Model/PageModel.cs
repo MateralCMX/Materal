@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Materal.Common;
+using System;
 
-namespace Materal.Common
+namespace Materal.Model
 {
     public class PageModel : PageRequestModel
     {

@@ -1,6 +1,8 @@
-﻿namespace Materal.Common
+﻿using Materal.Common;
+
+namespace Materal.Model
 {
-    public abstract class PageRequestModel
+    public abstract class PageRequestModel : FilterModel
     {
         /// <summary>
         /// 页面位序

@@ -1,4 +1,6 @@
-﻿namespace Materal.Common
+﻿using Materal.Common;
+
+namespace Materal.Model
 {
     public class ResultModel
     {

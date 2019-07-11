@@ -1,4 +1,4 @@
-﻿using Materal.Common;
+﻿using Materal.Model;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Materal.WeChatHelper.Model.Material.Request

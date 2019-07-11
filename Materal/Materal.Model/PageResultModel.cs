@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Materal.Common;
+using System.Collections.Generic;
 
-namespace Materal.Common
+namespace Materal.Model
 {
     public class PageResultModel<T> : ResultModel
     {

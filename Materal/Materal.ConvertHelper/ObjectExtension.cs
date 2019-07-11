@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -7,7 +8,6 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
-using Newtonsoft.Json;
 
 namespace Materal.ConvertHelper
 {
@@ -26,15 +26,22 @@ namespace Materal.ConvertHelper
         static ObjectExtension()
         {
             ConvertDictionary.Add(typeof(bool), WrapValueConvert(Convert.ToBoolean));
+            ConvertDictionary.Add(typeof(bool?), WrapValueConvert(Convert.ToBoolean));
             ConvertDictionary.Add(typeof(int), WrapValueConvert(Convert.ToInt32));
-            ConvertDictionary.Add(typeof(long), WrapValueConvert(Convert.ToInt64));
-            ConvertDictionary.Add(typeof(short), WrapValueConvert(Convert.ToInt16));
             ConvertDictionary.Add(typeof(int?), WrapValueConvert(Convert.ToInt32));
+            ConvertDictionary.Add(typeof(long), WrapValueConvert(Convert.ToInt64));
+            ConvertDictionary.Add(typeof(long?), WrapValueConvert(Convert.ToInt64));
+            ConvertDictionary.Add(typeof(short), WrapValueConvert(Convert.ToInt16));
+            ConvertDictionary.Add(typeof(short?), WrapValueConvert(Convert.ToInt16));
             ConvertDictionary.Add(typeof(double), WrapValueConvert(Convert.ToDouble));
+            ConvertDictionary.Add(typeof(double?), WrapValueConvert(Convert.ToDouble));
             ConvertDictionary.Add(typeof(float), WrapValueConvert(Convert.ToSingle));
-            ConvertDictionary.Add(typeof(Guid), f => new Guid(f.ToString()));
+            ConvertDictionary.Add(typeof(float?), WrapValueConvert(Convert.ToSingle));
+            ConvertDictionary.Add(typeof(Guid), m => Guid.Parse(m.ToString()));
+            ConvertDictionary.Add(typeof(Guid?), m => Guid.Parse(m.ToString()));
             ConvertDictionary.Add(typeof(string), Convert.ToString);
             ConvertDictionary.Add(typeof(DateTime), WrapValueConvert(Convert.ToDateTime));
+            ConvertDictionary.Add(typeof(DateTime?), WrapValueConvert(Convert.ToDateTime));
         }
         /// <summary>
         /// 写入值转换类型
@@ -130,7 +137,7 @@ namespace Materal.ConvertHelper
             return ConvertManager.GetDefaultObject<T>();
         }
         /// <summary>
-        /// 对象转换为Josn
+        /// 对象转换为Json
         /// </summary>
         /// <param name="obj">要转换的对象</param>
         /// <returns>转换后的Json字符串</returns>
@@ -149,8 +156,8 @@ namespace Materal.ConvertHelper
         public static void CopyProperties<T>(this object sourceM, T targetM, params string[] notCopyPropertyNames)
         {
             if (sourceM == null) return;
-            var t1Props = sourceM.GetType().GetProperties();
-            var t2Props = typeof(T).GetProperties();
+            PropertyInfo[] t1Props = sourceM.GetType().GetProperties();
+            PropertyInfo[] t2Props = typeof(T).GetProperties();
             foreach (PropertyInfo prop in t1Props)
             {
                 if (notCopyPropertyNames.Contains(prop.Name)) continue;
