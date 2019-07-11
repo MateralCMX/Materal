@@ -28,17 +28,17 @@ namespace CodeCreate.Model
         /// </summary>
         public ItemGroupModel[][] ItemGroups { get; set; }
 
-        public void CreateFile(string targetPath, string subSystemName)
+        public void CreateFile(string targetPath)
         {
-            TextFileManager.WriteText($"{targetPath}/{Name}.csproj", GetFileContent(targetPath, subSystemName), ApplicationConfig.ApplicationEncoding);
+            TextFileManager.WriteText($"{targetPath}/{Name}.csproj", GetFileContent(targetPath), ApplicationConfig.ApplicationEncoding);
         }
+
         /// <summary>
         /// 获得文件内容
         /// </summary>
         /// <param name="targetPath"></param>
-        /// <param name="subSystemName"></param>
         /// <returns></returns>
-        private string GetFileContent(string targetPath, string subSystemName)
+        private string GetFileContent(string targetPath)
         {
             string result = $"<Project Sdk=\"{Sdk}\">\r\n";
             result += "  <PropertyGroup>\r\n";

@@ -44,7 +44,7 @@ namespace CodeCreate.Model
                 Sdk = "Microsoft.NET.Sdk",
                 TargetFramework = "netstandard2.0"
             };
-            csprojModel.CreateFile(commonTargetPath, Name);
+            csprojModel.CreateFile(commonTargetPath);
         }
         /// <summary>
         /// 创建Domain文件
@@ -87,7 +87,7 @@ namespace CodeCreate.Model
                     }
                 }
             };
-            csprojModel.CreateFile(domainTargetPath, Name);
+            csprojModel.CreateFile(domainTargetPath);
             if (Domains != null)
             {
                 foreach (DomainModel domain in Domains)
@@ -167,7 +167,7 @@ namespace CodeCreate.Model
                     }
                 }
             };
-            csprojModel.CreateFile(efRepositoryTargetPath, Name);
+            csprojModel.CreateFile(efRepositoryTargetPath);
             var efRepository = new EFRepositoryModel(Domains, Views);
             efRepository.CreateFile(efRepositoryTargetPath, Name);
         }
@@ -218,7 +218,7 @@ namespace CodeCreate.Model
                     domainFolders.ToArray()
                 }
             };
-            csprojModel.CreateFile(dataTransmitModelTargetPath, Name);
+            csprojModel.CreateFile(dataTransmitModelTargetPath);
             var dataTransmitModel = new DataTransmitModel(Domains);
             dataTransmitModel.CreateFile(dataTransmitModelTargetPath, Name);
         }
@@ -268,7 +268,7 @@ namespace CodeCreate.Model
                     domainFolders.ToArray()
                 }
             };
-            csprojModel.CreateFile(serviceTargetPath, Name);
+            csprojModel.CreateFile(serviceTargetPath);
             var serviceModel = new ServiceModel(Domains);
             serviceModel.CreateFile(serviceTargetPath, Name);
         }
@@ -352,7 +352,7 @@ namespace CodeCreate.Model
                     }
                 }
             };
-            csprojModel.CreateFile(serviceTargetPath, Name);
+            csprojModel.CreateFile(serviceTargetPath);
             var serviceModel = new ServiceImplModel(Domains);
             serviceModel.CreateFile(serviceTargetPath, Name);
         }
@@ -432,7 +432,7 @@ namespace CodeCreate.Model
                     domainFolders.ToArray()
                 }
             };
-            csprojModel.CreateFile(dataTransmitModelTargetPath, Name);
+            csprojModel.CreateFile(dataTransmitModelTargetPath);
             var presentationModel = new PresentationModel(Domains);
             presentationModel.CreateFile(dataTransmitModelTargetPath, Name);
         }
