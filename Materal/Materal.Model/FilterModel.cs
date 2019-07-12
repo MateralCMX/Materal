@@ -23,7 +23,6 @@ namespace Materal.Model
             Type thisType = GetType();
             ParameterExpression mParameterExpression = Expression.Parameter(tType, "m");
             PropertyInfo[] propertyInfos = thisType.GetProperties();
-            Expression<Func<T, bool>> result;
             Expression expression = null;
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
@@ -42,7 +41,7 @@ namespace Materal.Model
                     catch (MateralConvertException) { }
                 }
             }
-            result = expression != null
+            Expression<Func<T, bool>> result = expression != null
                 ? Expression.Lambda<Func<T, bool>>(expression, mParameterExpression)
                 : m => true;
             return result;

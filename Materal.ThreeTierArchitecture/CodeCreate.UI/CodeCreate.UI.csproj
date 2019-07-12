@@ -48,20 +48,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Materal.Common, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.Common.1.0.1\lib\netstandard2.0\Materal.Common.dll</HintPath>
+    <Reference Include="Materal.Common, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.Common.1.0.2\lib\netstandard2.0\Materal.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.ConvertHelper, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.ConvertHelper.1.0.1\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
+    <Reference Include="Materal.ConvertHelper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConvertHelper.1.0.2\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.FileHelper, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.FileHelper.1.0.1\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
+    <Reference Include="Materal.FileHelper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.FileHelper.1.0.2\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.StringHelper, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.StringHelper.1.0.1\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
+    <Reference Include="Materal.StringHelper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.StringHelper.1.0.2\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.WindowsHelper, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.WindowsHelper.1.0.1\lib\netstandard2.0\Materal.WindowsHelper.dll</HintPath>
+    <Reference Include="Materal.WindowsHelper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.WindowsHelper.1.0.2\lib\netstandard2.0\Materal.WindowsHelper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Registry, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Registry.4.5.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
