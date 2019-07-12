@@ -1,6 +1,7 @@
 ﻿using Materal.Common;
 using Materal.ConvertHelper;
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -22,27 +23,28 @@ namespace Materal.Model
             Type thisType = GetType();
             ParameterExpression mParameterExpression = Expression.Parameter(tType, "m");
             PropertyInfo[] propertyInfos = thisType.GetProperties();
-            Expression<Func<T, bool>> result = null;
+            Expression<Func<T, bool>> result;
             Expression expression = null;
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
-                var filterAttribute = propertyInfo.GetCustomAttribute<FilterAttribute>();
-                if (filterAttribute == null) continue;
-                try
+                IEnumerable<FilterAttribute> filterAttributes = propertyInfo.GetCustomAttributes<FilterAttribute>();
+                foreach (FilterAttribute filterAttribute in filterAttributes)
                 {
-                    object value = propertyInfo.GetValue(this);
-                    Expression binaryExpression = filterAttribute.GetSearchExpression(mParameterExpression, propertyInfo, value);
-                    if (binaryExpression != null)
+                    try
                     {
-                        expression = expression == null ? binaryExpression : Expression.And(expression, binaryExpression);
+                        object value = propertyInfo.GetValue(this);
+                        Expression binaryExpression = filterAttribute.GetSearchExpression(mParameterExpression, propertyInfo, value);
+                        if (binaryExpression != null)
+                        {
+                            expression = expression == null ? binaryExpression : Expression.And(expression, binaryExpression);
+                        }
                     }
+                    catch (MateralConvertException) { }
                 }
-                catch (MateralConvertException) { }
             }
-            if (expression != null)
-            {
-                result = Expression.Lambda<Func<T, bool>>(expression, mParameterExpression);
-            }
+            result = expression != null
+                ? Expression.Lambda<Func<T, bool>>(expression, mParameterExpression)
+                : m => true;
             return result;
         }
         /// <summary>
@@ -53,7 +55,6 @@ namespace Materal.Model
         public Func<T, bool> GetSearchDelegate<T>()
         {
             Expression<Func<T, bool>> searchExpression = GetSearchExpression<T>();
-            if (searchExpression == null) return m => true;
             Func<T, bool> result = searchExpression.Compile();
             return result;
         }
