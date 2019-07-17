@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using Materal.ConfigurationHelper;
-using Materal.ConvertHelper;
+﻿using Materal.ConvertHelper;
 using Materal.FileHelper;
 using Materal.WPFCommon;
 using NCWM.Model;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace NCWM.UI.Windows.ConfigSetting
 {
