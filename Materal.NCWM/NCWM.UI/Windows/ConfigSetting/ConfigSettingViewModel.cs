@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using Materal.ConfigurationHelper;
+using Materal.ConvertHelper;
+using Materal.FileHelper;
 using Materal.WPFCommon;
 using NCWM.Model;
 
@@ -62,15 +64,12 @@ namespace NCWM.UI.Windows.ConfigSetting
         public void SaveConfig()
         {
             ApplicationConfig.Configs = Configs.ToList();
-            for (var i = 0; i < ApplicationConfig.Configs.Count; i++)
+            var config = new AppSettingsModel
             {
-                ConfigModel config = ApplicationConfig.Configs[i];
-                ApplicationConfig.Configuration.SetValue($"Configs:{i}:{nameof(config.Name)}", config.Name);
-                ApplicationConfig.Configuration.SetValue($"Configs:{i}:{nameof(config.Arguments)}", config.Arguments);
-                ApplicationConfig.Configuration.SetValue($"Configs:{i}:{nameof(config.DotNetCoreVersion)}", config.DotNetCoreVersion.ToString(CultureInfo.InvariantCulture));
-                ApplicationConfig.Configuration.SetValue($"Configs:{i}:{nameof(config.Path)}", config.Path);
-                ApplicationConfig.Configuration.SetValue($"Configs:{i}:{nameof(config.TargetName)}", config.TargetName);
-            }
+                Title = ApplicationConfig.TitleConfig,
+                Configs = ApplicationConfig.Configs
+            };
+            TextFileManager.WriteText(ApplicationConfig.ConfigFilePath, config.ToJson());
         }
         /// <summary>
         /// 更改选择的配置路径

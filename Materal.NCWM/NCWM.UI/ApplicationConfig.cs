@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using NCWM.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace NCWM.UI
 {
@@ -25,6 +26,10 @@ namespace NCWM.UI
             }
             set => _configuration = value;
         }
+        /// <summary>
+        /// 配置文件路径
+        /// </summary>
+        public static string ConfigFilePath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json");
         /// <summary>
         /// 配置文件Builder
         /// </summary>
