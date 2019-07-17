@@ -18,6 +18,7 @@ namespace Materal.ConfigurationHelper
         /// <param name="rootName">根节点名称</param>
         /// <returns>类型组</returns>
         public static List<T> GetArrayObjectValue<T>(this IConfiguration configuration, string rootName)
+        where T : class, new()
         {
             var result = new List<T>();
             IConfigurationSection configurationSection = configuration.GetSection(rootName);
@@ -26,11 +27,11 @@ namespace Materal.ConfigurationHelper
             foreach (IConfigurationSection item in configurationSections)
             {
                 IEnumerable<IConfigurationSection> tempChildren = item.GetChildren();
-                var tempModel = ConvertManager.GetDefaultObject<T>();
+                var tempModel = new T();
                 foreach (IConfigurationSection children in tempChildren)
                 {
                     PropertyInfo propertyInfo = modelType.GetProperty(children.Key);
-                    if (propertyInfo != null)
+                    if (propertyInfo != null && propertyInfo.CanWrite)
                     {
                         propertyInfo.SetValue(tempModel, children.Value.ConvertTo(propertyInfo.PropertyType));
                     }

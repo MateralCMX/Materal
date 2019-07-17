@@ -73,20 +73,20 @@
     <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Materal.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.Common.1.0.0\lib\netstandard2.0\Materal.Common.dll</HintPath>
+    <Reference Include="Materal.Common, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.Common.1.0.2\lib\netstandard2.0\Materal.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.ConfigurationHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.ConfigurationHelper.1.0.0\lib\netstandard2.0\Materal.ConfigurationHelper.dll</HintPath>
+    <Reference Include="Materal.ConfigurationHelper, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConfigurationHelper.1.0.3\lib\netstandard2.0\Materal.ConfigurationHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.ConvertHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.ConvertHelper.1.0.0\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
+    <Reference Include="Materal.ConvertHelper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConvertHelper.1.0.2\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.FileHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.FileHelper.1.0.0\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
+    <Reference Include="Materal.FileHelper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.FileHelper.1.0.2\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.StringHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.StringHelper.1.0.0\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
+    <Reference Include="Materal.StringHelper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.StringHelper.1.0.2\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
     </Reference>
     <Reference Include="Materal.WPFCommon, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.WPFCommon.0.0.11\lib\net472\Materal.WPFCommon.dll</HintPath>
