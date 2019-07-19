@@ -5,6 +5,7 @@ using NCWM.Model;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace NCWM.UI.Ctrls.Server
 {
@@ -80,9 +81,21 @@ namespace NCWM.UI.Ctrls.Server
         {
             if (!IsRun) return;
             ConsoleText += $"[{DateTime.Now}]正在停止服务......\r\n";
-            _service.Stop();
-            ConsoleText += $"[{DateTime.Now}]服务已停止\r\n";
-            SaveConsoleText(ConsoleText);
+            try
+            {
+                _service.Stop();
+                ConsoleText += $"[{DateTime.Now}]服务已停止\r\n";
+                SaveConsoleText(ConsoleText);
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = string.Empty;
+                do
+                {
+                    errorMessage += $"{ex.Message}\r\n{ex.StackTrace}\r\n";
+                } while (ex.InnerException != null);
+                ConsoleText += $"[{DateTime.Now}]服务停止失败,请重试:\r\n{errorMessage}";
+            }
         }
         /// <summary>
         /// 清理控制台文本

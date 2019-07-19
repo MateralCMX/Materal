@@ -1,5 +1,4 @@
 ﻿using NCWM.Model;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -10,7 +9,6 @@ namespace NCWM.UI.Ctrls.Server
     /// </summary>
     public partial class ServerCtrl
     {
-        private readonly bool _isAutoStart;
         public ServerCtrl()
         {
             InitializeComponent();
@@ -24,13 +22,11 @@ namespace NCWM.UI.Ctrls.Server
                     TargetName = "Log.WebAPI",
                     Arguments = "--ConfigTarget Development --urls=http://*:8800"
                 };
-            _isAutoStart = false;
             ViewModel.Init(config);
         }
         public ServerCtrl(ConfigModel config)
         {
             InitializeComponent();
-            _isAutoStart = true;
             ViewModel.Init(config);
         }
         /// <summary>
@@ -40,14 +36,12 @@ namespace NCWM.UI.Ctrls.Server
         {
             StopServerCommand_Executed(null, null);
         }
-        #region 事件
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+
+        public void StartServer()
         {
-            if (_isAutoStart)
-            {
-                StartServerCommand_Executed(null, null);
-            }
+            StartServerCommand_Executed(null, null);
         }
+        #region 事件
 
         private void StartServerCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {

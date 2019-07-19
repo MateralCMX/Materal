@@ -1,11 +1,12 @@
 ﻿using NCWM.Model;
 using NCWM.UI.Ctrls.Server;
+using NCWM.UI.Windows.About;
 using NCWM.UI.Windows.ConfigSetting;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using NCWM.UI.Windows.About;
 
 namespace NCWM.UI
 {
@@ -33,9 +34,13 @@ namespace NCWM.UI
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             StopServer();
+            if (MainTabControl.Items.Count > 0)
+            {
+                e.Cancel = true;
+            }
         }
         /// <summary>
         /// 配置管理
@@ -155,6 +160,7 @@ namespace NCWM.UI
                     Header = config.Name,
                     Content = serverCtrl
                 });
+                serverCtrl.StartServer();
             }
 
             if (MainTabControl.Items.Count > 0)
@@ -174,6 +180,10 @@ namespace NCWM.UI
                 if (!(item is TabItem tabItem) || !(tabItem.Content is ServerCtrl serverCtrl)) continue;
                 serverCtrl.StopServer();
                 MainTabControl.Items.RemoveAt(i--);
+            }
+            if (MainTabControl.Items.Count > 0)
+            {
+                MessageBox.Show("服务器停止失败");
             }
         }
         #endregion
