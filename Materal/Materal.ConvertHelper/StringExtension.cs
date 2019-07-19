@@ -1,6 +1,7 @@
 ﻿using Materal.StringHelper;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -101,7 +102,7 @@ namespace Materal.ConvertHelper
         /// <returns></returns>
         public static byte[] ToHexByte(this string hexString)
         {
-            if (!hexString.IsHexNumber())throw new MateralConvertException("16进制字符串有误");
+            if (!hexString.IsHexNumber()) throw new MateralConvertException("16进制字符串有误");
             try
             {
                 hexString = hexString.Replace(" ", "");
@@ -315,75 +316,148 @@ namespace Materal.ConvertHelper
         {
             return ToDisplacementEncode(inputStr, -key);
         }
+        private const string InputIv = "MateralC";
         /// <summary>
-        /// DES加密
+        /// DES解密
         /// </summary>
-        /// <param name="inputStr">需要加密的字符串</param>
+        /// <param name="inputString">需要解密的字符串</param>
         /// <param name="inputKey">密钥,必须为8位字符串</param>
-        /// <param name="inputIv">向量,必须为8位字符串</param>
-        /// <param name="ed">编码格式</param>
-        /// <returns>加密后的字符串</returns>
-        public static string ToDesEncode(this string inputStr, string inputKey, string inputIv, Encoding ed = null)
+        /// <param name="encoding">编码格式</param>
+        /// <returns>解密后的字符串</returns>
+        public static string ToDesEncode(this string inputString, string inputKey, Encoding encoding = null)
         {
-            var resM = "";
-            if (inputKey.Length != 8 || inputIv.Length != 8) return resM;
-            if (ed == null)
-            {
-                ed = Encoding.UTF8;
-            }
-            byte[] str = ed.GetBytes(inputStr);
-            byte[] key = ed.GetBytes(inputKey);
-            byte[] iv = ed.GetBytes(inputIv);
-            var dCsp = new DESCryptoServiceProvider();
-            var mStream = new MemoryStream();
-            var cStream = new CryptoStream(mStream, dCsp.CreateEncryptor(key, iv), CryptoStreamMode.Write);
-            try
-            {
-                cStream.Write(str, 0, str.Length);
-                cStream.FlushFinalBlock();
-                resM = Convert.ToBase64String(mStream.ToArray());
-            }
-            finally
-            {
-                cStream.Close();
-                mStream.Close();
-            }
-            return resM;
+            return ToDesEncode(inputString, inputKey, InputIv, encoding);
         }
         /// <summary>
         /// DES解密
         /// </summary>
-        /// <param name="inputStr">需要解密的字符串</param>
+        /// <param name="inputString">需要解密的字符串</param>
+        /// <param name="inputKey">密钥,必须为8位字符串</param>
+        /// <param name="encoding">编码格式</param>
+        /// <returns>解密后的字符串</returns>
+        public static string DesDecode(this string inputString, string inputKey, Encoding encoding = null)
+        {
+            return DesDecode(inputString, inputKey, InputIv, encoding);
+        }
+        /// <summary>
+        /// DES加密
+        /// </summary>
+        /// <param name="inputString">需要加密的字符串</param>
         /// <param name="inputKey">密钥,必须为8位字符串</param>
         /// <param name="inputIv">向量,必须为8位字符串</param>
-        /// <param name="ed">编码格式</param>
-        /// <returns>解密后的字符串</returns>
-        public static string DesDecode(this string inputStr, string inputKey, string inputIv, Encoding ed = null)
+        /// <param name="encoding">编码格式</param>
+        /// <returns>加密后的字符串</returns>
+        public static string ToDesEncode(this string inputString, string inputKey, string inputIv, Encoding encoding = null)
         {
-            string result;
-            //if (inputKey.Length != 8 || inputIv.Length != 8) return resM;
-            if (ed == null)
+            if (inputKey.Length != 8) throw new MateralConvertException("密钥必须为8位");
+            if (inputIv.Length != 8) throw new MateralConvertException("向量必须为8位");
+            if (encoding == null)
             {
-                ed = Encoding.UTF8;
+                encoding = Encoding.UTF8;
             }
-            byte[] str = Convert.FromBase64String(inputStr);
-            byte[] key = ed.GetBytes(inputKey);
-            byte[] iv = ed.GetBytes(inputIv);
-            var dCsp = new DESCryptoServiceProvider();
-            var mStream = new MemoryStream();
-            var cStream = new CryptoStream(mStream, dCsp.CreateDecryptor(key, iv), CryptoStreamMode.Write);
-            try
+            var dsp = new DESCryptoServiceProvider();
+            using (var memoryStream = new MemoryStream())
             {
-                cStream.Write(str, 0, str.Length);
-                cStream.FlushFinalBlock();
-                result = ed.GetString(mStream.ToArray());
+                byte[] key = encoding.GetBytes(inputKey);
+                byte[] iv = encoding.GetBytes(inputIv);
+                using (var cryptoStream = new CryptoStream(memoryStream, dsp.CreateEncryptor(key, iv), CryptoStreamMode.Write))
+                {
+                    var writer = new StreamWriter(cryptoStream);
+                    writer.Write(inputString);
+                    writer.Flush();
+                    cryptoStream.FlushFinalBlock();
+                    memoryStream.Flush();
+                    return Convert.ToBase64String(memoryStream.GetBuffer(), 0, (int)memoryStream.Length);
+                }
             }
-            finally
+        }
+        /// <summary>
+        /// DES解密
+        /// </summary>
+        /// <param name="inputString">需要解密的字符串</param>
+        /// <param name="inputKey">密钥,必须为8位字符串</param>
+        /// <param name="inputIv">向量,必须为8位字符串</param>
+        /// <param name="encoding">编码格式</param>
+        /// <returns>解密后的字符串</returns>
+        public static string DesDecode(this string inputString, string inputKey, string inputIv, Encoding encoding = null)
+        {
+            if (inputKey.Length != 8) throw new MateralConvertException("密钥必须为8位");
+            if (inputIv.Length != 8) throw new MateralConvertException("向量必须为8位");
+            if (encoding == null)
             {
-                cStream.Close();
-                mStream.Close();
+                encoding = Encoding.UTF8;
             }
-            return result;
+            var dsp = new DESCryptoServiceProvider();
+            byte[] buffer = Convert.FromBase64String(inputString);
+            using (var memoryStream = new MemoryStream())
+            {
+                byte[] key = encoding.GetBytes(inputKey);
+                byte[] iv = encoding.GetBytes(inputIv);
+                using (var cryptoStream = new CryptoStream(memoryStream, dsp.CreateDecryptor(key, iv), CryptoStreamMode.Write))
+                {
+                    cryptoStream.Write(buffer, 0, buffer.Length);
+                    cryptoStream.FlushFinalBlock();
+                    return encoding.GetString(memoryStream.ToArray());
+                }
+            }
+        }
+        /// <summary>
+        /// 获取RSA
+        /// </summary>
+        /// <returns></returns>
+        public static KeyValuePair<string, string> GetRSAKey()
+        {
+            var RSA = new RSACryptoServiceProvider();
+            string publicKey = RSA.ToXmlString(false);
+            string privateKey = RSA.ToXmlString(true);
+            return new KeyValuePair<string, string>(publicKey, privateKey);
+        }
+        /// <summary>
+        /// RSA加密
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="encryptKey">加密key</param>
+        /// <returns></returns>
+        public static string ToRSAEncode(this string content, string encryptKey)
+        {
+            var rsa = new RSACryptoServiceProvider();
+            rsa.FromXmlString(encryptKey);
+            var ByteConverter = new UnicodeEncoding();
+            byte[] DataToEncrypt = ByteConverter.GetBytes(content);
+            byte[] resultBytes = rsa.Encrypt(DataToEncrypt, false);
+            return Convert.ToBase64String(resultBytes);
+        }
+        /// <summary>
+        /// RSA解密
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="decryptKey">解密key</param>
+        /// <returns></returns>
+        public static string RSADecode(this string content, string decryptKey)
+        {
+            byte[] dataToDecrypt = Convert.FromBase64String(content);
+            var RSA = new RSACryptoServiceProvider();
+            RSA.FromXmlString(decryptKey);
+            byte[] resultBytes = RSA.Decrypt(dataToDecrypt, false);
+            var ByteConverter = new UnicodeEncoding();
+            return ByteConverter.GetString(resultBytes);
+        }
+        /// <summary>
+        /// RSA加密
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="publicKey">公开密钥</param>
+        /// <param name="privateKey">私有密钥</param>
+        /// <returns>加密后结果</returns>
+        private static string ToRSAEncode(this string content, out string publicKey, out string privateKey)
+        {
+            var rsaProvider = new RSACryptoServiceProvider();
+            publicKey = rsaProvider.ToXmlString(false);
+            privateKey = rsaProvider.ToXmlString(true);
+            var ByteConverter = new UnicodeEncoding();
+            byte[] DataToEncrypt = ByteConverter.GetBytes(content);
+            byte[] resultBytes = rsaProvider.Encrypt(DataToEncrypt, false);
+            return Convert.ToBase64String(resultBytes);
         }
     }
 }
