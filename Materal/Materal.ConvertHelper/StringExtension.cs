@@ -22,7 +22,6 @@ namespace Materal.ConvertHelper
         {
             return JsonConvert.DeserializeXmlNode(jsonStr);
         }
-
         /// <summary>
         /// Json字符串转换对象
         /// </summary>
@@ -41,7 +40,6 @@ namespace Materal.ConvertHelper
                 throw new MateralConvertException("Json字符串有误", ex);
             }
         }
-
         /// <summary>
         /// Json字符串转换对象
         /// </summary>
@@ -61,7 +59,6 @@ namespace Materal.ConvertHelper
                 throw new MateralConvertException("Json字符串有误", ex);
             }
         }
-
         /// <summary>
         /// Json字符串转换对象
         /// </summary>
@@ -79,7 +76,6 @@ namespace Materal.ConvertHelper
                 throw new MateralConvertException("Json字符串有误", ex);
             }
         }
-
         /// <summary>
         /// Json字符串转换对象
         /// </summary>
@@ -98,7 +94,6 @@ namespace Materal.ConvertHelper
                 throw new MateralConvertException("Json字符串有误", ex);
             }
         }
-
         /// <summary>
         /// 字符串转16进制字节数组
         /// </summary>
@@ -126,7 +121,6 @@ namespace Materal.ConvertHelper
                 throw new MateralConvertException("16进制字符串有误", ex);
             }
         }
-
         /// <summary>
         /// 文本转换为二进制字符
         /// </summary>
@@ -143,7 +137,6 @@ namespace Materal.ConvertHelper
             }
             return resStr.ToString();
         }
-
         /// <summary>
         /// 二进制字符转换为文本
         /// </summary>
@@ -160,7 +153,6 @@ namespace Materal.ConvertHelper
             }
             return Encoding.UTF8.GetString(bytes);
         }
-
         /// <summary>
         /// 转换为32位Md5加密字符串
         /// </summary>
@@ -176,7 +168,6 @@ namespace Materal.ConvertHelper
             outputStr = isLower ? outputStr.ToLower() : outputStr.ToUpper();
             return outputStr;
         }
-
         /// <summary>
         /// 转换为16位Md5加密字符串
         /// </summary>
@@ -187,7 +178,6 @@ namespace Materal.ConvertHelper
         {
             return ToMd5_32Encode(inputStr, isLower).Substring(8, 16);
         }
-
         /// <summary>
         /// 转换为Base64字符串
         /// </summary>
@@ -198,7 +188,6 @@ namespace Materal.ConvertHelper
             byte[] input = Encoding.ASCII.GetBytes(inputStr);
             return Convert.ToBase64String(input);
         }
-
         /// <summary>
         /// Base64解密
         /// </summary>
@@ -216,7 +205,6 @@ namespace Materal.ConvertHelper
                 throw new MateralConvertException("解密错误", ex);
             }
         }
-
         /// <summary>
         /// 栅栏加密
         /// </summary>
@@ -276,7 +264,6 @@ namespace Materal.ConvertHelper
             }
             return outPutStr;
         }
-
         /// <summary>
         /// 移位加密
         /// </summary>
@@ -328,7 +315,6 @@ namespace Materal.ConvertHelper
         {
             return ToDisplacementEncode(inputStr, -key);
         }
-
         /// <summary>
         /// DES加密
         /// </summary>
