@@ -82,7 +82,9 @@ namespace TestServer.UI
             switch (frame)
             {
                 case CloseWebSocketFrame _:
-                    _handShaker.CloseAsync(ctx.Channel, (CloseWebSocketFrame)frame.Retain());
+                    Task.Run(async () => {
+                        await _handShaker.CloseAsync(ctx.Channel, (CloseWebSocketFrame)frame.Retain());
+                    });
                     return;
                 case PingWebSocketFrame _:
                     ctx.WriteAsync(new PongWebSocketFrame((IByteBuffer)frame.Content.Retain()));
@@ -93,7 +95,9 @@ namespace TestServer.UI
                         string commandString = frame.Content.ReadString(frame.Content.WriterIndex, Encoding.UTF8);
                         var command = commandString.JsonToObject<Command>();
                         var commandBus = TestServerHelper.ServiceProvider.GetRequiredService<ICommandBus>();
-                        commandBus.SendAsync(ctx, commandString, command);
+                        Task.Run(async () => {
+                            await commandBus.SendAsync(ctx, commandString, command);
+                        });
                     }
                     catch (Exception ex)
                     {

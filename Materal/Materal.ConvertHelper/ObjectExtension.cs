@@ -103,12 +103,12 @@ namespace Materal.ConvertHelper
         public static void SetValueByDataRow(this object obj, DataRow dr)
         {
             Type type = obj.GetType();
-            var props = type.GetProperties();
+            PropertyInfo[] props = type.GetProperties();
             foreach (PropertyInfo prop in props)
             {
                 try
                 {
-                    prop.SetValue(obj, dr[prop.Name], null);
+                    prop.SetValue(obj, dr[prop.Name].ConvertTo(prop.PropertyType), null);
                 }
                 catch
                 {

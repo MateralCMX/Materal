@@ -21,7 +21,7 @@ namespace TestServer.UI
         {
             Services = new ServiceCollection();
             Services.AddCommandBus(Assembly.Load("TestWebSocket.CommandHandlers"));
-            Services.AddTransient<ITestServer, TestServerImpl>();
+            Services.AddSingleton<ITestServer, TestServerImpl>();
         }
 
         /// <summary>
