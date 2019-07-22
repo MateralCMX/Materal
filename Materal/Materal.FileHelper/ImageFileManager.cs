@@ -2,6 +2,7 @@
 using Materal.ConvertHelper;
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 
 namespace Materal.FileHelper
@@ -111,6 +112,48 @@ namespace Materal.FileHelper
             var thumbnailImageWidth = (width * proportion).ConvertTo<int>();
             var thumbnailImageHeight = (height * proportion).ConvertTo<int>();
             return (thumbnailImageWidth, thumbnailImageHeight);
+        }
+        /// <summary>
+        /// 获取编码信息
+        /// </summary>
+        /// <param name="mimeType"></param>
+        /// <returns></returns>
+        private static ImageCodecInfo GetEncoderInfo(string mimeType)
+        {
+            int j;
+            ImageCodecInfo[] encoders = ImageCodecInfo.GetImageEncoders();
+            for (j = 0; j < encoders.Length; ++j)
+            {
+                if (encoders[j].MimeType == mimeType) return encoders[j];
+            }
+            return null;
+        }
+        /// <summary>
+        /// 图片压缩(降低质量以减小文件的大小)
+        /// </summary>
+        /// <param name="srcBitmap">传入的Bitmap对象</param>
+        /// <param name="destStream">压缩后的Stream对象</param>
+        /// <param name="level">压缩等级，0到100，0 最差质量，100 最佳</param>
+        public static void Compress(Image srcBitmap, Stream destStream, long level)
+        {
+            ImageCodecInfo myImageCodecInfo = GetEncoderInfo("image/jpeg");
+            Encoder myEncoder = Encoder.Quality;
+            var myEncoderParameters = new EncoderParameters(1);
+            var myEncoderParameter = new EncoderParameter(myEncoder, level);
+            myEncoderParameters.Param[0] = myEncoderParameter;
+            srcBitmap.Save(destStream, myImageCodecInfo, myEncoderParameters);
+        }
+        /// <summary>
+        /// 图片压缩(降低质量以减小文件的大小)
+        /// </summary>
+        /// <param name="srcBitMap">传入的Bitmap对象</param>
+        /// <param name="destFile">压缩后的图片保存路径</param>
+        /// <param name="level">压缩等级，0到100，0 最差质量，100 最佳</param>
+        public static void Compress(Image srcBitMap, string destFile, long level)
+        {
+            Stream stream = new FileStream(destFile, FileMode.Create);
+            Compress(srcBitMap, stream, level);
+            stream.Close();
         }
     }
 }
