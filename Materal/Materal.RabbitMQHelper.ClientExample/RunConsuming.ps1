@@ -1,0 +1,1 @@
+dotnet E:\Project\Materal\Project\Materal\Materal.RabbitMQHelper.ClientExample\bin\Debug\netcoreapp2.2\Materal.RabbitMQHelper.ClientExample.dll

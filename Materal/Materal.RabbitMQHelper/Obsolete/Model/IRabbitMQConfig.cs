@@ -9,17 +9,17 @@ namespace Materal.RabbitMQHelper.Model
         /// </summary>
         string HostName { get; set; }
         /// <summary>
-        /// Exchang名称
+        /// 交换机名称
         /// </summary>
         string ExchangeName { get; set; }
         /// <summary>
-        /// Exchang类型
+        /// 交换机类型
         /// </summary>
         ExchangeCategoryEnum ExchangeCategory { get; set; }
         /// <summary>
-        /// Exchang类型文本
+        /// 交换机类型文本
         /// </summary>
-        string ExchangeCategoryString {get;}
+        string ExchangeCategoryString { get; }
         /// <summary>
         /// Queues名称
         /// </summary>

@@ -1,9 +1,11 @@
-﻿using Materal.RabbitMQHelper.Model;
+﻿using System;
+using Materal.RabbitMQHelper.Model;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
 namespace Materal.RabbitMQHelper
 {
+    [Obsolete("该帮助类已过时，请使用最新的IRabbitMQConsumingService")]
     public class RabbitMQClientHelper : BaseRabbitMQHelper
     {
         /// <summary>

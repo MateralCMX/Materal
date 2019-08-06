@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Materal.RabbitMQHelper
 {
+    [Obsolete("该帮助类已过时，请使用最新的RabbitMQService")]
     public abstract class BaseRabbitMQHelper : IDisposable
     {
         /// <summary>
@@ -36,11 +37,16 @@ namespace Materal.RabbitMQHelper
                 for (int j = 0; j < channelNumber; j++)
                 {
                     IModel channel = connection.CreateModel();
+                    if (MQConfig.Durable)
+                    {
+                        IBasicProperties properties = channel.CreateBasicProperties();
+                        properties.Persistent = true;
+                    }
                     if (j == 0)
                     {
                         channel.ExchangeDeclare(MQConfig.ExchangeName, MQConfig.ExchangeCategoryString, MQConfig.Durable, MQConfig.AutoDelete, null);
                         channel.QueueDeclare(MQConfig.QueueName, MQConfig.Durable, MQConfig.Exclusive, MQConfig.AutoDelete, null);
-                        channel.QueueBind(MQConfig.QueueName, MQConfig.ExchangeName, "");
+                        channel.QueueBind(MQConfig.QueueName, MQConfig.ExchangeName, config.RoutingKey);
                     }
                     channelAction?.Invoke(channel);
                     channels.Add(channel);
