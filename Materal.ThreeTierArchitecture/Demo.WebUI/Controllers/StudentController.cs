@@ -2,9 +2,9 @@
 
 namespace Demo.WebUI.Controllers
 {
-    public class HomeController : Controller
+    public class StudentController : Controller
     {
-        public IActionResult Index()
+        public IActionResult List()
         {
             return View();
         }

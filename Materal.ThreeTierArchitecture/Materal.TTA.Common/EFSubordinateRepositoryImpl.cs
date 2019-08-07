@@ -414,7 +414,10 @@ namespace Materal.TTA.Common
                 });
             });
             Task.WaitAll(task);
-            if (exceptions.Count == SubordinateDB.Count) throw new AggregateException("无法查询数据。", exceptions.ToArray());
+            if (exceptions.Count == SubordinateDB.Count)
+            {
+                result = func(DBQueryable).Result;
+            }
             return result;
         }
         /// <summary>

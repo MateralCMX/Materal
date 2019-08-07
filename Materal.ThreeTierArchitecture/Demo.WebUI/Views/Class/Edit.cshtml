@@ -1,0 +1,31 @@
+﻿@model Demo.DataTransmitModel.Class.ClassDTO
+@{
+    ViewBag.Title = "title";
+}
+    <form id="inputForm" autocomplete="off" method="post" novalidate>
+        <input name="ID" type="hidden" value="@Model?.ID">
+        <div class="form-group">
+            <label for="inputName"><span class="red">*</span>Class Name</label>
+            <input id="inputName" name="Name" type="text" class="form-control" placeholder="Enter Name" value="@Model?.Name" required>
+            <div class="invalid-feedback">Please enter a name.</div>
+        </div>
+        <div class="form-group">
+            <label for="inputRemark">Remark</label>
+            <textarea id="inputRemark" name="Remark" class="form-control" rows="4" placeholder="Enter Remark">@Model?.Remark</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+@section Scripts{
+    <script>
+        "use strict";
+        var inputForm = document.getElementById("inputForm");
+        inputForm.addEventListener("submit",
+            function(event) {
+                if (!inputForm.checkValidity()) {
+                    inputForm.classList.add("was-validated");
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            });
+    </script>
+}

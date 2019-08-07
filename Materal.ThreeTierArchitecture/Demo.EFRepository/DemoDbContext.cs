@@ -1,4 +1,5 @@
 ﻿using Demo.Domain;
+using Demo.Domain.Views;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -17,6 +18,10 @@ namespace Demo.EFRepository
         /// 班级
         /// </summary>
         public DbSet<Class> Class { get; set; }
+        /// <summary>
+        /// 学生信息视图
+        /// </summary>
+        public DbQuery<StudentInfoView> StudentInfoView { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

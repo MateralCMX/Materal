@@ -1,0 +1,110 @@
+﻿@using Demo.PresentationModel.Class.Request
+@using Materal.Model
+@model List<Demo.DataTransmitModel.Class.ClassListDTO>
+@{
+    ViewData["Title"] = "Class List";
+    var filterModel = ViewData["FilterModel"] as QueryClassFilterRequestModel;
+    var pageModel = ViewData["PageModel"] as PageModel;
+}
+@section Styles{
+    <style>
+
+        .pageing-panel > button.disabled {
+            cursor: default;
+        }
+    </style>
+}
+<form name="searchForm" class="form-inline mb-2" autocomplete="off">
+    <input name="PageIndex" type="hidden" value="@pageModel?.PageIndex" />
+    <input name="PageSize" type="hidden" value="@pageModel?.PageSize" />
+    <div class="form-group mr-2">
+        <label for="inputName" class="sr-only">Name</label>
+        <input id="inputName" name="Name" type="search" class="form-control" placeholder="名称" value="@filterModel?.Name">
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<form name="optionForm" class="form-inline mb-2" autocomplete="off">
+    <a class="btn btn-success" href="/Class/Add">Add</a>
+</form>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <th scope="row">@(i + 1)</th>
+                <td>@Model[i].Name</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                        <a class="btn btn-secondary" href="/Class/Edit?id=@Model[i].ID">Edit</a>
+                        <button type="button" class="btn btn-danger" onclick="onDeleteBtnClick('@Model[i].ID');">Delete</button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (pageModel != null)
+{
+    <div class="btn-group mr-2 pageing-panel" role="group">
+        @if (pageModel.PageIndex > 1)
+        {
+            <a class="btn btn-light" href="/Class/List?Name=@filterModel?.Name&PageIndex=1&PageSize=@pageModel.PageSize">&lt;&lt;</a>
+            <a class="btn btn-light" href="/Class/List?Name=@filterModel?.Name&PageIndex=@(pageModel.PageIndex-1)&PageSize=@pageModel.PageSize">&lt;</a>
+        }
+        @for (int i = pageModel.PageIndex - 2; i < pageModel.PageIndex + 3; i++)
+        {
+            if (i > pageModel.PageCount)
+            {
+                break;
+            }
+            if (i == pageModel.PageIndex)
+            {
+                <a class="btn btn-link disabled">@i</a>
+            }
+            else if (i > 0)
+            {
+                <a class="btn btn-link" href="/Class/List?Name=@filterModel?.Name&PageIndex=@i&PageSize=@pageModel.PageSize">@i</a>
+            }
+        }
+        @if (pageModel.PageIndex < pageModel.PageCount)
+        {
+            <a class="btn btn-light" href="/Class/List?Name=@filterModel?.Name&PageIndex=@(pageModel.PageIndex+1)&PageSize=@pageModel.PageSize">&gt;</a>
+            <a class="btn btn-light" href="/Class/List?Name=@filterModel?.Name&PageIndex=@pageModel.PageCount&PageSize=@pageModel.PageSize">&gt;&gt;</a>
+        }
+    </div>
+}
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to delete this item？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <a id="btnDelete" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var btnDelete = document.getElementById("btnDelete");
+        function onDeleteBtnClick(id) {
+            btnDelete.href = "/Class/Delete?id=" + id;
+            $('#deleteModal').modal('toggle');
+        }
+    </script>
+}

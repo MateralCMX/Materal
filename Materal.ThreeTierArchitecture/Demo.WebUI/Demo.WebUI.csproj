@@ -9,13 +9,20 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
 
   <ItemGroup>
     <ProjectReference Include="..\Demo.DependencyInjection\Demo.DependencyInjection.csproj" />
     <ProjectReference Include="..\Demo.EFRepository\Demo.EFRepository.csproj" />
+    <ProjectReference Include="..\Demo.PresentationModel\Demo.PresentationModel.csproj" />
     <ProjectReference Include="..\Demo.ServiceImpl\Demo.ServiceImpl.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>

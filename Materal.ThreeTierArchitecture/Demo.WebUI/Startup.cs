@@ -1,4 +1,5 @@
 ﻿using Demo.DependencyInjection;
+using Materal.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,7 @@ namespace Demo.WebUI
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddDemoServices();
+            services.AddDemoWebUIServices();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -41,6 +42,8 @@ namespace Demo.WebUI
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            MateralConfig.PageStartNumber = 1;
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
