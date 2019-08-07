@@ -51,11 +51,11 @@
     <Reference Include="Materal.Common, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.Common.1.0.2\lib\netstandard2.0\Materal.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.ConvertHelper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.ConvertHelper.1.0.2\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
+    <Reference Include="Materal.ConvertHelper, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConvertHelper.1.0.4\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.FileHelper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.FileHelper.1.0.2\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
+    <Reference Include="Materal.FileHelper, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.FileHelper.1.0.5\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
     </Reference>
     <Reference Include="Materal.StringHelper, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.StringHelper.1.0.2\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
@@ -71,6 +71,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.5.1\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Security.AccessControl, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.AccessControl.4.5.0\lib\net461\System.Security.AccessControl.dll</HintPath>
     </Reference>

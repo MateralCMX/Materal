@@ -30,12 +30,12 @@ namespace Materal.TTA.Common
         /// <summary>
         /// 数据库对象
         /// </summary>
-        protected IQueryable<T> DBQueryable => _isView ? (IQueryable<T>)DBContext.Query<T>() : DBContext.Set<T>();
+        protected IQueryable<T> DBQueryable => IsView ? (IQueryable<T>)DBContext.Query<T>() : DBContext.Set<T>();
 
         /// <summary>
         /// 视图标识
         /// </summary>
-        private readonly bool _isView;
+        protected readonly bool IsView;
 
         /// <summary>
         /// 构造方法
@@ -45,7 +45,7 @@ namespace Materal.TTA.Common
         {
             Type tType = typeof(T);
             var entityAttribute = tType.GetCustomAttribute<ViewEntityAttribute>(false);
-            _isView = entityAttribute != null;
+            IsView = entityAttribute != null;
             DBContext = dbContext;
         }
 

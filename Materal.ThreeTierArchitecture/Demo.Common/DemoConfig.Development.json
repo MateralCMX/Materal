@@ -1,0 +1,27 @@
+{
+  "SQLServerDB": {
+    "DemoDB": {
+      "Address": "192.168.77.128",
+      "Port": "1433",
+      "Name": "DemoMainDB",
+      "UserID": "sa",
+      "Password": "Materal1554",
+      "SubordinateDB": [
+        {
+          "Address": "192.168.77.128",
+          "Port": "1433",
+          "Name": "DemoDB",
+          "UserID": "sa",
+          "Password": "Materal1554"
+        },
+        {
+          "Address": "192.168.77.129",
+          "Port": "1433",
+          "Name": "DemoDB",
+          "UserID": "sa",
+          "Password": "Materal1554"
+        }
+      ]
+    }
+  }
+}
