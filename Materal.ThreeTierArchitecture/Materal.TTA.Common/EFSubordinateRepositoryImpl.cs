@@ -396,7 +396,6 @@ namespace Materal.TTA.Common
         {
             if (SubordinateDB == null || SubordinateDB.Count == 0) throw new MateralException("没有从属数据库");
             ConcurrentQueue<Exception> exceptions = new ConcurrentQueue<Exception>();
-            TResult result = default;
             Task<TResult>[] tasks = new Task<TResult>[SubordinateDB.Count];
             Parallel.For(0, SubordinateDB.Count, index =>
             {
@@ -413,15 +412,9 @@ namespace Materal.TTA.Common
                 }
             });
             var resultIndex = Task.WaitAny(tasks);
-            if (exceptions.Count == SubordinateDB.Count)
-            {
-                result = func(DBQueryable).Result;
-            }
-            else
-            {
-                result = tasks[resultIndex].Result;
-            }
-            return result;
+            return exceptions.Count == SubordinateDB.Count ?
+                func(DBQueryable).Result :
+                tasks[resultIndex].Result;
         }
         /// <summary>
         /// 获得从库查询对象
