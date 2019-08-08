@@ -397,26 +397,29 @@ namespace Materal.TTA.Common
             if (SubordinateDB == null || SubordinateDB.Count == 0) throw new MateralException("没有从属数据库");
             ConcurrentQueue<Exception> exceptions = new ConcurrentQueue<Exception>();
             TResult result = default;
-            var task = Task.Run(() =>
+            Task<TResult>[] tasks = new Task<TResult>[SubordinateDB.Count];
+            Parallel.For(0, SubordinateDB.Count, index =>
             {
-                Parallel.ForEach(SubordinateDB, context =>
+                TContext context = SubordinateDB[index];
+                try
                 {
-                    try
-                    {
-                        IQueryable<T> queryable = GetSubordinateQueryable(context);
-                        result = func(queryable).Result;
-                        return;
-                    }
-                    catch (Exception ex)
-                    {
-                        exceptions.Enqueue(ex);
-                    }
-                });
+                    IQueryable<T> queryable = GetSubordinateQueryable(context);
+                    tasks[index] = func(queryable);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Enqueue(ex);
+                }
             });
-            Task.WaitAll(task);
+            var resultIndex = Task.WaitAny(tasks);
             if (exceptions.Count == SubordinateDB.Count)
             {
                 result = func(DBQueryable).Result;
+            }
+            else
+            {
+                result = tasks[resultIndex].Result;
             }
             return result;
         }

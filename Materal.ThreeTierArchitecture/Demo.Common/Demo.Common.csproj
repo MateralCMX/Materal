@@ -5,14 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="DemoConfig.Development.json" />
     <None Remove="DemoConfig.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="DemoConfig.Development.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="DemoConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
