@@ -2,11 +2,14 @@
 
 namespace Materal.RabbitMQHelper.ClientExample
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var service = new SimplestConsuming();
+            //service.Run();
+            service.RunAsync();
+            Console.WriteLine("执行完毕");
         }
     }
 }

@@ -16,7 +16,7 @@
         /// </summary>
         public void Run()
         {
-            for (var i = 0; i < 200000; i++)
+            for (var i = 0; i < 20000; i++)
             {
                 _producingService.SendMessage($"Hello World{i}!");
             }

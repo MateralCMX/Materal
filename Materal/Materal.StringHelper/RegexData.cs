@@ -52,12 +52,11 @@
         /// <summary>
         /// 相对路径正则表达式
         /// </summary>
-        public const string RelativePath = @"(((~|..)?(\\|/))?[^\\\?\/\*\|<>:" + "\"" + @"]+)*[\\/]?";
+        public const string RelativePath = @"(((~|..:)?(\\|/))?[^\\\?\/\*\|<>:" + "\"" + @"]+)*[\\/]?";
         /// <summary>
         /// 文件名正则表达式
         /// </summary>
         public const string FileName = @"[^\\\?\/\*\|<>:" + "\"" + @"]+([^\.]|\.[^\\\?\/\*\|<>:" + "\"" + @"]+)";
-
         /// <summary>
         /// 文件夹绝对路径正则表达式
         /// </summary>

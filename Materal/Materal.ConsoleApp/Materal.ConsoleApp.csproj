@@ -55,5 +55,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.StringHelper\Materal.StringHelper.csproj">
+      <Project>{88110D3C-76E9-4B26-808A-7B92ABC6038A}</Project>
+      <Name>Materal.StringHelper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

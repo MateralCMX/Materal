@@ -46,9 +46,10 @@ namespace Materal.RabbitMQHelper
         /// <summary>
         /// 获得简单消费者服务
         /// </summary>
-        /// <param name="exchangeName"></param>
-        /// <param name="queueName"></param>
-        /// <param name="Durable"></param>
+        /// <param name="exchangeName">交换机名称</param>
+        /// <param name="queueName">队列名称</param>
+        /// <param name="channelNumber">通道数量</param>
+        /// <param name="Durable">持久化</param>
         /// <returns></returns>
         public ConsumingService GetSimplestConsumingService(string exchangeName, string queueName, int channelNumber = 1 , bool Durable = false)
         {
@@ -66,7 +67,8 @@ namespace Materal.RabbitMQHelper
                     QueueName = queueName,
                 },
                 Timeout = _config.Timeout,
-                ChannelNumber = channelNumber
+                ChannelNumber = channelNumber,
+                MaxMessageCount = 1
             };
             return new ConsumingService(config);
         }
