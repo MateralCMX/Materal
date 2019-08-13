@@ -6,7 +6,7 @@ namespace Materal.ConsoleApp
     {
         public static void Main(string[] args)
         {
-            string path = "ExportExcel/党员账号.xlsx";
+            string path = @"http:\\ExportExcel\党员账号.xlsx";
             var result = path.IsRelativePath();
             //Console.WriteLine("请输入一个文件夹路径:");
             //string filePath = Console.ReadLine();
