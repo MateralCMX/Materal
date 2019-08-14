@@ -33,9 +33,11 @@ namespace Materal.FileHelper
         /// <returns></returns>
         public static Image GetThumbnailImage(string filePath, int width, int height)
         {
-            Image image = new Bitmap(filePath);
-            Image myThumbnail = GetThumbnailImage(image, width, height);
-            return myThumbnail;
+            using (Image image = new Bitmap(filePath))
+            {
+                Image myThumbnail = GetThumbnailImage(image, width, height);
+                return myThumbnail;
+            }
         }
         /// <summary>
         /// 获取缩略图
@@ -45,9 +47,11 @@ namespace Materal.FileHelper
         /// <returns></returns>
         public static Image GetThumbnailImage(string filePath, float proportion)
         {
-            Image image = new Bitmap(filePath);
-            Image myThumbnail = GetThumbnailImage(image, proportion);
-            return myThumbnail;
+            using (Image image = new Bitmap(filePath))
+            {
+                Image myThumbnail = GetThumbnailImage(image, proportion);
+                return myThumbnail;
+            }
         }
         /// <summary>
         /// 获取缩略图
@@ -58,9 +62,11 @@ namespace Materal.FileHelper
         /// <returns></returns>
         public static Image GetThumbnailImage(Stream stream, int width, int height)
         {
-            Image image = new Bitmap(stream);
-            Image myThumbnail = GetThumbnailImage(image, width, height);
-            return myThumbnail;
+            using (Image image = new Bitmap(stream))
+            {
+                Image myThumbnail = GetThumbnailImage(image, width, height);
+                return myThumbnail;
+            }
         }
         /// <summary>
         /// 获取缩略图
@@ -70,9 +76,11 @@ namespace Materal.FileHelper
         /// <returns></returns>
         public static Image GetThumbnailImage(Stream stream, float proportion)
         {
-            Image image = new Bitmap(stream);
-            Image myThumbnail = GetThumbnailImage(image, proportion);
-            return myThumbnail;
+            using (Image image = new Bitmap(stream))
+            {
+                Image myThumbnail = GetThumbnailImage(image, proportion);
+                return myThumbnail;
+            }
         }
         /// <summary>
         /// 获取缩略图
