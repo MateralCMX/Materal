@@ -151,9 +151,11 @@ namespace Materal.FileHelper
         /// <param name="level">压缩等级，0到100，0 最差质量，100 最佳</param>
         public static void Compress(Image srcBitMap, string destFile, long level)
         {
-            Stream stream = new FileStream(destFile, FileMode.Create);
-            Compress(srcBitMap, stream, level);
-            stream.Close();
+            using (Stream stream = new FileStream(destFile, FileMode.Create))
+            {
+                Compress(srcBitMap, stream, level);
+                stream.Close();
+            }
         }
     }
 }
