@@ -1,7 +1,9 @@
 ﻿using System;
 using Materal.FileHelper;
 using System.Drawing;
+using System.Threading.Tasks;
 using Materal.ConvertHelper;
+using Materal.WindowsHelper;
 
 namespace Materal.ConsoleUI
 {
@@ -9,14 +11,28 @@ namespace Materal.ConsoleUI
     {
         public static void Main()
         {
-            //Image result = ImageFileManager.GetThumbnailImage(@"D:\Test\TestImage.jpg", 0.4f);
-            //for (var i = 0; i <= 100; i++)
-            //{
-            //    ImageFileManager.Compress(result, $@"D:\Test\TestThumbnail_p_0.4[{i}].jpg", i);
-            //}
-            string inputString = Console.ReadLine();
-            int inputInt = inputString.ConvertTo<int>();
-            Console.WriteLine($"输入的值是:{inputInt}");
+            Task task = Task.Run(async () =>
+            {
+                var cmd = "\"D:\\Program Files\\ffmpeg-4.1.4-win64-shared\\bin\\ffmpeg.exe\"";
+                var arg =
+                    " -i \"E:\\Project\\IntegratedPlatform\\Temp\\UploadFiles\\20190814\\9d6f9a056875456983ec1d90d7dceb6aQQ.mp4\" -movflags empty_moov+default_base_moof+frag_keyframe \"E:\\Project\\IntegratedPlatform\\Temp\\UploadFiles\\20190814\\9d6f9a056875456983ec1d90d7dceb6aQQ-Fragmented.mp4\"";
+                var processManager = new ProcessManager();
+                processManager.ErrorDataReceived += CmdManager_ErrorDataReceived;
+                processManager.OutputDataReceived += CmdManager_OutputDataReceived;
+                string result = await processManager.ProcessStartAsync(cmd, arg);
+                Console.WriteLine(result);
+            });
+            Task.WaitAll(task);
+        }
+
+        private static void CmdManager_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+        {
+            Console.WriteLine(e.Data);
+        }
+
+        private static void CmdManager_ErrorDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+        {
+            Console.WriteLine(e.Data);
         }
     }
 }
