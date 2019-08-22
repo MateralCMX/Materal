@@ -1,0 +1,91 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TFMS.EventBus", "Materal.TFMS.EventBus\Materal.TFMS.EventBus.csproj", "{A760E0EF-FED7-4BB3-B7ED-1F85AD0CCEAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.EventBus.RabbitMQ", "Materal.TFMS.EventBus.RabbitMQ\Materal.TFMS.EventBus.RabbitMQ.csproj", "{FE51A09B-2DF1-481C-81A6-FE4E1A4F2FEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.Demo.Client01", "Materal.TFMS.Demo.Client01\Materal.TFMS.Demo.Client01.csproj", "{CCAF72ED-B32A-4058-BAAB-B6264D137A97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.Demo.Client02", "Materal.TFMS.Demo.Client02\Materal.TFMS.Demo.Client02.csproj", "{8C5CDE98-F947-4739-906E-A11C913B481E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.Demo.Core", "Materal.TFMS.Demo.Core\Materal.TFMS.Demo.Core.csproj", "{FF0779E8-58A9-4FC8-89F9-54CC9F261AA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.Demo.Client01.EventHandlers", "Materal.TFMS.Demo.Client01.EventHandlers\Materal.TFMS.Demo.Client01.EventHandlers.csproj", "{5FA49246-978D-4CCD-B0F5-281F6E2240C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.Demo.Client02.EventHandlers", "Materal.TFMS.Demo.Client02.EventHandlers\Materal.TFMS.Demo.Client02.EventHandlers.csproj", "{631B9ACF-11BA-418C-A7B0-905A7DA1AD3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.Demo.Events", "Materal.TFMS.Demo.Events\Materal.TFMS.Demo.Events.csproj", "{413C43EF-8C4A-4363-9B1E-51BB72302C9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.Demo.Client03", "Materal.TFMS.Demo.Client03\Materal.TFMS.Demo.Client03.csproj", "{59971C14-DB43-4E74-9493-A32F7C9DE834}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.Demo.Client03.EventHandlers", "Materal.TFMS.Demo.Client03.EventHandlers\Materal.TFMS.Demo.Client03.EventHandlers.csproj", "{B2B7DBC6-B66A-4EAC-A4EF-D32470DE348D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A760E0EF-FED7-4BB3-B7ED-1F85AD0CCEAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A760E0EF-FED7-4BB3-B7ED-1F85AD0CCEAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A760E0EF-FED7-4BB3-B7ED-1F85AD0CCEAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A760E0EF-FED7-4BB3-B7ED-1F85AD0CCEAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE51A09B-2DF1-481C-81A6-FE4E1A4F2FEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE51A09B-2DF1-481C-81A6-FE4E1A4F2FEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE51A09B-2DF1-481C-81A6-FE4E1A4F2FEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE51A09B-2DF1-481C-81A6-FE4E1A4F2FEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCAF72ED-B32A-4058-BAAB-B6264D137A97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCAF72ED-B32A-4058-BAAB-B6264D137A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCAF72ED-B32A-4058-BAAB-B6264D137A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCAF72ED-B32A-4058-BAAB-B6264D137A97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C5CDE98-F947-4739-906E-A11C913B481E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C5CDE98-F947-4739-906E-A11C913B481E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C5CDE98-F947-4739-906E-A11C913B481E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C5CDE98-F947-4739-906E-A11C913B481E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF0779E8-58A9-4FC8-89F9-54CC9F261AA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF0779E8-58A9-4FC8-89F9-54CC9F261AA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF0779E8-58A9-4FC8-89F9-54CC9F261AA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF0779E8-58A9-4FC8-89F9-54CC9F261AA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FA49246-978D-4CCD-B0F5-281F6E2240C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FA49246-978D-4CCD-B0F5-281F6E2240C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FA49246-978D-4CCD-B0F5-281F6E2240C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FA49246-978D-4CCD-B0F5-281F6E2240C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{631B9ACF-11BA-418C-A7B0-905A7DA1AD3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{631B9ACF-11BA-418C-A7B0-905A7DA1AD3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{631B9ACF-11BA-418C-A7B0-905A7DA1AD3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{631B9ACF-11BA-418C-A7B0-905A7DA1AD3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{413C43EF-8C4A-4363-9B1E-51BB72302C9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{413C43EF-8C4A-4363-9B1E-51BB72302C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{413C43EF-8C4A-4363-9B1E-51BB72302C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{413C43EF-8C4A-4363-9B1E-51BB72302C9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59971C14-DB43-4E74-9493-A32F7C9DE834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59971C14-DB43-4E74-9493-A32F7C9DE834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59971C14-DB43-4E74-9493-A32F7C9DE834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59971C14-DB43-4E74-9493-A32F7C9DE834}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2B7DBC6-B66A-4EAC-A4EF-D32470DE348D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2B7DBC6-B66A-4EAC-A4EF-D32470DE348D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2B7DBC6-B66A-4EAC-A4EF-D32470DE348D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2B7DBC6-B66A-4EAC-A4EF-D32470DE348D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CCAF72ED-B32A-4058-BAAB-B6264D137A97} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
+		{8C5CDE98-F947-4739-906E-A11C913B481E} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
+		{FF0779E8-58A9-4FC8-89F9-54CC9F261AA0} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
+		{5FA49246-978D-4CCD-B0F5-281F6E2240C3} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
+		{631B9ACF-11BA-418C-A7B0-905A7DA1AD3B} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
+		{413C43EF-8C4A-4363-9B1E-51BB72302C9F} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
+		{59971C14-DB43-4E74-9493-A32F7C9DE834} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
+		{B2B7DBC6-B66A-4EAC-A4EF-D32470DE348D} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {42212227-D564-4F89-8A79-281668093517}
+	EndGlobalSection
+EndGlobal

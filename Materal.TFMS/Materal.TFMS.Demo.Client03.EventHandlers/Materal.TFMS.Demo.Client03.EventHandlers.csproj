@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.TFMS.Demo.Events\Materal.TFMS.Demo.Events.csproj" />
+    <ProjectReference Include="..\Materal.TFMS.EventBus\Materal.TFMS.EventBus.csproj" />
+  </ItemGroup>
+
+</Project>
