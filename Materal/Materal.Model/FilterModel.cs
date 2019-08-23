@@ -110,7 +110,7 @@ namespace Materal.Model
         /// <param name="propertyInfo"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected Expression GetRightExpression<T>(PropertyInfo propertyInfo,T value)
+        protected Expression GetRightExpression<T>(PropertyInfo propertyInfo, T value)
         {
             dynamic useValue = GetValue(propertyInfo, value);
             if(useValue == null) throw new MateralConvertException("不能转换为对应类型");
@@ -128,6 +128,10 @@ namespace Materal.Model
         {
             dynamic useValue = value;
             Type propertyType = propertyInfo.PropertyType;
+            if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                propertyType = propertyType.GetGenericArguments()[0];
+            }
             Type valueType = value.GetType();
             if (valueType != propertyType)
             {
