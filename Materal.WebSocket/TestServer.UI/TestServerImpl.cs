@@ -10,7 +10,6 @@ using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using DotNetty.Transport.Channels.Pool;
 using TestWebSocket.Common;
 
 namespace TestServer.UI

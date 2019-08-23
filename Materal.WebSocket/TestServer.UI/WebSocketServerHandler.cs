@@ -89,6 +89,8 @@ namespace TestServer.UI
                 case PingWebSocketFrame _:
                     ctx.WriteAsync(new PongWebSocketFrame((IByteBuffer)frame.Content.Retain()));
                     return;
+                case PongWebSocketFrame _:
+                    return;
                 case TextWebSocketFrame _:
                     try
                     {
