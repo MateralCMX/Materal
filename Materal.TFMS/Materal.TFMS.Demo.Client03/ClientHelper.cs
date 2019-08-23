@@ -34,14 +34,20 @@ namespace Materal.TFMS.Demo.Client03
             Services = new ServiceCollection();
             Services.AddTransient<IConnectionFactory, ConnectionFactory>(serviceProvider => new ConnectionFactory
             {
-                HostName = "192.168.0.129",
-                DispatchConsumersAsync = true
+                HostName = "127.0.0.1",
+                DispatchConsumersAsync = true,
+                UserName = "admin",
+                Password = "admin"
             });
             Services.AddTransient<ILoggerFactory, LoggerFactory>();
-            Services.AddEventBus();
+            const string queueName = "MateralTFMSDemoQueueName1";
+            const string exchangeName = "MateralTFMSDemoExchangeName";
+            Services.AddEventBus(queueName, exchangeName);
             Services.AddSingleton<IClient, ClientImpl>();
             Services.AddTransient<Client03Event01Handler>();
+            Services.AddTransient<Client03Event01Handler2>();
             Services.AddTransient<Client03Event02Handler>();
+            Services.AddTransient<Client03Event02Handler2>();
             Services.AddLogging(builder =>
             {
                 builder.SetMinimumLevel(LogLevel.Trace);
@@ -50,16 +56,6 @@ namespace Materal.TFMS.Demo.Client03
                     CaptureMessageTemplates = true,
                     CaptureMessageProperties = true
                 });
-            });
-            Services.AddSingleton<IEventBus, EventBusRabbitMQ>(serviceProvider =>
-            {
-                var rabbitMQPersistentConnection = serviceProvider.GetService<IRabbitMQPersistentConnection>();
-                var logger = serviceProvider.GetRequiredService<ILogger<EventBusRabbitMQ>>();
-                var eventBusSubscriptionsManager = serviceProvider.GetService<IEventBusSubscriptionsManager>();
-                const int retryCount = 3;
-                const string queueName = "MateralTFMSDemoQueueName3";
-                const string exchangeName = "MateralTFMSDemoExchangeName";
-                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, serviceProvider, eventBusSubscriptionsManager, queueName, exchangeName, retryCount);
             });
         }
         /// <summary>

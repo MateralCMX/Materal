@@ -63,7 +63,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="queueName">队列名称</param>
         /// <param name="exchangeName">交换机名称</param>
         /// <param name="retryCount">重试次数</param>
-        public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger, IServiceProvider service, IEventBusSubscriptionsManager subsManager, string queueName = null, string exchangeName = "MateralTFMSEventBusExchange", int retryCount = 5)
+        public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger, IServiceProvider service, IEventBusSubscriptionsManager subsManager, string queueName, string exchangeName = "MateralTFMSEventBusExchange", int retryCount = 5)
         {
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -90,15 +90,15 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             string eventName = @event.GetType().Name;
             _logger?.LogTrace("创建RabbitMQ发布事件通道: {EventId} ({EventName})", @event.ID, eventName);
             IModel channel = _persistentConnection.CreateModel();
-            channel.ExchangeDeclare(_exchangeName, "fanout");
+            channel.ExchangeDeclare(_exchangeName, "direct");
             string message = JsonConvert.SerializeObject(@event);
             byte[] body = Encoding.UTF8.GetBytes(message);
             policy.Execute(() =>
             {
-                //IBasicProperties properties = channel.CreateBasicProperties();
-                //properties.DeliveryMode = 2;
-                _logger?.LogTrace("已发布事件: {EventId}", @event.ID);
-                channel.BasicPublish(_exchangeName, eventName, null, body);
+                IBasicProperties properties = channel.CreateBasicProperties();
+                properties.DeliveryMode = 2;
+                _logger?.LogTrace("发布事件: {EventId}", @event.ID);
+                channel.BasicPublish(_exchangeName, eventName, properties, body);
                 channel.Dispose();
             });
         }
@@ -144,7 +144,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             }
             _logger?.LogTrace("创建RabbitMQ消费通道...");
             IModel channel = _persistentConnection.CreateModel();
-            channel.ExchangeDeclare(_exchangeName, "fanout");
+            channel.ExchangeDeclare(_exchangeName, "direct");
             channel.QueueDeclare(_queueName, true, false, false, null);
             channel.CallbackException += (sender, ea) =>
             {
