@@ -9,7 +9,7 @@ namespace Materal.Dispatcher.Server
     {
         public string Name => "MyJobListener";
 
-        public async Task JobExecutionVetoed(IJobExecutionContext context, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task JobExecutionVetoed(IJobExecutionContext context, CancellationToken cancellationToken = default)
         {
             await Task.Run(() => {
                 Console.WriteLine();
@@ -17,7 +17,7 @@ namespace Materal.Dispatcher.Server
             }, cancellationToken);
         }
 
-        public async Task JobToBeExecuted(IJobExecutionContext context, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task JobToBeExecuted(IJobExecutionContext context, CancellationToken cancellationToken = default)
         {
             await Task.Run(() => {
                 Console.WriteLine();
@@ -25,7 +25,7 @@ namespace Materal.Dispatcher.Server
             }, cancellationToken);
         }
 
-        public async Task JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException, CancellationToken cancellationToken = default)
         {
             await Task.Run(() => {
                 Console.WriteLine();

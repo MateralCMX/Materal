@@ -9,7 +9,7 @@ namespace Materal.Dispatcher.Server
     {
         public string Name => "MyTriggerListener";
 
-        public async Task TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task TriggerComplete(ITrigger trigger, IJobExecutionContext context, SchedulerInstruction triggerInstructionCode, CancellationToken cancellationToken = default)
         {
             await Task.Run(() =>
             {
@@ -17,7 +17,7 @@ namespace Materal.Dispatcher.Server
             }, cancellationToken);
         }
 
-        public async Task TriggerFired(ITrigger trigger, IJobExecutionContext context, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task TriggerFired(ITrigger trigger, IJobExecutionContext context, CancellationToken cancellationToken = default)
         {
             await Task.Run(() =>
             {
@@ -25,7 +25,7 @@ namespace Materal.Dispatcher.Server
             }, cancellationToken);
         }
 
-        public async Task TriggerMisfired(ITrigger trigger, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task TriggerMisfired(ITrigger trigger, CancellationToken cancellationToken = default)
         {
             await Task.Run(() =>
             {
@@ -33,7 +33,7 @@ namespace Materal.Dispatcher.Server
             }, cancellationToken);
         }
 
-        public async Task<bool> VetoJobExecution(ITrigger trigger, IJobExecutionContext context, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<bool> VetoJobExecution(ITrigger trigger, IJobExecutionContext context, CancellationToken cancellationToken = default)
         {
             await Task.Run(() =>
             {

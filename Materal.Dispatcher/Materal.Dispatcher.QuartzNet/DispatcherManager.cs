@@ -22,7 +22,11 @@ namespace Materal.Dispatcher.QuartzNet
 
         public async Task Start(DispatcherConfigModel config)
         {
-            if (config.EnableLog) LogProvider.SetCurrentLogProvider(_serviceProvider.GetService<ILogProvider>());
+            if (config.EnableLog)
+            {
+                var logProvider = _serviceProvider.GetService<ILogProvider>();
+                if (logProvider != null) LogProvider.SetCurrentLogProvider(logProvider);
+            }
             _scheduler = await _scheduleManager.BuildScheduler(config.SchedulerConfig);
             var processor = new XMLSchedulingDataProcessor(new SimpleTypeLoadHelper());
             await processor.ProcessFileAndScheduleJobs(config.DispatcherConfigFilePath, _scheduler);

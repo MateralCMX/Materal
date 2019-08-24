@@ -3,8 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Materal</Authors>
-    <Version>0.0.2</Version>
+    <Version>1.0.1</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Copyright>Materal</Copyright>
+    <Description>Materal任务调度帮助库</Description>
+    <PackageReleaseNotes>1、修复自定义工厂不启用的BUG</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
