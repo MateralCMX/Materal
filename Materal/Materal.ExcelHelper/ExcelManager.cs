@@ -222,7 +222,7 @@ namespace Materal.ExcelHelper
         /// <param name="setStyle"></param>
         /// <param name="setTableHeads"></param>
         /// <returns></returns>
-        public IWorkbook DataSetToWorkbook<T>(DataSet dataSet, Func<int,int,ICell,ICellStyle> setStyle, params Func<IWorkbook, ISheet, int>[] setTableHeads) where T : IWorkbook
+        public IWorkbook DataSetToWorkbook<T>(DataSet dataSet, Action<int, int, ICell> setStyle, params Func<IWorkbook, ISheet, int>[] setTableHeads) where T : IWorkbook
         {
             T workbook = default;
             workbook = workbook.GetDefaultObject<T>();
@@ -262,10 +262,10 @@ namespace Materal.ExcelHelper
         /// </summary>
         /// <param name="workbook"></param>
         /// <param name="dataTable"></param>
-        /// <param name="setStyle"></param>
+        /// <param name="configCell"></param>
         /// <param name="setTableHead"></param>
         /// <returns></returns>
-        public ISheet DataTableToSheet(IWorkbook workbook, DataTable dataTable, Func<int, int, ICell, ICellStyle> setStyle, Func<IWorkbook, ISheet, int> setTableHead = null)
+        public ISheet DataTableToSheet(IWorkbook workbook, DataTable dataTable, Action<int, int, ICell> configCell, Func<IWorkbook, ISheet, int> setTableHead = null)
         {
             ISheet sheet = string.IsNullOrEmpty(dataTable.TableName) ? workbook.CreateSheet() : workbook.CreateSheet(dataTable.TableName);
             int rowNum = 0;
@@ -281,7 +281,7 @@ namespace Materal.ExcelHelper
                 {
                     ICell cell = row.CreateCell(i);
                     cell.SetCellValue(dr[i].ToString());
-                    setStyle?.Invoke(i, rowNum, cell);
+                    configCell?.Invoke(i, rowNum, cell);
                 }
                 rowNum++;
             }
