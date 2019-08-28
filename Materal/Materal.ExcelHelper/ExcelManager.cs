@@ -213,16 +213,18 @@ namespace Materal.ExcelHelper
         #endregion
         #endregion
         #region 生成
+
         /// <summary>
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="dataSet"></param>
+        /// <param name="setStyle"></param>
         /// <param name="setTableHeads"></param>
         /// <returns></returns>
-        public IWorkbook DataSetToWorkbook<T>(DataSet dataSet, params Func<IWorkbook, ISheet, int>[] setTableHeads) where T : IWorkbook
+        public IWorkbook DataSetToWorkbook<T>(DataSet dataSet, Action<IWorkbook, ISheet, int, int, ICell> setStyle, params Func<IWorkbook, ISheet, int>[] setTableHeads) where T : IWorkbook
         {
-            T workbook = default(T);
+            T workbook = default;
             workbook = workbook.GetDefaultObject<T>();
             #region 表头委托
             if (setTableHeads.Length != dataSet.Tables.Count)
@@ -250,18 +252,20 @@ namespace Materal.ExcelHelper
             #endregion
             for (int i = 0; i < dataSet.Tables.Count; i++)
             {
-                DataTableToSheet(workbook, dataSet.Tables[i], setTableHeads[i]);
+                DataTableToSheet(workbook, dataSet.Tables[i], setStyle, setTableHeads[i]);
             }
             return workbook;
         }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="workbook"></param>
         /// <param name="dataTable"></param>
+        /// <param name="configCell"></param>
         /// <param name="setTableHead"></param>
         /// <returns></returns>
-        public ISheet DataTableToSheet(IWorkbook workbook, DataTable dataTable, Func<IWorkbook, ISheet, int> setTableHead = null)
+        public ISheet DataTableToSheet(IWorkbook workbook, DataTable dataTable, Action<IWorkbook, ISheet, int, int, ICell> configCell, Func<IWorkbook, ISheet, int> setTableHead = null)
         {
             ISheet sheet = string.IsNullOrEmpty(dataTable.TableName) ? workbook.CreateSheet() : workbook.CreateSheet(dataTable.TableName);
             int rowNum = 0;
@@ -272,12 +276,14 @@ namespace Materal.ExcelHelper
             int columnNum = dataTable.Columns.Count;
             foreach (DataRow dr in dataTable.Rows)
             {
-                IRow row = sheet.CreateRow(rowNum++);
-                for (int i = 0; i < columnNum; i++)
+                IRow row = sheet.CreateRow(rowNum);
+                for (var i = 0; i < columnNum; i++)
                 {
                     ICell cell = row.CreateCell(i);
                     cell.SetCellValue(dr[i].ToString());
+                    configCell?.Invoke(workbook, sheet, i, rowNum, cell);
                 }
+                rowNum++;
             }
             return sheet;
         }
