@@ -6,9 +6,14 @@
 
   <ItemGroup>
     <None Remove="ocelot.Development.json" />
+    <None Remove="ocelot.KMJQ129.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ocelot.KMJQ129.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="ocelot.Development.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -16,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Materal.ConvertHelper" Version="0.0.36" />
+    <PackageReference Include="Materal.ConvertHelper" Version="1.0.4" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
   </ItemGroup>
 

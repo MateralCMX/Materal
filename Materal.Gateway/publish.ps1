@@ -14,5 +14,3 @@ $dateTimeNowString = $datetTimeNow.ToString('yyyyMMddHHmmss')
 rar a -r -ep1 "$publishDir\$dateTimeNowString.rar" "$publishDir\"
 Write-Output "发布完毕 $publishDir"
 explorer("$publishDir")
-Write-Output "按任意键退出.........."
-[Console]::ReadKey("?")
