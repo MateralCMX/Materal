@@ -1,4 +1,5 @@
-﻿using NCWM.Model;
+﻿using System;
+using NCWM.Model;
 using NCWM.UI.Ctrls.Server;
 using NCWM.UI.Windows.About;
 using NCWM.UI.Windows.ConfigSetting;
@@ -77,7 +78,14 @@ namespace NCWM.UI
         /// <param name="e"></param>
         private void StartServerCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            StartServer();
+            try
+            {
+                StartServer();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         /// <summary>
         /// 停止服务
@@ -86,7 +94,14 @@ namespace NCWM.UI
         /// <param name="e"></param>
         private void StopServerCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            StopServer();
+            try
+            {
+                StopServer();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         /// <summary>
         /// 重启服务
