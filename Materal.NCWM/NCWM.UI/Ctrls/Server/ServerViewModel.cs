@@ -5,7 +5,6 @@ using NCWM.Model;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace NCWM.UI.Ctrls.Server
 {
@@ -56,7 +55,7 @@ namespace NCWM.UI.Ctrls.Server
         private void _service_OutputOrErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             ConsoleText += $"{e.Data}\r\n";
-            if (_consoleText.Length >= 10 * 1024 * 1024)
+            if (_consoleText.Length >= 40000)
             {
                 ClearConsoleText();
             }
