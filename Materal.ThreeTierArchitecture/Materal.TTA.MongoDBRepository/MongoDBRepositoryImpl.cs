@@ -22,68 +22,68 @@ namespace Materal.TTA.MongoDBRepository
             _collection = _mongoDatabase.GetCollection<T>(typeof(T).Name);
         }
 
-        public async Task<bool> ExistedAsync(FilterModel filterModel)
+        public virtual async Task<bool> ExistedAsync(FilterModel filterModel)
         {
             return await ExistedAsync(filterModel.GetSearchExpression<T>());
         }
 
-        public int Count(Expression<Func<T, bool>> expression)
+        public virtual int Count(Expression<Func<T, bool>> expression)
         {
             long count = CountLong(expression);
             return count > int.MaxValue ? int.MaxValue : Convert.ToInt32(count);
         }
 
-        public async Task<int> CountAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<int> CountAsync(Expression<Func<T, bool>> expression)
         {
             long count = await CountLongAsync(expression);
             return count > int.MaxValue ? int.MaxValue : Convert.ToInt32(count);
         }
 
-        public int Count(FilterModel filterModel)
+        public virtual int Count(FilterModel filterModel)
         {
             return Count(filterModel.GetSearchExpression<T>());
         }
 
-        public async Task<int> CountAsync(FilterModel filterModel)
+        public virtual async Task<int> CountAsync(FilterModel filterModel)
         {
             return await CountAsync(filterModel.GetSearchExpression<T>());
         }
 
-        public long CountLong(Expression<Func<T, bool>> expression)
+        public virtual long CountLong(Expression<Func<T, bool>> expression)
         {
             return _collection.CountDocuments(expression);
         }
 
-        public async Task<long> CountLongAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<long> CountLongAsync(Expression<Func<T, bool>> expression)
         {
             return await _collection.CountDocumentsAsync(expression);
         }
 
-        public async Task InsertAsync(T model)
+        public virtual async Task InsertAsync(T model)
         {
             await _collection.InsertOneAsync(model);
         }
 
-        public void Insert(T model)
+        public virtual void Insert(T model)
         {
             _collection.InsertOne(model);
         }
 
-        public async Task DeleteAsync(TIdentifier id)
+        public virtual async Task DeleteAsync(TIdentifier id)
         {
             await _collection.DeleteOneAsync(m => m.ID.Equals(id));
         }
 
-        public async Task<long> DeleteAsync(Expression<Func<T, bool>> predicate)
+        public virtual async Task<long> DeleteAsync(Expression<Func<T, bool>> predicate)
         {
             return (await _collection.DeleteOneAsync(predicate)).DeletedCount;
         }
-        public long Delete(Expression<Func<T, bool>> predicate)
+        public virtual long Delete(Expression<Func<T, bool>> predicate)
         {
             return _collection.DeleteOne(predicate).DeletedCount;
         }
 
-        public async Task SaveAsync(T model)
+        public virtual async Task SaveAsync(T model)
         {
             await _collection.ReplaceOneAsync(x => x.ID.Equals(model.ID), model, new UpdateOptions
             {
@@ -91,7 +91,7 @@ namespace Materal.TTA.MongoDBRepository
             });
         }
 
-        public void Save(T model)
+        public virtual void Save(T model)
         {
             _collection.ReplaceOne(x => x.ID.Equals(model.ID), model, new UpdateOptions
             {
@@ -99,82 +99,82 @@ namespace Materal.TTA.MongoDBRepository
             });
         }
 
-        public async Task<List<T>> FindAsync(FilterDefinition<T> filterDefinition)
+        public virtual async Task<List<T>> FindAsync(FilterDefinition<T> filterDefinition)
         {
             return await _collection.Find(filterDefinition).ToListAsync();
         }
 
-        public async Task<List<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition)
+        public virtual async Task<List<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition)
         {
             return await _mongoDatabase.GetCollection<BsonDocument>(typeof(T).Name).Find(filterDefinition).ToListAsync();
         }
 
-        public async Task InsertManyAsync(IEnumerable<T> model)
+        public virtual async Task InsertManyAsync(IEnumerable<T> model)
         {
             await _collection.InsertManyAsync(model);
         }
 
-        public void InsertMany(IEnumerable<T> model)
+        public virtual void InsertMany(IEnumerable<T> model)
         {
             _collection.InsertMany(model);
         }
 
-        public IQueryable<T> Where(Expression<Func<T, bool>> expression)
+        public virtual IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
             return Find(expression).AsQueryable();
         }
 
-        public IAsyncEnumerable<T> WhereAsync(Expression<Func<T, bool>> expression)
+        public virtual IAsyncEnumerable<T> WhereAsync(Expression<Func<T, bool>> expression)
         {
             return Find(expression).ToAsyncEnumerable();
         }
 
-        public IQueryable<T> Where(FilterModel filterModel)
+        public virtual IQueryable<T> Where(FilterModel filterModel)
         {
             return Where(filterModel.GetSearchExpression<T>());
         }
 
-        public IAsyncEnumerable<T> WhereAsync(FilterModel filterModel)
+        public virtual IAsyncEnumerable<T> WhereAsync(FilterModel filterModel)
         {
             return WhereAsync(filterModel.GetSearchExpression<T>());
         }
 
-        public bool Existed(TIdentifier id)
+        public virtual bool Existed(TIdentifier id)
         {
             return CountLong(m => m.ID.Equals(id)) > 0;
         }
 
-        public async Task<bool> ExistedAsync(TIdentifier id)
+        public virtual async Task<bool> ExistedAsync(TIdentifier id)
         {
             return await CountLongAsync(m => m.ID.Equals(id)) > 0;
         }
 
-        public bool Existed(Expression<Func<T, bool>> expression)
+        public virtual bool Existed(Expression<Func<T, bool>> expression)
         {
             return CountLong(expression) > 0;
         }
 
-        public async Task<bool> ExistedAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<bool> ExistedAsync(Expression<Func<T, bool>> expression)
         {
             return await CountLongAsync(expression) > 0;
         }
 
-        public bool Existed(FilterModel filterModel)
+        public virtual bool Existed(FilterModel filterModel)
         {
             return Existed(filterModel.GetSearchExpression<T>());
         }
 
-        public List<T> Find(Expression<Func<T, bool>> expression)
+        public virtual List<T> Find(Expression<Func<T, bool>> expression)
         {
             return _collection.Find(expression).ToList();
         }
 
-        public List<T> Find(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression)
+        public virtual List<T> Find(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression)
         {
             return Find(expression, orderExpression, SortOrder.Ascending);
         }
 
-        public List<T> Find(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
+        public virtual List<T> Find(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
         {
             List<T> result = Find(expression);
             switch (sortOrder)
@@ -189,17 +189,17 @@ namespace Materal.TTA.MongoDBRepository
             return result;
         }
 
-        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression)
         {
             return (await _collection.FindAsync(expression)).ToList();
         }
 
-        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Func<T, object> orderExpression)
+        public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Func<T, object> orderExpression)
         {
             return await FindAsync(expression, orderExpression, SortOrder.Ascending);
         }
 
-        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Func<T, object> orderExpression, SortOrder sortOrder)
+        public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Func<T, object> orderExpression, SortOrder sortOrder)
         {
             List<T> result = await FindAsync(expression);
             switch (sortOrder)
@@ -214,107 +214,107 @@ namespace Materal.TTA.MongoDBRepository
             return result;
         }
 
-        public List<T> Find(FilterModel filterModel)
+        public virtual List<T> Find(FilterModel filterModel)
         {
             return Find(filterModel.GetSearchExpression<T>());
         }
 
-        public List<T> Find(FilterModel filterModel, Expression<Func<T, object>> orderExpression)
+        public virtual List<T> Find(FilterModel filterModel, Expression<Func<T, object>> orderExpression)
         {
             return Find(filterModel.GetSearchExpression<T>(), orderExpression);
         }
 
-        public List<T> Find(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
+        public virtual List<T> Find(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
         {
             return Find(filterModel.GetSearchExpression<T>(), orderExpression, sortOrder);
         }
 
-        public async Task<List<T>> FindAsync(FilterModel filterModel)
+        public virtual async Task<List<T>> FindAsync(FilterModel filterModel)
         {
             return await FindAsync(filterModel.GetSearchExpression<T>());
         }
 
-        public async Task<List<T>> FindAsync(FilterModel filterModel, Func<T, object> orderExpression)
+        public virtual async Task<List<T>> FindAsync(FilterModel filterModel, Func<T, object> orderExpression)
         {
             return await FindAsync(filterModel.GetSearchExpression<T>(), orderExpression);
         }
 
-        public async Task<List<T>> FindAsync(FilterModel filterModel, Func<T, object> orderExpression, SortOrder sortOrder)
+        public virtual async Task<List<T>> FindAsync(FilterModel filterModel, Func<T, object> orderExpression, SortOrder sortOrder)
         {
             return await FindAsync(filterModel.GetSearchExpression<T>(), orderExpression, sortOrder);
         }
 
-        public T FirstOrDefault(TIdentifier id)
+        public virtual T FirstOrDefault(TIdentifier id)
         {
             return _collection.Find(m => m.ID.Equals(id)).FirstOrDefault();
         }
 
-        public async Task<T> FirstOrDefaultAsync(FilterModel filterModel)
+        public virtual async Task<T> FirstOrDefaultAsync(FilterModel filterModel)
         {
             return await FirstOrDefaultAsync(filterModel.GetSearchExpression<T>());
         }
 
-        public T FirstOrDefault(Expression<Func<T, bool>> expression)
+        public virtual T FirstOrDefault(Expression<Func<T, bool>> expression)
         {
             return _collection.Find(expression).FirstOrDefault();
         }
 
-        public async Task<T> FirstOrDefaultAsync(TIdentifier id)
+        public virtual async Task<T> FirstOrDefaultAsync(TIdentifier id)
         {
             return (await _collection.FindAsync(m => m.ID.Equals(id))).FirstOrDefault();
         }
 
-        public T FirstOrDefault(FilterModel filterModel)
+        public virtual T FirstOrDefault(FilterModel filterModel)
         {
             return FirstOrDefault(filterModel.GetSearchExpression<T>());
         }
 
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
         {
             return (await _collection.FindAsync(expression)).FirstOrDefault();
         }
 
-        public (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel)
+        public virtual (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel)
         {
             return Paging(pageRequestModel.GetSearchExpression<T>(), pageRequestModel);
         }
 
-        public (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression)
+        public virtual (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression)
         {
             return Paging(pageRequestModel.GetSearchExpression<T>(), orderExpression, pageRequestModel);
         }
 
-        public (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
+        public virtual (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
         {
             return Paging(pageRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, pageRequestModel);
         }
 
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
+        public virtual  (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
         {
             return Paging(filterExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
+        public virtual  (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
         {
             return Paging(filterExpression, m => m.ID, pagingIndex, pagingSize);
         }
 
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
+        public virtual  (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
         {
             return Paging(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
+        public virtual  (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
         {
             return Paging(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
+        public virtual  (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
         {
             return Paging(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
         }
 
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
+        public virtual  (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
         {
             List<T> result;
             IQueryable<T> queryable = Where(filterExpression);
@@ -334,47 +334,47 @@ namespace Materal.TTA.MongoDBRepository
             return (result, pageModel);
         }
 
-        public async Task<(List<T> result, PageModel pageModel)> PagingAsync(PageRequestModel pageRequestModel)
+        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(PageRequestModel pageRequestModel)
         {
             return await PagingAsync(pageRequestModel.GetSearchExpression<T>(), pageRequestModel);
         }
 
-        public async Task<(List<T> result, PageModel pageModel)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression)
+        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression)
         {
             return await PagingAsync(pageRequestModel.GetSearchExpression<T>(), orderExpression, pageRequestModel);
         }
 
-        public async Task<(List<T> result, PageModel pageModel)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
+        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
         {
             return await PagingAsync(pageRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, pageRequestModel);
         }
 
-        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
+        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
         {
             return await PagingAsync(filterExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
+        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
         {
             return await PagingAsync(filterExpression, m => m.ID, pagingIndex, pagingSize);
         }
 
-        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
+        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
         {
             return await PagingAsync(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
+        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
         {
             return await PagingAsync(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         }
 
-        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
+        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
         {
             return await PagingAsync(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
         }
 
-        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
+        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
         {
 
             List<T> result;
