@@ -29,6 +29,10 @@ namespace NCWM.UI
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             KillProgram();
+            if (ApplicationConfig.AutoStart)
+            {
+                StartServer();
+            }
         }
         /// <summary>
         /// 窗体关闭事件

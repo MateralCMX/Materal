@@ -70,5 +70,32 @@ namespace NCWM.UI
             });
             set => _titleConfig = value;
         }
+
+        public static bool? _autoStart;
+
+        public static bool AutoStart
+        {
+            get
+            {
+                if (_autoStart.HasValue) return _autoStart.Value;
+                string autoStartString = Configuration["AutoStart"];
+                if (string.IsNullOrEmpty(autoStartString))
+                {
+                    _autoStart = true;
+                }
+                else
+                {
+                    try
+                    {
+                        _autoStart = Convert.ToBoolean(autoStartString);
+                    }
+                    catch
+                    {
+                        _autoStart = true;
+                    }
+                }
+                return _autoStart.Value;
+            }
+        }
     }
 }

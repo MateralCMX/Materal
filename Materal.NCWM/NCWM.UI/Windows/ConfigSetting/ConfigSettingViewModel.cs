@@ -65,7 +65,8 @@ namespace NCWM.UI.Windows.ConfigSetting
             var config = new AppSettingsModel
             {
                 Title = ApplicationConfig.TitleConfig,
-                Configs = ApplicationConfig.Configs
+                Configs = ApplicationConfig.Configs,
+                AutoStart = ApplicationConfig.AutoStart
             };
             TextFileManager.WriteText(ApplicationConfig.ConfigFilePath, config.ToJson());
         }
