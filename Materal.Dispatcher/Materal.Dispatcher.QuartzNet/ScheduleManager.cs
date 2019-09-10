@@ -34,10 +34,26 @@ namespace Materal.Dispatcher.QuartzNet
             };
             var schedulerFactory = new StdSchedulerFactory(nameValueCollection);
             IScheduler scheduler = await schedulerFactory.GetScheduler();
-            if (config.EnableJobLog) scheduler.ListenerManager.AddJobListener(_serviceProvider.GetService<IJobListener>());
-            if (config.EnableTriggerLog) scheduler.ListenerManager.AddTriggerListener(_serviceProvider.GetService<ITriggerListener>());
-            if (config.EnableSchedulerLog) scheduler.ListenerManager.AddSchedulerListener(_serviceProvider.GetService<ISchedulerListener>());
-            if (config.EnableSchedulerLog) scheduler.JobFactory = _serviceProvider.GetService<IJobFactory>();
+            if (config.EnableCustomJobFactory)
+            {
+                var jobListener = _serviceProvider.GetService<IJobFactory>();
+                if (jobListener != null) scheduler.JobFactory = jobListener;
+            }
+            if (config.EnableJobLog)
+            {
+                var jobListener = _serviceProvider.GetService<IJobListener>();
+                if (jobListener != null) scheduler.ListenerManager.AddJobListener(jobListener);
+            }
+            if (config.EnableTriggerLog)
+            {
+                var jobListener = _serviceProvider.GetService<ITriggerListener>();
+                if (jobListener != null) scheduler.ListenerManager.AddTriggerListener(jobListener);
+            }
+            if (config.EnableSchedulerLog)
+            {
+                var jobListener = _serviceProvider.GetService<ISchedulerListener>();
+                if (jobListener != null) scheduler.ListenerManager.AddSchedulerListener(jobListener);
+            }
             return scheduler;
         }
     }
