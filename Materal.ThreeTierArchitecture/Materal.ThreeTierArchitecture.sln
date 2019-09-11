@@ -25,25 +25,29 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeCreate.UI", "CodeCreate
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{B11CE66D-527F-4344-BA9F-06756816FC77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TTA.Core", "TTA.Core\TTA.Core.csproj", "{4F50EF9C-F0EC-456C-B4EC-66F4C5098D83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TTA.Core", "TTA.Core\TTA.Core.csproj", "{4F50EF9C-F0EC-456C-B4EC-66F4C5098D83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Common", "Demo.Common\Demo.Common.csproj", "{5C1A8F2B-88C7-44D0-A001-B68F1CB5516E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.Common", "Demo.Common\Demo.Common.csproj", "{5C1A8F2B-88C7-44D0-A001-B68F1CB5516E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DataTransmitModel", "Demo.DataTransmitModel\Demo.DataTransmitModel.csproj", "{E6E54CAD-F72C-4184-9337-0556A34F20DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.DataTransmitModel", "Demo.DataTransmitModel\Demo.DataTransmitModel.csproj", "{E6E54CAD-F72C-4184-9337-0556A34F20DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.DependencyInjection", "Demo.DependencyInjection\Demo.DependencyInjection.csproj", "{582D836A-C5CB-47CD-AE79-AB62AFDB6BAA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.DependencyInjection", "Demo.DependencyInjection\Demo.DependencyInjection.csproj", "{582D836A-C5CB-47CD-AE79-AB62AFDB6BAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Domain", "Demo.Domain\Demo.Domain.csproj", "{1528541A-A093-4279-94DD-34EEDBA3DF4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.Domain", "Demo.Domain\Demo.Domain.csproj", "{1528541A-A093-4279-94DD-34EEDBA3DF4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.EFRepository", "Demo.EFRepository\Demo.EFRepository.csproj", "{20C5AFE9-59CA-4D2D-A699-6003C9D52D86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.EFRepository", "Demo.EFRepository\Demo.EFRepository.csproj", "{20C5AFE9-59CA-4D2D-A699-6003C9D52D86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.PresentationModel", "Demo.PresentationModel\Demo.PresentationModel.csproj", "{04E10693-A7DB-4250-8DF2-01ECF783617B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.PresentationModel", "Demo.PresentationModel\Demo.PresentationModel.csproj", "{04E10693-A7DB-4250-8DF2-01ECF783617B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Service", "Demo.Service\Demo.Service.csproj", "{3CA47DD3-98D0-4401-851E-6933B9EF6F9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.Service", "Demo.Service\Demo.Service.csproj", "{3CA47DD3-98D0-4401-851E-6933B9EF6F9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.ServiceImpl", "Demo.ServiceImpl\Demo.ServiceImpl.csproj", "{D4E8F9E6-4839-43C3-B224-0CB60BBECB85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.ServiceImpl", "Demo.ServiceImpl\Demo.ServiceImpl.csproj", "{D4E8F9E6-4839-43C3-B224-0CB60BBECB85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.WebUI", "Demo.WebUI\Demo.WebUI.csproj", "{F72A7414-011B-43C6-98A0-6E1F54633821}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.WebUI", "Demo.WebUI\Demo.WebUI.csproj", "{F72A7414-011B-43C6-98A0-6E1F54633821}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo.MongoDBRepository", "Demo.MongoDBRepository\Demo.MongoDBRepository.csproj", "{17F428D5-4E84-46E1-9F22-2B2BA9A6DD73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.ConsoleUI", "Demo.ConsoleUI\Demo.ConsoleUI.csproj", "{1B1B4F89-E9A1-4019-BF74-2EB499ECFFE8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +131,14 @@ Global
 		{F72A7414-011B-43C6-98A0-6E1F54633821}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F72A7414-011B-43C6-98A0-6E1F54633821}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F72A7414-011B-43C6-98A0-6E1F54633821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17F428D5-4E84-46E1-9F22-2B2BA9A6DD73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17F428D5-4E84-46E1-9F22-2B2BA9A6DD73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17F428D5-4E84-46E1-9F22-2B2BA9A6DD73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17F428D5-4E84-46E1-9F22-2B2BA9A6DD73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B1B4F89-E9A1-4019-BF74-2EB499ECFFE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B1B4F89-E9A1-4019-BF74-2EB499ECFFE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B1B4F89-E9A1-4019-BF74-2EB499ECFFE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B1B4F89-E9A1-4019-BF74-2EB499ECFFE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -145,6 +157,8 @@ Global
 		{3CA47DD3-98D0-4401-851E-6933B9EF6F9F} = {B11CE66D-527F-4344-BA9F-06756816FC77}
 		{D4E8F9E6-4839-43C3-B224-0CB60BBECB85} = {B11CE66D-527F-4344-BA9F-06756816FC77}
 		{F72A7414-011B-43C6-98A0-6E1F54633821} = {B11CE66D-527F-4344-BA9F-06756816FC77}
+		{17F428D5-4E84-46E1-9F22-2B2BA9A6DD73} = {B11CE66D-527F-4344-BA9F-06756816FC77}
+		{1B1B4F89-E9A1-4019-BF74-2EB499ECFFE8} = {B11CE66D-527F-4344-BA9F-06756816FC77}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ACCFD0EA-CC61-442C-8D0A-E4FF8C626326}
