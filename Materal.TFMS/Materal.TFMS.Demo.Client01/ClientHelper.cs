@@ -8,8 +8,6 @@ using NLog.Config;
 using NLog.Extensions.Logging;
 using RabbitMQ.Client;
 using System;
-using Materal.TFMS.EventBus;
-using Materal.TFMS.EventBus.RabbitMQ;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Materal.TFMS.Demo.Client01
@@ -44,10 +42,13 @@ namespace Materal.TFMS.Demo.Client01
             const string exchangeName = "MateralTFMSDemoExchangeName";
             Services.AddEventBus(queueName, exchangeName);
             Services.AddSingleton<IClient, ClientImpl>();
+            Services.AddTransient<Client01Event01Handler>();
             Services.AddTransient<Client01Event02Handler>();
             Services.AddTransient<Client01Event02Handler2>();
             Services.AddTransient<Client01Event03Handler>();
             Services.AddTransient<Client01Event03Handler2>();
+            Services.AddTransient<Client01Event04Handler>();
+            Services.AddTransient<Client01Event05Handler>();
             Services.AddLogging(builder =>
             {
                 builder.SetMinimumLevel(LogLevel.Trace);

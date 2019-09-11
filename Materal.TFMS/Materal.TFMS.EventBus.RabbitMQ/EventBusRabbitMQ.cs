@@ -85,7 +85,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             RetryPolicy policy = Policy.Handle<BrokerUnreachableException>().Or<SocketException>()
                 .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (ex, time) =>
                 {
-                    _logger?.LogWarning(ex, "发布事件失败: EventId={EventId} Timeout={Timeout} ({ExceptionMessage})", @event.ID, $"{time.TotalSeconds:n1}", ex.Message);
+                    _logger?.LogError(ex, "发布事件失败: EventId={EventId} Timeout={Timeout} ({ExceptionMessage})", @event.ID, $"{time.TotalSeconds:n1}", ex.Message);
                 });
             string eventName = @event.GetType().Name;
             _logger?.LogTrace("创建RabbitMQ发布事件通道: {EventId} ({EventName})", @event.ID, eventName);
@@ -233,7 +233,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             }
             else
             {
-                _logger?.LogWarning("未找到订阅事件: {EventName}", eventName);
+                _logger?.LogError("未找到订阅事件: {EventName}", eventName);
             }
         }
         /// <summary>
