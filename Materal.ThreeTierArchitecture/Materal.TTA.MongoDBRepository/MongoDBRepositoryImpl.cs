@@ -90,6 +90,14 @@ namespace Materal.TTA.MongoDBRepository
         {
             return _collection.DeleteOne(predicate).DeletedCount;
         }
+        public virtual async Task<long> DeleteManyAsync(Expression<Func<T, bool>> predicate)
+        {
+            return (await _collection.DeleteManyAsync(predicate)).DeletedCount;
+        }
+        public virtual long DeleteMany(Expression<Func<T, bool>> predicate)
+        {
+            return _collection.DeleteMany(predicate).DeletedCount;
+        }
 
         public virtual async Task SaveAsync(T model)
         {
@@ -112,9 +120,9 @@ namespace Materal.TTA.MongoDBRepository
             return _collection.Find(filterDefinition).ToList();
         }
 
-        public List<BsonDocument> Find(FilterDefinition<BsonDocument> filterDefinition)
+        public IFindFluent<BsonDocument, BsonDocument> Find(FilterDefinition<BsonDocument> filterDefinition)
         {
-            return _bsonCollection.Find(filterDefinition).ToList();
+            return _bsonCollection.Find(filterDefinition);
         }
 
         public virtual async Task<List<T>> FindAsync(FilterDefinition<T> filterDefinition)
@@ -122,9 +130,9 @@ namespace Materal.TTA.MongoDBRepository
             return await _collection.Find(filterDefinition).ToListAsync();
         }
 
-        public virtual async Task<List<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition)
+        public virtual Task<IAsyncCursor<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition)
         {
-            return await _mongoDatabase.GetCollection<BsonDocument>(typeof(T).Name).Find(filterDefinition).ToListAsync();
+            return _bsonCollection.FindAsync(filterDefinition);
         }
 
         public virtual async Task InsertManyAsync(IEnumerable<T> model)

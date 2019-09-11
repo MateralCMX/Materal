@@ -62,6 +62,18 @@ namespace Materal.TTA.MongoDBRepository
         /// <returns></returns>
         long Delete(Expression<Func<T, bool>> predicate);
         /// <summary>
+        /// 根据条件删除数据
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        Task<long> DeleteManyAsync(Expression<Func<T, bool>> predicate);
+        /// <summary>
+        /// 根据条件删除数据
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        long DeleteMany(Expression<Func<T, bool>> predicate);
+        /// <summary>
         /// 异步保存，没有则创建，有则更新
         /// </summary>
         /// <param name="model"></param>
@@ -84,7 +96,7 @@ namespace Materal.TTA.MongoDBRepository
         /// </summary>
         /// <param name="filterDefinition"></param>
         /// <returns></returns>
-        List<BsonDocument> Find(FilterDefinition<BsonDocument> filterDefinition);
+        IFindFluent<BsonDocument, BsonDocument> Find(FilterDefinition<BsonDocument> filterDefinition);
         /// <summary>
         /// 查询
         /// </summary>
@@ -96,7 +108,7 @@ namespace Materal.TTA.MongoDBRepository
         /// </summary>
         /// <param name="filterDefinition"></param>
         /// <returns></returns>
-        Task<List<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition);
+        Task<IAsyncCursor<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition);
         /// <summary>
         /// 批量插入数据
         /// </summary>
