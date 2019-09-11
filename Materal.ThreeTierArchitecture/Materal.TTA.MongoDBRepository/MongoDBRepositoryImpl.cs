@@ -14,12 +14,20 @@ namespace Materal.TTA.MongoDBRepository
     public class MongoDBRepositoryImpl<T, TIdentifier> : IMongoDBRepository<T, TIdentifier> where T : MongoEntity<TIdentifier>, new()
     {
         private readonly IMongoDatabase _mongoDatabase;
-        private readonly IMongoCollection<T> _collection;
+        private IMongoCollection<T> _collection;
+        private IMongoCollection<BsonDocument> _bsonCollection;
 
-        protected MongoDBRepositoryImpl(string connectionString, string dataBaseNameString)
+        protected MongoDBRepositoryImpl(string connectionString, string dataBaseNameString, string collectionNameString = null)
         {
+            if (string.IsNullOrEmpty(collectionNameString)) collectionNameString = typeof(T).Name;
             _mongoDatabase = new MongoClient(connectionString).GetDatabase(dataBaseNameString);
-            _collection = _mongoDatabase.GetCollection<T>(typeof(T).Name);
+            SelectCollection(collectionNameString);
+        }
+
+        public void SelectCollection(string collectionNameString)
+        {
+            _collection = _mongoDatabase.GetCollection<T>(collectionNameString);
+            _bsonCollection = _mongoDatabase.GetCollection<BsonDocument>(collectionNameString);
         }
 
         public virtual async Task<bool> ExistedAsync(FilterModel filterModel)
@@ -82,6 +90,14 @@ namespace Materal.TTA.MongoDBRepository
         {
             return _collection.DeleteOne(predicate).DeletedCount;
         }
+        public virtual async Task<long> DeleteManyAsync(Expression<Func<T, bool>> predicate)
+        {
+            return (await _collection.DeleteManyAsync(predicate)).DeletedCount;
+        }
+        public virtual long DeleteMany(Expression<Func<T, bool>> predicate)
+        {
+            return _collection.DeleteMany(predicate).DeletedCount;
+        }
 
         public virtual async Task SaveAsync(T model)
         {
@@ -99,14 +115,24 @@ namespace Materal.TTA.MongoDBRepository
             });
         }
 
+        public List<T> Find(FilterDefinition<T> filterDefinition)
+        {
+            return _collection.Find(filterDefinition).ToList();
+        }
+
+        public IFindFluent<BsonDocument, BsonDocument> Find(FilterDefinition<BsonDocument> filterDefinition)
+        {
+            return _bsonCollection.Find(filterDefinition);
+        }
+
         public virtual async Task<List<T>> FindAsync(FilterDefinition<T> filterDefinition)
         {
             return await _collection.Find(filterDefinition).ToListAsync();
         }
 
-        public virtual async Task<List<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition)
+        public virtual Task<IAsyncCursor<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition)
         {
-            return await _mongoDatabase.GetCollection<BsonDocument>(typeof(T).Name).Find(filterDefinition).ToListAsync();
+            return _bsonCollection.FindAsync(filterDefinition);
         }
 
         public virtual async Task InsertManyAsync(IEnumerable<T> model)
@@ -117,6 +143,30 @@ namespace Materal.TTA.MongoDBRepository
         public virtual void InsertMany(IEnumerable<T> model)
         {
             _collection.InsertMany(model);
+        }
+
+        public Task<IAsyncCursor<T>> FindDocumentAsync(FilterDefinition<T> filterDefinition)
+        {
+            return _collection.FindAsync(filterDefinition);
+        }
+
+        public IFindFluent<T, T> FindDocument(Expression<Func<T, bool>> expression)
+        {
+            return _collection.Find(expression);
+        }
+        public Task<IAsyncCursor<T>> FindDocumentAsync(Expression<Func<T, bool>> expression)
+        {
+            return _collection.FindAsync(expression);
+        }
+
+        public IFindFluent<T, T> FindDocument(FilterModel filterModel)
+        {
+            return FindDocument(filterModel.GetSearchExpression<T>());
+        }
+
+        public Task<IAsyncCursor<T>> FindDocumentAsync(FilterModel filterModel)
+        {
+            return FindDocumentAsync(filterModel.GetSearchExpression<T>());
         }
 
         public virtual IQueryable<T> Where(Expression<Func<T, bool>> expression)
@@ -166,7 +216,7 @@ namespace Materal.TTA.MongoDBRepository
 
         public virtual List<T> Find(Expression<Func<T, bool>> expression)
         {
-            return _collection.Find(expression).ToList();
+            return FindDocument(expression).ToList();
         }
 
         public virtual List<T> Find(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression)
@@ -191,7 +241,7 @@ namespace Materal.TTA.MongoDBRepository
 
         public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression)
         {
-            return (await _collection.FindAsync(expression)).ToList();
+            return (await FindDocumentAsync(expression)).ToList();
         }
 
         public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Func<T, object> orderExpression)

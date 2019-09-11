@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using Materal.Model;
 using Materal.TTA.Common;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Materal.TTA.MongoDBRepository
 {
@@ -13,7 +14,11 @@ namespace Materal.TTA.MongoDBRepository
     /// </summary>
     public interface IMongoDBRepository<T,in TPrimaryKeyType> : IRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
     {
-
+        /// <summary>
+        /// 选择集合
+        /// </summary>
+        /// <param name="collectionNameString"></param>
+        void SelectCollection(string collectionNameString);
         /// <summary>
         /// 总数
         /// </summary>
@@ -57,6 +62,18 @@ namespace Materal.TTA.MongoDBRepository
         /// <returns></returns>
         long Delete(Expression<Func<T, bool>> predicate);
         /// <summary>
+        /// 根据条件删除数据
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        Task<long> DeleteManyAsync(Expression<Func<T, bool>> predicate);
+        /// <summary>
+        /// 根据条件删除数据
+        /// </summary>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        long DeleteMany(Expression<Func<T, bool>> predicate);
+        /// <summary>
         /// 异步保存，没有则创建，有则更新
         /// </summary>
         /// <param name="model"></param>
@@ -73,13 +90,25 @@ namespace Materal.TTA.MongoDBRepository
         /// </summary>
         /// <param name="filterDefinition"></param>
         /// <returns></returns>
+        List<T> Find(FilterDefinition<T> filterDefinition);
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <param name="filterDefinition"></param>
+        /// <returns></returns>
+        IFindFluent<BsonDocument, BsonDocument> Find(FilterDefinition<BsonDocument> filterDefinition);
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <param name="filterDefinition"></param>
+        /// <returns></returns>
         Task<List<T>> FindAsync(FilterDefinition<T> filterDefinition);
         /// <summary>
         /// 查询
         /// </summary>
         /// <param name="filterDefinition"></param>
         /// <returns></returns>
-        Task<List<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition);
+        Task<IAsyncCursor<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition);
         /// <summary>
         /// 批量插入数据
         /// </summary>
@@ -91,5 +120,36 @@ namespace Materal.TTA.MongoDBRepository
         /// </summary>
         /// <param name="model"></param>
         void InsertMany(IEnumerable<T> model);
+
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <param name="filterDefinition"></param>
+        /// <returns></returns>
+        Task<IAsyncCursor<T>> FindDocumentAsync(FilterDefinition<T> filterDefinition);
+        /// <summary>
+        /// 查找
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns></returns>
+        IFindFluent<T, T> FindDocument(Expression<Func<T, bool>> expression);
+        /// <summary>
+        /// 查找
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <returns></returns>
+        Task<IAsyncCursor<T>> FindDocumentAsync(Expression<Func<T, bool>> expression);
+        /// <summary>
+        /// 查找
+        /// </summary>
+        /// <param name="filterModel">过滤器模型</param>
+        /// <returns></returns>
+        IFindFluent<T, T> FindDocument(FilterModel filterModel);
+        /// <summary>
+        /// 查找
+        /// </summary>
+        /// <param name="filterModel">过滤器模型</param>
+        /// <returns></returns>
+        Task<IAsyncCursor<T>> FindDocumentAsync(FilterModel filterModel);
     }
 }

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />
+    <ProjectReference Include="..\Materal.TTA.MongoDBRepository\Materal.TTA.MongoDBRepository.csproj" />
   </ItemGroup>
 
 </Project>

@@ -29,6 +29,9 @@ namespace Demo.DependencyInjection
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Demo.EFRepository"))
                 .Where(c => c.Name.EndsWith("RepositoryImpl"))
                 .AsPublicImplementedInterfaces();
+            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Demo.MongoDBRepository"))
+                .Where(c => c.Name.EndsWith("RepositoryImpl"))
+                .AsPublicImplementedInterfaces();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Demo.ServiceImpl"))
                 .Where(c => c.Name.EndsWith("ServiceImpl"))
                 .AsPublicImplementedInterfaces();

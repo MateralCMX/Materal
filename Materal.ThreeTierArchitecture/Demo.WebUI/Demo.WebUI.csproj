@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Demo.DependencyInjection\Demo.DependencyInjection.csproj" />
     <ProjectReference Include="..\Demo.EFRepository\Demo.EFRepository.csproj" />
+    <ProjectReference Include="..\Demo.MongoDBRepository\Demo.MongoDBRepository.csproj" />
     <ProjectReference Include="..\Demo.PresentationModel\Demo.PresentationModel.csproj" />
     <ProjectReference Include="..\Demo.ServiceImpl\Demo.ServiceImpl.csproj" />
   </ItemGroup>
