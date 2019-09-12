@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +13,7 @@ namespace Materal.TFMS.EventBus
         /// <summary>
         /// 处理器组
         /// </summary>
-        private readonly ConcurrentDictionary<string, List<SubscriptionInfo>> _handlers;
+        private readonly Dictionary<string, List<SubscriptionInfo>> _handlers;
         /// <summary>
         /// 事件类型
         /// </summary>
@@ -26,7 +25,7 @@ namespace Materal.TFMS.EventBus
         /// </summary>
         public InMemoryEventBusSubscriptionsManager()
         {
-            _handlers = new ConcurrentDictionary<string, List<SubscriptionInfo>>();
+            _handlers = new Dictionary<string, List<SubscriptionInfo>>();
             _eventTypes = new List<Type>();
         }
 
@@ -109,7 +108,7 @@ namespace Materal.TFMS.EventBus
             if (eventName == null) throw new ArgumentNullException(nameof(eventName));
             if (!HasSubscriptionsForEvent(eventName))
             {
-                _handlers.TryAdd(eventName, new List<SubscriptionInfo>());
+                _handlers.Add(eventName, new List<SubscriptionInfo>());
             }
 
             if (_handlers[eventName].Any(m => m.HandlerType == handlerType))
@@ -133,7 +132,7 @@ namespace Materal.TFMS.EventBus
             if (!_handlers.ContainsKey(eventName)) throw new ArgumentException($"未注册事件{eventName}", nameof(eventName));
             _handlers[eventName].Remove(subscriptionInfo);
             if (_handlers[eventName].Any()) return;
-            _handlers.TryRemove(eventName,out _);
+            _handlers.Remove(eventName);
             Type eventType = GetEventTypeByName(eventName);
             if (eventType != null) _eventTypes.Remove(eventType);
             OnEventRemoved?.Invoke(this, eventName);

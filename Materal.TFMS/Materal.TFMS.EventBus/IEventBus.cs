@@ -40,5 +40,9 @@
         /// <param name="eventName"></param>
         void UnsubscribeDynamic<THandler>(string eventName)
             where THandler : IDynamicIntegrationEventHandler;
+        /// <summary>
+        /// 开始监听
+        /// </summary>
+        void StartListening();
     }
 }

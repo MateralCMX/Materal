@@ -63,7 +63,8 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="queueName">队列名称</param>
         /// <param name="exchangeName">交换机名称</param>
         /// <param name="retryCount">重试次数</param>
-        public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger, IServiceProvider service, IEventBusSubscriptionsManager subsManager, string queueName, string exchangeName = "MateralTFMSEventBusExchange", int retryCount = 5)
+        /// <param name="autoListening"></param>
+        public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger, IServiceProvider service, IEventBusSubscriptionsManager subsManager, string queueName, string exchangeName = "MateralTFMSEventBusExchange", int retryCount = 5, bool autoListening = true)
         {
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -74,6 +75,13 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             _exchangeName = exchangeName;
             _consumerChannel = CreateConsumerChannel();
             _subsManager.OnEventRemoved += SubsManager_OnEventRemoved;
+            if (autoListening)
+            {
+                StartListening();
+            }
+        }
+        public void StartListening()
+        {
             StartBasicConsume();
         }
         public void Publish(IntegrationEvent @event)
@@ -188,13 +196,15 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 {
                     throw new InvalidOperationException($"异常请求: \"{message}\"");
                 }
-                await ProcessEvent(eventName, message);
+                if (await TryProcessEvent(eventName, message))
+                {
+                    _consumerChannel.BasicAck(eventArgs.DeliveryTag, false);
+                }
             }
             catch (Exception ex)
             {
                 _logger?.LogWarning(ex, "错误消息: \"{Message}\"", message);
             }
-            _consumerChannel.BasicAck(eventArgs.DeliveryTag, false);
         }
         /// <summary>
         /// 处理事件
@@ -202,9 +212,10 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="eventName"></param>
         /// <param name="message"></param>
         /// <returns></returns>
-        private async Task ProcessEvent(string eventName, string message)
+        private async Task<bool> TryProcessEvent(string eventName, string message)
         {
             _logger?.LogTrace("处理事件: {EventName}", eventName);
+            var result = false;
             if (_subsManager.HasSubscriptionsForEvent(eventName))
             {
                 IEnumerable<SubscriptionInfo> subscriptions = _subsManager.GetHandlersForEvent(eventName);
@@ -229,12 +240,15 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                         await Task.Yield();
                         await (Task)handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
                     }
+                    _logger?.LogTrace("处理器{EventHandlerName}执行完毕", subscription.HandlerType.Name);
                 }
+                result= true;
             }
             else
             {
                 _logger?.LogError("未找到订阅事件: {EventName}", eventName);
             }
+            return result;
         }
         /// <summary>
         /// 事件移除
