@@ -1,4 +1,5 @@
 ﻿using Materal.StringHelper;
+using System.Collections.Generic;
 
 namespace Materal.ConsoleApp
 {
@@ -6,7 +7,7 @@ namespace Materal.ConsoleApp
     {
         public static void Main(string[] args)
         {
-            string path = "党员账号".GetChinesePinYin();
+            IEnumerable<string> path = "党员账号".GetChinesePinYin();
         }
     }
 }
