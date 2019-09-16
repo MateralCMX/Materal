@@ -105,7 +105,7 @@ namespace Materal.WordHelper
                 {
                     (string tableName, List<KeyValuePair<int, string>> colNames) = GetTableNameAndColName(tableContent, rowIndex);
                     if (string.IsNullOrEmpty(tableName)) continue;
-                    TableTemplateModel tableTemplate = tableTemplates.FirstOrDefault(m => m.Value.TableName == tableName);
+                    TableTemplateModel tableTemplate = tableTemplates.FirstOrDefault(m => m.Key == tableName);
                     if (tableTemplate == null) continue;
                     ApplyToTableTemplate(tableContent, tableTemplate, colNames);
                     isApply = true;
