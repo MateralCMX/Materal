@@ -63,9 +63,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Model", "Materal.Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Model.Example", "Materal.Model.Example\Materal.Model.Example.csproj", "{06BA039D-CDAF-41EE-AAFD-A3319D023698}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.RabbitMQHelper.ClientExample", "Materal.RabbitMQHelper.ClientExample\Materal.RabbitMQHelper.ClientExample.csproj", "{DB8D876F-C89D-4C50-8BC3-472AB061FD1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.RabbitMQHelper.ClientExample", "Materal.RabbitMQHelper.ClientExample\Materal.RabbitMQHelper.ClientExample.csproj", "{DB8D876F-C89D-4C50-8BC3-472AB061FD1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.RabbitMQHelper.ServerExample", "Materal.RabbitMQHelper.ServerExample\Materal.RabbitMQHelper.ServerExample.csproj", "{B5B25450-5E89-4D06-B18E-B901993E88C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.RabbitMQHelper.ServerExample", "Materal.RabbitMQHelper.ServerExample\Materal.RabbitMQHelper.ServerExample.csproj", "{B5B25450-5E89-4D06-B18E-B901993E88C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WordHelper", "Materal.WordHelper\Materal.WordHelper.csproj", "{453C0404-CEA8-46D2-91F4-C6545856FA5D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WordHelper.Example", "Materal.WordHelper.Example\Materal.WordHelper.Example.csproj", "{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -193,6 +197,14 @@ Global
 		{B5B25450-5E89-4D06-B18E-B901993E88C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5B25450-5E89-4D06-B18E-B901993E88C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5B25450-5E89-4D06-B18E-B901993E88C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{453C0404-CEA8-46D2-91F4-C6545856FA5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{453C0404-CEA8-46D2-91F4-C6545856FA5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{453C0404-CEA8-46D2-91F4-C6545856FA5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{453C0404-CEA8-46D2-91F4-C6545856FA5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -208,6 +220,7 @@ Global
 		{06BA039D-CDAF-41EE-AAFD-A3319D023698} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 		{DB8D876F-C89D-4C50-8BC3-472AB061FD1A} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 		{B5B25450-5E89-4D06-B18E-B901993E88C2} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
+		{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44D71214-490E-42D6-969C-BDC35C93BEA5}
