@@ -1,6 +1,7 @@
 ﻿using AspectCore.DynamicProxy;
 using Materal.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -29,11 +30,18 @@ namespace Materal.Model
                 Type parameterType = contextParameter.GetType();
                 if (parameterType.IsClass)
                 {
-                    if (contextParameter is string contextString)
+                    switch (contextParameter)
                     {
-                        ValidValue(parameterInfos[i], contextString);
+                        case string contextString:
+                            ValidValue(parameterInfos[i], contextString);
+                            break;
+                        case ICollection contextCollection:
+                            ValidValue(parameterInfos[i], contextCollection);
+                            break;
+                        default:
+                            ValidClass(contextParameter, parameterType);
+                            break;
                     }
-                    ValidClass(contextParameter, parameterType);
                 }
                 else
                 {
