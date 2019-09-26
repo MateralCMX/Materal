@@ -41,22 +41,19 @@ namespace Materal.Model
                 }
             }
         }
-
+        /// <summary>
+        /// 验证值
+        /// </summary>
+        /// <param name="parameterInfo"></param>
+        /// <param name="contextParameter"></param>
         private void ValidValue(ParameterInfo parameterInfo, object contextParameter)
         {
             List<ValidationAttribute> customAttributes = parameterInfo.GetCustomAttributes<ValidationAttribute>().ToList();
             if (customAttributes.Count <= 0) return;
             ValidationAttribute requiredAttribute = customAttributes.FirstOrDefault(m => m is RequiredAttribute);
-            if (requiredAttribute != null)
+            if (requiredAttribute != null || !contextParameter.IsNullOrEmptyString())
             {
                 Valid(customAttributes, contextParameter);
-            }
-            else
-            {
-                if (!contextParameter.IsNullOrEmptyString())
-                {
-                    Valid(customAttributes, contextParameter);
-                }
             }
         }
         /// <summary>
@@ -69,20 +66,13 @@ namespace Materal.Model
             PropertyInfo[] propertyInfos = parameterType.GetProperties();
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
+                object value = propertyInfo.GetValue(contextParameter);
                 List<ValidationAttribute> customAttributes = propertyInfo.GetCustomAttributes<ValidationAttribute>().ToList();
                 if (customAttributes.Count <= 0) continue;
-                object value = propertyInfo.GetValue(contextParameter);
                 ValidationAttribute requiredAttribute = customAttributes.FirstOrDefault(m => m is RequiredAttribute);
-                if (requiredAttribute != null)
+                if (requiredAttribute != null || !value.IsNullOrEmptyString())
                 {
                     Valid(customAttributes, value);
-                }
-                else
-                {
-                    if (!value.IsNullOrEmptyString())
-                    {
-                        Valid(customAttributes, value);
-                    }
                 }
             }
         }
