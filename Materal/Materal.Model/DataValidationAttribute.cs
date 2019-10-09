@@ -27,6 +27,11 @@ namespace Materal.Model
             for (var i = 0; i < parameterInfos.Length; i++)
             {
                 object contextParameter = context.Parameters[i];
+                if (contextParameter == null)
+                {
+                    ValidNull(parameterInfos[i]);
+                    continue;
+                }
                 Type parameterType = contextParameter.GetType();
                 if (parameterType.IsClass)
                 {
@@ -47,6 +52,20 @@ namespace Materal.Model
                 {
                     ValidValue(parameterInfos[i], contextParameter);
                 }
+            }
+        }
+        /// <summary>
+        /// 验证空
+        /// </summary>
+        /// <param name="parameterInfo"></param>
+        private void ValidNull(ParameterInfo parameterInfo)
+        {
+            List<ValidationAttribute> customAttributes = parameterInfo.GetCustomAttributes<ValidationAttribute>().ToList();
+            if (customAttributes.Count <= 0) return;
+            ValidationAttribute requiredAttribute = customAttributes.FirstOrDefault(m => m is RequiredAttribute);
+            if (requiredAttribute != null)
+            {
+                throw new InvalidOperationException(requiredAttribute.ErrorMessage);
             }
         }
         /// <summary>
