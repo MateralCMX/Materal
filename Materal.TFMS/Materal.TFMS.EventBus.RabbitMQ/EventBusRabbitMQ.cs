@@ -203,7 +203,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             }
             catch (Exception ex)
             {
-                _logger?.LogWarning(ex, "错误消息: \"{Message}\"", message);
+                _logger?.LogError(ex, "错误消息: \"{Message}\"", message);
             }
         }
         /// <summary>
