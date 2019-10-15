@@ -1,0 +1,9 @@
+[
+  {
+    "ID": "3113616C-FD80-449F-BDE7-1E6E4078D8AF",
+    "Name": "测试网页",
+    "AppPath": "Materal.ConDep.WebDemo",
+    "MainModuleName": "Materal.ConDep.WebDemo.dll",
+    "Parameters": "--urls=http://[*]:8080"
+  }
+]

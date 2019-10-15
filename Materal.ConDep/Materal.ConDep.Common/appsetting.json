@@ -1,0 +1,17 @@
+{
+  "Application": {
+    "ConDepServer": {
+      "UserLibuv": true,
+      "Host": "192.168.0.107",
+      "Port": 8910,
+      "IsSsl": false,
+      "CertificatePath": "",
+      "CertificatePassword": "",
+      "MaxMessageLength": 10000000,
+      "NotShowCommandBlackList": [
+        "UploadPartCommandHandler"
+      ]
+    },
+    "OperatingPassword": "123456" 
+  }
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>主页</title>
+    <style>
+        .top-bar{
+            margin-bottom: 20px;
+        }
+        .top-bar button,
+        .content-container button,
+        .top-bar a,
+        .content-container a{
+            display: inline-block;
+            border:0;
+            background-color: cornflowerblue;
+            color:#fff;
+            margin: 0 5px;
+            padding: 5px 8px;
+            border-radius: 3px;
+            text-decoration: none;
+            font-size: 12px;
+        }
+        
+        .content-container{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+        .content-container table{
+            width: 50%;
+            border:solid 1px #ddd;
+            border-collapse: collapse;
+            box-sizing: border-box;
+            margin-right: 20px;
+        }
+        .content-container table td,
+        .content-container table th{
+            padding: 5px;
+            border:solid 1px #ddd;
+            font-size: 14px;
+            font-family: Microsoft Yahei;
+        }
+        .content-container table th{
+            background-color:#f1f1f1;
+        }
+        .content-container .console-panel{
+            width: 50%;
+            box-sizing: border-box;
+            padding: 20px;
+            background: #000;
+            color:#fff;
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>持续发布系统</h1>
+    <div class="top-bar">
+        <a href="AddApplication">新增一个应用</a>
+        <a href="UploadApplicationPack">上传程序包</a>
+        <button id="btnStartAllApp" type="button">全部启动</button>
+        <button id="btnRestartAllApp" type="button">全部重启</button>
+        <button id="btnStopAllApp" type="button">全部停止</button>
+    </div>
+    <div class="content-container">
+        <table>
+            <thead>
+                <th>名称</th>
+                <th>当前状态</th>
+                <th>操作</th>
+            </thead>
+            <tbody id="dataTableBody">
+            </tbody>
+        </table>
+        <div id="consolePanel" class="console-panel"></div>
+    </div>
+    <script src="/Libs/Materal/Materal.min.js"></script>
+    <script src="/Scripts/Common/Common.js"></script>
+    <script src="/Repositorys/AppRepository.js"></script>
+    <script src="/Scripts/Index/Index.js"></script>
+</body>
+
+</html>

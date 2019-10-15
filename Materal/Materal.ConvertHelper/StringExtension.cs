@@ -44,6 +44,25 @@ namespace Materal.ConvertHelper
         /// <summary>
         /// Json字符串转换对象
         /// </summary>
+        /// <param name="jsonStr"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static object JsonToObject(this string jsonStr, Type type)
+        {
+            try
+            {
+                object model = Activator.CreateInstance(type);
+                JsonConvert.PopulateObject(jsonStr, model);
+                return model;
+            }
+            catch (Exception ex)
+            {
+                throw new MateralConvertException("Json字符串有误", ex);
+            }
+        }
+        /// <summary>
+        /// Json字符串转换对象
+        /// </summary>
         /// <typeparam name="T">目标对象类型</typeparam>
         /// <param name="jsonStr">Json字符串</param>
         /// <returns>转换后的对象</returns>

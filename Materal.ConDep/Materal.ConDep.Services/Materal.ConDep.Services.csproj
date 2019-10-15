@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
+    <PackageReference Include="Materal.WindowsHelper" Version="1.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ConDep.Commands\Materal.ConDep.Commands.csproj" />
+    <ProjectReference Include="..\Materal.ConDep.Common\Materal.ConDep.Common.csproj" />
+    <ProjectReference Include="..\Materal.ConDep.Events\Materal.ConDep.Events.csproj" />
+    <ProjectReference Include="..\Materal.ConDep.Manager\Materal.ConDep.Manager.csproj" />
+  </ItemGroup>
+
+</Project>
