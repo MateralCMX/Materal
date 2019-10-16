@@ -15,7 +15,7 @@ namespace Materal.ConDep.Manager.Enums
         /// <summary>
         /// 开始
         /// </summary>
-        [Description("开始")]
+        [Description("运行中")]
         Start,
         /// <summary>
         /// 停止中

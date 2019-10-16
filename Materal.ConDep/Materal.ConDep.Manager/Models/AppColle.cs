@@ -124,14 +124,34 @@ namespace Materal.ConDep.Manager.Models
         /// </summary>
         public void StartAll()
         {
-            Parallel.ForEach(apps, app => app.Start());
+            foreach (AppModel app in apps)
+            {
+                app.Start();
+            }
         }
         /// <summary>
         /// 停止所有
         /// </summary>
         public void StopAll()
         {
-            Parallel.ForEach(apps, app => app.Stop());
+            foreach (AppModel app in apps)
+            {
+                app.Stop();
+            }
+        }
+        /// <summary>
+        /// 根据路径停止
+        /// </summary>
+        /// <param name="paths"></param>
+        public void StopByPath(params string[] paths)
+        {
+            foreach (AppModel app in apps)
+            {
+                if (paths.Contains(app.AppPath))
+                {
+                    app.Stop();
+                }
+            }
         }
         /// <summary>
         /// ID索引

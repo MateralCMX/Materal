@@ -22,7 +22,7 @@ namespace Materal.ConDep.Services
         private readonly Dictionary<IChannel, IFileModel> _uploadPool = new Dictionary<IChannel, IFileModel>();
         public UploadPoolServiceImpl()
         {
-            workingDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}Application/";
+            workingDirectory = $"{AppDomain.CurrentDomain.BaseDirectory}Application\\";
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
         }
@@ -80,9 +80,43 @@ namespace Materal.ConDep.Services
         private async Task UpdateAppFileAsync(string path)
         {
             var appManager = ApplicationData.GetService<IAppManager>();
-            appManager.StopAllApp();
+            string tempPath = $"{workingDirectory}Temp";
+            DirectoryInfo tempDirectoryInfo = null;
+            if (!Directory.Exists(tempPath)) tempDirectoryInfo = Directory.CreateDirectory(tempPath);
+            if (tempDirectoryInfo == null) tempDirectoryInfo = new DirectoryInfo(tempPath);
             var cmdManager = new CmdManager();
-            await cmdManager.RunCmdCommandsAsync($"unrar x -o+ -y {path} {workingDirectory}");
+            await cmdManager.RunCmdCommandsAsync($"unrar x -o+ -y {path} {tempPath}");
+            DirectoryInfo[] directoryInfos = tempDirectoryInfo.GetDirectories();
+            string[] paths = directoryInfos.Select(m => m.Name).ToArray();
+            appManager.StopAppByPaths(paths);
+            foreach (DirectoryInfo directoryInfo in directoryInfos)
+            {
+                string dirPath = $"{workingDirectory}{directoryInfo.Name}";
+                CopyDirectory(directoryInfo, dirPath);
+                directoryInfo.Delete();
+            }
+        }
+
+        private void CopyDirectory(DirectoryInfo directoryInfo, string targetPath)
+        {
+            #region CopyFile
+            FileInfo[] fileInfos = directoryInfo.GetFiles();
+            foreach (FileInfo fileInfo in fileInfos)
+            {
+                string filePath = Path.Combine(targetPath, fileInfo.Name);
+                if (File.Exists(filePath)) File.Delete(filePath);
+                File.Move(fileInfo.FullName, filePath);
+            }
+            #endregion
+            #region CopyChildDirectory
+            DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
+            foreach (DirectoryInfo info in directoryInfos)
+            {
+                string dirPath = Path.Combine(targetPath, info.Name);
+                if (Directory.Exists(dirPath)) Directory.Delete(dirPath, true);
+                Directory.Move(info.FullName, dirPath);
+            }
+            #endregion
         }
     }
 }

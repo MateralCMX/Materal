@@ -27,6 +27,10 @@ namespace Materal.ConDep.Manager
         {
             _appCollection.StopAll();
         }
+        public void StopAppByPaths(params string[] paths)
+        {
+            _appCollection.StopByPath(paths);
+        }
         public async Task AddAppAsync(AppModel appModel)
         {
             _appCollection.Add(appModel);

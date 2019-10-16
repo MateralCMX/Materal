@@ -26,6 +26,11 @@ namespace Materal.ConDep.Manager
         /// <returns></returns>
         void StopAllApp();
         /// <summary>
+        /// 根据路径停止
+        /// </summary>
+        /// <param name="paths"></param>
+        void StopAppByPaths(params string[] paths);
+        /// <summary>
         /// 添加一个应用
         /// </summary>
         /// <param name="appModel"></param>
