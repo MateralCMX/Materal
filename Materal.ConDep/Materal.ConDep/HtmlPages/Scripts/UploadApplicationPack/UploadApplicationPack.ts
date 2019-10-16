@@ -45,7 +45,7 @@ namespace Materal.ConDep.Scripts {
             reader: null,
             index: 0,
             fileSize: 0,
-            readSize: 2048
+            readSize: 20480
         };
         private uploadStart() {
             if (this._inputFile.files == null) return;
