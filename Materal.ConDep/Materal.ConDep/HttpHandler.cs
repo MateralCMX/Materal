@@ -1,4 +1,10 @@
-﻿using DotNetty.Buffers;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using DotNetty.Buffers;
 using DotNetty.Codecs.Http;
 using Materal.ConDep.Authority;
 using Materal.ConDep.Common;
@@ -6,37 +12,27 @@ using Materal.ConvertHelper;
 using Materal.Model;
 using Materal.WebSocket.Http;
 using Materal.WebSocket.Http.Attributes;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using DotNetty.Common.Utilities;
 
 namespace Materal.ConDep
 {
-    public class WebSocketServerBenchmarkPage
+    public class HttpHandler
     {
         /// <summary>
-        /// 获取应答
+        /// 获得返回
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        public static DefaultFullHttpResponse GetResponse(IFullHttpRequest request)
+        public DefaultFullHttpResponse GetResponse(IFullHttpRequest request)
         {
-            if (request.Uri.LastIndexOf("/api", StringComparison.Ordinal) == 0)
-            {
-                return GetAPI(request);
-            }
-            return GetFiles(request.Uri);
+            return request.Uri.LastIndexOf("/api", StringComparison.Ordinal) == 0 ? GetAPIResponse(request) : GetFileResponse(request);
         }
+        #region 私有方法
         /// <summary>
-        /// 获得接口
+        /// 获得API返回
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        private static DefaultFullHttpResponse GetAPI(IFullHttpRequest request)
+        private DefaultFullHttpResponse GetAPIResponse(IFullHttpRequest request)
         {
             try
             {
@@ -52,7 +48,6 @@ namespace Materal.ConDep
                 return GetFailResult(ex.Message);
             }
         }
-
         /// <summary>
         /// 执行方法
         /// </summary>
@@ -60,15 +55,15 @@ namespace Materal.ConDep
         /// <param name="controller"></param>
         /// <param name="actionName"></param>
         /// <returns></returns>
-        private static DefaultFullHttpResponse InvokeAction(IFullHttpRequest request, object controller, string actionName)
+        private DefaultFullHttpResponse InvokeAction(IFullHttpRequest request, object controller, string actionName)
         {
             Type controllerType = controller.GetType();
             MethodInfo action = controllerType.GetMethod(actionName);
-            if (action == null) return GetFailResult("未找到方法");
+            if (action == null) return GetResponse(HttpResponseStatus.NotFound, "未找到方法");
+            if (!CanMethodSuccess(request, action)) return GetResponse(HttpResponseStatus.BadRequest, "Method错误");
             string bodyParams = GetBodyParams(request);
             Dictionary<string, string> urlParams = GetUrlParams(request);
-            if (!CanLoginSuccess(action, bodyParams, urlParams)) return GetFailResult("请登录");
-            if (!CanMethodSuccess(request, action)) return GetFailResult("Method错误");
+            if (!CanLoginSuccess(action, bodyParams, urlParams)) return GetResponse(HttpResponseStatus.Unauthorized, "未登录");
             ParameterInfo[] parameters = action.GetParameters();
             var objects = new object[parameters.Length];
             object actionResult;
@@ -94,10 +89,7 @@ namespace Materal.ConDep
             switch (actionResult)
             {
                 case ResultModel resultModel:
-                    IByteBuffer body = Unpooled.WrappedBuffer(Encoding.UTF8.GetBytes(resultModel.ToJson()));
-                    var response = new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.OK, body);
-                    response.Headers.Set(HttpHeaderNames.ContentType, "application/json; charset=UTF-8");
-                    return response;
+                    return GetResponse(HttpResponseStatus.OK, resultModel.ToJson());
             }
             return GetFailResult("返回错误");
         }
@@ -107,7 +99,7 @@ namespace Materal.ConDep
         /// <param name="request"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        private static bool CanMethodSuccess(IFullHttpRequest request, MethodInfo action)
+        private bool CanMethodSuccess(IFullHttpRequest request, MethodInfo action)
         {
             Attribute[] attribute = action.GetCustomAttributes().ToArray();
             if (request.Method.Name == "GET" && attribute.Any(m => m is HttpGetAttribute) ||
@@ -124,7 +116,7 @@ namespace Materal.ConDep
         /// <param name="bodyParams"></param>
         /// <param name="urlParams"></param>
         /// <returns></returns>
-        private static bool CanLoginSuccess(MemberInfo action, string bodyParams, IReadOnlyDictionary<string, string> urlParams)
+        private bool CanLoginSuccess(MemberInfo action, string bodyParams, IReadOnlyDictionary<string, string> urlParams)
         {
             Attribute[] attribute = action.GetCustomAttributes().ToArray();
             if (attribute.Any(m => m is AllowAnonymousAttribute)) return true;
@@ -150,7 +142,7 @@ namespace Materal.ConDep
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        private static string GetBodyParams(IFullHttpRequest request)
+        private string GetBodyParams(IFullHttpRequest request)
         {
             string @params = request.Content.ReadString(request.Content.Capacity, Encoding.UTF8);
             return @params;
@@ -160,7 +152,7 @@ namespace Materal.ConDep
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        private static Dictionary<string, string> GetUrlParams(IFullHttpRequest request)
+        private Dictionary<string, string> GetUrlParams(IFullHttpRequest request)
         {
             var @params = new Dictionary<string, string>();
             string[] tempString = request.Uri.Split('?');
@@ -175,45 +167,64 @@ namespace Materal.ConDep
             return @params;
         }
         /// <summary>
-        /// 获得失败返回
+        /// 获得文件返回
         /// </summary>
-        /// <param name="message"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        private static DefaultFullHttpResponse GetFailResult(string message)
-        {
-            IByteBuffer body = Unpooled.WrappedBuffer(Encoding.UTF8.GetBytes(ResultModel.Fail(message).ToJson()));
-            var response = new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.OK, body);
-            response.Headers.Set(HttpHeaderNames.AccessControlAllowOrigin, "*");
-            response.Headers.Set(HttpHeaderNames.ContentLength, "body.Length");
-            response.Headers.Set(HttpHeaderNames.ContentType, "application/json; charset=utf-8");
-            response.Headers.Set(HttpHeaderNames.Date, DateTime.Now);
-            response.Headers.Set(HttpHeaderNames.Server, "Materal.ConDep");
-            response.Headers.Set(HttpHeaderNames.Vary, "Accept-Encoding");
-            return response;
-        }
-        /// <summary>
-        /// 获取文件
-        /// </summary>
-        /// <param name="pageName"></param>
-        /// <returns></returns>
-        private static DefaultFullHttpResponse GetFiles(string pageName)
+        private DefaultFullHttpResponse GetFileResponse(IFullHttpRequest request)
         {
 #if DEBUG
             const string basePath = @"E:/Project/Materal/Project/Materal.ConDep/Materal.ConDep/";
 #else
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
 #endif
-            string actionName = pageName.Split('?')[0];
-            string filePath = pageName.Contains(".") ? $"{basePath}HtmlPages{actionName}" : $"{basePath}HtmlPages{actionName}.html";
-            if (!File.Exists(filePath)) filePath = basePath + "/HtmlPages/404.html";
+            string fileName = request.Uri.Split('?')[0];
+            bool isHtml = !fileName.Contains(".");
+            string filePath = isHtml ? $"{basePath}HtmlPages{fileName}.html" : $"{basePath}HtmlPages{fileName}";
+            if (!File.Exists(filePath))
+            {
+                if (isHtml) filePath = basePath + "/HtmlPages/404.html";
+                else
+                {
+                    return GetResponse(HttpResponseStatus.NotFound);
+                }
+            }
             using (var streamReader = new StreamReader(filePath))
             {
-                string htmlText = streamReader.ReadToEnd();
-                IByteBuffer body = Unpooled.WrappedBuffer(Encoding.UTF8.GetBytes(htmlText));
-                var result = new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.OK, body);
-                result.Headers.Set(HttpHeaderNames.ContentType, "text/html; charset=UTF-8");
-                return result;
+                string fileText = streamReader.ReadToEnd();
+                if (isHtml) return GetResponse(HttpResponseStatus.OK, fileText);
+                if (fileName.Contains(".js")) return GetResponse(HttpResponseStatus.OK, fileText, "application/javascript");
+                if (fileName.Contains(".css")) return GetResponse(HttpResponseStatus.OK, fileText, "text/css");
             }
+            return GetResponse(HttpResponseStatus.NotFound);
         }
+        /// <summary>
+        /// 获得失败返回
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private DefaultFullHttpResponse GetFailResult(string message)
+        {
+            return GetResponse(HttpResponseStatus.OK, ResultModel.Fail(message).ToJson());
+        }
+        /// <summary>
+        /// 获得返回
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="bodyString"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
+        private DefaultFullHttpResponse GetResponse(HttpResponseStatus status, string bodyString = "", string contentType = "text/html; charset=UTF-8")
+        {
+            IByteBuffer body = Unpooled.WrappedBuffer(Encoding.UTF8.GetBytes(bodyString));
+            var response = new DefaultFullHttpResponse(HttpVersion.Http11, status, body);
+            response.Headers.Set(HttpHeaderNames.AccessControlAllowOrigin, "*");
+            response.Headers.Set(HttpHeaderNames.ContentType, $"{contentType}");
+            response.Headers.Set(HttpHeaderNames.ContentLength, body.ReadableBytes);
+            response.Headers.Set(HttpHeaderNames.Date, DateTime.Now);
+            response.Headers.Set(HttpHeaderNames.Server, "Materal.ConDep");
+            return response;
+        }
+        #endregion
     }
 }

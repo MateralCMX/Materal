@@ -73,11 +73,9 @@ namespace Materal.ConDep
                 SendHttpResponse(ctx, req, res);
                 return;
             }
-            IByteBuffer content = WebSocketServerBenchmarkPage.GetResponse(req);
-            var result = new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.OK, content);
-            result.Headers.Set(HttpHeaderNames.ContentType, "text/html; charset=UTF-8");
-            HttpUtil.SetContentLength(result, content.ReadableBytes);
-            SendHttpResponse(ctx, req, result);
+            var httpHandler = new HttpHandler();
+            DefaultFullHttpResponse httpResponse = httpHandler.GetResponse(req);
+            SendHttpResponse(ctx, req, httpResponse);
         }
         void HandleWebSocketFrame(IChannelHandlerContext ctx, IByteBufferHolder frame)
         {
@@ -138,16 +136,6 @@ namespace Materal.ConDep
         }
         private void SendHttpResponse(IChannelHandlerContext ctx, IFullHttpRequest req, IFullHttpResponse res)
         {
-            // Generate an error page if response getStatus code is not OK (200).
-            if (res.Status.Code != 200)
-            {
-                IByteBuffer buf = Unpooled.CopiedBuffer(Encoding.UTF8.GetBytes(res.Status.ToString()));
-                res.Content.WriteBytes(buf);
-                buf.Release();
-                HttpUtil.SetContentLength(res, res.Content.ReadableBytes);
-            }
-
-            // Send the response and close the connection if necessary.
             Task task = ctx.Channel.WriteAndFlushAsync(res);
             if (!HttpUtil.IsKeepAlive(req) || res.Status.Code != 200)
             {

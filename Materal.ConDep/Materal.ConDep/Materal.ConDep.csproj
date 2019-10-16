@@ -45,6 +45,9 @@
     <None Update="HtmlPages\AddApplication.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="HtmlPages\Css\Base.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="HtmlPages\EditApplication.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -96,7 +99,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="HtmlPages\Css\" />
     <Folder Include="HtmlPages\Libs\" />
   </ItemGroup>
 

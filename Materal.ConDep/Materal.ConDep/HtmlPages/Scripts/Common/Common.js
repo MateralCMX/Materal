@@ -87,7 +87,7 @@ var Materal;
                     var config = new Materal.HttpConfigModel("http://" + this.serverAddress + "/api/" + url, method, data, Materal.HttpHeadContentType.Json, successFunc, errorFunc);
                     Materal.HttpManager.send(config);
                 };
-                Common.serverAddress = "192.168.0.107:8910";
+                Common.serverAddress = "192.168.2.2:8910";
                 return Common;
             }());
             Scripts.Common = Common;

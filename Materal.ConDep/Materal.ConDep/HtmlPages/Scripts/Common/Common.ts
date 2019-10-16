@@ -1,6 +1,6 @@
 namespace Materal.ConDep.Scripts {
     export class Common {
-        static serverAddress:string = "192.168.0.107:8910";
+        static serverAddress:string = "192.168.2.2:8910";
         /**
          * 设置权限信息
          * @param token token值
