@@ -204,6 +204,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             catch (Exception ex)
             {
                 _logger?.LogError(ex, "错误消息: \"{Message}\"", message);
+                _consumerChannel.BasicNack(eventArgs.DeliveryTag, false, false);
             }
         }
         /// <summary>
