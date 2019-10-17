@@ -15,6 +15,7 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Materal.ConDep.Authority;
 
 namespace Materal.ConDep
 {
@@ -100,28 +101,23 @@ namespace Materal.ConDep
                         {
                             ConsoleHelper.ConDepServerWriteLine(command.HandlerName);
                         }
-                        Task.Run(async () =>
+
+                        if (CanLoginSuccess(command))
                         {
-                            try
-                            {
-                                await _commandBus.SendAsync(ctx, commandString, command);
-                            }
-                            catch (InvalidOperationException ex)
+                            Task.Run(async () => await SendCommand(ctx, commandString, command));
+                        }
+                        else
+                        {
+                            Task.Run(async () =>
                             {
                                 var @event = new ServerErrorEvent
                                 {
-                                    Message = ex.Message
+                                    Status = 401,
+                                    Message = "未登录"
                                 };
                                 await ctx.Channel.SendJsonEventAsync(@event);
-                            }
-                            catch (Exception ex)
-                            {
-                                var @event = new ServerErrorEvent();
-                                await ctx.Channel.SendJsonEventAsync(@event);
-                                ConsoleHelper.ConDepServerErrorWriteLine(ex);
-                                _logger.LogCritical(ex, ex.Message);
-                            }
-                        });
+                            });
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -134,6 +130,52 @@ namespace Materal.ConDep
                     break;
             }
         }
+        /// <summary>
+        /// 是否登录
+        /// </summary>
+        /// <returns></returns>
+        private bool CanLoginSuccess(Command command)
+        {
+            string token = command.Token;
+            if (string.IsNullOrWhiteSpace(token)) return false;
+            var authorityService = ApplicationData.GetService<IAuthorityService>();
+            return authorityService.IsLogin(token);
+        }
+        /// <summary>
+        /// 发送命令
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="commandString"></param>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        private async Task SendCommand(IChannelHandlerContext ctx, string commandString, Command command)
+        {
+            try
+            {
+                await _commandBus.SendAsync(ctx, commandString, command);
+            }
+            catch (InvalidOperationException ex)
+            {
+                var @event = new ServerErrorEvent
+                {
+                    Message = ex.Message
+                };
+                await ctx.Channel.SendJsonEventAsync(@event);
+            }
+            catch (Exception ex)
+            {
+                var @event = new ServerErrorEvent();
+                await ctx.Channel.SendJsonEventAsync(@event);
+                ConsoleHelper.ConDepServerErrorWriteLine(ex);
+                _logger.LogCritical(ex, ex.Message);
+            }
+        }
+        /// <summary>
+        /// 发送Http返回
+        /// </summary>
+        /// <param name="ctx"></param>
+        /// <param name="req"></param>
+        /// <param name="res"></param>
         private void SendHttpResponse(IChannelHandlerContext ctx, IFullHttpRequest req, IFullHttpResponse res)
         {
             Task task = ctx.Channel.WriteAndFlushAsync(res);
@@ -143,6 +185,7 @@ namespace Materal.ConDep
                     ctx, TaskContinuationOptions.ExecuteSynchronously);
             }
         }
+
         public override void ExceptionCaught(IChannelHandlerContext ctx, Exception e)
         {
             Console.WriteLine($"{nameof(WebSocketServerHandler)} {0}", e);

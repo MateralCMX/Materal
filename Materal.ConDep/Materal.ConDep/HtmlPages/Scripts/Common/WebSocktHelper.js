@@ -34,9 +34,20 @@ var Materal;
                             }
                         }
                     };
+                    this.registerEventHandler("ServerErrorEventHandler", function (event) {
+                        switch (event.Status) {
+                            case 401:
+                                window.location.href = "/Login";
+                                break;
+                            default:
+                                console.error(event);
+                                break;
+                        }
+                    });
                 }
                 WebSocktHelper.prototype.sendCommand = function (handlerName, data) {
                     data["HandlerName"] = handlerName;
+                    data["Token"] = Scripts.Common.getAuthoirtyInfo();
                     var commandString = JSON.stringify(data);
                     this.websocket.send(commandString);
                 };

@@ -28,9 +28,20 @@ namespace Materal.ConDep.Scripts {
                     }
                 }
             }
+            this.registerEventHandler("ServerErrorEventHandler", (event: any) => {
+                switch (event.Status) {
+                    case 401:
+                        window.location.href = "/Login";
+                        break;
+                    default:
+                        console.error(event);
+                        break;
+                }
+            });
         }
         public sendCommand(handlerName: string, data: any) {
             data["HandlerName"] = handlerName;
+            data["Token"] = Common.getAuthoirtyInfo();
             const commandString = JSON.stringify(data);
             this.websocket.send(commandString);
         }

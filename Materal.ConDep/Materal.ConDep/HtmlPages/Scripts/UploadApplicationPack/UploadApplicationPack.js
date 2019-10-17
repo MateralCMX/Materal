@@ -30,9 +30,6 @@ var Materal;
                     this._websocket.registerEventHandler("UploadEndEventHandler", function (event) {
                         alert("更新完毕");
                     });
-                    this._websocket.registerEventHandler("ServerErrorEventHandler", function (event) {
-                        console.error(event);
-                    });
                 };
                 UploadApplicationPackViewModel.prototype.readerBlob = function (start) {
                     if (this.params.selectFile == null || this.params.reader == null)

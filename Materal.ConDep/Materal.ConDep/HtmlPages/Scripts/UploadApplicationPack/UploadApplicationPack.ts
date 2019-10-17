@@ -19,9 +19,6 @@ namespace Materal.ConDep.Scripts {
             this._websocket.registerEventHandler("UploadEndEventHandler", (event: any) => {
                 alert("更新完毕");
             });
-            this._websocket.registerEventHandler("ServerErrorEventHandler", (event: any) => {
-                console.error(event);
-            });
         }
         private readerBlob(start: number) {
             if (this.params.selectFile == null || this.params.reader == null) return;
