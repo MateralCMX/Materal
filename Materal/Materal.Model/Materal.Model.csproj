@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
     <PackageReleaseNotes>https://github.com/MateralCMX/Materal
-1、新增数据验证特性DataValidation</PackageReleaseNotes>
+1、修复数据验证对可空类型的判断</PackageReleaseNotes>
     <Copyright>Materal</Copyright>
     <Description>Materal模型库</Description>
   </PropertyGroup>

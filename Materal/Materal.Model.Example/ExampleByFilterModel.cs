@@ -12,7 +12,9 @@ namespace Materal.Model.Example
                 Age = 20,
                 CreateTime = new DateTime(1993, 4, 20),
                 Value = 20,
-                IsDelete = false
+                IsDelete = false,
+                MemberID = Guid.NewGuid(),
+                TargetID = Guid.NewGuid()
             };
             var filterModel = new TestFilterModel
             {
@@ -22,7 +24,9 @@ namespace Materal.Model.Example
                 EndTime = new DateTime(2019, 7, 11),
                 MinValue = 10,
                 MaxValue = 40,
-                IsDelete = true
+                IsDelete = true,
+                MemberID = testModel.MemberID,
+                TargetID = testModel.TargetID
             };
             Func<TestModel, bool> searchDelegate = filterModel.GetSearchDelegate<TestModel>();
             bool? result = searchDelegate?.Invoke(testModel);
@@ -44,6 +48,10 @@ namespace Materal.Model.Example
         public float? MinValue { get; set; }
         [LessThan("Value")]
         public float? MaxValue { get; set; }
+        [Equal]
+        public Guid? TargetID { get; set; }
+        [Equal]
+        public Guid? MemberID { get; set; }
     }
     public class TestModel
     {
@@ -52,5 +60,7 @@ namespace Materal.Model.Example
         public int Age { get; set; }
         public bool IsDelete { get; set; }
         public float Value { get; set; }
+        public Guid? TargetID { get; set; }
+        public Guid MemberID { get; set; }
     }
 }
