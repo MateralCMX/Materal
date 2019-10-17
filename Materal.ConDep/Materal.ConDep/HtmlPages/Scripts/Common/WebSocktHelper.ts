@@ -3,7 +3,7 @@ namespace Materal.ConDep.Scripts {
         private websocket: WebSocket;
         private eventHandlers = new Dictionary();
         constructor() {
-            this.websocket = new WebSocket(`ws://${Common.serverAddress}/websocket`);
+            this.websocket = new WebSocket(`ws://${Common.getServerAddress()}/websocket`);
             this.websocket.onclose = event => {
                 console.log("WebSocket已断开");
             };

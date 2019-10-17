@@ -9,7 +9,7 @@ var Materal;
                 function WebSocktHelper() {
                     var _this = this;
                     this.eventHandlers = new Materal.Dictionary();
-                    this.websocket = new WebSocket("ws://" + Scripts.Common.serverAddress + "/websocket");
+                    this.websocket = new WebSocket("ws://" + Scripts.Common.getServerAddress() + "/websocket");
                     this.websocket.onclose = function (event) {
                         console.log("WebSocket已断开");
                     };

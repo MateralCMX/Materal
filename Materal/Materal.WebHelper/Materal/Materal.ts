@@ -1,10 +1,8 @@
-﻿namespace Materal
-{
+﻿namespace Materal {
     /*
      * 时间类型
      */
-    export enum TimeType
-    {
+    export enum TimeType {
         /**
          * 年
          */
@@ -37,15 +35,13 @@
     /**
      * 公共
      */
-    export class Common
-    {
+    export class Common {
         /**
          * 是否为undefined
          * @param obj 需要判断的对象
          * @returns 判断结果
          */
-        static isUndefined(obj: any): boolean
-        {
+        static isUndefined(obj: any): boolean {
             return typeof obj === "undefined";
         }
         /**
@@ -53,8 +49,7 @@
          * @param obj 需要判断的对象
          * @returns 判断结果
          */
-        static isNullOrUndefined(obj: any): boolean
-        {
+        static isNullOrUndefined(obj: any): boolean {
             return obj === null || this.isUndefined(obj);
         }
         /**
@@ -63,8 +58,7 @@
          * @param includeCustom 包括自定义类型
          * @returns 对象类型 
          */
-        static getType(obj: any, includeCustom: boolean = true): string
-        {
+        static getType(obj: any, includeCustom: boolean = true): string {
             let lowercase = true;
             const objType = typeof obj;
             let result: string;
@@ -93,8 +87,7 @@
          * 克隆对象
          * @param obj 要克隆的对象
          */
-        static clone(obj: any): any
-        {
+        static clone(obj: any): any {
             const objectType = this.getType(obj, false);
             let result: any;
             if (objectType === "Object") {
@@ -123,15 +116,13 @@
     /**
      * 字符串帮助类
      */
-    export class StringHelper
-    {
+    export class StringHelper {
         /**
          * 是否为Empty字符串
          * @param inputStr 需要判断的对象
          * @returns 判断结果
          */
-        static isEmpty(inputStr: string): boolean
-        {
+        static isEmpty(inputStr: string): boolean {
             return inputStr === "";
         }
         /**
@@ -139,8 +130,7 @@
          * @param inputStr 输入的字符串
          * 判定结果
          */
-        static isNullOrrUndefinedOrEmpty(inputStr: string): boolean
-        {
+        static isNullOrrUndefinedOrEmpty(inputStr: string): boolean {
             return Common.isNullOrUndefined(inputStr) || this.isEmpty(inputStr);
         }
         /**
@@ -148,8 +138,7 @@
          * @param inputStr 输入的字符串
          * @returns 处理过的字符串
          */
-        static trimLeft(inputStr: string): string
-        {
+        static trimLeft(inputStr: string): string {
             while (inputStr.substr(0, 1) === " ") {
                 inputStr = inputStr.substr(1, inputStr.length - 1);
             }
@@ -160,8 +149,7 @@
          * @param inputStr 输入的字符串
          * @returns 处理过的字符串
          */
-        static trimRight(inputStr: string): string
-        {
+        static trimRight(inputStr: string): string {
             while (inputStr.substr(inputStr.length - 2, 1) === " ") {
                 inputStr = inputStr.substr(0, inputStr.length - 2);
             }
@@ -172,8 +160,7 @@
          * @param inputStr 输入的字符串
          * @returns 处理过的字符串
          */
-        static trimAll(inputStr: string): string
-        {
+        static trimAll(inputStr: string): string {
             return inputStr.replace(/\s/g, "");
         }
         /**
@@ -181,8 +168,7 @@
          * @param inputStr 输入的字符串
          * @returns 处理过的字符串
          */
-        static simplifyMultiSpaceToSingle(inputStr: string): string
-        {
+        static simplifyMultiSpaceToSingle(inputStr: string): string {
             return inputStr.replace(/\s{2,}/g, " ");
         }
         /**
@@ -191,8 +177,7 @@
          * @param length 位数
          * @param character 填充字符
          */
-        static padLeft(inputStr: string, length: number, character: string): string
-        {
+        static padLeft(inputStr: string, length: number, character: string): string {
             for (let i = inputStr.length; i < length; i++) {
                 inputStr = character + inputStr;
             }
@@ -203,8 +188,7 @@
          * @param length 位数
          * @param character 填充字符
          */
-        static padRight(inputStr: string, length: number, character: string): string
-        {
+        static padRight(inputStr: string, length: number, character: string): string {
             for (let i = inputStr.length; i < length; i++) {
                 inputStr = inputStr + character;
             }
@@ -217,14 +201,11 @@
          * @param isLower 是小写
          * @returns 加密后的字符串
          */
-        static get32Md5String(str: string, isLower: boolean = false): string
-        {
-            function l(a)
-            {
+        static get32Md5String(str: string, isLower: boolean = false): string {
+            function l(a) {
                 return h(g(o(a), a.length * 8));
             }
-            function m(e)
-            {
+            function m(e) {
                 let b = "0123456789ABCDEF";
                 if (isLower) {
                     b = b.toLowerCase();
@@ -237,8 +218,7 @@
                 }
                 return c;
             }
-            function n(d)
-            {
+            function n(d) {
                 let b = "";
                 let c = -1;
                 let a, e;
@@ -250,8 +230,7 @@
                 }
                 return b;
             }
-            function o(c)
-            {
+            function o(c) {
                 let b = Array(c.length >> 2);
                 for (let a = 0; a < b.length; a++) {
                     b[a] = 0;
@@ -261,16 +240,14 @@
                 }
                 return b;
             }
-            function h(c)
-            {
+            function h(c) {
                 let b = "";
                 for (let a = 0; a < c.length * 32; a += 8) {
                     b += String.fromCharCode(c[a >> 5] >>> a % 32 & 255);
                 }
                 return b;
             }
-            function g(j, l)
-            {
+            function g(j, l) {
                 j[l >> 5] |= 128 << l % 32, j[(l + 64 >>> 9 << 4) + 14] = l;
                 let g = 1732584193;
                 let h = -271733879;
@@ -352,34 +329,27 @@
                 }
                 return Array(g, h, i, f);
             }
-            function f(a, b, c, d, f, g)
-            {
+            function f(a, b, c, d, f, g) {
                 return e(j(e(e(b, a), e(d, g)), f), c);
             }
-            function a(b, a, c, d, e, g, h)
-            {
+            function a(b, a, c, d, e, g, h) {
                 return f(a & c | ~a & d, b, a, e, g, h);
             }
-            function b(c, a, d, b, e, g, h)
-            {
+            function b(c, a, d, b, e, g, h) {
                 return f(a & b | d & ~b, c, a, e, g, h);
             }
-            function c(b, a, c, d, e, g, h)
-            {
+            function c(b, a, c, d, e, g, h) {
                 return f(a ^ c ^ d, b, a, e, g, h);
             }
-            function d(b, a, c, d, e, g, h)
-            {
+            function d(b, a, c, d, e, g, h) {
                 return f(c ^ (a | ~d), b, a, e, g, h);
             }
-            function e(b, c)
-            {
+            function e(b, c) {
                 let a = (b & 65535) + (c & 65535);
                 let d = (b >> 16) + (c >> 16) + (a >> 16);
                 return d << 16 | a & 65535;
             }
-            function j(a, b)
-            {
+            function j(a, b) {
                 return a << b | a >>> 32 - b;
             }
             return m(l(n(str)));
@@ -390,8 +360,7 @@
          * @param isLower 是小写
          * @returns 加密后的字符串
          */
-        static get16Md5String(str: string, isLower: boolean = false): string
-        {
+        static get16Md5String(str: string, isLower: boolean = false): string {
             return this.get32Md5String(str, isLower).substr(8, 16);
         }
         /**
@@ -399,8 +368,7 @@
          * @param str 要转换的字符串
          * @returns 转换后的字符串 
          */
-        static convertToBinary(str: string): string
-        {
+        static convertToBinary(str: string): string {
             const strList: string = Array.prototype.map.call(str, c => c.charCodeAt(0).toString(2));
             let resStr = "";
             for (let i = 0; i < strList.length; i++) {
@@ -413,8 +381,7 @@
          * @param codeStr 要隐藏的代码
          * @returns 隐藏后的代码
          */
-        static hideCode(codeStr: string): string
-        {
+        static hideCode(codeStr: string): string {
             let resStr = this.convertToBinary(codeStr);
             resStr = resStr.replace(/0/g, "\u200d");
             resStr = resStr.replace(/1/g, "\u200c");
@@ -433,8 +400,7 @@
     /**
      * 时间帮助类
      */
-    export class DateHelper
-    {
+    export class DateHelper {
         /**
          * 获得时间差
          * @param inputDateTime 输入时间
@@ -443,8 +409,7 @@
          * @param isFloor 向下取整
          * @returns 时间差
          */
-        static getTimeDifference(inputDateTime: Date, targetDate: Date, timeType: TimeType, isFloor: boolean = true): number
-        {
+        static getTimeDifference(inputDateTime: Date, targetDate: Date, timeType: TimeType, isFloor: boolean = true): number {
             let timeDifference = inputDateTime.getTime() - targetDate.getTime();
             switch (timeType) {
                 case TimeType.Day:
@@ -475,8 +440,7 @@
          * @param formatStr 格式化字符串[y年|M月|d日|H时|m分|s秒|S毫秒|q季度]
          * @returns 格式化后的时间字符串
          */
-        static formatString(inputDateTime: Date, formatStr: string): string
-        {
+        static formatString(inputDateTime: Date, formatStr: string): string {
             const formatData = {
                 "M+": inputDateTime.getMonth() + 1, //月份 
                 "d+": inputDateTime.getDate(), //日 
@@ -510,8 +474,7 @@
          * @param dateTime 要设置的时间
          * @returns 可以设置给Input的时间值
          */
-        static getInputDateTimeValueStr(inputDateTime: Date): string
-        {
+        static getInputDateTimeValueStr(inputDateTime: Date): string {
             return this.formatString(inputDateTime, "yyyy-MM-ddTHH:mm:ss");
         }
         /**
@@ -520,8 +483,7 @@
          * @param timeZone 时区
          * @returns 对应时区时间
          */
-        static getDateByTimeZone(inputDateTime: Date, timeZone: number): Date
-        {
+        static getDateByTimeZone(inputDateTime: Date, timeZone: number): Date {
             const len = inputDateTime.getTime();
             const offset = inputDateTime.getTimezoneOffset() * 60000;
             const utcTime = len + offset;
@@ -534,8 +496,7 @@
          * @param timeZone 时区[null则自动为本地时区]
          * @returns 对应时区时间
          */
-        static convertTimeZone(inputDateTime: Date, timeZone: number): Date
-        {
+        static convertTimeZone(inputDateTime: Date, timeZone: number): Date {
             if (!timeZone) {
                 timeZone = inputDateTime.getTimezoneOffset() / 60;
             }
@@ -546,8 +507,7 @@
     /**
      * 数组帮助类
      */
-    export class ArrayHelper
-    {
+    export class ArrayHelper {
         /**
          * 插入数组
          * @param inputArray 原数组
@@ -555,8 +515,7 @@
          * @param index 位序
          * @returns 插入后的数组
          */
-        static insert<T>(inputArray: Array<T>, item: T, index: number): Array<T>
-        {
+        static insert<T>(inputArray: Array<T>, item: T, index: number): Array<T> {
             inputArray.splice(index, 0, item);
             return inputArray;
         }
@@ -566,8 +525,7 @@
          * @param item 要删除的对象
          * @returns 删除后的数组
          */
-        static remove<T>(inputArray: Array<T>, item: T): Array<T>
-        {
+        static remove<T>(inputArray: Array<T>, item: T): Array<T> {
             const index = inputArray.indexOf(item);
             if (index >= 0) {
                 inputArray = this.removeAt(inputArray, index);
@@ -580,8 +538,7 @@
          * @param item 要删除的对象
          * @returns 删除后的数组
          */
-        static removeAll<T>(inputArray: Array<T>, item: T): Array<T>
-        {
+        static removeAll<T>(inputArray: Array<T>, item: T): Array<T> {
             let index = inputArray.indexOf(item);
             while (index >= 0) {
                 inputArray = this.removeAt(inputArray, index);
@@ -595,8 +552,7 @@
          * @param index 位序
          * @returns 移除后的数组
          */
-        static removeAt<T>(inputArray: Array<T>, index: number): Array<T>
-        {
+        static removeAt<T>(inputArray: Array<T>, index: number): Array<T> {
             const count = inputArray.length;
             inputArray = inputArray.splice(index, 1);
             if (count === inputArray.length && count === 1) {
@@ -609,8 +565,7 @@
          * @param inputArray 原数组
          * @returns 清空后的数组
          */
-        static clear<T>(inputArray: Array<T>): Array<T>
-        {
+        static clear<T>(inputArray: Array<T>): Array<T> {
             inputArray = inputArray.splice(0, 0);
             return inputArray;
         }
@@ -618,14 +573,12 @@
     /**
      * 地址帮助类
      */
-    export class LocationHelper
-    {
+    export class LocationHelper {
         /**
          * 获得参数
          * @returns URL参数
          */
-        static getUrlParamsByArray()
-        {
+        static getUrlParamsByArray() {
             let result: string[] = null;
             let paramString = window.location.search;
             if (!StringHelper.isNullOrrUndefinedOrEmpty(paramString)) {
@@ -638,8 +591,7 @@
          * 获得URL参数
          * @returns URL参数
          */
-        static getUrlParamsByObject(): Object
-        {
+        static getUrlParamsByObject(): Object {
             const result = new Object();
             const paramStrings = this.getUrlParamsByArray();
             if (!Common.isNullOrUndefined(paramStrings)) {
@@ -659,8 +611,7 @@
          * 获得URL参数
          * @returns URL参数
          */
-        static getUrlParamsByDictionary(): Dictionary
-        {
+        static getUrlParamsByDictionary(): Dictionary {
             const result = new Dictionary();
             const paramStrings = this.getUrlParamsByArray();
             if (!Common.isNullOrUndefined(paramStrings)) {
@@ -681,8 +632,7 @@
          * @param key 键
          * @returns URL参数
          */
-        static getUrlParam(key: string): string
-        {
+        static getUrlParam(key: string): string {
             const params = this.getUrlParamsByObject();
             if (params.hasOwnProperty(key)) {
                 return params[key];
@@ -694,14 +644,12 @@
     /**
      * 文档帮助类
      */
-    export class DocumentHelper
-    {
+    export class DocumentHelper {
         /**
          * 获取滚动条位置
          * @returns 滚动条位置
          */
-        static getScrollTop(): number
-        {
+        static getScrollTop(): number {
             let scrollTop = 0;
             if (document.documentElement && document.documentElement.scrollTop) {
                 scrollTop = document.documentElement.scrollTop;
@@ -715,8 +663,7 @@
          * 获取可见高度
          * @returns 可见高度
          */
-        static getClientHeight(): number
-        {
+        static getClientHeight(): number {
             let clientHeight: number;
             if (document.body.clientHeight && document.documentElement.clientHeight) {
                 clientHeight = (document.body.clientHeight < document.documentElement.clientHeight) ? document.body.clientHeight : document.documentElement.clientHeight;
@@ -730,16 +677,14 @@
     /**
      * 元素帮助类
      */
-    export class ElementHelper
-    {
+    export class ElementHelper {
         /**
          * 设置样式
          * @param inputElement 目标元素
          * @param element 页面元素
          * @param className 要设置的样式列表
          */
-        static setClass(inputElement: Element, className: string | string[]): void
-        {
+        static setClass(inputElement: Element, className: string | string[]): void {
             let classString = Common.getType(className) === "Array" ? (className as string[]).join(" ") : className as string;
             if (!StringHelper.isNullOrrUndefinedOrEmpty(classString)) {
                 classString = StringHelper.simplifyMultiSpaceToSingle(classString).trim();
@@ -754,8 +699,7 @@
          * @param inputElement 目标元素
          * @param className 要添加的样式
          */
-        static addClass(inputElement: Element, className: string | string[]): void
-        {
+        static addClass(inputElement: Element, className: string | string[]): void {
             if (Common.getType(className) === "string") {
                 className = (className as string).split(" ");
             }
@@ -768,8 +712,7 @@
          * @param inputElement 目标元素
          * @param className 要删除的样式
          */
-        static removeClass(inputElement: Element, className: string | string[]): void
-        {
+        static removeClass(inputElement: Element, className: string | string[]): void {
             if (Common.getType(className) === "string") {
                 className = (className as string).split(" ");
             }
@@ -783,8 +726,7 @@
          * @param className 要查找的样式列表
          * @returns 查询结果
          */
-        static hasClass(inputElement: Element, className: string | string[]): boolean
-        {
+        static hasClass(inputElement: Element, className: string | string[]): boolean {
             let resM = true;
             if (Common.getType(className) === "string") {
                 className = (className as string).split(" ");
@@ -801,8 +743,7 @@
          * @param className ClassName
          * @returns Element集合
          */
-        static getElementsByClassName(inputElement: Element, className: string): HTMLCollectionOf<Element> | Array<Element>
-        {
+        static getElementsByClassName(inputElement: Element, className: string): HTMLCollectionOf<Element> | Array<Element> {
             className = className.trim();
             if (inputElement.getElementsByClassName) {
                 return inputElement.getElementsByClassName(className);
@@ -823,8 +764,7 @@
          * @param name Name
          * @returns Element集合
          */
-        static getElementsByName(inputElement: Element, name: string): Array<Element>
-        {
+        static getElementsByName(inputElement: Element, name: string): Array<Element> {
             name = name.trim();
             const result = new Array<Element>();
             const elements = inputElement.getElementsByTagName("*");
@@ -840,8 +780,7 @@
          * @param inputElement 目标元素
          * @returns 子节点
          */
-        static getChildren(inputElement: Element): HTMLCollection | Array<Node>
-        {
+        static getChildren(inputElement: Element): HTMLCollection | Array<Node> {
             if (inputElement.children) {
                 return inputElement.children;
             }
@@ -861,8 +800,7 @@
          * @param inputElement 目标元素
          * @returns 实际样式
          */
-        static getComputedStyle(inputElement: Element): CSSStyleDeclaration
-        {
+        static getComputedStyle(inputElement: Element): CSSStyleDeclaration {
             let cssStyle: CSSStyleDeclaration;
             if (inputElement["currentStyle"]) {
                 cssStyle = inputElement["currentStyle"];
@@ -877,8 +815,7 @@
          * @param inputElement 目标元素
          * @returns 自定义属性
          */
-        getDataSet(inputElement: HTMLElement): DOMStringMap | Object
-        {
+        getDataSet(inputElement: HTMLElement): DOMStringMap | Object {
             if (inputElement.dataset) {
                 return inputElement.dataset;
             }
@@ -899,29 +836,25 @@
     /**
      * 事件帮助类
      */
-    export class EventHelper
-    {
+    export class EventHelper {
         /**
          * 获得事件触发元素
          * @returns 触发元素 
          */
-        static getEventTarget(inputEvent: Event): Element | EventTarget
-        {
+        static getEventTarget(inputEvent: Event): Element | EventTarget {
             return inputEvent["target"] || inputEvent["srcElement"];
         }
     }
     /**
      * Json帮助类
      */
-    export class JsonHelper
-    {
+    export class JsonHelper {
         /**
          * json转换为对象
          * @param jsonString json字符串
          * @returns 对象
          */
-        static jsonStringToObject(jsonString: string): any
-        {
+        static jsonStringToObject(jsonString: string): any {
             return JSON.parse ? JSON.parse(jsonString) : eval(`(${jsonString})`);
         }
         /**
@@ -929,8 +862,7 @@
          * @param obj json对象
          * @returns json字符串
          */
-        static objectToJsonString(obj: any): string
-        {
+        static objectToJsonString(obj: any): string {
             let result = "";
             let isArray: boolean;
             for (let key in obj) {
@@ -993,16 +925,14 @@
     /**
      * 数学帮助类
      */
-    export class MathHelper
-    {
+    export class MathHelper {
         /**
          * 返回一个随机数
          * @param min 最小值
          * @param max 最大值
          * @returns 随机数
          */
-        static getRandom(min: number, max: number): number
-        {
+        static getRandom(min: number, max: number): number {
             return Math.floor(Math.random() * max + min);
         }
         /**
@@ -1012,8 +942,7 @@
          * @param isRound 是圆形
          * @returns 外接圆半径
          */
-        static getCircumscribedCircleRadius(length: number, width: number, isRound: boolean): number
-        {
+        static getCircumscribedCircleRadius(length: number, width: number, isRound: boolean): number {
             const max = Math.max(length, width);
             //正方形的对角线=边长^2*2
             const diameter = Math.sqrt(Math.pow(max, 2) * 2);
@@ -1029,29 +958,14 @@
     /**
      * HttpMethod枚举
      */
-    export enum HttpMethod
-    {
+    export enum HttpMethod {
         GET = ("get") as any,
         POST = ("post") as any,
     }
     /**
-     * HTTP头内容类型
-     */
-    export enum HttpHeadContentType
-    {
-        FormData = ("multipart/form-data") as any,
-        FormUrlencoded = ("application/x-www-form-urlencoded") as any,
-        Text = ("text/plain") as any,
-        Json = ("application/json") as any,
-        JavasScript = ("application/javascript") as any,
-        XML = ("application/xml") as any,
-        Html = ("text/html") as any
-    }
-    /**
      * Http配置类
      */
-    export class HttpConfigModel
-    {
+    export class HttpConfigModel {
         /**
          * URL地址
          */
@@ -1085,9 +999,9 @@
          */
         async: boolean = true;
         /**
-         * HTTP头类型
+         * HTTP头
          */
-        contentType: HttpHeadContentType;
+        heads: any;
         /**
          * 构造方法
          * @param url URL地址
@@ -1098,12 +1012,16 @@
          * @param error 失败方法
          * @param complete 成功错误都执行的方法
          */
-        constructor(url: string, method: HttpMethod = HttpMethod.POST, data: Object = null, dataType: HttpHeadContentType = HttpHeadContentType.Json, success: Function = null, error: Function = null, complete: Function = null)
-        {
+        constructor(url: string, method: HttpMethod = HttpMethod.POST, data: Object = null, heads: any = null, success: Function = null, error: Function = null, complete: Function = null) {
+            if (heads == null) {
+                heads = {
+                    "Content-type": "application/json"
+                }
+            }
             this.url = url;
             this.method = method;
             this.data = data;
-            this.contentType = dataType;
+            this.heads = heads;
             this.success = success;
             this.error = error;
             this.complete = complete;
@@ -1112,15 +1030,13 @@
     /**
      * Http帮助类
      */
-    export class HttpManager
-    {
+    export class HttpManager {
         /**
          * 获取XMLHttpRequest对象
          * @param config 配置对象
          * @returns HttpRequest对象
          */
-        private static getHttpRequest(config: HttpConfigModel): XMLHttpRequest
-        {
+        private static getHttpRequest(config: HttpConfigModel): XMLHttpRequest {
             let xhr: XMLHttpRequest;
             if (window["XMLHttpRequest"]) {
                 xhr = new XMLHttpRequest();
@@ -1138,8 +1054,7 @@
          * @param xhr XMLHttpRequest对象
          * @param config 配置对象
          */
-        private static readyStateChange(xhr: XMLHttpRequest, config: HttpConfigModel): void
-        {
+        private static readyStateChange(xhr: XMLHttpRequest, config: HttpConfigModel): void {
             if (xhr.readyState === 4) {
                 let resM: any;
                 try {
@@ -1171,8 +1086,7 @@
          * @param data 要序列化的参数
          * @returns 序列化后的字符串 
          */
-        private static serialize(data: Object): string
-        {
+        private static serialize(data: Object): string {
             const result = new Array<string>();
             for (let name in data) {
                 if (data.hasOwnProperty(name)) {
@@ -1200,26 +1114,16 @@
          * 发送Post请求
          * @param config 配置对象
          */
-        private static sendPost(config: HttpConfigModel): void
-        {
+        private static sendPost(config: HttpConfigModel): void {
             const xhr = this.getHttpRequest(config);
-            if (config.contentType === HttpHeadContentType.FormUrlencoded) {
-                config.url += `?${HttpManager.serialize(config.data)}`;
-            }
             xhr.open(String(config.method), config.url, config.async);
-            xhr.setRequestHeader("Content-type", String(config.contentType));
-            if (config.data) {
-                switch (config.contentType) {
-                    case HttpHeadContentType.Json:
-                        xhr.send(JSON.stringify(config.data));
-                        break;
-                    case HttpHeadContentType.FormUrlencoded:
-                        xhr.send(null);
-                        break;
-                    default:
-                        xhr.send(config.data);
-                        break;
+            for (let head in config.heads) {
+                if (config.heads.hasOwnProperty(head)) {
+                    xhr.setRequestHeader(head, config.heads[head]);
                 }
+            }
+            if (config.data) {
+                xhr.send(JSON.stringify(config.data));
             }
             else {
                 xhr.send(null);
@@ -1229,23 +1133,25 @@
          * 发送Get请求
          * @param config 配置对象
          */
-        private static sendGet(config: HttpConfigModel): void
-        {
+        private static sendGet(config: HttpConfigModel): void {
             const xhr = HttpManager.getHttpRequest(config);
             let url = config.url;
             if (config.data) {
                 url += `?${HttpManager.serialize(config.data)}`;
             }
             xhr.open(String(config.method), url, config.async);
-            xhr.setRequestHeader("Content-type", String(HttpHeadContentType.FormUrlencoded));
+            for (let head in config.heads) {
+                if (config.heads.hasOwnProperty(head)) {
+                    xhr.setRequestHeader(head, config.heads[head]);
+                }
+            }
             xhr.send(null);
         }
         /**
          * 发送请求
          * @param config 配置对象
          */
-        static send(config: HttpConfigModel): void
-        {
+        static send(config: HttpConfigModel): void {
             if (config.method === HttpMethod.POST) {
                 HttpManager.sendPost(config);
             }
@@ -1257,8 +1163,7 @@
     /**
      * 字典
      */
-    export class Dictionary
-    {
+    export class Dictionary {
         private data = new Object();
         private keys = new Array<string>();
         /**
@@ -1266,8 +1171,7 @@
          * @param key 键
          * @param value 值
          */
-        set(key: string, value: any): void
-        {
+        set(key: string, value: any): void {
             if (!this.data.hasOwnProperty(key)) {
                 this.keys.push(key);
             }
@@ -1278,8 +1182,7 @@
          * @param key 键
          * @returns 值
          */
-        get(key: string): any
-        {
+        get(key: string): any {
             if (this.data.hasOwnProperty(key)) {
                 return this.data[key];
             } else {
@@ -1291,8 +1194,7 @@
          * @param index 位序
          * @returns 值
          */
-        getByIndex(index: number): any
-        {
+        getByIndex(index: number): any {
             if (index >= this.keys.length) throw "位序超过索引";
             return this.get(this.keys[index]);
         }
@@ -1300,8 +1202,7 @@
          * 移除值
          * @param key 键
          */
-        remove(key: string): void
-        {
+        remove(key: string): void {
             if (this.data.hasOwnProperty(key)) {
                 const index = this.keys.indexOf(key);
                 this.keys = ArrayHelper.removeAt(this.keys, index);
@@ -1311,8 +1212,7 @@
         /**
          * 获取所有的键
          */
-        getAllKeys(): Array<string>
-        {
+        getAllKeys(): Array<string> {
             return this.keys;
         }
         /**
@@ -1320,8 +1220,7 @@
          * @param index 位序
          * @returns 键
          */
-        getKeyByIndex(index: number): string
-        {
+        getKeyByIndex(index: number): string {
             if (index >= this.keys.length) throw "位序超过索引";
             return this.keys[index];
         }
@@ -1329,15 +1228,13 @@
          * 获得总数
          * @returns 总数
          */
-        getCount(): number
-        {
+        getCount(): number {
             return this.keys.length;
         }
         /**
          * 清空
          */
-        clear(): void
-        {
+        clear(): void {
             this.keys = ArrayHelper.clear(this.keys);
             for (let key in this.data) {
                 if (this.data.hasOwnProperty(key)) {
@@ -1349,22 +1246,19 @@
          * 是否拥有键
          * @param key
          */
-        hasKey(key: string): boolean
-        {
+        hasKey(key: string): boolean {
             return this.data.hasOwnProperty(key);
         }
     }
     /**
     * 本地存储帮助类
     */
-    export class LocalDataManager
-    {
+    export class LocalDataManager {
         /**
          * 是否支持本地存储
          * @returns 是否支持
          */
-        static isLocalStorage(): boolean
-        {
+        static isLocalStorage(): boolean {
             if (window.localStorage) {
                 return true;
             }
@@ -1375,8 +1269,7 @@
         /**
          * 清空本地存储对象
          */
-        static cleanLocalData(): void
-        {
+        static cleanLocalData(): void {
             if (this.isLocalStorage()) {
                 window.localStorage.clear();
             }
@@ -1385,8 +1278,7 @@
          * 移除本地存储对象
          * @param key Key值
          */
-        static removeLocalData(key: string): void
-        {
+        static removeLocalData(key: string): void {
             if (this.isLocalStorage() && key) {
                 window.localStorage.removeItem(key);
             }
@@ -1397,8 +1289,7 @@
          * @param value 要保存的数据
          * @param isJson 以Json格式保存
          */
-        static setLocalData(key: string, value: any, isJson: boolean = true): void
-        {
+        static setLocalData(key: string, value: any, isJson: boolean = true): void {
             if (this.isLocalStorage() && key && value) {
                 this.removeLocalData(key);
                 if (isJson) {
@@ -1415,8 +1306,7 @@
          * @param isJson 以Json格式获取
          * @returns 获取的数据 
          */
-        static getLocalData(key: string, isJson: boolean = true): any
-        {
+        static getLocalData(key: string, isJson: boolean = true): any {
             if (this.isLocalStorage() && key) {
                 if (isJson) {
                     return JsonHelper.jsonStringToObject(window.localStorage.getItem(key));
@@ -1431,8 +1321,7 @@
          * 是否支持网页存储
          * @returns 是否支持 
          */
-        static isSessionStorage(): boolean
-        {
+        static isSessionStorage(): boolean {
             if (window.sessionStorage) {
                 return true;
             }
@@ -1443,8 +1332,7 @@
         /**
          * 清空网页存储对象
          */
-        static cleanSessionData(): void
-        {
+        static cleanSessionData(): void {
             if (this.isSessionStorage()) {
                 window.sessionStorage.clear();
             }
@@ -1453,8 +1341,7 @@
          * 移除网页存储对象
          * @param key Key值
          */
-        static removeSessionData(key: string)
-        {
+        static removeSessionData(key: string) {
             if (this.isSessionStorage() && key) {
                 window.sessionStorage.removeItem(key);
             }
@@ -1465,8 +1352,7 @@
          * @param value 要保存的数据
          * @param isJson 以Json格式保存
          */
-        static setSessionData(key: string, value: any, isJson: boolean = true)
-        {
+        static setSessionData(key: string, value: any, isJson: boolean = true) {
             if (!isJson && isJson !== false) {
                 isJson = true;
             }
@@ -1486,8 +1372,7 @@
          * @param isJson 以Json格式获取
          * @returns 获取的数据 
          */
-        static getSessionData(key: string, isJson: boolean = true): any
-        {
+        static getSessionData(key: string, isJson: boolean = true): any {
             if (this.isSessionStorage() && key) {
                 if (isJson) {
                     return JSON.parse(window.sessionStorage.getItem(key));
@@ -1504,8 +1389,7 @@
          * @param timeType 单位
          * @returns 计算后的时间
          */
-        private static getTime(timeValue: number = 10000, timeType: TimeType = TimeType.Minutes): number
-        {
+        private static getTime(timeValue: number = 10000, timeType: TimeType = TimeType.Minutes): number {
             switch (timeType) {
                 case TimeType.Years:
                     timeValue = 60 * 60 * 24 * 365 * timeValue * 1000;
@@ -1537,8 +1421,7 @@
          * @param time 持续时间
          * @param timeType 单位(默认s[秒])
          */
-        static setCookie(key: string, value: any, isJson: boolean = true, timeValue: number = 60, timeType: TimeType = TimeType.Minutes, path: string = "/")
-        {
+        static setCookie(key: string, value: any, isJson: boolean = true, timeValue: number = 60, timeType: TimeType = TimeType.Minutes, path: string = "/") {
             if (isJson) {
                 document.cookie = key + "=" + JSON.stringify(value) + ";max-age=" + this.getTime(timeValue, timeType) + ";path=" + path;
             }
@@ -1550,16 +1433,14 @@
          * 删除一个Cookie
          * @param key Key值
          */
-        static removeCookie(key: string)
-        {
+        static removeCookie(key: string) {
             document.cookie = key + "=;max-age=0";
         }
         /**
          * 获得所有Cookie
          * @returns Cookie对象 
          */
-        static getAllCookie(): Object
-        {
+        static getAllCookie(): Object {
             const cookies: string[] = document.cookie.split(";");
             const cookie: Array<string[]> = new Array();
             const localCookie = new Object();
@@ -1597,8 +1478,7 @@
          * @param time 时间
          * @param timeType 时间类型
          */
-        static setData(key: string, value: any, isJson: boolean = true, time: number = 60, timeType: TimeType = TimeType.Minutes): void
-        {
+        static setData(key: string, value: any, isJson: boolean = true, time: number = 60, timeType: TimeType = TimeType.Minutes): void {
             if (this.isLocalStorage()) {
                 this.setLocalData(key, value, isJson);
             }
@@ -1612,8 +1492,7 @@
          * @param isJson 是否为Json格式
          * @returns 获取到的数据
          */
-        static getData(key: string, isJson: boolean = true): any
-        {
+        static getData(key: string, isJson: boolean = true): any {
             if (this.isLocalStorage()) {
                 return this.getLocalData(key, isJson);
             }
@@ -1625,8 +1504,7 @@
          * 移除数据
          * @param key Key值
          */
-        static removeData(key: string): void
-        {
+        static removeData(key: string): void {
             if (this.isLocalStorage()) {
                 this.removeLocalData(key);
             }
@@ -1638,8 +1516,7 @@
     /**
      * 实现引擎模型
      */
-    export class EngineInfoModel
-    {
+    export class EngineInfoModel {
         //是否为Trident引擎
         trident = false;
         //是否为Gecko引擎
@@ -1656,8 +1533,7 @@
     /**
      * 浏览器模型
      */
-    export class BrowserInfoModel
-    {
+    export class BrowserInfoModel {
         //是否为IE浏览器
         internetExplorer = false;
         //是否为Firefox浏览器
@@ -1686,8 +1562,7 @@
     /**
      * 系统模型
      */
-    export class SystemInfoModel
-    {
+    export class SystemInfoModel {
         //是否为Windows操作系统
         windows = false;
         //是否为WindowsMobile操作系统
@@ -1724,37 +1599,32 @@
     /**
      * 客户端信息模型
      */
-    export class ClientInfoModel
-    {
+    export class ClientInfoModel {
         private engineInfoModel = new EngineInfoModel();
         private browserInfoModel = new BrowserInfoModel();
         private systemInfoModel = new SystemInfoModel();
         /**
          * 实现引擎信息
          */
-        get engineInfo(): EngineInfoModel
-        {
+        get engineInfo(): EngineInfoModel {
             return (Common.clone(this.engineInfoModel) as EngineInfoModel);
         }
         /**
          * 浏览器信息
          */
-        get browserInfo(): BrowserInfoModel
-        {
+        get browserInfo(): BrowserInfoModel {
             return (Common.clone(this.browserInfoModel) as BrowserInfoModel);
         }
         /**
          * 系统信息
          */
-        get systemInfo(): SystemInfoModel
-        {
+        get systemInfo(): SystemInfoModel {
             return (Common.clone(this.systemInfoModel) as SystemInfoModel);
         }
         /**
          * 客户端信息模型
          */
-        constructor()
-        {
+        constructor() {
             //检测呈现引擎和浏览器
             let userAgent = navigator.userAgent;
             if (window["opera"]) {

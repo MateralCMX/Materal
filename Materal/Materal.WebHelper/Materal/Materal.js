@@ -1028,19 +1028,6 @@ var Materal;
         HttpMethod[HttpMethod["POST"] = ("post")] = "POST";
     })(HttpMethod = Materal.HttpMethod || (Materal.HttpMethod = {}));
     /**
-     * HTTP头内容类型
-     */
-    var HttpHeadContentType;
-    (function (HttpHeadContentType) {
-        HttpHeadContentType[HttpHeadContentType["FormData"] = ("multipart/form-data")] = "FormData";
-        HttpHeadContentType[HttpHeadContentType["FormUrlencoded"] = ("application/x-www-form-urlencoded")] = "FormUrlencoded";
-        HttpHeadContentType[HttpHeadContentType["Text"] = ("text/plain")] = "Text";
-        HttpHeadContentType[HttpHeadContentType["Json"] = ("application/json")] = "Json";
-        HttpHeadContentType[HttpHeadContentType["JavasScript"] = ("application/javascript")] = "JavasScript";
-        HttpHeadContentType[HttpHeadContentType["XML"] = ("application/xml")] = "XML";
-        HttpHeadContentType[HttpHeadContentType["Html"] = ("text/html")] = "Html";
-    })(HttpHeadContentType = Materal.HttpHeadContentType || (Materal.HttpHeadContentType = {}));
-    /**
      * Http配置类
      */
     var HttpConfigModel = /** @class */ (function () {
@@ -1054,10 +1041,10 @@ var Materal;
          * @param error 失败方法
          * @param complete 成功错误都执行的方法
          */
-        function HttpConfigModel(url, method, data, dataType, success, error, complete) {
+        function HttpConfigModel(url, method, data, heads, success, error, complete) {
             if (method === void 0) { method = HttpMethod.POST; }
             if (data === void 0) { data = null; }
-            if (dataType === void 0) { dataType = HttpHeadContentType.Json; }
+            if (heads === void 0) { heads = null; }
             if (success === void 0) { success = null; }
             if (error === void 0) { error = null; }
             if (complete === void 0) { complete = null; }
@@ -1069,10 +1056,15 @@ var Materal;
              * 异步发送
              */
             this.async = true;
+            if (heads == null) {
+                heads = {
+                    "Content-type": "application/json"
+                };
+            }
             this.url = url;
             this.method = method;
             this.data = data;
-            this.contentType = dataType;
+            this.heads = heads;
             this.success = success;
             this.error = error;
             this.complete = complete;
@@ -1174,23 +1166,14 @@ var Materal;
          */
         HttpManager.sendPost = function (config) {
             var xhr = this.getHttpRequest(config);
-            if (config.contentType === HttpHeadContentType.FormUrlencoded) {
-                config.url += "?" + HttpManager.serialize(config.data);
-            }
             xhr.open(String(config.method), config.url, config.async);
-            xhr.setRequestHeader("Content-type", String(config.contentType));
-            if (config.data) {
-                switch (config.contentType) {
-                    case HttpHeadContentType.Json:
-                        xhr.send(JSON.stringify(config.data));
-                        break;
-                    case HttpHeadContentType.FormUrlencoded:
-                        xhr.send(null);
-                        break;
-                    default:
-                        xhr.send(config.data);
-                        break;
+            for (var head in config.heads) {
+                if (config.heads.hasOwnProperty(head)) {
+                    xhr.setRequestHeader(head, config.heads[head]);
                 }
+            }
+            if (config.data) {
+                xhr.send(JSON.stringify(config.data));
             }
             else {
                 xhr.send(null);
@@ -1207,7 +1190,11 @@ var Materal;
                 url += "?" + HttpManager.serialize(config.data);
             }
             xhr.open(String(config.method), url, config.async);
-            xhr.setRequestHeader("Content-type", String(HttpHeadContentType.FormUrlencoded));
+            for (var head in config.heads) {
+                if (config.heads.hasOwnProperty(head)) {
+                    xhr.setRequestHeader(head, config.heads[head]);
+                }
+            }
             xhr.send(null);
         };
         /**

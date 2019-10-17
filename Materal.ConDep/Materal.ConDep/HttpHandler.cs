@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using DotNetty.Buffers;
+﻿using DotNetty.Buffers;
 using DotNetty.Codecs.Http;
+using DotNetty.Common.Utilities;
 using Materal.ConDep.Authority;
 using Materal.ConDep.Common;
 using Materal.ConvertHelper;
 using Materal.Model;
 using Materal.WebSocket.Http;
 using Materal.WebSocket.Http.Attributes;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
 
 namespace Materal.ConDep
 {
@@ -39,7 +40,7 @@ namespace Materal.ConDep
                 string[] names = request.Uri.Substring(5).Split('/');
                 var controllerBus = ApplicationData.GetService<IControllerBus>();
                 object controller = controllerBus.GetController($"{names[0]}Controller");
-                if (controller == null) return GetFailResult("未找到控制器");
+                if (controller == null) return GetResponse(HttpResponseStatus.NotFound, "未找到控制器");
                 string actionName = names[1].Split('?')[0];
                 return InvokeAction(request, controller, actionName);
             }
@@ -61,9 +62,9 @@ namespace Materal.ConDep
             MethodInfo action = controllerType.GetMethod(actionName);
             if (action == null) return GetResponse(HttpResponseStatus.NotFound, "未找到方法");
             if (!CanMethodSuccess(request, action)) return GetResponse(HttpResponseStatus.BadRequest, "Method错误");
+            if (!CanLoginSuccess(action, request.Headers)) return GetResponse(HttpResponseStatus.Unauthorized, "未登录");
             string bodyParams = GetBodyParams(request);
             Dictionary<string, string> urlParams = GetUrlParams(request);
-            if (!CanLoginSuccess(action, bodyParams, urlParams)) return GetResponse(HttpResponseStatus.Unauthorized, "未登录");
             ParameterInfo[] parameters = action.GetParameters();
             var objects = new object[parameters.Length];
             object actionResult;
@@ -112,30 +113,24 @@ namespace Materal.ConDep
         /// <summary>
         /// 是否登录
         /// </summary>
-        /// <param name="action"></param>
-        /// <param name="bodyParams"></param>
-        /// <param name="urlParams"></param>
         /// <returns></returns>
-        private bool CanLoginSuccess(MemberInfo action, string bodyParams, IReadOnlyDictionary<string, string> urlParams)
+        private bool CanLoginSuccess(MemberInfo action, HttpHeaders headers)
         {
             Attribute[] attribute = action.GetCustomAttributes().ToArray();
             if (attribute.Any(m => m is AllowAnonymousAttribute)) return true;
-            string token;
-            if (urlParams.ContainsKey("token"))
-            {
-                token = urlParams["token"];
-            }
-            else if (bodyParams.Contains("Token"))
-            {
-                var model = bodyParams.JsonToObject<DefaultRequestModel>();
-                token = model.Token;
-            }
-            else
-            {
-                return false;
-            }
+            IList<ICharSequence> authorizations = headers.GetAll(HttpHeaderNames.Authorization);
             var authorityService = ApplicationData.GetService<IAuthorityService>();
-            return authorityService.IsLogin(token);
+            foreach (ICharSequence authorization in authorizations)
+            {
+                string authorizationString = authorization.ToString();
+                if (!authorizationString.Substring(0, 7).Equals("Bearer ")) continue;
+                string token = authorizationString.Substring(7);
+                if (authorityService.IsLogin(token))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         /// <summary>
         /// 获得参数

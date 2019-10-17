@@ -8,6 +8,9 @@ var Materal;
             var Common = /** @class */ (function () {
                 function Common() {
                 }
+                Common.getServerAddress = function () {
+                    return window.location.host;
+                };
                 /**
                  * 设置权限信息
                  * @param token token值
@@ -68,26 +71,25 @@ var Materal;
                         }
                     };
                     var errorFunc = function (result, xhr, status) {
-                        console.error(result);
+                        switch (status) {
+                            case 401:
+                                window.location.href = "/Login";
+                                break;
+                            default:
+                                console.error(result);
+                                break;
+                        }
+                    };
+                    var heads = {
+                        "Content-Type": "application/json"
                     };
                     var token = this.getAuthoirtyInfo();
                     if (token) {
-                        if (method == Materal.HttpMethod.GET) {
-                            if (url.indexOf("?") > 0) {
-                                url += "&token=" + token;
-                            }
-                            else {
-                                url += "?token=" + token;
-                            }
-                        }
-                        else {
-                            data["Token"] = token;
-                        }
+                        heads["Authorization"] = "Bearer " + token;
                     }
-                    var config = new Materal.HttpConfigModel("http://" + this.serverAddress + "/api/" + url, method, data, Materal.HttpHeadContentType.Json, successFunc, errorFunc);
+                    var config = new Materal.HttpConfigModel("http://" + this.getServerAddress() + "/api/" + url, method, data, heads, successFunc, errorFunc);
                     Materal.HttpManager.send(config);
                 };
-                Common.serverAddress = "192.168.2.2:8910";
                 return Common;
             }());
             Scripts.Common = Common;

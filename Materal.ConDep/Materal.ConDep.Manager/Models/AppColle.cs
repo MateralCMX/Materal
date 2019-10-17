@@ -61,7 +61,12 @@ namespace Materal.ConDep.Manager.Models
                 }
             });
         }
-
+        /// <summary>
+        /// 应用数据返回
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="app"></param>
         private void App_DataReceived(object sender, DataReceivedEventArgs e, AppModel app)
         {
             if (!appConsole.ContainsKey(app))
@@ -72,7 +77,6 @@ namespace Materal.ConDep.Manager.Models
             if (string.IsNullOrEmpty(e.Data)) return;
             appConsole[app].Add($"[{DateTime.Now:yyyy/MM/dd HH:mm:ss}]{e.Data}");
         }
-
         /// <summary>
         /// 保存数据
         /// </summary>
@@ -137,6 +141,7 @@ namespace Materal.ConDep.Manager.Models
             foreach (AppModel app in apps)
             {
                 app.Stop();
+                ClearConsole(app);
             }
         }
         /// <summary>
@@ -147,10 +152,9 @@ namespace Materal.ConDep.Manager.Models
         {
             foreach (AppModel app in apps)
             {
-                if (paths.Contains(app.AppPath))
-                {
-                    app.Stop();
-                }
+                if (!paths.Contains(app.AppPath)) continue;
+                app.Stop();
+                ClearConsole(app);
             }
         }
         /// <summary>
@@ -159,16 +163,6 @@ namespace Materal.ConDep.Manager.Models
         /// <param name="id"></param>
         /// <returns></returns>
         public AppModel this[Guid id] => apps.FirstOrDefault(m => m.ID == id);
-        /// <summary>
-        /// 位序索引
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        public AppModel this[int index]
-        {
-            get => apps[index];
-            set => apps[index] = value;
-        }
         /// <summary>
         /// 获得应用列表
         /// </summary>
@@ -182,7 +176,6 @@ namespace Materal.ConDep.Manager.Models
             }
             return result;
         }
-
         /// <summary>
         /// 获得应用控制台列表
         /// </summary>
@@ -193,7 +186,10 @@ namespace Materal.ConDep.Manager.Models
             if (!appConsole.ContainsKey(app)) throw new InvalidOperationException("还没有任何信息");
             return appConsole[app];
         }
-
+        /// <summary>
+        /// 清空控制台
+        /// </summary>
+        /// <param name="app"></param>
         public void ClearConsole(AppModel app)
         {
             if (appConsole.ContainsKey(app))

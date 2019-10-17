@@ -1,6 +1,8 @@
 namespace Materal.ConDep.Scripts {
     export class Common {
-        static serverAddress:string = "192.168.2.2:8910";
+        static getServerAddress() {
+            return window.location.host;
+        }
         /**
          * 设置权限信息
          * @param token token值
@@ -61,23 +63,23 @@ namespace Materal.ConDep.Scripts {
                 }
             }
             var errorFunc = (result: any, xhr: XMLHttpRequest, status: number) => {
-                console.error(result);
+                switch (status) {
+                    case 401:
+                        window.location.href = "/Login";
+                        break;
+                    default:
+                        console.error(result);
+                        break;
+                }
             }
+            let heads: any = {
+                "Content-Type": "application/json"
+            };
             const token = this.getAuthoirtyInfo();
-            if(token){
-                if(method == HttpMethod.GET){
-                    if(url.indexOf("?") > 0){
-                        url+=`&token=${token}`
-                    }
-                    else{
-                        url+=`?token=${token}`
-                    }
-                }
-                else{
-                    data["Token"] = token;
-                }
+            if (token) {
+                heads["Authorization"] = `Bearer ${token}`;
             }
-            var config = new HttpConfigModel(`http://${this.serverAddress}/api/${url}`, method, data, HttpHeadContentType.Json, successFunc, errorFunc);
+            var config = new HttpConfigModel(`http://${this.getServerAddress()}/api/${url}`, method, data, heads, successFunc, errorFunc);
             HttpManager.send(config);
         }
     }

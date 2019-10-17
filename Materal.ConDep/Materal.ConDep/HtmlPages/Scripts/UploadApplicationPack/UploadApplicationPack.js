@@ -12,7 +12,7 @@ var Materal;
                         reader: null,
                         index: 0,
                         fileSize: 0,
-                        readSize: 2048
+                        readSize: 20480
                     };
                     this._inputFile = document.getElementById("inputFile");
                     this._btnUpdate = document.getElementById("btnUpdate");

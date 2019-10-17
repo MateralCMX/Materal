@@ -6,11 +6,13 @@ using DotNetty.Transport.Channels.Sockets;
 using DotNetty.Transport.Libuv;
 using Materal.ConDep.Common;
 using System;
+using System.Linq;
 using System.Net;
 using System.Runtime;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Materal.StringHelper;
 
 namespace Materal.ConDep
 {
@@ -19,6 +21,7 @@ namespace Materal.ConDep
         public async Task RunServerAsync()
         {
             ConsoleHelper.ConDepServerWriteLine("持续部署服务启动中......");
+            ConsoleHelper.ConDepServerWriteLine($"电脑名称：{Environment.MachineName}");
             ConsoleHelper.ConDepServerWriteLine($"系统版本：{RuntimeInformation.OSArchitecture} {RuntimeInformation.OSDescription}");
             ConsoleHelper.ConDepServerWriteLine($".NET版本：{RuntimeInformation.ProcessArchitecture} {RuntimeInformation.FrameworkDescription}");
             ConsoleHelper.ConDepServerWriteLine($"CPU核心数：{Environment.ProcessorCount}");
@@ -73,13 +76,19 @@ namespace Materal.ConDep
                         pipeline.AddLast(new HttpObjectAggregator(ApplicationConfig.WebSocketConfig.MaxMessageLength));
                         pipeline.AddLast(ApplicationData.GetService<WebSocketServerHandler>());
                     }));
-                IPAddress iPAddress = IPAddress.Parse(ApplicationConfig.WebSocketConfig.Host);
-                IChannel bootstrapChannel = await bootstrap.BindAsync(iPAddress, ApplicationConfig.WebSocketConfig.Port);
+                string hostName = Dns.GetHostName();
+                IPAddress[] ipAddresses = Dns.GetHostAddresses(hostName);
+                ipAddresses = ipAddresses.Where(m => m.ToString().IsIPv4()).ToArray();
+                bool trueAddress = ipAddresses.Any(m => ApplicationConfig.WebSocketConfig.Host.Equals(m.ToString()));
+                IPAddress ipAddress = trueAddress ? 
+                    IPAddress.Parse(ApplicationConfig.WebSocketConfig.Host) : 
+                    ipAddresses[0];
+                IChannel bootstrapChannel = await bootstrap.BindAsync(ipAddress, ApplicationConfig.WebSocketConfig.Port);
                 ConsoleHelper.ConDepServerWriteLine("打开浏览器跳转到："
                                                        + $"{(ApplicationConfig.WebSocketConfig.IsSsl ? "https" : "http")}"
-                                                       + $"://{iPAddress}:{ApplicationConfig.WebSocketConfig.Port}/Login");
+                                                       + $"://{ipAddress}:{ApplicationConfig.WebSocketConfig.Port}/Login");
                 ConsoleHelper.ConDepServerWriteLine("监听中：" + $"{(ApplicationConfig.WebSocketConfig.IsSsl ? "wss" : "ws")}"
-                    + $"://{iPAddress}:{ApplicationConfig.WebSocketConfig.Port}/websocket");
+                    + $"://{ipAddress}:{ApplicationConfig.WebSocketConfig.Port}/websocket");
                 ConsoleHelper.ConDepServerWriteLine("持续部署服务启动完毕");
                 ConsoleHelper.ConDepServerWriteLine("输入Stop停止服务");
                 string inputKey = string.Empty;

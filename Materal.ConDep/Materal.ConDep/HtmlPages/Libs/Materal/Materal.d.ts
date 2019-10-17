@@ -385,18 +385,6 @@ declare namespace Materal {
         POST
     }
     /**
-     * HTTP头内容类型
-     */
-    enum HttpHeadContentType {
-        FormData,
-        FormUrlencoded,
-        Text,
-        Json,
-        JavasScript,
-        XML,
-        Html
-    }
-    /**
      * Http配置类
      */
     class HttpConfigModel {
@@ -433,9 +421,9 @@ declare namespace Materal {
          */
         async: boolean;
         /**
-         * HTTP头类型
+         * HTTP头
          */
-        contentType: HttpHeadContentType;
+        heads: any;
         /**
          * 构造方法
          * @param url URL地址
@@ -446,7 +434,7 @@ declare namespace Materal {
          * @param error 失败方法
          * @param complete 成功错误都执行的方法
          */
-        constructor(url: string, method?: HttpMethod, data?: Object, dataType?: HttpHeadContentType, success?: Function, error?: Function, complete?: Function);
+        constructor(url: string, method?: HttpMethod, data?: Object, heads?: any, success?: Function, error?: Function, complete?: Function);
     }
     /**
      * Http帮助类
