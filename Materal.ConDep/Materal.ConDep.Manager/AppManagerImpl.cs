@@ -1,6 +1,7 @@
 ﻿using Materal.ConDep.Manager.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Materal.ConvertHelper;
 
@@ -14,12 +15,15 @@ namespace Materal.ConDep.Manager
             string jsonFilePath = $"{AppDomain.CurrentDomain.BaseDirectory}ApplicationData.json";
             _appCollection = new AppCollection(jsonFilePath);
         }
+        
         public void StartAllApp()
         {
+            if (!CanRun()) throw new InvalidOperationException("正在发布中,请稍后");
             _appCollection.StartAll();
         }
         public void RestartAllApp()
         {
+            if (!CanRun()) throw new InvalidOperationException("正在发布中,请稍后");
             _appCollection.StopAll();
             _appCollection.StartAll();
         }
@@ -60,12 +64,14 @@ namespace Materal.ConDep.Manager
         }
         public void StartApp(Guid id)
         {
+            if (!CanRun()) throw new InvalidOperationException("正在发布中,请稍后");
             AppModel appModel = _appCollection[id];
             if (appModel == null) throw new InvalidOperationException("应用程序不存在");
             appModel.Start();
         }
         public void RestartApp(Guid id)
         {
+            if (!CanRun()) throw new InvalidOperationException("正在发布中,请稍后");
             AppModel appModel = _appCollection[id];
             if (appModel == null) throw new InvalidOperationException("应用程序不存在");
             appModel.Restart();
@@ -84,6 +90,17 @@ namespace Materal.ConDep.Manager
         public List<string> GetConsoleList(Guid id)
         {
             return _appCollection.GetAppConsoleList(_appCollection[id]);
+        }
+        /// <summary>
+        /// 是否可以运行
+        /// </summary>
+        /// <returns></returns>
+        private bool CanRun()
+        {
+            string path = $"{AppDomain.CurrentDomain.BaseDirectory}Application//Temp";
+            if (!Directory.Exists(path)) return true;
+            var directoryInfo = new DirectoryInfo(path);
+            return directoryInfo.GetDirectories().Length == 0;
         }
     }
 }

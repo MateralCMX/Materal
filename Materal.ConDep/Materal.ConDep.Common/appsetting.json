@@ -2,7 +2,7 @@
   "Application": {
     "ConDepServer": {
       "UserLibuv": true,
-      "Host": "192.168.0.107",
+      "Host": "116.55.251.31",
       "Port": 8800,
       "IsSsl": false,
       "CertificatePath": "",

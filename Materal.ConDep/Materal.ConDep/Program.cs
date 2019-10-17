@@ -1,11 +1,10 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
-using Materal.ConDep.Common;
-using Microsoft.Extensions.Logging;
+﻿using Materal.ConDep.Common;
 using NLog;
 using NLog.Config;
-using NLog.Extensions.Logging;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Materal.ConDep
 {
@@ -22,6 +21,11 @@ namespace Materal.ConDep
         {
             string version = Assembly.Load("Materal.ConDep").GetName().Version.ToString();
             Console.Title = $"Materal.ConDep [版本号:{version}]";
+            string path = $"{AppDomain.CurrentDomain.BaseDirectory}Application/Temp";
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
             if (TryRegisterService())
             {
                 try

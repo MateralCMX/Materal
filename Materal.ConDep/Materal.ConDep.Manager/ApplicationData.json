@@ -1,9 +1,137 @@
 [
   {
-    "ID": "3113616C-FD80-449F-BDE7-1E6E4078D8AF",
-    "Name": "测试网页",
-    "AppPath": "Materal.ConDep.WebDemo",
-    "MainModuleName": "Materal.ConDep.WebDemo.dll",
-    "Parameters": "--urls=http://[*]:8080"
+    "ID": "bf16b152-ecd6-444c-94e4-79be0e344a12",
+    "AppStatus": 1,
+    "Name": "权限API",
+    "AppPath": "Authority.WebAPI",
+    "MainModuleName": "Authority.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8902",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\Authority.WebAPI\\Authority.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8902"
+  },
+  {
+    "ID": "b66f8f6d-9031-48ee-b343-cfe818774176",
+    "AppStatus": 1,
+    "Name": "日志API",
+    "AppPath": "Log.WebAPI",
+    "MainModuleName": "Log.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8901",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\Log.WebAPI\\Log.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8901"
+  },
+  {
+    "ID": "a3d4c21c-8071-463b-97ca-79a17ec91566",
+    "AppStatus": 1,
+    "Name": "文件API",
+    "AppPath": "UploadFile.WebAPI",
+    "MainModuleName": "UploadFile.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8903",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\UploadFile.WebAPI\\UploadFile.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8903"
+  },
+  {
+    "ID": "965aadb7-c5da-404b-9b6d-1c3a188e3d3b",
+    "AppStatus": 1,
+    "Name": "文件Server",
+    "AppPath": "UploadFile.Server",
+    "MainModuleName": "UploadFile.Server.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\UploadFile.Server\\UploadFile.Server.dll --ConfigTarget=JiaQianServer"
+  },
+  {
+    "ID": "b592a0fa-913f-45ac-adda-29e45c266a8e",
+    "AppStatus": 1,
+    "Name": "组织API",
+    "AppPath": "OrganizationManage.WebAPI",
+    "MainModuleName": "OrganizationManage.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8905",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\OrganizationManage.WebAPI\\OrganizationManage.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8905"
+  },
+  {
+    "ID": "71c6fad1-fde9-4973-9d11-9a0724fd20f0",
+    "AppStatus": 1,
+    "Name": "敏感词API",
+    "AppPath": "SensitiveWord.WebAPI",
+    "MainModuleName": "SensitiveWord.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8906",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\SensitiveWord.WebAPI\\SensitiveWord.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8906"
+  },
+  {
+    "ID": "475061a9-2cf5-4474-9117-811d35017668",
+    "AppStatus": 1,
+    "Name": "土地Server",
+    "AppPath": "LandTransfer.WebSocketServer",
+    "MainModuleName": "LandTransfer.WebSocketServer.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\LandTransfer.WebSocketServer\\LandTransfer.WebSocketServer.dll --ConfigTarget=JiaQianServer"
+  },
+  {
+    "ID": "b157972e-3574-4fbd-a271-1c48d2bb008a",
+    "AppStatus": 1,
+    "Name": "土地API",
+    "AppPath": "LandTransfer.WebAPI",
+    "MainModuleName": "LandTransfer.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8908",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\LandTransfer.WebAPI\\LandTransfer.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8908"
+  },
+  {
+    "ID": "e99483ad-c936-4bd8-b308-421c5395b68e",
+    "AppStatus": 1,
+    "Name": "区域API",
+    "AppPath": "DistrictManage.WebAPI",
+    "MainModuleName": "DistrictManage.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8909",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\DistrictManage.WebAPI\\DistrictManage.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8909"
+  },
+  {
+    "ID": "518e8a69-bfe5-401d-95a6-bbdbcd01c6f4",
+    "AppStatus": 1,
+    "Name": "消息API",
+    "AppPath": "Message.WebAPI",
+    "MainModuleName": "Message.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8910",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\Message.WebAPI\\Message.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8910"
+  },
+  {
+    "ID": "5ef9e6b7-0ad6-4393-abb8-3121df991463",
+    "AppStatus": 1,
+    "Name": "消息Server",
+    "AppPath": "Message.Server",
+    "MainModuleName": "Message.Server.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\Message.Server\\Message.Server.dll --ConfigTarget=JiaQianServer"
+  },
+  {
+    "ID": "394d1a56-1c8b-47b2-b467-bb52c8669465",
+    "AppStatus": 1,
+    "Name": "党建API",
+    "AppPath": "PartyBuilding.WebAPI",
+    "MainModuleName": "PartyBuilding.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8912",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\PartyBuilding.WebAPI\\PartyBuilding.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8912"
+  },
+  {
+    "ID": "088d1218-9e00-46b0-9726-67b4ce8ed711",
+    "AppStatus": 1,
+    "Name": "科研API",
+    "AppPath": "ResourceSharing.WebAPI",
+    "MainModuleName": "ResourceSharing.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8913",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\ResourceSharing.WebAPI\\ResourceSharing.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8913"
+  },
+  {
+    "ID": "02e1424f-c382-4cfd-b8ca-64b2d303aa50",
+    "AppStatus": 1,
+    "Name": "文章API",
+    "AppPath": "Monograph.WebAPI",
+    "MainModuleName": "Monograph.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8914",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\Monograph.WebAPI\\Monograph.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8914"
+  },
+  {
+    "ID": "c9d882de-ebca-4c67-bb37-5f0c10e1b27b",
+    "AppStatus": 0,
+    "Name": "地图服务管理",
+    "AppPath": "MapServiceManagement.WebAPI",
+    "MainModuleName": "MapServiceManagement.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8915",
+    "CmdCommand": "dotnet D:\\Materal.ConDep\\Application\\MapServiceManagement.WebAPI\\MapServiceManagement.WebAPI.dll --ConfigTarget=JiaQianServer --urls=http://116.55.251.31:8915"
   }
 ]

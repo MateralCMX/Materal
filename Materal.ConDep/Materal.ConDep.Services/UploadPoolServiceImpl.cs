@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
+using Materal.StringHelper;
 
 namespace Materal.ConDep.Services
 {
@@ -61,7 +62,7 @@ namespace Materal.ConDep.Services
             if (uploadVideoModel.CanComplete)
             {
                 (string _, string path, long _) = await new UploadAccessory().SaveAccessoryAsync(uploadVideoModel.FileContent, $"{workingDirectory}\\Backup", uploadVideoModel.FileName, false);
-                await UpdateAppFileAsync(path);
+                await UpdateAppFileAsync(path, channel);
                 var @event = new UploadEndEvent();
                 await channel.SendJsonEventAsync(@event);
                 _uploadPool.Remove(channel);
@@ -72,15 +73,17 @@ namespace Materal.ConDep.Services
                 await channel.SendJsonEventAsync(@event);
             }
         }
+
         /// <summary>
         /// 更新APP文件
         /// </summary>
         /// <param name="path"></param>
+        /// <param name="channel"></param>
         /// <returns></returns>
-        private async Task UpdateAppFileAsync(string path)
+        private async Task UpdateAppFileAsync(string path, IChannel channel)
         {
             var appManager = ApplicationData.GetService<IAppManager>();
-            string tempPath = $"{workingDirectory}Temp";
+            string tempPath = $"{workingDirectory}Temp/{StringManager.GetRandomStrByGuid()}";
             DirectoryInfo tempDirectoryInfo = null;
             if (!Directory.Exists(tempPath)) tempDirectoryInfo = Directory.CreateDirectory(tempPath);
             if (tempDirectoryInfo == null) tempDirectoryInfo = new DirectoryInfo(tempPath);
@@ -91,14 +94,35 @@ namespace Materal.ConDep.Services
             appManager.StopAppByPaths(paths);
             foreach (DirectoryInfo directoryInfo in directoryInfos)
             {
-                string dirPath = $"{workingDirectory}{directoryInfo.Name}";
-                CopyDirectory(directoryInfo, dirPath);
-                directoryInfo.Delete();
+                try
+                {
+                    string dirPath = $"{workingDirectory}{directoryInfo.Name}";
+                    CopyDirectory(directoryInfo, dirPath);
+                }
+                catch (Exception ex)
+                {
+                    var @event = new ServerErrorEvent
+                    {
+                        Status = 500,
+                        Message = ex.Message
+                    };
+                    await channel.SendJsonEventAsync(@event);
+                }
+                finally
+                {
+                    directoryInfo.Delete(true);
+                }
             }
+            tempDirectoryInfo.Delete(true);
         }
-
+        /// <summary>
+        /// 复制文件夹
+        /// </summary>
+        /// <param name="directoryInfo"></param>
+        /// <param name="targetPath"></param>
         private void CopyDirectory(DirectoryInfo directoryInfo, string targetPath)
         {
+            if (!Directory.Exists(targetPath)) Directory.CreateDirectory(targetPath);
             #region CopyFile
             FileInfo[] fileInfos = directoryInfo.GetFiles();
             foreach (FileInfo fileInfo in fileInfos)
