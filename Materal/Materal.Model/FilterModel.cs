@@ -80,6 +80,30 @@ namespace Materal.Model
         /// <param name="targetPropertyInfo"></param>
         /// <returns></returns>
         public abstract Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo);
+
+        /// <summary>
+        /// 获得表达式目录树
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="parameterExpression"></param>
+        /// <param name="propertyInfo"></param>
+        /// <param name="value"></param>
+        /// <param name="targetPropertyInfo"></param>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        protected Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo,
+            T value, PropertyInfo targetPropertyInfo, Func<Expression, Expression, Expression> func)
+        {
+            if (value.IsNullOrEmptyString()) return null;
+            (Expression leftExpression, Expression rightExpression, Expression otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
+            Expression result = func(leftExpression, rightExpression);
+            if (otherExpression != null)
+            {
+                result = Expression.And(otherExpression, result);
+            }
+            return result;
+        }
+
         /// <summary>
         /// 获得左边和右边的表达式目录树
         /// </summary>
@@ -92,19 +116,22 @@ namespace Materal.Model
         /// <exception cref="MateralConvertException"></exception>
         protected (Expression leftExpression, Expression rightExpression, Expression otherExpression) GetLeftAndRightExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            string fullName = targetPropertyInfo.PropertyType.FullName;
-            if (fullName == null) throw new InvalidOperationException("");
-            bool isNullable = fullName.IndexOf("System.Nullable", StringComparison.Ordinal) == 0;
+            var isNullable = false;
+            if (targetPropertyInfo != null)
+            {
+                string fullName = targetPropertyInfo.PropertyType.FullName;
+                if (fullName == null) throw new InvalidOperationException("");
+                isNullable = fullName.IndexOf("System.Nullable", StringComparison.Ordinal) == 0;
+            }
             Expression leftExpression = GetLeftExpression(parameterExpression, propertyInfo, isNullable);
             Expression rightExpression = GetRightExpression(propertyInfo,value);
+            Expression otherExpression = null;
             if (isNullable)
             {
-                Expression otherExpression = Expression.Property(parameterExpression, propertyInfo.Name);
+                otherExpression = Expression.Property(parameterExpression, propertyInfo.Name);
                 otherExpression = Expression.Property(otherExpression, "HasValue");
-                //otherExpression = Expression.Equal(otherExpression, Expression.Constant(true));
-                return (leftExpression, rightExpression, otherExpression);
             }
-            return (leftExpression, rightExpression, null);
+            return (leftExpression, rightExpression, otherExpression);
         }
 
         /// <summary>
@@ -205,14 +232,7 @@ namespace Materal.Model
         public EqualAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            if (value.IsNullOrEmptyString()) return null;
-            (Expression leftExpression, Expression rightExpression, Expression otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
-            BinaryExpression result = Expression.Equal(leftExpression, rightExpression);
-            if (otherExpression != null)
-            {
-                result = Expression.And(otherExpression, result);
-            }
-            return result;
+            return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.Equal);
         }
     }
     /// <summary>
@@ -224,14 +244,7 @@ namespace Materal.Model
         public NotEqualAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            if (value.IsNullOrEmptyString()) return null;
-            (Expression leftExpression, Expression rightExpression, Expression otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
-            BinaryExpression result = Expression.NotEqual(leftExpression, rightExpression);
-            if (otherExpression != null)
-            {
-                result = Expression.And(otherExpression, result);
-            }
-            return result;
+            return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.NotEqual);
         }
     }
     /// <summary>
@@ -243,14 +256,7 @@ namespace Materal.Model
         public GreaterThanAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            if (value.IsNullOrEmptyString()) return null;
-            (Expression leftExpression, Expression rightExpression, Expression otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
-            BinaryExpression result = Expression.GreaterThan(leftExpression, rightExpression);
-            if (otherExpression != null)
-            {
-                result = Expression.And(otherExpression, result);
-            }
-            return result;
+            return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.GreaterThan);
         }
     }
     /// <summary>
@@ -262,14 +268,7 @@ namespace Materal.Model
         public GreaterThanOrEqualAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            if (value.IsNullOrEmptyString()) return null;
-            (Expression leftExpression, Expression rightExpression, Expression otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
-            BinaryExpression result = Expression.GreaterThanOrEqual(leftExpression, rightExpression);
-            if (otherExpression != null)
-            {
-                result = Expression.And(otherExpression, result);
-            }
-            return result;
+            return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.GreaterThanOrEqual);
         }
     }
     /// <summary>
@@ -281,14 +280,7 @@ namespace Materal.Model
         public LessThanAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            if (value.IsNullOrEmptyString()) return null;
-            (Expression leftExpression, Expression rightExpression, Expression otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
-            BinaryExpression result = Expression.LessThan(leftExpression, rightExpression);
-            if (otherExpression != null)
-            {
-                result = Expression.And(otherExpression, result);
-            }
-            return result;
+            return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.LessThan);
         }
     }
     /// <summary>
@@ -300,14 +292,7 @@ namespace Materal.Model
         public LessThanOrEqualAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            if (value.IsNullOrEmptyString()) return null;
-            (Expression leftExpression, Expression rightExpression, Expression otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
-            BinaryExpression result = Expression.LessThanOrEqual(leftExpression, rightExpression);
-            if (otherExpression != null)
-            {
-                result = Expression.And(otherExpression, result);
-            }
-            return result;
+            return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.LessThanOrEqual);
         }
     }
     /// <summary>
