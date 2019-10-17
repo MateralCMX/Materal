@@ -1,7 +1,10 @@
-﻿namespace Materal.ConDep.Repositorys {
+﻿namespace Materal.ConDep.Repositories {
     export class AuthorityRepository {
-        Login(data:any,success:Function) {
+        Login(data: any, success: Function) {
             Scripts.Common.sendPost("Authority/Login", data, success);
+        }
+        Logout(token: string, success: Function) {
+            Scripts.Common.sendGet(`Authority/Logout?token=${token}`, null, success);
         }
     }
 }

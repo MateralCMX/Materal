@@ -3,8 +3,8 @@ var Materal;
 (function (Materal) {
     var ConDep;
     (function (ConDep) {
-        var Repositorys;
-        (function (Repositorys) {
+        var Repositories;
+        (function (Repositories) {
             var AppRepository = /** @class */ (function () {
                 function AppRepository() {
                 }
@@ -41,12 +41,12 @@ var Materal;
                 AppRepository.prototype.StopApp = function (data, success) {
                     ConDep.Scripts.Common.sendGet("App/StopApp?id=" + data, null, success);
                 };
-                AppRepository.prototype.GetConsoleList = function (data, success) {
-                    ConDep.Scripts.Common.sendGet("App/GetConsoleList?id=" + data, null, success);
+                AppRepository.prototype.GetConsoleList = function (data, success, fail) {
+                    ConDep.Scripts.Common.sendGet("App/GetConsoleList?id=" + data, null, success, fail);
                 };
                 return AppRepository;
             }());
-            Repositorys.AppRepository = AppRepository;
-        })(Repositorys = ConDep.Repositorys || (ConDep.Repositorys = {}));
+            Repositories.AppRepository = AppRepository;
+        })(Repositories = ConDep.Repositories || (ConDep.Repositories = {}));
     })(ConDep = Materal.ConDep || (Materal.ConDep = {}));
 })(Materal || (Materal = {}));

@@ -7,7 +7,7 @@ var Materal;
         (function (Scripts) {
             var IndexViewModel = /** @class */ (function () {
                 function IndexViewModel() {
-                    this._appRepository = new ConDep.Repositorys.AppRepository();
+                    this._appRepository = new ConDep.Repositories.AppRepository();
                     this._dataTableBody = document.getElementById("dataTableBody");
                     this._btnStartAllApp = document.getElementById("btnStartAllApp");
                     this._btnRestartAllApp = document.getElementById("btnRestartAllApp");
@@ -94,36 +94,65 @@ var Materal;
                     buttonConsole.setAttribute("type", "button");
                     buttonConsole.setAttribute("data-ID", data.ID);
                     buttonConsole.innerText = "控制台";
+                    buttonConsole.classList.add("btn");
+                    buttonConsole.classList.add("btn-dark");
                     buttonConsole.addEventListener("click", function (event) { _this.btnConsole_Click(event); });
                     var aEdit = document.createElement("a");
                     aEdit.setAttribute("href", "/EditApplication?id=" + data.ID);
                     aEdit.innerText = "编辑";
+                    aEdit.classList.add("btn");
+                    aEdit.classList.add("btn-secondary");
                     var buttonStart = document.createElement("button");
                     buttonStart.setAttribute("type", "button");
                     buttonStart.setAttribute("data-ID", data.ID);
                     buttonStart.innerText = "启动";
+                    buttonStart.classList.add("btn");
+                    buttonStart.classList.add("btn-success");
                     buttonStart.addEventListener("click", function (event) { _this.btnStart_Click(event); });
                     var buttonStop = document.createElement("button");
                     buttonStop.setAttribute("type", "button");
                     buttonStop.setAttribute("data-ID", data.ID);
                     buttonStop.innerText = "停止";
+                    buttonStop.classList.add("btn");
+                    buttonStop.classList.add("btn-danger");
                     buttonStop.addEventListener("click", function (event) { _this.btnStop_Click(event); });
                     var buttonRestart = document.createElement("button");
                     buttonRestart.setAttribute("type", "button");
                     buttonRestart.setAttribute("data-ID", data.ID);
                     buttonRestart.innerText = "重启";
+                    buttonRestart.classList.add("btn");
+                    buttonRestart.classList.add("btn-primary");
                     buttonRestart.addEventListener("click", function (event) { _this.btnRestart_Click(event); });
                     var buttonDelete = document.createElement("button");
                     buttonDelete.setAttribute("type", "button");
                     buttonDelete.setAttribute("data-ID", data.ID);
                     buttonDelete.innerText = "删除";
+                    buttonDelete.classList.add("btn");
+                    buttonDelete.classList.add("btn-danger");
                     buttonDelete.addEventListener("click", function (event) { _this.btnDelete_Click(event); });
-                    tdOperation.appendChild(buttonConsole);
-                    tdOperation.appendChild(aEdit);
-                    tdOperation.appendChild(buttonStart);
-                    tdOperation.appendChild(buttonStop);
-                    tdOperation.appendChild(buttonRestart);
-                    tdOperation.appendChild(buttonDelete);
+                    var divButtonGroup = document.createElement("div");
+                    divButtonGroup.classList.add("btn-group");
+                    divButtonGroup.classList.add("btn-group-sm");
+                    switch (data.AppStatus) {
+                        case 0:
+                            divButtonGroup.appendChild(buttonConsole);
+                            divButtonGroup.appendChild(aEdit);
+                            divButtonGroup.appendChild(buttonStart);
+                            divButtonGroup.appendChild(buttonDelete);
+                            break;
+                        case 1:
+                            divButtonGroup.appendChild(buttonConsole);
+                            divButtonGroup.appendChild(buttonRestart);
+                            divButtonGroup.appendChild(buttonStop);
+                            break;
+                        case 2:
+                            divButtonGroup.appendChild(buttonConsole);
+                            break;
+                        case 3:
+                            divButtonGroup.appendChild(buttonConsole);
+                            break;
+                    }
+                    tdOperation.appendChild(divButtonGroup);
                     var tr = document.createElement("tr");
                     tr.appendChild(tdName);
                     tr.appendChild(tdAppStatus);
@@ -139,14 +168,20 @@ var Materal;
                     var id = event.target.getAttribute("data-ID");
                     if (id == null)
                         return;
-                    this._appRepository.GetConsoleList(id, function (result) {
+                    var success = function (result) {
                         _this._consolePanel.innerHTML = "";
                         result.Data.forEach(function (message) {
                             var pMessage = document.createElement("p");
                             pMessage.innerText = message;
                             _this._consolePanel.appendChild(pMessage);
                         });
-                    });
+                        $('#consoleModal').modal('show');
+                    };
+                    var fail = function (result) {
+                        _this._consolePanel.innerHTML = result.Message;
+                        $('#consoleModal').modal('show');
+                    };
+                    this._appRepository.GetConsoleList(id, success, fail);
                 };
                 /**
                  * 启动
@@ -197,7 +232,6 @@ var Materal;
                         if (id == null)
                             return;
                         this._appRepository.DeleteApp(id, function (result) {
-                            alert(result.Message);
                             _this.bindAppList();
                         });
                     }

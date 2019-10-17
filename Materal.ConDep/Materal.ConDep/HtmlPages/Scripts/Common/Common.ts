@@ -8,13 +8,19 @@ namespace Materal.ConDep.Scripts {
          * @param token token值
          */
         static setAuthoirtyInfo(token: string) {
-            sessionStorage.setItem("token", token);
+            localStorage.setItem("token", token);
         }
         /**
          * 获得权限信息
          */
         static getAuthoirtyInfo(): string | null {
-            return sessionStorage.getItem("token");
+            return localStorage.getItem("token");
+        }
+        /**
+         * 获得权限信息
+         */
+        static removeAuthoirtyInfo() {
+            localStorage.removeItem("token");
         }
         /**
          * 发送Post请求

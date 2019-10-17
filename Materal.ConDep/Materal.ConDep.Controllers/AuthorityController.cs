@@ -31,5 +31,22 @@ namespace Materal.ConDep.Controllers
                 return ResultModel<string>.Fail(ex.Message);
             }
         }
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, AllowAnonymous]
+        public ResultModel Logout(string token)
+        {
+            try
+            {
+                _authorityService.Logout(token);
+                return ResultModel.Success("登出成功");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
+        }
     }
 }

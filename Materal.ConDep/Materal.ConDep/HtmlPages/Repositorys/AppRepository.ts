@@ -1,4 +1,4 @@
-namespace Materal.ConDep.Repositorys {
+namespace Materal.ConDep.Repositories {
     export class AppRepository {
         GetAppList(success: Function) {
             Scripts.Common.sendGet("App/GetAppList", null, success);
@@ -33,8 +33,8 @@ namespace Materal.ConDep.Repositorys {
         StopApp(data: string, success: Function) {
             Scripts.Common.sendGet(`App/StopApp?id=${data}`, null, success);
         }
-        GetConsoleList(data: string, success: Function) {
-            Scripts.Common.sendGet(`App/GetConsoleList?id=${data}`, null, success);
+        GetConsoleList(data: string, success: Function, fail: Function) {
+            Scripts.Common.sendGet(`App/GetConsoleList?id=${data}`, null, success, fail);
         }
     }
 }

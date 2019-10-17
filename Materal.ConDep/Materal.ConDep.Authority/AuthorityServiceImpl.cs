@@ -16,7 +16,7 @@ namespace Materal.ConDep.Authority
         {
             if (!password.Equals(ApplicationConfig.OperatingPassword)) throw new InvalidOperationException("密码错误");
             string token = StringManager.GetRandomStrByGuid();
-            _cacheManager.SetByAbsolute(token, true, 3);
+            _cacheManager.SetByAbsolute(token, true, 1);
             return token;
         }
         public bool IsLogin(string token)

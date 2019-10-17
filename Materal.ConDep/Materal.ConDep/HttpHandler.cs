@@ -155,8 +155,9 @@ namespace Materal.ConDep
             string[] paramsString = tempString[1].Split('&');
             foreach (string item in paramsString)
             {
+                if (string.IsNullOrEmpty(item)) continue;
                 string[] values = item.Split("=");
-                if (@params.ContainsKey(values[0])) continue;
+                if (values.Length !=2 || @params.ContainsKey(values[0])) continue;
                 @params.Add(values[0], values[1]);
             }
             return @params;

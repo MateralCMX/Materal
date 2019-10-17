@@ -5,14 +5,14 @@ namespace Materal.ConDep.Scripts {
         private _inputPath: HTMLInputElement;
         private _inputMainModule: HTMLInputElement;
         private _inputParameters: HTMLInputElement;
-        private _appRepository: Repositorys.AppRepository;
+        private _appRepository: Repositories.AppRepository;
         constructor() {
             this._addForm = document.getElementById("addForm") as HTMLFormElement;
             this._inputName = document.getElementById("inputName") as HTMLInputElement;
             this._inputPath = document.getElementById("inputPath") as HTMLInputElement;
             this._inputMainModule = document.getElementById("inputMainModule") as HTMLInputElement;
             this._inputParameters = document.getElementById("inputParameters") as HTMLInputElement;
-            this._appRepository = new Repositorys.AppRepository();
+            this._appRepository = new Repositories.AppRepository();
             this.bindEvent();
         }
         private bindEvent() {

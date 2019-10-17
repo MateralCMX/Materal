@@ -1,25 +1,25 @@
 namespace Materal.ConDep.Scripts {
     class EditApplicationViewModel {
-        private _addForm: HTMLFormElement;
+        private _editForm: HTMLFormElement;
         private _inputName: HTMLInputElement;
         private _inputPath: HTMLInputElement;
         private _inputMainModule: HTMLInputElement;
         private _inputParameters: HTMLInputElement;
-        private _appRepository: Repositorys.AppRepository;
+        private _appRepository: Repositories.AppRepository;
         private _id: string;
         constructor() {
-            this._addForm = document.getElementById("addForm") as HTMLFormElement;
+            this._editForm = document.getElementById("editForm") as HTMLFormElement;
             this._inputName = document.getElementById("inputName") as HTMLInputElement;
             this._inputPath = document.getElementById("inputPath") as HTMLInputElement;
             this._inputMainModule = document.getElementById("inputMainModule") as HTMLInputElement;
             this._inputParameters = document.getElementById("inputParameters") as HTMLInputElement;
-            this._appRepository = new Repositorys.AppRepository();
+            this._appRepository = new Repositories.AppRepository();
             this._id = Materal.LocationHelper.getUrlParam("id");
             this.bindEvent();
             this.bindAppInfo();
         }
         private bindEvent() {
-            this._addForm.addEventListener("submit", event => {
+            this._editForm.addEventListener("submit", event => {
                 this.addForm_Submit(event);
             });
         }

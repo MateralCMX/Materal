@@ -12,6 +12,7 @@
         "UploadPartCommandHandler"
       ]
     },
-    "OperatingPassword": "123456" 
+    "OperatingPassword": "123456",
+    "SystemName": "Materal-持续发布系统"
   }
 }

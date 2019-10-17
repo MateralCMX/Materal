@@ -12,7 +12,7 @@ var Materal;
                     this._inputPath = document.getElementById("inputPath");
                     this._inputMainModule = document.getElementById("inputMainModule");
                     this._inputParameters = document.getElementById("inputParameters");
-                    this._appRepository = new ConDep.Repositorys.AppRepository();
+                    this._appRepository = new ConDep.Repositories.AppRepository();
                     this.bindEvent();
                 }
                 AddApplicationViewModel.prototype.bindEvent = function () {

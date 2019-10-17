@@ -11,21 +11,21 @@ namespace Materal.ConDep.Manager.Enums
         /// 停止
         /// </summary>
         [Description("停止")]
-        Stop,
+        Stop = 0,
         /// <summary>
         /// 开始
         /// </summary>
         [Description("运行中")]
-        Start,
+        Start = 1,
         /// <summary>
         /// 停止中
         /// </summary>
         [Description("停止中")]
-        Stopping,
+        Stopping = 2,
         /// <summary>
         /// 启动中
         /// </summary>
         [Description("启动中")]
-        Starting
+        Starting = 3
     }
 }

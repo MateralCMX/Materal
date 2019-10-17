@@ -1,13 +1,13 @@
 namespace Materal.ConDep.Scripts {
     class IndexViewModel {
-        private _appRepository: Repositorys.AppRepository;
+        private _appRepository: Repositories.AppRepository;
         private _dataTableBody: HTMLTableSectionElement;
         private _btnStartAllApp: HTMLInputElement;
         private _btnRestartAllApp: HTMLInputElement;
         private _btnStopAllApp: HTMLInputElement;
         private _consolePanel: HTMLDivElement;
         constructor() {
-            this._appRepository = new Repositorys.AppRepository();
+            this._appRepository = new Repositories.AppRepository();
             this._dataTableBody = document.getElementById("dataTableBody") as HTMLTableSectionElement;
             this._btnStartAllApp = document.getElementById("btnStartAllApp") as HTMLInputElement;
             this._btnRestartAllApp = document.getElementById("btnRestartAllApp") as HTMLInputElement;
@@ -87,36 +87,65 @@ namespace Materal.ConDep.Scripts {
             buttonConsole.setAttribute("type", "button");
             buttonConsole.setAttribute("data-ID", data.ID);
             buttonConsole.innerText = "控制台";
+            buttonConsole.classList.add("btn");
+            buttonConsole.classList.add("btn-dark");
             buttonConsole.addEventListener("click", event => { this.btnConsole_Click(event); });
             const aEdit = document.createElement("a");
             aEdit.setAttribute("href", `/EditApplication?id=${data.ID}`);
             aEdit.innerText = "编辑";
+            aEdit.classList.add("btn");
+            aEdit.classList.add("btn-secondary");
             const buttonStart = document.createElement("button");
             buttonStart.setAttribute("type", "button");
             buttonStart.setAttribute("data-ID", data.ID);
             buttonStart.innerText = "启动";
+            buttonStart.classList.add("btn");
+            buttonStart.classList.add("btn-success");
             buttonStart.addEventListener("click", event => { this.btnStart_Click(event); });
             const buttonStop = document.createElement("button");
             buttonStop.setAttribute("type", "button");
             buttonStop.setAttribute("data-ID", data.ID);
             buttonStop.innerText = "停止";
+            buttonStop.classList.add("btn");
+            buttonStop.classList.add("btn-danger");
             buttonStop.addEventListener("click", event => { this.btnStop_Click(event); });
             const buttonRestart = document.createElement("button");
             buttonRestart.setAttribute("type", "button");
             buttonRestart.setAttribute("data-ID", data.ID);
             buttonRestart.innerText = "重启";
+            buttonRestart.classList.add("btn");
+            buttonRestart.classList.add("btn-primary");
             buttonRestart.addEventListener("click", event => { this.btnRestart_Click(event); });
             const buttonDelete = document.createElement("button");
             buttonDelete.setAttribute("type", "button");
             buttonDelete.setAttribute("data-ID", data.ID);
             buttonDelete.innerText = "删除";
+            buttonDelete.classList.add("btn");
+            buttonDelete.classList.add("btn-danger");
             buttonDelete.addEventListener("click", event => { this.btnDelete_Click(event); });
-            tdOperation.appendChild(buttonConsole);
-            tdOperation.appendChild(aEdit);
-            tdOperation.appendChild(buttonStart);
-            tdOperation.appendChild(buttonStop);
-            tdOperation.appendChild(buttonRestart);
-            tdOperation.appendChild(buttonDelete);
+            const divButtonGroup = document.createElement("div");
+            divButtonGroup.classList.add("btn-group");
+            divButtonGroup.classList.add("btn-group-sm");
+            switch (data.AppStatus) {
+                case 0:
+                    divButtonGroup.appendChild(buttonConsole);
+                    divButtonGroup.appendChild(aEdit);
+                    divButtonGroup.appendChild(buttonStart);
+                    divButtonGroup.appendChild(buttonDelete);
+                    break;
+                case 1:
+                    divButtonGroup.appendChild(buttonConsole);
+                    divButtonGroup.appendChild(buttonRestart);
+                    divButtonGroup.appendChild(buttonStop);
+                    break;
+                case 2:
+                    divButtonGroup.appendChild(buttonConsole);
+                    break;
+                case 3:
+                    divButtonGroup.appendChild(buttonConsole);
+                    break;
+            }
+            tdOperation.appendChild(divButtonGroup);
             const tr = document.createElement("tr");
             tr.appendChild(tdName);
             tr.appendChild(tdAppStatus);
@@ -130,14 +159,20 @@ namespace Materal.ConDep.Scripts {
         private btnConsole_Click(event: MouseEvent) {
             const id = (event.target as HTMLButtonElement).getAttribute("data-ID");
             if (id == null) return;
-            this._appRepository.GetConsoleList(id, (result: any) => {
+            var success = (result: any) => {
                 this._consolePanel.innerHTML = "";
                 result.Data.forEach((message: string) => {
                     var pMessage = document.createElement("p");
                     pMessage.innerText = message;
                     this._consolePanel.appendChild(pMessage);
                 });
-            });
+                $('#consoleModal').modal('show');
+            };
+            var fail = (result: any) => {
+                this._consolePanel.innerHTML = result.Message;
+                $('#consoleModal').modal('show');
+            };
+            this._appRepository.GetConsoleList(id, success, fail);
         }
         /**
          * 启动
@@ -180,7 +215,6 @@ namespace Materal.ConDep.Scripts {
                 const id = (event.target as HTMLButtonElement).getAttribute("data-ID");
                 if (id == null) return;
                 this._appRepository.DeleteApp(id, (result: any) => {
-                    alert(result.Message);
                     this.bindAppList();
                 });
             }

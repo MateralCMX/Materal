@@ -16,13 +16,19 @@ var Materal;
                  * @param token token值
                  */
                 Common.setAuthoirtyInfo = function (token) {
-                    sessionStorage.setItem("token", token);
+                    localStorage.setItem("token", token);
                 };
                 /**
                  * 获得权限信息
                  */
                 Common.getAuthoirtyInfo = function () {
-                    return sessionStorage.getItem("token");
+                    return localStorage.getItem("token");
+                };
+                /**
+                 * 获得权限信息
+                 */
+                Common.removeAuthoirtyInfo = function () {
+                    localStorage.removeItem("token");
                 };
                 /**
                  * 发送Post请求

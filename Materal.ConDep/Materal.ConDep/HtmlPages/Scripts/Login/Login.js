@@ -7,39 +7,68 @@ var Materal;
         (function (Scripts) {
             var LoginViewModel = /** @class */ (function () {
                 function LoginViewModel() {
-                    this.authorityRepository = new ConDep.Repositorys.AuthorityRepository();
-                    this.loginForm = document.getElementById("loginForm");
-                    this.inputPassword = document.getElementById("inputPassword");
-                    this.btnLogin = document.getElementById("btnLogin");
+                    this._authorityRepository = new ConDep.Repositories.AuthorityRepository();
+                    this._systemRepository = new ConDep.Repositories.SystemRepository();
+                    this._loginForm = document.getElementById("loginForm");
+                    this._inputPassword = document.getElementById("inputPassword");
+                    this._systemName = document.getElementById("systemName");
+                    this._systemVersion = document.getElementById("systemVersion");
                     this.bindEvents();
+                    this.logout();
+                    this.bindTitle();
                 }
+                /**
+                 * 退出登录
+                 */
+                LoginViewModel.prototype.logout = function () {
+                    var token = Scripts.Common.getAuthoirtyInfo();
+                    if (token != null) {
+                        this._authorityRepository.Logout(token, function () {
+                            Scripts.Common.removeAuthoirtyInfo();
+                        });
+                    }
+                };
                 /**
                  * 绑定事件
                  */
                 LoginViewModel.prototype.bindEvents = function () {
                     var _this = this;
-                    this.loginForm.addEventListener("submit", function (event) {
-                        _this.btnLogin_Click(event);
+                    this._loginForm.addEventListener("submit", function (event) {
+                        _this.loginFrom_Submit(event);
                     });
+                };
+                /**
+                 * 绑定标题
+                 */
+                LoginViewModel.prototype.bindTitle = function () {
+                    var _this = this;
+                    var getNameSuccess = function (event) {
+                        _this._systemName.innerText = event.Data;
+                    };
+                    var getVersionSuccess = function (event) {
+                        _this._systemVersion.innerText = "Materal.ConDev v" + event.Data;
+                    };
+                    this._systemRepository.GetSystemName(getNameSuccess);
+                    this._systemRepository.GetSystemVersion(getVersionSuccess);
                 };
                 /**
                  * 登录事件
                  */
-                LoginViewModel.prototype.btnLogin_Click = function (event) {
+                LoginViewModel.prototype.loginFrom_Submit = function (event) {
                     var data = {
-                        Password: this.inputPassword.value
+                        Password: this._inputPassword.value
                     };
                     var success = function (result) {
                         Scripts.Common.setAuthoirtyInfo(result.Data);
                         window.location.href = "/Index";
                     };
-                    this.authorityRepository.Login(data, success);
+                    this._authorityRepository.Login(data, success);
                     event.preventDefault();
                 };
                 return LoginViewModel;
             }());
             window.addEventListener("load", function () {
-                var viewModel = new LoginViewModel();
+                new LoginViewModel();
             });
         })(Scripts = ConDep.Scripts || (ConDep.Scripts = {}));
     })(ConDep = Materal.ConDep || (Materal.ConDep = {}));

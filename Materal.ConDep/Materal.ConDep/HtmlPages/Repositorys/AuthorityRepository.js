@@ -3,17 +3,20 @@ var Materal;
 (function (Materal) {
     var ConDep;
     (function (ConDep) {
-        var Repositorys;
-        (function (Repositorys) {
+        var Repositories;
+        (function (Repositories) {
             var AuthorityRepository = /** @class */ (function () {
                 function AuthorityRepository() {
                 }
                 AuthorityRepository.prototype.Login = function (data, success) {
                     ConDep.Scripts.Common.sendPost("Authority/Login", data, success);
                 };
+                AuthorityRepository.prototype.Logout = function (token, success) {
+                    ConDep.Scripts.Common.sendGet("Authority/Logout?token=" + token, null, success);
+                };
                 return AuthorityRepository;
             }());
-            Repositorys.AuthorityRepository = AuthorityRepository;
-        })(Repositorys = ConDep.Repositorys || (ConDep.Repositorys = {}));
+            Repositories.AuthorityRepository = AuthorityRepository;
+        })(Repositories = ConDep.Repositories || (ConDep.Repositories = {}));
     })(ConDep = Materal.ConDep || (Materal.ConDep = {}));
 })(Materal || (Materal = {}));

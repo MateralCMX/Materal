@@ -6,32 +6,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>修改应用</title>
-    <link href="/Css/Base.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/Css/Base.css">
 </head>
 
 <body>
-    <h1>修改应用</h1>
-    <form id="addForm" autocomplete="off" class="add-form">
-        <div class="form-item">
-            <span>名称：</span>
-            <input id="inputName" type="text" required>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/Index">ConDev</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Index">主页</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/UploadApplicationPack">上传应用包</a>
+                </li>
+            </ul>
         </div>
-        <div class="form-item">
-            <span>路径：</span>
-            <input id="inputPath" type="text" required>
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            <li class="nav-item">
+                <a class="nav-link p-2" href="/Login">
+                    退出
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <main class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="card col-6">
+                <div class="card-body">
+                    <h5 class="card-title">修改应用</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">应用管理</h6>
+                    <form id="editForm">
+                        <div class="form-group row">
+                            <label class="col-3 col-form-label">名称：</label>
+                            <div class="col">
+                                <input id="inputName" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 col-form-label">路径：</label>
+                            <div class="col">
+                                <input id="inputPath" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 col-form-label">模块文件：</label>
+                            <div class="col">
+                                <input id="inputMainModule" type="text" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 col-form-label">运行参数：</label>
+                            <div class="col">
+                                <input id="inputParameters" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 col-form-label"></label>
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary btn-block">修改</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col"></div>
         </div>
-        <div class="form-item">
-            <span>模块文件：</span>
-            <input id="inputMainModule" type="text" required>
-        </div>
-        <div class="form-item">
-            <span>运行参数：</span>
-            <input id="inputParameters" type="text">
-        </div>
-        <div class="form-item">
-            <button type="submit">修改</button>
-        </div>
-    </form>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
     <script src="/Libs/Materal/Materal.min.js"></script>
     <script src="/Scripts/Common/Common.js"></script>
     <script src="/Repositorys/AppRepository.js"></script>

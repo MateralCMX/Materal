@@ -61,11 +61,13 @@ namespace Materal.ConDep.Common
         /// <summary>
         /// 操作密码
         /// </summary>
-        public static string OperatingPassword
-        {
-            get => _operatingPassword ?? (_operatingPassword = Configuration["Application:OperatingPassword"]);
-            set => _operatingPassword = value;
-        }
+        public static string OperatingPassword => _operatingPassword ?? (_operatingPassword = Configuration["Application:OperatingPassword"]);
+
+        private static string _systemName;
+        /// <summary>
+        /// 系统名称
+        /// </summary>
+        public static string SystemName => _systemName ?? (_systemName = Configuration["Application:SystemName"]);
         #endregion
     }
 }

@@ -7,19 +7,19 @@ var Materal;
         (function (Scripts) {
             var EditApplicationViewModel = /** @class */ (function () {
                 function EditApplicationViewModel() {
-                    this._addForm = document.getElementById("addForm");
+                    this._editForm = document.getElementById("editForm");
                     this._inputName = document.getElementById("inputName");
                     this._inputPath = document.getElementById("inputPath");
                     this._inputMainModule = document.getElementById("inputMainModule");
                     this._inputParameters = document.getElementById("inputParameters");
-                    this._appRepository = new ConDep.Repositorys.AppRepository();
+                    this._appRepository = new ConDep.Repositories.AppRepository();
                     this._id = Materal.LocationHelper.getUrlParam("id");
                     this.bindEvent();
                     this.bindAppInfo();
                 }
                 EditApplicationViewModel.prototype.bindEvent = function () {
                     var _this = this;
-                    this._addForm.addEventListener("submit", function (event) {
+                    this._editForm.addEventListener("submit", function (event) {
                         _this.addForm_Submit(event);
                     });
                 };
