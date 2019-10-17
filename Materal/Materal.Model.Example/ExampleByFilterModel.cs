@@ -59,7 +59,7 @@ namespace Materal.Model.Example
         public DateTime CreateTime { get; set; }
         public int Age { get; set; }
         public bool IsDelete { get; set; }
-        public float Value { get; set; }
+        public float? Value { get; set; }
         public Guid? TargetID { get; set; }
         public Guid MemberID { get; set; }
     }

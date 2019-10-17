@@ -32,7 +32,7 @@ namespace Materal.Model
                     try
                     {
                         object value = propertyInfo.GetValue(this);
-                        PropertyInfo tValuePropertyInfo = tType.GetProperty(propertyInfo.Name);
+                        PropertyInfo tValuePropertyInfo = tType.GetProperty(filterAttribute.TargetPropertyName ?? propertyInfo.Name);
                         Expression binaryExpression = filterAttribute.GetSearchExpression(mParameterExpression, propertyInfo, value, tValuePropertyInfo);
                         if (binaryExpression != null)
                         {
@@ -128,7 +128,7 @@ namespace Materal.Model
             Expression otherExpression = null;
             if (isNullable)
             {
-                otherExpression = Expression.Property(parameterExpression, propertyInfo.Name);
+                otherExpression = Expression.Property(parameterExpression, TargetPropertyName ?? propertyInfo.Name);
                 otherExpression = Expression.Property(otherExpression, "HasValue");
             }
             return (leftExpression, rightExpression, otherExpression);
@@ -144,22 +144,14 @@ namespace Materal.Model
         protected Expression GetLeftExpression(ParameterExpression parameterExpression, PropertyInfo propertyInfo, bool isNullable)
         {
             MemberExpression leftExpression;
-            if (!string.IsNullOrEmpty(TargetPropertyName))
+            if (isNullable)
             {
-                leftExpression = Expression.Property(parameterExpression, TargetPropertyName);
+                leftExpression = Expression.Property(parameterExpression, TargetPropertyName ?? propertyInfo.Name);
+                leftExpression = Expression.Property(leftExpression, "Value");
             }
             else
             {
-                if (isNullable)
-                {
-                    leftExpression = Expression.Property(parameterExpression, propertyInfo.Name);
-                    leftExpression = Expression.Property(leftExpression, "Value");
-                }
-                else
-                {
-
-                    leftExpression = Expression.Property(parameterExpression, propertyInfo.Name);
-                }
+                leftExpression = Expression.Property(parameterExpression, TargetPropertyName ?? propertyInfo.Name);
             }
             return leftExpression;
         }
