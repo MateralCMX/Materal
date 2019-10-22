@@ -61,7 +61,7 @@ namespace Materal.WordHelper
             {
                 ApplyToStringTemplate(document, stringTemplates);
             }
-            if (tableTemplates.Count > 0)
+            if (tableTemplates.Count > 0 || document.Tables != null && document.Tables.Count > 0)
             {
                 ApplyToTableTemplate(document, tableTemplates, stringTemplates);
             }
@@ -101,14 +101,17 @@ namespace Materal.WordHelper
             foreach (XWPFTable tableContent in document.Tables)
             {
                 var isApply = false;
-                for (var rowIndex = 0; rowIndex < tableContent.NumberOfRows; rowIndex++)
+                if (tableTemplates.Count > 0)
                 {
-                    (string tableName, List<KeyValuePair<int, string>> colNames) = GetTableNameAndColName(tableContent, rowIndex);
-                    if (string.IsNullOrEmpty(tableName)) continue;
-                    TableTemplateModel tableTemplate = tableTemplates.FirstOrDefault(m => m.Key == tableName);
-                    if (tableTemplate == null) continue;
-                    ApplyToTableTemplate(tableContent, tableTemplate, colNames);
-                    isApply = true;
+                    for (var rowIndex = 0; rowIndex < tableContent.NumberOfRows; rowIndex++)
+                    {
+                        (string tableName, List<KeyValuePair<int, string>> colNames) = GetTableNameAndColName(tableContent, rowIndex);
+                        if (string.IsNullOrEmpty(tableName)) continue;
+                        TableTemplateModel tableTemplate = tableTemplates.FirstOrDefault(m => m.Key == tableName);
+                        if (tableTemplate == null) continue;
+                        ApplyToTableTemplate(tableContent, tableTemplate, colNames);
+                        isApply = true;
+                    }
                 }
                 if (!isApply)
                 {
