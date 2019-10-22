@@ -1,7 +1,6 @@
-﻿using System;
-using System.Reflection;
-using AspectCore.Extensions.DependencyInjection;
+﻿using AspectCore.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Materal.Model.Example
 {
@@ -9,11 +8,14 @@ namespace Materal.Model.Example
     {
         public static void Main(string[] args)
         {
-            //IServiceCollection service = new ServiceCollection();
-            //service.AddTransient<ITestService, TestServiceImpl>();
-            //ServiceProvider serviceProvider = service.BuildDynamicProxyServiceProvider();
-            //var testService = serviceProvider.GetService<ITestService>();
-            //testService.Test01(null);
+            IServiceCollection service = new ServiceCollection();
+            service.AddTransient<ITestService, TestServiceImpl>();
+            ServiceProvider serviceProvider = service.BuildDynamicProxyServiceProvider();
+            var testService = serviceProvider.GetService<ITestService>();
+            testService.Test01(new TempModel
+            {
+                ID = Guid.Empty
+            });
             var example = new ExampleByFilterModel();
             example.Example();
             Console.ReadKey();

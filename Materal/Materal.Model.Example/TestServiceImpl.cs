@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Model.Example
+﻿namespace Materal.Model.Example
 {
     public class TestServiceImpl : ITestService
     {
-        public void Test01([Required]string[] strings)
+
+        public void Test01(TempModel tempModel)
         {
         }
     }
