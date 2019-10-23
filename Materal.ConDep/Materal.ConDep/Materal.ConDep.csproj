@@ -66,6 +66,9 @@
     <None Update="HtmlPages\Libs\Materal\Materal.min.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="HtmlPages\Test.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="HtmlPages\Login.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

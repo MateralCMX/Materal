@@ -175,6 +175,7 @@ namespace Materal.ConDep
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
 #endif
             string fileName = request.Uri.Split('?')[0];
+            if (fileName == "/") fileName = "/Test";
             bool isHtml = !fileName.Contains(".");
             string filePath = isHtml ? $"{basePath}HtmlPages{fileName}.html" : $"{basePath}HtmlPages{fileName}";
             if (!File.Exists(filePath))
