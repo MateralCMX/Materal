@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>更新程序包</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/Manager/Css/Base.css">
+</head>
+
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">MicroFront</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Manager/UploadApplicationPack">上传发布包</a>
+                </li>
+            </ul>
+        </div>
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            <li class="nav-item">
+                <a class="nav-link p-2" href="/Manager/Login">
+                    退出
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <main class="container">
+        <div class="row">
+            <div class="col"></div>
+            <div class="card col-6">
+                <div class="card-body">
+                    <h5 class="card-title">上传发布包</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">发布包管理</h6>
+                    <form id="editForm">
+                        <div class="form-group row">
+                            <label class="col-3 col-form-label">发布包：</label>
+                            <div class="col">
+                                <input id="inputFile" type="file" class="form-control-file" disabled>
+                            </div>
+                        </div>
+                        <div id="progressPanel" class="form-group row" style="display: none;">
+                            <label class="col-3 col-form-label"></label>
+                            <div class="col">
+                                <div class="progress">
+                                    <div id="progress" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                                        aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-3 col-form-label"></label>
+                            <div class="col">
+                                <button id="btnUpdate" type="button" class="btn btn-primary btn-block"
+                                    disabled>上传</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/spark-md5/3.0.0/spark-md5.js"></script>
+    <script src="/Manager/Libs/Materal/Materal.min.js"></script>
+    <script src="/Manager/Scripts/Common/Common.js"></script>
+    <script src="/Manager/Scripts/Common/WebSocketHelper.js"></script>
+    <script src="/Manager/Scripts/UploadApplicationPack/UploadApplicationPack.js"></script>
+</body>
+
+</html>

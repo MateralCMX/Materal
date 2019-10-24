@@ -1,0 +1,18 @@
+{
+  "Application": {
+    "MicroFrontServer": {
+      "UserLibuv": true,
+      "Host": "116.55.251.31",
+      "Port": 8801,
+      "IsSsl": false,
+      "CertificatePath": "",
+      "CertificatePassword": "",
+      "MaxMessageLength": 10000000,
+      "NotShowCommandBlackList": [
+        "UploadPartCommandHandler"
+      ]
+    },
+    "OperatingPassword": "123456",
+    "SystemName": "Materal-微前端发布系统"
+  }
+}

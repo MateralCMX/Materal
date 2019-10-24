@@ -4,12 +4,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Materal.Model" Version="1.0.8" />
+    <PackageReference Include="Materal.Model" Version="1.0.9" />
+    <PackageReference Include="Materal.WebSocket.Http" Version="0.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Materal.ConDep.Authority\Materal.ConDep.Authority.csproj" />
     <ProjectReference Include="..\Materal.ConDep.Manager\Materal.ConDep.Manager.csproj" />
-    <ProjectReference Include="..\Materal.WebSocket.Http\Materal.WebSocket.Http.csproj" />
+    <ProjectReference Include="..\Materal.ConDep.Services\Materal.ConDep.Services.csproj" />
   </ItemGroup>
 
 </Project>

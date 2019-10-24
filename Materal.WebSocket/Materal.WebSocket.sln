@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2048
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{E6641727-5571-4537-94C8-4B2A00BB3E1E}"
 EndProject
@@ -15,19 +15,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestClient.UI", "TestClient
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestClient.WebSocketClient", "TestClient.WebSocketClient\TestClient.WebSocketClient.csproj", "{AA56AA6C-16FD-4B49-820B-82B2938AA564}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WebSocket.Server", "Materal.WebSocket.Server\Materal.WebSocket.Server.csproj", "{1FFF8FD8-A590-43BC-87D7-88D78DFA5039}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WebSocket.Server", "Materal.WebSocket.Server\Materal.WebSocket.Server.csproj", "{1FFF8FD8-A590-43BC-87D7-88D78DFA5039}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestServer.UI", "TestServer.UI\TestServer.UI.csproj", "{E879F34D-1E9F-4352-B5D6-15D167419C5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestServer.UI", "TestServer.UI\TestServer.UI.csproj", "{E879F34D-1E9F-4352-B5D6-15D167419C5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebSocket.Common", "TestWebSocket.Common\TestWebSocket.Common.csproj", "{78ED272B-555F-4C2D-8EB8-6BBF896F1252}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebSocket.Common", "TestWebSocket.Common\TestWebSocket.Common.csproj", "{78ED272B-555F-4C2D-8EB8-6BBF896F1252}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebSocket.Commands", "TestWebSocket.Commands\TestWebSocket.Commands.csproj", "{DA799182-7C1A-4ED8-8D42-015184D7DCDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebSocket.Commands", "TestWebSocket.Commands\TestWebSocket.Commands.csproj", "{DA799182-7C1A-4ED8-8D42-015184D7DCDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebSocket.CommandHandlers", "TestWebSocket.CommandHandlers\TestWebSocket.CommandHandlers.csproj", "{CF75088A-4A16-4B43-8881-F5844460FD55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebSocket.CommandHandlers", "TestWebSocket.CommandHandlers\TestWebSocket.CommandHandlers.csproj", "{CF75088A-4A16-4B43-8881-F5844460FD55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebSocket.Events", "TestWebSocket.Events\TestWebSocket.Events.csproj", "{2C6D0AA4-2FC2-44AF-9132-72D1F6ADC4FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebSocket.Events", "TestWebSocket.Events\TestWebSocket.Events.csproj", "{2C6D0AA4-2FC2-44AF-9132-72D1F6ADC4FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebSocket.EventHandlers", "TestWebSocket.EventHandlers\TestWebSocket.EventHandlers.csproj", "{FECDCFFE-05B6-48AC-BAED-ACA98352E456}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebSocket.EventHandlers", "TestWebSocket.EventHandlers\TestWebSocket.EventHandlers.csproj", "{FECDCFFE-05B6-48AC-BAED-ACA98352E456}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WebSocket.Http", "Materal.WebSocket.Http\Materal.WebSocket.Http.csproj", "{D61E8B61-136E-4B3E-9AEC-9611F063E335}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{FECDCFFE-05B6-48AC-BAED-ACA98352E456}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FECDCFFE-05B6-48AC-BAED-ACA98352E456}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FECDCFFE-05B6-48AC-BAED-ACA98352E456}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D61E8B61-136E-4B3E-9AEC-9611F063E335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61E8B61-136E-4B3E-9AEC-9611F063E335}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61E8B61-136E-4B3E-9AEC-9611F063E335}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61E8B61-136E-4B3E-9AEC-9611F063E335}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,13 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="HtmlPages\Scripts\新文件夹\**" />
-    <EmbeddedResource Remove="HtmlPages\Scripts\新文件夹\**" />
-    <None Remove="HtmlPages\Scripts\新文件夹\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Materal.Model" Version="1.0.8" />
+    <PackageReference Include="Materal.Model" Version="1.0.9" />
     <PackageReference Include="Materal.WebSocket" Version="0.0.9" />
     <PackageReference Include="Materal.ConvertHelper" Version="1.0.5" />
     <PackageReference Include="DotNetty.Codecs.Http" Version="0.6.0" />
@@ -21,13 +15,13 @@
     <PackageReference Include="DotNetty.Codecs.Http" Version="0.6.0" />
     <PackageReference Include="DotNetty.Handlers" Version="0.6.0" />
     <PackageReference Include="DotNetty.Transport.Libuv" Version="0.6.0" />
+    <PackageReference Include="Materal.WebSocket.Http" Version="0.0.1" />
     <PackageReference Include="NetCore.AutoRegisterDi" Version="1.1.0" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.6.0" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.6.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Materal.ConDep.Authority\Materal.ConDep.Authority.csproj" />
     <ProjectReference Include="..\Materal.ConDep.CommandHandlers\Materal.ConDep.CommandHandlers.csproj" />
     <ProjectReference Include="..\Materal.ConDep.Commands\Materal.ConDep.Commands.csproj" />
     <ProjectReference Include="..\Materal.ConDep.Common\Materal.ConDep.Common.csproj" />
@@ -35,7 +29,6 @@
     <ProjectReference Include="..\Materal.ConDep.Events\Materal.ConDep.Events.csproj" />
     <ProjectReference Include="..\Materal.ConDep.Manager\Materal.ConDep.Manager.csproj" />
     <ProjectReference Include="..\Materal.ConDep.Services\Materal.ConDep.Services.csproj" />
-    <ProjectReference Include="..\Materal.WebSocket.Http\Materal.WebSocket.Http.csproj" />
   </ItemGroup>
 
   <ItemGroup>
