@@ -99,10 +99,10 @@ namespace Materal.ConDep.Manager.Models
         /// </summary>
         public void Stop()
         {
-            if (AppStatus != AppStatusEnum.Start || AppStatus != AppStatusEnum.Error) return;
+            if (AppStatus != AppStatusEnum.Start && AppStatus != AppStatusEnum.Error) return;
             lock (_changeStatusLock)
             {
-                if (AppStatus != AppStatusEnum.Start || AppStatus != AppStatusEnum.Error) return;
+                if (AppStatus != AppStatusEnum.Start && AppStatus != AppStatusEnum.Error) return;
                 AppStatus = AppStatusEnum.Stopping;
                 try
                 {
