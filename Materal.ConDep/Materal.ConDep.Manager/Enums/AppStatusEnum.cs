@@ -26,6 +26,11 @@ namespace Materal.ConDep.Manager.Enums
         /// 启动中
         /// </summary>
         [Description("启动中")]
-        Starting = 3
+        Starting = 3,
+        /// <summary>
+        /// 发生错误
+        /// </summary>
+        [Description("发生错误")]
+        Error = 4
     }
 }

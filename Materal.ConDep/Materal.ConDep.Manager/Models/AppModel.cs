@@ -1,13 +1,15 @@
 ﻿using Materal.ConDep.Manager.Enums;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
+using Materal.ConDep.Common;
 
 namespace Materal.ConDep.Manager.Models
 {
     public class AppModel
     {
+        private readonly ILogger<AppModel> _logger;
         public event Action<object, DataReceivedEventArgs, AppModel> OutputDataReceived;
         public event Action<object, DataReceivedEventArgs, AppModel> ErrorDataReceived;
         /// <summary>
@@ -48,6 +50,12 @@ namespace Materal.ConDep.Manager.Models
         }
         private Process _process;
         private readonly object _changeStatusLock = new object();
+
+        public AppModel()
+        {
+            _logger = ApplicationData.GetService<ILogger<AppModel>>();
+        }
+
         /// <summary>
         /// 开始
         /// </summary>
@@ -91,17 +99,24 @@ namespace Materal.ConDep.Manager.Models
         /// </summary>
         public void Stop()
         {
-            if (AppStatus != AppStatusEnum.Start) return;
+            if (AppStatus != AppStatusEnum.Start || AppStatus != AppStatusEnum.Error) return;
             lock (_changeStatusLock)
             {
-                if (AppStatus != AppStatusEnum.Start) return;
+                if (AppStatus != AppStatusEnum.Start || AppStatus != AppStatusEnum.Error) return;
                 AppStatus = AppStatusEnum.Stopping;
-                KillProgram();
-                _process.StandardInput.WriteLine("exit");
-                _process.WaitForExit();
-                _process.Close();
-                _process.Dispose();
-                AppStatus = AppStatusEnum.Stop;
+                try
+                {
+                    _process.StandardInput.WriteLine("exit");
+                    _process.WaitForExit();
+                    _process.Close();
+                    _process.Dispose();
+                    AppStatus = AppStatusEnum.Stop;
+                }
+                catch (Exception ex)
+                {
+                    AppStatus = AppStatusEnum.Error;
+                    _logger.LogError(ex.Message);
+                }
             }
         }
         /// <summary>
@@ -130,24 +145,6 @@ namespace Materal.ConDep.Manager.Models
                 Verb = "RunAs"
             };
             return processStartInfo;
-        }
-        /// <summary>
-        /// 杀死程序
-        /// </summary>
-        private void KillProgram()
-        {
-            Process[] processes = Process.GetProcessesByName("dotnet");
-            Process currentProcess = Process.GetCurrentProcess();
-            Parallel.ForEach(processes, process =>
-            {
-                if (currentProcess.Id == process.Id) return;
-                foreach (ProcessModule processModule in process.Modules)
-                {
-                    if (processModule.ModuleName != MainModuleName) continue;
-                    process.Kill();
-                    break;
-                }
-            });
         }
         #endregion
     }

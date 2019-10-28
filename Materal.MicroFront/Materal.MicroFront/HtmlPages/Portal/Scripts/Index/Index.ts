@@ -2,6 +2,7 @@ namespace Materal.MicroFront.Scripts {
     class IndexViewModel {
         private _serviceRepository: Repositories.ServiceRepository;
         private _services: Array<any> = [];
+        private nowService: string = "";
         constructor() {
             this._serviceRepository = new Repositories.ServiceRepository();
             this.GetServices();
@@ -13,7 +14,12 @@ namespace Materal.MicroFront.Scripts {
         }
         public ChangeService(serviceName: string) {
             this._services.forEach(service => {
-                if (service.Name == serviceName) {
+                if (service.Name == serviceName && this.nowService != service.Name) {
+                    let nowService = (window as any)[this.nowService];
+                    if(nowService){
+                        nowService.vue.$destroy();
+                    }
+                    this.nowService = service.Name;
                     let head = document.getElementsByTagName("head")[0] as HTMLHeadElement;
                     //清理路由
                     for (let i = 0; i < head.childNodes.length; i++) {
@@ -28,7 +34,7 @@ namespace Materal.MicroFront.Scripts {
                         let linkElement = document.createElement("link");
                         linkElement.setAttribute("href", link.HrefAttribute);
                         linkElement.setAttribute("rel", link.RelAttribute);
-                        if(link.AsAttribute){
+                        if (link.AsAttribute) {
                             linkElement.setAttribute("as", link.AsAttribute);
                         }
                         head.appendChild(linkElement);
@@ -36,14 +42,23 @@ namespace Materal.MicroFront.Scripts {
                     //添加Script
                     let scripts = document.getElementById("scripts") as HTMLDivElement;
                     scripts.innerHTML = "";
-                    for (let i = 0; i < service.Scripts.length; i++) {
-                        const script = service.Scripts[i];
-                        let scriptElement = document.createElement("script");
-                        scriptElement.setAttribute("src", script);
-                        scripts.appendChild(scriptElement);
-                    }
+                    this.LoadScripts(0, service.Scripts, scripts);
                 }
             });
+        }
+        private LoadScripts(index: number, scripts: Array<string>, scriptsDiv: HTMLDivElement) {
+            if (index >= scripts.length){                
+                let nowService = (window as any)[this.nowService];
+                nowService.Init();
+                nowService.vue.$mount("#app");
+                return;
+            }
+            let scriptElement = document.createElement("script");
+            scriptElement.setAttribute("src", scripts[index]);
+            scriptElement.addEventListener("load", () => {
+                this.LoadScripts(index + 1, scripts, scriptsDiv);
+            });
+            scriptsDiv.appendChild(scriptElement);
         }
     }
     let viewModel: IndexViewModel;

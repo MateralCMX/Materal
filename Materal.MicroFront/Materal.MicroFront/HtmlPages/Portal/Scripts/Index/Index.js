@@ -8,6 +8,7 @@ var Materal;
             var IndexViewModel = /** @class */ (function () {
                 function IndexViewModel() {
                     this._services = [];
+                    this.nowService = "";
                     this._serviceRepository = new MicroFront.Repositories.ServiceRepository();
                     this.GetServices();
                 }
@@ -18,8 +19,14 @@ var Materal;
                     });
                 };
                 IndexViewModel.prototype.ChangeService = function (serviceName) {
+                    var _this = this;
                     this._services.forEach(function (service) {
-                        if (service.Name == serviceName) {
+                        if (service.Name == serviceName && _this.nowService != service.Name) {
+                            var nowService = window[_this.nowService];
+                            if (nowService) {
+                                nowService.vue.$destroy();
+                            }
+                            _this.nowService = service.Name;
                             var head = document.getElementsByTagName("head")[0];
                             //清理路由
                             for (var i = 0; i < head.childNodes.length; i++) {
@@ -42,14 +49,24 @@ var Materal;
                             //添加Script
                             var scripts = document.getElementById("scripts");
                             scripts.innerHTML = "";
-                            for (var i = 0; i < service.Scripts.length; i++) {
-                                var script = service.Scripts[i];
-                                var scriptElement = document.createElement("script");
-                                scriptElement.setAttribute("src", script);
-                                scripts.appendChild(scriptElement);
-                            }
+                            _this.LoadScripts(0, service.Scripts, scripts);
                         }
                     });
+                };
+                IndexViewModel.prototype.LoadScripts = function (index, scripts, scriptsDiv) {
+                    var _this = this;
+                    if (index >= scripts.length) {
+                        var nowService = window[this.nowService];
+                        nowService.Init();
+                        nowService.vue.$mount("#app");
+                        return;
+                    }
+                    var scriptElement = document.createElement("script");
+                    scriptElement.setAttribute("src", scripts[index]);
+                    scriptElement.addEventListener("load", function () {
+                        _this.LoadScripts(index + 1, scripts, scriptsDiv);
+                    });
+                    scriptsDiv.appendChild(scriptElement);
                 };
                 return IndexViewModel;
             }());
