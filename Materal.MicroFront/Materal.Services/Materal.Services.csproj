@@ -16,10 +16,5 @@
     <ProjectReference Include="..\Materal.MicroFront.Common\Materal.MicroFront.Common.csproj" />
     <ProjectReference Include="..\Materal.MicroFront.Events\Materal.MicroFront.Events.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Update="WebServiceConfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 
 </Project>

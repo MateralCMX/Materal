@@ -16,6 +16,15 @@ var Materal;
                     var _this = this;
                     this._serviceRepository.GetAppList(function (result) {
                         _this._services = result.Data;
+                        var appInfos = document.getElementById("AppInfos");
+                        appInfos.innerHTML = "";
+                        for (var i = 0; i < _this._services.length; i++) {
+                            var service = _this._services[i];
+                            var aElement = document.createElement("a");
+                            aElement.href = "/#/" + service.Name;
+                            aElement.innerHTML = service.Name;
+                            appInfos.appendChild(aElement);
+                        }
                     });
                 };
                 IndexViewModel.prototype.ChangeService = function (serviceName) {

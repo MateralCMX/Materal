@@ -1,8 +1,5 @@
-﻿using System;
+﻿using Materal.Services.Models;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Materal.Services.Models;
 
 namespace Materal.Services
 {
@@ -16,23 +13,15 @@ namespace Materal.Services
         /// </summary>
         /// <returns></returns>
         List<ServiceModel> GetServices();
-
         /// <summary>
-        /// 修改服务
-        /// </summary>
-        /// <param name="serviceModel"></param>
-        Task EditServiceAsync(ServiceModel serviceModel);
-
-        /// <summary>
-        /// 添加服务
-        /// </summary>
-        /// <param name="serviceModel"></param>
-        Task AddServiceAsync(ServiceModel serviceModel);
-        /// <summary>
-        /// 是否拥有服务
+        /// 删除服务
         /// </summary>
         /// <param name="serviceName"></param>
         /// <returns></returns>
-        bool HasService(string serviceName);
+        void DeleteService(string serviceName);
+        /// <summary>
+        /// 初始化服务
+        /// </summary>
+        void InitServices();
     }
 }

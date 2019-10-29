@@ -10,6 +10,15 @@ namespace Materal.MicroFront.Scripts {
         private GetServices() {
             this._serviceRepository.GetAppList((result: any) => {
                 this._services = result.Data;
+                const appInfos = document.getElementById("AppInfos") as HTMLDivElement;
+                appInfos.innerHTML = "";
+                for (let i = 0; i < this._services.length; i++) {
+                    const service = this._services[i];
+                    const aElement = document.createElement("a");
+                    aElement.href = `/#/${service.Name}`;
+                    aElement.innerHTML = service.Name;
+                    appInfos.appendChild(aElement);
+                }
             });
         }
         public ChangeService(serviceName: string) {

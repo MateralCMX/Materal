@@ -4,15 +4,14 @@ using Materal.MicroFront.Common;
 using Materal.MicroFront.Common.Extension;
 using Materal.MicroFront.Events;
 using Materal.Services.Models;
+using Materal.StringHelper;
+using Materal.WindowsHelper;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
-using HtmlAgilityPack;
-using Materal.StringHelper;
-using Materal.WindowsHelper;
 
 namespace Materal.Services
 {
@@ -97,15 +96,7 @@ namespace Materal.Services
                 {
                     string targetPath = $"{workingDirectory}{directoryInfo.Name}";
                     CopyDirectory(directoryInfo, targetPath);
-                    ServiceModel serviceModel = GetServiceModel(targetPath);
-                    if (fileService.HasService(serviceModel.Name))
-                    {
-                        await fileService.EditServiceAsync(serviceModel);
-                    }
-                    else
-                    {
-                        await fileService.AddServiceAsync(serviceModel);
-                    }
+                    fileService.InitServices();
                 }
                 catch (Exception ex)
                 {
@@ -122,44 +113,6 @@ namespace Materal.Services
                 }
             }
             tempDirectoryInfo.Delete(true);
-        }
-
-        private ServiceModel GetServiceModel(string targetPath)
-        {
-            var serviceModel = new ServiceModel();
-            var targetPathInfo = new DirectoryInfo(targetPath);
-            serviceModel.Name = targetPathInfo.Name;
-            foreach (FileInfo fileInfo in targetPathInfo.GetFiles("Index.html"))
-            {
-                if (fileInfo.Name.ToLower() != "index.html") continue;
-                string html = File.ReadAllText(fileInfo.FullName);
-                var document = new HtmlDocument();
-                document.LoadHtml(html);
-                HtmlNodeCollection scriptNodes = document.DocumentNode.SelectNodes("//script");
-                serviceModel.Scripts = new List<string>();
-                foreach (HtmlNode scriptNode in scriptNodes)
-                {
-                    string attributeValue = scriptNode.GetAttributeValue("src", string.Empty);
-                    if (string.IsNullOrEmpty(attributeValue)) continue;
-                    serviceModel.Scripts.Add(attributeValue);
-                }
-                HtmlNodeCollection linkNodes = document.DocumentNode.SelectNodes("//link");
-                serviceModel.Links = new List<LinkModel>();
-                foreach (HtmlNode linkNode in linkNodes)
-                {
-                    string hrefAttributeValue = linkNode.GetAttributeValue("href", string.Empty);
-                    string relAttributeValue = linkNode.GetAttributeValue("rel", string.Empty);
-                    string asAttributeValue = linkNode.GetAttributeValue("as", string.Empty);
-                    if (string.IsNullOrEmpty(hrefAttributeValue) || string.IsNullOrEmpty(relAttributeValue)) continue;
-                    serviceModel.Links.Add(new LinkModel
-                    {
-                        HrefAttribute = hrefAttributeValue,
-                        RelAttribute = relAttributeValue,
-                        AsAttribute = asAttributeValue
-                    });
-                }
-            }
-            return serviceModel;
         }
         /// <summary>
         /// 复制文件夹
