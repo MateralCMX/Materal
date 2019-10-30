@@ -58,7 +58,7 @@ namespace Materal.MicroFront.Scripts {
             };
             var success = function (result: any) {
                 Scripts.Common.setAuthoirtyInfo(result.Data);
-                window.location.href = "/Manager/UploadApplicationPack";
+                window.location.href = "/Manager/UploadApplicationPack.html";
             }
             this._authorityRepository.Login(data, success);
             event.preventDefault();

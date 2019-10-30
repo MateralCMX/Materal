@@ -79,7 +79,7 @@ var Materal;
                     var errorFunc = function (result, xhr, status) {
                         switch (status) {
                             case 401:
-                                window.location.href = "/Manager/Login";
+                                window.location.href = "/Manager/Login.html";
                                 break;
                             default:
                                 console.error(result);

@@ -31,7 +31,7 @@ namespace Materal.MicroFront.Scripts {
             this.registerEventHandler("ServerErrorEventHandler", (event: any) => {
                 switch (event.Status) {
                     case 401:
-                        window.location.href = "/Manager/Login";
+                        window.location.href = "/Manager/Login.html";
                         break;
                     default:
                         console.error(event);

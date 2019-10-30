@@ -30,7 +30,16 @@ namespace Materal.Services
         /// <returns></returns>
         public DefaultFullHttpResponse GetResponse(IFullHttpRequest request)
         {
-            return request.Uri.LastIndexOf("/api", StringComparison.Ordinal) == 0 ? GetAPIResponse(request) : GetFileResponse(request);
+            if (request.Uri.Contains("."))
+            {
+                return GetFileResponse(request);
+            }
+            if (request.Uri.IndexOf("/api", StringComparison.Ordinal) == 0)
+            {
+                return GetAPIResponse(request);
+            }
+            request.SetUri("/Portal/Index.html");
+            return GetFileResponse(request);
         }
         /// <summary>
         /// 清空缓存
@@ -167,11 +176,10 @@ namespace Materal.Services
         {
             string fileName = request.Uri.Split('?')[0];
             if (fileName == "/") fileName = "/Index";
-            bool isHtml = !fileName.Contains(".") || fileName.EndsWith(".html");
             DefaultFullHttpResponse result;
-            if (isHtml || fileName.EndsWith(".css") || fileName.EndsWith(".js") || fileName.EndsWith(".js.map"))
+            if (fileName.EndsWith(".html") || fileName.EndsWith(".css") || fileName.EndsWith(".js") || fileName.EndsWith(".js.map"))
             {
-                result = GetTxtResponse(fileName, isHtml);
+                result = GetTxtResponse(fileName);
             }
             else
             {
@@ -189,7 +197,7 @@ namespace Materal.Services
             var body = _cacheManager.Get<byte[]>($"{_cacheKey}{fileName}");
             if (body == null)
             {
-                string filePath = GetFilePath(fileName, false);
+                string filePath = GetFilePath(fileName);
                 if (filePath == null) return GetResponse(HttpResponseStatus.NotFound);
                 using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
@@ -218,14 +226,13 @@ namespace Materal.Services
         /// 获得文本返回
         /// </summary>
         /// <param name="fileName"></param>
-        /// <param name="isHtml"></param>
         /// <returns></returns>
-        private DefaultFullHttpResponse GetTxtResponse(string fileName, bool isHtml)
+        private DefaultFullHttpResponse GetTxtResponse(string fileName)
         {
             var fileText = _cacheManager.Get<string>($"{_cacheKey}{fileName}");
             if (string.IsNullOrEmpty(fileText))
             {
-                string filePath = GetFilePath(fileName, isHtml);
+                string filePath = GetFilePath(fileName);
                 if (filePath == null) return GetResponse(HttpResponseStatus.NotFound);
                 using (var streamReader = new StreamReader(filePath))
                 {
@@ -233,7 +240,7 @@ namespace Materal.Services
                     _cacheManager.SetBySliding($"{_cacheKey}{fileName}", fileText, 1);
                 }
             }
-            if (isHtml) return GetResponse(HttpResponseStatus.OK, fileText);
+            if (fileName.EndsWith(".html")) return GetResponse(HttpResponseStatus.OK, fileText);
             if (fileName.Contains(".js")) return GetResponse(HttpResponseStatus.OK, fileText, "application/javascript");
             if (fileName.Contains(".css")) return GetResponse(HttpResponseStatus.OK, fileText, "text/css");
             return GetResponse(HttpResponseStatus.NotFound);
@@ -242,15 +249,14 @@ namespace Materal.Services
         /// 获得文件路径
         /// </summary>
         /// <param name="fileName"></param>
-        /// <param name="isHtml"></param>
         /// <returns></returns>
-        private string GetFilePath(string fileName, bool isHtml)
+        private string GetFilePath(string fileName)
         {
             //const string basePath = @"E:/Project/Materal/Project/Materal.MicroFront/Materal.MicroFront/";
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
-            string filePath = GetFilePath(basePath, fileName, isHtml, "");
+            string filePath = GetFilePath(basePath, fileName, "");
             if (File.Exists(filePath)) return filePath;
-            filePath = GetFilePath(basePath, fileName, isHtml, "Portal");
+            filePath = GetFilePath(basePath, fileName, "Portal");
             if (File.Exists(filePath)) return filePath;
             var htmlPagesDirectoryInfo = new DirectoryInfo($"{basePath}HtmlPages");
             DirectoryInfo[] directoryInfos = htmlPagesDirectoryInfo.GetDirectories();
@@ -262,7 +268,7 @@ namespace Materal.Services
                     case "Manager":
                         break;
                     default:
-                        filePath = GetFilePath(basePath, fileName, isHtml, directoryInfo.Name);
+                        filePath = GetFilePath(basePath, fileName, directoryInfo.Name);
                         if (File.Exists(filePath)) return filePath;
                         break;
                 }
@@ -274,16 +280,15 @@ namespace Materal.Services
         /// </summary>
         /// <param name="basePath"></param>
         /// <param name="fileName"></param>
-        /// <param name="isHtml"></param>
         /// <param name="projectName"></param>
         /// <returns></returns>
-        private string GetFilePath(string basePath, string fileName, bool isHtml, string projectName)
+        private string GetFilePath(string basePath, string fileName, string projectName)
         {
             if (string.IsNullOrEmpty(projectName))
             {
-                return isHtml ? $"{basePath}HtmlPages{fileName}.html" : $"{basePath}HtmlPages{fileName}";
+                return $"{basePath}HtmlPages{fileName}";
             }
-            return isHtml ? $"{basePath}HtmlPages/{projectName}{fileName}.html" : $"{basePath}HtmlPages/{projectName}{fileName}";
+            return $"{basePath}HtmlPages/{projectName}{fileName}";
         }
         /// <summary>
         /// 获得失败返回

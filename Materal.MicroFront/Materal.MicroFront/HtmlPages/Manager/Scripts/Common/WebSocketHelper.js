@@ -37,7 +37,7 @@ var Materal;
                     this.registerEventHandler("ServerErrorEventHandler", function (event) {
                         switch (event.Status) {
                             case 401:
-                                window.location.href = "/Manager/Login";
+                                window.location.href = "/Manager/Login.html";
                                 break;
                             default:
                                 console.error(event);

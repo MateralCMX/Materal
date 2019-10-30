@@ -60,7 +60,7 @@ var Materal;
                     };
                     var success = function (result) {
                         Scripts.Common.setAuthoirtyInfo(result.Data);
-                        window.location.href = "/Manager/UploadApplicationPack";
+                        window.location.href = "/Manager/UploadApplicationPack.html";
                     };
                     this._authorityRepository.Login(data, success);
                     event.preventDefault();
