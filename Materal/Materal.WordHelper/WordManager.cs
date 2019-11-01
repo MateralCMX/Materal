@@ -130,7 +130,8 @@ namespace Materal.WordHelper
                 int documentRowIndex = rowIndex + startRowNum;
                 XWPFTableRow row = rowIndex == 0 ? tableContent.GetRow(documentRowIndex) : tableContent.InsertNewTableRow(documentRowIndex);
                 int cellCount = row.GetTableCells().Count;
-                for (int i = cellCount - 1; i < colNames.Max(m => m.Key); i++)
+                int count = colNames.Max(m => m.Key);
+                for (int i = cellCount - 1; i < count; i++)
                 {
                     row.CreateCell();
                 }
