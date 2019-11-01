@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Materal.ConvertHelper;
 using Materal.StringHelper;
 
 namespace Materal.WordHelper
@@ -135,9 +136,28 @@ namespace Materal.WordHelper
                 }
                 foreach (KeyValuePair<int, string> colName in colNames)
                 {
-                    string value = tableTemplate.Value.Rows[rowIndex][colName.Value].ToString();
+                    string[] colValues = colName.Value.Split(',');
+                    string value = tableTemplate.Value.Rows[rowIndex][colValues[0]].ToString();
                     XWPFParagraph paragraph = GetCellContent(rowIndex, colName.Key, tableContent, value, tableTemplate.OnSetCellText);
-                    row.GetCell(colName.Key).SetParagraph(paragraph);
+                    XWPFTableCell cell = row.GetCell(colName.Key);
+                    cell.SetParagraph(paragraph);
+                    for (var i = 1; i < colValues.Length; i++)
+                    {
+                        string[] split = colValues[i].Split(':');
+                        if (split.Length != 2) continue;
+                        string type = split[0];
+                        string typeValue = split[1];
+                        if (type == "RowSpan")
+                        {
+                            int endColIndex = colName.Key + typeValue.ConvertTo<int>() - 1;
+                            cellCount = row.GetTableCells().Count;
+                            for (int j = cellCount; j <= endColIndex; j++)
+                            {
+                                row.CreateCell();
+                            }
+                            row.MergeCells(colName.Key, endColIndex);
+                        }
+                    }
                 }
             }
         }
