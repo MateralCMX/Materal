@@ -5,8 +5,6 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-using HtmlAgilityPack;
-using Materal.Services.Models;
 
 namespace Materal.MicroFront
 {
