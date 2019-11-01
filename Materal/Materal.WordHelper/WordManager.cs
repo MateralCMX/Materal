@@ -144,7 +144,7 @@ namespace Materal.WordHelper
                     cell.SetParagraph(paragraph);
                     for (var i = 1; i < colValues.Length; i++)
                     {
-                        ApplyCommand(colValues[i], colName.Key, row, cell);
+                        ApplyCommand(colValues[i], colName.Key, row);
                     }
                 }
             }
@@ -155,8 +155,7 @@ namespace Materal.WordHelper
         /// <param name="command"></param>
         /// <param name="colIndex"></param>
         /// <param name="row"></param>
-        /// <param name="cell"></param>
-        private void ApplyCommand(string command, int colIndex, XWPFTableRow row, XWPFTableCell cell)
+        private void ApplyCommand(string command, int colIndex, XWPFTableRow row)
         {
             string[] commands = command.Split(':');
             if (commands.Length != 2) return;
