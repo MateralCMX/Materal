@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Materal.ConvertHelper;
 using Materal.StringHelper;
 
 namespace Materal.WordHelper
@@ -100,23 +101,19 @@ namespace Materal.WordHelper
         {
             foreach (XWPFTable tableContent in document.Tables)
             {
-                var isApply = false;
                 if (tableTemplates.Count > 0)
                 {
                     for (var rowIndex = 0; rowIndex < tableContent.NumberOfRows; rowIndex++)
                     {
-                        (string tableName, List<KeyValuePair<int, string>> colNames) = GetTableNameAndColName(tableContent, rowIndex);
+                        (string tableName, Dictionary<int, string> colNames) = GetTableNameAndColName(tableContent, rowIndex);
                         if (string.IsNullOrEmpty(tableName)) continue;
                         TableTemplateModel tableTemplate = tableTemplates.FirstOrDefault(m => m.Key == tableName);
                         if (tableTemplate == null) continue;
                         ApplyToTableTemplate(tableContent, tableTemplate, colNames);
-                        isApply = true;
+                        break;
                     }
                 }
-                if (!isApply)
-                {
-                    ApplyTableToStringTemplate(tableContent, stringTemplates);
-                }
+                ApplyTableToStringTemplate(tableContent, stringTemplates);
             }
         }
         /// <summary>
@@ -125,25 +122,54 @@ namespace Materal.WordHelper
         /// <param name="tableContent"></param>
         /// <param name="tableTemplate"></param>
         /// <param name="colNames"></param>
-        private void ApplyToTableTemplate(XWPFTable tableContent, TableTemplateModel tableTemplate, IReadOnlyCollection<KeyValuePair<int, string>> colNames)
+        private void ApplyToTableTemplate(XWPFTable tableContent, TableTemplateModel tableTemplate, Dictionary<int, string> colNames)
         {
             int startRowNum = tableTemplate.StartRowNumber;
-            int rowNumber = tableTemplate.Value.Rows.Count;
-            for (var rowIndex = 0; rowIndex < rowNumber; rowIndex++)
+            for (var rowIndex = 0; rowIndex < tableTemplate.Value.Rows.Count; rowIndex++)
             {
                 int documentRowIndex = rowIndex + startRowNum;
-                XWPFTableRow row = tableContent.NumberOfRows <= documentRowIndex ? tableContent.CreateRow() : tableContent.GetRow(documentRowIndex);
+                XWPFTableRow row = rowIndex == 0 ? tableContent.GetRow(documentRowIndex) : tableContent.InsertNewTableRow(documentRowIndex);
                 int cellCount = row.GetTableCells().Count;
-                for (int i = cellCount - 1; i < colNames.Max(m => m.Key); i++)
+                int count = colNames.Max(m => m.Key);
+                for (int i = cellCount - 1; i < count; i++)
                 {
                     row.CreateCell();
                 }
                 foreach (KeyValuePair<int, string> colName in colNames)
                 {
-                    string value = tableTemplate.Value.Rows[rowIndex][colName.Value].ToString();
+                    string[] colValues = colName.Value.Split(',');
+                    string value = tableTemplate.Value.Rows[rowIndex][colValues[0]].ToString();
                     XWPFParagraph paragraph = GetCellContent(rowIndex, colName.Key, tableContent, value, tableTemplate.OnSetCellText);
-                    row.GetCell(colName.Key).SetParagraph(paragraph);
+                    XWPFTableCell cell = row.GetCell(colName.Key);
+                    cell.SetParagraph(paragraph);
+                    for (var i = 1; i < colValues.Length; i++)
+                    {
+                        ApplyCommand(colValues[i], colName.Key, row);
+                    }
                 }
+            }
+        }
+        /// <summary>
+        /// 应用命令
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="colIndex"></param>
+        /// <param name="row"></param>
+        private void ApplyCommand(string command, int colIndex, XWPFTableRow row)
+        {
+            string[] commands = command.Split(':');
+            if (commands.Length != 2) return;
+            string type = commands[0];
+            string typeValue = commands[1];
+            if (type == "RowSpan")
+            {
+                int endColIndex = colIndex + typeValue.ConvertTo<int>() - 1;
+                int cellCount = row.GetTableCells().Count;
+                for (int j = cellCount; j <= endColIndex; j++)
+                {
+                    row.CreateCell();
+                }
+                row.MergeCells(colIndex, endColIndex);
             }
         }
         /// <summary>
@@ -181,13 +207,13 @@ namespace Materal.WordHelper
         /// <param name="tableContent"></param>
         /// <param name="rowIndex"></param>
         /// <returns></returns>
-        private (string tableName, List<KeyValuePair<int, string>> colNames) GetTableNameAndColName(XWPFTable tableContent, int rowIndex)
+        private (string tableName, Dictionary<int, string> colNames) GetTableNameAndColName(XWPFTable tableContent, int rowIndex)
         {
             XWPFTableRow row = tableContent.GetRow(rowIndex);
             List<XWPFTableCell> cells = row.GetTableCells();
             if (cells.Count <= 0 || cells[0].BodyElements.Count <= 0) return (null, null);
             string tableName = string.Empty;
-            var colNames = new List<KeyValuePair<int, string>>();
+            var colNames = new Dictionary<int, string>();
             for (var index = 0; index < cells.Count; index++)
             {
                 IBodyElement bodyElement = cells[index].BodyElements[0];
@@ -197,7 +223,8 @@ namespace Materal.WordHelper
                 string[] tableNameAndColumnName = value.Substring(2, value.Length - 3).Split('.');
                 if (tableNameAndColumnName.Length != 2) continue;
                 tableName = tableNameAndColumnName[0];
-                colNames.Add(new KeyValuePair<int, string>(index, tableNameAndColumnName[1]));
+                if (colNames.ContainsKey(index)) continue;
+                colNames.Add(index, tableNameAndColumnName[1]);
             }
 
             return (tableName, colNames);
