@@ -143,22 +143,33 @@ namespace Materal.WordHelper
                     cell.SetParagraph(paragraph);
                     for (var i = 1; i < colValues.Length; i++)
                     {
-                        string[] split = colValues[i].Split(':');
-                        if (split.Length != 2) continue;
-                        string type = split[0];
-                        string typeValue = split[1];
-                        if (type == "RowSpan")
-                        {
-                            int endColIndex = colName.Key + typeValue.ConvertTo<int>() - 1;
-                            cellCount = row.GetTableCells().Count;
-                            for (int j = cellCount; j <= endColIndex; j++)
-                            {
-                                row.CreateCell();
-                            }
-                            row.MergeCells(colName.Key, endColIndex);
-                        }
+                        ApplyCommand(colValues[i], colName.Key, row, cell);
                     }
                 }
+            }
+        }
+        /// <summary>
+        /// 应用命令
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="colIndex"></param>
+        /// <param name="row"></param>
+        /// <param name="cell"></param>
+        private void ApplyCommand(string command, int colIndex, XWPFTableRow row, XWPFTableCell cell)
+        {
+            string[] commands = command.Split(':');
+            if (commands.Length != 2) return;
+            string type = commands[0];
+            string typeValue = commands[1];
+            if (type == "RowSpan")
+            {
+                int endColIndex = colIndex + typeValue.ConvertTo<int>() - 1;
+                int cellCount = row.GetTableCells().Count;
+                for (int j = cellCount; j <= endColIndex; j++)
+                {
+                    row.CreateCell();
+                }
+                row.MergeCells(colIndex, endColIndex);
             }
         }
         /// <summary>
