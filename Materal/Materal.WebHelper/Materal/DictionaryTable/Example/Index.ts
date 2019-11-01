@@ -150,7 +150,7 @@
          * 滑条单击
          * @param event
          */
-        private scrollPanelMouseDown(event: MouseEvent)
+        private scrollPanelMouseDown(event: any)
         {
             const id = (event.target as HTMLElement).id;
             if (id === this.scrollPanel.id) {
@@ -163,7 +163,7 @@
          * 滑块鼠标按下
          * @param event
          */
-        private scrollBlockMouseDown(event: MouseEvent) {
+        private scrollBlockMouseDown(event: any) {
             this.scrollMove = true;
             let scrollBlockMarginTop = Materal.ElementHelper.getComputedStyle(this.scrollBlock).marginTop;
             scrollBlockMarginTop = scrollBlockMarginTop.substring(0, scrollBlockMarginTop.length - 2);
@@ -174,7 +174,7 @@
          * 表格面板鼠标移动
          * @param event
          */
-        private tablePanelMouseMove(event: MouseEvent) {
+        private tablePanelMouseMove(event: any) {
             if (!this.scrollMove) return;
             const id = (event.target as HTMLElement).id;
             let layerY = event.layerY;
