@@ -41,7 +41,7 @@ namespace Materal.ConDep.Manager.Models
         {
             Process[] processes = Process.GetProcessesByName("dotnet");
             Process currentProcess = Process.GetCurrentProcess();
-            Parallel.ForEach(processes, process =>
+            foreach (Process process in processes)
             {
                 if (currentProcess.Id == process.Id) return;
                 var isKill = false;
@@ -59,7 +59,7 @@ namespace Materal.ConDep.Manager.Models
                         break;
                     }
                 }
-            });
+            }
         }
         /// <summary>
         /// 应用数据返回

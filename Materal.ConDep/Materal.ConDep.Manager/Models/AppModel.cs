@@ -106,9 +106,10 @@ namespace Materal.ConDep.Manager.Models
                 AppStatus = AppStatusEnum.Stopping;
                 try
                 {
-                    _process.StandardInput.WriteLine("exit");
-                    _process.WaitForExit();
-                    _process.Close();
+                    //_process.StandardInput.WriteLine("exit");
+                    //_process.WaitForExit();
+                    //_process.Close();
+                    _process.Kill();
                     _process.Dispose();
                     AppStatus = AppStatusEnum.Stop;
                 }
