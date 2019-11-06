@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using Materal.ConDep.Common;
+using Materal.WindowsHelper;
 
 namespace Materal.ConDep.Manager.Models
 {
@@ -44,7 +45,7 @@ namespace Materal.ConDep.Manager.Models
             get
             {
                 string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application", AppPath, $"{MainModuleName}");
-                string result = string.IsNullOrEmpty(Parameters) ? $"dotnet {path}" : $"dotnet {path} {Parameters}";
+                string result = string.IsNullOrEmpty(Parameters) ? $"{path}" : $"{path} {Parameters}";
                 return result;
             }
         }
@@ -66,7 +67,7 @@ namespace Materal.ConDep.Manager.Models
             {
                 if (AppStatus != AppStatusEnum.Stop) return;
                 AppStatus = AppStatusEnum.Starting;
-                ProcessStartInfo processStartInfo = GetProcessStartInfo();
+                ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo("dotnet.exe", CmdCommand);
                 _process = new Process { StartInfo = processStartInfo };
                 if (OutputDataReceived != null) _process.OutputDataReceived += _process_OutputDataReceived;
                 if (ErrorDataReceived != null) _process.ErrorDataReceived += _process_ErrorDataReceived;
@@ -79,7 +80,6 @@ namespace Materal.ConDep.Manager.Models
                 {
                     throw new InvalidOperationException("启动失败");
                 }
-                _process.StandardInput.WriteLine(CmdCommand);
                 AppStatus = AppStatusEnum.Start;
             }
         }
@@ -106,9 +106,6 @@ namespace Materal.ConDep.Manager.Models
                 AppStatus = AppStatusEnum.Stopping;
                 try
                 {
-                    //_process.StandardInput.WriteLine("exit");
-                    //_process.WaitForExit();
-                    //_process.Close();
                     _process.Kill();
                     _process.Dispose();
                     AppStatus = AppStatusEnum.Stop;
@@ -128,25 +125,5 @@ namespace Materal.ConDep.Manager.Models
             Stop();
             Start();
         }
-        #region 私有方法
-        /// <summary>
-        /// 获取启动信息
-        /// </summary>
-        /// <returns></returns>
-        private ProcessStartInfo GetProcessStartInfo()
-        {
-            var processStartInfo = new ProcessStartInfo
-            {
-                FileName = "cmd.exe",
-                CreateNoWindow = true,
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                Verb = "RunAs"
-            };
-            return processStartInfo;
-        }
-        #endregion
     }
 }
