@@ -108,7 +108,7 @@ namespace Materal.ConDep.Manager.Models
                 try
                 {
                     _process.Kill();
-                    while (_process.Responding)
+                    while (!_process.HasExited)
                     {
                         Thread.Sleep(1000);
                     }
