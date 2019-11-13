@@ -108,10 +108,7 @@ namespace Materal.ConDep.Manager.Models
                 try
                 {
                     _process.Kill();
-                    while (!_process.HasExited)
-                    {
-                        Thread.Sleep(1000);
-                    }
+                    _process.WaitForExit();
                     _process.Dispose();
                     AppStatus = AppStatusEnum.Stop;
                 }
