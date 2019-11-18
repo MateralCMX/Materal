@@ -239,7 +239,7 @@ namespace Materal.NetworkHelper
             byte[] resultBytes = await httpResponseMessage.Content.ReadAsByteArrayAsync();
             string result = encoding.GetString(resultBytes);
             if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
-                throw new MateralHttpException(httpResponseMessage.StatusCode, result);
+                throw new MateralHttpException(url, httpResponseMessage.StatusCode, result, heads);
             return result;
         }
         /// <summary>
