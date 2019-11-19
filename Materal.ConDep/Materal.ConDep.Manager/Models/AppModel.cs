@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using Materal.ConDep.Common;
 using Materal.WindowsHelper;
 
@@ -107,6 +108,7 @@ namespace Materal.ConDep.Manager.Models
                 try
                 {
                     _process.Kill();
+                    _process.WaitForExit();
                     _process.Dispose();
                     AppStatus = AppStatusEnum.Stop;
                 }

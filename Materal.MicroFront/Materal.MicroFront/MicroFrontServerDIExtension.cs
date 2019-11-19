@@ -1,22 +1,21 @@
-﻿using System.Reflection;
-using Materal.CacheHelper;
+﻿using Materal.CacheHelper;
 using Materal.MicroFront.Common;
 using Materal.Services;
 using Materal.WebSocket;
 using Materal.WebSocket.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NetCore.AutoRegisterDi;
 using NLog.Extensions.Logging;
+using System.Reflection;
 
 namespace Materal.MicroFront
 {
     /// <summary>
-    /// 持续部署服务依赖注入扩展
+    /// 微前端发布服务依赖注入扩展
     /// </summary>
-    public static class ConDepServerDIExtension
+    public static class MicroFrontServerDIExtension
     {
-        public static void AddConDepServer(this IServiceCollection services)
+        public static void AddMicroFrontServer(this IServiceCollection services)
         {
             services.AddSingleton<ICacheManager, MemoryCacheManager>();
             services.AddTransient<ILoggerFactory, LoggerFactory>();

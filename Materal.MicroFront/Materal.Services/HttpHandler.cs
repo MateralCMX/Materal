@@ -327,7 +327,7 @@ namespace Materal.Services
             response.Headers.Set(HttpHeaderNames.ContentType, $"{contentType}");
             response.Headers.Set(HttpHeaderNames.ContentLength, bodyBuffer.ReadableBytes);
             response.Headers.Set(HttpHeaderNames.Date, DateTime.Now);
-            response.Headers.Set(HttpHeaderNames.Server, "Materal.ConDep");
+            response.Headers.Set(HttpHeaderNames.Server, "Materal.MicroFront");
             return response;
         }
         #endregion

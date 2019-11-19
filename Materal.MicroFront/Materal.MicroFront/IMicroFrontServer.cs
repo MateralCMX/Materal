@@ -3,7 +3,7 @@
 namespace Materal.MicroFront
 {
     /// <summary>
-    /// 持续部署服务
+    /// 微前端发布服务
     /// </summary>
     public interface IMicroFrontServer
     {

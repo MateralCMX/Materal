@@ -51,7 +51,7 @@ namespace Materal.MicroFront
         {
             try
             {
-                ApplicationData.RegisterServices(ConDepServerDIExtension.AddConDepServer);
+                ApplicationData.RegisterServices(MicroFrontServerDIExtension.AddMicroFrontServer);
                 ApplicationData.BuildServices();
                 LogManager.LoadConfiguration("NLog.config");
                 LogManager.Configuration.Install(new InstallationContext());
