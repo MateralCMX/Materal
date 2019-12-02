@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
     <PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
@@ -20,6 +20,7 @@
     <ProjectReference Include="..\Materal.DateTimeHelper\Materal.DateTimeHelper.csproj" />
     <ProjectReference Include="..\Materal.EnumHelper\Materal.EnumHelper.csproj" />
     <ProjectReference Include="..\Materal.Model\Materal.Model.csproj" />
+    <ProjectReference Include="..\Materal.NetworkHelper\Materal.NetworkHelper.csproj" />
     <ProjectReference Include="..\Materal.SystemHelper\Materal.SystemHelper.csproj" />
   </ItemGroup>
 

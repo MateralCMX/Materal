@@ -1,4 +1,7 @@
-﻿using LitJson;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using LitJson;
+using Materal.NetworkHelper;
 using Materal.WeChatHelper.Model;
 
 namespace Materal.WeChatHelper
@@ -8,7 +11,6 @@ namespace Materal.WeChatHelper
     /// </summary>
     public class WeChatMiniProgramManager
     {
-        protected const string WeChatApiUrl = "https://api.weixin.qq.com/";
         /// <summary>
         /// 配置文件
         /// </summary>
@@ -28,16 +30,37 @@ namespace Materal.WeChatHelper
         /// <returns>OpenID</returns>
         public string GetOpenIDByCode(string code)
         {
-            var data = new WeChatDataModel();
-            data.SetValue("appid", Config.APPID);
-            data.SetValue("secret", Config.APPSECRET);
-            data.SetValue("grant_type", "authorization_code");
-            data.SetValue("js_code", code);
-            string url = $"{Config.WeChatAPIUrl}sns/jscode2session?{data.ToUrlParams()}";
-            string result = WeChatHttpManager.Get(url);
+            var data = new Dictionary<string, string>
+            {
+                {"appid", Config.APPID},
+                {"secret", Config.APPSECRET},
+                {"grant_type", "authorization_code"},
+                {"js_code", code},
+            };
+            string result = HttpManager.SendGet($"{Config.WeChatAPIUrl}sns/jscode2session", data);
             JsonData jsonData = JsonMapper.ToObject(result);
-            if (jsonData["openid"] == null) throw new WeChatException(result);
-            string openID = (string)jsonData["openid"];
+            if (!jsonData.ContainsKey("openid") || jsonData["openid"] == null) throw new WeChatException(result);
+            var openID = (string)jsonData["openid"];
+            return openID;
+        }
+        /// <summary>
+        /// 根据Code获得OpenID
+        /// </summary>
+        /// <param name="code">Code</param>
+        /// <returns>OpenID</returns>
+        public async Task<string> GetOpenIDByCodeAsync(string code)
+        {
+            var data = new Dictionary<string, string>
+            {
+                {"appid", Config.APPID},
+                {"secret", Config.APPSECRET},
+                {"grant_type", "authorization_code"},
+                {"js_code", code},
+            };
+            string result = await HttpManager.SendGetAsync($"{Config.WeChatAPIUrl}sns/jscode2session", data);
+            JsonData jsonData = JsonMapper.ToObject(result);
+            if (!jsonData.ContainsKey("openid") || jsonData["openid"] == null) throw new WeChatException(result);
+            var openID = (string)jsonData["openid"];
             return openID;
         }
     }
