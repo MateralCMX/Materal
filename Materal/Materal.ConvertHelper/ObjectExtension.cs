@@ -288,6 +288,7 @@ namespace Materal.ConvertHelper
             foreach (PropertyInfo pi in pis)
             {
                 object piValue = pi.GetValue(inputObj);
+                if (piValue == null) continue;
                 pi.SetValue(resM, piValue is ValueType ? piValue : Clone(piValue));
             }
             return resM;
