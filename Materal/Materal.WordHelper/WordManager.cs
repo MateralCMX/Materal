@@ -128,7 +128,7 @@ namespace Materal.WordHelper
             for (var rowIndex = 0; rowIndex < tableTemplate.Value.Rows.Count; rowIndex++)
             {
                 int documentRowIndex = rowIndex + startRowNum;
-                XWPFTableRow row = rowIndex == 0 ? tableContent.GetRow(documentRowIndex) : tableContent.InsertNewTableRow(documentRowIndex);
+                XWPFTableRow row = rowIndex == 0 ? tableContent.GetRow(documentRowIndex) : tableContent.InsertNewTableRow(documentRowIndex - 1);
                 int cellCount = row.GetTableCells().Count;
                 int count = colNames.Max(m => m.Key);
                 for (int i = cellCount - 1; i < count; i++)

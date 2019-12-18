@@ -210,11 +210,10 @@ namespace Materal.NetworkHelper
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MateralHttpException"></exception>
-        private static async Task<string> SendAsync(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
+        public static async Task<byte[]> SendByteAsync(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null)
         {
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url), "Url地址不能为空");
             if (!url.IsUrl()) throw new ArgumentException("Url地址错误", nameof(url));
-            if (encoding == null) encoding = Encoding.UTF8;
             var handler = new HttpClientHandler();
             var client = new HttpClient(handler);
             var ms = new MemoryStream();
@@ -237,9 +236,26 @@ namespace Materal.NetworkHelper
             }
             HttpResponseMessage httpResponseMessage = await client.SendAsync(httpRequestMessage);
             byte[] resultBytes = await httpResponseMessage.Content.ReadAsByteArrayAsync();
-            string result = encoding.GetString(resultBytes);
             if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
-                throw new MateralHttpException(url, httpResponseMessage.StatusCode, result, heads);
+                throw new MateralHttpException(url, httpResponseMessage.StatusCode, null, heads);
+            return resultBytes;
+        }
+        /// <summary>
+        /// 发送请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="type"></param>
+        /// <param name="data">参数字典</param>
+        /// <param name="heads">heads</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        private static async Task<string> SendAsync(string url, HttpMethodType type, object data, Dictionary<string, string> heads, Encoding encoding)
+        {
+            byte[] resultBytes = await SendByteAsync(url, type, data, heads);
+            string result = encoding.GetString(resultBytes);
             return result;
         }
         /// <summary>
