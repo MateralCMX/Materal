@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -130,6 +131,12 @@ namespace Materal.TTA.MongoDBRepository
         /// <summary>
         /// 查找
         /// </summary>
+        /// <param name="filterDefinition"></param>
+        /// <returns></returns>
+        IFindFluent<T, T> FindDocument(FilterDefinition<T> filterDefinition);
+        /// <summary>
+        /// 查找
+        /// </summary>
         /// <param name="expression">表达式</param>
         /// <returns></returns>
         IFindFluent<T, T> FindDocument(Expression<Func<T, bool>> expression);
@@ -151,5 +158,45 @@ namespace Materal.TTA.MongoDBRepository
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
         Task<IAsyncCursor<T>> FindDocumentAsync(FilterModel filterModel);
+
+
+        /// <summary>
+        /// 分页
+        /// </summary>
+        /// <param name="filterDefinition">分页请求模型</param>
+        /// <param name="pageRequestModel"></param>
+        /// <returns></returns>
+        (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, PageRequestModel pageRequestModel);
+        /// <summary>
+        /// 分页
+        /// </summary>
+        /// <param name="filterDefinition">分页请求模型</param>
+        /// <param name="sortDefinition">排序表达式</param>
+        /// <param name="pageRequestModel"></param>
+        /// <returns></returns>
+        (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, PageRequestModel pageRequestModel);
+
+        /// <summary>
+        /// 分页
+        /// </summary>
+        /// <param name="filterDefinition">分页请求模型</param>
+        /// <param name="pageSize"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, int pageIndex, int pageSize, int skip, int take);
+
+        /// <summary>
+        /// 分页
+        /// </summary>
+        /// <param name="filterDefinition">分页请求模型</param>
+        /// <param name="sortDefinition">排序表达式</param>
+        /// <param name="pagingIndex"></param>
+        /// <param name="pagingSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, int pageIndex, int pageSize, int skip, int take);
     }
 }

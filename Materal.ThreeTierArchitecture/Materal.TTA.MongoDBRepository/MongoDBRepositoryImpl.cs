@@ -150,6 +150,10 @@ namespace Materal.TTA.MongoDBRepository
             return _collection.FindAsync(filterDefinition);
         }
 
+        public IFindFluent<T, T> FindDocument(FilterDefinition<T> filterDefinition)
+        {
+            return _collection.Find(filterDefinition);
+        }
         public IFindFluent<T, T> FindDocument(Expression<Func<T, bool>> expression)
         {
             return _collection.Find(expression);
@@ -167,6 +171,33 @@ namespace Materal.TTA.MongoDBRepository
         public Task<IAsyncCursor<T>> FindDocumentAsync(FilterModel filterModel)
         {
             return FindDocumentAsync(filterModel.GetSearchExpression<T>());
+        }
+
+        public (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, PageRequestModel pageRequestModel)
+        {
+            return Paging(filterDefinition, pageRequestModel.PageIndex, pageRequestModel.PageSize, pageRequestModel.Skip, pageRequestModel.Take);
+        }
+
+        public (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, PageRequestModel pageRequestModel)
+        {
+            return Paging(filterDefinition, sortDefinition, pageRequestModel.PageIndex, pageRequestModel.PageSize, pageRequestModel.Skip, pageRequestModel.Take);
+        }
+
+        public (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, int pageIndex, int pageSize, int skip, int take)
+        {
+            return Paging(filterDefinition, null, pageIndex, pageSize, skip, take);
+        }
+
+        public (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, int pageIndex, int pageSize, int skip, int take)
+        {
+            IFindFluent<T, T> find = _collection.Find(filterDefinition);
+            if (sortDefinition != null)
+            {
+                find = find.Sort(sortDefinition);
+            }
+            var pageModel = new PageModel(pageIndex, pageSize, Convert.ToInt32(find.CountDocuments()));
+            List<T> result = find.Skip(skip).Limit(take).ToList();
+            return (result, pageModel);
         }
 
         public virtual IQueryable<T> Where(Expression<Func<T, bool>> expression)
