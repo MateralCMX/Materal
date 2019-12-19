@@ -165,13 +165,13 @@ namespace Materal.TTA.Common
             switch (sortOrder)
             {
                 case SortOrder.Ascending:
-                    result = await queryable.OrderBy(orderExpression).ToList();
+                    result = await queryable.OrderBy(orderExpression).ToListAsync();
                     break;
                 case SortOrder.Descending:
-                    result = await queryable.OrderByDescending(orderExpression).ToList();
+                    result = await queryable.OrderByDescending(orderExpression).ToListAsync();
                     break;
                 default:
-                    result = await queryable.ToList();
+                    result = await queryable.ToListAsync();
                     break;
             }
             return result;
