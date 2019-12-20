@@ -1,0 +1,25 @@
+{
+  "UserDB": {
+    "Address": "192.168.0.137",
+    "Port": "1433",
+    "Name": "UserDB",
+    "UserID": "sa",
+    "Password": "KMJQDevServerMSSQL@admin678",
+    "SubordinateConfigs": [
+      {
+        "Address": "192.168.0.137",
+        "Port": "1433",
+        "Name": "UserDB_Subscribe1",
+        "UserID": "sa",
+        "Password": "KMJQDevServerMSSQL@admin678"
+      },
+      {
+        "Address": "192.168.0.137",
+        "Port": "1433",
+        "Name": "UserDB_Subscribe2",
+        "UserID": "sa",
+        "Password": "KMJQDevServerMSSQL@admin678"
+      }
+    ]
+  }
+}

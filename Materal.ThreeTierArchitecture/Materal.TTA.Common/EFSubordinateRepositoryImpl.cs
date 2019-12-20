@@ -1,79 +1,68 @@
 ﻿using Materal.Common;
+using Materal.Model;
 using Materal.TTA.Common.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using Materal.Model;
-
-// ReSharper disable All
 
 namespace Materal.TTA.Common
 {
+    internal class EFSubordinateRepositoryHelper
+    {
+        public static int ConnectionSeed { get; set; }
+    }
+
     public abstract class EFSubordinateRepositoryImpl<T, TPrimaryKeyType, TContext> : EFRepositoryImpl<T, TPrimaryKeyType>, IEFSubordinateRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
     where TContext : DbContext
     {
+
         /// <summary>
         /// 从属数据库
         /// </summary>
-        protected readonly List<TContext> SubordinateDB = new List<TContext>();
+        protected readonly TContext SubordinateDB;
         protected EFSubordinateRepositoryImpl(TContext dbContext, IEnumerable<SqlServerSubordinateConfigModel> subordinateConfigs, Action<DbContextOptionsBuilder, string> optionAction) : base(dbContext)
         {
             Type type = typeof(TContext);
             ConstructorInfo[] constructorInfos = type.GetConstructors();
             ConstructorInfo constructorInfo = constructorInfos.FirstOrDefault(m => m.GetParameters().Length == 1);
             if (constructorInfo == null) throw new MateralException("不可用构造函数");
-            foreach (SqlServerSubordinateConfigModel config in subordinateConfigs)
-            {
-                var contextOptions = new DbContextOptions<TContext>();
-                var optionsBuilder = new DbContextOptionsBuilder(contextOptions);
-                optionAction(optionsBuilder, config.ConnectionString);
-                var arg = (DbContextOptions<TContext>)optionsBuilder.Options;
-                var newDbContext = (TContext)constructorInfo.Invoke(new object[] { arg });
-                SubordinateDB.Add(newDbContext);
-            }
+            SqlServerSubordinateConfigModel config = GetConfig(subordinateConfigs.ToList());
+            var contextOptions = new DbContextOptions<TContext>();
+            var optionsBuilder = new DbContextOptionsBuilder(contextOptions);
+            optionAction(optionsBuilder, config.ConnectionString);
+            var arg = (DbContextOptions<TContext>)optionsBuilder.Options;
+            SubordinateDB = (TContext)constructorInfo.Invoke(new object[] { arg });
         }
+
         public virtual bool ExistedFromSubordinate(TPrimaryKeyType id)
         {
-            return GetSubordinateResult(async queryable =>
+            return GetSubordinateResult(queryable =>
             {
-                return await queryable.AnyAsync(m => m.ID.Equals(id));
+                return queryable.Any(m => m.ID.Equals(id));
             });
         }
 
         public virtual async Task<bool> ExistedFromSubordinateAsync(TPrimaryKeyType id)
         {
-            return await Task.Run(() =>
+            return await GetSubordinateResultAsync(async queryable =>
             {
-                return GetSubordinateResult(async queryable =>
-                {
-                    return await queryable.AnyAsync(m => m.ID.Equals(id));
-                });
+                return await queryable.AnyAsync(m => m.ID.Equals(id));
             });
         }
 
         public bool ExistedFromSubordinate(Expression<Func<T, bool>> expression)
         {
-            return GetSubordinateResult(async queryable =>
-            {
-                return await queryable.AnyAsync(expression);
-            });
+            return GetSubordinateResult(queryable => queryable.Any(expression));
         }
 
         public async Task<bool> ExistedFromSubordinateAsync(Expression<Func<T, bool>> expression)
         {
-            return await Task.Run(() =>
-            {
-                return GetSubordinateResult(async queryable =>
-                {
-                    return await queryable.AnyAsync(expression);
-                });
-            });
+            return await GetSubordinateResultAsync(async queryable => await queryable.AnyAsync(expression));
         }
 
         public bool ExistedFromSubordinate(FilterModel filterModel)
@@ -88,21 +77,12 @@ namespace Materal.TTA.Common
 
         public virtual int CountFromSubordinate(Expression<Func<T, bool>> expression)
         {
-            return GetSubordinateResult(async queryable =>
-            {
-                return await queryable.CountAsync(expression);
-            });
+            return GetSubordinateResult(queryable => queryable.Count(expression));
         }
 
         public virtual async Task<int> CountFromSubordinateAsync(Expression<Func<T, bool>> expression)
         {
-            return await Task.Run(() =>
-            {
-                return GetSubordinateResult(async queryable =>
-                {
-                    return await queryable.CountAsync(expression);
-                });
-            });
+            return await GetSubordinateResultAsync(async queryable => await queryable.CountAsync(expression));
         }
 
         public int CountFromSubordinate(FilterModel filterModel)
@@ -127,19 +107,19 @@ namespace Materal.TTA.Common
 
         public List<T> FindFromSubordinate(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
         {
-            return GetSubordinateResult(async queryable =>
+            return GetSubordinateResult(queryable =>
             {
                 List<T> result;
                 switch (sortOrder)
                 {
                     case SortOrder.Ascending:
-                        result = await queryable.OrderBy(orderExpression).Where(expression).ToListAsync();
+                        result = queryable.OrderBy(orderExpression).Where(expression).ToList();
                         break;
                     case SortOrder.Descending:
-                        result = await queryable.OrderByDescending(orderExpression).Where(expression).ToListAsync();
+                        result = queryable.OrderByDescending(orderExpression).Where(expression).ToList();
                         break;
                     default:
-                        result = await queryable.ToListAsync();
+                        result = queryable.ToList();
                         break;
                 }
                 return result;
@@ -155,25 +135,22 @@ namespace Materal.TTA.Common
         }
         public async Task<List<T>> FindFromSubordinateAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
         {
-            return await Task.Run(() =>
+            return await GetSubordinateResultAsync(async queryable =>
             {
-                return GetSubordinateResult(async queryable =>
+                List<T> result;
+                switch (sortOrder)
                 {
-                    List<T> result;
-                    switch (sortOrder)
-                    {
-                        case SortOrder.Ascending:
-                            result = await queryable.OrderBy(orderExpression).Where(expression).ToListAsync();
-                            break;
-                        case SortOrder.Descending:
-                            result = await queryable.OrderByDescending(orderExpression).Where(expression).ToListAsync();
-                            break;
-                        default:
-                            result = await queryable.ToListAsync();
-                            break;
-                    }
-                    return result;
-                });
+                    case SortOrder.Ascending:
+                        result = await queryable.OrderBy(orderExpression).Where(expression).ToListAsync();
+                        break;
+                    case SortOrder.Descending:
+                        result = await queryable.OrderByDescending(orderExpression).Where(expression).ToListAsync();
+                        break;
+                    default:
+                        result = await queryable.ToListAsync();
+                        break;
+                }
+                return result;
             });
         }
 
@@ -209,20 +186,17 @@ namespace Materal.TTA.Common
 
         public virtual T FirstOrDefaultFromSubordinate(TPrimaryKeyType id)
         {
-            return GetSubordinateResult(async queryable =>
+            return GetSubordinateResult(queryable =>
             {
-                return await queryable.FirstOrDefaultAsync(m => m.ID.Equals(id));
+                return queryable.FirstOrDefault(m => m.ID.Equals(id));
             });
         }
 
         public virtual async Task<T> FirstOrDefaultFromSubordinateAsync(TPrimaryKeyType id)
         {
-            return await Task.Run(() =>
+            return await GetSubordinateResultAsync(async queryable =>
             {
-                return GetSubordinateResult(async queryable =>
-                {
-                    return await queryable.FirstOrDefaultAsync(m => m.ID.Equals(id));
-                });
+                return await queryable.FirstOrDefaultAsync(m => m.ID.Equals(id));
             });
         }
 
@@ -238,21 +212,12 @@ namespace Materal.TTA.Common
 
         public T FirstOrDefaultFromSubordinate(Expression<Func<T, bool>> expression)
         {
-            return GetSubordinateResult(async queryable =>
-            {
-                return await queryable.FirstOrDefaultAsync(expression);
-            });
+            return GetSubordinateResult(queryable => queryable.FirstOrDefault(expression));
         }
 
         public async Task<T> FirstOrDefaultFromSubordinateAsync(Expression<Func<T, bool>> expression)
         {
-            return await Task.Run(() =>
-            {
-                return GetSubordinateResult(async queryable =>
-                {
-                    return await queryable.FirstOrDefaultAsync(expression);
-                });
-            });
+            return await GetSubordinateResultAsync(async queryable => await queryable.FirstOrDefaultAsync(expression));
         }
 
         public (List<T> result, PageModel pageModel) PagingFromSubordinate(PageRequestModel pageRequestModel)
@@ -297,21 +262,21 @@ namespace Materal.TTA.Common
 
         public virtual (List<T> result, PageModel pageModel) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
         {
-            return GetSubordinateResult(async queryable =>
+            return GetSubordinateResult(queryable =>
             {
                 List<T> result;
                 queryable = queryable.Where(filterExpression);
-                var pageModel = new PageModel(pagingIndex, pagingSize, await queryable.CountAsync());
+                var pageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
                 switch (sortOrder)
                 {
                     case SortOrder.Ascending:
-                        result = await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
+                        result = queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList();
                         break;
                     case SortOrder.Descending:
-                        result = await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
+                        result = queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList();
                         break;
                     default:
-                        result = await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
+                        result = queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToList();
                         break;
                 }
                 return (result, pageModel);
@@ -360,61 +325,72 @@ namespace Materal.TTA.Common
 
         public virtual async Task<(List<T> result, PageModel pageModel)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
         {
-            return await Task.Run(() =>
+            return await GetSubordinateResultAsync(async queryable =>
             {
-                return GetSubordinateResult(async queryable =>
+                List<T> result;
+                queryable = queryable.Where(filterExpression);
+                var pageModel = new PageModel(pagingIndex, pagingSize, await queryable.CountAsync());
+                switch (sortOrder)
                 {
-                    List<T> result;
-                    queryable = queryable.Where(filterExpression);
-                    var pageModel = new PageModel(pagingIndex, pagingSize, await queryable.CountAsync());
-                    switch (sortOrder)
-                    {
-                        case SortOrder.Ascending:
-                            result = await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take)
-                                .ToListAsync();
-                            break;
-                        case SortOrder.Descending:
-                            result = await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip)
-                                .Take(pageModel.Take).ToListAsync();
-                            break;
-                        default:
-                            result = await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
-                            break;
-                    }
-                    return (result, pageModel);
-                });
+                    case SortOrder.Ascending:
+                        result = await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take)
+                            .ToListAsync();
+                        break;
+                    case SortOrder.Descending:
+                        result = await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip)
+                            .Take(pageModel.Take).ToListAsync();
+                        break;
+                    default:
+                        result = await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
+                        break;
+                }
+                return (result, pageModel);
             });
         }
         #region 私有方法
+        /// <summary>
+        /// 获得配置
+        /// </summary>
+        /// <param name="subordinateConfigs"></param>
+        /// <returns></returns>
+        private SqlServerSubordinateConfigModel GetConfig(IReadOnlyList<SqlServerSubordinateConfigModel> subordinateConfigs)
+        {
+            int index = new Random(EFSubordinateRepositoryHelper.ConnectionSeed).Next(0, subordinateConfigs.Count);
+            if (EFSubordinateRepositoryHelper.ConnectionSeed == int.MaxValue)
+            {
+                EFSubordinateRepositoryHelper.ConnectionSeed = int.MinValue;
+            }
+            else
+            {
+                EFSubordinateRepositoryHelper.ConnectionSeed++;
+            }
+            return subordinateConfigs[index];
+        }
         /// <summary>
         /// 获得从属库返回值
         /// </summary>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="func"></param>
         /// <returns></returns>
-        private TResult GetSubordinateResult<TResult>(Func<IQueryable<T>, Task<TResult>> func)
+        private async Task<TResult> GetSubordinateResultAsync<TResult>(Func<IQueryable<T>, Task<TResult>> func)
         {
-            if (SubordinateDB == null || SubordinateDB.Count == 0) throw new MateralException("没有从属数据库");
-            ConcurrentQueue<Exception> exceptions = new ConcurrentQueue<Exception>();
-            Task<TResult>[] tasks = new Task<TResult>[SubordinateDB.Count];
-            Parallel.For(0, SubordinateDB.Count, index =>
-            {
-                TContext context = SubordinateDB[index];
-                try
-                {
-                    IQueryable<T> queryable = GetSubordinateQueryable(context);
-                    tasks[index] = func(queryable);
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    exceptions.Enqueue(ex);
-                }
-            });
-            var resultIndex = Task.WaitAny(tasks);
-            return exceptions.Count == SubordinateDB.Count ?
-                func(DBQueryable).Result :
-                tasks[resultIndex].Result;
+            if (SubordinateDB == null) throw new MateralException("没有从属数据库");
+            IQueryable<T> queryable = GetSubordinateQueryable(SubordinateDB);
+            var result = await func(queryable);
+            return result;
+        }
+        /// <summary>
+        /// 获得从属库返回值
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        private TResult GetSubordinateResult<TResult>(Func<IQueryable<T>, TResult> func)
+        {
+            if (SubordinateDB == null) throw new MateralException("没有从属数据库");
+            IQueryable<T> queryable = GetSubordinateQueryable(SubordinateDB);
+            var result = func(queryable);
+            return result;
         }
         /// <summary>
         /// 获得从库查询对象

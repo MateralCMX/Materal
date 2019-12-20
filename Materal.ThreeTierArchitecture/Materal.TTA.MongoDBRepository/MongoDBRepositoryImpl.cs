@@ -99,6 +99,7 @@ namespace Materal.TTA.MongoDBRepository
             return _collection.DeleteMany(predicate).DeletedCount;
         }
 
+        [Obsolete]
         public virtual async Task SaveAsync(T model)
         {
             await _collection.ReplaceOneAsync(x => x.ID.Equals(model.ID), model, new UpdateOptions
@@ -107,6 +108,7 @@ namespace Materal.TTA.MongoDBRepository
             });
         }
 
+        [Obsolete]
         public virtual void Save(T model)
         {
             _collection.ReplaceOne(x => x.ID.Equals(model.ID), model, new UpdateOptions

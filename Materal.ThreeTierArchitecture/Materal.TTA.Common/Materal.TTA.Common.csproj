@@ -6,7 +6,7 @@
     <Product>Materal.ThreeTierArchitecture</Product>
     <Company>Materal</Company>
     <Authors>Materal</Authors>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <Copyright>Materal</Copyright>
     <Description>Materal.TTA.Common</Description>
     <PackageReleaseNotes>1、升级依赖包</PackageReleaseNotes>
@@ -17,7 +17,6 @@
     <PackageReference Include="Materal.Model" Version="1.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
-    <PackageReference Include="System.Interactive.Async" Version="4.0.0" />
   </ItemGroup>
 
 </Project>
