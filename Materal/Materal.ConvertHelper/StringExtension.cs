@@ -2,10 +2,12 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
+using QRCoder;
 
 namespace Materal.ConvertHelper
 {
@@ -468,7 +470,7 @@ namespace Materal.ConvertHelper
         /// <param name="publicKey">公开密钥</param>
         /// <param name="privateKey">私有密钥</param>
         /// <returns>加密后结果</returns>
-        private static string ToRSAEncode(this string content, out string publicKey, out string privateKey)
+        public static string ToRSAEncode(this string content, out string publicKey, out string privateKey)
         {
             var rsaProvider = new RSACryptoServiceProvider();
             publicKey = rsaProvider.ToXmlString(false);
@@ -477,6 +479,26 @@ namespace Materal.ConvertHelper
             byte[] DataToEncrypt = ByteConverter.GetBytes(content);
             byte[] resultBytes = rsaProvider.Encrypt(DataToEncrypt, false);
             return Convert.ToBase64String(resultBytes);
+        }
+
+        /// <summary>
+        /// 获得二维码
+        /// </summary>
+        /// <param name="inputStr">需要加密的字符串</param>
+        /// <param name="pixelsPerModule">每个模块的像素</param>
+        /// <param name="darkColor">暗色</param>
+        /// <param name="lightColor">亮色</param>
+        /// <param name="icon">图标</param>
+        /// <returns>二维码图片</returns>
+        public static Bitmap ToQRCode(this string inputStr, int pixelsPerModule = 20, Color? darkColor = null, Color? lightColor = null, Bitmap icon = null)
+        {
+            if (darkColor == null) darkColor = Color.Black;
+            if (lightColor == null) lightColor = Color.White;
+            var qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(inputStr, QRCodeGenerator.ECCLevel.H);
+            var qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(pixelsPerModule, darkColor.Value, lightColor.Value, icon);
+            return qrCodeImage;
         }
     }
 }
