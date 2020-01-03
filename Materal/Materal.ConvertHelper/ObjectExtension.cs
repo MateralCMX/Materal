@@ -44,12 +44,21 @@ namespace Materal.ConvertHelper
             ConvertDictionary.Add(typeof(DateTime?), WrapValueConvert(Convert.ToDateTime));
         }
         /// <summary>
+        /// 添加转换字典
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="func"></param>
+        public static void AddConvertDictionary<T>(Func<object, T> func)
+        {
+            ConvertDictionary.Add(typeof(T), WrapValueConvert(func));
+        }
+        /// <summary>
         /// 写入值转换类型
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="input"></param>
         /// <returns></returns>
-        private static Func<object, object> WrapValueConvert<T>(Func<object, T> input) where T : struct
+        private static Func<object, object> WrapValueConvert<T>(Func<object, T> input)
         {
             return i =>
             {
@@ -65,7 +74,7 @@ namespace Materal.ConvertHelper
         /// <returns>数据行</returns>
         public static DataRow ToDataRow(this object obj, DataRow dr)
         {
-            if (dr == null)throw new MateralConvertException("数据行不可为空");
+            if (dr == null) throw new MateralConvertException("数据行不可为空");
             var type = obj.GetType();
             var props = type.GetProperties();
             foreach (var prop in props)
