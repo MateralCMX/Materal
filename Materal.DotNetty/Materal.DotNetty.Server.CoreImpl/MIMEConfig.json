@@ -1,0 +1,15 @@
+{
+  ".html": "text/html;charset=utf-8",
+  ".js": "application/javascript;charset=utf-8",
+  ".css": "text/css;charset=utf-8",
+  ".ico": "image/x-icon",
+  ".jpe": "image/jpge",
+  ".jpg": "image/jpge",
+  ".jpge": "image/jpge",
+  ".png": "image/png",
+  ".json": "application/json;charset=utf-8",
+  ".less": "text/css;charset=utf-8",
+  ".txt": "text/plain;charset=utf-8",
+  ".woff": "font/x-woff",
+  ".woff2": "application/font-woff2"
+}

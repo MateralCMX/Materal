@@ -1,12 +1,13 @@
-﻿using Materal.ConDep.Controllers.Models.Authority;
-using Materal.Model;
-using Materal.WebSocket.Http.Attributes;
-using System;
+﻿using Materal.ConDep.Controllers.Models;
 using Materal.ConDep.Services;
+using Materal.DotNetty.ControllerBus.Attributes;
+using Materal.Model;
+using System;
+using Materal.ConDep.ControllerCore;
 
 namespace Materal.ConDep.Controllers
 {
-    public class AuthorityController
+    public class AuthorityController : ConDepBaseController
     {
         private readonly IAuthorityService _authorityService;
         public AuthorityController(IAuthorityService authorityService)
@@ -18,7 +19,7 @@ namespace Materal.ConDep.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost, AllowAnonymous]
+        [HttpPost, AllowAuthority]
         public ResultModel<string> Login(LoginRequestModel requestModel)
         {
             try
@@ -35,12 +36,12 @@ namespace Materal.ConDep.Controllers
         /// 登出
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AllowAnonymous]
-        public ResultModel Logout(string token)
+        [HttpGet]
+        public ResultModel Logout()
         {
             try
             {
-                _authorityService.Logout(token);
+                _authorityService.Logout(GetToken());
                 return ResultModel.Success("登出成功");
             }
             catch (InvalidOperationException ex)

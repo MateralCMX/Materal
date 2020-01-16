@@ -1,0 +1,9 @@
+[
+  {
+    "ID": "c9d882de-ebca-4c67-bb37-5f0c10e1b27b",
+    "Name": "任务系统",
+    "AppPath": "DevOA",
+    "MainModuleName": "DevOA.WebAPI.dll",
+    "Parameters": "--ConfigTarget=Development --urls=http://192.168.0.107:8902"
+  }
+]

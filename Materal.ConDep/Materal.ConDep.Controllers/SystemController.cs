@@ -1,45 +1,34 @@
 ﻿using Materal.ConDep.Common;
+using Materal.ConDep.Controllers.Models;
+using Materal.DotNetty.ControllerBus.Attributes;
 using Materal.Model;
-using Materal.WebSocket.Http.Attributes;
 using System;
 using System.Reflection;
+using Materal.ConDep.ControllerCore;
 
 namespace Materal.ConDep.Controllers
 {
-    public class SystemController
+    public class SystemController : ConDepBaseController
     {
         /// <summary>
-        /// 获取系统名称
+        /// 获取系统信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet, AllowAnonymous]
-        public ResultModel<string> GetSystemName()
+        [HttpGet, AllowAuthority]
+        public ResultModel<SystemInfo> GetSystemInfo()
         {
             try
             {
-                string name = ApplicationConfig.SystemName;
-                return ResultModel<string>.Success(name, "获取成功");
+                var result = new SystemInfo
+                {
+                    Name = ApplicationConfig.SystemName,
+                    Version = Assembly.Load("Materal.ConDep.Server").GetName().Version.ToString()
+                };
+                return ResultModel<SystemInfo>.Success(result, "获取成功");
             }
             catch (InvalidOperationException ex)
             {
-                return ResultModel<string>.Fail(ex.Message);
-            }
-        }
-        /// <summary>
-        /// 获取系统版本
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet, AllowAnonymous]
-        public ResultModel<string> GetSystemVersion()
-        {
-            try
-            {
-                string version = Assembly.Load("Materal.ConDep").GetName().Version.ToString();
-                return ResultModel<string>.Success(version, "获取成功");
-            }
-            catch (InvalidOperationException ex)
-            {
-                return ResultModel<string>.Fail(ex.Message);
+                return ResultModel<SystemInfo>.Fail(ex.Message);
             }
         }
     }

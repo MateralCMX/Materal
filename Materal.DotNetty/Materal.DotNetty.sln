@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Server.Core", "Materal.DotNetty.Server.Core\Materal.DotNetty.Server.Core.csproj", "{14EFC892-5BA8-4101-A2F8-93FCC8A6AADA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Server.CoreImpl", "Materal.DotNetty.Server.CoreImpl\Materal.DotNetty.Server.CoreImpl.csproj", "{44A86485-F46F-4060-BCF6-FB9AA1F96746}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.ControllerBus", "Materal.DotNetty.ControllerBus\Materal.DotNetty.ControllerBus.csproj", "{A1EF3635-A8E1-46AE-8896-4D878C20E82D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.CommandBus", "Materal.DotNetty.CommandBus\Materal.DotNetty.CommandBus.csproj", "{2C4DC1FC-E28B-4ECC-AA92-0F5DA509626D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{45EB3037-2395-40DF-B916-C829A5C0FB50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Common", "Demo.Common\Demo.Common.csproj", "{C0A897DD-2F81-4CC6-9B64-192743DABFA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo.Server", "Demo.Server\Demo.Server.csproj", "{2921355F-16D6-4A07-A490-5FA3ABD39CC1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14EFC892-5BA8-4101-A2F8-93FCC8A6AADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14EFC892-5BA8-4101-A2F8-93FCC8A6AADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14EFC892-5BA8-4101-A2F8-93FCC8A6AADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14EFC892-5BA8-4101-A2F8-93FCC8A6AADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44A86485-F46F-4060-BCF6-FB9AA1F96746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44A86485-F46F-4060-BCF6-FB9AA1F96746}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44A86485-F46F-4060-BCF6-FB9AA1F96746}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44A86485-F46F-4060-BCF6-FB9AA1F96746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1EF3635-A8E1-46AE-8896-4D878C20E82D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1EF3635-A8E1-46AE-8896-4D878C20E82D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1EF3635-A8E1-46AE-8896-4D878C20E82D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1EF3635-A8E1-46AE-8896-4D878C20E82D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C4DC1FC-E28B-4ECC-AA92-0F5DA509626D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C4DC1FC-E28B-4ECC-AA92-0F5DA509626D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C4DC1FC-E28B-4ECC-AA92-0F5DA509626D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C4DC1FC-E28B-4ECC-AA92-0F5DA509626D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0A897DD-2F81-4CC6-9B64-192743DABFA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0A897DD-2F81-4CC6-9B64-192743DABFA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0A897DD-2F81-4CC6-9B64-192743DABFA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0A897DD-2F81-4CC6-9B64-192743DABFA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2921355F-16D6-4A07-A490-5FA3ABD39CC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2921355F-16D6-4A07-A490-5FA3ABD39CC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2921355F-16D6-4A07-A490-5FA3ABD39CC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2921355F-16D6-4A07-A490-5FA3ABD39CC1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C0A897DD-2F81-4CC6-9B64-192743DABFA9} = {45EB3037-2395-40DF-B916-C829A5C0FB50}
+		{2921355F-16D6-4A07-A490-5FA3ABD39CC1} = {45EB3037-2395-40DF-B916-C829A5C0FB50}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0EE710BD-C69A-4445-9B3E-70280837448B}
+	EndGlobalSection
+EndGlobal

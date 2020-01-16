@@ -1,8 +1,6 @@
-﻿using Materal.WebSocket.Events;
-
-namespace Materal.ConDep.Events
+﻿namespace Materal.ConDep.Events
 {
-    public class Event : IEvent
+    public class Event
     {
         public Event()
         {

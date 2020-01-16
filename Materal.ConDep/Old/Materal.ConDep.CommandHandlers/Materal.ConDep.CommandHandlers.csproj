@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ConDep.Commands\Materal.ConDep.Commands.csproj" />
+    <ProjectReference Include="..\Materal.ConDep.Services\Materal.ConDep.Services.csproj" />
+  </ItemGroup>
+
+</Project>

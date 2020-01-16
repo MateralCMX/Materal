@@ -1,16 +1,14 @@
-﻿using Materal.ConDep.Common.Models;
-using Materal.ConfigurationHelper;
+﻿using System;
+using Materal.DotNetty.Server.Core;
+using Materal.DotNetty.Server.CoreImpl;
 using Microsoft.Extensions.Configuration;
-using System;
 
 namespace Materal.ConDep.Common
 {
-    public static class ApplicationConfig
+    public class ApplicationConfig
     {
         #region 配置对象
         private static IConfiguration _configuration;
-        private const string DefaultConfigFileName = "appsetting";
-        private const string DefaultConfigFileSuffix = "json";
         /// <summary>
         /// 配置对象
         /// </summary>
@@ -25,16 +23,17 @@ namespace Materal.ConDep.Common
                 return _configuration;
             }
         }
+        private const string DefaultConfigFileName = "appsetting";
+        private const string DefaultConfigFileSuffix = "json";
         /// <summary>
         /// 配置生成
         /// </summary>
-        /// <param name="configTarget">配置目标</param>
-        /// <returns></returns>
-        public static void ConfigurationBuilder(string configTarget = null)
+        /// <param name="targetConfig"></param>
+        private static void ConfigurationBuilder(string targetConfig = null)
         {
-            string appConfigFile = string.IsNullOrEmpty(configTarget) ?
-                $"{DefaultConfigFileName}.{DefaultConfigFileSuffix}"
-                : $"{DefaultConfigFileName}.{configTarget}.{DefaultConfigFileSuffix}";
+            string appConfigFile = string.IsNullOrEmpty(targetConfig) ?
+                $"{DefaultConfigFileName}.{DefaultConfigFileSuffix}" :
+                $"{DefaultConfigFileName}.{targetConfig}.{DefaultConfigFileSuffix}";
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile(appConfigFile);
@@ -42,20 +41,14 @@ namespace Materal.ConDep.Common
         }
         #endregion
         #region 配置
-        private static WebSocketConfigModel _webSocketConfig;
+        private static ServerConfig _serverConfig;
         /// <summary>
-        /// WebSocket配置对象
+        /// 服务配置
         /// </summary>
-        public static WebSocketConfigModel WebSocketConfig => _webSocketConfig ?? (_webSocketConfig = new WebSocketConfigModel
+        public static ServerConfig ServerConfig => _serverConfig ?? (_serverConfig = new ServerConfig
         {
-            CertificatePassword = Configuration["Application:ConDepServer:CertificatePassword"],
-            CertificatePath = Configuration["Application:ConDepServer:CertificatePath"],
-            Host = Configuration["Application:ConDepServer:Host"],
-            Port = Convert.ToInt32(Configuration["Application:ConDepServer:Port"]),
-            IsSsl = Convert.ToBoolean(Configuration["Application:ConDepServer:IsSsl"]),
-            UserLibuv = Convert.ToBoolean(Configuration["Application:ConDepServer:UserLibuv"]),
-            MaxMessageLength = Convert.ToInt32(Configuration["Application:ConDepServer:MaxMessageLength"]),
-            NotShowCommandBlackList = Configuration.GetArrayValue("Application:ConDepServer:NotShowCommandBlackList").ToArray()
+            Host = Configuration["ServerConfig:Host"],
+            Port = Convert.ToInt32(Configuration["ServerConfig:Port"])
         });
         private static string _operatingPassword;
         /// <summary>

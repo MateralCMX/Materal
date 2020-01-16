@@ -1,14 +1,16 @@
-﻿using DotNetty.Transport.Channels;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using DotNetty.Transport.Channels;
 using Materal.ConDep.Commands;
-using Materal.ConDep.Common.Extension;
 using Materal.ConDep.Events;
 using Materal.ConDep.Services;
-using System;
-using System.Threading.Tasks;
+using Materal.DotNetty.CommandBus;
 
 namespace Materal.ConDep.CommandHandlers
 {
-    public class UploadPartCommandHandler : AsyncJsonCommandHandler<UploadPartCommand>
+    public class UploadPartCommandHandler : BaseCommandHandler<UploadPartCommand>
     {
         private readonly IUploadPoolService _uploadPoolService;
 
@@ -16,17 +18,18 @@ namespace Materal.ConDep.CommandHandlers
         {
             _uploadPoolService = uploadPoolService;
         }
-        public override async Task ExcuteAsync(IChannelHandlerContext ctx, object commandData)
+
+        public override async Task HandlerAsync(ICommand command, IChannel channel)
         {
             try
             {
-                UploadPartCommand command = GetCommand(commandData);
-                await _uploadPoolService.LoadBuffer(ctx.Channel, command);
+                if (!(command is UploadPartCommand uploadPartCommand)) return;
+                await _uploadPoolService.LoadBuffer(channel, uploadPartCommand);
             }
             catch (InvalidOperationException ex)
             {
                 var @event = new ServerErrorEvent(ex);
-                await ctx.Channel.SendJsonEventAsync(@event);
+                await channel.SendJsonEventAsync(@event);
             }
         }
     }
