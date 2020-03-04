@@ -1,5 +1,4 @@
 ﻿using Materal.Model;
-using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
@@ -207,19 +206,9 @@ namespace Materal.TTA.MongoDBRepository
             return Find(expression).AsQueryable();
         }
 
-        public virtual IAsyncEnumerable<T> WhereAsync(Expression<Func<T, bool>> expression)
-        {
-            return Find(expression).ToAsyncEnumerable();
-        }
-
         public virtual IQueryable<T> Where(FilterModel filterModel)
         {
             return Where(filterModel.GetSearchExpression<T>());
-        }
-
-        public virtual IAsyncEnumerable<T> WhereAsync(FilterModel filterModel)
-        {
-            return WhereAsync(filterModel.GetSearchExpression<T>());
         }
 
         public virtual bool Existed(TIdentifier id)
@@ -412,67 +401,6 @@ namespace Materal.TTA.MongoDBRepository
                     break;
                 default:
                     result = queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToList();
-                    break;
-            }
-            return (result, pageModel);
-        }
-
-        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(PageRequestModel pageRequestModel)
-        {
-            return await PagingAsync(pageRequestModel.GetSearchExpression<T>(), pageRequestModel);
-        }
-
-        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression)
-        {
-            return await PagingAsync(pageRequestModel.GetSearchExpression<T>(), orderExpression, pageRequestModel);
-        }
-
-        public virtual async Task<(List<T> result, PageModel pageModel)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
-        {
-            return await PagingAsync(pageRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, pageRequestModel);
-        }
-
-        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
-        {
-            return await PagingAsync(filterExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
-        }
-
-        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
-        {
-            return await PagingAsync(filterExpression, m => m.ID, pagingIndex, pagingSize);
-        }
-
-        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
-        {
-            return await PagingAsync(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
-        }
-
-        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
-        {
-            return await PagingAsync(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
-        }
-
-        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
-        {
-            return await PagingAsync(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
-        }
-
-        public virtual  async Task<(List<T> result, PageModel pageModel)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
-        {
-
-            List<T> result;
-            IQueryable<T> queryable = Where(filterExpression);
-            var pageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
-            switch (sortOrder)
-            {
-                case SortOrder.Ascending:
-                    result = await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
-                    break;
-                case SortOrder.Descending:
-                    result = await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
-                    break;
-                default:
-                    result = await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync();
                     break;
             }
             return (result, pageModel);

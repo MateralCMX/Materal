@@ -1,11 +1,12 @@
 ﻿using Materal.Model;
+using Materal.TTA.Common;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Materal.TTA.Common
+namespace Materal.TTA.EFRepository
 {
     public interface IEFSubordinateRepository<T, in TPrimaryKeyType> : IEFRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
     {

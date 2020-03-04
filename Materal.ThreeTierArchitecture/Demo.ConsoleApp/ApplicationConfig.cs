@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Materal.ConvertHelper;
-using Materal.TTA.Common.Model;
+using Materal.TTA.SqlServerRepository.Model;
 using Microsoft.Extensions.Configuration;
 
 namespace Demo.ConsoleApp

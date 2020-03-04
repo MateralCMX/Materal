@@ -51,14 +51,14 @@
     <Reference Include="Materal.Common, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.Common.1.0.2\lib\netstandard2.0\Materal.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.ConvertHelper, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.ConvertHelper.1.0.4\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
+    <Reference Include="Materal.ConvertHelper, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.ConvertHelper.1.0.7\lib\netstandard2.0\Materal.ConvertHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.FileHelper, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.FileHelper.1.0.5\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
+    <Reference Include="Materal.FileHelper, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.FileHelper.1.0.7\lib\netstandard2.0\Materal.FileHelper.dll</HintPath>
     </Reference>
-    <Reference Include="Materal.StringHelper, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Materal.StringHelper.1.0.3\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
+    <Reference Include="Materal.StringHelper, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Materal.StringHelper.1.0.4\lib\netstandard2.0\Materal.StringHelper.dll</HintPath>
     </Reference>
     <Reference Include="Materal.WindowsHelper, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Materal.WindowsHelper.1.0.3\lib\netstandard2.0\Materal.WindowsHelper.dll</HintPath>
@@ -68,6 +68,12 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PinYinConverterCore, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PinYinConverterCore.1.0.2\lib\net45\PinYinConverterCore.dll</HintPath>
+    </Reference>
+    <Reference Include="QRCoder, Version=1.3.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.3.6\lib\net40\QRCoder.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

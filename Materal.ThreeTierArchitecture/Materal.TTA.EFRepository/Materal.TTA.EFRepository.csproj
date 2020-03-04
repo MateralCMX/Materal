@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,11 +8,15 @@
     <Authors>Materal</Authors>
     <Version>2.0.0</Version>
     <Copyright>Materal</Copyright>
-    <Description>Materal.TTA.MySqlRepository</Description>
+    <Description>Materal.TTA.EFRepository</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using Materal.Model;
+using Materal.TTA.Common;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Materal.TTA.Common
+namespace Materal.TTA.EFRepository
 {
     public abstract class EFRepositoryImpl<T, TPrimaryKeyType> : IEFRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
     {
@@ -25,12 +26,14 @@ namespace Materal.TTA.Common
         /// <summary>
         /// 视图对象
         /// </summary>
+        [Obsolete("请使用DBSet")]
         protected DbQuery<T> DBQuery => DBContext.Query<T>();
 
         /// <summary>
         /// 数据库对象
         /// </summary>
-        protected IQueryable<T> DBQueryable => IsView ? (IQueryable<T>)DBContext.Query<T>() : DBContext.Set<T>();
+        [Obsolete("请使用DBSet")]
+        protected IQueryable<T> DBQueryable => IsView ? DBContext.Query<T>() : DBContext.Set<T>();
 
         /// <summary>
         /// 视图标识
@@ -51,22 +54,22 @@ namespace Materal.TTA.Common
 
         public virtual bool Existed(TPrimaryKeyType id)
         {
-            return DBQueryable.Any(m => m.ID.Equals(id));
+            return DBSet.Any(m => m.ID.Equals(id));
         }
 
         public virtual async Task<bool> ExistedAsync(TPrimaryKeyType id)
         {
-            return await DBQueryable.AnyAsync(m => m.ID.Equals(id));
+            return await DBSet.AnyAsync(m => m.ID.Equals(id));
         }
 
         public virtual bool Existed(Expression<Func<T, bool>> expression)
         {
-            return DBQueryable.Any(expression);
+            return DBSet.Any(expression);
         }
 
         public virtual async Task<bool> ExistedAsync(Expression<Func<T, bool>> expression)
         {
-            return await DBQueryable.AnyAsync(expression);
+            return await DBSet.AnyAsync(expression);
         }
 
         public virtual bool Existed(FilterModel filterModel)
@@ -81,12 +84,12 @@ namespace Materal.TTA.Common
 
         public virtual int Count(Expression<Func<T, bool>> expression)
         {
-            return DBQueryable.Count(expression);
+            return DBSet.Count(expression);
         }
 
         public virtual async Task<int> CountAsync(Expression<Func<T, bool>> expression)
         {
-            return await DBQueryable.CountAsync(expression);
+            return await DBSet.CountAsync(expression);
         }
 
         public virtual int Count(FilterModel filterModel)
@@ -101,22 +104,22 @@ namespace Materal.TTA.Common
 
         public virtual IQueryable<T> Where(Expression<Func<T, bool>> expression)
         {
-            return DBQueryable.Where(expression);
+            return DBSet.Where(expression);
         }
-
-        public virtual IAsyncEnumerable<T> WhereAsync(Expression<Func<T, bool>> expression)
+        [Obsolete("请使用Where(expression).ToListAsync()")]
+        public virtual IQueryable<T> WhereAsync(Expression<Func<T, bool>> expression)
         {
-            return DBQueryable.Where(expression).ToAsyncEnumerable();
+            return DBSet.Where(expression);
         }
 
         public virtual IQueryable<T> Where(FilterModel filterModel)
         {
             return Where(filterModel.GetSearchExpression<T>());
         }
-
-        public virtual IAsyncEnumerable<T> WhereAsync(FilterModel filterModel)
+        [Obsolete("请使用Where(filterModel).ToListAsync()")]
+        public virtual IQueryable<T> WhereAsync(FilterModel filterModel)
         {
-            return WhereAsync(filterModel.GetSearchExpression<T>());
+            return Where(filterModel.GetSearchExpression<T>());
         }
 
         public virtual List<T> Find(Expression<Func<T, bool>> expression)
@@ -161,17 +164,17 @@ namespace Materal.TTA.Common
         public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Func<T, object> orderExpression, SortOrder sortOrder)
         {
             List<T> result;
-            IAsyncEnumerable<T> queryable = WhereAsync(expression);
+            IQueryable<T> queryable = Where(expression);
             switch (sortOrder)
             {
                 case SortOrder.Ascending:
-                    result = await queryable.OrderBy(orderExpression).ToList();
+                    result = await queryable.AsEnumerable().OrderBy(orderExpression).AsQueryable().ToListAsync();
                     break;
                 case SortOrder.Descending:
-                    result = await queryable.OrderByDescending(orderExpression).ToList();
+                    result = await queryable.AsEnumerable().OrderByDescending(orderExpression).AsQueryable().ToListAsync();
                     break;
                 default:
-                    result = await queryable.ToList();
+                    result = await queryable.ToListAsync();
                     break;
             }
             return result;
@@ -209,12 +212,12 @@ namespace Materal.TTA.Common
 
         public virtual T FirstOrDefault(TPrimaryKeyType id)
         {
-            return DBQueryable.FirstOrDefault(m => m.ID.Equals(id));
+            return DBSet.FirstOrDefault(m => m.ID.Equals(id));
         }
 
         public virtual async Task<T> FirstOrDefaultAsync(TPrimaryKeyType id)
         {
-            return await DBQueryable.FirstOrDefaultAsync(m => m.ID.Equals(id));
+            return await DBSet.FirstOrDefaultAsync(m => m.ID.Equals(id));
         }
 
         public virtual T FirstOrDefault(FilterModel filterModel)
@@ -229,12 +232,12 @@ namespace Materal.TTA.Common
 
         public virtual T FirstOrDefault(Expression<Func<T, bool>> expression)
         {
-            return DBQueryable.FirstOrDefault(expression);
+            return DBSet.FirstOrDefault(expression);
         }
 
         public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
         {
-            return await DBQueryable.FirstOrDefaultAsync(expression);
+            return await DBSet.FirstOrDefaultAsync(expression);
         }
 
         public virtual (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel)

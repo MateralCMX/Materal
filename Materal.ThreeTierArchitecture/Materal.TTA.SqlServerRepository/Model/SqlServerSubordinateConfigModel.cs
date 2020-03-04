@@ -1,4 +1,4 @@
-﻿namespace Materal.TTA.Common.Model
+﻿namespace Materal.TTA.SqlServerRepository.Model
 {
     /// <summary>
     /// SQLServer从属配置

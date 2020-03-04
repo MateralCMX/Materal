@@ -1,5 +1,5 @@
 ﻿using Demo.ConsoleApp.Domain;
-using Materal.TTA.Common;
+using Materal.TTA.EFRepository;
 using System;
 
 namespace Demo.ConsoleApp.Repositories

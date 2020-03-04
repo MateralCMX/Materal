@@ -1,6 +1,8 @@
 ﻿using Materal.Common;
 using Materal.Model;
-using Materal.TTA.Common.Model;
+using Materal.TTA.Common;
+using Materal.TTA.EFRepository;
+using Materal.TTA.SqlServerRepository.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,15 +12,15 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Materal.TTA.Common
+namespace Materal.TTA.SqlServerRepository
 {
     internal class EFSubordinateRepositoryHelper
     {
         public static int ConnectionSeed { get; set; }
     }
 
-    public abstract class EFSubordinateRepositoryImpl<T, TPrimaryKeyType, TContext> : EFRepositoryImpl<T, TPrimaryKeyType>, IEFSubordinateRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
-    where TContext : DbContext
+    public abstract class EFSubordinateRepositoryImpl<T, TPrimaryKeyType, TContext> : SqlServerEFRepositoryImpl<T, TPrimaryKeyType>, IEFSubordinateRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
+        where TContext : DbContext
     {
 
         /// <summary>

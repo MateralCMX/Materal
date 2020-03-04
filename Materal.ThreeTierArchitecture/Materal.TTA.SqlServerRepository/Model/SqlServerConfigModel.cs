@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Materal.TTA.Common.Model
+namespace Materal.TTA.SqlServerRepository.Model
 {
     /// <summary>
     /// 数据库配置模型

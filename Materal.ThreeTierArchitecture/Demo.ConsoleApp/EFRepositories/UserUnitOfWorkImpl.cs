@@ -1,4 +1,5 @@
 ﻿using Materal.TTA.Common;
+using Materal.TTA.EFRepository;
 
 namespace Demo.ConsoleApp.EFRepositories
 {

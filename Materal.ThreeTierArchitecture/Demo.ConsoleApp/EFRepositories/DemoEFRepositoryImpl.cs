@@ -1,4 +1,5 @@
 ﻿using Materal.TTA.Common;
+using Materal.TTA.SqlServerRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.ConsoleApp.EFRepositories

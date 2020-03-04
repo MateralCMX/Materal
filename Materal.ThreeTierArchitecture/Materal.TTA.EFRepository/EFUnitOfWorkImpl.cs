@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Materal.TTA.Common
+namespace Materal.TTA.EFRepository
 {
     public class EFUnitOfWorkImpl<T> : IEFUnitOfWork<T> where T: DbContext
     {

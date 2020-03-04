@@ -4,7 +4,6 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -192,10 +191,10 @@ namespace Materal.TTA.MongoDBRepository
         /// </summary>
         /// <param name="filterDefinition">分页请求模型</param>
         /// <param name="sortDefinition">排序表达式</param>
-        /// <param name="pagingIndex"></param>
-        /// <param name="pagingSize"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
         /// <returns></returns>
         (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, int pageIndex, int pageSize, int skip, int take);
     }
