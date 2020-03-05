@@ -21,7 +21,7 @@ namespace Demo.ConsoleApp
                 options.UseSqlServer(ApplicationConfig.UserDB.ConnectionString, m => { m.EnableRetryOnFailure(); });
             }, ServiceLifetime.Transient);
             services.AddTransient<IUserUnitOfWork, UserUnitOfWorkImpl>();
-            services.AddTransient<IUserRepository, UserEFRepositoryImpl>();
+            services.AddTransient<IUserRepository, UserSqlServerEFRepositoryImpl>();
             IServiceProvider serviceProvider = services.BuildServiceProvider();
             Guid userID;
             #region 添加

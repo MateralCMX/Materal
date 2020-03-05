@@ -19,7 +19,7 @@ namespace Materal.TTA.SqlServerRepository
         public static int ConnectionSeed { get; set; }
     }
 
-    public abstract class EFSubordinateRepositoryImpl<T, TPrimaryKeyType, TContext> : SqlServerEFRepositoryImpl<T, TPrimaryKeyType>, IEFSubordinateRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
+    public abstract class SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TContext> : SqlServerEFRepositoryImpl<T, TPrimaryKeyType>, IEFSubordinateRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
         where TContext : DbContext
     {
 
@@ -27,7 +27,7 @@ namespace Materal.TTA.SqlServerRepository
         /// 从属数据库
         /// </summary>
         protected readonly TContext SubordinateDB;
-        protected EFSubordinateRepositoryImpl(TContext dbContext, IEnumerable<SqlServerSubordinateConfigModel> subordinateConfigs, Action<DbContextOptionsBuilder, string> optionAction) : base(dbContext)
+        protected SqlServerEFSubordinateRepositoryImpl(TContext dbContext, IEnumerable<SqlServerSubordinateConfigModel> subordinateConfigs, Action<DbContextOptionsBuilder, string> optionAction) : base(dbContext)
         {
             Type type = typeof(TContext);
             ConstructorInfo[] constructorInfos = type.GetConstructors();
@@ -149,7 +149,7 @@ namespace Materal.TTA.SqlServerRepository
                         result = await queryable.OrderByDescending(orderExpression).Where(expression).ToListAsync();
                         break;
                     default:
-                        result = await queryable.ToListAsync();
+                        result = await queryable.Where(expression).ToListAsync();
                         break;
                 }
                 return result;
@@ -401,7 +401,7 @@ namespace Materal.TTA.SqlServerRepository
         /// <returns></returns>
         private IQueryable<T> GetSubordinateQueryable(TContext context)
         {
-            return IsView ? (IQueryable<T>)context.Query<T>() : context.Set<T>();
+            return context.Set<T>();
         }
         #endregion
     }

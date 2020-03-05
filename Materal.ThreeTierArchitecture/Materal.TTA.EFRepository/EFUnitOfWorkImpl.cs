@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Materal.TTA.EFRepository
 {
-    public class EFUnitOfWorkImpl<T> : IEFUnitOfWork<T> where T: DbContext
+    public abstract class EFUnitOfWorkImpl<T> : IEFUnitOfWork<T> where T: DbContext
     {
         private T _dbContext;
-        public EFUnitOfWorkImpl(T context)
+        protected EFUnitOfWorkImpl(T context)
         {
             _dbContext = context;
         }

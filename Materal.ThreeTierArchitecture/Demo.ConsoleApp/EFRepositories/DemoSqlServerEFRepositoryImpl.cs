@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Demo.ConsoleApp.EFRepositories
 {
-    public class DemoEFRepositoryImpl<T, TPrimaryKeyType> : EFSubordinateRepositoryImpl<T, TPrimaryKeyType, UserDbContext> where T : class, IEntity<TPrimaryKeyType>
+    public class DemoSqlServerEFRepositoryImpl<T, TPrimaryKeyType> : SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, UserDbContext> where T : class, IEntity<TPrimaryKeyType>
     {
-        public DemoEFRepositoryImpl(UserDbContext dbContext)
+        public DemoSqlServerEFRepositoryImpl(UserDbContext dbContext)
             : base(dbContext, ApplicationConfig.UserDB.SubordinateConfigs,
                 (options, connectionString) =>
                 {

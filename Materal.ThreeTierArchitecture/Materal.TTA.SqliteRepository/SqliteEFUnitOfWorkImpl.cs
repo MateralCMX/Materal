@@ -1,12 +1,11 @@
-﻿using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
+﻿using Materal.TTA.EFRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.SqliteRepository
 {
-    public class SqliteEFUnitOfWorkImpl<T> : EFUnitOfWorkImpl<T> where T : DbContext
+    public abstract class SqliteEFUnitOfWorkImpl<T> : EFUnitOfWorkImpl<T> where T : DbContext
     {
-        public SqliteEFUnitOfWorkImpl(T context) : base(context)
+        protected SqliteEFUnitOfWorkImpl(T context) : base(context)
         {
         }
     }

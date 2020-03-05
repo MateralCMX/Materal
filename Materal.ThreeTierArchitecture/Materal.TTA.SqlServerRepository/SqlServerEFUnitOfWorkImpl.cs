@@ -1,12 +1,11 @@
-﻿using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
+﻿using Materal.TTA.EFRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.SqlServerRepository
 {
-    public class SqlServerEFUnitOfWorkImpl<T> : EFUnitOfWorkImpl<T> where T : DbContext
+    public abstract class SqlServerEFUnitOfWorkImpl<T> : EFUnitOfWorkImpl<T> where T : DbContext
     {
-        public SqlServerEFUnitOfWorkImpl(T context) : base(context)
+        protected SqlServerEFUnitOfWorkImpl(T context) : base(context)
         {
         }
     }
