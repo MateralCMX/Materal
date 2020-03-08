@@ -1,22 +1,27 @@
+import { Injectable } from '@angular/core';
+
+@Injectable({
+    providedIn: 'root'
+})
 export class AuthorityCommon {
-    private static key = 'Token';
+    private key = 'Token';
     /**
      * 获得Token
      */
-    public static getToken(): string {
+    public getToken(): string {
         return localStorage.getItem(this.key);
     }
     /**
      * 设置token
      * @param token token
      */
-    public static setToken(token: string): void {
+    public setToken(token: string): void {
         localStorage.setItem(this.key, token);
     }
     /**
      * 移除Token
      */
-    public static removeToken(): void {
+    public removeToken(): void {
         localStorage.removeItem(this.key);
     }
 }

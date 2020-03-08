@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FormGroupCommon } from '../common/formGroupCommon';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SystemService } from '../services/system.service';
 import { ResultDataModel } from '../services/models/result/resultDataModel';
 import { SystemInfo } from '../services/models/system/SystemInfo';
 import { LoginRequestModel } from '../services/models/authority/loginRequestModel';
 import { AuthorityService } from '../services/authority.service';
+import { FormGroupCommon } from '../components/form-group-common';
 
 @Component({
   selector: 'app-login',
@@ -20,11 +20,12 @@ export class LoginComponent implements OnInit {
   };
   public formData: FormGroup;
   public isLoging = false;
-  constructor(private formBuilder: FormBuilder, private router: Router, private systemService: SystemService,
-              private authorityService: AuthorityService) { }
+  constructor(private router: Router, private systemService: SystemService, private authorityService: AuthorityService,
+              private formGroupCommon: FormGroupCommon) {
+  }
   public ngOnInit(): void {
-    this.formData = this.formBuilder.group({
-      password: [null, [Validators.required]]
+    this.formData = new FormGroup({
+      password: new FormControl({ value: null, disabled: this.isLoging }, [Validators.required])
     });
     this.loadSystemInfo();
   }
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.systemService.getSystemInfo(success);
   }
   public login(): void {
-    if (!FormGroupCommon.canValid(this.formData)) { return; }
+    if (!this.formGroupCommon.canValid(this.formData)) { return; }
     this.isLoging = true;
     const data: LoginRequestModel = {
       Password: this.formData.value.password

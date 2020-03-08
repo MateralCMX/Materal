@@ -1,14 +1,16 @@
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { throwError } from 'rxjs';
 import { HttpErrorResponse, HttpHeaders, HttpClient } from '@angular/common/http';
-import { AuthorityCommon } from '../common/authorityCommon';
 import { Router } from '@angular/router';
 import { ResultModel } from './models/result/resultModel';
 import { ResultTypeEnum } from './models/result/resultTypeEnum';
+import { AuthorityCommon } from '../components/authority-common';
 
 export class BasiceService {
-    private baseUrl = 'http://192.168.0.101:8800/api';
-    constructor(protected route: Router, protected http: HttpClient, protected message: NzMessageService) { }
+    private baseUrl = 'http://192.168.2.2:8800/api';
+    constructor(protected route: Router, protected http: HttpClient, protected message: NzMessageService,
+                protected authorityCommon: AuthorityCommon) {
+    }
     /**
      * 发送Get请求
      * @param url url地址
@@ -90,7 +92,7 @@ export class BasiceService {
      */
     protected getHttpHeaders() {
         const data: any = { 'Content-Type': 'application/json' };
-        const token = AuthorityCommon.getToken();
+        const token = this.authorityCommon.getToken();
         if (token) {
             data.Authorization = token;
         }
