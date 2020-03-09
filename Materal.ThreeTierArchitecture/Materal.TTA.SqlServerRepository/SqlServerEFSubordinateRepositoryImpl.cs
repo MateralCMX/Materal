@@ -121,7 +121,7 @@ namespace Materal.TTA.SqlServerRepository
                         result = queryable.OrderByDescending(orderExpression).Where(expression).ToList();
                         break;
                     default:
-                        result = queryable.ToList();
+                        result = queryable.Where(expression).ToList();
                         break;
                 }
                 return result;

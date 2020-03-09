@@ -156,22 +156,22 @@ namespace Materal.TTA.EFRepository
             return await Where(expression).ToListAsync();
         }
 
-        public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Func<T, object> orderExpression)
+        public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression)
         {
             return await FindAsync(expression, orderExpression, SortOrder.Ascending);
         }
 
-        public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Func<T, object> orderExpression, SortOrder sortOrder)
+        public virtual async Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
         {
             List<T> result;
             IQueryable<T> queryable = Where(expression);
             switch (sortOrder)
             {
                 case SortOrder.Ascending:
-                    result = await queryable.AsEnumerable().OrderBy(orderExpression).AsQueryable().ToListAsync();
+                    result = await queryable.OrderBy(orderExpression).ToListAsync();
                     break;
                 case SortOrder.Descending:
-                    result = await queryable.AsEnumerable().OrderByDescending(orderExpression).AsQueryable().ToListAsync();
+                    result = await queryable.OrderByDescending(orderExpression).ToListAsync();
                     break;
                 default:
                     result = await queryable.ToListAsync();
@@ -200,12 +200,12 @@ namespace Materal.TTA.EFRepository
             return await FindAsync(filterModel.GetSearchExpression<T>());
         }
 
-        public virtual async Task<List<T>> FindAsync(FilterModel filterModel, Func<T, object> orderExpression)
+        public virtual async Task<List<T>> FindAsync(FilterModel filterModel, Expression<Func<T, object>> orderExpression)
         {
             return await FindAsync(filterModel.GetSearchExpression<T>(), orderExpression);
         }
 
-        public virtual async Task<List<T>> FindAsync(FilterModel filterModel, Func<T, object> orderExpression, SortOrder sortOrder)
+        public virtual async Task<List<T>> FindAsync(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
         {
             return await FindAsync(filterModel.GetSearchExpression<T>(), orderExpression, sortOrder);
         }

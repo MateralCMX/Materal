@@ -57,7 +57,7 @@ namespace Materal.TTA.EFRepository
         /// <param name="expression">表达式</param>
         /// <param name="orderExpression">排序表达式</param>
         /// <returns></returns>
-        Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Func<T, object> orderExpression);
+        Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression);
         /// <summary>
         /// 查找
         /// </summary>
@@ -65,7 +65,7 @@ namespace Materal.TTA.EFRepository
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Func<T, object> orderExpression, SortOrder sortOrder);
+        Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder);
         /// <summary>
         /// 查找
         /// </summary>
@@ -78,7 +78,7 @@ namespace Materal.TTA.EFRepository
         /// <param name="filterModel">过滤器模型</param>
         /// <param name="orderExpression">排序表达式</param>
         /// <returns></returns>
-        Task<List<T>> FindAsync(FilterModel filterModel, Func<T, object> orderExpression);
+        Task<List<T>> FindAsync(FilterModel filterModel, Expression<Func<T, object>> orderExpression);
         /// <summary>
         /// 查找
         /// </summary>
@@ -86,7 +86,7 @@ namespace Materal.TTA.EFRepository
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        Task<List<T>> FindAsync(FilterModel filterModel, Func<T, object> orderExpression, SortOrder sortOrder);
+        Task<List<T>> FindAsync(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder);
         /// <summary>
         /// 检索
         /// </summary>
