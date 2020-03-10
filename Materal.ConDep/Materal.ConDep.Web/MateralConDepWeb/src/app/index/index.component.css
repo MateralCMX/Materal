@@ -1,7 +1,3 @@
-.layout {
-  height: 100vh;
-}
-
 .logo {
   padding: 0 20px;
   float: left;
@@ -10,17 +6,16 @@
   font-weight: bold;
 }
 
-nz-header {
-  position: fixed;
-  width: 100%;
-}
-
 [nz-menu] {
   line-height: 64px;
 }
-
+nz-header {
+  position: fixed;
+  width: 100%;
+  z-index: 999;
+}
 nz-content {
-  padding: 0 50px;
+  padding: 50px 50px 0 50px;
   margin-top: 64px;
 }
 
@@ -31,7 +26,7 @@ nz-breadcrumb {
 .inner-content {
   background: #fff;
   padding: 24px;
-  min-height: 380px;
+  min-height: 320px;
 }
 
 nz-footer {

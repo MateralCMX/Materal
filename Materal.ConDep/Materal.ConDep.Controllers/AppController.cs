@@ -4,8 +4,11 @@ using Materal.DotNetty.ControllerBus.Attributes;
 using Materal.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Materal.ConDep.ControllerCore;
+using Materal.ConDep.Controllers.Models;
+using Materal.ConvertHelper;
 
 namespace Materal.ConDep.Controllers
 {
@@ -89,63 +92,53 @@ namespace Materal.ConDep.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ResultModel AddApp(AppModel appModel)
+        public async Task<ResultModel> AddApp(AddAppRequestModel requestModel)
         {
-            Task<ResultModel> task = Task.Run(async () =>
+            try
             {
-                try
-                {
-                    await _appService.AddAppAsync(appModel);
-                    return ResultModel.Success("已添加应用");
-                }
-                catch (InvalidOperationException ex)
-                {
-                    return ResultModel.Fail(ex.Message);
-                }
-            });
-            return task.Result;
+                var appModel = requestModel.CopyProperties<AppModel>();
+                await _appService.AddAppAsync(appModel);
+                return ResultModel.Success("已添加应用");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
         }
         /// <summary>
         /// 修改一个应用
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ResultModel EditApp(AppModel appModel)
+        public async Task<ResultModel> EditApp(EditAppRequestModel requestModel)
         {
-            Task<ResultModel> task = Task.Run(async () =>
+            try
             {
-                try
-                {
-                    await _appService.EditAppAsync(appModel);
-                    return ResultModel.Success("已修改应用");
-                }
-                catch (InvalidOperationException ex)
-                {
-                    return ResultModel.Fail(ex.Message);
-                }
-            });
-            return task.Result;
+                var appModel = requestModel.CopyProperties<AppModel>();
+                await _appService.EditAppAsync(appModel);
+                return ResultModel.Success("已修改应用");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
         }
         /// <summary>
         /// 删除一个应用
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResultModel DeleteApp(Guid id)
+        public async Task<ResultModel> DeleteApp(Guid id)
         {
-            Task<ResultModel> task = Task.Run(async () =>
+            try
             {
-                try
-                {
-                    await _appService.DeleteAppAsync(id);
-                    return ResultModel.Success("已删除应用");
-                }
-                catch (InvalidOperationException ex)
-                {
-                    return ResultModel.Fail(ex.Message);
-                }
-            });
-            return task.Result;
+                await _appService.DeleteAppAsync(id);
+                return ResultModel.Success("已删除应用");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
         }
         /// <summary>
         /// 获得应用信息
@@ -231,6 +224,11 @@ namespace Materal.ConDep.Controllers
             {
                 return ResultModel<List<string>>.Fail(ex.Message);
             }
+        }
+        [HttpGet]
+        public ResultModel UploadFile()
+        {
+            return ResultModel.Success("上传成功");
         }
     }
 }

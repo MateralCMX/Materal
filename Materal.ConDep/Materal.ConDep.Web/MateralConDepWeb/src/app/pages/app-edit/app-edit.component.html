@@ -1,0 +1,35 @@
+<form nz-form [formGroup]="formData" autocomplete="off">
+    <nz-form-item>
+        <nz-form-control nzErrorTip="请输入名称">
+            <nz-input-group>
+                <input type="text" nz-input formControlName="name" placeholder="名称" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control nzErrorTip="请输入路径">
+            <nz-input-group>
+                <input type="text" nz-input formControlName="appPath" placeholder="路径" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control nzErrorTip="请输入主模块">
+            <nz-input-group>
+                <input type="text" nz-input formControlName="mainModuleName" placeholder="主模块" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control nzErrorTip="请输入参数">
+            <nz-input-group>
+                <input type="text" nz-input formControlName="parameters" placeholder="参数" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <button nz-button type="button" [nzLoading]="isTransmitting" [nzType]="'primary'" (click)="save()">{{isAdd?'添加':'保存'}}</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>

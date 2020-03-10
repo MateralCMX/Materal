@@ -1,7 +1,6 @@
-﻿using System;
-using Materal.DotNetty.Server.Core;
-using Materal.DotNetty.Server.CoreImpl;
+﻿using Materal.DotNetty.Server.Core;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace Materal.ConDep.Common
 {

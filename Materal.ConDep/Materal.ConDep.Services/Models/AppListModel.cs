@@ -5,7 +5,7 @@ using System;
 namespace Materal.ConDep.Services.Models
 {
     /// <summary>
-    /// 
+    /// 应用列表
     /// </summary>
     public class AppListModel
     {

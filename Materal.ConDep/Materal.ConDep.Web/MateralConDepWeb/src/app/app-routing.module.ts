@@ -13,10 +13,9 @@ const routes: Routes = [
     loadChildren: () => import('./pages/pages.module').then(mod => mod.PagesModule),
     canActivate: [LoginGuard]
   },
-  { path: '', pathMatch: 'full', redirectTo: '/Index' },
+  { path: '', pathMatch: 'full', redirectTo: '/Index/AppList' },
   { path: '**', component: PageNotFoundComponent }
 ];
-// const routes: Routes = [];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -15,6 +15,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// 发送Http返回
         /// </summary>
         /// <param name="ctx"></param>
+        /// <param name="byteBufferHolder"></param>
         /// <param name="response"></param>
         protected async Task SendHttpResponseAsync(IChannelHandlerContext ctx, IByteBufferHolder byteBufferHolder, IFullHttpResponse response)
         {

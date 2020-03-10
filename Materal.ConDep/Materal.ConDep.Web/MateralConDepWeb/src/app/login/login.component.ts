@@ -16,7 +16,7 @@ import { FormGroupCommon } from '../components/form-group-common';
 export class LoginComponent implements OnInit {
   public systemInfo: SystemInfo = {
     Name: 'Materal-持续发布系统',
-    Version: '1.0'
+    Version: '1.0.0'
   };
   public formData: FormGroup;
   public isLoging = false;

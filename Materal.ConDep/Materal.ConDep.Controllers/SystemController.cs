@@ -1,10 +1,10 @@
 ﻿using Materal.ConDep.Common;
-using Materal.ConDep.Controllers.Models;
+using Materal.ConDep.ControllerCore;
 using Materal.DotNetty.ControllerBus.Attributes;
 using Materal.Model;
 using System;
 using System.Reflection;
-using Materal.ConDep.ControllerCore;
+using Materal.ConDep.Controllers.Models;
 
 namespace Materal.ConDep.Controllers
 {
