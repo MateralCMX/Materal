@@ -8,6 +8,7 @@ using DotNetty.Codecs.Http;
 using DotNetty.Common.Utilities;
 using Materal.ConvertHelper;
 using Materal.DotNetty.CommandBus;
+using Materal.DotNetty.Server.Core;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {

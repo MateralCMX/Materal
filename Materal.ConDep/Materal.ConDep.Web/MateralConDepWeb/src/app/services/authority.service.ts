@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { ResultDataModel } from './models/result/resultDataModel';
 import { LoginRequestModel } from './models/authority/loginRequestModel';
 import { AuthorityCommon } from '../components/authority-common';
+import { ResultModel } from './models/result/resultModel';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,18 @@ export class AuthorityService extends BasiceService {
       this.authorityCommon.setToken(result.Data);
       success(result);
     }, null, complete);
+  }
+  /**
+   * 登出
+   */
+  public logout(success?: (value: ResultModel) => void, complete?: () => void) {
+    if (this.authorityCommon.getToken()) {
+      return this.sendGet('/Authority/Logout', null, (result: ResultModel) => {
+        this.authorityCommon.removeToken();
+        if (success) {
+          success(result);
+        }
+      }, null, complete);
+    }
   }
 }

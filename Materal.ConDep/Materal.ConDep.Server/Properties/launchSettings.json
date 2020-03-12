@@ -1,8 +1,7 @@
 {
   "profiles": {
     "Materal.ConDep.Server": {
-      "commandName": "Project",
-      "commandLineArgs": "--Target=111111111111"
+      "commandName": "Project"
     }
   }
 }

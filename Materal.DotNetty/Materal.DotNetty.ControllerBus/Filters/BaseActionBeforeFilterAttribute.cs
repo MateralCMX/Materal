@@ -7,6 +7,6 @@ namespace Materal.DotNetty.ControllerBus.Filters
     public abstract class BaseActionBeforeFilterAttribute : Attribute, IActionBeforeFilter
     {
 
-        public abstract void HandlerFilter(BaseController baseController, ActionInfo actionInfo, IFullHttpRequest request, IFullHttpResponse response);
+        public abstract void HandlerFilter(BaseController baseController, ActionInfo actionInfo, IFullHttpRequest request, ref IFullHttpResponse response);
     }
 }

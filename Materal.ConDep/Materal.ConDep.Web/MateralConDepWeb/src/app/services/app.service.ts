@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BasiceService } from './BasiceService';
 import { Router } from '@angular/router';
-import { HttpClient, HttpRequest, HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent, HttpEventType, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { NzMessageService, UploadXHRArgs } from 'ng-zorro-antd';
 import { AuthorityCommon } from '../components/authority-common';
 import { ResultDataModel } from './models/result/resultDataModel';
@@ -80,16 +80,19 @@ export class AppService extends BasiceService {
   /**
    * 上传文件
    */
-  public updateApp(item: UploadXHRArgs) {
-    const url = `${this.baseUrl}/App/UploadFile`;
+  public updateAppFile(item: UploadXHRArgs) {
+    const url = `${this.baseUrl}/App/UpdateAppFile`;
     const formData = new FormData();
     formData.append('file', item.file as any);
-    const headers = this.getHttpHeaders();
-    const req = new HttpRequest('POST', url, formData, {
-      headers,
+    const initParams: any = {
       reportProgress: true,
       withCredentials: true
-    });
+    };
+    const token = this.authorityCommon.getToken();
+    if (token) {
+      initParams.headers = new HttpHeaders({ Authorization: token });
+    }
+    const req = new HttpRequest('POST', url, formData, initParams);
     return this.http.request(req).subscribe(
       (event: HttpEvent<{}>) => {
         if (event.type === HttpEventType.UploadProgress) {
@@ -101,8 +104,9 @@ export class AppService extends BasiceService {
           item.onSuccess(event.body, item.file, event);
         }
       },
-      err => {
-        item.onError(err, item.file);
+      error => {
+        item.onError(error, item.file);
+        this.handlerError(error);
       }
     );
   }

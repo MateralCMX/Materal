@@ -29,9 +29,11 @@ export class UploadPackageComponent implements OnInit {
     }
   ];
   public constructor(private appService: AppService, private msg: NzMessageService) { }
-  public ngOnInit() {}
-  public customRequest(item: UploadXHRArgs) {
-    this.appService.updateApp(item);
+  public ngOnInit() { }
+  public customRequest() {
+    return (item: UploadXHRArgs) => {
+      this.appService.updateAppFile(item);
+    };
   }
   public handleChange({ file, fileList }: UploadChangeParam): void {
     const status = file.status;

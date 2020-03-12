@@ -57,11 +57,11 @@ namespace Materal.DotNetty.Server.CoreImpl
             {
                 foreach (IExceptionFilter exceptionFilter in exceptionFilters)
                 {
-                    exceptionFilter.HandlerException(byteBufferHolder, exception, ref response);
+                    response = exceptionFilter.HandlerException(byteBufferHolder, exception);
                 }
                 foreach (IExceptionAsyncFilter exceptionFilter in exceptionAsyncFilters)
                 {
-                    await exceptionFilter.HandlerExceptionAsync(byteBufferHolder, exception, ref response);
+                    response = await exceptionFilter.HandlerExceptionAsync(byteBufferHolder, exception);
                 }
             }
             await SendHttpResponseAsync(ctx, byteBufferHolder, response);

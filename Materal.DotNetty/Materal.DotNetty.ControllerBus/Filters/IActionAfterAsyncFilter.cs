@@ -12,6 +12,6 @@ namespace Materal.DotNetty.ControllerBus.Filters
         /// <param name="actionInfo"></param>
         /// <param name="request"></param>
         /// <param name="response"></param>
-        Task HandlerFilterAsync(BaseController baseController, ActionInfo actionInfo, IFullHttpRequest request, IFullHttpResponse response);
+        Task HandlerFilterAsync(BaseController baseController, ActionInfo actionInfo, IFullHttpRequest request, ref IFullHttpResponse response);
     }
 }

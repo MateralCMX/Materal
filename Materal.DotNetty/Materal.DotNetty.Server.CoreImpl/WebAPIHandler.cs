@@ -13,6 +13,8 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Materal.DotNetty.Common;
+using Materal.DotNetty.Server.Core.Models;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
@@ -46,8 +48,8 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <returns></returns>
         private async Task HandlerExceptionAsync(IChannelHandlerContext ctx, IByteBufferHolder byteBufferHolder, Exception exception)
         {
-            Dictionary<AsciiString, object> headers = GetDefaultHeaders("text/plain;charset=utf-8");
-            IFullHttpResponse response = GetHttpResponse(HttpResponseStatus.InternalServerError, exception.Message, headers);
+            Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders("text/plain;charset=utf-8");
+            IFullHttpResponse response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.InternalServerError, exception.Message, headers);
             IFilter[] globalFilters = _controllerBus.GetGlobalFilters();
             List<IExceptionFilter> exceptionFilters = globalFilters.OfType<IExceptionFilter>().ToList();
             List<IExceptionAsyncFilter> exceptionAsyncFilters = globalFilters.OfType<IExceptionAsyncFilter>().ToList();
@@ -55,11 +57,11 @@ namespace Materal.DotNetty.Server.CoreImpl
             {
                 foreach (IExceptionFilter exceptionFilter in exceptionFilters)
                 {
-                    response = exceptionFilter.HandlerException(byteBufferHolder, response, exception);
+                    response = exceptionFilter.HandlerException(byteBufferHolder, exception);
                 }
                 foreach (IExceptionAsyncFilter exceptionFilter in exceptionAsyncFilters)
                 {
-                    response = await exceptionFilter.HandlerExceptionAsync(byteBufferHolder, response, exception);
+                    response = await exceptionFilter.HandlerExceptionAsync(byteBufferHolder, exception);
                 }
             }
             await SendHttpResponseAsync(ctx, byteBufferHolder, response);
@@ -124,36 +126,95 @@ namespace Materal.DotNetty.Server.CoreImpl
             if (response.Status.Code != HttpResponseStatus.OK.Code) return response;
             response = await action.HandlerActionBeforeFilterAsync(request, globalFilters);
             if (response.Status.Code != HttpResponseStatus.OK.Code) return response;
-            string bodyParams = GetBodyParams(request);
-            Dictionary<string, string> urlParams = GetUrlParams(request);
-            ParameterInfo[] parameters = action.Action.GetParameters();
-            object[] @params = null;
-            if(parameters.Length > 0)
-            {
-                @params = new object[parameters.Length];
-                for (var i = 0; i < parameters.Length; i++)
-                {
-                    if(!string.IsNullOrEmpty(bodyParams) && parameters[i].ParameterType.IsClass && parameters[i].ParameterType != typeof(string))
-                    {
-                        @params[i] = bodyParams.JsonToObject(parameters[i].ParameterType);
-                        continue;
-                    }
-                    if (urlParams.ContainsKey(parameters[i].Name))
-                    {
-                        @params[i] = urlParams[parameters[i].Name].ConvertTo(parameters[i].ParameterType);
-                        continue;
-                    }
-                    if(@params[i] == null)
-                    {
-                        ResultModel resultModel = ResultModel.Fail($"参数{parameters[i].Name}错误");
-                        response = GetHttpResponse(HttpResponseStatus.BadRequest, resultModel.ToJson());
-                        return response;
-                    }
-                }
-            }
-            response = await GetResponseAsync(baseController, action, @params);
+            response = await HandlerParamsAsync(request, baseController, action);
             await action.HandlerActionAfterFilterAsync(request, response, globalFilters);
             return response;
+        }
+        /// <summary>
+        /// 处理参数
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="baseController"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        private async Task<IFullHttpResponse> HandlerParamsAsync(IFullHttpRequest request, BaseController baseController, ActionInfo action)
+        {
+            IFullHttpResponse response = null;
+            string type = request.Headers.Get(HttpHeaderNames.ContentType, null).ToString();
+            ParameterInfo[] parameters = action.Action.GetParameters();
+            if (parameters.Length > 0)
+            {
+                object[] @params;
+                if (type.Contains("multipart/form-data"))
+                {
+                    @params = HandlerFormDataParams(request, parameters, ref response);
+                    if (@params == null) return response;
+                }
+                else
+                {
+                    @params = HandlerBodyAndUrlParams(request, parameters, ref response);
+                    if (@params == null) return response;
+                }
+                response = await GetResponseAsync(baseController, action, @params);
+            }
+            else
+            {
+                response = await GetResponseAsync(baseController, action, null);
+            }
+            return response;
+        }
+        /// <summary>
+        /// 处理FormData
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="parameters"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        private object[] HandlerFormDataParams(IFullHttpRequest request, IReadOnlyList<ParameterInfo> parameters, ref IFullHttpResponse response)
+        {
+            if (parameters.Count == 1 && parameters[0].ParameterType == typeof(IUploadFileModel))
+            {
+                var @params = new object[parameters.Count];
+                @params[0] = new DefaultUploadFileModel(request);
+                return @params;
+            }
+            ResultModel resultModel = ResultModel.Fail("参数错误,multipart/form-data只能接收一个byte[]");
+            response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.BadRequest, resultModel.ToJson());
+            return null;
+        }
+        /// <summary>
+        /// 处理Body和Url参数
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="parameters"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        private object[] HandlerBodyAndUrlParams(IFullHttpRequest request, IReadOnlyList<ParameterInfo> parameters, ref IFullHttpResponse response)
+        {
+            string bodyParams = GetBodyParams(request);
+            Dictionary<string, string> urlParams = GetUrlParams(request);
+            if (parameters.Count <= 0) return null;
+            var @params = new object[parameters.Count];
+            for (var i = 0; i < parameters.Count; i++)
+            {
+                if (!string.IsNullOrEmpty(bodyParams) && parameters[i].ParameterType.IsClass && parameters[i].ParameterType != typeof(string))
+                {
+                    @params[i] = bodyParams.JsonToObject(parameters[i].ParameterType);
+                    continue;
+                }
+                if (urlParams.ContainsKey(parameters[i].Name))
+                {
+                    @params[i] = urlParams[parameters[i].Name].ConvertTo(parameters[i].ParameterType);
+                    continue;
+                }
+                if (@params[i] == null)
+                {
+                    ResultModel resultModel = ResultModel.Fail($"参数{parameters[i].Name}错误");
+                    response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.BadRequest, resultModel.ToJson());
+                    return null;
+                }
+            }
+            return @params;
         }
         /// <summary>
         /// 获得Response
@@ -188,8 +249,7 @@ namespace Materal.DotNetty.Server.CoreImpl
             }
             else
             {
-                Dictionary<AsciiString, object> headers = GetDefaultHeaders();
-                result = GetHttpResponse(HttpResponseStatus.OK, headers);
+                result = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK);
             }
             return result;
         }
@@ -204,8 +264,8 @@ namespace Materal.DotNetty.Server.CoreImpl
             await stream.ReadAsync(bytes, 0, bytes.Length);
             stream.Close();
             stream.Dispose();
-            Dictionary<AsciiString, object> headers = GetDefaultHeaders("application/octet-stream");
-            IFullHttpResponse result = GetHttpResponse(HttpResponseStatus.OK, bytes, headers);
+            Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders("application/octet-stream");
+            IFullHttpResponse result = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK, bytes, headers);
             return result;
         }
         /// <summary>
@@ -215,8 +275,8 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <returns></returns>
         private IFullHttpResponse GetJsonResponse(object actionResult)
         {
-            Dictionary<AsciiString, object> headers = GetDefaultHeaders("application/json;charset=utf-8");
-            IFullHttpResponse result = GetHttpResponse(HttpResponseStatus.OK, actionResult.ToJson(), headers);
+            Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders("application/json;charset=utf-8");
+            IFullHttpResponse result = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK, actionResult.ToJson(), headers);
             return result;
         }
         /// <summary>
@@ -226,8 +286,8 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <returns></returns>
         private IFullHttpResponse GetTextResponse(object actionResult)
         {
-            Dictionary<AsciiString, object> headers = GetDefaultHeaders("text/plain;charset=utf-8");
-            IFullHttpResponse result = GetHttpResponse(HttpResponseStatus.OK, actionResult.ToString(), headers);
+            Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders("text/plain;charset=utf-8");
+            IFullHttpResponse result = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK, actionResult.ToString(), headers);
             return result;
         }
 

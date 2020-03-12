@@ -11,8 +11,7 @@ namespace Materal.DotNetty.ControllerBus.Filters
         /// </summary>
         /// <param name="byteBufferHolder"></param>
         /// <param name="exception"></param>
-        /// <param name="response"></param>
         /// <returns></returns>
-        void HandlerException(IByteBufferHolder byteBufferHolder, Exception exception, ref IFullHttpResponse response);
+        IFullHttpResponse HandlerException(IByteBufferHolder byteBufferHolder, Exception exception);
     }
 }

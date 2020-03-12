@@ -7,6 +7,8 @@ import { SystemInfo } from '../services/models/system/SystemInfo';
 import { LoginRequestModel } from '../services/models/authority/loginRequestModel';
 import { AuthorityService } from '../services/authority.service';
 import { FormGroupCommon } from '../components/form-group-common';
+import { ResultModel } from '../services/models/result/resultModel';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-login',
@@ -21,13 +23,20 @@ export class LoginComponent implements OnInit {
   public formData: FormGroup;
   public isLoging = false;
   constructor(private router: Router, private systemService: SystemService, private authorityService: AuthorityService,
-              private formGroupCommon: FormGroupCommon) {
+              private formGroupCommon: FormGroupCommon, protected message: NzMessageService) {
   }
   public ngOnInit(): void {
     this.formData = new FormGroup({
       password: new FormControl({ value: null, disabled: this.isLoging }, [Validators.required])
     });
     this.loadSystemInfo();
+    this.logout();
+  }
+  private logout() {
+    const success = (result: ResultModel) => {
+      this.message.success(result.Message);
+    };
+    this.authorityService.logout(success);
   }
   private loadSystemInfo() {
     const success = (result: ResultDataModel<SystemInfo>) => {

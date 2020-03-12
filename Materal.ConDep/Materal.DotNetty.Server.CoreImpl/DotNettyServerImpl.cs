@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
@@ -20,7 +21,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         {
             _service = service;
         }
-
+        public event Action<IMateralChannelHandler> OnConfigHandler;
         public event Action<string> OnMessage;
         public event Action<string, string> OnSubMessage;
         public event Action<Exception> OnException;
@@ -46,7 +47,8 @@ namespace Materal.DotNetty.Server.CoreImpl
                     IChannelPipeline pipeline = channel.Pipeline;
                     pipeline.AddLast(new HttpServerCodec());
                     pipeline.AddLast(new HttpObjectAggregator(655300000));
-                    var channelHandler = (ChannelHandler)_service.GetService(typeof(ChannelHandler));
+                    var channelHandler = _service.GetService<MateralChannelHandler>();
+                    OnConfigHandler?.Invoke(channelHandler);
                     if (OnException != null)
                     {
                         channelHandler.OnException += OnException;

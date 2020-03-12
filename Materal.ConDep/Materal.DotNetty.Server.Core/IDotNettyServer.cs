@@ -22,6 +22,10 @@ namespace Materal.DotNetty.Server.Core
         /// </summary>
         event Func<string> OnGetCommand;
         /// <summary>
+        /// 
+        /// </summary>
+        event Action<IMateralChannelHandler> OnConfigHandler;
+        /// <summary>
         /// 启动服务
         /// </summary>
         /// <returns></returns>

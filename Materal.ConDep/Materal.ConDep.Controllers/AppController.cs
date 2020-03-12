@@ -1,15 +1,14 @@
-﻿using Materal.ConDep.Services;
+﻿using Materal.ConDep.ControllerCore;
+using Materal.ConDep.Controllers.Models;
+using Materal.ConDep.Services;
 using Materal.ConDep.Services.Models;
+using Materal.ConvertHelper;
 using Materal.DotNetty.ControllerBus.Attributes;
+using Materal.DotNetty.Server.Core.Models;
 using Materal.Model;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
-using Materal.ConDep.ControllerCore;
-using Materal.ConDep.Controllers.Models;
-using Materal.ConvertHelper;
-using Materal.DotNetty.Server.Core.Models;
 
 namespace Materal.ConDep.Controllers
 {
@@ -226,8 +225,13 @@ namespace Materal.ConDep.Controllers
                 return ResultModel<List<string>>.Fail(ex.Message);
             }
         }
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ResultModel UploadFile(IUploadFileModel file)
+        public ResultModel UpdateAppFile(IUploadFileModel file)
         {
             _appService.UpdateAppAsync(file);
             return ResultModel.Success("上传成功");

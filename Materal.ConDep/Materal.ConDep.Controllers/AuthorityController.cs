@@ -36,7 +36,7 @@ namespace Materal.ConDep.Controllers
         /// 登出
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet, AllowAuthority]
         public ResultModel Logout()
         {
             try

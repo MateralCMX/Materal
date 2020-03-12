@@ -88,7 +88,7 @@ export class AppListComponent implements OnInit {
   }
   private filterData(item: AppListModel) {
     if ((this.searchModel.value.name && !(item.Name.indexOf(this.searchModel.value.name) >= 0)) ||
-      (this.searchModel.value.appStatus && item.AppStatus !== this.searchModel.value.appStatus) ||
+      (this.searchModel.value.appStatus != null && item.AppStatus !== this.searchModel.value.appStatus) ||
       (this.searchModel.value.appPath && !(item.AppPath.indexOf(this.searchModel.value.appPath) >= 0)) ||
       (this.searchModel.value.mainModuleName && !(item.MainModuleName.indexOf(this.searchModel.value.mainModuleName) >= 0)) ||
       (this.searchModel.value.parameters && !(item.Parameters.indexOf(this.searchModel.value.parameters) >= 0))

@@ -10,6 +10,6 @@ namespace Materal.DotNetty.ControllerBus.Filters
         /// <param name="baseController"></param>
         /// <param name="request"></param>
         /// <param name="response"></param>
-        void HandlerFilter(BaseController baseController, IFullHttpRequest request, IFullHttpResponse response);
+        void HandlerFilter(BaseController baseController, IFullHttpRequest request, ref IFullHttpResponse response);
     }
 }

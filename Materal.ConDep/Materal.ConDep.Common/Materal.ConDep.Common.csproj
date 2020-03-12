@@ -5,13 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Materal.DotNetty.Server.Core" Version="0.0.7" />
     <PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Materal.DotNetty.Server.CoreImpl\Materal.DotNetty.Server.CoreImpl.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsetting.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="appsetting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

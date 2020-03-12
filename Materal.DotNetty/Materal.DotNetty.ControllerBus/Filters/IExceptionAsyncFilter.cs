@@ -11,9 +11,8 @@ namespace Materal.DotNetty.ControllerBus.Filters
         /// 处理异常
         /// </summary>
         /// <param name="byteBufferHolder"></param>
-        /// <param name="response"></param>
         /// <param name="exception"></param>
         /// <returns></returns>
-        Task<IFullHttpResponse> HandlerExceptionAsync(IByteBufferHolder byteBufferHolder, IFullHttpResponse response, Exception exception);
+        Task<IFullHttpResponse> HandlerExceptionAsync(IByteBufferHolder byteBufferHolder, Exception exception);
     }
 }

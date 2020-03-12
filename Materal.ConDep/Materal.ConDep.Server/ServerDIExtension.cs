@@ -1,13 +1,12 @@
 ﻿using Materal.CacheHelper;
 using Materal.ConDep.Controllers.Filters;
-using Materal.DotNetty.CommandBus;
+using Materal.ConDep.ServiceImpl;
+using Materal.ConDep.Services;
 using Materal.DotNetty.ControllerBus;
-using Materal.DotNetty.Server.CoreImpl;
 using Microsoft.Extensions.DependencyInjection;
 using NetCore.AutoRegisterDi;
 using System.Reflection;
-using Materal.ConDep.ServiceImpl;
-using Materal.ConDep.Services;
+using Materal.DotNetty.Server.CoreImpl;
 
 namespace Materal.ConDep.Server
 {
@@ -26,12 +25,13 @@ namespace Materal.ConDep.Server
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.ConDep.ServiceImpl"))
                 .Where(c => c.Name.EndsWith("ServiceImpl") && c.Name != "AppServiceImpl")
                 .AsPublicImplementedInterfaces();
+            services.AddTransient<WebAPIHandler>();
+            services.AddTransient<FileHandler>();
             services.AddControllerBus(controllerHelper =>
             {
                 controllerHelper.AddFilter<ExceptionFilter>();
                 controllerHelper.AddFilter<AuthorityFilterAttribute>();
             }, Assembly.Load("Materal.ConDep.Controllers"));
-            services.AddCommandBus();
         }
     }
 }

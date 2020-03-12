@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppListComponent } from './app-list/app-list.component';
 import { UploadPackageComponent } from './upload-package/upload-package.component';
 import { SystemSettingComponent } from './system-setting/system-setting.component';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }]
 })
 export class PagesRoutingModule { }

@@ -8,26 +8,27 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
     public class DotNettyServerImpl : IDotNettyServer
     {
         private readonly IServiceProvider _service;
-        private readonly ServerConfig _serverConfig;
+        private ServerConfig _serverConfig;
 
-        public DotNettyServerImpl(ServerConfig serverConfig, IServiceProvider service)
+        public DotNettyServerImpl(IServiceProvider service)
         {
-            _serverConfig = serverConfig;
             _service = service;
         }
-
+        public event Action<IMateralChannelHandler> OnConfigHandler;
         public event Action<string> OnMessage;
         public event Action<string, string> OnSubMessage;
         public event Action<Exception> OnException;
         public event Func<string> OnGetCommand;
-        public async Task RunServerAsync()
+        public async Task RunServerAsync(ServerConfig serverConfig)
         {
+            _serverConfig = serverConfig;
             OnSubMessage?.Invoke("服务启动中......", "重要");
             //第一步：创建ServerBootstrap实例
             var bootstrap = new ServerBootstrap();
@@ -41,22 +42,30 @@ namespace Materal.DotNetty.Server.CoreImpl
             bootstrap.Option(ChannelOption.SoBacklog, 8192);
             bootstrap.ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
             {
-                IChannelPipeline pipeline = channel.Pipeline;
-                pipeline.AddLast(new HttpServerCodec());
-                pipeline.AddLast(new HttpObjectAggregator(65536));
-                var channelHandler = (ChannelHandler)_service.GetService(typeof(ChannelHandler));
-                if(OnException != null)
+                try
                 {
-                    channelHandler.OnException += OnException;
+                    IChannelPipeline pipeline = channel.Pipeline;
+                    pipeline.AddLast(new HttpServerCodec());
+                    pipeline.AddLast(new HttpObjectAggregator(655300000));
+                    var channelHandler = _service.GetService<MateralChannelHandler>();
+                    OnConfigHandler?.Invoke(channelHandler);
+                    if (OnException != null)
+                    {
+                        channelHandler.OnException += OnException;
+                    }
+                    pipeline.AddLast(channelHandler);
                 }
-                pipeline.AddLast(channelHandler);
+                catch (Exception exception)
+                {
+                    OnException?.Invoke(exception);
+                }
             }));
             //第五步：配置主机和端口号
             IPAddress ipAddress = GetTrueIPAddress();
             IChannel bootstrapChannel = await bootstrap.BindAsync(ipAddress, _serverConfig.Port);
             OnSubMessage?.Invoke("服务启动成功", "重要");
             OnMessage?.Invoke($"已监听http://{ipAddress}:{_serverConfig.Port}");
-            OnMessage?.Invoke($"ws://{ipAddress}:{_serverConfig.Port}/websocket");
+            OnMessage?.Invoke($"已监听ws://{ipAddress}:{_serverConfig.Port}/websocket");
             //第六步：停止服务
             WaitServerStop();
             OnSubMessage?.Invoke("正在停止服务......", "重要");

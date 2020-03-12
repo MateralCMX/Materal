@@ -22,17 +22,17 @@ namespace Materal.ConDep.Common
                 return _configuration;
             }
         }
-        private const string DefaultConfigFileName = "appsetting";
-        private const string DefaultConfigFileSuffix = "json";
         /// <summary>
         /// 配置生成
         /// </summary>
         /// <param name="targetConfig"></param>
         private static void ConfigurationBuilder(string targetConfig = null)
         {
-            string appConfigFile = string.IsNullOrEmpty(targetConfig) ?
-                $"{DefaultConfigFileName}.{DefaultConfigFileSuffix}" :
-                $"{DefaultConfigFileName}.{targetConfig}.{DefaultConfigFileSuffix}";
+#if DEBUG
+            const string appConfigFile = "appsetting.Development.json";
+#else
+            const string appConfigFile = "appsetting.json";
+#endif
             IConfigurationBuilder builder = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile(appConfigFile);

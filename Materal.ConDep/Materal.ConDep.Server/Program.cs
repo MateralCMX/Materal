@@ -11,13 +11,14 @@ namespace Materal.ConDep.Server
     {
         public static async Task Main()
         {
-            string version = Assembly.GetCallingAssembly().GetName().Version.ToString();
+            string version = Assembly.Load("Materal.ConDep.Server").GetName().Version.ToString();
             Console.Title = $"Materal.ConDep.Server [版本号:{version}]";
             if (TryRegisterService())
             {
                 try
                 {
                     var dotNettyServer = ApplicationService.GetService<IDotNettyServer>();
+                    dotNettyServer.OnConfigHandler += DotNettyServer_OnConfigHandler;
                     dotNettyServer.OnException += ConsoleHelper.ServerWriteError;
                     dotNettyServer.OnGetCommand += Console.ReadLine;
                     dotNettyServer.OnMessage += message => ConsoleHelper.ServerWriteLine(message);
@@ -35,6 +36,12 @@ namespace Materal.ConDep.Server
                 ConsoleHelper.ServerWriteLine("注册服务失败", "失败", ConsoleColor.Red);
             }
 
+        }
+
+        private static void DotNettyServer_OnConfigHandler(IMateralChannelHandler channelHandler)
+        {
+            channelHandler.AddLastHandler(ApplicationService.GetService<WebAPIHandler>());
+            channelHandler.AddLastHandler(ApplicationService.GetService<FileHandler>());
         }
         #region 私有方法
         /// <summary>

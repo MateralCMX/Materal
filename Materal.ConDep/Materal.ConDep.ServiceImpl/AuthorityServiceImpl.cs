@@ -22,10 +22,12 @@ namespace Materal.ConDep.ServiceImpl
         }
         public bool IsLogin(string token)
         {
+            if (string.IsNullOrEmpty(token)) return false;
             return _cacheManager.Get(token) != null;
         }
         public void Logout(string token)
         {
+            if (string.IsNullOrEmpty(token)) return;
             _cacheManager.Remove(token);
         }
     }

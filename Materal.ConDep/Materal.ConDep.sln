@@ -15,16 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConDep.ServiceImpl"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConDep.ControllerCore", "Materal.ConDep.ControllerCore\Materal.ConDep.ControllerCore.csproj", "{6CA529E8-CE1D-4885-AE8C-EA94A8FDC742}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.CommandBus", "Materal.DotNetty.CommandBus\Materal.DotNetty.CommandBus.csproj", "{C7744822-139E-4B0E-A7CE-F224A31DECE5}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.ControllerBus", "Materal.DotNetty.ControllerBus\Materal.DotNetty.ControllerBus.csproj", "{21A09AED-2B81-4D72-995F-AFEB6EA39372}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Server.Core", "Materal.DotNetty.Server.Core\Materal.DotNetty.Server.Core.csproj", "{14CF9528-194A-48CB-8620-3F586C48AE49}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Server.CoreImpl", "Materal.DotNetty.Server.CoreImpl\Materal.DotNetty.Server.CoreImpl.csproj", "{EB51A12E-B55B-47A9-84C7-8EB07AD01DDF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.DotNetty.Common", "Materal.DotNetty.Common\Materal.DotNetty.Common.csproj", "{F3F12A0B-9C7E-482C-9F83-DB5336AABAE8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,26 +45,6 @@ Global
 		{6CA529E8-CE1D-4885-AE8C-EA94A8FDC742}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CA529E8-CE1D-4885-AE8C-EA94A8FDC742}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CA529E8-CE1D-4885-AE8C-EA94A8FDC742}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C7744822-139E-4B0E-A7CE-F224A31DECE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7744822-139E-4B0E-A7CE-F224A31DECE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7744822-139E-4B0E-A7CE-F224A31DECE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7744822-139E-4B0E-A7CE-F224A31DECE5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{21A09AED-2B81-4D72-995F-AFEB6EA39372}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21A09AED-2B81-4D72-995F-AFEB6EA39372}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21A09AED-2B81-4D72-995F-AFEB6EA39372}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21A09AED-2B81-4D72-995F-AFEB6EA39372}.Release|Any CPU.Build.0 = Release|Any CPU
-		{14CF9528-194A-48CB-8620-3F586C48AE49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14CF9528-194A-48CB-8620-3F586C48AE49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14CF9528-194A-48CB-8620-3F586C48AE49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14CF9528-194A-48CB-8620-3F586C48AE49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB51A12E-B55B-47A9-84C7-8EB07AD01DDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB51A12E-B55B-47A9-84C7-8EB07AD01DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB51A12E-B55B-47A9-84C7-8EB07AD01DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB51A12E-B55B-47A9-84C7-8EB07AD01DDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F3F12A0B-9C7E-482C-9F83-DB5336AABAE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3F12A0B-9C7E-482C-9F83-DB5336AABAE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F3F12A0B-9C7E-482C-9F83-DB5336AABAE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F3F12A0B-9C7E-482C-9F83-DB5336AABAE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,9 +1,13 @@
 .logo {
   padding: 0 20px;
-  float: left;
   color: #fff;
   font-size: 20px;
   font-weight: bold;
+}
+.logout{
+  padding: 0 20px;
+  color: #fff;
+  margin-left: auto;
 }
 
 [nz-menu] {
@@ -13,6 +17,8 @@ nz-header {
   position: fixed;
   width: 100%;
   z-index: 999;
+  display: flex;
+  flex-wrap: nowrap;
 }
 nz-content {
   padding: 50px 50px 0 50px;

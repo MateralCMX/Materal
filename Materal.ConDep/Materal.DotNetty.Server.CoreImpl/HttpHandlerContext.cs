@@ -5,6 +5,7 @@ using DotNetty.Transport.Channels;
 using Materal.DotNetty.Common;
 using System.Threading.Tasks;
 using DotNetty.Common.Utilities;
+using Materal.DotNetty.Server.Core;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {

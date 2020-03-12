@@ -1,8 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.DotNetty.ControllerBus" Version="0.0.7" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Materal.ConDep.Common\Materal.ConDep.Common.csproj" />

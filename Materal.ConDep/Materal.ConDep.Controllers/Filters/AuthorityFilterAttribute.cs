@@ -5,7 +5,6 @@ using Materal.ConDep.Services;
 using Materal.DotNetty.Common;
 using Materal.DotNetty.ControllerBus;
 using Materal.DotNetty.ControllerBus.Filters;
-using Materal.DotNetty.Server.CoreImpl;
 
 namespace Materal.ConDep.Controllers.Filters
 {
