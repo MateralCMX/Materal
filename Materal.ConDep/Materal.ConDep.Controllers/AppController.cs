@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Materal.ConDep.ControllerCore;
 using Materal.ConDep.Controllers.Models;
 using Materal.ConvertHelper;
+using Materal.DotNetty.Server.Core.Models;
 
 namespace Materal.ConDep.Controllers
 {
@@ -225,9 +226,10 @@ namespace Materal.ConDep.Controllers
                 return ResultModel<List<string>>.Fail(ex.Message);
             }
         }
-        [HttpGet]
-        public ResultModel UploadFile()
+        [HttpPost]
+        public ResultModel UploadFile(IUploadFileModel file)
         {
+            _appService.UpdateAppAsync(file);
             return ResultModel.Success("上传成功");
         }
     }

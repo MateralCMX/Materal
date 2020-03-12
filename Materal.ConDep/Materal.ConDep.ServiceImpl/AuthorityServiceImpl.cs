@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Materal.CacheHelper;
+﻿using Materal.CacheHelper;
 using Materal.ConDep.Common;
 using Materal.ConDep.Services;
 using Materal.StringHelper;
+using System;
 
 namespace Materal.ConDep.ServiceImpl
 {

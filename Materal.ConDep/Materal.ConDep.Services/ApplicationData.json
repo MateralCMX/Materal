@@ -1,23 +1,9 @@
 [
   {
     "ID": "c9d882de-ebca-4c67-bb37-5f0c10e1b27b",
-    "Name": "任务系统",
-    "AppPath": "DevOA",
-    "MainModuleName": "DevOA.WebAPI.dll",
-    "Parameters": "--ConfigTarget=Development --urls=http://192.168.0.107:8902"
-  },
-  {
-    "ID": "c9d882de-ebca-4c67-bb37-5f0c10e1b27b",
-    "Name": "任务系统2",
-    "AppPath": "DevOA2",
-    "MainModuleName": "DevOA.WebAPI2.dll",
-    "Parameters": "--ConfigTarget=Development --urls=http://192.168.0.107:8903"
-  },
-  {
-    "ID": "c9d882de-ebca-4c67-bb37-5f0c10e1b27b",
-    "Name": "任务系统3",
-    "AppPath": "DevOA3",
-    "MainModuleName": "DevOA.WebAPI3.dll",
-    "Parameters": "--ConfigTarget=Development --urls=http://192.168.0.107:8904"
+    "Name": "订单WebAPI",
+    "AppPath": "OddNumber.WebAPI",
+    "MainModuleName": "OddNumber.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8180 --urls=http://192.168.0.101:8902"
   }
 ]

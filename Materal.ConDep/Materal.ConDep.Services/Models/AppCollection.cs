@@ -32,12 +32,12 @@ namespace Materal.ConDep.Services.Models
                 app.ErrorDataReceived += App_DataReceived;
                 app.OutputDataReceived += App_DataReceived;
             }
-            KillProgram();
+            KillOldProgram();
         }
         /// <summary>
         /// 杀死程序
         /// </summary>
-        private void KillProgram()
+        private void KillOldProgram()
         {
             Process[] processes = Process.GetProcessesByName("dotnet");
             Process currentProcess = Process.GetCurrentProcess();

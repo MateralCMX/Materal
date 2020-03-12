@@ -6,6 +6,7 @@ using Materal.DotNetty.ControllerBus.Attributes;
 using System.Reflection;
 using System.Threading.Tasks;
 using Materal.DotNetty.ControllerBus.Filters;
+using Materal.DotNetty.Common;
 
 namespace Materal.DotNetty.ControllerBus
 {
@@ -32,7 +33,7 @@ namespace Materal.DotNetty.ControllerBus
         /// <returns></returns>
         public IFullHttpResponse HandlerMethod(IFullHttpRequest request)
         {
-            IFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.OK);
+            IFullHttpResponse response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK);
             var attribute = Action.GetCustomAttribute<HttpMethodAttribute>();
             attribute?.Handler(request, response);
             return response;
@@ -55,7 +56,7 @@ namespace Materal.DotNetty.ControllerBus
             }
             foreach (IActionAfterFilter filter in filters)
             {
-                filter.HandlerFilter(BaseController, this, request, response);
+                filter.HandlerFilter(BaseController, this, request, ref response);
                 if (response.Status.Code != HttpResponseStatus.OK.Code) return;
             }
             List<IActionAfterAsyncFilter> asyncFilters = attributes.OfType<IActionAfterAsyncFilter>().ToList();
@@ -65,7 +66,7 @@ namespace Materal.DotNetty.ControllerBus
             }
             foreach (IActionAfterAsyncFilter filter in asyncFilters)
             {
-                await filter.HandlerFilterAsync(BaseController, this, request, response);
+                await filter.HandlerFilterAsync(BaseController, this, request, ref response);
                 if (response.Status.Code != HttpResponseStatus.OK.Code) return;
             }
         }
@@ -78,7 +79,7 @@ namespace Materal.DotNetty.ControllerBus
         /// <returns></returns>
         public async Task<IFullHttpResponse> HandlerActionBeforeFilterAsync(IFullHttpRequest request, params IFilter[] globalFilters)
         {
-            IFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.OK);
+            IFullHttpResponse response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK);
             List<Attribute> attributes = Action.GetCustomAttributes().ToList();
             List<IActionBeforeFilter> filters = attributes.OfType<IActionBeforeFilter>().ToList();
             if (globalFilters != null && globalFilters.Length > 0)
@@ -87,7 +88,7 @@ namespace Materal.DotNetty.ControllerBus
             }
             foreach (IActionBeforeFilter filter in filters)
             {
-                filter.HandlerFilter(BaseController, this, request, response);
+                filter.HandlerFilter(BaseController, this, request, ref response);
                 if (response.Status.Code != HttpResponseStatus.OK.Code) return response;
             }
             List<IActionBeforeAsyncFilter> asyncFilters = attributes.OfType<IActionBeforeAsyncFilter>().ToList();
@@ -97,7 +98,7 @@ namespace Materal.DotNetty.ControllerBus
             }
             foreach (IActionBeforeAsyncFilter filter in asyncFilters)
             {
-                await filter.HandlerFilterAsync(BaseController, this, request, response);
+                await filter.HandlerFilterAsync(BaseController, this, request, ref response);
                 if (response.Status.Code != HttpResponseStatus.OK.Code) return response;
             }
             return response;
@@ -111,7 +112,7 @@ namespace Materal.DotNetty.ControllerBus
         public async Task<IFullHttpResponse> HandlerAuthorityFilterAsync(IFullHttpRequest request, params IFilter[] globalFilters)
         {
             Type controllerType = BaseController.GetType();
-            IFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.OK);
+            IFullHttpResponse response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK);
             var allowAuthorityAttribute = Action.GetCustomAttribute<AllowAuthorityAttribute>();
             if (allowAuthorityAttribute != null) return response;
             allowAuthorityAttribute = controllerType.GetCustomAttribute<AllowAuthorityAttribute>();
@@ -127,7 +128,7 @@ namespace Materal.DotNetty.ControllerBus
             }
             foreach (IAuthorityFilter filter in filters)
             {
-                filter.HandlerFilter(BaseController, this, request, response);
+                filter.HandlerFilter(BaseController, this, request, ref response);
                 if (response.Status.Code != HttpResponseStatus.OK.Code) return response;
             }
             List<IAuthorityAsyncFilter> asyncFilters = actionAttributes.OfType<IAuthorityAsyncFilter>().ToList();
@@ -138,7 +139,7 @@ namespace Materal.DotNetty.ControllerBus
             }
             foreach (IAuthorityAsyncFilter filter in asyncFilters)
             {
-                await filter.HandlerFilterAsync(BaseController, this, request, response);
+                await filter.HandlerFilterAsync(BaseController, this, request, ref response);
                 if (response.Status.Code != HttpResponseStatus.OK.Code) return response;
             }
             return response;

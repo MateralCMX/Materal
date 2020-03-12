@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>Materal.DotNetty.Server.CoreImpl</PackageId>
     <Authors>Materal</Authors>
     <Product>Materal.DotNetty</Product>
@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Materal.DotNetty.CommandBus\Materal.DotNetty.CommandBus.csproj" />
+    <ProjectReference Include="..\Materal.DotNetty.Common\Materal.DotNetty.Common.csproj" />
     <ProjectReference Include="..\Materal.DotNetty.ControllerBus\Materal.DotNetty.ControllerBus.csproj" />
     <ProjectReference Include="..\Materal.DotNetty.Server.Core\Materal.DotNetty.Server.Core.csproj" />
   </ItemGroup>

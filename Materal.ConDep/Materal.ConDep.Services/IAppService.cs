@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Materal.DotNetty.Server.Core.Models;
 
 namespace Materal.ConDep.Services
 {
@@ -78,5 +79,10 @@ namespace Materal.ConDep.Services
         /// <param name="id"></param>
         /// <returns></returns>
         List<string> GetConsoleList(Guid id);
+        /// <summary>
+        /// 上传APP
+        /// </summary>
+        /// <param name="file"></param>
+        Task UpdateAppAsync(IUploadFileModel file);
     }
 }

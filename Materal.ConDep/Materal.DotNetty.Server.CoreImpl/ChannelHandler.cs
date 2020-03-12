@@ -17,14 +17,14 @@ namespace Materal.DotNetty.Server.CoreImpl
             _webAPIHandler = webAPIHandler;
             _fileHandler = fileHandler;
         }
-        protected override void ChannelRead0(IChannelHandlerContext ctx, IByteBufferHolder byteBuferrHolder)
+        protected override void ChannelRead0(IChannelHandlerContext ctx, IByteBufferHolder byteBufferHolder)
         {
-            byteBuferrHolder.Retain(byte.MaxValue);
+            byteBufferHolder.Retain(byte.MaxValue);
             Task.Run(async () =>
             {
                 try
                 {
-                    await GetHandler().HandlerAsync(ctx, byteBuferrHolder);
+                    await GetHandler().HandlerAsync(ctx, byteBufferHolder);
                 }
                 catch (Exception exception)
                 {

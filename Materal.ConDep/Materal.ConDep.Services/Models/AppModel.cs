@@ -61,8 +61,8 @@ namespace Materal.ConDep.Services.Models
                 AppStatus = AppStatusEnum.Starting;
                 ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo("dotnet.exe", CmdCommand);
                 _process = new Process { StartInfo = processStartInfo };
-                if (OutputDataReceived != null) _process.OutputDataReceived += _process_OutputDataReceived;
-                if (ErrorDataReceived != null) _process.ErrorDataReceived += _process_ErrorDataReceived;
+                if (OutputDataReceived != null) _process.OutputDataReceived += ProcessOutputDataReceived;
+                if (ErrorDataReceived != null) _process.ErrorDataReceived += ProcessErrorDataReceived;
                 if (_process.Start())
                 {
                     if (OutputDataReceived != null) _process.BeginOutputReadLine();
@@ -76,12 +76,12 @@ namespace Materal.ConDep.Services.Models
             }
         }
 
-        private void _process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        private void ProcessErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
             ErrorDataReceived?.Invoke(sender, e, this);
         }
 
-        private void _process_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        private void ProcessOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             OutputDataReceived?.Invoke(sender, e, this);
         }

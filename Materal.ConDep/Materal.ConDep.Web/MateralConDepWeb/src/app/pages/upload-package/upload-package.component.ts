@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { UploadChangeParam, UploadFilter, UploadFile } from 'ng-zorro-antd/upload';
+import { UploadChangeParam, UploadFilter, UploadFile, UploadXHRArgs } from 'ng-zorro-antd/upload';
 import { AppService } from 'src/app/services/app.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload-package',
@@ -27,21 +28,17 @@ export class UploadPackageComponent implements OnInit {
       }
     }
   ];
-  public uploadFilePath: string;
-  constructor(private appService: AppService, private msg: NzMessageService) { }
-
-  ngOnInit() {
-    this.uploadFilePath = `${this.appService.baseUrl}/App/UploadFile`;
+  public constructor(private appService: AppService, private msg: NzMessageService) { }
+  public ngOnInit() {}
+  public customRequest(item: UploadXHRArgs) {
+    this.appService.updateApp(item);
   }
-  handleChange({ file, fileList }: UploadChangeParam): void {
+  public handleChange({ file, fileList }: UploadChangeParam): void {
     const status = file.status;
-    if (status !== 'uploading') {
-      console.log(file, fileList);
-    }
     if (status === 'done') {
-      this.msg.success(`${file.name} file uploaded successfully.`);
+      this.msg.success(`${file.name} 上传成功`);
     } else if (status === 'error') {
-      this.msg.error(`${file.name} file upload failed.`);
+      this.msg.error(`${file.name} 上传失败`);
     }
   }
 }

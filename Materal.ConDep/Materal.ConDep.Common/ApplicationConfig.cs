@@ -53,13 +53,17 @@ namespace Materal.ConDep.Common
         /// <summary>
         /// 操作密码
         /// </summary>
-        public static string OperatingPassword => _operatingPassword ?? (_operatingPassword = Configuration["Application:OperatingPassword"]);
-
+        public static string OperatingPassword => _operatingPassword ?? (_operatingPassword = Configuration["OperatingPassword"]);
         private static string _systemName;
         /// <summary>
         /// 系统名称
         /// </summary>
-        public static string SystemName => _systemName ?? (_systemName = Configuration["Application:SystemName"]);
+        public static string SystemName => _systemName ?? (_systemName = Configuration["SystemName"]);
+        private static string _winRarPath;
+        /// <summary>
+        /// WinRar路径
+        /// </summary>
+        public static string WinRarPath => _winRarPath ?? (_winRarPath = Configuration["WinRarPath"]);
         #endregion
     }
 }

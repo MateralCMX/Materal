@@ -1,4 +1,4 @@
-<nz-upload nzType="drag" [nzAction]="uploadFilePath" [nzFilter]="filters" [nzFileType]="'image/png'" (nzChange)="handleChange($event)">
+<nz-upload nzType="drag" [nzFilter]="filters" [nzCustomRequest]="customRequest" (nzChange)="handleChange($event)">
     <p class="ant-upload-drag-icon">
         <i nz-icon nzType="inbox"></i>
     </p>

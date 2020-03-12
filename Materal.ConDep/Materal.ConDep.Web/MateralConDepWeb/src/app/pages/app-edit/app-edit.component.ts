@@ -51,7 +51,7 @@ export class AppEditComponent implements OnInit {
       const complete = () => {
         this.isTransmitting = false;
       };
-      this.appService.GetAppInfo(this.appID, success, complete);
+      this.appService.getAppInfo(this.appID, success, complete);
     }
   }
   public save() {
@@ -73,9 +73,9 @@ export class AppEditComponent implements OnInit {
       this.isTransmitting = false;
     };
     if (this.isAdd) {
-      this.appService.AddApp(data, success, complete);
+      this.appService.addApp(data, success, complete);
     } else {
-      this.appService.EditApp(data, success, complete);
+      this.appService.editApp(data, success, complete);
     }
   }
 }

@@ -7,7 +7,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { AppEditComponent } from '../app-edit/app-edit.component';
 import { ResultModel } from 'src/app/services/models/result/resultModel';
 import { SystemService } from 'src/app/services/system.service';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-app-list',
@@ -24,13 +24,15 @@ export class AppListComponent implements OnInit {
   public sortName: string;
   public sortValue: string;
   public drawerVisible = false;
+  public modalVisible = false;
   public generalMessage = {
     count: 0,
     run: 0,
     stop: 0
   };
+  public consoleMessages: string[];
   public isAdd = false;
-  public constructor(private appService: AppService, protected message: NzMessageService) { }
+  public constructor(private appService: AppService, protected message: NzMessageService, private modalService: NzModalService) { }
   public ngOnInit() {
     this.searchModel = new FormGroup({
       name: new FormControl({ value: null, disabled: this.dataLoading }),
@@ -104,7 +106,6 @@ export class AppListComponent implements OnInit {
     this.drawerVisible = false;
   }
   public saveEnd(result: ResultModel) {
-    console.log(result);
     this.message.success(result.Message);
     this.initListData();
     this.closeDrawer();
@@ -118,16 +119,18 @@ export class AppListComponent implements OnInit {
     const complete = () => {
       this.dataLoading = false;
     };
-    this.appService.DeleteApp(appID, success, complete);
+    this.appService.deleteApp(appID, success, complete);
   }
   public getConsoleList(appID: string): void {
     this.dataLoading = true;
-    const success = () => {
+    const success = (result: ResultDataModel<string[]>) => {
+      this.consoleMessages = result.Data;
+      this.modalVisible = true;
     };
     const complete = () => {
       this.dataLoading = false;
     };
-    this.appService.GetConsoleList(appID, success, complete);
+    this.appService.getConsoleList(appID, success, complete);
   }
   public StartAllApp(): void {
     this.dataLoading = true;
@@ -138,7 +141,7 @@ export class AppListComponent implements OnInit {
     const complete = () => {
       this.dataLoading = false;
     };
-    this.appService.StartAllApp(success, complete);
+    this.appService.startAllApp(success, complete);
   }
   public StartApp(appID: string): void {
     this.dataLoading = true;
@@ -149,7 +152,7 @@ export class AppListComponent implements OnInit {
     const complete = () => {
       this.dataLoading = false;
     };
-    this.appService.StartApp(appID, success, complete);
+    this.appService.startApp(appID, success, complete);
   }
   public StopAllApp(): void {
     this.dataLoading = true;
@@ -160,7 +163,7 @@ export class AppListComponent implements OnInit {
     const complete = () => {
       this.dataLoading = false;
     };
-    this.appService.StopAllApp(success, complete);
+    this.appService.stopAllApp(success, complete);
   }
   public StopApp(appID: string): void {
     this.dataLoading = true;
@@ -171,6 +174,9 @@ export class AppListComponent implements OnInit {
     const complete = () => {
       this.dataLoading = false;
     };
-    this.appService.StopApp(appID, success, complete);
+    this.appService.stopApp(appID, success, complete);
+  }
+  public closeModal(): void {
+    this.modalVisible = false;
   }
 }

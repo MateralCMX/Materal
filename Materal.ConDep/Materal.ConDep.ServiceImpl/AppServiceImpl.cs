@@ -1,9 +1,14 @@
-﻿using Materal.ConDep.Services;
+﻿using Materal.ConDep.Common;
+using Materal.ConDep.Services;
 using Materal.ConDep.Services.Models;
 using Materal.ConvertHelper;
+using Materal.DotNetty.Server.Core.Models;
+using Materal.StringHelper;
+using Materal.WindowsHelper;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Materal.ConDep.ServiceImpl
@@ -102,6 +107,77 @@ namespace Materal.ConDep.ServiceImpl
             if (!Directory.Exists(path)) return true;
             var directoryInfo = new DirectoryInfo(path);
             return directoryInfo.GetDirectories().Length == 0;
+        }
+
+        public async Task UpdateAppAsync(IUploadFileModel file)
+        {
+            string workingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application");
+            string saveDirectory = Path.Combine(workingDirectory, "Backup");
+            if (!Directory.Exists(saveDirectory)) Directory.CreateDirectory(saveDirectory);
+            string filePath = Path.Combine(saveDirectory, file.Name);
+            file.SaveAs(filePath);
+            await UpdateAppFileAsync(workingDirectory, filePath);
+        }
+
+        /// <summary>
+        /// 更新APP文件
+        /// </summary>
+        /// <param name="workingDirectory"></param>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        private async Task UpdateAppFileAsync(string workingDirectory, string filePath)
+        {
+            var appManager = ApplicationService.GetService<IAppService>();
+            string tempPath = Path.Combine(workingDirectory, $"Temp/{StringManager.GetRandomStrByGuid()}");
+            DirectoryInfo tempDirectoryInfo = null;
+            if (!Directory.Exists(tempPath)) tempDirectoryInfo = Directory.CreateDirectory(tempPath);
+            if (tempDirectoryInfo == null) tempDirectoryInfo = new DirectoryInfo(tempPath);
+            var cmdManager = new CmdManager();
+            string winRarCmd = Path.Combine(ApplicationConfig.WinRarPath, "UnRAR.exe");
+            await cmdManager.RunCmdCommandsAsync($"\"{winRarCmd}\" x -o+ -y {filePath} {tempPath}");
+            DirectoryInfo[] directoryInfos = tempDirectoryInfo.GetDirectories();
+            string[] paths = directoryInfos.Select(m => m.Name).ToArray();
+            appManager.StopAppByPaths(paths);
+            foreach (DirectoryInfo directoryInfo in directoryInfos)
+            {
+                try
+                {
+                    string dirPath = Path.Combine(workingDirectory, directoryInfo.Name);
+                    CopyDirectory(directoryInfo, dirPath);
+                }
+                finally
+                {
+                    directoryInfo.Delete(true);
+                }
+            }
+            tempDirectoryInfo.Delete(true);
+        }
+        /// <summary>
+        /// 复制文件夹
+        /// </summary>
+        /// <param name="directoryInfo"></param>
+        /// <param name="targetPath"></param>
+        private void CopyDirectory(DirectoryInfo directoryInfo, string targetPath)
+        {
+            if (!Directory.Exists(targetPath)) Directory.CreateDirectory(targetPath);
+            #region CopyFile
+            FileInfo[] fileInfos = directoryInfo.GetFiles();
+            foreach (FileInfo fileInfo in fileInfos)
+            {
+                string filePath = Path.Combine(targetPath, fileInfo.Name);
+                if (File.Exists(filePath)) File.Delete(filePath);
+                File.Move(fileInfo.FullName, filePath);
+            }
+            #endregion
+            #region CopyChildDirectory
+            DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
+            foreach (DirectoryInfo info in directoryInfos)
+            {
+                string dirPath = Path.Combine(targetPath, info.Name);
+                if (Directory.Exists(dirPath)) Directory.Delete(dirPath, true);
+                Directory.Move(info.FullName, dirPath);
+            }
+            #endregion
         }
     }
 }

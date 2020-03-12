@@ -11,7 +11,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="services"></param>
         public static void AddMateralDotNettyServerCore(this IServiceCollection services)
         {
-            services.AddTransient<IDotNettyServer, DotNettyServerImpl>();
+            services.AddSingleton<IDotNettyServer, DotNettyServerImpl>();
             services.AddTransient<ChannelHandler>();
             services.AddTransient<WebSocketHandler>();
             services.AddTransient<WebAPIHandler>();

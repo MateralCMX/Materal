@@ -11,9 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Materal.ConDep.Commands\Materal.ConDep.Commands.csproj" />
     <ProjectReference Include="..\Materal.ConDep.Common\Materal.ConDep.Common.csproj" />
-    <ProjectReference Include="..\Materal.ConDep.Events\Materal.ConDep.Events.csproj" />
   </ItemGroup>
 
   <ItemGroup>

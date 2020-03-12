@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Materal.DotNetty.Server.Core;
+using Materal.DotNetty.Common;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
@@ -25,8 +26,8 @@ namespace Materal.DotNetty.Server.CoreImpl
             catch (Exception exception)
             {
                 ShowException?.Invoke(exception);
-                var headers = GetDefaultHeaders("text/plain;charset=utf-8");
-                IFullHttpResponse response = GetHttpResponse(HttpResponseStatus.InternalServerError, exception.Message, headers);
+                Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders("text/plain;charset=utf-8");
+                IFullHttpResponse response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.InternalServerError, exception.Message, headers);
                 await SendHttpResponseAsync(ctx, byteBufferHolder, response);
             }
         }
@@ -67,12 +68,12 @@ namespace Materal.DotNetty.Server.CoreImpl
             string url = request.Uri == "/" ? "/Index.html" : request.Uri;
             string filePath = $"{AppDomain.CurrentDomain.BaseDirectory}{HtmlPageFolderPath}{url}";
             string extension = Path.GetExtension(filePath);
-            if (string.IsNullOrEmpty(extension)) return GetHttpResponse(HttpResponseStatus.NotFound);
-            if (!File.Exists(filePath)) return GetHttpResponse(HttpResponseStatus.NotFound);
+            if (string.IsNullOrEmpty(extension)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
+            if (!File.Exists(filePath)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
             byte[] body = await GetFileBytesAsync(filePath);
             string contentType = MIMEManager.GetContentType(extension);
-            Dictionary<AsciiString, object> headers = GetDefaultHeaders(contentType);
-            return GetHttpResponse(HttpResponseStatus.OK, body, headers);
+            Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders(contentType);
+            return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK, body, headers);
         }
         #endregion
     }

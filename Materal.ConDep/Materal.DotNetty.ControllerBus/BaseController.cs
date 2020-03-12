@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Materal.DotNetty.Common;
 
 namespace Materal.DotNetty.ControllerBus
 {
@@ -45,7 +46,7 @@ namespace Materal.DotNetty.ControllerBus
             }
             foreach (IControllerAfterFilter filter in filters)
             {
-                filter.HandlerFilter(this, Request, response);
+                filter.HandlerFilter(this, Request, ref response);
                 if (response.Status.Code != HttpResponseStatus.OK.Code) return;
             }
             List<IControllerAfterAsyncFilter> asyncFilters = attributes.OfType<IControllerAfterAsyncFilter>().ToList();
@@ -55,7 +56,7 @@ namespace Materal.DotNetty.ControllerBus
             }
             foreach (IControllerAfterAsyncFilter filter in asyncFilters)
             {
-                await filter.HandlerFilterAsync(this, Request, response);
+                await filter.HandlerFilterAsync(this, Request, ref response);
                 if (response.Status.Code != HttpResponseStatus.OK.Code) return;
             }
         }
@@ -67,7 +68,7 @@ namespace Materal.DotNetty.ControllerBus
         /// <returns></returns>
         public async Task<IFullHttpResponse> HandlerControllerBeforeFilterAsync(params IFilter[] globalFilters)
         {
-            IFullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.Http11, HttpResponseStatus.OK);
+            IFullHttpResponse response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK);
             List<Attribute> attributes = GetType().GetCustomAttributes().ToList();
             List<IControllerBeforeFilter> filters = attributes.OfType<IControllerBeforeFilter>().ToList();
             if (globalFilters != null && globalFilters.Length > 0)
@@ -76,7 +77,7 @@ namespace Materal.DotNetty.ControllerBus
             }
             foreach (IControllerBeforeFilter filter in filters)
             {
-                filter.HandlerFilter(this, Request, response);
+                filter.HandlerFilter(this, Request, ref response);
                 if (response.Status.Code != HttpResponseStatus.OK.Code) return response;
             }
             List<IControllerBeforeAsyncFilter> asyncFilters = attributes.OfType<IControllerBeforeAsyncFilter>().ToList();
@@ -86,7 +87,7 @@ namespace Materal.DotNetty.ControllerBus
             }
             foreach (IControllerBeforeAsyncFilter filter in asyncFilters)
             {
-                await filter.HandlerFilterAsync(this, Request, response);
+                await filter.HandlerFilterAsync(this, Request, ref response);
                 if (response.Status.Code != HttpResponseStatus.OK.Code) return response;
             }
             return response;

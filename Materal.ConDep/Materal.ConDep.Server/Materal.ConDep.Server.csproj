@@ -6,87 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Materal.ConDep.CommandHandlers\Materal.ConDep.CommandHandlers.csproj" />
     <ProjectReference Include="..\Materal.ConDep.Controllers\Materal.ConDep.Controllers.csproj" />
     <ProjectReference Include="..\Materal.ConDep.ServiceImpl\Materal.ConDep.ServiceImpl.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="NetCore.AutoRegisterDi" Version="1.1.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="HtmlPages\404.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\AddApplication.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Css\Base.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Css\Index.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Css\Login.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\EditApplication.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Index.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Libs\Materal\DictionaryTable\DictionaryTable.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Libs\Materal\Materal.min.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Test.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Login.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Repositorys\AppRepository.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Repositorys\AuthorityRepository.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Repositorys\SystemRepository.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Scripts\AddApplication\AddApplication.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Scripts\Common\Common.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Scripts\Common\WebSocketHelper.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Scripts\Common\WebSocktHelper.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Scripts\EditApplication\EditApplication.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Scripts\Index\Index.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Scripts\Login.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Scripts\Login\Login.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\Scripts\UploadApplicationPack\UploadApplicationPack.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="HtmlPages\UploadApplicationPack.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

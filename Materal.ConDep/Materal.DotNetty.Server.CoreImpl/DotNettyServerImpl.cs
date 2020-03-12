@@ -41,15 +41,22 @@ namespace Materal.DotNetty.Server.CoreImpl
             bootstrap.Option(ChannelOption.SoBacklog, 8192);
             bootstrap.ChildHandler(new ActionChannelInitializer<IChannel>(channel =>
             {
-                IChannelPipeline pipeline = channel.Pipeline;
-                pipeline.AddLast(new HttpServerCodec());
-                pipeline.AddLast(new HttpObjectAggregator(65536));
-                var channelHandler = (ChannelHandler)_service.GetService(typeof(ChannelHandler));
-                if(OnException != null)
+                try
                 {
-                    channelHandler.OnException += OnException;
+                    IChannelPipeline pipeline = channel.Pipeline;
+                    pipeline.AddLast(new HttpServerCodec());
+                    pipeline.AddLast(new HttpObjectAggregator(655300000));
+                    var channelHandler = (ChannelHandler)_service.GetService(typeof(ChannelHandler));
+                    if (OnException != null)
+                    {
+                        channelHandler.OnException += OnException;
+                    }
+                    pipeline.AddLast(channelHandler);
                 }
-                pipeline.AddLast(channelHandler);
+                catch (Exception exception)
+                {
+                    OnException?.Invoke(exception);
+                }
             }));
             //第五步：配置主机和端口号
             IPAddress ipAddress = GetTrueIPAddress();
