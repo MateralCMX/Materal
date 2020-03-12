@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Materal.DotNetty.ControllerBus</PackageId>
+    <Authors>Materal</Authors>
+    <Product>Materal.DotNetty</Product>
+    <Version>0.0.7</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetty.Codecs.Http" Version="0.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.DotNetty.Common\Materal.DotNetty.Common.csproj" />
+    <ProjectReference Include="..\Materal.DotNetty.Server.Core\Materal.DotNetty.Server.Core.csproj" />
+  </ItemGroup>
+
+</Project>

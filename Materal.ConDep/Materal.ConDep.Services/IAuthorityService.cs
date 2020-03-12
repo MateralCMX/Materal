@@ -1,4 +1,8 @@
-﻿namespace Materal.ConDep.Services
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Materal.ConDep.Services
 {
     /// <summary>
     /// 权限服务

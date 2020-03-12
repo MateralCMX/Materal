@@ -1,0 +1,9 @@
+{
+  "ServerConfig": {
+    "Host": "192.168.0.101",
+    "Port": 8800
+  },
+  "SystemName": "Materal-持续发布系统",
+  "OperatingPassword": "123456",
+  "WinRarPath": "D:\\Program Files\\WinRAR"
+}

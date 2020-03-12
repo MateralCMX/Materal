@@ -1,19 +1,23 @@
-﻿using Materal.ConDep.Manager;
-using Materal.ConDep.Manager.Models;
+﻿using Materal.ConDep.ControllerCore;
+using Materal.ConDep.Controllers.Models;
+using Materal.ConDep.Services;
+using Materal.ConDep.Services.Models;
+using Materal.ConvertHelper;
+using Materal.DotNetty.ControllerBus.Attributes;
+using Materal.DotNetty.Server.Core.Models;
 using Materal.Model;
-using Materal.WebSocket.Http.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Materal.ConDep.Controllers
 {
-    public class AppController
+    public class AppController : ConDepBaseController
     {
-        private readonly IAppManager _appManager;
-        public AppController(IAppManager appManager)
+        private readonly IAppService _appService;
+        public AppController(IAppService appService)
         {
-            _appManager = appManager;
+            _appService = appService;
         }
         /// <summary>
         /// 获取应用列表
@@ -24,7 +28,7 @@ namespace Materal.ConDep.Controllers
         {
             try
             {
-                List<AppListModel> appList = _appManager.GetAppList();
+                List<AppListModel> appList = _appService.GetAppList();
                 return ResultModel<List<AppListModel>>.Success(appList, "获取成功");
             }
             catch (InvalidOperationException ex)
@@ -41,7 +45,7 @@ namespace Materal.ConDep.Controllers
         {
             try
             {
-                _appManager.StartAllApp();
+                _appService.StartAllApp();
                 return ResultModel.Success("任务已分配");
             }
             catch (InvalidOperationException ex)
@@ -58,7 +62,7 @@ namespace Materal.ConDep.Controllers
         {
             try
             {
-                _appManager.RestartAllApp();
+                _appService.RestartAllApp();
                 return ResultModel.Success("任务已分配");
             }
             catch (InvalidOperationException ex)
@@ -75,7 +79,7 @@ namespace Materal.ConDep.Controllers
         {
             try
             {
-                _appManager.StopAllApp();
+                _appService.StopAllApp();
                 return ResultModel.Success("任务已分配");
             }
             catch (InvalidOperationException ex)
@@ -88,63 +92,53 @@ namespace Materal.ConDep.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ResultModel AddApp(AppModel appModel)
+        public async Task<ResultModel> AddApp(AddAppRequestModel requestModel)
         {
-            Task<ResultModel> task = Task.Run(async () =>
+            try
             {
-                try
-                {
-                    await _appManager.AddAppAsync(appModel);
-                    return ResultModel.Success("已添加应用");
-                }
-                catch (InvalidOperationException ex)
-                {
-                    return ResultModel.Fail(ex.Message);
-                }
-            });
-            return task.Result;
+                var appModel = requestModel.CopyProperties<AppModel>();
+                await _appService.AddAppAsync(appModel);
+                return ResultModel.Success("已添加应用");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
         }
         /// <summary>
         /// 修改一个应用
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public ResultModel EditApp(AppModel appModel)
+        public async Task<ResultModel> EditApp(EditAppRequestModel requestModel)
         {
-            Task<ResultModel> task = Task.Run(async () =>
+            try
             {
-                try
-                {
-                    await _appManager.EditAppAsync(appModel);
-                    return ResultModel.Success("已修改应用");
-                }
-                catch (InvalidOperationException ex)
-                {
-                    return ResultModel.Fail(ex.Message);
-                }
-            });
-            return task.Result;
+                var appModel = requestModel.CopyProperties<AppModel>();
+                await _appService.EditAppAsync(appModel);
+                return ResultModel.Success("已修改应用");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
         }
         /// <summary>
         /// 删除一个应用
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResultModel DeleteApp(Guid id)
+        public async Task<ResultModel> DeleteApp(Guid id)
         {
-            Task<ResultModel> task = Task.Run(async () =>
+            try
             {
-                try
-                {
-                    await _appManager.DeleteAppAsync(id);
-                    return ResultModel.Success("已删除应用");
-                }
-                catch (InvalidOperationException ex)
-                {
-                    return ResultModel.Fail(ex.Message);
-                }
-            });
-            return task.Result;
+                await _appService.DeleteAppAsync(id);
+                return ResultModel.Success("已删除应用");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
         }
         /// <summary>
         /// 获得应用信息
@@ -155,7 +149,7 @@ namespace Materal.ConDep.Controllers
         {
             try
             {
-                AppModel result = _appManager.GetAppInfo(id);
+                AppModel result = _appService.GetAppInfo(id);
                 return ResultModel<AppModel>.Success(result, "查询成功");
             }
             catch (InvalidOperationException ex)
@@ -172,7 +166,7 @@ namespace Materal.ConDep.Controllers
         {
             try
             {
-                _appManager.StartApp(id);
+                _appService.StartApp(id);
                 return ResultModel.Success("任务已分配");
             }
             catch (InvalidOperationException ex)
@@ -189,7 +183,7 @@ namespace Materal.ConDep.Controllers
         {
             try
             {
-                _appManager.RestartApp(id);
+                _appService.RestartApp(id);
                 return ResultModel.Success("任务已分配");
             }
             catch (InvalidOperationException ex)
@@ -206,7 +200,7 @@ namespace Materal.ConDep.Controllers
         {
             try
             {
-                _appManager.StopApp(id);
+                _appService.StopApp(id);
                 return ResultModel.Success("任务已分配");
             }
             catch (InvalidOperationException ex)
@@ -223,13 +217,24 @@ namespace Materal.ConDep.Controllers
         {
             try
             {
-                List<string> result = _appManager.GetConsoleList(id);
+                List<string> result = _appService.GetConsoleList(id);
                 return ResultModel<List<string>>.Success(result, "查询成功");
             }
             catch (InvalidOperationException ex)
             {
                 return ResultModel<List<string>>.Fail(ex.Message);
             }
+        }
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResultModel UpdateAppFile(IUploadFileModel file)
+        {
+            _appService.UpdateAppAsync(file);
+            return ResultModel.Success("上传成功");
         }
     }
 }

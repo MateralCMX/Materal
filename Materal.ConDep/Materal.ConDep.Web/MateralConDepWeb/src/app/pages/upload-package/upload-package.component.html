@@ -1,0 +1,9 @@
+<nz-upload nzType="drag" [nzFilter]="filters" [nzCustomRequest]="customRequest()" (nzChange)="handleChange($event)">
+    <p class="ant-upload-drag-icon">
+        <i nz-icon nzType="inbox"></i>
+    </p>
+    <p class="ant-upload-text">单击或拖动文件到此区域以上传</p>
+    <p class="ant-upload-hint">
+        只支持单文件上传
+    </p>
+</nz-upload>

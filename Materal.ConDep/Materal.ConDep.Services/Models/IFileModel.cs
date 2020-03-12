@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Materal.ConDep.Services.Models
+﻿namespace Materal.ConDep.Services.Models
 {
     public interface IFileModel
     {

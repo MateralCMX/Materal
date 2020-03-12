@@ -1,0 +1,19 @@
+{
+  "Application": {
+    "ConDepServer": {
+      "UserLibuv": true,
+      //"Host": "116.55.251.31",
+      "Host": "192.168.0.107",
+      "Port": 8800,
+      "IsSsl": false,
+      "CertificatePath": "",
+      "CertificatePassword": "",
+      "MaxMessageLength": 10000000,
+      "NotShowCommandBlackList": [
+        "UploadPartCommandHandler"
+      ]
+    },
+    "OperatingPassword": "123456",
+    "SystemName": "Materal-持续发布系统"
+  }
+}

@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ConDep.Controllers\Materal.ConDep.Controllers.csproj" />
+    <ProjectReference Include="..\Materal.ConDep.ServiceImpl\Materal.ConDep.ServiceImpl.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.DotNetty.Server.CoreImpl" Version="0.0.7" />
+    <PackageReference Include="NetCore.AutoRegisterDi" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.0.7\contentFiles\any\netstandard2.1\MIMEConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

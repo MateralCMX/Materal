@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Materal.ConDep.Server": {
+      "commandName": "Project"
+    }
+  }
+}

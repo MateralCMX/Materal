@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Materal.DotNetty.Server.CoreImpl</PackageId>
+    <Authors>Materal</Authors>
+    <Product>Materal.DotNetty</Product>
+    <Version>0.0.7</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="MIMEConfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="MIMEConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
+    <PackageReference Include="Materal.ConvertHelper" Version="1.0.7" />
+    <PackageReference Include="Materal.Model" Version="1.0.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.DotNetty.CommandBus\Materal.DotNetty.CommandBus.csproj" />
+    <ProjectReference Include="..\Materal.DotNetty.Common\Materal.DotNetty.Common.csproj" />
+    <ProjectReference Include="..\Materal.DotNetty.ControllerBus\Materal.DotNetty.ControllerBus.csproj" />
+    <ProjectReference Include="..\Materal.DotNetty.Server.Core\Materal.DotNetty.Server.Core.csproj" />
+  </ItemGroup>
+
+</Project>
