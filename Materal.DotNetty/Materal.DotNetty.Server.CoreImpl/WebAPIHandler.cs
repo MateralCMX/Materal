@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Materal.DotNetty.Common;
+using Materal.DotNetty.Server.Core;
 using Materal.DotNetty.Server.Core.Models;
 
 namespace Materal.DotNetty.Server.CoreImpl
@@ -75,25 +76,41 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <returns></returns>
         protected virtual async Task HandlerRequestAsync(IChannelHandlerContext ctx, IFullHttpRequest request)
         {
+            IFullHttpResponse response = null;
             IFilter[] globalFilters = _controllerBus.GetGlobalFilters();
-            if (!request.Uri.StartsWith("/api/")) return;
-            string[] urls = request.Uri.Split('/');
-            if (urls.Length < 4) return;
-            string controllerKey = urls[2];
-            BaseController baseController = _controllerBus.GetController(controllerKey);
-            baseController.Request = request;
-            string actionKey = urls[3].Split('?')[0];
-            ActionInfo action = baseController.GetAction(actionKey);
-            if (!await HandlerOptionsAsync(ctx, request, action))
+            if (!request.Uri.StartsWith("/api/"))
             {
-                IFullHttpResponse response = await baseController.HandlerControllerBeforeFilterAsync(globalFilters);
-                if (response.Status.Code == HttpResponseStatus.OK.Code)
-                {
-                    response = await GetResponseAsync(request, baseController, action, globalFilters);
-                    await baseController.HandlerControllerAfterFilterAsync(response, globalFilters);
-                }
-                await SendHttpResponseAsync(ctx, request, response);
+                if (CanNext) return;
+                response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
             }
+            else
+            {
+                string[] urls = request.Uri.Split('/');
+                if (urls.Length < 4) return;
+                string controllerKey = urls[2];
+                try
+                {
+                    BaseController baseController = _controllerBus.GetController(controllerKey);
+                    baseController.Request = request;
+                    string actionKey = urls[3].Split('?')[0];
+                    ActionInfo action = baseController.GetAction(actionKey);
+                    if (!HandlerOptions(ctx, request, action, ref response))
+                    {
+                        response = await baseController.HandlerControllerBeforeFilterAsync(globalFilters);
+                        if (response.Status.Code == HttpResponseStatus.OK.Code)
+                        {
+                            response = await GetResponseAsync(request, baseController, action, globalFilters);
+                            await baseController.HandlerControllerAfterFilterAsync(response, globalFilters);
+                        }
+                    }
+                }
+                catch (DotNettyServerException exception)
+                {
+                    ResultModel resultModel = ResultModel.Fail(exception.Message);
+                    response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound, resultModel.ToJson());
+                }
+            }
+            await SendHttpResponseAsync(ctx, request, response);
             StopHandler();
         }
         /// <summary>
@@ -102,12 +119,12 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="ctx"></param>
         /// <param name="request"></param>
         /// <param name="action"></param>
+        /// <param name="response"></param>
         /// <returns></returns>
-        protected virtual async Task<bool> HandlerOptionsAsync(IChannelHandlerContext ctx, IFullHttpRequest request, ActionInfo action)
+        protected virtual bool HandlerOptions(IChannelHandlerContext ctx, IFullHttpRequest request, ActionInfo action, ref IFullHttpResponse response)
         {
             if (request.Method.Name != HttpMethod.Options.Name) return false;
-            IFullHttpResponse response = GetOptionsResponse(action.GetMethodName());
-            await SendHttpResponseAsync(ctx, request, response);
+            response = GetOptionsResponse(action.GetMethodName());
             return true;
         }
         /// <summary>
@@ -140,22 +157,31 @@ namespace Materal.DotNetty.Server.CoreImpl
         protected virtual async Task<IFullHttpResponse> HandlerParamsAsync(IFullHttpRequest request, BaseController baseController, ActionInfo action)
         {
             IFullHttpResponse response = null;
-            string type = request.Headers.Get(HttpHeaderNames.ContentType, null).ToString();
             ParameterInfo[] parameters = action.Action.GetParameters();
             if (parameters.Length > 0)
             {
-                object[] @params;
-                if (type.Contains("multipart/form-data"))
+                ICharSequence typeCharSequence = request.Headers.Get(HttpHeaderNames.ContentType, null);
+                if (typeCharSequence == null)
                 {
-                    @params = HandlerFormDataParams(request, parameters, ref response);
-                    if (@params == null) return response;
+                    ResultModel resultModel = ResultModel.Fail("请指明Content-Type");
+                    response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.BadRequest, resultModel.ToJson());
                 }
                 else
                 {
-                    @params = HandlerBodyAndUrlParams(request, parameters, ref response);
-                    if (@params == null) return response;
+                    string type = typeCharSequence.ToString();
+                    object[] @params;
+                    if (type.Contains("multipart/form-data"))
+                    {
+                        @params = HandlerFormDataParams(request, parameters, ref response);
+                        if (@params == null) return response;
+                    }
+                    else
+                    {
+                        @params = HandlerBodyAndUrlParams(request, parameters, ref response);
+                        if (@params == null) return response;
+                    }
+                    response = await GetResponseAsync(baseController, action, @params);
                 }
-                response = await GetResponseAsync(baseController, action, @params);
             }
             else
             {

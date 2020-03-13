@@ -1,13 +1,13 @@
-﻿using DotNetty.Buffers;
+﻿using Demo.Common;
+using DotNetty.Buffers;
 using DotNetty.Codecs.Http;
-using Materal.ConDep.Common;
 using Materal.ConvertHelper;
 using Materal.DotNetty.Common;
 using Materal.DotNetty.ControllerBus.Filters;
 using Materal.Model;
 using System;
 
-namespace Materal.ConDep.Controllers.Filters
+namespace Demo.Controllers.Filters
 {
     public class ExceptionFilter : IExceptionFilter
     {
