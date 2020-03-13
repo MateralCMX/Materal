@@ -1,23 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Materal.DotNetty.Server.CoreImpl" Version="0.1.0" />
+    <PackageReference Include="Materal.DotNetty.Server.CoreImpl" Version="0.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.0.2\contentFiles\any\netcoreapp3.0\MIMEConfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.0.6\contentFiles\any\netcoreapp3.0\MIMEConfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.1.0\contentFiles\any\netstandard2.1\MIMEConfig.json">
+    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.1.1\contentFiles\any\netcoreapp3.1\MIMEConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -30,7 +24,4 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties appsetting_1development_1json__JsonSchema="http://json.schemastore.org/appsettings" /></VisualStudio></ProjectExtensions>
-
 </Project>
