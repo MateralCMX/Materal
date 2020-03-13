@@ -17,7 +17,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="ctx"></param>
         /// <param name="byteBufferHolder"></param>
         /// <param name="response"></param>
-        protected async Task SendHttpResponseAsync(IChannelHandlerContext ctx, IByteBufferHolder byteBufferHolder, IFullHttpResponse response)
+        protected virtual async Task SendHttpResponseAsync(IChannelHandlerContext ctx, IByteBufferHolder byteBufferHolder, IFullHttpResponse response)
         {
             byteBufferHolder.Retain(0);
             await ctx.Channel.WriteAndFlushAsync(response);
@@ -28,7 +28,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="methodName"></param>
         /// <returns></returns>
-        protected IFullHttpResponse GetOptionsResponse(string methodName)
+        protected virtual IFullHttpResponse GetOptionsResponse(string methodName)
         {
             Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders();
             headers.Add(HttpHeaderNames.AccessControlAllowHeaders, "authorization,access-control-allow-origin,content-type");

@@ -14,8 +14,8 @@ namespace Materal.DotNetty.Server.CoreImpl
 {
     public class DotNettyServerImpl : IDotNettyServer
     {
-        private readonly IServiceProvider _service;
-        private ServerConfig _serverConfig;
+        protected readonly IServiceProvider _service;
+        protected ServerConfig _serverConfig;
 
         public DotNettyServerImpl(IServiceProvider service)
         {
@@ -26,7 +26,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         public event Action<string, string> OnSubMessage;
         public event Action<Exception> OnException;
         public event Func<string> OnGetCommand;
-        public async Task RunServerAsync(ServerConfig serverConfig)
+        public virtual async Task RunServerAsync(ServerConfig serverConfig)
         {
             _serverConfig = serverConfig;
             OnSubMessage?.Invoke("服务启动中......", "重要");
@@ -76,7 +76,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <summary>
         /// 等待服务停止
         /// </summary>
-        private void WaitServerStop()
+        protected virtual void WaitServerStop()
         {
             OnMessage?.Invoke("输入Stop停止服务");
             string inputKey = string.Empty;
@@ -93,7 +93,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// 获得真实IP地址
         /// </summary>
         /// <returns></returns>
-        private IPAddress GetTrueIPAddress()
+        protected virtual IPAddress GetTrueIPAddress()
         {
             string hostName = Dns.GetHostName();
             IPAddress[] ipAddresses = Dns.GetHostAddresses(hostName);

@@ -46,7 +46,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="byteBufferHolder"></param>
         /// <param name="exception"></param>
         /// <returns></returns>
-        private async Task HandlerExceptionAsync(IChannelHandlerContext ctx, IByteBufferHolder byteBufferHolder, Exception exception)
+        protected virtual async Task HandlerExceptionAsync(IChannelHandlerContext ctx, IByteBufferHolder byteBufferHolder, Exception exception)
         {
             Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders("text/plain;charset=utf-8");
             IFullHttpResponse response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.InternalServerError, exception.Message, headers);
@@ -73,7 +73,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="ctx"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        private async Task HandlerRequestAsync(IChannelHandlerContext ctx, IFullHttpRequest request)
+        protected virtual async Task HandlerRequestAsync(IChannelHandlerContext ctx, IFullHttpRequest request)
         {
             IFilter[] globalFilters = _controllerBus.GetGlobalFilters();
             if (!request.Uri.StartsWith("/api/")) return;
@@ -103,7 +103,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="request"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        private async Task<bool> HandlerOptionsAsync(IChannelHandlerContext ctx, IFullHttpRequest request, ActionInfo action)
+        protected virtual async Task<bool> HandlerOptionsAsync(IChannelHandlerContext ctx, IFullHttpRequest request, ActionInfo action)
         {
             if (request.Method.Name != HttpMethod.Options.Name) return false;
             IFullHttpResponse response = GetOptionsResponse(action.GetMethodName());
@@ -118,7 +118,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="action"></param>
         /// <param name="globalFilters"></param>
         /// <returns></returns>
-        private async Task<IFullHttpResponse> GetResponseAsync(IFullHttpRequest request, BaseController baseController, ActionInfo action, IFilter[] globalFilters)
+        protected virtual async Task<IFullHttpResponse> GetResponseAsync(IFullHttpRequest request, BaseController baseController, ActionInfo action, IFilter[] globalFilters)
         {
             IFullHttpResponse response = action.HandlerMethod(request);
             if (response.Status.Code != HttpResponseStatus.OK.Code) return response;
@@ -137,7 +137,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="baseController"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        private async Task<IFullHttpResponse> HandlerParamsAsync(IFullHttpRequest request, BaseController baseController, ActionInfo action)
+        protected virtual async Task<IFullHttpResponse> HandlerParamsAsync(IFullHttpRequest request, BaseController baseController, ActionInfo action)
         {
             IFullHttpResponse response = null;
             string type = request.Headers.Get(HttpHeaderNames.ContentType, null).ToString();
@@ -170,7 +170,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="parameters"></param>
         /// <param name="response"></param>
         /// <returns></returns>
-        private object[] HandlerFormDataParams(IFullHttpRequest request, IReadOnlyList<ParameterInfo> parameters, ref IFullHttpResponse response)
+        protected virtual object[] HandlerFormDataParams(IFullHttpRequest request, IReadOnlyList<ParameterInfo> parameters, ref IFullHttpResponse response)
         {
             if (parameters.Count == 1 && parameters[0].ParameterType == typeof(IUploadFileModel))
             {
@@ -189,7 +189,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="parameters"></param>
         /// <param name="response"></param>
         /// <returns></returns>
-        private object[] HandlerBodyAndUrlParams(IFullHttpRequest request, IReadOnlyList<ParameterInfo> parameters, ref IFullHttpResponse response)
+        protected virtual object[] HandlerBodyAndUrlParams(IFullHttpRequest request, IReadOnlyList<ParameterInfo> parameters, ref IFullHttpResponse response)
         {
             string bodyParams = GetBodyParams(request);
             Dictionary<string, string> urlParams = GetUrlParams(request);
@@ -223,7 +223,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="action"></param>
         /// <param name="params"></param>
         /// <returns></returns>
-        private async Task<IFullHttpResponse> GetResponseAsync(BaseController baseController, ActionInfo action, object[] @params)
+        protected virtual async Task<IFullHttpResponse> GetResponseAsync(BaseController baseController, ActionInfo action, object[] @params)
         {
             object actionResult = action.Action.Invoke(baseController, @params);
             if(actionResult is Task task)
@@ -258,7 +258,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        private async Task<IFullHttpResponse> GetStreamResponseAsync(Stream stream)
+        protected virtual async Task<IFullHttpResponse> GetStreamResponseAsync(Stream stream)
         {
             var bytes = new byte[stream.Length];
             await stream.ReadAsync(bytes, 0, bytes.Length);
@@ -273,7 +273,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="actionResult"></param>
         /// <returns></returns>
-        private IFullHttpResponse GetJsonResponse(object actionResult)
+        protected virtual IFullHttpResponse GetJsonResponse(object actionResult)
         {
             Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders("application/json;charset=utf-8");
             IFullHttpResponse result = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK, actionResult.ToJson(), headers);
@@ -284,7 +284,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="actionResult"></param>
         /// <returns></returns>
-        private IFullHttpResponse GetTextResponse(object actionResult)
+        protected virtual IFullHttpResponse GetTextResponse(object actionResult)
         {
             Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders("text/plain;charset=utf-8");
             IFullHttpResponse result = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK, actionResult.ToString(), headers);
@@ -296,7 +296,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        private string GetBodyParams(IFullHttpRequest request)
+        protected virtual string GetBodyParams(IFullHttpRequest request)
         {
             string result = request.Content.ReadString(request.Content.Capacity, Encoding.UTF8);
             return result;
@@ -306,7 +306,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        private Dictionary<string,string> GetUrlParams(IFullHttpRequest request)
+        protected virtual Dictionary<string,string> GetUrlParams(IFullHttpRequest request)
         {
             var result = new Dictionary<string, string>();
             string[] tempString = request.Uri.Split('?');

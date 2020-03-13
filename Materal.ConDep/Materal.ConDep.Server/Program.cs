@@ -41,7 +41,7 @@ namespace Materal.ConDep.Server
         private static void DotNettyServer_OnConfigHandler(IMateralChannelHandler channelHandler)
         {
             channelHandler.AddLastHandler(ApplicationService.GetService<WebAPIHandler>());
-            channelHandler.AddLastHandler(ApplicationService.GetService<FileHandler>());
+            channelHandler.AddLastHandler(ApplicationService.GetService<ConDepFileHandler>());
         }
         #region 私有方法
         /// <summary>

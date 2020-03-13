@@ -18,7 +18,7 @@ namespace Materal.ConDep.Server
         /// <param name="services"></param>
         public static void AddServer(this IServiceCollection services)
         {
-            FileHandler.HtmlPageFolderPath = "HtmlPages";
+            FileHandler.HtmlPageFolderPath = "Application";
             services.AddMemoryCache();
             services.AddSingleton<ICacheManager, MemoryCacheManager>();
             services.AddSingleton<IAppService, AppServiceImpl>();
@@ -26,7 +26,7 @@ namespace Materal.ConDep.Server
                 .Where(c => c.Name.EndsWith("ServiceImpl") && c.Name != "AppServiceImpl")
                 .AsPublicImplementedInterfaces();
             services.AddTransient<WebAPIHandler>();
-            services.AddTransient<FileHandler>();
+            services.AddTransient<ConDepFileHandler>();
             services.AddControllerBus(controllerHelper =>
             {
                 controllerHelper.AddFilter<ExceptionFilter>();

@@ -16,6 +16,8 @@
             "outputPath": "dist/MateralConDepWeb",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "baseHref": "/Manage/",
+            "deployUrl": "/Manage/",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": false,

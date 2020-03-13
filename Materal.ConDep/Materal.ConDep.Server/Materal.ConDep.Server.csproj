@@ -13,13 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Materal.DotNetty.Server.CoreImpl" Version="0.0.7" />
     <PackageReference Include="NetCore.AutoRegisterDi" Version="1.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.0.7\contentFiles\any\netstandard2.1\MIMEConfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 </Project>

@@ -40,7 +40,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        private string GetWebSocketAddress(IFullHttpRequest request)
+        protected virtual string GetWebSocketAddress(IFullHttpRequest request)
         {
             request.Headers.TryGet(HttpHeaderNames.Host, out ICharSequence value);
             string address = "ws://" + value.ToString() + WebSocketUrl;
@@ -51,7 +51,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="ctx"></param>
         /// <param name="request"></param>
-        private async Task ProtocolUpdateAsync(IChannelHandlerContext ctx, IFullHttpRequest request)
+        protected virtual async Task ProtocolUpdateAsync(IChannelHandlerContext ctx, IFullHttpRequest request)
         {
             string address = GetWebSocketAddress(request);
             var webSocketServerHandshakerFactory = new WebSocketServerHandshakerFactory(address, null, true);
@@ -71,7 +71,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="ctx"></param>
         /// <param name="frame"></param>
         /// <returns></returns>
-        private async Task HandlerRequestAsync(IChannelHandlerContext ctx, WebSocketFrame frame)
+        protected virtual async Task HandlerRequestAsync(IChannelHandlerContext ctx, WebSocketFrame frame)
         {
             switch (frame)
             {

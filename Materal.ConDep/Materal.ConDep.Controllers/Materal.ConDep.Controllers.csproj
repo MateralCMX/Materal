@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Materal.Model" Version="1.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Materal.ConDep.ControllerCore\Materal.ConDep.ControllerCore.csproj" />
     <ProjectReference Include="..\Materal.ConDep.Services\Materal.ConDep.Services.csproj" />
   </ItemGroup>

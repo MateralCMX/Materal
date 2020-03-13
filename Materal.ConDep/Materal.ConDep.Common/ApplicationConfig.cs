@@ -25,8 +25,7 @@ namespace Materal.ConDep.Common
         /// <summary>
         /// 配置生成
         /// </summary>
-        /// <param name="targetConfig"></param>
-        private static void ConfigurationBuilder(string targetConfig = null)
+        private static void ConfigurationBuilder()
         {
 #if DEBUG
             const string appConfigFile = "appsetting.Development.json";

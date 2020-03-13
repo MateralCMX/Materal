@@ -38,10 +38,10 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="ctx"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        private async Task HandlerRequestAsync(IChannelHandlerContext ctx, IFullHttpRequest request)
+        protected virtual async Task HandlerRequestAsync(IChannelHandlerContext ctx, IFullHttpRequest request)
         {
             IFullHttpResponse response = await GetFileResponseAsync(request);
-            if(!CanNext || response.Status.Code != HttpResponseStatus.OK.Code)
+            if (!CanNext || response.Status.Code == HttpResponseStatus.OK.Code)
             {
                 await SendHttpResponseAsync(ctx, request, response);
                 StopHandler();
@@ -52,7 +52,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="filePath">文件路径</param>
         /// <returns></returns>
-        private async Task<byte[]> GetFileBytesAsync(string filePath)
+        protected virtual async Task<byte[]> GetFileBytesAsync(string filePath)
         {
             if (!File.Exists(filePath)) throw new DotNettyServerException("文件不存在");
             byte[] result = await File.ReadAllBytesAsync(filePath);
@@ -63,10 +63,23 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        private async Task<IFullHttpResponse> GetFileResponseAsync(IFullHttpRequest request)
+        protected virtual async Task<IFullHttpResponse> GetFileResponseAsync(IFullHttpRequest request)
         {
-            string url = request.Uri == "/" ? "/Index.html" : request.Uri;
-            string filePath = $"{AppDomain.CurrentDomain.BaseDirectory}{HtmlPageFolderPath}{url}";
+            string url = string.IsNullOrEmpty(Path.GetExtension(request.Uri)) ? Path.Combine(request.Uri, "Index.html") : request.Uri;
+            return await GetFileResponseAsync(url);
+        }
+        /// <summary>
+        /// 获得文件返回
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        protected virtual async Task<IFullHttpResponse> GetFileResponseAsync(string url)
+        {
+            if (url.StartsWith("/") || url.StartsWith(@"\"))
+            {
+                url = url.Substring(1);
+            }
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, HtmlPageFolderPath, url);
             string extension = Path.GetExtension(filePath);
             if (string.IsNullOrEmpty(extension)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
             if (!File.Exists(filePath)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);

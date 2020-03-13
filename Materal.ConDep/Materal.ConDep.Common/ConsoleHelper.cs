@@ -4,7 +4,7 @@ namespace Materal.ConDep.Common
 {
     public class ConsoleHelper
     {
-        private const string ConDepServerName = "ConDepServer";
+        private const string ServerName = "ConDepServer";
         /// <summary>
         /// 写入控制台
         /// </summary>
@@ -41,7 +41,7 @@ namespace Materal.ConDep.Common
         /// <param name="consoleColor"></param>
         public static void ServerWrite(string message, string subTitle = null, ConsoleColor consoleColor = ConsoleColor.White)
         {
-            Write(ConDepServerName, message, subTitle, consoleColor);
+            Write(ServerName, message, subTitle, consoleColor);
         }
         /// <summary>
         /// 写入控制台
@@ -51,7 +51,7 @@ namespace Materal.ConDep.Common
         /// <param name="consoleColor"></param>
         public static void ServerWriteLine(string message, string subTitle = null, ConsoleColor consoleColor = ConsoleColor.White)
         {
-            WriteLine(ConDepServerName, message, subTitle, consoleColor);
+            WriteLine(ServerName, message, subTitle, consoleColor);
         }
         /// <summary>
         /// 写入错误
