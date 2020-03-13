@@ -16,10 +16,13 @@ namespace Materal.ConDep.ServiceImpl
     public class AppServiceImpl : IAppService
     {
         private readonly AppCollection _appCollection;
+        private readonly WebAppCollection _webAppCollection;
         public AppServiceImpl()
         {
-            string jsonFilePath = $"{AppDomain.CurrentDomain.BaseDirectory}ApplicationData.json";
-            _appCollection = new AppCollection(jsonFilePath);
+            string appJsonFilePath = $"{AppDomain.CurrentDomain.BaseDirectory}ApplicationData.json";
+            _appCollection = new AppCollection(appJsonFilePath);
+            string webAppJsonFilePath = $"{AppDomain.CurrentDomain.BaseDirectory}WebApplicationData.json";
+            _webAppCollection = new WebAppCollection(webAppJsonFilePath);
         }
 
         public void StartAllApp()
@@ -43,6 +46,7 @@ namespace Materal.ConDep.ServiceImpl
         }
         public async Task AddAppAsync(AppModel appModel)
         {
+            appModel.ID = Guid.NewGuid();
             _appCollection.Add(appModel);
             await _appCollection.SaveDataAsync();
         }
@@ -68,6 +72,37 @@ namespace Materal.ConDep.ServiceImpl
             if (appModel == null) throw new InvalidOperationException("应用程序不存在");
             return appModel;
         }
+
+        public async Task AddWebAppAsync(WebAppModel appModel)
+        {
+            appModel.ID = Guid.NewGuid();
+            _webAppCollection.Add(appModel);
+            await _webAppCollection.SaveDataAsync();
+        }
+
+        public async Task EditWebAppAsync(WebAppModel appModel)
+        {
+            WebAppModel appModelFromDB = _webAppCollection[appModel.ID];
+            if (appModelFromDB == null) throw new InvalidOperationException("应用程序不存在");
+            appModel.CopyProperties(appModelFromDB);
+            await _webAppCollection.SaveDataAsync();
+        }
+
+        public async Task DeleteWebAppAsync(Guid id)
+        {
+            WebAppModel appModelFromDB = _webAppCollection[id];
+            if (appModelFromDB == null) throw new InvalidOperationException("应用程序不存在");
+            _webAppCollection.Remove(appModelFromDB);
+            await _webAppCollection.SaveDataAsync();
+        }
+
+        public WebAppModel GetWebAppInfo(Guid id)
+        {
+            WebAppModel appModel = _webAppCollection[id];
+            if (appModel == null) throw new InvalidOperationException("应用程序不存在");
+            return appModel;
+        }
+
         public void StartApp(Guid id)
         {
             if (!CanRun()) throw new InvalidOperationException("正在发布中,请稍后");
@@ -93,6 +128,12 @@ namespace Materal.ConDep.ServiceImpl
         {
             return _appCollection.GetAppLists();
         }
+
+        public List<WebAppModel> GetWebAppList()
+        {
+            return _webAppCollection.GetAppLists();
+        }
+
         public List<string> GetConsoleList(Guid id)
         {
             return _appCollection.GetAppConsoleList(_appCollection[id]);

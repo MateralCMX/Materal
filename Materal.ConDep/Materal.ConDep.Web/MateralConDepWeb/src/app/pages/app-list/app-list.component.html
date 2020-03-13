@@ -75,7 +75,7 @@
                 <nz-button-group *ngIf="data.AppStatus === 0">
                     <button nz-button (click)="openDrawer(data.ID)">配置</button>
                     <button nz-button nzType="primary" (click)="StartApp(data.ID)">启动</button>
-                    <button nz-button nzType="danger" (click)="deleteApp(data.ID)">删除</button>
+                    <button nz-button nzType="danger" (click)="showDeleteConfirm(data.ID)">删除</button>
                 </nz-button-group>
                 <nz-button-group *ngIf="data.AppStatus === 1">
                     <button nz-button (click)="getConsoleList(data.ID)">控制台</button>

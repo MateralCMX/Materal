@@ -37,6 +37,23 @@ namespace Materal.ConDep.Controllers
             }
         }
         /// <summary>
+        /// 获取Web应用列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, AllowAuthority]
+        public ResultModel<List<WebAppModel>> GetWebAppList()
+        {
+            try
+            {
+                List<WebAppModel> appList = _appService.GetWebAppList();
+                return ResultModel<List<WebAppModel>>.Success(appList, "获取成功");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel<List<WebAppModel>>.Fail(ex.Message);
+            }
+        }
+        /// <summary>
         /// 启动所有应用
         /// </summary>
         /// <returns></returns>
@@ -155,6 +172,76 @@ namespace Materal.ConDep.Controllers
             catch (InvalidOperationException ex)
             {
                 return ResultModel<AppModel>.Fail(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 添加一个Web应用
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ResultModel> AddWebApp(AddWebAppRequestModel requestModel)
+        {
+            try
+            {
+                var appModel = requestModel.CopyProperties<WebAppModel>();
+                await _appService.AddWebAppAsync(appModel);
+                return ResultModel.Success("已添加应用");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 修改一个Web应用
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ResultModel> EditWebApp(EditWebAppRequestModel requestModel)
+        {
+            try
+            {
+                var appModel = requestModel.CopyProperties<WebAppModel>();
+                await _appService.EditWebAppAsync(appModel);
+                return ResultModel.Success("已修改应用");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 删除一个Web应用
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ResultModel> DeleteWebApp(Guid id)
+        {
+            try
+            {
+                await _appService.DeleteWebAppAsync(id);
+                return ResultModel.Success("已删除应用");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 获得Web应用信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResultModel<WebAppModel> GetWebAppInfo(Guid id)
+        {
+            try
+            {
+                WebAppModel result = _appService.GetWebAppInfo(id);
+                return ResultModel<WebAppModel>.Success(result, "查询成功");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel<WebAppModel>.Fail(ex.Message);
             }
         }
         /// <summary>

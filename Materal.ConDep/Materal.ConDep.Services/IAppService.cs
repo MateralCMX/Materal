@@ -54,6 +54,28 @@ namespace Materal.ConDep.Services
         /// <returns></returns>
         AppModel GetAppInfo(Guid id);
         /// <summary>
+        /// 添加一个Web应用
+        /// </summary>
+        /// <param name="appModel"></param>
+        Task AddWebAppAsync(WebAppModel appModel);
+        /// <summary>
+        /// 修改一个Web应用
+        /// </summary>
+        /// <param name="appModel"></param>
+        /// <returns></returns>
+        Task EditWebAppAsync(WebAppModel appModel);
+        /// <summary>
+        /// 删除一个Web应用
+        /// </summary>
+        /// <param name="id"></param>
+        Task DeleteWebAppAsync(Guid id);
+        /// <summary>
+        /// 获得Web应用信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        WebAppModel GetWebAppInfo(Guid id);
+        /// <summary>
         /// 启动应用
         /// </summary>
         /// <returns></returns>
@@ -73,6 +95,11 @@ namespace Materal.ConDep.Services
         /// </summary>
         /// <returns></returns>
         List<AppListModel> GetAppList();
+        /// <summary>
+        /// 获取Web应用列表
+        /// </summary>
+        /// <returns></returns>
+        List<WebAppModel> GetWebAppList();
         /// <summary>
         /// 获得控制台列表
         /// </summary>

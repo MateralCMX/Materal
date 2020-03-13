@@ -179,4 +179,14 @@ export class AppListComponent implements OnInit {
   public closeModal(): void {
     this.modalVisible = false;
   }
+  public showDeleteConfirm(appID: string): void {
+    this.modalService.confirm({
+      nzTitle: '提示',
+      nzContent: '确认删除该项配置吗？',
+      nzOkText: '删除',
+      nzOkType: 'danger',
+      nzOnOk: () => this.deleteApp(appID),
+      nzCancelText: '取消'
+    });
+  }
 }

@@ -8,6 +8,7 @@ import { ResultDataModel } from './models/result/resultDataModel';
 import { AppListModel } from './models/app/AppListModel';
 import { AppModel } from './models/app/appModel';
 import { ResultModel } from './models/result/resultModel';
+import { WebAppModel } from './models/app/WebAppModel';
 
 @Injectable({
   providedIn: 'root'
@@ -30,18 +31,6 @@ export class AppService extends BasiceService {
     return this.sendGet('/App/GetAppInfo', { id }, success, null, complete);
   }
   /**
-   * 启动所有应用
-   */
-  public startAllApp(success?: (value: ResultModel) => void, complete?: () => void) {
-    return this.sendGet('/App/StartAllApp', null, success, null, complete);
-  }
-  /**
-   * 停止所有应用
-   */
-  public stopAllApp(success?: (value: ResultModel) => void, complete?: () => void) {
-    return this.sendGet('/App/StopAllApp', null, success, null, complete);
-  }
-  /**
    * 添加一个应用
    */
   public addApp(data: AppModel, success?: (value: ResultModel) => void, complete?: () => void) {
@@ -58,6 +47,48 @@ export class AppService extends BasiceService {
    */
   public deleteApp(id: string, success?: (value: ResultModel) => void, complete?: () => void) {
     return this.sendGet('/App/DeleteApp', { id }, success, null, complete);
+  }
+  /**
+   * 获得Web应用列表
+   */
+  public getWebAppList(success?: (value: ResultDataModel<WebAppModel[]>) => void, complete?: () => void) {
+    return this.sendGet('/App/GetWebAppList', null, success, null, complete);
+  }
+  /**
+   * 获得Web应用信息
+   */
+  public getWebAppInfo(id: string, success?: (value: ResultDataModel<WebAppModel>) => void, complete?: () => void) {
+    return this.sendGet('/App/GetWebAppInfo', { id }, success, null, complete);
+  }
+  /**
+   * 添加一个Web应用
+   */
+  public addWebApp(data: WebAppModel, success?: (value: ResultModel) => void, complete?: () => void) {
+    return this.sendPost('/App/AddWebApp', data, success, null, complete);
+  }
+  /**
+   * 修改一个Web应用
+   */
+  public editWebApp(data: WebAppModel, success?: (value: ResultModel) => void, complete?: () => void) {
+    return this.sendPost('/App/EditWebApp', data, success, null, complete);
+  }
+  /**
+   * 删除一个Web应用
+   */
+  public deleteWebApp(id: string, success?: (value: ResultModel) => void, complete?: () => void) {
+    return this.sendGet('/App/DeleteWebApp', { id }, success, null, complete);
+  }
+  /**
+   * 启动所有应用
+   */
+  public startAllApp(success?: (value: ResultModel) => void, complete?: () => void) {
+    return this.sendGet('/App/StartAllApp', null, success, null, complete);
+  }
+  /**
+   * 停止所有应用
+   */
+  public stopAllApp(success?: (value: ResultModel) => void, complete?: () => void) {
+    return this.sendGet('/App/StopAllApp', null, success, null, complete);
   }
   /**
    * 启动应用
