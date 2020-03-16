@@ -1,10 +1,9 @@
-﻿using Materal.DotNetty.Server.Core;
+﻿using Demo.Common;
+using Materal.DotNetty.Server.Core;
+using Materal.DotNetty.Server.CoreImpl;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Demo.Common;
-using Materal.DotNetty.Common;
-using Materal.DotNetty.Server.CoreImpl;
 
 namespace Demo.Server
 {
@@ -51,7 +50,7 @@ namespace Demo.Server
 
         }
 
-        private static void DotNettyServer_OnConfigHandler(IMateralChannelHandler channelHandler)
+        private static void DotNettyServer_OnConfigHandler(IServerChannelHandler channelHandler)
         {
             channelHandler.AddLastHandler(ApplicationService.GetService<WebAPIHandler>());
             channelHandler.AddLastHandler(ApplicationService.GetService<FileHandler>());
