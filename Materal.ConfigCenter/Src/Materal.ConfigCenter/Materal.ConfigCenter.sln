@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter.Example", "Materal.ConfigCenter.Example\Materal.ConfigCenter.Example.csproj", "{34394E3E-41E3-481B-AEC7-BBC660DEE766}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter", "Materal.ConfigCenter\Materal.ConfigCenter.csproj", "{72B9B7F9-9B62-4C9A-9A02-5B675D155D54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter.Client", "Materal.ConfigCenter.Client\Materal.ConfigCenter.Client.csproj", "{3FFC50AF-8B89-4085-A551-36F3C0CAD9AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigCenter.Client.Server", "Materal.ConfigCenter.Client.Server\Materal.ConfigCenter.Client.Server.csproj", "{4E2D8A90-9225-44D4-8D4B-73D40C40FED2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigCenter.Commands", "Materal.ConfigCenter.Commands\Materal.ConfigCenter.Commands.csproj", "{71BB5300-F781-4DE1-8618-3038FEC57F62}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Common", "..\..\..\Materal.DotNetty\Materal.DotNetty.Common\Materal.DotNetty.Common.csproj", "{9968D6D4-5F7E-4600-A1E4-F18372F341CF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{34394E3E-41E3-481B-AEC7-BBC660DEE766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34394E3E-41E3-481B-AEC7-BBC660DEE766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34394E3E-41E3-481B-AEC7-BBC660DEE766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34394E3E-41E3-481B-AEC7-BBC660DEE766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72B9B7F9-9B62-4C9A-9A02-5B675D155D54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B9B7F9-9B62-4C9A-9A02-5B675D155D54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B9B7F9-9B62-4C9A-9A02-5B675D155D54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B9B7F9-9B62-4C9A-9A02-5B675D155D54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FFC50AF-8B89-4085-A551-36F3C0CAD9AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FFC50AF-8B89-4085-A551-36F3C0CAD9AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FFC50AF-8B89-4085-A551-36F3C0CAD9AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FFC50AF-8B89-4085-A551-36F3C0CAD9AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E2D8A90-9225-44D4-8D4B-73D40C40FED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E2D8A90-9225-44D4-8D4B-73D40C40FED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E2D8A90-9225-44D4-8D4B-73D40C40FED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E2D8A90-9225-44D4-8D4B-73D40C40FED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71BB5300-F781-4DE1-8618-3038FEC57F62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71BB5300-F781-4DE1-8618-3038FEC57F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71BB5300-F781-4DE1-8618-3038FEC57F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71BB5300-F781-4DE1-8618-3038FEC57F62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9968D6D4-5F7E-4600-A1E4-F18372F341CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9968D6D4-5F7E-4600-A1E4-F18372F341CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9968D6D4-5F7E-4600-A1E4-F18372F341CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9968D6D4-5F7E-4600-A1E4-F18372F341CF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ADC5F408-170E-4DCC-A816-42214D12FF51}
+	EndGlobalSection
+EndGlobal
