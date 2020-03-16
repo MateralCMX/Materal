@@ -1,11 +1,11 @@
 ﻿namespace Materal.DotNetty.Server.Core
 {
-    public interface IMateralChannelHandler
+    public interface IServerChannelHandler
     {
         /// <summary>
         /// 添加处理器
         /// </summary>
         /// <param name="handler"></param>
-        void AddLastHandler(HandlerContext handler);
+        void AddLastHandler(ServerHandlerContext handler);
     }
 }

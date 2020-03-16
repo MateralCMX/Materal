@@ -13,4 +13,8 @@
     <PackageReference Include="DotNetty.Codecs.Http" Version="0.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.DotNetty.Common\Materal.DotNetty.Common.csproj" />
+  </ItemGroup>
+
 </Project>

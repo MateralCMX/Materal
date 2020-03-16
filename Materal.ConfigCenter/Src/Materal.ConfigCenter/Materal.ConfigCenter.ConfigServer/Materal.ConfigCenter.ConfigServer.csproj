@@ -11,9 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Materal.ConfigCenter.Client\Materal.ConfigCenter.Client.csproj" />
-    <ProjectReference Include="..\Materal.ConfigCenter.Events\Materal.ConfigCenter.Events.csproj" />
-    <ProjectReference Include="..\Materal.DotNetty.Client.CoreImpl\Materal.DotNetty.Client.CoreImpl.csproj" />
+    <ProjectReference Include="..\..\..\..\Materal.DotNetty\Materal.DotNetty.Server.CoreImpl\Materal.DotNetty.Server.CoreImpl.csproj" />
+    <ProjectReference Include="..\Materal.ConfigCenter.ConfigServer.CommandHandlers\Materal.ConfigCenter.ConfigServer.CommandHandlers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

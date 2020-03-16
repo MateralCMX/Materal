@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.DotNetty.Client.Core\Materal.DotNetty.Client.Core.csproj" />
+    <ProjectReference Include="..\Materal.DotNetty.EventBus\Materal.DotNetty.EventBus.csproj" />
+  </ItemGroup>
+
+</Project>

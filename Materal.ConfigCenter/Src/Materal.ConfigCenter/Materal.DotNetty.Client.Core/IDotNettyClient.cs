@@ -1,38 +1,38 @@
-锘縰sing Materal.DotNetty.Common;
+using Materal.DotNetty.Common;
 using System;
 using System.Threading.Tasks;
 
-namespace Materal.DotNetty.Server.Core
+namespace Materal.DotNetty.Client.Core
 {
-    public interface IDotNettyServer
+    public interface IDotNettyClient
     {
         /// <summary>
-        /// 浜х敓娑堟伅
+        /// 产生消息
         /// </summary>
         event Action<string> OnMessage;
         /// <summary>
-        /// 浜х敓娑堟伅
+        /// 产生消息
         /// </summary>
         event Action<string, string> OnSubMessage;
         /// <summary>
-        /// 浜х敓娑堟伅
+        /// 产生消息
         /// </summary>
         event Action<Exception> OnException;
         /// <summary>
-        /// 鑾峰彇鍛戒护
+        /// 获取命令
         /// </summary>
         event Func<string> OnGetCommand;
         /// <summary>
         /// 
         /// </summary>
-        event Action<IServerChannelHandler> OnConfigHandler;
+        event Action<IClientChannelHandler> OnConfigHandler;
         /// <summary>
-        /// 鍚姩鏈嶅姟
+        /// 启动服务
         /// </summary>
         /// <returns></returns>
-        Task RunAsync(ServerConfig serverConfig);
+        Task RunAsync(ClientConfig clientConfig);
         /// <summary>
-        /// 鍋滄鏈嶅姟
+        /// 停止服务
         /// </summary>
         /// <returns></returns>
         Task StopAsync();

@@ -1,8 +1,9 @@
 ﻿using System;
+using Materal.DotNetty.Common;
 
 namespace Materal.DotNetty.Server.Core
 {
-    public class DotNettyServerException : Exception
+    public class DotNettyServerException : DotNettyException
     {
         public DotNettyServerException()
         {

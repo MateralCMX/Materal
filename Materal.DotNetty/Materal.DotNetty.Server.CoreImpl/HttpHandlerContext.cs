@@ -9,7 +9,7 @@ using Materal.DotNetty.Server.Core;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
-    public abstract class HttpHandlerContext : HandlerContext
+    public abstract class HttpHandlerContext : ServerHandlerContext
     {
         /// <summary>
         /// 发送Http返回

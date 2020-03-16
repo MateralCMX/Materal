@@ -1,5 +1,6 @@
 ﻿using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
+using Materal.DotNetty.Common;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,10 +8,12 @@ using Materal.DotNetty.Server.Core;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
-    public class MateralChannelHandler : SimpleChannelInboundHandler<IByteBufferHolder>, IMateralChannelHandler
+    public class ServerChannelHandler : SimpleChannelInboundHandler<IByteBufferHolder>, IServerChannelHandler
     {
-        private readonly List<HandlerContext> handlers = new List<HandlerContext>();
+        private readonly List<ServerHandlerContext> handlers = new List<ServerHandlerContext>();
         public event Action<Exception> OnException;
+        public event Action<string> OnMessage;
+        public ServerConfig _serverConfig;
         protected override void ChannelRead0(IChannelHandlerContext ctx, IByteBufferHolder byteBufferHolder)
         {
             byteBufferHolder.Retain(byte.MaxValue);
@@ -26,8 +29,7 @@ namespace Materal.DotNetty.Server.CoreImpl
                 }
             });
         }
-        
-        public void AddLastHandler(HandlerContext handler)
+        public void AddLastHandler(ServerHandlerContext handler)
         {
             handlers.Add(handler);
         }
@@ -35,11 +37,12 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// 获得处理器
         /// </summary>
         /// <returns></returns>
-        private HandlerContext GetHandler()
+        private ServerHandlerContext GetHandler()
         {
             for (var i = 0; i < handlers.Count; i++)
             {
-                handlers[i].ShowException = OnException;
+                handlers[i].OnException = OnException;
+                handlers[i].OnMessage = OnMessage;
                 if(i - 1 >= 0)
                 {
                     handlers[i - 1].SetNext(handlers[i]);

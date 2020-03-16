@@ -5,10 +5,11 @@ using DotNetty.Transport.Channels;
 
 namespace Materal.DotNetty.Server.Core
 {
-    public abstract class HandlerContext
+    public abstract class ServerHandlerContext
     {
-        public Action<Exception> ShowException;
-        private HandlerContext _handlerContext;
+        public Action<Exception> OnException;
+        public Action<string> OnMessage;
+        private ServerHandlerContext _handlerContext;
         private bool _canNext = true;
         /// <summary>
         /// 是否可以执行下一步标识
@@ -18,7 +19,7 @@ namespace Materal.DotNetty.Server.Core
         /// 设置下一步
         /// </summary>
         /// <param name="context"></param>
-        public void SetNext(HandlerContext context)
+        public void SetNext(ServerHandlerContext context)
         {
             _handlerContext = context;
         }

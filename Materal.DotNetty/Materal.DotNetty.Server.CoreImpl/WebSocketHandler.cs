@@ -1,18 +1,18 @@
-﻿using System;
-using System.Text;
-using DotNetty.Buffers;
-using DotNetty.Codecs.Http.WebSockets;
-using DotNetty.Transport.Channels;
-using System.Threading.Tasks;
+﻿using DotNetty.Buffers;
 using DotNetty.Codecs.Http;
+using DotNetty.Codecs.Http.WebSockets;
 using DotNetty.Common.Utilities;
+using DotNetty.Transport.Channels;
 using Materal.ConvertHelper;
 using Materal.DotNetty.CommandBus;
 using Materal.DotNetty.Server.Core;
+using System;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
-    public class WebSocketHandler : HandlerContext
+    public class WebSocketHandler : ServerHandlerContext
     {
         private const string WebSocketUrl = "/websocket";
         private WebSocketServerHandshaker _handShaker;

@@ -12,7 +12,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         public static void AddMateralDotNettyServerCore(this IServiceCollection services)
         {
             services.AddSingleton<IDotNettyServer, DotNettyServerImpl>();
-            services.AddTransient<MateralChannelHandler>();
+            services.AddTransient<ServerChannelHandler>();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Materal.DotNetty.Server.CoreImpl
             }
             catch (Exception exception)
             {
-                ShowException?.Invoke(exception);
+                OnException?.Invoke(exception);
                 Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders("text/plain;charset=utf-8");
                 IFullHttpResponse response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.InternalServerError, exception.Message, headers);
                 await SendHttpResponseAsync(ctx, byteBufferHolder, response);

@@ -2,13 +2,14 @@
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
+using Materal.DotNetty.Common;
 using Materal.DotNetty.Server.Core;
 using Materal.StringHelper;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
@@ -21,12 +22,13 @@ namespace Materal.DotNetty.Server.CoreImpl
         {
             _service = service;
         }
-        public event Action<IMateralChannelHandler> OnConfigHandler;
+        public event Action<IServerChannelHandler> OnConfigHandler;
         public event Action<string> OnMessage;
         public event Action<string, string> OnSubMessage;
         public event Action<Exception> OnException;
         public event Func<string> OnGetCommand;
-        public virtual async Task RunServerAsync(ServerConfig serverConfig)
+        private IChannel bootstrapChannel;
+        public virtual async Task RunAsync(ServerConfig serverConfig)
         {
             _serverConfig = serverConfig;
             OnSubMessage?.Invoke("服务启动中......", "重要");
@@ -47,7 +49,7 @@ namespace Materal.DotNetty.Server.CoreImpl
                     IChannelPipeline pipeline = channel.Pipeline;
                     pipeline.AddLast(new HttpServerCodec());
                     pipeline.AddLast(new HttpObjectAggregator(655300000));
-                    var channelHandler = _service.GetService<MateralChannelHandler>();
+                    var channelHandler = _service.GetService<ServerChannelHandler>();
                     OnConfigHandler?.Invoke(channelHandler);
                     if (OnException != null)
                     {
@@ -62,33 +64,19 @@ namespace Materal.DotNetty.Server.CoreImpl
             }));
             //第五步：配置主机和端口号
             IPAddress ipAddress = GetTrueIPAddress();
-            IChannel bootstrapChannel = await bootstrap.BindAsync(ipAddress, _serverConfig.Port);
+            bootstrapChannel = await bootstrap.BindAsync(ipAddress, _serverConfig.Port);
             OnSubMessage?.Invoke("服务启动成功", "重要");
-            OnMessage?.Invoke($"已监听http://{ipAddress}:{_serverConfig.Port}");
-            OnMessage?.Invoke($"已监听ws://{ipAddress}:{_serverConfig.Port}/websocket");
-            //第六步：停止服务
-            WaitServerStop();
+        }
+        /// <summary>
+        /// 等待服务停止
+        /// </summary>
+        public virtual async Task StopAsync()
+        {
             OnSubMessage?.Invoke("正在停止服务......", "重要");
             await bootstrapChannel.CloseAsync();
             OnSubMessage?.Invoke("服务已停止", "重要");
         }
         #region 私有方法
-        /// <summary>
-        /// 等待服务停止
-        /// </summary>
-        protected virtual void WaitServerStop()
-        {
-            OnMessage?.Invoke("输入Stop停止服务");
-            string inputKey = string.Empty;
-            while (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
-            {
-                inputKey = OnGetCommand?.Invoke();
-                if (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
-                {
-                    OnException?.Invoke(new DotNettyServerException("未识别命令请重新输入"));
-                }
-            }
-        }
         /// <summary>
         /// 获得真实IP地址
         /// </summary>

@@ -35,7 +35,7 @@ namespace Materal.DotNetty.Server.CoreImpl
             }
             catch (Exception exception)
             {
-                ShowException?.Invoke(exception);
+                OnException?.Invoke(exception);
                 await HandlerExceptionAsync(ctx, byteBufferHolder, exception);
             }
         }
