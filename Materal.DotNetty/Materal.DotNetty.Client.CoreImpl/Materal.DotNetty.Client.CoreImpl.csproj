@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Materal.DotNetty\Materal.DotNetty.Common\Materal.DotNetty.Common.csproj" />
+    <ProjectReference Include="..\Materal.DotNetty.EventBus\Materal.DotNetty.EventBus.csproj" />
   </ItemGroup>
 
 </Project>

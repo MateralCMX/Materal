@@ -19,21 +19,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Server.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Server.CoreImpl", "..\..\..\Materal.DotNetty\Materal.DotNetty.Server.CoreImpl\Materal.DotNetty.Server.CoreImpl.csproj", "{54B4A9FF-937E-4460-8E27-7EAF00C99E1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigCenter.ConfigServer", "Materal.ConfigCenter.ConfigServer\Materal.ConfigCenter.ConfigServer.csproj", "{2EB594AF-92F8-454C-8C73-9646033F9C74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter.ConfigServer", "Materal.ConfigCenter.ConfigServer\Materal.ConfigCenter.ConfigServer.csproj", "{2EB594AF-92F8-454C-8C73-9646033F9C74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigCenter.ConfigServer.CommandHandlers", "Materal.ConfigCenter.ConfigServer.CommandHandlers\Materal.ConfigCenter.ConfigServer.CommandHandlers.csproj", "{592F2384-A3EA-4311-85B0-8C32C56C2EA3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter.ConfigServer.CommandHandlers", "Materal.ConfigCenter.ConfigServer.CommandHandlers\Materal.ConfigCenter.ConfigServer.CommandHandlers.csproj", "{592F2384-A3EA-4311-85B0-8C32C56C2EA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigCenter.ConfigServer.EventHandlers", "Materal.ConfigCenter.ConfigServer.EventHandlers\Materal.ConfigCenter.ConfigServer.EventHandlers.csproj", "{B76DB4AD-8455-4854-B1B3-A051E3D6085D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter.ConfigServer.EventHandlers", "Materal.ConfigCenter.ConfigServer.EventHandlers\Materal.ConfigCenter.ConfigServer.EventHandlers.csproj", "{B76DB4AD-8455-4854-B1B3-A051E3D6085D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigCenter.Commands", "Materal.ConfigCenter.Commands\Materal.ConfigCenter.Commands.csproj", "{CA45EED1-F84E-409F-9640-C1E475C49D3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter.Commands", "Materal.ConfigCenter.Commands\Materal.ConfigCenter.Commands.csproj", "{CA45EED1-F84E-409F-9640-C1E475C49D3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigCenter.Events", "Materal.ConfigCenter.Events\Materal.ConfigCenter.Events.csproj", "{C0800480-215D-4697-ACB8-D7808DC884DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter.Events", "Materal.ConfigCenter.Events\Materal.ConfigCenter.Events.csproj", "{C0800480-215D-4697-ACB8-D7808DC884DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.DotNetty.EventBus", "Materal.DotNetty.EventBus\Materal.DotNetty.EventBus.csproj", "{DA7B54FC-9406-4690-871C-17B30A221FB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Client.Core", "..\..\..\Materal.DotNetty\Materal.DotNetty.Client.Core\Materal.DotNetty.Client.Core.csproj", "{DFE542D4-1058-44C4-9080-EF55C2523EF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.DotNetty.Client.Core", "Materal.DotNetty.Client.Core\Materal.DotNetty.Client.Core.csproj", "{55F458C6-7C83-44E8-B5E9-A932F9836C13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.Client.CoreImpl", "..\..\..\Materal.DotNetty\Materal.DotNetty.Client.CoreImpl\Materal.DotNetty.Client.CoreImpl.csproj", "{37DBA365-A56F-420D-9D6E-EBF21725E2F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.DotNetty.Client.CoreImpl", "Materal.DotNetty.Client.CoreImpl\Materal.DotNetty.Client.CoreImpl.csproj", "{A3EA9B95-C184-46BC-9067-3B0C12935F38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.DotNetty.EventBus", "..\..\..\Materal.DotNetty\Materal.DotNetty.EventBus\Materal.DotNetty.EventBus.csproj", "{D35AA983-D00D-4FE8-B99A-B58A88456ABE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,18 +93,18 @@ Global
 		{C0800480-215D-4697-ACB8-D7808DC884DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0800480-215D-4697-ACB8-D7808DC884DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0800480-215D-4697-ACB8-D7808DC884DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA7B54FC-9406-4690-871C-17B30A221FB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA7B54FC-9406-4690-871C-17B30A221FB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA7B54FC-9406-4690-871C-17B30A221FB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA7B54FC-9406-4690-871C-17B30A221FB8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55F458C6-7C83-44E8-B5E9-A932F9836C13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55F458C6-7C83-44E8-B5E9-A932F9836C13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55F458C6-7C83-44E8-B5E9-A932F9836C13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55F458C6-7C83-44E8-B5E9-A932F9836C13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3EA9B95-C184-46BC-9067-3B0C12935F38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3EA9B95-C184-46BC-9067-3B0C12935F38}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3EA9B95-C184-46BC-9067-3B0C12935F38}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3EA9B95-C184-46BC-9067-3B0C12935F38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFE542D4-1058-44C4-9080-EF55C2523EF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFE542D4-1058-44C4-9080-EF55C2523EF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFE542D4-1058-44C4-9080-EF55C2523EF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFE542D4-1058-44C4-9080-EF55C2523EF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37DBA365-A56F-420D-9D6E-EBF21725E2F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37DBA365-A56F-420D-9D6E-EBF21725E2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37DBA365-A56F-420D-9D6E-EBF21725E2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37DBA365-A56F-420D-9D6E-EBF21725E2F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D35AA983-D00D-4FE8-B99A-B58A88456ABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D35AA983-D00D-4FE8-B99A-B58A88456ABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D35AA983-D00D-4FE8-B99A-B58A88456ABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D35AA983-D00D-4FE8-B99A-B58A88456ABE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

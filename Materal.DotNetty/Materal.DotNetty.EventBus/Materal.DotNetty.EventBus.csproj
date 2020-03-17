@@ -1,12 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Materal.DotNetty.Client.Core\Materal.DotNetty.Client.Core.csproj" />
-    <ProjectReference Include="..\Materal.DotNetty.EventBus\Materal.DotNetty.EventBus.csproj" />
   </ItemGroup>
 
 </Project>

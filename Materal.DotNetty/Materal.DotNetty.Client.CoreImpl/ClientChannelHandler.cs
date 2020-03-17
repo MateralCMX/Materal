@@ -1,14 +1,11 @@
-﻿using Materal.DotNetty.Common;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using DotNetty.Codecs.Http;
-using DotNetty.Codecs.Http.WebSockets;
+﻿using DotNetty.Codecs.Http.WebSockets;
 using DotNetty.Common.Concurrency;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
 using Materal.DotNetty.Client.Core;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Materal.DotNetty.Client.CoreImpl
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Net.Security;
-using System.Threading.Tasks;
-using DotNetty.Codecs.Http;
+﻿using DotNetty.Codecs.Http;
 using DotNetty.Codecs.Http.WebSockets;
 using DotNetty.Codecs.Http.WebSockets.Extensions.Compression;
 using DotNetty.Handlers.Tls;
@@ -10,7 +6,10 @@ using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
 using Materal.DotNetty.Client.Core;
-using Materal.DotNetty.Common;
+using System;
+using System.Net;
+using System.Net.Security;
+using System.Threading.Tasks;
 
 namespace Materal.DotNetty.Client.CoreImpl
 {

@@ -6,7 +6,7 @@
     <PackageId>Materal.DotNetty.ControllerBus</PackageId>
     <Authors>Materal</Authors>
     <Product>Materal.DotNetty</Product>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

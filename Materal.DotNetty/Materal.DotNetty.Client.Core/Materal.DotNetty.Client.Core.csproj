@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.DotNetty.Common\Materal.DotNetty.Common.csproj" />
+  </ItemGroup>
+
 </Project>
