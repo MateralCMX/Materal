@@ -23,7 +23,7 @@ namespace Materal.ConDep.Server
                     dotNettyServer.OnGetCommand += Console.ReadLine;
                     dotNettyServer.OnMessage += message => ConsoleHelper.ServerWriteLine(message);
                     dotNettyServer.OnSubMessage += (message, subTitle) => ConsoleHelper.ServerWriteLine(message, subTitle);
-                    await dotNettyServer.RunServerAsync(ApplicationConfig.ServerConfig);
+                    await dotNettyServer.RunAsync(ApplicationConfig.ServerConfig);
                 }
                 catch (Exception exception)
                 {
@@ -38,7 +38,7 @@ namespace Materal.ConDep.Server
 
         }
 
-        private static void DotNettyServer_OnConfigHandler(IMateralChannelHandler channelHandler)
+        private static void DotNettyServer_OnConfigHandler(IServerChannelHandler channelHandler)
         {
             channelHandler.AddLastHandler(ApplicationService.GetService<WebAPIHandler>());
             channelHandler.AddLastHandler(ApplicationService.GetService<ConDepFileHandler>());
