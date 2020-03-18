@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,11 +20,12 @@ namespace Materal.NetworkHelper
         /// <param name="type"></param>
         /// <param name="data">参数字典</param>
         /// <param name="heads">heads</param>
+        /// <param name="encoding"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MateralHttpException"></exception>
-        private static byte[] SendBytes(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null)
+        private static byte[] SendBytes(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url), "Url地址不能为空");
             if (!url.IsUrl()) throw new ArgumentException("Url地址错误", nameof(url));
@@ -37,14 +39,35 @@ namespace Materal.NetworkHelper
             };
             if (data != null)
             {
-                httpRequestMessage.Content = GetHttpContentByFormDataBytes(ms, data);
+                if (data is string dataString)
+                {
+                    httpRequestMessage.Content = new StringContent(dataString, encoding);
+                }
+                else
+                {
+                    httpRequestMessage.Content = GetHttpContentByFormDataBytes(ms, data);
+                }
+            }
+            else
+            {
+                httpRequestMessage.Content = new StringContent(string.Empty, encoding);
             }
             if (heads != null)
             {
                 foreach (KeyValuePair<string, string> item in heads)
                 {
-                    httpRequestMessage.Headers.TryAddWithoutValidation(item.Key, item.Value);
-                    httpRequestMessage.Content?.Headers.TryAddWithoutValidation(item.Key, item.Value);
+                    if (item.Key == "Content-Type")
+                    {
+                        if (httpRequestMessage.Content?.Headers != null)
+                        {
+                            httpRequestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(item.Value);
+                        }
+                    }
+                    else
+                    {
+                        httpRequestMessage.Headers?.TryAddWithoutValidation(item.Key, item.Value);
+                        httpRequestMessage.Content?.Headers?.TryAddWithoutValidation(item.Key, item.Value);
+                    }
                 }
             }
             HttpResponseMessage httpResponseMessage = client.SendAsync(httpRequestMessage).Result;
@@ -66,7 +89,7 @@ namespace Materal.NetworkHelper
         private static string Send(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             if (encoding == null) encoding = Encoding.UTF8;
-            byte[] resultBytes = SendBytes(url, type, data, heads);
+            byte[] resultBytes = SendBytes(url, type, data, heads, encoding);
             string result = encoding.GetString(resultBytes);
             return result;
         }
@@ -210,7 +233,7 @@ namespace Materal.NetworkHelper
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="MateralHttpException"></exception>
-        public static async Task<byte[]> SendByteAsync(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null)
+        public static async Task<byte[]> SendByteAsync(string url, HttpMethodType type = HttpMethodType.Get, object data = null, Dictionary<string, string> heads = null, Encoding encoding = null)
         {
             if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url), "Url地址不能为空");
             if (!url.IsUrl()) throw new ArgumentException("Url地址错误", nameof(url));
@@ -224,14 +247,35 @@ namespace Materal.NetworkHelper
             };
             if (data != null)
             {
-                httpRequestMessage.Content = GetHttpContentByFormDataBytes(ms, data);
+                if (data is string dataString)
+                {
+                    httpRequestMessage.Content = new StringContent(dataString, encoding);
+                }
+                else
+                {
+                    httpRequestMessage.Content = GetHttpContentByFormDataBytes(ms, data);
+                }
+            }
+            else
+            {
+                httpRequestMessage.Content = new StringContent(string.Empty, encoding);
             }
             if (heads != null)
             {
                 foreach (KeyValuePair<string, string> item in heads)
                 {
-                    httpRequestMessage.Headers.TryAddWithoutValidation(item.Key, item.Value);
-                    httpRequestMessage.Content?.Headers.TryAddWithoutValidation(item.Key, item.Value);
+                    if (item.Key == "Content-Type")
+                    {
+                        if (httpRequestMessage.Content?.Headers != null)
+                        {
+                            httpRequestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(item.Value);
+                        }
+                    }
+                    else
+                    {
+                        httpRequestMessage.Headers?.TryAddWithoutValidation(item.Key, item.Value);
+                        httpRequestMessage.Content?.Headers?.TryAddWithoutValidation(item.Key, item.Value);
+                    }
                 }
             }
             HttpResponseMessage httpResponseMessage = await client.SendAsync(httpRequestMessage);
@@ -254,7 +298,7 @@ namespace Materal.NetworkHelper
         /// <exception cref="MateralHttpException"></exception>
         private static async Task<string> SendAsync(string url, HttpMethodType type, object data, Dictionary<string, string> heads, Encoding encoding)
         {
-            byte[] resultBytes = await SendByteAsync(url, type, data, heads);
+            byte[] resultBytes = await SendByteAsync(url, type, data, heads, encoding);
             string result = encoding.GetString(resultBytes);
             return result;
         }
@@ -371,13 +415,13 @@ namespace Materal.NetworkHelper
         private static string SpliceUrlParams(string url, Dictionary<string, string> data)
         {
             if (string.IsNullOrEmpty(url) || data == null) return url;
-            var urlParamsStrs = new List<string>();
+            var urlParamsStringList = new List<string>();
             foreach (KeyValuePair<string, string> param in data)
             {
-                urlParamsStrs.Add($"{param.Key}={param.Value}");
+                urlParamsStringList.Add($"{param.Key}={param.Value}");
             }
 
-            url += $"?{string.Join("&", urlParamsStrs)}";
+            url += $"?{string.Join("&", urlParamsStringList)}";
             return url;
         }
         /// <summary>
@@ -389,20 +433,13 @@ namespace Materal.NetworkHelper
         private static HttpContent GetHttpContentByFormDataBytes(Stream ms, object data)
         {
             string dataStr;
-            if (data is string str)
+            try
             {
-                dataStr = str;
+                dataStr = data.ToJson();
             }
-            else
+            catch (Exception)
             {
-                try
-                {
-                    dataStr = data.ToJson();
-                }
-                catch (Exception)
-                {
-                    dataStr = data.ToString();
-                }
+                dataStr = data.ToString();
             }
             byte[] formDataBytes = Encoding.UTF8.GetBytes(dataStr);
             ms.Write(formDataBytes, 0, formDataBytes.Length);

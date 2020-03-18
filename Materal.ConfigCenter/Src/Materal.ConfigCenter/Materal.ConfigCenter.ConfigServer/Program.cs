@@ -1,9 +1,12 @@
-﻿using Materal.DotNetty.Common;
+﻿using Materal.ConfigCenter.ConfigServer.Common;
 using Materal.DotNetty.Server.Core;
 using Materal.DotNetty.Server.CoreImpl;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Timers;
+using Materal.ConfigCenter.ConfigServer.Domain.Repositories;
+using Materal.ConfigCenter.ConfigServer.Services;
 
 namespace Materal.ConfigCenter.ConfigServer
 {
@@ -24,7 +27,9 @@ namespace Materal.ConfigCenter.ConfigServer
                     dotNettyServer.OnMessage += message => ConsoleHelper.ServerWriteLine(message);
                     dotNettyServer.OnSubMessage += (message, subTitle) => ConsoleHelper.ServerWriteLine(message, subTitle);
                     await dotNettyServer.RunAsync(ApplicationConfig.ServerConfig);
-                    ConsoleHelper.ServerWriteLine($"已监听ws://{ApplicationConfig.ServerConfig.Host}:{ApplicationConfig.ServerConfig.Port}");
+                    ConsoleHelper.ServerWriteLine($"已监听http://{ApplicationConfig.ServerConfig.Host}:{ApplicationConfig.ServerConfig.Port}/api");
+                    var configServerService = ApplicationService.GetService<IConfigServerService>();
+                    configServerService.Register();
                     ConsoleHelper.ServerWriteLine("输入Stop停止服务");
                     string inputKey = string.Empty;
                     while (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
@@ -47,12 +52,10 @@ namespace Materal.ConfigCenter.ConfigServer
             {
                 ConsoleHelper.ServerWriteLine("注册服务失败", "失败", ConsoleColor.Red);
             }
-
         }
-
         private static void DotNettyServer_OnConfigHandler(IServerChannelHandler channelHandler)
         {
-            channelHandler.AddLastHandler(ApplicationService.GetService<WebSocketHandler>());
+            channelHandler.AddLastHandler(ApplicationService.GetService<WebAPIHandler>());
         }
         #region 私有方法
         /// <summary>

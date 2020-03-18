@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ConfigCenter.ProtalServer.Common\Materal.ConfigCenter.ProtalServer.Common.csproj" />
+    <ProjectReference Include="..\Materal.ConfigCenter.ProtalServer.DataTransmitModel\Materal.ConfigCenter.ProtalServer.DataTransmitModel.csproj" />
+    <ProjectReference Include="..\Materal.ConfigCenter.ProtalServer.PresentationModel\Materal.ConfigCenter.ProtalServer.PresentationModel.csproj" />
+    <ProjectReference Include="..\Materal.ConfigCenter\Materal.ConfigCenter.csproj" />
+  </ItemGroup>
+
+</Project>

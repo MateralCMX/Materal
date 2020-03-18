@@ -24,6 +24,16 @@ namespace Materal.ConDep.Server
                     dotNettyServer.OnMessage += message => ConsoleHelper.ServerWriteLine(message);
                     dotNettyServer.OnSubMessage += (message, subTitle) => ConsoleHelper.ServerWriteLine(message, subTitle);
                     await dotNettyServer.RunAsync(ApplicationConfig.ServerConfig);
+                    string inputKey = string.Empty;
+                    while (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
+                    {
+                        inputKey = Console.ReadLine();
+                        if (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
+                        {
+                            ConsoleHelper.ServerWriteError(new Exception("未识别命令请重新输入"));
+                        }
+                    }
+                    await dotNettyServer.StopAsync();
                 }
                 catch (Exception exception)
                 {

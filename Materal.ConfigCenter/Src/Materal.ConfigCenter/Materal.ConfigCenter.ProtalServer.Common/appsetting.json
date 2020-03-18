@@ -1,0 +1,17 @@
+{
+  "ServerConfig": {
+    "Host": "192.168.0.101",
+    "Port": 8200
+  },
+  "SqliteConfig": {
+    "FilePath": "E:\\Project\\Materal\\Project\\Materal.ConfigCenter\\Src\\Materal.ConfigCenter\\Materal.ConfigCenter.ProtalServer.SqliteEFRepository\\ProtalServerDB.db",
+    "Password": "",
+    "Version": ""
+  },
+  "JWT": {
+    "Key": "MateralCMXConfig",
+    "Issuer": "Materal.ConfigCenter",
+    "Audience": "WebAPI",
+    "ExpiredTime": "18000"
+  }
+}

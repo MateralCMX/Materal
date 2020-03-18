@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Materal.Common" Version="1.0.2" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Materal.ConvertHelper" Version="1.0.7" />
+    <PackageReference Include="Materal.TTA.EFRepository" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Materal\Materal.NetworkHelper\Materal.NetworkHelper.csproj" />
   </ItemGroup>
 
 </Project>

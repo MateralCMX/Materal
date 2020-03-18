@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ConfigCenter.ConfigServer.Common\Materal.ConfigCenter.ConfigServer.Common.csproj" />
+    <ProjectReference Include="..\Materal.ConfigCenter.ConfigServer.Domain\Materal.ConfigCenter.ConfigServer.Domain.csproj" />
+    <ProjectReference Include="..\Materal.ConfigCenter.ConfigServer.Services\Materal.ConfigCenter.ConfigServer.Services.csproj" />
+  </ItemGroup>
+
+</Project>

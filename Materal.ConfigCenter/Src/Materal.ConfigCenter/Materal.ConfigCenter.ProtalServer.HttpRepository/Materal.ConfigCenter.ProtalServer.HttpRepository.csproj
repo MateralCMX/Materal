@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ConfigCenter.ProtalServer.Domain\Materal.ConfigCenter.ProtalServer.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

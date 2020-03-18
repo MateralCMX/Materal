@@ -1,0 +1,15 @@
+{
+  "ServerConfig": {
+    "Host": "192.168.0.101",
+    "Port": 8201
+  },
+  "ConfigServerConfig": {
+    "ProtalUrl": "http://192.168.0.101:8200",
+    "Name": "Dev"
+  },
+  "SqliteConfig": {
+    "FilePath": "E:\\Project\\Materal\\Project\\Materal.ConfigCenter\\Src\\Materal.ConfigCenter\\Materal.ConfigCenter.ConfigServer.SqliteEFRepository\\ConfigServerDB.db",
+    "Password": "",
+    "Version": ""
+  }
+}
