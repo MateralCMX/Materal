@@ -31,7 +31,7 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
         {
             if (await _userRepository.ExistedAsync(m => m.Account.Equals(model.Account))) throw new MateralConfigCenterException("账号已存在");
             var user = model.CopyProperties<User>();
-            user.Password = user.Password.ToMd5();
+            user.Password = string.IsNullOrEmpty(model.Password) ? "123456".ToMd5() : user.Password.ToMd5();
             _protalServerUnitOfWork.RegisterAdd(user);
             await _protalServerUnitOfWork.CommitAsync();
         }
@@ -41,8 +41,9 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
             if (await _userRepository.ExistedAsync(m => m.Account.Equals(model.Account) && m.ID != model.ID)) throw new MateralConfigCenterException("账号已存在");
             User userFromDb = await _userRepository.FirstOrDefaultAsync(model.ID);
             if (userFromDb == null) throw new MateralConfigCenterException("用户不存在");
+            string oldPassword = userFromDb.Password;
             model.CopyProperties(userFromDb);
-            userFromDb.Password = userFromDb.Password.ToMd5();
+            userFromDb.Password = string.IsNullOrEmpty(model.Password) ? oldPassword : userFromDb.Password.ToMd5();
             userFromDb.UpdateTime = DateTime.Now;
             _protalServerUnitOfWork.RegisterEdit(userFromDb);
             await _protalServerUnitOfWork.CommitAsync();

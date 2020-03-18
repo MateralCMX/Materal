@@ -48,6 +48,6 @@ namespace Materal.ConfigCenter.ProtalServer.Services
         /// <returns></returns>
         /// <exception cref="MateralConfigCenterException"></exception>
         [DataValidation]
-        Task<(List<NamespaceListDTO> result, PageModel pageModel)> GetNamespaceListAsync(QueryNamespaceFilterModel filterModel);
+        Task<List<NamespaceListDTO>> GetNamespaceListAsync(QueryNamespaceFilterModel filterModel);
     }
 }

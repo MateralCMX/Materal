@@ -51,13 +51,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter.Config
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigCenter.ConfigServer.SqliteEFRepository", "Materal.ConfigCenter.ConfigServer.SqliteEFRepository\Materal.ConfigCenter.ConfigServer.SqliteEFRepository.csproj", "{F6FD5432-1784-445A-BF4D-48F2030DB718}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.NetworkHelper", "..\..\..\Materal\Materal.NetworkHelper\Materal.NetworkHelper.csproj", "{9D52D5B2-9E55-4F4E-80D6-A6292FD09344}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigCenter.ConfigServer.DataTransmitModel", "Materal.ConfigCenter.ConfigServer.DataTransmitModel\Materal.ConfigCenter.ConfigServer.DataTransmitModel.csproj", "{8D2531C3-5FF3-478C-846A-7747665449AD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConvertHelper", "..\..\..\Materal\Materal.ConvertHelper\Materal.ConvertHelper.csproj", "{9E38640D-BABA-42D2-A81C-0B9AAD6B56F3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.StringHelper", "..\..\..\Materal\Materal.StringHelper\Materal.StringHelper.csproj", "{84938C86-5000-4F19-972C-CFA8B7A54362}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Common", "..\..\..\Materal\Materal.Common\Materal.Common.csproj", "{B5D2758C-F802-4495-81F0-D8BAAB74509C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.ConfigCenter.ConfigServer.PresentationModel", "Materal.ConfigCenter.ConfigServer.PresentationModel\Materal.ConfigCenter.ConfigServer.PresentationModel.csproj", "{F0FC7466-40E7-4952-92BD-29F316BA1DB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -149,22 +145,14 @@ Global
 		{F6FD5432-1784-445A-BF4D-48F2030DB718}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6FD5432-1784-445A-BF4D-48F2030DB718}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6FD5432-1784-445A-BF4D-48F2030DB718}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D52D5B2-9E55-4F4E-80D6-A6292FD09344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D52D5B2-9E55-4F4E-80D6-A6292FD09344}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D52D5B2-9E55-4F4E-80D6-A6292FD09344}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D52D5B2-9E55-4F4E-80D6-A6292FD09344}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E38640D-BABA-42D2-A81C-0B9AAD6B56F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E38640D-BABA-42D2-A81C-0B9AAD6B56F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E38640D-BABA-42D2-A81C-0B9AAD6B56F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E38640D-BABA-42D2-A81C-0B9AAD6B56F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84938C86-5000-4F19-972C-CFA8B7A54362}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84938C86-5000-4F19-972C-CFA8B7A54362}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84938C86-5000-4F19-972C-CFA8B7A54362}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84938C86-5000-4F19-972C-CFA8B7A54362}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B5D2758C-F802-4495-81F0-D8BAAB74509C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5D2758C-F802-4495-81F0-D8BAAB74509C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5D2758C-F802-4495-81F0-D8BAAB74509C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5D2758C-F802-4495-81F0-D8BAAB74509C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D2531C3-5FF3-478C-846A-7747665449AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D2531C3-5FF3-478C-846A-7747665449AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D2531C3-5FF3-478C-846A-7747665449AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D2531C3-5FF3-478C-846A-7747665449AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0FC7466-40E7-4952-92BD-29F316BA1DB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0FC7466-40E7-4952-92BD-29F316BA1DB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0FC7466-40E7-4952-92BD-29F316BA1DB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0FC7466-40E7-4952-92BD-29F316BA1DB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,6 +177,8 @@ Global
 		{F2CE46AF-4584-41D2-86A2-888095DD41C9} = {D47BC78E-5608-43E6-B465-4DF66303BEA2}
 		{D5F73590-BE2C-4C37-82B0-65E8339D28D4} = {515341EA-4C1D-426D-87D1-20A0B5D11496}
 		{F6FD5432-1784-445A-BF4D-48F2030DB718} = {515341EA-4C1D-426D-87D1-20A0B5D11496}
+		{8D2531C3-5FF3-478C-846A-7747665449AD} = {515341EA-4C1D-426D-87D1-20A0B5D11496}
+		{F0FC7466-40E7-4952-92BD-29F316BA1DB3} = {515341EA-4C1D-426D-87D1-20A0B5D11496}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADC5F408-170E-4DCC-A816-42214D12FF51}

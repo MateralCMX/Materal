@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AspectCore.DynamicProxy;
+﻿using AspectCore.DynamicProxy;
 using Materal.ConfigCenter.ControllerCore;
 using Materal.ConfigCenter.ProtalServer.DataTransmitModel.Namespace;
 using Materal.ConfigCenter.ProtalServer.PresentationModel.Namespace;
 using Materal.ConfigCenter.ProtalServer.Services;
 using Materal.DotNetty.ControllerBus.Attributes;
 using Materal.Model;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Materal.ConfigCenter.ProtalServer.Controllers
 {
     public class NamespaceController : ConfigCenterBaseController
     {
         private readonly INamespaceService namespaceService;
-        public NamespaceController(INamespaceService namespaceService)
+        private readonly IConfigServerService _configServerService;
+        public NamespaceController(INamespaceService namespaceService, IConfigServerService configServerService)
         {
             this.namespaceService = namespaceService;
+            _configServerService = configServerService;
         }
         /// <summary>
         /// 添加命名空间
@@ -73,6 +75,7 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
             try
             {
                 await namespaceService.DeleteNamespaceAsync(id);
+                _configServerService.DeleteNamespace(id);
                 return ResultModel.Success("删除成功");
             }
             catch (AspectInvocationException ex)
@@ -112,20 +115,20 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         /// <param name="filterModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResultModel<NamespaceListDTO>> GetNamespaceList(QueryNamespaceFilterModel filterModel)
+        public async Task<ResultModel<List<NamespaceListDTO>>> GetNamespaceList(QueryNamespaceFilterModel filterModel)
         {
             try
             {
-                (List<NamespaceListDTO> result, PageModel pageModel) = await namespaceService.GetNamespaceListAsync(filterModel);
-                return PageResultModel<NamespaceListDTO>.Success(result, pageModel, "查询成功");
+                List<NamespaceListDTO> result = await namespaceService.GetNamespaceListAsync(filterModel);
+                return ResultModel<List<NamespaceListDTO>>.Success(result, "查询成功");
             }
             catch (AspectInvocationException ex)
             {
-                return PageResultModel<NamespaceListDTO>.Fail(ex.InnerException?.Message);
+                return ResultModel<List<NamespaceListDTO>>.Fail(ex.InnerException?.Message);
             }
             catch (MateralConfigCenterException ex)
             {
-                return PageResultModel<NamespaceListDTO>.Fail(ex.Message);
+                return ResultModel<List<NamespaceListDTO>>.Fail(ex.Message);
             }
         }
     }

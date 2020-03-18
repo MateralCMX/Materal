@@ -7,6 +7,7 @@ using Materal.DotNetty.Server.CoreImpl;
 using Microsoft.Extensions.DependencyInjection;
 using NetCore.AutoRegisterDi;
 using System.Reflection;
+using Materal.Common;
 using Materal.ConfigCenter.ConfigServer.Common;
 using Microsoft.EntityFrameworkCore;
 using Materal.ConfigCenter.ConfigServer.SqliteEFRepository;
@@ -21,6 +22,7 @@ namespace Materal.ConfigCenter.ConfigServer
         /// <param name="services"></param>
         public static void AddServer(this IServiceCollection services)
         {
+            MateralConfig.PageStartNumber = 1;
             services.AddDbContext<ConfigServerDBContext>(options =>
             {
                 options.UseSqlite(ApplicationConfig.SqliteConfig.ConnectionString);

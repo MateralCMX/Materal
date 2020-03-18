@@ -10,7 +10,7 @@ namespace Materal.ConfigCenter.ConfigServer.Controllers
         /// 健康检查
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet, AllowAuthority]
         public ResultModel Health()
         {
             return ResultModel.Success("服务正常");

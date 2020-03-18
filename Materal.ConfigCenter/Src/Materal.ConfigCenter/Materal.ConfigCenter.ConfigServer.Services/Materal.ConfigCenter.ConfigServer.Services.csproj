@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ConfigCenter.ConfigServer.DataTransmitModel\Materal.ConfigCenter.ConfigServer.DataTransmitModel.csproj" />
+    <ProjectReference Include="..\Materal.ConfigCenter.ConfigServer.PresentationModel\Materal.ConfigCenter.ConfigServer.PresentationModel.csproj" />
+    <ProjectReference Include="..\Materal.ConfigCenter\Materal.ConfigCenter.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -6,7 +6,6 @@ using Materal.ConfigCenter.ProtalServer.PresentationModel.Project;
 using Materal.ConfigCenter.ProtalServer.Services;
 using Materal.ConfigCenter.ProtalServer.SqliteEFRepository;
 using Materal.ConvertHelper;
-using Materal.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,15 +15,17 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
 {
     public class ProjectServiceImpl : IProjectService
     {
+        private readonly INamespaceRepository _namespaceRepository;
         private readonly IProjectRepository _projectRepository;
         private readonly IProtalServerUnitOfWork _protalServerUnitOfWork;
         private readonly IMapper _mapper;
 
-        public ProjectServiceImpl(IProjectRepository projectRepository, IProtalServerUnitOfWork protalServerUnitOfWork, IMapper mapper)
+        public ProjectServiceImpl(IProjectRepository projectRepository, IProtalServerUnitOfWork protalServerUnitOfWork, IMapper mapper, INamespaceRepository namespaceRepository)
         {
             _projectRepository = projectRepository;
             _protalServerUnitOfWork = protalServerUnitOfWork;
             _mapper = mapper;
+            _namespaceRepository = namespaceRepository;
         }
 
         public async Task AddProjectAsync(AddProjectModel model)
@@ -51,6 +52,11 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
             Project projectFromDb = await _projectRepository.FirstOrDefaultAsync(id);
             if (projectFromDb == null) throw new MateralConfigCenterException("项目不存在");
             _protalServerUnitOfWork.RegisterDelete(projectFromDb);
+            List<Namespace> namespaces = await _namespaceRepository.FindAsync(m => m.ProjectID == id);
+            foreach (Namespace @namespace in namespaces)
+            {
+                _protalServerUnitOfWork.RegisterDelete(@namespace);
+            }
             await _protalServerUnitOfWork.CommitAsync();
         }
 
@@ -62,11 +68,11 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
             return result;
         }
 
-        public async Task<(List<ProjectListDTO> result, PageModel pageModel)> GetProjectListAsync(QueryProjectFilterModel filterModel)
+        public async Task<List<ProjectListDTO>> GetProjectListAsync(QueryProjectFilterModel filterModel)
         {
-            (List<Project> projectsFromDb, PageModel pageModel) = await _projectRepository.PagingAsync(filterModel);
+            List<Project> projectsFromDb = await _projectRepository.FindAsync(filterModel);
             var result = _mapper.Map<List<ProjectListDTO>>(projectsFromDb);
-            return (result, pageModel);
+            return result;
         }
     }
 }

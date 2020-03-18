@@ -12,7 +12,6 @@ namespace Materal.ConfigCenter.ProtalServer.PresentationModel.User
         /// <summary>
         /// 密码
         /// </summary>
-        [Required(ErrorMessage = "账号不能为空")]
         public string Password { get; set; }
     }
 }

@@ -1,0 +1,21 @@
+<form nz-form [formGroup]="formData" autocomplete="off">
+    <nz-form-item>
+        <nz-form-control nzErrorTip="请输入名称">
+            <nz-input-group>
+                <input type="text" nz-input formControlName="name" placeholder="名称" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control nzErrorTip="请输入描述">
+            <nz-input-group>
+                <input type="text" nz-input formControlName="description" placeholder="描述" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <button nz-button type="button" [nzLoading]="isTransmitting" [nzType]="'primary'" (click)="save()">{{isAdd?'添加':'保存'}}</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>

@@ -19,9 +19,9 @@ export class AppEditComponent implements OnInit {
   @Output()
   public saveEnd = new EventEmitter<ResultModel>();
   constructor(private appService: AppService, private formGroupCommon: FormGroupCommon) { }
-  ngOnInit() {
+  public ngOnInit() {
     this.formData = new FormGroup({
-      name: new FormControl({ value: null, disabled: this.isTransmitting }, [Validators.required]),
+      name: new FormControl({ value: null, disabled: this.isTransmitting }, [Validators.required, Validators.maxLength(100)]),
       appPath: new FormControl({ value: null, disabled: this.isTransmitting }, [Validators.required]),
       mainModuleName: new FormControl({ value: null, disabled: this.isTransmitting }, [Validators.required]),
       parameters: new FormControl({ value: null, disabled: this.isTransmitting }, [])

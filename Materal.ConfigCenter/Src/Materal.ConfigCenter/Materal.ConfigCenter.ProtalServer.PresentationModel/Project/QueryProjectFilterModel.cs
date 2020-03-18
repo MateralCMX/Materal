@@ -2,7 +2,7 @@
 
 namespace Materal.ConfigCenter.ProtalServer.PresentationModel.Project
 {
-    public class QueryProjectFilterModel : PageRequestModel
+    public class QueryProjectFilterModel : FilterModel
     {
         /// <summary>
         /// 名称

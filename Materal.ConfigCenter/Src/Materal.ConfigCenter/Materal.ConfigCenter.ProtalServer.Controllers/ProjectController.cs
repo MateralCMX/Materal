@@ -14,9 +14,11 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
     public class ProjectController : ConfigCenterBaseController
     {
         private readonly IProjectService projectService;
-        public ProjectController(IProjectService projectService)
+        private readonly IConfigServerService _configServerService;
+        public ProjectController(IProjectService projectService, IConfigServerService configServerService)
         {
             this.projectService = projectService;
+            _configServerService = configServerService;
         }
         /// <summary>
         /// 添加项目
@@ -73,6 +75,7 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
             try
             {
                 await projectService.DeleteProjectAsync(id);
+                _configServerService.DeleteProject(id);
                 return ResultModel.Success("删除成功");
             }
             catch (AspectInvocationException ex)
@@ -112,20 +115,20 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         /// <param name="filterModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResultModel<ProjectListDTO>> GetProjectList(QueryProjectFilterModel filterModel)
+        public async Task<ResultModel<List<ProjectListDTO>>> GetProjectList(QueryProjectFilterModel filterModel)
         {
             try
             {
-                (List<ProjectListDTO> result, PageModel pageModel) = await projectService.GetProjectListAsync(filterModel);
-                return PageResultModel<ProjectListDTO>.Success(result, pageModel, "查询成功");
+                List<ProjectListDTO> result = await projectService.GetProjectListAsync(filterModel);
+                return ResultModel<List<ProjectListDTO>>.Success(result, "查询成功");
             }
             catch (AspectInvocationException ex)
             {
-                return PageResultModel<ProjectListDTO>.Fail(ex.InnerException?.Message);
+                return ResultModel<List<ProjectListDTO>>.Fail(ex.InnerException?.Message);
             }
             catch (MateralConfigCenterException ex)
             {
-                return PageResultModel<ProjectListDTO>.Fail(ex.Message);
+                return ResultModel<List<ProjectListDTO>>.Fail(ex.Message);
             }
         }
     }

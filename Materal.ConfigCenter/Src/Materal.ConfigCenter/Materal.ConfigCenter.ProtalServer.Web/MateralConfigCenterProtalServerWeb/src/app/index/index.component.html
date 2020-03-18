@@ -1,0 +1,17 @@
+<nz-layout class="layout">
+    <nz-header>
+      <div class="logo">ConfigCenter</div>
+      <ul nz-menu nzTheme="dark" nzMode="horizontal">
+        <li nz-menu-item nzMatchRouter="true" routerLink="ConfigurationItemList">配置列表</li>
+        <li nz-menu-item nzMatchRouter="true" routerLink="ProjectList">项目列表</li>
+        <li nz-menu-item nzMatchRouter="true" routerLink="UserList">用户列表</li>
+      </ul>
+      <a class="logout" routerLink="/Login">退出登录</a>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <nz-footer>Materal ©2020</nz-footer>
+  </nz-layout>

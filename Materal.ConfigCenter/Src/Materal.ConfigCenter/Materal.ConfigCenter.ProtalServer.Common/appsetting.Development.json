@@ -13,5 +13,6 @@
     "Issuer": "Materal.ConfigCenter",
     "Audience": "WebAPI",
     "ExpiredTime": "18000"
-  }
+  },
+  "SystemName": "Materal配置中心" 
 }

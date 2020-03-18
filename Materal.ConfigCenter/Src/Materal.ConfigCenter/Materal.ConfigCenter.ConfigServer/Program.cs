@@ -1,12 +1,10 @@
 ﻿using Materal.ConfigCenter.ConfigServer.Common;
+using Materal.ConfigCenter.ConfigServer.Services;
 using Materal.DotNetty.Server.Core;
 using Materal.DotNetty.Server.CoreImpl;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Timers;
-using Materal.ConfigCenter.ConfigServer.Domain.Repositories;
-using Materal.ConfigCenter.ConfigServer.Services;
 
 namespace Materal.ConfigCenter.ConfigServer
 {
@@ -15,7 +13,7 @@ namespace Materal.ConfigCenter.ConfigServer
         public static async Task Main()
         {
             string version = Assembly.Load("Materal.ConfigCenter.ConfigServer").GetName().Version.ToString();
-            Console.Title = $"MateralConfigServer [版本号:{version}]";
+            Console.Title = $"Materal-ConfigCenter-ConfigServer [版本号:{version}]";
             if (TryRegisterService())
             {
                 try

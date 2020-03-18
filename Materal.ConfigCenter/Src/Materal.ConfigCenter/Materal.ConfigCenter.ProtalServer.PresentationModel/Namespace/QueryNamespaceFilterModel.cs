@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Materal.ConfigCenter.ProtalServer.PresentationModel.Namespace
 {
-    public class QueryNamespaceFilterModel : PageRequestModel
+    public class QueryNamespaceFilterModel : FilterModel
     {
         /// <summary>
         /// 所属项目唯一标识

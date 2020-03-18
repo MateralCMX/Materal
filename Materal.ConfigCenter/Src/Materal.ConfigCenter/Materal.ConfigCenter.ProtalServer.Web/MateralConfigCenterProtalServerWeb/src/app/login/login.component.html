@@ -1,0 +1,26 @@
+<nz-card class="login-panel" [nzTitle]="systemInfo.Name" [nzExtra]="versionTemplate">
+    <form nz-form [formGroup]="formData" autocomplete="off" class="login-form">
+        <nz-form-item>
+            <nz-form-control nzErrorTip="请输入账号">
+                <nz-input-group nzPrefixIcon="user">
+                    <input type="text" nz-input formControlName="account" placeholder="账号" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzErrorTip="请输入密码">
+                <nz-input-group nzPrefixIcon="lock">
+                    <input type="password" nz-input formControlName="password" placeholder="密码" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control>
+                <button nz-button type="button" class="login-form-button" [nzLoading]="isLoging" [nzType]="'primary'" (click)="login()">登录</button>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-card>
+<ng-template #versionTemplate>
+    <span class="version">v{{systemInfo.Version}}</span>
+</ng-template>

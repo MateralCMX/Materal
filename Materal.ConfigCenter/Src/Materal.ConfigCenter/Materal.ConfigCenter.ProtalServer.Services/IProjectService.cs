@@ -48,6 +48,6 @@ namespace Materal.ConfigCenter.ProtalServer.Services
         /// <returns></returns>
         /// <exception cref="MateralConfigCenterException"></exception>
         [DataValidation]
-        Task<(List<ProjectListDTO> result, PageModel pageModel)> GetProjectListAsync(QueryProjectFilterModel filterModel);
+        Task<List<ProjectListDTO>> GetProjectListAsync(QueryProjectFilterModel filterModel);
     }
 }

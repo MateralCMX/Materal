@@ -1,7 +1,4 @@
-﻿using Materal.ConfigCenter.ProtalServer.Domain.Repositories;
-using System.Threading.Tasks;
-
-namespace Materal.ConfigCenter.ProtalServer.ServiceImpl.Models
+﻿namespace Materal.ConfigCenter.ProtalServer.ServiceImpl.Models
 {
     public class ConfigServerModel
     {

@@ -70,7 +70,12 @@ namespace Materal.ConfigCenter.ProtalServer.Common
             Audience = Configuration["JWT:Audience"],
             Issuer = Configuration["JWT:Issuer"],
             ExpiredTime = Configuration["JWT:ExpiredTime"].ConvertTo<uint>()
-        });
+        }); 
+        private static string _systemName;
+        /// <summary>
+        /// 系统名称
+        /// </summary>
+        public static string SystemName => _systemName ?? (_systemName = Configuration["SystemName"]);
         #endregion
     }
 }

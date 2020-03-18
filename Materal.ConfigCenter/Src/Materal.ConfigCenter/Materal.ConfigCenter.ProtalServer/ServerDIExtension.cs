@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NetCore.AutoRegisterDi;
 using System.Reflection;
+using Materal.Common;
 
 namespace Materal.ConfigCenter.ProtalServer
 {
@@ -21,6 +22,7 @@ namespace Materal.ConfigCenter.ProtalServer
         /// <param name="services"></param>
         public static void AddServer(this IServiceCollection services)
         {
+            MateralConfig.PageStartNumber = 1;
             services.AddDbContext<ProtalServerDBContext>(options =>
             {
                 options.UseSqlite(ApplicationConfig.SqliteConfig.ConnectionString);

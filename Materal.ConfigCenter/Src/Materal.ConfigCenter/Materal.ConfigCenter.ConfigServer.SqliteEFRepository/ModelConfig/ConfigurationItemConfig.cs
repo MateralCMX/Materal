@@ -17,6 +17,10 @@ namespace Materal.ConfigCenter.ConfigServer.SqliteEFRepository.ModelConfig
                 .IsRequired();
             builder.Property(e => e.NamespaceID)
                 .IsRequired();
+            builder.Property(e => e.ProjectName)
+                .IsRequired();
+            builder.Property(e => e.NamespaceName)
+                .IsRequired();
             builder.Property(e => e.Key)
                 .IsRequired()
                 .HasMaxLength(100);

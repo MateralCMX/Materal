@@ -9,8 +9,4 @@
     <ProjectReference Include="..\Materal.ConfigCenter.ConfigServer.Domain\Materal.ConfigCenter.ConfigServer.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

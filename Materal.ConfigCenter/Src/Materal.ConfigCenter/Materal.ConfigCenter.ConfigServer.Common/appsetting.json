@@ -4,7 +4,7 @@
     "Port": 8201
   },
   "ConfigServerConfig": {
-    "ProtalUrl": "http://192.168.0.101:8200",
+    "ProtalUrl": "http://192.168.0.101:8200/",
     "ConfigServerName": "Dev"
   },
   "SqliteConfig": {

@@ -62,11 +62,11 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
             return result;
         }
 
-        public async Task<(List<NamespaceListDTO> result, PageModel pageModel)> GetNamespaceListAsync(QueryNamespaceFilterModel filterModel)
+        public async Task<List<NamespaceListDTO>> GetNamespaceListAsync(QueryNamespaceFilterModel filterModel)
         {
-            (List<Namespace> namespacesFromDb, PageModel pageModel) = await _namespaceRepository.PagingAsync(filterModel);
+            List<Namespace> namespacesFromDb = await _namespaceRepository.FindAsync(filterModel);
             var result = _mapper.Map<List<NamespaceListDTO>>(namespacesFromDb);
-            return (result, pageModel);
+            return result;
         }
     }
 }

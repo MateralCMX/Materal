@@ -1,0 +1,21 @@
+<form nz-form [formGroup]="formData" autocomplete="off">
+    <nz-form-item>
+        <nz-form-control nzErrorTip="请输入名称">
+            <nz-input-group>
+                <input type="text" nz-input formControlName="account" placeholder="账号" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control nzErrorTip="请输入密码">
+            <nz-input-group>
+                <input type="password" nz-input formControlName="password" [placeholder]="isAdd?'密码(不填写则为123456)':'密码(不填写则不修改)'" />
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control>
+            <button nz-button type="button" [nzLoading]="isTransmitting" [nzType]="'primary'" (click)="save()">{{isAdd?'添加':'保存'}}</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>

@@ -32,7 +32,7 @@ export class AppListComponent implements OnInit {
   };
   public consoleMessages: string[];
   public isAdd = false;
-  public constructor(private appService: AppService, protected message: NzMessageService, private modalService: NzModalService) { }
+  public constructor(private appService: AppService, private message: NzMessageService, private modalService: NzModalService) { }
   public ngOnInit() {
     this.searchModel = new FormGroup({
       name: new FormControl({ value: null, disabled: this.dataLoading }),
@@ -97,7 +97,7 @@ export class AppListComponent implements OnInit {
     }
     return true;
   }
-  public openDrawer(appid): void {
+  public openDrawer(appid: string): void {
     this.appEditComponent.InitData(appid);
     this.isAdd = this.appEditComponent.isAdd;
     this.drawerVisible = true;
