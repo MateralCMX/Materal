@@ -24,6 +24,8 @@ namespace Materal.ConDep.Server
                     dotNettyServer.OnMessage += message => ConsoleHelper.ServerWriteLine(message);
                     dotNettyServer.OnSubMessage += (message, subTitle) => ConsoleHelper.ServerWriteLine(message, subTitle);
                     await dotNettyServer.RunAsync(ApplicationConfig.ServerConfig);
+                    ConsoleHelper.ServerWriteLine($"已监听http://{ApplicationConfig.ServerConfig.Host}:{ApplicationConfig.ServerConfig.Port}/api");
+                    ConsoleHelper.ServerWriteLine($"已监听http://{ApplicationConfig.ServerConfig.Host}:{ApplicationConfig.ServerConfig.Port}");
                     string inputKey = string.Empty;
                     while (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
                     {

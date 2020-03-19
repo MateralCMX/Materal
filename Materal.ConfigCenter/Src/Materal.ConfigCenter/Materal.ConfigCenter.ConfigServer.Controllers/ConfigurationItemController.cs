@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Materal.ConfigCenter.ConfigServer.Controllers
 {
-    [AllowAuthority]
     public class ConfigurationItemController : ConfigCenterBaseController
     {
         private readonly IConfigurationItemService configurationItemService;
@@ -30,6 +29,28 @@ namespace Materal.ConfigCenter.ConfigServer.Controllers
             try
             {
                 await configurationItemService.AddConfigurationItemAsync(model);
+                return ResultModel.Success("添加成功");
+            }
+            catch (AspectInvocationException ex)
+            {
+                return ResultModel.Fail(ex.InnerException?.Message);
+            }
+            catch (MateralConfigCenterException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 初始化配置项
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ResultModel> InitConfigurationItems(List<AddConfigurationItemModel> model)
+        {
+            try
+            {
+                await configurationItemService.InitConfigurationItemsAsync(model);
                 return ResultModel.Success("添加成功");
             }
             catch (AspectInvocationException ex)
@@ -112,7 +133,7 @@ namespace Materal.ConfigCenter.ConfigServer.Controllers
         /// </summary>
         /// <param name="filterModel"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost, AllowAuthority]
         public async Task<ResultModel<List<ConfigurationItemListDTO>>> GetConfigurationItemList(QueryConfigurationItemFilterModel filterModel)
         {
             try

@@ -25,6 +25,10 @@ namespace Materal.ConfigCenter.ConfigServer.SqliteEFRepository.Migrations
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasColumnType("TEXT")

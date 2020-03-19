@@ -66,9 +66,9 @@ namespace Materal.ConfigCenter.ConfigServer.ServiceImpl
             {
                 try
                 {
-                    ConsoleHelper.ServerWriteLine("开始向Protal注册");
+                    ConsoleHelper.ServerWriteLine($"开始向Protal注册服务{ApplicationConfig.ConfigServerConfig.Name}");
                     await _configServerRepository.RegisterAsync();
-                    ConsoleHelper.ServerWriteLine("向Protal注册成功");
+                    ConsoleHelper.ServerWriteLine("注册成功");
                     if (!healthTimer.Enabled)
                     {
                         healthTimer.Start();
@@ -76,7 +76,7 @@ namespace Materal.ConfigCenter.ConfigServer.ServiceImpl
                 }
                 catch (Exception ex)
                 {
-                    ex = new MateralConfigCenterException("Protal注册失败", ex);
+                    ex = new MateralConfigCenterException("注册失败", ex);
                     ConsoleHelper.ServerWriteError(ex);
                     Register();
                 }

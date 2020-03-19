@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Materal.ConfigCenter.Client
 {
@@ -19,6 +20,6 @@ namespace Materal.ConfigCenter.Client
         /// 生成配置
         /// </summary>
         /// <returns></returns>
-        IConfigurationRoot BuildMateralConfig();
+        Task<IConfigurationRoot> BuildMateralConfigAsync();
     }
 }

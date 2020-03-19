@@ -1,22 +1,22 @@
 <nz-page-header nzGhost="false">
-    <nz-page-header-title>用户列表</nz-page-header-title>
+    <nz-page-header-title>用户管理</nz-page-header-title>
     <nz-page-header-subtitle>Materal-ConfigCenter</nz-page-header-subtitle>
     <nz-page-header-extra>
         <nz-button-group>
-            <button nz-button (click)="openDrawer(null)">新增用户</button>
+            <button nz-button [disabled]="dataLoading" (click)="openDrawer(null)" title="添加用户"><i nz-icon nzType="user-add"></i></button>
         </nz-button-group>
     </nz-page-header-extra>
     <nz-page-header-content>
         <form nz-form [formGroup]="searchModel" autocomplete="off">
             <div nz-row nzGutter="24">
-                <nz-form-item nz-col nzSpan="4">
+                <nz-form-item nz-col nzSpan="6">
                     <nz-form-control>
                         <input type="search" nz-input placeholder="账号" formControlName="account" />
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item nz-col nzSpan="2">
                     <nz-form-control>
-                        <button nz-button nzType="primary" (click)="search(1)">查询</button>
+                        <button nz-button nzType="primary" (click)="search(1)" title="查询"><i nz-icon nzType="search"></i></button>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -35,13 +35,13 @@
             <td>{{ data.Account }}</td>
             <td>
                 <nz-button-group>
-                    <button nz-button (click)="openDrawer(data.ID)">配置</button>
-                    <button nz-button nzType="danger" (click)="showDeleteConfirm(data.ID)">删除</button>
+                    <button nz-button (click)="openDrawer(data.ID)" title="编辑"><i nz-icon nzType="edit"></i></button>
+                    <button nz-button nzType="danger" title="删除" nz-popconfirm nzPopconfirmTitle="确认删除该用户吗？" nzPopconfirmPlacement="top" (nzOnConfirm)="deleteUser(data.ID)"><i nz-icon nzType="delete"></i></button>
                 </nz-button-group>
             </td>
         </tr>
     </tbody>
 </nz-table>
-<nz-drawer [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加应用':'修改应用'" (nzOnClose)="closeDrawer()">
+<nz-drawer [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加用户':'修改用户'" (nzOnClose)="closeDrawer()">
     <app-user-edit #userEditComponent (saveEnd)="saveEnd($event)"></app-user-edit>
 </nz-drawer>

@@ -1,0 +1,12 @@
+<nz-card [nzTitle]="data.Name" [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
+    {{data.Description}}
+</nz-card>
+<ng-template #actionSetting>
+    <a title="命名空间管理" [routerLink]="['/Index/NamespaceList', data.ID]"><i nz-icon nzType="appstore"></i></a>
+</ng-template>
+<ng-template #actionEdit>
+    <a title="编辑" (click)="editProject.emit(data.ID)"><i nz-icon nzType="edit"></i></a>
+</ng-template>
+<ng-template #actionEllipsis>
+    <a class="delete-button" title="删除" nz-popconfirm nzPopconfirmTitle="确认删除该项目吗？" nzPopconfirmPlacement="top" (nzOnConfirm)="deleteProject.emit(data.ID)"><i nz-icon nzType="delete"></i></a>
+</ng-template>

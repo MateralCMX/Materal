@@ -33,6 +33,12 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
             if (await _projectRepository.ExistedAsync(m => m.Name.Equals(model.Name))) throw new MateralConfigCenterException("名称已存在");
             var project = model.CopyProperties<Project>();
             _protalServerUnitOfWork.RegisterAdd(project);
+            _protalServerUnitOfWork.RegisterAdd(new Namespace
+            {
+                Name = "Application",
+                Description = "默认命名空间",
+                ProjectID = project.ID
+            });
             await _protalServerUnitOfWork.CommitAsync();
         }
 

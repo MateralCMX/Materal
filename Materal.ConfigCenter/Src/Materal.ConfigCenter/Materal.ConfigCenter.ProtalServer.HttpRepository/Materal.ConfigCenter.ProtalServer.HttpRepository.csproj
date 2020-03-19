@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Materal.ConfigCenter.ConfigServer.PresentationModel\Materal.ConfigCenter.ConfigServer.PresentationModel.csproj" />
     <ProjectReference Include="..\Materal.ConfigCenter.ProtalServer.Domain\Materal.ConfigCenter.ProtalServer.Domain.csproj" />
   </ItemGroup>
 

@@ -14,6 +14,9 @@
     <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.1.1\contentFiles\any\netcoreapp3.1\MIMEConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.1.2\contentFiles\any\netcoreapp3.1\MIMEConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

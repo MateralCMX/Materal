@@ -28,7 +28,7 @@ export class UserListComponent implements OnInit {
   };
   public isAdd = false;
   public drawerVisible = false;
-  public constructor(private userService: UserService, private message: NzMessageService, private modalService: NzModalService) { }
+  public constructor(private userService: UserService, private message: NzMessageService) { }
 
   public ngOnInit() {
     this.searchModel = new FormGroup({
@@ -57,16 +57,6 @@ export class UserListComponent implements OnInit {
     };
     this.userService.getUserList(data, success, complete);
   }
-  public showDeleteConfirm(appID: string): void {
-    this.modalService.confirm({
-      nzTitle: '提示',
-      nzContent: '确认删除该用户吗？',
-      nzOkText: '删除',
-      nzOkType: 'danger',
-      nzOnOk: () => this.deleteUser(appID),
-      nzCancelText: '取消'
-    });
-  }
   public closeDrawer() {
     this.drawerVisible = false;
   }
@@ -75,7 +65,7 @@ export class UserListComponent implements OnInit {
     this.search(this.pageModel.PageIndex);
     this.closeDrawer();
   }
-  public deleteUser(appID: string): void {
+  public deleteUser(userID: string): void {
     this.dataLoading = true;
     const success = (result: ResultModel) => {
       if (this.pageModel.PageIndex === this.pageModel.PageCount &&  this.pageModel.DataCount % this.pageModel.PageSize === 1) {
@@ -88,7 +78,7 @@ export class UserListComponent implements OnInit {
     const complete = () => {
       this.dataLoading = false;
     };
-    this.userService.deleteUser(appID, success, complete);
+    this.userService.deleteUser(userID, success, complete);
   }
   public onPageChange(index) {
     this.search(index);

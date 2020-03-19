@@ -16,10 +16,11 @@ namespace Materal.ConfigCenter.ConfigServer.SqliteEFRepository.Migrations
                     UpdateTime = table.Column<DateTime>(nullable: false),
                     ProjectID = table.Column<Guid>(nullable: false),
                     NamespaceID = table.Column<Guid>(nullable: false),
-                    ProjectName = table.Column<string>(nullable: false),
-                    NamespaceName = table.Column<string>(nullable: false),
+                    ProjectName = table.Column<string>(maxLength: 100, nullable: false),
+                    NamespaceName = table.Column<string>(maxLength: 100, nullable: false),
                     Key = table.Column<string>(maxLength: 100, nullable: false),
-                    Value = table.Column<string>(nullable: true)
+                    Value = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

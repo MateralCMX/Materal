@@ -1,4 +1,5 @@
-﻿using Materal.Model;
+﻿using System;
+using Materal.Model;
 
 namespace Materal.ConfigCenter.ConfigServer.PresentationModel.ConfigurationItem
 {
@@ -8,9 +9,19 @@ namespace Materal.ConfigCenter.ConfigServer.PresentationModel.ConfigurationItem
         /// 命名空间唯一标识
         /// </summary>
         [Equal]
+        public Guid? NamespaceID { get; set; }
+        /// <summary>
+        /// 键
+        /// </summary>
+        [Equal]
+        public string Key { get; set; }
+        /// <summary>
+        /// 项目名称
+        /// </summary>
+        [Equal]
         public string ProjectName { get; set; }
         /// <summary>
-        /// 命名空间唯一标识
+        /// 命名空间名称
         /// </summary>
         public string[] NamespaceNames { get; set; }
     }

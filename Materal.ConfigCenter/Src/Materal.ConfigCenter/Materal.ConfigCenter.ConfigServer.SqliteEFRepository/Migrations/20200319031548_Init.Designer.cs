@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Materal.ConfigCenter.ConfigServer.SqliteEFRepository.Migrations
 {
     [DbContext(typeof(ConfigServerDBContext))]
-    [Migration("20200318094716_Init")]
+    [Migration("20200319031548_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,10 @@ namespace Materal.ConfigCenter.ConfigServer.SqliteEFRepository.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Key")

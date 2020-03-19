@@ -29,7 +29,7 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
 
         public async Task AddNamespaceAsync(AddNamespaceModel model)
         {
-            if (await _namespaceRepository.ExistedAsync(m => m.Name.Equals(model.Name))) throw new MateralConfigCenterException("名称已存在");
+            if (await _namespaceRepository.ExistedAsync(m => m.Name.Equals(model.Name) && m.ProjectID.Equals(model.ProjectID))) throw new MateralConfigCenterException("名称已存在");
             var @namespace = model.CopyProperties<Namespace>();
             _protalServerUnitOfWork.RegisterAdd(@namespace);
             await _protalServerUnitOfWork.CommitAsync();
@@ -37,7 +37,7 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
 
         public async Task EditNamespaceAsync(EditNamespaceModel model)
         {
-            if (await _namespaceRepository.ExistedAsync(m => m.Name.Equals(model.Name) && m.ID != model.ID)) throw new MateralConfigCenterException("名称已存在");
+            if (await _namespaceRepository.ExistedAsync(m => m.Name.Equals(model.Name) && m.ProjectID.Equals(model.ProjectID) && m.ID != model.ID)) throw new MateralConfigCenterException("名称已存在");
             Namespace namespaceFromDb = await _namespaceRepository.FirstOrDefaultAsync(model.ID);
             if (namespaceFromDb == null) throw new MateralConfigCenterException("命名空间不存在");
             model.CopyProperties(namespaceFromDb);

@@ -18,14 +18,18 @@ namespace Materal.ConfigCenter.ConfigServer.SqliteEFRepository.ModelConfig
             builder.Property(e => e.NamespaceID)
                 .IsRequired();
             builder.Property(e => e.ProjectName)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(100);
             builder.Property(e => e.NamespaceName)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(100);
             builder.Property(e => e.Key)
                 .IsRequired()
                 .HasMaxLength(100);
             builder.Property(e => e.Value)
                 .IsRequired(false);
+            builder.Property(e => e.Description)
+                .IsRequired();
         }
     }
 }

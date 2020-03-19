@@ -9,6 +9,7 @@ using Materal.ConvertHelper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -28,10 +29,24 @@ namespace Materal.ConfigCenter.ConfigServer.ServiceImpl
             _protalServerUnitOfWork = protalServerUnitOfWork;
             _mapper = mapper;
         }
+        public async Task InitConfigurationItemsAsync(List<AddConfigurationItemModel> model)
+        {
+            List<ConfigurationItem> allConfigurationItems = await _configurationItemRepository.FindAsync(m => true);
+            foreach (ConfigurationItem configurationItem in allConfigurationItems)
+            {
+                _protalServerUnitOfWork.RegisterDelete(configurationItem);
+            }
+            foreach (AddConfigurationItemModel itemModel in model)
+            {
+                var configurationItem = itemModel.CopyProperties<ConfigurationItem>();
+                _protalServerUnitOfWork.RegisterAdd(configurationItem);
+            }
+            await _protalServerUnitOfWork.CommitAsync();
+        }
 
         public async Task AddConfigurationItemAsync(AddConfigurationItemModel model)
         {
-            if (await _configurationItemRepository.ExistedAsync(m => m.Key.Equals(model.Key))) throw new MateralConfigCenterException("Key已存在");
+            if (await _configurationItemRepository.ExistedAsync(m => m.Key.Equals(model.Key) && m.NamespaceID == model.NamespaceID && m.ProjectID == model.ProjectID)) throw new MateralConfigCenterException("Key已存在");
             var configurationItem = model.CopyProperties<ConfigurationItem>();
             _protalServerUnitOfWork.RegisterAdd(configurationItem);
             await _protalServerUnitOfWork.CommitAsync();
@@ -39,7 +54,7 @@ namespace Materal.ConfigCenter.ConfigServer.ServiceImpl
 
         public async Task EditConfigurationItemAsync(EditConfigurationItemModel model)
         {
-            if (await _configurationItemRepository.ExistedAsync(m => m.Key.Equals(model.Key) && m.ID != model.ID)) throw new MateralConfigCenterException("Key已存在");
+            if (await _configurationItemRepository.ExistedAsync(m => m.Key.Equals(model.Key) && m.NamespaceID == model.NamespaceID && m.ProjectID == model.ProjectID && m.ID != model.ID)) throw new MateralConfigCenterException("Key已存在");
             ConfigurationItem configurationItemFromDb = await _configurationItemRepository.FirstOrDefaultAsync(model.ID);
             if (configurationItemFromDb == null) throw new MateralConfigCenterException("配置项不存在");
             model.CopyProperties(configurationItemFromDb);
@@ -89,9 +104,21 @@ namespace Materal.ConfigCenter.ConfigServer.ServiceImpl
             Expression<Func<ConfigurationItem, bool>> searchExpression = filterModel.GetSearchExpression<ConfigurationItem>();
             if (filterModel.NamespaceNames != null && filterModel.NamespaceNames.Length > 0)
             {
-                searchExpression = searchExpression.And(m => filterModel.NamespaceNames.Contains(m.NamespaceName));
+                Expression<Func<ConfigurationItem, bool>> temp = null;
+                foreach (string namespaceName in filterModel.NamespaceNames)
+                {
+                    if (temp == null)
+                    {
+                        temp = m => m.NamespaceName.Equals(namespaceName);
+                    }
+                    else
+                    {
+                        temp = temp.Or(m => m.NamespaceName.Equals(namespaceName));
+                    }
+                }
+                searchExpression = searchExpression.And(temp);
             }
-            List<ConfigurationItem> configurationItemsFromDb = await _configurationItemRepository.FindAsync(searchExpression);
+            List<ConfigurationItem> configurationItemsFromDb = await _configurationItemRepository.FindAsync(searchExpression, m => m.Key, SortOrder.Ascending);
             var result = _mapper.Map<List<ConfigurationItemListDTO>>(configurationItemsFromDb);
             return result;
         }

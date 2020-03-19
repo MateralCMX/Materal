@@ -1,1 +1,88 @@
-<p>configuration-item-list works!</p>
+<nz-page-header nzGhost="false">
+    <nz-page-header-title>配置项管理</nz-page-header-title>
+    <nz-page-header-subtitle>Materal-ConfigCenter</nz-page-header-subtitle>
+    <nz-page-header-extra>
+        <nz-button-group>
+            <button nz-button [disabled]="dataLoading || !searchModel.value.configServer" (click)="openCopyConfigServer()" title="复制配置服务"><i nz-icon nzType="logout"></i></button>
+            <button nz-button [disabled]="dataLoading || !selectedNamespace" (click)="openDrawer(null)" title="新增配置项"><i nz-icon nzType="plus"></i></button>
+        </nz-button-group>
+    </nz-page-header-extra>
+    <nz-page-header-content>
+        <form nz-form [formGroup]="searchModel" autocomplete="off">
+            <div nz-row nzGutter="24">
+                <nz-form-item nz-col nzSpan="6" *ngIf="configServers.length > 0">
+                    <nz-form-control>
+                        <nz-select formControlName="configServer" nzPlaceHolder="目标环境" (ngModelChange)="onChangeConfigServer($event)">
+                            <nz-option *ngFor="let item of configServers" [nzValue]="item" [nzLabel]="item.Name"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-col nzSpan="6">
+                    <nz-form-control>
+                        <input type="search" nz-input placeholder="键" formControlName="key" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-col nzSpan="2">
+                    <nz-form-control>
+                        <button nz-button nzType="primary" (click)="search()" title="查询"><i nz-icon nzType="search"></i></button>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </form>
+    </nz-page-header-content>
+</nz-page-header>
+<div nz-row>
+    <div nz-col nzSpan="4">
+        <nz-collapse nzAccordion="true">
+            <nz-collapse-panel *ngFor="let data of projectData" [nzDisabled]="dataLoading" [nzHeader]="data.Name" (nzActiveChange)="onProjectActiveChange($event, data)">
+                <nz-radio-group *ngIf="this.namespaceData[data.ID]" [(ngModel)]="selectedNamespace" (ngModelChange)="selectNamespace($event)">
+                    <nz-list [nzDataSource]="this.namespaceData[data.ID]" [nzRenderItem]="namespaceItem">
+                        <ng-template #namespaceItem let-item>
+                            <nz-list-item>
+                                <label nz-radio [nzValue]="item">{{item.Name}}</label>
+                            </nz-list-item>
+                        </ng-template>
+                    </nz-list>
+                </nz-radio-group>
+            </nz-collapse-panel>
+        </nz-collapse>
+    </div>
+    <div nz-col nzSpan="20">
+        <nz-table #filterTable nzFrontPagination="false" [nzData]="tableData" [nzLoading]="dataLoading">
+            <thead>
+                <tr>
+                    <th>键</th>
+                    <th>值</th>
+                    <th>描述</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of tableData">
+                    <td>{{ data.Key }}</td>
+                    <td>{{ data.Value }}</td>
+                    <td>{{ data.Description }}</td>
+                    <td>
+                        <nz-button-group>
+                            <button nz-button (click)="openDrawer(data.ID)" title="编辑"><i nz-icon nzType="edit"></i></button>
+                            <button nz-button nzType="danger" title="删除" nz-popconfirm nzPopconfirmTitle="确认删除该配置项吗？" nzPopconfirmPlacement="top" (nzOnConfirm)="deleteConfigurationItem(data.ID)"><i nz-icon nzType="delete"></i></button>
+                        </nz-button-group>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+<nz-drawer [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加配置项':'修改配置项'" (nzOnClose)="closeDrawer()">
+    <app-configuration-item-edit *ngIf="searchModel.value.configServer" #configurationItemEditComponent [project]="selectedProject" [namespace]="selectedNamespace" [address]="searchModel.value.configServer.Address" (saveEnd)="saveEnd($event)"></app-configuration-item-edit>
+</nz-drawer>
+<nz-modal *ngIf="searchModel.value.configServer" [(nzVisible)]="isCopyConfigServerModalVisible" nzTitle="复制配置服务" [nzOkDisabled]="!canCopyConfigServer" (nzOnCancel)="cancelCopyConfigServer()" (nzOnOk)="copyConfigServer()">
+    <div nz-row>
+        <div nz-col nzSpan="12">
+            复制{{searchModel.value.configServer.Name}}配置服务中所有配置项到
+        </div>
+        <div nz-col nzSpan="12">
+            <nz-checkbox-group [(ngModel)]="checkConfigServers" (ngModelChange)="selectCopyConfigServer()"></nz-checkbox-group>
+        </div>
+      </div>
+</nz-modal>

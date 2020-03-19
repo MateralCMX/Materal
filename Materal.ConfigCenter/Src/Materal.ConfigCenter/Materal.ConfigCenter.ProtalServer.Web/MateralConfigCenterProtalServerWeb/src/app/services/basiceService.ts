@@ -20,11 +20,10 @@ export class BasiceService {
      * @param fail 失败回调
      * @param complete 都执行回调
      */
-    protected sendGet<T>(url: string, data: T,
+    protected sendGetUrl<T>(url: string, data: T,
                          success?: (value: ResultModel) => void,
                          fail?: (value: ResultModel) => void,
                          complete?: () => void): void {
-        url = `${this.baseUrl}${url}`;
         const headers = this.getHttpHeaders();
         const options = { headers };
         if (data) {
@@ -54,11 +53,10 @@ export class BasiceService {
      * @param fail 失败回调
      * @param complete 都执行回调
      */
-    protected sendPost<T>(url: string, data: T,
+    protected sendPostUrl<T>(url: string, data: T,
                           success?: (value: ResultModel) => void,
                           fail?: (value: ResultModel) => void,
                           complete?: () => void): void {
-        url = `${this.baseUrl}${url}`;
         const headers = this.getHttpHeaders();
         this.http.post<ResultModel>(url, data, { headers }).subscribe(result => {
             this.handlerSuccess(result, success, fail);
@@ -68,6 +66,36 @@ export class BasiceService {
                 complete();
             }
         }, complete);
+    }
+    /**
+     * 发送Get请求
+     * @param url url地址
+     * @param data 数据
+     * @param success 成功回调
+     * @param fail 失败回调
+     * @param complete 都执行回调
+     */
+    protected sendGet<T>(url: string, data: T,
+                         success?: (value: ResultModel) => void,
+                         fail?: (value: ResultModel) => void,
+                         complete?: () => void): void {
+        url = `${this.baseUrl}${url}`;
+        this.sendGetUrl(url,data,success,fail,complete);
+    }
+    /**
+     * 发送Post请求
+     * @param url url地址
+     * @param data 数据
+     * @param success 成功回调
+     * @param fail 失败回调
+     * @param complete 都执行回调
+     */
+    protected sendPost<T>(url: string, data: T,
+                          success?: (value: ResultModel) => void,
+                          fail?: (value: ResultModel) => void,
+                          complete?: () => void): void {
+        url = `${this.baseUrl}${url}`;
+        this.sendPostUrl(url,data,success,fail,complete);
     }
     /**
      * 处理成功请求

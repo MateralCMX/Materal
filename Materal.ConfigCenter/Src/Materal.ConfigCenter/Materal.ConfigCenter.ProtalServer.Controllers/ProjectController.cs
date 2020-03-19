@@ -74,8 +74,9 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         {
             try
             {
+                string token = GetToken();
                 await projectService.DeleteProjectAsync(id);
-                _configServerService.DeleteProject(id);
+                _configServerService.DeleteProject(id, token);
                 return ResultModel.Success("删除成功");
             }
             catch (AspectInvocationException ex)

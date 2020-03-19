@@ -1,7 +1,7 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using DotNetty.Codecs.Http;
+﻿using DotNetty.Codecs.Http;
 using Materal.DotNetty.Server.CoreImpl;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Materal.ConDep.Server
 {
@@ -9,6 +9,10 @@ namespace Materal.ConDep.Server
     {
         protected override async Task<IFullHttpResponse> GetFileResponseAsync(IFullHttpRequest request)
         {
+            if (request.Method.Name == HttpMethod.Options.Name)
+            {
+                return  GetOptionsResponse(HttpMethod.Get.Name);
+            }
             string url;
             if (request.Uri == "/")
             {

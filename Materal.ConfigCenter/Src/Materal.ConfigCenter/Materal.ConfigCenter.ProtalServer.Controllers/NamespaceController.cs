@@ -74,8 +74,9 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         {
             try
             {
+                string token = GetToken();
                 await namespaceService.DeleteNamespaceAsync(id);
-                _configServerService.DeleteNamespace(id);
+                _configServerService.DeleteNamespace(id, token);
                 return ResultModel.Success("删除成功");
             }
             catch (AspectInvocationException ex)

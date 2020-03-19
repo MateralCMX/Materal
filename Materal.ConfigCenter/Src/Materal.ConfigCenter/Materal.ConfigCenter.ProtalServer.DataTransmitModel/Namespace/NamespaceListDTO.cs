@@ -16,5 +16,9 @@ namespace Materal.ConfigCenter.ProtalServer.DataTransmitModel.Namespace
         /// 描述
         /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// 项目唯一标识
+        /// </summary>
+        public Guid ProjectID { get; set; }
     }
 }

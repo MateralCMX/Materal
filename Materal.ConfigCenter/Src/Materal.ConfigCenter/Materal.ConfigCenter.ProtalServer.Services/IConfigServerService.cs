@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Materal.ConfigCenter.ProtalServer.PresentationModel.ConfigServer;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Materal.ConfigCenter.ProtalServer.PresentationModel.ConfigServer;
+using Materal.ConfigCenter.ProtalServer.Services.Models;
 
 namespace Materal.ConfigCenter.ProtalServer.Services
 {
@@ -16,13 +18,27 @@ namespace Materal.ConfigCenter.ProtalServer.Services
         /// 删除项目
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
-        void DeleteProject(Guid id);
+        void DeleteProject(Guid id, string token);
         /// <summary>
         /// 删除命名空间
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
-        void DeleteNamespace(Guid id);
+        void DeleteNamespace(Guid id, string token);
+        /// <summary>
+        /// 获得配置服务
+        /// </summary>
+        /// <returns></returns>
+        List<ConfigServerModel> GetConfigServers();
+        /// <summary>
+        /// 复制配置服务
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="targetNames"></param>
+        /// <param name="token"></param>
+        Task CopyConfigServer(string name, string[] targetNames, string token);
     }
 }

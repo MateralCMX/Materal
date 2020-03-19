@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Materal.ConfigCenter.ProtalServer.SqliteEFRepository.Migrations
 {
     [DbContext(typeof(ProtalServerDBContext))]
-    [Migration("20200317025713_Init")]
+    [Migration("20200319031625_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

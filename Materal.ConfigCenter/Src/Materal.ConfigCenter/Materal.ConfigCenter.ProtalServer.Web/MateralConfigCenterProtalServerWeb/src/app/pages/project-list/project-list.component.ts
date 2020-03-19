@@ -14,7 +14,6 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./project-list.component.less']
 })
 export class ProjectListComponent implements OnInit {
-
   @ViewChild('projectEditComponent', { static: false })
   public projectEditComponent: ProjectEditComponent;
   public isAdd = true;
@@ -22,7 +21,7 @@ export class ProjectListComponent implements OnInit {
   public dataLoading = false;
   public tableData: ProjectListDTO[] = [];
   public searchModel: FormGroup;
-  public constructor(private projectService: ProjectService, private message: NzMessageService, private modalService: NzModalService) { }
+  public constructor(private projectService: ProjectService, private message: NzMessageService) { }
 
   public ngOnInit() {
     this.searchModel = new FormGroup({
@@ -56,17 +55,7 @@ export class ProjectListComponent implements OnInit {
   public closeDrawer() {
     this.drawerVisible = false;
   }
-  public showDeleteConfirm(appID: string): void {
-    this.modalService.confirm({
-      nzTitle: '提示',
-      nzContent: '确认删除该项目吗？',
-      nzOkText: '删除',
-      nzOkType: 'danger',
-      nzOnOk: () => this.deleteProject(appID),
-      nzCancelText: '取消'
-    });
-  }
-  public deleteProject(appID: string): void {
+  public deleteProject(projectID: string): void {
     this.dataLoading = true;
     const success = (result: ResultModel) => {
       this.message.success(result.Message);
@@ -75,6 +64,6 @@ export class ProjectListComponent implements OnInit {
     const complete = () => {
       this.dataLoading = false;
     };
-    this.projectService.deleteProject(appID, success, complete);
+    this.projectService.deleteProject(projectID, success, complete);
   }
 }

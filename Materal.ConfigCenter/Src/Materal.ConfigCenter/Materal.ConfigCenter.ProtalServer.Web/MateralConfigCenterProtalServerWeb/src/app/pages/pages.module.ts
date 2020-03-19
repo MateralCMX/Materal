@@ -10,6 +10,9 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { NamespaceEditComponent } from './namespace-edit/namespace-edit.component';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ConfigurationItemListComponent } from './configuration-item-list/configuration-item-list.component';
+import { NamespaceListComponent } from './namespace-list/namespace-list.component';
+import { ProjectItemComponent } from './project-item/project-item.component';
+import { ConfigurationItemEditComponent } from './configuration-item-edit/configuration-item-edit.component';
 
 
 @NgModule({
@@ -19,7 +22,10 @@ import { ConfigurationItemListComponent } from './configuration-item-list/config
     ProjectListComponent,
     NamespaceEditComponent,
     ProjectEditComponent,
-    ConfigurationItemListComponent
+    ConfigurationItemListComponent,
+    NamespaceListComponent,
+    ProjectItemComponent,
+    ConfigurationItemEditComponent
   ],
   imports: [
     CommonModule,

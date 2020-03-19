@@ -16,6 +16,14 @@ namespace Materal.ConfigCenter.ConfigServer.Services
         /// <returns></returns>
         /// <exception cref="MateralConfigCenterException"></exception>
         [DataValidation]
+        Task InitConfigurationItemsAsync(List<AddConfigurationItemModel> model);
+        /// <summary>
+        /// 添加配置项
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralConfigCenterException"></exception>
+        [DataValidation]
         Task AddConfigurationItemAsync(AddConfigurationItemModel model);
         /// <summary>
         /// 修改配置项

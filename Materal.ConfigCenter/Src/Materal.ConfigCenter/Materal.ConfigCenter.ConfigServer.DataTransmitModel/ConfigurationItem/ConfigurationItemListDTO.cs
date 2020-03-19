@@ -9,11 +9,19 @@ namespace Materal.ConfigCenter.ConfigServer.DataTransmitModel.ConfigurationItem
         /// </summary>
         public Guid ID { get; set; }
         /// <summary>
+        /// 项目唯一标识
+        /// </summary>
+        public Guid ProjectID { get; set; }
+        /// <summary>
         /// 命名空间唯一标识
+        /// </summary>
+        public Guid NamespaceID { get; set; }
+        /// <summary>
+        /// 项目名称
         /// </summary>
         public string ProjectName { get; set; }
         /// <summary>
-        /// 命名空间唯一标识
+        /// 命名空间名称
         /// </summary>
         public string NamespaceName { get; set; }
         /// <summary>
@@ -24,5 +32,9 @@ namespace Materal.ConfigCenter.ConfigServer.DataTransmitModel.ConfigurationItem
         /// 值
         /// </summary>
         public string Value { get; set; }
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string Description { get; set; }
     }
 }

@@ -9,7 +9,7 @@
     <nz-form-item>
         <nz-form-control nzErrorTip="请输入描述">
             <nz-input-group>
-                <input type="text" nz-input formControlName="description" placeholder="描述" />
+                <textarea nz-input placeholder="描述" formControlName="description" [nzAutosize]="{ minRows: 2, maxRows: 6 }"></textarea>
             </nz-input-group>
         </nz-form-control>
     </nz-form-item>

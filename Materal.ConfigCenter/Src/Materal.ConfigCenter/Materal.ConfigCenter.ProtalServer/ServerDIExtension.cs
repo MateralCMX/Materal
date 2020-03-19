@@ -26,7 +26,7 @@ namespace Materal.ConfigCenter.ProtalServer
             services.AddDbContext<ProtalServerDBContext>(options =>
             {
                 options.UseSqlite(ApplicationConfig.SqliteConfig.ConnectionString);
-            });
+            }, ServiceLifetime.Transient);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.ConfigCenter.ProtalServer.ServiceImpl"))
                 .Where(c => c.Name.EndsWith("ServiceImpl") && !c.Name.Equals("ConfigServerServiceImpl"))
                 .AsPublicImplementedInterfaces();
