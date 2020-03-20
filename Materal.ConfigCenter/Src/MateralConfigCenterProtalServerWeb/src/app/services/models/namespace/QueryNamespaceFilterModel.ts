@@ -7,4 +7,8 @@ export interface QueryNamespaceFilterModel {
      * 项目唯一标识
      */
     ProjectID: string;
+    /**
+     * 描述
+     */
+    Description: string;
 }

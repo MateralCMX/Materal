@@ -9,6 +9,7 @@ using Materal.ConvertHelper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
@@ -76,7 +77,7 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
 
         public async Task<List<ProjectListDTO>> GetProjectListAsync(QueryProjectFilterModel filterModel)
         {
-            List<Project> projectsFromDb = await _projectRepository.FindAsync(filterModel);
+            List<Project> projectsFromDb = await _projectRepository.FindAsync(filterModel, m => m.Name, SortOrder.Ascending);
             var result = _mapper.Map<List<ProjectListDTO>>(projectsFromDb);
             return result;
         }

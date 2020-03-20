@@ -49,6 +49,7 @@ export class ConfigurationItemListComponent implements OnInit {
     this.searchModel = new FormGroup({
       key: new FormControl({ value: null, disabled: this.dataLoading }),
       configServer: new FormControl({ value: null, disabled: this.dataLoading }),
+      description: new FormControl({ value: null, disabled: this.dataLoading })
     });
     this.loadConfigServerData();
   }
@@ -59,7 +60,8 @@ export class ConfigurationItemListComponent implements OnInit {
       if (this.configServers.length > 0) {
         this.searchModel.setValue({
           key: null,
-          configServer: this.configServers[0]
+          configServer: this.configServers[0],
+          description: null
         });
         this.loadProjectData();
       } else {
@@ -71,7 +73,8 @@ export class ConfigurationItemListComponent implements OnInit {
   public loadProjectData() {
     this.dataLoading = true;
     const data: QueryProjectFilterModel = {
-      Name: ''
+      Name: '',
+      Description: ''
     };
     const success = (result: ResultDataModel<ProjectListDTO[]>) => {
       this.projectData = result.Data;
@@ -90,7 +93,8 @@ export class ConfigurationItemListComponent implements OnInit {
     this.dataLoading = true;
     const data: QueryConfigurationItemFilterModel = {
       NamespaceID: this.selectedNamespace.ID,
-      Key: this.searchModel.value.key
+      Key: this.searchModel.value.key,
+      Description: this.searchModel.value.description
     };
     const success = (result: PageResultModel<ConfigurationItemListDTO>) => {
       this.tableData = result.Data;
@@ -135,7 +139,8 @@ export class ConfigurationItemListComponent implements OnInit {
     this.dataLoading = true;
     const data: QueryNamespaceFilterModel = {
       ProjectID: projectID,
-      Name: ''
+      Name: '',
+      Description: ''
     };
     const success = (result: PageResultModel<ProjectListDTO>) => {
       this.namespaceData[projectID] = result.Data;

@@ -16,6 +16,11 @@ namespace Materal.ConfigCenter.ConfigServer.PresentationModel.ConfigurationItem
         [Equal]
         public string Key { get; set; }
         /// <summary>
+        /// 描述
+        /// </summary>
+        [Contains]
+        public string Description { get; set; }
+        /// <summary>
         /// 项目名称
         /// </summary>
         [Equal]

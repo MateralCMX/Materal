@@ -5,7 +5,7 @@
   },
   "ProtalServerConfig": {
     "ProtalUrl": "http://192.168.0.101:8200/",
-    "Name": "Dev"
+    "Name": "DEV"
   },
   "SqliteConfig": {
     "FilePath": "ConfigServerDB.db",

@@ -22,6 +22,11 @@
                         <input type="search" nz-input placeholder="键" formControlName="key" />
                     </nz-form-control>
                 </nz-form-item>
+                <nz-form-item nz-col nzSpan="6">
+                    <nz-form-control>
+                        <input type="search" nz-input placeholder="描述" formControlName="description" />
+                    </nz-form-control>
+                </nz-form-item>
                 <nz-form-item nz-col nzSpan="2">
                     <nz-form-control>
                         <button nz-button nzType="primary" (click)="search()" title="查询"><i nz-icon nzType="search"></i></button>
@@ -74,7 +79,7 @@
         </nz-table>
     </div>
 </div>
-<nz-drawer [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加配置项':'修改配置项'" (nzOnClose)="closeDrawer()">
+<nz-drawer [nzWidth]="720" [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加配置项':'修改配置项'" (nzOnClose)="closeDrawer()">
     <app-configuration-item-edit *ngIf="searchModel.value.configServer" #configurationItemEditComponent [project]="selectedProject" [namespace]="selectedNamespace" [address]="searchModel.value.configServer.Address" (saveEnd)="saveEnd($event)"></app-configuration-item-edit>
 </nz-drawer>
 <nz-modal *ngIf="searchModel.value.configServer" [(nzVisible)]="isCopyConfigServerModalVisible" nzTitle="复制配置服务" [nzOkDisabled]="!canCopyConfigServer" (nzOnCancel)="cancelCopyConfigServer()" (nzOnOk)="copyConfigServer()">

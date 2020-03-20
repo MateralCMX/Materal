@@ -6,10 +6,10 @@ using Materal.ConfigCenter.ProtalServer.PresentationModel.Namespace;
 using Materal.ConfigCenter.ProtalServer.Services;
 using Materal.ConfigCenter.ProtalServer.SqliteEFRepository;
 using Materal.ConvertHelper;
-using Materal.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
@@ -64,7 +64,7 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
 
         public async Task<List<NamespaceListDTO>> GetNamespaceListAsync(QueryNamespaceFilterModel filterModel)
         {
-            List<Namespace> namespacesFromDb = await _namespaceRepository.FindAsync(filterModel);
+            List<Namespace> namespacesFromDb = await _namespaceRepository.FindAsync(filterModel, m=>m.Name, SortOrder.Ascending);
             var result = _mapper.Map<List<NamespaceListDTO>>(namespacesFromDb);
             return result;
         }

@@ -7,4 +7,8 @@ export interface QueryConfigurationItemFilterModel {
      * 键
      */
     Key: string;
+    /**
+     * 描述
+     */
+    Description: string;
 }

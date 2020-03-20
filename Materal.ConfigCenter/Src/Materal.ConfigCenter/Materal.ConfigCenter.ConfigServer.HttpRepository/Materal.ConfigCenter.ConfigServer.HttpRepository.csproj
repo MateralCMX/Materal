@@ -1,7 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Product>Materal.ConfigCenter</Product>
+    <Company>Materal</Company>
+    <Authors>Materal</Authors>
+    <Version>0.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

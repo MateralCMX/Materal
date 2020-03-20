@@ -25,7 +25,8 @@ export class ProjectListComponent implements OnInit {
 
   public ngOnInit() {
     this.searchModel = new FormGroup({
-      name: new FormControl({ value: null, disabled: this.dataLoading })
+      name: new FormControl({ value: null, disabled: this.dataLoading }),
+      description: new FormControl({ value: null, disabled: this.dataLoading })
     });
     this.search();
   }
@@ -37,7 +38,8 @@ export class ProjectListComponent implements OnInit {
   public search() {
     this.dataLoading = true;
     const data: QueryProjectFilterModel = {
-      Name: this.searchModel.value.name
+      Name: this.searchModel.value.name,
+      Description: this.searchModel.value.description
     };
     const success = (result: PageResultModel<ProjectListDTO>) => {
       this.tableData = result.Data;

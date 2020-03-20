@@ -9,5 +9,10 @@ namespace Materal.ConfigCenter.ProtalServer.PresentationModel.Project
         /// </summary>
         [Contains]
         public string Name { get; set; }
+        /// <summary>
+        /// 描述
+        /// </summary>
+        [Contains]
+        public string Description { get; set; }
     }
 }

@@ -18,9 +18,9 @@ namespace Materal.ConfigCenter.Client
         public IConfigurationProvider Build(IConfigurationBuilder builder)
         {
             var materalConfigurationProvider = new MateralConfigurationProvider(_namespaceName);
-            foreach ((string key, string value) in _dictionary)
+            foreach (KeyValuePair<string, string> item in _dictionary)
             {
-                materalConfigurationProvider.Set(key, value);
+                materalConfigurationProvider.Set(item.Key, item.Value);
             }
             return materalConfigurationProvider;
         }

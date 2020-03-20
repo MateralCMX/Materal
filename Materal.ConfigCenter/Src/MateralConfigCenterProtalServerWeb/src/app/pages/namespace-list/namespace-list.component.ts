@@ -32,14 +32,16 @@ export class NamespaceListComponent implements OnInit {
                      private message: NzMessageService, private route: ActivatedRoute) { }
   public ngOnInit() {
     this.searchModel = new FormGroup({
-      name: new FormControl({ value: null, disabled: this.dataLoading })
+      name: new FormControl({ value: null, disabled: this.dataLoading }),
+      description: new FormControl({ value: null, disabled: this.dataLoading })
     });
     this.loadProjectData(this.route.snapshot.paramMap.get('id'));
   }
   public loadProjectData(id: string) {
     this.dataLoading = true;
     const data: QueryProjectFilterModel = {
-      Name: ''
+      Name: '',
+      Description: ''
     };
     const success = (result: PageResultModel<ProjectListDTO>) => {
       this.projectData = result.Data;
@@ -64,7 +66,8 @@ export class NamespaceListComponent implements OnInit {
     this.dataLoading = true;
     const data: QueryNamespaceFilterModel = {
       Name: this.searchModel.value.name,
-      ProjectID: this.selectProjectID
+      ProjectID: this.selectProjectID,
+      Description: this.searchModel.value.description
     };
     const success = (result: ResultDataModel<NamespaceListDTO[]>) => {
       this.tableData = result.Data;
