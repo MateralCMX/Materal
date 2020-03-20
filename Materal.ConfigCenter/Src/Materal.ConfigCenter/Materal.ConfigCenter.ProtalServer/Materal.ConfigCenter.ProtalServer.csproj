@@ -20,4 +20,10 @@
     <ProjectReference Include="..\Materal.ConfigCenter.ProtalServer.SqliteEFRepository\Materal.ConfigCenter.ProtalServer.SqliteEFRepository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ProtalServerDB.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

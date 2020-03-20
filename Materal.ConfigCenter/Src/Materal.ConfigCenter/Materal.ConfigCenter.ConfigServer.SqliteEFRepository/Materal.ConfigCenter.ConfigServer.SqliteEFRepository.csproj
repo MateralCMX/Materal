@@ -9,10 +9,4 @@
     <ProjectReference Include="..\Materal.ConfigCenter.ConfigServer.Domain\Materal.ConfigCenter.ConfigServer.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="ConfigServerDB.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

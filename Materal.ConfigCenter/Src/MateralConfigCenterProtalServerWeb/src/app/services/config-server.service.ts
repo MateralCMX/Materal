@@ -8,6 +8,7 @@ import { ResultDataModel } from './models/result/resultDataModel';
 import { ConfigServerModel } from './models/configServer/ConfigServerModel';
 import { CopyConfigServerModel } from './models/configServer/CopyConfigServerModel';
 import { ResultModel } from './models/result/resultModel';
+import { CopyNamespaceModel } from './models/configServer/CopyNamespaceModel';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,11 @@ export class ConfigServerService extends BasiceService {
    */
   public copyConfigServer(data: CopyConfigServerModel, success?: (value: ResultModel) => void, complete?: () => void) {
     return this.sendPost('/ConfigServer/CopyConfigServer', data, success, null, complete);
+  }
+  /**
+   * 复制命名空间
+   */
+  public copyNamespace(data: CopyNamespaceModel, success?: (value: ResultModel) => void, complete?: () => void) {
+    return this.sendPost('/ConfigServer/CopyNamespace', data, success, null, complete);
   }
 }

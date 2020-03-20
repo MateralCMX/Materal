@@ -34,10 +34,9 @@ namespace Materal.ConfigCenter.ProtalServer.HttpRepository
             await SendGetAsync($"{address}api/ConfigurationItem/DeleteConfigurationItemByNamespaceID", data, heads);
         }
 
-        public async Task<List<ConfigurationItemListDTO>> GetAllConfigurationItemAsync(string address)
+        public async Task<List<ConfigurationItemListDTO>> GetConfigurationItemAsync(QueryConfigurationItemFilterModel filterModel, string address)
         {
-            var data = new QueryConfigurationItemFilterModel();
-            List<ConfigurationItemListDTO> result = await SendPostAsync<List<ConfigurationItemListDTO>>($"{address}api/ConfigurationItem/GetConfigurationItemList", data);
+            List<ConfigurationItemListDTO> result = await SendPostAsync<List<ConfigurationItemListDTO>>($"{address}api/ConfigurationItem/GetConfigurationItemList", filterModel);
             return result;
         }
 
@@ -46,6 +45,13 @@ namespace Materal.ConfigCenter.ProtalServer.HttpRepository
             Dictionary<string, string> heads = GetDefaultHeads();
             heads["Authorization"] = $"Bearer {token}";
             await SendPostAsync($"{address}api/ConfigurationItem/InitConfigurationItems", model, heads);
+        }
+
+        public async Task InitConfigurationItemsByNamespaceAsync(string address, string token, InitConfigurationItemsByNamespaceModel model)
+        {
+            Dictionary<string, string> heads = GetDefaultHeads();
+            heads["Authorization"] = $"Bearer {token}";
+            await SendPostAsync($"{address}api/ConfigurationItem/InitConfigurationItemsByNamespace", model, heads);
         }
     }
 }

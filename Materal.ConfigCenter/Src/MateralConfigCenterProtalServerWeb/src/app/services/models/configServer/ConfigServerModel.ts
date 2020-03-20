@@ -1,4 +1,4 @@
-export class ConfigServerModel {
+export interface ConfigServerModel {
     /**
      * 名称
      */

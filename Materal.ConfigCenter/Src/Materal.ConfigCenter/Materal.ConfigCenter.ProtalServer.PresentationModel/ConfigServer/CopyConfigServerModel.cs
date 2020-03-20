@@ -1,4 +1,4 @@
-﻿namespace Materal.ConfigCenter.ProtalServer.Controllers.Models
+﻿namespace Materal.ConfigCenter.ProtalServer.PresentationModel.ConfigServer
 {
     public class CopyConfigServerModel
     {

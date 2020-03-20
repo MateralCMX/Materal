@@ -6,14 +6,13 @@ using Materal.ConfigCenter.ConfigServer.PresentationModel.ConfigurationItem;
 using Materal.ConfigCenter.ConfigServer.Services;
 using Materal.ConfigCenter.ConfigServer.SqliteEFRepository;
 using Materal.ConvertHelper;
+using Materal.LinqHelper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Materal.LinqHelper;
 
 namespace Materal.ConfigCenter.ConfigServer.ServiceImpl
 {
@@ -37,6 +36,21 @@ namespace Materal.ConfigCenter.ConfigServer.ServiceImpl
                 _protalServerUnitOfWork.RegisterDelete(configurationItem);
             }
             foreach (AddConfigurationItemModel itemModel in model)
+            {
+                var configurationItem = itemModel.CopyProperties<ConfigurationItem>();
+                _protalServerUnitOfWork.RegisterAdd(configurationItem);
+            }
+            await _protalServerUnitOfWork.CommitAsync();
+        }
+
+        public async Task InitConfigurationItemsByNamespaceAsync(InitConfigurationItemsByNamespaceModel model)
+        {
+            List<ConfigurationItem> allConfigurationItems = await _configurationItemRepository.FindAsync(m => m.NamespaceID == model.NamespaceID);
+            foreach (ConfigurationItem configurationItem in allConfigurationItems)
+            {
+                _protalServerUnitOfWork.RegisterDelete(configurationItem);
+            }
+            foreach (AddConfigurationItemModel itemModel in model.ConfigurationItems)
             {
                 var configurationItem = itemModel.CopyProperties<ConfigurationItem>();
                 _protalServerUnitOfWork.RegisterAdd(configurationItem);

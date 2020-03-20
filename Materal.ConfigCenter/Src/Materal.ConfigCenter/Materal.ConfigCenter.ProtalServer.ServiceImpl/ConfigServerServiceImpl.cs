@@ -48,14 +48,30 @@ namespace Materal.ConfigCenter.ProtalServer.ServiceImpl
             return _configServers.Select(m => m.Value).OrderBy(m => m.Name).ToList();
         }
 
-        public async Task CopyConfigServer(string name, string[] targetNames, string token)
+        public async Task CopyConfigServer(CopyConfigServerModel model, string token)
         {
-            if (!_configServers.ContainsKey(name)) throw new MateralConfigCenterException($"服务{name}不存在");
-            List<ConfigurationItemListDTO> configurationItems = await _configServerRepository.GetAllConfigurationItemAsync(_configServers[name].Address);
+            if (!_configServers.ContainsKey(model.SourceConfigServerName)) throw new MateralConfigCenterException($"服务{model.SourceConfigServerName}不存在");
+            var filterModel = new QueryConfigurationItemFilterModel();
+            List<ConfigurationItemListDTO> configurationItems = await _configServerRepository.GetConfigurationItemAsync(filterModel, _configServers[model.SourceConfigServerName].Address);
             var addModels = _mapper.Map<List<AddConfigurationItemModel>>(configurationItems);
-            RunTask(configServer => _configServerRepository.InitConfigurationItemsAsync(configServer.Address, token, addModels), targetNames);
+            RunTask(configServer => _configServerRepository.InitConfigurationItemsAsync(configServer.Address, token, addModels), model.TargetConfigServerNames);
         }
 
+        public async Task CopyNamespace(CopyNamespaceModel model, string token)
+        {
+            if (!_configServers.ContainsKey(model.SourceConfigServerName)) throw new MateralConfigCenterException($"服务{model.SourceConfigServerName}不存在");
+            var filterModel = new QueryConfigurationItemFilterModel
+            {
+                NamespaceID = model.NamespaceID
+            };
+            List<ConfigurationItemListDTO> configurationItems = await _configServerRepository.GetConfigurationItemAsync(filterModel, _configServers[model.SourceConfigServerName].Address);
+            var addModel = new InitConfigurationItemsByNamespaceModel
+            {
+                ConfigurationItems = _mapper.Map<List<AddConfigurationItemModel>>(configurationItems),
+                NamespaceID = model.NamespaceID
+            };
+            RunTask(configServer => _configServerRepository.InitConfigurationItemsByNamespaceAsync(configServer.Address, token, addModel), model.TargetConfigServerNames);
+        }
         #region 私有方法
         /// <summary>
         /// 健康检查定时器

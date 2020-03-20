@@ -2,7 +2,6 @@
 using DotNetty.Codecs.Http;
 using DotNetty.Common.Utilities;
 using Materal.ConfigCenter.ControllerCore;
-using Materal.ConfigCenter.ProtalServer.Controllers.Models;
 using Materal.ConfigCenter.ProtalServer.PresentationModel.ConfigServer;
 using Materal.ConfigCenter.ProtalServer.Services;
 using Materal.ConfigCenter.ProtalServer.Services.Models;
@@ -82,7 +81,30 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
             try
             {
                 string token = GetToken();
-                await _configServerService.CopyConfigServer(model.SourceConfigServerName, model.TargetConfigServerNames, token);
+                await _configServerService.CopyConfigServer(model, token);
+                return ResultModel.Success("复制成功");
+            }
+            catch (AspectInvocationException ex)
+            {
+                return ResultModel.Fail(ex.InnerException?.Message);
+            }
+            catch (MateralConfigCenterException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 复制命名空间
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ResultModel> CopyNamespace(CopyNamespaceModel model)
+        {
+            try
+            {
+                string token = GetToken();
+                await _configServerService.CopyNamespace(model, token);
                 return ResultModel.Success("复制成功");
             }
             catch (AspectInvocationException ex)

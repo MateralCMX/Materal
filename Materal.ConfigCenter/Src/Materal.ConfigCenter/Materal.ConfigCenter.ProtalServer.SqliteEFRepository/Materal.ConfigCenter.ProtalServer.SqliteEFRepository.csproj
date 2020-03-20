@@ -8,11 +8,5 @@
     <ProjectReference Include="..\Materal.ConfigCenter.ProtalServer.Common\Materal.ConfigCenter.ProtalServer.Common.csproj" />
     <ProjectReference Include="..\Materal.ConfigCenter.ProtalServer.Domain\Materal.ConfigCenter.ProtalServer.Domain.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <None Update="ProtalServerDB.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 
 </Project>

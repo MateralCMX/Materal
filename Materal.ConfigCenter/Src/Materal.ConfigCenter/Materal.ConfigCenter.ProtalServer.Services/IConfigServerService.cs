@@ -36,9 +36,14 @@ namespace Materal.ConfigCenter.ProtalServer.Services
         /// <summary>
         /// 复制配置服务
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="targetNames"></param>
+        /// <param name="model"></param>
         /// <param name="token"></param>
-        Task CopyConfigServer(string name, string[] targetNames, string token);
+        Task CopyConfigServer(CopyConfigServerModel model, string token);
+        /// <summary>
+        /// 复制配置服务
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="token"></param>
+        Task CopyNamespace(CopyNamespaceModel model, string token);
     }
 }

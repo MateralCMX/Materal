@@ -3,7 +3,7 @@
     <nz-page-header-subtitle>Materal-ConfigCenter</nz-page-header-subtitle>
     <nz-page-header-extra>
         <nz-button-group>
-            <button nz-button [disabled]="dataLoading || !searchModel.value.configServer" (click)="openCopyConfigServer()" title="复制配置服务"><i nz-icon nzType="logout"></i></button>
+            <button nz-button [disabled]="dataLoading || !searchModel.value.configServer" (click)="openCopyConfigServer(null)" title="复制配置服务"><i nz-icon nzType="logout"></i></button>
             <button nz-button [disabled]="dataLoading || !selectedNamespace" (click)="openDrawer(null)" title="新增配置项"><i nz-icon nzType="plus"></i></button>
         </nz-button-group>
     </nz-page-header-extra>
@@ -40,6 +40,7 @@
                         <ng-template #namespaceItem let-item>
                             <nz-list-item>
                                 <label nz-radio [nzValue]="item">{{item.Name}}</label>
+                                <button nz-button (click)="openCopyConfigServer(item)" title="复制命名空间"><i nz-icon nzType="logout"></i></button>
                             </nz-list-item>
                         </ng-template>
                     </nz-list>
@@ -84,5 +85,5 @@
         <div nz-col nzSpan="12">
             <nz-checkbox-group [(ngModel)]="checkConfigServers" (ngModelChange)="selectCopyConfigServer()"></nz-checkbox-group>
         </div>
-      </div>
+    </div>
 </nz-modal>

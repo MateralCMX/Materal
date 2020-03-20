@@ -18,6 +18,7 @@ import { ConfigServerService } from 'src/app/services/config-server.service';
 import { ResultDataModel } from 'src/app/services/models/result/resultDataModel';
 import { NamespaceListDTO } from 'src/app/services/models/namespace/NamespaceListDTO';
 import { CopyConfigServerModel } from 'src/app/services/models/configServer/CopyConfigServerModel';
+import { CopyNamespaceModel } from 'src/app/services/models/configServer/CopyNamespaceModel';
 
 @Component({
   selector: 'app-configuration-item-list',
@@ -40,6 +41,7 @@ export class ConfigurationItemListComponent implements OnInit {
   public isCopyConfigServerModalVisible = false;
   public checkConfigServers = [];
   public canCopyConfigServer = false;
+  public isCopyNamespace = false;
   public constructor(private projectService: ProjectService, private namespaceService: NamespaceService,
                      private configServiceService: ConfigServerService, private configurationItemService: ConfigurationItemService,
                      private message: NzMessageService) { }
@@ -150,13 +152,11 @@ export class ConfigurationItemListComponent implements OnInit {
   }
   public copyConfigServer() {
     this.dataLoading = true;
-    const data: CopyConfigServerModel = {
-      SourceConfigServerName: this.searchModel.value.configServer.Name,
-      TargetConfigServerNames: []
-    };
+    let data: CopyConfigServerModel | CopyNamespaceModel;
+    const targetConfigServerNames: string[] = [];
     for (const configServer of this.checkConfigServers) {
       if (configServer.checked) {
-        data.TargetConfigServerNames.push(configServer.value.Name);
+        targetConfigServerNames.push(configServer.value.Name);
       }
     }
     const success = (result: ResultModel) => {
@@ -166,9 +166,29 @@ export class ConfigurationItemListComponent implements OnInit {
     const complete = () => {
       this.dataLoading = false;
     };
-    this.configServiceService.copyConfigServer(data, success, complete);
+    if (this.isCopyNamespace) {
+      data = {
+        SourceConfigServerName: this.searchModel.value.configServer.Name,
+        TargetConfigServerNames: targetConfigServerNames,
+        NamespaceID: this.selectedNamespace.ID
+      };
+      this.configServiceService.copyNamespace(data, success, complete);
+    } else {
+      data = {
+        SourceConfigServerName: this.searchModel.value.configServer.Name,
+        TargetConfigServerNames: targetConfigServerNames
+      };
+      this.configServiceService.copyConfigServer(data, success, complete);
+    }
   }
-  public openCopyConfigServer() {
+  public openCopyConfigServer(data: NamespaceListDTO) {
+    if (data) {
+      this.selectedNamespace = data;
+      this.search();
+      this.isCopyNamespace = true;
+    } else {
+      this.isCopyNamespace = false;
+    }
     this.checkConfigServers = [];
     this.configServers.forEach(configserver => {
       if (configserver !== this.searchModel.value.configServer) {

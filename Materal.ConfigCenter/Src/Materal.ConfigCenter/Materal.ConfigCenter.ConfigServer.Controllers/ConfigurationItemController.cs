@@ -63,6 +63,28 @@ namespace Materal.ConfigCenter.ConfigServer.Controllers
             }
         }
         /// <summary>
+        /// 初始化配置项
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ResultModel> InitConfigurationItemsByNamespace(InitConfigurationItemsByNamespaceModel model)
+        {
+            try
+            {
+                await configurationItemService.InitConfigurationItemsByNamespaceAsync(model);
+                return ResultModel.Success("添加成功");
+            }
+            catch (AspectInvocationException ex)
+            {
+                return ResultModel.Fail(ex.InnerException?.Message);
+            }
+            catch (MateralConfigCenterException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
+        }
+        /// <summary>
         /// 修改配置项
         /// </summary>
         /// <param name="model"></param>

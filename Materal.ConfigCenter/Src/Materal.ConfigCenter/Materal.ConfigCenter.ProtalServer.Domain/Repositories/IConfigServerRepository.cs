@@ -33,9 +33,10 @@ namespace Materal.ConfigCenter.ProtalServer.Domain.Repositories
         /// <summary>
         /// 获得所有配置项
         /// </summary>
+        /// <param name="filterModel"></param>
         /// <param name="address"></param>
         /// <returns></returns>
-        Task<List<ConfigurationItemListDTO>> GetAllConfigurationItemAsync(string address);
+        Task<List<ConfigurationItemListDTO>> GetConfigurationItemAsync(QueryConfigurationItemFilterModel filterModel, string address);
         /// <summary>
         /// 初始化配置项
         /// </summary>
@@ -44,5 +45,13 @@ namespace Materal.ConfigCenter.ProtalServer.Domain.Repositories
         /// <param name="token"></param>
         /// <returns></returns>
         Task InitConfigurationItemsAsync(string address, string token, List<AddConfigurationItemModel> model);
+        /// <summary>
+        /// 初始化配置项
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="address"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        Task InitConfigurationItemsByNamespaceAsync(string address, string token, InitConfigurationItemsByNamespaceModel model);
     }
 }

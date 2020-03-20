@@ -21,4 +21,10 @@
     <ProjectReference Include="..\Materal.ConfigCenter.ConfigServer.SqliteEFRepository\Materal.ConfigCenter.ConfigServer.SqliteEFRepository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ConfigServerDB.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
