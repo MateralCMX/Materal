@@ -22,6 +22,7 @@ namespace Materal.ConfigCenter.ProtalServer
         /// <param name="services"></param>
         public static void AddServer(this IServiceCollection services)
         {
+            FileHandler.HtmlPageFolderPath = "HtmlPages";
             MateralConfig.PageStartNumber = 1;
             services.AddDbContext<ProtalServerDBContext>(options =>
             {
@@ -40,6 +41,7 @@ namespace Materal.ConfigCenter.ProtalServer
             services.AddAutoMapperService(Assembly.Load("Materal.ConfigCenter.ProtalServer.ServiceImpl"));
             services.AddTransient<IProtalServerUnitOfWork, ProtalServerSqliteEFUnitOfWorkImpl>();
             services.AddTransient<WebAPIHandler>();
+            services.AddTransient<FileHandler>();
             services.AddControllerBus(options =>
             {
                 options.AddFilter<ExceptionFilter>();

@@ -4,9 +4,8 @@
     "Port": 8200
   },
   "SqliteConfig": {
-    "FilePath": "E:\\Project\\Materal\\Project\\Materal.ConfigCenter\\Src\\Materal.ConfigCenter\\Materal.ConfigCenter.ProtalServer.SqliteEFRepository\\ProtalServerDB.db",
-    "Password": "",
-    "Version": ""
+    "FilePath": "ProtalServerDB.db",
+    "Password": ""
   },
   "JWT": {
     "Key": "MateralCMXConfig",

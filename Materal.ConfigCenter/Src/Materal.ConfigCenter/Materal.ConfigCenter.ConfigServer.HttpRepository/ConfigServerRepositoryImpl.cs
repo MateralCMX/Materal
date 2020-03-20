@@ -13,9 +13,9 @@ namespace Materal.ConfigCenter.ConfigServer.HttpRepository
             heads["Referer"] = $"http://{ApplicationConfig.ServerConfig.Host}:{ApplicationConfig.ServerConfig.Port}/";
             var data = new Dictionary<string, string>
             {
-                ["name"] = ApplicationConfig.ConfigServerConfig.Name
+                ["name"] = ApplicationConfig.ProtalServerConfig.Name
             };
-            await SendGetAsync($"{ApplicationConfig.ConfigServerConfig.ProtalUrl}api/ConfigServer/Register", data, heads);
+            await SendGetAsync($"{ApplicationConfig.ProtalServerConfig.ProtalUrl}api/ConfigServer/Register", data, heads);
         }
         /// <summary>
         /// 健康检查
@@ -23,7 +23,7 @@ namespace Materal.ConfigCenter.ConfigServer.HttpRepository
         /// <returns></returns>
         public async Task HealthAsync()
         {
-            await SendGetAsync($"{ApplicationConfig.ConfigServerConfig.ProtalUrl}api/Health/Health");
+            await SendGetAsync($"{ApplicationConfig.ProtalServerConfig.ProtalUrl}api/Health/Health");
         }
     }
 }

@@ -12,7 +12,7 @@
             <div nz-row nzGutter="24">
                 <nz-form-item nz-col nzSpan="6" *ngIf="configServers.length > 0">
                     <nz-form-control>
-                        <nz-select formControlName="configServer" nzPlaceHolder="目标环境" (ngModelChange)="onChangeConfigServer($event)">
+                        <nz-select formControlName="configServer" nzPlaceHolder="目标环境" (ngModelChange)="onChangeConfigServer()">
                             <nz-option *ngFor="let item of configServers" [nzValue]="item" [nzLabel]="item.Name"></nz-option>
                         </nz-select>
                     </nz-form-control>
@@ -35,7 +35,7 @@
     <div nz-col nzSpan="4">
         <nz-collapse nzAccordion="true">
             <nz-collapse-panel *ngFor="let data of projectData" [nzDisabled]="dataLoading" [nzHeader]="data.Name" (nzActiveChange)="onProjectActiveChange($event, data)">
-                <nz-radio-group *ngIf="this.namespaceData[data.ID]" [(ngModel)]="selectedNamespace" (ngModelChange)="selectNamespace($event)">
+                <nz-radio-group *ngIf="this.namespaceData[data.ID]" [(ngModel)]="selectedNamespace" (ngModelChange)="selectNamespace()">
                     <nz-list [nzDataSource]="this.namespaceData[data.ID]" [nzRenderItem]="namespaceItem">
                         <ng-template #namespaceItem let-item>
                             <nz-list-item>

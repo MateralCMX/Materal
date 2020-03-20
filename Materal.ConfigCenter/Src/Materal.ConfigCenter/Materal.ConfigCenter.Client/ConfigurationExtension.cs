@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Reflection;
 using Materal.ConvertHelper;
 using Microsoft.Extensions.Configuration;
 
@@ -15,8 +17,30 @@ namespace Materal.ConfigCenter.Client
         }
         public static T GetValue<T>(this IConfiguration configuration, string key, string @namespace = null)
         {
-            string json = GetValue(configuration, key, @namespace);
-            return string.IsNullOrEmpty(json) ? default : json.JsonToObject<T>();
+            string value = GetValue(configuration, key, @namespace);
+            if (string.IsNullOrEmpty(value)) return default;
+            T result;
+            Type tType = typeof(T);
+            try
+            {
+                if (value.CanConvertTo(tType))
+                {
+                    result = value.ConvertTo<T>();
+                }
+                else if (tType.GetCustomAttribute<SerializableAttribute>() != null)
+                {
+                    result = value.JsonToDeserializeObject<T>();
+                }
+                else
+                {
+                    result = value.JsonToObject<T>();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new MateralConfigCenterException("数据转换失败", ex);
+            }
+            return result;
         }
     }
 }

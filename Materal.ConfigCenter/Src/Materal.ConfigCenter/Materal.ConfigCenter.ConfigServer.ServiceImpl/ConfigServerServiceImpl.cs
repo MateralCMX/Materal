@@ -66,7 +66,7 @@ namespace Materal.ConfigCenter.ConfigServer.ServiceImpl
             {
                 try
                 {
-                    ConsoleHelper.ServerWriteLine($"开始向Protal注册服务{ApplicationConfig.ConfigServerConfig.Name}");
+                    ConsoleHelper.ServerWriteLine($"开始向Protal注册服务{ApplicationConfig.ProtalServerConfig.Name}");
                     await _configServerRepository.RegisterAsync();
                     ConsoleHelper.ServerWriteLine("注册成功");
                     if (!healthTimer.Enabled)

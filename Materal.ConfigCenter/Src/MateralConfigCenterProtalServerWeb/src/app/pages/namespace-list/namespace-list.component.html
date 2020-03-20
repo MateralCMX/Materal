@@ -25,7 +25,7 @@
 </nz-page-header>
 <div nz-row>
     <div nz-col nzSpan="4">
-        <nz-radio-group [(ngModel)]="selectProjectID" (ngModelChange)="selectProject($event)">
+        <nz-radio-group [(ngModel)]="selectProjectID" (ngModelChange)="selectProject()">
             <nz-list [nzDataSource]="projectData" nzBordered nzHeader="项目列表" [nzRenderItem]="projectItem">
                 <ng-template #projectItem let-item>
                     <nz-list-item>

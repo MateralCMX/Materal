@@ -49,14 +49,14 @@ namespace Materal.ConfigCenter.ConfigServer.Common
             Host = Configuration["ServerConfig:Host"],
             Port = Convert.ToInt32(Configuration["ServerConfig:Port"])
         });
-        private static ConfigServerConfigModel _configServerConfig;
+        private static ProtalServerConfigModel _protalServerConfig;
         /// <summary>
         /// 配置服务
         /// </summary>
-        public static ConfigServerConfigModel ConfigServerConfig => _configServerConfig ?? (_configServerConfig = new ConfigServerConfigModel
+        public static ProtalServerConfigModel ProtalServerConfig => _protalServerConfig ?? (_protalServerConfig = new ProtalServerConfigModel
         {
-            ProtalUrl = Configuration["ConfigServerConfig:ProtalUrl"],
-            Name = Configuration["ConfigServerConfig:Name"]
+            ProtalUrl = Configuration["ProtalServerConfig:ProtalUrl"],
+            Name = Configuration["ProtalServerConfig:Name"]
         });
         private static SqliteConfigModel _sqliteConfig;
         /// <summary>

@@ -25,6 +25,7 @@ namespace Materal.ConfigCenter.ProtalServer
                     dotNettyServer.OnSubMessage += (message, subTitle) => ConsoleHelper.ServerWriteLine(message, subTitle);
                     await dotNettyServer.RunAsync(ApplicationConfig.ServerConfig);
                     ConsoleHelper.ServerWriteLine($"已监听http://{ApplicationConfig.ServerConfig.Host}:{ApplicationConfig.ServerConfig.Port}/api");
+                    ConsoleHelper.ServerWriteLine($"已监听http://{ApplicationConfig.ServerConfig.Host}:{ApplicationConfig.ServerConfig.Port}");
                     ConsoleHelper.ServerWriteLine("输入Stop停止服务");
                     string inputKey = string.Empty;
                     while (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
@@ -51,6 +52,7 @@ namespace Materal.ConfigCenter.ProtalServer
         private static void DotNettyServer_OnConfigHandler(IServerChannelHandler channelHandler)
         {
             channelHandler.AddLastHandler(ApplicationService.GetService<WebAPIHandler>());
+            channelHandler.AddLastHandler(ApplicationService.GetService<FileHandler>());
         }
         #region 私有方法
         /// <summary>

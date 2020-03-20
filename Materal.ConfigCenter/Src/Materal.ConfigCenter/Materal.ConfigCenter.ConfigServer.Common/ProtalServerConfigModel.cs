@@ -1,6 +1,6 @@
 ﻿namespace Materal.ConfigCenter.ConfigServer.Common
 {
-    public class ConfigServerConfigModel
+    public class ProtalServerConfigModel
     {
         /// <summary>
         /// 入口Url
