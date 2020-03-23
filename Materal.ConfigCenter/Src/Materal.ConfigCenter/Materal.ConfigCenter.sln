@@ -55,8 +55,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter.Config
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.ConfigCenter.ConfigServer.PresentationModel", "Materal.ConfigCenter.ConfigServer.PresentationModel\Materal.ConfigCenter.ConfigServer.PresentationModel.csproj", "{F0FC7466-40E7-4952-92BD-29F316BA1DB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Example", "Materal.Example\Materal.Example.csproj", "{F9D496C3-D9C8-4355-A2AA-6A8D85BE1775}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,10 +153,6 @@ Global
 		{F0FC7466-40E7-4952-92BD-29F316BA1DB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0FC7466-40E7-4952-92BD-29F316BA1DB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0FC7466-40E7-4952-92BD-29F316BA1DB3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9D496C3-D9C8-4355-A2AA-6A8D85BE1775}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9D496C3-D9C8-4355-A2AA-6A8D85BE1775}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9D496C3-D9C8-4355-A2AA-6A8D85BE1775}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9D496C3-D9C8-4355-A2AA-6A8D85BE1775}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -185,7 +179,6 @@ Global
 		{F6FD5432-1784-445A-BF4D-48F2030DB718} = {515341EA-4C1D-426D-87D1-20A0B5D11496}
 		{8D2531C3-5FF3-478C-846A-7747665449AD} = {515341EA-4C1D-426D-87D1-20A0B5D11496}
 		{F0FC7466-40E7-4952-92BD-29F316BA1DB3} = {515341EA-4C1D-426D-87D1-20A0B5D11496}
-		{F9D496C3-D9C8-4355-A2AA-6A8D85BE1775} = {3E66FE48-36EE-4E2B-B6D7-4E482CC5D7F6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADC5F408-170E-4DCC-A816-42214D12FF51}
