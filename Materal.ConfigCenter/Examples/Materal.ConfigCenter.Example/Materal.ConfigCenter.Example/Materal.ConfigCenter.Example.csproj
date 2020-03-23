@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Materal.ConfigCenter.Client\Materal.ConfigCenter.Client.csproj" />
+    <PackageReference Include="Materal.ConfigCenter.Client" Version="0.0.4" />
   </ItemGroup>
 
 </Project>
