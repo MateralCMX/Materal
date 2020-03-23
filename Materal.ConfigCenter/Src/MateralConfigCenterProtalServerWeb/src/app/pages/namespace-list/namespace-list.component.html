@@ -34,7 +34,7 @@
             <nz-list [nzDataSource]="projectData" nzBordered nzHeader="项目列表" [nzRenderItem]="projectItem">
                 <ng-template #projectItem let-item>
                     <nz-list-item>
-                        <label nz-radio [nzValue]="item.ID">{{item.Name}}</label>
+                        <label class="ellipsis" nz-radio [nzValue]="item.ID" [title]="item.Name+'['+item.Description+']'">{{item.Name}}[{{item.Description}}]</label>
                     </nz-list-item>
                 </ng-template>
             </nz-list>
@@ -46,7 +46,7 @@
                 <tr>
                     <th>名称</th>
                     <th>描述</th>
-                    <th>操作</th>
+                    <th nzWidth="100px">操作</th>
                 </tr>
             </thead>
             <tbody>

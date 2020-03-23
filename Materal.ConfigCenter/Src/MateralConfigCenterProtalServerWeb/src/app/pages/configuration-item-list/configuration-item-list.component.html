@@ -39,13 +39,16 @@
 <div nz-row>
     <div nz-col nzSpan="4">
         <nz-collapse nzAccordion="true">
-            <nz-collapse-panel *ngFor="let data of projectData" [nzDisabled]="dataLoading" [nzHeader]="data.Name" (nzActiveChange)="onProjectActiveChange($event, data)">
+            <nz-collapse-panel *ngFor="let data of projectData" [nzDisabled]="dataLoading" [title]="data.Name+'['+data.Description+']'" [nzHeader]="projectItem" (nzActiveChange)="onProjectActiveChange($event, data)">
+                <ng-template #projectItem>
+                    <span class="ellipsis projectItem">{{data.Name}}[{{data.Description}}]</span>                    
+                </ng-template>
                 <nz-radio-group *ngIf="this.namespaceData[data.ID]" [(ngModel)]="selectedNamespace" (ngModelChange)="selectNamespace()">
                     <nz-list [nzDataSource]="this.namespaceData[data.ID]" [nzRenderItem]="namespaceItem">
                         <ng-template #namespaceItem let-item>
-                            <nz-list-item>
-                                <label nz-radio [nzValue]="item">{{item.Name}}</label>
-                                <button nz-button (click)="openCopyConfigServer(item)" title="复制命名空间"><i nz-icon nzType="logout"></i></button>
+                            <nz-list-item class="list-item">
+                                <label class="ellipsis list-item-namespace-name" nz-radio [nzValue]="item" [title]="item.Name+'['+item.Description+']'"><span>{{item.Name}}[{{item.Description}}]</span></label>
+                                <button class="list-item-button" nz-button (click)="openCopyConfigServer(item)" title="复制命名空间"><i nz-icon nzType="logout"></i></button>
                             </nz-list-item>
                         </ng-template>
                     </nz-list>
@@ -57,10 +60,10 @@
         <nz-table #filterTable nzFrontPagination="false" [nzData]="tableData" [nzLoading]="dataLoading">
             <thead>
                 <tr>
-                    <th>键</th>
+                    <th nzWidth="200px">键</th>
                     <th>值</th>
-                    <th>描述</th>
-                    <th>操作</th>
+                    <th nzWidth="250px">描述</th>
+                    <th nzWidth="100px">操作</th>
                 </tr>
             </thead>
             <tbody>

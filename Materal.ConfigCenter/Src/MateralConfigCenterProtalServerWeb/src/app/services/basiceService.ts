@@ -10,7 +10,7 @@ export class BasiceService {
     public baseUrl = 'http://116.55.251.31:8200/api';
     constructor(protected route: Router, protected http: HttpClient, protected message: NzMessageService,
                 protected authorityCommon: AuthorityCommon) {
-        this.baseUrl = `${location.origin}/api`;
+        // this.baseUrl = `${location.origin}/api`;
     }
     /**
      * 发送Get请求
