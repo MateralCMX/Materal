@@ -64,6 +64,6 @@
         </nz-table>
     </div>
 </div>
-<nz-drawer [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加命名空间':'修改命名空间'" (nzOnClose)="closeDrawer()">
+<nz-drawer [nzWidth]="720" [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加命名空间':'修改命名空间'" (nzOnClose)="closeDrawer()">
     <app-namespace-edit #namespaceEditComponent [projectID]="selectProjectID" (saveEnd)="saveEnd($event)"></app-namespace-edit>
 </nz-drawer>

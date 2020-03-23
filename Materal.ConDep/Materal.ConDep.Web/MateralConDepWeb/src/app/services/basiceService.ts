@@ -8,9 +8,8 @@ import { AuthorityCommon } from '../components/authority-common';
 
 export class BasiceService {
     public baseUrl = 'http://116.55.251.31:8800/api';
-    // public baseUrl = 'http://192.168.0.101:8800/api';
-    constructor(protected route: Router, protected http: HttpClient, protected message: NzMessageService,
-                protected authorityCommon: AuthorityCommon) {
+    constructor(protected route: Router, protected http: HttpClient, protected message: NzMessageService, protected authorityCommon: AuthorityCommon) {
+        this.baseUrl = `${location.origin}/api`;
     }
     /**
      * 发送Get请求
@@ -21,9 +20,9 @@ export class BasiceService {
      * @param complete 都执行回调
      */
     protected sendGet<T>(url: string, data: T,
-                         success?: (value: ResultModel) => void,
-                         fail?: (value: ResultModel) => void,
-                         complete?: () => void): void {
+        success?: (value: ResultModel) => void,
+        fail?: (value: ResultModel) => void,
+        complete?: () => void): void {
         url = `${this.baseUrl}${url}`;
         const headers = this.getHttpHeaders();
         const options = { headers };
@@ -55,9 +54,9 @@ export class BasiceService {
      * @param complete 都执行回调
      */
     protected sendPost<T>(url: string, data: T,
-                          success?: (value: ResultModel) => void,
-                          fail?: (value: ResultModel) => void,
-                          complete?: () => void): void {
+        success?: (value: ResultModel) => void,
+        fail?: (value: ResultModel) => void,
+        complete?: () => void): void {
         url = `${this.baseUrl}${url}`;
         const headers = this.getHttpHeaders();
         this.http.post<ResultModel>(url, data, { headers }).subscribe(result => {

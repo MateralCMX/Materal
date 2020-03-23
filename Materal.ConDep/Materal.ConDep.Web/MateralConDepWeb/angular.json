@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/Manage",
+            "outputPath": "E:\\Project\\Materal\\Application\\Materal.ConDep\\Application\\Manage",
             "index": "src/index.html",
             "main": "src/main.ts",
             "baseHref": "/Manage/",

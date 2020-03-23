@@ -6,7 +6,6 @@ import { ProjectListDTO } from 'src/app/services/models/project/ProjectListDTO';
 import { ProjectService } from 'src/app/services/project.service';
 import { ConfigurationItemService } from 'src/app/services/configuration-item.service';
 import { NzMessageService } from 'ng-zorro-antd';
-import { ActivatedRoute } from '@angular/router';
 import { QueryProjectFilterModel } from 'src/app/services/models/project/QueryProjectFilterModel';
 import { PageResultModel } from 'src/app/services/models/result/pageResultModel';
 import { QueryConfigurationItemFilterModel } from 'src/app/services/models/configurationItem/QueryConfigurationItemFilterModel';

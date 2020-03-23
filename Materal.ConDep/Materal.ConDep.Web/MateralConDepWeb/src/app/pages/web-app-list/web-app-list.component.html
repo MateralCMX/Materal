@@ -52,6 +52,6 @@
         </tr>
     </tbody>
 </nz-table>
-<nz-drawer [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加Web应用':'修改Web应用'" (nzOnClose)="closeDrawer()">
+<nz-drawer [nzWidth]="720" [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加Web应用':'修改Web应用'" (nzOnClose)="closeDrawer()">
     <app-web-app-edit  #webAppEditComponent (saveEnd)="saveEnd($event)"></app-web-app-edit>
 </nz-drawer>

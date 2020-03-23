@@ -85,7 +85,7 @@
         </tr>
     </tbody>
 </nz-table>
-<nz-drawer [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加应用':'修改应用'" (nzOnClose)="closeDrawer()">
+<nz-drawer [nzWidth]="720" [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加应用':'修改应用'" (nzOnClose)="closeDrawer()">
     <app-app-edit #appEditComponent (saveEnd)="saveEnd($event)"></app-app-edit>
 </nz-drawer>
 <nz-modal [(nzVisible)]="modalVisible" nzTitle="控制台消息" nzCancelText="关闭" nzWidth="90%" [nzFooter]="modalFooter" (nzOnCancel)="closeModal()">

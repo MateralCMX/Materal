@@ -31,6 +31,6 @@
 <div class="data-panel">
     <app-project-item *ngFor="let data of tableData" [data]="data" (deleteProject)="deleteProject($event)" (editProject)="openDrawer($event)"></app-project-item>
 </div>
-<nz-drawer [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加项目':'修改项目'" (nzOnClose)="closeDrawer()">
+<nz-drawer [nzWidth]="720" [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加项目':'修改项目'" (nzOnClose)="closeDrawer()">
     <app-project-edit #projectEditComponent (saveEnd)="saveEnd($event)"></app-project-edit>
 </nz-drawer>
