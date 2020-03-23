@@ -1,28 +1,45 @@
-﻿using System.Threading.Tasks;
+﻿using System.Text;
+using System.Threading.Tasks;
 using Materal.ConfigCenter.Client;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Materal.Example
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
-            IMateralConfigurationBuilder configurationBuilder = new MateralConfigurationBuilder("http://192.168.0.101:8201/", "TestProject")
-                .AddDefaultNamespace()
-                .AddNamespace("TestNamespace");
-            IConfiguration configuration = await configurationBuilder.BuildMateralConfigAsync();
-            string testConfig11 = configuration.GetValue("TestConfig", "Application");
-            string testConfig12 = configuration.GetValue("TestConfig", "TestNamespace");
-            string testConfig2 = configuration.GetValue("TestConfig2");
-
-            IMateralConfigurationBuilder configurationBuilder2 = new MateralConfigurationBuilder("http://192.168.0.101:8202/", "TestProject")
-                .AddDefaultNamespace()
-                .AddNamespace("TestNamespace");
-            IConfiguration configuration2 = await configurationBuilder2.BuildMateralConfigAsync();
-            string test2Config11 = configuration2.GetValue("TestConfig", "Application");
-            string test2Config12 = configuration2.GetValue("TestConfig", "TestNamespace");
-            string test2Config2 = configuration2.GetValue("TestConfig2");
+            IMateralConfigurationBuilder configurationBuilder = new MateralConfigurationBuilder("http://116.55.251.31:8201/", "IntegratedPlatform")
+                .AddDefaultNamespace();
+            IConfiguration _configuration = await configurationBuilder.BuildMateralConfigAsync();
+            var a = _configuration.GetValueObject<JWTConfigModel>("JWT");
         }
+    }
+    /// <summary>
+    /// JWT配置模型
+    /// </summary>
+    public class JWTConfigModel
+    {
+        /// <summary>
+        /// 密钥
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
+        /// 有效期
+        /// </summary>
+        public uint ExpiredTime { get; set; }
+        /// <summary>
+        /// 发布者
+        /// </summary>
+        public string Issuer { get; set; }
+        /// <summary>
+        /// 接收者
+        /// </summary>
+        public string Audience { get; set; }
+        /// <summary>
+        /// 二进制Key
+        /// </summary>
+        public SymmetricSecurityKey SigningKey => new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
     }
 }

@@ -15,7 +15,7 @@ namespace Materal.ConfigCenter.Client
             if (provider == null) throw new MateralConfigCenterException("命名空间未加载");
             return provider.TryGet(key, out string result) ? result : null;
         }
-        public static T GetValue<T>(this IConfiguration configuration, string key, string @namespace = null)
+        public static T GetValueObject<T>(this IConfiguration configuration, string key, string @namespace = null)
         {
             string value = GetValue(configuration, key, @namespace);
             if (string.IsNullOrEmpty(value)) return default;

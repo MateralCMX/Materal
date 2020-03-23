@@ -3,6 +3,7 @@ using DotNetty.Common.Utilities;
 using Materal.DotNetty.ControllerBus;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace Materal.ConfigCenter.ControllerCore
 {
@@ -30,6 +31,19 @@ namespace Materal.ConfigCenter.ControllerCore
             }
         }
         /// <summary>
+        /// 获得JWTToken对象
+        /// </summary>
+        /// <returns></returns>
+        public JwtSecurityToken GetJwtSecurityToken()
+        {
+            string token = GetToken();
+            var jwtSecurityToken = new JwtSecurityToken(token);
+            if (!jwtSecurityToken.Audiences.Contains("WebAPI")) throw new MateralConfigCenterException("未识别Token");
+            if (!jwtSecurityToken.Issuer.Equals("Materal.ConfigCenter")) throw new MateralConfigCenterException("未识别Token");
+            if (jwtSecurityToken.ValidTo < DateTime.UtcNow) throw new MateralConfigCenterException("未识别Token");
+            return jwtSecurityToken;
+        }
+        /// <summary>
         /// 获取登录用户唯一标识
         /// </summary>
         /// <returns></returns>
@@ -38,11 +52,14 @@ namespace Materal.ConfigCenter.ControllerCore
             try
             {
                 if (loginUserID != null) return loginUserID.Value;
-                string token = GetToken();
-                var jwtSecurityToken = new JwtSecurityToken(token);
+                JwtSecurityToken jwtSecurityToken = GetJwtSecurityToken();
                 if (!jwtSecurityToken.Payload.TryGetValue("UserID", out object value)) throw new MateralConfigCenterException("未识别Token");
                 loginUserID = Guid.Parse(value.ToString());
                 return loginUserID.Value;
+            }
+            catch (MateralConfigCenterException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

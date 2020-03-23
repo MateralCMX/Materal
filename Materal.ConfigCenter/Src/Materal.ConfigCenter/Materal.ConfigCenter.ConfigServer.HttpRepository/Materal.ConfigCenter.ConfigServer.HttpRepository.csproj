@@ -5,7 +5,7 @@
     <Product>Materal.ConfigCenter</Product>
     <Company>Materal</Company>
     <Authors>Materal</Authors>
-    <Version>0.0.3</Version>
+    <Version>0.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
