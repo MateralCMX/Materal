@@ -5,12 +5,12 @@
     <Product>Materal.ConfigCenter</Product>
     <Company>Materal</Company>
     <Authors>Materal</Authors>
-    <Version>0.0.4</Version>
+    <Version>0.0.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="Materal.DotNetty.Server.CoreImpl" Version="0.1.2" />
+    <PackageReference Include="Materal.DotNetty.Server.CoreImpl" Version="0.1.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.2" />
     <PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.4" />

@@ -15,9 +15,11 @@ namespace Materal.ConDep.Controllers
     public class AppController : ConDepBaseController
     {
         private readonly IAppService _appService;
-        public AppController(IAppService appService)
+        private readonly ConDepFileHandler _conDepFileHandler;
+        public AppController(IAppService appService, ConDepFileHandler conDepFileHandler)
         {
             _appService = appService;
+            _conDepFileHandler = conDepFileHandler;
         }
         /// <summary>
         /// 获取应用列表
@@ -321,6 +323,7 @@ namespace Materal.ConDep.Controllers
         public ResultModel UpdateAppFile(IUploadFileModel file)
         {
             _appService.UpdateAppAsync(file);
+            _conDepFileHandler.ClearCache();
             return ResultModel.Success("上传成功");
         }
     }

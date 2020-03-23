@@ -1,4 +1,5 @@
-﻿using Materal.DotNetty.Server.Core;
+﻿using Materal.CacheHelper;
+using Materal.DotNetty.Server.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.DotNetty.Server.CoreImpl
@@ -11,6 +12,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="services"></param>
         public static void AddMateralDotNettyServerCore(this IServiceCollection services)
         {
+            services.AddSingleton<ICacheManager, MemoryCacheManager>();
             services.AddSingleton<IDotNettyServer, DotNettyServerImpl>();
             services.AddTransient<ServerChannelHandler>();
         }

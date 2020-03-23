@@ -8,11 +8,45 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Materal.CacheHelper;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
     public class FileHandler : HttpHandlerContext
     {
+        private readonly ICacheManager _cacheManager;
+        private const string _cacheKey = "FileCacheKey";
+
+        public FileHandler(ICacheManager cacheManager)
+        {
+            _cacheManager = cacheManager;
+        }
+        /// <summary>
+        /// 清空缓存
+        /// </summary>
+        public void ClearCache()
+        {
+            List<string> cacheKeys = _cacheManager.GetCacheKeys();
+            foreach (string cacheKey in cacheKeys)
+            {
+                if (cacheKey.StartsWith(_cacheKey))
+                {
+                    _cacheManager.Remove(cacheKey);
+                }
+            }
+        }
+        /// <summary>
+        /// 移除缓存
+        /// </summary>
+        /// <param name="key"></param>
+        public void RemoveCache(string key)
+        {
+            string cacheKey = $"{_cacheKey}{key}";
+            if (_cacheManager.GetCacheKeys().Contains(cacheKey))
+            {
+                _cacheManager.Remove(cacheKey);
+            }
+        }
         /// <summary>
         /// Html页面文件夹路径
         /// </summary>
@@ -54,8 +88,11 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <returns></returns>
         protected virtual async Task<byte[]> GetFileBytesAsync(string filePath)
         {
+            var result = _cacheManager.Get<byte[]>($"{_cacheKey}{filePath}");
+            if (result != null) return result;
             if (!File.Exists(filePath)) throw new DotNettyServerException("文件不存在");
-            byte[] result = await File.ReadAllBytesAsync(filePath);
+            result = await File.ReadAllBytesAsync(filePath);
+            _cacheManager.SetByAbsolute($"{_cacheKey}{filePath}", result, 1);
             return result;
         }
         /// <summary>

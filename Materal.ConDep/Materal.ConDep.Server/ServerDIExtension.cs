@@ -1,12 +1,11 @@
-﻿using Materal.CacheHelper;
-using Materal.ConDep.Controllers.Filters;
+﻿using Materal.ConDep.Controllers.Filters;
 using Materal.ConDep.ServiceImpl;
 using Materal.ConDep.Services;
 using Materal.DotNetty.ControllerBus;
+using Materal.DotNetty.Server.CoreImpl;
 using Microsoft.Extensions.DependencyInjection;
 using NetCore.AutoRegisterDi;
 using System.Reflection;
-using Materal.DotNetty.Server.CoreImpl;
 
 namespace Materal.ConDep.Server
 {
@@ -20,7 +19,6 @@ namespace Materal.ConDep.Server
         {
             FileHandler.HtmlPageFolderPath = "Application";
             services.AddMemoryCache();
-            services.AddSingleton<ICacheManager, MemoryCacheManager>();
             services.AddSingleton<IAppService, AppServiceImpl>();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.ConDep.ServiceImpl"))
                 .Where(c => c.Name.EndsWith("ServiceImpl") && c.Name != "AppServiceImpl")
