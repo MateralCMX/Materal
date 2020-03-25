@@ -50,11 +50,12 @@ namespace Materal.DotNetty.Server.CoreImpl
                     pipeline.AddLast(new HttpServerCodec());
                     pipeline.AddLast(new HttpObjectAggregator(655300000));
                     var channelHandler = _service.GetService<ServerChannelHandler>();
-                    OnConfigHandler?.Invoke(channelHandler);
                     if (OnException != null)
                     {
                         channelHandler.OnException += OnException;
                     }
+                    channelHandler.OnMessage += OnMessage;
+                    OnConfigHandler?.Invoke(channelHandler);
                     pipeline.AddLast(channelHandler);
                 }
                 catch (Exception exception)

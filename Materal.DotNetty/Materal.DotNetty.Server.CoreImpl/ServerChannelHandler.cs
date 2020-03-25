@@ -1,10 +1,9 @@
 ﻿using DotNetty.Buffers;
 using DotNetty.Transport.Channels;
-using Materal.DotNetty.Common;
+using Materal.DotNetty.Server.Core;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Materal.DotNetty.Server.Core;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
@@ -13,7 +12,6 @@ namespace Materal.DotNetty.Server.CoreImpl
         private readonly List<ServerHandlerContext> handlers = new List<ServerHandlerContext>();
         public event Action<Exception> OnException;
         public event Action<string> OnMessage;
-        public ServerConfig _serverConfig;
         protected override void ChannelRead0(IChannelHandlerContext ctx, IByteBufferHolder byteBufferHolder)
         {
             byteBufferHolder.Retain(byte.MaxValue);
