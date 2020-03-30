@@ -2,6 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Materal</Authors>
+    <Product>Materal.DotNetty</Product>
+    <Version>0.1.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
