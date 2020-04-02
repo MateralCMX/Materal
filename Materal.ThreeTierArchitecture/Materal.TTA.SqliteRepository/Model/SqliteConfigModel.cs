@@ -23,11 +23,11 @@
             get
             {
                 string result = $"Data Source={FilePath};";
-                if (string.IsNullOrEmpty(Version))
+                if (!string.IsNullOrEmpty(Version))
                 {
                     result += $"Version={Version};";
                 }
-                if (string.IsNullOrEmpty(Password))
+                if (!string.IsNullOrEmpty(Password))
                 {
                     result += $"Password={Password};";
                 }
