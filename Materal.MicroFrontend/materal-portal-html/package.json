@@ -1,0 +1,21 @@
+{
+  "name": "materal-portal-html",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Index.js",
+  "scripts": {
+    "serve": "parcel index.html --port 8080",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Materal",
+  "license": "ISC",
+  "dependencies": {
+    "less": "^3.11.1",
+    "parcel-bundler": "^1.12.4",
+    "qiankun": "^1.4.5"
+  },
+  "devDependencies": {
+    "vue": "^2.6.11",
+    "zone.js": "^0.10.3"
+  }
+}
