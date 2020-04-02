@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="UTF-8">
+  <title>QianKun Example</title>
+<link rel="stylesheet" href="/Index.143ac65d.css"></head>
+<body>
+  <div class="mainapp">
+    <!-- 标题栏 -->
+    <header class="mainapp-header">
+      <h1>QianKun</h1>
+    </header>
+    <div class="mainapp-main">
+      <!-- 侧边栏 -->
+      <ul class="mainapp-sidemenu">
+        <li onclick="push('/react16')">React16</li>
+        <li onclick="push('/react15')">React15</li>
+        <li onclick="push('/vue')">Vue</li>
+        <li onclick="push('/angular9')">Angular9</li>
+        <li onclick="push('/myAngular')">MyAngular</li>
+        <li onclick="push('/purehtml')">Purehtml</li>
+      </ul>
+      <!-- 子应用  -->
+      <main id="subapp-container"></main>
+    </div>
+  </div>
+  <script src="/Index.143ac65d.js"></script>
+  <script>function push(subapp) {
+  history.pushState(null, subapp, subapp);
+}</script>
+</body>
+</html>

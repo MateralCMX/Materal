@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "serve": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:single-spa": "ng build --prod",
-    "serve:single-spa": "ng serve --disable-host-check --port 4200 --base-href /myAngular --live-reload false"
+    "serve:single-spa": "ng serve --disable-host-check --port 4200 --live-reload false"
   },
   "private": true,
   "dependencies": {
@@ -36,7 +36,6 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^8.10.59",
     "codelyzer": "^5.0.0",
-    "cross-env": "^7.0.2",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.1.0",
