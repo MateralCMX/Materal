@@ -23156,6 +23156,9 @@ var subAppList = [{
 }, {
   name: 'myAngular',
   address: '//localhost:4200'
+}, {
+  name: 'authority',
+  address: '//localhost:18201/authority'
 }];
 exports.subAppList = subAppList;
 },{}],"Index.js":[function(require,module,exports) {
@@ -23199,7 +23202,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62794" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50473" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

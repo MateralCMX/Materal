@@ -23,4 +23,8 @@ export const subAppList = [
         name: 'myAngular',
         address: '//localhost:4200'
     },
+    {
+        name: 'authority',
+        address: '//localhost:18201/authority'
+    }
 ];

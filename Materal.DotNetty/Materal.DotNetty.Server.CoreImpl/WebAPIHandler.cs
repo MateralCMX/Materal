@@ -161,27 +161,23 @@ namespace Materal.DotNetty.Server.CoreImpl
             if (parameters.Length > 0)
             {
                 ICharSequence typeCharSequence = request.Headers.Get(HttpHeaderNames.ContentType, null);
-                if (typeCharSequence == null)
+                string type = string.Empty;
+                if (typeCharSequence != null)
                 {
-                    ResultModel resultModel = ResultModel.Fail("请指明Content-Type");
-                    response = HttpResponseHelper.GetHttpResponse(HttpResponseStatus.BadRequest, resultModel.ToJson());
+                    type = typeCharSequence.ToString();
+                }
+                object[] @params;
+                if (type.Contains("multipart/form-data"))
+                {
+                    @params = HandlerFormDataParams(request, parameters, ref response);
+                    if (@params == null) return response;
                 }
                 else
                 {
-                    string type = typeCharSequence.ToString();
-                    object[] @params;
-                    if (type.Contains("multipart/form-data"))
-                    {
-                        @params = HandlerFormDataParams(request, parameters, ref response);
-                        if (@params == null) return response;
-                    }
-                    else
-                    {
-                        @params = HandlerBodyAndUrlParams(request, parameters, ref response);
-                        if (@params == null) return response;
-                    }
-                    response = await GetResponseAsync(baseController, action, @params);
+                    @params = HandlerBodyAndUrlParams(request, parameters, ref response);
+                    if (@params == null) return response;
                 }
+                response = await GetResponseAsync(baseController, action, @params);
             }
             else
             {

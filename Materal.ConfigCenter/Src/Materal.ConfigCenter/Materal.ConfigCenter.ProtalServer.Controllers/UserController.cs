@@ -19,10 +19,10 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
 {
     public class UserController : ConfigCenterBaseController
     {
-        private readonly IUserService userService;
+        private readonly IUserService _userService;
         public UserController(IUserService userService)
         {
-            this.userService = userService;
+            _userService = userService;
         }
         /// <summary>
         /// 添加用户
@@ -34,7 +34,7 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         {
             try
             {
-                await userService.AddUserAsync(model);
+                await _userService.AddUserAsync(model);
                 return ResultModel.Success("添加成功");
             }
             catch (AspectInvocationException ex)
@@ -56,7 +56,7 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         {
             try
             {
-                await userService.EditUserAsync(model);
+                await _userService.EditUserAsync(model);
                 return ResultModel.Success("修改成功");
             }
             catch (AspectInvocationException ex)
@@ -78,7 +78,7 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         {
             try
             {
-                await userService.DeleteUserAsync(id);
+                await _userService.DeleteUserAsync(id);
                 return ResultModel.Success("删除成功");
             }
             catch (AspectInvocationException ex)
@@ -100,7 +100,7 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         {
             try
             {
-                UserDTO result = await userService.GetUserInfoAsync(id);
+                UserDTO result = await _userService.GetUserInfoAsync(id);
                 return ResultModel<UserDTO>.Success(result, "查询成功");
             }
             catch (AspectInvocationException ex)
@@ -121,7 +121,7 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         {
             try
             {
-                UserDTO result = await userService.GetUserInfoAsync(GetLoginUserID());
+                UserDTO result = await _userService.GetUserInfoAsync(GetLoginUserID());
                 return ResultModel<UserDTO>.Success(result, "查询成功");
             }
             catch (AspectInvocationException ex)
@@ -143,7 +143,7 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         {
             try
             {
-                (List<UserListDTO> result, PageModel pageModel) = await userService.GetUserListAsync(filterModel);
+                (List<UserListDTO> result, PageModel pageModel) = await _userService.GetUserListAsync(filterModel);
                 return PageResultModel<UserListDTO>.Success(result, pageModel, "查询成功");
             }
             catch (AspectInvocationException ex)
@@ -165,7 +165,7 @@ namespace Materal.ConfigCenter.ProtalServer.Controllers
         {
             try
             {
-                UserDTO user = await userService.LoginAsync(model);
+                UserDTO user = await _userService.LoginAsync(model);
                 string token = GetToken(user);
                 var result = new TokenResultModel
                 {
