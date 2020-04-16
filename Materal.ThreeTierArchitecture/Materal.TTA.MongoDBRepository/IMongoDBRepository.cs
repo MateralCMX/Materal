@@ -41,8 +41,34 @@ namespace Materal.TTA.MongoDBRepository
         /// 插入一条数据
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
         void Insert(T model);
+        /// <summary>
+        /// 插入一组数据
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        Task InsertManyAsync(List<T> models);
+        /// <summary>
+        /// 插入一组数据
+        /// </summary>
+        /// <param name="models"></param>
+        void InsertMany(List<T> models);
+        /// <summary>
+        /// 删除指定的数据
+        /// </summary>
+        /// <param name="model"></param>
+        void Delete(T model);
+        /// <summary>
+        /// 删除指定的数据
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        Task DeleteAsync(T model);
+        /// <summary>
+        /// 删除指定的数据
+        /// </summary>
+        /// <param name="id"></param>
+        void Delete(TPrimaryKeyType id);
         /// <summary>
         /// 删除指定的数据
         /// </summary>
@@ -73,6 +99,30 @@ namespace Materal.TTA.MongoDBRepository
         /// <param name="predicate"></param>
         /// <returns></returns>
         long DeleteMany(Expression<Func<T, bool>> predicate);
+        /// <summary>
+        /// 删除一组数据
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        Task<long> DeleteManyAsync(List<T> models);
+        /// <summary>
+        /// 删除一组数据
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        long DeleteMany(List<T> models);
+        /// <summary>
+        /// 异步保存一组数据，没有则创建，有则更新
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        Task SaveManyAsync(List<T> models);
+        /// <summary>
+        /// 保存一组数据，没有则创建，有则更新
+        /// </summary>
+        /// <param name="models"></param>
+        /// <returns></returns>
+        void SaveMany(List<T> models);
         /// <summary>
         /// 异步保存，没有则创建，有则更新
         /// </summary>

@@ -6,27 +6,28 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Materal.TTA.MongoDBRepository
 {
     public class MongoDBRepositoryImpl<T, TIdentifier> : IMongoDBRepository<T, TIdentifier> where T : MongoEntity<TIdentifier>, new()
     {
-        private readonly IMongoDatabase _mongoDatabase;
-        private IMongoCollection<T> _collection;
-        private IMongoCollection<BsonDocument> _bsonCollection;
+        protected readonly IMongoDatabase MongoDatabase;
+        protected IMongoCollection<T> Collection;
+        protected IMongoCollection<BsonDocument> BsonCollection;
 
         protected MongoDBRepositoryImpl(string connectionString, string dataBaseNameString, string collectionNameString = null)
         {
             if (string.IsNullOrEmpty(collectionNameString)) collectionNameString = typeof(T).Name;
-            _mongoDatabase = new MongoClient(connectionString).GetDatabase(dataBaseNameString);
+            MongoDatabase = new MongoClient(connectionString).GetDatabase(dataBaseNameString);
             SelectCollection(collectionNameString);
         }
 
         public void SelectCollection(string collectionNameString)
         {
-            _collection = _mongoDatabase.GetCollection<T>(collectionNameString);
-            _bsonCollection = _mongoDatabase.GetCollection<BsonDocument>(collectionNameString);
+            Collection = MongoDatabase.GetCollection<T>(collectionNameString);
+            BsonCollection = MongoDatabase.GetCollection<BsonDocument>(collectionNameString);
         }
 
         public virtual async Task<bool> ExistedAsync(FilterModel filterModel)
@@ -58,59 +59,115 @@ namespace Materal.TTA.MongoDBRepository
 
         public virtual long CountLong(Expression<Func<T, bool>> expression)
         {
-            return _collection.CountDocuments(expression);
+            return Collection.CountDocuments(expression);
         }
 
         public virtual async Task<long> CountLongAsync(Expression<Func<T, bool>> expression)
         {
-            return await _collection.CountDocumentsAsync(expression);
+            return await Collection.CountDocumentsAsync(expression);
         }
 
         public virtual async Task InsertAsync(T model)
         {
-            await _collection.InsertOneAsync(model);
+            await Collection.InsertOneAsync(model);
         }
 
         public virtual void Insert(T model)
         {
-            _collection.InsertOne(model);
+            Collection.InsertOne(model);
+        }
+
+        public virtual async Task InsertManyAsync(List<T> models)
+        {
+            await Collection.InsertManyAsync(models);
+        }
+        public virtual void InsertMany(List<T> models)
+        {
+            Collection.InsertMany(models);
+        }
+
+        public void Delete(T model)
+        {
+            Collection.DeleteOne(m => m.ID.Equals(model.ID));
+        }
+
+        public async Task DeleteAsync(T model)
+        {
+            await Collection.DeleteOneAsync(m => m.ID.Equals(model.ID));
+        }
+
+        public void Delete(TIdentifier id)
+        {
+            Collection.DeleteOne(m => m.ID.Equals(id));
         }
 
         public virtual async Task DeleteAsync(TIdentifier id)
         {
-            await _collection.DeleteOneAsync(m => m.ID.Equals(id));
+            await Collection.DeleteOneAsync(m => m.ID.Equals(id));
         }
 
         public virtual async Task<long> DeleteAsync(Expression<Func<T, bool>> predicate)
         {
-            return (await _collection.DeleteOneAsync(predicate)).DeletedCount;
+            return (await Collection.DeleteOneAsync(predicate)).DeletedCount;
         }
         public virtual long Delete(Expression<Func<T, bool>> predicate)
         {
-            return _collection.DeleteOne(predicate).DeletedCount;
+            return Collection.DeleteOne(predicate).DeletedCount;
         }
         public virtual async Task<long> DeleteManyAsync(Expression<Func<T, bool>> predicate)
         {
-            return (await _collection.DeleteManyAsync(predicate)).DeletedCount;
+            return (await Collection.DeleteManyAsync(predicate)).DeletedCount;
         }
         public virtual long DeleteMany(Expression<Func<T, bool>> predicate)
         {
-            return _collection.DeleteMany(predicate).DeletedCount;
+            return Collection.DeleteMany(predicate).DeletedCount;
         }
 
-        [Obsolete]
+        public async Task<long> DeleteManyAsync(List<T> models)
+        {
+            TIdentifier[] allIDs = models.Select(m => m.ID).ToArray();
+            return (await Collection.DeleteManyAsync(m=> allIDs.Contains(m.ID))).DeletedCount;
+        }
+
+        public long DeleteMany(List<T> models)
+        {
+            TIdentifier[] allIDs = models.Select(m => m.ID).ToArray();
+            return Collection.DeleteMany(m => allIDs.Contains(m.ID)).DeletedCount;
+        }
+
+        public async Task SaveManyAsync(List<T> models)
+        {
+            var writeModels = new List<WriteModel<T>>();
+            foreach (T model in models)
+            {
+                FilterDefinition<T> filter = Builders<T>.Filter.Eq(m => m.ID, model.ID);
+                writeModels.Add(new ReplaceOneModel<T>(filter, model) { IsUpsert = true });
+            }
+            await Collection.BulkWriteAsync(writeModels);
+        }
+
+        public void SaveMany(List<T> models)
+        {
+            var writeModels = new List<WriteModel<T>>();
+            foreach (T model in models)
+            {
+                FilterDefinition<T> filter = Builders<T>.Filter.Eq(m=>m.ID, model.ID);
+                writeModels.Add(new ReplaceOneModel<T>(filter, model) { IsUpsert = true });
+            }
+            Collection.BulkWrite(writeModels);
+        }
+
         public virtual async Task SaveAsync(T model)
         {
-            await _collection.ReplaceOneAsync(x => x.ID.Equals(model.ID), model, new UpdateOptions
+            await Collection.ReplaceOneAsync(m=> m.ID.Equals(model.ID), model, new ReplaceOptions
             {
                 IsUpsert = true
             });
         }
 
-        [Obsolete]
         public virtual void Save(T model)
         {
-            _collection.ReplaceOne(x => x.ID.Equals(model.ID), model, new UpdateOptions
+            Collection.ReplaceOne(m => m.ID.Equals(model.ID), model, new ReplaceOptions
             {
                 IsUpsert = true
             });
@@ -118,50 +175,50 @@ namespace Materal.TTA.MongoDBRepository
 
         public List<T> Find(FilterDefinition<T> filterDefinition)
         {
-            return _collection.Find(filterDefinition).ToList();
+            return Collection.Find(filterDefinition).ToList();
         }
 
         public IFindFluent<BsonDocument, BsonDocument> Find(FilterDefinition<BsonDocument> filterDefinition)
         {
-            return _bsonCollection.Find(filterDefinition);
+            return BsonCollection.Find(filterDefinition);
         }
 
         public virtual async Task<List<T>> FindAsync(FilterDefinition<T> filterDefinition)
         {
-            return await _collection.Find(filterDefinition).ToListAsync();
+            return await Collection.Find(filterDefinition).ToListAsync();
         }
 
         public virtual Task<IAsyncCursor<BsonDocument>> FindAsync(FilterDefinition<BsonDocument> filterDefinition)
         {
-            return _bsonCollection.FindAsync(filterDefinition);
+            return BsonCollection.FindAsync(filterDefinition);
         }
 
         public virtual async Task InsertManyAsync(IEnumerable<T> model)
         {
-            await _collection.InsertManyAsync(model);
+            await Collection.InsertManyAsync(model);
         }
 
         public virtual void InsertMany(IEnumerable<T> model)
         {
-            _collection.InsertMany(model);
+            Collection.InsertMany(model);
         }
 
         public Task<IAsyncCursor<T>> FindDocumentAsync(FilterDefinition<T> filterDefinition)
         {
-            return _collection.FindAsync(filterDefinition);
+            return Collection.FindAsync(filterDefinition);
         }
 
         public IFindFluent<T, T> FindDocument(FilterDefinition<T> filterDefinition)
         {
-            return _collection.Find(filterDefinition);
+            return Collection.Find(filterDefinition);
         }
         public IFindFluent<T, T> FindDocument(Expression<Func<T, bool>> expression)
         {
-            return _collection.Find(expression);
+            return Collection.Find(expression);
         }
         public Task<IAsyncCursor<T>> FindDocumentAsync(Expression<Func<T, bool>> expression)
         {
-            return _collection.FindAsync(expression);
+            return Collection.FindAsync(expression);
         }
 
         public IFindFluent<T, T> FindDocument(FilterModel filterModel)
@@ -191,7 +248,7 @@ namespace Materal.TTA.MongoDBRepository
 
         public (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, int pageIndex, int pageSize, int skip, int take)
         {
-            IFindFluent<T, T> find = _collection.Find(filterDefinition);
+            IFindFluent<T, T> find = Collection.Find(filterDefinition);
             if (sortDefinition != null)
             {
                 find = find.Sort(sortDefinition);
@@ -318,7 +375,7 @@ namespace Materal.TTA.MongoDBRepository
 
         public virtual T FirstOrDefault(TIdentifier id)
         {
-            return _collection.Find(m => m.ID.Equals(id)).FirstOrDefault();
+            return Collection.Find(m => m.ID.Equals(id)).FirstOrDefault();
         }
 
         public virtual async Task<T> FirstOrDefaultAsync(FilterModel filterModel)
@@ -328,12 +385,12 @@ namespace Materal.TTA.MongoDBRepository
 
         public virtual T FirstOrDefault(Expression<Func<T, bool>> expression)
         {
-            return _collection.Find(expression).FirstOrDefault();
+            return Collection.Find(expression).FirstOrDefault();
         }
 
         public virtual async Task<T> FirstOrDefaultAsync(TIdentifier id)
         {
-            return (await _collection.FindAsync(m => m.ID.Equals(id))).FirstOrDefault();
+            return (await Collection.FindAsync(m => m.ID.Equals(id))).FirstOrDefault();
         }
 
         public virtual T FirstOrDefault(FilterModel filterModel)
@@ -343,7 +400,7 @@ namespace Materal.TTA.MongoDBRepository
 
         public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
         {
-            return (await _collection.FindAsync(expression)).FirstOrDefault();
+            return (await Collection.FindAsync(expression)).FirstOrDefault();
         }
 
         public virtual (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel)
@@ -404,6 +461,22 @@ namespace Materal.TTA.MongoDBRepository
                     break;
             }
             return (result, pageModel);
+        }
+        /// <summary>
+        /// 获取更新条件
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private (FilterDefinition<BsonDocument> filter, UpdateDefinition<BsonDocument> updateDefinition) GetUpdateParams(T model)
+        {
+            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq("ID", model.ID);
+            UpdateDefinitionBuilder<BsonDocument> updateDefinitionBuilder = Builders<BsonDocument>.Update;
+            Type tType = model.GetType();
+            UpdateDefinition<BsonDocument> updateDefinition = tType.GetProperties()
+                .Aggregate<PropertyInfo, UpdateDefinition<BsonDocument>>(null, (current, propertyInfo) => current == null
+                    ? updateDefinitionBuilder.Inc(propertyInfo.Name, propertyInfo.GetValue(model))
+                    : current.Inc(propertyInfo.Name, propertyInfo.GetValue(model)));
+            return (filter, updateDefinition);
         }
     }
 }
