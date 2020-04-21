@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.ConDep.Common
 {
@@ -59,7 +60,10 @@ namespace Materal.ConDep.Common
         /// <param name="exception"></param>
         public static void ServerWriteError(Exception exception)
         {
-            ServerWriteLine(GetErrorMessage(exception), "错误", ConsoleColor.Red);
+            var _logger = ApplicationService.GetService<ILogger<ConsoleHelper>>();
+            string message = GetErrorMessage(exception);
+            _logger.LogError(message);
+            ServerWriteLine(message, "错误", ConsoleColor.Red);
         }
         #region 私有方法
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using Materal.ConvertHelper;
 using Materal.FileHelper;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -15,7 +16,7 @@ namespace Materal.ConDep.Services.Models
     public class AppCollection
     {
         private readonly List<AppModel> apps;
-        private readonly Dictionary<AppModel, List<string>> appConsole = new Dictionary<AppModel, List<string>>();
+        private readonly ConcurrentDictionary<AppModel, List<string>> appConsole = new ConcurrentDictionary<AppModel, List<string>>();
         private readonly string _jsonFilePath;
         private const int consoleMaxCount = 1000;
         /// <summary>
@@ -72,7 +73,7 @@ namespace Materal.ConDep.Services.Models
         {
             if (!appConsole.ContainsKey(app))
             {
-                appConsole.Add(app, new List<string>());
+                appConsole.TryAdd(app, new List<string>());
             }
             if (appConsole[app].Count > consoleMaxCount) appConsole[app] = appConsole[app].Skip(500).ToList();
             if (string.IsNullOrEmpty(e.Data)) return;
@@ -110,7 +111,7 @@ namespace Materal.ConDep.Services.Models
             app.ErrorDataReceived -= App_DataReceived;
             app.OutputDataReceived -= App_DataReceived;
             apps.Remove(app);
-            appConsole.Remove(app);
+            appConsole.TryRemove(app, out List<string> _);
         }
         /// <summary>
         /// 移除
@@ -195,7 +196,7 @@ namespace Materal.ConDep.Services.Models
         {
             if (appConsole.ContainsKey(app))
             {
-                appConsole.Remove(app);
+                appConsole.TryRemove(app, out List<string> _);
             }
         }
     }

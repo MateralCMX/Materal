@@ -1,9 +1,249 @@
 [
   {
-    "ID": "c9d882de-ebca-4c67-bb37-5f0c10e1b27b",
-    "Name": "订单WebAPI",
+    "Name": "权限API",
+    "AppPath": "Authority.WebAPI",
+    "MainModuleName": "Authority.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ --urls=http://192.168.0.101:8902"
+  },
+  {
+    "Name": "日志API",
+    "AppPath": "Log.WebAPI",
+    "MainModuleName": "Log.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ --urls=http://192.168.0.101:8901"
+  },
+  {
+    "Name": "文件API",
+    "AppPath": "UploadFile.WebAPI",
+    "MainModuleName": "UploadFile.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ --urls=http://192.168.0.101:8903"
+  },
+  {
+    "Name": "文件Server",
+    "AppPath": "UploadFile.Server",
+    "MainModuleName": "UploadFile.Server.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ "
+  },
+  {
+    "Name": "组织API",
+    "AppPath": "OrganizationManage.WebAPI",
+    "MainModuleName": "OrganizationManage.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181 --urls=http://192.168.0.101:8905"
+  },
+  {
+    "Name": "敏感词API",
+    "AppPath": "SensitiveWord.WebAPI",
+    "MainModuleName": "SensitiveWord.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181 --urls=http://192.168.0.101:8906"
+  },
+  {
+    "Name": "土地WebSocketServer",
+    "AppPath": "LandTransfer.WebSocketServer",
+    "MainModuleName": "LandTransfer.WebSocketServer.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer"
+  },
+  {
+    "Name": "土地API",
+    "AppPath": "LandTransfer.WebAPI",
+    "MainModuleName": "LandTransfer.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://192.168.0.101:8908"
+  },
+  {
+    "Name": "区域API",
+    "AppPath": "DistrictManage.WebAPI",
+    "MainModuleName": "DistrictManage.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181 --urls=http://192.168.0.101:8909"
+  },
+  {
+    "Name": "消息API",
+    "AppPath": "Message.WebAPI",
+    "MainModuleName": "Message.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181 --urls=http://192.168.0.101:8910"
+  },
+  {
+    "Name": "消息Server",
+    "AppPath": "Message.Server",
+    "MainModuleName": "Message.Server.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181"
+  },
+  {
+    "Name": "党建API",
+    "AppPath": "PartyBuilding.WebAPI",
+    "MainModuleName": "PartyBuilding.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/  --urls=http://192.168.0.101:8912"
+  },
+  {
+    "Name": "科研API",
+    "AppPath": "ResourceSharing.WebAPI",
+    "MainModuleName": "ResourceSharing.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181/  --urls=http://192.168.0.101:8913"
+  },
+  {
+    "Name": "任务系统",
+    "AppPath": "DevOA",
+    "MainModuleName": "DevOA.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://192.168.0.101:8601"
+  },
+  {
+    "Name": "土地调度Server",
+    "AppPath": "LandTransfer.DispatcherServer",
+    "MainModuleName": "LandTransfer.DispatcherServer.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer"
+  },
+  {
+    "Name": "主站API",
+    "AppPath": "MasterStation.WebAPI",
+    "MainModuleName": "MasterStation.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://192.168.0.101:8917"
+  },
+  {
+    "Name": "敏感词API-Dev",
+    "AppPath": "SensitiveWord.WebAPI",
+    "MainModuleName": "SensitiveWord.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://192.168.0.101:8180 --urls=http://192.168.0.101:18906"
+  },
+  {
+    "Name": "文档API",
+    "AppPath": "Archive.WebAPI",
+    "MainModuleName": "Archive.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://192.168.0.101:8916"
+  },
+  {
+    "Name": "任务协作系统",
+    "AppPath": "Assignment.WebAPI",
+    "MainModuleName": "Assignment.WebAPI.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://192.168.0.101:8918"
+  },
+  {
+    "Name": "土地主站Web",
+    "AppPath": "MasterStation.Web",
+    "MainModuleName": "MasterStation.Web.dll",
+    "Parameters": "--ConfigTarget=JiaQianServer --urls=http://192.168.0.101:8930"
+  },
+  {
+    "Name": "党建调度Server",
+    "AppPath": "PartyBuilding.Server",
+    "MainModuleName": "PartyBuilding.Server.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/"
+  },
+  {
+    "Name": "科研调度Server",
+    "AppPath": "ResourceSharing.DispatcherServer",
+    "MainModuleName": "ResourceSharing.DispatcherServer.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181"
+  },
+  {
+    "Name": "消息Server-Dev",
+    "AppPath": "Message.Server",
+    "MainModuleName": "Message.Server.dll",
+    "Parameters": "--ConfigUrl=http://192.168.0.101:8180"
+  },
+  {
+    "Name": "党建主站API",
+    "AppPath": "PartyBuildingWeb.WebAPI",
+    "MainModuleName": "PartyBuildingWeb.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ --urls=http://192.168.0.101:8935"
+  },
+  {
+    "Name": "党建主站Web",
+    "AppPath": "PartyBuildingWeb.Web",
+    "MainModuleName": "PartyBuildingWeb.Web.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ --urls=http://192.168.0.101:8936"
+  },
+  {
+    "Name": "商铺API",
+    "AppPath": "Merchant.WebAPI",
+    "MainModuleName": "Merchant.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ --urls=http://192.168.0.101:8919"
+  },
+  {
+    "Name": "订单API",
+    "AppPath": "OrderFormManagement.WebAPI",
+    "MainModuleName": "OrderFormManagement.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ --urls=http://192.168.0.101:8923"
+  },
+  {
+    "Name": "仓库API",
+    "AppPath": "Storehouse.WebAPI",
+    "MainModuleName": "Storehouse.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/  --urls=http://192.168.0.101:8920"
+  },
+  {
+    "Name": "交易所API",
+    "AppPath": "Commerce.Bourse.WebAPI",
+    "MainModuleName": "Commerce.Bourse.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ --urls=http://192.168.0.101:8921"
+  },
+  {
+    "Name": "订单号API服务",
     "AppPath": "OddNumber.WebAPI",
     "MainModuleName": "OddNumber.WebAPI.dll",
-    "Parameters": "--ConfigUrl=http://116.55.251.31:8180 --urls=http://192.168.0.101:8902"
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181 --urls=http://192.168.0.101:8924"
+  },
+  {
+    "Name": "快递API",
+    "AppPath": "Expressage.WebAPI",
+    "MainModuleName": "Expressage.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181  --urls=http://192.168.0.101:8925"
+  },
+  {
+    "Name": "网关",
+    "AppPath": "Gateway",
+    "MainModuleName": "Gateway.dll",
+    "Parameters": "--urls=http://192.168.0.101:8900"
+  },
+  {
+    "Name": "订单号服务",
+    "AppPath": "OddNumber.Server",
+    "MainModuleName": "OddNumber.Server.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181"
+  },
+  {
+    "Name": "支付中心",
+    "AppPath": "PaymentCenter.WebAPI",
+    "MainModuleName": "PaymentCenter.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181 --urls=http://192.168.0.101:8926"
+  },
+  {
+    "Name": "支付中心server-Dev",
+    "AppPath": "PaymentCenter.Server",
+    "MainModuleName": "PaymentCenter.Server.dll",
+    "Parameters": "--ConfigUrl=http://192.168.0.101:8180"
+  },
+  {
+    "Name": "支付中心server-JiaQian",
+    "AppPath": "PaymentCenter.Server",
+    "MainModuleName": "PaymentCenter.Server.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8181"
+  },
+  {
+    "Name": "订单Server",
+    "AppPath": "OrderFormManagement.WebSocketServer",
+    "MainModuleName": "OrderFormManagement.WebSocketServer.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/"
+  },
+  {
+    "Name": "交易Web",
+    "AppPath": "Commerce.Bourse.Web",
+    "MainModuleName": "Commerce.Bourse.Web.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ --urls=http://192.168.0.101:8922"
+  },
+  {
+    "Name": "订单调度程序",
+    "AppPath": "OrderFormManagement.DispatcherServer",
+    "MainModuleName": "OrderFormManagement.DispatcherServer.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/"
+  },
+  {
+    "Name": "聊天服务",
+    "AppPath": "ChatServer",
+    "MainModuleName": "ChatServer.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/"
+  },
+  {
+    "Name": "信息公开API",
+    "AppPath": "InformationDisclosure.WebAPI",
+    "MainModuleName": "InformationDisclosure.WebAPI.dll",
+    "Parameters": "--ConfigUrl=http://116.55.251.31:8201/ --urls=http://192.168.0.101:8939"
   }
 ]
+  

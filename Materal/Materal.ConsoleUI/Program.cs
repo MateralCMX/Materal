@@ -1,67 +1,48 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
 using Materal.ConvertHelper;
+using Materal.NetworkHelper;
 
 namespace Materal.ConsoleUI
 {
     internal class Program
     {
-        public static void Main()
+        public static async Task Main()
         {
-            var user = new User
-            {
-                Name = "Materal",
-                Remark = new Remark
-                {
-                    Content = "Remark"
-                }
-            };
-            var user3 = new User1
-            {
-                Name = "LJB"
-            };
-            user.CopyProperties(user3, nameof(User.Name));
-            var user1 = user.CopyProperties<User1>(nameof(User.Name), nameof(User.Age));//浅拷贝
-            var user2 = user.ToBytes().ToObject<User>();//深拷贝
-            var user4 = user.Clone();//深拷贝
-            var user5 = user.CloneByJson();//深拷贝
-            var user6 = user.CloneByReflex();//深拷贝
-            var user7 = user.CloneBySerializable();//深拷贝
-            var user8 = user.CloneByXml();//深拷贝
-            user.Remark.Content = "1";
-            Console.WriteLine(user1.Remark.Content);//输出的是1
-            Console.WriteLine(user2.Remark.Content);//输出的是Remark
-            Console.WriteLine(user3.Remark.Content);//输出的是1
-            Console.WriteLine(user4.Remark.Content);//输出的是Remark
-            Console.WriteLine(user5.Remark.Content);//输出的是Remark
-            Console.WriteLine(user6.Remark.Content);//输出的是Remark
-            Console.WriteLine(user7.Remark.Content);//输出的是Remark
-            Console.WriteLine(user8.Remark.Content);//输出的是Remark
 
+            var heads = new Dictionary<string, string>
+            {
+                ["Content-Type"] = "application/json",
+                ["Authorization"] =
+                    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiV2ViQVBJIiwiV2ViQVBJIl0sImlzcyI6IkludGVncmF0ZWRQbGF0Zm9ybSIsIlVzZXJJRCI6IjU2MzI0MDlmLTc3ODEtNDNlZS1hMGI5LWU1YzRlMDJiOTdjMyIsIm5iZiI6MTU4NzQzMTIyMywiZXhwIjoxNTg3NDQ5MjIzLCJpYXQiOjE1ODc0MzEyMjN9.Ku-mwZVmatS0Gc9hNy-c4k9dm8xNkMJfzmCVQD8iahY"
+            };
+            const string url1 =
+                "http://116.55.251.31:8921/api/ListingCommodity/CheckPortfolioIsPutaway";
+            const string url2 =
+                "http://116.55.251.31:8900/CommerceBourseAPI/ListingCommodity/CheckPortfolioIsPutaway";
+            var data = new Dictionary<string, string>
+            {
+                ["merchandiseID"] = "12569a10-c4a5-468d-81d2-33212692d6db"
+            };
+            try
+            {
+                var resutl = await HttpManager.SendGetAsync(url1, data, heads, Encoding.UTF8);
+                var resutl2 = await HttpManager.SendGetAsync(url2, data, heads, Encoding.UTF8);
+            }
+            catch (MateralHttpException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            catch (MateralNetworkException ex)
+            {
+                Console.WriteLine(ex);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
-    }
-    [Serializable]
-    public class User
-    {
-        public int? Age { get; set; }
-
-        public string Name { get; set; }
-
-        public Remark Remark { get; set; }
-    }
-
-    [Serializable]
-    public class User1
-    {
-        public int? Age { get; set; }
-
-        public string Name { get; set; }
-
-        public Remark Remark { get; set; }
-    }
-
-    [Serializable]
-    public class Remark
-    {
-        public string Content { get; set; }
     }
 }

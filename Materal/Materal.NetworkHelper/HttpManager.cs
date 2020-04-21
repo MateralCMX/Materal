@@ -299,6 +299,10 @@ namespace Materal.NetworkHelper
         private static async Task<string> SendAsync(string url, HttpMethodType type, object data, Dictionary<string, string> heads, Encoding encoding)
         {
             byte[] resultBytes = await SendByteAsync(url, type, data, heads, encoding);
+            if (encoding == null)
+            {
+                encoding = Encoding.Default;
+            }
             string result = encoding.GetString(resultBytes);
             return result;
         }
