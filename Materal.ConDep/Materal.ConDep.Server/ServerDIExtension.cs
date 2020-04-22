@@ -1,17 +1,16 @@
-﻿using System;
-using System.IO;
-using Materal.ConDep.Controllers.Filters;
+﻿using Materal.ConDep.Controllers.Filters;
 using Materal.ConDep.ServiceImpl;
 using Materal.ConDep.Services;
 using Materal.DotNetty.ControllerBus;
 using Materal.DotNetty.Server.CoreImpl;
 using Microsoft.Extensions.DependencyInjection;
-using NetCore.AutoRegisterDi;
-using System.Reflection;
 using Microsoft.Extensions.Logging;
+using NetCore.AutoRegisterDi;
 using NLog;
-using NLog.Config;
 using NLog.Extensions.Logging;
+using System;
+using System.IO;
+using System.Reflection;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Materal.ConDep.Server

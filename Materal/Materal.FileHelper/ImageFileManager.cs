@@ -136,32 +136,36 @@ namespace Materal.FileHelper
             }
             return null;
         }
+
         /// <summary>
         /// 图片压缩(降低质量以减小文件的大小)
         /// </summary>
         /// <param name="srcBitmap">传入的Bitmap对象</param>
         /// <param name="destStream">压缩后的Stream对象</param>
         /// <param name="level">压缩等级，0到100，0 最差质量，100 最佳</param>
-        public static void Compress(Image srcBitmap, Stream destStream, long level)
+        /// <param name="mimeType">image/jpeg image/png</param>
+        public static void Compress(Image srcBitmap, Stream destStream, long level, string mimeType = "image/jpeg")
         {
-            ImageCodecInfo myImageCodecInfo = GetEncoderInfo("image/jpeg");
+            ImageCodecInfo myImageCodecInfo = GetEncoderInfo(mimeType);
             Encoder myEncoder = Encoder.Quality;
             var myEncoderParameters = new EncoderParameters(1);
             var myEncoderParameter = new EncoderParameter(myEncoder, level);
             myEncoderParameters.Param[0] = myEncoderParameter;
             srcBitmap.Save(destStream, myImageCodecInfo, myEncoderParameters);
         }
+
         /// <summary>
         /// 图片压缩(降低质量以减小文件的大小)
         /// </summary>
         /// <param name="srcBitMap">传入的Bitmap对象</param>
         /// <param name="destFile">压缩后的图片保存路径</param>
         /// <param name="level">压缩等级，0到100，0 最差质量，100 最佳</param>
-        public static void Compress(Image srcBitMap, string destFile, long level)
+        /// <param name="mimeType"></param>
+        public static void Compress(Image srcBitMap, string destFile, long level, string mimeType = "image/jpeg")
         {
             using (Stream stream = new FileStream(destFile, FileMode.Create))
             {
-                Compress(srcBitMap, stream, level);
+                Compress(srcBitMap, stream, level, mimeType);
                 stream.Close();
             }
         }

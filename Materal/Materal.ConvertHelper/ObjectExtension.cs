@@ -160,6 +160,46 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T">复制的模型</typeparam>
         /// <param name="sourceM">复制源头对象</param>
         /// <param name="targetM">复制目标对象</param>
+        /// <param name="isCopy">是否复制</param>
+        /// <returns>复制的对象</returns>
+        public static void CopyProperties<T>(this object sourceM, T targetM, Func<PropertyInfo, object, bool> isCopy)
+        {
+            if (sourceM == null) return;
+            PropertyInfo[] t1Props = sourceM.GetType().GetProperties();
+            PropertyInfo[] t2Props = typeof(T).GetProperties();
+            foreach (PropertyInfo prop in t1Props)
+            {
+                PropertyInfo tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
+                if (tempProp != null && tempProp.CanWrite)
+                {
+                    object value = prop.GetValue(sourceM, null);
+                    if (isCopy(tempProp, value))
+                    {
+                        tempProp.SetValue(targetM, value, null);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 属性复制
+        /// </summary>
+        /// <typeparam name="T">复制的模型</typeparam>
+        /// <param name="sourceM">复制源头对象</param>
+        /// <param name="isCopy">是否复制</param>
+        /// <returns>复制的对象</returns>
+        public static T CopyProperties<T>(this object sourceM, Func<PropertyInfo, object, bool> isCopy)
+        {
+            if (sourceM == null) return default(T);
+            var targetM = ConvertManager.GetDefaultObject<T>();
+            sourceM.CopyProperties(targetM, isCopy);
+            return targetM;
+        }
+        /// <summary>
+        /// 属性复制sourceM->targetM
+        /// </summary>
+        /// <typeparam name="T">复制的模型</typeparam>
+        /// <param name="sourceM">复制源头对象</param>
+        /// <param name="targetM">复制目标对象</param>
         /// <param name="notCopyPropertyNames">不复制的属性名称</param>
         /// <returns>复制的对象</returns>
         public static void CopyProperties<T>(this object sourceM, T targetM, params string[] notCopyPropertyNames)
