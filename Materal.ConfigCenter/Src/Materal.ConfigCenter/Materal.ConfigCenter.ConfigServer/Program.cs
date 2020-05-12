@@ -5,6 +5,7 @@ using Materal.DotNetty.Server.CoreImpl;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using Materal.ConfigCenter.ConfigServer.SqliteEFRepository;
 
 namespace Materal.ConfigCenter.ConfigServer
 {
@@ -18,6 +19,10 @@ namespace Materal.ConfigCenter.ConfigServer
             {
                 try
                 {
+                    var dbContextHelper = ApplicationService.GetService<DBContextHelper<ConfigServerDBContext>>();
+                    ConsoleHelper.ServerWriteLine("正在初始化数据库......");
+                    dbContextHelper.Migrate();
+                    ConsoleHelper.ServerWriteLine("数据库初始化完毕.");
                     var dotNettyServer = ApplicationService.GetService<IDotNettyServer>();
                     dotNettyServer.OnConfigHandler += DotNettyServer_OnConfigHandler;
                     dotNettyServer.OnException += ConsoleHelper.ServerWriteError;

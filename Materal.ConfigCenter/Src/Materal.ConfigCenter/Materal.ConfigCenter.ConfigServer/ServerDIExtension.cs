@@ -27,6 +27,7 @@ namespace Materal.ConfigCenter.ConfigServer
             {
                 options.UseSqlite(ApplicationConfig.SqliteConfig.ConnectionString);
             }, ServiceLifetime.Transient);
+            services.AddTransient<DBContextHelper<ConfigServerDBContext>>();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.ConfigCenter.ConfigServer.ServiceImpl"))
                 .Where(c => c.Name.EndsWith("ServiceImpl") && !c.Name.Equals("ConfigServerServiceImpl"))
                 .AsPublicImplementedInterfaces();

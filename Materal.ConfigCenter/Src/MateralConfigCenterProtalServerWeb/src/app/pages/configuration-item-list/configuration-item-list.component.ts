@@ -127,7 +127,7 @@ export class ConfigurationItemListComponent implements OnInit {
     this.search();
   }
   public onProjectActiveChange(event: boolean, project: ProjectListDTO) {
-    if (event && !this.namespaceData[project.ID]) {
+    if (event) {
       this.selectedProject = project;
       if (!this.namespaceData[project.ID]) {
         this.loadNameSpage(project.ID);
