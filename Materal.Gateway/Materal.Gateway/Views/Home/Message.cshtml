@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "提示";
+}
+<div class="card">
+    <div class="card-header">
+        消息
+    </div>
+    <div class="card-body">
+        <p class="card-text">@ViewData["message"]</p>
+        <button type="button" class="btn btn-primary" onclick="goToUrl()">返回</button>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function goToUrl() {
+            window.location = "@ViewData["url"]";
+        }
+        setTimeout(() => {
+            goToUrl();
+        }, 3000);
+    </script>
+}

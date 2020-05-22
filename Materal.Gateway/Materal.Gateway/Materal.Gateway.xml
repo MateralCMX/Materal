@@ -1,0 +1,426 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Materal.Gateway</name>
+    </assembly>
+    <members>
+        <member name="T:Materal.Gateway.ApplicationData">
+            <summary>
+            应用程序数据
+            </summary>
+        </member>
+        <member name="F:Materal.Gateway.ApplicationData.OcelotConfigUrl">
+            <summary>
+            Ocelot配置Url
+            </summary>
+        </member>
+        <member name="F:Materal.Gateway.ApplicationData.Host">
+            <summary>
+            Host
+            </summary>
+        </member>
+        <member name="F:Materal.Gateway.ApplicationData.Services">
+            <summary>
+            容器
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.ApplicationData.ServiceProvider">
+            <summary>
+            依赖注入服务
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.ApplicationData.Init(System.String[])">
+            <summary>
+            初始化
+            </summary>
+            <param name="appArgs"></param>
+        </member>
+        <member name="M:Materal.Gateway.ApplicationData.BuildServices">
+            <summary>
+            构建服务
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.ApplicationData.GetService``1">
+            <summary>
+            获得服务
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:Materal.Gateway.Controllers.HomeController">
+            <summary>
+            主页
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Controllers.HomeController.#ctor(Materal.Gateway.Services.ConfigService)">
+            <summary>
+            主页
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Controllers.HomeController.Index(System.String)">
+            <summary>
+            首页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.Gateway.Controllers.HomeController.Edit(System.Guid)">
+            <summary>
+            修改
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.Gateway.Controllers.HomeController.Save(Materal.Gateway.Models.ConfigItemModel)">
+            <summary>
+            保存
+            </summary>
+            <param name="configItem"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.Gateway.Controllers.HomeController.Delete(System.Guid)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.Gateway.Controllers.HomeController.Message(System.String,System.String)">
+            <summary>
+            消息
+            </summary>
+            <param name="message"></param>
+            <param name="url"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.Gateway.Controllers.HomeController.Error">
+            <summary>
+            错误
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Materal.Gateway.Models.ConfigItemModel">
+            <summary>
+            配置项模型
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Models.ConfigItemModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Models.ConfigItemModel.ServiceName">
+            <summary>
+            服务名称
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Models.ConfigItemModel.EnableCache">
+            <summary>
+            启用缓存
+            </summary>
+        </member>
+        <member name="T:Materal.Gateway.Models.GlobalConfigModel">
+            <summary>
+            全局配置模型
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Models.GlobalConfigModel.ConsulHost">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Models.GlobalConfigModel.ConsulPort">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Materal.Gateway.Program">
+            <summary>
+            程序
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Program.Main(System.String[])">
+            <summary>
+            入口
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.Gateway.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            创建HostBuilder
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Materal.Gateway.ServiceContextProviderFactory">
+            <summary>
+            服务工厂
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.ServiceContextProviderFactory.CreateBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            创建构建器
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.Gateway.ServiceContextProviderFactory.CreateServiceProvider(AspectCore.DependencyInjection.IServiceContext)">
+            <summary>
+            创建容器
+            </summary>
+            <param name="contextBuilder"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Materal.Gateway.Services.ConfigService">
+            <summary>
+            配置服务
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Services.ConfigService.#ctor">
+            <summary>
+            配置服务
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Services.ConfigService.GetConfigItems(System.String)">
+            <summary>
+            获得配置项组
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.Gateway.Services.ConfigService.GetConfigItem(System.Guid)">
+            <summary>
+            获得配置项
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.Gateway.Services.ConfigService.AddItemAsync(Materal.Gateway.Models.ConfigItemModel)">
+            <summary>
+            添加
+            </summary>
+            <param name="configItem"></param>
+        </member>
+        <member name="M:Materal.Gateway.Services.ConfigService.SaveItemAsync(Materal.Gateway.Models.ConfigItemModel)">
+            <summary>
+            保存
+            </summary>
+            <param name="configItem">配置项</param>
+        </member>
+        <member name="M:Materal.Gateway.Services.ConfigService.SaveGlobalAsync(Materal.Gateway.Models.GlobalConfigModel)">
+            <summary>
+            保存
+            </summary>
+            <param name="globalConfig">全局配置</param>
+        </member>
+        <member name="M:Materal.Gateway.Services.ConfigService.DeleteItemAsync(System.Guid)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="T:Materal.Gateway.Services.Models.CacheFileModel">
+            <summary>
+            缓存
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.CacheFileModel.TtlSeconds">
+            <summary>
+            时间
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.CacheFileModel.Region">
+            <summary>
+            Region
+            </summary>
+        </member>
+        <member name="T:Materal.Gateway.Services.Models.ConfigItemFileModel">
+            <summary>
+            配置项模型
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Services.Models.ConfigItemFileModel.#ctor">
+            <summary>
+            配置项模型
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Services.Models.ConfigItemFileModel.#ctor(Materal.Gateway.Models.ConfigItemModel)">
+            <summary>
+            配置项模型
+            </summary>
+            <param name="model">服务名称</param>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.ConfigItemFileModel.DownstreamPathTemplate">
+            <summary>
+            下游路径
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.ConfigItemFileModel.DownstreamScheme">
+            <summary>
+            下游Scheme
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.ConfigItemFileModel.UpstreamPathTemplate">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.ConfigItemFileModel.UpstreamHttpMethod">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.ConfigItemFileModel.ServiceName">
+            <summary>
+            服务名称
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.ConfigItemFileModel.UseServiceDiscovery">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.ConfigItemFileModel.FileCacheOptions">
+            <summary>
+            缓存
+            </summary>
+        </member>
+        <member name="T:Materal.Gateway.Services.Models.GlobalConfigFileModel">
+            <summary>
+            全局配置模型
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.GlobalConfigFileModel.BaseUrl">
+            <summary>
+            BaseUrl
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.GlobalConfigFileModel.ServiceDiscoveryProvider">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Materal.Gateway.Services.Models.ServiceDiscovery">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.ServiceDiscovery.Host">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.ServiceDiscovery.Port">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.ServiceDiscovery.Type">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Materal.Gateway.Services.Models.OcelotConfigModel">
+            <summary>
+            Ocelot模型
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Services.Models.OcelotConfigModel.#ctor(System.String)">
+            <summary>
+            Ocelot模型
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.OcelotConfigModel.Items">
+            <summary>
+            项
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.OcelotConfigModel.GlobalConfig">
+            <summary>
+            全局配置
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Services.Models.OcelotConfigModel.SaveAsync">
+            <summary>
+            保存
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Services.Models.OcelotConfigModel.GetHeadsAsync">
+            <summary>
+            获得头
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.Gateway.Services.Models.OcelotConfigModel.InitByFile">
+            <summary>
+            通过文件初始化
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Services.Models.OcelotConfigModel.InitByNew">
+            <summary>
+            通过新建初始化
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Services.Models.OcelotConfigModel.GetTokenAsync">
+            <summary>
+            获得Token
+            </summary>
+        </member>
+        <member name="T:Materal.Gateway.Services.Models.OcelotFileModel">
+            <summary>
+            Ocelot文件模型
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.OcelotFileModel.ReRoutes">
+            <summary>
+            项
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.OcelotFileModel.GlobalConfiguration">
+            <summary>
+            全局配置
+            </summary>
+        </member>
+        <member name="T:Materal.Gateway.Services.Models.OcelotTokenModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.OcelotTokenModel.access_token">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.OcelotTokenModel.expires_in">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.OcelotTokenModel.token_type">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Materal.Gateway.Services.Models.OcelotTokenModel.scope">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Materal.Gateway.Startup">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="M:Materal.Gateway.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            配置服务
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Materal.Gateway.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            配置
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

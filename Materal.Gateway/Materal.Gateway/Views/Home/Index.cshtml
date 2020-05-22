@@ -1,0 +1,102 @@
+﻿@{
+    ViewData["Title"] = "网关";
+}
+@section Styles {
+    <style>
+        a.btn.btn-primary {
+            color: #ffffff;
+        }
+    </style>
+}
+<div class="container">
+    <div class="row">
+        <div class="col-5">
+            <form autocomplete="off">
+                <div class="input-group mb-3">
+                    <input id="searchInput" type="search" name="searchKey" class="form-control" placeholder="请输入 名称 或 服务名称">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">搜索</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col" style="text-align: right;">
+            <div class="btn-group">
+                <a class="btn btn-success" asp-action="Edit">新增</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <table class="table table-sm table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">名称</th>
+                    <th scope="col">缓存</th>
+                    <th scope="col">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ConfigItemModel item in Model as List<ConfigItemModel>)
+                {
+                    <tr>
+                        <td>@item.ServiceName</td>
+                        <td>
+                            @{
+                                if (item.EnableCache)
+                                {
+                                    <span>启用</span>
+                                }
+                                else
+                                {
+                                    <span>禁用</span>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.ID">编辑</a>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" onclick="saveDeleteID('@item.ID')" data-target="#exampleModal">删除</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">提示</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                确定删除该项吗？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger" onclick="deleteItem()">删除</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        let searchInput = document.getElementById("searchInput");
+        let params = getParams();
+        if (params.hasOwnProperty("searchKey")) {
+            searchInput.value = decodeURI(params["searchKey"]);
+        }
+        let deleteID;
+        function saveDeleteID(id) {
+            deleteID = id;
+        }
+        function deleteItem() {
+            window.location = `/Home/Delete/${deleteID}`;
+        }
+    </script>
+}

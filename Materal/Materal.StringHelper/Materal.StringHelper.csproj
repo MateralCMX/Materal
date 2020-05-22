@@ -3,10 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <Description>Materal字符串帮助类</Description>
-    <PackageReleaseNotes>https://github.com/MateralCMX/Materal
-1、新增中文获取拼音</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
     <Authors>Materal</Authors>
     <Product>Materal</Product>
   </PropertyGroup>

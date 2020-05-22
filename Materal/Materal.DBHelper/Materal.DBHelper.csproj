@@ -13,9 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.0.18" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.0" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.112" />
+    <PackageReference Include="MySql.Data" Version="8.0.20" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.112.2" />
   </ItemGroup>
 
   <ItemGroup>

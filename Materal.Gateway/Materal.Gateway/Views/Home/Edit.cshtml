@@ -1,0 +1,24 @@
+﻿@model ConfigItemModel
+@{
+    ViewData["Title"] = "配置";
+}
+<form asp-action="Save" method="post" autocomplete="off">
+    <input type="hidden" name="id" value="@Model.ID">
+    <div class="form-group">
+        <label for="inputServiceName">服务名称</label>
+        <input type="text" class="form-control" id="inputServiceName" name="serviceName" value="@Model.ServiceName">
+    </div>
+    <div class="form-group form-check">
+        @if (Model.EnableCache)
+        {
+            <input name="enableCache" type="checkbox" class="form-check-input" id="checkCache" checked>
+        }
+        else
+        {
+            <input name="enableCache" type="checkbox" class="form-check-input" id="checkCache">
+        }
+        <label class="form-check-label" for="checkCache">缓存</label>
+    </div>
+    <button type="submit" class="btn btn-primary">保存</button>
+    <a href="/Home/Index" class="btn btn-secondary">返回</a>
+</form>
