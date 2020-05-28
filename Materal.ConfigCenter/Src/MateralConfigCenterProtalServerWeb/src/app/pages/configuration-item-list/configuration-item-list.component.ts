@@ -207,6 +207,7 @@ export class ConfigurationItemListComponent implements OnInit {
   }
   public cancelCopyConfigServer() {
     this.isCopyConfigServerModalVisible = false;
+    this.canCopyConfigServer = false;
   }
   public selectCopyConfigServer() {
     let checkedCount = 0;

@@ -3,7 +3,7 @@
     <nz-page-header-subtitle>Materal-ConfigCenter</nz-page-header-subtitle>
     <nz-page-header-extra>
         <nz-button-group>
-            <button nz-button [disabled]="dataLoading || !searchModel.value.configServer" (click)="openCopyConfigServer(null)" title="复制配置服务"><i nz-icon nzType="logout"></i></button>
+            <button nz-button disabled (click)="openCopyConfigServer(null)" title="复制配置服务"><i nz-icon nzType="logout"></i></button>
             <button nz-button [disabled]="dataLoading || !selectedNamespace" (click)="openDrawer(null)" title="新增配置项"><i nz-icon nzType="plus"></i></button>
         </nz-button-group>
     </nz-page-header-extra>
@@ -15,6 +15,7 @@
                         <nz-select formControlName="configServer" nzPlaceHolder="目标环境" (ngModelChange)="onChangeConfigServer()">
                             <nz-option *ngFor="let item of configServers" [nzValue]="item" [nzLabel]="item.Name"></nz-option>
                         </nz-select>
+                        <p class="config-server-url">{{searchModel.value.configServer.Address}}</p>
                     </nz-form-control>
                 </nz-form-item>
                 <nz-form-item nz-col nzSpan="6">
@@ -29,7 +30,7 @@
                 </nz-form-item>
                 <nz-form-item nz-col nzSpan="2">
                     <nz-form-control>
-                        <button nz-button nzType="primary" (click)="search()" title="查询"><i nz-icon nzType="search"></i></button>
+                        <button nz-button [disabled]="dataLoading || !selectedNamespace" nzType="primary" (click)="search()" title="查询"><i nz-icon nzType="search"></i></button>
                     </nz-form-control>
                 </nz-form-item>
             </div>
@@ -37,13 +38,13 @@
     </nz-page-header-content>
 </nz-page-header>
 <div nz-row>
-    <div nz-col nzSpan="4">
+    <div nz-col nzSpan="5">
         <nz-collapse nzAccordion="true">
             <nz-collapse-panel *ngFor="let data of projectData" [nzDisabled]="dataLoading" [title]="data.Name+'['+data.Description+']'" [nzHeader]="projectItem" (nzActiveChange)="onProjectActiveChange($event, data)">
                 <ng-template #projectItem>
                     <span class="ellipsis projectItem">{{data.Name}}[{{data.Description}}]</span>                    
                 </ng-template>
-                <nz-radio-group *ngIf="this.namespaceData[data.ID]" [(ngModel)]="selectedNamespace" (ngModelChange)="selectNamespace()">
+                <nz-radio-group class="namespace-list" *ngIf="this.namespaceData[data.ID]" [(ngModel)]="selectedNamespace" (ngModelChange)="selectNamespace()">
                     <nz-list [nzDataSource]="this.namespaceData[data.ID]" [nzRenderItem]="namespaceItem">
                         <ng-template #namespaceItem let-item>
                             <nz-list-item class="list-item">
@@ -56,7 +57,7 @@
             </nz-collapse-panel>
         </nz-collapse>
     </div>
-    <div nz-col nzSpan="20">
+    <div nz-col nzSpan="19">
         <nz-table #filterTable nzFrontPagination="false" [nzData]="tableData" [nzLoading]="dataLoading">
             <thead>
                 <tr>
@@ -88,7 +89,7 @@
 <nz-modal *ngIf="searchModel.value.configServer" [(nzVisible)]="isCopyConfigServerModalVisible" nzTitle="复制配置服务" [nzOkDisabled]="!canCopyConfigServer" (nzOnCancel)="cancelCopyConfigServer()" (nzOnOk)="copyConfigServer()">
     <div nz-row>
         <div nz-col nzSpan="12">
-            复制{{searchModel.value.configServer.Name}}配置服务中所有配置项到
+            复制<span style="color: red;">{{searchModel.value.configServer.Name}}</span>配置服务中所有配置项到
         </div>
         <div nz-col nzSpan="12">
             <nz-checkbox-group [(ngModel)]="checkConfigServers" (ngModelChange)="selectCopyConfigServer()"></nz-checkbox-group>

@@ -10,14 +10,31 @@ nz-collapse,
 nz-radio-group {
   width: 100%;
 }
+
 .projectItem {
   display: block;
   width: 100%;
 }
+
 .list-item {
   display: flex;
   &-namespace-name {
     flex: auto;
     width: calc(100% - 32px);
   }
+}
+
+.config-server-url {
+  display: block;
+  position: absolute;
+  height: 16px;
+  line-height: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.namespace-list {
+  max-height: 400px;
+  overflow: auto;
+  padding-right: 5px;
 }
