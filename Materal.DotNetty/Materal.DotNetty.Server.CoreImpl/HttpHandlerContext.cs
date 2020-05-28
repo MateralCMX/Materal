@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using DotNetty.Buffers;
+﻿using DotNetty.Buffers;
 using DotNetty.Codecs.Http;
+using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
 using Materal.DotNetty.Common;
-using System.Threading.Tasks;
-using DotNetty.Common.Utilities;
 using Materal.DotNetty.Server.Core;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
@@ -19,9 +20,19 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <param name="response"></param>
         protected virtual async Task SendHttpResponseAsync(IChannelHandlerContext ctx, IByteBufferHolder byteBufferHolder, IFullHttpResponse response)
         {
-            byteBufferHolder.Retain(0);
-            await ctx.Channel.WriteAndFlushAsync(response);
-            await ctx.CloseAsync();
+            try
+            {
+                byteBufferHolder.Retain(0);
+                if (ctx.Channel.Open)
+                {
+                    await ctx.Channel.WriteAndFlushAsync(response);
+                    await ctx.CloseAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new DotNettyException("发送HttpResponse失败", ex);
+            }
         }
         /// <summary>
         /// 获得Options返回

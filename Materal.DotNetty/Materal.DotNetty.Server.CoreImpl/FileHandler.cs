@@ -2,21 +2,23 @@
 using DotNetty.Codecs.Http;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
+using Materal.CacheHelper;
 using Materal.DotNetty.Common;
 using Materal.DotNetty.Server.Core;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using Materal.CacheHelper;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
     public class FileHandler : HttpHandlerContext
     {
+        private static readonly ConcurrentDictionary<string, object> _readingFiles = new ConcurrentDictionary<string, object>();
         private readonly ICacheManager _cacheManager;
         private const string _cacheKey = "FileCacheKey";
-
         public FileHandler(ICacheManager cacheManager)
         {
             _cacheManager = cacheManager;
@@ -88,11 +90,17 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <returns></returns>
         protected virtual async Task<byte[]> GetFileBytesAsync(string filePath)
         {
-            var result = _cacheManager.Get<byte[]>($"{_cacheKey}{filePath}");
+            while (_readingFiles.Any(m => m.Key.Equals(filePath)))
+            {
+                await Task.Delay(1000);
+            }
+            byte[] result = _cacheManager.Get<byte[]>($"{_cacheKey}{filePath}");
             if (result != null) return result;
             if (!File.Exists(filePath)) throw new DotNettyServerException("文件不存在");
+            _readingFiles.TryAdd(filePath, null);
             result = await File.ReadAllBytesAsync(filePath);
             _cacheManager.SetByAbsolute($"{_cacheKey}{filePath}", result, 1);
+            _readingFiles.Remove(filePath, out _);
             return result;
         }
         /// <summary>
@@ -102,7 +110,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <returns></returns>
         protected virtual async Task<IFullHttpResponse> GetFileResponseAsync(IFullHttpRequest request)
         {
-            string url = string.IsNullOrEmpty(Path.GetExtension(request.Uri)) ? Path.Combine(request.Uri, "Index.html") : request.Uri;
+            string url = string.IsNullOrEmpty(Path.GetExtension(request.Uri)) ? Path.Combine(request.Uri ?? throw new DotNettyException("Url为空"), "Index.html") : request.Uri;
             return await GetFileResponseAsync(url);
         }
         /// <summary>
@@ -116,7 +124,7 @@ namespace Materal.DotNetty.Server.CoreImpl
             {
                 url = url.Substring(1);
             }
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, HtmlPageFolderPath, url);
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory ?? throw new DotNettyException("路径为空"), HtmlPageFolderPath, url);
             string extension = Path.GetExtension(filePath);
             if (string.IsNullOrEmpty(extension)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
             if (!File.Exists(filePath)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
