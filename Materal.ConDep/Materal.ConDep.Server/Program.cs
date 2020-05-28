@@ -12,7 +12,7 @@ namespace Materal.ConDep.Server
     {
         public static async Task Main()
         {
-            string version = Assembly.Load("Materal.ConDep.Server").GetName().Version.ToString();
+            Version version = Assembly.Load("Materal.ConDep.Server").GetName().Version;
             Console.Title = $"Materal.ConDep.Server [版本号:{version}]";
             if (TryRegisterService())
             {
