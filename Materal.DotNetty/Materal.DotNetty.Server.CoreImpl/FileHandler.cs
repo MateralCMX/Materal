@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Materal.DateTimeHelper;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
@@ -19,6 +20,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         private static readonly ConcurrentDictionary<string, object> _readingFiles = new ConcurrentDictionary<string, object>();
         private readonly ICacheManager _cacheManager;
         private const string _cacheKey = "FileCacheKey";
+        public static int CacheSecond = 3600;
         public FileHandler(ICacheManager cacheManager)
         {
             _cacheManager = cacheManager;
@@ -88,20 +90,24 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// </summary>
         /// <param name="filePath">文件路径</param>
         /// <returns></returns>
-        protected virtual async Task<byte[]> GetFileBytesAsync(string filePath)
+        protected virtual async Task<(FileCacheModel fileCacheModel, bool isCache)> GetFileBytesAsync(string filePath)
         {
             while (_readingFiles.Any(m => m.Key.Equals(filePath)))
             {
                 await Task.Delay(1000);
             }
-            byte[] result = _cacheManager.Get<byte[]>($"{_cacheKey}{filePath}");
-            if (result != null) return result;
+            var fileCacheModel = _cacheManager.Get<FileCacheModel>($"{_cacheKey}{filePath}");
+            if (fileCacheModel != null) return (fileCacheModel, true);
             if (!File.Exists(filePath)) throw new DotNettyServerException("文件不存在");
             _readingFiles.TryAdd(filePath, null);
-            result = await File.ReadAllBytesAsync(filePath);
-            _cacheManager.SetByAbsolute($"{_cacheKey}{filePath}", result, 1);
+            fileCacheModel = new FileCacheModel
+            {
+                CacheTime = DateTime.Now,
+                Body = await File.ReadAllBytesAsync(filePath)
+            };
+            _cacheManager.SetByAbsolute($"{_cacheKey}{filePath}", fileCacheModel, CacheSecond, DateTimeTypeEnum.Second);
             _readingFiles.Remove(filePath, out _);
-            return result;
+            return (fileCacheModel, false);
         }
         /// <summary>
         /// 获得文件返回
@@ -128,11 +134,30 @@ namespace Materal.DotNetty.Server.CoreImpl
             string extension = Path.GetExtension(filePath);
             if (string.IsNullOrEmpty(extension)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
             if (!File.Exists(filePath)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
-            byte[] body = await GetFileBytesAsync(filePath);
+            (FileCacheModel fileCacheModel, bool isCache) = await GetFileBytesAsync(filePath);
             string contentType = MIMEManager.GetContentType(extension);
             Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders(contentType);
-            return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK, body, headers);
+            headers.Add(HttpHeaderNames.LastModified, fileCacheModel.CacheTime);
+            if (isCache)
+            {
+                return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotModified, headers);
+            }
+            headers.Add(HttpHeaderNames.Expires, DateTime.Now.AddSeconds(CacheSecond));
+            headers.Add(HttpHeaderNames.CacheControl, $"max-age={CacheSecond}");
+            return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK, fileCacheModel.Body, headers);
         }
         #endregion
+    }
+
+    public class FileCacheModel
+    {
+        /// <summary>
+        /// 文件内容
+        /// </summary>
+        public byte[] Body { get; set; }
+        /// <summary>
+        /// 缓存时间
+        /// </summary>
+        public DateTime CacheTime { get; set; }
     }
 }

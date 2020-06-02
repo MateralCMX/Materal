@@ -6,7 +6,7 @@
     <PackageId>Materal.DotNetty.Server.Core</PackageId>
     <Authors>Materal</Authors>
     <Product>Materal.DotNetty</Product>
-    <Version>0.1.7</Version>
+    <Version>0.1.8</Version>
   </PropertyGroup>
 
   <ItemGroup>
