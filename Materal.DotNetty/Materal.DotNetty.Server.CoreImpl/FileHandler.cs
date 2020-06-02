@@ -3,6 +3,7 @@ using DotNetty.Codecs.Http;
 using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
 using Materal.CacheHelper;
+using Materal.DateTimeHelper;
 using Materal.DotNetty.Common;
 using Materal.DotNetty.Server.Core;
 using System;
@@ -11,7 +12,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Materal.DateTimeHelper;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
@@ -89,25 +89,53 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// 获得文件Byte数组
         /// </summary>
         /// <param name="filePath">文件路径</param>
+        /// <param name="ifModifiedSince"></param>
         /// <returns></returns>
-        protected virtual async Task<(FileCacheModel fileCacheModel, bool isCache)> GetFileBytesAsync(string filePath)
+        protected virtual async Task<(FileCacheModel fileCacheModel, bool isCache)> GetFileBytesAsync(string filePath, ICharSequence ifModifiedSince)
         {
             while (_readingFiles.Any(m => m.Key.Equals(filePath)))
             {
                 await Task.Delay(1000);
             }
+            if (ifModifiedSince != null)
+            {
+                return await GetFileBytesFromCacheAsync(filePath, ifModifiedSince);
+            }
+            FileCacheModel fileCacheModel = await GetFileBytesFromFileAsync(filePath);
+            return (fileCacheModel, false);
+        }
+
+        /// <summary>
+        /// 从缓存获取
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="ifModifiedSince"></param>
+        /// <returns></returns>
+        protected virtual async Task<(FileCacheModel fileCacheModel, bool isCache)> GetFileBytesFromCacheAsync(string filePath, ICharSequence ifModifiedSince)
+        {
             var fileCacheModel = _cacheManager.Get<FileCacheModel>($"{_cacheKey}{filePath}");
-            if (fileCacheModel != null) return (fileCacheModel, true);
+            if (fileCacheModel == null) return (await GetFileBytesFromFileAsync(filePath), false);
+            DateTime ifModifiedSinceValue = ifModifiedSince == null ? fileCacheModel.CacheTime : DateTime.Parse(ifModifiedSince.ToString());
+            return fileCacheModel.CacheTime > ifModifiedSinceValue ? (await GetFileBytesFromFileAsync(filePath), false) : (fileCacheModel, true);
+        }
+        /// <summary>
+        /// 从文件获取
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        protected virtual async Task<FileCacheModel> GetFileBytesFromFileAsync(string filePath)
+        {
+            _cacheManager.Remove($"{_cacheKey}{filePath}");
             if (!File.Exists(filePath)) throw new DotNettyServerException("文件不存在");
             _readingFiles.TryAdd(filePath, null);
-            fileCacheModel = new FileCacheModel
+            var fileCacheModel = new FileCacheModel
             {
                 CacheTime = DateTime.Now,
                 Body = await File.ReadAllBytesAsync(filePath)
             };
             _cacheManager.SetByAbsolute($"{_cacheKey}{filePath}", fileCacheModel, CacheSecond, DateTimeTypeEnum.Second);
             _readingFiles.Remove(filePath, out _);
-            return (fileCacheModel, false);
+            return fileCacheModel;
         }
         /// <summary>
         /// 获得文件返回
@@ -117,14 +145,16 @@ namespace Materal.DotNetty.Server.CoreImpl
         protected virtual async Task<IFullHttpResponse> GetFileResponseAsync(IFullHttpRequest request)
         {
             string url = string.IsNullOrEmpty(Path.GetExtension(request.Uri)) ? Path.Combine(request.Uri ?? throw new DotNettyException("Url为空"), "Index.html") : request.Uri;
-            return await GetFileResponseAsync(url);
+            ICharSequence IfModifiedSince = request.Headers.Get(HttpHeaderNames.IfModifiedSince, null);
+            return await GetFileResponseAsync(url, IfModifiedSince);
         }
         /// <summary>
         /// 获得文件返回
         /// </summary>
         /// <param name="url"></param>
+        /// <param name="IfModifiedSince"></param>
         /// <returns></returns>
-        protected virtual async Task<IFullHttpResponse> GetFileResponseAsync(string url)
+        protected virtual async Task<IFullHttpResponse> GetFileResponseAsync(string url, ICharSequence IfModifiedSince)
         {
             if (url.StartsWith("/") || url.StartsWith(@"\"))
             {
@@ -134,7 +164,7 @@ namespace Materal.DotNetty.Server.CoreImpl
             string extension = Path.GetExtension(filePath);
             if (string.IsNullOrEmpty(extension)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
             if (!File.Exists(filePath)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
-            (FileCacheModel fileCacheModel, bool isCache) = await GetFileBytesAsync(filePath);
+            (FileCacheModel fileCacheModel, bool isCache) = await GetFileBytesAsync(filePath, IfModifiedSince);
             string contentType = MIMEManager.GetContentType(extension);
             Dictionary<AsciiString, object> headers = HttpResponseHelper.GetDefaultHeaders(contentType);
             headers.Add(HttpHeaderNames.LastModified, fileCacheModel.CacheTime);

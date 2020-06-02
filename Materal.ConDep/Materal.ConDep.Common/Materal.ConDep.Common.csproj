@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Materal.DotNetty.Server.CoreImpl" Version="0.1.7" />
+    <PackageReference Include="Materal.DotNetty.Server.CoreImpl" Version="0.1.9" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.3" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.3" />
     <PackageReference Include="NLog" Version="4.7.0" />
@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.1.6\contentFiles\any\netcoreapp3.1\MIMEConfig.json">
+    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.1.9\contentFiles\any\netcoreapp3.1\MIMEConfig.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

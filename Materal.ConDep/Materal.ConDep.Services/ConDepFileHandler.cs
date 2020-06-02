@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using DotNetty.Codecs.Http;
+using DotNetty.Common.Utilities;
 using Materal.CacheHelper;
 using Materal.DotNetty.Server.CoreImpl;
 
@@ -26,7 +27,8 @@ namespace Materal.ConDep.Services
             {
                 url = string.IsNullOrEmpty(Path.GetExtension(request.Uri)) ? Path.Combine(request.Uri, "Index.html") : request.Uri;
             }
-            return await GetFileResponseAsync(url);
+            ICharSequence ifModifiedSince = request.Headers.Get(HttpHeaderNames.IfModifiedSince, null);
+            return await GetFileResponseAsync(url, ifModifiedSince);
         }
     }
 }
