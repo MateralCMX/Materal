@@ -5,21 +5,21 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { PagesRoutingModule } from './pages-routing.module';
 import { AppListComponent } from './app-list/app-list.component';
 import { UploadPackageComponent } from './upload-package/upload-package.component';
-import { SystemSettingComponent } from './system-setting/system-setting.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppEditComponent } from './app-edit/app-edit.component';
 import { WebAppListComponent } from './web-app-list/web-app-list.component';
 import { WebAppEditComponent } from './web-app-edit/web-app-edit.component';
+import { DefaultDataSettingComponent } from './default-data-setting/default-data-setting.component';
 
 
 @NgModule({
   declarations: [
     AppListComponent,
     UploadPackageComponent,
-    SystemSettingComponent,
     AppEditComponent,
     WebAppListComponent,
-    WebAppEditComponent],
+    WebAppEditComponent,
+    DefaultDataSettingComponent],
   imports: [
     CommonModule,
     PagesRoutingModule,

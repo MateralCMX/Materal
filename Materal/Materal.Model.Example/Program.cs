@@ -10,7 +10,7 @@ namespace Materal.Model.Example
         {
             IServiceCollection service = new ServiceCollection();
             service.AddTransient<ITestService, TestServiceImpl>();
-            ServiceProvider serviceProvider = service.BuildDynamicProxyServiceProvider();
+            ServiceProvider serviceProvider = service.BuildServiceProvider();
             var testService = serviceProvider.GetService<ITestService>();
             testService.Test01(new TempModel
             {

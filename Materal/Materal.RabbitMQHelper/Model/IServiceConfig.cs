@@ -1,4 +1,6 @@
-﻿namespace Materal.RabbitMQHelper.Model
+﻿using System;
+
+namespace Materal.RabbitMQHelper.Model
 {
     public interface IServiceConfig
     {
@@ -21,6 +23,6 @@
         /// <summary>
         /// 超时时间
         /// </summary>
-        int Timeout { get; set; }
+        TimeSpan Timeout { get; set; }
     }
 }

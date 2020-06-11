@@ -55,9 +55,9 @@ namespace Materal.RabbitMQHelper.ClientExample
         /// <param name="e">参数</param>
         /// <param name="config">配置</param>
         /// <returns></returns>
-        private void Received(IModel channel, byte[] body, object send, BasicDeliverEventArgs e, ConsumingConfig config)
+        private void Received(IModel channel, ReadOnlyMemory<byte> body, object send, BasicDeliverEventArgs e, ConsumingConfig config)
         {
-            string message = config.Encoding.GetString(body);
+            var message = body.ToString();
             Console.WriteLine($"[{DateTime.Now:HH:mm:ss}]:{message}");
             channel.BasicAck(e.DeliveryTag, false);
         }
@@ -71,7 +71,7 @@ namespace Materal.RabbitMQHelper.ClientExample
         /// <returns></returns>
         private void Registered(IModel channel, object send, ConsumerEventArgs e, ConsumingConfig config)
         {
-            Console.WriteLine($"通道注册:{e.ConsumerTag}");
+            Console.WriteLine($"通道注册:{e.ConsumerTags}");
         }
         /// <summary>
         /// 通道反注册
@@ -83,7 +83,7 @@ namespace Materal.RabbitMQHelper.ClientExample
         /// <returns></returns>
         private void Unregistered(IModel channel, object send, ConsumerEventArgs e, ConsumingConfig config)
         {
-            Console.WriteLine($"通道反注册:{e.ConsumerTag}");
+            Console.WriteLine($"通道反注册:{e.ConsumerTags}");
         }
         /// <summary>
         /// 通道关闭
@@ -108,11 +108,11 @@ namespace Materal.RabbitMQHelper.ClientExample
         /// <param name="e">参数</param>
         /// <param name="config">配置</param>
         /// <returns></returns>
-        private async Task ReceivedAsync(IModel channel, byte[] body, object send, BasicDeliverEventArgs e, ConsumingConfig config)
+        private async Task ReceivedAsync(IModel channel, ReadOnlyMemory<byte> body, object send, BasicDeliverEventArgs e, ConsumingConfig config)
         {
             await Task.Run(() =>
             {
-                string message = config.Encoding.GetString(body);
+                var message = body.ToString();
                 Console.WriteLine($"[{DateTime.Now:HH:mm:ss}]:{message}");
                 channel.BasicAck(e.DeliveryTag, false);
             });
@@ -129,7 +129,7 @@ namespace Materal.RabbitMQHelper.ClientExample
         {
             await Task.Run(() =>
             {
-                Console.WriteLine($"通道注册:{e.ConsumerTag}");
+                Console.WriteLine($"通道注册:{e.ConsumerTags}");
             });
         }
         /// <summary>
@@ -144,7 +144,7 @@ namespace Materal.RabbitMQHelper.ClientExample
         {
             await Task.Run(() =>
             {
-                Console.WriteLine($"通道反注册:{e.ConsumerTag}");
+                Console.WriteLine($"通道反注册:{e.ConsumerTags}");
             });
         }
         /// <summary>

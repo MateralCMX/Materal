@@ -43,26 +43,26 @@ namespace Materal.ConDep.Common
         /// <summary>
         /// 服务配置
         /// </summary>
-        public static ServerConfig ServerConfig => _serverConfig ?? (_serverConfig = new ServerConfig
+        public static ServerConfig ServerConfig => _serverConfig ??= new ServerConfig
         {
             Host = Configuration["ServerConfig:Host"],
             Port = Convert.ToInt32(Configuration["ServerConfig:Port"])
-        });
+        };
         private static string _operatingPassword;
         /// <summary>
         /// 操作密码
         /// </summary>
-        public static string OperatingPassword => _operatingPassword ?? (_operatingPassword = Configuration["OperatingPassword"]);
+        public static string OperatingPassword => _operatingPassword ??= Configuration["OperatingPassword"];
         private static string _systemName;
         /// <summary>
         /// 系统名称
         /// </summary>
-        public static string SystemName => _systemName ?? (_systemName = Configuration["SystemName"]);
+        public static string SystemName => _systemName ??= Configuration["SystemName"];
         private static string _winRarPath;
         /// <summary>
         /// WinRar路径
         /// </summary>
-        public static string WinRarPath => _winRarPath ?? (_winRarPath = Configuration["WinRarPath"]);
+        public static string WinRarPath => _winRarPath ??= Configuration["WinRarPath"];
         #endregion
     }
 }

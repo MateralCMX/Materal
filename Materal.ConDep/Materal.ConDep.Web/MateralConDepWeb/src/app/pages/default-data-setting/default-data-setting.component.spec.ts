@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SystemSettingComponent } from './system-setting.component';
+import { DefaultDataSettingComponent } from './default-data-setting.component';
 
-describe('SystemSettingComponent', () => {
-  let component: SystemSettingComponent;
-  let fixture: ComponentFixture<SystemSettingComponent>;
+describe('DefaultDataSettingComponent', () => {
+  let component: DefaultDataSettingComponent;
+  let fixture: ComponentFixture<DefaultDataSettingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SystemSettingComponent ]
+      declarations: [ DefaultDataSettingComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SystemSettingComponent);
+    fixture = TestBed.createComponent(DefaultDataSettingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

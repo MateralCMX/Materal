@@ -1,0 +1,10 @@
+<nz-page-header nzGhost="false">
+    <nz-page-header-title>默认数据配置</nz-page-header-title>
+    <nz-page-header-subtitle>Materal-ConDep</nz-page-header-subtitle>
+    <nz-page-header-extra>
+        <nz-button-group>
+            <button nzType="primary" [disabled]="isLoading" nz-button (click)="save()">保存</button>
+        </nz-button-group>
+    </nz-page-header-extra>
+</nz-page-header>
+<textarea nz-input placeholder="请输入默认数据" [(ngModel)]="defaultData" [nzAutosize]="{ minRows: 6 }"></textarea>

@@ -18,10 +18,10 @@ namespace Materal.RabbitMQHelper.Model
         /// <summary>
         /// 接收方法
         /// </summary>
-        public Action<IModel, byte[], object, BasicDeliverEventArgs, RabbitMQClientConfig> Received { get; set; } = null;
+        public Action<IModel, ReadOnlyMemory<byte>, object, BasicDeliverEventArgs, RabbitMQClientConfig> Received { get; set; } = null;
         /// <summary>
         /// 接收方法
         /// </summary>
-        public Func<IModel, byte[], object, BasicDeliverEventArgs, RabbitMQClientConfig, Task> ReceivedAsync { get; set; } = null;
+        public Func<IModel, ReadOnlyMemory<byte>, object, BasicDeliverEventArgs, RabbitMQClientConfig, Task> ReceivedAsync { get; set; } = null;
     }
 }
