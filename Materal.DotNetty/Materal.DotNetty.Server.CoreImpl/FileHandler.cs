@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Materal.DotNetty.Server.CoreImpl
 {
@@ -144,7 +145,8 @@ namespace Materal.DotNetty.Server.CoreImpl
         /// <returns></returns>
         protected virtual async Task<IFullHttpResponse> GetFileResponseAsync(IFullHttpRequest request)
         {
-            string url = string.IsNullOrEmpty(Path.GetExtension(request.Uri)) ? Path.Combine(request.Uri ?? throw new DotNettyException("Url为空"), "Index.html") : request.Uri;
+            string url = HttpUtility.UrlDecode(request.Uri, System.Text.Encoding.UTF8);
+            url = string.IsNullOrEmpty(Path.GetExtension(url)) ? Path.Combine(url ?? throw new DotNettyException("Url为空"), "Index.html") : url;
             ICharSequence IfModifiedSince = request.Headers.Get(HttpHeaderNames.IfModifiedSince, null);
             return await GetFileResponseAsync(url, IfModifiedSince);
         }
