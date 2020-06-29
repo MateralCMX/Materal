@@ -152,7 +152,7 @@ namespace Materal.ConDep.ServiceImpl
 
         public async Task UpdateAppAsync(IUploadFileModel file)
         {
-            string workingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application");
+            string workingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Application");
             string saveDirectory = Path.Combine(workingDirectory, "Backup");
             if (!Directory.Exists(saveDirectory)) Directory.CreateDirectory(saveDirectory);
             string filePath = Path.Combine(saveDirectory, file.Name);

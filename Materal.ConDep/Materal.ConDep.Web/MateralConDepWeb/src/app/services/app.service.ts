@@ -109,6 +109,12 @@ export class AppService extends BasiceService {
     return this.sendGet('/App/GetConsoleList', { id }, success, null, complete);
   }
   /**
+   * 清理缓存
+   */
+  public clearCache(success?: (value: ResultDataModel<string[]>) => void, complete?: () => void) {
+    return this.sendGet('/App/ClearCache', null, success, null, complete);
+  }
+  /**
    * 上传文件
    */
   public updateAppFile(item: UploadXHRArgs) {

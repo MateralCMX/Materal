@@ -189,4 +189,14 @@ export class AppListComponent implements OnInit {
       nzCancelText: '取消'
     });
   }
+  public clearCache(): void {
+    this.dataLoading = true;
+    const success = (result: ResultModel) => {
+      this.message.success(result.Message);
+    };
+    const complete = () => {
+      this.dataLoading = false;
+    };
+    this.appService.clearCache(success, complete);
+  }
 }

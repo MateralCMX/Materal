@@ -3,6 +3,7 @@
     <nz-page-header-subtitle>Materal-ConDep</nz-page-header-subtitle>
     <nz-page-header-extra>
         <nz-button-group>
+            <button nz-button nzType="primary" (click)="clearCache()">清理缓存</button>
             <button nz-button (click)="openDrawer(null)">新增应用</button>
             <button nz-button nzType="primary" (click)="StartAllApp()">全部启动</button>
             <button nz-button nzType="danger" (click)="StopAllApp()">全部停止</button>

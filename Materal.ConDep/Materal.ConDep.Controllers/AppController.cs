@@ -8,6 +8,8 @@ using Materal.DotNetty.Server.Core.Models;
 using Materal.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Materal.ConDep.Controllers
@@ -325,6 +327,42 @@ namespace Materal.ConDep.Controllers
             _appService.UpdateAppAsync(file);
             _conDepFileHandler.ClearCache();
             return ResultModel.Success("上传成功");
+        }
+        /// <summary>
+        /// 清理缓存
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResultModel ClearCache()
+        {
+            try
+            {
+                string workingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Application", "Temp");
+                if (Directory.Exists(workingDirectory))
+                {
+                    var workingDirectoryInfo = new DirectoryInfo(workingDirectory);
+                    foreach (DirectoryInfo directoryInfo in workingDirectoryInfo.GetDirectories())
+                    {
+                        if (!HasChild(directoryInfo))
+                        {
+                            directoryInfo.Delete(true);
+                        }
+                    }
+                }
+                _conDepFileHandler.ClearCache();
+                return ResultModel.Success("缓存已清理");
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ResultModel.Fail(ex.Message);
+            }
+        }
+
+        private bool HasChild(DirectoryInfo directoryInfo)
+        {
+            if (directoryInfo.GetFiles().Length != 0) return true;
+            DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
+            return directoryInfos.Length != 0 && directoryInfos.Any(HasChild);
         }
     }
 }

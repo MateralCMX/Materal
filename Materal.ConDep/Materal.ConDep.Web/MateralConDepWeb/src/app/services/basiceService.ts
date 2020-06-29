@@ -7,7 +7,7 @@ import { ResultTypeEnum } from './models/result/resultTypeEnum';
 import { AuthorityCommon } from '../components/authority-common';
 
 export class BasiceService {
-    public baseUrl = 'http://192.168.0.162:8800/api';
+    public baseUrl = 'http://116.55.251.31:8800/api';
     constructor(protected route: Router, protected http: HttpClient, protected message: NzMessageService, protected authorityCommon: AuthorityCommon) {
         this.baseUrl = `${location.origin}/api`;
     }
