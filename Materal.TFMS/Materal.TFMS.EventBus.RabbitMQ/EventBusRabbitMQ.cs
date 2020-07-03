@@ -200,11 +200,46 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 {
                     _consumerChannel.BasicAck(eventArgs.DeliveryTag, false);
                 }
+                else
+                {
+                    _logger?.LogError(new MateralTFMSException("消息处理失败"), "错误消息: \"{Message}\"", message);
+                    _consumerChannel.BasicReject(eventArgs.DeliveryTag, !MateralTFMSRabbitMQConfig.EventErrorConfig.Discard);
+                }
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                _logger?.LogError(ex, "错误消息: \"{Message}\"", message);
-                _consumerChannel.BasicNack(eventArgs.DeliveryTag, false, false);
+                _logger?.LogError(exception, "错误消息: \"{Message}\"", message);
+                _consumerChannel.BasicReject(eventArgs.DeliveryTag, !MateralTFMSRabbitMQConfig.EventErrorConfig.Discard);
+            }
+        }
+        /// <summary>
+        /// 处理错误消息
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="handler"></param>
+        /// <returns></returns>
+        private async Task HandlerErrorMessageAsync(Exception exception, Func<Task> handler)
+        {
+            var isOK = false;
+            if (MateralTFMSRabbitMQConfig.EventErrorConfig.IsRetry)
+            {
+                for (var i = 0; i < MateralTFMSRabbitMQConfig.EventErrorConfig.RetryNumber; i++)
+                {
+                    try
+                    {
+                        await handler();
+                        isOK = true;
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        isOK = false;
+                    }
+                }
+            }
+            if (!isOK)
+            {
+                throw new MateralTFMSException("消息处理失败", exception);
             }
         }
         /// <summary>
@@ -226,8 +261,14 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                     {
                         if (!(_service.GetService(subscription.HandlerType) is IDynamicIntegrationEventHandler handler)) continue;
                         dynamic eventData = JObject.Parse(message);
-                        await Task.Yield();
-                        await handler.HandleAsync(eventData);
+                        try
+                        {
+                            await handler.HandleAsync(eventData);
+                        }
+                        catch (Exception exception)
+                        {
+                            await HandlerErrorMessageAsync(exception, async () => await handler.HandleAsync(eventData));
+                        }
                     }
                     else
                     {
@@ -238,8 +279,14 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                         Type concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
                         MethodInfo handlerMethodInfo = concreteType.GetMethod("HandleAsync");
                         if (handlerMethodInfo == null || handlerMethodInfo.ReturnType != typeof(Task)) continue;
-                        await Task.Yield();
-                        await (Task)handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
+                        try
+                        {
+                            await (Task)handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
+                        }
+                        catch (Exception exception)
+                        {
+                            await HandlerErrorMessageAsync(exception, async () => await (Task)handlerMethodInfo.Invoke(handler, new[] { integrationEvent }));
+                        }
                     }
                     _logger?.LogTrace("处理器{EventHandlerName}执行完毕", subscription.HandlerType.Name);
                 }

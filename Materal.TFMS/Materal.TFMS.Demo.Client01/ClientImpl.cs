@@ -13,12 +13,12 @@ namespace Materal.TFMS.Demo.Client01
         {
             _eventBus = eventBus;
             eventBus.Subscribe<Event01, Client01Event01Handler>();
-            eventBus.Subscribe<Event02, Client01Event02Handler>();
-            eventBus.Subscribe<Event02, Client01Event02Handler2>();
-            eventBus.Subscribe<Event03, Client01Event03Handler>();
-            eventBus.Subscribe<Event03, Client01Event03Handler2>();
-            eventBus.Subscribe<Event04, Client01Event04Handler>();
-            eventBus.Subscribe<Event05, Client01Event05Handler>();
+            //eventBus.Subscribe<Event02, Client01Event02Handler>();
+            //eventBus.Subscribe<Event02, Client01Event02Handler2>();
+            //eventBus.Subscribe<Event03, Client01Event03Handler>();
+            //eventBus.Subscribe<Event03, Client01Event03Handler2>();
+            //eventBus.Subscribe<Event04, Client01Event04Handler>();
+            //eventBus.Subscribe<Event05, Client01Event05Handler>();
         }
 
         public void SendEvent()
@@ -43,14 +43,15 @@ namespace Materal.TFMS.Demo.Client01
             {
                 Message = $"这是来自Client01的{nameof(Event05)}事件"
             };
-            for (var i = 0; i < 10; i++)
-            {
-                _eventBus.Publish(event1);
-                _eventBus.Publish(event2);
-                _eventBus.Publish(event3);
-                _eventBus.Publish(event4);
-                _eventBus.Publish(event5);
-            }
+            //for (var i = 0; i < 10; i++)
+            //{
+            //    _eventBus.Publish(event1);
+            //    _eventBus.Publish(event2);
+            //    _eventBus.Publish(event3);
+            //    _eventBus.Publish(event4);
+            //    _eventBus.Publish(event5);
+            //}
+            _eventBus.Publish(event1);
         }
     }
 }

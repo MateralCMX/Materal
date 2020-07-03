@@ -7,9 +7,10 @@ namespace Materal.TFMS.Demo.Client01.EventHandlers
 {
     public class Client01Event03Handler2 : IIntegrationEventHandler<Event03>
     {
-        public async Task HandleAsync(Event03 @event)
+        public Task HandleAsync(Event03 @event)
         {
-            await Task.Run(() => Console.WriteLine($"{GetType().Name}接收到事件{@event.GetType().Name}"));
+            Console.WriteLine($"{GetType().Name}接收到事件{@event.GetType().Name}");
+            return Task.FromResult(0);
         }
     }
 }

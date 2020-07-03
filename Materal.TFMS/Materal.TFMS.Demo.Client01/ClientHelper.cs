@@ -38,7 +38,7 @@ namespace Materal.TFMS.Demo.Client01
                 Password = "admin"
             });
             Services.AddTransient<ILoggerFactory, LoggerFactory>();
-            const string queueName = "MateralTFMSDemoQueueName3";
+            const string queueName = "MateralTFMSDemoQueueName1";
             const string exchangeName = "MateralTFMSDemoExchangeName";
             Services.AddEventBus(queueName, exchangeName);
             Services.AddSingleton<IClient, ClientImpl>();
