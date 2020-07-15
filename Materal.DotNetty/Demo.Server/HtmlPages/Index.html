@@ -1,11 +1,41 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    Hello World!
+    <input id="inputFile" type="file" />
+    <button type="button" onclick="uploadFile()">上传</button>
+    <script>
+        function uploadFile() {
+            const inputFile = document.getElementById("inputFile");
+            const formData = new FormData();
+            formData.append("file", inputFile.files[0]);
+            // $.ajax({
+            //     url: 'http://192.168.0.101:8800/api/Test/UploadFile/',
+            //     dataType:'json',
+            //     type:'POST',
+            //     async: false,
+            //     data: formData,
+            //     processData : false, // 使数据不做处理
+            //     contentType : false, // 不要设置Content-Type请求头
+            //     success: function(data){
+            //         console.log(data);
+            //     },
+            //     error:function(response){
+            //         console.log(response);
+            //     }
+            // });
+            axios.post('http://192.168.0.101:8800/api/App/UpdateAppFile/', formData).then(res => {
+                console.log(res)
+            }).catch(err => {
+                console.error(err)
+            })
+        }
+    </script>
 </body>
 </html>

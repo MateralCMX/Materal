@@ -224,7 +224,7 @@ namespace Materal.DotNetty.Server.CoreImpl
                     @params[i] = bodyParams.JsonToObject(parameters[i].ParameterType);
                     continue;
                 }
-                if (urlParams.ContainsKey(parameters[i].Name))
+                if (urlParams.ContainsKey(parameters[i].Name ?? throw new DotNettyException("参数为空")))
                 {
                     @params[i] = urlParams[parameters[i].Name].ConvertTo(parameters[i].ParameterType);
                     continue;

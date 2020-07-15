@@ -6,7 +6,7 @@
     <PackageId>Materal.DotNetty.Server.CoreImpl</PackageId>
     <Authors>Materal</Authors>
     <Product>Materal.DotNetty</Product>
-    <Version>0.1.10</Version>
+    <Version>0.1.11</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
     <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
     <PackageReference Include="Materal.ConvertHelper" Version="1.0.8" />
     <PackageReference Include="Materal.Model" Version="1.0.9" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.6" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,7 +15,7 @@ import { WebAppModel } from './models/app/WebAppModel';
 })
 export class AppService extends BasiceService {
   constructor(protected route: Router, protected http: HttpClient, protected message: NzMessageService,
-              protected authorityCommon: AuthorityCommon) {
+    protected authorityCommon: AuthorityCommon) {
     super(route, http, message, authorityCommon);
   }
   /**
@@ -126,25 +126,36 @@ export class AppService extends BasiceService {
       withCredentials: true
     };
     const token = this.authorityCommon.getToken();
-    if (token) {
-      initParams.headers = new HttpHeaders({ Authorization: token });
-    }
-    const req = new HttpRequest('POST', url, formData, initParams);
-    return this.http.request(req).subscribe(
-      (event: HttpEvent<{}>) => {
-        if (event.type === HttpEventType.UploadProgress) {
-          if (event.total > 0) {
-            (event as any).percent = (event.loaded / event.total) * 100;
-          }
-          item.onProgress(event, item.file);
-        } else if (event instanceof HttpResponse) {
-          item.onSuccess(event.body, item.file, event);
-        }
-      },
-      error => {
-        item.onError(error, item.file);
-        this.handlerError(error);
-      }
-    );
+    // if (token) {
+    //   initParams.headers = new HttpHeaders({ Authorization: token });
+    // }
+    // const req = new HttpRequest('POST', url, formData, initParams);
+    // return this.http.request(req).subscribe(
+    //   (event: HttpEvent<{}>) => {
+    //     if (event.type === HttpEventType.UploadProgress) {
+    //       if (event.total > 0) {
+    //         (event as any).percent = (event.loaded / event.total) * 100;
+    //       }
+    //       item.onProgress(event, item.file);
+    //     } else if (event instanceof HttpResponse) {
+    //       item.onSuccess(event.body, item.file, event);
+    //     }
+    //   },
+    //   error => {
+    //     item.onError(error, item.file);
+    //     this.handlerError(error);
+    //   }
+    // );
+    (window as any).axios({
+      method: 'post',
+      url,
+      data: formData,
+      headers: { Authorization: token }
+    }).then(result => {
+      item.onSuccess(result.request, item.file, result.request);
+    }).catch(error => {
+      item.onError(error.request, item.file);
+      this.handlerError(error.request);
+    });
   }
 }

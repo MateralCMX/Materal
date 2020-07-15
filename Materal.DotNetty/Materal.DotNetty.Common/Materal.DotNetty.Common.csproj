@@ -6,13 +6,13 @@
     <PackageId>Materal.DotNetty.Common</PackageId>
     <Authors>Materal</Authors>
     <Product>Materal.DotNetty</Product>
-    <Version>0.1.10</Version>
+    <Version>0.1.11</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="DotNetty.Buffers" Version="0.6.0" />
     <PackageReference Include="DotNetty.Codecs.Http" Version="0.6.0" />
-    <PackageReference Include="Materal.Common" Version="1.0.2" />
+    <PackageReference Include="Materal.Common" Version="1.0.3" />
   </ItemGroup>
 
 </Project>
