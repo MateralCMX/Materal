@@ -30,7 +30,7 @@ namespace Materal.ConDep.Server
             {
                 builder.ClearProviders();
                 builder.SetMinimumLevel(LogLevel.Trace);
-                builder.AddNLog(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
+                builder.AddNLog(Path.Combine(AppDomain.CurrentDomain.BaseDirectory ?? string.Empty, "NLog.config"));
             });
             services.AddSingleton<IAppService, AppServiceImpl>();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.ConDep.ServiceImpl"))

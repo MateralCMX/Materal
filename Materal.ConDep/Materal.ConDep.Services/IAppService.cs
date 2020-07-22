@@ -106,6 +106,7 @@ namespace Materal.ConDep.Services
         /// <param name="id"></param>
         /// <returns></returns>
         List<string> GetConsoleList(Guid id);
+
         /// <summary>
         /// 上传APP
         /// </summary>

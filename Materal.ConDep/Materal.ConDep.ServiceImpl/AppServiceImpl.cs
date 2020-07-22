@@ -1,4 +1,5 @@
 ﻿using Materal.ConDep.Common;
+using Materal.ConDep.ServiceImpl.Models;
 using Materal.ConDep.Services;
 using Materal.ConDep.Services.Models;
 using Materal.ConvertHelper;
@@ -17,6 +18,9 @@ namespace Materal.ConDep.ServiceImpl
     {
         private readonly AppCollection _appCollection;
         private readonly WebAppCollection _webAppCollection;
+        private readonly Queue<UpdateAppFileModel> _updateQueue = new Queue<UpdateAppFileModel>();
+        private readonly object _updateTaskRuingLock = new object();
+        private bool _updateTaskRuing;
         public AppServiceImpl()
         {
             string appJsonFilePath = $"{AppDomain.CurrentDomain.BaseDirectory}ApplicationData.json";
@@ -138,6 +142,50 @@ namespace Materal.ConDep.ServiceImpl
         {
             return _appCollection.GetAppConsoleList(_appCollection[id]);
         }
+
+        public async Task UpdateAppAsync(IUploadFileModel file)
+        {
+            string workingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Application");
+            string saveDirectory = Path.Combine(workingDirectory, "Backup");
+            if (!Directory.Exists(saveDirectory)) Directory.CreateDirectory(saveDirectory);
+            var model = new UpdateAppFileModel
+            {
+                WorkingDirectory = workingDirectory,
+                FilePath = Path.Combine(saveDirectory, file.Name)
+            };
+            file.SaveAs(model.FilePath);
+            await UpdateAppFileAsync(model);
+            //Task.Run(() => StartUpdateAppTask(model));
+        }
+
+        #region 私有方法
+        /// <summary>
+        /// 启动更新APP任务
+        /// </summary>
+        /// <param name="model"></param>
+        private void StartUpdateAppTask(UpdateAppFileModel model)
+        {
+            _updateQueue.Enqueue(model);
+            if (_updateTaskRuing) return;
+            lock (_updateTaskRuingLock)
+            {
+                if (_updateTaskRuing) return;
+                _updateTaskRuing = true;
+                try
+                {
+                    while (_updateQueue.Count == 0)
+                    {
+                        if (!_updateQueue.TryDequeue(out UpdateAppFileModel updateAppFile)) continue;
+                        Task task = Task.Run(async () => await UpdateAppFileAsync(updateAppFile));
+                        Task.WaitAll(task);
+                    }
+                }
+                finally
+                {
+                    _updateTaskRuing = false;
+                }
+            }
+        }
         /// <summary>
         /// 是否可以运行
         /// </summary>
@@ -149,33 +197,21 @@ namespace Materal.ConDep.ServiceImpl
             var directoryInfo = new DirectoryInfo(path);
             return directoryInfo.GetDirectories().Length == 0;
         }
-
-        public async Task UpdateAppAsync(IUploadFileModel file)
-        {
-            string workingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory!, "Application");
-            string saveDirectory = Path.Combine(workingDirectory, "Backup");
-            if (!Directory.Exists(saveDirectory)) Directory.CreateDirectory(saveDirectory);
-            string filePath = Path.Combine(saveDirectory, file.Name);
-            file.SaveAs(filePath);
-            await UpdateAppFileAsync(workingDirectory, filePath);
-        }
-
         /// <summary>
         /// 更新APP文件
         /// </summary>
-        /// <param name="workingDirectory"></param>
-        /// <param name="filePath"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        private async Task UpdateAppFileAsync(string workingDirectory, string filePath)
+        private async Task UpdateAppFileAsync(UpdateAppFileModel model)
         {
             var appManager = ApplicationService.GetService<IAppService>();
-            string tempPath = Path.Combine(workingDirectory, $"Temp/{StringManager.GetRandomStrByGuid()}");
+            string tempPath = Path.Combine(model.WorkingDirectory, $"Temp/{StringManager.GetRandomStrByGuid()}");
             DirectoryInfo tempDirectoryInfo = null;
             if (!Directory.Exists(tempPath)) tempDirectoryInfo = Directory.CreateDirectory(tempPath);
-            if (tempDirectoryInfo == null) tempDirectoryInfo = new DirectoryInfo(tempPath);
+            tempDirectoryInfo ??= new DirectoryInfo(tempPath);
             var cmdManager = new CmdManager();
             string winRarCmd = Path.Combine(ApplicationConfig.WinRarPath, "UnRAR.exe");
-            await cmdManager.RunCmdCommandsAsync($"\"{winRarCmd}\" x -o+ -y {filePath} {tempPath}");
+            await cmdManager.RunCmdCommandsAsync($"\"{winRarCmd}\" x -o+ -y {model.FilePath} {tempPath}");
             DirectoryInfo[] directoryInfos = tempDirectoryInfo.GetDirectories();
             string[] paths = directoryInfos.Select(m => m.Name).ToArray();
             appManager.StopAppByPaths(paths);
@@ -183,7 +219,7 @@ namespace Materal.ConDep.ServiceImpl
             {
                 try
                 {
-                    string dirPath = Path.Combine(workingDirectory, directoryInfo.Name);
+                    string dirPath = Path.Combine(model.WorkingDirectory, directoryInfo.Name);
                     CopyDirectory(directoryInfo, dirPath);
                 }
                 finally
@@ -220,5 +256,6 @@ namespace Materal.ConDep.ServiceImpl
             }
             #endregion
         }
+        #endregion
     }
 }

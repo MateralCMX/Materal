@@ -9,7 +9,6 @@ using Materal.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Materal.ConDep.Controllers
@@ -322,9 +321,9 @@ namespace Materal.ConDep.Controllers
         /// <param name="file"></param>
         /// <returns></returns>
         [HttpPost]
-        public ResultModel UpdateAppFile(IUploadFileModel file)
+        public async Task<ResultModel> UpdateAppFile(IUploadFileModel file)
         {
-            _appService.UpdateAppAsync(file);
+            await _appService.UpdateAppAsync(file);
             _conDepFileHandler.ClearCache();
             return ResultModel.Success("上传成功");
         }
@@ -343,10 +342,7 @@ namespace Materal.ConDep.Controllers
                     var workingDirectoryInfo = new DirectoryInfo(workingDirectory);
                     foreach (DirectoryInfo directoryInfo in workingDirectoryInfo.GetDirectories())
                     {
-                        if (!HasChild(directoryInfo))
-                        {
-                            directoryInfo.Delete(true);
-                        }
+                        directoryInfo.Delete(true);
                     }
                 }
                 _conDepFileHandler.ClearCache();
@@ -356,13 +352,6 @@ namespace Materal.ConDep.Controllers
             {
                 return ResultModel.Fail(ex.Message);
             }
-        }
-
-        private bool HasChild(DirectoryInfo directoryInfo)
-        {
-            if (directoryInfo.GetFiles().Length != 0) return true;
-            DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
-            return directoryInfos.Length != 0 && directoryInfos.Any(HasChild);
         }
     }
 }
