@@ -4,7 +4,6 @@ using Materal.TFMS.EventBus.RabbitMQ;
 using Materal.TFMS.EventBus.RabbitMQ.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
 
 namespace Materal.TFMS.Demo.Core.Extensions
 {

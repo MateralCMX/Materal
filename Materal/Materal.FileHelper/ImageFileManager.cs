@@ -25,6 +25,32 @@ namespace Materal.FileHelper
             }
         }
         /// <summary>
+        /// 获得Base64的图片
+        /// </summary>
+        /// <param name="image"></param>
+        /// <returns></returns>
+        public static string GetBase64Image(this Image image)
+        {
+            return GetBase64Image(image, ImageFormat.Jpeg);
+        }
+        /// <summary>
+        /// 获得Base64的图片
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="imageFormat"></param>
+        /// <returns></returns>
+        public static string GetBase64Image(this Image image, ImageFormat imageFormat)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                image.Save(memoryStream, imageFormat);
+                var imageArray = new byte[memoryStream.Length];
+                memoryStream.Position = 0;
+                memoryStream.Read(imageArray, 0, (int)memoryStream.Length);
+                return "data:image/png;base64," + Convert.ToBase64String(imageArray);
+            }
+        }
+        /// <summary>
         /// 获取缩略图
         /// </summary>
         /// <param name="filePath"></param>

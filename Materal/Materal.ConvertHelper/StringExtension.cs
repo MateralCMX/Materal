@@ -492,8 +492,8 @@ namespace Materal.ConvertHelper
         /// <returns>二维码图片</returns>
         public static Bitmap ToQRCode(this string inputStr, int pixelsPerModule = 20, Color? darkColor = null, Color? lightColor = null, Bitmap icon = null)
         {
-            if (darkColor == null) darkColor = Color.Black;
-            if (lightColor == null) lightColor = Color.White;
+            darkColor ??= Color.Black;
+            lightColor ??= Color.White;
             var qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(inputStr, QRCodeGenerator.ECCLevel.H);
             var qrCode = new QRCode(qrCodeData);
