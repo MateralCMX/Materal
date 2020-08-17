@@ -1,0 +1,16 @@
+{
+  "ServerConfig": {
+    "Host": "116.55.251.31",
+    "Port": 8700
+  },
+  "SqliteConfig": {
+    "FilePath": "ConDepCenterDB.db"
+  },
+  "DefaultPassword": "123456",
+  "JWT": {
+    "Key": "MateralCMXConfig",
+    "Issuer": "Materal.ConDep",
+    "Audience": "WebAPI",
+    "ExpiredTime": "18000"
+  }
+}

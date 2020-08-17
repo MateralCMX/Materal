@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { SystemService } from '../services/system.service';
 import { ResultDataModel } from '../services/models/result/resultDataModel';
 import { SystemInfo } from '../services/models/system/SystemInfo';
-import { LoginRequestModel } from '../services/models/authority/loginRequestModel';
-import { AuthorityService } from '../services/authority.service';
+import { LoginRequestModel } from '../services/models/user/loginRequestModel';
+import { UserService } from '../services/authority.service';
 import { FormGroupCommon } from '../components/form-group-common';
 import { ResultModel } from '../services/models/result/resultModel';
 import { NzMessageService } from 'ng-zorro-antd';
+import { ServerCommon } from '../components/server-common';
 
 @Component({
   selector: 'app-login',
@@ -17,26 +18,22 @@ import { NzMessageService } from 'ng-zorro-antd';
 })
 export class LoginComponent implements OnInit {
   public systemInfo: SystemInfo = {
-    Name: 'Materal-持续发布系统',
+    Name: 'Materal-ConDep-控制中心',
     Version: '1.0.0'
   };
   public formData: FormGroup;
   public isLoging = false;
-  constructor(private router: Router, private systemService: SystemService, private authorityService: AuthorityService,
-              private formGroupCommon: FormGroupCommon, protected message: NzMessageService) {
+  constructor(private router: Router, private systemService: SystemService, private userService: UserService,
+              private formGroupCommon: FormGroupCommon, protected message: NzMessageService,
+              private serverCommon: ServerCommon) {
   }
   public ngOnInit(): void {
+    this.serverCommon.removeServerUrl();
     this.formData = new FormGroup({
+      account: new FormControl({ value: null, disabled: this.isLoging }, [Validators.required]),
       password: new FormControl({ value: null, disabled: this.isLoging }, [Validators.required])
     });
     this.loadSystemInfo();
-    this.logout();
-  }
-  private logout() {
-    const success = (result: ResultModel) => {
-      this.message.success(result.Message);
-    };
-    this.authorityService.logout(success);
   }
   private loadSystemInfo() {
     const success = (result: ResultDataModel<SystemInfo>) => {
@@ -48,6 +45,7 @@ export class LoginComponent implements OnInit {
     if (!this.formGroupCommon.canValid(this.formData)) { return; }
     this.isLoging = true;
     const data: LoginRequestModel = {
+      Account: this.formData.value.account,
       Password: this.formData.value.password
     };
     const success = () => {
@@ -56,6 +54,6 @@ export class LoginComponent implements OnInit {
     const complete = () => {
       this.isLoging = false;
     };
-    this.authorityService.login(data, success, complete);
+    this.userService.login(data, success, complete);
   }
 }

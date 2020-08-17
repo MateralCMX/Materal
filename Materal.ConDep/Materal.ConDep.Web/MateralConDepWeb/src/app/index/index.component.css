@@ -4,10 +4,17 @@
   font-size: 20px;
   font-weight: bold;
 }
+.header-right{
+  margin-left: auto;
+}
+.server-list{
+  width: 200px;
+}
 .logout{
   padding: 0 20px;
   color: #fff;
-  margin-left: auto;
+  height: 100%;
+  display: inline-block;
 }
 
 [nz-menu] {

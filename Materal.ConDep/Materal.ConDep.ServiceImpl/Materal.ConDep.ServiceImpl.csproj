@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
+    <PackageReference Include="Materal.NetworkHelper" Version="1.0.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Materal.ConDep.Center.PresentationModel\Materal.ConDep.Center.PresentationModel.csproj" />
     <ProjectReference Include="..\Materal.ConDep.Services\Materal.ConDep.Services.csproj" />
   </ItemGroup>
 

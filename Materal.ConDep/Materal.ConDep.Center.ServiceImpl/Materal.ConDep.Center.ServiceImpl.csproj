@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.NetworkHelper" Version="1.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ConDep.Center.Services\Materal.ConDep.Center.Services.csproj" />
+    <ProjectReference Include="..\Materal.ConDep.Center.SqliteEFRepository\Materal.ConDep.Center.SqliteEFRepository.csproj" />
+  </ItemGroup>
+
+</Project>

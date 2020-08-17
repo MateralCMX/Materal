@@ -5,18 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Materal.DotNetty.Server.CoreImpl" Version="0.1.11" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.6" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.6" />
-    <PackageReference Include="NLog" Version="4.7.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.7" />
+    <PackageReference Include="NLog" Version="4.7.3" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.6.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.1.9\contentFiles\any\netcoreapp3.1\MIMEConfig.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\Materal.ConDep\Materal.ConDep.csproj" />
   </ItemGroup>
+
   <ItemGroup>
     <None Update="appsetting.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

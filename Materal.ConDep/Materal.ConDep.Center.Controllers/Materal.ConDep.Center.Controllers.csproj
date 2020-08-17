@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.ConDep.Center.PresentationModel\Materal.ConDep.Center.PresentationModel.csproj" />
+    <ProjectReference Include="..\Materal.ConDep.Center.Services\Materal.ConDep.Center.Services.csproj" />
+  </ItemGroup>
+
+</Project>

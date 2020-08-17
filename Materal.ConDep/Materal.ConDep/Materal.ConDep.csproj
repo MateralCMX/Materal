@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.DotNetty.Server.CoreImpl" Version="0.1.11" />
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.6" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
+    <PackageReference Include="NetCore.AutoRegisterDi" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="C:\Users\cloom\.nuget\packages\materal.dotnetty.server.coreimpl\0.1.11\contentFiles\any\netcoreapp3.1\MIMEConfig.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

@@ -7,7 +7,12 @@
       <li nz-menu-item nzMatchRouter="true" routerLink="UploadPackage">上传程序包</li>
       <li nz-menu-item nzMatchRouter="true" routerLink="DefaultDataSetting">默认数据配置</li>
     </ul>
-    <a class="logout" routerLink="/Login">退出登录</a>
+    <div class="header-right">
+      <nz-select [(ngModel)]="selectedValue" class="server-list" (ngModelChange)="serverListChange($event)">
+        <nz-option *ngFor="let item of serverList" [nzValue]="item.Address" [nzLabel]="item.Name"></nz-option>
+      </nz-select>
+      <a class="logout" routerLink="/Login">退出登录</a>
+    </div>
   </nz-header>
   <nz-content>
     <div class="inner-content">

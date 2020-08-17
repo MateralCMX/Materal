@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TokenResultModel } from '../services/models/user/TokenResultModel';
 
 @Injectable({
     providedIn: 'root'
@@ -15,8 +16,8 @@ export class AuthorityCommon {
      * 设置token
      * @param token token
      */
-    public setToken(token: string): void {
-        localStorage.setItem(this.key, token);
+    public setToken(token: TokenResultModel): void {
+        localStorage.setItem(this.key, token.AccessToken);
     }
     /**
      * 移除Token

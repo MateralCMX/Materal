@@ -1,6 +1,13 @@
 <nz-card class="login-panel" [nzTitle]="systemInfo.Name" [nzExtra]="versionTemplate">
     <form nz-form [formGroup]="formData" autocomplete="off" class="login-form">
         <nz-form-item>
+            <nz-form-control nzErrorTip="请输入账号">
+                <nz-input-group nzPrefixIcon="user">
+                    <input type="text" nz-input formControlName="account" placeholder="账号" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
             <nz-form-control nzErrorTip="请输入密码">
                 <nz-input-group nzPrefixIcon="lock">
                     <input type="password" nz-input formControlName="password" placeholder="密码" />

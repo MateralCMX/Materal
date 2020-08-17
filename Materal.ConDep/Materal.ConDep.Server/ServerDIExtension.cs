@@ -1,5 +1,4 @@
-﻿using Materal.ConDep.Controllers.Filters;
-using Materal.ConDep.ServiceImpl;
+﻿using Materal.ConDep.ServiceImpl;
 using Materal.ConDep.Services;
 using Materal.DotNetty.ControllerBus;
 using Materal.DotNetty.Server.CoreImpl;
@@ -11,6 +10,7 @@ using NLog.Extensions.Logging;
 using System;
 using System.IO;
 using System.Reflection;
+using Materal.ConDep.Filters;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Materal.ConDep.Server
@@ -33,6 +33,7 @@ namespace Materal.ConDep.Server
                 builder.AddNLog(Path.Combine(AppDomain.CurrentDomain.BaseDirectory ?? string.Empty, "NLog.config"));
             });
             services.AddSingleton<IAppService, AppServiceImpl>();
+            services.AddSingleton<IServerManage, ServerManageImpl>();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.ConDep.ServiceImpl"))
                 .Where(c => c.Name.EndsWith("ServiceImpl") && c.Name != "AppServiceImpl")
                 .AsPublicImplementedInterfaces();

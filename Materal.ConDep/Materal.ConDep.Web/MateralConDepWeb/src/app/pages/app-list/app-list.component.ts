@@ -1,13 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { SystemInfo } from 'src/app/services/models/system/SystemInfo';
 import { AppService } from 'src/app/services/app.service';
 import { ResultDataModel } from 'src/app/services/models/result/resultDataModel';
 import { AppListModel } from 'src/app/services/models/app/AppListModel';
 import { FormGroup, FormControl } from '@angular/forms';
 import { AppEditComponent } from '../app-edit/app-edit.component';
 import { ResultModel } from 'src/app/services/models/result/resultModel';
-import { SystemService } from 'src/app/services/system.service';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { ServerCommon } from 'src/app/components/server-common';
 
 @Component({
   selector: 'app-app-list',
@@ -20,7 +19,7 @@ export class AppListComponent implements OnInit {
   public searchModel: FormGroup;
   public listOfData: AppListModel[];
   public listOfDisplayData: AppListModel[];
-  public dataLoading = false;
+  public dataLoading = true;
   public sortName: string;
   public sortValue: string;
   public drawerVisible = false;
@@ -32,7 +31,8 @@ export class AppListComponent implements OnInit {
   };
   public consoleMessages: string[];
   public isAdd = false;
-  public constructor(private appService: AppService, private message: NzMessageService, private modalService: NzModalService) { }
+  public constructor(private appService: AppService, private message: NzMessageService, private modalService: NzModalService,
+                     private serverCommon: ServerCommon) { }
   public ngOnInit() {
     this.searchModel = new FormGroup({
       name: new FormControl({ value: null, disabled: this.dataLoading }),
@@ -41,7 +41,16 @@ export class AppListComponent implements OnInit {
       mainModuleName: new FormControl({ value: null, disabled: this.dataLoading }),
       parameters: new FormControl({ value: null, disabled: this.dataLoading })
     });
-    this.initListData();
+    this.awitInit();
+  }
+  private awitInit() {
+    if (this.serverCommon.hasServer()) {
+      this.initListData();
+    } else {
+      setTimeout(() => {
+        this.awitInit();
+      }, 1000);
+    }
   }
   private initListData() {
     this.dataLoading = true;

@@ -48,21 +48,25 @@ namespace Materal.ConDep.Common
             Host = Configuration["ServerConfig:Host"],
             Port = Convert.ToInt32(Configuration["ServerConfig:Port"])
         };
-        private static string _operatingPassword;
+        private static ServerConfig _centerServerConfig;
         /// <summary>
-        /// 操作密码
+        /// 中心服务配置
         /// </summary>
-        public static string OperatingPassword => _operatingPassword ??= Configuration["OperatingPassword"];
-        private static string _systemName;
-        /// <summary>
-        /// 系统名称
-        /// </summary>
-        public static string SystemName => _systemName ??= Configuration["SystemName"];
+        public static ServerConfig CenterServerConfig => _centerServerConfig ??= new ServerConfig
+        {
+            Host = Configuration["CenterServerConfig:Host"],
+            Port = Convert.ToInt32(Configuration["CenterServerConfig:Port"])
+        };
         private static string _winRarPath;
         /// <summary>
         /// WinRar路径
         /// </summary>
-        public static string WinRarPath => _winRarPath ??= Configuration["WinRarPath"];
+        public static string WinRarPath => _winRarPath ??= Configuration["WinRarPath"]; 
+        private static string _conDepName;
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public static string ConDepName => _conDepName ??= Configuration["ConDepName"];
         #endregion
     }
 }

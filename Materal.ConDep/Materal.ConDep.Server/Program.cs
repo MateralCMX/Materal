@@ -18,6 +18,9 @@ namespace Materal.ConDep.Server
             {
                 try
                 {
+                    await Task.Delay(3000);
+                    var serverManage = ApplicationService.GetService<IServerManage>();
+                    await serverManage.RegisterServerAsync();
                     var dotNettyServer = ApplicationService.GetService<IDotNettyServer>();
                     dotNettyServer.OnConfigHandler += DotNettyServer_OnConfigHandler;
                     dotNettyServer.OnException += ConsoleHelper.ServerWriteError;

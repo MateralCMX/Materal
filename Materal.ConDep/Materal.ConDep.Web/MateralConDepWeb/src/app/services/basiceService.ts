@@ -7,9 +7,10 @@ import { ResultTypeEnum } from './models/result/resultTypeEnum';
 import { AuthorityCommon } from '../components/authority-common';
 
 export class BasiceService {
-    public baseUrl = 'http://116.55.251.31:8800/api';
+    // public baseUrl = 'http://116.55.251.31:8800/api';
+    public baseUrl = 'http://192.168.0.101:8700/api';
     constructor(protected route: Router, protected http: HttpClient, protected message: NzMessageService, protected authorityCommon: AuthorityCommon) {
-        this.baseUrl = `${location.origin}/api`;
+        // this.baseUrl = `${location.origin}/api`;
     }
     /**
      * 发送Get请求
@@ -19,11 +20,10 @@ export class BasiceService {
      * @param fail 失败回调
      * @param complete 都执行回调
      */
-    protected sendGet<T>(url: string, data: T,
-        success?: (value: ResultModel) => void,
-        fail?: (value: ResultModel) => void,
-        complete?: () => void): void {
-        url = `${this.baseUrl}${url}`;
+    protected sendGetUrl<T>(url: string, data: T,
+                         success?: (value: ResultModel) => void,
+                         fail?: (value: ResultModel) => void,
+                         complete?: () => void): void {
         const headers = this.getHttpHeaders();
         const options = { headers };
         if (data) {
@@ -53,11 +53,10 @@ export class BasiceService {
      * @param fail 失败回调
      * @param complete 都执行回调
      */
-    protected sendPost<T>(url: string, data: T,
-        success?: (value: ResultModel) => void,
-        fail?: (value: ResultModel) => void,
-        complete?: () => void): void {
-        url = `${this.baseUrl}${url}`;
+    protected sendPostUrl<T>(url: string, data: T,
+                          success?: (value: ResultModel) => void,
+                          fail?: (value: ResultModel) => void,
+                          complete?: () => void): void {
         const headers = this.getHttpHeaders();
         this.http.post<ResultModel>(url, data, { headers }).subscribe(result => {
             this.handlerSuccess(result, success, fail);
@@ -67,6 +66,36 @@ export class BasiceService {
                 complete();
             }
         }, complete);
+    }
+    /**
+     * 发送Get请求
+     * @param url url地址
+     * @param data 数据
+     * @param success 成功回调
+     * @param fail 失败回调
+     * @param complete 都执行回调
+     */
+    protected sendGet<T>(url: string, data: T,
+                         success?: (value: ResultModel) => void,
+                         fail?: (value: ResultModel) => void,
+                         complete?: () => void): void {
+        url = `${this.baseUrl}${url}`;
+        this.sendGetUrl(url,data,success,fail,complete);
+    }
+    /**
+     * 发送Post请求
+     * @param url url地址
+     * @param data 数据
+     * @param success 成功回调
+     * @param fail 失败回调
+     * @param complete 都执行回调
+     */
+    protected sendPost<T>(url: string, data: T,
+                          success?: (value: ResultModel) => void,
+                          fail?: (value: ResultModel) => void,
+                          complete?: () => void): void {
+        url = `${this.baseUrl}${url}`;
+        this.sendPostUrl(url,data,success,fail,complete);
     }
     /**
      * 处理成功请求
@@ -94,7 +123,7 @@ export class BasiceService {
         const data: any = { 'Content-Type': 'application/json' };
         const token = this.authorityCommon.getToken();
         if (token) {
-            data.Authorization = token;
+            data.Authorization = `Bearer ${token}`;
         }
         return new HttpHeaders(data);
     }
