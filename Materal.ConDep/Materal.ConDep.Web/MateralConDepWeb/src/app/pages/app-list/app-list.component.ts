@@ -19,7 +19,7 @@ export class AppListComponent implements OnInit {
   public searchModel: FormGroup;
   public listOfData: AppListModel[];
   public listOfDisplayData: AppListModel[];
-  public dataLoading = true;
+  public dataLoading = false;
   public sortName: string;
   public sortValue: string;
   public drawerVisible = false;
