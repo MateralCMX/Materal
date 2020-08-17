@@ -22,7 +22,10 @@ namespace Materal.ConDep.Services.Models
         public WebAppCollection(string jsonFilePath)
         {
             _jsonFilePath = jsonFilePath;
-            if (!File.Exists(jsonFilePath)) File.Create(jsonFilePath).Close();
+            if (!File.Exists(_jsonFilePath))
+            {
+                File.WriteAllText(_jsonFilePath, "[]");
+            }
             string jsonData = File.ReadAllText(_jsonFilePath);
             apps = jsonData.JsonToObject<List<WebAppModel>>();
         }

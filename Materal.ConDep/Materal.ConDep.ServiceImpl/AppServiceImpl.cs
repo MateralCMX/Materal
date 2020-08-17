@@ -18,9 +18,6 @@ namespace Materal.ConDep.ServiceImpl
     {
         private readonly AppCollection _appCollection;
         private readonly WebAppCollection _webAppCollection;
-        private readonly Queue<UpdateAppFileModel> _updateQueue = new Queue<UpdateAppFileModel>();
-        private readonly object _updateTaskRuingLock = new object();
-        private bool _updateTaskRuing;
         public AppServiceImpl()
         {
             string appJsonFilePath = $"{AppDomain.CurrentDomain.BaseDirectory}ApplicationData.json";
@@ -155,37 +152,9 @@ namespace Materal.ConDep.ServiceImpl
             };
             file.SaveAs(model.FilePath);
             await UpdateAppFileAsync(model);
-            //Task.Run(() => StartUpdateAppTask(model));
         }
 
         #region 私有方法
-        /// <summary>
-        /// 启动更新APP任务
-        /// </summary>
-        /// <param name="model"></param>
-        private void StartUpdateAppTask(UpdateAppFileModel model)
-        {
-            _updateQueue.Enqueue(model);
-            if (_updateTaskRuing) return;
-            lock (_updateTaskRuingLock)
-            {
-                if (_updateTaskRuing) return;
-                _updateTaskRuing = true;
-                try
-                {
-                    while (_updateQueue.Count == 0)
-                    {
-                        if (!_updateQueue.TryDequeue(out UpdateAppFileModel updateAppFile)) continue;
-                        Task task = Task.Run(async () => await UpdateAppFileAsync(updateAppFile));
-                        Task.WaitAll(task);
-                    }
-                }
-                finally
-                {
-                    _updateTaskRuing = false;
-                }
-            }
-        }
         /// <summary>
         /// 是否可以运行
         /// </summary>

@@ -26,7 +26,10 @@ namespace Materal.ConDep.Services.Models
         public AppCollection(string jsonFilePath)
         {
             _jsonFilePath = jsonFilePath;
-            if (!File.Exists(jsonFilePath)) File.Create(jsonFilePath).Close();
+            if (!File.Exists(jsonFilePath))
+            {
+                File.WriteAllText(jsonFilePath, "[]");
+            }
             string jsonData = File.ReadAllText(_jsonFilePath);
             apps = jsonData.JsonToObject<List<AppModel>>();
             foreach (AppModel app in apps)

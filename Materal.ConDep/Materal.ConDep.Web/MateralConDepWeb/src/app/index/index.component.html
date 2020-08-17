@@ -8,7 +8,7 @@
       <li nz-menu-item nzMatchRouter="true" routerLink="DefaultDataSetting">默认数据配置</li>
     </ul>
     <div class="header-right">
-      <nz-select [(ngModel)]="selectedValue" class="server-list" (ngModelChange)="serverListChange($event)">
+      <nz-select [(ngModel)]="selectedValue" class="server-list" (ngModelChange)="serverListChange()">
         <nz-option *ngFor="let item of serverList" [nzValue]="item.Address" [nzLabel]="item.Name"></nz-option>
       </nz-select>
       <a class="logout" routerLink="/Login">退出登录</a>

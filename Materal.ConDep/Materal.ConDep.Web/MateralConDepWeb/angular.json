@@ -13,11 +13,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "E:\\Project\\Materal\\Application\\Materal.ConDep\\Application\\Manage",
+            "outputPath": "E:\\Project\\Materal\\Application\\Materal.ConDep\\Materal.ConDep.Center\\HtmlPages",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "baseHref": "/Manage/",
-            "deployUrl": "/Manage/",
+            "baseHref": "",
+            "deployUrl": "",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": false,
