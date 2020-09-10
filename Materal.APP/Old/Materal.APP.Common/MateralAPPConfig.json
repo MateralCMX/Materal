@@ -1,0 +1,8 @@
+{
+  "JWT": {
+    "Key": "MateralCMXConfig",
+    "Issuer": "Materal.APP",
+    "Audience": "WebAPI",
+    "ExpiredTime": "18000"
+  }
+}

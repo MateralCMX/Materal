@@ -1,0 +1,149 @@
+﻿@using BlazorWebAPP.Models
+@using Authority.GrpcModel
+@using BlazorWebAPP.AntDesignHelper
+@using BlazorWebAPP.Common
+@using Materal.ConvertHelper
+
+@inject ExceptionManage _exceptionManage
+@inject MessageManage _messageManage
+@inject User.UserClient _userClient
+
+<style>
+    .m_operation_user_buttons{
+        text-align: right;
+    }
+</style>
+
+<Form @ref="form" Loading="_loading" Model="@_fromData">
+    <FormItem Label="名称">
+        <Input @bind-Value="@_fromData.Name" />
+    </FormItem>
+    <FormItem Label="账号">
+        <Input @bind-Value="@_fromData.Account" />
+    </FormItem>
+    <FormItem class="m_operation_user_buttons">
+        <Button Type="@ButtonType.Primary" OnClick="SaveAsync" Loading="_loading">
+            @(UserData.ID.HasValue ? "修改" : "添加")
+        </Button>
+        <Button OnClick="OnClose" Loading="_loading">关闭</Button>
+    </FormItem>
+</Form>
+
+@code{
+    public Form<UserInfoModel> form;
+    private bool _loading;
+
+    /// <summary>
+    /// 表单数据
+    /// </summary>
+    private readonly UserInfoModel _fromData = new UserInfoModel();
+
+    private UserInfoModel _userData;
+    /// <summary>
+    /// 用户模型
+    /// </summary>
+    [Parameter]
+    public UserInfoModel UserData
+    {
+        get => _userData;
+        set
+        {
+            Console.WriteLine("SetUserInfo");
+            _userData = value;
+            _userData.CopyProperties(_fromData);
+        }
+    }
+
+    /// <summary>
+    /// 用户模型回调
+    /// </summary>
+    [Parameter]
+    public EventCallback<UserInfoModel> UserDataChanged { get; set; }
+    /// <summary>
+    /// 关闭
+    /// </summary>
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+    /// <summary>
+    /// 成功后
+    /// </summary>
+    [Parameter]
+    public EventCallback OnSuccess { get; set; }
+    /// <summary>
+    /// 保存
+    /// </summary>
+    /// <returns></returns>
+    private async Task SaveAsync(MouseEventArgs eventArgs)
+    {
+        if (!form.Validate()) return;
+        if (_fromData.ID.HasValue)
+        {
+            await EditUserInfoAsync();
+        }
+        else
+        {
+            await AddUserInfoAsync();
+        }
+    }
+    /// <summary>
+    /// 修改用户
+    /// </summary>
+    /// <returns></returns>
+    private async Task EditUserInfoAsync()
+    {
+        try
+        {
+            _loading = true;
+            var requestModel = _fromData.CopyProperties<EditUserGrpcRequestModel>("ID");
+            requestModel.ID = _fromData.ID != null ? _fromData.ID.Value.ToString() : throw new BlazorWebAPPException("未找到用户ID");
+            VoidResultModel resultModel = await _userClient.EditUserAsync(requestModel);
+            if (resultModel.Status == 0)
+            {
+                await OnSuccess.InvokeAsync(null);
+                await OnClose.InvokeAsync(null);
+            }
+            else
+            {
+                _messageManage.Warning(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            _exceptionManage.HandlerException(exception);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+    /// <summary>
+    /// 添加用户
+    /// </summary>
+    /// <returns></returns>
+    private async Task AddUserInfoAsync()
+    {
+        try
+        {
+            _loading = true;
+            var requestModel = _fromData.CopyProperties<AddUserGrpcRequestModel>("ID");
+            VoidResultModel resultModel = await _userClient.AddUserAsync(requestModel);
+            if (resultModel.Status == 0)
+            {
+                await OnSuccess.InvokeAsync(null);
+                await OnClose.InvokeAsync(null);
+            }
+            else
+            {
+                _messageManage.Warning(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            _exceptionManage.HandlerException(exception);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}

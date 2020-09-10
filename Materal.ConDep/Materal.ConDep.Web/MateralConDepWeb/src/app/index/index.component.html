@@ -2,18 +2,19 @@
   <nz-header>
     <div class="logo">ConDep</div>
     <ul nz-menu nzTheme="dark" nzMode="horizontal">
-      <li nz-menu-item nzMatchRouter="true" routerLink="AppList">应用列表</li>
-      <li nz-menu-item nzMatchRouter="true" routerLink="WebAppList">Web应用列表</li>
-      <li nz-menu-item nzMatchRouter="true" routerLink="UploadPackage">上传程序包</li>
-      <li nz-menu-item nzMatchRouter="true" routerLink="DefaultDataSetting">默认数据配置</li>
+      <li nz-menu-item nzMatchRouter="true" routerLink="AppList" *ngIf="hasServer">应用列表</li>
+      <li nz-menu-item nzMatchRouter="true" routerLink="WebAppList" *ngIf="hasServer">Web应用列表</li>
+      <li nz-menu-item nzMatchRouter="true" routerLink="UploadPackage" *ngIf="hasServer">上传程序包</li>
+      <li nz-menu-item nzMatchRouter="true" routerLink="DefaultDataSetting" *ngIf="hasServer">默认数据配置</li>
+      <li nz-menu-item nzMatchRouter="true" routerLink="UserList">用户管理</li>
     </ul>
     <div class="header-right">
-      <nz-select [(ngModel)]="selectedValue" class="server-list" (ngModelChange)="serverListChange()">
+      <nz-select *ngIf="hasServer" [(ngModel)]="selectedValue" class="server-list" (ngModelChange)="serverListChange()">
         <nz-option *ngFor="let item of serverList" [nzValue]="item.Address" [nzLabel]="item.Address + '[' + item.Name + ']'"></nz-option>
       </nz-select>
       <a class="logout" routerLink="/Login">退出登录</a>
     </div>
-  </nz-header>
+  </nz-header> 
   <nz-content>
     <div class="inner-content">
       <router-outlet></router-outlet>

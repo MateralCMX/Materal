@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Materal.APP.Server</name>
+    </assembly>
+    <members>
+        <member name="T:Materal.APP.Server.AutoMapperProfile.ServerProfile">
+            <summary>
+            AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:Materal.APP.Server.AutoMapperProfile.ServerProfile.#ctor">
+            <summary>
+            AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:Materal.APP.Server.Controllers.ServerController">
+            <summary>
+            服务控制器
+            </summary>
+        </member>
+        <member name="M:Materal.APP.Server.Controllers.ServerController.#ctor(Materal.APP.Services.IServerService)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Materal.APP.Server.Controllers.ServerController.GetServerListAsync">
+            <summary>
+            获得服务列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Materal.APP.Server.Controllers.StringHelperController">
+            <summary>
+            字符串帮助控制器
+            </summary>
+        </member>
+        <member name="M:Materal.APP.Server.Controllers.StringHelperController.DesDecryptionAsync(Materal.APP.PresentationModel.StringHelper.StringRequestModel)">
+            <summary>
+            Des字符串解密
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.APP.Server.Controllers.StringHelperController.DesEncryptionAsync(Materal.APP.PresentationModel.StringHelper.StringRequestModel)">
+            <summary>
+            Des字符串加密
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Materal.APP.Server.Hubs.ServerHub">
+            <summary>
+            服务Hub
+            </summary>
+        </member>
+        <member name="M:Materal.APP.Server.Hubs.ServerHub.#ctor(AutoMapper.IMapper,Materal.APP.Services.IServerService)">
+            <summary>
+            服务Hub
+            </summary>
+        </member>
+        <member name="M:Materal.APP.Server.Hubs.ServerHub.OnDisconnectedAsync(System.Exception)">
+            <summary>
+            连接丢失
+            </summary>
+            <param name="exception"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.APP.Server.Hubs.ServerHub.GetRegisterModel">
+            <summary>
+            获得注册模型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.APP.Server.Hubs.ServerHub.Register(Materal.APP.PresentationModel.Server.RegisterRequestModel)">
+            <summary>
+            注册
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Materal.APP.Server.Program">
+            <summary>
+            主程序
+            </summary>
+        </member>
+        <member name="M:Materal.APP.Server.Program.Main(System.String[])">
+            <summary>
+            入口
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.APP.Server.Program.HandlerArgs(System.String[])">
+            <summary>
+            处理传入参数
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Materal.APP.Server.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            创建主机
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Materal.APP.Server.ServerDIExtension">
+            <summary>
+            依赖注入扩展
+            </summary>
+        </member>
+        <member name="M:Materal.APP.Server.ServerDIExtension.AddMateralAPPServerServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加服务
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:Materal.APP.Server.Startup">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="M:Materal.APP.Server.Startup.#ctor">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="M:Materal.APP.Server.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            配置服务
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Materal.APP.Server.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            配置
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

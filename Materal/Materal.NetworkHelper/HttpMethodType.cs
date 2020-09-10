@@ -5,6 +5,7 @@
         Get,
         Post,
         Put,
-        Delete
+        Delete,
+        Patch
     }
 }

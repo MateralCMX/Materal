@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>ConfigCenter.Server.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>ConfigCenter.Server.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Materal.APP\Materal.APP.WebAPICore\Materal.APP.WebAPICore.csproj" />
+    <ProjectReference Include="..\ConfigCenter.DependencyInjection\ConfigCenter.DependencyInjection.csproj" />
+    <ProjectReference Include="..\ConfigCenter.HttpManage\ConfigCenter.HttpManage.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Hubs\ConfigCenter.Hubs.csproj" />
+  </ItemGroup>
+
+</Project>

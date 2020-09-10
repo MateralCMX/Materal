@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ConfigCenter.Environment.DataTransmitModel</name>
+    </assembly>
+    <members>
+        <member name="T:ConfigCenter.Environment.DataTransmitModel.ConfigurationItem.ConfigurationItemDTO">
+            <summary>
+            配置项数据传输模型
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.Environment.DataTransmitModel.ConfigurationItem.ConfigurationItemListDTO">
+            <summary>
+            配置项列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.Environment.DataTransmitModel.ConfigurationItem.ConfigurationItemListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.Environment.DataTransmitModel.ConfigurationItem.ConfigurationItemListDTO.ProjectID">
+            <summary>
+            项目唯一标识
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.Environment.DataTransmitModel.ConfigurationItem.ConfigurationItemListDTO.NamespaceID">
+            <summary>
+            命名空间唯一标识
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.Environment.DataTransmitModel.ConfigurationItem.ConfigurationItemListDTO.ProjectName">
+            <summary>
+            项目名称
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.Environment.DataTransmitModel.ConfigurationItem.ConfigurationItemListDTO.NamespaceName">
+            <summary>
+            命名空间名称
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.Environment.DataTransmitModel.ConfigurationItem.ConfigurationItemListDTO.Key">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.Environment.DataTransmitModel.ConfigurationItem.ConfigurationItemListDTO.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.Environment.DataTransmitModel.ConfigurationItem.ConfigurationItemListDTO.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+    </members>
+</doc>

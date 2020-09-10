@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Materal.APP\Materal.APP.Core\Materal.APP.Core.csproj" />
+    <ProjectReference Include="..\..\Materal.APP\Materal.APP.HttpClient\Materal.APP.HttpClient.csproj" />
+  </ItemGroup>
+
+</Project>

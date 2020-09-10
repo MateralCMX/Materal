@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ConfigCenter\ConfigCenter.Hubs\ConfigCenter.Hubs.csproj" />
+    <ProjectReference Include="..\..\Materal.APP\Materal.APP.Hubs\Materal.APP.Hubs.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Environment.Common\ConfigCenter.Environment.Common.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Environment.Services\ConfigCenter.Environment.Services.csproj" />
+  </ItemGroup>
+
+</Project>

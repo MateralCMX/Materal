@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigCenter.Environment.HttpClientImpl\ConfigCenter.Environment.HttpClientImpl.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Environment.HubImpl\ConfigCenter.Environment.HubImpl.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Environment.ServiceImpl\ConfigCenter.Environment.ServiceImpl.csproj" />
+  </ItemGroup>
+
+</Project>

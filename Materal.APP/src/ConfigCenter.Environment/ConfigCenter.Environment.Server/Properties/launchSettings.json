@@ -1,0 +1,10 @@
+﻿{
+  "ConfigCenter.Environment.Server": {
+    "commandName": "Project",
+    "launchBrowser": true,
+    "applicationUrl": "http://192.168.0.101:8704",
+    "environmentVariables": {
+      "ASPNETCORE_ENVIRONMENT": "Development"
+    }
+  }
+}

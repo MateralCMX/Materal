@@ -5,9 +5,8 @@ import { SystemService } from '../services/system.service';
 import { ResultDataModel } from '../services/models/result/resultDataModel';
 import { SystemInfo } from '../services/models/system/SystemInfo';
 import { LoginRequestModel } from '../services/models/user/loginRequestModel';
-import { UserService } from '../services/authority.service';
+import { UserService } from '../services/user.service';
 import { FormGroupCommon } from '../components/form-group-common';
-import { ResultModel } from '../services/models/result/resultModel';
 import { NzMessageService } from 'ng-zorro-antd';
 import { ServerCommon } from '../components/server-common';
 

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigCenter.DataTransmitModel\ConfigCenter.DataTransmitModel.csproj" />
+    <ProjectReference Include="..\ConfigCenter.PresentationModel\ConfigCenter.PresentationModel.csproj" />
+  </ItemGroup>
+
+</Project>

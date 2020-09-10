@@ -1,0 +1,15 @@
+﻿@using BlazorWebAPP.Common
+
+@inject NavigationManager _navigationManager
+@inject IAuthorityManage _authorityManage
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        if (!await _authorityManage.IsLoginAsync())
+        {
+            _navigationManager.NavigateTo("Login");
+        }
+    }
+}

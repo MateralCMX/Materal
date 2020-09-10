@@ -10,6 +10,7 @@ import { AppEditComponent } from './app-edit/app-edit.component';
 import { WebAppListComponent } from './web-app-list/web-app-list.component';
 import { WebAppEditComponent } from './web-app-edit/web-app-edit.component';
 import { DefaultDataSettingComponent } from './default-data-setting/default-data-setting.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { DefaultDataSettingComponent } from './default-data-setting/default-data
     AppEditComponent,
     WebAppListComponent,
     WebAppEditComponent,
-    DefaultDataSettingComponent],
+    DefaultDataSettingComponent,
+    UserListComponent],
   imports: [
     CommonModule,
     PagesRoutingModule,

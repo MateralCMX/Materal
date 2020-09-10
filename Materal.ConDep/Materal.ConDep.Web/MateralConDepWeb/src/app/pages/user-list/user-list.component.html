@@ -1,0 +1,55 @@
+<nz-page-header nzGhost="false">
+    <nz-page-header-title>用户列表</nz-page-header-title>
+    <nz-page-header-subtitle>Materal-ConDep</nz-page-header-subtitle>
+    <nz-page-header-extra>
+        <nz-button-group>
+            <button nz-button nzType="primary" (click)="openDrawer(null)">新增用户</button>
+        </nz-button-group>
+    </nz-page-header-extra>
+    <nz-page-header-content>
+        <form nz-form [formGroup]="searchModel" autocomplete="off">
+            <div nz-row nzGutter="24">
+                <nz-form-item nz-col nzSpan="4">
+                    <nz-form-control>
+                        <input type="search" nz-input placeholder="名称" formControlName="name" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-col nzSpan="4">
+                    <nz-form-control>
+                        <input type="search" nz-input placeholder="账号" formControlName="account" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-col nzSpan="2">
+                    <nz-form-control>
+                        <button nz-button nzType="primary" (click)="search()">查询</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </form>
+    </nz-page-header-content>
+</nz-page-header>
+<nz-table #filterTable [nzData]="listOfDisplayData" nzFrontPagination="false" [nzLoading]="dataLoading">
+    <thead>
+        <tr>
+            <th>名称</th>
+            <th>账号</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of listOfDisplayData">
+            <td>{{ data.Name }}</td>
+            <td>{{ data.Account }}</td>
+            <td>
+                <nz-button-group >
+                    <!-- <button nz-button (click)="openDrawer(data.ID)">配置</button>
+                    <button nz-button nzType="primary" (click)="StartApp(data.ID)">启动</button>
+                    <button nz-button nzType="danger" (click)="showDeleteConfirm(data.ID)">删除</button> -->
+                </nz-button-group>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+<nz-drawer [nzWidth]="720" [nzVisible]="drawerVisible" [nzTitle]="isAdd?'添加用户':'修改用户'" (nzOnClose)="closeDrawer()">
+    <!-- <app-app-edit #appEditComponent (saveEnd)="saveEnd($event)"></app-app-edit> -->
+</nz-drawer>

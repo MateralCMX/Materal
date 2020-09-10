@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ConfigCenter.PresentationModel</name>
+    </assembly>
+    <members>
+        <member name="T:ConfigCenter.PresentationModel.ConfigCenter.RegisterEnvironmentRequestModel">
+            <summary>
+            注册请求模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.ConfigCenter.RegisterEnvironmentRequestModel.Key">
+            <summary>
+            密钥
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.ConfigCenter.RegisterEnvironmentRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.ConfigCenter.RegisterEnvironmentRequestModel.Url">
+            <summary>
+            连接地址
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.PresentationModel.Namespace.AddNamespaceRequestModel">
+            <summary>
+            添加命名空间请求模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Namespace.AddNamespaceRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Namespace.AddNamespaceRequestModel.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Namespace.AddNamespaceRequestModel.ProjectID">
+            <summary>
+            所属项目唯一标识
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.PresentationModel.Namespace.EditNamespaceRequestModel">
+            <summary>
+            修改命名空间请求模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Namespace.EditNamespaceRequestModel.ID">
+            <summary>
+            用户唯一标识
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.PresentationModel.Namespace.QueryNamespaceFilterRequestModel">
+            <summary>
+            查询命名空间过滤器请求模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Namespace.QueryNamespaceFilterRequestModel.ProjectID">
+            <summary>
+            所属项目唯一标识
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Namespace.QueryNamespaceFilterRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Namespace.QueryNamespaceFilterRequestModel.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.PresentationModel.Project.AddProjectRequestModel">
+            <summary>
+            添加项目请求模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Project.AddProjectRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Project.AddProjectRequestModel.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.PresentationModel.Project.EditProjectRequestModel">
+            <summary>
+            修改项目请求模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Project.EditProjectRequestModel.ID">
+            <summary>
+            用户唯一标识
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.PresentationModel.Project.QueryProjectFilterRequestModel">
+            <summary>
+            查询项目过滤器请求模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Project.QueryProjectFilterRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.PresentationModel.Project.QueryProjectFilterRequestModel.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+    </members>
+</doc>

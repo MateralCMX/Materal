@@ -1,0 +1,228 @@
+﻿@page "/Login"
+
+@using Authority.GrpcModel
+@using BlazorWebAPP.AntDesignHelper
+@using BlazorWebAPP.Common
+@using Materal.APP.GrpcModel
+@using Materal.ConvertHelper
+@using System.ComponentModel.DataAnnotations
+
+@inject ExceptionManage _exceptionManage
+@inject NavigationManager _navigationManager
+@inject IAuthorityManage _authorityManage
+@inject IJSRuntime _jsRuntime
+@inject MessageManage _messageManage
+@inject StringHelper.StringHelperClient _stringHelperClient
+@inject User.UserClient _userClient
+
+<style>
+    .login_panel {
+        width: 368px;
+        margin: 120px auto;
+    }
+
+        .login_panel .title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 28px;
+        }
+
+    .login_footer {
+        text-align: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        line-height: 60px;
+    }
+</style>
+<div class="login_panel">
+    <header>
+        <h1 class="title">Materal.APP</h1>
+    </header>
+    <main>
+        <Form @ref="form" Model="_pageData">
+            <FormItem>
+                <AntDesign.Input Placeholder="账号" @bind-Value="_pageData.Account">
+                    <Prefix>
+                        <Icon Type="user" />
+                    </Prefix>
+                </AntDesign.Input>
+            </FormItem>
+            <FormItem>
+                <InputPassword Id="input_password" Placeholder="密码" @bind-Value="_pageData.Password">
+                    <Prefix>
+                        <Icon Type="lock" />
+                    </Prefix>
+                </InputPassword>
+            </FormItem>
+            <FormItem>
+                <Checkbox @bind-Value="_pageData.RememberMe">记住我</Checkbox>
+            </FormItem>
+            <FormItem>
+                <Button id="btn_login" Type="@ButtonType.Primary" HtmlType="button" Loading="_loading" Block Size="@AntSizeLDSType.Large" @onclick="OnBtnLoginClickAsync">
+                    登录
+                </Button>
+            </FormItem>
+        </Form>
+    </main>
+</div>
+<footer class="login_footer">
+    copyright © 2020 Materal
+</footer>
+
+@code{
+    /// <summary>
+    /// 登录页面数据模型
+    /// </summary>
+    public class LoginPageDataModel
+    {
+        /// <summary>
+        /// 账号
+        /// </summary>
+        [Required(ErrorMessage = "不能为空")]
+        public string Account { get; set; }
+        /// <summary>
+        /// 密码
+        /// </summary>
+        [Required(ErrorMessage = "不能为空")]
+        public string Password { get; set; }
+        /// <summary>
+        /// 记住我
+        /// </summary>
+        public bool RememberMe { get; set; } = true;
+    }
+}
+
+@code{
+    public Form<LoginPageDataModel> form;
+    private const string _rememberMeKey = "RememberMe";
+    /// <summary>
+    /// 加载状态
+    /// </summary>
+    private bool _loading;
+    /// <summary>
+    /// 页面数据
+    /// </summary>
+    private LoginPageDataModel _pageData { get; } = new LoginPageDataModel
+    {
+        RememberMe = false
+    };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await _authorityManage.RemoveTokenAsync();
+        await FillRememberMeLoginInfo();
+    }
+    /// <summary>
+    /// 登录按钮单击事件
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    private async Task OnBtnLoginClickAsync(MouseEventArgs eventArgs)
+    {
+        await LoginAsync();
+    }
+    /// <summary>
+    /// 登录
+    /// </summary>
+    /// <returns></returns>
+    private async Task LoginAsync()
+    {
+        if (!form.Validate()) return;
+        _loading = true;
+        try
+        {
+            var requestModel = _pageData.CopyProperties<LoginGrpcRequestModel>();
+            TokenGrpcResultModel tokenResult = await _userClient.LoginAsync(requestModel);
+            if (tokenResult.Status == 0)
+            {
+                await _authorityManage.SetTokenAsync(tokenResult.Token);
+                if (_pageData.RememberMe)
+                {
+                    await SaveRememberMeLoginInfo(requestModel);
+                }
+                _navigationManager.NavigateTo("");
+            }
+            else
+            {
+                _messageManage.Warning(tokenResult.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            _exceptionManage.HandlerException(exception);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+    /// <summary>
+    /// 保存记住我登录信息
+    /// </summary>
+    /// <param name="loginModel"></param>
+    /// <returns></returns>
+    private async Task SaveRememberMeLoginInfo(LoginGrpcRequestModel loginModel)
+    {
+        try
+        {
+            var requestModel = new StringHandlerGrpcRequestModel
+            {
+                Value = loginModel.ToJson()
+            };
+            StringHandlerGrpcResultModel encryptionResult = await _stringHelperClient.DesEncryptionAsync(requestModel);
+            if (encryptionResult.Status == 0)
+            {
+                await _jsRuntime.InvokeVoidAsync("localStorage.setItem", _rememberMeKey, encryptionResult.Value);
+            }
+            else
+            {
+                _messageManage.Warning(encryptionResult.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            _exceptionManage.HandlerException(exception);
+        }
+    }
+    /// <summary>
+    /// 填充记住我登录信息
+    /// </summary>
+    /// <returns></returns>
+    private async Task FillRememberMeLoginInfo()
+    {
+        _loading = true;
+        StateHasChanged();
+        try
+        {
+            var encryptionString = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", _rememberMeKey);
+            if (string.IsNullOrWhiteSpace(encryptionString)) return;
+            var requestModel = new StringHandlerGrpcRequestModel
+            {
+                Value = encryptionString
+            };
+            StringHandlerGrpcResultModel decryptionResult = await _stringHelperClient.DesDecryptionAsync(requestModel);
+            if (decryptionResult.Status == 0)
+            {
+                _pageData.RememberMe = true;
+                var loginModel = decryptionResult.Value.JsonToObject<LoginGrpcRequestModel>();
+                _pageData.Account = loginModel.Account;
+                _pageData.Password = loginModel.Password;
+            }
+            else
+            {
+                _messageManage.Warning(decryptionResult.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            _exceptionManage.HandlerException(exception);
+        }
+        finally
+        {
+            _loading = false;
+            StateHasChanged();
+        }
+    }
+}

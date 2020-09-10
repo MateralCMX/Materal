@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ConfigCenter.Server</name>
+    </assembly>
+    <members>
+        <member name="T:ConfigCenter.Server.AutoMapperProfile.ConfigCenterProfile">
+            <summary>
+            AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.AutoMapperProfile.ConfigCenterProfile.#ctor">
+            <summary>
+            AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.Server.AutoMapperProfile.NamespaceProfile">
+            <summary>
+            AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.AutoMapperProfile.NamespaceProfile.#ctor">
+            <summary>
+            AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.Server.AutoMapperProfile.ProjectProfile">
+            <summary>
+            AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.AutoMapperProfile.ProjectProfile.#ctor">
+            <summary>
+            AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.Server.Controllers.ConfigCenterController">
+            <summary>
+            配置中心控制器
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.ConfigCenterController.#ctor(ConfigCenter.Services.IConfigCenterService)">
+            <summary>
+            配置中心控制器
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.ConfigCenterController.GetNamespaceList">
+            <summary>
+            获得环境列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ConfigCenter.Server.Controllers.NamespaceController">
+            <summary>
+            命名空间控制器
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.#ctor(ConfigCenter.Services.INamespaceService,AutoMapper.IMapper,Microsoft.AspNetCore.SignalR.IHubContext{ConfigCenter.Server.Hubs.ConfigCenterHub,ConfigCenter.Hubs.Clients.IConfigCenterClient})">
+            <summary>
+            命名空间控制器
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.AddNamespace(ConfigCenter.PresentationModel.Namespace.AddNamespaceRequestModel)">
+            <summary>
+            添加命名空间
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.EditNamespace(ConfigCenter.PresentationModel.Namespace.EditNamespaceRequestModel)">
+            <summary>
+            修改命名空间
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.DeleteNamespace(System.Guid)">
+            <summary>
+            删除命名空间
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.GetNamespaceInfo(System.Guid)">
+            <summary>
+            获得命名空间信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.GetNamespaceList(ConfigCenter.PresentationModel.Namespace.QueryNamespaceFilterRequestModel)">
+            <summary>
+            获得命名空间列表
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ConfigCenter.Server.Controllers.ProjectController">
+            <summary>
+            项目控制器
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.ProjectController.#ctor(ConfigCenter.Services.IProjectService,AutoMapper.IMapper,Microsoft.AspNetCore.SignalR.IHubContext{ConfigCenter.Server.Hubs.ConfigCenterHub,ConfigCenter.Hubs.Clients.IConfigCenterClient})">
+            <summary>
+            项目控制器
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.ProjectController.AddProjectAsync(ConfigCenter.PresentationModel.Project.AddProjectRequestModel)">
+            <summary>
+            添加项目
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.ProjectController.EditProjectAsync(ConfigCenter.PresentationModel.Project.EditProjectRequestModel)">
+            <summary>
+            修改项目
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.ProjectController.DeleteProjectAsync(System.Guid)">
+            <summary>
+            删除项目
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.ProjectController.GetProjectInfoAsync(System.Guid)">
+            <summary>
+            获得项目信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.ProjectController.GetProjectListAsync(ConfigCenter.PresentationModel.Project.QueryProjectFilterRequestModel)">
+            <summary>
+            获得项目列表
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ConfigCenter.Server.Hubs.ConfigCenterHub">
+            <summary>
+            配置中心Hub
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Hubs.ConfigCenterHub.#ctor(AutoMapper.IMapper,ConfigCenter.Services.IConfigCenterService)">
+            <summary>
+            配置中心Hub
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Hubs.ConfigCenterHub.OnDisconnectedAsync(System.Exception)">
+            <summary>
+            连接丢失
+            </summary>
+            <param name="exception"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Hubs.ConfigCenterHub.RegisterEnvironment(ConfigCenter.PresentationModel.ConfigCenter.RegisterEnvironmentRequestModel)">
+            <summary>
+            注册环境
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Hubs.ConfigCenterHub.GetRegisterModel">
+            <summary>
+            获取注册模型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ConfigCenter.Server.Program">
+            <summary>
+            主程序
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Program.Main(System.String[])">
+            <summary>
+            入口
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Program.HandlerArgs(System.String[])">
+            <summary>
+            处理传入参数
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            创建主机
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ConfigCenter.Server.ServerDIExtension">
+            <summary>
+            依赖注入扩展
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.ServerDIExtension.AddConfigCenterServerServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加服务
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:ConfigCenter.Server.Startup">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Startup.#ctor">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="M:ConfigCenter.Server.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            配置服务
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:ConfigCenter.Server.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            配置
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

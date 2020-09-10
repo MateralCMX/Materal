@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+option csharp_namespace = "Authority.GrpcModel";
+
+import "baseModel.proto";
+import "google/protobuf/empty.proto";
+
+//用户服务
+service User {
+	rpc AddUser (AddUserGrpcRequestModel) returns (VoidResultModel);
+	rpc EditUser (EditUserGrpcRequestModel) returns (VoidResultModel);
+	rpc DeleteUser (OnlyOperatingRequestModel) returns (VoidResultModel);
+	rpc GetUserInfo (OnlyOperatingRequestModel) returns (UserInfoGrpcResultModel);
+	rpc GetMyUserInfo (google.protobuf.Empty) returns (UserInfoGrpcResultModel);
+	rpc GetUserList (QueryUserFilterGrpcRequestModel) returns (UserListGrpcResultModel);
+	rpc Login (LoginGrpcRequestModel) returns (TokenGrpcResultModel);
+	rpc ResetPassword (OnlyOperatingRequestModel) returns (ResetPasswordGrpcResultModel);
+	rpc ChangePassword (ChangePasswordGrpcRequestModel) returns (VoidResultModel);
+	rpc EditMyInfo (EditMyInfoGrpcRequestModel) returns (VoidResultModel);
+}
+//登录请求模型
+message LoginGrpcRequestModel {
+	string Account = 1;
+	string Password = 2;
+}
+//Token返回模型
+message TokenGrpcResultModel {
+	int32 Status = 1;
+	string Message = 2;
+	string Token = 3;
+	uint32 ExpiredTime = 4;
+}
+
+//查询用户列表请求模型
+message QueryUserFilterGrpcRequestModel {
+	int32 PageIndex = 1;
+	int32 PageSize = 2;
+	string Name = 3;
+	string Account = 4;
+}
+//查询用户列表返回模型
+message UserListGrpcResultModel {
+	int32 Status = 1;
+	string Message = 2;
+	PageInfoModel PageInfo = 3;
+	repeated UserGrpcModel Data = 4;
+}
+//用户模型
+message UserGrpcModel{
+	string ID = 1;
+	string Name = 2;
+	string Account = 3;
+}
+
+//查询用户返回模型
+message UserInfoGrpcResultModel {
+	int32 Status = 1;
+	string Message = 2;
+	UserGrpcModel Data = 3;
+}
+
+//添加用户请求模型
+message AddUserGrpcRequestModel {
+	string Name = 1;
+	string Account = 2;
+}
+//修改用户请求模型
+message EditUserGrpcRequestModel {
+	string ID = 1;
+	string Name = 2;
+	string Account = 3;
+}
+
+//修改我的信息请求模型
+message EditMyInfoGrpcRequestModel {
+	string Name = 1;
+	string Account = 2;
+}
+
+//重置密码返回模型
+message ResetPasswordGrpcResultModel {
+	int32 Status = 1;
+	string Message = 2;
+	string NewPassword = 3;
+}
+
+//修改密码返回模型
+message ChangePasswordGrpcRequestModel {
+	string OldPassword = 1;
+	string NewPassword = 2;
+}

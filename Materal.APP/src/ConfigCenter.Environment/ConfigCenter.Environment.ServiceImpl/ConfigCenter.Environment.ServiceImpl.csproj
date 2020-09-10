@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigCenter.Environment.Services\ConfigCenter.Environment.Services.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Environment.SqliteEFRepository\ConfigCenter.Environment.SqliteEFRepository.csproj" />
+  </ItemGroup>
+
+</Project>

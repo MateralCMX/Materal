@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ConfigCenter.DataTransmitModel</name>
+    </assembly>
+    <members>
+        <member name="T:ConfigCenter.DataTransmitModel.ConfigCenter.EnvironmentListDTO">
+            <summary>
+            配置中心环境列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.ConfigCenter.EnvironmentListDTO.Url">
+            <summary>
+            连接地址
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.ConfigCenter.EnvironmentListDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.DataTransmitModel.Namespace.NamespaceDTO">
+            <summary>
+            命名空间数据传输模型
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.DataTransmitModel.Namespace.NamespaceListDTO">
+            <summary>
+            命名空间列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.Namespace.NamespaceListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.Namespace.NamespaceListDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.Namespace.NamespaceListDTO.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.Namespace.NamespaceListDTO.ProjectID">
+            <summary>
+            项目唯一标识
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.DataTransmitModel.Project.ProjectDTO">
+            <summary>
+            项目数据传输模型
+            </summary>
+        </member>
+        <member name="T:ConfigCenter.DataTransmitModel.Project.ProjectListDTO">
+            <summary>
+            项目列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.Project.ProjectListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.Project.ProjectListDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.Project.ProjectListDTO.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+    </members>
+</doc>

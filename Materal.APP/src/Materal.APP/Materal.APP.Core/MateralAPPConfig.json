@@ -1,0 +1,12 @@
+{
+  "JWT": {
+    "Key": "MateralCMXConfig",
+    "Issuer": "Materal.APP",
+    "Audience": "WebAPI",
+    "ExpiredTime": "18000"
+  },
+  "ServerInfo": {
+    "Url": "http://192.168.0.101:8701",
+    "Key": "MateralAPPKey"
+  }
+}

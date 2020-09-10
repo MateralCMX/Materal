@@ -29,11 +29,15 @@ namespace Materal.ConDep.Server
                     await dotNettyServer.RunAsync(ApplicationConfig.ServerConfig);
                     ConsoleHelper.ServerWriteLine($"已监听http://{ApplicationConfig.ServerConfig.Host}:{ApplicationConfig.ServerConfig.Port}/api");
                     ConsoleHelper.ServerWriteLine($"已监听http://{ApplicationConfig.ServerConfig.Host}:{ApplicationConfig.ServerConfig.Port}");
-                    string inputKey = string.Empty;
+                    var inputKey = string.Empty;
                     while (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
                     {
                         inputKey = Console.ReadLine();
-                        if (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
+                        if (string.Equals(inputKey, "Register", StringComparison.Ordinal))
+                        {
+                            await serverManage.RegisterServerAsync();
+                        }
+                        else if (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
                         {
                             ConsoleHelper.ServerWriteError(new Exception("未识别命令请重新输入"));
                         }

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Materal.APP.DataTransmitModel</name>
+    </assembly>
+    <members>
+        <member name="P:Materal.APP.DataTransmitModel.ServerListDTO.ServerCategory">
+            <summary>
+            服务类型
+            </summary>
+        </member>
+        <member name="P:Materal.APP.DataTransmitModel.ServerListDTO.Url">
+            <summary>
+            Url地址
+            </summary>
+        </member>
+    </members>
+</doc>
