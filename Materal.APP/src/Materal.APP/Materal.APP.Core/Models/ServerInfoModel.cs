@@ -10,5 +10,9 @@
         /// 密钥
         /// </summary>
         public string Key { get; set; }
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; }
     }
 }

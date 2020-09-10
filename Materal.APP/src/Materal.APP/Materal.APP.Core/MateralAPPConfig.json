@@ -7,6 +7,7 @@
   },
   "ServerInfo": {
     "Url": "http://192.168.0.101:8701",
-    "Key": "MateralAPPKey"
+    "Key": "MateralAPPKey",
+    "Name": "MateralAPP-Local" 
   }
 }

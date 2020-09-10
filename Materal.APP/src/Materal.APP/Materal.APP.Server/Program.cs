@@ -1,13 +1,14 @@
+using Materal.APP.Common;
 using Materal.APP.Core;
 using Materal.APP.WebAPICore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Materal.APP.Common;
 
 namespace Materal.APP.Server
 {
@@ -23,6 +24,7 @@ namespace Materal.APP.Server
         /// <returns></returns>
         public static async Task Main(string[] args)
         {
+            Console.Title = $"{ApplicationConfig.ServerInfo.Name} °æ±¾:[{ApplicationConfig.GetProgramVersion()}]";
             string[] inputArgs = HandlerArgs(args);
             await CreateHostBuilder(inputArgs).Build().RunAsync();
         }

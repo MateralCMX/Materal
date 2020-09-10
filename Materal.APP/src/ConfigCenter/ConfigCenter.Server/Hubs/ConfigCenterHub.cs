@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ConfigCenter.Common;
 using ConfigCenter.Hubs.Clients;
 using ConfigCenter.Hubs.Hubs;
 using ConfigCenter.PresentationModel.ConfigCenter;
@@ -48,19 +49,13 @@ namespace ConfigCenter.Server.Hubs
             try
             {
                 var model = _mapper.Map<RegisterEnvironmentModel>(requestModel);
-                bool result = _configCenterService.RegisterEnvironment(Context.ConnectionId, model);
-                await Clients.Caller.RegisterResult(result);
+                _configCenterService.RegisterEnvironment(Context.ConnectionId, model);
+                await Clients.Caller.RegisterResult(true, "注册成功");
             }
-            catch (Exception exception)
+            catch (ConfigCenterException exception)
             {
-                throw new HubException("注册失败", exception);
+                await Clients.Caller.RegisterResult(false, exception.Message);
             }
         }
-
-        /// <summary>
-        /// 获取注册模型
-        /// </summary>
-        /// <returns></returns>
-        public RegisterEnvironmentRequestModel GetRegisterModel() => null;
     }
 }

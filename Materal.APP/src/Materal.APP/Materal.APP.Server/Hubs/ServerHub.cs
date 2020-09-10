@@ -1,16 +1,13 @@
-﻿using Materal.APP.Common;
+﻿using AutoMapper;
+using Materal.APP.Core;
 using Materal.APP.Hubs.Clients;
 using Materal.APP.Hubs.Hubs;
-using Materal.Common;
-using Microsoft.AspNetCore.SignalR;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Materal.APP.PresentationModel.Server;
 using Materal.APP.Services;
-using AutoMapper;
 using Materal.APP.Services.Models.Server;
+using Microsoft.AspNetCore.SignalR;
+using System;
+using System.Threading.Tasks;
 
 namespace Materal.APP.Server.Hubs
 {
@@ -41,11 +38,6 @@ namespace Materal.APP.Server.Hubs
             await base.OnDisconnectedAsync(exception);
         }
         /// <summary>
-        /// 获得注册模型
-        /// </summary>
-        /// <returns></returns>
-        public RegisterRequestModel GetRegisterModel() => null;
-        /// <summary>
         /// 注册
         /// </summary>
         /// <param name="requestModel"></param>
@@ -55,12 +47,12 @@ namespace Materal.APP.Server.Hubs
             try
             {
                 var model = _mapper.Map<RegisterModel>(requestModel);
-                bool result = _serverService.RegisterServer(Context.ConnectionId, model);
-                await Clients.Caller.RegisterResult(result);
+                _serverService.RegisterServer(Context.ConnectionId, model);
+                await Clients.Caller.RegisterResult(true, "注册成功");
             }
-            catch (Exception exception)
+            catch (MateralAPPException exception)
             {
-                throw new HubException("注册失败", exception);
+                await Clients.Caller.RegisterResult(false, exception.Message);
             }
         }
     }

@@ -12,25 +12,16 @@ namespace ConfigCenter.Environment.HubImpl.ConfigCenterHub
 {
     public class ConfigCenterClientImpl : BaseClientImpl, IConfigCenterClient
     {
-        private IConfigCenterHub _configCenterHub;
         private readonly IConfigurationItemService _configurationItemService;
         public ConfigCenterClientImpl(IConfigurationItemService configurationItemService) : base($"{ConfigCenterEnvironmentConfig.ConfigCenterUrl}/ConfigCenterHub")
         {
             _configurationItemService = configurationItemService;
-            Connection.On<bool>(nameof(RegisterResult), RegisterResult);
+            Connection.On<bool, string>(nameof(RegisterResult), RegisterResult);
             Connection.On<Guid>(nameof(DeleteProject), DeleteProject);
             Connection.On<Guid>(nameof(DeleteNamespace), DeleteNamespace);
         }
-        /// <summary>
-        /// 设置Hub实现
-        /// </summary>
-        /// <param name="configCenterHub"></param>
-        public void SetHubImpl(IConfigCenterHub configCenterHub)
-        {
-            _configCenterHub = configCenterHub;
-        }
 
-        public async Task RegisterResult(bool isSuccess)
+        public Task RegisterResult(bool isSuccess, string message)
         {
             if (isSuccess)
             {
@@ -38,17 +29,9 @@ namespace ConfigCenter.Environment.HubImpl.ConfigCenterHub
             }
             else
             {
-                if (_configCenterHub == null)
-                {
-                    ConfigCenterEnvironmentConsoleHelper.WriteLine("注册失败");
-                }
-                else
-                {
-                    ConfigCenterEnvironmentConsoleHelper.WriteLine("注册失败,5秒后重新注册");
-                    RegisterEnvironmentRequestModel registerModel = _configCenterHub.GetRegisterModel();
-                    await _configCenterHub.RegisterEnvironment(registerModel);
-                }
+                ConfigCenterEnvironmentConsoleHelper.WriteLine(message, "注册失败", ConsoleColor.Red);
             }
+            return Task.CompletedTask;
         }
 
         public async Task DeleteProject(Guid id)

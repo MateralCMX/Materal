@@ -1,3 +1,4 @@
+using System;
 using Authority.Common;
 using Materal.APP.Core;
 using Materal.APP.WebAPICore;
@@ -23,6 +24,7 @@ namespace Authority.Server
         /// <returns></returns>
         public static async Task Main(string[] args)
         {
+            Console.Title = $"{AuthorityConfig.ServerInfo.Name} °æ±¾:[{ApplicationConfig.GetProgramVersion()}]";
             string[] inputArgs = HandlerArgs(args);
             await CreateHostBuilder(inputArgs).Build().RunAsync();
         }
@@ -38,9 +40,9 @@ namespace Authority.Server
             if (string.IsNullOrWhiteSpace(urlsArg))
             {
                 List<string> temp = inputArgs.ToList();
-                temp.Add($"--urls={AuthorityConfig.ServerUrl}");
+                temp.Add($"--urls={AuthorityConfig.ServerInfo.Url}");
                 inputArgs = temp.ToArray();
-                ApplicationConfig.Url = AuthorityConfig.ServerUrl;
+                ApplicationConfig.Url = AuthorityConfig.ServerInfo.Url;
             }
             else
             {

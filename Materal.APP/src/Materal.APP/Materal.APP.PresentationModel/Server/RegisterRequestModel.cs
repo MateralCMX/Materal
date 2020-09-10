@@ -8,6 +8,10 @@ namespace Materal.APP.PresentationModel.Server
     public class RegisterRequestModel
     {
         /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
         /// 服务类型
         /// </summary>
         public ServerCategoryEnum ServerCategory { get; set; }
@@ -18,6 +22,6 @@ namespace Materal.APP.PresentationModel.Server
         /// <summary>
         /// 连接地址
         /// </summary>
-        public string Url{ get; set; }
+        public string Url { get; set; }
     }
 }

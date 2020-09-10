@@ -89,7 +89,12 @@ namespace ConfigCenter.Environment.Server
                     ConfigCenterEnvironmentConfig.ConfigCenterUrl = server.Url;
                     ConfigCenterEnvironmentConsoleHelper.WriteLine($"已获取配置中心地址:{ConfigCenterEnvironmentConfig.ConfigCenterUrl}");
                     var configCenterHub = ApplicationData.GetService<IConfigCenterHub>();
-                    RegisterEnvironmentRequestModel registerModel = configCenterHub.GetRegisterModel();
+                    var registerModel = new RegisterEnvironmentRequestModel
+                    {
+                        Name = ConfigCenterEnvironmentConfig.ServerInfo.Name,
+                        Url = ApplicationConfig.Url,
+                        Key = ConfigCenterEnvironmentConfig.ServerInfo.Key
+                    };
                     await configCenterHub.RegisterEnvironment(registerModel);
                 }
                 else

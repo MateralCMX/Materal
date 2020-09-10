@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace ConfigCenter.Environment.Server
         /// <returns></returns>
         public static async Task Main(string[] args)
         {
+            Console.Title = $"{ConfigCenterEnvironmentConfig.ServerInfo.Name} °æ±¾:[{ApplicationConfig.GetProgramVersion()}]";
             string[] inputArgs = HandlerArgs(args);
             await CreateHostBuilder(inputArgs).Build().RunAsync();
         }
@@ -38,9 +40,9 @@ namespace ConfigCenter.Environment.Server
             if (string.IsNullOrWhiteSpace(urlsArg))
             {
                 List<string> temp = inputArgs.ToList();
-                temp.Add($"--urls={ConfigCenterEnvironmentConfig.ServerUrl}");
+                temp.Add($"--urls={ConfigCenterEnvironmentConfig.ServerInfo.Url}");
                 inputArgs = temp.ToArray();
-                ApplicationConfig.Url = ConfigCenterEnvironmentConfig.ServerUrl;
+                ApplicationConfig.Url = ConfigCenterEnvironmentConfig.ServerInfo.Url;
             }
             else
             {

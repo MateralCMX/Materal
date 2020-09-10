@@ -11,7 +11,7 @@ namespace ConfigCenter.Services
         /// </summary>
         /// <param name="key"></param>
         /// <param name="model"></param>
-        bool RegisterEnvironment(string key, RegisterEnvironmentModel model);
+        void RegisterEnvironment(string key, RegisterEnvironmentModel model);
         /// <summary>
         /// 反注册环境
         /// </summary>

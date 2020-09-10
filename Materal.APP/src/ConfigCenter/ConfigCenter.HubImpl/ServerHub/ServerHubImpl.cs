@@ -1,10 +1,11 @@
-﻿using Materal.APP.Core;
+﻿using System.Threading.Tasks;
+using ConfigCenter.Common;
+using Materal.APP.Core;
 using Materal.APP.Enums;
 using Materal.APP.Hubs.Clients;
 using Materal.APP.Hubs.Hubs;
 using Materal.APP.PresentationModel.Server;
 using Microsoft.AspNetCore.SignalR.Client;
-using System.Threading.Tasks;
 
 namespace ConfigCenter.HubImpl.ServerHub
 {
@@ -18,7 +19,6 @@ namespace ConfigCenter.HubImpl.ServerHub
             _serverClient = serverClient;
             if (!(_serverClient is ServerClientImpl serverClientImpl)) return;
             serverClientImpl.SetConnectSuccessLaterAction(ServerClientImpl_OnConnectSuccess);
-            serverClientImpl.SetHubImpl(this);
             Task task = Task.Run(async () =>
             {
                 await serverClientImpl.ConnectWithRetryAsync();
@@ -28,18 +28,14 @@ namespace ConfigCenter.HubImpl.ServerHub
 
         private async Task ServerClientImpl_OnConnectSuccess()
         {
-            RegisterRequestModel registerModel = GetRegisterModel();
-            await Register(registerModel);
-        }
-
-        public RegisterRequestModel GetRegisterModel()
-        {
-            return new RegisterRequestModel
+            var registerModel = new RegisterRequestModel
             {
+                Name = ConfigCenterConfig.ServerInfo.Name,
                 Url = ApplicationConfig.Url,
                 ServerCategory = ServerCategoryEnum.ConfigCenter,
-                Key = ApplicationConfig.ServerInfo.Key
+                Key = ConfigCenterConfig.ServerInfo.Key
             };
+            await Register(registerModel);
         }
 
         public async Task Register(RegisterRequestModel requestModel)

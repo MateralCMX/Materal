@@ -1,11 +1,12 @@
-﻿using System;
-using Materal.APP.Core.Models;
+﻿using Materal.APP.Core.Models;
 using Materal.ConvertHelper;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Reflection;
 
 namespace Materal.APP.Core
 {
-    public class ApplicationConfig
+    public static class ApplicationConfig
     {
         #region 配置对象
         private static IConfiguration _configuration;
@@ -89,11 +90,23 @@ namespace Materal.APP.Core
         {
             Url = Configuration["ServerInfo:Url"],
             Key = Configuration["ServerInfo:Key"],
+            Name = Configuration["ServerInfo:Name"]
         };
         /// <summary>
         /// 链接地址
         /// </summary>
         public static string Url{ get; set; }
+        /// <summary>
+        /// 获得程序版本号
+        /// </summary>
+        /// <returns></returns>
+        public static string GetProgramVersion()
+        {
+            var entryAssembly = Assembly.GetEntryAssembly();
+            if (entryAssembly == null) return "未知版本";
+            Version version = entryAssembly.GetName().Version;
+            return version == null ? "未知版本" : version.ToString();
+        }
         #endregion
     }
 }

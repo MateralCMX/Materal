@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Materal.APP.Core;
+using System;
 
 namespace ConfigCenter.Server
 {
@@ -23,6 +24,7 @@ namespace ConfigCenter.Server
         /// <returns></returns>
         public static async Task Main(string[] args)
         {
+            Console.Title = $"{ConfigCenterConfig.ServerInfo.Name} °æ±¾:[{ApplicationConfig.GetProgramVersion()}]";
             string[] inputArgs = HandlerArgs(args);
             await CreateHostBuilder(inputArgs).Build().RunAsync();
         }
@@ -38,9 +40,9 @@ namespace ConfigCenter.Server
             if (string.IsNullOrWhiteSpace(urlsArg))
             {
                 List<string> temp = inputArgs.ToList();
-                temp.Add($"--urls={ConfigCenterConfig.ServerUrl}");
+                temp.Add($"--urls={ConfigCenterConfig.ServerInfo.Url}");
                 inputArgs = temp.ToArray();
-                ApplicationConfig.Url = ConfigCenterConfig.ServerUrl;
+                ApplicationConfig.Url = ConfigCenterConfig.ServerInfo.Url;
             }
             else
             {

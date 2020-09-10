@@ -11,7 +11,7 @@ namespace Materal.APP.Services
         /// </summary>
         /// <param name="key"></param>
         /// <param name="model"></param>
-        bool RegisterServer(string key, RegisterModel model);
+        void RegisterServer(string key, RegisterModel model);
         /// <summary>
         /// 反注册服务
         /// </summary>

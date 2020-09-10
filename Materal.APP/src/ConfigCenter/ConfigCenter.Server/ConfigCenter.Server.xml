@@ -164,12 +164,6 @@
             <param name="requestModel"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Server.Hubs.ConfigCenterHub.GetRegisterModel">
-            <summary>
-            获取注册模型
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:ConfigCenter.Server.Program">
             <summary>
             主程序

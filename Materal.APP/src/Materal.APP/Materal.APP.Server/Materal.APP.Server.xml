@@ -66,12 +66,6 @@
             <param name="exception"></param>
             <returns></returns>
         </member>
-        <member name="M:Materal.APP.Server.Hubs.ServerHub.GetRegisterModel">
-            <summary>
-            获得注册模型
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Materal.APP.Server.Hubs.ServerHub.Register(Materal.APP.PresentationModel.Server.RegisterRequestModel)">
             <summary>
             注册

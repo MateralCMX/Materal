@@ -1,11 +1,11 @@
-﻿using Authority.Common;
-using Materal.APP.Core;
+﻿using Materal.APP.Core;
 using Materal.APP.Enums;
 using Materal.APP.Hubs.Clients;
 using Materal.APP.Hubs.Hubs;
 using Materal.APP.PresentationModel.Server;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
+using Authority.Common;
 
 namespace Authority.HubImpl.ServerHub
 {
@@ -19,7 +19,6 @@ namespace Authority.HubImpl.ServerHub
             _serverClient = serverClient;
             if (!(_serverClient is ServerClientImpl serverClientImpl)) return;
             serverClientImpl.SetConnectSuccessLaterAction(ServerClientImpl_OnConnectSuccess);
-            serverClientImpl.SetHubImpl(this);
             Task task = Task.Run(async () =>
             {
                 await serverClientImpl.ConnectWithRetryAsync();
@@ -29,18 +28,14 @@ namespace Authority.HubImpl.ServerHub
 
         private async Task ServerClientImpl_OnConnectSuccess()
         {
-            RegisterRequestModel registerModel = GetRegisterModel();
-            await Register(registerModel);
-        }
-
-        public RegisterRequestModel GetRegisterModel()
-        {
-            return new RegisterRequestModel
+            var registerModel = new RegisterRequestModel
             {
+                Name = AuthorityConfig.ServerInfo.Name,
                 Url = ApplicationConfig.Url,
                 ServerCategory = ServerCategoryEnum.Authority,
-                Key = ApplicationConfig.ServerInfo.Key
+                Key = AuthorityConfig.ServerInfo.Key
             };
+            await Register(registerModel);
         }
 
         public async Task Register(RegisterRequestModel requestModel)

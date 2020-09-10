@@ -9,6 +9,11 @@
             注册请求模型
             </summary>
         </member>
+        <member name="P:Materal.APP.PresentationModel.Server.RegisterRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
         <member name="P:Materal.APP.PresentationModel.Server.RegisterRequestModel.ServerCategory">
             <summary>
             服务类型

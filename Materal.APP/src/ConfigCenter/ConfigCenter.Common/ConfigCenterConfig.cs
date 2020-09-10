@@ -1,4 +1,4 @@
-﻿using Materal.ConvertHelper;
+﻿using Materal.APP.Core.Models;
 using Materal.TTA.SqliteRepository.Model;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -59,11 +59,16 @@ namespace ConfigCenter.Common
             Version = Configuration["SqliteConfig:Version"]
         };
 
-        private static string _serverUrl;
+        private static ServerInfoModel _serverInfo;
         /// <summary>
-        /// Url地址
+        /// 服务配置
         /// </summary>
-        public static string ServerUrl => _serverUrl ??= Configuration["ServerUrl"];
+        public static ServerInfoModel ServerInfo => _serverInfo ??= new ServerInfoModel
+        {
+            Url = Configuration["ServerInfo:Url"],
+            Key = Configuration["ServerInfo:Key"],
+            Name = Configuration["ServerInfo:Name"]
+        };
         #endregion
     }
 }

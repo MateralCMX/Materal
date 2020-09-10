@@ -11,7 +11,8 @@ namespace Materal.APP.Hubs.Clients
         /// 注册结果
         /// </summary>
         /// <param name="isSuccess"></param>
+        /// <param name="message"></param>
         /// <returns></returns>
-        Task RegisterResult(bool isSuccess);
+        Task RegisterResult(bool isSuccess, string message);
     }
 }

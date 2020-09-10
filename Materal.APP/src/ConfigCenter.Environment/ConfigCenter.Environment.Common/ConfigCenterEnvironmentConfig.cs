@@ -1,4 +1,5 @@
 ﻿using System;
+using Materal.APP.Core.Models;
 using Materal.TTA.SqliteRepository.Model;
 using Microsoft.Extensions.Configuration;
 
@@ -58,16 +59,16 @@ namespace ConfigCenter.Environment.Common
             Version = Configuration["SqliteConfig:Version"]
         };
 
-        private static string _serverUrl;
+        private static ServerInfoModel _serverInfo;
         /// <summary>
-        /// Url地址
+        /// 服务配置
         /// </summary>
-        public static string ServerUrl=> _serverUrl ??= Configuration["ServerUrl"];
-        private static string _environmentName;
-        /// <summary>
-        /// 环境名称
-        /// </summary>
-        public static string EnvironmentName=> _environmentName ??= Configuration["EnvironmentName"];
+        public static ServerInfoModel ServerInfo => _serverInfo ??= new ServerInfoModel
+        {
+            Url = Configuration["ServerInfo:Url"],
+            Key = Configuration["ServerInfo:Key"],
+            Name = Configuration["ServerInfo:Name"]
+        };
         /// <summary>
         /// 配置中心地址
         /// </summary>
