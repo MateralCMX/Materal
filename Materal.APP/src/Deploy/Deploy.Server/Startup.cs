@@ -1,40 +1,102 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Deploy.Services;
+using Deploy.SqliteEFRepository;
+using Materal.APP.Core;
+using Materal.APP.Hubs.Hubs;
+using Materal.APP.WebAPICore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.FileProviders;
+using System;
+using System.IO;
+using System.Linq;
+using Deploy.Common;
 
 namespace Deploy.Server
 {
+    /// <summary>
+    /// Startup
+    /// </summary>
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        private readonly WebAPIStartupHelper _webAPIStartupHelper;
+        /// <summary>
+        /// Startup
+        /// </summary>
+        public Startup()
+        {
+            string basePath = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
+            var config = new WebAPIStartupConfig
+            {
+                AppName = "Deploy",
+                SwaggerXmlPathArray = new[]
+                {
+                    $"{basePath}/Deploy.Server.xml",
+                    $"{basePath}/Deploy.PresentationModel.xml",
+                    $"{basePath}/Deploy.DataTransmitModel.xml"
+                }
+            };
+            _webAPIStartupHelper = new WebAPIStartupHelper(config);
+        }
+        /// <summary>
+        /// ≈‰÷√∑˛ŒÒ
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDeployServerServices();
+            _webAPIStartupHelper.AddServices(services);
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// ≈‰÷√
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            var rewriteOptions = new RewriteOptions();
+            rewriteOptions.Add(new RewriteHomeIndexRequests("/Portal/index.html"));
+            app.UseRewriter(rewriteOptions);
+            string basePath = AppDomain.CurrentDomain.BaseDirectory ?? string.Empty;
+            string path = Path.Combine(basePath, "Application");
+            if (!Directory.Exists(path))
             {
-                app.UseDeveloperExceptionPage();
+                Directory.CreateDirectory(path);
             }
-
-            app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
+            app.Use(async (httpContext, next) =>
             {
-                endpoints.MapGet("/", async context =>
+                if (httpContext.Request.Path.HasValue)
                 {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                    if (DeployConfig.ApplicationNameWhiteList.Any(item => httpContext.Request.Path.Value.StartsWith($"/{item}")))
+                    {
+                        await next();
+                    }
+                    else
+                    {
+                        var applicationInfoService = ApplicationData.GetService<IApplicationInfoService>();
+                        string[] paths = httpContext.Request.Path.Value.Split("/");
+                        if (paths.Length >= 2 && applicationInfoService.IsRuningApplication(paths[1]))
+                        {
+                            await next();
+                        }
+                        else
+                        {
+                            httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                        }
+                    }
+                }
             });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(path),
+                RequestPath = ""
+            });
+            _webAPIStartupHelper.Configure(app, env);
+            var dbContextHelper = ApplicationData.GetService<DBContextHelper<DeployDBContext>>();
+            dbContextHelper.Migrate();
+            ApplicationData.GetService<IServerHub>();
         }
     }
 }

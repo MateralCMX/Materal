@@ -88,7 +88,7 @@
             <Icon Type="home" Theme="outline" />
             主页
         </MenuItem>
-        <MenuItem RouterLink="/UserList" RouterMatch="NavLinkMatch.All" OnClick="CloseMenuDrawer">
+        <MenuItem RouterLink="/Authority/UserList" RouterMatch="NavLinkMatch.All" OnClick="CloseMenuDrawer">
             <Icon Type="user" Theme="outline" />
             用户管理
         </MenuItem>
@@ -98,10 +98,9 @@
             <MenuItem RouterLink="/ConfigCenter/ConfigurationItemList" RouterMatch="NavLinkMatch.All" OnClick="CloseMenuDrawer">配置项管理</MenuItem>
         </SubMenu>
         <SubMenu Title="_deployCenterTitle">
-            <MenuItem RouterLink="/Deploy/AppList" RouterMatch="NavLinkMatch.All" OnClick="CloseMenuDrawer">项目管理</MenuItem>
-            <MenuItem RouterLink="/Deploy/WebAppList" RouterMatch="NavLinkMatch.All" OnClick="CloseMenuDrawer">命名空间管理</MenuItem>
-            <MenuItem RouterLink="/Deploy/UploadPackage" RouterMatch="NavLinkMatch.All" OnClick="CloseMenuDrawer">配置项管理</MenuItem>
-            <MenuItem RouterLink="/Deploy/DefaultDataSetting" RouterMatch="NavLinkMatch.All" OnClick="CloseMenuDrawer">配置项管理</MenuItem>
+            <MenuItem RouterLink="/Deploy/AppList" RouterMatch="NavLinkMatch.All" OnClick="CloseMenuDrawer">应用程序管理</MenuItem>
+            <MenuItem RouterLink="/Deploy/UploadPackage" RouterMatch="NavLinkMatch.All" OnClick="CloseMenuDrawer">上传应用程序包</MenuItem>
+            <MenuItem RouterLink="/Deploy/DefaultDataSetting" RouterMatch="NavLinkMatch.All" OnClick="CloseMenuDrawer">默认数据管理</MenuItem>
         </SubMenu>
     </Menu>
 </Drawer>

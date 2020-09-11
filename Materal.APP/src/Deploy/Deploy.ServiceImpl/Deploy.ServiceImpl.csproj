@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.WindowsHelper" Version="1.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Deploy.Services\Deploy.Services.csproj" />
+    <ProjectReference Include="..\Deploy.SqliteEFRepository\Deploy.SqliteEFRepository.csproj" />
+  </ItemGroup>
+
+</Project>

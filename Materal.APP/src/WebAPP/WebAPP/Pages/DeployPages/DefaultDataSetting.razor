@@ -1,0 +1,314 @@
+﻿@layout NavMenuLayout
+@page "/Deploy/DefaultDataSetting"
+
+@using WebAPP.AntDesignHelper
+@using Deploy.HttpManage
+@using Materal.ConvertHelper
+@using Materal.Model
+@using WebAPP.Models
+@using System.ComponentModel
+@using Deploy.DataTransmitModel.DefaultData
+@using Deploy.PresentationModel.DefaultData
+@using WebAPP.Common
+@using WebAPP.HttpClientImpl
+
+@inject MessageManage _messageManage
+@inject ModalService _modalService
+@inject ExceptionManage _exceptionManage
+@inject IDefaultDataManage _defaultDataManage
+@inject NavigationManager _navigationManager
+
+<style>
+    .main_content {
+        background-color: #FFF;
+        padding: 0 24px;
+    }
+
+    .page_header {
+        padding: 16px 0;
+    }
+
+    .search_panel {
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="main_content">
+    <PageHeader class="page_header">
+        <PageHeaderTitle>默认数据管理</PageHeaderTitle>
+        <PageHeaderExtra>
+            <Tooltip Title="@("添加默认数据")">
+                <Button Type="@ButtonType.Primary" OnClick="OpenAddDefaultDataDrawer">
+                    <Icon Type="plus" />
+                </Button>
+            </Tooltip>
+        </PageHeaderExtra>
+        <PageHeaderContent>
+            <Descriptions Size="small" Column="3">
+                <DescriptionsItem Title="@("总数")" Span="1">@_pageData.Count</DescriptionsItem>
+            </Descriptions>
+        </PageHeaderContent>
+    </PageHeader>
+    <div>
+        <div class="search_panel">
+            <Row Gutter="16">
+                <Col Span="4">
+                <Input Placeholder="账号" @bind-Value="_searchModel.Key" Disabled="@_loading" />
+                </Col>
+                <Col Span="4">
+                @*<Input Placeholder="名称" @bind-Value="_searchModel.Name" Disabled="@_loading" />*@
+                </Col>
+                <Col Span="16">
+                <Tooltip Title="@("查询")">
+                    <Button Type="@ButtonType.Primary" Loading="_loading" OnClick="async () => await SearchDefaultDataListAsync()">
+                        <Icon Type="search" />
+                    </Button>
+                </Tooltip>
+                </Col>
+            </Row>
+        </div>
+        <Table DataSource="@_tableData" class="data_table" Loading="_loading" @bind-PageIndex="_pageData.PageModel.PageIndex" @bind-PageSize="_pageData.PageModel.PageSize" @bind-Total="_pageData.PageModel.DataCount" OnPageIndexChange="PageIndexChange">
+            <Column @bind-Field="@context.Index">@context.Index</Column>
+            <Column @bind-Field="@context.Key">@context.Key</Column>
+            <Column @bind-Field="@context.ApplicationTypeString">@context.ApplicationTypeString</Column>
+            <Column @bind-Field="@context.Data">@context.Data</Column>
+            <ActionColumn Title="操作">
+                <Space Size="middle">
+                    <SpaceItem>
+                        <Tooltip Title="@("编辑")">
+                            <Button OnClick="async () => await OpenEditDefaultDataDrawerAsync(context.ID)">
+                                <Icon Type="edit" />
+                            </Button>
+                        </Tooltip>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Tooltip Title="@("删除")">
+                            <Button Type="@ButtonType.Primary" Danger OnClick="() => OpenDeleteDefaultDataDialog(context.ID)">
+                                <Icon Type="delete" />
+                            </Button>
+                        </Tooltip>
+                    </SpaceItem>
+                </Space>
+            </ActionColumn>
+        </Table>
+    </div>
+</div>
+<Drawer Closable="true" Visible="_operationDefaultDataDrawerVisible" Placement="right" Title='@(_operationDefaultDataID.HasValue?"修改默认数据":"新增默认数据")' OnClose="CloseOperationDefaultDataDrawer" Width="400">
+    <OperationDefaultData @bind-DefaultDataData="@_defaultDataInfo" OnClose="CloseOperationDefaultDataDrawer" OnSuccess="async () => await SearchDefaultDataListAsync(1)"></OperationDefaultData>
+</Drawer>
+
+@code{
+    /// <summary>
+    /// 页头展示数据
+    /// </summary>
+    public class PageDataModel
+    {
+        public PageModel PageModel { get; } = new PageModel();
+
+        public void SetPageInfo(object pageInfo)
+        {
+            pageInfo.CopyProperties(PageModel);
+        }
+
+        public string Count => PageModel.DataCount == 0 ? "暂无数据" : PageModel.DataCount.ToString();
+    }
+    /// <summary>
+    /// 数据表显示模型
+    /// </summary>
+    public class DataTableDisplayModel
+    {
+        [DisplayName("位序")]
+        public int Index { get; set; }
+        [DisplayName("唯一标识")]
+        public Guid ID { get; set; }
+        [DisplayName("键")]
+        public string Key { get; set; }
+        [DisplayName("应用程序类型")]
+        public string ApplicationTypeString { get; set; }
+        [DisplayName("数据")]
+        public string Data { get; set; }
+    }
+}
+
+@code{
+    private bool _loading;
+
+    private readonly PageDataModel _pageData = new PageDataModel();
+
+    private readonly QueryDefaultDataFilterRequestModel _searchModel = new QueryDefaultDataFilterRequestModel
+    {
+        Key = "",
+        ApplicationType = null,
+        PageIndex = 1,
+        PageSize = 10
+    };
+
+    private readonly List<DataTableDisplayModel> _tableData = new List<DataTableDisplayModel>();
+
+    private bool _operationDefaultDataDrawerVisible;
+
+    private Guid? _operationDefaultDataID;
+
+    private DefaultDataInfoModel _defaultDataInfo = new DefaultDataInfoModel();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        if (!string.IsNullOrWhiteSpace(UrlManage.DeployUrl))
+        {
+            await SearchDefaultDataListAsync();
+            StateHasChanged();
+            await base.OnAfterRenderAsync(true);
+        }
+        else
+        {
+            _navigationManager.NavigateTo("/");
+        }
+    }
+    /// <summary>
+    /// 查询默认数据列表
+    /// </summary>
+    /// <returns></returns>
+    private async Task SearchDefaultDataListAsync(int pageIndex = 0)
+    {
+        try
+        {
+            _loading = true;
+            if (pageIndex != 0) _searchModel.PageIndex = pageIndex;
+            PageResultModel<DefaultDataListDTO> resultModel = await _defaultDataManage.GetListAsync(_searchModel);
+            if (resultModel.ResultType == 0)
+            {
+                _pageData.SetPageInfo(resultModel.PageModel);
+                _tableData.Clear();
+                var index = 0;
+                foreach (DefaultDataListDTO defaultData in resultModel.Data)
+                {
+                    var temp = defaultData.CopyProperties<DataTableDisplayModel>();
+                    temp.Index = _pageData.PageModel.GetTableIndex(index++);
+                    _tableData.Add(temp);
+                }
+            }
+            else
+            {
+                _messageManage.Warning(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            _exceptionManage.HandlerException(exception);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+    /// <summary>
+    /// 页码更改事件
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    private async Task PageIndexChange(PaginationEventArgs eventArgs)
+    {
+        _searchModel.PageIndex = eventArgs.PageIndex;
+        _searchModel.PageSize = eventArgs.PageSize;
+        await SearchDefaultDataListAsync();
+    }
+    /// <summary>
+    /// 打开添加默认数据抽屉
+    /// </summary>
+    private void OpenAddDefaultDataDrawer()
+    {
+        _defaultDataInfo = new DefaultDataInfoModel();
+        _operationDefaultDataID = null;
+        _operationDefaultDataDrawerVisible = true;
+    }
+    /// <summary>
+    /// 打开修改默认数据抽屉
+    /// </summary>
+    /// <param name="id"></param>
+    private async Task OpenEditDefaultDataDrawerAsync(Guid id)
+    {
+        try
+        {
+            _loading = true;
+            _operationDefaultDataID = id;
+            ResultModel<DefaultDataDTO> resultModel = await _defaultDataManage.GetInfoAsync(id);
+            if (resultModel.ResultType == 0)
+            {
+                _defaultDataInfo = resultModel.Data.CopyProperties<DefaultDataInfoModel>();
+                _operationDefaultDataDrawerVisible = true;
+            }
+            else
+            {
+                _messageManage.Warning(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            _exceptionManage.HandlerException(exception);
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+    /// <summary>
+    /// 关闭抽屉
+    /// </summary>
+    public void CloseOperationDefaultDataDrawer()
+    {
+        _operationDefaultDataID = null;
+        _operationDefaultDataDrawerVisible = false;
+    }
+    /// <summary>
+    /// 打开删除默认数据对话框
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    private void OpenDeleteDefaultDataDialog(Guid id)
+    {
+        _modalService.Confirm(new ConfirmOptions
+        {
+            Title = "删除默认数据",
+            Content = "是否删除该默认数据?",
+            OkText = "删除",
+            CancelText = "取消",
+            OkButtonProps = new ButtonProps
+            {
+                Danger = true,
+                Type = ButtonType.Primary
+            },
+            OnOk = async eventArgs =>
+            {
+                await DeleteDefaultDataAsync(id);
+            }
+        });
+    }
+    /// <summary>
+    /// 删除默认数据
+    /// </summary>
+    private async Task DeleteDefaultDataAsync(Guid id)
+    {
+        try
+        {
+            _loading = true;
+            ResultModel resultModel = await _defaultDataManage.DeleteAsync(id);
+            if (resultModel.ResultType == 0)
+            {
+                _messageManage.Success(resultModel.Message);
+                await SearchDefaultDataListAsync();
+                StateHasChanged();
+            }
+            else
+            {
+                _messageManage.Warning(resultModel.Message);
+                _loading = false;
+            }
+        }
+        catch (Exception exception)
+        {
+            _exceptionManage.HandlerException(exception);
+            _loading = false;
+        }
+    }
+}

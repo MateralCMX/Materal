@@ -2,6 +2,7 @@
 using Materal.TTA.SqliteRepository.Model;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.IO;
 
 namespace ConfigCenter.Common
 {
@@ -54,7 +55,7 @@ namespace ConfigCenter.Common
         /// </summary>
         public static SqliteConfigModel SqliteConfig => _sqliteConfig ??= new SqliteConfigModel
         {
-            FilePath = Configuration["SqliteConfig:FilePath"],
+            FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Configuration["SqliteConfig:FilePath"]),
             Password = Configuration["SqliteConfig:Password"],
             Version = Configuration["SqliteConfig:Version"]
         };

@@ -29,6 +29,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authority.HttpManage", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.APP.HttpClient", "..\Materal.APP\Materal.APP.HttpClient\Materal.APP.HttpClient.csproj", "{F21746E2-1281-4B3F-9F69-65F24915F79B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deploy", "Deploy", "{E68D36A9-C61B-4ED8-AFE9-43635008E30F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deploy.HttpManage", "..\Deploy\Deploy.HttpManage\Deploy.HttpManage.csproj", "{31E31B93-5B34-49C6-B008-8342A892539C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +83,10 @@ Global
 		{F21746E2-1281-4B3F-9F69-65F24915F79B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F21746E2-1281-4B3F-9F69-65F24915F79B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F21746E2-1281-4B3F-9F69-65F24915F79B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31E31B93-5B34-49C6-B008-8342A892539C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31E31B93-5B34-49C6-B008-8342A892539C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31E31B93-5B34-49C6-B008-8342A892539C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31E31B93-5B34-49C6-B008-8342A892539C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +99,7 @@ Global
 		{1C6403ED-E210-4F1C-83FC-F6053FC9577D} = {C93F489B-F439-4BA5-AE48-285D44E5FBC3}
 		{83EA603A-8D69-4D55-9D45-38156CBA219F} = {014375FE-FFA3-46E3-B676-B68D9ABCF6DD}
 		{F21746E2-1281-4B3F-9F69-65F24915F79B} = {C93F489B-F439-4BA5-AE48-285D44E5FBC3}
+		{31E31B93-5B34-49C6-B008-8342A892539C} = {E68D36A9-C61B-4ED8-AFE9-43635008E30F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1FDB78CA-77A2-4F0C-9157-51D043D1806F}

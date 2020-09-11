@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Authority\Authority.HttpManage\Authority.HttpManage.csproj" />
+    <ProjectReference Include="..\..\Deploy\Deploy.HttpManage\Deploy.HttpManage.csproj" />
     <ProjectReference Include="..\..\Materal.APP\Materal.APP.HttpClient\Materal.APP.HttpClient.csproj" />
     <ProjectReference Include="..\..\Materal.APP\Materal.APP.HttpManage\Materal.APP.HttpManage.csproj" />
     <ProjectReference Include="..\WebAPP.Common\WebAPP.Common.csproj" />

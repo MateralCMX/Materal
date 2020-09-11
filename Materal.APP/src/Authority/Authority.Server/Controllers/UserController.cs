@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -67,7 +68,7 @@ namespace Authority.Server.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<ResultModel> DeleteUserAsync(Guid id)
+        public async Task<ResultModel> DeleteUserAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             await _userService.DeleteUserAsync(id);
             return ResultModel.Success("删除成功");
@@ -78,7 +79,7 @@ namespace Authority.Server.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ResultModel<UserDTO>> GetUserInfoAsync(Guid id)
+        public async Task<ResultModel<UserDTO>> GetUserInfoAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             UserDTO result = await _userService.GetUserInfoAsync(id);
             return ResultModel<UserDTO>.Success(result, "查询成功");
@@ -147,7 +148,7 @@ namespace Authority.Server.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPatch]
-        public async Task<ResultModel<string>> ResetPasswordAsync(Guid id)
+        public async Task<ResultModel<string>> ResetPasswordAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             string result = await _userService.ResetPasswordAsync(id);
             return ResultModel<string>.Success(result, "重置成功");
