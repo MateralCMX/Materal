@@ -1,7 +1,20 @@
-﻿<input class="@ClassString" type="@Type" disabled="@Disabled" @bind-value="@Value" @oninput="OnInputChangeAsync" />
+﻿@if (Rows <= 1)
+{
+    <input class="@ClassString" type="@Type" disabled="@Disabled" @bind-value="@Value" @oninput="@OnInputChangeAsync" />
+}
+else
+{
+    <textarea class="@ClassString" rows="@Rows" disabled="@Disabled" @oninput="@OnInputChange">@Value</textarea>
+}
 
 @code {
     #region Parameter
+    /// <summary>
+    /// 行数
+    /// </summary>
+    [Parameter]
+    public int Rows { get; set; } = 1;
+
     /// <summary>
     /// 禁用状态
     /// </summary>
@@ -54,7 +67,6 @@
         }
     }
     #endregion
-
     #region 方法
     /// <summary>
     /// 输入更改
