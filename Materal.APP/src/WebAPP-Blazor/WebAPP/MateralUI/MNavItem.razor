@@ -1,0 +1,48 @@
+﻿
+@inject NavigationManager _navigationManager
+
+@if (string.IsNullOrWhiteSpace(Href))
+{
+    <li class="m_nav_subitem">
+        <span>@Title</span>
+        <MNav>
+            @ChildContent
+        </MNav>
+    </li>
+}
+else
+{
+    <li class="m_nav_item" @onclick="@OnNavItemClick">
+        <span>@Title</span>
+    </li>
+}
+
+@code {
+    #region 参数
+    /// <summary>
+    /// 按钮内部
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    /// <summary>
+    /// 连接
+    /// </summary>
+    [Parameter]
+    public string Href { get; set; }
+    /// <summary>
+    /// 标题
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 菜单项单击
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    public void OnNavItemClick(MouseEventArgs eventArgs)
+    {
+        _navigationManager.NavigateTo(Href);
+    }
+    #endregion
+}

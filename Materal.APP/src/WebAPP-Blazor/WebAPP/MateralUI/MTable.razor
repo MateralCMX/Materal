@@ -1,0 +1,54 @@
+﻿@using WebAPP.MateralUI.Models
+@typeparam TItem
+
+<section class="m_table_panel">
+    <table>
+        <colgroup>
+            @foreach (TableConfigModel tableConfig in TableConfig)
+            {
+                if (tableConfig.Width.HasValue)
+                {
+                    <col width="@(tableConfig.Width.Value)px" />
+                }
+                else
+                {
+                    <col />
+                }
+            }
+        </colgroup>
+        <thead>
+            <tr>
+                @foreach (TableConfigModel tableConfig in TableConfig)
+                {
+                    <th>@tableConfig.Title</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (TItem item in DataSource)
+        {
+            <tr>
+                @ChildContent(item)
+            </tr>
+        }
+        </tbody>
+    </table>
+</section>
+
+@code {
+    /// <summary>
+    /// 内部
+    /// </summary>
+    [Parameter]
+    public ICollection<TItem> DataSource { get; set; }
+    /// <summary>
+    /// 表格配置
+    /// </summary>
+    [Parameter]
+    public ICollection<TableConfigModel> TableConfig{ get; set; }
+    /// <summary>
+    /// 内部
+    /// </summary>
+    [Parameter]
+    public RenderFragment<TItem> ChildContent { get; set; }
+}

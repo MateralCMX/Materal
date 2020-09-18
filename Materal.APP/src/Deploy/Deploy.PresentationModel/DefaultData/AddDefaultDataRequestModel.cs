@@ -17,5 +17,10 @@ namespace Deploy.PresentationModel.DefaultData
         /// 类型
         /// </summary>
         public ApplicationTypeEnum ApplicationType { get; set; }
+        /// <summary>
+        /// 数据
+        /// </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        public string Data { get; set; }
     }
 }

@@ -94,6 +94,11 @@
             类型
             </summary>
         </member>
+        <member name="P:Deploy.PresentationModel.DefaultData.AddDefaultDataRequestModel.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
         <member name="T:Deploy.PresentationModel.DefaultData.EditDefaultDataRequestModel">
             <summary>
             修改默认数据请求模型

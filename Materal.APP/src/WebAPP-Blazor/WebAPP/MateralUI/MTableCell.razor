@@ -1,0 +1,27 @@
+﻿<td>
+    @if (Width.HasValue)
+    {
+        <div class="m_table_td_content" style="width: @(Width.Value)px;">
+            @ChildContent
+        </div>
+    }
+    else
+    {
+        <div class="m_table_td_content">
+            @ChildContent
+    </div>
+}
+</td>
+
+@code {
+    /// <summary>
+    /// 宽度
+    /// </summary>
+    [Parameter]
+    public int? Width { get; set; }
+    /// <summary>
+    /// 内部
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

@@ -24,11 +24,6 @@
             更改密码请求模型
             </summary>
         </member>
-        <member name="P:Authority.PresentationModel.User.ChangePasswordRequestModel.ID">
-            <summary>
-            用户唯一标识
-            </summary>
-        </member>
         <member name="P:Authority.PresentationModel.User.ChangePasswordRequestModel.OldPassword">
             <summary>
             旧密码

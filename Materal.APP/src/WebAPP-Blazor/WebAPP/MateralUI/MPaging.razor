@@ -1,0 +1,63 @@
+﻿@using Materal.Model
+@using Materal.Common
+<section class="m_paging_panel">
+    <MButton Class="Micon Micon_arrow_right" Disabled="@(PageIndex >= PageModel.PageCount)" OnClick="OnBtnDownClick"></MButton>
+    <span class="m_paging_panel_page_count">/@PageModel.PageCount</span>
+    <input class="m_paging_panel_page_index" min="0" type="number" autocomplete="off" @bind-value="@PageIndex">
+    <MButton Class="Micon Micon_arrow_left" Disabled="@(PageIndex <= MateralConfig.PageStartNumber)" OnClick="OnBtnUpClick"></MButton>
+</section>
+
+@code {
+    #region 参数
+    /// <summary>
+    /// 页面请求模型
+    /// </summary>
+    [Parameter]
+    public PageModel PageModel { get; set; }
+    /// <summary>
+    /// 页面当前页更改
+    /// </summary>
+    [Parameter]
+    public EventCallback<int> PageIndexChanged { get; set; }
+    #endregion
+    #region 属性
+    /// <summary>
+    /// 当前页数
+    /// </summary>
+    public int PageIndex
+    {
+        get => PageModel.PageIndex;
+        set
+        {
+            int temp = value;
+            if (value < MateralConfig.PageStartNumber)
+            {
+                temp = MateralConfig.PageStartNumber;
+            }
+            else if (value > PageModel.PageCount)
+            {
+                temp = PageModel.PageCount;
+            }
+            if (temp == PageModel.PageIndex) return;
+            PageModel.PageIndex = temp;
+            PageIndexChanged.InvokeAsync(PageModel.PageIndex);
+        }
+    }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 单击上一页按钮
+    /// </summary>
+    public void OnBtnUpClick()
+    {
+        PageIndex--;
+    }
+    /// <summary>
+    /// 单击下一页按钮
+    /// </summary>
+    public void OnBtnDownClick()
+    {
+        PageIndex++;
+    }
+    #endregion
+}

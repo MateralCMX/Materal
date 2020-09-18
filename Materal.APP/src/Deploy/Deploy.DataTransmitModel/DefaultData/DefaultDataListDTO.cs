@@ -1,5 +1,6 @@
 ﻿using Deploy.Enums;
 using Materal.Common;
+using System;
 
 namespace Deploy.DataTransmitModel.DefaultData
 {
@@ -8,6 +9,10 @@ namespace Deploy.DataTransmitModel.DefaultData
     /// </summary>
     public class DefaultDataListDTO
     {
+        /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public Guid ID { get; set; }
         /// <summary>
         /// 类型
         /// </summary>

@@ -1,0 +1,22 @@
+﻿<section class="m_page_header">
+    <h2 class="m_page_header_title">@Title</h2>
+    <section class="m_page_header_operation_panel">
+        @ChildContent
+    </section>
+</section>
+
+@code {
+
+    #region 属性
+    /// <summary>
+    /// 标题
+    /// </summary>
+    [Parameter]
+    public string Title{ get; set; }
+    /// <summary>
+    /// 按钮内部
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    #endregion
+}

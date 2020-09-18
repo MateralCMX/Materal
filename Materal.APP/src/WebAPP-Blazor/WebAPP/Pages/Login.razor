@@ -1,0 +1,264 @@
+﻿@page "/Login"
+
+@using WebAPP.MateralUI.Models
+@using System.ComponentModel.DataAnnotations
+@using Authority.HttpManage
+@using Authority.HttpManage.Models
+@using Authority.PresentationModel.User
+@using Materal.APP.HttpClient
+@using Materal.APP.HttpManage
+@using Materal.APP.PresentationModel.StringHelper
+@using Materal.Common
+@using Materal.ConvertHelper
+@using Materal.Model
+
+@inject IJSRuntime _jsRuntime
+@inject NavigationManager _navigationManager
+@inject IAuthorityManage _authorityManage
+@inject MessageManage _messageManage
+@inject ExceptionManage _exceptionManage
+@inject IUserManage _userManage
+@inject IStringHelperManage _stringHelperManage
+
+<style>
+    .login_panel {
+        text-align: center;
+        position: fixed;
+        left: 50%;
+        right: 0;
+        bottom: 40px;
+        top: 60px;
+        width: 365px;
+        transform: translate(-50%, 0);
+    }
+    .login_panel .title {
+        text-align: center;
+        margin: 0 0 30px;
+        font-size: 26px;
+        font-weight: normal;
+        line-height: 40px;
+    }
+    .login_footer {
+        text-align: center;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+</style>
+
+<div class="login_panel">
+    <header>
+        <h1 class="title">Materal.APP</h1>
+    </header>
+    <main>
+        <MForm @ref="@Form" FromData="@FormData">
+            <MFormItem Title="账号" PropertyModel="@context.Account" IsRequired>
+                <MInput Type="text" Disabled="@Loading" @bind-Value="@context.Account.Value"></MInput>
+            </MFormItem>
+            <MFormItem Title="密码" PropertyModel="@context.Password" IsRequired>
+                <MInput Type="password" Disabled="@Loading" @bind-Value="@context.Password.Value"></MInput>
+            </MFormItem>
+            <MFormItem>
+                <MCheckbox Title="记住我" Disabled="@Loading" @bind-Value="@context.RememberMe"></MCheckbox>
+            </MFormItem>
+            <MFormItem>
+                <MButton ButtonType="@MButtonTypeEnum.Primary" Disabled="@Loading" IsBlock OnClick="@OnBtnLoginClickAsync">登录</MButton>
+            </MFormItem>
+        </MForm>
+    </main>
+</div>
+<footer class="m_footer login_footer">
+    copyright © 2020 Materal
+</footer>
+
+@code{
+    /// <summary>
+    /// 登录表单数据模型
+    /// </summary>
+    public class LoginFromDataModel
+    {
+        /// <summary>
+        /// 账号
+        /// </summary>
+        [Required(ErrorMessage = "账号必填")]
+        public FromDataPropertyModel<string> Account { get; set; } = new FromDataPropertyModel<string>();
+        /// <summary>
+        /// 密码
+        /// </summary>
+        [Required(ErrorMessage = "密码必填")]
+        public FromDataPropertyModel<string> Password { get; set; } = new FromDataPropertyModel<string>();
+        /// <summary>
+        /// 记住我
+        /// </summary>
+        public bool RememberMe { get; set; }
+    }
+}
+@code{
+    #region 属性字段
+    /// <summary>
+    /// 加载状态
+    /// </summary>
+    public bool Loading { get; set; } = true;
+    /// <summary>
+    /// 窗体
+    /// </summary>
+    public MForm<LoginFromDataModel> Form { get; set; }
+    /// <summary>
+    /// 表单数据
+    /// </summary>
+    public LoginFromDataModel FormData = new LoginFromDataModel();
+    /// <summary>
+    /// 记住我缓存键
+    /// </summary>
+    private const string _rememberMeCacheKey = "RememberMe";
+    #endregion
+    #region 生命周期
+    /// <summary>
+    /// 组件呈现之后
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await _authorityManage.RemoveTokenAsync();
+        await FillRememberMeLoginInfoAsync();
+        await base.OnAfterRenderAsync(true);
+        StateHasChanged();
+    }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 登录按钮单击事件
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    public async Task OnBtnLoginClickAsync(MouseEventArgs eventArgs)
+    {
+        await LoginAsync();
+    }
+    #endregion
+    #region 私有方法
+    /// <summary>
+    /// 登录
+    /// </summary>
+    /// <param name="changeLoading">是否更改Loading状态</param>
+    /// <returns></returns>
+    private async Task LoginAsync(bool changeLoading = true)
+    {
+        if (!Form.ValidateData()) return;
+        Loading = true;
+        try
+        {
+            var requestModel = new LoginRequestModel
+            {
+                Account = FormData.Account.Value,
+                Password = FormData.Password.Value
+            };
+            ResultModel<LoginResultModel> resultModel = await _userManage.LoginAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _authorityManage.SetTokenAsync(resultModel.Data.Token);
+                if (FormData.RememberMe)
+                {
+                    await SaveRememberMeLoginInfoAsync(requestModel, false);
+                }
+                _navigationManager.NavigateTo("");
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            if (changeLoading)
+            {
+                Loading = false;
+            }
+        }
+    }
+    /// <summary>
+    /// 保存记住我登录信息
+    /// </summary>
+    /// <param name="loginModel"></param>
+    /// <param name="changeLoading">是否更改Loading状态</param>
+    /// <returns></returns>
+    private async Task SaveRememberMeLoginInfoAsync(LoginRequestModel loginModel, bool changeLoading = true)
+    {
+        Loading = true;
+        try
+        {
+            var requestModel = new StringRequestModel
+            {
+                Value = loginModel.ToJson()
+            };
+            ResultModel<string> resultModel = await _stringHelperManage.DesEncryptionAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _jsRuntime.InvokeVoidAsync("localStorage.setItem", _rememberMeCacheKey, resultModel.Data);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            if (changeLoading)
+            {
+                Loading = false;
+            }
+        }
+    }
+    /// <summary>
+    /// 填充记住我登录信息
+    /// </summary>
+    /// <param name="changeLoading">是否更改Loading状态</param>
+    /// <returns></returns>
+    private async Task FillRememberMeLoginInfoAsync(bool changeLoading = true)
+    {
+        Loading = true;
+        try
+        {
+            var encryptionString = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", _rememberMeCacheKey);
+            if (string.IsNullOrWhiteSpace(encryptionString)) return;
+            var requestModel = new StringRequestModel
+            {
+                Value = encryptionString
+            };
+            ResultModel<string> resultModel = await _stringHelperManage.DesDecryptionAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                FormData.RememberMe = true;
+                var loginModel = resultModel.Data.JsonToObject<LoginRequestModel>();
+                FormData.Account.Value = loginModel.Account;
+                FormData.Password.Value = loginModel.Password;
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            if (changeLoading)
+            {
+                Loading = false;
+            }
+        }
+    }
+    #endregion
+}

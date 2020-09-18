@@ -162,6 +162,7 @@ namespace Authority.Server.Controllers
         public async Task<ResultModel> ChangePasswordAsync(ChangePasswordRequestModel requestModel)
         {
             var model = _mapper.Map<ChangePasswordModel>(requestModel);
+            model.ID = GetLoginUserID();
             await _userService.ChangePasswordAsync(model);
             return ResultModel.Success("修改成功");
         }

@@ -1,0 +1,77 @@
+﻿@using WebAPP.MateralUI.Helper
+
+@if (Display)
+{
+    <section class="@ClassString">
+        <div class="m_modal_background" @onclick="@OnBtnCloseClickAsync"></div>
+        <div class="m_modal_panel">
+            <div class="m_modal_header">
+                <span class="m_modal_title">@Title</span>
+                <button class="m_modal_btn_close Micon Micon_close" @onclick="@OnBtnCloseClickAsync"></button>
+            </div>
+            <div class="m_modal_body">
+                @ChildContent
+            </div>
+        </div>
+    </section>
+}
+
+@code {
+
+    #region 参数
+    /// <summary>
+    /// 自动填充
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; }
+    /// <summary>
+    /// 内部
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    /// <summary>
+    /// 模态窗类型
+    /// </summary>
+    [Parameter]
+    public MModalTypeEnum ModalType { get; set; } = MModalTypeEnum.Default;
+    /// <summary>
+    /// 是否显示
+    /// </summary>
+    [Parameter]
+    public bool Display { get; set; }
+    /// <summary>
+    /// 是否显示更新
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> DisplayChanged { get; set; }
+    #endregion
+    #region 属性
+    /// <summary>
+    /// Class字符串
+    /// </summary>
+    public string ClassString
+    {
+        get
+        {
+            var result = "m_modal";
+            string typeClass = ModalType.GetTargetClass();
+            if (!string.IsNullOrWhiteSpace(typeClass))
+            {
+                result += $" {typeClass}";
+            }
+            return result;
+        }
+    }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 单击关闭按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    public async Task OnBtnCloseClickAsync(MouseEventArgs eventArgs)
+    {
+        Display = false;
+        await DisplayChanged.InvokeAsync(Display);
+    }
+    #endregion
+}

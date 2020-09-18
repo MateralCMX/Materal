@@ -1,0 +1,263 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Authority.DataTransmitModel.User
+@using Authority.HttpManage
+@using WebAPP.MateralUI.Models
+@using Authority.PresentationModel.User
+@using Materal.Model
+@using Materal.Common
+@using WebAPP.Common
+
+
+@inject MessageManage _messageManage
+@inject ExceptionManage _exceptionManage
+@inject IUserManage _userManage
+
+<section>
+    <MForm @ref="@Form" FromData="@FormData">
+        <MFormItem Title="账号" PropertyModel="@context.Account" IsRequired>
+            <MInput Type="text" Disabled="@Loading" @bind-Value="@context.Account.Value"></MInput>
+        </MFormItem>
+        <MFormItem Title="姓名" PropertyModel="@context.Name" IsRequired>
+            <MInput Type="text" Disabled="@Loading" @bind-Value="@context.Name.Value"></MInput>
+        </MFormItem>
+    </MForm>
+    <div class="m_modal_buttons">
+        <MButton Disabled="@Loading" OnClick="@OnBtnCancelClickAsync">取消</MButton>
+        <MButton ButtonType="@MButtonTypeEnum.Primary" Disabled="@Loading" OnClick="@OnBtnSaveClickAsync">确定</MButton>
+    </div>
+</section>
+
+@code{
+    /// <summary>
+    /// 操作用户表单数据模型
+    /// </summary>
+    public class OperationUserFromDataModel
+    {
+        /// <summary>
+        /// 账号
+        /// </summary>
+        [Required(ErrorMessage = "账号不能为空"), StringLength(100, ErrorMessage = "账号长度不能超过100")]
+        public FromDataPropertyModel<string> Account { get; set; } = new FromDataPropertyModel<string>();
+        /// <summary>
+        /// 姓名
+        /// </summary>
+        [Required(ErrorMessage = "姓名不能为空"), StringLength(100, ErrorMessage = "姓名长度不能超过100")]
+        public FromDataPropertyModel<string> Name { get; set; } = new FromDataPropertyModel<string>();
+    }
+}
+@code {
+    #region 参数
+    /// <summary>
+    /// 用户唯一标识
+    /// </summary>
+    [Parameter]
+    public Guid? UserID { get; set; }
+    /// <summary>
+    /// 成功
+    /// </summary>
+    [Parameter]
+    public EventCallback Success { get; set; }
+    /// <summary>
+    /// 取消
+    /// </summary>
+    [Parameter]
+    public EventCallback Cancel { get; set; }
+    #endregion
+    #region 属性字段
+    /// <summary>
+    /// 加载状态
+    /// </summary>
+    public bool Loading { get; set; } = true;
+    /// <summary>
+    /// 窗体
+    /// </summary>
+    public MForm<OperationUserFromDataModel> Form { get; set; }
+    /// <summary>
+    /// 表单数据
+    /// </summary>
+    public OperationUserFromDataModel FormData = new OperationUserFromDataModel();
+
+    private Guid? _upInitUserID;
+
+    #endregion
+
+    #region 生命周期
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await InitUserInfoAsync();
+        StateHasChanged();
+        await base.OnAfterRenderAsync(true);
+    }
+
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 单击保存按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnSaveClickAsync(MouseEventArgs eventArgs)
+    {
+        if (UserID.HasValue)
+        {
+            await EditUserAsync();
+        }
+        else
+        {
+            await AddUserAsync();
+        }
+    }
+    /// <summary>
+    /// 单击取消按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnCancelClickAsync(MouseEventArgs eventArgs)
+    {
+        await Cancel.InvokeAsync(null);
+    }
+    #endregion
+    #region 私有方法
+    /// <summary>
+    /// 初始化用户信息
+    /// </summary>
+    /// <returns></returns>
+    private async Task InitUserInfoAsync()
+    {
+        if (_upInitUserID.HasValue && _upInitUserID == UserID) return;
+        _upInitUserID = UserID;
+        if (UserID.HasValue)
+        {
+            await InitOldUserInfoAsync(UserID.Value);
+        }
+        else
+        {
+            InitNewUserInfo();
+        }
+    }
+    /// <summary>
+    /// 初始化新用户
+    /// </summary>
+    /// <returns></returns>
+    private void InitNewUserInfo()
+    {
+        Loading = true;
+        FormData.Account.Value = string.Empty;
+        FormData.Name.Value = string.Empty;
+        Loading = false;
+    }
+    /// <summary>
+    /// 初始化老用户
+    /// </summary>
+    /// <param name="userID"></param>
+    /// <returns></returns>
+    private async Task InitOldUserInfoAsync(Guid userID)
+    {
+        Loading = true;
+        try
+        {
+            ResultModel<UserDTO> resultModel = await _userManage.GetUserInfoAsync(userID);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                InitOldUserInfo(resultModel.Data);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 初始化老用户
+    /// </summary>
+    /// <param name="userInfo"></param>
+    /// <returns></returns>
+    private void InitOldUserInfo(UserDTO userInfo)
+    {
+        FormData.Account.Value = userInfo.Account;
+        FormData.Name.Value = userInfo.Name;
+    }
+    /// <summary>
+    /// 新增用户
+    /// </summary>
+    /// <returns></returns>
+    private async Task AddUserAsync()
+    {
+        if (!Form.ValidateData()) return;
+        Loading = true;
+        try
+        {
+            var requestModel = new AddUserRequestModel
+            {
+                Account = FormData.Account.Value,
+                Name = FormData.Name.Value
+            };
+            ResultModel resultModel = await _userManage.AddUserAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await Success.InvokeAsync(null);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 修改用户
+    /// </summary>
+    /// <returns></returns>
+    private async Task EditUserAsync()
+    {
+        if (!Form.ValidateData()) return;
+        Loading = true;
+        try
+        {
+            if (!UserID.HasValue) throw new WebAPPException("未识别用户唯一标识");
+            var requestModel = new EditUserRequestModel
+            {
+                ID = UserID.Value,
+                Account = FormData.Account.Value,
+                Name = FormData.Name.Value
+            };
+            ResultModel resultModel = await _userManage.EditUserAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await Success.InvokeAsync(null);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    #endregion
+}

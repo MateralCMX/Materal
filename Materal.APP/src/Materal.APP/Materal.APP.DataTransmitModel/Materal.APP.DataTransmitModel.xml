@@ -4,6 +4,11 @@
         <name>Materal.APP.DataTransmitModel</name>
     </assembly>
     <members>
+        <member name="T:Materal.APP.DataTransmitModel.ServerListDTO">
+            <summary>
+            服务列表数据传输模型
+            </summary>
+        </member>
         <member name="P:Materal.APP.DataTransmitModel.ServerListDTO.ServerCategory">
             <summary>
             服务类型
@@ -12,6 +17,11 @@
         <member name="P:Materal.APP.DataTransmitModel.ServerListDTO.Url">
             <summary>
             Url地址
+            </summary>
+        </member>
+        <member name="P:Materal.APP.DataTransmitModel.ServerListDTO.Name">
+            <summary>
+            名称
             </summary>
         </member>
     </members>

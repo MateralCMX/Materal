@@ -1,0 +1,78 @@
+.m_modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+}
+.m_modal_background {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.m_modal_panel {
+  position: absolute;
+  left: 50%;
+  top: 50px;
+  z-index: 1000;
+  min-width: 300px;
+  max-width: 400px;
+  max-height: 700px;
+  transform: translate(-50%, 0);
+  background-color: white;
+  border-radius: 4px;
+  padding: 15px 20px;
+  box-sizing: border-box;
+  box-shadow: 15px 15px 6px #949494;
+}
+.m_modal_panel .m_modal_header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  box-sizing: border-box;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.65);
+}
+.m_modal_panel .m_modal_header .m_modal_title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 24px;
+}
+.m_modal_panel .m_modal_header .m_modal_btn_close {
+  font-size: 12px;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  box-sizing: border-box;
+  margin-left: 10px;
+  color: rgba(0, 0, 0, 0.65);
+}
+.m_modal_panel .m_modal_header .m_modal_btn_close:hover {
+  color: rgba(0, 0, 0, 0.85);
+}
+.m_modal_panel .m_modal_body {
+  margin-top: 10px;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+.m_modal.m_modal_large .m_modal_panel {
+  max-width: 700px;
+}
+.m_modal_buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  border-top: 1px solid rgba(0, 0, 0, 0.65);
+  margin-top: 10px;
+  padding-top: 10px;
+}
+.m_modal_buttons > button {
+  margin-left: 10px;
+}

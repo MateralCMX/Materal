@@ -20,6 +20,7 @@ namespace Deploy.Services.Models.DefaultData
         /// <summary>
         /// 数据
         /// </summary>
+        [Required(ErrorMessage = "数据不能为空")]
         public string Data { get; set; }
     }
 }

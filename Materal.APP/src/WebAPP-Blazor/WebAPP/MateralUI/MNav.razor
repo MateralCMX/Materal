@@ -1,0 +1,11 @@
+﻿<ul class="m_nav">
+    @ChildContent
+</ul>
+
+@code {
+    /// <summary>
+    /// 按钮内部
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

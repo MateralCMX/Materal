@@ -1,0 +1,20 @@
+.m_paging_panel {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+.m_paging_panel .m_paging_panel_page_index {
+  outline: none;
+  font-size: 14px;
+  margin-left: 5px;
+  width: 40px;
+  text-align: right;
+}
+.m_paging_panel .m_paging_panel_page_index::-webkit-inner-spin-button,
+.m_paging_panel .m_paging_panel_page_index::-webkit-inner-spin-button {
+  appearance: none;
+}
+.m_paging_panel .m_paging_panel_page_count {
+  font-size: 14px;
+  margin-right: 5px;
+}

@@ -21,7 +21,7 @@
         </member>
         <member name="P:Authority.DataTransmitModel.User.UserListDTO.Name">
             <summary>
-            账号
+            名称
             </summary>
         </member>
         <member name="P:Authority.DataTransmitModel.User.UserListDTO.Account">

@@ -12,7 +12,7 @@ namespace Deploy.ServiceImpl.Models
     {
         public override Process GetProcess(ApplicationRuntimeModel model)
         {
-            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.DotNetCore2 || model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.DotNetCore3)
+            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.DotNetCore)
             {
                 return GetRunProcess(model);
             }
@@ -25,7 +25,7 @@ namespace Deploy.ServiceImpl.Models
 
         public override void KillProcess(ApplicationRuntimeModel model)
         {
-            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.DotNetCore2 || model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.DotNetCore3)
+            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.DotNetCore)
             {
                 Process[] processes = Process.GetProcessesByName("dotnet");
                 var currentProcess = Process.GetCurrentProcess();

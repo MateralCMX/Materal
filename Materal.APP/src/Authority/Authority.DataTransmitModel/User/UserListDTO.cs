@@ -12,7 +12,7 @@ namespace Authority.DataTransmitModel.User
         /// </summary>
         public Guid ID { get; set; }
         /// <summary>
-        /// 账号
+        /// 名称
         /// </summary>
         public string Name { get; set; }
         /// <summary>

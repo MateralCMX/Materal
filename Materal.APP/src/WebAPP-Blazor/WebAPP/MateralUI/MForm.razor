@@ -1,0 +1,94 @@
+﻿@typeparam TItem
+
+@using System.Reflection
+@using WebAPP.MateralUI.Models
+@using System.ComponentModel.DataAnnotations
+
+<form class="@ClassString" autocomplete="@(CanAutocomplete ? "on" : "off")">
+    @ChildContent(FromData)
+</form>
+
+@code {
+
+    #region 参数
+    /// <summary>
+    /// 自定义Class
+    /// </summary>
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+    /// <summary>
+    /// 自动填充
+    /// </summary>
+    [Parameter]
+    public bool CanAutocomplete { get; set; }
+    /// <summary>
+    /// 横向排列
+    /// </summary>
+    [Parameter]
+    public bool Horizontal { get; set; }
+    /// <summary>
+    /// 内部
+    /// </summary>
+    [Parameter]
+    public RenderFragment<TItem> ChildContent { get; set; }
+    /// <summary>
+    /// 表单数据
+    /// </summary>
+    [Parameter]
+    public TItem FromData { get; set; }
+    #endregion
+    #region 属性
+    /// <summary>
+    /// Class字符串
+    /// </summary>
+    public string ClassString
+    {
+        get
+        {
+            var result = "m_form";
+            if (Horizontal)
+            {
+                result += " horizontal";
+            }
+            if (!string.IsNullOrWhiteSpace(Class))
+            {
+                result += $" {Class}";
+            }
+            return result;
+        }
+    }
+    #endregion
+    #region 方法
+    /// <summary>
+    /// 验证表单
+    /// </summary>
+    /// <returns></returns>
+    public bool ValidateData()
+    {
+        var result = true;
+        Type fromDataType = FromData.GetType();
+        foreach (PropertyInfo propertyInfo in fromDataType.GetProperties())
+        {
+            object value = propertyInfo.GetValue(FromData);
+            if (value == null || !(value is IFromDataPropertyModel model)) continue;
+            ValidationAttribute[] customAttributes = propertyInfo.GetCustomAttributes<ValidationAttribute>().ToArray();
+            if (customAttributes.Length == 0) continue;
+            foreach (ValidationAttribute validationAttribute in customAttributes)
+            {
+                if (validationAttribute.IsValid(model.ModelValue))
+                {
+                    model.CanError = false;
+                    model.ErrorMessage = null;
+                }
+                else
+                {
+                    model.CanError = true;
+                    model.ErrorMessage = validationAttribute.ErrorMessage;
+                    result = false;
+                }
+            }
+        }
+        return result;
+    }
+    #endregion
+}

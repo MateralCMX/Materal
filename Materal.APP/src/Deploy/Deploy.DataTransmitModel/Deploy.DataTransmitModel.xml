@@ -69,6 +69,11 @@
             默认数据列表数据传输模型
             </summary>
         </member>
+        <member name="P:Deploy.DataTransmitModel.DefaultData.DefaultDataListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
         <member name="P:Deploy.DataTransmitModel.DefaultData.DefaultDataListDTO.ApplicationType">
             <summary>
             类型

@@ -1,0 +1,26 @@
+﻿@layout DeployLayout
+
+@page "/Deploy/UploadPackage"
+
+@using WebAPP.HttpClientImpl
+
+@inject NavigationManager _navigationManager
+@inject MessageManage _messageManage
+
+<h3>UploadPackage</h3>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        //if (!firstRender) return;
+        //if (!string.IsNullOrWhiteSpace(UrlManage.DeployUrls))
+        //{
+        //    await base.OnAfterRenderAsync(true);
+        //}
+        //else
+        //{
+        //    _messageManage.WarningAsync("配置中心未开启");
+        //    _navigationManager.NavigateTo("/");
+        //}
+    }
+}
