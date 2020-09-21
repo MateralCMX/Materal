@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Deploy.Common;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace Deploy.Server
 {
@@ -88,10 +89,16 @@ namespace Deploy.Server
                     }
                 }
             });
+
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings[".json"] = "application/json";
+            provider.Mappings[".woff"] = "application/font-woff";
+            provider.Mappings[".woff2"] = "application/font-woff";
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(path),
-                RequestPath = ""
+                RequestPath = "",
+                ContentTypeProvider = provider
             });
             _webAPIStartupHelper.Configure(app, env);
             var dbContextHelper = ApplicationData.GetService<DBContextHelper<DeployDBContext>>();

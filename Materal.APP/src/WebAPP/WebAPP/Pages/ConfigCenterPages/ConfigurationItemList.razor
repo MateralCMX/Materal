@@ -1,0 +1,497 @@
+﻿@layout EnvironmentLayout
+
+@page "/ConfigCenter/ConfigurationItemList"
+
+@using Materal.APP.Core.Models
+@using Materal.Common
+@using Materal.Model
+@using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem
+@using ConfigCenter.DataTransmitModel.Project
+@using ConfigCenter.Environment.HttpManage
+@using ConfigCenter.HttpManage
+@using ConfigCenter.Environment.PresentationModel.ConfigurationItem
+@using ConfigCenter.PresentationModel.Namespace
+@using ConfigCenter.PresentationModel.Project
+@using WebAPP.MateralUI.Models
+@using Materal.ConvertHelper
+@using WebAPP.Common
+@using ConfigCenter.DataTransmitModel.Namespace
+@using WebAPP.Pages.ConfigCenterPages.Models
+
+@inject MessageManage _messageManage
+@inject ExceptionManage _exceptionManage
+@inject NavigationManager _navigationManager
+@inject IProjectManage _projectManage
+@inject INamespaceManage _namespaceManage
+@inject IConfigurationItemManage _configurationItemManage
+
+<style>
+    .main_body {
+        display: flex;
+        align-items: start;
+    }
+
+    .project_list {
+        margin-right: 25px;
+        width: 400px;
+    }
+</style>
+
+<main class="layout_body">
+    <MPageHeader Title="配置项配置">
+        <div class="m_button_group">
+            <MButton ButtonType="@MButtonTypeEnum.Success" OnClick="@OnBtnAddClick">新增配置项</MButton>
+        </div>
+    </MPageHeader>
+    <section class="search_panel">
+        <MForm FromData="SearchData" Horizontal>
+            <MFormItem Title="键">
+                <MInput Type="search" Disabled="@Loading" @bind-Value="@context.Key"></MInput>
+            </MFormItem>
+            <MFormItem Title="描述">
+                <MInput Type="search" Disabled="@Loading" @bind-Value="@context.Description"></MInput>
+            </MFormItem>
+            <MFormItem>
+                <MButton Disabled="@Loading" ButtonType="@MButtonTypeEnum.Primary" OnClick="@OnBtnSearchClick">查询</MButton>
+            </MFormItem>
+        </MForm>
+    </section>
+    <section class="main_body">
+        <div class="m_panel_group project_list">
+            @{
+                if (AllProjects?.Count > 0 && SearchData.SelectNamespace != null)
+                {
+                    foreach (KeyValueModel project in AllProjects)
+                    {
+                        if (project.Data is ProjectKeyValueData keyValueData && keyValueData.Namespaces?.Count > 0)
+                        {
+                            <MPanel Title="@project.Value" IsCollapsible>
+                                <MRadioList @bind-Value="@SearchData.SelectNamespace" DataSource="@keyValueData.Namespaces" OnSelected="@OnSelectedProjectAsync"></MRadioList>
+                            </MPanel>
+                        }
+                    }
+                }
+            }
+        </div>
+        <MTable DataSource="@TableDataSource" TableConfig="@TableConfig">
+            <MTableCell>@context.Index</MTableCell>
+            <MTableCell>@context.Key</MTableCell>
+            <MTableCell>@context.Value</MTableCell>
+            <MTableCell>@context.Description</MTableCell>
+            <MTableCell>
+                <div class="m_button_group">
+                    <MButton OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))">修改</MButton>
+                    <MButton ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnBtnOpenDeleteModalClick(eventArgs, context.ID))">删除</MButton>
+                </div>
+            </MTableCell>
+        </MTable>
+    </section>
+</main>
+@if (SearchData.SelectNamespace != null)
+{
+    <MModal Title="@(SelectedID.HasValue ? "修改" : "新增")" @bind-Display="OperationModalDisplay">
+        <OperationConfigurationItem Namespace="@SearchData.SelectNamespace" ConfigurationItemID="SelectedID" Success="@OnOperationSuccessAsync" Cancel="@CloseOperationModal"></OperationConfigurationItem>
+    </MModal>
+}
+<MModal Title="删除" @bind-Display="DeleteModalDisplay">
+    确定要删除该项吗？
+    <div class="m_modal_buttons">
+        <MButton Disabled="@Loading" OnClick="@CloseDeleteModal">取消</MButton>
+        <MButton ButtonType="@MButtonTypeEnum.Danger" Disabled="@Loading" OnClick="@OnBtnDeleteClickAsync">删除</MButton>
+    </div>
+</MModal>
+@code{
+    /// <summary>
+    /// 查询数据模型
+    /// </summary>
+    public class ConfigurationItemSearchFromDataModel
+    {
+        /// <summary>
+        /// 键
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
+        /// 查询描述
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
+        /// 选中的项目
+        /// </summary>
+        public KeyValueModel SelectNamespace { get; set; }
+    }
+    /// <summary>
+    /// 配置项列表模型
+    /// </summary>
+    public class ConfigurationItemListModel : ConfigurationItemListDTO
+    {
+        public ConfigurationItemListModel()
+        {
+
+        }
+        public ConfigurationItemListModel(ConfigurationItemListDTO listDTO, int index)
+        {
+            listDTO.CopyProperties(this);
+            Index = index + 1;
+        }
+        /// <summary>
+        /// 位序
+        /// </summary>
+        public int Index { get; set; }
+    }
+}
+@code{
+    #region 属性
+    /// <summary>
+    /// 选中的唯一标识
+    /// </summary>
+    public Guid? SelectedID { get; set; }
+    /// <summary>
+    /// 操作模态窗是否显示
+    /// </summary>
+    public bool OperationModalDisplay { get; set; }
+    /// <summary>
+    /// 删除模态窗是否显示
+    /// </summary>
+    public bool DeleteModalDisplay { get; set; }
+    /// <summary>
+    /// 所有应用程序类型
+    /// </summary>
+    public List<KeyValueModel> AllProjects { get; set; }
+    /// <summary>
+    /// 所有应用程序类型
+    /// </summary>
+    public Dictionary<string, List<KeyValueModel>> AllNamespaces { get; set; }
+    /// <summary>
+    /// 查询数据
+    /// </summary>
+    public ConfigurationItemSearchFromDataModel SearchData { get; set; } = new ConfigurationItemSearchFromDataModel();
+    /// <summary>
+    /// 加载中
+    /// </summary>
+    public bool Loading { get; set; } = true;
+    /// <summary>
+    /// 表格配置
+    /// </summary>
+    public List<TableConfigModel> TableConfig { get; set; }
+    /// <summary>
+    /// 表格数据源
+    /// </summary>
+    public List<ConfigurationItemListModel> TableDataSource { get; set; }
+    #endregion
+    #region 生命周期
+    /// <summary>
+    /// 设置参数后
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnParametersSetAsync()
+    {
+        TableConfig = new List<TableConfigModel>
+        {
+            new TableConfigModel("#"),
+            new TableConfigModel("键"),
+            new TableConfigModel("值"),
+            new TableConfigModel("描述",500),
+            new TableConfigModel("操作")
+        };
+        TableDataSource = new List<ConfigurationItemListModel>();
+        await base.OnParametersSetAsync();
+    }
+    /// <summary>
+    /// 页面呈现后
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await InitDataAsync();
+        await base.OnAfterRenderAsync(true);
+        StateHasChanged();
+    }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 单击新增按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public void OnBtnAddClick(MouseEventArgs eventArgs)
+    {
+        SelectedID = null;
+        OpenOperationModal();
+    }
+    /// <summary>
+    /// 单击修改按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <param name="selectedID"></param>
+    /// <returns></returns>
+    public void OnBtnEditClick(MouseEventArgs eventArgs, Guid selectedID)
+    {
+        SelectedID = selectedID;
+        OpenOperationModal();
+    }
+    /// <summary>
+    /// 单击删除按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <param name="selectedID"></param>
+    /// <returns></returns>
+    public void OnBtnOpenDeleteModalClick(MouseEventArgs eventArgs, Guid selectedID)
+    {
+        SelectedID = selectedID;
+        OpenDeleteModal();
+    }
+    /// <summary>
+    /// 单击删除按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnDeleteClickAsync(MouseEventArgs eventArgs)
+    {
+        await DeleteAsync();
+    }
+    /// <summary>
+    /// 单击查询按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnSearchClick(MouseEventArgs eventArgs)
+    {
+        await SearchTableDataAsync();
+    }
+    /// <summary>
+    /// 当前页发生更新
+    /// </summary>
+    /// <returns></returns>
+    public async Task OnPageIndexChangedAsync()
+    {
+        await SearchTableDataAsync();
+    }
+    /// <summary>
+    /// 修改成功
+    /// </summary>
+    /// <returns></returns>
+    public async Task OnOperationSuccessAsync()
+    {
+        await SearchTableDataAsync();
+        CloseOperationModal();
+    }
+    /// <summary>
+    /// 当选中项目
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public async Task OnSelectedProjectAsync(KeyValueModel item)
+    {
+        await SearchTableDataAsync();
+    }
+    /// <summary>
+    /// 当选中命名空间
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public async Task OnSelectedNamespaceAsync(KeyValueModel item)
+    {
+        await SearchTableDataAsync();
+    }
+    #endregion
+    #region 私有方法
+    /// <summary>
+    /// 打开操作模态框
+    /// </summary>
+    private void OpenOperationModal()
+    {
+        OperationModalDisplay = true;
+    }
+    /// <summary>
+    /// 关闭删除操作模态框
+    /// </summary>
+    private void CloseOperationModal()
+    {
+        OperationModalDisplay = false;
+    }
+    /// <summary>
+    /// 打开删除模态框
+    /// </summary>
+    private void OpenDeleteModal()
+    {
+        DeleteModalDisplay = true;
+    }
+    /// <summary>
+    /// 关闭删除模态框
+    /// </summary>
+    private void CloseDeleteModal()
+    {
+        DeleteModalDisplay = false;
+    }
+    /// <summary>
+    /// 查询表格数据
+    /// </summary>
+    /// <returns></returns>
+    private async Task SearchTableDataAsync(bool changeLoading = true)
+    {
+        Loading = true;
+        try
+        {
+            var requestModel = new QueryConfigurationItemFilterRequestModel
+            {
+                Key = SearchData.Key,
+                NamespaceID = Guid.Parse(SearchData.SelectNamespace.Key),
+                Description = SearchData.Description,
+            };
+            ResultModel<List<ConfigurationItemListDTO>> resultModel = await _configurationItemManage.GetConfigurationItemListAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                TableDataSource.Clear();
+                ConfigurationItemListDTO[] dataListDto = resultModel.Data.ToArray();
+                for (var i = 0; i < dataListDto.Length; i++)
+                {
+                    TableDataSource.Add(new ConfigurationItemListModel(dataListDto[i], i));
+                }
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            if (changeLoading)
+            {
+                Loading = false;
+            }
+        }
+    }
+    /// <summary>
+    /// 删除
+    /// </summary>
+    /// <returns></returns>
+    private async Task DeleteAsync()
+    {
+        Loading = true;
+        try
+        {
+            if (!SelectedID.HasValue) throw new WebAPPException("未选择数据");
+            ResultModel resultModel = await _configurationItemManage.DeleteConfigurationItemAsync(SelectedID.Value);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await SearchTableDataAsync();
+                CloseDeleteModal();
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 初始化数据
+    /// </summary>
+    /// <returns></returns>
+    private async Task InitDataAsync()
+    {
+        Loading = true;
+        try
+        {
+            ResultModel<List<ProjectListDTO>> resultModel = await _projectManage.GetProjectListAsync(new QueryProjectFilterRequestModel());
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                if (resultModel.Data.Count <= 0)
+                {
+                    await _messageManage.WarningAsync("请先添加一个项目");
+                    _navigationManager.NavigateTo("/ConfigCenter/ProjectList");
+                    return;
+                }
+                ResultModel<List<NamespaceListDTO>> namespaceResultModel = await _namespaceManage.GetNamespaceListAsync(new QueryNamespaceFilterRequestModel());
+                if (namespaceResultModel.ResultType == ResultTypeEnum.Success)
+                {
+                    AllProjects = GetProjectKeyValue(resultModel.Data, namespaceResultModel.Data);
+                    if (AllProjects?.Count > 0)
+                    {
+                        var projectKeyValueData = AllProjects.First().Data as ProjectKeyValueData;
+                        if (projectKeyValueData?.Namespaces.Count > 0)
+                        {
+                            SearchData.SelectNamespace = projectKeyValueData.Namespaces.First();
+                        }
+                    }
+                    await SearchTableDataAsync(false);
+                }
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 获得项目KeyValue模型
+    /// </summary>
+    /// <param name="projects"></param>
+    /// <param name="namespaces"></param>
+    /// <returns></returns>
+    private List<KeyValueModel> GetProjectKeyValue(List<ProjectListDTO> projects, List<NamespaceListDTO> namespaces)
+    {
+        var result = new List<KeyValueModel>();
+        foreach (ProjectListDTO project in projects)
+        {
+            List<KeyValueModel> projectSubNamespace = GetNamespaceKeyValue(project, namespaces);
+            var temp = new KeyValueModel(project.ID.ToString(), $"{project.Name}[{project.Description}]")
+            {
+                Data = new ProjectKeyValueData
+                {
+                    Project = project,
+                    Namespaces = projectSubNamespace
+                }
+            };
+            result.Add(temp);
+        }
+        return result;
+    }
+    /// <summary>
+    /// 获得命名空间KeyValue模型
+    /// </summary>
+    /// <param name="project"></param>
+    /// <param name="namespaces"></param>
+    /// <returns></returns>
+    private List<KeyValueModel> GetNamespaceKeyValue(ProjectListDTO project, List<NamespaceListDTO> namespaces)
+    {
+        var result = new List<KeyValueModel>();
+        NamespaceListDTO[] projectNamespaces = namespaces.Where(m => m.ProjectID == project.ID).ToArray();
+        foreach (NamespaceListDTO @namespace in projectNamespaces)
+        {
+            var temp = new KeyValueModel(@namespace.ID.ToString(), $"{@namespace.Name}[{@namespace.Description}]")
+            {
+                Data = new NamespaceKeyValueData
+                {
+                    Namespace = @namespace,
+                    Project = project
+                }
+            };
+            result.Add(temp);
+        }
+        return result;
+    }
+    #endregion
+}
