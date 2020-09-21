@@ -1,0 +1,35 @@
+﻿@layout NavMenuLayout
+
+@using WebAPP.HttpClientImpl
+@using Materal.StringHelper
+
+@inherits LayoutComponentBase
+
+@inject NavigationManager _navigationManager
+@inject MessageManage _messageManage
+
+@Body
+
+@code { 
+    #region 生命周期
+    /// <summary>
+    /// 组件呈现之后
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        if (!string.IsNullOrWhiteSpace(UrlManage.ConfigCenterUrl) && UrlManage.ConfigCenterUrl.IsUrl())
+        {
+            await base.OnAfterRenderAsync(true);
+            StateHasChanged();
+        }
+        else
+        {
+            await _messageManage.WarningAsync("配置中心未开启");
+            _navigationManager.NavigateTo("/");
+        }
+    }
+    #endregion
+}

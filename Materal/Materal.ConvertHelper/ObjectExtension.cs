@@ -238,14 +238,11 @@ namespace Materal.ConvertHelper
         /// <returns>转换后byte数组</returns>
         public static byte[] ToBytes(this object obj)
         {
-            byte[] buff;
-            using (var ms = new MemoryStream())
-            {
-                IFormatter iFormatter = new BinaryFormatter();
-                iFormatter.Serialize(ms, obj);
-                buff = ms.GetBuffer();
-            }
-            return buff;
+            using var ms = new MemoryStream();
+            IFormatter iFormatter = new BinaryFormatter();
+            iFormatter.Serialize(ms, obj);
+            byte[] buffer = ms.GetBuffer();
+            return buffer;
         }
 
         /// <summary>

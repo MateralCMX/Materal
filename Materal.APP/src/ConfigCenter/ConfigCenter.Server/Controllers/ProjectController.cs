@@ -40,7 +40,7 @@ namespace ConfigCenter.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         public async Task<ResultModel> AddProjectAsync(AddProjectRequestModel requestModel)
         {
             var model = _mapper.Map<AddProjectModel>(requestModel);
@@ -87,7 +87,7 @@ namespace ConfigCenter.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPatch]
+        [HttpPost]
         public async Task<ResultModel<List<ProjectListDTO>>> GetProjectListAsync(QueryProjectFilterRequestModel requestModel)
         {
             var model = _mapper.Map<QueryProjectFilterModel>(requestModel);

@@ -44,7 +44,7 @@
             配置中心控制器
             </summary>
         </member>
-        <member name="M:ConfigCenter.Server.Controllers.ConfigCenterController.GetNamespaceList">
+        <member name="M:ConfigCenter.Server.Controllers.ConfigCenterController.GetEnvironmentListAsync">
             <summary>
             获得环境列表
             </summary>
@@ -60,35 +60,35 @@
             命名空间控制器
             </summary>
         </member>
-        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.AddNamespace(ConfigCenter.PresentationModel.Namespace.AddNamespaceRequestModel)">
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.AddNamespaceAsync(ConfigCenter.PresentationModel.Namespace.AddNamespaceRequestModel)">
             <summary>
             添加命名空间
             </summary>
             <param name="requestModel"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.EditNamespace(ConfigCenter.PresentationModel.Namespace.EditNamespaceRequestModel)">
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.EditNamespaceAsync(ConfigCenter.PresentationModel.Namespace.EditNamespaceRequestModel)">
             <summary>
             修改命名空间
             </summary>
             <param name="requestModel"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.DeleteNamespace(System.Guid)">
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.DeleteNamespaceAsync(System.Guid)">
             <summary>
             删除命名空间
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.GetNamespaceInfo(System.Guid)">
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.GetNamespaceInfoAsync(System.Guid)">
             <summary>
             获得命名空间信息
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.GetNamespaceList(ConfigCenter.PresentationModel.Namespace.QueryNamespaceFilterRequestModel)">
+        <member name="M:ConfigCenter.Server.Controllers.NamespaceController.GetNamespaceListAsync(ConfigCenter.PresentationModel.Namespace.QueryNamespaceFilterRequestModel)">
             <summary>
             获得命名空间列表
             </summary>

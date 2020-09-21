@@ -6,6 +6,20 @@
   "description": "Materal.APP图标",
   "glyphs": [
     {
+      "icon_id": "1141970",
+      "name": "未选中",
+      "font_class": "not_checked2",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "633020",
+      "name": "选中",
+      "font_class": "checked2",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
       "icon_id": "4770758",
       "name": "左箭头",
       "font_class": "arrow_left",

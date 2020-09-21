@@ -23,7 +23,7 @@ namespace Materal.APP.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPatch, AllowAnonymous]
+        [HttpPost, AllowAnonymous]
         public Task<ResultModel<string>> DesDecryptionAsync(StringRequestModel requestModel)
         {
             return Task.Run(() =>
@@ -44,7 +44,7 @@ namespace Materal.APP.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPatch]
+        [HttpPost]
         public Task<ResultModel<string>> DesEncryptionAsync(StringRequestModel requestModel)
         {
             return Task.Run(() =>

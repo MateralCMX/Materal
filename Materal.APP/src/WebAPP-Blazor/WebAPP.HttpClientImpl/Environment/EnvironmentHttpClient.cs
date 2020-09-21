@@ -11,8 +11,8 @@ namespace WebAPP.HttpClientImpl.Environment
         }
         protected override string GetUrl(string url)
         {
-            if (string.IsNullOrWhiteSpace(UrlManage.EnvironmentUrl) || !UrlManage.EnvironmentUrl.IsUrl()) throw new WebAPPException("尚未与发布服务取得联系");
-            return $"{UrlManage.EnvironmentUrl}{url}";
+            if (UrlManage.EnvironmentUrl == null || string.IsNullOrWhiteSpace(UrlManage.EnvironmentUrl.Key) || !UrlManage.EnvironmentUrl.Key.IsUrl()) throw new WebAPPException("尚未与发布服务取得联系");
+            return $"{UrlManage.EnvironmentUrl.Key}{url}";
         }
     }
 }

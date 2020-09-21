@@ -40,8 +40,8 @@ namespace ConfigCenter.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<ResultModel> AddNamespace(AddNamespaceRequestModel requestModel)
+        [HttpPut]
+        public async Task<ResultModel> AddNamespaceAsync(AddNamespaceRequestModel requestModel)
         {
             var model = _mapper.Map<AddNamespaceModel>(requestModel);
             await _namespaceService.AddNamespaceAsync(model);
@@ -53,7 +53,7 @@ namespace ConfigCenter.Server.Controllers
         /// <param name="requestModel"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ResultModel> EditNamespace(EditNamespaceRequestModel requestModel)
+        public async Task<ResultModel> EditNamespaceAsync(EditNamespaceRequestModel requestModel)
         {
             var model = _mapper.Map<EditNamespaceModel>(requestModel);
             await _namespaceService.EditNamespaceAsync(model);
@@ -65,7 +65,7 @@ namespace ConfigCenter.Server.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<ResultModel> DeleteNamespace([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
+        public async Task<ResultModel> DeleteNamespaceAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             await _configCenterHubContext.Clients.All.DeleteNamespace(id);
             await _namespaceService.DeleteNamespaceAsync(id);
@@ -77,7 +77,7 @@ namespace ConfigCenter.Server.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ResultModel<NamespaceDTO>> GetNamespaceInfo([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
+        public async Task<ResultModel<NamespaceDTO>> GetNamespaceInfoAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             NamespaceDTO result = await _namespaceService.GetNamespaceInfoAsync(id);
             return ResultModel<NamespaceDTO>.Success(result, "查询成功");
@@ -87,8 +87,8 @@ namespace ConfigCenter.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPatch]
-        public async Task<ResultModel<List<NamespaceListDTO>>> GetNamespaceList(QueryNamespaceFilterRequestModel requestModel)
+        [HttpPost]
+        public async Task<ResultModel<List<NamespaceListDTO>>> GetNamespaceListAsync(QueryNamespaceFilterRequestModel requestModel)
         {
             var model = _mapper.Map<QueryNamespaceFilterModel>(requestModel);
             List<NamespaceListDTO> result = await _namespaceService.GetNamespaceListAsync(model);

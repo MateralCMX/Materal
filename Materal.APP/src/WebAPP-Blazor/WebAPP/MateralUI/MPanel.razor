@@ -1,0 +1,84 @@
+﻿<section class="@ClassString">
+    <div class="m_panel_title" @onclick="@OnTitleClickAsync">@Title</div>
+    <div class="m_panel_body">
+        @ChildContent
+    </div>
+</section>
+
+@code {
+
+    #region 参数
+    /// <summary>
+    /// 自定义Class
+    /// </summary>
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+    /// <summary>
+    /// 标题
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; }
+    /// <summary>
+    /// 内部
+    /// </summary>
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+    /// <summary>
+    /// 是否可折叠
+    /// </summary>
+    [Parameter]
+    public bool IsCollapsible { get; set; }
+    /// <summary>
+    /// 是否打开
+    /// </summary>
+    [Parameter]
+    public bool IsOpen { get; set; }
+    /// <summary>
+    /// 是否打开更改
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+    #endregion
+    #region 属性
+    /// <summary>
+    /// Class字符串
+    /// </summary>
+    public string ClassString
+    {
+        get
+        {
+            var result = "m_panel";
+            if (IsCollapsible)
+            {
+                result += " m_panel_collapsible";
+                if (IsOpen)
+                {
+                    result += " open";
+                }
+                else
+                {
+                    result += " close";
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(Class))
+            {
+                result += $" {Class}";
+            }
+            return result;
+        }
+    }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 单击标题
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnTitleClickAsync(MouseEventArgs eventArgs)
+    {
+        if (!IsCollapsible) return;
+        IsOpen = !IsOpen;
+        await IsOpenChanged.InvokeAsync(IsOpen);
+    }
+    #endregion
+}

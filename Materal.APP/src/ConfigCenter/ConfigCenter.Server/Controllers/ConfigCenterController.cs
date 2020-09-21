@@ -3,6 +3,7 @@ using ConfigCenter.HttpManage;
 using ConfigCenter.Services;
 using Materal.APP.WebAPICore;
 using Materal.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -29,8 +30,8 @@ namespace ConfigCenter.Server.Controllers
         /// 获得环境列表
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        public Task<ResultModel<List<EnvironmentListDTO>>> GetNamespaceList()
+        [HttpGet, AllowAnonymous]
+        public Task<ResultModel<List<EnvironmentListDTO>>> GetEnvironmentListAsync()
         {
             List<EnvironmentListDTO> result = _configCenterService.GetEnvironmentList();
             return Task.FromResult(ResultModel<List<EnvironmentListDTO>>.Success(result, "获取成功"));

@@ -35,7 +35,7 @@ namespace Deploy.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         public async Task<ResultModel> AddAsync(AddDefaultDataRequestModel requestModel)
         {
             var model = _mapper.Map<AddDefaultDataModel>(requestModel);
@@ -81,7 +81,7 @@ namespace Deploy.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPatch]
+        [HttpPost]
         public async Task<PageResultModel<DefaultDataListDTO>> GetListAsync(QueryDefaultDataFilterRequestModel requestModel)
         {
             var model = _mapper.Map<QueryDefaultDataFilterModel>(requestModel);

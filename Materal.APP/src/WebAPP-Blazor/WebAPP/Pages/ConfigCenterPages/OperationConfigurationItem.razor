@@ -1,0 +1,325 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem
+@using ConfigCenter.Environment.HttpManage
+@using ConfigCenter.Environment.PresentationModel.ConfigurationItem
+@using Materal.APP.Core.Models
+@using WebAPP.MateralUI.Models
+@using Materal.Model
+@using Materal.Common
+@using WebAPP.Common
+@using WebAPP.Pages.ConfigCenterPages.Models
+
+@inject MessageManage _messageManage
+@inject ExceptionManage _exceptionManage
+@inject IConfigurationItemManage _configurationItemManage
+
+<section>
+    <MForm @ref="@Form" FromData="@FormData">
+        <MFormItem Title="键" PropertyModel="@context.Key" IsRequired>
+            <MInput Type="text" Disabled="@Loading" @bind-Value="@context.Key.Value"></MInput>
+        </MFormItem>
+        <MFormItem Title="值" PropertyModel="@context.Value" IsRequired>
+            <MInput Type="text" Rows="6" Disabled="@Loading" OnInputChange="OnValueChanged" @bind-Value="@context.Value.Value"></MInput>
+        </MFormItem>
+        <MFormItem Title="描述" PropertyModel="@context.Description" IsRequired>
+            <MInput Type="text" Rows="6" Disabled="@Loading" OnInputChange="OnDescriptionChanged" @bind-Value="@context.Description.Value"></MInput>
+        </MFormItem>
+    </MForm>
+    <div class="m_modal_buttons">
+        <MButton Disabled="@Loading" OnClick="@OnBtnCancelClickAsync">取消</MButton>
+        <MButton ButtonType="@MButtonTypeEnum.Primary" Disabled="@Loading" OnClick="@OnBtnSaveClickAsync">确定</MButton>
+    </div>
+</section>
+
+@code{
+    /// <summary>
+    /// 操作配置项表单数据模型
+    /// </summary>
+    public class OperationConfigurationItemFromDataModel
+    {
+        /// <summary>
+        /// 键
+        /// </summary>
+        [Required(ErrorMessage = "键不能为空"), StringLength(100, ErrorMessage = "键长度不能超过100")]
+        public FromDataPropertyModel<string> Key { get; set; } = new FromDataPropertyModel<string>();
+        /// <summary>
+        /// 值
+        /// </summary>
+        [Required(ErrorMessage = "值不能为空")]
+        public FromDataPropertyModel<string> Value { get; set; } = new FromDataPropertyModel<string>();
+        /// <summary>
+        /// 描述
+        /// </summary>
+        [Required(ErrorMessage = "描述不能为空")]
+        public FromDataPropertyModel<string> Description { get; set; } = new FromDataPropertyModel<string>();
+    }
+}
+@code {
+    #region 参数
+    /// <summary>
+    /// 所有应用程序类型
+    /// </summary>
+    public List<KeyValueModel> AllApplicationTypes { get; set; }
+    /// <summary>
+    /// 配置项唯一标识
+    /// </summary>
+    [Parameter]
+    public Guid? ConfigurationItemID { get; set; }
+    /// <summary>
+    /// 命名空间唯一标识
+    /// </summary>
+    [Parameter]
+    public KeyValueModel Namespace { get; set; }
+    /// <summary>
+    /// 成功
+    /// </summary>
+    [Parameter]
+    public EventCallback Success { get; set; }
+    /// <summary>
+    /// 取消
+    /// </summary>
+    [Parameter]
+    public EventCallback Cancel { get; set; }
+    #endregion
+    #region 属性字段
+    /// <summary>
+    /// 加载状态
+    /// </summary>
+    public bool Loading { get; set; } = true;
+    /// <summary>
+    /// 窗体
+    /// </summary>
+    public MForm<OperationConfigurationItemFromDataModel> Form { get; set; }
+    /// <summary>
+    /// 表单数据
+    /// </summary>
+    public OperationConfigurationItemFromDataModel FormData = new OperationConfigurationItemFromDataModel();
+
+    private Guid? _upInitConfigurationItemID;
+
+    #endregion
+    #region 生命周期
+    /// <summary>
+    /// 设置参数后
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+    }
+    /// <summary>
+    /// 页面呈现后
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await InitConfigurationItemInfoAsync();
+        StateHasChanged();
+        await base.OnAfterRenderAsync(true);
+    }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 数据更改
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    public void OnValueChanged(ChangeEventArgs eventArgs)
+    {
+        FormData.Value.Value = eventArgs.Value.ToString();
+    }
+    /// <summary>
+    /// 数据更改
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    public void OnDescriptionChanged(ChangeEventArgs eventArgs)
+    {
+        FormData.Description.Value = eventArgs.Value.ToString();
+    }
+    /// <summary>
+    /// 单击保存按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnSaveClickAsync(MouseEventArgs eventArgs)
+    {
+        if (ConfigurationItemID.HasValue)
+        {
+            await EditConfigurationItemAsync();
+        }
+        else
+        {
+            await AddConfigurationItemAsync();
+        }
+    }
+    /// <summary>
+    /// 单击取消按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnCancelClickAsync(MouseEventArgs eventArgs)
+    {
+        await Cancel.InvokeAsync(null);
+    }
+    #endregion
+    #region 私有方法
+    /// <summary>
+    /// 初始化配置项信息
+    /// </summary>
+    /// <returns></returns>
+    private async Task InitConfigurationItemInfoAsync()
+    {
+        if (_upInitConfigurationItemID.HasValue && _upInitConfigurationItemID == ConfigurationItemID) return;
+        _upInitConfigurationItemID = ConfigurationItemID;
+        if (ConfigurationItemID.HasValue)
+        {
+            await InitOldConfigurationItemInfoAsync(ConfigurationItemID.Value);
+        }
+        else
+        {
+            InitNewConfigurationItemInfo();
+        }
+    }
+    /// <summary>
+    /// 初始化新配置项
+    /// </summary>
+    /// <returns></returns>
+    private void InitNewConfigurationItemInfo()
+    {
+        Loading = true;
+        FormData.Key.Value = string.Empty;
+        FormData.Value.Value = string.Empty;
+        FormData.Description.Value = string.Empty;
+        Loading = false;
+    }
+    /// <summary>
+    /// 初始化老配置项
+    /// </summary>
+    /// <param name="configurationItemID"></param>
+    /// <returns></returns>
+    private async Task InitOldConfigurationItemInfoAsync(Guid configurationItemID)
+    {
+        Loading = true;
+        try
+        {
+            ResultModel<ConfigurationItemDTO> resultModel = await _configurationItemManage.GetConfigurationItemInfoAsync(configurationItemID);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                InitOldConfigurationItemInfo(resultModel.Data);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 初始化老配置项
+    /// </summary>
+    /// <param name="configurationItemInfo"></param>
+    /// <returns></returns>
+    private void InitOldConfigurationItemInfo(ConfigurationItemDTO configurationItemInfo)
+    {
+        FormData.Key.Value = configurationItemInfo.Key;
+        FormData.Value.Value = configurationItemInfo.Value;
+        FormData.Description.Value = configurationItemInfo.Description;
+    }
+    /// <summary>
+    /// 新增配置项
+    /// </summary>
+    /// <returns></returns>
+    private async Task AddConfigurationItemAsync()
+    {
+        if (!Form.ValidateData()) return;
+        Loading = true;
+        try
+        {
+            var requestModel = new AddConfigurationItemRequestModel
+            {
+                Key = FormData.Key.Value,
+                Value = FormData.Value.Value,
+                Description = FormData.Description.Value
+            };
+            if (Namespace.Data is NamespaceKeyValueData keyValueData)
+            {
+                requestModel.ProjectID = keyValueData.Project.ID;
+                requestModel.ProjectName = keyValueData.Project.Name;
+                requestModel.NamespaceID = keyValueData.Namespace.ID;
+                requestModel.NamespaceName = keyValueData.Namespace.Name;
+            }
+            ResultModel resultModel = await _configurationItemManage.AddConfigurationItemAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await Success.InvokeAsync(null);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 修改配置项
+    /// </summary>
+    /// <returns></returns>
+    private async Task EditConfigurationItemAsync()
+    {
+        if (!Form.ValidateData()) return;
+        Loading = true;
+        try
+        {
+            if (!ConfigurationItemID.HasValue) throw new WebAPPException("未识别唯一标识");
+            var requestModel = new EditConfigurationItemRequestModel
+            {
+                ID = ConfigurationItemID.Value,
+                Key = FormData.Key.Value,
+                Value = FormData.Value.Value,
+                Description = FormData.Description.Value
+            };
+            if (Namespace.Data is NamespaceKeyValueData keyValueData)
+            {
+                requestModel.ProjectID = keyValueData.Project.ID;
+                requestModel.ProjectName = keyValueData.Project.Name;
+                requestModel.NamespaceID = keyValueData.Namespace.ID;
+                requestModel.NamespaceName = keyValueData.Namespace.Name;
+            }
+            ResultModel resultModel = await _configurationItemManage.EditConfigurationItemAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await Success.InvokeAsync(null);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    #endregion
+}

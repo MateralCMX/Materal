@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="3.1.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Authority\Authority.HttpManage\Authority.HttpManage.csproj" />
+    <ProjectReference Include="..\..\ConfigCenter.Environment\ConfigCenter.Environment.HttpManage\ConfigCenter.Environment.HttpManage.csproj" />
+    <ProjectReference Include="..\..\ConfigCenter\ConfigCenter.HttpManage\ConfigCenter.HttpManage.csproj" />
     <ProjectReference Include="..\..\Deploy\Deploy.HttpManage\Deploy.HttpManage.csproj" />
     <ProjectReference Include="..\..\Materal.APP\Materal.APP.HttpClient\Materal.APP.HttpClient.csproj" />
     <ProjectReference Include="..\..\Materal.APP\Materal.APP.HttpManage\Materal.APP.HttpManage.csproj" />

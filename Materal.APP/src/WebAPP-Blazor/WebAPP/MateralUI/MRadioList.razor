@@ -1,0 +1,68 @@
+﻿@using Materal.APP.Core.Models
+<section class="m_radio_list">
+    @foreach (KeyValueModel model in DataSource)
+    {
+        <MRadio @bind-Value="@Values[model.Key]" Title="@model.Value" Item="model" OnSelected="@OnItemSelected"></MRadio>
+    }
+</section>
+
+@code {
+    #region 参数
+    /// <summary>
+    /// 值
+    /// </summary>
+    [Parameter]
+    public KeyValueModel Value { get; set; }
+    /// <summary>
+    /// 值更新
+    /// </summary>
+    [Parameter]
+    public EventCallback<KeyValueModel> ValueChanged { get; set; }
+    /// <summary>
+    /// 数据源
+    /// </summary>
+    [Parameter]
+    public ICollection<KeyValueModel> DataSource { get; set; }
+    /// <summary>
+    /// 当选中
+    /// </summary>
+    /// <returns></returns>
+    [Parameter]
+    public EventCallback<KeyValueModel> OnSelected { get; set; }
+    #endregion
+    #region 属性
+    /// <summary>
+    /// 值
+    /// </summary>
+    public Dictionary<string, bool> Values { get; set; }
+    #endregion
+    #region 生命周期
+    /// <summary>
+    /// 设置参数后
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnParametersSetAsync()
+    {
+        Values = new Dictionary<string, bool>();
+        foreach (KeyValueModel model in DataSource)
+        {
+            Values.Add(model.Key, Value.Key == model.Key);
+        }
+        await base.OnParametersSetAsync();
+    }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 当子项选中
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public async Task OnItemSelected(object item)
+    {
+        if (!(item is KeyValueModel model)) return;
+        Value = model;
+        await ValueChanged.InvokeAsync(model);
+        await OnSelected.InvokeAsync(model);
+    }
+    #endregion
+}

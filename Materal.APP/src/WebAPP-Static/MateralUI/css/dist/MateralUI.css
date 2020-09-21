@@ -145,34 +145,6 @@ body {
   background-color: #e0e0e0;
   cursor: no-drop;
 }
-.m_form .m_form_item .m_form_checkbox {
-  font-size: 14px;
-  height: 25px;
-  display: flex;
-  cursor: pointer;
-}
-.m_form .m_form_item .m_form_checkbox input[type="checkbox"] {
-  height: 100%;
-  display: block;
-  box-sizing: border-box;
-  margin: 0;
-  cursor: pointer;
-}
-.m_form .m_form_item .m_form_checkbox .m_form_checkbox_box {
-  display: block;
-  line-height: 25px;
-}
-.m_form .m_form_item .m_form_checkbox .m_form_checkbox_message {
-  display: block;
-  line-height: 25px;
-  margin-left: 5px;
-}
-.m_form .m_form_item .m_form_checkbox.disable {
-  color: #fcfcfc;
-  border-color: #cdcdcd;
-  background-color: #e0e0e0;
-  cursor: no-drop;
-}
 .m_form .m_form_item .m_form_error_message {
   display: none;
 }
@@ -412,6 +384,7 @@ body {
   box-sizing: border-box;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.65);
+  height: 35px;
 }
 .m_modal_panel .m_modal_header .m_modal_title {
   overflow: hidden;
@@ -437,6 +410,8 @@ body {
   margin-top: 10px;
   word-break: break-all;
   word-wrap: break-word;
+  max-height: 620px;
+  overflow: auto;
 }
 .m_modal.m_modal_large .m_modal_panel {
   max-width: 700px;
@@ -598,6 +573,7 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   color: rgba(0, 0, 0, 0.85);
+  padding: 0 10px;
 }
 .m_table_panel > table tbody tr:hover {
   background-color: rgba(0, 0, 0, 0.075);
@@ -621,4 +597,116 @@ body {
 .m_paging_panel .m_paging_panel_page_count {
   font-size: 14px;
   margin-right: 5px;
+}
+.m_panel {
+  background-color: white;
+  border-radius: 4px;
+  box-sizing: border-box;
+  border: 1px solid #333;
+}
+.m_panel .m_panel_title {
+  font-size: 14px;
+  line-height: 25px;
+  padding: 5px 15px;
+}
+.m_panel .m_panel_body {
+  border-top: 1px solid #333;
+  font-size: 14px;
+  padding: 5px 15px;
+}
+.m_panel.m_panel_collapsible .m_panel_title {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+}
+.m_panel.m_panel_collapsible .m_panel_title::after {
+  font-family: "Micon" !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  box-sizing: border-box;
+  display: block;
+  content: "\e62b";
+}
+.m_panel.m_panel_collapsible .m_panel_body {
+  display: none;
+}
+.m_panel.m_panel_collapsible.open .m_panel_title::after {
+  content: "\e62c";
+}
+.m_panel.m_panel_collapsible.open .m_panel_body {
+  display: block;
+}
+.m_panel.m_panel_collapsible.close .m_panel_title::after {
+  content: "\e62b";
+}
+.m_panel.m_panel_collapsible.close .m_panel_body {
+  display: none;
+}
+.m_panel_group .m_panel {
+  border-bottom: none;
+  border-radius: 0;
+}
+.m_panel_group .m_panel:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.m_panel_group .m_panel:last-child {
+  border-bottom: 1px solid #333;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.m_radio {
+  font-size: 14px;
+  height: 25px;
+  display: flex;
+  cursor: pointer;
+}
+.m_radio .m_radio_box {
+  display: block;
+  line-height: 25px;
+}
+.m_radio .m_radio_message {
+  display: block;
+  line-height: 25px;
+  margin-left: 5px;
+}
+.m_radio.disable {
+  border-color: #cdcdcd;
+  cursor: no-drop;
+}
+.m_radio.disable .m_radio_box {
+  color: #e0e0e0;
+}
+.m_radio.disable .m_radio_message {
+  color: #e0e0e0;
+}
+.m_checkbox {
+  font-size: 14px;
+  height: 25px;
+  display: flex;
+  cursor: pointer;
+}
+.m_checkbox .m_checkbox_box {
+  display: block;
+  line-height: 25px;
+}
+.m_checkbox .m_checkbox_message {
+  display: block;
+  line-height: 25px;
+  margin-left: 5px;
+}
+.m_checkbox.disable {
+  border-color: #cdcdcd;
+  cursor: no-drop;
+}
+.m_checkbox.disable .m_checkbox_box {
+  color: #e0e0e0;
+}
+.m_checkbox.disable .m_checkbox_message {
+  color: #e0e0e0;
+}
+.m_radio_list .m_radio {
+  display: flex;
 }

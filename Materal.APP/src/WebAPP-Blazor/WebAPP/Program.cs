@@ -7,6 +7,9 @@ using Materal.Model;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ConfigCenter.DataTransmitModel.ConfigCenter;
+using ConfigCenter.HttpManage;
+using Materal.NetworkHelper;
 using WebAPP.Common;
 using WebAPP.HttpClientImpl;
 
@@ -42,13 +45,26 @@ namespace WebAPP
         /// <returns></returns>
         private static async Task InitHttpManage()
         {
+            if(HttpManager.HeaderHandler == null) throw new WebAPPException("未找到HeaderHandler处理器");
             var serverManage = ApplicationData.GetService<IServerManage>();
+            if(serverManage == null) throw new WebAPPException($"未找到{nameof(IServerManage)}服务");
             try
             {
                 ResultModel<List<ServerListDTO>> resultModel = await serverManage.GetServerListAsync();
                 if (resultModel.ResultType == ResultTypeEnum.Success)
                 {
                     UrlManage.Init(resultModel.Data);
+                    if (string.IsNullOrWhiteSpace(UrlManage.ConfigCenterUrl)) return;
+                    var configCenterManage = ApplicationData.GetService<IConfigCenterManage>();
+                    ResultModel<List<EnvironmentListDTO>> environmentListResultModel = await configCenterManage.GetEnvironmentListAsync();
+                    if (environmentListResultModel.ResultType == ResultTypeEnum.Success)
+                    {
+                        UrlManage.InitEnvironmentUrl(environmentListResultModel.Data);
+                    }
+                    else
+                    {
+                        WebAPPConsoleHelper.WriteLine(resultModel.Message);
+                    }
                 }
                 else
                 {

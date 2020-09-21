@@ -30,6 +30,7 @@ namespace Authority.Server.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+
         /// <summary>
         /// 用户控制器
         /// </summary>
@@ -38,18 +39,20 @@ namespace Authority.Server.Controllers
             _mapper = mapper;
             _userService = userService;
         }
+
         /// <summary>
         /// 添加用户
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         public async Task<ResultModel> AddUserAsync(AddUserRequestModel requestModel)
         {
             var model = _mapper.Map<AddUserModel>(requestModel);
             await _userService.AddUserAsync(model);
             return ResultModel.Success("添加成功");
         }
+
         /// <summary>
         /// 修改用户
         /// </summary>
@@ -62,6 +65,7 @@ namespace Authority.Server.Controllers
             await _userService.EditUserAsync(model);
             return ResultModel.Success("修改成功");
         }
+
         /// <summary>
         /// 删除用户
         /// </summary>
@@ -73,6 +77,7 @@ namespace Authority.Server.Controllers
             await _userService.DeleteUserAsync(id);
             return ResultModel.Success("删除成功");
         }
+
         /// <summary>
         /// 获得用户信息
         /// </summary>
@@ -102,19 +107,20 @@ namespace Authority.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPatch]
+        [HttpPost]
         public async Task<PageResultModel<UserListDTO>> GetUserListAsync(QueryUserFilterRequestModel requestModel)
         {
             var model = _mapper.Map<QueryUserFilterModel>(requestModel);
             (List<UserListDTO> result, PageModel pageModel) = await _userService.GetUserListAsync(model);
             return PageResultModel<UserListDTO>.Success(result, pageModel, "查询成功");
         }
+
         /// <summary>
         /// 登录
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPatch, AllowAnonymous]
+        [HttpPost, AllowAnonymous]
         public async Task<ResultModel<LoginResultModel>> LoginAsync(LoginRequestModel requestModel)
         {
             try
@@ -142,23 +148,25 @@ namespace Authority.Server.Controllers
                 return ResultModel<LoginResultModel>.Fail("账号或者密码错误");
             }
         }
+
         /// <summary>
         /// 重置密码
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPatch]
+        [HttpPost]
         public async Task<ResultModel<string>> ResetPasswordAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             string result = await _userService.ResetPasswordAsync(id);
             return ResultModel<string>.Success(result, "重置成功");
         }
+
         /// <summary>
         /// 修改密码
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPatch]
+        [HttpPost]
         public async Task<ResultModel> ChangePasswordAsync(ChangePasswordRequestModel requestModel)
         {
             var model = _mapper.Map<ChangePasswordModel>(requestModel);

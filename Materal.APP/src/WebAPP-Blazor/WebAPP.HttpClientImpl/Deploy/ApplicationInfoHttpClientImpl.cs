@@ -7,19 +7,20 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WebAPP.Common;
 
 namespace WebAPP.HttpClientImpl.Deploy
 {
     public class ApplicationInfoHttpClientImpl : DeployHttpClient, IApplicationInfoManage
     {
-        private const string _controllerUrl = "/api/DefaultData/";
+        private const string _controllerUrl = "/api/ApplicationInfo/";
         public ApplicationInfoHttpClientImpl(IAuthorityManage authorityManage) : base(authorityManage)
         {
         }
 
         public async Task<ResultModel> AddAsync(AddApplicationInfoRequestModel requestModel)
         {
-            var resultModel = await SendPostAsync<ResultModel>($"{_controllerUrl}Add", requestModel);
+            var resultModel = await SendPutAsync<ResultModel>($"{_controllerUrl}Add", requestModel);
             return resultModel;
         }
 
@@ -49,13 +50,13 @@ namespace WebAPP.HttpClientImpl.Deploy
 
         public async Task<ResultModel<List<ApplicationInfoListDTO>>> GetListAsync(QueryApplicationInfoFilterRequestModel requestModel)
         {
-            var resultModel = await SendPatchAsync<ResultModel<List<ApplicationInfoListDTO>>>($"{_controllerUrl}GetList", requestModel);
+            var resultModel = await SendPostAsync<ResultModel<List<ApplicationInfoListDTO>>>($"{_controllerUrl}GetList", requestModel);
             return resultModel;
         }
 
         public async Task<ResultModel> StartAsync(Guid id)
         {
-            var resultModel = await SendPatchAsync<ResultModel>($"{_controllerUrl}Start", null, new Dictionary<string, string>
+            var resultModel = await SendPostAsync<ResultModel>($"{_controllerUrl}Start", null, new Dictionary<string, string>
             {
                 ["id"] = id.ToString()
             });
@@ -64,7 +65,7 @@ namespace WebAPP.HttpClientImpl.Deploy
 
         public async Task<ResultModel> StopAsync(Guid id)
         {
-            var resultModel = await SendPatchAsync<ResultModel>($"{_controllerUrl}Stop", null, new Dictionary<string, string>
+            var resultModel = await SendPostAsync<ResultModel>($"{_controllerUrl}Stop", null, new Dictionary<string, string>
             {
                 ["id"] = id.ToString()
             });
@@ -82,31 +83,32 @@ namespace WebAPP.HttpClientImpl.Deploy
 
         public async Task<ResultModel> StartAllAsync()
         {
-            var resultModel = await SendPatchAsync<ResultModel>($"{_controllerUrl}StartAll");
+            var resultModel = await SendPostAsync<ResultModel>($"{_controllerUrl}StartAll");
             return resultModel;
         }
 
         public async Task<ResultModel> StopAllAsync()
         {
-            var resultModel = await SendPatchAsync<ResultModel>($"{_controllerUrl}StopAll");
+            var resultModel = await SendPostAsync<ResultModel>($"{_controllerUrl}StopAll");
             return resultModel;
         }
 
         public async Task<ResultModel> UploadNewFileAsync(IFormFile file)
         {
-            var resultModel = await SendPostAsync<ResultModel>($"{_controllerUrl}UploadNewFile", file);
+            if (!(file is MateralFormFile formFile)) throw new WebAPPException("请传入MateralFormFile类型");
+            var resultModel = await SendPutAsync<ResultModel>($"{_controllerUrl}UploadNewFile", formFile.HttpContent, null, null);
             return resultModel;
         }
 
         public async Task<ResultModel> ClearUpdateFilesAsync()
         {
-            var resultModel = await SendPatchAsync<ResultModel>($"{_controllerUrl}ClearUpdateFiles");
+            var resultModel = await SendDeleteAsync<ResultModel>($"{_controllerUrl}ClearUpdateFiles");
             return resultModel;
         }
 
         public async Task<ResultModel> ClearInactiveApplicationAsync()
         {
-            var resultModel = await SendPatchAsync<ResultModel>($"{_controllerUrl}ClearInactiveApplication");
+            var resultModel = await SendDeleteAsync<ResultModel>($"{_controllerUrl}ClearInactiveApplication");
             return resultModel;
         }
     }

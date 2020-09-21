@@ -39,7 +39,7 @@
     /// 必填标识
     /// </summary>
     [Parameter]
-    public bool IsRequired { get; set; }
+    public bool IsRequired { get; set; } = false;
     /// <summary>
     /// 属性模型
     /// </summary>
@@ -67,6 +67,4 @@
         }
     }
     #endregion
-
-    private bool _canError;
 }

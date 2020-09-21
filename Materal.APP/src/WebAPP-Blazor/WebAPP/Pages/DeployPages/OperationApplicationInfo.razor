@@ -1,0 +1,324 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using Deploy.DataTransmitModel.ApplicationInfo
+@using Deploy.Enums
+@using Deploy.HttpManage
+@using Deploy.PresentationModel.ApplicationInfo
+@using Materal.APP.Core.Models
+@using WebAPP.MateralUI.Models
+@using Materal.Model
+@using Materal.Common
+@using Materal.ConvertHelper
+@using WebAPP.Common
+
+
+@inject MessageManage _messageManage
+@inject ExceptionManage _exceptionManage
+@inject IApplicationInfoManage _applicationInfoManage
+
+<section>
+    <MForm @ref="@Form" FromData="@FormData">
+        <MFormItem Title="名称" PropertyModel="@context.Name" IsRequired>
+            <MInput Type="text" Disabled="@Loading" @bind-Value="@context.Name.Value"></MInput>
+        </MFormItem>
+        <MFormItem Title="路径" PropertyModel="@context.Path" IsRequired>
+            <MInput Type="text" Disabled="@Loading" @bind-Value="@context.Path.Value"></MInput>
+        </MFormItem>
+        <MFormItem Title="主模块" PropertyModel="@context.MainModule" IsRequired>
+            <MInput Type="text" Disabled="@Loading" @bind-Value="@context.MainModule.Value"></MInput>
+        </MFormItem>
+        <MFormItem Title="应用类型">
+            <MSelect Disabled="@Loading" Items="AllApplicationTypes" @bind-Value="@context.ApplicationType"></MSelect>
+        </MFormItem>
+        <MFormItem Title="运行参数" PropertyModel="@context.RunParams">
+            <MInput Type="text" Rows="6" Disabled="@Loading" OnInputChange="@OnRunParamsChanged" @bind-Value="@context.RunParams.Value"></MInput>
+        </MFormItem>
+    </MForm>
+    <div class="m_modal_buttons">
+        <MButton Disabled="@Loading" OnClick="@OnBtnCancelClickAsync">取消</MButton>
+        <MButton ButtonType="@MButtonTypeEnum.Primary" Disabled="@Loading" OnClick="@OnBtnSaveClickAsync">确定</MButton>
+    </div>
+</section>
+
+@code{
+    /// <summary>
+    /// 操作应用程序信息表单数据模型
+    /// </summary>
+    public class OperationApplicationInfoFromDataModel
+    {
+        /// <summary>
+        /// 名称
+        /// </summary>
+        [Required(ErrorMessage = "名称不能为空")]
+        public FromDataPropertyModel<string> Name { get; set; } = new FromDataPropertyModel<string>();
+        /// <summary>
+        /// 路径
+        /// </summary>
+        [Required(ErrorMessage = "路径不能为空")]
+        public FromDataPropertyModel<string> Path { get; set; } = new FromDataPropertyModel<string>();
+        /// <summary>
+        /// 主模块
+        /// </summary>
+        [Required(ErrorMessage = "主模块不能为空")]
+        public FromDataPropertyModel<string> MainModule { get; set; } = new FromDataPropertyModel<string>();
+        /// <summary>
+        /// 运行参数
+        /// </summary>
+        public FromDataPropertyModel<string> RunParams { get; set; } = new FromDataPropertyModel<string>();
+        /// <summary>
+        /// 应用程序类型
+        /// </summary>
+        public KeyValueModel ApplicationType { get; set; } = new KeyValueModel(ApplicationTypeEnum.DotNetCore);
+    }
+}
+@code {
+    #region 参数
+    /// <summary>
+    /// 所有应用程序类型
+    /// </summary>
+    public List<KeyValueModel> AllApplicationTypes { get; set; }
+    /// <summary>
+    /// 应用程序信息唯一标识
+    /// </summary>
+    [Parameter]
+    public Guid? ApplicationInfoID { get; set; }
+    /// <summary>
+    /// 成功
+    /// </summary>
+    [Parameter]
+    public EventCallback Success { get; set; }
+    /// <summary>
+    /// 取消
+    /// </summary>
+    [Parameter]
+    public EventCallback Cancel { get; set; }
+    #endregion
+    #region 属性字段
+    /// <summary>
+    /// 加载状态
+    /// </summary>
+    public bool Loading { get; set; } = true;
+    /// <summary>
+    /// 窗体
+    /// </summary>
+    public MForm<OperationApplicationInfoFromDataModel> Form { get; set; }
+    /// <summary>
+    /// 表单数据
+    /// </summary>
+    public OperationApplicationInfoFromDataModel FormData = new OperationApplicationInfoFromDataModel();
+
+    private Guid? _upInitApplicationInfoID;
+
+    #endregion
+    #region 生命周期
+    /// <summary>
+    /// 设置参数后
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnParametersSetAsync()
+    {
+        AllApplicationTypes = KeyValueModel.GetAllCode(typeof(ApplicationTypeEnum));
+        await base.OnParametersSetAsync();
+    }
+    /// <summary>
+    /// 页面呈现后
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await InitApplicationInfoInfoAsync();
+        StateHasChanged();
+        await base.OnAfterRenderAsync(true);
+    }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 单击保存按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnSaveClickAsync(MouseEventArgs eventArgs)
+    {
+        if (ApplicationInfoID.HasValue)
+        {
+            await EditApplicationInfoAsync();
+        }
+        else
+        {
+            await AddApplicationInfoAsync();
+        }
+    }
+    /// <summary>
+    /// 单击取消按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnCancelClickAsync(MouseEventArgs eventArgs)
+    {
+        await Cancel.InvokeAsync(null);
+    }
+    /// <summary>
+    /// 运行参数更改
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    public void OnRunParamsChanged(ChangeEventArgs eventArgs)
+    {
+        FormData.RunParams.Value = eventArgs.Value.ToString();
+    }
+    #endregion
+    #region 私有方法
+    /// <summary>
+    /// 初始化应用程序信息信息
+    /// </summary>
+    /// <returns></returns>
+    private async Task InitApplicationInfoInfoAsync()
+    {
+        if (_upInitApplicationInfoID.HasValue && _upInitApplicationInfoID == ApplicationInfoID) return;
+        _upInitApplicationInfoID = ApplicationInfoID;
+        if (ApplicationInfoID.HasValue)
+        {
+            await InitOldApplicationInfoInfoAsync(ApplicationInfoID.Value);
+        }
+        else
+        {
+            InitNewApplicationInfoInfo();
+        }
+    }
+    /// <summary>
+    /// 初始化新应用程序信息
+    /// </summary>
+    /// <returns></returns>
+    private void InitNewApplicationInfoInfo()
+    {
+        Loading = true;
+        FormData.Name.Value = string.Empty;
+        FormData.MainModule.Value = string.Empty;
+        FormData.Path.Value = string.Empty;
+        FormData.RunParams.Value = string.Empty;
+        FormData.ApplicationType = AllApplicationTypes.FirstOrDefault();
+        Loading = false;
+    }
+    /// <summary>
+    /// 初始化老应用程序信息
+    /// </summary>
+    /// <param name="applicationInfoID"></param>
+    /// <returns></returns>
+    private async Task InitOldApplicationInfoInfoAsync(Guid applicationInfoID)
+    {
+        Loading = true;
+        try
+        {
+            ResultModel<ApplicationInfoDTO> resultModel = await _applicationInfoManage.GetInfoAsync(applicationInfoID);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                InitOldApplicationInfoInfo(resultModel.Data);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 初始化老应用程序信息
+    /// </summary>
+    /// <param name="applicationInfoInfo"></param>
+    /// <returns></returns>
+    private void InitOldApplicationInfoInfo(ApplicationInfoDTO applicationInfoInfo)
+    {
+        FormData.Name.Value = applicationInfoInfo.Name;
+        FormData.MainModule.Value = applicationInfoInfo.MainModule;
+        FormData.Path.Value = applicationInfoInfo.Path;
+        FormData.RunParams.Value = applicationInfoInfo.RunParams;
+        FormData.ApplicationType.ChangeByEnum(applicationInfoInfo.ApplicationType);
+    }
+    /// <summary>
+    /// 新增应用程序信息
+    /// </summary>
+    /// <returns></returns>
+    private async Task AddApplicationInfoAsync()
+    {
+        if (!Form.ValidateData()) return;
+        Loading = true;
+        try
+        {
+            var requestModel = new AddApplicationInfoRequestModel
+            {
+                Name = FormData.Name.Value,
+                MainModule = FormData.MainModule.Value,
+                Path = FormData.Path.Value,
+                RunParams = FormData.RunParams.Value,
+                ApplicationType = (ApplicationTypeEnum)FormData.ApplicationType.GetEnumValue()
+            };
+            ResultModel resultModel = await _applicationInfoManage.AddAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await Success.InvokeAsync(null);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 修改应用程序信息
+    /// </summary>
+    /// <returns></returns>
+    private async Task EditApplicationInfoAsync()
+    {
+        if (!Form.ValidateData()) return;
+        Loading = true;
+        try
+        {
+            if (!ApplicationInfoID.HasValue) throw new WebAPPException("未识别唯一标识");
+            var requestModel = new EditApplicationInfoRequestModel
+            {
+                ID = ApplicationInfoID.Value,
+                Name = FormData.Name.Value,
+                MainModule = FormData.MainModule.Value,
+                Path = FormData.Path.Value,
+                RunParams = FormData.RunParams.Value,
+                ApplicationType = (ApplicationTypeEnum)FormData.ApplicationType.GetEnumValue()
+            };
+            Console.WriteLine(requestModel.ToJson());
+            ResultModel resultModel = await _applicationInfoManage.EditAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await Success.InvokeAsync(null);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    #endregion
+}

@@ -2,27 +2,170 @@
 
 @page "/Deploy/UploadPackage"
 
-@using WebAPP.HttpClientImpl
+@using Tewr.Blazor.FileReader
+@using System.IO
+@using Deploy.HttpManage
+@using Materal.APP.HttpClient
+@using Materal.Common
+@using Materal.Model
+@using WebAPP.Common
 
-@inject NavigationManager _navigationManager
 @inject MessageManage _messageManage
+@inject ExceptionManage _exceptionManage
+@inject IFileReaderService _fileReaderService
+@inject IApplicationInfoManage _applicationInfoManage
 
 <main class="layout_body">
-    <h3>UploadPackage</h3>
+    <MPageHeader Title="默认数据配置">
+        <div class="m_button_group">
+            <MButton OnClick="@OnBtnClearUpdateFilesClickAsync">清理上传文件</MButton>
+            <MButton ButtonType="@MButtonTypeEnum.Danger" OnClick="@OnBtnClearInactiveApplicationClickAsync">清理不活跃程序</MButton>
+        </div>
+    </MPageHeader>
+    <input type="file" @ref="@InputFileElement" @onchange="@OnSelectedFileChange" accept=".rar" />
 </main>
 
 @code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    #region 属性
+    /// <summary>
+    /// 加载中
+    /// </summary>
+    public bool Loading { get; set; } = true;
+    /// <summary>
+    /// 上传文件元素
+    /// </summary>
+    public ElementReference InputFileElement;
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 选择文件完毕
+    /// </summary>
+    /// <returns></returns>
+    public async Task OnSelectedFileChange()
     {
-        //if (!firstRender) return;
-        //if (!string.IsNullOrWhiteSpace(UrlManage.DeployUrls))
-        //{
-        //    await base.OnAfterRenderAsync(true);
-        //}
-        //else
-        //{
-        //    _messageManage.WarningAsync("配置中心未开启");
-        //    _navigationManager.NavigateTo("/");
-        //}
+        try
+        {
+            IFileReference[] fileReferences = (await _fileReaderService.CreateReference(InputFileElement).EnumerateFilesAsync()).ToArray();
+            if (fileReferences.Length > 1) throw new WebAPPException("每次只能上传一个文件");
+            IFileReference file = fileReferences.First();
+            IFileInfo fileInfo = await file.ReadFileInfoAsync();
+            await using MemoryStream memoryStream = await file.CreateMemoryStreamAsync();
+            var formFile = new MateralFormFile(memoryStream, "file", fileInfo.Name);
+            await UploadNewFileAsync(formFile);
+        }
+        catch (WebAPPException exception)
+        {
+            await _messageManage.WarningAsync(exception.Message);
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
     }
+    /// <summary>
+    /// 单击清理上传文件按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnClearUpdateFilesClickAsync(MouseEventArgs eventArgs)
+    {
+        await ClearUpdateFilesAsync();
+    }
+    /// <summary>
+    /// 单击清理不活跃程序按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnClearInactiveApplicationClickAsync(MouseEventArgs eventArgs)
+    {
+        await ClearInactiveApplicationAsync();
+    }
+    #endregion
+    #region 私有方法
+    /// <summary>
+    /// 上传新文件
+    /// </summary>
+    /// <param name="formFile"></param>
+    /// <returns></returns>
+    public async Task UploadNewFileAsync(MateralFormFile formFile)
+    {
+        Loading = true;
+        try
+        {
+            ResultModel resultModel = await _applicationInfoManage.UploadNewFileAsync(formFile);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 清理上传文件
+    /// </summary>
+    /// <returns></returns>
+    public async Task ClearUpdateFilesAsync()
+    {
+        Loading = true;
+        try
+        {
+            ResultModel resultModel = await _applicationInfoManage.ClearUpdateFilesAsync();
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 清理不活跃程序
+    /// </summary>
+    /// <returns></returns>
+    public async Task ClearInactiveApplicationAsync()
+    {
+        Loading = true;
+        try
+        {
+            ResultModel resultModel = await _applicationInfoManage.ClearInactiveApplicationAsync();
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    #endregion
 }

@@ -4,6 +4,7 @@ using Materal.Common;
 using Microsoft.Extensions.DependencyInjection;
 using NetCore.AutoRegisterDi;
 using System.Reflection;
+using Tewr.Blazor.FileReader;
 using WebAPP.MateralUI;
 
 namespace WebAPP
@@ -21,6 +22,10 @@ namespace WebAPP
         {
             MateralConfig.PageStartNumber = 1;
             services.AddMateralUI();
+            services.AddFileReaderService(options =>
+            {
+                options.UseWasmSharedBuffer = true;
+            });
             services.AddSingleton<IAuthorityManage, JsAuthorityManageImpl>();
             services.AddTransient<MessageManage>();
             services.AddTransient<ExceptionManage>();

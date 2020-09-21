@@ -19,7 +19,7 @@ namespace WebAPP.HttpClientImpl.Authority
 
         public async Task<ResultModel> AddUserAsync(AddUserRequestModel requestModel)
         {
-            var resultModel = await SendPostAsync<ResultModel>($"{_controllerUrl}AddUser", requestModel);
+            var resultModel = await SendPutAsync<ResultModel>($"{_controllerUrl}AddUser", requestModel);
             return resultModel;
         }
 
@@ -55,19 +55,19 @@ namespace WebAPP.HttpClientImpl.Authority
 
         public async Task<PageResultModel<UserListDTO>> GetUserListAsync(QueryUserFilterRequestModel requestModel)
         {
-            var resultModel = await SendPatchAsync<PageResultModel<UserListDTO>>($"{_controllerUrl}GetUserList", requestModel);
+            var resultModel = await SendPostAsync<PageResultModel<UserListDTO>>($"{_controllerUrl}GetUserList", requestModel);
             return resultModel;
         }
 
         public async Task<ResultModel<LoginResultModel>> LoginAsync(LoginRequestModel requestModel)
         {
-            var resultModel = await SendPatchAsync<ResultModel<LoginResultModel>>($"{_controllerUrl}Login", requestModel);
+            var resultModel = await SendPostAsync<ResultModel<LoginResultModel>>($"{_controllerUrl}Login", requestModel);
             return resultModel;
         }
 
         public async Task<ResultModel<string>> ResetPasswordAsync(Guid id)
         {
-            var resultModel = await SendPatchAsync<ResultModel<string>>($"{_controllerUrl}ResetPassword", null, new Dictionary<string, string>
+            var resultModel = await SendPostAsync<ResultModel<string>>($"{_controllerUrl}ResetPassword", null, new Dictionary<string, string>
             {
                 ["id"] = id.ToString()
             });
@@ -76,7 +76,7 @@ namespace WebAPP.HttpClientImpl.Authority
 
         public async Task<ResultModel> ChangePasswordAsync(ChangePasswordRequestModel requestModel)
         {
-            var resultModel = await SendPatchAsync<ResultModel>($"{_controllerUrl}ChangePassword", requestModel);
+            var resultModel = await SendPostAsync<ResultModel>($"{_controllerUrl}ChangePassword", requestModel);
             return resultModel;
         }
     }

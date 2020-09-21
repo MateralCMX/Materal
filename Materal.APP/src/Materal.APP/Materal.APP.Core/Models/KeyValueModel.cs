@@ -34,6 +34,10 @@ namespace Materal.APP.Core.Models
         /// </summary>
         public string Value { get; set; }
         /// <summary>
+        /// 携带数据
+        /// </summary>
+        public object Data { get; set; }
+        /// <summary>
         /// 获得枚举值
         /// </summary>
         /// <returns></returns>

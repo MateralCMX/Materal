@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem;
+using ConfigCenter.Environment.HttpManage;
 using ConfigCenter.Environment.PresentationModel.ConfigurationItem;
 using ConfigCenter.Environment.Services;
 using ConfigCenter.Environment.Services.Models.ConfigurationItem;
@@ -11,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using ConfigCenter.Environment.HttpManage;
 
 namespace ConfigCenter.Environment.Server.Controllers
 {
@@ -36,8 +36,8 @@ namespace ConfigCenter.Environment.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<ResultModel> AddConfigurationItem(AddConfigurationItemRequestModel requestModel)
+        [HttpPut]
+        public async Task<ResultModel> AddConfigurationItemAsync(AddConfigurationItemRequestModel requestModel)
         {
             var model = _mapper.Map<AddConfigurationItemModel>(requestModel);
             await _configurationItemService.AddConfigurationItemAsync(model);
@@ -49,7 +49,7 @@ namespace ConfigCenter.Environment.Server.Controllers
         /// <param name="requestModel"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ResultModel> InitConfigurationItems(InitConfigurationItemsRequestModel requestModel)
+        public async Task<ResultModel> InitConfigurationItemsAsync(InitConfigurationItemsRequestModel requestModel)
         {
             var model = _mapper.Map<List<AddConfigurationItemModel>>(requestModel.ConfigurationItems);
             await _configurationItemService.InitConfigurationItemsAsync(model);
@@ -61,7 +61,7 @@ namespace ConfigCenter.Environment.Server.Controllers
         /// <param name="requestModel"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ResultModel> InitConfigurationItemsByNamespace(InitConfigurationItemsByNamespaceRequestModel requestModel)
+        public async Task<ResultModel> InitConfigurationItemsByNamespaceAsync(InitConfigurationItemsByNamespaceRequestModel requestModel)
         {
             var model = _mapper.Map<InitConfigurationItemsByNamespaceModel>(requestModel);
             await _configurationItemService.InitConfigurationItemsByNamespaceAsync(model);
@@ -73,7 +73,7 @@ namespace ConfigCenter.Environment.Server.Controllers
         /// <param name="requestModel"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ResultModel> EditConfigurationItem(EditConfigurationItemRequestModel requestModel)
+        public async Task<ResultModel> EditConfigurationItemAsync(EditConfigurationItemRequestModel requestModel)
         {
             var model = _mapper.Map<EditConfigurationItemModel>(requestModel);
             await _configurationItemService.EditConfigurationItemAsync(model);
@@ -85,7 +85,7 @@ namespace ConfigCenter.Environment.Server.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<ResultModel> DeleteConfigurationItem([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
+        public async Task<ResultModel> DeleteConfigurationItemAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             await _configurationItemService.DeleteConfigurationItemAsync(id);
             return ResultModel.Success("删除成功");
@@ -96,7 +96,7 @@ namespace ConfigCenter.Environment.Server.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ResultModel<ConfigurationItemDTO>> GetConfigurationItemInfo([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
+        public async Task<ResultModel<ConfigurationItemDTO>> GetConfigurationItemInfoAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             ConfigurationItemDTO result = await _configurationItemService.GetConfigurationItemInfoAsync(id);
             return ResultModel<ConfigurationItemDTO>.Success(result, "查询成功");
@@ -106,8 +106,8 @@ namespace ConfigCenter.Environment.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPatch, AllowAnonymous]
-        public async Task<ResultModel<List<ConfigurationItemListDTO>>> GetConfigurationItemList(QueryConfigurationItemFilterRequestModel requestModel)
+        [HttpPost, AllowAnonymous]
+        public async Task<ResultModel<List<ConfigurationItemListDTO>>> GetConfigurationItemListAsync(QueryConfigurationItemFilterRequestModel requestModel)
         {
             var model = _mapper.Map<QueryConfigurationItemFilterModel>(requestModel);
             List<ConfigurationItemListDTO> result = await _configurationItemService.GetConfigurationItemListAsync(model);

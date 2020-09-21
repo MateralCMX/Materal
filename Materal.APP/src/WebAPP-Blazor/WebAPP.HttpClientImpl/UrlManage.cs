@@ -3,6 +3,7 @@ using Materal.APP.DataTransmitModel;
 using Materal.APP.Enums;
 using System.Collections.Generic;
 using System.Linq;
+using ConfigCenter.DataTransmitModel.ConfigCenter;
 using WebAPP.Common;
 
 namespace WebAPP.HttpClientImpl
@@ -32,6 +33,18 @@ namespace WebAPP.HttpClientImpl
             }
         }
         /// <summary>
+        /// 初始化环境列表
+        /// </summary>
+        /// <param name="environmentList"></param>
+        public static void InitEnvironmentUrl(List<EnvironmentListDTO> environmentList)
+        {
+            EnvironmentUrls = environmentList.Select(m => new KeyValueModel(m.Url, $"{m.Name}[{m.Url}]")).ToArray();
+            if (EnvironmentUrls.Count > 0)
+            {
+                EnvironmentUrl = EnvironmentUrls.First();
+            }
+        }
+        /// <summary>
         /// 核心服务Url
         /// </summary>
         public static string MateralAppUrl => WebAPPConfig.MateralAppUrl;
@@ -50,7 +63,7 @@ namespace WebAPP.HttpClientImpl
         /// <summary>
         /// 环境Url
         /// </summary>
-        public static string EnvironmentUrl { get; set; }
+        public static KeyValueModel EnvironmentUrl { get; set; }
         /// <summary>
         /// 部署服务Url组
         /// </summary>

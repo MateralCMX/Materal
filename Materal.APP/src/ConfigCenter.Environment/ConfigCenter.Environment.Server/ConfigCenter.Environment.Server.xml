@@ -24,49 +24,49 @@
             配置项控制器
             </summary>
         </member>
-        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.AddConfigurationItem(ConfigCenter.Environment.PresentationModel.ConfigurationItem.AddConfigurationItemRequestModel)">
+        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.AddConfigurationItemAsync(ConfigCenter.Environment.PresentationModel.ConfigurationItem.AddConfigurationItemRequestModel)">
             <summary>
             添加配置项
             </summary>
             <param name="requestModel"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.InitConfigurationItems(ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsRequestModel)">
+        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.InitConfigurationItemsAsync(ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsRequestModel)">
             <summary>
             初始化配置项
             </summary>
             <param name="requestModel"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.InitConfigurationItemsByNamespace(ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsByNamespaceRequestModel)">
+        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.InitConfigurationItemsByNamespaceAsync(ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsByNamespaceRequestModel)">
             <summary>
             根据命名空间初始化配置项
             </summary>
             <param name="requestModel"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.EditConfigurationItem(ConfigCenter.Environment.PresentationModel.ConfigurationItem.EditConfigurationItemRequestModel)">
+        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.EditConfigurationItemAsync(ConfigCenter.Environment.PresentationModel.ConfigurationItem.EditConfigurationItemRequestModel)">
             <summary>
             修改配置项
             </summary>
             <param name="requestModel"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.DeleteConfigurationItem(System.Guid)">
+        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.DeleteConfigurationItemAsync(System.Guid)">
             <summary>
             删除配置项
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.GetConfigurationItemInfo(System.Guid)">
+        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.GetConfigurationItemInfoAsync(System.Guid)">
             <summary>
             获得配置项信息
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.GetConfigurationItemList(ConfigCenter.Environment.PresentationModel.ConfigurationItem.QueryConfigurationItemFilterRequestModel)">
+        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.GetConfigurationItemListAsync(ConfigCenter.Environment.PresentationModel.ConfigurationItem.QueryConfigurationItemFilterRequestModel)">
             <summary>
             获得配置项列表
             </summary>

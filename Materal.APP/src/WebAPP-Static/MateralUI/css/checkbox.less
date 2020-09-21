@@ -1,0 +1,26 @@
+@import "./constConfig.less";
+.m_checkbox {
+  font-size: @default-font-size;
+  height: 25px;
+  display: flex;
+  cursor: pointer;
+  .m_checkbox_box {
+    display: block;
+    line-height: 25px;
+  }
+  .m_checkbox_message {
+    display: block;
+    line-height: 25px;
+    margin-left: 5px;
+  }
+}
+.m_checkbox.disable {
+  border-color: @disable-border-color;
+  cursor: no-drop;  
+  .m_checkbox_box {
+    color: @disable-background-color;
+  }
+  .m_checkbox_message {
+    color: @disable-background-color;
+  }
+}

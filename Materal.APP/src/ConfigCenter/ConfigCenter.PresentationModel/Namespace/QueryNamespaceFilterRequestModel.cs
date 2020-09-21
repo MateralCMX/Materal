@@ -1,6 +1,5 @@
 ﻿using Materal.Model;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace ConfigCenter.PresentationModel.Namespace
 {
@@ -12,8 +11,7 @@ namespace ConfigCenter.PresentationModel.Namespace
         /// <summary>
         /// 所属项目唯一标识
         /// </summary>
-        [Required(ErrorMessage = "所属项目唯一标识不能为空")]
-        public Guid ProjectID { get; set; }
+        public Guid? ProjectID { get; set; }
         /// <summary>
         /// 名称
         /// </summary>

@@ -15,13 +15,13 @@ namespace WebAPP.HttpClientImpl.MateralAPP
 
         public async Task<ResultModel<string>> DesDecryptionAsync(StringRequestModel requestModel)
         {
-            var result = await SendPatchAsync<ResultModel<string>>($"{_controllerUrl}DesDecryption", requestModel);
+            var result = await SendPostAsync<ResultModel<string>>($"{_controllerUrl}DesDecryption", requestModel);
             return result;
         }
 
         public async Task<ResultModel<string>> DesEncryptionAsync(StringRequestModel requestModel)
         {
-            var result = await SendPatchAsync<ResultModel<string>>($"{_controllerUrl}DesEncryption", requestModel);
+            var result = await SendPostAsync<ResultModel<string>>($"{_controllerUrl}DesEncryption", requestModel);
             return result;
         }
     }

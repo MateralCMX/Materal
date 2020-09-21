@@ -1,4 +1,5 @@
 ﻿using Materal.ConvertHelper;
+using Materal.NetworkHelper.HeaderHandler;
 using Materal.StringHelper;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +14,18 @@ namespace Materal.NetworkHelper
 {
     public static class HttpManager
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
+        public static HttpClient HttpClient { get; } = new HttpClient();
+
+        public static DefaultHeaderHandler HeaderHandler { get; set; }
+
+        static HttpManager()
+        {
+            HeaderHandler = new AuthorizationHeaderHandler();
+            var contentTypeHeaderHandler = new ContentTypeHeaderHandler();
+            HeaderHandler.SetNext(contentTypeHeaderHandler);
+            var defaultHeaderHandler = new DefaultHeaderHandler();
+            contentTypeHeaderHandler.SetNext(defaultHeaderHandler);
+        }
 
         /// <summary>
         /// 拼接URL参数
@@ -38,23 +49,7 @@ namespace Materal.NetworkHelper
         /// <returns></returns>
         public static void FillHttpHeaders(HttpRequestMessage httpRequestMessage, Dictionary<string, string> headers)
         {
-            httpRequestMessage.Headers.Clear();
-            httpRequestMessage.Content?.Headers.Clear();
-            foreach (KeyValuePair<string, string> header in headers)
-            {
-                if (header.Key == "Content-Type")
-                {
-                    if (httpRequestMessage.Content?.Headers != null)
-                    {
-                        httpRequestMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(header.Value);
-                    }
-                }
-                else
-                {
-                    httpRequestMessage.Headers?.TryAddWithoutValidation(header.Key, header.Value);
-                    httpRequestMessage.Content?.Headers?.TryAddWithoutValidation(header.Key, header.Value);
-                }
-            }
+            HeaderHandler.Handler(httpRequestMessage, headers);
         }
 
         /// <summary>
@@ -94,9 +89,64 @@ namespace Materal.NetworkHelper
         /// 发送请求
         /// </summary>
         /// <param name="url">url地址</param>
+        /// <param name="httpRequestMessage"></param>
+        /// <param name="headers">headers</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static async Task<byte[]> SendByteByHttpRequestMessageAsync(string url, HttpRequestMessage httpRequestMessage, Dictionary<string, string> headers = null)
+        {
+            using HttpResponseMessage httpResponseMessage = await HttpClient.SendAsync(httpRequestMessage);
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                throw new MateralHttpException(url, httpResponseMessage.StatusCode, $"Http请求错误{Convert.ToInt32(httpResponseMessage.StatusCode)}", headers);
+            }
+            byte[] resultBytes = await httpResponseMessage.Content.ReadAsByteArrayAsync();
+            return resultBytes;
+        }
+
+        /// <summary>
+        /// 发送请求
+        /// </summary>
+        /// <param name="url">url地址</param>
         /// <param name="httpMethod"></param>
-        /// <param name="data">参数字典</param>
-        /// <param name="queryParams"></param>
+        /// <param name="httpContent"></param>
+        /// <param name="queryParams">字典参数</param>
+        /// <param name="headers"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static async Task<byte[]> SendByteByHttpContentAsync(string url, HttpMethod httpMethod, HttpContent httpContent, Dictionary<string, string> queryParams = null, Dictionary<string, string> headers = null)
+        {
+            if (string.IsNullOrEmpty(url)) throw new ArgumentNullException(nameof(url), "Url地址不能为空");
+            if (!url.IsUrl()) throw new ArgumentException("Url地址错误", nameof(url));
+            if (queryParams?.Count > 0)
+            {
+                url = SpliceUrlParams(url, queryParams);
+            }
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                Method = httpMethod,
+                RequestUri = new Uri(url),
+                Content = httpContent
+            };
+            if (headers != null)
+            {
+                FillHttpHeaders(httpRequestMessage, headers);
+            }
+            byte[] resultBytes = await SendByteByHttpRequestMessageAsync(url, httpRequestMessage);
+            return resultBytes;
+        }
+
+        /// <summary>
+        /// 发送请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="httpMethod"></param>
+        /// <param name="data">数据</param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <param name="dataHandler"></param>
@@ -118,7 +168,7 @@ namespace Materal.NetworkHelper
                 Method = httpMethod,
                 RequestUri = new Uri(url),
             };
-            if (data != null && !httpMethod.Method.Equals("Get", StringComparison.OrdinalIgnoreCase))
+            if (data != null)
             {
                 if (data is string dataString)
                 {
@@ -135,12 +185,7 @@ namespace Materal.NetworkHelper
             {
                 FillHttpHeaders(httpRequestMessage, headers);
             }
-            using HttpResponseMessage httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
-            if (!httpResponseMessage.IsSuccessStatusCode)
-            {
-                throw new MateralHttpException(url, httpResponseMessage.StatusCode, $"Http请求错误{Convert.ToInt32(httpResponseMessage.StatusCode)}", headers);
-            }
-            byte[] resultBytes = await httpResponseMessage.Content.ReadAsByteArrayAsync();
+            byte[] resultBytes = await SendByteByHttpRequestMessageAsync(url, httpRequestMessage);
             return resultBytes;
         }
 
@@ -149,8 +194,29 @@ namespace Materal.NetworkHelper
         /// </summary>
         /// <param name="url">url地址</param>
         /// <param name="httpMethod"></param>
-        /// <param name="data">参数字典</param>
-        /// <param name="queryParams"></param>
+        /// <param name="httpContent">Http内容</param>
+        /// <param name="queryParams">参数字典</param>
+        /// <param name="headers">headers</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static async Task<string> SendByHttpContentAsync(string url, HttpMethod httpMethod, HttpContent httpContent, Dictionary<string, string> queryParams = null, Dictionary<string, string> headers = null, Encoding encoding = null)
+        {
+            encoding ??= Encoding.UTF8;
+            byte[] resultBytes = await SendByteByHttpContentAsync(url, httpMethod, httpContent, queryParams, headers);
+            string result = encoding.GetString(resultBytes);
+            return result;
+        }
+
+        /// <summary>
+        /// 发送请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="httpMethod"></param>
+        /// <param name="data">数据</param>
+        /// <param name="queryParams">参数字典</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <param name="dataHandler"></param>
@@ -167,10 +233,83 @@ namespace Materal.NetworkHelper
         }
 
         /// <summary>
+        /// 发送Post请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="httpContent">Http内容</param>
+        /// <param name="queryParams">参数字典</param>
+        /// <param name="headers">headers</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static async Task<string> SendPostAsync(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, Dictionary<string, string> headers = null, Encoding encoding = null)
+        {
+            string result = await SendByHttpContentAsync(url, HttpMethod.Post, httpContent, queryParams, headers, encoding);
+            return result;
+        }
+
+        /// <summary>
+        /// 发送Put请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="httpContent">Http内容</param>
+        /// <param name="queryParams">参数字典</param>
+        /// <param name="headers">headers</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static async Task<string> SendPutAsync(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, Dictionary<string, string> headers = null, Encoding encoding = null)
+        {
+            string result = await SendByHttpContentAsync(url, HttpMethod.Put, httpContent, queryParams, headers, encoding);
+            return result;
+        }
+
+        /// <summary>
+        /// 发送Delete请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="httpContent">Http内容</param>
+        /// <param name="queryParams">参数字典</param>
+        /// <param name="headers">headers</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static async Task<string> SendDeleteAsync(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, Dictionary<string, string> headers = null, Encoding encoding = null)
+        {
+            string result = await SendByHttpContentAsync(url, HttpMethod.Delete, httpContent, queryParams, headers, encoding);
+            return result;
+        }
+
+        /// <summary>
+        /// 发送Patch请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="httpContent">Http内容</param>
+        /// <param name="queryParams">参数字典</param>
+        /// <param name="headers">headers</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static async Task<string> SendPatchAsync(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, Dictionary<string, string> headers = null, Encoding encoding = null)
+        {
+            var httpMethod = new HttpMethod("PATCH");
+            string result = await SendByHttpContentAsync(url, httpMethod, httpContent, queryParams, headers, encoding);
+            return result;
+        }
+
+        /// <summary>
         /// 发送Get请求
         /// </summary>
         /// <param name="url">url地址</param>
-        /// <param name="queryParams"></param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <returns></returns>
@@ -187,8 +326,8 @@ namespace Materal.NetworkHelper
         /// 发送Post请求
         /// </summary>
         /// <param name="url">url地址</param>
-        /// <param name="data">参数字典</param>
-        /// <param name="queryParams"></param>
+        /// <param name="data">数据</param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <param name="dataHandler"></param>
@@ -206,8 +345,8 @@ namespace Materal.NetworkHelper
         /// 发送Put请求
         /// </summary>
         /// <param name="url">url地址</param>
-        /// <param name="data">参数字典</param>
-        /// <param name="queryParams"></param>
+        /// <param name="data">数据</param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <param name="dataHandler"></param>
@@ -225,8 +364,8 @@ namespace Materal.NetworkHelper
         /// 发送Delete请求
         /// </summary>
         /// <param name="url">url地址</param>
-        /// <param name="data">参数字典</param>
-        /// <param name="queryParams"></param>
+        /// <param name="data">数据</param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <param name="dataHandler"></param>
@@ -244,8 +383,8 @@ namespace Materal.NetworkHelper
         /// 发送Patch请求
         /// </summary>
         /// <param name="url">url地址</param>
-        /// <param name="data">参数字典</param>
-        /// <param name="queryParams"></param>
+        /// <param name="data">数据</param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <param name="dataHandler"></param>
@@ -259,12 +398,89 @@ namespace Materal.NetworkHelper
             string result = await SendAsync(url, httpMethod, data, queryParams, headers, encoding, dataHandler);
             return result;
         }
-        
+
+        /// <summary>
+        /// 发送Post请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="httpContent">Http内容</param>
+        /// <param name="queryParams">字典参数</param>
+        /// <param name="headers">headers</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static string SendPost(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, Dictionary<string, string> headers = null, Encoding encoding = null)
+        {
+            Task<string> resultTask = SendByHttpContentAsync(url, HttpMethod.Post, httpContent, queryParams, headers, encoding);
+            Task.WaitAll(resultTask);
+            return resultTask.Result;
+        }
+
+        /// <summary>
+        /// 发送Put请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="httpContent">Http内容</param>
+        /// <param name="queryParams">字典参数</param>
+        /// <param name="headers">headers</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static string SendPut(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, Dictionary<string, string> headers = null, Encoding encoding = null)
+        {
+            Task<string> resultTask = SendByHttpContentAsync(url, HttpMethod.Put, httpContent, queryParams, headers, encoding);
+            Task.WaitAll(resultTask);
+            return resultTask.Result;
+        }
+
+        /// <summary>
+        /// 发送Delete请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="httpContent">Http内容</param>
+        /// <param name="queryParams">字典参数</param>
+        /// <param name="headers">headers</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static string SendDelete(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, Dictionary<string, string> headers = null, Encoding encoding = null)
+        {
+            Task<string> resultTask = SendByHttpContentAsync(url, HttpMethod.Delete, httpContent, queryParams, headers, encoding);
+            Task.WaitAll(resultTask);
+            return resultTask.Result;
+        }
+
+        /// <summary>
+        /// 发送Patch请求
+        /// </summary>
+        /// <param name="url">url地址</param>
+        /// <param name="httpContent">Http内容</param>
+        /// <param name="queryParams">字典参数</param>
+        /// <param name="headers">headers</param>
+        /// <param name="encoding">字符集</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
+        public static string SendPatch(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, Dictionary<string, string> headers = null, Encoding encoding = null)
+        {
+            var httpMethod = new HttpMethod("PATCH");
+            Task<string> resultTask = SendByHttpContentAsync(url, httpMethod, httpContent, queryParams, headers, encoding);
+            Task.WaitAll(resultTask);
+            return resultTask.Result;
+        }
+
         /// <summary>
         /// 发送Get请求
         /// </summary>
         /// <param name="url">url地址</param>
-        /// <param name="queryParams"></param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <returns></returns>
@@ -282,8 +498,8 @@ namespace Materal.NetworkHelper
         /// 发送Post请求
         /// </summary>
         /// <param name="url">url地址</param>
-        /// <param name="data">参数字典</param>
-        /// <param name="queryParams"></param>
+        /// <param name="data">数据</param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <param name="dataHandler"></param>
@@ -302,8 +518,8 @@ namespace Materal.NetworkHelper
         /// 发送Put请求
         /// </summary>
         /// <param name="url">url地址</param>
-        /// <param name="data">参数字典</param>
-        /// <param name="queryParams"></param>
+        /// <param name="data">数据</param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <param name="dataHandler"></param>
@@ -322,8 +538,8 @@ namespace Materal.NetworkHelper
         /// 发送Delete请求
         /// </summary>
         /// <param name="url">url地址</param>
-        /// <param name="data">参数字典</param>
-        /// <param name="queryParams"></param>
+        /// <param name="data">数据</param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <param name="dataHandler"></param>
@@ -342,8 +558,8 @@ namespace Materal.NetworkHelper
         /// 发送Patch请求
         /// </summary>
         /// <param name="url">url地址</param>
-        /// <param name="data">参数字典</param>
-        /// <param name="queryParams"></param>
+        /// <param name="data">数据</param>
+        /// <param name="queryParams">字典参数</param>
         /// <param name="headers">headers</param>
         /// <param name="encoding">字符集</param>
         /// <param name="dataHandler"></param>

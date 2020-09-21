@@ -55,7 +55,7 @@ namespace Deploy.ServiceImpl.Manage
             ApplicationRuntimeModel runtimeModel = _allApplicationInfos[model.ID];
             if (runtimeModel.ApplicationStatus != ApplicationStatusEnum.Stop) throw new DeployException("应用程序尚未停止");
             model.ApplicationStatus = ApplicationStatusEnum.Stop;
-            model.CopyProperties(runtimeModel);
+            model.CopyProperties(runtimeModel.ApplicationInfo);
         }
 
         public ApplicationInfoModel Delete(Guid id)

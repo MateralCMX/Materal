@@ -36,7 +36,7 @@ namespace Deploy.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         public async Task<ResultModel> AddAsync(AddApplicationInfoRequestModel requestModel)
         {
             var model = _mapper.Map<AddApplicationInfoModel>(requestModel);
@@ -82,7 +82,7 @@ namespace Deploy.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPatch]
+        [HttpPost]
         public Task<ResultModel<List<ApplicationInfoListDTO>>> GetListAsync(QueryApplicationInfoFilterRequestModel requestModel)
         {
             var model = _mapper.Map<QueryApplicationInfoFilterModel>(requestModel);
@@ -93,7 +93,7 @@ namespace Deploy.Server.Controllers
         /// 启动程序
         /// </summary>
         /// <param name="id"></param>
-        [HttpPatch]
+        [HttpPost]
 
         public Task<ResultModel> StartAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
@@ -104,7 +104,7 @@ namespace Deploy.Server.Controllers
         /// 停止程序
         /// </summary>
         /// <param name="id"></param>
-        [HttpPatch]
+        [HttpPost]
         public Task<ResultModel> StopAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             _applicationInfoService.Stop(id);
@@ -123,7 +123,7 @@ namespace Deploy.Server.Controllers
         /// <summary>
         /// 启动所有程序
         /// </summary>
-        [HttpPatch]
+        [HttpPost]
         public Task<ResultModel> StartAllAsync()
         {
             _applicationInfoService.StartAll();
@@ -132,7 +132,7 @@ namespace Deploy.Server.Controllers
         /// <summary>
         /// 停止所有程序
         /// </summary>
-        [HttpPatch]
+        [HttpPost]
         public Task<ResultModel> StopAllAsync()
         {
             _applicationInfoService.StopAll();
@@ -143,7 +143,7 @@ namespace Deploy.Server.Controllers
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPut]
         public async Task<ResultModel> UploadNewFileAsync([Required(ErrorMessage = "文件不可以为空")] IFormFile file)
         {
             await _applicationInfoService.SaveFileAsync(file);
@@ -152,7 +152,7 @@ namespace Deploy.Server.Controllers
         /// <summary>
         /// 清理上传文件
         /// </summary>
-        [HttpPatch]
+        [HttpDelete]
         public Task<ResultModel> ClearUpdateFilesAsync()
         {
             _applicationInfoService.ClearUpdateFiles();
@@ -161,7 +161,7 @@ namespace Deploy.Server.Controllers
         /// <summary>
         /// 清理不活跃的应用程序
         /// </summary>
-        [HttpPatch]
+        [HttpDelete]
         public Task<ResultModel> ClearInactiveApplicationAsync()
         {
             _applicationInfoService.ClearInactiveApplication();

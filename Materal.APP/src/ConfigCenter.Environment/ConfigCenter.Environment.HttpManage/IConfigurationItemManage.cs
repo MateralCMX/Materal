@@ -14,48 +14,48 @@ namespace ConfigCenter.Environment.HttpManage
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        Task<ResultModel> AddConfigurationItem(AddConfigurationItemRequestModel requestModel);
+        Task<ResultModel> AddConfigurationItemAsync(AddConfigurationItemRequestModel requestModel);
 
         /// <summary>
         /// 初始化配置项
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        Task<ResultModel> InitConfigurationItems(InitConfigurationItemsRequestModel requestModel);
+        Task<ResultModel> InitConfigurationItemsAsync(InitConfigurationItemsRequestModel requestModel);
 
         /// <summary>
         /// 初始化配置项
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        Task<ResultModel> InitConfigurationItemsByNamespace(InitConfigurationItemsByNamespaceRequestModel requestModel);
+        Task<ResultModel> InitConfigurationItemsByNamespaceAsync(InitConfigurationItemsByNamespaceRequestModel requestModel);
 
         /// <summary>
         /// 修改配置项
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        Task<ResultModel> EditConfigurationItem(EditConfigurationItemRequestModel requestModel);
+        Task<ResultModel> EditConfigurationItemAsync(EditConfigurationItemRequestModel requestModel);
 
         /// <summary>
         /// 删除配置项
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<ResultModel> DeleteConfigurationItem(Guid id);
+        Task<ResultModel> DeleteConfigurationItemAsync(Guid id);
 
         /// <summary>
         /// 获得配置项信息
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<ResultModel<ConfigurationItemDTO>> GetConfigurationItemInfo(Guid id);
+        Task<ResultModel<ConfigurationItemDTO>> GetConfigurationItemInfoAsync(Guid id);
 
         /// <summary>
         /// 获得配置项列表
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        Task<ResultModel<List<ConfigurationItemListDTO>>> GetConfigurationItemList(QueryConfigurationItemFilterRequestModel requestModel);
+        Task<ResultModel<List<ConfigurationItemListDTO>>> GetConfigurationItemListAsync(QueryConfigurationItemFilterRequestModel requestModel);
     }
 }

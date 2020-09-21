@@ -11,6 +11,6 @@ namespace ConfigCenter.HttpManage
         /// 获得环境列表
         /// </summary>
         /// <returns></returns>
-        Task<ResultModel<List<EnvironmentListDTO>>> GetNamespaceList();
+        Task<ResultModel<List<EnvironmentListDTO>>> GetEnvironmentListAsync();
     }
 }

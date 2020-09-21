@@ -50,8 +50,8 @@
     </MTable>
     <MPaging PageModel="@SearchData.PageModel" PageIndexChanged="@OnPageIndexChangedAsync"></MPaging>
 </main>
-<MModal Title="@(SelectedUserID.HasValue ? "修改" : "新增")" @bind-Display="OperationModalDisplay">
-    <OperationDefaultData DefaultDataID="SelectedUserID" Success="@OnOperationSuccessAsync" Cancel="@CloseOperationModal"></OperationDefaultData>
+<MModal Title="@(SelectedID.HasValue ? "修改" : "新增")" @bind-Display="OperationModalDisplay">
+    <OperationDefaultData DefaultDataID="SelectedID" Success="@OnOperationSuccessAsync" Cancel="@CloseOperationModal"></OperationDefaultData>
 </MModal>
 <MModal Title="删除" @bind-Display="DeleteModalDisplay">
     确定要删除该项吗？
@@ -111,9 +111,9 @@
 @code{
     #region 属性
     /// <summary>
-    /// 选中的用户唯一标识
+    /// 选中的唯一标识
     /// </summary>
-    public Guid? SelectedUserID { get; set; }
+    public Guid? SelectedID { get; set; }
     /// <summary>
     /// 操作模态窗是否显示
     /// </summary>
@@ -137,7 +137,6 @@
     /// <summary>
     /// 表格配置
     /// </summary>
-    [Parameter]
     public List<TableConfigModel> TableConfig { get; set; }
     /// <summary>
     /// 表格数据源
@@ -185,29 +184,29 @@
     /// <returns></returns>
     public void OnBtnAddClick(MouseEventArgs eventArgs)
     {
-        SelectedUserID = null;
+        SelectedID = null;
         OpenOperationModal();
     }
     /// <summary>
     /// 单击修改按钮
     /// </summary>
     /// <param name="eventArgs"></param>
-    /// <param name="selectedUserID"></param>
+    /// <param name="selectedID"></param>
     /// <returns></returns>
-    public void OnBtnEditClick(MouseEventArgs eventArgs, Guid selectedUserID)
+    public void OnBtnEditClick(MouseEventArgs eventArgs, Guid selectedID)
     {
-        SelectedUserID = selectedUserID;
+        SelectedID = selectedID;
         OpenOperationModal();
     }
     /// <summary>
     /// 单击删除按钮
     /// </summary>
     /// <param name="eventArgs"></param>
-    /// <param name="selectedUserID"></param>
+    /// <param name="selectedID"></param>
     /// <returns></returns>
-    public void OnBtnOpenDeleteModalClick(MouseEventArgs eventArgs, Guid selectedUserID)
+    public void OnBtnOpenDeleteModalClick(MouseEventArgs eventArgs, Guid selectedID)
     {
-        SelectedUserID = selectedUserID;
+        SelectedID = selectedID;
         OpenDeleteModal();
     }
     /// <summary>
@@ -334,8 +333,8 @@
         Loading = true;
         try
         {
-            if (!SelectedUserID.HasValue) throw new WebAPPException("未选择数据");
-            ResultModel resultModel = await _defaultDataManage.DeleteAsync(SelectedUserID.Value);
+            if (!SelectedID.HasValue) throw new WebAPPException("未选择数据");
+            ResultModel resultModel = await _defaultDataManage.DeleteAsync(SelectedID.Value);
             if (resultModel.ResultType == ResultTypeEnum.Success)
             {
                 await _messageManage.SuccessAsync(resultModel.Message);

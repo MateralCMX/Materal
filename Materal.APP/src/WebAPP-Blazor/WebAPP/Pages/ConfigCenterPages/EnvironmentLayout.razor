@@ -1,0 +1,55 @@
+﻿@layout ConfigCenterLayout
+
+@using WebAPP.HttpClientImpl
+
+@inherits LayoutComponentBase
+
+@inject NavigationManager _navigationManager
+@inject MessageManage _messageManage
+
+<style>
+    .environment_server_panel {
+        position: fixed;
+        right: 140px;
+        top: 2px;
+        height: 36px;
+        background-color: white;
+        z-index: 3;
+        width: 400px;
+        border-radius: 4px;
+        display: flex;
+    }
+</style>
+
+@Body
+@if (UrlManage.EnvironmentUrls?.Count > 0 && UrlManage.ConfigCenterUrl != null)
+{
+    <section class="environment_server_panel">
+        <MSelect @bind-Value="UrlManage.EnvironmentUrl" Items="UrlManage.EnvironmentUrls"></MSelect>
+    </section>
+}
+@code { 
+    #region 生命周期
+    /// <summary>
+    /// 组件呈现之后
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        if (UrlManage.EnvironmentUrls?.Count > 0)
+        {
+            if (UrlManage.EnvironmentUrl == null || string.IsNullOrWhiteSpace(UrlManage.EnvironmentUrl.Key))
+            {
+                UrlManage.EnvironmentUrl = UrlManage.EnvironmentUrls.FirstOrDefault();
+            }
+        }
+        else
+        {
+            await _messageManage.WarningAsync("未配置任何环境");
+            _navigationManager.NavigateTo("/");
+        }
+    }
+    #endregion
+}

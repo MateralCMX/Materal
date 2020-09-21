@@ -1,0 +1,292 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using ConfigCenter.DataTransmitModel.Namespace
+@using ConfigCenter.HttpManage
+@using ConfigCenter.PresentationModel.Namespace
+@using Materal.APP.Core.Models
+@using WebAPP.MateralUI.Models
+@using Materal.Model
+@using Materal.Common
+@using WebAPP.Common
+
+@inject MessageManage _messageManage
+@inject ExceptionManage _exceptionManage
+@inject INamespaceManage _namespaceManage
+
+<section>
+    <MForm @ref="@Form" FromData="@FormData">
+        <MFormItem Title="名称" PropertyModel="@context.Name" IsRequired>
+            <MInput Type="text" Disabled="@Loading" @bind-Value="@context.Name.Value"></MInput>
+        </MFormItem>
+        <MFormItem Title="描述" PropertyModel="@context.Description" IsRequired>
+            <MInput Type="text" Rows="6" Disabled="@Loading" OnInputChange="OnDescriptionChanged" @bind-Value="@context.Description.Value"></MInput>
+        </MFormItem>
+    </MForm>
+    <div class="m_modal_buttons">
+        <MButton Disabled="@Loading" OnClick="@OnBtnCancelClickAsync">取消</MButton>
+        <MButton ButtonType="@MButtonTypeEnum.Primary" Disabled="@Loading" OnClick="@OnBtnSaveClickAsync">确定</MButton>
+    </div>
+</section>
+
+@code{
+    /// <summary>
+    /// 操作命名空间表单数据模型
+    /// </summary>
+    public class OperationNamespaceFromDataModel
+    {
+        /// <summary>
+        /// 名称
+        /// </summary>
+        [Required(ErrorMessage = "名称不能为空"), StringLength(100, ErrorMessage = "名称长度不能超过100")]
+        public FromDataPropertyModel<string> Name { get; set; } = new FromDataPropertyModel<string>();
+        /// <summary>
+        /// 描述
+        /// </summary>
+        [Required(ErrorMessage = "描述不能为空")]
+        public FromDataPropertyModel<string> Description { get; set; } = new FromDataPropertyModel<string>();
+    }
+}
+@code {
+    #region 参数
+    /// <summary>
+    /// 所有应用程序类型
+    /// </summary>
+    public List<KeyValueModel> AllApplicationTypes { get; set; }
+    /// <summary>
+    /// 命名空间唯一标识
+    /// </summary>
+    [Parameter]
+    public Guid? NamespaceID { get; set; }
+    /// <summary>
+    /// 项目唯一标识
+    /// </summary>
+    [Parameter]
+    public Guid ProjectID { get; set; }
+    /// <summary>
+    /// 成功
+    /// </summary>
+    [Parameter]
+    public EventCallback Success { get; set; }
+    /// <summary>
+    /// 取消
+    /// </summary>
+    [Parameter]
+    public EventCallback Cancel { get; set; }
+    #endregion
+    #region 属性字段
+    /// <summary>
+    /// 加载状态
+    /// </summary>
+    public bool Loading { get; set; } = true;
+    /// <summary>
+    /// 窗体
+    /// </summary>
+    public MForm<OperationNamespaceFromDataModel> Form { get; set; }
+    /// <summary>
+    /// 表单数据
+    /// </summary>
+    public OperationNamespaceFromDataModel FormData = new OperationNamespaceFromDataModel();
+
+    private Guid? _upInitNamespaceID;
+
+    #endregion
+    #region 生命周期
+    /// <summary>
+    /// 设置参数后
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+    }
+    /// <summary>
+    /// 页面呈现后
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await InitNamespaceInfoAsync();
+        StateHasChanged();
+        await base.OnAfterRenderAsync(true);
+    }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 数据更改
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    public void OnDescriptionChanged(ChangeEventArgs eventArgs)
+    {
+        FormData.Description.Value = eventArgs.Value.ToString();
+    }
+    /// <summary>
+    /// 单击保存按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnSaveClickAsync(MouseEventArgs eventArgs)
+    {
+        if (NamespaceID.HasValue)
+        {
+            await EditNamespaceAsync();
+        }
+        else
+        {
+            await AddNamespaceAsync();
+        }
+    }
+    /// <summary>
+    /// 单击取消按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnCancelClickAsync(MouseEventArgs eventArgs)
+    {
+        await Cancel.InvokeAsync(null);
+    }
+    #endregion
+    #region 私有方法
+    /// <summary>
+    /// 初始化命名空间信息
+    /// </summary>
+    /// <returns></returns>
+    private async Task InitNamespaceInfoAsync()
+    {
+        if (_upInitNamespaceID.HasValue && _upInitNamespaceID == NamespaceID) return;
+        _upInitNamespaceID = NamespaceID;
+        if (NamespaceID.HasValue)
+        {
+            await InitOldNamespaceInfoAsync(NamespaceID.Value);
+        }
+        else
+        {
+            InitNewNamespaceInfo();
+        }
+    }
+    /// <summary>
+    /// 初始化新命名空间
+    /// </summary>
+    /// <returns></returns>
+    private void InitNewNamespaceInfo()
+    {
+        Loading = true;
+        FormData.Name.Value = string.Empty;
+        FormData.Description.Value = string.Empty;
+        Loading = false;
+    }
+    /// <summary>
+    /// 初始化老命名空间
+    /// </summary>
+    /// <param name="namespaceID"></param>
+    /// <returns></returns>
+    private async Task InitOldNamespaceInfoAsync(Guid namespaceID)
+    {
+        Loading = true;
+        try
+        {
+            ResultModel<NamespaceDTO> resultModel = await _namespaceManage.GetNamespaceInfoAsync(namespaceID);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                InitOldNamespaceInfo(resultModel.Data);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 初始化老命名空间
+    /// </summary>
+    /// <param name="namespaceInfo"></param>
+    /// <returns></returns>
+    private void InitOldNamespaceInfo(NamespaceDTO namespaceInfo)
+    {
+        FormData.Name.Value = namespaceInfo.Name;
+        FormData.Description.Value = namespaceInfo.Description;
+    }
+    /// <summary>
+    /// 新增命名空间
+    /// </summary>
+    /// <returns></returns>
+    private async Task AddNamespaceAsync()
+    {
+        if (!Form.ValidateData()) return;
+        Loading = true;
+        try
+        {
+            var requestModel = new AddNamespaceRequestModel
+            {
+                Name = FormData.Name.Value,
+                Description = FormData.Description.Value,
+                ProjectID = ProjectID
+            };
+            ResultModel resultModel = await _namespaceManage.AddNamespaceAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await Success.InvokeAsync(null);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 修改命名空间
+    /// </summary>
+    /// <returns></returns>
+    private async Task EditNamespaceAsync()
+    {
+        if (!Form.ValidateData()) return;
+        Loading = true;
+        try
+        {
+            if (!NamespaceID.HasValue) throw new WebAPPException("未识别唯一标识");
+            var requestModel = new EditNamespaceRequestModel
+            {
+                ID = NamespaceID.Value,
+                Name = FormData.Name.Value,
+                Description = FormData.Description.Value,
+                ProjectID = ProjectID
+            };
+            ResultModel resultModel = await _namespaceManage.EditNamespaceAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await Success.InvokeAsync(null);
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    #endregion
+}

@@ -1,8 +1,6 @@
 ﻿@layout NavMenuLayout
 
 @using WebAPP.HttpClientImpl
-@using Materal.APP.Core.Models
-@using Materal.ConvertHelper
 
 @inherits LayoutComponentBase
 
@@ -24,12 +22,13 @@
 </style>
 
 @Body
-<section class="deploy_server_panel">
-    <MSelect @bind-Value="UrlManage.DeployUrl" Items="UrlManage.DeployUrls"></MSelect>
-</section>
-
-@code {
-
+@if (UrlManage.DeployUrls?.Count > 0 && UrlManage.DeployUrl != null)
+{
+    <section class="deploy_server_panel">
+        <MSelect @bind-Value="UrlManage.DeployUrl" Items="UrlManage.DeployUrls"></MSelect>
+    </section>
+}
+@code { 
     #region 生命周期
     /// <summary>
     /// 组件呈现之后
@@ -39,9 +38,9 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender) return;
-        if (UrlManage.DeployUrls.Count > 0)
+        if (UrlManage.DeployUrls?.Count > 0)
         {
-            if (string.IsNullOrWhiteSpace(UrlManage.DeployUrl.Key))
+            if (UrlManage.DeployUrl == null || string.IsNullOrWhiteSpace(UrlManage.DeployUrl.Key))
             {
                 UrlManage.DeployUrl = UrlManage.DeployUrls.FirstOrDefault();
             }

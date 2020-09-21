@@ -1,0 +1,25 @@
+.m_radio {
+  font-size: 14px;
+  height: 25px;
+  display: flex;
+  cursor: pointer;
+}
+.m_radio .m_radio_box {
+  display: block;
+  line-height: 25px;
+}
+.m_radio .m_radio_message {
+  display: block;
+  line-height: 25px;
+  margin-left: 5px;
+}
+.m_radio.disable {
+  border-color: #cdcdcd;
+  cursor: no-drop;
+}
+.m_radio.disable .m_radio_box {
+  color: #e0e0e0;
+}
+.m_radio.disable .m_radio_message {
+  color: #e0e0e0;
+}

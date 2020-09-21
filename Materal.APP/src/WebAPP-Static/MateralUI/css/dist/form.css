@@ -33,34 +33,6 @@
   background-color: #e0e0e0;
   cursor: no-drop;
 }
-.m_form .m_form_item .m_form_checkbox {
-  font-size: 14px;
-  height: 25px;
-  display: flex;
-  cursor: pointer;
-}
-.m_form .m_form_item .m_form_checkbox input[type="checkbox"] {
-  height: 100%;
-  display: block;
-  box-sizing: border-box;
-  margin: 0;
-  cursor: pointer;
-}
-.m_form .m_form_item .m_form_checkbox .m_form_checkbox_box {
-  display: block;
-  line-height: 25px;
-}
-.m_form .m_form_item .m_form_checkbox .m_form_checkbox_message {
-  display: block;
-  line-height: 25px;
-  margin-left: 5px;
-}
-.m_form .m_form_item .m_form_checkbox.disable {
-  color: #fcfcfc;
-  border-color: #cdcdcd;
-  background-color: #e0e0e0;
-  cursor: no-drop;
-}
 .m_form .m_form_item .m_form_error_message {
   display: none;
 }

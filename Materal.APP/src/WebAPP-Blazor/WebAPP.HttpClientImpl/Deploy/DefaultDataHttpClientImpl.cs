@@ -18,7 +18,7 @@ namespace WebAPP.HttpClientImpl.Deploy
 
         public async Task<ResultModel> AddAsync(AddDefaultDataRequestModel requestModel)
         {
-            var resultModel = await SendPostAsync<ResultModel>($"{_controllerUrl}Add", requestModel);
+            var resultModel = await SendPutAsync<ResultModel>($"{_controllerUrl}Add", requestModel);
             return resultModel;
         }
 
@@ -48,7 +48,7 @@ namespace WebAPP.HttpClientImpl.Deploy
 
         public async Task<PageResultModel<DefaultDataListDTO>> GetListAsync(QueryDefaultDataFilterRequestModel requestModel)
         {
-            var resultModel = await SendPatchAsync<PageResultModel<DefaultDataListDTO>>($"{_controllerUrl}GetList", requestModel);
+            var resultModel = await SendPostAsync<PageResultModel<DefaultDataListDTO>>($"{_controllerUrl}GetList", requestModel);
             return resultModel;
         }
     }

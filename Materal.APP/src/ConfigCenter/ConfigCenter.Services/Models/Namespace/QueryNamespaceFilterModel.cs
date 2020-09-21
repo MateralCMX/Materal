@@ -1,6 +1,5 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Materal.Model;
+﻿using Materal.Model;
+using System;
 
 namespace ConfigCenter.Services.Models.Namespace
 {
@@ -9,8 +8,8 @@ namespace ConfigCenter.Services.Models.Namespace
         /// <summary>
         /// 所属项目唯一标识
         /// </summary>
-        [Required(ErrorMessage = "所属项目唯一标识不能为空"), Equal]
-        public Guid ProjectID { get; set; }
+        [Equal]
+        public Guid? ProjectID { get; set; }
         /// <summary>
         /// 名称
         /// </summary>

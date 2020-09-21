@@ -1,0 +1,64 @@
+﻿<div class="@ClassString" @onclick="OnRadioClickAsync" title="@Title">
+    <span class="m_checkbox_box Micon @(Value?"Micon_checked2":"Micon_not_checked2")"></span><span class="m_checkbox_message">@Title</span>
+</div>
+
+@code {
+    /// <summary>
+    /// 标题
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; }
+    /// <summary>
+    /// 值
+    /// </summary>
+    [Parameter]
+    public bool Value { get; set; }
+    /// <summary>
+    /// 值更新
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+    /// <summary>
+    /// 禁用
+    /// </summary>
+    [Parameter]
+    public bool Disabled{ get; set; }
+    /// <summary>
+    /// 选中
+    /// </summary>
+    [Parameter]
+    public EventCallback<object> OnSelected { get; set; }
+    /// <summary>
+    /// 项
+    /// </summary>
+    [Parameter]
+    public object Item { get; set; }
+    /// <summary>
+    /// Class字符串
+    /// </summary>
+    public string ClassString
+    {
+        get
+        {
+            var result = "m_checkbox";
+            if (Disabled)
+            {
+                result += " disable";
+            }
+            return result;
+        }
+    }
+    /// <summary>
+    /// 点击Radio
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnRadioClickAsync(MouseEventArgs eventArgs)
+    {
+        if (Disabled) return;
+        if (Value) return;
+        Value = true;
+        await ValueChanged.InvokeAsync(Value);
+        await OnSelected.InvokeAsync(Item);
+    }
+}
