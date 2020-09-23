@@ -6,6 +6,7 @@ using Deploy.Services;
 using Deploy.Services.Models.DefaultData;
 using Materal.APP.WebAPICore;
 using Materal.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -81,7 +82,7 @@ namespace Deploy.Server.Controllers
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         public async Task<PageResultModel<DefaultDataListDTO>> GetListAsync(QueryDefaultDataFilterRequestModel requestModel)
         {
             var model = _mapper.Map<QueryDefaultDataFilterModel>(requestModel);

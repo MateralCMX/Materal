@@ -23,12 +23,22 @@ namespace Deploy.ServiceImpl.Models
         }
         public override void KillProcess(ApplicationRuntimeModel model)
         {
-            if (model.ApplicationInfo.ApplicationType == Enums.ApplicationTypeEnum.StaticDocument)
+            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.StaticDocument)
             {
                 return;
             }
             if (_next == null) throw new DeployException("未识别应用程序类型");
             _next.KillProcess(model);
+        }
+        public override void KillProcess(ApplicationRuntimeModel model, Process process)
+        {
+            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.StaticDocument)
+            {
+                KillProcess(process);
+                return;
+            }
+            if (_next == null) throw new DeployException("未识别应用程序类型");
+            _next.KillProcess(model, process);
         }
     }
 }

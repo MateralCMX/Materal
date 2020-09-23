@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Materal.WindowsHelper
 {
@@ -23,10 +22,9 @@ namespace Materal.WindowsHelper
             };
             return processStartInfo;
         }
-        public async Task<string> ProcessStartAsync(string cmd, string arg)
+        public void ProcessStart(string cmd, string arg)
         {
             ProcessStartInfo processStartInfo = GetProcessStartInfo(cmd, arg);
-            string output;
             using (var process = new Process { StartInfo = processStartInfo })
             {
                 if (OutputDataReceived != null)
@@ -35,16 +33,23 @@ namespace Materal.WindowsHelper
                 }
                 if (ErrorDataReceived != null)
                 {
-                    process.OutputDataReceived += ErrorDataReceived;
+                    process.ErrorDataReceived += ErrorDataReceived;
                 }
-                process.Start();
-                process.BeginErrorReadLine();
+                if (process.Start())
+                {
+                    if (OutputDataReceived != null)
+                    {
+                        process.BeginOutputReadLine();
+                    }
+                    if (ErrorDataReceived != null)
+                    {
+                        process.BeginErrorReadLine();
+                    }
+                }
                 process.StandardInput.AutoFlush = true;
-                output = await process.StandardOutput.ReadToEndAsync();
                 process.WaitForExit();
                 process.Close();
             }
-            return output;
         }
     }
 }

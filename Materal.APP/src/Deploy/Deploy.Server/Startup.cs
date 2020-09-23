@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using Deploy.Common;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Deploy.Server
 {
@@ -48,6 +49,10 @@ namespace Deploy.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDeployServerServices();
+            services.Configure<FormOptions>(config =>
+            {
+                config.MultipartBodyLengthLimit = long.MaxValue;
+            });
             _webAPIStartupHelper.AddServices(services);
         }
         /// <summary>

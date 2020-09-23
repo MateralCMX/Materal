@@ -27,6 +27,12 @@ namespace Deploy.ServiceImpl.Models
         /// <summary>
         /// 杀死程序
         /// </summary>
+        /// <param name="model"></param>
+        /// <param name="process"></param>
+        public abstract void KillProcess(ApplicationRuntimeModel model, Process process);
+        /// <summary>
+        /// 杀死程序
+        /// </summary>
         /// <param name="process"></param>
         public virtual void KillProcess(Process process)
         {

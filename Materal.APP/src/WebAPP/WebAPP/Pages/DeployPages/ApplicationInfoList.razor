@@ -82,7 +82,7 @@
         </MTableCell>
     </MTable>
 </main>
-<MModal Title="@(SelectedUserID.HasValue ? "修改" : "新增")" @bind-Display="OperationModalDisplay">
+<MModal Title="@(SelectedUserID.HasValue ? "修改" : "新增")" ModalType="@MModalTypeEnum.Large" @bind-Display="OperationModalDisplay">
     <OperationApplicationInfo ApplicationInfoID="SelectedUserID" Success="@OnOperationSuccessAsync" Cancel="@CloseOperationModal"></OperationApplicationInfo>
 </MModal>
 <MModal Title="删除" @bind-Display="DeleteModalDisplay">

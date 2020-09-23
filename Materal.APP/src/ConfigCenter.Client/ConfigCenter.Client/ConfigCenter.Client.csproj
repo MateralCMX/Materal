@@ -3,14 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Product>Materal.ConfigCenter.Client</Product>
+    <Product>ConfigCenter.Client</Product>
     <Company>Materal</Company>
     <Authors>Materal</Authors>
-    <Version>0.0.1</Version>
+    <Version>0.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Materal.ConvertHelper" Version="1.0.9" />
+    <PackageReference Include="Materal.NetworkHelper" Version="1.1.6" />
     <PackageReference Include="Materal.StringHelper" Version="1.0.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.8" />
   </ItemGroup>

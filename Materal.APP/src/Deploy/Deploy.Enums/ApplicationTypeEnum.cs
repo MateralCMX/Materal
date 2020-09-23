@@ -18,6 +18,11 @@ namespace Deploy.Enums
         /// .NetCore
         /// </summary>
         [Description(".NetCore")]
-        DotNetCore = 2
+        DotNetCore = 2,
+        /// <summary>
+        /// PM2
+        /// </summary>
+        [Description("PM2")]
+        PM2 = 3
     }
 }

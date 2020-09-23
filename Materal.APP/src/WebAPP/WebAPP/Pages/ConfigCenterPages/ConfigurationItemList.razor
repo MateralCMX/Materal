@@ -76,8 +76,8 @@
         <MTable DataSource="@TableDataSource" TableConfig="@TableConfig">
             <MTableCell>@context.Index</MTableCell>
             <MTableCell>@context.Key</MTableCell>
-            <MTableCell>@context.Value</MTableCell>
-            <MTableCell>@context.Description</MTableCell>
+            <MTableCell Width="400">@context.Value</MTableCell>
+            <MTableCell Width="400">@context.Description</MTableCell>
             <MTableCell>
                 <div class="m_button_group">
                     <MButton OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))">修改</MButton>
@@ -89,7 +89,7 @@
 </main>
 @if (SearchData.SelectNamespace != null)
 {
-    <MModal Title="@(SelectedID.HasValue ? "修改" : "新增")" @bind-Display="OperationModalDisplay">
+    <MModal Title="@(SelectedID.HasValue ? "修改" : "新增")" ModalType="@MModalTypeEnum.Large" @bind-Display="OperationModalDisplay">
         <OperationConfigurationItem Namespace="@SearchData.SelectNamespace" ConfigurationItemID="SelectedID" Success="@OnOperationSuccessAsync" Cancel="@CloseOperationModal"></OperationConfigurationItem>
     </MModal>
 }

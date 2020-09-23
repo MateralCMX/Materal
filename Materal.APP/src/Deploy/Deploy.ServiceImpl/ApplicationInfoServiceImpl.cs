@@ -14,6 +14,7 @@ using Materal.WindowsHelper;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -152,7 +153,7 @@ namespace Deploy.ServiceImpl
             await file.CopyToAsync(fileStream);
             fileStream.Close();
             fileStream.Dispose();
-            await UnRarFileAsync(filePath);
+            UnRarFile(filePath);
         }
 
         public void ClearUpdateFiles()
@@ -192,14 +193,26 @@ namespace Deploy.ServiceImpl
         /// </summary>
         /// <param name="rarFilePath"></param>
         /// <returns></returns>
-        private async Task UnRarFileAsync(string rarFilePath)
+        private void UnRarFile(string rarFilePath)
         {
             string directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UploadFiles", "Temp", Guid.NewGuid().ToString());
             if (Directory.Exists(directoryPath)) throw new DeployException("解压失败,请重新上传");
             DirectoryInfo directoryInfo = Directory.CreateDirectory(directoryPath);
-            var cmdManager = new CmdManager();
-            string winRarCmd = Path.Combine(DeployConfig.WinRarPath, "UnRAR.exe");
-            await cmdManager.RunCmdCommandsAsync($"\"{winRarCmd}\" x -o+ -y {rarFilePath} {directoryPath}");
+            ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo("UnRAR.exe", $"x -o+ -y {rarFilePath} {directoryPath}");
+            var process = new Process { StartInfo = processStartInfo };
+            void DataHandler(object sender, DataReceivedEventArgs e)
+            {
+                DeployConsoleHelper.WriteLine(e.Data);
+            }
+            process.OutputDataReceived += DataHandler;
+            process.ErrorDataReceived += DataHandler;
+            if (process.Start())
+            {
+                process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
+                process.WaitForExit();
+                process.Dispose();
+            }
             foreach (DirectoryInfo item in directoryInfo.GetDirectories())
             {
                 CopyApplication(item);

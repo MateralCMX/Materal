@@ -6,7 +6,7 @@
     "ExpiredTime": "18000"
   },
   "ServerInfo": {
-    "Url": "http://192.168.0.101:8700",
+    "Url": "http://192.168.0.101:8701",
     "Key": "MateralAPPKey",
     "Name": "MateralAPP-Local" 
   }

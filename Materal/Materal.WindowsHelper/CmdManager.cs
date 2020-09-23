@@ -7,34 +7,39 @@ namespace Materal.WindowsHelper
     {
         public event DataReceivedEventHandler OutputDataReceived;
         public event DataReceivedEventHandler ErrorDataReceived;
-        public async Task<string> RunCmdCommandsAsync(params string[] commands)
+        public async Task RunCmdCommandsAsync(params string[] commands)
         {
             ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo("cmd.exe", string.Empty);
-            string output;
             using (var process = new Process { StartInfo = processStartInfo })
             {
                 if (OutputDataReceived != null)
                 {
                     process.OutputDataReceived += OutputDataReceived;
                 }
-
                 if (ErrorDataReceived != null)
                 {
-                    process.OutputDataReceived += ErrorDataReceived;
+                    process.ErrorDataReceived += ErrorDataReceived;
                 }
-                process.Start();
-                process.BeginErrorReadLine();//开始异步读取
-                foreach (string command in commands)
+                if (process.Start())
                 {
-                    await process.StandardInput.WriteLineAsync(command);
+                    if (OutputDataReceived != null)
+                    {
+                        process.BeginOutputReadLine();
+                    }
+                    if (ErrorDataReceived != null)
+                    {
+                        process.BeginErrorReadLine();
+                    }
+                    foreach (string command in commands)
+                    {
+                        await process.StandardInput.WriteLineAsync(command);
+                    }
                 }
                 await process.StandardInput.WriteLineAsync("exit");
                 process.StandardInput.AutoFlush = true;
-                output = await process.StandardOutput.ReadToEndAsync();
                 process.WaitForExit();
                 process.Close();
             }
-            return output;
         }
     }
 }

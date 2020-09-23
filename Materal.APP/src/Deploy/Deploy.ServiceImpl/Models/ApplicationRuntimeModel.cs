@@ -57,7 +57,7 @@ namespace Deploy.ServiceImpl.Models
                 ApplicationStatus = ApplicationStatusEnum.Stoping;
                 try
                 {
-                    _applicationHandlerContext.KillProcess(_process);
+                    _applicationHandlerContext.KillProcess(this, _process);
                     ApplicationStatus = ApplicationStatusEnum.Stop;
                 }
                 catch (Exception)

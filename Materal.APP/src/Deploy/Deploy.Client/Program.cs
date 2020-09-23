@@ -1,15 +1,11 @@
-﻿using Materal.NetworkHelper;
-using Materal.WindowsHelper;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Diagnostics;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using Materal.WindowsHelper;
 
-namespace Materal.ConsoleUI
+namespace Deploy.Client
 {
-    internal class Program
+    public class Program
     {
         public static async Task Main()
         {
@@ -17,11 +13,9 @@ namespace Materal.ConsoleUI
             var cmdManager = new CmdManager();
             cmdManager.OutputDataReceived += CmdManager_OutputDataReceived;
             cmdManager.ErrorDataReceived += CmdManager_ErrorDataReceived;
-            await cmdManager.RunCmdCommandsAsync(
-                @"cd Application\template",
-                @"npm run deploy");
-            //await cmdManager.RunCmdCommandsAsync("E:", @"cd Project\Materal\Application\Materal.APP\Deploy.Server\Application\template", "echo Hello World");
-            //await cmdManager.RunCmdCommandsAsync("echo Hello World");
+            //await cmdManager.RunCmdCommandsAsync("E:", @"cd Project\Materal\Application\Materal.APP\Deploy.Server\Application\template", "npm run deploy");
+            await cmdManager.RunCmdCommandsAsync("E:", @"cd Project\Materal\Application\Materal.APP\Deploy.Server\Application\template", "echo Hello World");
+            await cmdManager.RunCmdCommandsAsync("echo Hello World");
             Console.ReadKey();
         }
 

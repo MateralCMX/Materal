@@ -65,6 +65,10 @@ namespace Deploy.Server
             IHostBuilder result = Host.CreateDefaultBuilder(args);
             result = result.ConfigureWebHostDefaults(webBuilder =>
             {
+                webBuilder.ConfigureKestrel(options =>
+                {
+                    options.Limits.MaxRequestBodySize = null;
+                });
                 webBuilder.UseStartup<Startup>();
             });
             result = result.ConfigureLogging(logging =>

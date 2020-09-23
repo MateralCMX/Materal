@@ -1,17 +1,19 @@
-﻿<td>
-    @if (Width.HasValue)
-    {
+﻿@if (Width.HasValue)
+{
+    <td style="width: @(Width.Value)px;">
         <div class="m_table_td_content" style="width: @(Width.Value)px;">
             @ChildContent
         </div>
-    }
-    else
-    {
+    </td>
+}
+else
+{
+    <td>
         <div class="m_table_td_content">
             @ChildContent
-    </div>
+        </div>
+    </td>
 }
-</td>
 
 @code {
     /// <summary>

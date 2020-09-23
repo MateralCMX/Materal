@@ -1,20 +1,21 @@
 ﻿using Deploy.Common;
 using Deploy.Enums;
 using Materal.WindowsHelper;
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace Deploy.ServiceImpl.Models
 {
-    public class DotNetCoreApplicationHandlerContext : ApplicationHandlerContext
+    public class PM2ApplicationHandlerContext : ApplicationHandlerContext
     {
         public override Process GetProcess(ApplicationRuntimeModel model)
         {
-            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.DotNetCore)
+            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.PM2)
             {
-                return GetRunProcess(model);
+                Task<Process> task = GetRunProcessAsync(model);
+                Task.WaitAll(task);
+                return task.Result;
             }
             if (_next != null)
             {
@@ -25,18 +26,11 @@ namespace Deploy.ServiceImpl.Models
 
         public override void KillProcess(ApplicationRuntimeModel model)
         {
-            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.DotNetCore)
+            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.PM2)
             {
-                Process[] processes = Process.GetProcessesByName("dotnet");
-                var currentProcess = Process.GetCurrentProcess();
-                foreach (Process process in processes)
-                {
-                    if (currentProcess.Id == process.Id) return;
-                    if (process.Modules.Cast<ProcessModule>().Any(processModule => processModule.ModuleName == model.ApplicationInfo.MainModule))
-                    {
-                        KillProcess(process);
-                    }
-                }
+                var cmdManager = new CmdManager();
+                Task task = cmdManager.RunCmdCommandsAsync($"pm2 delete {model.ApplicationInfo.MainModule}");
+                Task.WaitAll(task);
                 return;
             }
             if (_next == null) throw new DeployException("未识别应用程序类型");
@@ -45,8 +39,9 @@ namespace Deploy.ServiceImpl.Models
 
         public override void KillProcess(ApplicationRuntimeModel model, Process process)
         {
-            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.DotNetCore)
+            if (model.ApplicationInfo.ApplicationType == ApplicationTypeEnum.PM2)
             {
+                KillProcess(model);
                 KillProcess(process);
                 return;
             }
@@ -60,10 +55,17 @@ namespace Deploy.ServiceImpl.Models
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private string GetStartArgs(ApplicationInfoModel model)
+        private IEnumerable<string> GetCommands(ApplicationInfoModel model)
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application", model.Path, $"{model.MainModule}");
-            string result = string.IsNullOrEmpty(model.RunParams) ? $"{path}" : $"{path} {model.RunParams}";
+            var result = new List<string>
+            {
+#if DEBUG
+                $"cd \"bin\\Debug\\netcoreapp3.1\\Application\\{model.Path}\"",
+#else
+                $"cd \"Application\\{model.Path}\"",
+#endif
+                $"npm run {model.RunParams}"
+            };
             return result;
         }
         /// <summary>
@@ -71,12 +73,11 @@ namespace Deploy.ServiceImpl.Models
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        private Process GetRunProcess(ApplicationRuntimeModel model)
+        private async Task<Process> GetRunProcessAsync(ApplicationRuntimeModel model)
         {
             if (model.ApplicationStatus != ApplicationStatusEnum.Stop) throw new DeployException("应用程序尚未停止");
             model.ApplicationStatus = ApplicationStatusEnum.ReadyRun;
-            string startArgs = GetStartArgs(model.ApplicationInfo);
-            ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo("dotnet.exe", !string.IsNullOrWhiteSpace(startArgs) ? startArgs : "");
+            ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo("cmd.exe", string.Empty);
             var result = new Process { StartInfo = processStartInfo };
             void DataHandler(object sender, DataReceivedEventArgs e)
             {
@@ -88,6 +89,11 @@ namespace Deploy.ServiceImpl.Models
             {
                 result.BeginOutputReadLine();
                 result.BeginErrorReadLine();
+                IEnumerable<string> commands = GetCommands(model.ApplicationInfo);
+                foreach (string command in commands)
+                {
+                    await result.StandardInput.WriteLineAsync(command);
+                }
             }
             else
             {

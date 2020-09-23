@@ -21,8 +21,10 @@ namespace Deploy.ServiceImpl.Manage
         public ApplicationManageImpl(IMapper mapper, IApplicationInfoRepository applicationInfoRepository)
         {
             _applicationHandlerContext = new DotNetCoreApplicationHandlerContext();
+            var pm2ApplicationHandlerContext = new PM2ApplicationHandlerContext();
+            _applicationHandlerContext.SetNext(pm2ApplicationHandlerContext);
             var exeApplicationHandlerContext = new ExeApplicationHandlerContext();
-            _applicationHandlerContext.SetNext(exeApplicationHandlerContext);
+            pm2ApplicationHandlerContext.SetNext(exeApplicationHandlerContext);
             var staticDocumentApplicationHandlerContext = new StaticDocumentApplicationHandlerContext();
             exeApplicationHandlerContext.SetNext(staticDocumentApplicationHandlerContext);
             Task initTask = Task.Run(async () =>
