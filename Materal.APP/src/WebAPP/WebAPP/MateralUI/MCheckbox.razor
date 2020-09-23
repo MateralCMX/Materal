@@ -19,6 +19,11 @@
     [Parameter]
     public EventCallback<bool> ValueChanged { get; set; }
     /// <summary>
+    /// 值更新
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> OnValueChanged { get; set; }
+    /// <summary>
     /// 禁用
     /// </summary>
     [Parameter]
@@ -48,5 +53,6 @@
         if (Disabled) return;
         Value = !Value;
         await ValueChanged.InvokeAsync(Value);
+        await OnValueChanged.InvokeAsync(Value);
     }
 }

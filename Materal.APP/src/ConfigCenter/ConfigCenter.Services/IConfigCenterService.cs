@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ConfigCenter.DataTransmitModel.ConfigCenter;
+using ConfigCenter.Environment.PresentationModel.ConfigurationItem;
 using ConfigCenter.Services.Models.ConfigCenter;
 
 namespace ConfigCenter.Services
@@ -22,5 +24,11 @@ namespace ConfigCenter.Services
         /// </summary>
         /// <returns></returns>
         List<EnvironmentListDTO> GetEnvironmentList();
+        /// <summary>
+        /// 获得配置项同步模型
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        Task<List<AddConfigurationItemRequestModel>> GetSyncConfigurationItemModelAsync(SyncModel model);
     }
 }

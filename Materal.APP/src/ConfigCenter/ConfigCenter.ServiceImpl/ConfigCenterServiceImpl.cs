@@ -8,12 +8,25 @@ using Materal.ConvertHelper;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using ConfigCenter.Domain;
+using ConfigCenter.Environment.PresentationModel.ConfigurationItem;
+using ConfigCenter.Domain.Repositories;
 
 namespace ConfigCenter.ServiceImpl
 {
     public class ConfigCenterServiceImpl : IConfigCenterService
     {
+        private readonly IProjectRepository _projectRepository;
+        private readonly INamespaceRepository _namespaceRepository;
         private readonly ConcurrentDictionary<string, RegisterEnvironmentModel> _registers = new ConcurrentDictionary<string, RegisterEnvironmentModel>();
+
+        public ConfigCenterServiceImpl(IProjectRepository projectRepository, INamespaceRepository namespaceRepository)
+        {
+            _projectRepository = projectRepository;
+            _namespaceRepository = namespaceRepository;
+        }
+
         public void RegisterEnvironment(string key, RegisterEnvironmentModel model)
         {
             (bool canRegister, string errorMessage) = CanRegister(key, model);
@@ -46,6 +59,40 @@ namespace ConfigCenter.ServiceImpl
         {
             return _registers.Select(m => m.Value.CopyProperties<EnvironmentListDTO>()).ToList();
         }
+
+        public async Task<List<AddConfigurationItemRequestModel>> GetSyncConfigurationItemModelAsync(SyncModel model)
+        {
+            Guid[] projectIDs = model.Projects.Select(m => m.ID).ToArray();
+            List<Project> projects = await _projectRepository.FindAsync(m => projectIDs.Contains(m.ID));
+            var namespaceIDs = new List<Guid>();
+            foreach (SyncProjectModel project in model.Projects)
+            {
+                namespaceIDs.AddRange(project.Namespaces.Select(m => m.ID));
+            }
+            List<Namespace> namespaces = await _namespaceRepository.FindAsync(m => namespaceIDs.Contains(m.ID));
+            var result = new List<AddConfigurationItemRequestModel>();
+            foreach (SyncProjectModel modelProject in model.Projects)
+            {
+                Project tempProject = projects.FirstOrDefault(m => m.ID == modelProject.ID);
+                if (tempProject == null) continue;
+                foreach (SyncNamespaceModel modelNamespace in modelProject.Namespaces)
+                {
+                    Namespace tempNamespace = namespaces.FirstOrDefault(m => m.ID == modelNamespace.ID);
+                    if (tempNamespace == null) continue;
+                    foreach (SyncConfigurationItemModel modelConfigurationItem in modelNamespace.ConfigurationItems)
+                    {
+                        var temp = modelConfigurationItem.CopyProperties<AddConfigurationItemRequestModel>();
+                        temp.ProjectID = tempProject.ID;
+                        temp.ProjectName = tempProject.Name;
+                        temp.NamespaceID = tempNamespace.ID;
+                        temp.NamespaceName = tempNamespace.Name;
+                        result.Add(temp);
+                    }
+                }
+            }
+            return result;
+        }
+
         #region 私有方法
         /// <summary>
         /// 是否可以注册

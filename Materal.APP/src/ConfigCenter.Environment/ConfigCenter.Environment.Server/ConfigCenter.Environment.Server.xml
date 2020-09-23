@@ -31,20 +31,6 @@
             <param name="requestModel"></param>
             <returns></returns>
         </member>
-        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.InitConfigurationItemsAsync(ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsRequestModel)">
-            <summary>
-            初始化配置项
-            </summary>
-            <param name="requestModel"></param>
-            <returns></returns>
-        </member>
-        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.InitConfigurationItemsByNamespaceAsync(ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsByNamespaceRequestModel)">
-            <summary>
-            根据命名空间初始化配置项
-            </summary>
-            <param name="requestModel"></param>
-            <returns></returns>
-        </member>
         <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.EditConfigurationItemAsync(ConfigCenter.Environment.PresentationModel.ConfigurationItem.EditConfigurationItemRequestModel)">
             <summary>
             修改配置项

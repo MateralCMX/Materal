@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Deploy.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Deploy.Server.Controllers
 {
@@ -86,6 +88,22 @@ namespace Deploy.Server.Controllers
         public Task<ResultModel<List<ApplicationInfoListDTO>>> GetListAsync(QueryApplicationInfoFilterRequestModel requestModel)
         {
             var model = _mapper.Map<QueryApplicationInfoFilterModel>(requestModel);
+            List<ApplicationInfoListDTO> result = _applicationInfoService.GetList(model);
+            return Task.FromResult(ResultModel<List<ApplicationInfoListDTO>>.Success(result, "查询成功"));
+        }
+        /// <summary>
+        /// 获取运行中的静态文件列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet, AllowAnonymous]
+        public Task<ResultModel<List<ApplicationInfoListDTO>>> GetRuningStaticListAsync()
+        {
+            var model = new QueryApplicationInfoFilterModel
+            {
+                ApplicationStatus = ApplicationStatusEnum.Runing,
+                ApplicationType = ApplicationTypeEnum.StaticDocument,
+                MainModule = "index.html"
+            };
             List<ApplicationInfoListDTO> result = _applicationInfoService.GetList(model);
             return Task.FromResult(ResultModel<List<ApplicationInfoListDTO>>.Success(result, "查询成功"));
         }

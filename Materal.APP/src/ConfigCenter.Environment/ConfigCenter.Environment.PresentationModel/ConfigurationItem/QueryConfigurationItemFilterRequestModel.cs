@@ -13,6 +13,10 @@ namespace ConfigCenter.Environment.PresentationModel.ConfigurationItem
         /// </summary>
         public Guid? NamespaceID { get; set; }
         /// <summary>
+        /// 项目唯一标识
+        /// </summary>
+        public Guid? ProjectID { get; set; }
+        /// <summary>
         /// 键
         /// </summary>
         public string Key { get; set; }

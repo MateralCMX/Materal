@@ -1,24 +1,30 @@
 ﻿using ConfigCenter.Environment.Common;
+using ConfigCenter.Environment.PresentationModel.ConfigurationItem;
+using ConfigCenter.Environment.Services;
 using ConfigCenter.Hubs.Clients;
-using ConfigCenter.Hubs.Hubs;
-using ConfigCenter.PresentationModel.ConfigCenter;
 using Materal.APP.Hubs.Clients;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using ConfigCenter.Environment.Services;
+using Materal.APP.Core;
+using AutoMapper;
+using ConfigCenter.Environment.Services.Models.ConfigurationItem;
 
 namespace ConfigCenter.Environment.HubImpl.ConfigCenterHub
 {
     public class ConfigCenterClientImpl : BaseClientImpl, IConfigCenterClient
     {
         private readonly IConfigurationItemService _configurationItemService;
-        public ConfigCenterClientImpl(IConfigurationItemService configurationItemService) : base($"{ConfigCenterEnvironmentConfig.ConfigCenterUrl}/ConfigCenterHub")
+        private readonly IMapper _mapper;
+        public ConfigCenterClientImpl(IConfigurationItemService configurationItemService, IMapper mapper) : base($"{ConfigCenterEnvironmentConfig.ConfigCenterUrl}/ConfigCenterHub")
         {
             _configurationItemService = configurationItemService;
+            _mapper = mapper;
             Connection.On<bool, string>(nameof(RegisterResult), RegisterResult);
             Connection.On<Guid>(nameof(DeleteProject), DeleteProject);
             Connection.On<Guid>(nameof(DeleteNamespace), DeleteNamespace);
+            Connection.On<string, ICollection<string>, ICollection<AddConfigurationItemRequestModel>>(nameof(SyncConfigurationItem), SyncConfigurationItem);
         }
 
         public Task RegisterResult(bool isSuccess, string message)
@@ -42,6 +48,14 @@ namespace ConfigCenter.Environment.HubImpl.ConfigCenterHub
         public async Task DeleteNamespace(Guid id)
         {
             await _configurationItemService.DeleteConfigurationItemByNamespaceIDAsync(id);
+        }
+
+        public async Task SyncConfigurationItem(string key, ICollection<string> targetKeys, ICollection<AddConfigurationItemRequestModel> configurationItems)
+        {
+            if (key == ApplicationConfig.Url) return;
+            if (!targetKeys.Contains(ApplicationConfig.Url)) return;
+            var model = _mapper.Map<List<AddConfigurationItemModel>>(configurationItems);
+            await _configurationItemService.InitConfigurationItemsAsync(model);
         }
     }
 }

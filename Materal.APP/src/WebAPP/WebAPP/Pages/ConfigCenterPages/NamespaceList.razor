@@ -1,4 +1,4 @@
-﻿@layout ConfigCenterLayout
+﻿@layout EnvironmentLayout
 
 @page "/ConfigCenter/NamespaceList"
 
@@ -7,6 +7,9 @@
 @using Materal.Model
 @using ConfigCenter.DataTransmitModel.Namespace
 @using ConfigCenter.DataTransmitModel.Project
+@using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem
+@using ConfigCenter.Environment.HttpManage
+@using ConfigCenter.Environment.PresentationModel.ConfigurationItem
 @using ConfigCenter.HttpManage
 @using ConfigCenter.PresentationModel.Namespace
 @using ConfigCenter.PresentationModel.Project
@@ -19,6 +22,7 @@
 @inject NavigationManager _navigationManager
 @inject IProjectManage _projectManage
 @inject INamespaceManage _namespaceManage
+@inject IConfigurationItemManage _configurationItemManage
 
 <style>
     .main_body {
@@ -65,7 +69,7 @@
             <MTableCell>
                 <div class="m_button_group">
                     <MButton Class="m_button_icon Micon Micon_edit" Title="修改" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))"></MButton>
-                    <MButton Class="m_button_icon Micon Micon_sync" Title="同步" ButtonType="@MButtonTypeEnum.Primary" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))"></MButton>
+                    <MButton Class="m_button_icon Micon Micon_sync" Title="同步" ButtonType="@MButtonTypeEnum.Primary" OnClick="@(eventArgs => OnBtnSyncClick(eventArgs, context))"></MButton>
                     <MButton Class="m_button_icon Micon Micon_delete" Title="删除" ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnBtnOpenDeleteModalClick(eventArgs, context.ID))"></MButton>
                 </div>
             </MTableCell>
@@ -85,6 +89,7 @@
         <MButton ButtonType="@MButtonTypeEnum.Danger" Disabled="@Loading" OnClick="@OnBtnDeleteClickAsync">删除</MButton>
     </div>
 </MModal>
+<SyncModal @ref="@SyncModelElement" @bind-Display="SyncModalDisplay"></SyncModal>
 @code{
     /// <summary>
     /// 查询数据模型
@@ -139,6 +144,10 @@
     /// </summary>
     public bool DeleteModalDisplay { get; set; }
     /// <summary>
+    /// 同步模态窗是否显示
+    /// </summary>
+    public bool SyncModalDisplay { get; set; }
+    /// <summary>
     /// 所有应用程序类型
     /// </summary>
     public List<KeyValueModel> AllProjects { get; set; }
@@ -158,6 +167,10 @@
     /// 表格数据源
     /// </summary>
     public List<NamespaceListModel> TableDataSource { get; set; }
+    /// <summary>
+    /// 同步模态窗
+    /// </summary>
+    public SyncModal SyncModelElement { get; set; }
     #endregion
     #region 生命周期
     /// <summary>
@@ -221,6 +234,41 @@
     {
         SelectedID = selectedID;
         OpenDeleteModal();
+    }
+    /// <summary>
+    /// 单击同步按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <param name="selectedItem"></param>
+    /// <returns></returns>
+    public async Task OnBtnSyncClick(MouseEventArgs eventArgs, NamespaceListModel selectedItem)
+    {
+        Loading = true;
+        try
+        {
+            ResultModel<List<ConfigurationItemListDTO>> resultModel = await _configurationItemManage.GetConfigurationItemListAsync(new QueryConfigurationItemFilterRequestModel
+            {
+                NamespaceID = selectedItem.ID
+            });
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                List<ConfigurationItemDTO> model = resultModel.Data.Select(m => m.CopyProperties<ConfigurationItemDTO>()).ToList();
+                SyncModelElement.SetData(model);
+                OpenSyncModal();
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
     }
     /// <summary>
     /// 单击删除按钮
@@ -295,6 +343,13 @@
     private void CloseDeleteModal()
     {
         DeleteModalDisplay = false;
+    }
+    /// <summary>
+    /// 打开删除模态框
+    /// </summary>
+    private void OpenSyncModal()
+    {
+        SyncModalDisplay = true;
     }
     /// <summary>
     /// 查询表格数据

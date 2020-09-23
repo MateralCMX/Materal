@@ -21,18 +21,6 @@ namespace WebAPP.HttpClientImpl.Environment
             return resultModel;
         }
 
-        public async Task<ResultModel> InitConfigurationItemsAsync(InitConfigurationItemsRequestModel requestModel)
-        {
-            var resultModel = await SendPutAsync<ResultModel>($"{_controllerUrl}InitConfigurationItems", requestModel);
-            return resultModel;
-        }
-
-        public async Task<ResultModel> InitConfigurationItemsByNamespaceAsync(InitConfigurationItemsByNamespaceRequestModel requestModel)
-        {
-            var resultModel = await SendPutAsync<ResultModel>($"{_controllerUrl}InitConfigurationItemsByNamespace", requestModel);
-            return resultModel;
-        }
-
         public async Task<ResultModel> EditConfigurationItemAsync(EditConfigurationItemRequestModel requestModel)
         {
             var resultModel = await SendPutAsync<ResultModel>($"{_controllerUrl}EditConfigurationItem", requestModel);

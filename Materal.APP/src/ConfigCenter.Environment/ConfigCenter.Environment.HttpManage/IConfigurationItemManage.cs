@@ -17,20 +17,6 @@ namespace ConfigCenter.Environment.HttpManage
         Task<ResultModel> AddConfigurationItemAsync(AddConfigurationItemRequestModel requestModel);
 
         /// <summary>
-        /// 初始化配置项
-        /// </summary>
-        /// <param name="requestModel"></param>
-        /// <returns></returns>
-        Task<ResultModel> InitConfigurationItemsAsync(InitConfigurationItemsRequestModel requestModel);
-
-        /// <summary>
-        /// 初始化配置项
-        /// </summary>
-        /// <param name="requestModel"></param>
-        /// <returns></returns>
-        Task<ResultModel> InitConfigurationItemsByNamespaceAsync(InitConfigurationItemsByNamespaceRequestModel requestModel);
-
-        /// <summary>
         /// 修改配置项
         /// </summary>
         /// <param name="requestModel"></param>

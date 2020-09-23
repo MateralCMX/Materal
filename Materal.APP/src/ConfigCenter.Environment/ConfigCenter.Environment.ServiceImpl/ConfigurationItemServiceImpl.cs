@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using ConfigCenter.Environment.Services.Models.ConfigurationItem;
+using System.Linq;
 
 namespace ConfigCenter.Environment.ServiceImpl
 {
@@ -32,29 +33,20 @@ namespace ConfigCenter.Environment.ServiceImpl
         public async Task InitConfigurationItemsAsync(ICollection<AddConfigurationItemModel> model)
         {
             List<ConfigurationItem> allConfigurationItems = await _configurationItemRepository.FindAsync(m => true);
-            foreach (ConfigurationItem configurationItem in allConfigurationItems)
+            foreach (AddConfigurationItemModel item in model)
             {
-                _configCenterEnvironmentUnitOfWork.RegisterDelete(configurationItem);
-            }
-            foreach (AddConfigurationItemModel itemModel in model)
-            {
-                var configurationItem = itemModel.CopyProperties<ConfigurationItem>();
-                _configCenterEnvironmentUnitOfWork.RegisterAdd(configurationItem);
-            }
-            await _configCenterEnvironmentUnitOfWork.CommitAsync();
-        }
-
-        public async Task InitConfigurationItemsByNamespaceAsync(InitConfigurationItemsByNamespaceModel model)
-        {
-            List<ConfigurationItem> allConfigurationItems = await _configurationItemRepository.FindAsync(m => m.NamespaceID == model.NamespaceID);
-            foreach (ConfigurationItem configurationItem in allConfigurationItems)
-            {
-                _configCenterEnvironmentUnitOfWork.RegisterDelete(configurationItem);
-            }
-            foreach (AddConfigurationItemModel itemModel in model.ConfigurationItems)
-            {
-                var configurationItem = itemModel.CopyProperties<ConfigurationItem>();
-                _configCenterEnvironmentUnitOfWork.RegisterAdd(configurationItem);
+                ConfigurationItem configurationItem =  allConfigurationItems.FirstOrDefault(m => m.ProjectID == item.ProjectID && m.NamespaceID == item.NamespaceID && m.Key == item.Key);
+                if (configurationItem == null)
+                {
+                    configurationItem = item.CopyProperties<ConfigurationItem>();
+                    _configCenterEnvironmentUnitOfWork.RegisterAdd(configurationItem);
+                }
+                else
+                {
+                    configurationItem.Value = item.Value;
+                    configurationItem.Description = item.Description;
+                    _configCenterEnvironmentUnitOfWork.RegisterEdit(configurationItem);
+                }
             }
             await _configCenterEnvironmentUnitOfWork.CommitAsync();
         }

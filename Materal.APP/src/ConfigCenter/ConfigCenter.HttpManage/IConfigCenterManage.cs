@@ -2,6 +2,7 @@
 using Materal.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ConfigCenter.PresentationModel.ConfigCenter;
 
 namespace ConfigCenter.HttpManage
 {
@@ -12,5 +13,11 @@ namespace ConfigCenter.HttpManage
         /// </summary>
         /// <returns></returns>
         Task<ResultModel<List<EnvironmentListDTO>>> GetEnvironmentListAsync();
+        /// <summary>
+        /// 同步
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        Task<ResultModel> SyncAsync(SyncRequestModel requestModel);
     }
 }

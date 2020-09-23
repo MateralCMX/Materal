@@ -1,0 +1,192 @@
+﻿@using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem
+@using ConfigCenter.HttpManage
+@using ConfigCenter.PresentationModel.ConfigCenter
+@using Materal.APP.Core.Models
+@using Materal.Common
+@using Materal.ConvertHelper
+@using Materal.Model
+@using WebAPP.Common
+@using WebAPP.HttpClientImpl
+
+@inject MessageManage _messageManage
+@inject ExceptionManage _exceptionManage
+@inject IConfigCenterManage _configCenterManage
+
+<MModal Title="同步" @bind-Display="@Display">
+    @foreach (KeyValueModel environmentUrl in UrlManage.EnvironmentUrls)
+    {
+        if (environmentUrl.Key == UrlManage.EnvironmentUrl.Key) continue;
+        <MCheckbox Title="@environmentUrl.Value" OnValueChanged="(value)=>OnCheckboxValueChanged(environmentUrl, value)"></MCheckbox>
+    }
+    <div class="m_modal_buttons">
+        <MButton Disabled="@Loading" OnClick="@CloseModalAsync">取消</MButton>
+        <MButton ButtonType="@MButtonTypeEnum.Primary" Disabled="@(Loading || _urls == null || _urls.Count <= 0)" OnClick="@OnBtnSyncClickAsync">同步</MButton>
+    </div>
+</MModal>
+
+@code {
+
+    #region 参数
+    /// <summary>
+    /// 加载中
+    /// </summary>
+    public bool Loading { get; set; }
+    /// <summary>
+    /// 是否显示
+    /// </summary>
+    [Parameter]
+    public bool Display { get; set; }
+    /// <summary>
+    /// 是否显示更新
+    /// </summary>
+    [Parameter]
+    public EventCallback<bool> DisplayChanged { get; set; }
+    #endregion
+
+    #region 属性
+
+    private ICollection<ConfigurationItemDTO> _items;
+    /// <summary>
+    /// urls
+    /// </summary>
+    private List<string> _urls;
+    #endregion
+
+    #region 事件
+    /// <summary>
+    /// Checkbox值更改
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="value"></param>
+    public void OnCheckboxValueChanged(KeyValueModel model, bool value)
+    {
+        if (value)
+        {
+            _urls.Add(model.Key);
+        }
+        else
+        {
+            _urls.Remove(model.Key);
+        }
+    }
+    /// <summary>
+    /// 单击同步按钮
+    /// </summary>
+    /// <returns></returns>
+    public async Task OnBtnSyncClickAsync()
+    {
+        await SyncAsync();
+    }
+    /// <summary>
+    /// 单击关闭模态窗
+    /// </summary>
+    /// <returns></returns>
+    public async Task OnCloseModalClickAsync()
+    {
+        await CloseModalAsync();
+    }
+
+    #endregion
+    #region 方法
+    /// <summary>
+    /// 设置数据
+    /// </summary>
+    /// <param name="items"></param>
+    public void SetData(ICollection<ConfigurationItemDTO> items)
+    {
+        _items = items;
+        _urls = new List<string>();
+    }
+    #endregion
+
+    #region 私有方法
+    /// <summary>
+    /// 获得同步项目对象
+    /// </summary>
+    /// <returns></returns>
+    private List<SyncProjectRequestModel> GetSyncProjectRequests()
+    {
+        var result = new List<SyncProjectRequestModel>();
+        IGrouping<Guid, ConfigurationItemDTO>[] groupings = _items.GroupBy(m => m.ProjectID).ToArray();
+        foreach (IGrouping<Guid, ConfigurationItemDTO> grouping in groupings)
+        {
+            var temp = new SyncProjectRequestModel
+            {
+                ID = grouping.Key,
+                Namespaces = GetSyncNamespaceRequests(grouping.ToList())
+            };
+            result.Add(temp);
+        }
+        return result;
+    }
+    /// <summary>
+    /// 获得同步项目对象
+    /// </summary>
+    /// <returns></returns>
+    private List<SyncNamespaceRequestModel> GetSyncNamespaceRequests(List<ConfigurationItemDTO> configurationItems)
+    {
+        var result = new List<SyncNamespaceRequestModel>();
+        IGrouping<Guid, ConfigurationItemDTO>[] projectGroup = _items.GroupBy(m => m.NamespaceID).ToArray();
+        foreach (IGrouping<Guid, ConfigurationItemDTO> grouping in projectGroup)
+        {
+            var temp = new SyncNamespaceRequestModel
+            {
+                ID = grouping.Key,
+                ConfigurationItems = new List<SyncConfigurationItemRequestModel>()
+            };
+            foreach (ConfigurationItemDTO item in grouping)
+            {
+                temp.ConfigurationItems.Add(item.CopyProperties<SyncConfigurationItemRequestModel>());
+            }
+            result.Add(temp);
+        }
+        return result;
+    }
+    /// <summary>
+    /// 同步
+    /// </summary>
+    /// <returns></returns>
+    private async Task SyncAsync()
+    {
+
+        Loading = true;
+        try
+        {
+            if (_urls == null || _urls.Count <= 0) throw new WebAPPException("未选择数据");
+            var requestModel = new SyncRequestModel
+            {
+                SourceKey = UrlManage.EnvironmentUrl.Key,
+                TargetKeys = _urls,
+                Projects = GetSyncProjectRequests()
+            };
+            ResultModel resultModel = await _configCenterManage.SyncAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await CloseModalAsync();
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+    /// <summary>
+    /// 关闭模态窗
+    /// </summary>
+    /// <returns></returns>
+    public async Task CloseModalAsync()
+    {
+        Display = false;
+        await DisplayChanged.InvokeAsync(false);
+    }
+    #endregion
+}

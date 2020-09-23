@@ -81,7 +81,7 @@
             <MTableCell>
                 <div class="m_button_group">
                     <MButton Class="m_button_icon Micon Micon_edit" Title="修改" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))"></MButton>
-                    <MButton Class="m_button_icon Micon Micon_sync" Title="同步" ButtonType="@MButtonTypeEnum.Primary" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))"></MButton>
+                    <MButton Class="m_button_icon Micon Micon_sync" Title="同步" ButtonType="@MButtonTypeEnum.Primary" OnClick="@(eventArgs => OnBtnSyncClick(eventArgs, context))"></MButton>
                     <MButton Class="m_button_icon Micon Micon_delete" Title="删除" ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnBtnOpenDeleteModalClick(eventArgs, context.ID))"></MButton>
                 </div>
             </MTableCell>
@@ -90,17 +90,18 @@
 </main>
 @if (SearchData.SelectNamespace != null)
 {
-    <MModal Title="@(SelectedID.HasValue ? "修改" : "新增")" Width="900" ModalType="@MModalTypeEnum.Large" @bind-Display="OperationModalDisplay">
-        <OperationConfigurationItem Namespace="@SearchData.SelectNamespace" ConfigurationItemID="SelectedID" Success="@OnOperationSuccessAsync" Cancel="@CloseOperationModal"></OperationConfigurationItem>
+    <MModal Title="@(SelectedID.HasValue ? "修改" : "新增")" Width="900" ModalType="@MModalTypeEnum.Large" @bind-Display="@OperationModalDisplay">
+        <OperationConfigurationItem Namespace="@SearchData.SelectNamespace" ConfigurationItemID="@SelectedID" Success="@OnOperationSuccessAsync" Cancel="@CloseOperationModal"></OperationConfigurationItem>
     </MModal>
 }
-<MModal Title="删除" @bind-Display="DeleteModalDisplay">
+<MModal Title="删除" @bind-Display="@DeleteModalDisplay">
     确定要删除该项吗？
     <div class="m_modal_buttons">
         <MButton Disabled="@Loading" OnClick="@CloseDeleteModal">取消</MButton>
         <MButton ButtonType="@MButtonTypeEnum.Danger" Disabled="@Loading" OnClick="@OnBtnDeleteClickAsync">删除</MButton>
     </div>
 </MModal>
+<SyncModal @ref="@SyncModelElement" @bind-Display="SyncModalDisplay"></SyncModal>
 @code{
     /// <summary>
     /// 查询数据模型
@@ -155,6 +156,10 @@
     /// </summary>
     public bool DeleteModalDisplay { get; set; }
     /// <summary>
+    /// 同步模态窗是否显示
+    /// </summary>
+    public bool SyncModalDisplay { get; set; }
+    /// <summary>
     /// 所有应用程序类型
     /// </summary>
     public List<KeyValueModel> AllProjects { get; set; }
@@ -178,6 +183,10 @@
     /// 表格数据源
     /// </summary>
     public List<ConfigurationItemListModel> TableDataSource { get; set; }
+    /// <summary>
+    /// 同步模态窗
+    /// </summary>
+    public SyncModal SyncModelElement { get; set; }
     #endregion
     #region 生命周期
     /// <summary>
@@ -231,6 +240,21 @@
     {
         SelectedID = selectedID;
         OpenOperationModal();
+    }
+    /// <summary>
+    /// 单击同步按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <param name="selectedItem"></param>
+    /// <returns></returns>
+    public void OnBtnSyncClick(MouseEventArgs eventArgs, ConfigurationItemListModel selectedItem)
+    {
+        var model = new List<ConfigurationItemDTO>
+        {
+            selectedItem.CopyProperties<ConfigurationItemDTO>()
+        };
+        SyncModelElement.SetData(model);
+        OpenSyncModal();
     }
     /// <summary>
     /// 单击删除按钮
@@ -325,6 +349,13 @@
     private void CloseDeleteModal()
     {
         DeleteModalDisplay = false;
+    }
+    /// <summary>
+    /// 打开删除模态框
+    /// </summary>
+    private void OpenSyncModal()
+    {
+        SyncModalDisplay = true;
     }
     /// <summary>
     /// 查询表格数据

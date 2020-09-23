@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ConfigCenter.Environment\ConfigCenter.Environment.PresentationModel\ConfigCenter.Environment.PresentationModel.csproj" />
     <ProjectReference Include="..\ConfigCenter.PresentationModel\ConfigCenter.PresentationModel.csproj" />
   </ItemGroup>
 

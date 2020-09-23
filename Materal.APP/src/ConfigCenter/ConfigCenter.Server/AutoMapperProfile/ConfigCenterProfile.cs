@@ -15,6 +15,10 @@ namespace ConfigCenter.Server.AutoMapperProfile
         public ConfigCenterProfile()
         {
             CreateMap<RegisterEnvironmentRequestModel, RegisterEnvironmentModel>();
+            CreateMap<SyncRequestModel, SyncModel>();
+            CreateMap<SyncProjectRequestModel, SyncProjectModel>();
+            CreateMap<SyncNamespaceRequestModel, SyncNamespaceModel>();
+            CreateMap<SyncConfigurationItemRequestModel, SyncConfigurationItemModel>();
         }
     }
 }

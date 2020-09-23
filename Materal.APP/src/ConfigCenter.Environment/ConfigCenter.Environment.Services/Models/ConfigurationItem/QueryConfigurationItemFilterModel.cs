@@ -11,6 +11,11 @@ namespace ConfigCenter.Environment.Services.Models.ConfigurationItem
         [Equal]
         public Guid? NamespaceID { get; set; }
         /// <summary>
+        /// 项目唯一标识
+        /// </summary>
+        [Equal]
+        public Guid? ProjectID { get; set; }
+        /// <summary>
         /// 键
         /// </summary>
         [Equal]

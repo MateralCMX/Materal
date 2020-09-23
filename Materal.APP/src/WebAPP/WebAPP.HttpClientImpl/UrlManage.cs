@@ -26,7 +26,7 @@ namespace WebAPP.HttpClientImpl
             {
                 ConfigCenterUrl = server.Url;
             }
-            DeployUrls = serverList.Where(m => m.ServerCategory == ServerCategoryEnum.Deploy).Select(m=>new KeyValueModel(m.Url, $"{m.Name}[{m.Url}]")).OrderBy(m=>m.Data).ToArray();
+            DeployUrls = serverList.Where(m => m.ServerCategory == ServerCategoryEnum.Deploy).Select(m=>new KeyValueModel(m.Url, $"{m.Name}[{m.Url}]")).OrderBy(m=>m.Value).ToArray();
             if (DeployUrls.Count > 0)
             {
                 DeployUrl = DeployUrls.First();
@@ -38,7 +38,7 @@ namespace WebAPP.HttpClientImpl
         /// <param name="environmentList"></param>
         public static void InitEnvironmentUrl(List<EnvironmentListDTO> environmentList)
         {
-            EnvironmentUrls = environmentList.Select(m => new KeyValueModel(m.Url, $"{m.Name}[{m.Url}]")).OrderBy(m => m.Data).ToArray();
+            EnvironmentUrls = environmentList.Select(m => new KeyValueModel(m.Url, $"{m.Name}[{m.Url}]")).OrderBy(m => m.Value).ToArray();
             if (EnvironmentUrls.Count > 0)
             {
                 EnvironmentUrl = EnvironmentUrls.First();

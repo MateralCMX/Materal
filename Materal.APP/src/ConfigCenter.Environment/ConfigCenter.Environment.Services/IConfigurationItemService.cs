@@ -11,21 +11,13 @@ namespace ConfigCenter.Environment.Services
     public interface IConfigurationItemService
     {
         /// <summary>
-        /// 添加配置项
+        /// 初始化配置项
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="ConfigCenterEnvironmentException"></exception>
         [DataValidation]
         Task InitConfigurationItemsAsync(ICollection<AddConfigurationItemModel> model);
-        /// <summary>
-        /// 添加配置项
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        /// <exception cref="ConfigCenterEnvironmentException"></exception>
-        [DataValidation]
-        Task InitConfigurationItemsByNamespaceAsync(InitConfigurationItemsByNamespaceModel model);
         /// <summary>
         /// 添加配置项
         /// </summary>

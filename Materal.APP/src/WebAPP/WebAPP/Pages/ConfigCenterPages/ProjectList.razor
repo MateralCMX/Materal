@@ -1,11 +1,13 @@
-﻿@layout ConfigCenterLayout
+﻿@layout EnvironmentLayout
 
 @page "/ConfigCenter/ProjectList"
 
-@using Materal.APP.Core.Models
 @using Materal.Common
 @using Materal.Model
 @using ConfigCenter.DataTransmitModel.Project
+@using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem
+@using ConfigCenter.Environment.HttpManage
+@using ConfigCenter.Environment.PresentationModel.ConfigurationItem
 @using ConfigCenter.HttpManage
 @using ConfigCenter.PresentationModel.Project
 @using WebAPP.MateralUI.Models
@@ -15,6 +17,7 @@
 @inject MessageManage _messageManage
 @inject ExceptionManage _exceptionManage
 @inject IProjectManage _projectManage
+@inject IConfigurationItemManage _configurationItemManage
 
 <main class="layout_body">
     <MPageHeader Title="项目配置">
@@ -42,7 +45,7 @@
         <MTableCell>
             <div class="m_button_group">
                 <MButton Class="m_button_icon Micon Micon_edit" Title="修改" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))"></MButton>
-                <MButton Class="m_button_icon Micon Micon_sync" Title="同步" ButtonType="@MButtonTypeEnum.Primary" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))"></MButton>
+                <MButton Class="m_button_icon Micon Micon_sync" Title="同步" ButtonType="@MButtonTypeEnum.Primary" OnClick="@(eventArgs => OnBtnSyncClick(eventArgs, context))"></MButton>
                 <MButton Class="m_button_icon Micon Micon_delete" Title="删除" ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnBtnOpenDeleteModalClick(eventArgs, context.ID))"></MButton>
             </div>
         </MTableCell>
@@ -58,6 +61,7 @@
         <MButton ButtonType="@MButtonTypeEnum.Danger" Disabled="@Loading" OnClick="@OnBtnDeleteClickAsync">删除</MButton>
     </div>
 </MModal>
+<SyncModal @ref="@SyncModelElement" @bind-Display="SyncModalDisplay"></SyncModal>
 @code{
     /// <summary>
     /// 查询数据模型
@@ -71,7 +75,7 @@
         /// <summary>
         /// 查询描述
         /// </summary>
-        public string Description{ get; set; }
+        public string Description { get; set; }
     }
     /// <summary>
     /// 项目列表模型
@@ -108,6 +112,10 @@
     /// </summary>
     public bool DeleteModalDisplay { get; set; }
     /// <summary>
+    /// 同步模态窗是否显示
+    /// </summary>
+    public bool SyncModalDisplay { get; set; }
+    /// <summary>
     /// 查询数据
     /// </summary>
     public ProjectSearchFromDataModel SearchData { get; set; } = new ProjectSearchFromDataModel();
@@ -123,6 +131,10 @@
     /// 表格数据源
     /// </summary>
     public List<ProjectListModel> TableDataSource { get; set; }
+    /// <summary>
+    /// 同步模态窗
+    /// </summary>
+    public SyncModal SyncModelElement { get; set; }
     #endregion
     #region 生命周期
     /// <summary>
@@ -132,7 +144,7 @@
     protected override async Task OnParametersSetAsync()
     {
         TableConfig = new List<TableConfigModel>
-        {
+{
             new TableConfigModel("#"),
             new TableConfigModel("名称"),
             new TableConfigModel("描述",500),
@@ -222,6 +234,41 @@
         await SearchTableDataAsync();
         CloseOperationModal();
     }
+    /// <summary>
+    /// 单击同步按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <param name="selectedItem"></param>
+    /// <returns></returns>
+    public async Task OnBtnSyncClick(MouseEventArgs eventArgs, ProjectListModel selectedItem)
+    {
+        Loading = true;
+        try
+        {
+            ResultModel<List<ConfigurationItemListDTO>> resultModel = await _configurationItemManage.GetConfigurationItemListAsync(new QueryConfigurationItemFilterRequestModel
+            {
+                ProjectID = selectedItem.ID
+            });
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                List<ConfigurationItemDTO> model = resultModel.Data.Select(m => m.CopyProperties<ConfigurationItemDTO>()).ToList();
+                SyncModelElement.SetData(model);
+                OpenSyncModal();
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
+        }
+        catch (Exception exception)
+        {
+            await _exceptionManage.HandlerExceptionAsync(exception);
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
     #endregion
     #region 私有方法
     /// <summary>
@@ -251,6 +298,13 @@
     private void CloseDeleteModal()
     {
         DeleteModalDisplay = false;
+    }
+    /// <summary>
+    /// 打开删除模态框
+    /// </summary>
+    private void OpenSyncModal()
+    {
+        SyncModalDisplay = true;
     }
     /// <summary>
     /// 查询表格数据

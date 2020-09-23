@@ -54,31 +54,6 @@
             用户唯一标识
             </summary>
         </member>
-        <member name="T:ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsByNamespaceRequestModel">
-            <summary>
-            根据命名空间初始化配置项请求模型
-            </summary>
-        </member>
-        <member name="P:ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsByNamespaceRequestModel.NamespaceID">
-            <summary>
-            命名空间唯一标识
-            </summary>
-        </member>
-        <member name="P:ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsByNamespaceRequestModel.ConfigurationItems">
-            <summary>
-            配置项
-            </summary>
-        </member>
-        <member name="T:ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsRequestModel">
-            <summary>
-            初始化配置项请求模型
-            </summary>
-        </member>
-        <member name="P:ConfigCenter.Environment.PresentationModel.ConfigurationItem.InitConfigurationItemsRequestModel.ConfigurationItems">
-            <summary>
-            配置项
-            </summary>
-        </member>
         <member name="T:ConfigCenter.Environment.PresentationModel.ConfigurationItem.QueryConfigurationItemFilterRequestModel">
             <summary>
             查询配置项过滤器请求模型
@@ -87,6 +62,11 @@
         <member name="P:ConfigCenter.Environment.PresentationModel.ConfigurationItem.QueryConfigurationItemFilterRequestModel.NamespaceID">
             <summary>
             命名空间唯一标识
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.Environment.PresentationModel.ConfigurationItem.QueryConfigurationItemFilterRequestModel.ProjectID">
+            <summary>
+            项目唯一标识
             </summary>
         </member>
         <member name="P:ConfigCenter.Environment.PresentationModel.ConfigurationItem.QueryConfigurationItemFilterRequestModel.Key">

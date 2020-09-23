@@ -15,7 +15,6 @@ namespace ConfigCenter.Environment.Server.AutoMapperProfile
         public ConfigurationItemProfile()
         {
             CreateMap<AddConfigurationItemRequestModel, AddConfigurationItemModel>();
-            CreateMap<InitConfigurationItemsByNamespaceRequestModel, InitConfigurationItemsByNamespaceModel>();
             CreateMap<EditConfigurationItemRequestModel, EditConfigurationItemModel>();
             CreateMap<QueryConfigurationItemFilterRequestModel, QueryConfigurationItemFilterModel>();
         }

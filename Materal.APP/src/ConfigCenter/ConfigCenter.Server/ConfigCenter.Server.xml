@@ -39,7 +39,7 @@
             配置中心控制器
             </summary>
         </member>
-        <member name="M:ConfigCenter.Server.Controllers.ConfigCenterController.#ctor(ConfigCenter.Services.IConfigCenterService)">
+        <member name="M:ConfigCenter.Server.Controllers.ConfigCenterController.#ctor(ConfigCenter.Services.IConfigCenterService,Microsoft.AspNetCore.SignalR.IHubContext{ConfigCenter.Server.Hubs.ConfigCenterHub,ConfigCenter.Hubs.Clients.IConfigCenterClient},AutoMapper.IMapper)">
             <summary>
             配置中心控制器
             </summary>
@@ -48,6 +48,13 @@
             <summary>
             获得环境列表
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ConfigCenter.Server.Controllers.ConfigCenterController.SyncAsync(ConfigCenter.PresentationModel.ConfigCenter.SyncRequestModel)">
+            <summary>
+            同步
+            </summary>
+            <param name="requestModel"></param>
             <returns></returns>
         </member>
         <member name="T:ConfigCenter.Server.Controllers.NamespaceController">

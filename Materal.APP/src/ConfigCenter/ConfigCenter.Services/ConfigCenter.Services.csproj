@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ConfigCenter.Environment\ConfigCenter.Environment.PresentationModel\ConfigCenter.Environment.PresentationModel.csproj" />
     <ProjectReference Include="..\ConfigCenter.Common\ConfigCenter.Common.csproj" />
     <ProjectReference Include="..\ConfigCenter.DataTransmitModel\ConfigCenter.DataTransmitModel.csproj" />
   </ItemGroup>

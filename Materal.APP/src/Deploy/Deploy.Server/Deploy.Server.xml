@@ -69,6 +69,12 @@
             <param name="requestModel"></param>
             <returns></returns>
         </member>
+        <member name="M:Deploy.Server.Controllers.ApplicationInfoController.GetRuningStaticListAsync">
+            <summary>
+            获取运行中的静态文件列表
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Deploy.Server.Controllers.ApplicationInfoController.StartAsync(System.Guid)">
             <summary>
             启动程序
