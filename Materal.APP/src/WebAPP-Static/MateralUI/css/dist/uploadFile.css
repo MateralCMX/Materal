@@ -1,0 +1,45 @@
+.m_uploadfile_panel {
+  position: relative;
+  text-align: center;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 10px 0 30px;
+}
+.m_uploadfile_panel .m_uploadFile_image {
+  font-size: 70px;
+  color: cornflowerblue;
+}
+.m_uploadfile_panel .m_uploadfile_title {
+  font-size: 18px;
+  margin: 0 0 20px 0;
+  color: rgba(0, 0, 0, 0.85);
+}
+.m_uploadfile_panel .m_uploadfile_remark {
+  font-size: 16px;
+  color: #aeaeae;
+  margin: 0;
+}
+.m_uploadfile_panel .m_uploadfile_input {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.m_uploadfile_panel.disabled {
+  cursor: no-drop;
+  border-color: #cdcdcd;
+  background-color: #e0e0e0;
+}
+.m_uploadfile_panel.disabled .m_uploadfile_title {
+  color: #fcfcfc;
+}
+.m_uploadfile_panel.disabled .m_uploadfile_remark {
+  color: #aeaeae;
+}
+.m_uploadfile_panel.disabled .m_uploadfile_input {
+  display: none;
+}

@@ -2,8 +2,22 @@
 
 @if (Display)
 {
-    <section class="@ClassString">
-        <div class="m_modal_background" @onclick="@OnBtnCloseClickAsync"></div>
+<section class="@ClassString">
+    <div class="m_modal_background" @onclick="@OnBtnCloseClickAsync"></div>
+    @if (Width.HasValue)
+    {
+        <div class="m_modal_panel" style="width: @(Width.Value)px;">
+            <div class="m_modal_header">
+                <span class="m_modal_title">@Title</span>
+                <button class="m_modal_btn_close Micon Micon_close" @onclick="@OnBtnCloseClickAsync"></button>
+            </div>
+            <div class="m_modal_body">
+                @ChildContent
+            </div>
+        </div>
+    }
+    else
+    {
         <div class="m_modal_panel">
             <div class="m_modal_header">
                 <span class="m_modal_title">@Title</span>
@@ -13,12 +27,17 @@
                 @ChildContent
             </div>
         </div>
-    </section>
+    }
+</section>
 }
 
 @code {
-
     #region 参数
+    /// <summary>
+    /// 宽度
+    /// </summary>
+    [Parameter]
+    public int? Width { get; set; }
     /// <summary>
     /// 自动填充
     /// </summary>

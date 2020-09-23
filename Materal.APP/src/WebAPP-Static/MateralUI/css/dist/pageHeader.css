@@ -1,0 +1,12 @@
+.m_page_header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.m_page_header .m_page_header_title {
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+}

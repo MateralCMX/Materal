@@ -1,0 +1,40 @@
+@import "./constConfig.less";
+.m_table_panel {
+  width: 100%;
+  overflow: auto;
+  position: relative;
+  > table {
+    width: 100%;
+    white-space: nowrap;
+    border-collapse: collapse;
+    thead {
+      th {
+        text-align: left;
+        border-bottom: 2px solid #dee2e6;
+        height: 35px;
+        box-sizing: border-box;
+      }
+    }
+    tbody {
+      tr {
+        height: 48px;
+        box-sizing: border-box;
+        td {
+          text-align: left;
+          border-top: 1px solid #dee2e6;
+          box-sizing: border-box;
+          .m_table_td_content {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: @default-color;
+            padding: 0 10px;
+          }
+        }
+      }
+      tr:hover {
+        background-color: rgba(0, 0, 0, 0.075);
+      }
+    }
+  }
+}

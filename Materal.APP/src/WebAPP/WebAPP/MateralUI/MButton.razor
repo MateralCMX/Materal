@@ -1,11 +1,16 @@
 ﻿@using WebAPP.MateralUI.Helper
 
-<button class="@ClassString" type="@Type" disabled="@Disabled" @onclick="OnClick">
+<button class="@ClassString" title="@Title" type="@Type" disabled="@Disabled" @onclick="OnClick">
     @ChildContent
 </button>
 
 @code {
     #region 参数
+    /// <summary>
+    /// 自定义Class
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
     /// <summary>
     /// 自定义Class
     /// </summary>

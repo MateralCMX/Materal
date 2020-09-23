@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>表单</title>
+    <link rel="stylesheet" type="text/css" href="./iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/MateralUI.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/checkbox.css">
+</head>
+
+<body>
+    <div style="width: 400px; position: fixed;left: 50%;top: 50%;transform: translate(-50%,-50%);">
+        <form class="m_form" autocomplete="off">
+            <div class="m_form_item error">
+                <label class="m_form_label"><span class="m_form_label_required">*</span>账号</label>
+                <input class="m_form_input" type="text" value="Admin" />
+                <span class="m_form_error_message">请输入账号</span>
+            </div>
+            <div class="m_form_item">
+                <label class="m_form_label"><span class="m_form_label_required">*</span>密码</label>
+                <input class="m_form_input" type="password" value="123456" />
+                <span class="m_form_error_message">请输入密码</span>
+            </div>
+            <div class="m_form_item">
+                <label class="m_form_label"><span class="m_form_label_required">*</span>数据</label>
+                <textarea class="m_form_input" rows="6">123456</textarea>
+                <span class="m_form_error_message">请输入数据</span>
+            </div>
+            <div class="m_form_item">
+                <div class="m_checkbox">
+                    <span class="m_checkbox_box Micon Micon_checked"></span><span class="m_checkbox_message">记住我</span>
+                </div>
+            </div>
+            <div class="m_form_item">
+                <button class="m_button m_button_primary m_button_block" type="button">登录</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

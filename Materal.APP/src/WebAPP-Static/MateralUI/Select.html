@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/MateralUI.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/select.css">
+</head>
+
+<body>
+    <div style="position: fixed; left: 50%; top: 100px; transform: translate(-50%, 0); width: 300px;">
+        <section class="m_select_panel" onclick="onSelectClick(event)">
+            <div class="m_select_background"></div>
+            <div class="m_select">
+                <input type="text" autocomplete="off" value="一号发布服务(http://192.168.0.101:8720)" readonly>
+            </div>
+            <div class="m_select_items">
+                <div class="m_select_item">一号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">二号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">三号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">四号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">五号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">六号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">七号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">八号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">九号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">十号发布服务(http://192.168.0.101:8720)</div>
+            </div>
+        </section>
+    </div>
+    <div style="position: fixed; left: 50%; top: 400px; transform: translate(-50%, 0); height: 40px; width: 300px;">
+        <section class="m_select_panel" onclick="onSelectClick(event)">
+            <div class="m_select">
+                <input type="text" autocomplete="off" value="一号发布服务(http://192.168.0.101:8720)">
+            </div>
+            <div class="m_select_items">
+                <div class="m_select_item">一号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">二号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">三号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">四号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">五号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">六号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">七号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">八号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">九号发布服务(http://192.168.0.101:8720)</div>
+                <div class="m_select_item">十号发布服务(http://192.168.0.101:8720)</div>
+            </div>
+        </section>
+    </div>
+    <script>
+        function onSelectClick(event) {
+            let element = event.target;
+            while (!element.classList.contains('m_select')) {
+                element = element.parentElement
+                if (!element) return;
+            }
+            if (element.parentElement.classList.contains('show')) {
+                element.parentElement.classList.remove('show');
+            } else {
+                element.parentElement.classList.add('show');
+            }
+        }
+    </script>
+</body>
+
+</html>

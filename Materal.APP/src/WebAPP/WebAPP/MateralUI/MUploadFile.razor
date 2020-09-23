@@ -1,0 +1,90 @@
+﻿@using Tewr.Blazor.FileReader
+
+@inject IFileReaderService _fileReaderService
+
+<section class="@ClassString">
+    <span class="m_uploadFile_image Micon Micon_uploadfile"></span>
+    <p class="m_uploadfile_title">@Title</p>
+    <p class="m_uploadfile_remark">@Remark</p>
+    <input disabled="@Disabled" @ref="@InputFileElement" type="file" class="m_uploadfile_input" accept="@Accept" @onchange="@OnChange" />
+</section>
+
+@code {
+    #region 参数
+    /// <summary>
+    /// 自定义Class
+    /// </summary>
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+    /// <summary>
+    /// 标题
+    /// </summary>
+    [Parameter]
+    public string Title { get; set; } = "单击或拖动文件到此区域以上传";
+    /// <summary>
+    /// 标题
+    /// </summary>
+    [Parameter]
+    public string Remark { get; set; } = "只支持单文件上传";
+    /// <summary>
+    /// 接受文件类型
+    /// </summary>
+    [Parameter]
+    public string Accept { get; set; }
+    /// <summary>
+    /// 文件发生更改
+    /// </summary>
+    [Parameter]
+    public EventCallback<ChangeEventArgs> OnChange { get; set; }
+    /// <summary>
+    /// 禁用
+    /// </summary>
+    [Parameter]
+    public bool Disabled { get; set; }
+    #endregion
+    #region 属性
+    /// <summary>
+    /// 上传文件元素
+    /// </summary>
+    public ElementReference InputFileElement { get; set; }
+    /// <summary>
+    /// Class字符串
+    /// </summary>
+    public string ClassString
+    {
+        get
+        {
+            var result = "m_uploadfile_panel";
+            if (Disabled)
+            {
+                result += " disabled";
+            }
+            if (!string.IsNullOrWhiteSpace(Class))
+            {
+                result += $" {Class}";
+            }
+            return result;
+        }
+    }
+    #endregion
+    #region 方法
+    /// <summary>
+    /// 获得文件
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IFileReference[]> GetFileReferencesAsync()
+    {
+        IFileReference[] fileReferences = (await _fileReaderService.CreateReference(InputFileElement).EnumerateFilesAsync()).ToArray();
+        return fileReferences;
+    }
+    /// <summary>
+    /// 获得文件
+    /// </summary>
+    /// <returns></returns>
+    public async Task<IFileReference> GetFileReferenceAsync()
+    {
+        IFileReference[] fileReferences = await GetFileReferencesAsync();
+        return fileReferences.Length > 0 ? fileReferences[0] : null;
+    }
+    #endregion
+}

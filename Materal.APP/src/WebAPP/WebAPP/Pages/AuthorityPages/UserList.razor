@@ -1,366 +1,419 @@
 ﻿@layout NavMenuLayout
+
 @page "/Authority/UserList"
-@*
-    @using System.ComponentModel
-    @using Authority.DataTransmitModel.User
-    @using Authority.HttpManage
-    @using Authority.PresentationModel.User
-    @using Materal.ConvertHelper;
-    @using Materal.Model
-    @using WebAPP.AntDesignHelper
-    @using WebAPP.Models
-    @using WebAPP.Common
-    @using WebAPP.HttpClientImpl
 
-    @inject MessageManage _messageManage
-    @inject ModalService _modalService
-    @inject ExceptionManage _exceptionManage
-    @inject IUserManage _userManage
-    @inject NavigationManager _navigationManager
+@using Materal.Common
+@using Materal.Model
+@using Authority.DataTransmitModel.User
+@using Authority.HttpManage
+@using Authority.PresentationModel.User
+@using WebAPP.MateralUI.Models
+@using Materal.ConvertHelper
+@using WebAPP.Common
 
-    <style>
-        .main_content {
-            background-color: #FFF;
-            padding: 0 24px;
-        }
+@inject MessageManage _messageManage
+@inject ExceptionManage _exceptionManage
+@inject IUserManage _defaultDataManage
 
-        .page_header {
-            padding: 16px 0;
-        }
-
-        .search_panel {
-            margin-bottom: 20px;
-        }
-    </style>
-
-    <div class="main_content">
-        <PageHeader class="page_header">
-            <PageHeaderTitle>用户管理</PageHeaderTitle>
-            <PageHeaderExtra>
-                <Tooltip Title="@("添加用户")">
-                    <Button Type="@ButtonType.Primary" OnClick="OpenAddUserDrawer">
-                        <Icon Type="plus" />
-                    </Button>
-                </Tooltip>
-            </PageHeaderExtra>
-            <PageHeaderContent>
-                <Descriptions Size="small" Column="3">
-                    <DescriptionsItem Title="@("用户数")" Span="1">@_pageData.Count</DescriptionsItem>
-                </Descriptions>
-            </PageHeaderContent>
-        </PageHeader>
-        <div>
-            <div class="search_panel">
-                <Row Gutter="16">
-                    <Col Span="4">
-                        <Input Placeholder="账号" @bind-Value="_searchModel.Account" Disabled="@_loading" />
-                    </Col>
-                    <Col Span="4">
-                        <Input Placeholder="名称" @bind-Value="_searchModel.Name" Disabled="@_loading" />
-                    </Col>
-                    <Col Span="16">
-                    <Tooltip Title="@("查询")">
-                        <Button Type="@ButtonType.Primary" Loading="_loading" OnClick="async () => await SearchUserListAsync()">
-                            <Icon Type="search" />
-                        </Button>
-                    </Tooltip>
-                    </Col>
-                </Row>
-            </div>
-            <Table DataSource="@_tableData" class="data_table" Loading="_loading" @bind-PageIndex="_pageData.PageModel.PageIndex" @bind-PageSize="_pageData.PageModel.PageSize" @bind-Total="_pageData.PageModel.DataCount" OnPageIndexChange="PageIndexChange">
-                <Column @bind-Field="@context.Index">@context.Index</Column>
-                <Column @bind-Field="@context.Name">@context.Name</Column>
-                <Column @bind-Field="@context.Account"></Column>
-                <ActionColumn Title="操作">
-                    <Space Size="middle">
-                        <SpaceItem>
-                            <Tooltip Title="@("编辑")">
-                                <Button OnClick="async () => await OpenEditUserDrawerAsync(context.ID)">
-                                    <Icon Type="edit" />
-                                </Button>
-                            </Tooltip>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Tooltip Title="@("重置密码")">
-                                <Button OnClick="() => OpenResetPasswordDialog(context.ID)">
-                                    <Icon Type="redo" />
-                                </Button>
-                            </Tooltip>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Tooltip Title="@("删除")">
-                                <Button Type="@ButtonType.Primary" Danger OnClick="() => OpenDeleteUserDialog(context.ID)">
-                                    <Icon Type="delete" />
-                                </Button>
-                            </Tooltip>
-                        </SpaceItem>
-                    </Space>
-                </ActionColumn>
-            </Table>
+<main class="layout_body">
+    <MPageHeader Title="用户配置">
+        <div class="m_button_group">
+            <MButton Class="m_button_icon Micon Micon_plus" Title="新增" ButtonType="@MButtonTypeEnum.Success" OnClick="@OnBtnAddClick"></MButton>
         </div>
+    </MPageHeader>
+    <section class="search_panel">
+        <MForm FromData="SearchData" Horizontal>
+            <MFormItem Title="名称">
+                <MInput Type="search" Disabled="@Loading" @bind-Value="@context.Name"></MInput>
+            </MFormItem>
+            <MFormItem Title="账号">
+                <MInput Type="search" Disabled="@Loading" @bind-Value="@context.Account"></MInput>
+            </MFormItem>
+            <MFormItem>
+                <MButton Class="m_button_icon Micon Micon_search" Title="查询" Disabled="@Loading" ButtonType="@MButtonTypeEnum.Primary" OnClick="@OnBtnSearchClick"></MButton>
+            </MFormItem>
+        </MForm>
+    </section>
+    <MTable DataSource="TableDataSource" TableConfig="TableConfig">
+        <MTableCell>@context.Index</MTableCell>
+        <MTableCell>@context.Name</MTableCell>
+        <MTableCell>@context.Account</MTableCell>
+        <MTableCell>
+            <div class="m_button_group">
+                <MButton Class="m_button_icon Micon Micon_edit" Title="修改" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))"></MButton>
+                <MButton Class="m_button_icon Micon Micon_reset" Title="重置密码" OnClick="@(eventArgs=>OnBtnOpenResetPasswordModalClick(eventArgs,context.ID))"></MButton>
+                <MButton Class="m_button_icon Micon Micon_delete" Title="删除" ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnBtnOpenDeleteModalClick(eventArgs, context.ID))"></MButton>
+            </div>
+        </MTableCell>
+    </MTable>
+    <MPaging PageModel="@SearchData.PageModel" PageIndexChanged="@OnPageIndexChangedAsync"></MPaging>
+</main>
+<MModal Title="@(SelectedID.HasValue ? "修改" : "新增")" @bind-Display="OperationModalDisplay">
+    <OperationUser UserID="SelectedID" Success="@OnOperationSuccessAsync" Cancel="@CloseOperationModal"></OperationUser>
+</MModal>
+<MModal Title="删除" @bind-Display="DeleteModalDisplay">
+    确定要删除该项吗？
+    <div class="m_modal_buttons">
+        <MButton Disabled="@Loading" OnClick="@CloseDeleteModal">取消</MButton>
+        <MButton ButtonType="@MButtonTypeEnum.Danger" Disabled="@Loading" OnClick="@OnBtnDeleteClickAsync">删除</MButton>
     </div>
-    <Drawer Closable="true" Visible="_operationUserDrawerVisible" Placement="right" Title='@(_operationUserID.HasValue?"修改用户":"新增用户")' OnClose="CloseOperationUserDrawer" Width="400">
-        <OperationUser @bind-UserData="@_userInfo" OnClose="CloseOperationUserDrawer" OnSuccessAsync="async () => await SearchUserListAsync(1)"></OperationUser>
-    </Drawer>
-
-    @code{
+</MModal>
+<MModal Title="重置密码" @bind-Display="ResetPasswordModalDisplay">
+    确定要重置该用户密码吗？
+    <div class="m_modal_buttons">
+        <MButton Disabled="@Loading" OnClick="@CloseResetPasswordModal">取消</MButton>
+        <MButton ButtonType="@MButtonTypeEnum.Primary" Disabled="@Loading" OnClick="@OnBtnResetPasswordClickAsync">重置</MButton>
+    </div>
+</MModal>
+@code{
+    /// <summary>
+    /// 查询数据模型
+    /// </summary>
+    public class UserSearchFromDataModel
+    {
         /// <summary>
-        /// 页头展示数据
+        /// 查询名称
         /// </summary>
-        public class PageDataModel
-        {
-            public PageModel PageModel { get; } = new PageModel();
-
-            public void SetPageInfo(object pageInfo)
-            {
-                pageInfo.CopyProperties(PageModel);
-            }
-
-            public string Count => PageModel.DataCount == 0 ? "暂无数据" : PageModel.DataCount.ToString();
-        }
+        public string Name { get; set; }
         /// <summary>
-        /// 数据表显示模型
+        /// 查询账号
         /// </summary>
-        public class DataTableDisplayModel
+        public string Account { get; set; }
+        /// <summary>
+        /// 分页模型
+        /// </summary>
+        public PageModel PageModel { get; set; } = new PageModel
         {
-            [DisplayName("位序")]
-            public int Index { get; set; }
-            [DisplayName("唯一标识")]
-            public Guid ID { get; set; }
-            [DisplayName("名称")]
-            public string Name { get; set; }
-            [DisplayName("账号")]
-            public string Account { get; set; }
-        }
-    }
-
-    @code{
-        private bool _loading;
-
-        private readonly PageDataModel _pageData = new PageDataModel();
-
-        private readonly QueryUserFilterRequestModel _searchModel = new QueryUserFilterRequestModel
-        {
-            Account = "",
-            Name = "",
-            PageIndex = 1,
-            PageSize = 10
+            PageIndex = MateralConfig.PageStartNumber,
+            PageSize = 10,
+            DataCount = 0
         };
-
-        private readonly List<DataTableDisplayModel> _tableData = new List<DataTableDisplayModel>();
-
-        private bool _operationUserDrawerVisible;
-
-        private Guid? _operationUserID;
-
-        private UserInfoModel _userInfo = new UserInfoModel();
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
+    }
+    /// <summary>
+    /// 用户列表模型
+    /// </summary>
+    public class UserListModel : UserListDTO
+    {
+        public UserListModel()
         {
-            if (!firstRender) return;
-            if (!string.IsNullOrWhiteSpace(UrlManage.AuthorityUrl))
+
+        }
+        public UserListModel(PageRequestModel pageModel, int index)
+        {
+            Index = (pageModel.PageIndex - MateralConfig.PageStartNumber) * pageModel.PageSize + index + 1;
+        }
+        public UserListModel(UserListDTO listDTO, PageRequestModel pageModel, int index)
+        {
+            listDTO.CopyProperties(this);
+            Index = (pageModel.PageIndex - MateralConfig.PageStartNumber) * pageModel.PageSize + index + 1;
+        }
+        /// <summary>
+        /// 位序
+        /// </summary>
+        public int Index { get; set; }
+    }
+}
+@code{
+    #region 属性
+    /// <summary>
+    /// 选中的唯一标识
+    /// </summary>
+    public Guid? SelectedID { get; set; }
+    /// <summary>
+    /// 操作模态窗是否显示
+    /// </summary>
+    public bool OperationModalDisplay { get; set; }
+    /// <summary>
+    /// 删除模态窗是否显示
+    /// </summary>
+    public bool DeleteModalDisplay { get; set; }
+    /// <summary>
+    /// 重置密码模态窗是否显示
+    /// </summary>
+    public bool ResetPasswordModalDisplay { get; set; }
+    /// <summary>
+    /// 查询数据
+    /// </summary>
+    public UserSearchFromDataModel SearchData { get; set; } = new UserSearchFromDataModel();
+    /// <summary>
+    /// 加载中
+    /// </summary>
+    public bool Loading { get; set; } = true;
+    /// <summary>
+    /// 表格配置
+    /// </summary>
+    public List<TableConfigModel> TableConfig { get; set; }
+    /// <summary>
+    /// 表格数据源
+    /// </summary>
+    public List<UserListModel> TableDataSource { get; set; }
+    #endregion
+    #region 生命周期
+    /// <summary>
+    /// 设置参数后
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnParametersSetAsync()
+    {
+        TableConfig = new List<TableConfigModel>
+    {
+            new TableConfigModel("#"),
+            new TableConfigModel("名称"),
+            new TableConfigModel("账号"),
+            new TableConfigModel("操作")
+        };
+        TableDataSource = new List<UserListModel>();
+        await base.OnParametersSetAsync();
+    }
+    /// <summary>
+    /// 页面呈现后
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        await SearchTableDataAsync();
+        await base.OnAfterRenderAsync(true);
+        StateHasChanged();
+    }
+    #endregion
+    #region 事件
+    /// <summary>
+    /// 单击新增按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public void OnBtnAddClick(MouseEventArgs eventArgs)
+    {
+        SelectedID = null;
+        OpenOperationModal();
+    }
+    /// <summary>
+    /// 单击修改按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <param name="selectedID"></param>
+    /// <returns></returns>
+    public void OnBtnEditClick(MouseEventArgs eventArgs, Guid selectedID)
+    {
+        SelectedID = selectedID;
+        OpenOperationModal();
+    }
+    /// <summary>
+    /// 单击删除按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <param name="selectedID"></param>
+    /// <returns></returns>
+    public void OnBtnOpenDeleteModalClick(MouseEventArgs eventArgs, Guid selectedID)
+    {
+        SelectedID = selectedID;
+        OpenDeleteModal();
+    }
+    /// <summary>
+    /// 单击重置密码按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <param name="selectedID"></param>
+    /// <returns></returns>
+    public void OnBtnOpenResetPasswordModalClick(MouseEventArgs eventArgs, Guid selectedID)
+    {
+        SelectedID = selectedID;
+        OpenResetPasswordModal();
+    }
+    /// <summary>
+    /// 单击删除按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnDeleteClickAsync(MouseEventArgs eventArgs)
+    {
+        await DeleteAsync();
+    }
+    /// <summary>
+    /// 单击删除按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnResetPasswordClickAsync(MouseEventArgs eventArgs)
+    {
+        await ResetPasswordAsync();
+    }
+    /// <summary>
+    /// 单击查询按钮
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    /// <returns></returns>
+    public async Task OnBtnSearchClick(MouseEventArgs eventArgs)
+    {
+        await SearchTableDataAsync();
+    }
+    /// <summary>
+    /// 当前页发生更新
+    /// </summary>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
+    public async Task OnPageIndexChangedAsync(int pageIndex)
+    {
+        await SearchTableDataAsync(pageIndex);
+    }
+    /// <summary>
+    /// 修改成功
+    /// </summary>
+    /// <returns></returns>
+    public async Task OnOperationSuccessAsync()
+    {
+        await SearchTableDataAsync(SearchData.PageModel.PageIndex);
+        CloseOperationModal();
+    }
+    #endregion
+    #region 私有方法
+    /// <summary>
+    /// 打开操作模态框
+    /// </summary>
+    private void OpenOperationModal()
+    {
+        OperationModalDisplay = true;
+    }
+    /// <summary>
+    /// 关闭删除操作模态框
+    /// </summary>
+    private void CloseOperationModal()
+    {
+        OperationModalDisplay = false;
+    }
+    /// <summary>
+    /// 打开删除模态框
+    /// </summary>
+    private void OpenDeleteModal()
+    {
+        DeleteModalDisplay = true;
+    }
+    /// <summary>
+    /// 关闭删除模态框
+    /// </summary>
+    private void CloseDeleteModal()
+    {
+        DeleteModalDisplay = false;
+    }
+    /// <summary>
+    /// 打开重置密码模态框
+    /// </summary>
+    private void OpenResetPasswordModal()
+    {
+        ResetPasswordModalDisplay = true;
+    }
+    /// <summary>
+    /// 关闭重置密码模态框
+    /// </summary>
+    private void CloseResetPasswordModal()
+    {
+        ResetPasswordModalDisplay = false;
+    }
+    /// <summary>
+    /// 查询表格数据
+    /// </summary>
+    /// <param name="pageIndex"></param>
+    /// <returns></returns>
+    private async Task SearchTableDataAsync(int pageIndex = 1)
+    {
+        Loading = true;
+        try
+        {
+            var requestModel = new QueryUserFilterRequestModel
             {
-                await SearchUserListAsync();
-                StateHasChanged();
-                await base.OnAfterRenderAsync(true);
+                Name = SearchData.Name,
+                Account = SearchData.Account,
+                PageIndex = pageIndex,
+                PageSize = SearchData.PageModel.PageSize
+            };
+            PageResultModel<UserListDTO> resultModel = await _defaultDataManage.GetUserListAsync(requestModel);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                SearchData.PageModel = resultModel.PageModel;
+                TableDataSource.Clear();
+                UserListDTO[] dataListDto = resultModel.Data.ToArray();
+                for (var i = 0; i < dataListDto.Length; i++)
+                {
+                    TableDataSource.Add(new UserListModel(dataListDto[i], SearchData.PageModel, i));
+                }
             }
             else
             {
-                _navigationManager.NavigateTo("/");
+                await _messageManage.WarningAsync(resultModel.Message);
             }
         }
-        /// <summary>
-        /// 查询用户列表
-        /// </summary>
-        /// <returns></returns>
-        private async Task SearchUserListAsync(int pageIndex = 0)
+        catch (Exception exception)
         {
-            try
-            {
-                _loading = true;
-                if (pageIndex != 0) _searchModel.PageIndex = pageIndex;
-                PageResultModel<UserListDTO> resultModel = await _userManage.GetUserListAsync(_searchModel);
-                if (resultModel.ResultType == 0)
-                {
-                    _pageData.SetPageInfo(resultModel.PageModel);
-                    _tableData.Clear();
-                    var index = 0;
-                    foreach (UserListDTO user in resultModel.Data)
-                    {
-                        var temp = user.CopyProperties<DataTableDisplayModel>();
-                        temp.Index = _pageData.PageModel.GetTableIndex(index++);
-                        _tableData.Add(temp);
-                    }
-                }
-                else
-                {
-                    _messageManage.WarningAsync(resultModel.Message);
-                }
-            }
-            catch (Exception exception)
-            {
-                _exceptionManage.HandlerExceptionAsync(exception);
-            }
-            finally
-            {
-                _loading = false;
-            }
+            await _exceptionManage.HandlerExceptionAsync(exception);
         }
-        /// <summary>
-        /// 页码更改事件
-        /// </summary>
-        /// <param name="eventArgs"></param>
-        /// <returns></returns>
-        private async Task PageIndexChange(PaginationEventArgs eventArgs)
+        finally
         {
-            _searchModel.PageIndex = eventArgs.PageIndex;
-            _searchModel.PageSize = eventArgs.PageSize;
-            await SearchUserListAsync();
+            Loading = false;
         }
-        /// <summary>
-        /// 打开添加用户抽屉
-        /// </summary>
-        private void OpenAddUserDrawer()
+    }
+    /// <summary>
+    /// 删除
+    /// </summary>
+    /// <returns></returns>
+    private async Task DeleteAsync()
+    {
+        Loading = true;
+        try
         {
-            _userInfo = new UserInfoModel();
-            _operationUserID = null;
-            _operationUserDrawerVisible = true;
+            if (!SelectedID.HasValue) throw new WebAPPException("未选择数据");
+            ResultModel resultModel = await _defaultDataManage.DeleteUserAsync(SelectedID.Value);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
+            {
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await SearchTableDataAsync(SearchData.PageModel.PageIndex);
+                CloseDeleteModal();
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
         }
-        /// <summary>
-        /// 打开修改用户抽屉
-        /// </summary>
-        /// <param name="id"></param>
-        private async Task OpenEditUserDrawerAsync(Guid id)
+        catch (Exception exception)
         {
-            try
-            {
-                _loading = true;
-                _operationUserID = id;
-                ResultModel<UserDTO> resultModel = await _userManage.GetUserInfoAsync(id);
-                if (resultModel.ResultType == 0)
-                {
-                    _userInfo = resultModel.Data.CopyProperties<UserInfoModel>();
-                    _operationUserDrawerVisible = true;
-                }
-                else
-                {
-                    _messageManage.WarningAsync(resultModel.Message);
-                }
-            }
-            catch (Exception exception)
-            {
-                _exceptionManage.HandlerExceptionAsync(exception);
-            }
-            finally
-            {
-                _loading = false;
-            }
+            await _exceptionManage.HandlerExceptionAsync(exception);
         }
-        /// <summary>
-        /// 关闭抽屉
-        /// </summary>
-        public void CloseOperationUserDrawer()
+        finally
         {
-            _operationUserID = null;
-            _operationUserDrawerVisible = false;
+            Loading = false;
         }
-        /// <summary>
-        /// 打开重置密码对话框
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        private void OpenResetPasswordDialog(Guid id)
+    }
+    /// <summary>
+    /// 重置密码
+    /// </summary>
+    /// <returns></returns>
+    private async Task ResetPasswordAsync()
+    {
+        Loading = true;
+        try
         {
-            _modalService.Confirm(new ConfirmOptions
+            if (!SelectedID.HasValue) throw new WebAPPException("未选择数据");
+            ResultModel resultModel = await _defaultDataManage.ResetPasswordAsync(SelectedID.Value);
+            if (resultModel.ResultType == ResultTypeEnum.Success)
             {
-                Title = "重置密码",
-                Content = "是否重置该用户的密码?",
-                OkText = "确定",
-                CancelText = "取消",
-                OkType = ButtonType.Primary,
-                OnOk = async eventArgs =>
-                {
-                    await ResetPasswordAsync(id);
-                }
-            });
+                await _messageManage.SuccessAsync(resultModel.Message);
+                await SearchTableDataAsync(SearchData.PageModel.PageIndex);
+                CloseDeleteModal();
+            }
+            else
+            {
+                await _messageManage.WarningAsync(resultModel.Message);
+            }
         }
-        /// <summary>
-        /// 重置密码
-        /// </summary>
-        /// <param name="id"></param>
-        private async Task ResetPasswordAsync(Guid id)
+        catch (Exception exception)
         {
-            try
-            {
-                _loading = true;
-                ResultModel<string> resultModel = await _userManage.ResetPasswordAsync(id);
-                if (resultModel.ResultType == 0)
-                {
-                    _messageManage.SuccessAsync($"密码已重置为：{resultModel.Data}");
-                }
-                else
-                {
-                    _messageManage.WarningAsync(resultModel.Message);
-                }
-            }
-            catch (Exception exception)
-            {
-                _exceptionManage.HandlerExceptionAsync(exception);
-            }
-            finally
-            {
-                _loading = false;
-            }
+            await _exceptionManage.HandlerExceptionAsync(exception);
         }
-        /// <summary>
-        /// 打开删除用户对话框
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        private void OpenDeleteUserDialog(Guid id)
+        finally
         {
-            _modalService.Confirm(new ConfirmOptions
-            {
-                Title = "删除用户",
-                Content = "是否删除该用户?",
-                OkText = "删除",
-                CancelText = "取消",
-                OkButtonProps = new ButtonProps
-                {
-                    Danger = true,
-                    Type = ButtonType.Primary
-                },
-                OnOk = async eventArgs =>
-                {
-                    await DeleteUserAsync(id);
-                }
-            });
+            Loading = false;
         }
-        /// <summary>
-        /// 删除用户
-        /// </summary>
-        private async Task DeleteUserAsync(Guid id)
-        {
-            try
-            {
-                _loading = true;
-                ResultModel resultModel = await _userManage.DeleteUserAsync(id);
-                if (resultModel.ResultType == 0)
-                {
-                    _messageManage.SuccessAsync(resultModel.Message);
-                    await SearchUserListAsync();
-                    StateHasChanged();
-                }
-                else
-                {
-                    _messageManage.WarningAsync(resultModel.Message);
-                    _loading = false;
-                }
-            }
-            catch (Exception exception)
-            {
-                _exceptionManage.HandlerExceptionAsync(exception);
-                _loading = false;
-            }
-        }
-    }*@
+    }
+    #endregion
+}

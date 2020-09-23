@@ -1,0 +1,120 @@
+@import "./constConfig.less";
+.m_select_panel {
+  width: 100%;
+  font-size: @default-font-size;
+  position: relative;
+  box-sizing: border-box;
+  background-color: transparent;
+  height: 100%;
+  .m_select {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border: 1px solid @default-border-color;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+    box-sizing: border-box;
+    > input[type="text"] {
+      background-color: transparent;
+      text-align: left;
+      outline: none;
+      width: 100%;
+      border: none;
+      box-sizing: border-box;
+      font-size: @default-font-size;
+    }
+    > input[readonly] {
+      cursor: pointer;
+    }
+  }
+  .m_select::after {
+    font-family: "Micon" !important;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: @default-font-size;
+    box-sizing: border-box;
+    display: block;
+    content: "\e62b";
+  }
+  .m_select_background{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: transparent;
+    display: none;
+  }
+  .m_select_items {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: none;
+    border-right: 1px solid @default-border-color;
+    border-bottom: 1px solid @default-border-color;
+    border-left: 1px solid @default-border-color;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 3;
+    background-color: white;
+  }
+  .m_select_item {
+    font-size: @default-font-size;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  .m_select_item:hover {
+    background-color: @default-background-color-hover;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+}
+.m_select_panel.show {
+  .m_select {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .m_select::after {
+    content: "\e62c";
+  }
+  .m_select_background{
+    display: block;
+  }
+  .m_select_items {
+    display: block;
+    animation: m_select_join 0.3s;
+  }
+}
+.m_select_panel.disabled {
+  color: @disable-color;
+  border-color: @disable-border-color;
+  background-color: @disable-background-color;
+  .m_select {
+    cursor: no-drop;
+    color: @disable-color;
+    border-color: @disable-border-color;
+    background-color: @disable-background-color;
+    > input[type="text"] {
+      color: @disable-color;
+      border-color: @disable-border-color;
+      background-color: @disable-background-color;
+    }
+    > input[readonly] {
+      cursor: no-drop;
+    }
+  }
+}
+@keyframes m_select_join {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

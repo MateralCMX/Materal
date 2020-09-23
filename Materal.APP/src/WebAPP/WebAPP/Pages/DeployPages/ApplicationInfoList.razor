@@ -26,9 +26,9 @@
 <main class="layout_body">
     <MPageHeader Title="应用程序配置">
         <div class="m_button_group">
-            <MButton ButtonType="@MButtonTypeEnum.Success" OnClick="@OnBtnAddClick">新增应用</MButton>
-            <MButton ButtonType="@MButtonTypeEnum.Primary" OnClick="@OnStartAllClickAsync">全部启动</MButton>
-            <MButton ButtonType="@MButtonTypeEnum.Danger" OnClick="@OnStopAllClickAsync">全部停止</MButton>
+            <MButton Disabled="Loading" Class="m_button_icon Micon Micon_plus" Title="新增" ButtonType="@MButtonTypeEnum.Success" OnClick="@OnBtnAddClick"></MButton>
+            <MButton Disabled="Loading" Class="m_button_icon Micon Micon_start" Type="全部启动" ButtonType="@MButtonTypeEnum.Primary" OnClick="@OnStartAllClickAsync"></MButton>
+            <MButton Disabled="Loading" Class="m_button_icon Micon Micon_stop" Title="全部停止" ButtonType="@MButtonTypeEnum.Danger" OnClick="@OnStopAllClickAsync"></MButton>
         </div>
     </MPageHeader>
     <section class="search_panel">
@@ -52,37 +52,37 @@
                 <MInput Type="search" Disabled="@Loading" @bind-Value="@context.RunParams"></MInput>
             </MFormItem>
             <MFormItem>
-                <MButton Disabled="@Loading" ButtonType="@MButtonTypeEnum.Primary" OnClick="@OnBtnSearchClick">查询</MButton>
+                <MButton Class="m_button_icon Micon Micon_search" Title="查询" Disabled="@Loading" ButtonType="@MButtonTypeEnum.Primary" OnClick="@OnBtnSearchClick"></MButton>
             </MFormItem>
         </MForm>
     </section>
     <MTable DataSource="TableDataSource" TableConfig="TableConfig">
-        <MTableCell>@context.Index</MTableCell>
-        <MTableCell>@context.Name</MTableCell>
-        <MTableCell>@context.Path</MTableCell>
-        <MTableCell>@context.MainModule</MTableCell>
-        <MTableCell>@context.ApplicationTypeString</MTableCell>
-        <MTableCell>@context.ApplicationStatusString</MTableCell>
+        <MTableCell Width="40">@context.Index</MTableCell>
+        <MTableCell Width="150">@context.Name</MTableCell>
+        <MTableCell Width="150">@context.Path</MTableCell>
+        <MTableCell Width="150">@context.MainModule</MTableCell>
+        <MTableCell Width="100">@context.ApplicationTypeString</MTableCell>
+        <MTableCell Width="100">@context.ApplicationStatusString</MTableCell>
         <MTableCell>@context.RunParams</MTableCell>
         <MTableCell>
             <div class="m_button_group">
                 @switch (context.ApplicationStatus)
                 {
                     case ApplicationStatusEnum.Stop:
-                        <MButton OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))">修改</MButton>
-                        <MButton ButtonType="@MButtonTypeEnum.Primary" OnClick="@(eventArgs => OnStartClickAsync(eventArgs, context.ID))">启动</MButton>
-                        <MButton ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnBtnOpenDeleteModalClick(eventArgs, context.ID))">删除</MButton>
+                        <MButton Class="m_button_icon Micon Micon_edit" Title="修改" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))"></MButton>
+                        <MButton Class="m_button_icon Micon Micon_start" Title="启动" ButtonType="@MButtonTypeEnum.Primary" OnClick="@(eventArgs => OnStartClickAsync(eventArgs, context.ID))"></MButton>
+                        <MButton Class="m_button_icon Micon Micon_delete" Title="删除" ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnBtnOpenDeleteModalClick(eventArgs, context.ID))"></MButton>
                         break;
                     case ApplicationStatusEnum.Runing:
-                        <MButton OnClick="@(eventArgs => OnConsoleMessageClickAsync(eventArgs, context.ID))">控制台</MButton>
-                        <MButton ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnStopClickAsync(eventArgs, context.ID))">停止</MButton>
+                        <MButton Class="m_button_icon Micon Micon_console" Title="控制台" OnClick="@(eventArgs => OnConsoleMessageClickAsync(eventArgs, context.ID))"></MButton>
+                        <MButton Class="m_button_icon Micon Micon_stop" Title="停止" ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnStopClickAsync(eventArgs, context.ID))"></MButton>
                         break;
                 }
             </div>
         </MTableCell>
     </MTable>
 </main>
-<MModal Title="@(SelectedUserID.HasValue ? "修改" : "新增")" ModalType="@MModalTypeEnum.Large" @bind-Display="OperationModalDisplay">
+<MModal Title="@(SelectedUserID.HasValue ? "修改" : "新增")" Width="900" ModalType="@MModalTypeEnum.Large" @bind-Display="OperationModalDisplay">
     <OperationApplicationInfo ApplicationInfoID="SelectedUserID" Success="@OnOperationSuccessAsync" Cancel="@CloseOperationModal"></OperationApplicationInfo>
 </MModal>
 <MModal Title="删除" @bind-Display="DeleteModalDisplay">

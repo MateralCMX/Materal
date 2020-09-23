@@ -35,7 +35,7 @@
 <main class="layout_body">
     <MPageHeader Title="命名空间配置">
         <div class="m_button_group">
-            <MButton ButtonType="@MButtonTypeEnum.Success" OnClick="@OnBtnAddClick">新增命名空间</MButton>
+            <MButton Class="m_button_icon Micon Micon_plus" Title="新增" ButtonType="@MButtonTypeEnum.Success" OnClick="@OnBtnAddClick"></MButton>
         </div>
     </MPageHeader>
     <section class="search_panel">
@@ -47,7 +47,7 @@
                 <MInput Type="search" Disabled="@Loading" @bind-Value="@context.Description"></MInput>
             </MFormItem>
             <MFormItem>
-                <MButton Disabled="@Loading" ButtonType="@MButtonTypeEnum.Primary" OnClick="@OnBtnSearchClick">查询</MButton>
+                <MButton Class="m_button_icon Micon Micon_search" Title="查询" Disabled="@Loading" ButtonType="@MButtonTypeEnum.Primary" OnClick="@OnBtnSearchClick"></MButton>
             </MFormItem>
         </MForm>
     </section>
@@ -64,9 +64,9 @@
             <MTableCell>@context.Description</MTableCell>
             <MTableCell>
                 <div class="m_button_group">
-                    <MButton OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))">修改</MButton>
-                    <MButton ButtonType="@MButtonTypeEnum.Primary" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))">同步配置</MButton>
-                    <MButton ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnBtnOpenDeleteModalClick(eventArgs, context.ID))">删除</MButton>
+                    <MButton Class="m_button_icon Micon Micon_edit" Title="修改" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))"></MButton>
+                    <MButton Class="m_button_icon Micon Micon_sync" Title="同步" ButtonType="@MButtonTypeEnum.Primary" OnClick="@(eventArgs => OnBtnEditClick(eventArgs, context.ID))"></MButton>
+                    <MButton Class="m_button_icon Micon Micon_delete" Title="删除" ButtonType="@MButtonTypeEnum.Danger" OnClick="@(eventArgs => OnBtnOpenDeleteModalClick(eventArgs, context.ID))"></MButton>
                 </div>
             </MTableCell>
         </MTable>

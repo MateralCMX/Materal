@@ -1,5 +1,6 @@
 ﻿@using Materal.APP.Core.Models
 <section class="@ClassString">
+    <div class="m_select_background" @onclick="@OnBackgroundClick"></div>
     <div class="m_select" @onclick="@OnSelectClick">
         <input type="text" autocomplete="off" @bind-value="@Value.Value" readonly>
     </div>
@@ -81,6 +82,14 @@
         if (Disabled) return;
         Value = item;
         await ValueChanged.InvokeAsync(Value);
+        IsShowItem = false;
+    }
+    /// <summary>
+    /// 单击背景
+    /// </summary>
+    /// <param name="eventArgs"></param>
+    public void OnBackgroundClick(MouseEventArgs eventArgs)
+    {
         IsShowItem = false;
     }
     #endregion

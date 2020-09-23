@@ -16,13 +16,13 @@
 @inject IApplicationInfoManage _applicationInfoManage
 
 <main class="layout_body">
-    <MPageHeader Title="默认数据配置">
+    <MPageHeader Title="上传应用程序包">
         <div class="m_button_group">
-            <MButton OnClick="@OnBtnClearUpdateFilesClickAsync">清理上传文件</MButton>
-            <MButton ButtonType="@MButtonTypeEnum.Danger" OnClick="@OnBtnClearInactiveApplicationClickAsync">清理不活跃程序</MButton>
+            <MButton Disabled="Loading" Class="m_button_icon Micon Micon_clear" Title="清理上传文件" OnClick="@OnBtnClearUpdateFilesClickAsync"></MButton>
+            <MButton Disabled="Loading" Class="m_button_icon Micon Micon_clear_all" Title="清理不活跃程序" ButtonType="@MButtonTypeEnum.Danger" OnClick="@OnBtnClearInactiveApplicationClickAsync"></MButton>
         </div>
     </MPageHeader>
-    <input type="file" @ref="@InputFileElement" @onchange="@OnSelectedFileChange" accept=".rar" />
+    <MUploadFile Disabled="Loading" Accept=".rar" @ref="@UploadFileElement" OnChange="@OnSelectedFileChange"></MUploadFile>
 </main>
 
 @code {
@@ -30,11 +30,11 @@
     /// <summary>
     /// 加载中
     /// </summary>
-    public bool Loading { get; set; } = true;
+    public bool Loading { get; set; }
     /// <summary>
     /// 上传文件元素
     /// </summary>
-    public ElementReference InputFileElement;
+    public MUploadFile UploadFileElement;
     #endregion
     #region 事件
     /// <summary>
@@ -45,9 +45,8 @@
     {
         try
         {
-            IFileReference[] fileReferences = (await _fileReaderService.CreateReference(InputFileElement).EnumerateFilesAsync()).ToArray();
-            if (fileReferences.Length > 1) throw new WebAPPException("每次只能上传一个文件");
-            IFileReference file = fileReferences.First();
+            IFileReference file = await UploadFileElement.GetFileReferenceAsync();
+            if (file == null) return;
             IFileInfo fileInfo = await file.ReadFileInfoAsync();
             await using MemoryStream memoryStream = await file.CreateMemoryStreamAsync();
             var formFile = new MateralFormFile(memoryStream, "file", fileInfo.Name);
@@ -90,6 +89,7 @@
     public async Task UploadNewFileAsync(MateralFormFile formFile)
     {
         Loading = true;
+        StateHasChanged();
         try
         {
             ResultModel resultModel = await _applicationInfoManage.UploadNewFileAsync(formFile);
@@ -109,6 +109,7 @@
         finally
         {
             Loading = false;
+            StateHasChanged();
         }
     }
     /// <summary>
