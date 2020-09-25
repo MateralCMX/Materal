@@ -34,6 +34,10 @@ namespace Materal.Gateway
             IHostBuilder hostBuilder = Host.CreateDefaultBuilder(args);
             hostBuilder = hostBuilder.ConfigureWebHostDefaults(webBuilder =>
             {
+                webBuilder.ConfigureKestrel(options =>
+                {
+                    options.Limits.MaxRequestBodySize = null;
+                });
                 webBuilder.ConfigureServices(services =>
                 {
                     ApplicationData.Services = services;

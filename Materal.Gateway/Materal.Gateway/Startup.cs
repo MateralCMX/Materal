@@ -2,6 +2,7 @@ using Materal.CacheHelper;
 using Materal.Gateway.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ocelot.Administration;
@@ -28,6 +29,10 @@ namespace Materal.Gateway
                 .AddAdministration(ApplicationData.OcelotConfigUrl, "secret");
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
+            services.Configure<FormOptions>(config =>
+            {
+                config.MultipartBodyLengthLimit = long.MaxValue;
+            });
             services.AddSingleton<ConfigService>();
             #region ¿çÓò
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));

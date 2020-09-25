@@ -102,6 +102,12 @@ namespace Deploy.Server
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(path),
+                OnPrepareResponse = context =>
+                {
+                    context.Context.Response.Headers.Add("Access-Control-Allow-Methods", "*");
+                    context.Context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                    context.Context.Response.Headers.Add("Access-Control-Allow-Headers", "*");
+                },
                 RequestPath = "",
                 ContentTypeProvider = provider
             });
