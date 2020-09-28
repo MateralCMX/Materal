@@ -73,7 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WordHelper.Example"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BlockchainHelper", "Materal.BlockchainHelper\Materal.BlockchainHelper.csproj", "{4DE18859-D4D5-40A2-B343-1C7D497BC71B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.BlockchainHelper.Example", "Materal.BlockchainHelper.Example\Materal.BlockchainHelper.Example.csproj", "{B0C38F3F-C36C-45E8-8923-6C692D98A71B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BlockchainHelper.Example", "Materal.BlockchainHelper.Example\Materal.BlockchainHelper.Example.csproj", "{B0C38F3F-C36C-45E8-8923-6C692D98A71B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.RedisHelper.Example", "Materal.RedisHelper.Example\Materal.RedisHelper.Example.csproj", "{151856DA-4181-4D13-9F0A-9362881D1A8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -217,6 +219,10 @@ Global
 		{B0C38F3F-C36C-45E8-8923-6C692D98A71B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0C38F3F-C36C-45E8-8923-6C692D98A71B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0C38F3F-C36C-45E8-8923-6C692D98A71B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{151856DA-4181-4D13-9F0A-9362881D1A8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{151856DA-4181-4D13-9F0A-9362881D1A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{151856DA-4181-4D13-9F0A-9362881D1A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{151856DA-4181-4D13-9F0A-9362881D1A8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -234,6 +240,7 @@ Global
 		{B5B25450-5E89-4D06-B18E-B901993E88C2} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 		{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 		{B0C38F3F-C36C-45E8-8923-6C692D98A71B} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
+		{151856DA-4181-4D13-9F0A-9362881D1A8C} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44D71214-490E-42D6-969C-BDC35C93BEA5}
