@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />
     <ProjectReference Include="..\Materal.ExcelHelper\Materal.ExcelHelper.csproj" />
     <ProjectReference Include="..\Materal.FileHelper\Materal.FileHelper.csproj" />
     <ProjectReference Include="..\Materal.Model\Materal.Model.csproj" />

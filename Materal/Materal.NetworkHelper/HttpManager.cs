@@ -14,7 +14,7 @@ namespace Materal.NetworkHelper
 {
     public static class HttpManager
     {
-        public static HttpClient HttpClient { get; } = new HttpClient();
+        public static HttpClient HttpClient { get; set; } = new HttpClient();
 
         public static DefaultHeaderHandler HeaderHandler { get; set; }
 

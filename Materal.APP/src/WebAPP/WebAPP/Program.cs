@@ -1,15 +1,15 @@
-using System;
+using ConfigCenter.DataTransmitModel.ConfigCenter;
+using ConfigCenter.HttpManage;
 using Materal.APP.Core;
 using Materal.APP.DataTransmitModel;
 using Materal.APP.HttpManage;
 using Materal.Common;
 using Materal.Model;
+using Materal.NetworkHelper;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ConfigCenter.DataTransmitModel.ConfigCenter;
-using ConfigCenter.HttpManage;
-using Materal.NetworkHelper;
 using WebAPP.Common;
 using WebAPP.HttpClientImpl;
 
@@ -19,6 +19,11 @@ namespace WebAPP
     {
         public static async Task Main(string[] args)
         {
+            //var httpHandler = new HttpClientHandler
+            //{
+            //    ServerCertificateCustomValidationCallback = delegate { return true; }
+            //};
+            //HttpManager.HttpClient = new HttpClient(httpHandler);
             WebAssemblyHost webAssemblyHost = CreateWebHost(args);
             ApplicationData.ServiceProvider = webAssemblyHost.Services;
             await InitHttpManage();

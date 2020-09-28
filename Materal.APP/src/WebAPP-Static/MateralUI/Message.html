@@ -6,8 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>消息</title>
     <link rel="stylesheet" type="text/css" href="./iconfont/iconfont.css">
-    <link rel="stylesheet" type="text/css" href="./css/dist/MateralUI.css">
     <link rel="stylesheet" type="text/css" href="./css/dist/button.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/checkbox.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/constConfig.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/form.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/fotter.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/global.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/modal.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/nav.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/notification.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/message.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/pageHeader.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/paging.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/panel.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/radio.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/radioList.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/select.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/table.css">
+    <link rel="stylesheet" type="text/css" href="./css/dist/uploadFile.css">
     <style>
         .item {
             padding: 20px;
@@ -17,10 +33,14 @@
         .title {
             margin-bottom: 10px;
         }
+
+        .m_button_group {
+            justify-content: center;
+        }
     </style>
 </head>
 
-<body>
+<body style="padding-top: 100px;">
     <div class="item">
         <div class="title">Alert</div>
         <div class="m_button_group">
@@ -33,10 +53,19 @@
     <div class="item">
         <div class="title">Message</div>
         <div class="m_button_group">
-            <button class="m_button m_button_primary" type="button">消息</button>
-            <button class="m_button m_button_success" type="button">成功</button>
-            <button class="m_button m_button_warning" type="button">警告</button>
-            <button class="m_button m_button_danger" type="button">错误</button>
+            <button class="m_button m_button_primary" type="button" onclick="ShowMessage(0)">消息</button>
+            <button class="m_button m_button_success" type="button" onclick="ShowMessageSuccess(0)">成功</button>
+            <button class="m_button m_button_warning" type="button" onclick="ShowMessageWarning(0)">警告</button>
+            <button class="m_button m_button_danger" type="button" onclick="ShowMessageError(0)">错误</button>
+        </div>
+    </div>
+    <div class="item">
+        <div class="title">Message[自动关闭]</div>
+        <div class="m_button_group">
+            <button class="m_button m_button_primary" type="button" onclick="ShowMessage(3000)">消息</button>
+            <button class="m_button m_button_success" type="button" onclick="ShowMessageSuccess(3000)">成功</button>
+            <button class="m_button m_button_warning" type="button" onclick="ShowMessageWarning(3000)">警告</button>
+            <button class="m_button m_button_danger" type="button" onclick="ShowMessageError(3000)">错误</button>
         </div>
     </div>
     <div class="item">
@@ -50,34 +79,52 @@
         </div>
     </div>
     <div class="item">
-        <div class="title">Notification[自动消失]</div>
+        <div class="title">Notification[自动关闭]</div>
         <div class="m_button_group">
-            <button class="m_button" type="button" onclick="ShowNotificationShow(3000)">普通</button>
+            <button class="m_button" type="button" onclick="ShowNotification(3000)">普通</button>
             <button class="m_button m_button_primary" type="button" onclick="ShowNotificationInfo(3000)">消息</button>
             <button class="m_button m_button_success" type="button" onclick="ShowNotificationSuccess(3000)">成功</button>
             <button class="m_button m_button_warning" type="button" onclick="ShowNotificationWarning(3000)">警告</button>
             <button class="m_button m_button_danger" type="button" onclick="ShowNotificationError(3000)">错误</button>
         </div>
     </div>
-    <div class="item">
-        <div class="title">XXXXXXXXXXX</div>
-        <div class="m_button_group">
-            <button class="m_button" type="button" onclick="ShowNotificationShow(3000)">普通</button>
-            <button class="m_button" type="button" onclick="ShowNotificationShow(3000)">普通</button>
-            <button class="m_button" type="button" onclick="ShowNotificationShow(3000)">普通</button>
-            <button class="m_button" type="button" onclick="ShowNotificationShow(3000)">普通</button>
-            <button class="m_button" type="button" onclick="ShowNotificationShow(3000)">普通</button>
-            <button class="m_button" type="button" onclick="ShowNotificationShow(3000)">普通</button>
-            <button class="m_button" type="button" onclick="ShowNotificationShow(3000)">普通</button>
-            <button class="m_button" type="button" onclick="ShowNotificationShow(3000)">普通</button>
-        </div>
-    </div>
     <section id="MateralUIFloatPanel">
+        <div id="MateralUIMessagePanel" class="m_message_panel">
+            <!-- <section class="m_message">
+                <p class="m_message_content">This is message.</p>
+                <button class="m_message_btn_close Micon Micon_close"></button>
+            </section>
+            <section class="m_message m_message_success">
+                <p class="m_message_content">This is success message.</p>
+                <button class="m_message_btn_close Micon Micon_close"></button>
+            </section>
+            <section class="m_message m_message_warning">
+                <p class="m_message_content">This is warning message.</p>
+                <button class="m_message_btn_close Micon Micon_close"></button>
+            </section>
+            <section class="m_message m_message_error">
+                <p class="m_message_content">This is error message.</p>
+                <button class="m_message_btn_close Micon Micon_close"></button>
+            </section> -->
+        </div>
         <div id="MateralUINotificationPanel" class="m_notification_panel"></div>
     </section>
     <script src="./scripts/dist/MateralUI.js"></script>
     <script>
-        function ShowNotificationShow(timer) {
+        function ShowMessage(timer) {
+            messageManage.Show('This is Content.', timer);
+        }
+        function ShowMessageSuccess(timer) {
+            messageManage.Success('This is Content.', timer);
+        }
+        function ShowMessageError(timer) {
+            messageManage.Error('This is Content.', timer);
+        }
+        function ShowMessageWarning(timer) {
+            messageManage.Warning('This is Content.', timer);
+        }
+
+        function ShowNotification(timer) {
             notificationManage.Show('This is title.', 'This is Content.', timer);
         }
         function ShowNotificationInfo(timer) {

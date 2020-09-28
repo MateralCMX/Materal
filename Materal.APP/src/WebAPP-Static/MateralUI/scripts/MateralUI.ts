@@ -112,4 +112,86 @@ class NotificationManage {
         }, 200);
     }
 }
+class MessageManage {
+    /** 
+     * 消息
+     * @param content 内容
+     * @param timer 持续时间
+     */
+    public Show(content: string, timer: number = 3000) {
+        this.CreateMessage(content, null, timer);
+    }
+    /** 
+     * 成功消息
+     * @param content 内容
+     * @param timer 持续时间
+     */
+    public Success(content: string, timer: number = 3000) {
+        this.CreateMessage(content, 'success', timer);
+    }
+    /** 
+     * 错误消息
+     * @param content 内容
+     * @param timer 持续时间
+     */
+    public Error(content: string, timer: number = 3000) {
+        this.CreateMessage(content, 'error', timer);
+    }
+    /** 
+     * 警告消息
+     * @param content 内容
+     * @param timer 持续时间
+     */
+    public Warning(content: string, timer: number = 3000) {
+        this.CreateMessage(content, 'warning', timer);
+    }
+    private _materalUIMessagePanelElement: HTMLDivElement;
+    /**
+     * 获得提示面板
+     */
+    private GetMateralUIMessagePanelElement(): HTMLDivElement {
+        if (!this._materalUIMessagePanelElement) {
+            this._materalUIMessagePanelElement = document.getElementById('MateralUIMessagePanel') as HTMLDivElement;
+        }
+        return this._materalUIMessagePanelElement;
+    }
+    /**
+     * 创建消息
+     * @param content 内容
+     * @param type 类型
+     */
+    private CreateMessage(content: string, type: null | 'success' | 'info' | 'error' | 'warning', timer: number) {
+        const messageElement = document.createElement('section');
+        messageElement.classList.add('m_message');
+        if (type) {
+            messageElement.classList.add(`m_message_${type}`);
+        }
+        const contentElement = document.createElement('p');
+        contentElement.classList.add('m_message_content');
+        contentElement.innerHTML = content;
+        const btnCloseElement = document.createElement('button');
+        btnCloseElement.classList.add('m_message_btn_close');
+        btnCloseElement.classList.add('Micon');
+        btnCloseElement.classList.add('Micon_close');
+        btnCloseElement.onclick = () => {
+            this.CloseMessage(messageElement);
+        };
+        messageElement.appendChild(contentElement);
+        messageElement.appendChild(btnCloseElement);
+        this.GetMateralUIMessagePanelElement().appendChild(messageElement);
+        if (timer && timer > 0) {
+            setTimeout(() => {
+                this.CloseMessage(messageElement);
+            }, timer);
+        }
+    }
+    /**
+     * 关闭消息
+     * @param notificationElement 元素
+     */
+    private CloseMessage(notificationElement: HTMLElement) {
+        this.GetMateralUIMessagePanelElement().removeChild(notificationElement);
+    }
+}
 const notificationManage = new NotificationManage();
+const messageManage = new MessageManage();

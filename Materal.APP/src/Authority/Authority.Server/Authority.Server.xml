@@ -105,13 +105,6 @@
             <param name="args"></param>
             <returns></returns>
         </member>
-        <member name="M:Authority.Server.Program.HandlerArgs(System.String[])">
-            <summary>
-            处理传入参数
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
         <member name="M:Authority.Server.Program.CreateHostBuilder(System.String[])">
             <summary>
             创建主机

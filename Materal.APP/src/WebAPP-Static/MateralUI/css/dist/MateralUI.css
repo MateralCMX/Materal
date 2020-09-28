@@ -19,8 +19,8 @@ body {
   font-size: 18px;
 }
 .m_button:hover {
-  color: rgba(0, 0, 0, 0.85);
-  border-color: #333;
+  color: #616161;
+  border-color: #dee2e6;
   background-color: #f0f0f0;
 }
 .m_button[disabled],
@@ -61,7 +61,7 @@ body {
   border-color: #28a745;
 }
 .m_button.m_button_success:hover {
-  color: #fff;
+  color: #f2f2f2;
   border-color: #1e7e34;
   background-color: #218838;
 }
@@ -71,7 +71,7 @@ body {
   border-color: #ffc107;
 }
 .m_button.m_button_warning:hover {
-  color: #fff;
+  color: #f2f2f2;
   border-color: #d39e00;
   background-color: #e0a800;
 }
@@ -81,7 +81,7 @@ body {
   border-color: #dc3545;
 }
 .m_button.m_button_danger:hover {
-  color: #fff;
+  color: #f2f2f2;
   border-color: #bd2130;
   background-color: #c82333;
 }
@@ -134,7 +134,7 @@ body {
 .m_form .m_form_item .m_form_input {
   width: 100%;
   outline: none;
-  border: 1px solid #333;
+  border: 1px solid #dee2e6;
   border-radius: 4px;
   padding: 4px 8px;
   box-sizing: border-box;
@@ -225,7 +225,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: rgba(0, 0, 0, 0.85);
+  color: #000000d9;
   line-height: 24px;
 }
 .m_notification .m_notification_header .m_notification_btn_close {
@@ -236,10 +236,10 @@ body {
   background-color: transparent;
   box-sizing: border-box;
   margin-left: 10px;
-  color: rgba(0, 0, 0, 0.65);
+  color: #000000d9;
 }
 .m_notification .m_notification_header .m_notification_btn_close:hover {
-  color: rgba(0, 0, 0, 0.85);
+  color: #616161;
 }
 .m_notification .m_notification_content {
   word-break: break-all;
@@ -376,7 +376,6 @@ body {
   border-radius: 4px;
   padding: 15px 20px;
   box-sizing: border-box;
-  box-shadow: 15px 15px 6px #949494;
 }
 .m_modal .m_modal_panel .m_modal_header {
   display: flex;
@@ -391,7 +390,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: rgba(0, 0, 0, 0.85);
+  color: #000000d9;
   line-height: 24px;
 }
 .m_modal .m_modal_panel .m_modal_header .m_modal_btn_close {
@@ -405,7 +404,7 @@ body {
   color: rgba(0, 0, 0, 0.65);
 }
 .m_modal .m_modal_panel .m_modal_header .m_modal_btn_close:hover {
-  color: rgba(0, 0, 0, 0.85);
+  color: #000000d9;
 }
 .m_modal .m_modal_panel .m_modal_body {
   margin-top: 10px;
@@ -443,7 +442,7 @@ body {
   height: 100%;
   display: flex;
   align-items: center;
-  border: 1px solid #333;
+  border: 1px solid #dee2e6;
   border-radius: 4px;
   padding: 4px 8px;
   cursor: pointer;
@@ -486,9 +485,9 @@ body {
   left: 0;
   right: 0;
   border-top: none;
-  border-right: 1px solid #333;
-  border-bottom: 1px solid #333;
-  border-left: 1px solid #333;
+  border-right: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+  border-left: 1px solid #dee2e6;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   width: 100%;
@@ -588,11 +587,11 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: rgba(0, 0, 0, 0.85);
+  color: #000000d9;
   padding: 0 10px;
 }
 .m_table_panel > table tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.075);
+  background-color: #f0f0f0;
 }
 .m_paging_panel {
   display: flex;
@@ -618,7 +617,7 @@ body {
   background-color: white;
   border-radius: 4px;
   box-sizing: border-box;
-  border: 1px solid #333;
+  border: 1px solid #dee2e6;
 }
 .m_panel .m_panel_title {
   font-size: 14px;
@@ -626,7 +625,7 @@ body {
   padding: 5px 15px;
 }
 .m_panel .m_panel_body {
-  border-top: 1px solid #333;
+  border-top: 1px solid #dee2e6;
   font-size: 14px;
   padding: 5px 15px;
 }
@@ -669,7 +668,7 @@ body {
   border-top-right-radius: 4px;
 }
 .m_panel_group .m_panel:last-child {
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #dee2e6;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
@@ -729,7 +728,7 @@ body {
 .m_uploadfile_panel {
   position: relative;
   text-align: center;
-  border: 1px solid #333;
+  border: 1px solid #dee2e6;
   border-radius: 4px;
   padding: 10px 0 30px;
 }
@@ -740,7 +739,7 @@ body {
 .m_uploadfile_panel .m_uploadfile_title {
   font-size: 18px;
   margin: 0 0 20px 0;
-  color: rgba(0, 0, 0, 0.85);
+  color: #000000d9;
 }
 .m_uploadfile_panel .m_uploadfile_remark {
   font-size: 16px;
@@ -770,4 +769,78 @@ body {
 }
 .m_uploadfile_panel.disabled .m_uploadfile_input {
   display: none;
+}
+.m_message_panel {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  left: 50%;
+  top: 15px;
+  transform: translate(-50%, 0);
+  box-sizing: border-box;
+  z-index: 99999;
+}
+.m_message_panel .m_message {
+  display: flex;
+  align-items: start;
+  position: relative;
+  border: none;
+  border-radius: 4px;
+  background-color: #fff;
+  overflow: hidden;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+  max-width: 600px;
+  font-size: 14px;
+}
+.m_message_panel .m_message .m_message_content {
+  color: #000000d9;
+  padding: 0;
+  margin: 0;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+.m_message_panel .m_message .m_message_btn_close {
+  font-size: 12px;
+  line-height: 19px;
+  outline: none;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  box-sizing: border-box;
+  margin-left: 10px;
+  color: #000000d9;
+}
+.m_message_panel .m_message .m_message_btn_close:hover {
+  color: #616161;
+}
+.m_message_panel .m_message.m_message_success .m_message_content {
+  color: #28a745;
+}
+.m_message_panel .m_message.m_message_success .m_message_btn_close {
+  color: #28a745;
+}
+.m_message_panel .m_message.m_message_success .m_message_btn_close:hover {
+  color: #218838;
+}
+.m_message_panel .m_message.m_message_warning .m_message_content {
+  color: #ffc107;
+}
+.m_message_panel .m_message.m_message_warning .m_message_btn_close {
+  color: #ffc107;
+}
+.m_message_panel .m_message.m_message_warning .m_message_btn_close:hover {
+  color: #e0a800;
+}
+.m_message_panel .m_message.m_message_error .m_message_content {
+  color: #dc3545;
+}
+.m_message_panel .m_message.m_message_error .m_message_btn_close {
+  color: #dc3545;
+}
+.m_message_panel .m_message.m_message_error .m_message_btn_close:hover {
+  color: #c82333;
 }

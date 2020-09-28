@@ -10,6 +10,7 @@ namespace WebAPP.MateralUI
         /// <param name="services"></param>
         public static void AddMateralUI(this IServiceCollection services)
         {
+            services.AddSingleton<MessageService>();
             services.AddSingleton<NotificationService>();
         }
     }

@@ -10,7 +10,7 @@
     thead {
       th {
         text-align: left;
-        border-bottom: 2px solid #dee2e6;
+        border-bottom: 2px solid@default-border-color;
         height: 35px;
         box-sizing: border-box;
       }
@@ -21,7 +21,7 @@
         box-sizing: border-box;
         td {
           text-align: left;
-          border-top: 1px solid #dee2e6;
+          border-top: 1px solid @default-border-color;
           box-sizing: border-box;
           .m_table_td_content {
             overflow: hidden;
@@ -33,7 +33,7 @@
         }
       }
       tr:hover {
-        background-color: rgba(0, 0, 0, 0.075);
+        background-color: @default-background-color-hover;
       }
     }
   }

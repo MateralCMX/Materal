@@ -121,4 +121,93 @@ var NotificationManage = /** @class */ (function () {
     };
     return NotificationManage;
 }());
+var MessageManage = /** @class */ (function () {
+    function MessageManage() {
+    }
+    /**
+     * 消息
+     * @param content 内容
+     * @param timer 持续时间
+     */
+    MessageManage.prototype.Show = function (content, timer) {
+        if (timer === void 0) { timer = 3000; }
+        this.CreateMessage(content, null, timer);
+    };
+    /**
+     * 成功消息
+     * @param content 内容
+     * @param timer 持续时间
+     */
+    MessageManage.prototype.Success = function (content, timer) {
+        if (timer === void 0) { timer = 3000; }
+        this.CreateMessage(content, 'success', timer);
+    };
+    /**
+     * 错误消息
+     * @param content 内容
+     * @param timer 持续时间
+     */
+    MessageManage.prototype.Error = function (content, timer) {
+        if (timer === void 0) { timer = 3000; }
+        this.CreateMessage(content, 'error', timer);
+    };
+    /**
+     * 警告消息
+     * @param content 内容
+     * @param timer 持续时间
+     */
+    MessageManage.prototype.Warning = function (content, timer) {
+        if (timer === void 0) { timer = 3000; }
+        this.CreateMessage(content, 'warning', timer);
+    };
+    /**
+     * 获得提示面板
+     */
+    MessageManage.prototype.GetMateralUIMessagePanelElement = function () {
+        if (!this._materalUIMessagePanelElement) {
+            this._materalUIMessagePanelElement = document.getElementById('MateralUIMessagePanel');
+        }
+        return this._materalUIMessagePanelElement;
+    };
+    /**
+     * 创建消息
+     * @param content 内容
+     * @param type 类型
+     */
+    MessageManage.prototype.CreateMessage = function (content, type, timer) {
+        var _this = this;
+        var messageElement = document.createElement('section');
+        messageElement.classList.add('m_message');
+        if (type) {
+            messageElement.classList.add("m_message_" + type);
+        }
+        var contentElement = document.createElement('p');
+        contentElement.classList.add('m_message_content');
+        contentElement.innerHTML = content;
+        var btnCloseElement = document.createElement('button');
+        btnCloseElement.classList.add('m_message_btn_close');
+        btnCloseElement.classList.add('Micon');
+        btnCloseElement.classList.add('Micon_close');
+        btnCloseElement.onclick = function () {
+            _this.CloseMessage(messageElement);
+        };
+        messageElement.appendChild(contentElement);
+        messageElement.appendChild(btnCloseElement);
+        this.GetMateralUIMessagePanelElement().appendChild(messageElement);
+        if (timer && timer > 0) {
+            setTimeout(function () {
+                _this.CloseMessage(messageElement);
+            }, timer);
+        }
+    };
+    /**
+     * 关闭消息
+     * @param notificationElement 元素
+     */
+    MessageManage.prototype.CloseMessage = function (notificationElement) {
+        this.GetMateralUIMessagePanelElement().removeChild(notificationElement);
+    };
+    return MessageManage;
+}());
 var notificationManage = new NotificationManage();
+var messageManage = new MessageManage();

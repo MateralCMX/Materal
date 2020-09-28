@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
-    <PackageReference Include="Materal.Common" Version="1.0.3" />
+    <PackageReference Include="Materal.Common" Version="1.0.4" />
     <PackageReference Include="Materal.ConvertHelper" Version="1.0.9" />
     <PackageReference Include="Materal.DateTimeHelper" Version="1.0.2" />
     <PackageReference Include="Materal.EnumHelper" Version="1.0.2" />
@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.8" />
     <PackageReference Include="NetCore.AutoRegisterDi" Version="2.0.0" />
     <PackageReference Include="NLog" Version="4.7.4" />
-    <PackageReference Include="Materal.NetworkHelper" Version="1.1.6" />
+    <PackageReference Include="Materal.NetworkHelper" Version="1.1.7" />
   </ItemGroup>
 
   <ItemGroup>

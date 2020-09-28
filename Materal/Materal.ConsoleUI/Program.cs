@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Materal.Common;
 
 namespace Materal.ConsoleUI
 {
@@ -13,26 +15,22 @@ namespace Materal.ConsoleUI
     {
         public static async Task Main()
         {
-            const string path = @"E:\Project\Materal\Application\Materal.APP\Deploy.Server\Application\template\Start.cmd";
-            var cmdManager = new CmdManager();
-            cmdManager.OutputDataReceived += CmdManager_OutputDataReceived;
-            cmdManager.ErrorDataReceived += CmdManager_ErrorDataReceived;
-            await cmdManager.RunCmdCommandsAsync(
-                @"cd Application\template",
-                @"npm run deploy");
-            //await cmdManager.RunCmdCommandsAsync("E:", @"cd Project\Materal\Application\Materal.APP\Deploy.Server\Application\template", "echo Hello World");
-            //await cmdManager.RunCmdCommandsAsync("echo Hello World");
-            Console.ReadKey();
-        }
-
-        private static void CmdManager_ErrorDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            Console.WriteLine(e.Data);
-        }
-
-        private static void CmdManager_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            Console.WriteLine(e.Data);
+            var aModel = new
+            {
+                Name = "Materal",
+                Name2 = "Materal"
+            };
+            var bModel = new
+            {
+                Name = "Materal",
+                Name2 = "Materal",
+                Name3 = "Materal"
+            };
+            bool result = aModel.PropertyContain(bModel, new Dictionary<string, Func<bool>>
+            {
+                [nameof(aModel.Name2)] = () => aModel.Name2 == bModel.Name2 && aModel.Name2 != bModel.Name3
+            });
+            Console.WriteLine(result);
         }
     }
 }

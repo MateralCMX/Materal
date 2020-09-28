@@ -67,9 +67,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.RabbitMQHelper.Clie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.RabbitMQHelper.ServerExample", "Materal.RabbitMQHelper.ServerExample\Materal.RabbitMQHelper.ServerExample.csproj", "{B5B25450-5E89-4D06-B18E-B901993E88C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WordHelper", "Materal.WordHelper\Materal.WordHelper.csproj", "{453C0404-CEA8-46D2-91F4-C6545856FA5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WordHelper", "Materal.WordHelper\Materal.WordHelper.csproj", "{453C0404-CEA8-46D2-91F4-C6545856FA5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WordHelper.Example", "Materal.WordHelper.Example\Materal.WordHelper.Example.csproj", "{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WordHelper.Example", "Materal.WordHelper.Example\Materal.WordHelper.Example.csproj", "{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BlockchainHelper", "Materal.BlockchainHelper\Materal.BlockchainHelper.csproj", "{4DE18859-D4D5-40A2-B343-1C7D497BC71B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.BlockchainHelper.Example", "Materal.BlockchainHelper.Example\Materal.BlockchainHelper.Example.csproj", "{B0C38F3F-C36C-45E8-8923-6C692D98A71B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,6 +209,14 @@ Global
 		{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DE18859-D4D5-40A2-B343-1C7D497BC71B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DE18859-D4D5-40A2-B343-1C7D497BC71B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DE18859-D4D5-40A2-B343-1C7D497BC71B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DE18859-D4D5-40A2-B343-1C7D497BC71B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0C38F3F-C36C-45E8-8923-6C692D98A71B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0C38F3F-C36C-45E8-8923-6C692D98A71B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0C38F3F-C36C-45E8-8923-6C692D98A71B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0C38F3F-C36C-45E8-8923-6C692D98A71B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -221,6 +233,7 @@ Global
 		{DB8D876F-C89D-4C50-8BC3-472AB061FD1A} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 		{B5B25450-5E89-4D06-B18E-B901993E88C2} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 		{E4A72406-1FA0-4F71-AD1F-19EFA9B2A88E} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
+		{B0C38F3F-C36C-45E8-8923-6C692D98A71B} = {53CDE784-9315-4C8D-8A58-4953B97648CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44D71214-490E-42D6-969C-BDC35C93BEA5}

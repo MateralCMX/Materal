@@ -31,5 +31,5 @@
   padding: 0 10px;
 }
 .m_table_panel > table tbody tr:hover {
-  background-color: rgba(0, 0, 0, 0.075);
+  background-color: #f0f0f0;
 }

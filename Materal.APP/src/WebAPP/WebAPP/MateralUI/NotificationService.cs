@@ -17,9 +17,9 @@ namespace WebAPP.MateralUI
         /// <param name="message"></param>
         /// <param name="title"></param>
         /// <param name="timer"></param>
-        public async Task Show(string message, string title = "提示", int timer = 3000)
+        public async Task ShowAsync(string message, string title = "提示", int timer = 3000)
         {
-            await _jsRuntime.InvokeVoidAsync("notificationManage.Show", title, message, timer);
+            await _jsRuntime.InvokeVoidAsync("notificationManage.ShowAsync", title, message, timer);
         }
         /// <summary>
         /// 信息

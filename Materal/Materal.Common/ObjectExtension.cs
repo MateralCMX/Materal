@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -71,6 +72,35 @@ namespace Materal.Common
                 default:
                     return false;
             }
+        }
+        /// <summary>
+        /// 属性是否包含
+        /// </summary>
+        /// <param name="leftModel"></param>
+        /// <param name="rightModel"></param>
+        /// <param name="maps"></param>
+        /// <returns></returns>
+        public static bool PropertyContain(this object leftModel, object rightModel, Dictionary<string, Func<bool>> maps = null)
+        {
+            Type aType = leftModel.GetType();
+            Type bType = rightModel.GetType();
+            foreach (PropertyInfo aProperty in aType.GetProperties())
+            {
+                if (maps != null && maps.ContainsKey(aProperty.Name))
+                {
+                    bool mapResult = maps[aProperty.Name].Invoke();
+                    if (!mapResult) return false;
+                }
+                else
+                {
+                    PropertyInfo bProperty = bType.GetProperty(aProperty.Name);
+                    if (bProperty == null || aProperty.PropertyType != bProperty.PropertyType) return false;
+                    object aValue = aProperty.GetValue(leftModel);
+                    object bValue = bProperty.GetValue(rightModel);
+                    if (aValue != bValue) return false;
+                }
+            }
+            return true;
         }
     }
 }

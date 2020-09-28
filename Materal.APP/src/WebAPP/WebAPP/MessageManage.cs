@@ -7,9 +7,9 @@ namespace WebAPP
 {
     public class MessageManage
     {
-        private readonly NotificationService _messageService;
+        private readonly MessageService _messageService;
 
-        public MessageManage(NotificationService messageService)
+        public MessageManage(MessageService messageService)
         {
             _messageService = messageService;
         }
@@ -19,7 +19,7 @@ namespace WebAPP
         /// <param name="message"></param>
         public async Task InfoAsync(string message)
         {
-            await _messageService.InfoAsync(message);
+            await _messageService.ShowAsync(message);
         }
         /// <summary>
         /// 成功
