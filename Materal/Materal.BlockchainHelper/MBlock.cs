@@ -32,7 +32,7 @@ namespace Materal.BlockchainHelper
         /// <summary>
         /// 数据字符串
         /// </summary>
-        private string _dataString => Data.ToJson();
+        private string DataString => Data.ToJson();
         /// <summary>
         /// 构造一个创世区块
         /// </summary>
@@ -82,7 +82,7 @@ namespace Materal.BlockchainHelper
         /// <returns></returns>
         public virtual string GetHash()
         {
-            var calculationString = $"{Index}Materal{TimeStamp}Materal{_dataString}Materal{PrevHash}";
+            var calculationString = $"{Index}Materal{TimeStamp}Materal{DataString}Materal{PrevHash}";
             string result = calculationString.ToMd5_32Encode();
             return result;
         }

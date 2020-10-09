@@ -6,12 +6,14 @@
     <Product>Materal.ThreeTierArchitecture</Product>
     <Company>Materal</Company>
     <Authors>Materal</Authors>
-    <Version>2.0.6</Version>
+    <Version>2.0.7</Version>
     <Copyright>Materal</Copyright>
     <Description>Materal.TTA.EFRepository</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
+    <PackageReference Include="Materal.RedisHelper" Version="1.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
   </ItemGroup>
 

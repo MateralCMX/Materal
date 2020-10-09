@@ -24,18 +24,6 @@ namespace Materal.TTA.EFRepository
         protected DbSet<T> DBSet => DBContext.Set<T>();
 
         /// <summary>
-        /// 视图对象
-        /// </summary>
-        [Obsolete("请使用DBSet")]
-        protected DbQuery<T> DBQuery => DBContext.Query<T>();
-
-        /// <summary>
-        /// 数据库对象
-        /// </summary>
-        [Obsolete("请使用DBSet")]
-        protected IQueryable<T> DBQueryable => IsView ? DBContext.Query<T>() : DBContext.Set<T>();
-
-        /// <summary>
         /// 视图标识
         /// </summary>
         protected readonly bool IsView;

@@ -507,7 +507,7 @@ namespace Materal.RedisHelper
         /// 取消订阅
         /// </summary>
         /// <param name="channelName"></param>
-        public async Task UnsubscribeAllAsync(string channelName)
+        public async Task UnsubscribeAsync(string channelName)
         {
             if (_subscriber == null) return;
             await _subscriber.UnsubscribeAsync(channelName);
@@ -515,9 +515,7 @@ namespace Materal.RedisHelper
         /// <summary>
         /// 取消所有订阅
         /// </summary>
-        /// <param name="channelName"></param>
-        /// <param name="func"></param>
-        public async Task UnsubscribeAllAsync(string channelName, Func<string, string, Task> func)
+        public async Task UnsubscribeAllAsync()
         {
             if (_subscriber == null) return;
             await _subscriber.UnsubscribeAllAsync();

@@ -1853,7 +1853,7 @@ var Materal;
             get: function () {
                 return Common.clone(this.engineInfoModel);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(ClientInfoModel.prototype, "browserInfo", {
@@ -1863,7 +1863,7 @@ var Materal;
             get: function () {
                 return Common.clone(this.browserInfoModel);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         Object.defineProperty(ClientInfoModel.prototype, "systemInfo", {
@@ -1873,7 +1873,7 @@ var Materal;
             get: function () {
                 return Common.clone(this.systemInfoModel);
             },
-            enumerable: true,
+            enumerable: false,
             configurable: true
         });
         return ClientInfoModel;

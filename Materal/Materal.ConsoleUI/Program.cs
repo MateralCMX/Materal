@@ -1,19 +1,12 @@
-﻿using Materal.NetworkHelper;
-using Materal.WindowsHelper;
+﻿using Materal.Common;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Materal.Common;
 
 namespace Materal.ConsoleUI
 {
     internal class Program
     {
-        public static async Task Main()
+        public static void Main()
         {
             var aModel = new
             {

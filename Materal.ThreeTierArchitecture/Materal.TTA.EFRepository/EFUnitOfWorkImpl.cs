@@ -12,18 +12,6 @@ namespace Materal.TTA.EFRepository
         {
             _dbContext = context;
         }
-        public virtual async Task CommitAsync()
-        {
-            try
-            {
-                await _dbContext.SaveChangesAsync();
-
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                ex.Entries.Single().Reload();
-            }
-        }
         public virtual void Dispose()
         {
             Dispose(true);
@@ -53,6 +41,17 @@ namespace Materal.TTA.EFRepository
             try
             {
                 _dbContext.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                ex.Entries.Single().Reload();
+            }
+        } public virtual async Task CommitAsync()
+        {
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+
             }
             catch (DbUpdateConcurrencyException ex)
             {

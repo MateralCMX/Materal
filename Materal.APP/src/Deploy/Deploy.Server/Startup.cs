@@ -109,7 +109,9 @@ namespace Deploy.Server
                     context.Context.Response.Headers.Add("Access-Control-Allow-Headers", "*");
                 },
                 RequestPath = "",
-                ContentTypeProvider = provider
+                ContentTypeProvider = provider,
+                ServeUnknownFileTypes = true,
+                DefaultContentType = "application/octet-stream"
             });
             _webAPIStartupHelper.Configure(app, env);
             var dbContextHelper = ApplicationData.GetService<DBContextHelper<DeployDBContext>>();
