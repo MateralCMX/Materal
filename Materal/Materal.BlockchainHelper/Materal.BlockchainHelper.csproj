@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.0.1</Version>
+    <Authors>Materal</Authors>
+    <Product>Materal</Product>
+    <PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+    <Copyright>Materal</Copyright>
+    <Description>Materal区块链类库</Description>
   </PropertyGroup>
 
   <ItemGroup>

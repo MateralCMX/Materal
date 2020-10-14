@@ -12,6 +12,10 @@
   display: block;
   line-height: 25px;
   margin-left: 5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
 }
 .m_checkbox.disable {
   border-color: #cdcdcd;

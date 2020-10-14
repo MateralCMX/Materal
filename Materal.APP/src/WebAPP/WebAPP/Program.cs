@@ -19,11 +19,6 @@ namespace WebAPP
     {
         public static async Task Main(string[] args)
         {
-            //var httpHandler = new HttpClientHandler
-            //{
-            //    ServerCertificateCustomValidationCallback = delegate { return true; }
-            //};
-            //HttpManager.HttpClient = new HttpClient(httpHandler);
             WebAssemblyHost webAssemblyHost = CreateWebHost(args);
             ApplicationData.ServiceProvider = webAssemblyHost.Services;
             await InitHttpManage();

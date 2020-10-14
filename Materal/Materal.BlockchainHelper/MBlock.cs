@@ -30,10 +30,6 @@ namespace Materal.BlockchainHelper
         /// </summary>
         public string PrevHash{ get; set; }
         /// <summary>
-        /// 数据字符串
-        /// </summary>
-        private string DataString => Data.ToJson();
-        /// <summary>
         /// 构造一个创世区块
         /// </summary>
         private MBlock()
@@ -82,7 +78,7 @@ namespace Materal.BlockchainHelper
         /// <returns></returns>
         public virtual string GetHash()
         {
-            var calculationString = $"{Index}Materal{TimeStamp}Materal{DataString}Materal{PrevHash}";
+            var calculationString = $"{Index}Materal{TimeStamp}Materal{Data}Materal{PrevHash}";
             string result = calculationString.ToMd5_32Encode();
             return result;
         }

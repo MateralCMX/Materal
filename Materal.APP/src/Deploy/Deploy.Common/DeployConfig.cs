@@ -49,6 +49,9 @@ namespace Deploy.Common
         }
         #endregion
         #region 配置
+        /// <summary>
+        /// 应用程序白名单
+        /// </summary>
         public static string[] ApplicationNameWhiteList { get; } =
         {
             "api",
