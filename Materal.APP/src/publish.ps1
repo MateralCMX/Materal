@@ -1,7 +1,7 @@
 ﻿$codeDir = "E:\Project\Materal\Project\Materal.APP\src\"#源码文件夹路径
 $publishDir = "E:\Project\Materal\Application\Materal.APP\"#发布文件夹路径
 $applicationSuffixs = "Server","WebAPP"#后缀名
-$applicationPrefixs = "Authority","ConfigCenter","ConfigCenter.Environment","Deploy","Materal.APP", "WebAPP"#前缀名 "Authority","ConfigCenter","ConfigCenter.Environment","Deploy","Materal.APP","WebAPP"
+$applicationPrefixs = "WebAPP"#前缀名 "Authority","ConfigCenter","ConfigCenter.Environment","Deploy","Materal.APP","WebAPP"
 $version = "Release"#Debug Release
 Remove-Item -Path:"$publishDir\*" -Recurse:$true
 Function GetChildItems(){
