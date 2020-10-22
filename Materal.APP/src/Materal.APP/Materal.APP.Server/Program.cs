@@ -25,6 +25,7 @@ namespace Materal.APP.Server
             Console.Title = $"{ApplicationConfig.ServerInfo.Name} 版本:[{ApplicationConfig.GetProgramVersion()}]";
             string[] inputArgs = MateralAPPHelper.HandlerArgs(args, ApplicationConfig.ServerInfo);
             MateralAPPConsoleHelper.WriteLine($"本服务地址:{ApplicationConfig.Url}");
+            MateralAPPConsoleHelper.WriteLine($"本服务公开地址:{ApplicationConfig.PublicUrl}");
             await CreateHostBuilder(inputArgs).Build().RunAsync();
         }
         /// <summary>

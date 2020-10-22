@@ -88,6 +88,7 @@ namespace Materal.APP.Core
         /// </summary>
         public static ServerInfoModel ServerInfo => _serverInfo ??= new ServerInfoModel
         {
+            PublicUrl = Configuration["ServerInfo:PublicUrl"],
             Url = Configuration["ServerInfo:Url"],
             Key = Configuration["ServerInfo:Key"],
             Name = Configuration["ServerInfo:Name"]
@@ -96,6 +97,10 @@ namespace Materal.APP.Core
         /// 链接地址
         /// </summary>
         public static string Url{ get; set; }
+        /// <summary>
+        /// 公开链接地址
+        /// </summary>
+        public static string PublicUrl { get; set; }
         /// <summary>
         /// 获得程序版本号
         /// </summary>

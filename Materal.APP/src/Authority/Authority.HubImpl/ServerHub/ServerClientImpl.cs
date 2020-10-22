@@ -9,7 +9,7 @@ namespace Authority.HubImpl.ServerHub
 {
     public class ServerClientImpl : BaseClientImpl, IServerClient
     {
-        public ServerClientImpl() : base($"{ApplicationConfig.ServerInfo.Url}/ServerHub")
+        public ServerClientImpl() : base($"{ApplicationConfig.ServerInfo.PublicUrl ?? ApplicationConfig.ServerInfo.Url}/ServerHub")
         {
             Connection.On<bool, string>(nameof(RegisterResult), RegisterResult);
         }

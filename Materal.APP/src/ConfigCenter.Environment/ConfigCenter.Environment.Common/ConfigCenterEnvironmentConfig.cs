@@ -66,6 +66,7 @@ namespace ConfigCenter.Environment.Common
         /// </summary>
         public static ServerInfoModel ServerInfo => _serverInfo ??= new ServerInfoModel
         {
+            PublicUrl = Configuration["ServerInfo:PublicUrl"],
             Url = Configuration["ServerInfo:Url"],
             Key = Configuration["ServerInfo:Key"],
             Name = Configuration["ServerInfo:Name"]

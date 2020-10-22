@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Text.Json;
-using Newtonsoft.Json;
 
 namespace Materal.APP.WebAPICore.Filters
 {

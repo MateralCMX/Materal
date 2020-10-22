@@ -25,6 +25,7 @@ namespace Deploy.Server
             Console.Title = $"{DeployConfig.ServerInfo.Name} 版本:[{ApplicationConfig.GetProgramVersion()}]";
             string[] inputArgs = MateralAPPHelper.HandlerArgs(args, DeployConfig.ServerInfo);
             DeployConsoleHelper.WriteLine($"本服务地址:{ApplicationConfig.Url}");
+            DeployConsoleHelper.WriteLine($"本服务公开地址:{ApplicationConfig.PublicUrl}");
             await CreateHostBuilder(inputArgs).Build().RunAsync();
         }
         /// <summary>

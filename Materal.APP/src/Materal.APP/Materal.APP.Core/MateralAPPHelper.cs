@@ -31,6 +31,7 @@ namespace Materal.APP.Core
                     ApplicationConfig.Url = tempArgs[1].Split(';')[0];
                 }
             }
+            ApplicationConfig.PublicUrl = serverInfo.PublicUrl ?? ApplicationConfig.Url;
             return inputArgs;
         }
     }

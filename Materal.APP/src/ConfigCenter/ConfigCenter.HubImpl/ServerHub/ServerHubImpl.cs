@@ -31,7 +31,7 @@ namespace ConfigCenter.HubImpl.ServerHub
             var registerModel = new RegisterRequestModel
             {
                 Name = ConfigCenterConfig.ServerInfo.Name,
-                Url = ApplicationConfig.Url,
+                Url = ApplicationConfig.PublicUrl,
                 ServerCategory = ServerCategoryEnum.ConfigCenter,
                 Key = ConfigCenterConfig.ServerInfo.Key
             };

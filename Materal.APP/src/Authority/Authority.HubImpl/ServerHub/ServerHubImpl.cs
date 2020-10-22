@@ -31,7 +31,7 @@ namespace Authority.HubImpl.ServerHub
             var registerModel = new RegisterRequestModel
             {
                 Name = AuthorityConfig.ServerInfo.Name,
-                Url = ApplicationConfig.Url,
+                Url = ApplicationConfig.PublicUrl,
                 ServerCategory = ServerCategoryEnum.Authority,
                 Key = AuthorityConfig.ServerInfo.Key
             };

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ConfigCenter.Environment.Common;
 using Materal.APP.Core;
 using Materal.APP.WebAPICore;
@@ -9,6 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
+using System;
+using System.Threading.Tasks;
 
 namespace ConfigCenter.Environment.Server
 {
@@ -27,6 +25,7 @@ namespace ConfigCenter.Environment.Server
             Console.Title = $"{ConfigCenterEnvironmentConfig.ServerInfo.Name} 版本:[{ApplicationConfig.GetProgramVersion()}]";
             string[] inputArgs = MateralAPPHelper.HandlerArgs(args, ConfigCenterEnvironmentConfig.ServerInfo);
             ConfigCenterEnvironmentConsoleHelper.WriteLine($"本服务地址:{ApplicationConfig.Url}");
+            ConfigCenterEnvironmentConsoleHelper.WriteLine($"本服务公开地址:{ApplicationConfig.PublicUrl}");
             await CreateHostBuilder(inputArgs).Build().RunAsync();
         }
         /// <summary>

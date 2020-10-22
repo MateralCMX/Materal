@@ -52,8 +52,8 @@ namespace ConfigCenter.Environment.HubImpl.ConfigCenterHub
 
         public async Task SyncConfigurationItem(string key, ICollection<string> targetKeys, ICollection<AddConfigurationItemRequestModel> configurationItems)
         {
-            if (key == ApplicationConfig.Url) return;
-            if (!targetKeys.Contains(ApplicationConfig.Url)) return;
+            if (key == ApplicationConfig.PublicUrl) return;
+            if (!targetKeys.Contains(ApplicationConfig.PublicUrl)) return;
             var model = _mapper.Map<List<AddConfigurationItemModel>>(configurationItems);
             await _configurationItemService.InitConfigurationItemsAsync(model);
         }

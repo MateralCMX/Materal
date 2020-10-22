@@ -31,7 +31,7 @@ namespace Deploy.HubImpl.ServerHub
             var registerModel = new RegisterRequestModel
             {
                 Name = DeployConfig.ServerInfo.Name,
-                Url = ApplicationConfig.Url,
+                Url = ApplicationConfig.PublicUrl,
                 ServerCategory = ServerCategoryEnum.Deploy,
                 Key = DeployConfig.ServerInfo.Key
             };

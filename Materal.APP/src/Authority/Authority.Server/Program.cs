@@ -25,6 +25,7 @@ namespace Authority.Server
             Console.Title = $"{AuthorityConfig.ServerInfo.Name} 版本:[{ApplicationConfig.GetProgramVersion()}]";
             string[] inputArgs = MateralAPPHelper.HandlerArgs(args, AuthorityConfig.ServerInfo);
             AuthorityConsoleHelper.WriteLine($"本服务地址:{ApplicationConfig.Url}");
+            AuthorityConsoleHelper.WriteLine($"本服务公开地址:{ApplicationConfig.PublicUrl}");
             await CreateHostBuilder(inputArgs).Build().RunAsync();
         }
         /// <summary>

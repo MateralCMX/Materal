@@ -92,7 +92,7 @@ namespace ConfigCenter.Environment.Server
                     var registerModel = new RegisterEnvironmentRequestModel
                     {
                         Name = ConfigCenterEnvironmentConfig.ServerInfo.Name,
-                        Url = ApplicationConfig.Url,
+                        Url = ApplicationConfig.PublicUrl,
                         Key = ConfigCenterEnvironmentConfig.ServerInfo.Key
                     };
                     await configCenterHub.RegisterEnvironment(registerModel);

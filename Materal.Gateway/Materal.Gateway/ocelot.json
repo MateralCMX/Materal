@@ -1,9 +1,9 @@
 {
   "ReRoutes": [],
   "GlobalConfiguration": {
-    "BaseUrl": "http://116.55.251.31:8900",
+    "BaseUrl": "http://39.130.168.122:8900",
     "ServiceDiscoveryProvider": {
-      "Host": "116.55.251.31",
+      "Host": "192.168.0.3",
       "Port": 8500,
       "Type": "Consul"
     }
