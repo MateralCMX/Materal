@@ -10,6 +10,7 @@ using Materal.ConvertHelper;
 using Materal.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Deploy.ServiceImpl
@@ -36,6 +37,7 @@ namespace Deploy.ServiceImpl
             var defaultData = model.CopyProperties<DefaultData>();
             _deploySqliteEFUnitOfWork.RegisterAdd(defaultData);
             await _deploySqliteEFUnitOfWork.CommitAsync();
+            await _defaultDataRepository.ClearCacheAsync();
         }
 
         public async Task EditAsync(EditDefaultDataModel model)
@@ -50,6 +52,7 @@ namespace Deploy.ServiceImpl
             defaultDataFromDB.UpdateTime = DateTime.Now;
             _deploySqliteEFUnitOfWork.RegisterEdit(defaultDataFromDB);
             await _deploySqliteEFUnitOfWork.CommitAsync();
+            await _defaultDataRepository.ClearCacheAsync();
         }
 
         public async Task DeleteAsync(Guid id)
@@ -58,6 +61,7 @@ namespace Deploy.ServiceImpl
             if (defaultDataFromDB == null) throw new DeployException("默认数据不存在");
             _deploySqliteEFUnitOfWork.RegisterDelete(defaultDataFromDB);
             await _deploySqliteEFUnitOfWork.CommitAsync();
+            await _defaultDataRepository.ClearCacheAsync();
         }
 
         public async Task<DefaultDataDTO> GetInfoAsync(Guid id)
@@ -70,7 +74,11 @@ namespace Deploy.ServiceImpl
 
         public async Task<(List<DefaultDataListDTO> defaultDataList, PageModel pageModel)> GetListAsync(QueryDefaultDataFilterModel model)
         {
-            (List<DefaultData> defaultDataList, PageModel pageModel) = await _defaultDataRepository.PagingAsync(model);
+            List<DefaultData> allDefaultData = await _defaultDataRepository.GetAllInfoFromCacheAsync();
+            Func<DefaultData, bool> searchDelegate = model.GetSearchDelegate<DefaultData>();
+            List<DefaultData> defaultDataList = allDefaultData.Where(searchDelegate).ToList();
+            var pageModel = new PageModel(model, defaultDataList.Count);
+            defaultDataList = defaultDataList.Skip(model.Skip).Take(model.Take).ToList();
             var result = _mapper.Map<List<DefaultDataListDTO>>(defaultDataList);
             return (result, pageModel);
         }

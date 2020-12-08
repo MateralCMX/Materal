@@ -3,7 +3,7 @@ using Materal.TTA.EFRepository;
 
 namespace ConfigCenter.Environment.Domain.Repositories
 {
-    public interface IConfigurationItemRepository : IEFRepository<ConfigurationItem, Guid>
+    public interface IConfigurationItemRepository : ICacheEFRepository<ConfigurationItem, Guid>
     {
     }
 }

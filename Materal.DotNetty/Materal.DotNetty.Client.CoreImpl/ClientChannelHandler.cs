@@ -45,39 +45,6 @@ namespace Materal.DotNetty.Client.CoreImpl
                     OnException?.Invoke(exception);
                 }
             });
-            //IChannel ch = context.Channel;
-            //if (!handshaker.IsHandshakeComplete)
-            //{
-            //    try
-            //    {
-            //        handshaker.FinishHandshake(ch, (IFullHttpResponse)data);
-            //        Console.WriteLine("WebSocket Client connected!");
-            //        completionSource.TryComplete();
-            //    }
-            //    catch (WebSocketHandshakeException e)
-            //    {
-            //        Console.WriteLine("WebSocket Client failed to connect");
-            //        completionSource.TrySetException(e);
-            //    }
-            //    return;
-            //}
-            //if (data is IFullHttpResponse response)
-            //{
-            //    throw new InvalidOperationException($"Unexpected FullHttpResponse (getStatus={response.Status}, content={response.Content.ToString(Encoding.UTF8)})");
-            //}
-            //if (data is TextWebSocketFrame textFrame)
-            //{
-            //    Console.WriteLine($"WebSocket Client received message: {textFrame.Text()}");
-            //}
-            //else if (data is PongWebSocketFrame)
-            //{
-            //    Console.WriteLine("WebSocket Client received pong");
-            //}
-            //else if (data is CloseWebSocketFrame)
-            //{
-            //    Console.WriteLine("WebSocket Client received closing");
-            //    ch.CloseAsync();
-            //}
         }
 
         public override void ExceptionCaught(IChannelHandlerContext ctx, Exception exception)

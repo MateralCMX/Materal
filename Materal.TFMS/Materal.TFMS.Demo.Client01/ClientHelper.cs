@@ -30,25 +30,16 @@ namespace Materal.TFMS.Demo.Client01
         {
             AppName = "Client01";
             Services = new ServiceCollection();
-            Services.AddTransient<IConnectionFactory, ConnectionFactory>(serviceProvider => new ConnectionFactory
-            {
-                HostName = "127.0.0.1",
-                DispatchConsumersAsync = true,
-                UserName = "admin",
-                Password = "admin"
-            });
+            Services.AddTransient<IConnectionFactory, ConnectionFactory>(serviceProvider => ConnectionHelper.GetConnectionFactory());
             Services.AddTransient<ILoggerFactory, LoggerFactory>();
             const string queueName = "MateralTFMSDemoQueueName1";
-            const string exchangeName = "MateralTFMSDemoExchangeName";
-            Services.AddEventBus(queueName, exchangeName);
+            Services.AddEventBus(queueName, ConnectionHelper.ExchangeName);
             Services.AddSingleton<IClient, ClientImpl>();
             Services.AddTransient<Client01Event01Handler>();
             Services.AddTransient<Client01Event02Handler>();
             Services.AddTransient<Client01Event02Handler2>();
             Services.AddTransient<Client01Event03Handler>();
             Services.AddTransient<Client01Event03Handler2>();
-            Services.AddTransient<Client01Event04Handler>();
-            Services.AddTransient<Client01Event05Handler>();
             Services.AddLogging(builder =>
             {
                 builder.SetMinimumLevel(LogLevel.Trace);

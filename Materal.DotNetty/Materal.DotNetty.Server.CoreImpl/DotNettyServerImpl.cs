@@ -2,7 +2,6 @@
 using DotNetty.Transport.Bootstrapping;
 using DotNetty.Transport.Channels;
 using DotNetty.Transport.Channels.Sockets;
-using Materal.DotNetty.Common;
 using Materal.DotNetty.Server.Core;
 using Materal.StringHelper;
 using Microsoft.Extensions.DependencyInjection;

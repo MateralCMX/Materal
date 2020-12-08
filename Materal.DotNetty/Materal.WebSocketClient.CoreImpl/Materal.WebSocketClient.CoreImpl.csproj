@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Materal</Authors>
+    <Product>Materal.DotNetty</Product>
+    <Version>0.1.12</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
+    <PackageReference Include="Materal.ConvertHelper" Version="1.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.DotNetty.EventBus\Materal.DotNetty.EventBus.csproj" />
+    <ProjectReference Include="..\Materal.WebSocketClient.Core\Materal.WebSocketClient.Core.csproj" />
+  </ItemGroup>
+
+</Project>

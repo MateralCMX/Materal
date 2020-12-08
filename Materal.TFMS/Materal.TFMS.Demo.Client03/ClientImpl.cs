@@ -16,6 +16,7 @@ namespace Materal.TFMS.Demo.Client03
             eventBus.Subscribe<Event01, Client03Event01Handler2>();
             eventBus.Subscribe<Event02, Client03Event02Handler>();
             eventBus.Subscribe<Event02, Client03Event02Handler2>();
+            _eventBus.StartListening();
         }
 
         public void SendEvent()

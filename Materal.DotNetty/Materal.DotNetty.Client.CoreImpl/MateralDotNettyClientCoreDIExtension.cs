@@ -11,7 +11,6 @@ namespace Materal.DotNetty.Client.CoreImpl
         /// <param name="services"></param>
         public static void AddMateralDotNettyClientCore(this IServiceCollection services)
         {
-            services.AddSingleton<IDotNettyClient, DotNettyClientImpl>();
             //services.AddTransient<MateralClientChannelHandler>();
         }
     }

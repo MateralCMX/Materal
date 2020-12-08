@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Demo.Commands\Demo.Commands.csproj" />
+    <ProjectReference Include="..\Demo.Common\Demo.Common.csproj" />
+    <ProjectReference Include="..\Demo.EventHandlers\Demo.EventHandlers.csproj" />
+    <ProjectReference Include="..\Materal.WebSocketClient.CoreImpl\Materal.WebSocketClient.CoreImpl.csproj" />
+  </ItemGroup>
+
+</Project>

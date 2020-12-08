@@ -8,8 +8,6 @@ using NLog.Config;
 using NLog.Extensions.Logging;
 using RabbitMQ.Client;
 using System;
-using Materal.TFMS.EventBus;
-using Materal.TFMS.EventBus.RabbitMQ;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Materal.TFMS.Demo.Client02
@@ -32,17 +30,10 @@ namespace Materal.TFMS.Demo.Client02
         {
             AppName = "Client02";
             Services = new ServiceCollection();
-            Services.AddTransient<IConnectionFactory, ConnectionFactory>(serviceProvider => new ConnectionFactory
-            {
-                HostName = "127.0.0.1",
-                DispatchConsumersAsync = true,
-                UserName = "admin",
-                Password = "admin"
-            });
+            Services.AddTransient<IConnectionFactory, ConnectionFactory>(serviceProvider => ConnectionHelper.GetConnectionFactory());
             Services.AddTransient<ILoggerFactory, LoggerFactory>();
             const string queueName = "MateralTFMSDemoQueueName2";
-            const string exchangeName = "MateralTFMSDemoExchangeName";
-            Services.AddEventBus(queueName, exchangeName);
+            Services.AddEventBus(queueName, ConnectionHelper.ExchangeName);
             Services.AddSingleton<IClient, ClientImpl>();
             Services.AddTransient<Client02Event01Handler>();
             Services.AddTransient<Client02Event01Handler2>();

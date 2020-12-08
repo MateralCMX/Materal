@@ -1,5 +1,6 @@
 ﻿using DotNetty.Transport.Channels;
 using System;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 
 namespace Materal.DotNetty.EventBus
@@ -13,9 +14,9 @@ namespace Materal.DotNetty.EventBus
         /// <summary>
         /// 处理
         /// </summary>
-        /// <param name="@event"></param>
+        /// <param name="event"></param>
         /// <param name="channel"></param>
         /// <returns></returns>
-        Task HandlerAsync(IEvent @event, IChannel channel);
+        Task HandlerAsync(IEvent @event, ClientWebSocket channel);
     }
 }

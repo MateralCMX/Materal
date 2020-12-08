@@ -6,6 +6,7 @@ using ConfigCenter.Hubs.Clients;
 using ConfigCenter.Hubs.Hubs;
 using Materal.APP.Core;
 using Materal.APP.HttpClient;
+using Materal.CacheHelper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NetCore.AutoRegisterDi;
@@ -34,6 +35,8 @@ namespace ConfigCenter.Environment.DependencyInjection
             services.AddSingleton<IConfigCenterClient, ConfigCenterClientImpl>();
             services.AddSingleton<IConfigCenterHub, ConfigCenterHubImpl>();
             services.AddTransient<IConfigCenterEnvironmentSqliteEFUnitOfWork, ConfigCenterEnvironmentSqliteEFUnitOfWorkImpl>();
+            services.AddMemoryCache();
+            services.AddSingleton<ICacheManager, MemoryCacheManager>();
         }
     }
 }

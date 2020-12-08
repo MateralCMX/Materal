@@ -3,7 +3,7 @@ using System;
 
 namespace Deploy.Domain.Repositories
 {
-    public interface IDefaultDataRepository : IEFRepository<DefaultData, Guid>
+    public interface IDefaultDataRepository : ICacheEFRepository<DefaultData, Guid>
     {
     }
 }

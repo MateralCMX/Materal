@@ -7,6 +7,7 @@ using Materal.APP.DataTransmitModel;
 using Materal.APP.Enums;
 using Materal.APP.HttpManage;
 using Materal.APP.WebAPICore;
+using Materal.CacheHelper;
 using Materal.Common;
 using Materal.Model;
 using Microsoft.AspNetCore.Builder;
@@ -60,6 +61,7 @@ namespace ConfigCenter.Environment.Server
         /// <param name="env"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            ApplicationData.GetService<ICacheManager>();
             var rewriteOptions = new RewriteOptions();
             rewriteOptions.Add(new RedirectHomeIndexRequests("/swagger/index.html"));
             app.UseRewriter(rewriteOptions);

@@ -4,17 +4,16 @@ using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem;
 using ConfigCenter.Environment.Domain;
 using ConfigCenter.Environment.Domain.Repositories;
 using ConfigCenter.Environment.Services;
+using ConfigCenter.Environment.Services.Models.ConfigurationItem;
 using ConfigCenter.Environment.SqliteEFRepository;
 using Materal.ConvertHelper;
 using Materal.LinqHelper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data.SqlClient;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using ConfigCenter.Environment.Services.Models.ConfigurationItem;
-using System.Linq;
 
 namespace ConfigCenter.Environment.ServiceImpl
 {
@@ -49,6 +48,7 @@ namespace ConfigCenter.Environment.ServiceImpl
                 }
             }
             await _configCenterEnvironmentUnitOfWork.CommitAsync();
+            await _configurationItemRepository.ClearCacheAsync();
         }
 
         public async Task AddConfigurationItemAsync(AddConfigurationItemModel model)
@@ -57,6 +57,7 @@ namespace ConfigCenter.Environment.ServiceImpl
             var configurationItem = model.CopyProperties<ConfigurationItem>();
             _configCenterEnvironmentUnitOfWork.RegisterAdd(configurationItem);
             await _configCenterEnvironmentUnitOfWork.CommitAsync();
+            await _configurationItemRepository.ClearCacheAsync();
         }
 
         public async Task EditConfigurationItemAsync(EditConfigurationItemModel model)
@@ -68,6 +69,7 @@ namespace ConfigCenter.Environment.ServiceImpl
             configurationItemFromDb.UpdateTime = DateTime.Now;
             _configCenterEnvironmentUnitOfWork.RegisterEdit(configurationItemFromDb);
             await _configCenterEnvironmentUnitOfWork.CommitAsync();
+            await _configurationItemRepository.ClearCacheAsync();
         }
 
         public async Task DeleteConfigurationItemAsync([Required(ErrorMessage = "唯一标识不能为空")]Guid id)
@@ -76,6 +78,7 @@ namespace ConfigCenter.Environment.ServiceImpl
             if (configurationItemFromDb == null) throw new ConfigCenterEnvironmentException("配置项不存在");
             _configCenterEnvironmentUnitOfWork.RegisterDelete(configurationItemFromDb);
             await _configCenterEnvironmentUnitOfWork.CommitAsync();
+            await _configurationItemRepository.ClearCacheAsync();
         }
 
         public async Task DeleteConfigurationItemByProjectIDAsync(Guid projectID)
@@ -86,6 +89,7 @@ namespace ConfigCenter.Environment.ServiceImpl
                 _configCenterEnvironmentUnitOfWork.RegisterDelete(configurationItem);
             }
             await _configCenterEnvironmentUnitOfWork.CommitAsync();
+            await _configurationItemRepository.ClearCacheAsync();
         }
 
         public async Task DeleteConfigurationItemByNamespaceIDAsync(Guid namespaceID)
@@ -96,6 +100,7 @@ namespace ConfigCenter.Environment.ServiceImpl
                 _configCenterEnvironmentUnitOfWork.RegisterDelete(configurationItem);
             }
             await _configCenterEnvironmentUnitOfWork.CommitAsync();
+            await _configurationItemRepository.ClearCacheAsync();
         }
 
         public async Task<ConfigurationItemDTO> GetConfigurationItemInfoAsync([Required(ErrorMessage = "唯一标识不能为空")]Guid id)
@@ -118,7 +123,8 @@ namespace ConfigCenter.Environment.ServiceImpl
                 }
                 searchExpression = searchExpression.And(temp);
             }
-            List<ConfigurationItem> configurationItemsFromDb = await _configurationItemRepository.FindAsync(searchExpression, m => m.Key, SortOrder.Ascending);
+            List<ConfigurationItem> allConfigurationItems = await _configurationItemRepository.GetAllInfoFromCacheAsync();
+            List<ConfigurationItem> configurationItemsFromDb = allConfigurationItems.Where(searchExpression.Compile()).OrderBy(m=>m.Key).ToList();
             var result = _mapper.Map<List<ConfigurationItemListDTO>>(configurationItemsFromDb);
             return result;
         }

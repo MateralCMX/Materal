@@ -13,7 +13,7 @@ namespace Demo.Controllers.Filters
     {
         public IFullHttpResponse HandlerException(IByteBufferHolder byteBufferHolder, Exception exception)
         {
-            ConsoleHelper.ServerWriteError(exception);
+            ConsoleHelper.WriteError(exception);
             ResultModel resultModel = ResultModel.Fail("服务器错误，请联系后端工程师");
             return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.OK, resultModel.ToJson());
         }

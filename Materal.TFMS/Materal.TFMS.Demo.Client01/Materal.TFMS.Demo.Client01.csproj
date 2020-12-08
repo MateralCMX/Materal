@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Materal.TFMS.Demo.Client01.EventHandlers\Materal.TFMS.Demo.Client01.EventHandlers.csproj" />
+    <ProjectReference Include="..\Materal.TFMS.Demo.Client02.EventHandlers\Materal.TFMS.Demo.Client02.EventHandlers.csproj" />
     <ProjectReference Include="..\Materal.TFMS.Demo.Core\Materal.TFMS.Demo.Core.csproj" />
   </ItemGroup>
 

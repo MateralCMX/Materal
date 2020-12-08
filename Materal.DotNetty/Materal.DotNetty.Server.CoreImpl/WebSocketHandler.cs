@@ -90,7 +90,7 @@ namespace Materal.DotNetty.Server.CoreImpl
                     break;
                 //文本
                 case TextWebSocketFrame textWebSocketFrame:
-                    string commandJson = textWebSocketFrame.Content.ToString(Encoding.UTF8);
+                    var commandJson = textWebSocketFrame.Content.ToString(Encoding.UTF8);
                     ICommand command = commandJson.JsonToObject<BaseCommand>();
                     ICommandHandler commandHandler = _commandBus.GetCommandHandler(command.CommandHandler);
                     command = (ICommand)commandJson.JsonToObject(commandHandler.CommandType);

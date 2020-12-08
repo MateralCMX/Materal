@@ -1,5 +1,5 @@
-﻿using System;
-using Materal.DotNetty.Client.Core;
+﻿using Materal.DotNetty.Common;
+using System;
 
 namespace Materal.DotNetty.EventBus
 {
@@ -17,9 +17,9 @@ namespace Materal.DotNetty.EventBus
         public IEventHandler GetEventHandler(string eventHandlerName)
         {
             Type type = _eventHandlerHelper.GetEventHandler(eventHandlerName);
-            if (type == null) throw new DotNettyClientException("未找到事件处理器");
+            if (type == null) throw new DotNettyException("未找到事件处理器");
             object service = _serviceProvider.GetService(type);
-            if (!(service is IEventHandler eventHandler)) throw new DotNettyClientException($"事件处理器必须实现接口{nameof(IEventHandler)}");
+            if (!(service is IEventHandler eventHandler)) throw new DotNettyException($"事件处理器必须实现接口{nameof(IEventHandler)}");
             return eventHandler;
         }
     }

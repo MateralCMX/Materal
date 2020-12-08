@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Materal.DotNetty.Common;
+using System;
 using System.Collections.Generic;
-using Materal.DotNetty.Client.Core;
 
 namespace Materal.DotNetty.EventBus
 {
@@ -17,7 +17,7 @@ namespace Materal.DotNetty.EventBus
         /// <returns></returns>
         public bool TryAddEventHandler(Type type)
         {
-            if (type == null) throw new DotNettyClientException("事件处理器类型为空");
+            if (type == null) throw new DotNettyException("事件处理器类型为空");
             string key = type.Name;
             if (_eventHandlers.ContainsKey(key)) return false;
             _eventHandlers.Add(key, type);
@@ -30,7 +30,7 @@ namespace Materal.DotNetty.EventBus
         /// <returns></returns>
         public Type GetEventHandler(string key)
         {
-            if (!_eventHandlers.ContainsKey(key)) throw new DotNettyClientException("未找到对应事件处理器");
+            if (!_eventHandlers.ContainsKey(key)) throw new DotNettyException("未找到对应事件处理器");
             return _eventHandlers[key];
         }
     }

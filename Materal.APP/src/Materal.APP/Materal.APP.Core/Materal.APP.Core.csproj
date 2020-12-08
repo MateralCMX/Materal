@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
     <PackageReference Include="Materal.Common" Version="1.0.4" />
     <PackageReference Include="Materal.ConvertHelper" Version="1.0.9" />
@@ -16,11 +16,11 @@
     <PackageReference Include="Materal.LinqHelper" Version="1.0.2" />
     <PackageReference Include="Materal.Model" Version="1.0.9" />
     <PackageReference Include="Materal.StringHelper" Version="1.0.5" />
-    <PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.6" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.8" />
-    <PackageReference Include="NetCore.AutoRegisterDi" Version="2.0.0" />
-    <PackageReference Include="NLog" Version="4.7.4" />
+    <PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.9" />
+    <PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
+    <PackageReference Include="NLog" Version="4.7.5" />
     <PackageReference Include="Materal.NetworkHelper" Version="1.1.7" />
   </ItemGroup>
 

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Demo.CommandHandlers\Demo.CommandHandlers.csproj" />
     <ProjectReference Include="..\Demo.Controllers\Demo.Controllers.csproj" />
   </ItemGroup>
 

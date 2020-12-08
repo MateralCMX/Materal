@@ -7,7 +7,7 @@ namespace Demo.Common
     public static class ApplicationService
     {
         private static IServiceCollection Services;
-        private static IServiceProvider ServiceProvider;
+        public static IServiceProvider ServiceProvider;
         /// <summary>
         /// 注册服务
         /// </summary>

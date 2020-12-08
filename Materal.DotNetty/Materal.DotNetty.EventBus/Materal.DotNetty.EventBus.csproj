@@ -5,16 +5,16 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Materal</Authors>
     <Product>Materal.DotNetty</Product>
-    <Version>0.1.11</Version>
+    <Version>0.1.12</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="DotNetty.Transport" Version="0.6.0" />
-    <PackageReference Include="Materal.ConvertHelper" Version="1.0.8" />
+    <PackageReference Include="Materal.ConvertHelper" Version="1.0.9" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Materal.DotNetty.Client.Core\Materal.DotNetty.Client.Core.csproj" />
+    <ProjectReference Include="..\Materal.DotNetty.Common\Materal.DotNetty.Common.csproj" />
   </ItemGroup>
 
 </Project>

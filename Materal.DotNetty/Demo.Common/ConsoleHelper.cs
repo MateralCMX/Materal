@@ -4,7 +4,7 @@ namespace Demo.Common
 {
     public class ConsoleHelper
     {
-        private const string ServerName = "DemoServer";
+        public static string AppName = "DemoServer";
         /// <summary>
         /// 写入控制台
         /// </summary>
@@ -39,9 +39,9 @@ namespace Demo.Common
         /// <param name="message"></param>
         /// <param name="subTitle"></param>
         /// <param name="consoleColor"></param>
-        public static void ServerWrite(string message, string subTitle = null, ConsoleColor consoleColor = ConsoleColor.White)
+        public static void Write(string message, string subTitle = null, ConsoleColor consoleColor = ConsoleColor.White)
         {
-            Write(ServerName, message, subTitle, consoleColor);
+            Write(AppName, message, subTitle, consoleColor);
         }
         /// <summary>
         /// 写入控制台
@@ -49,17 +49,17 @@ namespace Demo.Common
         /// <param name="message"></param>
         /// <param name="subTitle"></param>
         /// <param name="consoleColor"></param>
-        public static void ServerWriteLine(string message, string subTitle = null, ConsoleColor consoleColor = ConsoleColor.White)
+        public static void WriteLine(string message, string subTitle = null, ConsoleColor consoleColor = ConsoleColor.White)
         {
-            WriteLine(ServerName, message, subTitle, consoleColor);
+            WriteLine(AppName, message, subTitle, consoleColor);
         }
         /// <summary>
         /// 写入错误
         /// </summary>
         /// <param name="exception"></param>
-        public static void ServerWriteError(Exception exception)
+        public static void WriteError(Exception exception)
         {
-            ServerWriteLine(GetErrorMessage(exception), "错误", ConsoleColor.Red);
+            WriteLine(GetErrorMessage(exception), "错误", ConsoleColor.Red);
         }
         #region 私有方法
         /// <summary>

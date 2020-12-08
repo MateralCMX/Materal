@@ -1,4 +1,3 @@
-using Materal.DotNetty.Common;
 using System;
 using System.Threading.Tasks;
 
@@ -30,7 +29,7 @@ namespace Materal.DotNetty.Client.Core
         /// 启动服务
         /// </summary>
         /// <returns></returns>
-        Task RunAsync(ClientConfig clientConfig);
+        Task RunAsync();
         /// <summary>
         /// 停止服务
         /// </summary>
