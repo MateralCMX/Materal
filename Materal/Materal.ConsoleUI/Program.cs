@@ -1,6 +1,6 @@
-﻿using Materal.Common;
+﻿using Materal.V8ScriptEngine;
 using System;
-using System.Collections.Generic;
+using System.IO;
 
 namespace Materal.ConsoleUI
 {
@@ -8,22 +8,18 @@ namespace Materal.ConsoleUI
     {
         public static void Main()
         {
-            var aModel = new
-            {
-                Name = "Materal",
-                Name2 = "Materal"
+            string[] libsPath = {
+                Path.Combine(AppDomain.CurrentDomain.BaseDirectory ?? "", "turf.min.js")
             };
-            var bModel = new
-            {
-                Name = "Materal",
-                Name2 = "Materal",
-                Name3 = "Materal"
-            };
-            bool result = aModel.PropertyContain(bModel, new Dictionary<string, Func<bool>>
-            {
-                [nameof(aModel.Name2)] = () => aModel.Name2 == bModel.Name2 && aModel.Name2 != bModel.Name3
-            });
-            Console.WriteLine(result);
+
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory ?? string.Empty, "TestJs.js");
+            var jsCode = $@"
+var a = Handler([[[125, -15], [113, -22], [154, -27], [144, -15], [125, -15]]]);
+";
+
+            var engineHelper = new V8ScriptEngineHelper(libsPath);
+            var value = engineHelper.HandlerByFile<double>(filePath, jsCode, "a");
+            Console.WriteLine(value);
         }
     }
 }

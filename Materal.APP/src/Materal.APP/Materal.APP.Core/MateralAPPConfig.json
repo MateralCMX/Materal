@@ -1,4 +1,5 @@
 {
+  "ShowException": false,
   "JWT": {
     "Key": "MateralCMXConfig",
     "Issuer": "Materal.APP",

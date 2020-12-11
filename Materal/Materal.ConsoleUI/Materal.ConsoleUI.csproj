@@ -11,7 +11,17 @@
     <ProjectReference Include="..\Materal.FileHelper\Materal.FileHelper.csproj" />
     <ProjectReference Include="..\Materal.Model\Materal.Model.csproj" />
     <ProjectReference Include="..\Materal.NetworkHelper\Materal.NetworkHelper.csproj" />
+    <ProjectReference Include="..\Materal.V8ScriptEngine\Materal.V8ScriptEngine.csproj" />
     <ProjectReference Include="..\Materal.WindowsHelper\Materal.WindowsHelper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TestJs.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="turf.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
