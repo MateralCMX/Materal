@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Materal</Authors>
     <Product>Materal.DotNetty</Product>
-    <Version>0.1.12</Version>
+    <Version>0.1.16</Version>
   </PropertyGroup>
 
   <ItemGroup>

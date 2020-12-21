@@ -25,7 +25,9 @@ namespace Demo.Client
                 {
                     var config = new ClientConfig
                     {
-                        Url = "ws://192.168.0.101:8801/websocket"
+                        Url = "ws://192.168.0.101:8801/websocket",
+                        ReconnectionInterval = 1000,
+                        ReconnectionNumber = 0
                     };
                     var eventBus = ApplicationService.GetService<IEventBus>();
                     IWebSocketClient client = new WebSocketClientImpl(config, eventBus);
@@ -40,11 +42,11 @@ namespace Demo.Client
                     client.OnSubMessage += (message, subTitle) => ConsoleHelper.WriteLine(message, subTitle);
                     client.OnConnectionFail += async () =>
                     {
-                        await client.RunAsync();
+                        await client.ReconnectionAsync();
                     };
                     client.OnClose += async () =>
                     {
-                        await client.RunAsync();
+                        await client.ReconnectionAsync();
                     };
                     await client.RunAsync();
                     ConsoleHelper.WriteLine("输入Stop停止服务");
@@ -52,13 +54,14 @@ namespace Demo.Client
                     while (!string.Equals(inputKey, "Stop", StringComparison.Ordinal))
                     {
                         inputKey = Console.ReadLine();
+                        if (string.Equals(inputKey, "Stop", StringComparison.Ordinal)) break;
                         await client.SendCommandAsync(new SendMessageCommand
                         {
                             Message = inputKey
                         });
-                        if (string.Equals(inputKey, "Stop", StringComparison.Ordinal)) break;
                     }
                     await client.StopAsync();
+                    await Task.Delay(5000);
                 }
                 catch (Exception exception)
                 {

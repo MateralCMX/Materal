@@ -1,4 +1,5 @@
 using System;
+using System.Net.WebSockets;
 using System.Threading.Tasks;
 using Materal.DotNetty.CommandBus;
 
@@ -6,6 +7,10 @@ namespace Materal.WebSocketClient.Core
 {
     public interface IWebSocketClient
     {
+        /// <summary>
+        /// 状态
+        /// </summary>
+        WebSocketState State { get; }
         /// <summary>
         /// 连接成功
         /// </summary>
@@ -17,7 +22,11 @@ namespace Materal.WebSocketClient.Core
         /// <summary>
         /// 连接关闭
         /// </summary>
-        event Action OnClose;
+        event Action OnClose; 
+        /// <summary>
+        /// 接收到命令
+        /// </summary>
+        event Action<string> OnEventMessage;
         /// <summary>
         /// 产生消息
         /// </summary>
@@ -31,6 +40,11 @@ namespace Materal.WebSocketClient.Core
         /// </summary>
         /// <returns></returns>
         Task RunAsync();
+        /// <summary>
+        /// 重新连接
+        /// </summary>
+        /// <returns></returns>
+        Task ReconnectionAsync();
         /// <summary>
         /// 停止服务
         /// </summary>
