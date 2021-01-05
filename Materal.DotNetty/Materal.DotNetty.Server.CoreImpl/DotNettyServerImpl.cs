@@ -14,22 +14,22 @@ namespace Materal.DotNetty.Server.CoreImpl
 {
     public class DotNettyServerImpl : IDotNettyServer
     {
-        protected readonly IServiceProvider _service;
-        protected ServerConfig _serverConfig;
+        protected readonly IServiceProvider Service;
+        protected ServerConfig ServerConfig;
 
         public DotNettyServerImpl(IServiceProvider service)
         {
-            _service = service;
+            Service = service;
         }
         public event Action<IServerChannelHandler> OnConfigHandler;
         public event Action<string> OnMessage;
         public event Action<string, string> OnSubMessage;
         public event Action<Exception> OnException;
         public event Func<string> OnGetCommand;
-        private IChannel bootstrapChannel;
+        private IChannel _bootstrapChannel;
         public virtual async Task RunAsync(ServerConfig serverConfig)
         {
-            _serverConfig = serverConfig;
+            ServerConfig = serverConfig;
             OnSubMessage?.Invoke("服务启动中......", "重要");
             //第一步：创建ServerBootstrap实例
             var bootstrap = new ServerBootstrap();
@@ -48,7 +48,8 @@ namespace Materal.DotNetty.Server.CoreImpl
                     IChannelPipeline pipeline = channel.Pipeline;
                     pipeline.AddLast(new HttpServerCodec());
                     pipeline.AddLast(new HttpObjectAggregator(655300000));
-                    var channelHandler = _service.GetService<ServerChannelHandler>();
+                    var channelHandler = Service.GetService<ServerChannelHandler>();
+                    if (channelHandler == null) return;
                     if (OnException != null)
                     {
                         channelHandler.OnException += OnException;
@@ -64,7 +65,7 @@ namespace Materal.DotNetty.Server.CoreImpl
             }));
             //第五步：配置主机和端口号
             IPAddress ipAddress = GetTrueIPAddress();
-            bootstrapChannel = await bootstrap.BindAsync(ipAddress, _serverConfig.Port);
+            _bootstrapChannel = await bootstrap.BindAsync(ipAddress, ServerConfig.Port);
             OnSubMessage?.Invoke("服务启动成功", "重要");
         }
         /// <summary>
@@ -73,7 +74,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         public virtual async Task StopAsync()
         {
             OnSubMessage?.Invoke("正在停止服务......", "重要");
-            await bootstrapChannel.CloseAsync();
+            await _bootstrapChannel.CloseAsync();
             OnSubMessage?.Invoke("服务已停止", "重要");
         }
         #region 私有方法
@@ -86,8 +87,8 @@ namespace Materal.DotNetty.Server.CoreImpl
             string hostName = Dns.GetHostName();
             IPAddress[] ipAddresses = Dns.GetHostAddresses(hostName);
             ipAddresses = ipAddresses.Where(m => m.ToString().IsIPv4()).ToArray();
-            bool trueAddress = ipAddresses.Any(m => _serverConfig.Host.Equals(m.ToString()));
-            IPAddress result = trueAddress ? IPAddress.Parse(_serverConfig.Host) : ipAddresses[0];
+            bool trueAddress = ipAddresses.Any(m => ServerConfig.Host.Equals(m.ToString()));
+            IPAddress result = trueAddress ? IPAddress.Parse(ServerConfig.Host) : ipAddresses[0];
             return result;
         }
         #endregion

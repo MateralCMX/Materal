@@ -2,7 +2,6 @@
 using Materal.TFMS.Demo.Core;
 using Materal.TFMS.Demo.Events;
 using Materal.TFMS.EventBus;
-using System.Threading.Tasks;
 
 namespace Materal.TFMS.Demo.Client01
 {
@@ -27,10 +26,7 @@ namespace Materal.TFMS.Demo.Client01
             {
                 Message = $"这是来自Client01的{nameof(Event01)}事件"
             };
-            Parallel.For(0, 100, index =>
-            {
-                _eventBus.Publish(event1);
-            });
+            _eventBus.Publish(event1);
         }
     }
 }

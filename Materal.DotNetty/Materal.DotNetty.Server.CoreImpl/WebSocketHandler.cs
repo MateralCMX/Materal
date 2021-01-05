@@ -14,7 +14,8 @@ namespace Materal.DotNetty.Server.CoreImpl
 {
     public class WebSocketHandler : ServerHandlerContext
     {
-        private const string WebSocketUrl = "/websocket";
+        public static string WebSocketUrlHead = "ws://";
+        public static string WebSocketUrl = "/websocket";
         private WebSocketServerHandshaker _handShaker;
         private readonly ICommandBus _commandBus;
 
@@ -43,7 +44,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         protected virtual string GetWebSocketAddress(IFullHttpRequest request)
         {
             request.Headers.TryGet(HttpHeaderNames.Host, out ICharSequence value);
-            string address = "ws://" + value.ToString() + WebSocketUrl;
+            string address = WebSocketUrlHead + value.ToString() + WebSocketUrl;
             return address;
         }
         /// <summary>
@@ -54,8 +55,8 @@ namespace Materal.DotNetty.Server.CoreImpl
         protected virtual async Task ProtocolUpdateAsync(IChannelHandlerContext ctx, IFullHttpRequest request)
         {
             string address = GetWebSocketAddress(request);
-            var webSocketServerHandshakerFactory = new WebSocketServerHandshakerFactory(address, null, true);
-            _handShaker = webSocketServerHandshakerFactory.NewHandshaker(request);
+            var webSocketServerHandShakerFactory = new WebSocketServerHandshakerFactory(address, null, true);
+            _handShaker = webSocketServerHandShakerFactory.NewHandshaker(request);
             if (_handShaker == null)
             {
                 await WebSocketServerHandshakerFactory.SendUnsupportedVersionResponse(ctx.Channel);
@@ -84,7 +85,7 @@ namespace Materal.DotNetty.Server.CoreImpl
                 case PingWebSocketFrame _:
                     await ctx.WriteAndFlushAsync(new PongWebSocketFrame());
                     break;
-                //心跳->Poing
+                //心跳->Pong
                 case PongWebSocketFrame _:
                     await ctx.WriteAndFlushAsync(new PingWebSocketFrame());
                     break;

@@ -189,7 +189,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         private async Task Consumer_ReceivedAsync(object sender, BasicDeliverEventArgs eventArgs)
         {
             string eventName = eventArgs.RoutingKey;
-            string message = Encoding.UTF8.GetString(eventArgs.Body);
+            string message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
             try
             {
                 if (message.ToLowerInvariant().Contains("throw-fake-exception"))

@@ -30,7 +30,7 @@ namespace Materal.WebSocketClient.CoreImpl
         public event Action<string> OnEventMessage;
         public event Action<string, string> OnSubMessage;
         public event Action<Exception> OnException;
-        public WebSocketState State => ClientWebSocket.State;
+        public WebSocketState State => ClientWebSocket?.State ?? WebSocketState.None;
         protected ClientWebSocket ClientWebSocket;
         /// <summary>
         /// 取消标记
@@ -68,7 +68,7 @@ namespace Materal.WebSocketClient.CoreImpl
         }
         public async Task SendCommandAsync(ICommand command)
         {
-            if (ClientWebSocket.State != WebSocketState.Connecting)
+            if (ClientWebSocket.State != WebSocketState.Open)
             {
                 var exception = new DotNettyException("未与服务器连接，不能发送命令");
                 OnException?.Invoke(exception);
