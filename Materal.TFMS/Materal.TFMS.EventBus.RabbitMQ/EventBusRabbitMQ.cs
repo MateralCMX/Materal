@@ -250,7 +250,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <returns></returns>
         private async Task<bool> TryProcessEvent(string eventName, string message)
         {
-            _logger?.LogTrace("处理事件: {EventName}", eventName);
+            _logger?.LogTrace($"处理事件: {eventName}");
             var result = false;
             if (_subsManager.HasSubscriptionsForEvent(eventName))
             {
@@ -281,20 +281,23 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                         if (handlerMethodInfo == null || handlerMethodInfo.ReturnType != typeof(Task)) continue;
                         try
                         {
-                            await (Task)handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
+                            await Task.Run(async () =>
+                            {
+                                await (Task) handlerMethodInfo.Invoke(handler, new[] {integrationEvent});
+                            });
                         }
                         catch (Exception exception)
                         {
                             await HandlerErrorMessageAsync(exception, async () => await (Task)handlerMethodInfo.Invoke(handler, new[] { integrationEvent }));
                         }
                     }
-                    _logger?.LogTrace("处理器{EventHandlerName}执行完毕", subscription.HandlerType.Name);
+                    _logger?.LogTrace($"处理器{subscription.HandlerType.Name}执行完毕");
                 }
                 result= true;
             }
             else
             {
-                _logger?.LogError("未找到订阅事件: {EventName}", eventName);
+                _logger?.LogError($"未找到订阅事件: {eventName}");
             }
             return result;
         }
