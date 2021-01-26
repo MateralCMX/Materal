@@ -2,15 +2,24 @@
 using System;
 using System.IO;
 using System.Linq;
+using Materal.CacheHelper;
+using Materal.Common;
 
 namespace Materal.V8ScriptEngine
 {
     public class V8ScriptEngineHelper
     {
-        private readonly string[] _libsPath;
-        public V8ScriptEngineHelper(params string[] libsPath)
+        private static ICacheManager _cacheManager;
+        private readonly string[] _libsPaths;
+        public V8ScriptEngineHelper(params string[] libsPaths)
         {
-            _libsPath = libsPath;
+            _cacheManager ??= new MemoryCacheManager();
+            _libsPaths = libsPaths;
+        }
+        public V8ScriptEngineHelper(ICacheManager cacheManager, params string[] libsPaths)
+        {
+            _cacheManager = cacheManager;
+            _libsPaths = libsPaths;
         }
         /// <summary>
         /// 执行代码
@@ -22,7 +31,7 @@ namespace Materal.V8ScriptEngine
         public T HandlerByCode<T>(string code, string resultName = "result")
         {
             using Microsoft.ClearScript.V8.V8ScriptEngine engine = GetEngine();
-            string cmd = _libsPath.Aggregate(string.Empty, (current, libPath) => current + $"{File.ReadAllText(libPath)}\r\n");
+            string cmd = _libsPaths.Aggregate(string.Empty, (current, libPath) => current + $"{GetFileContent(libPath)}\r\n");
             cmd += code;
             engine.Execute(cmd);
             var result = ((object)engine.Script[resultName]).ToJson().JsonToDeserializeObject<T>();
@@ -51,7 +60,7 @@ namespace Materal.V8ScriptEngine
         /// <returns></returns>
         public T HandlerByFiles<T>(string[] filePaths, string runCode, string resultName = "result")
         {
-            string cmd = filePaths.Aggregate(string.Empty, (current, filePath) => current + $"{File.ReadAllText(filePath)}\r\n");
+            string cmd = filePaths.Aggregate(string.Empty, (current, filePath) => current + $"{GetFileContent(filePath)}\r\n");
             cmd = $"{cmd}{runCode}";
             return HandlerByCode<T>(cmd, resultName);
         }
@@ -63,6 +72,20 @@ namespace Materal.V8ScriptEngine
         {
             var result = new Microsoft.ClearScript.V8.V8ScriptEngine();
             result.AddHostType("Console", typeof(Console));
+            return result;
+        }
+        /// <summary>
+        /// 获得文件内容
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        private string GetFileContent(string filePath)
+        {
+            string result = _cacheManager.Get<string>(filePath);
+            if (!string.IsNullOrWhiteSpace(result)) return result;
+            if (!File.Exists(filePath)) throw new MateralException($"文件{filePath}不存在");
+            result = File.ReadAllText(filePath);
+            _cacheManager.SetBySliding(filePath, result, 1);
             return result;
         }
     }
