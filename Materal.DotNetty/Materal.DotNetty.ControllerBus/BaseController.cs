@@ -27,7 +27,7 @@ namespace Materal.DotNetty.ControllerBus
                     return new ActionInfo(this, methodInfo);
                 }
             }
-            throw new DotNettyServerException("未找到对应的Action");
+            throw new MateralDotNettyServerException("未找到对应的Action");
         }
 
         /// <summary>

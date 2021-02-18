@@ -31,7 +31,7 @@ namespace Materal.DotNetty.Server.CoreImpl
             }
             catch (Exception ex)
             {
-                throw new DotNettyException("发送HttpResponse失败", ex);
+                throw new MateralDotNettyException("发送HttpResponse失败", ex);
             }
         }
         /// <summary>

@@ -127,7 +127,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         protected virtual async Task<FileCacheModel> GetFileBytesFromFileAsync(string filePath)
         {
             _cacheManager.Remove($"{_cacheKey}{filePath}");
-            if (!File.Exists(filePath)) throw new DotNettyServerException("文件不存在");
+            if (!File.Exists(filePath)) throw new MateralDotNettyServerException("文件不存在");
             _readingFiles.TryAdd(filePath, null);
             var fileCacheModel = new FileCacheModel
             {
@@ -146,7 +146,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         protected virtual async Task<IFullHttpResponse> GetFileResponseAsync(IFullHttpRequest request)
         {
             string url = HttpUtility.UrlDecode(request.Uri, System.Text.Encoding.UTF8);
-            url = string.IsNullOrEmpty(Path.GetExtension(url)) ? Path.Combine(url ?? throw new DotNettyException("Url为空"), "Index.html") : url;
+            url = string.IsNullOrEmpty(Path.GetExtension(url)) ? Path.Combine(url ?? throw new MateralDotNettyException("Url为空"), "Index.html") : url;
             ICharSequence IfModifiedSince = request.Headers.Get(HttpHeaderNames.IfModifiedSince, null);
             return await GetFileResponseAsync(url, IfModifiedSince);
         }
@@ -162,7 +162,7 @@ namespace Materal.DotNetty.Server.CoreImpl
             {
                 url = url.Substring(1);
             }
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory ?? throw new DotNettyException("路径为空"), HtmlPageFolderPath, url);
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory ?? throw new MateralDotNettyException("路径为空"), HtmlPageFolderPath, url);
             string extension = Path.GetExtension(filePath);
             if (string.IsNullOrEmpty(extension)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);
             if (!File.Exists(filePath)) return HttpResponseHelper.GetHttpResponse(HttpResponseStatus.NotFound);

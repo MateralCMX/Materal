@@ -28,7 +28,7 @@ namespace Materal.DotNetty.CommandBus
         public T GetCommand(ICommand command)
         {
             if (command is T trueCommand) return trueCommand;
-            throw new DotNettyException("命令未识别");
+            throw new MateralDotNettyException("命令未识别");
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Materal.DotNetty.Server.CoreImpl
         static MIMEManager()
         {
             string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MIMEConfig.json");
-            if (!File.Exists(configFilePath)) throw new DotNettyServerException("MIMEConfig.json文件丢失");
+            if (!File.Exists(configFilePath)) throw new MateralDotNettyServerException("MIMEConfig.json文件丢失");
             string jsonConfigString = File.ReadAllText(configFilePath);
             _mimeDic = jsonConfigString.JsonToDeserializeObject<Dictionary<string, string>>();
         }

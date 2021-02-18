@@ -17,7 +17,7 @@ namespace Materal.DotNetty.CommandBus
         /// <returns></returns>
         public bool TryAddCommandHandler(Type type)
         {
-            if (type == null) throw new DotNettyServerException("命令处理器类型为空");
+            if (type == null) throw new MateralDotNettyServerException("命令处理器类型为空");
             string key = type.Name;
             if (_commandHandlers.ContainsKey(key)) return false;
             _commandHandlers.Add(key, type);
@@ -30,7 +30,7 @@ namespace Materal.DotNetty.CommandBus
         /// <returns></returns>
         public Type GetCommandHandler(string key)
         {
-            if (!_commandHandlers.ContainsKey(key)) throw new DotNettyServerException("未找到对应命令处理器");
+            if (!_commandHandlers.ContainsKey(key)) throw new MateralDotNettyServerException("未找到对应命令处理器");
             return _commandHandlers[key];
         }
     }

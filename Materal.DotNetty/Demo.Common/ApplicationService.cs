@@ -27,7 +27,7 @@ namespace Demo.Common
         {
             if(Services == null)
             {
-                throw new DotNettyServerException("服务未注册，请先调用RegisterServices方法");
+                throw new MateralDotNettyServerException("服务未注册，请先调用RegisterServices方法");
             }
             ServiceProvider = Services.BuildServiceProvider();
         }

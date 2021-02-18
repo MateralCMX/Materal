@@ -22,8 +22,8 @@ namespace Materal.DotNetty.ControllerBus
         /// <returns></returns>
         public bool TryAddController(Type type)
         {
-            if (type == null) throw new DotNettyServerException("控制器类型为空");
-            if (!type.IsSubclassOf(typeof(BaseController))) throw new DotNettyServerException($"控制器必须继承类{nameof(BaseController)}");
+            if (type == null) throw new MateralDotNettyServerException("控制器类型为空");
+            if (!type.IsSubclassOf(typeof(BaseController))) throw new MateralDotNettyServerException($"控制器必须继承类{nameof(BaseController)}");
             string key = type.Name;
             var routeAttribute = type.GetCustomAttribute<RouteAttribute>();
             if(routeAttribute != null)
@@ -45,7 +45,7 @@ namespace Materal.DotNetty.ControllerBus
         /// <returns></returns>
         public Type GetController(string key)
         {
-            if(!_controller.ContainsKey(key)) throw new DotNettyServerException("未找到对应控制器");
+            if(!_controller.ContainsKey(key)) throw new MateralDotNettyServerException("未找到对应控制器");
             return _controller[key];
         }
         /// <summary>

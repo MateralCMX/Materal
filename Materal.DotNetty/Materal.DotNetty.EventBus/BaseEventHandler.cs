@@ -28,7 +28,7 @@ namespace Materal.DotNetty.EventBus
         public T GetEvent(IEvent @event)
         {
             if (@event is T trueEvent) return trueEvent;
-            throw new DotNettyException("命令未识别");
+            throw new MateralDotNettyException("命令未识别");
         }
     }
 }

@@ -16,10 +16,10 @@ namespace Materal.DotNetty.ControllerBus
         public BaseController GetController(string key)
         {
             Type type = _controllerHelper.GetController(key);
-            if (type == null) throw new DotNettyServerException("未找到控制器");
+            if (type == null) throw new MateralDotNettyServerException("未找到控制器");
             object controller = _serviceProvider.GetService(type);
-            if(controller == null) throw new DotNettyServerException($"未找到控制器{type.FullName}");
-            if(!(controller is BaseController baseController)) throw new DotNettyServerException($"控制器必须继承类{nameof(BaseController)}");
+            if(controller == null) throw new MateralDotNettyServerException($"未找到控制器{type.FullName}");
+            if(!(controller is BaseController baseController)) throw new MateralDotNettyServerException($"控制器必须继承类{nameof(BaseController)}");
             return baseController;
         }
 
