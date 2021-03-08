@@ -198,7 +198,9 @@ namespace Deploy.ServiceImpl
             string directoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UploadFiles", "Temp", Guid.NewGuid().ToString());
             if (Directory.Exists(directoryPath)) throw new DeployException("解压失败,请重新上传");
             DirectoryInfo directoryInfo = Directory.CreateDirectory(directoryPath);
-            ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo("UnRAR.exe", $"x -o+ -y {rarFilePath} {directoryPath}");
+            var winRarPath = Path.Combine(DeployConfig.WinRarPath, "UnRaR.exe");
+            ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo(winRarPath, $"x -o+ -y \"{rarFilePath}\" \"{directoryPath}\"");
+            DeployConsoleHelper.WriteLine($"{winRarPath} x -o+ -y {rarFilePath} {directoryPath}", "Debug");
             var process = new Process { StartInfo = processStartInfo };
             void DataHandler(object sender, DataReceivedEventArgs e)
             {

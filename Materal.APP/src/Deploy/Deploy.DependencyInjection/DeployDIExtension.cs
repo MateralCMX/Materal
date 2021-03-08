@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NetCore.AutoRegisterDi;
 using System.Reflection;
+using Materal.CacheHelper;
 
 namespace Deploy.DependencyInjection
 {
@@ -16,6 +17,8 @@ namespace Deploy.DependencyInjection
     {
         public static void AddDeployServices(this IServiceCollection services)
         {
+            services.AddMemoryCache();
+            services.AddSingleton<ICacheManager, MemoryCacheManager>();
             services.AddDbContext<DeployDBContext>(options =>
             {
                 options.UseSqlite(DeployConfig.SqliteConfig.ConnectionString);

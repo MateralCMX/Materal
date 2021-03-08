@@ -66,15 +66,20 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="autoListening"></param>
         public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger, IServiceProvider service, IEventBusSubscriptionsManager subsManager, string queueName, string exchangeName = "MateralTFMSEventBusExchange", int retryCount = 5, bool autoListening = true)
         {
-            _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
+            _persistentConnection =
+                persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _subsManager = subsManager ?? new InMemoryEventBusSubscriptionsManager();
             _queueName = queueName;
             _service = service;
             _retryCount = retryCount;
             _exchangeName = exchangeName;
-            _consumerChannel = CreateConsumerChannel();
             _subsManager.OnEventRemoved += SubsManager_OnEventRemoved;
+            Task task = Task.Run(async () =>
+            {
+                _consumerChannel = await CreateConsumerChannelAsync();
+            });
+            Task.WaitAll(task);
             if (autoListening)
             {
                 StartListening();
@@ -84,7 +89,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         {
             StartBasicConsume();
         }
-        public void Publish(IntegrationEvent @event)
+        public async Task PublishAsync(IntegrationEvent @event)
         {
             if (!_persistentConnection.IsConnected)
             {
@@ -97,7 +102,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 });
             string eventName = @event.GetType().Name;
             _logger?.LogTrace("创建RabbitMQ发布事件通道: {EventId} ({EventName})", @event.ID, eventName);
-            IModel channel = _persistentConnection.CreateModel();
+            IModel channel = await _persistentConnection.CreateModelAsync();
             channel.ExchangeDeclare(_exchangeName, "direct");
             string message = JsonConvert.SerializeObject(@event);
             byte[] body = Encoding.UTF8.GetBytes(message);
@@ -110,10 +115,10 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 channel.Dispose();
             });
         }
-        public void Subscribe<T, THandler>() where T : IntegrationEvent where THandler : IIntegrationEventHandler<T>
+        public async Task SubscribeAsync<T, THandler>() where T : IntegrationEvent where THandler : IIntegrationEventHandler<T>
         {
             string eventName = _subsManager.GetEventKey<T>();
-            DoInternalSubscription(eventName);
+            await DoInternalSubscriptionAsync(eventName);
             _logger?.LogInformation("订阅事件{EventName},处理器为{EventHandler}", eventName, typeof(THandler).GetGenericTypeName());
             _subsManager.AddSubscription<T, THandler>();
         }
@@ -123,10 +128,10 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             _logger?.LogInformation("取消订阅事件{EventName}", eventName);
             _subsManager.RemoveSubscription<T, THandler>();
         }
-        public void SubscribeDynamic<THandler>(string eventName) where THandler : IDynamicIntegrationEventHandler
+        public async Task SubscribeDynamicAsync<THandler>(string eventName) where THandler : IDynamicIntegrationEventHandler
         {
             _logger?.LogInformation("订阅动态事件{EventName},处理器为{EventHandler}", eventName, typeof(THandler).GetGenericTypeName());
-            DoInternalSubscription(eventName);
+            await DoInternalSubscriptionAsync(eventName);
             _subsManager.AddDynamicSubscription<THandler>(eventName);
         }
         public void UnsubscribeDynamic<THandler>(string eventName) where THandler : IDynamicIntegrationEventHandler
@@ -144,21 +149,21 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// 创建消费通道
         /// </summary>
         /// <returns></returns>
-        private IModel CreateConsumerChannel()
+        private async Task<IModel> CreateConsumerChannelAsync()
         {
             if (!_persistentConnection.IsConnected)
             {
                 _persistentConnection.TryConnect();
             }
             _logger?.LogTrace("创建RabbitMQ消费通道...");
-            IModel channel = _persistentConnection.CreateModel();
+            IModel channel = await _persistentConnection.CreateModelAsync();
             channel.ExchangeDeclare(_exchangeName, "direct");
             channel.QueueDeclare(_queueName, true, false, false, null);
-            channel.CallbackException += (sender, ea) =>
+            channel.CallbackException += async (sender, ea) =>
             {
                 _logger?.LogWarning(ea.Exception, "重新创建RabbitMQ消费通道...");
                 _consumerChannel.Dispose();
-                _consumerChannel = CreateConsumerChannel();
+                _consumerChannel = await CreateConsumerChannelAsync();
                 StartBasicConsume();
             };
             return channel;
@@ -306,13 +311,13 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventName"></param>
-        private void SubsManager_OnEventRemoved(object sender, string eventName)
+        private async void SubsManager_OnEventRemoved(object sender, string eventName)
         {
             if (!_persistentConnection.IsConnected)
             {
                 _persistentConnection.TryConnect();
             }
-            using (IModel channel = _persistentConnection.CreateModel())
+            using (IModel channel = await _persistentConnection.CreateModelAsync())
             {
                 channel.QueueUnbind(_queueName, _exchangeName, eventName);
                 if (!_subsManager.IsEmpty) return;
@@ -324,7 +329,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// 内部订阅
         /// </summary>
         /// <param name="eventName"></param>
-        private void DoInternalSubscription(string eventName)
+        private async Task DoInternalSubscriptionAsync(string eventName)
         {
             bool containsKey = _subsManager.HasSubscriptionsForEvent(eventName);
             if (containsKey) return;
@@ -332,7 +337,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             {
                 _persistentConnection.TryConnect();
             }
-            using (IModel channel = _persistentConnection.CreateModel())
+            using (IModel channel = await _persistentConnection.CreateModelAsync())
             {
                 channel.QueueBind(_queueName, _exchangeName, eventName);
             }

@@ -7,6 +7,7 @@ using RabbitMQ.Client.Exceptions;
 using System;
 using System.IO;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Materal.TFMS.EventBus.RabbitMQ
 {
@@ -92,13 +93,14 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 return false;
             }
         }
-        public IModel CreateModel()
+        public async Task<IModel> CreateModelAsync()
         {
             if (!IsConnected)
             {
                 throw new InvalidOperationException("没有可用的RabbitMQ连接");
             }
-            return _connection.CreateModel();
+            IModel result = await Task.Run(() => _connection.CreateModel());
+            return result;
         }
         #region 私有方法
         /// <summary>

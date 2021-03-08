@@ -1,11 +1,12 @@
 ﻿using Materal.TFMS.Demo.Core;
 using System;
+using System.Threading.Tasks;
 
 namespace Materal.TFMS.Demo.Client02
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             Console.Title = ClientHelper.AppName;
             var client = ClientHelper.GetService<IClient>();
@@ -15,7 +16,7 @@ namespace Materal.TFMS.Demo.Client02
                 inputString = Console.ReadLine();
                 if (inputString == "Send")
                 {
-                    client.SendEvent();
+                    await client.SendEventAsync();
                 }
             } while (inputString != "Exit");
         }

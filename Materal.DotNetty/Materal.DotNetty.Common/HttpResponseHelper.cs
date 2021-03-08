@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DotNetty.Buffers;
+﻿using DotNetty.Buffers;
 using DotNetty.Codecs.Http;
 using DotNetty.Common.Utilities;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Materal.DotNetty.Common
 {

@@ -1,10 +1,12 @@
-﻿namespace Materal.TFMS.Demo.Core
+﻿using System.Threading.Tasks;
+
+namespace Materal.TFMS.Demo.Core
 {
     public interface IClient
     {
         /// <summary>
         /// 发送事件
         /// </summary>
-        void SendEvent();
+        Task SendEventAsync();
     }
 }

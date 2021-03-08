@@ -1,4 +1,6 @@
-﻿namespace Materal.TFMS.EventBus
+﻿using System.Threading.Tasks;
+
+namespace Materal.TFMS.EventBus
 {
     /// <summary>
     /// 事件总线
@@ -9,13 +11,13 @@
         /// 发布事件
         /// </summary>
         /// <param name="event"></param>
-        void Publish(IntegrationEvent @event);
+        Task PublishAsync(IntegrationEvent @event);
         /// <summary>
         /// 订阅事件
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="THandler"></typeparam>
-        void Subscribe<T, THandler>()
+        Task SubscribeAsync<T, THandler>()
             where T : IntegrationEvent
             where THandler : IIntegrationEventHandler<T>;
         /// <summary>
@@ -26,12 +28,13 @@
         void Unsubscribe<T, THandler>()
             where T : IntegrationEvent
             where THandler : IIntegrationEventHandler<T>;
+
         /// <summary>
         /// 订阅动态事件
         /// </summary>
         /// <typeparam name="THandler"></typeparam>
         /// <param name="eventName"></param>
-        void SubscribeDynamic<THandler>(string eventName)
+        Task SubscribeDynamicAsync<THandler>(string eventName)
             where THandler : IDynamicIntegrationEventHandler;
         /// <summary>
         /// 取消订阅动态事件

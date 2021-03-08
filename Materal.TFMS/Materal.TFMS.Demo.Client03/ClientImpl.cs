@@ -1,4 +1,5 @@
-﻿using Materal.TFMS.Demo.Client03.EventHandlers;
+﻿using System.Threading.Tasks;
+using Materal.TFMS.Demo.Client03.EventHandlers;
 using Materal.TFMS.Demo.Core;
 using Materal.TFMS.Demo.Events;
 using Materal.TFMS.EventBus;
@@ -12,20 +13,19 @@ namespace Materal.TFMS.Demo.Client03
         public ClientImpl(IEventBus eventBus)
         {
             _eventBus = eventBus;
-            eventBus.Subscribe<Event01, Client03Event01Handler>();
-            eventBus.Subscribe<Event01, Client03Event01Handler2>();
-            eventBus.Subscribe<Event02, Client03Event02Handler>();
-            eventBus.Subscribe<Event02, Client03Event02Handler2>();
+            eventBus.SubscribeAsync<Event01, Client03Event01Handler>();
+            eventBus.SubscribeAsync<Event01, Client03Event01Handler2>();
+            eventBus.SubscribeAsync<Event02, Client03Event02Handler>();
+            eventBus.SubscribeAsync<Event02, Client03Event02Handler2>();
             _eventBus.StartListening();
         }
-
-        public void SendEvent()
+        public async Task SendEventAsync()
         {
             var @event = new Event03
             {
                 Message = "这是来自Client03的事件"
             };
-            _eventBus.Publish(@event);
+            await _eventBus.PublishAsync(@event);
         }
     }
 }

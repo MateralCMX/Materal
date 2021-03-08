@@ -1,5 +1,6 @@
 ﻿using RabbitMQ.Client;
 using System;
+using System.Threading.Tasks;
 
 namespace Materal.TFMS.EventBus.RabbitMQ
 {
@@ -21,6 +22,6 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// 创建通道
         /// </summary>
         /// <returns></returns>
-        IModel CreateModel();
+        Task<IModel> CreateModelAsync();
     }
 }
