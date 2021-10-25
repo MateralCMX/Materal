@@ -36,7 +36,7 @@ namespace Materal.Gateway
             {
                 webBuilder.ConfigureKestrel(options =>
                 {
-                    options.Limits.MaxRequestBodySize = null;
+                    options.Limits.MaxRequestBodySize = long.MaxValue;
                 });
                 webBuilder.ConfigureServices(services =>
                 {

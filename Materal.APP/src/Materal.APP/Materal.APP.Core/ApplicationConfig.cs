@@ -69,7 +69,7 @@ namespace Materal.APP.Core
             ExpiredTime = Configuration["JWT:ExpiredTime"].ConvertTo<uint>()
         };
 
-        private static bool? _showException;
+        private static bool _showException;
         /// <summary>
         /// 显示异常
         /// </summary>
@@ -77,8 +77,9 @@ namespace Materal.APP.Core
         {
             get
             {
-                _showException ??= Configuration["ShowException"].ConvertTo<bool>();
-                return _showException.Value;
+                if (Configuration["ShowException"] == null) return false;
+                _showException = Configuration["ShowException"].ConvertTo<bool>();
+                return _showException;
             }
         }
 

@@ -5,7 +5,7 @@ namespace Deploy.Common
 {
     public static class DeployConsoleHelper
     {
-        private const string _appName = "Deploy";
+        private const string AppName = "Deploy";
         /// <summary>
         /// 控制台输出
         /// </summary>
@@ -14,7 +14,7 @@ namespace Deploy.Common
         /// <param name="consoleColor">颜色</param>
         public static void Write(string message, string subTitle = null, ConsoleColor consoleColor = ConsoleColor.White)
         {
-            ConsoleHelperBase.Write(_appName, message, subTitle, consoleColor);
+            ConsoleHelperBase.Write(AppName, message, subTitle, consoleColor);
         }
         /// <summary>
         /// 控制台输出
@@ -24,7 +24,15 @@ namespace Deploy.Common
         /// <param name="consoleColor">颜色</param>
         public static void WriteLine(string message, string subTitle = null, ConsoleColor consoleColor = ConsoleColor.White)
         {
-            ConsoleHelperBase.WriteLine(_appName, message, subTitle, consoleColor);
+            ConsoleHelperBase.WriteLine(AppName, message, subTitle, consoleColor);
+        }
+        /// <summary>
+        /// 控制台输出Debug
+        /// </summary>
+        /// <param name="message"></param>
+        public static void WriteDebug(string message)
+        {
+            WriteLine(message, "Debug", ConsoleColor.DarkGreen);
         }
         /// <summary>
         /// 控制台输出
@@ -33,7 +41,7 @@ namespace Deploy.Common
         public static void WriteLine(Exception exception)
         {
             string message = ConsoleHelperBase.GetMessage(exception);
-            ConsoleHelperBase.WriteLine(_appName, message, "Error", ConsoleColor.Red);
+            ConsoleHelperBase.WriteLine(AppName, message, "Error", ConsoleColor.Red);
         }
     }
 }

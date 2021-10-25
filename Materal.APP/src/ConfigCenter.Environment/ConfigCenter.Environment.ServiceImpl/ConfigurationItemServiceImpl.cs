@@ -123,8 +123,13 @@ namespace ConfigCenter.Environment.ServiceImpl
                 }
                 searchExpression = searchExpression.And(temp);
             }
+            ConfigCenterEnvironmentConsoleHelper.WriteLine("拼接条件完毕", "Debug", ConsoleColor.DarkGreen);
             List<ConfigurationItem> allConfigurationItems = await _configurationItemRepository.GetAllInfoFromCacheAsync();
+            ConfigCenterEnvironmentConsoleHelper.WriteLine(allConfigurationItems == null ? "以从环境获取数据,但为空" : $"以从环境获取数据,数量:{allConfigurationItems.Count}", "Debug",
+                ConsoleColor.DarkGreen);
+            if (allConfigurationItems == null) return null;
             List<ConfigurationItem> configurationItemsFromDb = allConfigurationItems.Where(searchExpression.Compile()).OrderBy(m=>m.Key).ToList();
+            ConfigCenterEnvironmentConsoleHelper.WriteLine($"已通过条件筛选完毕,数量:{configurationItemsFromDb.Count}", "Debug", ConsoleColor.DarkGreen);
             var result = _mapper.Map<List<ConfigurationItemListDTO>>(configurationItemsFromDb);
             return result;
         }

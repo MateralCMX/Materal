@@ -1,9 +1,10 @@
 ﻿using Materal.CacheHelper;
 using Materal.TTA.Common;
+using Materal.TTA.EFRepository;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Materal.TTA.EFRepository;
+using Materal.DateTimeHelper;
 
 namespace ConfigCenter.Environment.SqliteEFRepository
 {
@@ -26,12 +27,10 @@ namespace ConfigCenter.Environment.SqliteEFRepository
 
         public async Task<List<T>> GetAllInfoFromCacheAsync()
         {
-            if (CacheManager.GetCacheKeys().Contains(CacheKey))
-            {
-                return CacheManager.Get<List<T>>(CacheKey);
-            }
-            List<T> result = await FindAsync(m => true);
-            CacheManager.SetByAbsolute(CacheKey, result, 1);
+            List<T> result = CacheManager.Get<List<T>>(CacheKey);
+            if (result != null) return result;
+            result = await FindAsync(m => true);
+            CacheManager.SetByAbsolute(CacheKey, result, 1, DateTimeTypeEnum.Hour);
             return result;
         }
 

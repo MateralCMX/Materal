@@ -31,7 +31,9 @@ namespace Materal.Gateway
                 .AddRazorRuntimeCompilation();
             services.Configure<FormOptions>(config =>
             {
+                config.ValueLengthLimit = int.MaxValue;
                 config.MultipartBodyLengthLimit = long.MaxValue;
+                config.MultipartHeadersLengthLimit = int.MaxValue;
             });
             services.AddSingleton<ConfigService>();
             #region øÁ”Ú

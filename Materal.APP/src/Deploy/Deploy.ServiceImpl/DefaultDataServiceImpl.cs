@@ -74,11 +74,15 @@ namespace Deploy.ServiceImpl
 
         public async Task<(List<DefaultDataListDTO> defaultDataList, PageModel pageModel)> GetListAsync(QueryDefaultDataFilterModel model)
         {
+
             List<DefaultData> allDefaultData = await _defaultDataRepository.GetAllInfoFromCacheAsync();
+            DeployConsoleHelper.WriteDebug(allDefaultData == null ? "以从环境获取数据,但为空" : $"以从环境获取数据,数量:{allDefaultData.Count}");
+            if (allDefaultData == null) return (null, new PageModel(model, 0));
             Func<DefaultData, bool> searchDelegate = model.GetSearchDelegate<DefaultData>();
             List<DefaultData> defaultDataList = allDefaultData.Where(searchDelegate).ToList();
             var pageModel = new PageModel(model, defaultDataList.Count);
             defaultDataList = defaultDataList.Skip(model.Skip).Take(model.Take).ToList();
+            DeployConsoleHelper.WriteDebug($"已通过条件筛选完毕,数量:{defaultDataList.Count}");
             var result = _mapper.Map<List<DefaultDataListDTO>>(defaultDataList);
             return (result, pageModel);
         }
