@@ -1,0 +1,12 @@
+{
+  "GlobalConfiguration": {
+    "RequestIdKey": "",
+    "BaseUrl": "http://localhost:5000",
+    "ServiceDiscoveryProvider": {
+      "Host": "39.129.24.101",
+      "Port": 8500,
+      "Type": "Consul"
+    }
+  },
+  "Routes": []
+}
