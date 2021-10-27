@@ -10,16 +10,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Materal.Gateway.Common.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.Gateway.WebAPI.Services
 {
-    public abstract class BaseServices
+    public abstract class BaseServices<T> where T : BaseServices<T>
     {
         protected readonly ICacheManager CacheManager;
+        protected readonly ILogger<T> Logger;
 
-        protected BaseServices(ICacheManager cacheManager)
+        protected BaseServices(ICacheManager cacheManager, ILogger<T> logger)
         {
             CacheManager = cacheManager;
+            Logger = logger;
         }
         /// <summary>
         /// 获得配置
@@ -37,7 +40,7 @@ namespace Materal.Gateway.WebAPI.Services
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
+                Logger.LogError(exception, "获取配置失败");
                 throw new GatewayException("获取配置失败", exception);
             }
         }
@@ -56,7 +59,7 @@ namespace Materal.Gateway.WebAPI.Services
             }
             catch (Exception exception)
             {
-                Console.WriteLine(exception);
+                Logger.LogError(exception, "设置配置失败");
                 throw new GatewayException("设置配置失败", exception);
             }
         }
