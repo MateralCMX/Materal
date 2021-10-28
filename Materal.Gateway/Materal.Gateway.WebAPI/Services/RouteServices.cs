@@ -6,17 +6,19 @@ using Ocelot.Configuration.File;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.Gateway.WebAPI.Services
 {
-    public class RouteServices : BaseServices, IRouteServices
+    public class RouteServices : BaseServices<RouteServices>, IRouteServices
     {
-        public RouteServices(ICacheManager cacheManager) : base(cacheManager)
+        public RouteServices(ICacheManager cacheManager, ILogger<RouteServices> logger) : base(cacheManager, logger)
         {
         }
 
         public async Task AddAsync(RouteModel routeModel)
         {
+            if (string.IsNullOrWhiteSpace(routeModel.ServiceName)) throw new GatewayException("服务名称不能为空");
             FileConfiguration fileConfiguration = await GetFileConfigurationAsync();
             FileRoute route = fileConfiguration.Routes.FirstOrDefault(m => m.ServiceName == routeModel.ServiceName);
             if (route != null) throw new GatewayException("该服务已存在");
@@ -33,12 +35,13 @@ namespace Materal.Gateway.WebAPI.Services
         {
             FileConfiguration fileConfiguration = await GetFileConfigurationAsync();
             FileRoute route = GetRouteByServiceName(routeModel.ServiceName, fileConfiguration);
-            route = SetCacheConfig(route, routeModel);
+            SetCacheConfig(route, routeModel);
             await SetFileConfigurationAsync(fileConfiguration);
         }
 
         public async Task DeleteAsync(string serviceName)
         {
+            if (string.IsNullOrWhiteSpace(serviceName)) throw new GatewayException("服务名称不能为空");
             FileConfiguration fileConfiguration = await GetFileConfigurationAsync();
             FileRoute route = GetRouteByServiceName(serviceName, fileConfiguration);
             fileConfiguration.Routes.Remove(route);
@@ -51,6 +54,7 @@ namespace Materal.Gateway.WebAPI.Services
         /// <returns></returns>
         public async Task<RouteModel> GetAsync(string serviceName)
         {
+            if (string.IsNullOrWhiteSpace(serviceName)) throw new GatewayException("服务名称不能为空");
             FileRoute route = await GetRouteByServiceNameAsync(serviceName);
             RouteModel result = new RouteModel
             {
