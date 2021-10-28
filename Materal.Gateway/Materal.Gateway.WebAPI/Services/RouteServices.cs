@@ -24,7 +24,7 @@ namespace Materal.Gateway.WebAPI.Services
             newRoute.ServiceName = routeModel.ServiceName;
             newRoute.DownstreamPathTemplate = "/api/{everything}";
             newRoute.UpstreamPathTemplate = "/" + routeModel.ServiceName + "/{everything}";
-            newRoute.UpstreamHttpMethod = new List<string> { "Get", "Post" };
+            newRoute.UpstreamHttpMethod = new List<string> { "Get", "Post", "Put", "Delete" };
             newRoute = SetCacheConfig(newRoute, routeModel);
             fileConfiguration.Routes.Add(newRoute);
             await SetFileConfigurationAsync(fileConfiguration);

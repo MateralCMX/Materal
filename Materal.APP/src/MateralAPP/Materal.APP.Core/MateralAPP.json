@@ -1,0 +1,18 @@
+{
+  "ShowException": false,
+  "NLog": {
+    "MaxLogFileSaveDays": 7,
+    "MinLogLevel": "Information"
+  },
+  "JWT": {
+    "Key": "MateralCMXConfig",
+    "Issuer": "Materal.APP",
+    "Audience": "WebAPI",
+    "ExpiredTime": "18000"
+  },
+  "Consul": {
+    "Address": "http://127.0.0.1:8500",
+    "HealthInterval": 30,
+    "ReconnectionInterval": 10
+  }
+}

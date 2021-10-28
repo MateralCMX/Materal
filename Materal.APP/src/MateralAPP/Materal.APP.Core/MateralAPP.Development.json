@@ -1,0 +1,6 @@
+{
+  "ShowException": true,
+  "NLog": {
+    "MinLogLevel": "Trace"
+  }
+}

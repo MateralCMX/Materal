@@ -1,0 +1,86 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.Server", "Authority.Server\Authority.Server.csproj", "{54B1CB8E-A814-4C04-AB58-3ACB5976ADDF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TTA", "TTA", "{E90443A8-6EFE-486F-AEFA-CAC304D1AD19}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Common", "..\..\..\Materal.ThreeTierArchitecture\Materal.TTA.Common\Materal.TTA.Common.csproj", "{9537DAC0-0C22-43DC-AF86-A900725C57CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.DependencyInjection", "..\..\..\Materal.ThreeTierArchitecture\Materal.TTA.DependencyInjection\Materal.TTA.DependencyInjection.csproj", "{C65B5B1C-0530-4FA0-984D-EF6B4584F580}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.EFRepository", "..\..\..\Materal.ThreeTierArchitecture\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj", "{339F8890-B603-408B-9D7F-4C61621119CB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqliteRepository", "..\..\..\Materal.ThreeTierArchitecture\Materal.TTA.SqliteRepository\Materal.TTA.SqliteRepository.csproj", "{9050DE63-06E4-4105-A7EA-B060E4F07AEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.Common", "Authority.Common\Authority.Common.csproj", "{EA14E0C8-6A69-4F68-B4D8-0950B9353BFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MateralAPP", "MateralAPP", "{19DAC7E7-B3BF-432A-A6F9-6CEE21F4B948}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.APP.WebAPICore", "..\MateralAPP\Materal.APP.WebAPICore\Materal.APP.WebAPICore.csproj", "{FB38A7CA-489A-47EA-A4E7-54BC80639665}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.APP.WebCore", "..\MateralAPP\Materal.APP.WebCore\Materal.APP.WebCore.csproj", "{01BC8F77-797B-4237-BE89-FAAF1AE3B1BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.APP.Core", "..\MateralAPP\Materal.APP.Core\Materal.APP.Core.csproj", "{2A6D5638-3982-42CE-93AC-D9716B48E763}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{54B1CB8E-A814-4C04-AB58-3ACB5976ADDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B1CB8E-A814-4C04-AB58-3ACB5976ADDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B1CB8E-A814-4C04-AB58-3ACB5976ADDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B1CB8E-A814-4C04-AB58-3ACB5976ADDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9537DAC0-0C22-43DC-AF86-A900725C57CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9537DAC0-0C22-43DC-AF86-A900725C57CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9537DAC0-0C22-43DC-AF86-A900725C57CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9537DAC0-0C22-43DC-AF86-A900725C57CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C65B5B1C-0530-4FA0-984D-EF6B4584F580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C65B5B1C-0530-4FA0-984D-EF6B4584F580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C65B5B1C-0530-4FA0-984D-EF6B4584F580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C65B5B1C-0530-4FA0-984D-EF6B4584F580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{339F8890-B603-408B-9D7F-4C61621119CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{339F8890-B603-408B-9D7F-4C61621119CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{339F8890-B603-408B-9D7F-4C61621119CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{339F8890-B603-408B-9D7F-4C61621119CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9050DE63-06E4-4105-A7EA-B060E4F07AEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9050DE63-06E4-4105-A7EA-B060E4F07AEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9050DE63-06E4-4105-A7EA-B060E4F07AEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9050DE63-06E4-4105-A7EA-B060E4F07AEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA14E0C8-6A69-4F68-B4D8-0950B9353BFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA14E0C8-6A69-4F68-B4D8-0950B9353BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA14E0C8-6A69-4F68-B4D8-0950B9353BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA14E0C8-6A69-4F68-B4D8-0950B9353BFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB38A7CA-489A-47EA-A4E7-54BC80639665}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB38A7CA-489A-47EA-A4E7-54BC80639665}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB38A7CA-489A-47EA-A4E7-54BC80639665}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB38A7CA-489A-47EA-A4E7-54BC80639665}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01BC8F77-797B-4237-BE89-FAAF1AE3B1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01BC8F77-797B-4237-BE89-FAAF1AE3B1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01BC8F77-797B-4237-BE89-FAAF1AE3B1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01BC8F77-797B-4237-BE89-FAAF1AE3B1BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A6D5638-3982-42CE-93AC-D9716B48E763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A6D5638-3982-42CE-93AC-D9716B48E763}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A6D5638-3982-42CE-93AC-D9716B48E763}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A6D5638-3982-42CE-93AC-D9716B48E763}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9537DAC0-0C22-43DC-AF86-A900725C57CC} = {E90443A8-6EFE-486F-AEFA-CAC304D1AD19}
+		{C65B5B1C-0530-4FA0-984D-EF6B4584F580} = {E90443A8-6EFE-486F-AEFA-CAC304D1AD19}
+		{339F8890-B603-408B-9D7F-4C61621119CB} = {E90443A8-6EFE-486F-AEFA-CAC304D1AD19}
+		{9050DE63-06E4-4105-A7EA-B060E4F07AEA} = {E90443A8-6EFE-486F-AEFA-CAC304D1AD19}
+		{FB38A7CA-489A-47EA-A4E7-54BC80639665} = {19DAC7E7-B3BF-432A-A6F9-6CEE21F4B948}
+		{01BC8F77-797B-4237-BE89-FAAF1AE3B1BA} = {19DAC7E7-B3BF-432A-A6F9-6CEE21F4B948}
+		{2A6D5638-3982-42CE-93AC-D9716B48E763} = {19DAC7E7-B3BF-432A-A6F9-6CEE21F4B948}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F58893D3-42AA-4A61-9D41-84BF3835ACEB}
+	EndGlobalSection
+EndGlobal

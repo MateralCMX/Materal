@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Authority.Server</name>
+    </assembly>
+    <members>
+        <member name="T:Authority.Server.Program">
+            <summary>
+            主程序
+            </summary>
+        </member>
+        <member name="M:Authority.Server.Program.Main(System.String[])">
+            <summary>
+            入口
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Authority.Server.Startup">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="M:Authority.Server.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Authority.Server.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            配置服务容器
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Authority.Server.Startup.ConfigureOperationServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            配置业务服务
+            </summary>
+            <param name="services"></param>
+        </member>
+    </members>
+</doc>

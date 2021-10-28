@@ -10,19 +10,19 @@ namespace Materal.TTA.EFRepository
 {
     public abstract class CacheEFRepositoryImpl<T, TKey> : EFRepositoryImpl<T, TKey> where T : class, IEntity<TKey>, new()
     {
-        private static readonly List<string> _subscriberChannelNames = new List<string>();
-        private static readonly object _subscriberLock = new object();
+        private static readonly List<string> SubscriberChannelNames = new List<string>();
+        private static readonly object SubscriberLock = new object();
         private readonly RedisManager _redisManager;
         private readonly ICacheManager _cacheManager;
-        private string _allInfoCacheName => GetAllCacheName();
+        private string AllInfoCacheName => GetAllCacheName();
         protected CacheEFRepositoryImpl(DbContext dbContext, RedisManager redisManager, ICacheManager cacheManager) : base(dbContext)
         {
             _redisManager = redisManager;
             _cacheManager = cacheManager;
-            lock (_subscriberLock)
+            lock (SubscriberLock)
             {
-                if (_subscriberChannelNames.Contains(_allInfoCacheName)) return;
-                _subscriberChannelNames.Add(_allInfoCacheName);
+                if (SubscriberChannelNames.Contains(AllInfoCacheName)) return;
+                SubscriberChannelNames.Add(AllInfoCacheName);
                 Task subscriberTask = Task.Run(async () => await SubscriberAsync());
                 Task.WaitAll(subscriberTask);
             }
@@ -38,17 +38,17 @@ namespace Materal.TTA.EFRepository
         /// <returns></returns>
         public virtual async Task<List<T>> GetAllInfoFromCacheAsync()
         {
-            var result = _cacheManager.Get<List<T>>(_allInfoCacheName);
+            var result = _cacheManager.Get<List<T>>(AllInfoCacheName);
             if (result != null) return result;
-            if (await _redisManager.StringExistsAsync(_allInfoCacheName))
+            if (await _redisManager.StringExistsAsync(AllInfoCacheName))
             {
-                result = await _redisManager.StringGetAsync<List<T>>(_allInfoCacheName);
-                _cacheManager.SetBySliding(_allInfoCacheName, result, 1);
+                result = await _redisManager.StringGetAsync<List<T>>(AllInfoCacheName);
+                _cacheManager.SetBySliding(AllInfoCacheName, result, 1);
                 return result;
             }
             result = await DBSet.Where(m => true).ToListAsync();
-            _cacheManager.SetBySliding(_allInfoCacheName, result, 1);
-            await _redisManager.StringSetAsync(_allInfoCacheName, result);
+            _cacheManager.SetBySliding(AllInfoCacheName, result, 1);
+            await _redisManager.StringSetAsync(AllInfoCacheName, result);
             return result;
         }
         /// <summary>
@@ -57,7 +57,7 @@ namespace Materal.TTA.EFRepository
         /// <returns></returns>
         public virtual async Task ClearCacheAsync()
         {
-            await _redisManager.PublishAsync(_allInfoCacheName, null);
+            await _redisManager.PublishAsync(AllInfoCacheName, null);
         }
         /// <summary>
         /// 订阅清理缓存事件
@@ -65,7 +65,7 @@ namespace Materal.TTA.EFRepository
         /// <returns></returns>
         private async Task SubscriberAsync()
         {
-            await _redisManager.SubscriberAsync(_allInfoCacheName, async (channelName, value) => await ClearCacheHandlerAsync(channelName));
+            await _redisManager.SubscriberAsync(AllInfoCacheName, async (channelName, value) => await ClearCacheHandlerAsync(channelName));
         }
         /// <summary>
         /// 清理缓存处理器

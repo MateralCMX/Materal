@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.APP.Core\Materal.APP.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="2.2.0" />
+    <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
+    <PackageReference Include="Materal.Model" Version="1.0.9" />
+    <PackageReference Include="Materal.NetworkHelper" Version="1.1.7" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.14.0" />
+  </ItemGroup>
+
+</Project>
