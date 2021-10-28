@@ -20,7 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MateralAPP\Materal.APP.WebAPICore\Materal.APP.WebAPICore.csproj" />
-    <ProjectReference Include="..\Authority.Common\Authority.Common.csproj" />
+    <ProjectReference Include="..\Authority.DependencyInjection\Authority.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Authority.PresentationModel\Authority.PresentationModel.csproj" />
   </ItemGroup>
 
 </Project>

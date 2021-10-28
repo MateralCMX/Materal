@@ -26,7 +26,7 @@ namespace Materal.APP.Core.ConfigModels
             }
         }
         /// <summary>
-        /// 获得NLog配置
+        /// 获得配置
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>

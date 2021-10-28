@@ -118,6 +118,7 @@ namespace Materal.APP.WebAPICore.Filters
                     break;
                 default:
                 {
+                    message = string.Empty; 
                     Exception tempException = exception;
                     do
                     {

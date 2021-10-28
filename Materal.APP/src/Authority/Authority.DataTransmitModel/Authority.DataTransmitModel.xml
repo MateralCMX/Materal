@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Authority.DataTransmitModel</name>
+    </assembly>
+    <members>
+        <member name="T:Authority.DataTransmitModel.User.UserDTO">
+            <summary>
+            用户数据传输模型
+            </summary>
+        </member>
+        <member name="T:Authority.DataTransmitModel.User.UserListDTO">
+            <summary>
+            用户列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserListDTO.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserListDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Authority.DataTransmitModel.User.UserListDTO.Account">
+            <summary>
+            账号
+            </summary>
+        </member>
+    </members>
+</doc>

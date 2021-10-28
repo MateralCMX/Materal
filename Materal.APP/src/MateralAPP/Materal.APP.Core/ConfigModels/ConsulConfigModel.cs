@@ -21,7 +21,7 @@ namespace Materal.APP.Core.ConfigModels
         /// </summary>
         public int ReconnectionInterval => Convert.ToInt32(GetConfigValue(nameof(ReconnectionInterval)));
         /// <summary>
-        /// 获得NLog配置
+        /// 获得配置
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>

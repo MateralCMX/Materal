@@ -1,9 +1,14 @@
 using Materal.APP.Core;
 using Materal.APP.Core.ConfigModels;
 using Materal.APP.WebAPICore;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
+using Authority.SqliteEFRepository;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace Authority.Server
 {
@@ -39,18 +44,22 @@ namespace Authority.Server
         {
             base.ConfigureServices(services);
             ConfigureConsulServices(services, ServiceType.AuthorityServer);
-            ConfigureOperationServices(services);
+            services.AddAuthorityServerServices();
         }
-        #region 私有方法
-        #region 业务
         /// <summary>
-        /// 配置业务服务
+        /// 配置
         /// </summary>
-        /// <param name="services"></param>
-        private void ConfigureOperationServices(IServiceCollection services)
+        /// <param name="app"></param>
+        /// <param name="en"></param>
+        /// <param name="lifetime"></param>
+        public override void Configure(IApplicationBuilder app, IWebHostEnvironment en, IHostApplicationLifetime lifetime)
         {
+            base.Configure(app, en, lifetime);
+            RewriteOptions rewriteOptions = new RewriteOptions();
+            rewriteOptions.Add(new RedirectHomeIndexRequests("/swagger/index.html"));
+            app.UseRewriter(rewriteOptions);
+            DBContextHelper<AuthorityDBContext> dbContextHelper = ApplicationConfig.GetService<DBContextHelper<AuthorityDBContext>>();
+            dbContextHelper.Migrate();
         }
-        #endregion
-        #endregion
     }
 }

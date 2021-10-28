@@ -3,6 +3,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using MateralAPP.Common.Models;
 
 namespace Materal.APP.Core.ConfigModels
 {
@@ -33,7 +34,7 @@ namespace Materal.APP.Core.ConfigModels
         /// </summary>
         public byte[] KeyBytes => Encoding.UTF8.GetBytes(Key);
         /// <summary>
-        /// 获得NLog配置
+        /// 获得配置
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
@@ -46,7 +47,7 @@ namespace Materal.APP.Core.ConfigModels
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public string GetToken<T>(T userID)
+        public string GetToken(string userID)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             DateTime authTime = DateTime.UtcNow;
@@ -58,7 +59,7 @@ namespace Materal.APP.Core.ConfigModels
                 {
                     new Claim(JwtRegisteredClaimNames.Aud,Audience),
                     new Claim(JwtRegisteredClaimNames.Iss,Issuer),
-                    new Claim("UserID",userID.ToString())
+                    new Claim("UserID",userID)
                 }),
                 Audience = Audience,
                 Issuer = Issuer,

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.Server", "Authority.Server\Authority.Server.csproj", "{54B1CB8E-A814-4C04-AB58-3ACB5976ADDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authority.Server", "Authority.Server\Authority.Server.csproj", "{54B1CB8E-A814-4C04-AB58-3ACB5976ADDF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TTA", "TTA", "{E90443A8-6EFE-486F-AEFA-CAC304D1AD19}"
 EndProject
@@ -15,15 +15,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.EFRepository", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqliteRepository", "..\..\..\Materal.ThreeTierArchitecture\Materal.TTA.SqliteRepository\Materal.TTA.SqliteRepository.csproj", "{9050DE63-06E4-4105-A7EA-B060E4F07AEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.Common", "Authority.Common\Authority.Common.csproj", "{EA14E0C8-6A69-4F68-B4D8-0950B9353BFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authority.Common", "Authority.Common\Authority.Common.csproj", "{EA14E0C8-6A69-4F68-B4D8-0950B9353BFC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MateralAPP", "MateralAPP", "{19DAC7E7-B3BF-432A-A6F9-6CEE21F4B948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.APP.WebAPICore", "..\MateralAPP\Materal.APP.WebAPICore\Materal.APP.WebAPICore.csproj", "{FB38A7CA-489A-47EA-A4E7-54BC80639665}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.APP.WebAPICore", "..\MateralAPP\Materal.APP.WebAPICore\Materal.APP.WebAPICore.csproj", "{FB38A7CA-489A-47EA-A4E7-54BC80639665}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.APP.WebCore", "..\MateralAPP\Materal.APP.WebCore\Materal.APP.WebCore.csproj", "{01BC8F77-797B-4237-BE89-FAAF1AE3B1BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.APP.WebCore", "..\MateralAPP\Materal.APP.WebCore\Materal.APP.WebCore.csproj", "{01BC8F77-797B-4237-BE89-FAAF1AE3B1BA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.APP.Core", "..\MateralAPP\Materal.APP.Core\Materal.APP.Core.csproj", "{2A6D5638-3982-42CE-93AC-D9716B48E763}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.DataTransmitModel", "Authority.DataTransmitModel\Authority.DataTransmitModel.csproj", "{CD3DF7F5-256F-4D33-829E-F1A5566B4C15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.DependencyInjection", "Authority.DependencyInjection\Authority.DependencyInjection.csproj", "{2744D600-5F79-4D84-9E02-65307DAD1759}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.Domain", "Authority.Domain\Authority.Domain.csproj", "{37355270-0878-4C68-B003-5242EC6AC660}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.PresentationModel", "Authority.PresentationModel\Authority.PresentationModel.csproj", "{615C0EDC-D5EC-4A24-A3A1-8C134F9C76AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.ServiceImpl", "Authority.ServiceImpl\Authority.ServiceImpl.csproj", "{8449FD71-FB2C-4636-9747-F54825EF1551}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.Services", "Authority.Services\Authority.Services.csproj", "{DF911DBD-E904-4EB3-B93B-2810782C23AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.SqliteEFRepository", "Authority.SqliteEFRepository\Authority.SqliteEFRepository.csproj", "{D7694C12-C2C7-4B5D-AD83-7391691FE339}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +81,34 @@ Global
 		{2A6D5638-3982-42CE-93AC-D9716B48E763}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A6D5638-3982-42CE-93AC-D9716B48E763}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A6D5638-3982-42CE-93AC-D9716B48E763}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD3DF7F5-256F-4D33-829E-F1A5566B4C15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD3DF7F5-256F-4D33-829E-F1A5566B4C15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD3DF7F5-256F-4D33-829E-F1A5566B4C15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD3DF7F5-256F-4D33-829E-F1A5566B4C15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2744D600-5F79-4D84-9E02-65307DAD1759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2744D600-5F79-4D84-9E02-65307DAD1759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2744D600-5F79-4D84-9E02-65307DAD1759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2744D600-5F79-4D84-9E02-65307DAD1759}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37355270-0878-4C68-B003-5242EC6AC660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37355270-0878-4C68-B003-5242EC6AC660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37355270-0878-4C68-B003-5242EC6AC660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37355270-0878-4C68-B003-5242EC6AC660}.Release|Any CPU.Build.0 = Release|Any CPU
+		{615C0EDC-D5EC-4A24-A3A1-8C134F9C76AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{615C0EDC-D5EC-4A24-A3A1-8C134F9C76AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{615C0EDC-D5EC-4A24-A3A1-8C134F9C76AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{615C0EDC-D5EC-4A24-A3A1-8C134F9C76AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8449FD71-FB2C-4636-9747-F54825EF1551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8449FD71-FB2C-4636-9747-F54825EF1551}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8449FD71-FB2C-4636-9747-F54825EF1551}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8449FD71-FB2C-4636-9747-F54825EF1551}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF911DBD-E904-4EB3-B93B-2810782C23AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF911DBD-E904-4EB3-B93B-2810782C23AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF911DBD-E904-4EB3-B93B-2810782C23AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF911DBD-E904-4EB3-B93B-2810782C23AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7694C12-C2C7-4B5D-AD83-7391691FE339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7694C12-C2C7-4B5D-AD83-7391691FE339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7694C12-C2C7-4B5D-AD83-7391691FE339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7694C12-C2C7-4B5D-AD83-7391691FE339}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

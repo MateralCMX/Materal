@@ -4,6 +4,88 @@
         <name>Authority.Server</name>
     </assembly>
     <members>
+        <member name="T:Authority.Server.AutoMapperProfile.UserProfile">
+            <summary>
+            AutoMapper配置
+            </summary>
+        </member>
+        <member name="M:Authority.Server.AutoMapperProfile.UserProfile.#ctor">
+            <summary>
+            AutoMapper配置
+            </summary>
+        </member>
+        <member name="T:Authority.Server.Controllers.UserController">
+            <summary>
+            用户控制器
+            </summary>
+        </member>
+        <member name="M:Authority.Server.Controllers.UserController.#ctor(AutoMapper.IMapper,Authority.Services.IUserService)">
+            <summary>
+            用户控制器
+            </summary>
+        </member>
+        <member name="M:Authority.Server.Controllers.UserController.AddUserAsync(Authority.PresentationModel.User.AddUserRequestModel)">
+            <summary>
+            添加用户
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.Server.Controllers.UserController.EditUserAsync(Authority.PresentationModel.User.EditUserRequestModel)">
+            <summary>
+            修改用户
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.Server.Controllers.UserController.DeleteUserAsync(System.Guid)">
+            <summary>
+            删除用户
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.Server.Controllers.UserController.GetUserInfoAsync(System.Guid)">
+            <summary>
+            获得用户信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.Server.Controllers.UserController.GetMyUserInfoAsync">
+            <summary>
+            获得我的信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.Server.Controllers.UserController.GetUserListAsync(Authority.PresentationModel.User.QueryUserFilterRequestModel)">
+            <summary>
+            获得用户列表
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.Server.Controllers.UserController.LoginAsync(Authority.PresentationModel.User.LoginRequestModel)">
+            <summary>
+            登录
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.Server.Controllers.UserController.ResetPasswordAsync(System.Guid)">
+            <summary>
+            重置密码
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Authority.Server.Controllers.UserController.ChangePasswordAsync(Authority.PresentationModel.User.ChangePasswordRequestModel)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
         <member name="T:Authority.Server.Program">
             <summary>
             主程序
@@ -15,6 +97,17 @@
             </summary>
             <param name="args"></param>
             <returns></returns>
+        </member>
+        <member name="T:Authority.Server.ServerDIExtension">
+            <summary>
+            依赖注入扩展
+            </summary>
+        </member>
+        <member name="M:Authority.Server.ServerDIExtension.AddAuthorityServerServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加服务
+            </summary>
+            <param name="services"></param>
         </member>
         <member name="T:Authority.Server.Startup">
             <summary>
@@ -33,11 +126,13 @@
             </summary>
             <param name="services"></param>
         </member>
-        <member name="M:Authority.Server.Startup.ConfigureOperationServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Authority.Server.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.Extensions.Hosting.IHostApplicationLifetime)">
             <summary>
-            配置业务服务
+            配置
             </summary>
-            <param name="services"></param>
+            <param name="app"></param>
+            <param name="en"></param>
+            <param name="lifetime"></param>
         </member>
     </members>
 </doc>

@@ -1,8 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Materal.ThreeTierArchitecture\Materal.TTA.SqliteRepository\Materal.TTA.SqliteRepository.csproj" />
+    <ProjectReference Include="..\..\MateralAPP\Materal.APP.Core\Materal.APP.Core.csproj" />
+  </ItemGroup>
 </Project>

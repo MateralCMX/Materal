@@ -69,7 +69,7 @@ namespace Materal.APP.WebAPICore
             });
             retryPolicy.Execute(() =>
             {
-                _logger.Info("正在注册Consul服务..");
+                _logger.Info("正在注册Consul服务....");
                 _consulClient.Agent.ServiceRegister(_registration).Wait();
                 _logger.Info("Consul服务注册成功");
                 _healthTimer.Start();
@@ -83,15 +83,15 @@ namespace Materal.APP.WebAPICore
         private void HealthTimerElapsed(object sender, ElapsedEventArgs e)
         {
             _healthTimer.Stop();
-            _logger.Debug("Consul健康检查开始....");
+            _logger.Info("Consul健康检查开始....");
             if (SendHealthRequestAsync().Result)
             {
-                _logger.Debug("Consul健康检查成功");
+                _logger.Info("Consul健康检查成功");
                 _healthTimer.Start();
             }
             else
             {
-                _logger.Debug("Consul健康检查失败");
+                _logger.Info("Consul健康检查失败");
                 RegisterConsul();
             }
         }
