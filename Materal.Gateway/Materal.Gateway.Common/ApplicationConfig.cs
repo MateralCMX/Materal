@@ -1,4 +1,5 @@
-﻿using Materal.Gateway.Common.ConfigModels;
+﻿using System;
+using Materal.Gateway.Common.ConfigModels;
 using Microsoft.Extensions.Configuration;
 
 namespace Materal.Gateway.Common
@@ -7,6 +8,10 @@ namespace Materal.Gateway.Common
     {
         public static IConfiguration Config;
         public static string BaseUrl { get; set; } = "http://127.0.0.1:5000";
+        /// <summary>
+        /// 是否显示异常
+        /// </summary>
+        public static bool ShowException => Convert.ToBoolean(Config.GetSection(nameof(ShowException)).Value);
         private static OcelotConfigModel _ocelotConfig;
         /// <summary>
         /// JWT配置

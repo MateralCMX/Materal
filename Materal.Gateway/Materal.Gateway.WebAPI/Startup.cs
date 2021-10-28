@@ -1,5 +1,7 @@
 using Materal.CacheHelper;
 using Materal.Gateway.Common;
+using Materal.Gateway.WebAPI.Filters;
+using Materal.Gateway.WebAPI.Policies;
 using Materal.Gateway.WebAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -21,7 +23,8 @@ using Ocelot.Provider.Consul;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Materal.Gateway.WebAPI.Filters;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace Materal.Gateway.WebAPI
 {
@@ -42,12 +45,7 @@ namespace Materal.Gateway.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureOcelotServices(services);
-            IMvcBuilder mvcBuilder = services.AddControllers();
-            mvcBuilder.AddMvcOptions(options =>
-            {
-                options.Filters.Add<GatewayAuthorizationFilter>();
-            });
-            ConfigureJsonServices(mvcBuilder);
+            ConfigureMVCServices(services);
             ConfigureSwaggerServices(services);
             ConfigureNLogServices();
             ConfigureCorsServices(services);
@@ -109,16 +107,25 @@ namespace Materal.Gateway.WebAPI
             services.AddSingleton<ICacheManager, MemoryCacheManager>();
         }
         #endregion
-        #region Json
+        #region MVC
         /// <summary>
-        /// 配置Json服务
+        /// 配置MVC服务
         /// </summary>
-        /// <param name="mvcBuilder"></param>
-        private void ConfigureJsonServices(IMvcBuilder mvcBuilder)
+        /// <param name="services"></param>
+        protected virtual void ConfigureMVCServices(IServiceCollection services)
         {
-            mvcBuilder.AddJsonOptions(config =>
+            IMvcBuilder mvcBuilder = services.AddControllers(mvcOptions =>
             {
-                config.JsonSerializerOptions.PropertyNamingPolicy = null;
+                mvcOptions.Filters.Add<GatewayAuthorizationFilter>();
+                mvcOptions.Filters.Add<ExceptionFilter>();
+                mvcOptions.SuppressAsyncSuffixInActionNames = true;
+            });
+            mvcBuilder.AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All, UnicodeRanges.All);
+                jsonOptions.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new FirstUpperNamingPolicy();
+                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
         }
         #endregion

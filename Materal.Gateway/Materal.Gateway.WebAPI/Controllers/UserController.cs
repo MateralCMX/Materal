@@ -13,16 +13,13 @@ namespace Materal.Gateway.WebAPI.Controllers
         [HttpPost]
         public ResultModel<string> Login(LoginModel model)
         {
-            return Handler(() =>
+            if (model.UserName != ApplicationConfig.AuthorizationConfig.UserName ||
+                model.Password != ApplicationConfig.AuthorizationConfig.Password)
             {
-                if (model.UserName != ApplicationConfig.AuthorizationConfig.UserName ||
-                    model.Password != ApplicationConfig.AuthorizationConfig.Password)
-                {
-                    throw new GatewayException("用户名或者密码错误");
-                }
-                string token = ApplicationConfig.AuthorizationConfig.GetAuthorizationToken(model.UserName, model.Password);
-                return ResultModel<string>.Success(token, "登录成功");
-            });
+                throw new GatewayException("用户名或者密码错误");
+            }
+            string token = ApplicationConfig.AuthorizationConfig.GetAuthorizationToken(model.UserName, model.Password);
+            return ResultModel<string>.Success(token, "登录成功");
         }
     }
 }
