@@ -23,7 +23,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <summary>
         /// 日志对象
         /// </summary>
-        protected readonly ILogger<DefaultRabbitMQPersistentConnection> _logger;
+        protected readonly ILogger<DefaultRabbitMQPersistentConnection> Logger;
         /// <summary>
         /// 重试次数
         /// </summary>
@@ -31,16 +31,16 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <summary>
         /// 连接对象 
         /// </summary>
-        protected IConnection _connection;
+        protected IConnection Connection;
         /// <summary>
         /// 释放标识
         /// </summary>
-        protected bool _disposed;
-        public bool IsConnected => _connection != null && _connection.IsOpen && !_disposed;
+        protected bool Disposed;
+        public bool IsConnected => Connection != null && Connection.IsOpen && !Disposed;
         /// <summary>
         /// 联线RabbitMQ锁
         /// </summary>
-        protected static readonly object _onlineRabbitMQLock = new object();
+        protected static readonly object OnlineRabbitMQLock = new object();
         /// <summary>
         /// 默认RabbitMQ持久连接
         /// </summary>
@@ -50,46 +50,46 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         public DefaultRabbitMQPersistentConnection(IConnectionFactory connectionFactory, ILogger<DefaultRabbitMQPersistentConnection> logger, int retryCount = 5)
         {
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _retryCount = retryCount;
         }
         public void Dispose()
         {
-            if (_disposed) return;
+            if (Disposed) return;
 
-            _disposed = true;
+            Disposed = true;
 
             try
             {
-                _connection.Dispose();
+                Connection.Dispose();
             }
             catch (IOException ex)
             {
-                _logger?.LogCritical(ex.ToString());
+                Logger?.LogCritical(ex.ToString());
             }
         }
         public bool TryConnect()
         {
-            _logger?.LogInformation("正在连接RabbitMQ....");
-            lock (_onlineRabbitMQLock)
+            Logger?.LogInformation("正在连接RabbitMQ....");
+            lock (OnlineRabbitMQLock)
             {
                 RetryPolicy policy = Policy.Handle<SocketException>()
                     .Or<BrokerUnreachableException>()
                     .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (ex, time) =>
                         {
-                            _logger?.LogWarning(ex, "RabbitMQ连接超时,TimeOut={TimeOut}, ({ExceptionMessage})", $"{time.TotalSeconds:n1}", ex.Message);
+                            Logger?.LogWarning(ex, "RabbitMQ连接超时,TimeOut={TimeOut}, ({ExceptionMessage})", $"{time.TotalSeconds:n1}", ex.Message);
                         }
                     );
-                policy.Execute(() => _connection = _connectionFactory.CreateConnection());
+                policy.Execute(() => Connection = _connectionFactory.CreateConnection());
                 if (IsConnected)
                 {
-                    _connection.ConnectionShutdown += OnConnectionShutdown;
-                    _connection.CallbackException += OnCallbackException;
-                    _connection.ConnectionBlocked += OnConnectionBlocked;
-                    _logger?.LogInformation("RabbitMQ已连接到{HostName}", _connection.Endpoint.HostName);
+                    Connection.ConnectionShutdown += OnConnectionShutdown;
+                    Connection.CallbackException += OnCallbackException;
+                    Connection.ConnectionBlocked += OnConnectionBlocked;
+                    Logger?.LogInformation("RabbitMQ已连接到{HostName}", Connection.Endpoint.HostName);
                     return true;
                 }
-                _logger?.LogCritical("致命错误:无法连接RabbitMQ");
+                Logger?.LogCritical("致命错误:无法连接RabbitMQ");
                 return false;
             }
         }
@@ -99,7 +99,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             {
                 throw new InvalidOperationException("没有可用的RabbitMQ连接");
             }
-            IModel result = await Task.Run(() => _connection.CreateModel());
+            IModel result = await Task.Run(() => Connection.CreateModel());
             return result;
         }
         #region 私有方法
@@ -110,8 +110,8 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="e"></param>
         private void OnConnectionBlocked(object sender, ConnectionBlockedEventArgs e)
         {
-            if (_disposed) return;
-            _logger?.LogWarning("RabbitMQ连接被阻塞,正在重新连接...");
+            if (Disposed) return;
+            Logger?.LogWarning("RabbitMQ连接被阻塞,正在重新连接...");
             TryConnect();
         }
         /// <summary>
@@ -121,8 +121,8 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="e"></param>
         private void OnCallbackException(object sender, CallbackExceptionEventArgs e)
         {
-            if (_disposed) return;
-            _logger?.LogWarning("RabbitMQ发送了一个异常({ExceptionMessage}),正在重新连接...", e.Exception.Message);
+            if (Disposed) return;
+            Logger?.LogWarning("RabbitMQ发送了一个异常({ExceptionMessage}),正在重新连接...", e.Exception.Message);
             TryConnect();
         }
         /// <summary>
@@ -132,8 +132,8 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="reason"></param>
         private void OnConnectionShutdown(object sender, ShutdownEventArgs reason)
         {
-            if (_disposed) return;
-            _logger?.LogWarning("RabbitMQ连接被关闭,正在重新连接...");
+            if (Disposed) return;
+            Logger?.LogWarning("RabbitMQ连接被关闭,正在重新连接...");
             TryConnect();
         }
         #endregion

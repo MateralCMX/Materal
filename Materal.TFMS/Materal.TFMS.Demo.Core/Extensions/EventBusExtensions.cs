@@ -9,7 +9,7 @@ namespace Materal.TFMS.Demo.Core.Extensions
 {
     public static class EventBusExtensions
     {
-        public static IServiceCollection AddEventBus(this IServiceCollection services, string queueName, string exchangeName = "MateralTFMSEventBusExchange", int retryCount = 5)
+        public static IServiceCollection AddEventBus(this IServiceCollection services, string queueName, string exchangeName = "MateralTFMSEventBusExchange")
         {
             services.AddEventBusSubscriptionsManager().AddRabbitMQPersistentConnection();
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(serviceProvider =>
@@ -17,7 +17,7 @@ namespace Materal.TFMS.Demo.Core.Extensions
                 var rabbitMQPersistentConnection = serviceProvider.GetService<IRabbitMQPersistentConnection>();
                 var logger = serviceProvider.GetRequiredService<ILogger<EventBusRabbitMQ>>();
                 var eventBusSubscriptionsManager = serviceProvider.GetService<IEventBusSubscriptionsManager>();
-                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, serviceProvider, eventBusSubscriptionsManager, queueName, exchangeName, retryCount, false);
+                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, serviceProvider, eventBusSubscriptionsManager, queueName, exchangeName, false);
             });
             return services;
         }

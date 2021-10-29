@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>ConfigCenter.Server.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>ConfigCenter.Server.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
+    <PackageReference Include="Materal.Model" Version="1.0.9" />
+    <PackageReference Include="Materal.NetworkHelper" Version="1.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ConfigCenter.Environment\ConfigCenter.Environment.DataTransmitModel\ConfigCenter.Environment.DataTransmitModel.csproj" />
+    <ProjectReference Include="..\..\MateralAPP\Materal.APP.NetworkCore\Materal.APP.NetworkCore.csproj" />
+    <ProjectReference Include="..\..\MateralAPP\Materal.APP.WebAPICore\Materal.APP.WebAPICore.csproj" />
+    <ProjectReference Include="..\ConfigCenter.DependencyInjection\ConfigCenter.DependencyInjection.csproj" />
+    <ProjectReference Include="..\ConfigCenter.IntegrationEvents\ConfigCenter.IntegrationEvents.csproj" />
+    <ProjectReference Include="..\ConfigCenter.PresentationModel\ConfigCenter.PresentationModel.csproj" />
+  </ItemGroup>
+
+</Project>

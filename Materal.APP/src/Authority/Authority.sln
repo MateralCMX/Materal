@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TTA", "TTA", "{E90443A8-6EF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Common", "..\..\..\Materal.ThreeTierArchitecture\Materal.TTA.Common\Materal.TTA.Common.csproj", "{9537DAC0-0C22-43DC-AF86-A900725C57CC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.DependencyInjection", "..\..\..\Materal.ThreeTierArchitecture\Materal.TTA.DependencyInjection\Materal.TTA.DependencyInjection.csproj", "{C65B5B1C-0530-4FA0-984D-EF6B4584F580}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.EFRepository", "..\..\..\Materal.ThreeTierArchitecture\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj", "{339F8890-B603-408B-9D7F-4C61621119CB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqliteRepository", "..\..\..\Materal.ThreeTierArchitecture\Materal.TTA.SqliteRepository\Materal.TTA.SqliteRepository.csproj", "{9050DE63-06E4-4105-A7EA-B060E4F07AEA}"
@@ -25,19 +23,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.APP.WebCore", "..\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.APP.Core", "..\MateralAPP\Materal.APP.Core\Materal.APP.Core.csproj", "{2A6D5638-3982-42CE-93AC-D9716B48E763}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.DataTransmitModel", "Authority.DataTransmitModel\Authority.DataTransmitModel.csproj", "{CD3DF7F5-256F-4D33-829E-F1A5566B4C15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authority.DataTransmitModel", "Authority.DataTransmitModel\Authority.DataTransmitModel.csproj", "{CD3DF7F5-256F-4D33-829E-F1A5566B4C15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.DependencyInjection", "Authority.DependencyInjection\Authority.DependencyInjection.csproj", "{2744D600-5F79-4D84-9E02-65307DAD1759}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authority.DependencyInjection", "Authority.DependencyInjection\Authority.DependencyInjection.csproj", "{2744D600-5F79-4D84-9E02-65307DAD1759}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.Domain", "Authority.Domain\Authority.Domain.csproj", "{37355270-0878-4C68-B003-5242EC6AC660}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authority.Domain", "Authority.Domain\Authority.Domain.csproj", "{37355270-0878-4C68-B003-5242EC6AC660}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.PresentationModel", "Authority.PresentationModel\Authority.PresentationModel.csproj", "{615C0EDC-D5EC-4A24-A3A1-8C134F9C76AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authority.PresentationModel", "Authority.PresentationModel\Authority.PresentationModel.csproj", "{615C0EDC-D5EC-4A24-A3A1-8C134F9C76AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.ServiceImpl", "Authority.ServiceImpl\Authority.ServiceImpl.csproj", "{8449FD71-FB2C-4636-9747-F54825EF1551}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authority.ServiceImpl", "Authority.ServiceImpl\Authority.ServiceImpl.csproj", "{8449FD71-FB2C-4636-9747-F54825EF1551}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.Services", "Authority.Services\Authority.Services.csproj", "{DF911DBD-E904-4EB3-B93B-2810782C23AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authority.Services", "Authority.Services\Authority.Services.csproj", "{DF911DBD-E904-4EB3-B93B-2810782C23AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authority.SqliteEFRepository", "Authority.SqliteEFRepository\Authority.SqliteEFRepository.csproj", "{D7694C12-C2C7-4B5D-AD83-7391691FE339}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authority.SqliteEFRepository", "Authority.SqliteEFRepository\Authority.SqliteEFRepository.csproj", "{D7694C12-C2C7-4B5D-AD83-7391691FE339}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +51,6 @@ Global
 		{9537DAC0-0C22-43DC-AF86-A900725C57CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9537DAC0-0C22-43DC-AF86-A900725C57CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9537DAC0-0C22-43DC-AF86-A900725C57CC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C65B5B1C-0530-4FA0-984D-EF6B4584F580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C65B5B1C-0530-4FA0-984D-EF6B4584F580}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C65B5B1C-0530-4FA0-984D-EF6B4584F580}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C65B5B1C-0530-4FA0-984D-EF6B4584F580}.Release|Any CPU.Build.0 = Release|Any CPU
 		{339F8890-B603-408B-9D7F-4C61621119CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{339F8890-B603-408B-9D7F-4C61621119CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{339F8890-B603-408B-9D7F-4C61621119CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -115,7 +109,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9537DAC0-0C22-43DC-AF86-A900725C57CC} = {E90443A8-6EFE-486F-AEFA-CAC304D1AD19}
-		{C65B5B1C-0530-4FA0-984D-EF6B4584F580} = {E90443A8-6EFE-486F-AEFA-CAC304D1AD19}
 		{339F8890-B603-408B-9D7F-4C61621119CB} = {E90443A8-6EFE-486F-AEFA-CAC304D1AD19}
 		{9050DE63-06E4-4105-A7EA-B060E4F07AEA} = {E90443A8-6EFE-486F-AEFA-CAC304D1AD19}
 		{FB38A7CA-489A-47EA-A4E7-54BC80639665} = {19DAC7E7-B3BF-432A-A6F9-6CEE21F4B948}

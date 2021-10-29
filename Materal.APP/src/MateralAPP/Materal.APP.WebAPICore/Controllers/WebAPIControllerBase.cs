@@ -2,12 +2,12 @@
 using Materal.Common;
 using Materal.Model;
 using Materal.StringHelper;
-using MateralAPP.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Materal.APP.Core.Models;
 
 namespace Materal.APP.WebAPICore.Controllers
 {

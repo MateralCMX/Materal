@@ -13,7 +13,7 @@
         /// <summary>
         /// 配置环境
         /// </summary>
-        ConfigEnvironment,
+        ConfigCenterEnvironment,
         /// <summary>
         /// 发布服务
         /// </summary>

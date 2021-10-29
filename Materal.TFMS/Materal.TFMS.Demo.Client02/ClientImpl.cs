@@ -14,9 +14,7 @@ namespace Materal.TFMS.Demo.Client02
         {
             _eventBus = eventBus;
             eventBus.SubscribeAsync<Event01, Client02Event01Handler>();
-            eventBus.SubscribeAsync<Event01, Client02Event01Handler2>();
             eventBus.SubscribeAsync<Event03, Client02Event03Handler>();
-            eventBus.SubscribeAsync<Event03, Client02Event03Handler2>();
             _eventBus.StartListening();
         }
 

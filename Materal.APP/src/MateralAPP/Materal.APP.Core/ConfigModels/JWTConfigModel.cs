@@ -3,7 +3,6 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using MateralAPP.Common.Models;
 
 namespace Materal.APP.Core.ConfigModels
 {

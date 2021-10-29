@@ -16,7 +16,7 @@ namespace Authority.Common
             Version = null
         };
         /// <summary>
-        /// Sqlite数据库配置
+        /// 默认密码
         /// </summary>
         public static string DefaultPassword => GetConfigValue("DefaultPassword");
         /// <summary>

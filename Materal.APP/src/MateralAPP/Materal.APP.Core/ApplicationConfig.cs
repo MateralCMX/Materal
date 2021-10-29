@@ -12,9 +12,14 @@ namespace Materal.APP.Core
         public static IServiceProvider Services { get; set; }
         public static IConfiguration Config { get; private set; }
         public static WebAPIStartupConfig WebAPIStartupConfig { get; private set; }
+        private static GatewayConfigModel _gatewayConfig;
+        /// <summary>
+        /// 网关
+        /// </summary>
+        public static GatewayConfigModel GatewayConfig => _gatewayConfig ??= new GatewayConfigModel();
         private static BaseUrlConfigModel _baseUrlConfig;
         /// <summary>
-        /// Consul配置
+        /// 链接配置
         /// </summary>
         public static BaseUrlConfigModel BaseUrlConfig => _baseUrlConfig ??= new BaseUrlConfigModel();
         /// <summary>

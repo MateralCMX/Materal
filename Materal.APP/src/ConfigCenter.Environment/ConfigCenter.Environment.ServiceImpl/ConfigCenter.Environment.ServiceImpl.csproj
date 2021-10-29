@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.LinqHelper" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigCenter.Environment.Services\ConfigCenter.Environment.Services.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Environment.SqliteEFRepository\ConfigCenter.Environment.SqliteEFRepository.csproj" />
+  </ItemGroup>
+
+</Project>

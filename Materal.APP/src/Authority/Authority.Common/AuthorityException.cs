@@ -1,4 +1,4 @@
-﻿using MateralAPP.Common.Models;
+﻿using Materal.APP.Core.Models;
 using System;
 
 namespace Authority.Common

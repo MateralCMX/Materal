@@ -30,8 +30,8 @@ namespace Authority.Server
                 SwaggerXmlPathArray = new[]
                 {
                     $"{basePath}/Authority.Server.xml",
-                    //$"{basePath}/Authority.PresentationModel.xml",
-                    //$"{basePath}/Authority.DataTransmitModel.xml"
+                    $"{basePath}/Authority.PresentationModel.xml",
+                    $"{basePath}/Authority.DataTransmitModel.xml"
                 }
             };
             Init(config);

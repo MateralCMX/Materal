@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ConfigCenter\ConfigCenter.IntegrationEvents\ConfigCenter.IntegrationEvents.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Environment.Services\ConfigCenter.Environment.Services.csproj" />
+  </ItemGroup>
+
+</Project>

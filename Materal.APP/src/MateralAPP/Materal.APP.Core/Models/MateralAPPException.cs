@@ -1,7 +1,7 @@
-﻿using Materal.Common;
-using System;
+﻿using System;
+using Materal.Common;
 
-namespace MateralAPP.Common.Models
+namespace Materal.APP.Core.Models
 {
     public class MateralAPPException : MateralException
     {

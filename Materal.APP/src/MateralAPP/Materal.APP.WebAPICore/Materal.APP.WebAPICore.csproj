@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Materal.APP\Materal.APP.TFMS.Core\Materal.APP.TFMS.Core.csproj" />
     <ProjectReference Include="..\Materal.APP.WebCore\Materal.APP.WebCore.csproj" />
   </ItemGroup>
   <ItemGroup>

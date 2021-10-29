@@ -15,9 +15,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using System.Threading.Tasks;
+using Materal.APP.TFMS.Core;
 
 namespace Materal.APP.WebAPICore
 {
@@ -231,6 +233,18 @@ namespace Materal.APP.WebAPICore
             ConsulManage consulManage = new ConsulManage(serviceType);
             services.AddSingleton(consulManage);
             consulManage.RegisterConsul();
+        }
+        #endregion
+        #region TFMS
+        /// <summary>
+        /// 配置TFMS服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="tfmsConfig"></param>
+        protected virtual void ConfigureTFMSServices(IServiceCollection services, TFMSConfigModel tfmsConfig)
+        {
+            services.AddEventConnectionFactory(tfmsConfig);
+            services.AddEventBus(tfmsConfig.QueueName);
         }
         #endregion
         #endregion

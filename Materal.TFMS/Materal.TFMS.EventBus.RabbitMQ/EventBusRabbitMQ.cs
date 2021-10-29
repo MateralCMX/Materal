@@ -42,10 +42,6 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// </summary>
         private readonly IEventBusSubscriptionsManager _subsManager;
         /// <summary>
-        /// 重试次数
-        /// </summary>
-        private readonly int _retryCount;
-        /// <summary>
         /// 依赖注入容器
         /// </summary>
         private readonly IServiceProvider _service;
@@ -62,9 +58,8 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="subsManager">订阅管理器</param>
         /// <param name="queueName">队列名称</param>
         /// <param name="exchangeName">交换机名称</param>
-        /// <param name="retryCount">重试次数</param>
         /// <param name="autoListening"></param>
-        public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger, IServiceProvider service, IEventBusSubscriptionsManager subsManager, string queueName, string exchangeName = "MateralTFMSEventBusExchange", int retryCount = 5, bool autoListening = true)
+        public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger, IServiceProvider service, IEventBusSubscriptionsManager subsManager, string queueName, string exchangeName = "MateralTFMSEventBusExchange", bool autoListening = true)
         {
             _persistentConnection =
                 persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
@@ -72,7 +67,6 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             _subsManager = subsManager ?? new InMemoryEventBusSubscriptionsManager();
             _queueName = queueName;
             _service = service;
-            _retryCount = retryCount;
             _exchangeName = exchangeName;
             _subsManager.OnEventRemoved += SubsManager_OnEventRemoved;
             Task task = Task.Run(async () =>
@@ -96,12 +90,12 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 _persistentConnection.TryConnect();
             }
             RetryPolicy policy = Policy.Handle<BrokerUnreachableException>().Or<SocketException>()
-                .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (ex, time) =>
+                .WaitAndRetryForever(count => TimeSpan.FromSeconds(5), (ex, time) =>
                 {
                     _logger?.LogError(ex, "发布事件失败: EventId={EventId} Timeout={Timeout} ({ExceptionMessage})", @event.ID, $"{time.TotalSeconds:n1}", ex.Message);
                 });
             string eventName = @event.GetType().Name;
-            _logger?.LogTrace("创建RabbitMQ发布事件通道: {EventId} ({EventName})", @event.ID, eventName);
+            _logger?.LogInformation("创建RabbitMQ发布事件通道: {EventId} ({EventName})", @event.ID, eventName);
             IModel channel = await _persistentConnection.CreateModelAsync();
             channel.ExchangeDeclare(_exchangeName, "direct");
             string message = JsonConvert.SerializeObject(@event);
@@ -110,7 +104,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             {
                 IBasicProperties properties = channel.CreateBasicProperties();
                 properties.DeliveryMode = 2;
-                _logger?.LogTrace("发布事件: {EventId}", @event.ID);
+                _logger?.LogInformation("发布事件: {EventId}", @event.ID);
                 channel.BasicPublish(_exchangeName, eventName, properties, body);
                 channel.Dispose();
             });
@@ -155,7 +149,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             {
                 _persistentConnection.TryConnect();
             }
-            _logger?.LogTrace("创建RabbitMQ消费通道...");
+            _logger?.LogInformation("创建RabbitMQ消费通道...");
             IModel channel = await _persistentConnection.CreateModelAsync();
             channel.ExchangeDeclare(_exchangeName, "direct");
             channel.QueueDeclare(_queueName, true, false, false, null);
@@ -173,7 +167,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// </summary>
         private void StartBasicConsume()
         {
-            _logger?.LogTrace("RabbitMQ开始消费消息...");
+            _logger?.LogInformation("RabbitMQ开始消费消息...");
             if (_consumerChannel != null)
             {
                 var consumer = new AsyncEventingBasicConsumer(_consumerChannel);
@@ -255,7 +249,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <returns></returns>
         private async Task<bool> TryProcessEvent(string eventName, string message)
         {
-            _logger?.LogTrace($"处理事件: {eventName}");
+            _logger?.LogInformation($"处理事件: {eventName}");
             var result = false;
             if (_subsManager.HasSubscriptionsForEvent(eventName))
             {

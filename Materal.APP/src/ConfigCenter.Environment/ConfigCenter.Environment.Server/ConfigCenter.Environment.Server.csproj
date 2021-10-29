@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>ConfigCenter.Environment.Server.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>ConfigCenter.Environment.Server.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
+    <PackageReference Include="Materal.Model" Version="1.0.9" />
+    <PackageReference Include="Materal.NetworkHelper" Version="1.1.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MateralAPP\Materal.APP.WebAPICore\Materal.APP.WebAPICore.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Environment.DependencyInjection\ConfigCenter.Environment.DependencyInjection.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Environment.IntegrationEventHandlers\ConfigCenter.Environment.IntegrationEventHandlers.csproj" />
+    <ProjectReference Include="..\ConfigCenter.Environment.PresentationModel\ConfigCenter.Environment.PresentationModel.csproj" />
+  </ItemGroup>
+
+</Project>

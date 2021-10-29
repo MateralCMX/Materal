@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigCenter.Environment.Common\ConfigCenter.Environment.Common.csproj" />
+  </ItemGroup>
+
+</Project>

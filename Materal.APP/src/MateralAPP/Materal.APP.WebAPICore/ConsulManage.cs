@@ -1,9 +1,9 @@
 ﻿using Consul;
 using Materal.APP.Core;
+using Materal.APP.Core.Models;
 using Materal.APP.WebAPICore.Models;
 using Materal.ConvertHelper;
 using Materal.NetworkHelper;
-using MateralAPP.Common.Models;
 using Microsoft.Extensions.Hosting;
 using NLog;
 using Polly;
@@ -25,29 +25,19 @@ namespace Materal.APP.WebAPICore
         private readonly Logger _logger;
         private readonly Timer _healthTimer;
         private readonly Guid _id;
-        public ConsulManage(ServiceType serviceType)
+        public ConsulManage(ServiceType serviceType, string serviceName = null, params string[] tags)
         {
+            if (string.IsNullOrWhiteSpace(serviceName))
+            {
+                serviceName = $"{ApplicationConfig.WebAPIStartupConfig.AppName}API";
+            }
             _id = Guid.NewGuid();
             _logger = LogManager.GetCurrentClassLogger();
             _consulClient = new ConsulClient(config =>
             {
                 config.Address = new Uri(ApplicationConfig.ConsulConfig.Address);
             });
-            _registration = new AgentServiceRegistration
-            {
-                ID = _id.ToString(),
-                Name = $"{ApplicationConfig.WebAPIStartupConfig.AppName}API",
-                Address = ApplicationConfig.BaseUrlConfig.Host,
-                Port = ApplicationConfig.BaseUrlConfig.Port,
-                Tags = new[] { "MateralAPP", serviceType.ToString() },
-                Check = new AgentServiceCheck
-                {
-                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
-                    HTTP = $"{ApplicationConfig.BaseUrlConfig.Url}/api/Health",
-                    Interval = TimeSpan.FromSeconds(10),
-                    Timeout = TimeSpan.FromSeconds(5),
-                }
-            };
+            _registration = GetAgentServiceRegistration(serviceType, serviceName, tags);
             _healthTimer = new Timer(ApplicationConfig.ConsulConfig.HealthInterval * 1000);
             _healthTimer.Elapsed += HealthTimerElapsed;
             IHostApplicationLifetime lifetime = ApplicationConfig.GetService<IHostApplicationLifetime>();
@@ -74,6 +64,27 @@ namespace Materal.APP.WebAPICore
                 _logger.Info("Consul服务注册成功");
                 _healthTimer.Start();
             });
+        }
+
+        private AgentServiceRegistration GetAgentServiceRegistration(ServiceType serviceType, string serviceName, params string[] tags)
+        {
+            List<string> tagsValue = new List<string> { "MateralAPP", serviceType.ToString() };
+            tagsValue.AddRange(tags);
+            return new AgentServiceRegistration
+            {
+                ID = _id.ToString(),
+                Name = serviceName,
+                Address = ApplicationConfig.BaseUrlConfig.Host,
+                Port = ApplicationConfig.BaseUrlConfig.Port,
+                Tags = tagsValue.ToArray(),
+                Check = new AgentServiceCheck
+                {
+                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
+                    HTTP = $"{ApplicationConfig.BaseUrlConfig.Url}/api/Health",
+                    Interval = TimeSpan.FromSeconds(10),
+                    Timeout = TimeSpan.FromSeconds(5),
+                }
+            };
         }
         /// <summary>
         /// Consul健康检查
