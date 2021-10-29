@@ -45,7 +45,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TFMS.EventBus", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TFMS.EventBus.RabbitMQ", "..\..\..\Materal.TFMS\Materal.TFMS.EventBus.RabbitMQ\Materal.TFMS.EventBus.RabbitMQ.csproj", "{BF690260-E12D-49E6-84A6-AB060EC69506}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.APP.TFMS.Core", "..\Materal.APP\Materal.APP.TFMS.Core\Materal.APP.TFMS.Core.csproj", "{40CB06A6-DB38-4D13-9B98-5D1FE1039D40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.APP.TFMS.Core", "..\MateralAPP\Materal.APP.TFMS.Core\Materal.APP.TFMS.Core.csproj", "{40CB06A6-DB38-4D13-9B98-5D1FE1039D40}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigCenter.IntegrationEvents", "ConfigCenter.IntegrationEvents\ConfigCenter.IntegrationEvents.csproj", "{4A3D52D9-432F-4978-B36F-C7A90B31F2DB}"
 EndProject

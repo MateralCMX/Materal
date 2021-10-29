@@ -49,7 +49,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TFMS.EventBus", "..
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TFMS.EventBus.RabbitMQ", "..\..\..\Materal.TFMS\Materal.TFMS.EventBus.RabbitMQ\Materal.TFMS.EventBus.RabbitMQ.csproj", "{2A137FCA-7351-4D20-A530-88A6F7D3B1A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.APP.TFMS.Core", "..\Materal.APP\Materal.APP.TFMS.Core\Materal.APP.TFMS.Core.csproj", "{BB00A902-E420-4745-B7CD-5A74CDF3BB67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.APP.TFMS.Core", "..\MateralAPP\Materal.APP.TFMS.Core\Materal.APP.TFMS.Core.csproj", "{BB00A902-E420-4745-B7CD-5A74CDF3BB67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
