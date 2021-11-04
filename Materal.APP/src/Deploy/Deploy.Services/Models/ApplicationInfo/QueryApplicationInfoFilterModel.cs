@@ -27,7 +27,7 @@ namespace Deploy.Services.Models.ApplicationInfo
         /// 应用程序类型
         /// </summary>
         [Equal]
-        public ApplicationStatusEnum? ApplicationStatus { get; set; }
+        public ApplicationStatusEnum? Status { get; set; }
         /// <summary>
         /// 应用程序类型
         /// </summary>

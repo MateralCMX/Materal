@@ -7,7 +7,7 @@ namespace Deploy.Enums
         /// <summary>
         /// 静态
         /// </summary>
-        [Description("Static")]
+        [Description("StaticDocument")]
         StaticDocument = 0,
         /// <summary>
         /// 可执行程序
@@ -17,7 +17,7 @@ namespace Deploy.Enums
         /// <summary>
         /// .NetCore
         /// </summary>
-        [Description(".NetCore")]
+        [Description("DotNet")]
         DotNet = 2,
         /// <summary>
         /// NodeJS

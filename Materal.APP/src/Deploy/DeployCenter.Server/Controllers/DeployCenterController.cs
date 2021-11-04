@@ -45,5 +45,14 @@ namespace DeployCenter.Server.Controllers
             List<KeyValueModel> result = KeyValueModel.GetAllCode(typeof(ApplicationTypeEnum));
             return ResultModel<List<KeyValueModel>>.Success(result);
         }
+        /// <summary>
+        /// 获取所有应用程序状态枚举
+        /// </summary>
+        [HttpGet, AllowAnonymous]
+        public ResultModel<List<KeyValueModel>> GetAllApplicationStatusEnum()
+        {
+            List<KeyValueModel> result = KeyValueModel.GetAllCode(typeof(ApplicationStatusEnum));
+            return ResultModel<List<KeyValueModel>>.Success(result);
+        }
     }
 }

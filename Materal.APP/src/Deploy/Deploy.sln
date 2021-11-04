@@ -49,7 +49,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApplication", "TestAppl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetTestApplication", "DotNetTestApplication\DotNetTestApplication.csproj", "{B13E82B1-716E-4A70-990C-08ACEE0DD218}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspDotNetTestApplication", "AspDotNetTestApplication\AspDotNetTestApplication.csproj", "{95B2373A-F477-4D00-BAEB-BA817D419D52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspDotNetTestApplication", "AspDotNetTestApplication\AspDotNetTestApplication.csproj", "{95B2373A-F477-4D00-BAEB-BA817D419D52}"
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "StaticTestApplication", "StaticTestApplication\", "{BA407317-9375-4080-AAE9-45805A26E32F}"
 	ProjectSection(WebsiteProperties) = preProject
@@ -72,7 +72,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "StaticTestApplication", "St
 		SlnRelativePath = "StaticTestApplication\"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeployCenter.Server", "DeployCenter.Server\DeployCenter.Server.csproj", "{A331A961-C1AE-4C5C-BD14-9A645DDA9810}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeployCenter.Server", "DeployCenter.Server\DeployCenter.Server.csproj", "{A331A961-C1AE-4C5C-BD14-9A645DDA9810}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -181,6 +181,7 @@ Global
 		{5BB60F46-2F9D-4278-933D-4000736C4167} = {50059967-DAC4-432A-8821-27F5A528074E}
 		{F7B91143-5F8C-47AF-97D5-7E56612E839F} = {3008F1F6-4C72-4F13-A98D-927EC3A6346F}
 		{D24EE8F2-EDD0-42B5-9BF8-FAD755EA90BD} = {3008F1F6-4C72-4F13-A98D-927EC3A6346F}
+		{D85B00F3-0D96-4A95-BE24-B327C25466BB} = {50059967-DAC4-432A-8821-27F5A528074E}
 		{B13E82B1-716E-4A70-990C-08ACEE0DD218} = {D85B00F3-0D96-4A95-BE24-B327C25466BB}
 		{95B2373A-F477-4D00-BAEB-BA817D419D52} = {D85B00F3-0D96-4A95-BE24-B327C25466BB}
 		{BA407317-9375-4080-AAE9-45805A26E32F} = {D85B00F3-0D96-4A95-BE24-B327C25466BB}

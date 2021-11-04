@@ -16,7 +16,8 @@ namespace Deploy.Server.AutoMapperProfile
         {
             CreateMap<AddApplicationInfoRequestModel, AddApplicationInfoModel>();
             CreateMap<EditApplicationInfoRequestModel, EditApplicationInfoModel>();
-            CreateMap<QueryApplicationInfoFilterRequestModel, QueryApplicationInfoFilterModel>();
+            CreateMap<QueryApplicationInfoFilterRequestModel, QueryApplicationInfoFilterModel>()
+                .ForMember(m=>m.Status,m=>m.MapFrom(n=>n.ApplicationStatus));
         }
     }
 }

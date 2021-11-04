@@ -16,14 +16,19 @@ namespace Deploy.ServiceImpl.Manage
 {
     public class ApplicationManage
     {
-        private static Logger _logger;
+        private static readonly Logger Logger;
         private readonly IMapper _mapper;
-        private static ConcurrentDictionary<Guid, ApplicationRuntimeModel> _allApplicationInfos = new ConcurrentDictionary<Guid, ApplicationRuntimeModel>();
+        private static readonly ConcurrentDictionary<Guid, ApplicationRuntimeModel> AllApplicationInfos;
+
+        static ApplicationManage()
+        {
+            Logger = LogManager.GetCurrentClassLogger();
+            AllApplicationInfos = new ConcurrentDictionary<Guid, ApplicationRuntimeModel>();
+        }
         public ApplicationManage(IMapper mapper, IApplicationInfoRepository applicationInfoRepository)
         {
             _mapper = mapper;
-            _logger ??= LogManager.GetCurrentClassLogger();
-            if (_allApplicationInfos == null || _allApplicationInfos.Count == 0)
+            if (AllApplicationInfos == null || AllApplicationInfos.Count == 0)
             {
                 List<ApplicationInfo> applicationInfos = applicationInfoRepository.Find(m => true);
                 foreach (ApplicationInfo applicationInfo in applicationInfos)
@@ -38,10 +43,10 @@ namespace Deploy.ServiceImpl.Manage
         /// <param name="model"></param>
         public void Add(ApplicationInfo model)
         {
-            if (_allApplicationInfos.ContainsKey(model.ID)) throw new DeployException("应用程序已存在");
+            if (AllApplicationInfos.ContainsKey(model.ID)) throw new DeployException("应用程序已存在");
             var runtimeModel = _mapper.Map<ApplicationRuntimeModel>(model);
             runtimeModel.Status = ApplicationStatusEnum.Stop;
-            if (!_allApplicationInfos.TryAdd(model.ID, runtimeModel)) throw new DeployException("添加失败");
+            if (!AllApplicationInfos.TryAdd(model.ID, runtimeModel)) throw new DeployException("添加失败");
         }
         /// <summary>
         /// 修改
@@ -49,8 +54,8 @@ namespace Deploy.ServiceImpl.Manage
         /// <param name="model"></param>
         public void Edit(ApplicationInfo model)
         {
-            if (!_allApplicationInfos.ContainsKey(model.ID)) throw new DeployException("应用程序不存在");
-            ApplicationRuntimeModel runtimeModel = _allApplicationInfos[model.ID];
+            if (!AllApplicationInfos.ContainsKey(model.ID)) throw new DeployException("应用程序不存在");
+            ApplicationRuntimeModel runtimeModel = AllApplicationInfos[model.ID];
             if (runtimeModel.Status != ApplicationStatusEnum.Stop) throw new DeployException("应用程序尚未停止");
             model.CopyProperties(runtimeModel);
         }
@@ -60,10 +65,10 @@ namespace Deploy.ServiceImpl.Manage
         /// <param name="id"></param>
         public void Delete(Guid id)
         {
-            if (!_allApplicationInfos.ContainsKey(id)) throw new DeployException("应用程序不存在");
-            ApplicationRuntimeModel runtimeModel = _allApplicationInfos[id];
+            if (!AllApplicationInfos.ContainsKey(id)) throw new DeployException("应用程序不存在");
+            ApplicationRuntimeModel runtimeModel = AllApplicationInfos[id];
             if (runtimeModel.Status != ApplicationStatusEnum.Stop) throw new DeployException("应用程序尚未停止");
-            if (!_allApplicationInfos.TryRemove(id, out ApplicationRuntimeModel _)) throw new DeployException("删除失败");
+            if (!AllApplicationInfos.TryRemove(id, out ApplicationRuntimeModel _)) throw new DeployException("删除失败");
         }
         /// <summary>
         /// 启动
@@ -71,8 +76,8 @@ namespace Deploy.ServiceImpl.Manage
         /// <param name="id"></param>
         public void Start(Guid id)
         {
-            if (!_allApplicationInfos.ContainsKey(id)) throw new DeployException("应用程序不存在");
-            ApplicationRuntimeModel runtimeModel = _allApplicationInfos[id];
+            if (!AllApplicationInfos.ContainsKey(id)) throw new DeployException("应用程序不存在");
+            ApplicationRuntimeModel runtimeModel = AllApplicationInfos[id];
             if (runtimeModel.Status == ApplicationStatusEnum.Release) throw new DeployException("应用程序正在发布中");
             if (runtimeModel.Status != ApplicationStatusEnum.Stop) throw new DeployException("应用程序尚未停止");
             runtimeModel.Start();
@@ -91,8 +96,8 @@ namespace Deploy.ServiceImpl.Manage
         /// <param name="id"></param>
         public static void StopApplication(Guid id)
         {
-            if (!_allApplicationInfos.ContainsKey(id)) throw new DeployException("应用程序不存在");
-            ApplicationRuntimeModel runtimeModel = _allApplicationInfos[id];
+            if (!AllApplicationInfos.ContainsKey(id)) throw new DeployException("应用程序不存在");
+            ApplicationRuntimeModel runtimeModel = AllApplicationInfos[id];
             if (runtimeModel.Status != ApplicationStatusEnum.Running) throw new DeployException("应用程序尚未运行");
             runtimeModel.Stop();
         }
@@ -103,8 +108,8 @@ namespace Deploy.ServiceImpl.Manage
         /// <returns></returns>
         public ICollection<string> GetConsoleMessage(Guid id)
         {
-            if (!_allApplicationInfos.ContainsKey(id)) throw new DeployException("应用程序不存在");
-            ApplicationRuntimeModel runtimeModel = _allApplicationInfos[id];
+            if (!AllApplicationInfos.ContainsKey(id)) throw new DeployException("应用程序不存在");
+            ApplicationRuntimeModel runtimeModel = AllApplicationInfos[id];
             if (runtimeModel.Status != ApplicationStatusEnum.Running) throw new DeployException("应用程序尚运行");
             ICollection<string> result = runtimeModel.ConsoleMessage;
             if (result.Count == 0) throw new DeployException("没有任何消息");
@@ -116,7 +121,7 @@ namespace Deploy.ServiceImpl.Manage
         public void StartAll()
         {
             List<Exception> exceptions = new List<Exception>();
-            foreach (KeyValuePair<Guid, ApplicationRuntimeModel> item in _allApplicationInfos)
+            foreach (KeyValuePair<Guid, ApplicationRuntimeModel> item in AllApplicationInfos)
             {
                 try
                 {
@@ -143,9 +148,9 @@ namespace Deploy.ServiceImpl.Manage
         /// </summary>
         public static void StopAllApplication()
         {
-            _logger.Info("正在停止所有程序....");
+            Logger.Info("正在停止所有程序....");
             List<Exception> exceptions = new List<Exception>();
-            foreach (KeyValuePair<Guid, ApplicationRuntimeModel> item in _allApplicationInfos)
+            foreach (KeyValuePair<Guid, ApplicationRuntimeModel> item in AllApplicationInfos)
             {
                 try
                 {
@@ -162,12 +167,12 @@ namespace Deploy.ServiceImpl.Manage
 
             if (exceptions.Count <= 0)
             {
-                _logger.Info("已停止有所程序");
+                Logger.Info("已停止有所程序");
                 return;
             }
             string message = exceptions.Aggregate(string.Empty, (current, exception) => current + exception.Message);
             message = $"部分应用程序关闭失败\r\n{message}";
-            _logger.Warn(message);
+            Logger.Warn(message);
             throw new DeployException(message);
         }
         /// <summary>
@@ -176,7 +181,7 @@ namespace Deploy.ServiceImpl.Manage
         /// <returns></returns>
         public List<ApplicationInfoDTO> GetAllList()
         {
-            return _allApplicationInfos.Select(m => _mapper.Map<ApplicationInfoDTO>(m.Value)).OrderBy(m => m.MainModule).ToList();
+            return AllApplicationInfos.Select(m => _mapper.Map<ApplicationInfoDTO>(m.Value)).OrderBy(m => m.MainModule).ToList();
         }
         /// <summary>
         /// 根据路径获得运行模型
@@ -185,7 +190,7 @@ namespace Deploy.ServiceImpl.Manage
         /// <returns></returns>
         public ApplicationRuntimeModel GetRuntimeModelByPath(string path)
         {
-            return _allApplicationInfos.Select(m => m.Value).FirstOrDefault(m => m.Path.Equals(path, StringComparison.OrdinalIgnoreCase));
+            return AllApplicationInfos.Select(m => m.Value).FirstOrDefault(m => m.Path.Equals(path, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

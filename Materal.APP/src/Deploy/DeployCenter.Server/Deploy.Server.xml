@@ -20,6 +20,11 @@
             获取所有应用程序类型枚举
             </summary>
         </member>
+        <member name="M:DeployCenter.Server.Controllers.DeployCenterController.GetAllApplicationStatusEnum">
+            <summary>
+            获取所有应用程序状态枚举
+            </summary>
+        </member>
         <member name="T:DeployCenter.Server.Program">
             <summary>
             主程序
