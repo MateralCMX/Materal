@@ -14,7 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading.Tasks;
-using ConfigCenter.Environment.Services;
 
 namespace ConfigCenter.Environment.Server
 {
@@ -88,10 +87,9 @@ namespace ConfigCenter.Environment.Server
         /// <param name="serviceType"></param>
         protected override void ConfigureConsulServices(IServiceCollection services, ServiceType serviceType)
         {
-            ConfigCenterEnvironmentConfig.ServiceName = $"{ConfigCenterEnvironmentConfig.EnvironmentConfig.Key}API";
-            ConsulManage consulManage = new ConsulManage(serviceType, ConfigCenterEnvironmentConfig.ServiceName);
-            services.AddSingleton(consulManage);
-            consulManage.RegisterConsul();
+            ConfigCenterEnvironmentConfig.ServiceName = $"{ConfigCenterEnvironmentConfig.EnvironmentConfig.Key}EnvAPI";
+            ConsulManage.Init(serviceType, ConfigCenterEnvironmentConfig.ServiceName, ConfigCenterEnvironmentConfig.EnvironmentConfig.Name);
+            ConsulManage.RegisterConsul();
         }
     }
 }

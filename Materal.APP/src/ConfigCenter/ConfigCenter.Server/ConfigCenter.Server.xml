@@ -29,7 +29,7 @@
             配置中心控制器
             </summary>
         </member>
-        <member name="M:ConfigCenter.Server.Controllers.ConfigCenterController.#ctor(Materal.APP.WebAPICore.ConsulManage,ConfigCenter.Services.IProjectService,ConfigCenter.Services.INamespaceService,Materal.TFMS.EventBus.IEventBus)">
+        <member name="M:ConfigCenter.Server.Controllers.ConfigCenterController.#ctor(ConfigCenter.Services.IProjectService,ConfigCenter.Services.INamespaceService,Materal.TFMS.EventBus.IEventBus)">
             <summary>
             配置中心控制器
             </summary>

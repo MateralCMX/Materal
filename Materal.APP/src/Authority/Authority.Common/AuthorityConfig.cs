@@ -18,7 +18,7 @@ namespace Authority.Common
         /// <summary>
         /// 默认密码
         /// </summary>
-        public static string DefaultPassword => GetConfigValue("DefaultPassword");
+        public static string DefaultPassword => GetConfigValue(nameof(DefaultPassword));
         /// <summary>
         /// 加密密码
         /// </summary>

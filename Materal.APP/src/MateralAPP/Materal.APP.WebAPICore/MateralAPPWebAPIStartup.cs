@@ -1,5 +1,6 @@
 ﻿using Materal.APP.Core;
 using Materal.APP.Core.ConfigModels;
+using Materal.APP.TFMS.Core;
 using Materal.APP.WebAPICore.Filters;
 using Materal.APP.WebCore.Policies;
 using Materal.CacheHelper;
@@ -15,11 +16,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using System.Threading.Tasks;
-using Materal.APP.TFMS.Core;
 
 namespace Materal.APP.WebAPICore
 {
@@ -230,9 +228,8 @@ namespace Materal.APP.WebAPICore
         /// <param name="serviceType"></param>
         protected virtual void ConfigureConsulServices(IServiceCollection services, ServiceType serviceType)
         {
-            ConsulManage consulManage = new ConsulManage(serviceType);
-            services.AddSingleton(consulManage);
-            consulManage.RegisterConsul();
+            ConsulManage.Init(serviceType);
+            ConsulManage.RegisterConsul();
         }
         #endregion
         #region TFMS

@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Deploy.PresentationModel</name>
+    </assembly>
+    <members>
+        <member name="T:Deploy.PresentationModel.ApplicationInfo.AddApplicationInfoRequestModel">
+            <summary>
+            添加应用程序信息请求模型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.AddApplicationInfoRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.AddApplicationInfoRequestModel.Path">
+            <summary>
+            路径
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.AddApplicationInfoRequestModel.MainModule">
+            <summary>
+            主模块
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.AddApplicationInfoRequestModel.ApplicationType">
+            <summary>
+            应用程序类型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.AddApplicationInfoRequestModel.RunParams">
+            <summary>
+            运行参数
+            </summary>
+        </member>
+        <member name="T:Deploy.PresentationModel.ApplicationInfo.DeleteFileRequestModel">
+            <summary>
+            删除文件请求模型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.DeleteFileRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.DeleteFileRequestModel.FileName">
+            <summary>
+            文件名称
+            </summary>
+        </member>
+        <member name="T:Deploy.PresentationModel.ApplicationInfo.EditApplicationInfoRequestModel">
+            <summary>
+            修改应用程序信息请求模型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.EditApplicationInfoRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="T:Deploy.PresentationModel.ApplicationInfo.QueryApplicationInfoFilterRequestModel">
+            <summary>
+            查询应用程序信息过滤器请求模型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.QueryApplicationInfoFilterRequestModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.QueryApplicationInfoFilterRequestModel.Path">
+            <summary>
+            路径
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.QueryApplicationInfoFilterRequestModel.MainModule">
+            <summary>
+            主模块
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.QueryApplicationInfoFilterRequestModel.ApplicationStatus">
+            <summary>
+            应用程序类型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.QueryApplicationInfoFilterRequestModel.ApplicationType">
+            <summary>
+            应用程序类型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.QueryApplicationInfoFilterRequestModel.RunParams">
+            <summary>
+            运行参数
+            </summary>
+        </member>
+        <member name="T:Deploy.PresentationModel.DefaultData.AddDefaultDataRequestModel">
+            <summary>
+            添加默认数据请求模型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.DefaultData.AddDefaultDataRequestModel.Key">
+            <summary>
+            键
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.DefaultData.AddDefaultDataRequestModel.ApplicationType">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.DefaultData.AddDefaultDataRequestModel.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="T:Deploy.PresentationModel.DefaultData.EditDefaultDataRequestModel">
+            <summary>
+            修改默认数据请求模型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.DefaultData.EditDefaultDataRequestModel.ID">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="T:Deploy.PresentationModel.DefaultData.QueryDefaultDataFilterRequestModel">
+            <summary>
+            查询默认数据过滤器请求模型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.DefaultData.QueryDefaultDataFilterRequestModel.ApplicationType">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.DefaultData.QueryDefaultDataFilterRequestModel.Key">
+            <summary>
+            键
+            </summary>
+        </member>
+    </members>
+</doc>

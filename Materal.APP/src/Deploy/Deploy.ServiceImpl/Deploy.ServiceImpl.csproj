@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Materal.ConvertHelper" Version="1.0.9" />
+    <PackageReference Include="Materal.WindowsHelper" Version="1.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Deploy.Services\Deploy.Services.csproj" />
+    <ProjectReference Include="..\Deploy.SqliteEFRepository\Deploy.SqliteEFRepository.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -17,9 +17,9 @@ namespace Deploy.ServiceImpl.Models
                 Task.WaitAll(task);
                 return task.Result;
             }
-            if (_next != null)
+            if (Next != null)
             {
-                return _next.GetProcess(model);
+                return Next.GetProcess(model);
             }
             throw new DeployException("未识别应用程序类型");
         }
@@ -33,8 +33,8 @@ namespace Deploy.ServiceImpl.Models
                 Task.WaitAll(task);
                 return;
             }
-            if (_next == null) throw new DeployException("未识别应用程序类型");
-            _next.KillProcess(model);
+            if (Next == null) throw new DeployException("未识别应用程序类型");
+            Next.KillProcess(model);
         }
 
         public override void KillProcess(ApplicationRuntimeModel model, Process process)
@@ -45,8 +45,8 @@ namespace Deploy.ServiceImpl.Models
                 KillProcess(process);
                 return;
             }
-            if (_next == null) throw new DeployException("未识别应用程序类型");
-            _next.KillProcess(model, process);
+            if (Next == null) throw new DeployException("未识别应用程序类型");
+            Next.KillProcess(model, process);
         }
 
         #region 私有方法

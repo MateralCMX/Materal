@@ -4,7 +4,6 @@ using Materal.APP.Core.Models;
 using Materal.APP.WebAPICore.Models;
 using Materal.ConvertHelper;
 using Materal.NetworkHelper;
-using Microsoft.Extensions.Hosting;
 using NLog;
 using Polly;
 using Polly.Retry;
@@ -18,14 +17,14 @@ using Policy = Polly.Policy;
 
 namespace Materal.APP.WebAPICore
 {
-    public class ConsulManage
+    public static class ConsulManage
     {
-        private readonly ConsulClient _consulClient;
-        private readonly AgentServiceRegistration _registration;
-        private readonly Logger _logger;
-        private readonly Timer _healthTimer;
-        private readonly Guid _id;
-        public ConsulManage(ServiceType serviceType, string serviceName = null, params string[] tags)
+        private static ConsulClient _consulClient;
+        private static AgentServiceRegistration _registration;
+        private static Logger _logger;
+        private static Timer _healthTimer;
+        private static Guid _id;
+        public static void Init(ServiceType serviceType, string serviceName = null, params string[] tags)
         {
             if (string.IsNullOrWhiteSpace(serviceName))
             {
@@ -40,33 +39,49 @@ namespace Materal.APP.WebAPICore
             _registration = GetAgentServiceRegistration(serviceType, serviceName, tags);
             _healthTimer = new Timer(ApplicationConfig.ConsulConfig.HealthInterval * 1000);
             _healthTimer.Elapsed += HealthTimerElapsed;
-            IHostApplicationLifetime lifetime = ApplicationConfig.GetService<IHostApplicationLifetime>();
-            lifetime?.ApplicationStopping.Register(() =>
+        }
+        /// <summary>
+        /// 反注册Consul
+        /// </summary>
+        public static void UnregisterConsul()
+        {
+            PolicyBuilder policyBuilder = Policy.Handle<Exception>();
+            RetryPolicy retryPolicy = policyBuilder.WaitAndRetryForever(index =>
             {
+                _logger.Warn($"Consul服务反注册失败[{index}],{ApplicationConfig.ConsulConfig.ReconnectionInterval}秒后重试");
+                return TimeSpan.FromSeconds(ApplicationConfig.ConsulConfig.ReconnectionInterval);
+            });
+            retryPolicy.Execute(() =>
+            {
+                _logger.Info("正在停止Consul健康检查");
+                _healthTimer.Stop();
+                _logger.Info("停止Consul健康检查成功");
+                _logger.Info($"正在反注册Consul[{ApplicationConfig.ConsulConfig.Address}]服务");
                 _consulClient.Agent.ServiceDeregister(_registration.ID).Wait();
+                _logger.Info("Consul服务反注册成功");
             });
         }
         /// <summary>
         /// 注册Consul
         /// </summary>
-        public void RegisterConsul()
+        public static void RegisterConsul()
         {
             PolicyBuilder policyBuilder = Policy.Handle<Exception>();
-            RetryPolicy retryPolicy = policyBuilder.WaitAndRetryForever(count =>
+            RetryPolicy retryPolicy = policyBuilder.WaitAndRetryForever(index =>
             {
-                _logger.Warn($"Consul服务注册失败[{count}],{ApplicationConfig.ConsulConfig.ReconnectionInterval}秒后重试");
+                _logger.Warn($"Consul服务注册失败[{index}],{ApplicationConfig.ConsulConfig.ReconnectionInterval}秒后重试");
                 return TimeSpan.FromSeconds(ApplicationConfig.ConsulConfig.ReconnectionInterval);
             });
             retryPolicy.Execute(() =>
             {
-                _logger.Info("正在注册Consul服务....");
-                _consulClient.Agent.ServiceRegister(_registration).Wait();
+                _logger.Info($"正在注册Consul[{ApplicationConfig.ConsulConfig.Address}]服务");
+                 _consulClient.Agent.ServiceRegister(_registration).Wait();
                 _logger.Info("Consul服务注册成功");
                 _healthTimer.Start();
             });
         }
 
-        private AgentServiceRegistration GetAgentServiceRegistration(ServiceType serviceType, string serviceName, params string[] tags)
+        private static AgentServiceRegistration GetAgentServiceRegistration(ServiceType serviceType, string serviceName, params string[] tags)
         {
             List<string> tagsValue = new List<string> { "MateralAPP", serviceType.ToString() };
             tagsValue.AddRange(tags);
@@ -91,7 +106,7 @@ namespace Materal.APP.WebAPICore
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void HealthTimerElapsed(object sender, ElapsedEventArgs e)
+        private static void HealthTimerElapsed(object sender, ElapsedEventArgs e)
         {
             _healthTimer.Stop();
             _logger.Info("Consul健康检查开始....");
@@ -110,7 +125,7 @@ namespace Materal.APP.WebAPICore
         /// 发送健康检查请求
         /// </summary>
         /// <returns></returns>
-        private async Task<bool> SendHealthRequestAsync()
+        private static async Task<bool> SendHealthRequestAsync()
         {
             try
             {
@@ -128,7 +143,7 @@ namespace Materal.APP.WebAPICore
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public async Task<ConsulServiceModel> GetServiceAsync(Func<ConsulServiceModel, bool> filter = null)
+        public static async Task<ConsulServiceModel> GetServiceAsync(Func<ConsulServiceModel, bool> filter = null)
         {
             List<ConsulServiceModel> consulServices = await GetServicesAsync(filter);
             return consulServices?.FirstOrDefault();
@@ -138,7 +153,7 @@ namespace Materal.APP.WebAPICore
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public async Task<List<ConsulServiceModel>> GetServicesAsync(Func<ConsulServiceModel, bool> filter = null)
+        public static async Task<List<ConsulServiceModel>> GetServicesAsync(Func<ConsulServiceModel, bool> filter = null)
         {
             string url = $"{ApplicationConfig.ConsulConfig.Address}/v1/agent/services";
             string requestText = await HttpManager.SendGetAsync(url);

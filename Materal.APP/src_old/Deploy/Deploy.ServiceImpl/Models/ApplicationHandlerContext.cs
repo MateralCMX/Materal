@@ -4,14 +4,14 @@ namespace Deploy.ServiceImpl.Models
 {
     public abstract class ApplicationHandlerContext
     {
-        protected ApplicationHandlerContext _next;
+        protected ApplicationHandlerContext Next;
         /// <summary>
         /// 设置下一步
         /// </summary>
         /// <param name="next"></param>
         public void SetNext(ApplicationHandlerContext next)
         {
-            _next = next;
+            Next = next;
         }
         /// <summary>
         /// 获取启动程序

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reflection;
-using Materal.APP.Core;
-using Materal.APP.Core.ConfigModels;
+﻿using Materal.APP.Core.ConfigModels;
 using Materal.TFMS.EventBus;
 using Materal.TFMS.EventBus.Extensions;
 using Materal.TFMS.EventBus.RabbitMQ;
@@ -9,6 +6,8 @@ using Materal.TFMS.EventBus.RabbitMQ.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
+using System;
+using System.Reflection;
 
 namespace Materal.APP.TFMS.Core
 {

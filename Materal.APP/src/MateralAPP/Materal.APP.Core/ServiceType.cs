@@ -18,5 +18,9 @@
         /// 发布服务
         /// </summary>
         DeployServer,
+        /// <summary>
+        /// 发布服务中心
+        /// </summary>
+        DeployCenterServer,
     }
 }

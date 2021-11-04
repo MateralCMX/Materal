@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ConfigCenter.DataTransmitModel.ConfigCenter;
 
 namespace ConfigCenter.Server.Controllers
 {
@@ -27,16 +28,14 @@ namespace ConfigCenter.Server.Controllers
     [Route("api/[controller]/[action]"), ApiController]
     public class ConfigCenterController : WebAPIControllerBase
     {
-        private readonly ConsulManage _consulManage;
         private readonly IProjectService _projectService;
         private readonly INamespaceService _namespaceService;
         private readonly IEventBus _eventBus;
         /// <summary>
         /// 配置中心控制器
         /// </summary>
-        public ConfigCenterController(ConsulManage consulManage, IProjectService projectService, INamespaceService namespaceService, IEventBus eventBus)
+        public ConfigCenterController(IProjectService projectService, INamespaceService namespaceService, IEventBus eventBus)
         {
-            _consulManage = consulManage;
             _projectService = projectService;
             _namespaceService = namespaceService;
             _eventBus = eventBus;
@@ -46,12 +45,16 @@ namespace ConfigCenter.Server.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ResultModel<List<string>>> GetEnvironmentListAsync()
+        public async Task<ResultModel<List<EnvironmentDTO>>> GetEnvironmentListAsync()
         {
             string tagText = ServiceType.ConfigCenterEnvironment.ToString();
-            List<ConsulServiceModel> consulServices = await _consulManage.GetServicesAsync(m => m.Tags.Contains(tagText));
-            List<string> result = consulServices.Select(m=>m.Service).ToList();
-            return ResultModel<List<string>>.Success(result, "获取成功");
+            List<ConsulServiceModel> consulServices = await ConsulManage.GetServicesAsync(m => m.Tags.Contains(tagText));
+            List<EnvironmentDTO> result = consulServices.Select(m=>new EnvironmentDTO
+            {
+                Name = m.Tags.LastOrDefault(),
+                Key = m.Service
+            }).ToList();
+            return ResultModel<List<EnvironmentDTO>>.Success(result, "获取成功");
         }
         /// <summary>
         /// 同步配置
@@ -62,7 +65,7 @@ namespace ConfigCenter.Server.Controllers
         {
             List<ProjectListDTO> allProject = await _projectService.GetProjectListAsync(new QueryProjectFilterModel());
             List<NamespaceListDTO> allNamespace = await _namespaceService.GetNamespaceListAsync(new QueryNamespaceFilterModel());
-            ConsulServiceModel serviceModel = await _consulManage.GetServiceAsync(m => m.Service == requestModel.SourceAPI);
+            ConsulServiceModel serviceModel = await ConsulManage.GetServiceAsync(m => m.Service == requestModel.SourceAPI);
             List<ConfigurationItemListDTO> allConfigurationItems = await GetAllConfigurationItemsAsync(serviceModel);
             return await SyncConfigAsync(requestModel, allProject, allNamespace, allConfigurationItems);
         }
@@ -81,7 +84,7 @@ namespace ConfigCenter.Server.Controllers
             };
             List<ProjectListDTO> allProject = await _projectService.GetProjectListAsync(new QueryProjectFilterModel());
             List<NamespaceListDTO> allNamespace = await _namespaceService.GetNamespaceListAsync(new QueryNamespaceFilterModel());
-            ConsulServiceModel serviceModel = await _consulManage.GetServiceAsync(m => m.Service == requestModel.SourceAPI);
+            ConsulServiceModel serviceModel = await ConsulManage.GetServiceAsync(m => m.Service == requestModel.SourceAPI);
             List<ConfigurationItemListDTO> allConfigurationItems = await GetAllConfigurationItemsAsync(serviceModel);
             foreach (ProjectListDTO project in allProject)
             {

@@ -4,6 +4,21 @@
         <name>ConfigCenter.DataTransmitModel</name>
     </assembly>
     <members>
+        <member name="T:ConfigCenter.DataTransmitModel.ConfigCenter.EnvironmentDTO">
+            <summary>
+            环境数据传输模型
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.ConfigCenter.EnvironmentDTO.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:ConfigCenter.DataTransmitModel.ConfigCenter.EnvironmentDTO.Key">
+            <summary>
+            键
+            </summary>
+        </member>
         <member name="T:ConfigCenter.DataTransmitModel.Namespace.NamespaceDTO">
             <summary>
             命名空间数据传输模型
