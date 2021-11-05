@@ -31,6 +31,18 @@ namespace ConfigCenter.Environment.Server.Controllers
             _mapper = mapper;
         }
         /// <summary>
+        /// 初始化配置项
+        /// </summary>
+        /// <param name="requestModels"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<ResultModel> InitConfigurationItemsAsync(List<AddConfigurationItemRequestModel> requestModels)
+        {
+            var model = _mapper.Map<List<AddConfigurationItemModel>>(requestModels);
+            await _configurationItemService.InitConfigurationItemsAsync(model);
+            return ResultModel.Success("添加成功");
+        }
+        /// <summary>
         /// 添加配置项
         /// </summary>
         /// <param name="requestModel"></param>

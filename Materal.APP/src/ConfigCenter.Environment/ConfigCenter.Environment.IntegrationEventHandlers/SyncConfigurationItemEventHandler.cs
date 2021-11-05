@@ -24,6 +24,7 @@ namespace ConfigCenter.Environment.IntegrationEventHandlers
         public async Task HandleAsync(SyncConfigurationItemEvent @event)
         {
             if (!@event.TargetsAPI.Contains(ConfigCenterEnvironmentConfig.ServiceName)) return;
+            if (@event.ConfigurationItem.Count <= 0) return;
             List<AddConfigurationItemModel> model = _mapper.Map<List<AddConfigurationItemModel>>(@event.ConfigurationItem);
             await _configurationItemService.InitConfigurationItemsAsync(model);
         }

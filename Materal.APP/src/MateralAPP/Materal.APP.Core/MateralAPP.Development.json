@@ -1,6 +1,7 @@
 {
-  "ShowException": false,
+  "EnableSwagger": true,
   "NLog": {
     "MinLogLevel": "Trace"
-  }
+  },
+  "ShowException": true
 }

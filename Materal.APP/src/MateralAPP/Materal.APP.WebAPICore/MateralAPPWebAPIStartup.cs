@@ -51,7 +51,10 @@ namespace Materal.APP.WebAPICore
             ConfigureMVCServices(services);
             ConfigureResponseCompressionServices(services);
             ConfigureAuthenticationServices(services);
-            ConfigureSwaggerServices(services);
+            if (ApplicationConfig.ShowException)
+            {
+                ConfigureSwaggerServices(services);
+            }
             ConfigureCorsServices(services);
             ConfigureCacheManagerServices(services);
         }
@@ -76,7 +79,10 @@ namespace Materal.APP.WebAPICore
             app.UseAuthentication();
             app.UseAuthorization();
             ConfigureCors(app);
-            ConfigureSwagger(app);
+            if (ApplicationConfig.ShowException)
+            {
+                ConfigureSwagger(app);
+            }
             MateralConfig.PageStartNumber = 1;
             app.UseEndpoints(endpoints =>
             {
@@ -188,7 +194,10 @@ namespace Materal.APP.WebAPICore
         /// <param name="app"></param>
         protected virtual void ConfigureSwagger(IApplicationBuilder app)
         {
-            app.UseSwagger();
+            app.UseSwagger(m =>
+            {
+                m.SerializeAsV2 = true;
+            });
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{ApplicationConfig.WebAPIStartupConfig.AppName}.WebAPI v1"));
         }
         #endregion

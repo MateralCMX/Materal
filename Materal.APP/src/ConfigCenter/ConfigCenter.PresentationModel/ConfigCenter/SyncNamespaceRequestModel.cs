@@ -13,7 +13,7 @@ namespace ConfigCenter.PresentationModel.ConfigCenter
         /// 命名空间唯一标识
         /// </summary>
         [Required(ErrorMessage = "命名空间唯一标识不能为空")]
-        public Guid NamespacesID{ get; set; }
+        public Guid NamespaceID{ get; set; }
         /// <summary>
         /// 配置项键
         /// </summary>

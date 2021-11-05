@@ -98,7 +98,7 @@ namespace ConfigCenter.Server.Controllers
                 {
                     SyncNamespaceRequestModel syncNamespace = new SyncNamespaceRequestModel
                     {
-                        NamespacesID = targetNamespace.ID,
+                        NamespaceID = targetNamespace.ID,
                         Keys = new List<string>()
                     };
                     List<ConfigurationItemListDTO> items = allConfigurationItems.Where(m => m.ProjectName == project.Name && m.NamespaceName == targetNamespace.Name).ToList();
@@ -172,7 +172,7 @@ namespace ConfigCenter.Server.Controllers
                 if (targetProject == null) continue;
                 foreach (SyncNamespaceRequestModel namespaceModel in projectModel.Namespaces)
                 {
-                    NamespaceListDTO targetNamespace = allNamespace.FirstOrDefault(m => m.ID == namespaceModel.NamespacesID);
+                    NamespaceListDTO targetNamespace = allNamespace.FirstOrDefault(m => m.ID == namespaceModel.NamespaceID);
                     if (targetNamespace == null) continue;
                     foreach (string key in namespaceModel.Keys)
                     {

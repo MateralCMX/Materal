@@ -24,6 +24,13 @@
             配置项控制器
             </summary>
         </member>
+        <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.InitConfigurationItemsAsync(System.Collections.Generic.List{ConfigCenter.Environment.PresentationModel.ConfigurationItem.AddConfigurationItemRequestModel})">
+            <summary>
+            初始化配置项
+            </summary>
+            <param name="requestModels"></param>
+            <returns></returns>
+        </member>
         <member name="M:ConfigCenter.Environment.Server.Controllers.ConfigurationItemController.AddConfigurationItemAsync(ConfigCenter.Environment.PresentationModel.ConfigurationItem.AddConfigurationItemRequestModel)">
             <summary>
             添加配置项

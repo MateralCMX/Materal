@@ -26,6 +26,10 @@ namespace Materal.APP.Core
         /// 是否显示异常
         /// </summary>
         public static bool ShowException => Convert.ToBoolean(Config.GetSection(nameof(ShowException)).Value);
+        /// <summary>
+        /// 是否启用Swagger
+        /// </summary>
+        public static bool EnableSwagger => Convert.ToBoolean(Config.GetSection(nameof(EnableSwagger)).Value);
         private static ConsulConfigModel _consulConfig;
         /// <summary>
         /// Consul配置
