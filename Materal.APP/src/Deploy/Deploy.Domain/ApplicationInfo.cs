@@ -28,5 +28,13 @@ namespace Deploy.Domain
         /// 运行参数
         /// </summary>
         public string RunParams{ get; set; }
+        /// <summary>
+        /// 停止参数
+        /// </summary>
+        public string StopParams { get; set; }
+        /// <summary>
+        /// 其他参数
+        /// </summary>
+        public string OtherParams { get; set; }
     }
 }

@@ -3,14 +3,16 @@ using System;
 using Deploy.SqliteEFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Deploy.SqliteEFRepository.Migrations
 {
     [DbContext(typeof(DeployDBContext))]
-    partial class DeployDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211108034519_AddStopParamsAndOtherParams")]
+    partial class AddStopParamsAndOtherParams
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

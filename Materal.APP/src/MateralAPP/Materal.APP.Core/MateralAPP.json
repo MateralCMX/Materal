@@ -9,10 +9,10 @@
     "Address": "http://192.168.0.101:8701"
   },
   "JWT": {
-    "Key": "MateralCMXConfig",
-    "Issuer": "Materal.APP",
     "Audience": "WebAPI",
-    "ExpiredTime": "18000"
+    "ExpiredTime": "18000",
+    "Issuer": "Materal.APP",
+    "Key": "MateralCMXConfig"
   },
   "NLog": {
     "MaxLogFileSaveDays": 7,

@@ -23,6 +23,8 @@ namespace Deploy.SqliteEFRepository.ModelConfig
             builder.Property(e => e.ApplicationType)
                 .IsRequired();
             builder.Property(e => e.RunParams);
+            builder.Property(e => e.StopParams);
+            builder.Property(e => e.OtherParams);
         }
     }
 }

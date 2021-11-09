@@ -34,19 +34,19 @@ namespace Deploy.ServiceImpl.Models
             try
             {
                 ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo(exePath, !string.IsNullOrWhiteSpace(runParams) ? runParams : "");
-                Process = new Process { StartInfo = processStartInfo };
+                BindProcess = new Process { StartInfo = processStartInfo };
                 ConsoleMessage = new List<string>();
                 void DataHandler(object sender, DataReceivedEventArgs e)
                 {
                     if (string.IsNullOrWhiteSpace(e.Data)) return;
                     ConsoleMessage.Add(e.Data);
                 }
-                Process.OutputDataReceived += DataHandler;
-                Process.ErrorDataReceived += DataHandler;
-                if (Process.Start())
+                BindProcess.OutputDataReceived += DataHandler;
+                BindProcess.ErrorDataReceived += DataHandler;
+                if (BindProcess.Start())
                 {
-                    Process.BeginOutputReadLine();
-                    Process.BeginErrorReadLine();
+                    BindProcess.BeginOutputReadLine();
+                    BindProcess.BeginErrorReadLine();
                 }
                 else
                 {

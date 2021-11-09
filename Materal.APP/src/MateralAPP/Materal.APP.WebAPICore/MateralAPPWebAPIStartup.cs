@@ -51,7 +51,7 @@ namespace Materal.APP.WebAPICore
             ConfigureMVCServices(services);
             ConfigureResponseCompressionServices(services);
             ConfigureAuthenticationServices(services);
-            if (ApplicationConfig.ShowException)
+            if (ApplicationConfig.EnableSwagger)
             {
                 ConfigureSwaggerServices(services);
             }
@@ -79,7 +79,7 @@ namespace Materal.APP.WebAPICore
             app.UseAuthentication();
             app.UseAuthorization();
             ConfigureCors(app);
-            if (ApplicationConfig.ShowException)
+            if (ApplicationConfig.EnableSwagger)
             {
                 ConfigureSwagger(app);
             }
@@ -250,7 +250,7 @@ namespace Materal.APP.WebAPICore
         protected virtual void ConfigureTFMSServices(IServiceCollection services, TFMSConfigModel tfmsConfig)
         {
             services.AddEventConnectionFactory(tfmsConfig);
-            services.AddEventBus(tfmsConfig.QueueName);
+            services.AddEventBus(tfmsConfig.QueueName, "MateralAPPExchange");
         }
         #endregion
         #endregion

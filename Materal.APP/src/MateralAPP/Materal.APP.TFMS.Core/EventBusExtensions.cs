@@ -13,7 +13,7 @@ namespace Materal.APP.TFMS.Core
 {
     public static class EventBusExtensions
     {
-        public static IServiceCollection AddEventBus(this IServiceCollection services, string queueName, string exchangeName = "MateralTFMSDemoExchangeName")
+        public static IServiceCollection AddEventBus(this IServiceCollection services, string queueName, string exchangeName = "MateralTFMSDemoExchange")
         {
             services.AddEventBusSubscriptionsManager().AddRabbitMQPersistentConnection();
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(serviceProvider =>

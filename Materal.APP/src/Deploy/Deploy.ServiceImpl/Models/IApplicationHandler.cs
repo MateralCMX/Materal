@@ -8,7 +8,7 @@ namespace Deploy.ServiceImpl.Models
         /// <summary>
         /// 进程
         /// </summary>
-        public Process Process{ get; }
+        public Process BindProcess{ get; }
         /// <summary>
         /// 控制台消息
         /// </summary>

@@ -34,6 +34,16 @@
             运行参数
             </summary>
         </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.AddApplicationInfoRequestModel.StopParams">
+            <summary>
+            停止参数
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.AddApplicationInfoRequestModel.OtherParams">
+            <summary>
+            其他参数
+            </summary>
+        </member>
         <member name="T:Deploy.PresentationModel.ApplicationInfo.DeleteFileRequestModel">
             <summary>
             删除文件请求模型

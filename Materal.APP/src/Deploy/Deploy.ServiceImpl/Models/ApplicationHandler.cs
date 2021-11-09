@@ -9,7 +9,7 @@ namespace Deploy.ServiceImpl.Models
 {
     public abstract class ApplicationHandler : IApplicationHandler
     {
-        public Process Process { get; protected set; }
+        public Process BindProcess { get; protected set; }
         public ICollection<string> ConsoleMessage { get; protected set; }
         protected Timer ClearConsoleMessageTimer { get; }
 
@@ -32,7 +32,7 @@ namespace Deploy.ServiceImpl.Models
             applicationRuntime.Status = ApplicationStatusEnum.Stopping;
             try
             {
-                KillProcess();
+                CloseProcess(applicationRuntime);
                 applicationRuntime.Status = ApplicationStatusEnum.Stop;
             }
             catch (Exception)
@@ -42,14 +42,15 @@ namespace Deploy.ServiceImpl.Models
             }
         }
         /// <summary>
-        /// 杀死程序
+        /// 关闭进程
         /// </summary>
-        protected virtual void KillProcess()
+        /// <param name="applicationRuntime"></param>
+        protected virtual void CloseProcess(ApplicationRuntimeModel applicationRuntime)
         {
-            if (Process == null) return;
-            Process.Kill();
-            Process.WaitForExit();
-            Process.Dispose();
+            if (BindProcess == null) return;
+            BindProcess.Close();
+            BindProcess.WaitForExit();
+            BindProcess.Dispose();
         }
         /// <summary>
         /// 清理控制台定时器
