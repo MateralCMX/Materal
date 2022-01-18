@@ -110,9 +110,8 @@ namespace Deploy.ServiceImpl.Manage
         {
             if (!AllApplicationInfos.ContainsKey(id)) throw new DeployException("应用程序不存在");
             ApplicationRuntimeModel runtimeModel = AllApplicationInfos[id];
-            if (runtimeModel.Status != ApplicationStatusEnum.Running) throw new DeployException("应用程序尚运行");
             ICollection<string> result = runtimeModel.ConsoleMessage;
-            if (result.Count == 0) throw new DeployException("没有任何消息");
+            if (result == null || result.Count == 0) throw new DeployException("没有任何消息");
             return result;
         }
         /// <summary>

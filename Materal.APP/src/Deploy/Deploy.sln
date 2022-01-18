@@ -74,6 +74,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "StaticTestApplication", "St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeployCenter.Server", "DeployCenter.Server\DeployCenter.Server.csproj", "{A331A961-C1AE-4C5C-BD14-9A645DDA9810}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole", "TestConsole\TestConsole.csproj", "{CF7FB20A-CA03-4304-948B-EAD4096CA6BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -168,6 +170,10 @@ Global
 		{A331A961-C1AE-4C5C-BD14-9A645DDA9810}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A331A961-C1AE-4C5C-BD14-9A645DDA9810}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A331A961-C1AE-4C5C-BD14-9A645DDA9810}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF7FB20A-CA03-4304-948B-EAD4096CA6BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF7FB20A-CA03-4304-948B-EAD4096CA6BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF7FB20A-CA03-4304-948B-EAD4096CA6BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF7FB20A-CA03-4304-948B-EAD4096CA6BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +190,7 @@ Global
 		{B13E82B1-716E-4A70-990C-08ACEE0DD218} = {D85B00F3-0D96-4A95-BE24-B327C25466BB}
 		{95B2373A-F477-4D00-BAEB-BA817D419D52} = {D85B00F3-0D96-4A95-BE24-B327C25466BB}
 		{BA407317-9375-4080-AAE9-45805A26E32F} = {D85B00F3-0D96-4A95-BE24-B327C25466BB}
+		{CF7FB20A-CA03-4304-948B-EAD4096CA6BD} = {D85B00F3-0D96-4A95-BE24-B327C25466BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {060AB38F-B0DB-420E-9E62-58E46274E5D9}

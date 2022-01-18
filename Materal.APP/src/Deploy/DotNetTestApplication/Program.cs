@@ -1,41 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Timers;
-using Deploy.Enums;
-using Deploy.ServiceImpl.Models;
+using System.Threading;
 
 namespace DotNetTestApplication
 {
     public class Program
     {
-        private static ApplicationRuntimeModel _nodeJsApplicationRuntime;
         public static void Main(string[] args)
         {
-            //Console.WriteLine("DotNetTestApplication");
-            //foreach (string arg in args)
-            //{
-            //    Console.WriteLine(arg);
-            //}
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
-            _nodeJsApplicationRuntime = new ApplicationRuntimeModel
+            Console.CancelKeyPress += Console_CancelKeyPress;
+            Console.WriteLine("DotNetTestApplication");
+            foreach (string arg in args)
             {
-                ID = Guid.NewGuid(),
-                MainModule = "npm --registry http://116.55.251.31:4873",
-                Name = "测试NodeJS",
-                OtherParams = string.Empty,
-                Path = "DeployNuxtDemo",
-                RunParams = "\"node_modules/cross-env/src/bin/cross-env.js\" Test=qwer \"{$NodePath}\\pm2\\bin\\pm2\" start",
-                StopParams = "\"{$NodePath}\\pm2\\bin\\pm2\" delete {$Path}",
-                ApplicationType = ApplicationTypeEnum.NodeJS,
-                Status = ApplicationStatusEnum.Stop
-            };
-            _nodeJsApplicationRuntime.Start();
-            Console.ReadKey();
+                Console.WriteLine(arg);
+            }
+            while (true)
+            {
+                Console.WriteLine("运行中");
+                Thread.Sleep(1000);
+            }
+        }
+
+        private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+        {
+            Console.WriteLine("退出按钮");
+            e.Cancel = false;
         }
 
         private static void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
-            _nodeJsApplicationRuntime?.Stop();
+            Console.WriteLine("退出事件");
+            Thread.Sleep(1000);
+            Console.WriteLine("退出事件");
         }
     }
 }

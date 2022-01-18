@@ -25,8 +25,7 @@ namespace Deploy.ServiceImpl.Models
         /// <returns></returns>
         private string GetStartArgs(ApplicationRuntimeModel model)
         {
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application", model.Path, $"{model.MainModule}");
-            string result = string.IsNullOrEmpty(model.RunParams) ? $"{path}" : $"{path} {model.RunParams}";
+            string result = string.IsNullOrEmpty(model.RunParams) ? $"{model.MainModule}" : $"{model.MainModule} {model.RunParams}";
             return result;
         }
 

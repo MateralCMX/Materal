@@ -69,6 +69,13 @@
             <param name="requestModel"></param>
             <returns></returns>
         </member>
+        <member name="M:Deploy.Server.Controllers.ApplicationInfoController.GetSimpleList(Deploy.PresentationModel.ApplicationInfo.QueryApplicationInfoFilterRequestModel)">
+            <summary>
+            获得简易应用程序列表
+            </summary>
+            <param name="requestModel"></param>
+            <returns></returns>
+        </member>
         <member name="M:Deploy.Server.Controllers.ApplicationInfoController.Start(System.Guid)">
             <summary>
             启动程序

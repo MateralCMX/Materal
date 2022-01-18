@@ -19,42 +19,57 @@
             唯一标识
             </summary>
         </member>
-        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoListDTO.Name">
+        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoListDTO.StopParams">
+            <summary>
+            停止参数
+            </summary>
+        </member>
+        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoListDTO.OtherParams">
+            <summary>
+            其他参数
+            </summary>
+        </member>
+        <member name="T:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoSimpleListDTO">
+            <summary>
+            应用程序信息简易列表数据传输模型
+            </summary>
+        </member>
+        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoSimpleListDTO.Name">
             <summary>
             名称
             </summary>
         </member>
-        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoListDTO.Path">
+        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoSimpleListDTO.Path">
             <summary>
             路径
             </summary>
         </member>
-        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoListDTO.MainModule">
+        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoSimpleListDTO.MainModule">
             <summary>
             主模块
             </summary>
         </member>
-        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoListDTO.ApplicationType">
+        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoSimpleListDTO.ApplicationType">
             <summary>
             类型
             </summary>
         </member>
-        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoListDTO.RunParams">
+        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoSimpleListDTO.RunParams">
             <summary>
             运行参数
             </summary>
         </member>
-        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoListDTO.Status">
+        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoSimpleListDTO.Status">
             <summary>
             应用程序状态
             </summary>
         </member>
-        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoListDTO.StatusString">
+        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoSimpleListDTO.StatusString">
             <summary>
             应用程序状态字符
             </summary>
         </member>
-        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoListDTO.ApplicationTypeString">
+        <member name="P:Deploy.DataTransmitModel.ApplicationInfo.ApplicationInfoSimpleListDTO.ApplicationTypeString">
             <summary>
             类型字符
             </summary>

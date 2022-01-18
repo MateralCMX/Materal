@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Deploy.DataTransmitModel.ApplicationInfo;
 using Deploy.PresentationModel.ApplicationInfo;
 using Deploy.Services.Models.ApplicationInfo;
 
@@ -16,6 +17,7 @@ namespace Deploy.Server.AutoMapperProfile
         {
             CreateMap<AddApplicationInfoRequestModel, AddApplicationInfoModel>();
             CreateMap<EditApplicationInfoRequestModel, EditApplicationInfoModel>();
+            CreateMap<ApplicationInfoListDTO, ApplicationInfoSimpleListDTO>();
             CreateMap<QueryApplicationInfoFilterRequestModel, QueryApplicationInfoFilterModel>()
                 .ForMember(m=>m.Status,m=>m.MapFrom(n=>n.ApplicationStatus));
         }

@@ -38,5 +38,15 @@ namespace Deploy.Services.Models.ApplicationInfo
         /// </summary>
         [Contains]
         public string RunParams { get; set; }
+        /// <summary>
+        /// 停止参数
+        /// </summary>
+        [Contains]
+        public string StopParams { get; set; }
+        /// <summary>
+        /// 其他参数
+        /// </summary>
+        [Contains]
+        public string OtherParams { get; set; }
     }
 }

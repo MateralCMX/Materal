@@ -24,6 +24,11 @@ namespace Deploy.Common
         /// 发布服务配置
         /// </summary>
         public static DeployConfigModel DeployServerConfig => _deployConfig ??= new DeployConfigModel();
+        private static RewriteConfigModel _rewriteConfig;
+        /// <summary>
+        /// 重写配置
+        /// </summary>
+        public static RewriteConfigModel RewriteConfig => _rewriteConfig ??= new RewriteConfigModel();
         /// <summary>
         /// Sqlite数据库配置
         /// </summary>

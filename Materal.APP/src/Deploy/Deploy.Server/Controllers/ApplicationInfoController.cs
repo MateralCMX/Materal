@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Deploy.Server.Controllers
 {
@@ -87,6 +88,19 @@ namespace Deploy.Server.Controllers
             var model = _mapper.Map<QueryApplicationInfoFilterModel>(requestModel);
             List<ApplicationInfoListDTO> result = _applicationInfoService.GetList(model);
             return ResultModel<List<ApplicationInfoListDTO>>.Success(result, "查询成功");
+        }
+        /// <summary>
+        /// 获得简易应用程序列表
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        [HttpPost, AllowAnonymous]
+        public ResultModel<List<ApplicationInfoSimpleListDTO>> GetSimpleList(QueryApplicationInfoFilterRequestModel requestModel)
+        {
+            var model = _mapper.Map<QueryApplicationInfoFilterModel>(requestModel);
+            List<ApplicationInfoListDTO> applicationInfoList = _applicationInfoService.GetList(model);
+            var result = _mapper.Map<List<ApplicationInfoSimpleListDTO>>(applicationInfoList);
+            return ResultModel<List<ApplicationInfoSimpleListDTO>>.Success(result, "查询成功");
         }
         /// <summary>
         /// 启动程序

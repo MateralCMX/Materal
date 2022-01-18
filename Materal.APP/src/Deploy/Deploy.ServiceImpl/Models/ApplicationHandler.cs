@@ -48,10 +48,15 @@ namespace Deploy.ServiceImpl.Models
         protected virtual void CloseProcess(ApplicationRuntimeModel applicationRuntime)
         {
             if (BindProcess == null) return;
-            BindProcess.Close();
+            if (!BindProcess.CloseMainWindow())
+            {
+                BindProcess.Kill();
+            }
             BindProcess.WaitForExit();
+            BindProcess.Close();
             BindProcess.Dispose();
         }
+
         /// <summary>
         /// 清理控制台定时器
         /// </summary>

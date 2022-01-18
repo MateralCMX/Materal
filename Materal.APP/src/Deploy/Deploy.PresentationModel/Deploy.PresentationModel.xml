@@ -104,6 +104,16 @@
             运行参数
             </summary>
         </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.QueryApplicationInfoFilterRequestModel.StopParams">
+            <summary>
+            停止参数
+            </summary>
+        </member>
+        <member name="P:Deploy.PresentationModel.ApplicationInfo.QueryApplicationInfoFilterRequestModel.OtherParams">
+            <summary>
+            其他参数
+            </summary>
+        </member>
         <member name="T:Deploy.PresentationModel.DefaultData.AddDefaultDataRequestModel">
             <summary>
             添加默认数据请求模型

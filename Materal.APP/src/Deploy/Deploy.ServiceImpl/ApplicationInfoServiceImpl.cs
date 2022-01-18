@@ -25,6 +25,8 @@ namespace Deploy.ServiceImpl
 {
     public class ApplicationInfoServiceImpl : IApplicationInfoService
     {
+        private const string UpdateDirectoryName = "UploadFile";
+        private const string ApplicationDirectoryName = "Application";
         private readonly ILogger<ApplicationInfoServiceImpl> _logger;
         private readonly IMapper _mapper;
         private readonly ApplicationManage _applicationManage;
@@ -74,8 +76,8 @@ namespace Deploy.ServiceImpl
             applicationInfoFromDB.UpdateTime = DateTime.Now;
             _deploySqliteEFUnitOfWork.RegisterEdit(applicationInfoFromDB);
             _applicationManage.Edit(applicationInfoFromDB);
-            string oldDirectoryPath = GetDirectoryPathByApplicationInfo(oldName);
-            string newDirectoryPath = GetDirectoryPathByApplicationInfo(applicationInfoFromDB.Name);
+            string oldDirectoryPath = GetDirectoryPathByApplicationInfo(oldName, ApplicationDirectoryName);
+            string newDirectoryPath = GetDirectoryPathByApplicationInfo(applicationInfoFromDB.Name, ApplicationDirectoryName);
             if (oldName != applicationInfoFromDB.Name)
             {
                 if (Directory.Exists(newDirectoryPath)) throw new DeployException("应用程序目录已存在");
@@ -104,7 +106,7 @@ namespace Deploy.ServiceImpl
             if (applicationInfoFromDB == null) throw new DeployException("应用程序不存在");
             _deploySqliteEFUnitOfWork.RegisterDelete(applicationInfoFromDB);
             _applicationManage.Delete(id);
-            string deleteDirectoryPath = GetDirectoryPathByApplicationInfo(applicationInfoFromDB.Name);
+            string deleteDirectoryPath = GetDirectoryPathByApplicationInfo(applicationInfoFromDB.Name, ApplicationDirectoryName);
             string deleteDirectoryTempPath = deleteDirectoryPath + $"_{Guid.NewGuid()}";
             if (Directory.Exists(deleteDirectoryPath))
             {
@@ -113,7 +115,10 @@ namespace Deploy.ServiceImpl
             try
             {
                 await _deploySqliteEFUnitOfWork.CommitAsync();
-                Directory.Delete(deleteDirectoryTempPath);
+                if (Directory.Exists(deleteDirectoryTempPath))
+                {
+                    Directory.Delete(deleteDirectoryTempPath);
+                }
             }
             catch (Exception)
             {
@@ -173,7 +178,7 @@ namespace Deploy.ServiceImpl
             string fileName = file.FileName;
             if (string.IsNullOrWhiteSpace(fileName)) throw new DeployException("未识别文件名");
             if (!Path.GetExtension(fileName).Equals(".rar", StringComparison.OrdinalIgnoreCase)) throw new DeployException("只能上传.rar文件");
-            string directoryPath = GetDirectoryPathByApplicationInfo(applicationInfo.Name);
+            string directoryPath = GetDirectoryPathByApplicationInfo(applicationInfo.Name, UpdateDirectoryName);
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
@@ -190,7 +195,7 @@ namespace Deploy.ServiceImpl
         public List<string> GetUploadFileList(Guid id)
         {
             ApplicationInfoDTO applicationInfo = GetInfo(id);
-            string directoryPath = GetDirectoryPathByApplicationInfo(applicationInfo.Name);
+            string directoryPath = GetDirectoryPathByApplicationInfo(applicationInfo.Name, UpdateDirectoryName);
             if (!Directory.Exists(directoryPath)) return new List<string>();
             DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
             FileInfo[] fileInfos = directoryInfo.GetFiles();
@@ -201,7 +206,7 @@ namespace Deploy.ServiceImpl
         public void DeleteUploadFile(Guid id, string fileName)
         {
             ApplicationInfoDTO applicationInfo = GetInfo(id);
-            string directoryPath = GetDirectoryPathByApplicationInfo(applicationInfo.Name);
+            string directoryPath = GetDirectoryPathByApplicationInfo(applicationInfo.Name, UpdateDirectoryName);
             DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
             FileInfo[] fileInfos = directoryInfo.GetFiles();
             FileInfo fileInfo = fileInfos.FirstOrDefault(m => m.Name == fileName);
@@ -255,9 +260,15 @@ namespace Deploy.ServiceImpl
 
         #region 私有方法
 
-        private string GetDirectoryPathByApplicationInfo(string applicationName)
+        /// <summary>
+        /// 获得应用程序文件路径
+        /// </summary>
+        /// <param name="applicationName"></param>
+        /// <param name="subDirectoryName"></param>
+        /// <returns></returns>
+        private string GetDirectoryPathByApplicationInfo(string applicationName, string subDirectoryName)
         {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "UploadFiles", applicationName);
+            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, subDirectoryName, applicationName);
         }
         /// <summary>
         /// 解压文件
@@ -268,7 +279,7 @@ namespace Deploy.ServiceImpl
         private void UnRarFile(string rarFilePath, ApplicationInfoDTO applicationInfo)
         {
             string fileName = Path.GetFileNameWithoutExtension(rarFilePath);
-            string directoryPath = Path.Combine(GetDirectoryPathByApplicationInfo(applicationInfo.Name), fileName);
+            string directoryPath = Path.Combine(GetDirectoryPathByApplicationInfo(applicationInfo.Name, UpdateDirectoryName), fileName);
             if (Directory.Exists(directoryPath)) Directory.Delete(directoryPath, true);
             DirectoryInfo directoryInfo = Directory.CreateDirectory(directoryPath);
             var winRarPath = Path.Combine(DeployConfig.WinRarPath, "UnRaR.exe");

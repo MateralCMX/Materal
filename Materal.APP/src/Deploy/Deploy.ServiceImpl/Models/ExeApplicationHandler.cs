@@ -1,10 +1,10 @@
 ﻿using Deploy.Common;
 using Deploy.Enums;
-using Materal.WindowsHelper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace Deploy.ServiceImpl.Models
 {
@@ -33,7 +33,7 @@ namespace Deploy.ServiceImpl.Models
             applicationRuntime.Status = ApplicationStatusEnum.ReadyRun;
             try
             {
-                ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo(exePath, !string.IsNullOrWhiteSpace(runParams) ? runParams : "");
+                ProcessStartInfo processStartInfo = GetProcessStartInfo(applicationRuntime, exePath, !string.IsNullOrWhiteSpace(runParams) ? runParams : "");
                 BindProcess = new Process { StartInfo = processStartInfo };
                 ConsoleMessage = new List<string>();
                 void DataHandler(object sender, DataReceivedEventArgs e)
@@ -60,6 +60,23 @@ namespace Deploy.ServiceImpl.Models
                 applicationRuntime.Status = ApplicationStatusEnum.Stop;
                 throw;
             }
+        }
+        private ProcessStartInfo GetProcessStartInfo(ApplicationRuntimeModel applicationRuntime, string processPath, string arg)
+        {
+            string workingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application", applicationRuntime.Path);
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            {
+                FileName = processPath,
+                UseShellExecute = false,
+                CreateNoWindow = false,
+                WindowStyle = ProcessWindowStyle.Minimized,
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                Arguments = arg,
+                WorkingDirectory = workingDirectory
+            };
+            return processStartInfo;
         }
     }
 }

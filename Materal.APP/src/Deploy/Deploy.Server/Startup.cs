@@ -68,8 +68,18 @@ namespace Deploy.Server
         {
             base.Configure(app, en, lifetime);
             RewriteOptions rewriteOptions = new RewriteOptions();
-            rewriteOptions.Add(new RedirectHomeIndexRequests("/swagger/index.html"));
-            app.UseRewriter(rewriteOptions);
+            if (DeployConfig.RewriteConfig.Enable)
+            {
+                rewriteOptions.Add(new RewriteHomeIndexRequests(DeployConfig.RewriteConfig.Address));
+            }
+            else if (ApplicationConfig.EnableSwagger)
+            {
+                rewriteOptions.Add(new RedirectHomeIndexRequests("/swagger/index.html"));
+            }
+            if(rewriteOptions.Rules.Count > 0)
+            {
+                app.UseRewriter(rewriteOptions);
+            }
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string path = Path.Combine(basePath, "Application");
             if (!Directory.Exists(path))
@@ -99,7 +109,6 @@ namespace Deploy.Server
                     }
                 }
             });
-
             var provider = new FileExtensionContentTypeProvider();
             provider.Mappings[".json"] = "application/json";
             provider.Mappings[".woff"] = "application/font-woff";
@@ -118,6 +127,7 @@ namespace Deploy.Server
                 ServeUnknownFileTypes = true,
                 DefaultContentType = "application/octet-stream"
             });
+
             DBContextHelper<DeployDBContext> dbContextHelper = ApplicationConfig.GetService<DBContextHelper<DeployDBContext>>();
             dbContextHelper.Migrate();
         }

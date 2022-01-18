@@ -16,6 +16,7 @@ namespace Deploy.ServiceImpl.AutoMapperProfile
             CreateMap<ApplicationRuntimeModel, ApplicationInfoListDTO>();
             CreateMap<ApplicationRuntimeModel, ApplicationInfoDTO>();
             CreateMap<ApplicationInfoDTO, ApplicationInfoListDTO>();
+            CreateMap<ApplicationInfoDTO, ApplicationInfo>();
         }
     }
 }
