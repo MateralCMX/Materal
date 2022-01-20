@@ -20,8 +20,10 @@ namespace ${ProjectName}.WebAPI.Controllers
     public class ${Name}Controller : WebAPIControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly I${Name}Service _${name}Service;
-
+        private readonly I${Name}Service _${name}Service;        
+        /// <summary>
+        /// ${Annotation}控制器
+        /// </summary>
         public ${Name}Controller(IMapper mapper, I${Name}Service ${name}Service)
         {
             _mapper = mapper;

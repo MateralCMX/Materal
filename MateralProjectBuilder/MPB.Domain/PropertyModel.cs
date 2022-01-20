@@ -17,5 +17,20 @@
         /// 类型
         /// </summary>
         public string Type { get; set; }
+        /// <summary>
+        /// 可空类型
+        /// </summary>
+        public string NullType
+        {
+            get
+            {
+                var result = Type;
+                if (!result.EndsWith("?") && result != "string")
+                {
+                    result += "?";
+                }
+                return result;
+            }
+        }
     }
 }

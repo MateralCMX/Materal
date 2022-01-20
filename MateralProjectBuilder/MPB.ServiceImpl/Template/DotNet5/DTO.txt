@@ -1,5 +1,8 @@
 ﻿namespace ${ProjectName}.DataTransmitModel.${RelativeNamespace}.${Name}
 {
+    /// <summary>
+    /// ${Annotation}数据传输模型
+    /// </summary>
     public class ${Name}DTO : ${Name}ListDTO
     {
     }

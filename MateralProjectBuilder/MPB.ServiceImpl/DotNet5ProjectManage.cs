@@ -205,6 +205,10 @@ namespace MPB.ServiceImpl
             codes.Add("    /// </summary>");
             codes.Add($"    public class {domainModel.Name}ListDTO");
             codes.Add("    {");
+            codes.Add("        /// <summary>");
+            codes.Add("        /// 唯一标识");
+            codes.Add("        /// </summary>");
+            codes.Add("        public Guid ID { get; set; }");
             foreach (PropertyModel property in domainModel.Properties)
             {
                 codes.Add("        /// <summary>");
@@ -297,7 +301,7 @@ namespace MPB.ServiceImpl
                     codes.Add("        /// <summary>");
                     codes.Add($"        /// {property.Annotation}");
                     codes.Add("        /// </summary>");
-                    codes.Add($"        public {property.Type} {property.Name} " + "{ get; set; }");
+                    codes.Add($"        public {property.NullType} {property.Name} " + "{ get; set; }");
                 }
                 codes.Add("    }");
                 codes.Add("}");
@@ -369,7 +373,7 @@ namespace MPB.ServiceImpl
                     codes.Add($"        /// {property.Annotation}");
                     codes.Add("        /// </summary>");
                     codes.Add("        [Equal]");
-                    codes.Add($"        public {property.Type} {property.Name} " + "{ get; set; }");
+                    codes.Add($"        public {property.NullType} {property.Name} " + "{ get; set; }");
                 }
                 codes.Add("    }");
                 codes.Add("}");
