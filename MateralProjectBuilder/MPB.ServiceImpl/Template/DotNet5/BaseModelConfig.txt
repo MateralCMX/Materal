@@ -1,0 +1,17 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace ${ProjectName}.Common
+{
+    public abstract class BaseModelConfig<T> : IEntityTypeConfiguration<T> where T : BaseDomain
+    {
+        public virtual void Configure(EntityTypeBuilder<T> builder)
+        {
+            builder.HasKey(e => e.ID);
+            builder.Property(e => e.CreateTime)
+                .IsRequired();
+            builder.Property(e => e.UpdateTime)
+                .IsRequired();
+        }
+    }
+}

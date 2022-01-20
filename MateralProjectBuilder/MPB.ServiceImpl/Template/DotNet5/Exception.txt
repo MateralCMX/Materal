@@ -1,0 +1,26 @@
+﻿using System;
+using System.Runtime.Serialization;
+
+namespace ${ProjectName}.Common
+{
+    public class ${ProjectName}Exception : Exception
+    {
+        public ${ProjectName}Exception()
+        {
+        }
+
+        public ${ProjectName}Exception(string message)
+            : base(message)
+        {
+        }
+
+        public ${ProjectName}Exception(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
+        protected ${ProjectName}Exception(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
+}

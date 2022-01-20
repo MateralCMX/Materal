@@ -1,0 +1,15 @@
+﻿using System;
+
+namespace ${ProjectName}.PresentationModel.${RelativeNamespace}.${Name}
+{
+    /// <summary>
+    /// 修改${Annotation}请求模型
+    /// </summary>
+    public class Edit${Name}RequestModel : Add${Name}RequestModel
+    {
+        /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public Guid ID { get; set; }
+    }
+}

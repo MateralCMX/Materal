@@ -1,0 +1,15 @@
+﻿using Materal.TTA.SqlServerRepository.Model;
+
+namespace ${ProjectName}.Common.ConfigModels
+{
+    public class SQLServerConfigModel : BaseConfigModel
+    {
+        protected override string GetConfigKey() => "${ProjectName}DB";
+        public string Address => GetConfigValue(nameof(Address));
+        public string Port => GetConfigValue(nameof(Port));
+        public string Name => GetConfigValue(nameof(Name));
+        public string UserID => GetConfigValue(nameof(UserID));
+        public string Password => GetConfigValue(nameof(Password));
+        public string ConnectionString => string.IsNullOrEmpty(Port) ? ("Data Source=" + Address + "; Database=" + Name + "; User ID=" + UserID + "; Password=" + Password + ";MultipleActiveResultSets=true") : ("Data Source=" + Address + "," + Port + "; Database=" + Name + "; User ID=" + UserID + "; Password=" + Password + ";MultipleActiveResultSets=true");
+    }
+}

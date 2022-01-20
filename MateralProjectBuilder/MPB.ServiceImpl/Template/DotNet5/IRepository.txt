@@ -1,0 +1,12 @@
+﻿using Materal.TTA.EFRepository;
+using System;
+
+namespace ${Namespace}.Repositories
+{
+    /// <summary>
+    /// ${Annotation}仓储
+    /// </summary>
+    public interface I${Name}Repository : IEFRepository<${Name}, Guid>
+    {
+    }
+}

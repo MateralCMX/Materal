@@ -1,0 +1,14 @@
+﻿using Materal.TTA.EFRepository;
+
+namespace ${ProjectName}.SqlServerEFRepository
+{
+    /// <summary>
+    /// ${ProjectName}工作单元
+    /// </summary>
+    public class ${ProjectName}UnitOfWorkImpl : EFUnitOfWorkImpl<${ProjectName}DbContext>, I${ProjectName}UnitOfWork
+    {
+        public ${ProjectName}UnitOfWorkImpl(${ProjectName}DbContext context) : base(context)
+        {
+        }
+    }
+}

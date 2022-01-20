@@ -1,0 +1,70 @@
+﻿using AutoMapper;
+using ${ProjectName}.Common;
+using ${ProjectName}.DataTransmitModel.${RelativeNamespace}.${Name};
+using ${ProjectName}.Domain.${RelativeNamespace};
+using ${ProjectName}.Domain.${RelativeNamespace}.Repositories;
+using ${ProjectName}.Service.${RelativeNamespace};
+using ${ProjectName}.Service.${RelativeNamespace}.Models.${Name};
+using ${ProjectName}.SqlServerEFRepository;
+using Materal.ConvertHelper;
+using Materal.Model;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
+
+namespace ${ProjectName}.ServiceImpl
+{
+    public class ${Name}ServiceImpl : I${Name}Service
+    {
+        private readonly IMapper _mapper;
+        private readonly I${ProjectName}UnitOfWork _${projectName}UnitOfWork;
+        private readonly I${Name}Repository _${name}Repository;
+
+        public ${Name}ServiceImpl(IMapper mapper, I${ProjectName}UnitOfWork ${projectName}UnitOfWork, I${Name}Repository ${name}Repository)
+        {
+            _mapper = mapper;
+            _${projectName}UnitOfWork = ${projectName}UnitOfWork;
+            _${name}Repository = ${name}Repository;
+        }
+
+        public async Task AddAsync(Add${Name}Model model)
+        {
+            ${Name} ${name}Domain = model.CopyProperties<${Name}>();
+            _${projectName}UnitOfWork.RegisterAdd(${name}Domain);
+            await _${projectName}UnitOfWork.CommitAsync();
+        }
+
+        public async Task EditAsync(Edit${Name}Model model)
+        {
+            ${Name} ${name}FromDB = await _${name}Repository.FirstOrDefaultAsync(model.ID);
+            if (${name}FromDB == null) throw new ${ProjectName}Exception("${Annotation}不存在");
+            model.CopyProperties(${name}FromDB);
+            ${name}FromDB.UpdateTime = DateTime.Now;
+            _${projectName}UnitOfWork.RegisterEdit(${name}FromDB);
+            await _${projectName}UnitOfWork.CommitAsync();
+        }
+
+        public async Task DeleteAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
+        {
+            ${Name} ${name}FromDB = await _${name}Repository.FirstOrDefaultAsync(id);
+            if (${name}FromDB == null) throw new ${ProjectName}Exception("${Annotation}不存在");
+            _${projectName}UnitOfWork.RegisterDelete(${name}FromDB);
+            await _${projectName}UnitOfWork.CommitAsync();
+        }
+
+        public async Task<${Name}DTO> Get${Name}InfoAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
+        {
+            ${Name} ${name}FromDB = await _${name}Repository.FirstOrDefaultAsync(id);
+            if (${name}FromDB == null) throw new ${ProjectName}Exception("${Annotation}不存在");
+            return _mapper.Map<${Name}DTO>(${name}FromDB);
+        }
+
+        public async Task<(List<${Name}ListDTO> result, PageModel pageModel)> Get${Name}ListAsync(Query${Name}FilterModel filterModel)
+        {
+            (List<${Name}> actionAuthoritiesFromDB, PageModel pageModel) = await _${name}Repository.PagingAsync(filterModel);
+            return (_mapper.Map<List<${Name}ListDTO>>(actionAuthoritiesFromDB), pageModel);
+        }
+    }
+}

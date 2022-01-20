@@ -1,0 +1,16 @@
+﻿using ${ProjectName}.Domain.${RelativeNamespace};
+using ${ProjectName}.Domain.${RelativeNamespace}.Repositories;
+using ${ProjectName}.SqlServerEFRepository.RepositoryImpl;
+using System;
+namespace ${ProjectName}.SqlServerEFRepository.RepositoryImpl.${RelativeNamespace}
+{
+    /// <summary>
+    /// ${Annotation}仓储
+    /// </summary>
+    public class ${Name}RepositoryImpl : ${ProjectName}EFRepositoryImpl<${Name}, Guid>, I${Name}Repository
+    {
+        public ${Name}RepositoryImpl(${ProjectName}DbContext dbContext) : base(dbContext)
+        {
+        }
+    }
+}

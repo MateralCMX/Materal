@@ -1,0 +1,38 @@
+﻿using ${ProjectName}.Common;
+using ${ProjectName}.SqlServerEFRepository;
+using Materal.CacheHelper;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using NetCore.AutoRegisterDi;
+using System.Reflection;
+
+namespace ${ProjectName}.DependencyInjection
+{
+    public static class ${ProjectName}DIExtension
+    {
+        /// <summary>
+        /// 添加${ProjectName}服务
+        /// </summary>
+        /// <param name="services"></param>
+        public static void Add${ProjectName}Services(this IServiceCollection services)
+        {
+            services.AddMemoryCache();
+            services.AddSingleton<ICacheManager, MemoryCacheManager>();
+            services.AddDbContext<${ProjectName}DbContext>(delegate (DbContextOptionsBuilder options)
+            {
+                options.UseSqlServer(ApplicationConfig.${ProjectName}DBConfig.ConnectionString, delegate (SqlServerDbContextOptionsBuilder m)
+                {
+                    m.EnableRetryOnFailure();
+                });
+            }, ServiceLifetime.Transient);
+            services.AddTransient(typeof(I${ProjectName}UnitOfWork), typeof(${ProjectName}UnitOfWorkImpl));
+            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("${ProjectName}.SqlServerEFRepository"))
+                .Where(c => c.Name.EndsWith("RepositoryImpl"))
+                .AsPublicImplementedInterfaces();
+            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("${ProjectName}.ServiceImpl"))
+                .Where(c => c.Name.EndsWith("ServiceImpl"))
+                .AsPublicImplementedInterfaces();
+        }
+    }
+}

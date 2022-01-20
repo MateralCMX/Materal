@@ -1,0 +1,88 @@
+﻿using AutoMapper;
+using ${ProjectName}.DataTransmitModel.${RelativeNamespace}.${Name};
+using ${ProjectName}.PresentationModel.${RelativeNamespace}.${Name};
+using ${ProjectName}.Service.${RelativeNamespace};
+using ${ProjectName}.Service.${RelativeNamespace}.Models.${Name};
+using Materal.Model;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+
+namespace ${ProjectName}.WebAPI.Controllers
+{
+    /// <summary>
+    /// ${Annotation}控制器
+    /// </summary>
+    [Route("api/[controller]/[action]"), ApiController, AllowAnonymous]
+    public class ${Name}Controller : WebAPIControllerBase
+    {
+        private readonly IMapper _mapper;
+        private readonly I${Name}Service _${name}Service;
+
+        public ${Name}Controller(IMapper mapper, I${Name}Service ${name}Service)
+        {
+            _mapper = mapper;
+            _${name}Service = ${name}Service;
+        }
+        /// <summary>
+        /// 添加${Annotation}
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ResultModel> Add${Name}(Add${Name}RequestModel requestModel)
+        {
+            var model = _mapper.Map<Add${Name}Model>(requestModel);
+            await _${name}Service.AddAsync(model);
+            return ResultModel.Success("添加成功");
+        }
+        /// <summary>
+        /// 修改${Annotation}
+        /// </summary>
+        /// <param name="requestModel">请求模型</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ResultModel> Edit${Name}(Edit${Name}RequestModel requestModel)
+        {
+            var model = _mapper.Map<Edit${Name}Model>(requestModel);
+            await _${name}Service.EditAsync(model);
+            return ResultModel.Success("修改成功");
+        }
+        /// <summary>
+        /// 删除${Annotation}
+        /// </summary>
+        /// <param name="id">唯一标识</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ResultModel> Delete${Name}([Required(ErrorMessage = "唯一标识不可以为空")] Guid id)
+        {
+            await _${name}Service.DeleteAsync(id);
+            return ResultModel.Success("删除成功");
+        }
+        /// <summary>
+        /// 获得${Annotation}信息
+        /// </summary>
+        /// <param name="id">唯一标识</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ResultModel<${Name}DTO>> Get${Name}Info([Required(ErrorMessage = "唯一标识不可以为空")] Guid id)
+        {
+            ${Name}DTO result = await _${name}Service.Get${Name}InfoAsync(id);
+            return ResultModel<${Name}DTO>.Success(result, "查询成功");
+        }
+        /// <summary>
+        /// 获得${Annotation}列表
+        /// </summary>
+        /// <param name="requestModel">请求模型</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<PageResultModel<${Name}ListDTO>> Get${Name}List(Query${Name}FilterRequestModel requestModel)
+        {
+            var model = _mapper.Map<Query${Name}FilterModel>(requestModel);
+            (List<${Name}ListDTO> result, PageModel pageModel) = await _${name}Service.Get${Name}ListAsync(model);
+            return PageResultModel<${Name}ListDTO>.Success(result, pageModel, "查询成功");
+        }
+    }
+}

@@ -1,0 +1,14 @@
+﻿using ${ProjectName}.Domain.${RelativeNamespace};
+using ${ProjectName}.Common;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace ${ProjectName}.SqlServerEFRepository.ModelConfig.${RelativeNamespace}
+{
+    internal sealed class ${Name}Config : BaseModelConfig<${Name}>
+    {
+        public override void Configure(EntityTypeBuilder<${Name}> builder)
+        {
+            base.Configure(builder);
+        }
+    }
+}

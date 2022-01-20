@@ -1,0 +1,6 @@
+﻿namespace ${ProjectName}.DataTransmitModel.${RelativeNamespace}.${Name}
+{
+    public class ${Name}DTO : ${Name}ListDTO
+    {
+    }
+}

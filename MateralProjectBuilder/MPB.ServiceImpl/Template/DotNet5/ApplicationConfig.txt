@@ -1,0 +1,34 @@
+﻿using ${ProjectName}.Common.ConfigModels;
+using Microsoft.Extensions.Configuration;
+
+namespace ${ProjectName}.Common
+{
+    public static class ApplicationConfig
+    {
+        public static IConfiguration Config;
+        public static void Init(IConfiguration configuration)
+        {
+            Config = configuration;
+        }
+        /// <summary>
+        /// 应用名称
+        /// </summary>
+        public static string AppName
+        {
+            get
+            {
+                return Config.GetSection(nameof(AppName)).Value;
+            }
+        }
+        private static NLogConfigModel _nLogConfig;
+        /// <summary>
+        /// NLog配置
+        /// </summary>
+        public static NLogConfigModel NLogConfig => _nLogConfig ??= new NLogConfigModel();
+        public static SQLServerConfigModel _educationalDBConfig;
+        /// <summary>
+        /// 数据库配置
+        /// </summary>
+        public static SQLServerConfigModel EducationalDBConfig => _educationalDBConfig ??= new SQLServerConfigModel();
+    }
+}

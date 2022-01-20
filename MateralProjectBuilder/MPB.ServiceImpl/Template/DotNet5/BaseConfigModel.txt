@@ -1,0 +1,73 @@
+﻿using System;
+using System.Reflection;
+
+namespace ${ProjectName}.Common.ConfigModels
+{
+    public abstract class BaseConfigModel
+    {
+        /// <summary>
+        /// 获得配置键
+        /// </summary>
+        /// <returns></returns>
+        protected abstract string GetConfigKey();
+        /// <summary>
+        /// 获得配置
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        protected virtual string GetConfigValue(string key)
+        {
+            string configKey = GetConfigKey();
+            return ApplicationConfig.Config.GetSection($"{configKey}:{key}").Value;
+        }
+        /// <summary>
+        /// 获得配置
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        protected virtual T GetConfigValue<T>(string key)
+        {
+            Type tType = typeof(T);
+            return (T)GetConfigValue(key, tType);
+        }
+        /// <summary>
+        /// 获得配置
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        protected virtual object GetConfigValue(string key, Type tType)
+        {
+            object value = Activator.CreateInstance(tType);
+            foreach (PropertyInfo property in tType.GetProperties())
+            {
+                if (!property.CanWrite) continue;
+                string trueKey = $"{key}:{property.Name}";
+                dynamic configValue;
+                if (property.PropertyType.IsClass)
+                {
+                    if (property.PropertyType == typeof(string))
+                    {
+                        configValue = GetConfigValue($"{key}:{property.Name}");
+                        if (string.IsNullOrWhiteSpace(configValue)) continue;
+                    }
+                    configValue = GetConfigValue(trueKey, property.PropertyType);
+                }
+                else
+                {
+                    configValue = GetConfigValue($"{key}:{property.Name}");
+                    if (property.PropertyType == typeof(int))
+                    {
+                        configValue = Convert.ToInt32(configValue);
+                    }
+                    if (property.PropertyType == typeof(bool))
+                    {
+                        configValue = Convert.ToBoolean(configValue);
+                    }
+                }
+                if (configValue == null) continue;
+                property.SetValue(value, configValue);
+            }
+            return value;
+        }
+    }
+}

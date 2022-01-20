@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Materal.Model" Version="1.0.9" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\${ProjectName}.Enums\${ProjectName}.Enums.csproj" />
+  </ItemGroup>
+</Project>
