@@ -120,9 +120,20 @@ namespace MPB.Domain
         private void HandlerName(string[] cSharpCodes, int index)
         {
             const string key = "public class ";
+            const string key2 = "public sealed class ";
             string cSharpCode = cSharpCodes[index].Trim();
-            if (!cSharpCode.StartsWith(key)) return;
-            Name = cSharpCode.Substring(key.Length);
+            if (cSharpCode.StartsWith(key))
+            {
+                Name = cSharpCode.Substring(key.Length);
+            }
+            else if (cSharpCode.StartsWith(key2))
+            {
+                Name = cSharpCode.Substring(key2.Length);
+            }
+            else
+            {
+                return;
+            }
             var blankIndex = Name.IndexOf(" ");
             if (blankIndex > -1)
             {
@@ -172,6 +183,7 @@ namespace MPB.Domain
                 string cSharpCode = cSharpCodes[annotationIndex].Trim();
                 if (!cSharpCode.StartsWith(annotationKey)) continue;
                 cSharpCode = cSharpCodes[annotationIndex + 1].Trim();
+                if (cSharpCode.Length <= annotationKey2.Length) return "";
                 return cSharpCode.Substring(annotationKey2.Length);
             }
             return null;
