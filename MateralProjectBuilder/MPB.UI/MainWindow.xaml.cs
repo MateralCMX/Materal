@@ -21,6 +21,7 @@ namespace MPB.UI
             var modelPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Models");
             var config = new ProjectConfigModel
             {
+                IsAddStatus = true,
                 EnableWebAPI = true
             };
             var outputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "OutPut");

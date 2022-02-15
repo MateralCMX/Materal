@@ -44,131 +44,134 @@ namespace MPB.ServiceImpl
             DirectoryInfo serviceImplDirectoryInfo = GetDirectoryInfo(outputDirectoryInfo, $"{domainModel.ProjectName}.ServiceImpl");
             DirectoryInfo sqlServerEFDirectoryInfo = GetDirectoryInfo(outputDirectoryInfo, $"{domainModel.ProjectName}.SqlServerEFRepository");
             DirectoryInfo webAPIDirectoryInfo = GetDirectoryInfo(outputDirectoryInfo, $"{domainModel.ProjectName}.WebAPI");
-            #region Sln
-            await CreateTemplateFileAsync(domainModel, "Sln.txt", outputDirectoryInfo, $"{domainModel.ProjectName}.sln");
-            #endregion
-            #region Common
+            if (!_projectConfig.IsAddStatus)
             {
-                await CreateTemplateFileAsync(domainModel, "NLog.txt", commonDirectoryInfo, $"NLog.config");
-                await CreateTemplateFileAsync(domainModel, "CommonCsproj.txt", commonDirectoryInfo, $"{commonDirectoryInfo.Name}.csproj");
-                await CreateTemplateFileAsync(domainModel, "Exception.txt", commonDirectoryInfo, $"{domainModel.ProjectName}Exception.cs");
-                await CreateTemplateFileAsync(domainModel, "BaseDomain.txt", commonDirectoryInfo, $"BaseDomain.cs");
-                await CreateTemplateFileAsync(domainModel, "ApplicationConfig.txt", commonDirectoryInfo, $"ApplicationConfig.cs");
-                await CreateTemplateFileAsync(domainModel, "BaseModelConfig.txt", commonDirectoryInfo, $"BaseModelConfig.cs");
-                DirectoryInfo configModelsDirectoryInfo = GetDirectoryInfo(commonDirectoryInfo, "ConfigModels");
-                await CreateTemplateFileAsync(domainModel, "BaseConfigModel.txt", configModelsDirectoryInfo, $"BaseConfigModel.cs");
-                await CreateTemplateFileAsync(domainModel, "NLogConfigModel.txt", configModelsDirectoryInfo, $"NLogConfigModel.cs");
-                await CreateTemplateFileAsync(domainModel, "SQLServerConfigModel.txt", configModelsDirectoryInfo, $"SQLServerConfigModel.cs");
-            }
-            #endregion
-            #region DataTransmitModel
-            {
-                await CreateTemplateFileAsync(domainModel, "DataTransmitModelCsproj.txt", dataTransmitModelDirectoryInfo, $"{dataTransmitModelDirectoryInfo.Name}.csproj");
-            }
-            #endregion
-            #region DependencyInjection
-            {
-                await CreateTemplateFileAsync(domainModel, "DependencyInjectionCsproj.txt", dependencyInjectionDirectoryInfo, $"{dependencyInjectionDirectoryInfo.Name}.csproj");
-                await CreateTemplateFileAsync(domainModel, "AutoMapperDIExtension.txt", dependencyInjectionDirectoryInfo, $"AutoMapperDIExtension.cs");
-                await CreateTemplateFileAsync(domainModel, "DIExtension.txt", dependencyInjectionDirectoryInfo, $"{domainModel.ProjectName}DIExtension.cs");
-            }
-            #endregion
-            #region Domain
-            {
-                await CreateTemplateFileAsync(domainModel, "DomainCsproj.txt", domainDirectoryInfo, $"{domainDirectoryInfo.Name}.csproj");
-            }
-            #endregion
-            #region Enums
-            {
-                await CreateTemplateFileAsync(domainModel, "EnumsCsproj.txt", enumsDirectoryInfo, $"{enumsDirectoryInfo.Name}.csproj");
-            }
-            #endregion
-            #region PresentationModel
-            {
-                await CreateTemplateFileAsync(domainModel, "PresentationModelCsproj.txt", presentationModelDirectoryInfo, $"{presentationModelDirectoryInfo.Name}.csproj");
-            }
-            #endregion
-            #region Service
-            {
-                await CreateTemplateFileAsync(domainModel, "ServiceCsproj.txt", serviceDirectoryInfo, $"{serviceDirectoryInfo.Name}.csproj");
-            }
-            #endregion
-            #region ServiceImpl
-            {
-                await CreateTemplateFileAsync(domainModel, "ServiceServiceImplCsproj.txt", serviceImplDirectoryInfo, $"{serviceImplDirectoryInfo.Name}.csproj");
-            }
-            #endregion
-            #region SqlServerEFRepository
-            {
-                await CreateTemplateFileAsync(domainModel, "SqlServerEFRepositoryCsproj.txt", sqlServerEFDirectoryInfo, $"{sqlServerEFDirectoryInfo.Name}.csproj");
-                GetDirectoryInfo(sqlServerEFDirectoryInfo, "Migrations");
-                #region 创建DbContext
-                List<string> codes = new();
-                foreach (string item in domainModels.Select(m => m.Namespace).Distinct())
+                #region Sln
+                await CreateTemplateFileAsync(domainModel, "Sln.txt", outputDirectoryInfo, $"{domainModel.ProjectName}.sln");
+                #endregion
+                #region Common
                 {
-                    codes.Add($"using {item};");
+                    await CreateTemplateFileAsync(domainModel, "NLog.txt", commonDirectoryInfo, $"NLog.config");
+                    await CreateTemplateFileAsync(domainModel, "CommonCsproj.txt", commonDirectoryInfo, $"{commonDirectoryInfo.Name}.csproj");
+                    await CreateTemplateFileAsync(domainModel, "Exception.txt", commonDirectoryInfo, $"{domainModel.ProjectName}Exception.cs");
+                    await CreateTemplateFileAsync(domainModel, "BaseDomain.txt", commonDirectoryInfo, $"BaseDomain.cs");
+                    await CreateTemplateFileAsync(domainModel, "ApplicationConfig.txt", commonDirectoryInfo, $"ApplicationConfig.cs");
+                    await CreateTemplateFileAsync(domainModel, "BaseModelConfig.txt", commonDirectoryInfo, $"BaseModelConfig.cs");
+                    DirectoryInfo configModelsDirectoryInfo = GetDirectoryInfo(commonDirectoryInfo, "ConfigModels");
+                    await CreateTemplateFileAsync(domainModel, "BaseConfigModel.txt", configModelsDirectoryInfo, $"BaseConfigModel.cs");
+                    await CreateTemplateFileAsync(domainModel, "NLogConfigModel.txt", configModelsDirectoryInfo, $"NLogConfigModel.cs");
+                    await CreateTemplateFileAsync(domainModel, "SQLServerConfigModel.txt", configModelsDirectoryInfo, $"SQLServerConfigModel.cs");
                 }
-                codes.Add("using Microsoft.EntityFrameworkCore;");
-                codes.Add("using System.Reflection;");
-                codes.Add("");
-                codes.Add($"namespace {domainModel.ProjectName}.SqlServerEFRepository");
-                codes.Add("{");
-                codes.Add("    /// <summary>");
-                codes.Add($"    /// {domainModel.ProjectName}数据库上下文");
-                codes.Add("    /// </summary>");
-                codes.Add($"    public sealed class {domainModel.ProjectName}DbContext : DbContext");
-                codes.Add("    {");
-                codes.Add($"        public {domainModel.ProjectName}DbContext(DbContextOptions<{domainModel.ProjectName}DbContext> options) : base(options)");
-                codes.Add("        {");
-                codes.Add("        }");
-                string nowNamespace = string.Empty;
-                foreach (var item in domainModels)
+                #endregion
+                #region DataTransmitModel
                 {
-                    if (nowNamespace != item.Namespace)
+                    await CreateTemplateFileAsync(domainModel, "DataTransmitModelCsproj.txt", dataTransmitModelDirectoryInfo, $"{dataTransmitModelDirectoryInfo.Name}.csproj");
+                }
+                #endregion
+                #region DependencyInjection
+                {
+                    await CreateTemplateFileAsync(domainModel, "DependencyInjectionCsproj.txt", dependencyInjectionDirectoryInfo, $"{dependencyInjectionDirectoryInfo.Name}.csproj");
+                    await CreateTemplateFileAsync(domainModel, "AutoMapperDIExtension.txt", dependencyInjectionDirectoryInfo, $"AutoMapperDIExtension.cs");
+                    await CreateTemplateFileAsync(domainModel, "DIExtension.txt", dependencyInjectionDirectoryInfo, $"{domainModel.ProjectName}DIExtension.cs");
+                }
+                #endregion
+                #region Domain
+                {
+                    await CreateTemplateFileAsync(domainModel, "DomainCsproj.txt", domainDirectoryInfo, $"{domainDirectoryInfo.Name}.csproj");
+                }
+                #endregion
+                #region Enums
+                {
+                    await CreateTemplateFileAsync(domainModel, "EnumsCsproj.txt", enumsDirectoryInfo, $"{enumsDirectoryInfo.Name}.csproj");
+                }
+                #endregion
+                #region PresentationModel
+                {
+                    await CreateTemplateFileAsync(domainModel, "PresentationModelCsproj.txt", presentationModelDirectoryInfo, $"{presentationModelDirectoryInfo.Name}.csproj");
+                }
+                #endregion
+                #region Service
+                {
+                    await CreateTemplateFileAsync(domainModel, "ServiceCsproj.txt", serviceDirectoryInfo, $"{serviceDirectoryInfo.Name}.csproj");
+                }
+                #endregion
+                #region ServiceImpl
+                {
+                    await CreateTemplateFileAsync(domainModel, "ServiceServiceImplCsproj.txt", serviceImplDirectoryInfo, $"{serviceImplDirectoryInfo.Name}.csproj");
+                }
+                #endregion
+                #region SqlServerEFRepository
+                {
+                    await CreateTemplateFileAsync(domainModel, "SqlServerEFRepositoryCsproj.txt", sqlServerEFDirectoryInfo, $"{sqlServerEFDirectoryInfo.Name}.csproj");
+                    GetDirectoryInfo(sqlServerEFDirectoryInfo, "Migrations");
+                    #region 创建DbContext
+                    List<string> codes = new();
+                    foreach (string item in domainModels.Select(m => m.Namespace).Distinct())
                     {
-                        if (!string.IsNullOrWhiteSpace(nowNamespace))
-                        {
-                            codes.Add("        #endregion");
-                        }
-                        nowNamespace = item.Namespace;
-                        codes.Add($"        #region {item.Namespaces.Last()}");
+                        codes.Add($"using {item};");
                     }
-                    codes.Add("        /// <summary>");
-                    codes.Add($"        /// {item.Annotation}");
-                    codes.Add("        /// </summary>");
-                    codes.Add($"        public DbSet<{item.Name}> {item.Name}" + "{ get; set; }");
+                    codes.Add("using Microsoft.EntityFrameworkCore;");
+                    codes.Add("using System.Reflection;");
+                    codes.Add("");
+                    codes.Add($"namespace {domainModel.ProjectName}.SqlServerEFRepository");
+                    codes.Add("{");
+                    codes.Add("    /// <summary>");
+                    codes.Add($"    /// {domainModel.ProjectName}数据库上下文");
+                    codes.Add("    /// </summary>");
+                    codes.Add($"    public sealed class {domainModel.ProjectName}DbContext : DbContext");
+                    codes.Add("    {");
+                    codes.Add($"        public {domainModel.ProjectName}DbContext(DbContextOptions<{domainModel.ProjectName}DbContext> options) : base(options)");
+                    codes.Add("        {");
+                    codes.Add("        }");
+                    string nowNamespace = string.Empty;
+                    foreach (var item in domainModels)
+                    {
+                        if (nowNamespace != item.Namespace)
+                        {
+                            if (!string.IsNullOrWhiteSpace(nowNamespace))
+                            {
+                                codes.Add("        #endregion");
+                            }
+                            nowNamespace = item.Namespace;
+                            codes.Add($"        #region {item.Namespaces.Last()}");
+                        }
+                        codes.Add("        /// <summary>");
+                        codes.Add($"        /// {item.Annotation}");
+                        codes.Add("        /// </summary>");
+                        codes.Add($"        public DbSet<{item.Name}> {item.Name}" + "{ get; set; }");
+                    }
+                    codes.Add("        #endregion");
+                    codes.Add("        protected override void OnModelCreating(ModelBuilder modelBuilder)");
+                    codes.Add("        {");
+                    codes.Add("            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());");
+                    codes.Add("        }");
+                    codes.Add("    }");
+                    codes.Add("}");
+                    string templateContent = string.Join("\r\n", codes);
+                    await CreateContentFileAsync(templateContent, sqlServerEFDirectoryInfo, $"{domainModel.ProjectName}DbContext.cs");
+                    await CreateTemplateFileAsync(domainModel, "DbContextFactory.txt", sqlServerEFDirectoryInfo, $"{domainModel.ProjectName}DbContextFactory.cs");
+                    #endregion
+                    #region 创建工作单元
+                    await CreateTemplateFileAsync(domainModel, "IUnitOfWork.txt", sqlServerEFDirectoryInfo, $"I{domainModel.ProjectName}UnitOfWork.cs");
+                    await CreateTemplateFileAsync(domainModel, "UnitOfWorkImpl.txt", sqlServerEFDirectoryInfo, $"{domainModel.ProjectName}UnitOfWorkImpl.cs");
+                    #endregion
+                    #region 创建BaseRepositoryImpl
+                    await CreateTemplateFileAsync(domainModel, "BaseRepositoryImpl.txt", sqlServerEFDirectoryInfo, $"{domainModel.ProjectName}EFRepositoryImpl.cs");
+                    #endregion
                 }
-                codes.Add("        #endregion");
-                codes.Add("        protected override void OnModelCreating(ModelBuilder modelBuilder)");
-                codes.Add("        {");
-                codes.Add("            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());");
-                codes.Add("        }");
-                codes.Add("    }");
-                codes.Add("}");
-                string templateContent = string.Join("\r\n", codes);
-                await CreateContentFileAsync(templateContent, sqlServerEFDirectoryInfo, $"{domainModel.ProjectName}DbContext.cs");
-                await CreateTemplateFileAsync(domainModel, "DbContextFactory.txt", sqlServerEFDirectoryInfo, $"{domainModel.ProjectName}DbContextFactory.cs");
                 #endregion
-                #region 创建工作单元
-                await CreateTemplateFileAsync(domainModel, "IUnitOfWork.txt", sqlServerEFDirectoryInfo, $"I{domainModel.ProjectName}UnitOfWork.cs");
-                await CreateTemplateFileAsync(domainModel, "UnitOfWorkImpl.txt", sqlServerEFDirectoryInfo, $"{domainModel.ProjectName}UnitOfWorkImpl.cs");
-                #endregion
-                #region 创建BaseRepositoryImpl
-                await CreateTemplateFileAsync(domainModel, "BaseRepositoryImpl.txt", sqlServerEFDirectoryInfo, $"{domainModel.ProjectName}EFRepositoryImpl.cs");
-                #endregion
-            }
-            #endregion
-            #region WebAPI
-            {
-                if (_projectConfig.EnableWebAPI)
+                #region WebAPI
                 {
-                    await CreateTemplateFileAsync(domainModel, "WebAPIDIExtension.txt", webAPIDirectoryInfo, $"{domainModel.ProjectName}WebAPIDIExtension.cs");
-                    DirectoryInfo controllersDirectoryInfo = GetDirectoryInfo(webAPIDirectoryInfo, "Controllers");
-                    await CreateTemplateFileAsync(domainModel, "HealthController.txt", controllersDirectoryInfo, "HealthController.cs");
-                    await CreateTemplateFileAsync(domainModel, "WebAPIControllerBase.txt", controllersDirectoryInfo, "WebAPIControllerBase.cs");
+                    if (_projectConfig.EnableWebAPI)
+                    {
+                        await CreateTemplateFileAsync(domainModel, "WebAPIDIExtension.txt", webAPIDirectoryInfo, $"{domainModel.ProjectName}WebAPIDIExtension.cs");
+                        DirectoryInfo controllersDirectoryInfo = GetDirectoryInfo(webAPIDirectoryInfo, "Controllers");
+                        await CreateTemplateFileAsync(domainModel, "HealthController.txt", controllersDirectoryInfo, "HealthController.cs");
+                        await CreateTemplateFileAsync(domainModel, "WebAPIControllerBase.txt", controllersDirectoryInfo, "WebAPIControllerBase.cs");
+                    }
                 }
+                #endregion
             }
-            #endregion
             foreach (DomainModel item in domainModels)
             {
                 await CreateDataTransmitModelFile(item, dataTransmitModelDirectoryInfo);

@@ -16,6 +16,7 @@
     <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
     <PackageReference Include="Materal.Model" Version="1.0.9" />
     <PackageReference Include="Materal.NetworkHelper" Version="1.1.7" />
+    <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

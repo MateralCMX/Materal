@@ -79,6 +79,7 @@ namespace Materal.APP.WebAPICore
             app.UseAuthentication();
             app.UseAuthorization();
             ConfigureCors(app);
+            ConfigureResponseCompression(app);
             if (ApplicationConfig.EnableSwagger)
             {
                 ConfigureSwagger(app);
@@ -121,6 +122,14 @@ namespace Materal.APP.WebAPICore
         protected virtual void ConfigureResponseCompressionServices(IServiceCollection services)
         {
             services.AddResponseCompression();
+        }
+        /// <summary>
+        /// 配置响应压缩
+        /// </summary>
+        /// <param name="services"></param>
+        protected virtual void ConfigureResponseCompression(IApplicationBuilder app)
+        {
+            app.UseResponseCompression();
         }
         #endregion
         #region 鉴权

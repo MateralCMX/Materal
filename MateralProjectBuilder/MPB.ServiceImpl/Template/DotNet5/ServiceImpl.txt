@@ -63,8 +63,8 @@ namespace ${ProjectName}.ServiceImpl
 
         public async Task<(List<${Name}ListDTO> result, PageModel pageModel)> Get${Name}ListAsync(Query${Name}FilterModel filterModel)
         {
-            (List<${Name}> actionAuthoritiesFromDB, PageModel pageModel) = await _${name}Repository.PagingAsync(filterModel);
-            return (_mapper.Map<List<${Name}ListDTO>>(actionAuthoritiesFromDB), pageModel);
+            (List<${Name}> ${name}sFromDB, PageModel pageModel) = await _${name}Repository.PagingAsync(filterModel);
+            return (_mapper.Map<List<${Name}ListDTO>>(${name}sFromDB), pageModel);
         }
     }
 }
