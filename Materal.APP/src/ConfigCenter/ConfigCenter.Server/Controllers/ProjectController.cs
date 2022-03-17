@@ -61,8 +61,6 @@ namespace ConfigCenter.Server.Controllers
         [HttpDelete]
         public async Task<ResultModel> DeleteProjectAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
-            //todo:删除所有环境的该项目配置
-            //await _configCenterHubContext.Clients.All.DeleteProject(id);
             await _projectService.DeleteProjectAsync(id);
             return ResultModel.Success("删除成功");
         }

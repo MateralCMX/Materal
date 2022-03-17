@@ -95,7 +95,7 @@ namespace Materal.APP.WebAPICore
                 Check = new AgentServiceCheck
                 {
                     DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
-                    HTTP = $"{ApplicationConfig.BaseUrlConfig.Url}/api/Health",
+                    HTTP = $"{ApplicationConfig.ExternalUrl}/api/Health",
                     Interval = TimeSpan.FromSeconds(10),
                     Timeout = TimeSpan.FromSeconds(5),
                 }

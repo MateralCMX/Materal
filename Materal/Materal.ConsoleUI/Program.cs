@@ -1,6 +1,8 @@
 ﻿using Materal.V8ScriptEngine;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Web;
 
 namespace Materal.ConsoleUI
 {
@@ -8,18 +10,14 @@ namespace Materal.ConsoleUI
     {
         public static void Main()
         {
-            string[] libsPath = {
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory ?? "", "turf.min.js")
+            var url = "https://api.weixin.qq.com/sns/jscode2session";
+            var data = new Dictionary<string, string>
+            {
+                {"appid", "wx5752ec798fd5fe95"},
+                {"secret", "5e04a5c6146f07bca0b4f5b572563bb2"},
+                {"grant_type", "authorization_code"},
+                {"js_code", HttpUtility.UrlDecode("%22%20union%20select%201%2C2--%20")},
             };
-
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory ?? string.Empty, "TestJs.js");
-            var jsCode = $@"
-var a = Handler([[[125, -15], [113, -22], [154, -27], [144, -15], [125, -15]]]);
-";
-
-            var engineHelper = new V8ScriptEngineHelper(libsPath);
-            var value = engineHelper.HandlerByFile<double>(filePath, jsCode, "a");
-            Console.WriteLine(value);
         }
     }
 }

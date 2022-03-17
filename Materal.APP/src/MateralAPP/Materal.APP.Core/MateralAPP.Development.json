@@ -3,5 +3,6 @@
   "NLog": {
     "MinLogLevel": "Trace"
   },
-  "ShowException": true
+  "ShowException": true,
+  "ExternalUrl": null
 }

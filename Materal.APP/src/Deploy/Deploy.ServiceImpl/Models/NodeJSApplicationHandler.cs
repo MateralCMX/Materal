@@ -1,11 +1,11 @@
 ﻿using Deploy.Common;
 using Deploy.Enums;
+using Materal.StringHelper;
 using Materal.WindowsHelper;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Materal.StringHelper;
 
 namespace Deploy.ServiceImpl.Models
 {
@@ -37,8 +37,17 @@ namespace Deploy.ServiceImpl.Models
                         ConsoleMessage.Add($"已获取NodePath为{_nodePath}");
                         Console.WriteLine(e.Data);
                         string startArgs = GetStartArgs(applicationRuntime, _nodePath);
-                        if (HasHazardParams(applicationRuntime.MainModule)) throw new DeployException("参数包含危险参数");
-                        BindProcess.StandardInput.WriteLine($"{applicationRuntime.MainModule} install && node.exe {startArgs}");
+                        var trueMainModule = ReplaceCommand(applicationRuntime.MainModule, applicationRuntime);
+                        if (HasHazardParams(trueMainModule))
+                        {
+                            BindProcess.StandardInput.WriteLine($"启动失败,包含危险参数");
+                            StopApplication(applicationRuntime);
+                            return;
+                        }
+                        else
+                        {
+                            BindProcess.StandardInput.WriteLine($"{trueMainModule} install && node.exe {startArgs}");
+                        }
                     }
                     else
                     {
@@ -148,8 +157,8 @@ namespace Deploy.ServiceImpl.Models
         private bool HasHazardParams(string command)
         {
             Func<string, bool>[] funcs = {
-                m => m.IndexOf("&", StringComparison.Ordinal) >= 0,
-                m => m.IndexOf("|", StringComparison.Ordinal) >= 0,
+                m => m.Contains("&"),
+                m => m.Contains("|"),
             };
             return funcs.Any(func => func.Invoke(command));
         }
