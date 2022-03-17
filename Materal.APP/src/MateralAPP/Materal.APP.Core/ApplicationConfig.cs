@@ -45,18 +45,11 @@ namespace Materal.APP.Core
         /// 授权配置
         /// </summary>
         public static JWTConfigModel JWTConfig => _jwtConfig ??= new JWTConfigModel();
+        private static ExternalUrlConfigModel _externalUrlConfig;
         /// <summary>
         /// 外部Url
         /// </summary>
-        public static string ExternalUrl
-        {
-            get
-            {
-                var result = Config.GetSection(nameof(ExternalUrl)).Value;
-                if (string.IsNullOrWhiteSpace(result)) return BaseUrlConfig.Url;
-                return result;
-            }
-        }
+        public static ExternalUrlConfigModel ExternalUrlConfig => _externalUrlConfig ??= new ExternalUrlConfigModel();
 
         /// <summary>
         /// 初始化配置

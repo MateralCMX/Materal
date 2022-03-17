@@ -89,13 +89,13 @@ namespace Materal.APP.WebAPICore
             {
                 ID = _id.ToString(),
                 Name = serviceName,
-                Address = ApplicationConfig.BaseUrlConfig.Host,
-                Port = ApplicationConfig.BaseUrlConfig.Port,
+                Address = ApplicationConfig.ExternalUrlConfig.Host,
+                Port = ApplicationConfig.ExternalUrlConfig.Port,
                 Tags = tagsValue.ToArray(),
                 Check = new AgentServiceCheck
                 {
                     DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
-                    HTTP = $"{ApplicationConfig.ExternalUrl}/api/Health",
+                    HTTP = $"{ApplicationConfig.ExternalUrlConfig.Url}/api/Health",
                     Interval = TimeSpan.FromSeconds(10),
                     Timeout = TimeSpan.FromSeconds(5),
                 }
