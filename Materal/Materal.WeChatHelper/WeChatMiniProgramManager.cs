@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using LitJson;
 using Materal.NetworkHelper;
 using Materal.WeChatHelper.Model;
+using Materal.WeChatHelper.Model.Basis.Request;
+using Materal.WeChatHelper.Model.Basis.Result;
 
 namespace Materal.WeChatHelper
 {
@@ -28,40 +32,93 @@ namespace Materal.WeChatHelper
         /// </summary>
         /// <param name="code">Code</param>
         /// <returns>OpenID</returns>
-        public string GetOpenIDByCode(string code)
+        public async Task<string> GetOpenIDByCodeAsync(string code)
         {
-            var data = new Dictionary<string, string>
+            var queryParams = new Dictionary<string, string>
             {
                 {"appid", Config.APPID},
                 {"secret", Config.APPSECRET},
                 {"grant_type", "authorization_code"},
                 {"js_code", code},
             };
-            string result = HttpManager.SendGet($"{Config.WeChatAPIUrl}sns/jscode2session", data);
-            JsonData jsonData = JsonMapper.ToObject(result);
-            if (!jsonData.ContainsKey("openid") || jsonData["openid"] == null) throw new WeChatException(result);
-            var openID = (string)jsonData["openid"];
+            string httpResult = await HttpManager.SendGetAsync($"{Config.WeChatAPIUrl}sns/jscode2session", queryParams);
+            JsonData jsonData = HandlerHttpResult(httpResult);
+            string openID = jsonData.GetString("openid") ?? throw GetWeChatException(jsonData);
             return openID;
         }
         /// <summary>
-        /// 根据Code获得OpenID
+        /// 获得AccessToken
         /// </summary>
-        /// <param name="code">Code</param>
-        /// <returns>OpenID</returns>
-        public async Task<string> GetOpenIDByCodeAsync(string code)
+        /// <returns></returns>
+        /// <exception cref="WeChatException"></exception>
+        public async Task<AccessTokenResultModel> GetAccessTokenAsync()
         {
-            var data = new Dictionary<string, string>
+            var queryParams = new Dictionary<string, string>
             {
+                {"grant_type", "client_credential"},
                 {"appid", Config.APPID},
-                {"secret", Config.APPSECRET},
-                {"grant_type", "authorization_code"},
-                {"js_code", code},
+                {"secret", Config.APPSECRET}
             };
-            string result = await HttpManager.SendGetAsync($"{Config.WeChatAPIUrl}sns/jscode2session", data);
-            JsonData jsonData = JsonMapper.ToObject(result);
-            if (!jsonData.ContainsKey("openid") || jsonData["openid"] == null) throw new WeChatException(result);
-            var openID = (string)jsonData["openid"];
-            return openID;
+            string httpResult = await HttpManager.SendGetAsync($"{Config.WeChatAPIUrl}cgi-bin/token", queryParams);
+            JsonData jsonData = HandlerHttpResult(httpResult);
+            var result = new AccessTokenResultModel
+            {
+                AccessToken = jsonData.GetString("access_token") ?? throw GetWeChatException(jsonData),
+                ExpiresIn = jsonData.GetInt("expires_in") ?? throw GetWeChatException(jsonData),
+            };
+            return result;
+        }
+        /// <summary>
+        /// 获得AccessToken
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="WeChatException"></exception>
+        public async Task SubscribeMessageSendAsync(SubscribeMessageSendRequestModel requestModel)
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                {"access_token", requestModel.AccessToken}
+            };
+            var data = new
+            {
+                touser = requestModel.OpenID,
+                template_id = requestModel.TemplateID,
+                page = requestModel.GoToPage,
+                data = new Dictionary<string, object>(),
+                miniprogram_state = requestModel.MiniprogramState,
+                lang = requestModel.Language
+            };
+            foreach (var item in requestModel.TemplateData)
+            {
+                data.data.Add(item.Key, new { value = item.Value });
+            }
+            string result = await HttpManager.SendPostAsync($"{Config.WeChatAPIUrl}cgi-bin/message/subscribe/send", data, queryParams);
+            HandlerHttpResult(result);
+        }
+        /// <summary>
+        /// 处理Http结果
+        /// </summary>
+        /// <param name="httpResult"></param>
+        /// <returns></returns>
+        /// <exception cref="WeChatException"></exception>
+        private JsonData HandlerHttpResult(string httpResult)
+        {
+            JsonData jsonData = JsonMapper.ToObject(httpResult);
+            int? errcode = jsonData.GetInt("errcode");
+            if (!errcode.HasValue) return jsonData;
+            if (errcode.HasValue && errcode.Value == 0) return jsonData;
+            throw GetWeChatException(jsonData);
+        }
+        /// <summary>
+        /// 获得微信异常
+        /// </summary>
+        /// <param name="jsonData"></param>
+        /// <returns></returns>
+        private WeChatException GetWeChatException(JsonData jsonData)
+        {
+            int? errcode = jsonData.GetInt("errcode");
+            string message = jsonData.GetString("errmsg");
+            return new WeChatException(message, errcode.ToString());
         }
     }
 }
