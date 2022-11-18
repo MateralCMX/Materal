@@ -1,0 +1,695 @@
+﻿// 20221118152423
+// http://localhost:5000/swagger/v1/swagger.json
+
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "Demo-Dev.WebAPI",
+		"description": "提供WebAPI接口",
+		"contact": {
+			"name": "Materal",
+			"email": "cloomcmx1554@hotmail.com"
+		},
+		"version": "v1"
+	},
+	"paths": {
+		"/api/User/Test": {
+			"get": {
+				"tags": [
+					"User"
+				],
+				"summary": "测试",
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							},
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							},
+							"text/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/User/Test2": {
+			"post": {
+				"tags": [
+					"User"
+				],
+				"summary": "测试",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TestModel"
+							}
+						},
+						"text/json": {
+							"schema": {
+								"$ref": "#/components/schemas/TestModel"
+							}
+						},
+						"application/*+json": {
+							"schema": {
+								"$ref": "#/components/schemas/TestModel"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							},
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							},
+							"text/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/User/Add": {
+			"post": {
+				"tags": [
+					"User"
+				],
+				"summary": "添加",
+				"requestBody": {
+					"description": "",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddUserRequestModel"
+							}
+						},
+						"text/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddUserRequestModel"
+							}
+						},
+						"application/*+json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddUserRequestModel"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"$ref": "#/components/schemas/GuidResultModel"
+								}
+							},
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GuidResultModel"
+								}
+							},
+							"text/json": {
+								"schema": {
+									"$ref": "#/components/schemas/GuidResultModel"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/User/Edit": {
+			"put": {
+				"tags": [
+					"User"
+				],
+				"summary": "修改",
+				"requestBody": {
+					"description": "",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EditUserRequestModel"
+							}
+						},
+						"text/json": {
+							"schema": {
+								"$ref": "#/components/schemas/EditUserRequestModel"
+							}
+						},
+						"application/*+json": {
+							"schema": {
+								"$ref": "#/components/schemas/EditUserRequestModel"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							},
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							},
+							"text/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/User/Delete": {
+			"delete": {
+				"tags": [
+					"User"
+				],
+				"summary": "删除",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"description": "",
+						"schema": {
+							"type": "string",
+							"format": "uuid"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							},
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							},
+							"text/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResultModel"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/User/GetInfo": {
+			"get": {
+				"tags": [
+					"User"
+				],
+				"summary": "获得信息",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "query",
+						"description": "",
+						"schema": {
+							"type": "string",
+							"format": "uuid"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"$ref": "#/components/schemas/UserDTOResultModel"
+								}
+							},
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserDTOResultModel"
+								}
+							},
+							"text/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserDTOResultModel"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/User/GetList": {
+			"post": {
+				"tags": [
+					"User"
+				],
+				"summary": "获得列表",
+				"requestBody": {
+					"description": "",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/QueryUserRequestModel"
+							}
+						},
+						"text/json": {
+							"schema": {
+								"$ref": "#/components/schemas/QueryUserRequestModel"
+							}
+						},
+						"application/*+json": {
+							"schema": {
+								"$ref": "#/components/schemas/QueryUserRequestModel"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"text/plain": {
+								"schema": {
+									"$ref": "#/components/schemas/UserListDTOPageResultModel"
+								}
+							},
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserListDTOPageResultModel"
+								}
+							},
+							"text/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserListDTOPageResultModel"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"AddUserRequestModel": {
+				"required": [
+					"Account",
+					"Name",
+					"Sex"
+				],
+				"type": "object",
+				"properties": {
+					"Name": {
+						"maxLength": 100,
+						"minLength": 0,
+						"type": "string",
+						"description": "姓名"
+					},
+					"Account": {
+						"maxLength": 100,
+						"minLength": 0,
+						"type": "string",
+						"description": "账号"
+					},
+					"Sex": {
+						"$ref": "#/components/schemas/SexEnum"
+					}
+				},
+				"additionalProperties": false,
+				"description": "用户添加请求模型"
+			},
+			"EditUserRequestModel": {
+				"required": [
+					"Account",
+					"ID",
+					"Name",
+					"Sex"
+				],
+				"type": "object",
+				"properties": {
+					"Name": {
+						"maxLength": 100,
+						"minLength": 0,
+						"type": "string",
+						"description": "姓名"
+					},
+					"Account": {
+						"maxLength": 100,
+						"minLength": 0,
+						"type": "string",
+						"description": "账号"
+					},
+					"Sex": {
+						"$ref": "#/components/schemas/SexEnum"
+					},
+					"ID": {
+						"type": "string",
+						"description": "唯一标识",
+						"format": "uuid"
+					}
+				},
+				"additionalProperties": false,
+				"description": "用户修改请求模型"
+			},
+			"GuidResultModel": {
+				"type": "object",
+				"properties": {
+					"Message": {
+						"type": "string",
+						"nullable": true
+					},
+					"ResultType": {
+						"$ref": "#/components/schemas/ResultTypeEnum"
+					},
+					"Data": {
+						"type": "string",
+						"format": "uuid"
+					}
+				},
+				"additionalProperties": false
+			},
+			"PageModel": {
+				"type": "object",
+				"properties": {
+					"PageIndex": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"PageSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"Skip": {
+						"type": "integer",
+						"format": "int32",
+						"readOnly": true
+					},
+					"Take": {
+						"type": "integer",
+						"format": "int32",
+						"readOnly": true
+					},
+					"PageCount": {
+						"type": "integer",
+						"format": "int32",
+						"readOnly": true
+					},
+					"StartIndex": {
+						"type": "integer",
+						"format": "int32",
+						"readOnly": true
+					},
+					"DataCount": {
+						"type": "integer",
+						"format": "int32"
+					}
+				},
+				"additionalProperties": false
+			},
+			"QueryUserRequestModel": {
+				"type": "object",
+				"properties": {
+					"PageIndex": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"PageSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"Skip": {
+						"type": "integer",
+						"format": "int32",
+						"readOnly": true
+					},
+					"Take": {
+						"type": "integer",
+						"format": "int32",
+						"readOnly": true
+					},
+					"Name": {
+						"type": "string",
+						"description": "姓名",
+						"nullable": true
+					},
+					"Account": {
+						"type": "string",
+						"description": "账号",
+						"nullable": true
+					},
+					"Sex": {
+						"$ref": "#/components/schemas/SexEnum"
+					}
+				},
+				"additionalProperties": false,
+				"description": "用户查询请求模型"
+			},
+			"ResultModel": {
+				"type": "object",
+				"properties": {
+					"Message": {
+						"type": "string",
+						"nullable": true
+					},
+					"ResultType": {
+						"$ref": "#/components/schemas/ResultTypeEnum"
+					}
+				},
+				"additionalProperties": false
+			},
+			"ResultTypeEnum": {
+				"enum": [
+					0,
+					1
+				],
+				"type": "integer",
+				"format": "int32"
+			},
+			"SexEnum": {
+				"enum": [
+					0,
+					1
+				],
+				"type": "integer",
+				"description": "性别",
+				"format": "int32"
+			},
+			"TestModel": {
+				"type": "object",
+				"properties": {
+					"A1": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"A2": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"A3": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"A4": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"A5": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"A6": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"A7": {
+						"type": "number",
+						"format": "float"
+					},
+					"A8": {
+						"type": "number",
+						"format": "double"
+					},
+					"A9": {
+						"type": "number",
+						"format": "double"
+					},
+					"A10": {
+						"type": "string",
+						"format": "uuid"
+					},
+					"A11": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"A12": {
+						"type": "string",
+						"nullable": true
+					},
+					"A13": {
+						"type": "array",
+						"items": {
+							"type": "integer",
+							"format": "int32"
+						},
+						"nullable": true
+					},
+					"A14": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"nullable": true
+					},
+					"A15": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/TestModel"
+						},
+						"nullable": true
+					}
+				},
+				"additionalProperties": false
+			},
+			"UserDTO": {
+				"type": "object",
+				"properties": {
+					"ID": {
+						"type": "string",
+						"description": "唯一标识",
+						"format": "uuid"
+					},
+					"Name": {
+						"type": "string",
+						"description": "姓名",
+						"nullable": true
+					},
+					"Account": {
+						"type": "string",
+						"description": "账号",
+						"nullable": true
+					},
+					"Sex": {
+						"$ref": "#/components/schemas/SexEnum"
+					}
+				},
+				"additionalProperties": false,
+				"description": "用户数据传输模型"
+			},
+			"UserDTOResultModel": {
+				"type": "object",
+				"properties": {
+					"Message": {
+						"type": "string",
+						"nullable": true
+					},
+					"ResultType": {
+						"$ref": "#/components/schemas/ResultTypeEnum"
+					},
+					"Data": {
+						"$ref": "#/components/schemas/UserDTO"
+					}
+				},
+				"additionalProperties": false
+			},
+			"UserListDTO": {
+				"type": "object",
+				"properties": {
+					"ID": {
+						"type": "string",
+						"description": "唯一标识",
+						"format": "uuid"
+					},
+					"Name": {
+						"type": "string",
+						"description": "姓名",
+						"nullable": true
+					},
+					"Account": {
+						"type": "string",
+						"description": "账号",
+						"nullable": true
+					},
+					"Sex": {
+						"$ref": "#/components/schemas/SexEnum"
+					}
+				},
+				"additionalProperties": false,
+				"description": "用户列表数据传输模型"
+			},
+			"UserListDTOPageResultModel": {
+				"type": "object",
+				"properties": {
+					"Message": {
+						"type": "string",
+						"nullable": true
+					},
+					"ResultType": {
+						"$ref": "#/components/schemas/ResultTypeEnum"
+					},
+					"Data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/UserListDTO"
+						},
+						"nullable": true
+					},
+					"PageModel": {
+						"$ref": "#/components/schemas/PageModel"
+					}
+				},
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"Bearer": {
+				"type": "apiKey",
+				"description": "在请求头部加入JWT授权。例子:Authorization:Bearer {token}",
+				"name": "Authorization",
+				"in": "header"
+			}
+		}
+	},
+	"security": [
+		{
+			"Bearer": [
+
+			]
+		}
+	]
+}
