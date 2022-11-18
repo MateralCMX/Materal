@@ -4,14 +4,16 @@ namespace Materal.HttpGenerator.ConsoleDemo
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
             IGeneratorBuild generator = new GeneratorBuildImpl();
-            string jsonContentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "JsonContent.json");
-            string jsonContent = await File.ReadAllTextAsync(jsonContentPath);
-            //await generator.SetSourceAsync("http://175.27.254.187:8800/swagger/v1/swagger.json");
-            await generator.SetSourceAsync(jsonContent);
-            generator.ProjectName = "Test";
+            Console.WriteLine("请输入SwaggerJson地址");
+            string? path = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(path)) return;
+            Console.WriteLine("请输入项目名称");
+            generator.ProjectName = Console.ReadLine() ?? "Test";
+            //generator.ProjectName = "Educational";
+            //await generator.SetSourceAsync("https://oaapi.xmjriyu.com/swagger/v1/swagger.json");
             await generator.BuildAsync();
         }
     }

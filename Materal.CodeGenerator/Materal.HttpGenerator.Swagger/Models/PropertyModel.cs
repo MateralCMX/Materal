@@ -24,7 +24,7 @@ namespace Materal.HttpGenerator.Swagger.Models
         {
             get
             {
-                string result = Format == null ? Type : GetCSharpType(Type, Format, Nullable);
+                string result = GetCSharpType(Type, Format, Nullable);
                 if (result == "array")
                 {
                     if (ItemType == null) throw new MateralException("未找到类型");
@@ -53,7 +53,7 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// 子集类型
         /// </summary>
         public string? ItemType { get; set; }
-        public static string GetCSharpType(string type, string format, bool isNull = false)
+        public static string GetCSharpType(string type, string? format, bool isNull = false)
         {
             string result = type;
             if (result == "integer")
@@ -74,7 +74,7 @@ namespace Materal.HttpGenerator.Swagger.Models
                 result = format switch
                 {
                     "float" => "int",
-                    "double" => "double",
+                    "double" => "decimal",
                     _ => result
                 };
                 if (isNull)
@@ -90,6 +90,10 @@ namespace Materal.HttpGenerator.Swagger.Models
                     "date-time" => "DateTime",
                     _ => result
                 };
+            }
+            else if (result == "boolean")
+            {
+                result = "bool";
             }
             return result;
         }

@@ -13,10 +13,4 @@
     <ProjectReference Include="..\Materal.HttpGenerator\Materal.HttpGenerator.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="JsonContent.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

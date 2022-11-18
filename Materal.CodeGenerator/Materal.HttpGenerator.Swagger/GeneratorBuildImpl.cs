@@ -75,8 +75,12 @@ namespace Materal.HttpGenerator.Swagger
                         codeConent.AppendLine($"        /// </summary>");
                     }
                     string start = "        public async Task";
-                    string temp = $" {item.ActionName}Async";
-                    string paramsStr = $"(\"{item.ControllerName}/{item.ActionName}\"";
+                    string temp = $" {item.ActionName ?? "Index"}Async";
+                    string paramsStr = $"(\"{item.ControllerName}";
+                    if(!string.IsNullOrWhiteSpace(item.ActionName))
+                    {
+                        paramsStr += $"/{item.ActionName}\"";
+                    }
                     if (item.BodyParam != null && item.QueryParams != null)
                     {
                         temp += $"({item.BodyParam} data, ";
@@ -124,14 +128,21 @@ namespace Materal.HttpGenerator.Swagger
                         else if (item.Response.EndsWith("PageResultModel"))
                         {
                             int index = item.Response.LastIndexOf("PageResultModel");
-                            string type = item.Response.Substring(0, index);
+                            string type = HandlerType(item.Response.Substring(0, index));
                             start += $"<(List<{type}> data, PageModel pageInfo)>";
                             temp += $"await GetPageResultModelBy{item.HttpType}Async<{type}>";
+                        }
+                        else if (item.Response.EndsWith("ListResultModel"))
+                        {
+                            int index = item.Response.LastIndexOf("ListResultModel");
+                            string type = HandlerType(item.Response.Substring(0, index));
+                            start += $"<List<{type}>>";
+                            temp += $"await GetResultModelBy{item.HttpType}Async<List<{type}>>";
                         }
                         else if (item.Response.EndsWith("ResultModel"))
                         {
                             int index = item.Response.LastIndexOf("ResultModel");
-                            string type = item.Response.Substring(0, index);
+                            string type = HandlerType(item.Response.Substring(0, index));
                             start += $"<{type}>";
                             temp += $"await GetResultModelBy{item.HttpType}Async<{type}>";
                         }
@@ -143,6 +154,47 @@ namespace Materal.HttpGenerator.Swagger
                 codeConent.AppendLine($"}}");
                 WriteFile("", $"{path.Key}HttpClient.cs", codeConent.ToString());
             }
+        }
+        private string HandlerType(string type)
+        {
+            if(type == nameof(Decimal)) return "decimal";
+            else if (type == nameof(Double)) return "double";
+            else if (type == nameof(Single)) return "float";
+            else if (type == nameof(Int16)) return "short";
+            else if (type == nameof(Int32)) return "int";
+            else if (type == nameof(Int64)) return "long";
+            else if (type == nameof(String)) return "string";
+            else if (type == nameof(UInt16)) return "ushort";
+            else if (type == nameof(UInt32)) return "uint";    
+            else if (type == nameof(UInt64)) return "ulong";
+            else if (type.EndsWith("List"))
+            {
+                type = $"List<{type.Substring(0, type.Length - 4)}>";
+                return type;
+            }
+            else if (type.EndsWith("Dictionary"))
+            {
+                if (type.StartsWith(nameof(String)))
+                {
+                    type = HandlerType(type.Substring(0, type.Length - "Dictionary".Length).Substring(nameof(String).Length));
+                    var reslt = $"Dictionary<string, {type}>";
+                    return reslt;
+                }
+                else if (type.StartsWith(nameof(Int32)))
+                {
+                    type = HandlerType(type.Substring(0, type.Length - "Dictionary".Length).Substring(nameof(Int32).Length));
+                    var reslt = $"Dictionary<int, {type}>";
+                    return reslt;
+                }
+                else if (type.StartsWith(nameof(DateTime)))
+                {
+                    type = HandlerType(type.Substring(0, type.Length - "Dictionary".Length).Substring(nameof(DateTime).Length));
+                    var reslt = $"Dictionary<DateTime, {type}>";
+                    return reslt;
+                }
+                return type;
+            }
+            return type;
         }
         /// <summary>
         /// 创建模型文件

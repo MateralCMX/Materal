@@ -9,7 +9,7 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// <summary>
         /// 方法名称
         /// </summary>
-        public string? ActionName => Url?.Split('/')[3];
+        public string? ActionName => Url?.Split('/').LastOrDefault();
         /// <summary>
         /// 控制器名称
         /// </summary>

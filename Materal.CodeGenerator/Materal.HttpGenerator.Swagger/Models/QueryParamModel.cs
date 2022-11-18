@@ -27,7 +27,7 @@ namespace Materal.HttpGenerator.Swagger.Models
         {
             get
             {
-                string result = Format == null ? Type : PropertyModel.GetCSharpType(Type, Format, !Required);
+                string result = PropertyModel.GetCSharpType(Type, Format, !Required);
                 return result;
             }
         }
