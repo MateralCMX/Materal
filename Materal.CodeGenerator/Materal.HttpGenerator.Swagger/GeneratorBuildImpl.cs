@@ -4,6 +4,7 @@ using Materal.HttpGenerator.Swagger.Models;
 using Materal.NetworkHelper;
 using Materal.StringHelper;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 using System.Text;
 
 namespace Materal.HttpGenerator.Swagger
@@ -66,8 +67,10 @@ namespace Materal.HttpGenerator.Swagger
                 codeConent.AppendLine($"{{");
                 codeConent.AppendLine($"    public class {path.Key}HttpClient : HttpClientBase");
                 codeConent.AppendLine($"    {{");
+                int actionCount = 0;
                 foreach (PathModel item in path)
                 {
+                    if (string.IsNullOrWhiteSpace(item.ActionName) || item.ControllerName == item.ActionName) continue;
                     if (item.Description != null)
                     {
                         codeConent.AppendLine($"        /// <summary>");
@@ -75,12 +78,8 @@ namespace Materal.HttpGenerator.Swagger
                         codeConent.AppendLine($"        /// </summary>");
                     }
                     string start = "        public async Task";
-                    string temp = $" {item.ActionName ?? "Index"}Async";
-                    string paramsStr = $"(\"{item.ControllerName}";
-                    if(!string.IsNullOrWhiteSpace(item.ActionName))
-                    {
-                        paramsStr += $"/{item.ActionName}\"";
-                    }
+                    string temp = $" {item.ActionName}Async";
+                    string paramsStr = $"(\"{item.ControllerName}/{item.ActionName}\"";
                     if (item.BodyParam != null && item.QueryParams != null)
                     {
                         temp += $"({item.BodyParam} data, ";
@@ -149,10 +148,14 @@ namespace Materal.HttpGenerator.Swagger
                     }
                     temp = start + temp + paramsStr;
                     codeConent.AppendLine(temp);
+                    actionCount++;
                 }
                 codeConent.AppendLine($"    }}");
                 codeConent.AppendLine($"}}");
-                WriteFile("", $"{path.Key}HttpClient.cs", codeConent.ToString());
+                if(actionCount > 0)
+                {
+                    WriteFile("", $"{path.Key}HttpClient.cs", codeConent.ToString());
+                }
             }
         }
         private string HandlerType(string type)
@@ -246,20 +249,30 @@ namespace Materal.HttpGenerator.Swagger
                                 codeConent.AppendLine($"        /// </summary>");
                             }
                             string attributeContent = "";
-                            if (!property.Value.Nullable)
+                            string suffix = string.Empty;
+                            if(item.Value.Required?.Count > 0 && item.Value.Required.Contains(property.Key))
+                            {
+
+                            }
+                            if (!property.Value.Nullable || (item.Value.Required?.Count > 0 && item.Value.Required.Contains(property.Key)))
                             {
                                 attributeContent += "Required";
+                                suffix = property.Value.TrueType switch
+                                {
+                                    "string" => " = string.Empty;",
+                                    _ => string.Empty
+                                };
                             }
                             if (property.Value.MaxLength != null)
                             {
                                 if (!property.Value.Nullable)
                                 {
-                                    attributeContent += ",";
+                                    attributeContent += ", ";
                                 }
-                                attributeContent += " StringLength(100";
+                                attributeContent += "StringLength(100";
                                 if (property.Value.MinLength != null)
                                 {
-                                    attributeContent += " , MinimumLength = 0";
+                                    attributeContent += ", MinimumLength = 0";
                                 }
                                 attributeContent += ")";
                             }
@@ -267,7 +280,7 @@ namespace Materal.HttpGenerator.Swagger
                             {
                                 codeConent.AppendLine($"        [{attributeContent}]");
                             }
-                            codeConent.AppendLine($"        public {property.Value.TrueType} {property.Key} {{ get; set; }}");
+                            codeConent.AppendLine($"        public {property.Value.TrueType} {property.Key} {{ get; set; }}{suffix}");
                         }
                     }
                     codeConent.AppendLine($"    }}");

@@ -30,6 +30,10 @@ namespace Materal.HttpGenerator.Swagger.Models
                     if (ItemType == null) throw new MateralException("未找到类型");
                     result = $"List<{ItemType}>";
                 }
+                if (Nullable)
+                {
+                    result += "?";
+                }
                 return result;
             }
         }

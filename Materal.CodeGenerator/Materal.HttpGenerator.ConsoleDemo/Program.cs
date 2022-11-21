@@ -7,6 +7,10 @@ namespace Materal.HttpGenerator.ConsoleDemo
         public static async Task Main()
         {
             IGeneratorBuild generator = new GeneratorBuildImpl();
+#if DEBUG
+            generator.ProjectName = "Authority";
+            await generator.SetSourceAsync("http://175.27.254.187:18800/swagger/v1/swagger.json");
+#else
             Console.WriteLine("请输入SwaggerJson地址");
             string? path = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(path)) return;
@@ -14,12 +18,11 @@ namespace Materal.HttpGenerator.ConsoleDemo
             generator.ProjectName = Console.ReadLine() ?? "Test";
             Console.WriteLine("正在获取Swagger数据......");
             await generator.SetSourceAsync(path);
-            //generator.ProjectName = "Educational";
-            //await generator.SetSourceAsync("https://oaapi.xmjriyu.com/swagger/v1/swagger.json");
+#endif
             Console.WriteLine("开始构建......");
             await generator.BuildAsync();
             Console.WriteLine("构建完毕,按任意键退出。");
-            Console.Read();
+            Console.ReadKey();
         }
     }
 }
