@@ -1,17 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Materal.TTA.EFRepository
 {
     public abstract class EFUnitOfWorkImpl<T> : IEFUnitOfWork<T> where T: DbContext
     {
         private T _dbContext;
-        protected EFUnitOfWorkImpl(T context)
-        {
-            _dbContext = context;
-        }
+        protected EFUnitOfWorkImpl(T context) => _dbContext = context;
         public virtual void Dispose()
         {
             Dispose(true);
@@ -22,20 +16,10 @@ namespace Materal.TTA.EFRepository
             if (!disposing) return;
             if (_dbContext == null) return;
             _dbContext.Dispose();
-            _dbContext = null;
         }
-        public virtual void RegisterAdd<TEntity>(TEntity obj) where TEntity : class
-        {
-            _dbContext.Set<TEntity>().Add(obj);
-        }
-        public virtual void RegisterEdit<TEntity>(TEntity obj) where TEntity : class
-        {
-            _dbContext.Entry(obj).State = EntityState.Modified;
-        }
-        public virtual void RegisterDelete<TEntity>(TEntity obj) where TEntity : class
-        {
-            _dbContext.Entry(obj).State = EntityState.Deleted;
-        }
+        public virtual void RegisterAdd<TEntity>(TEntity obj) where TEntity : class => _dbContext.Set<TEntity>().Add(obj);
+        public virtual void RegisterEdit<TEntity>(TEntity obj) where TEntity : class => _dbContext.Entry(obj).State = EntityState.Modified;
+        public virtual void RegisterDelete<TEntity>(TEntity obj) where TEntity : class => _dbContext.Entry(obj).State = EntityState.Deleted;
         public void Commit()
         {
             try
@@ -46,7 +30,8 @@ namespace Materal.TTA.EFRepository
             {
                 ex.Entries.Single().Reload();
             }
-        } public virtual async Task CommitAsync()
+        }
+        public virtual async Task CommitAsync()
         {
             try
             {

@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Product>Materal.ThreeTierArchitecture</Product>
-    <Company>Materal</Company>
-    <Authors>Materal</Authors>
-    <Version>2.0.7</Version>
-    <Copyright>Materal</Copyright>
-    <Description>Materal.TTA.Common</Description>
-    <PackageReleaseNotes>1、升级依赖包</PackageReleaseNotes>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Materal.Common" Version="1.0.4" />
-    <PackageReference Include="Materal.Model" Version="1.0.9" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Product>Materal.ThreeTierArchitecture</Product>
+		<Company>Materal</Company>
+		<Authors>Materal</Authors>
+		<Version>2.0.8</Version>
+		<Copyright>Materal</Copyright>
+		<Description>Materal.TTA.Common</Description>
+		<PackageReleaseNotes>1、升级依赖包</PackageReleaseNotes>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.Common" Version="1.0.4" />
+		<PackageReference Include="Materal.Model" Version="1.0.9" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+	</ItemGroup>
 </Project>

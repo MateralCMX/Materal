@@ -1,6 +1,5 @@
 ﻿using Materal.TTA.Common;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 
 namespace Materal.TTA.MongoDBRepository
 {
@@ -11,6 +10,7 @@ namespace Materal.TTA.MongoDBRepository
     [Serializable]
     [BsonIgnoreExtraElements]
     public abstract class MongoEntity<TIdentifier> : IEntity<TIdentifier>
+        where TIdentifier: struct
     {
         /// <inheritdoc />
         /// <summary>

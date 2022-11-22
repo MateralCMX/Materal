@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Product>Materal.ThreeTierArchitecture</Product>
-    <Company>Materal</Company>
-    <Authors>Materal</Authors>
-    <Version>2.0.7</Version>
-    <Copyright>Materal</Copyright>
-    <Description>Materal.TTA.MySqlRepository</Description>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Product>Materal.ThreeTierArchitecture</Product>
+		<Company>Materal</Company>
+		<Authors>Materal</Authors>
+		<Version>2.0.8</Version>
+		<Copyright>Materal</Copyright>
+		<Description>Materal.TTA.MySqlRepository</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />
+	</ItemGroup>
 </Project>

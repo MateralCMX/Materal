@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.MySqlRepository
 {
-    public abstract class MySqlEFRepositoryImpl<T, TPrimaryKeyType>: EFRepositoryImpl<T,TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
+    public abstract class MySqlEFRepositoryImpl<T, TPrimaryKeyType>: EFRepositoryImpl<T,TPrimaryKeyType>
+        where T : class, IEntity<TPrimaryKeyType>, new()
+        where TPrimaryKeyType : struct
     {
         protected MySqlEFRepositoryImpl(DbContext dbContext) : base(dbContext)
         {

@@ -5,6 +5,7 @@
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IEntity<out T>
+        where T : struct
     {
         /// <summary>
         /// 唯一标识

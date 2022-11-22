@@ -1,14 +1,13 @@
 ﻿using Materal.Model;
 using Materal.TTA.Common;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Materal.TTA.EFRepository
 {
-    public interface IEFSubordinateRepository<T, in TPrimaryKeyType> : IEFRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
+    public interface IEFSubordinateRepository<T, in TPrimaryKeyType> : IEFRepository<T, TPrimaryKeyType>
+        where T : class, IEntity<TPrimaryKeyType>
+        where TPrimaryKeyType : struct
     {
         /// <summary>
         /// 是否存在
@@ -16,7 +15,6 @@ namespace Materal.TTA.EFRepository
         /// <param name="id">唯一标识</param>
         /// <returns></returns>
         bool ExistedFromSubordinate(TPrimaryKeyType id);
-
         /// <summary>
         /// 是否存在
         /// </summary>
@@ -29,7 +27,6 @@ namespace Materal.TTA.EFRepository
         /// <param name="expression">表达式</param>
         /// <returns></returns>
         bool ExistedFromSubordinate(Expression<Func<T, bool>> expression);
-
         /// <summary>
         /// 是否存在
         /// </summary>
@@ -42,35 +39,30 @@ namespace Materal.TTA.EFRepository
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
         bool ExistedFromSubordinate(FilterModel filterModel);
-
         /// <summary>
         /// 是否存在
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
         Task<bool> ExistedFromSubordinateAsync(FilterModel filterModel);
-
         /// <summary>
         /// 总数
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <returns></returns>
         int CountFromSubordinate(Expression<Func<T, bool>> expression);
-
         /// <summary>
         /// 总数
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <returns></returns>
         Task<int> CountFromSubordinateAsync(Expression<Func<T, bool>> expression);
-
         /// <summary>
         /// 总数
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
         int CountFromSubordinate(FilterModel filterModel);
-
         /// <summary>
         /// 总数
         /// </summary>
@@ -166,37 +158,37 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        T FirstOrDefaultFromSubordinate(TPrimaryKeyType id);
+        T? FirstOrDefaultFromSubordinate(TPrimaryKeyType id);
         /// <summary>
         /// 检索
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<T> FirstOrDefaultFromSubordinateAsync(TPrimaryKeyType id);
+        Task<T?> FirstOrDefaultFromSubordinateAsync(TPrimaryKeyType id);
         /// <summary>
         /// 检索
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        T FirstOrDefaultFromSubordinate(FilterModel filterModel);
+        T? FirstOrDefaultFromSubordinate(FilterModel filterModel);
         /// <summary>
         /// 检索
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        Task<T> FirstOrDefaultFromSubordinateAsync(FilterModel filterModel);
+        Task<T?> FirstOrDefaultFromSubordinateAsync(FilterModel filterModel);
         /// <summary>
         /// 检索
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        T FirstOrDefaultFromSubordinate(Expression<Func<T, bool>> expression);
+        T? FirstOrDefaultFromSubordinate(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 检索
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        Task<T> FirstOrDefaultFromSubordinateAsync(Expression<Func<T, bool>> expression);
+        Task<T?> FirstOrDefaultFromSubordinateAsync(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 分页
         /// </summary>

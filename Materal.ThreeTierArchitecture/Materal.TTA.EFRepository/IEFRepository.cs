@@ -1,24 +1,20 @@
 ﻿using Materal.Model;
 using Materal.TTA.Common;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Materal.TTA.EFRepository
 {
-    public interface IEFRepository<T, in TPrimaryKeyType> : IRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
+    public interface IEFRepository<T, in TPrimaryKeyType> : IRepository<T, TPrimaryKeyType>
+        where T : class, IEntity<TPrimaryKeyType>
+        where TPrimaryKeyType : struct
     {
-
         /// <summary>
         /// 是否存在
         /// </summary>
         /// <param name="id">唯一标识</param>
         /// <returns></returns>
         Task<bool> ExistedAsync(TPrimaryKeyType id);
-
         /// <summary>
         /// 是否存在
         /// </summary>
@@ -31,14 +27,12 @@ namespace Materal.TTA.EFRepository
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
         Task<bool> ExistedAsync(FilterModel filterModel);
-
         /// <summary>
         /// 总数
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <returns></returns>
         Task<int> CountAsync(Expression<Func<T, bool>> expression);
-
         /// <summary>
         /// 总数
         /// </summary>
@@ -92,34 +86,19 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<T> FirstOrDefaultAsync(TPrimaryKeyType id);
+        Task<T?> FirstOrDefaultAsync(TPrimaryKeyType id);
         /// <summary>
         /// 检索
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        Task<T> FirstOrDefaultAsync(FilterModel filterModel);
+        Task<T?> FirstOrDefaultAsync(FilterModel filterModel);
         /// <summary>
         /// 检索
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
-        /// <summary>
-        /// 过滤
-        /// </summary>
-        /// <param name="expression"></param>
-        /// <returns></returns>
-        [Obsolete("请使用Where(expression).ToListAsync()")]
-        IQueryable<T> WhereAsync(Expression<Func<T, bool>> expression);
-
-        /// <summary>
-        /// 过滤
-        /// </summary>
-        /// <param name="filterModel">过滤器模型</param>
-        /// <returns></returns>
-        [Obsolete("请使用Where(expression).ToListAsync()")]
-        IQueryable<T> WhereAsync(FilterModel filterModel);
+        Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 分页
         /// </summary>

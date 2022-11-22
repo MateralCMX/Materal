@@ -5,15 +5,15 @@
         /// <summary>
         /// 文件路径
         /// </summary>
-        public string FilePath { get; set; }
+        public string FilePath { get; set; } = string.Empty;
         /// <summary>
         /// 密码
         /// </summary>
-        public string Password { get; set; }
+        public string? Password { get; set; }
         /// <summary>
         /// 版本
         /// </summary>
-        public string Version { get; set; }
+        public string Version { get; set; } = "3";
 
         /// <summary>
         /// 链接字符串

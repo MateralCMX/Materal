@@ -1,24 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Product>Materal.ThreeTierArchitecture</Product>
-    <Company>Materal</Company>
-    <Authors>Materal</Authors>
-    <Version>2.0.7</Version>
-    <Copyright>Materal</Copyright>
-    <Description>Materal.TTA.EFRepository</Description>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
-    <PackageReference Include="Materal.RedisHelper" Version="1.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Product>Materal.ThreeTierArchitecture</Product>
+		<Company>Materal</Company>
+		<Authors>Materal</Authors>
+		<Version>2.0.8</Version>
+		<Copyright>Materal</Copyright>
+		<Description>Materal.TTA.EFRepository</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.CacheHelper" Version="1.0.3" />
+		<PackageReference Include="Materal.RedisHelper" Version="1.0.4" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />
+	</ItemGroup>
 </Project>

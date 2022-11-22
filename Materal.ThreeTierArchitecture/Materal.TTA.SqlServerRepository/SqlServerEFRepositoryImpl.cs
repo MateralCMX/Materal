@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.SqlServerRepository
 {
-    public abstract class SqlServerEFRepositoryImpl<T, TPrimaryKeyType>: EFRepositoryImpl<T,TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>
+    public abstract class SqlServerEFRepositoryImpl<T, TPrimaryKeyType>: EFRepositoryImpl<T,TPrimaryKeyType>
+        where T : class, IEntity<TPrimaryKeyType>
+        where TPrimaryKeyType : struct
     {
         protected SqlServerEFRepositoryImpl(DbContext dbContext) : base(dbContext)
         {

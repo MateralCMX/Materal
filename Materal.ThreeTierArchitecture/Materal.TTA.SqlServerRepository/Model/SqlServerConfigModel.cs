@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Materal.TTA.SqlServerRepository.Model
+﻿namespace Materal.TTA.SqlServerRepository.Model
 {
     /// <summary>
     /// 数据库配置模型
@@ -10,6 +8,6 @@ namespace Materal.TTA.SqlServerRepository.Model
         /// <summary>
         /// 从属数据库配置组
         /// </summary>
-        public IEnumerable<SqlServerSubordinateConfigModel> SubordinateConfigs { get; set; }
+        public IEnumerable<SqlServerSubordinateConfigModel>? SubordinateConfigs { get; set; }
     }
 }

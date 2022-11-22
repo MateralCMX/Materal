@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Materal.TTA.Common
+﻿namespace Materal.TTA.Common
 {
     public interface IUnitOfWork : IDisposable
     {

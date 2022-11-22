@@ -2,17 +2,16 @@
 using Materal.TTA.Common;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Materal.TTA.MongoDBRepository
 {
     /// <summary>
     /// MongoDB仓储
     /// </summary>
-    public interface IMongoDBRepository<T,in TPrimaryKeyType> : IRepository<T, TPrimaryKeyType> where T : class, IEntity<TPrimaryKeyType>, new()
+    public interface IMongoDBRepository<T,in TPrimaryKeyType> : IRepository<T, TPrimaryKeyType>
+        where T : class, IEntity<TPrimaryKeyType>, new()
+        where TPrimaryKeyType : struct
     {
         /// <summary>
         /// 选择集合

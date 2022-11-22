@@ -1,5 +1,4 @@
-﻿using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
+﻿using Materal.TTA.EFRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.MySqlRepository
