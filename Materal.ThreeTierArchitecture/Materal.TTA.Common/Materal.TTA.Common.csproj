@@ -14,8 +14,8 @@
 		<PackageReleaseNotes>1、升级依赖包</PackageReleaseNotes>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Common" Version="1.1.10" />
-		<PackageReference Include="Materal.Model" Version="1.1.10" />
+		<PackageReference Include="Materal.Common" Version="1.1.11" />
+		<PackageReference Include="Materal.Model" Version="1.1.11" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
 	</ItemGroup>
 </Project>
