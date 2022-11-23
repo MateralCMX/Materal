@@ -33,7 +33,7 @@ namespace Materal.ConfigurationHelper
                     PropertyInfo propertyInfo = modelType.GetProperty(children.Key);
                     if (propertyInfo != null && propertyInfo.CanWrite)
                     {
-                        propertyInfo.SetValue(tempModel, children.Value.ConvertTo(propertyInfo.PropertyType));
+                        propertyInfo.SetValue(tempModel, children.Value?.ConvertTo(propertyInfo.PropertyType));
                     }
                 }
                 result.Add(tempModel);

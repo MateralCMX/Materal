@@ -18,7 +18,7 @@ namespace Materal.NetworkHelper
         /// <summary>
         /// Http头
         /// </summary>
-        public Dictionary<string, string> Heads { get; }
+        public Dictionary<string, string>? Heads { get; }
 
         /// <summary>
         /// 
@@ -26,7 +26,7 @@ namespace Materal.NetworkHelper
         /// <param name="url"></param>
         /// <param name="httpStatusCode"></param>
         /// <param name="heads"></param>
-        public MateralHttpException(string url, HttpStatusCode httpStatusCode, Dictionary<string, string> heads = null)
+        public MateralHttpException(string url, HttpStatusCode httpStatusCode, Dictionary<string, string>? heads = null)
         {
             Url = url;
             StatusCode = httpStatusCode;
@@ -39,7 +39,7 @@ namespace Materal.NetworkHelper
         /// <param name="httpStatusCode"></param>
         /// <param name="message"></param>
         /// <param name="heads"></param>
-        public MateralHttpException(string url, HttpStatusCode httpStatusCode, string message, Dictionary<string, string> heads = null) : base(message)
+        public MateralHttpException(string url, HttpStatusCode httpStatusCode, string message, Dictionary<string, string>? heads = null) : base(message)
         {
             Url = url;
             StatusCode = httpStatusCode;
@@ -53,7 +53,7 @@ namespace Materal.NetworkHelper
         /// <param name="message"></param>
         /// <param name="innerException"></param>
         /// <param name="heads"></param>
-        public MateralHttpException(string url, HttpStatusCode httpStatusCode, string message, Exception innerException, Dictionary<string, string> heads = null) : base(message, innerException)
+        public MateralHttpException(string url, HttpStatusCode httpStatusCode, string message, Exception innerException, Dictionary<string, string>? heads = null) : base(message, innerException)
         {
             Url = url;
             StatusCode = httpStatusCode;
@@ -65,7 +65,7 @@ namespace Materal.NetworkHelper
         /// <returns></returns>
         public string GetMessage()
         {
-            string message = $"Http请求错误:\r\nStatusCode:{Convert.ToInt32(StatusCode)}({StatusCode.ToString()})\r\nUrl:{Url}\r\n";
+            string message = $"Http请求错误:\r\nStatusCode:{Convert.ToInt32(StatusCode)}({StatusCode})\r\nUrl:{Url}\r\n";
             if (Heads != null)
             {
                 message += $"Heads:{Heads.ToJson()}\r\n";

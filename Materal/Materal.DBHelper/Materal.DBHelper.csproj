@@ -1,25 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.3</Version>
-    <Authors>Materal</Authors>
-    <Product>Materal</Product>
-    <PackageReleaseNotes>https://github.com/MateralCMX/Materal
-1、更新依赖包</PackageReleaseNotes>
-    <Copyright>Materal</Copyright>
-    <Description>Materal数据库帮助类</Description>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="8.0.20" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.112.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<!--<Nullable>enable</Nullable>-->
+		<LangVersion>10.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.1.9</Version>
+		<Authors>Materal</Authors>
+		<Product>Materal</Product>
+		<Copyright>Materal</Copyright>
+		<Description>Materal数据库帮助类</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="MySql.Data" Version="8.0.31" />
+		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+		<PackageReference Include="System.Data.SQLite" Version="1.0.116" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
+	</ItemGroup>
 </Project>

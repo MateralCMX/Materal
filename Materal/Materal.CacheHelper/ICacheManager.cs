@@ -78,6 +78,19 @@ namespace Materal.CacheHelper
         /// <returns>值</returns>
         T Get<T>(string key);
         /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns></returns>
+        object? GetOrDefault(string key);
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">键</param>
+        /// <returns>值</returns>
+        T? GetOrDefault<T>(string key);
+        /// <summary>
         /// 移除缓存
         /// </summary>
         /// <param name="key"></param>
@@ -91,5 +104,11 @@ namespace Materal.CacheHelper
         /// </summary>
         /// <returns></returns>
         List<string> GetCacheKeys();
+        /// <summary>
+        /// 缓存键是否存在
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        bool KeyAny(string key);
     }
 }

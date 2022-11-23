@@ -1,7 +1,5 @@
 ﻿using Materal.RabbitMQHelper.Model;
 using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
 
 namespace Materal.RabbitMQHelper
 {
@@ -25,7 +23,7 @@ namespace Materal.RabbitMQHelper
         /// <param name="connectionNumber">链接数量</param>
         /// <param name="channelNumber">通道数量</param>
         /// <param name="channelAction">通道处理</param>
-        protected BaseRabbitMQHelper(IRabbitMQConfig config, int connectionNumber, int channelNumber, Action<IModel> channelAction = null)
+        protected BaseRabbitMQHelper(IRabbitMQConfig config, int connectionNumber, int channelNumber, Action<IModel>? channelAction = null)
         {
             MQConfig = config;
             Connections = new Dictionary<IConnection, List<IModel>>();

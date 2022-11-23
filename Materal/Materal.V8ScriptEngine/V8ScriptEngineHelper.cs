@@ -1,24 +1,15 @@
-﻿using Materal.ConvertHelper;
-using System;
-using System.IO;
-using System.Linq;
-using Materal.CacheHelper;
+﻿using Materal.CacheHelper;
 using Materal.Common;
+using Materal.ConvertHelper;
 
 namespace Materal.V8ScriptEngine
 {
     public class V8ScriptEngineHelper
     {
-        private static ICacheManager _cacheManager;
+        private readonly static ICacheManager _cacheManager = new MemoryCacheManager();
         private readonly string[] _libsPaths;
         public V8ScriptEngineHelper(params string[] libsPaths)
         {
-            _cacheManager ??= new MemoryCacheManager();
-            _libsPaths = libsPaths;
-        }
-        public V8ScriptEngineHelper(ICacheManager cacheManager, params string[] libsPaths)
-        {
-            _cacheManager = cacheManager;
             _libsPaths = libsPaths;
         }
         /// <summary>
@@ -28,13 +19,13 @@ namespace Materal.V8ScriptEngine
         /// <param name="code"></param>
         /// <param name="resultName"></param>
         /// <returns></returns>
-        public T HandlerByCode<T>(string code, string resultName = "result")
+        public T? HandlerByCode<T>(string code, string resultName = "result")
         {
             using Microsoft.ClearScript.V8.V8ScriptEngine engine = GetEngine();
             string cmd = _libsPaths.Aggregate(string.Empty, (current, libPath) => current + $"{GetFileContent(libPath)}\r\n");
             cmd += code;
             engine.Execute(cmd);
-            var result = ((object)engine.Script[resultName]).ToJson().JsonToDeserializeObject<T>();
+            T? result = ((object)engine.Script[resultName]).ToJson().JsonToDeserializeObject<T>();
             return result;
         }
         /// <summary>
@@ -45,7 +36,7 @@ namespace Materal.V8ScriptEngine
         /// <param name="runCode"></param>
         /// <param name="resultName"></param>
         /// <returns></returns>
-        public T HandlerByFile<T>(string filePath, string runCode, string resultName = "result")
+        public T? HandlerByFile<T>(string filePath, string runCode, string resultName = "result")
         {
             string[] filePaths = { filePath };
             return HandlerByFiles<T>(filePaths, runCode, resultName);
@@ -58,7 +49,7 @@ namespace Materal.V8ScriptEngine
         /// <param name="runCode"></param>
         /// <param name="resultName"></param>
         /// <returns></returns>
-        public T HandlerByFiles<T>(string[] filePaths, string runCode, string resultName = "result")
+        public T? HandlerByFiles<T>(string[] filePaths, string runCode, string resultName = "result")
         {
             string cmd = filePaths.Aggregate(string.Empty, (current, filePath) => current + $"{GetFileContent(filePath)}\r\n");
             cmd = $"{cmd}{runCode}";
@@ -68,7 +59,7 @@ namespace Materal.V8ScriptEngine
         /// 获得引擎
         /// </summary>
         /// <returns></returns>
-        private Microsoft.ClearScript.V8.V8ScriptEngine GetEngine()
+        private static Microsoft.ClearScript.V8.V8ScriptEngine GetEngine()
         {
             var result = new Microsoft.ClearScript.V8.V8ScriptEngine();
             result.AddHostType("Console", typeof(Console));
@@ -79,7 +70,7 @@ namespace Materal.V8ScriptEngine
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        private string GetFileContent(string filePath)
+        private static string GetFileContent(string filePath)
         {
             string result = _cacheManager.Get<string>(filePath);
             if (!string.IsNullOrWhiteSpace(result)) return result;

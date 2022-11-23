@@ -1,7 +1,5 @@
-﻿using System;
-using Materal.RabbitMQHelper.Model;
+﻿using Materal.RabbitMQHelper.Model;
 using RabbitMQ.Client;
-using System.Linq;
 
 namespace Materal.RabbitMQHelper
 {
@@ -15,7 +13,7 @@ namespace Materal.RabbitMQHelper
         /// <summary>
         /// 通道
         /// </summary>
-        private readonly IModel _channel;
+        private readonly IModel? _channel;
         /// <inheritdoc />
         /// <summary>
         /// 构造方法

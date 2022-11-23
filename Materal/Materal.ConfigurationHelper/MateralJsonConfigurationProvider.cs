@@ -1,8 +1,8 @@
-﻿using Materal.ConvertHelper;
+﻿using Materal.Common;
+using Materal.ConvertHelper;
 using Materal.FileHelper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
-using System.Threading.Tasks;
 
 namespace Materal.ConfigurationHelper
 {
@@ -17,6 +17,7 @@ namespace Materal.ConfigurationHelper
         /// <returns></returns>
         public async Task SaveAsync()
         {
+            if (Source.Path == null || string.IsNullOrWhiteSpace(Source.Path)) throw new MateralException("路径为空");
             string jsonStr = Data.ToJson();
             await TextFileManager.WriteTextAsync(Source.Path, jsonStr);
         }
@@ -25,6 +26,7 @@ namespace Materal.ConfigurationHelper
         /// </summary>
         public void Save()
         {
+            if (Source.Path == null || string.IsNullOrWhiteSpace(Source.Path)) throw new MateralException("路径为空");
             string jsonStr = Data.ToJson();
             TextFileManager.WriteText(Source.Path, jsonStr);
         }

@@ -36,6 +36,7 @@ namespace Materal.ConvertHelper
             DataTable dt = type.ToDataTable();
             foreach (T item in listM)
             {
+                if (item == null) continue;
                 dt.Rows.Add(item.ToDataRow(dt.NewRow()));
             }
             return dt;

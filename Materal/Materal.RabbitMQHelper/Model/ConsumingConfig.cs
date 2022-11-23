@@ -17,10 +17,10 @@
         /// <summary>
         /// 交换机配置
         /// </summary>
-        public ExchangeConfig ExchangeConfig { get; set; }
+        public ExchangeConfig ExchangeConfig { get; set; } = new();
         /// <summary>
         /// 队列配置
         /// </summary>
-        public QueueConfig QueueConfig { get; set; }
+        public QueueConfig QueueConfig { get; set; } = new();
     }
 }

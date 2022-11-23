@@ -8,27 +8,22 @@ namespace Materal.Model
         /// 页面位序
         /// </summary>
         public int PageIndex { get; set; } = MateralConfig.PageStartNumber;
-
         /// <summary>
         /// 显示数量
         /// </summary>
         public int PageSize { get; set; } = 10;
-
         /// <summary>
         /// 跳过数量
         /// </summary>
         public int Skip => (PageIndex - MateralConfig.PageStartNumber) * PageSize;
-
         /// <summary>
         /// 获取数量
         /// </summary>
         public int Take => PageSize;
-
         /// <summary>
         /// 构造方法
         /// </summary>
         protected PageRequestModel() { }
-
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -38,6 +33,14 @@ namespace Materal.Model
         {
             PageIndex = pageIndex;
             PageSize = pageSize;
+            if (PageIndex < MateralConfig.PageStartNumber)
+            {
+                PageIndex = MateralConfig.PageStartNumber;
+            }
+            if (PageSize < 0)
+            {
+                PageSize = 1;
+            }
         }
     }
 }

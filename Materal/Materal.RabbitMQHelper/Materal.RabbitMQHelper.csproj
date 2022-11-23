@@ -1,21 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
-    <Authors>Materal</Authors>
-    <Product>Materal</Product>
-    <PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
-    <Description>MateralRabbitMQ帮助类</Description>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="RabbitMQ.Client" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.1.9</Version>
+		<Authors>Materal</Authors>
+		<Product>Materal</Product>
+		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+		<Description>MateralRabbitMQ帮助类</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />
+	</ItemGroup>
 </Project>

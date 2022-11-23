@@ -1,13 +1,9 @@
 ﻿using Materal.Common;
+using Materal.ConvertHelper;
+using Materal.StringHelper;
 using Materal.WordHelper.Model;
 using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.XWPF.UserModel;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Materal.ConvertHelper;
-using Materal.StringHelper;
 
 namespace Materal.WordHelper
 {
@@ -22,10 +18,8 @@ namespace Materal.WordHelper
         public XWPFDocument ReadWord(string filePath)
         {
             if (!File.Exists(filePath)) throw new MateralException("文件不存在");
-            using (var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                return ReadWord(fileStream);
-            }
+            using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            return ReadWord(fileStream);
         }
         /// <summary>
         /// 读取文档
@@ -105,7 +99,7 @@ namespace Materal.WordHelper
                 {
                     for (var rowIndex = 0; rowIndex < tableContent.NumberOfRows; rowIndex++)
                     {
-                        (string tableName, Dictionary<int, string> colNames) = GetTableNameAndColName(tableContent, rowIndex);
+                        (string? tableName, Dictionary<int, string>? colNames) = GetTableNameAndColName(tableContent, rowIndex);
                         if (string.IsNullOrEmpty(tableName)) continue;
                         TableTemplateModel tableTemplate = tableTemplates.FirstOrDefault(m => m.Key == tableName);
                         if (tableTemplate == null) continue;
@@ -122,9 +116,10 @@ namespace Materal.WordHelper
         /// <param name="tableContent"></param>
         /// <param name="tableTemplate"></param>
         /// <param name="colNames"></param>
-        private void ApplyToTableTemplate(XWPFTable tableContent, TableTemplateModel tableTemplate, Dictionary<int, string> colNames)
+        private void ApplyToTableTemplate(XWPFTable tableContent, TableTemplateModel tableTemplate, Dictionary<int, string>? colNames)
         {
             int startRowNum = tableTemplate.StartRowNumber;
+            if (tableTemplate.Value == null) return;
             for (var rowIndex = 0; rowIndex < tableTemplate.Value.Rows.Count; rowIndex++)
             {
                 int documentRowIndex = rowIndex + startRowNum;
@@ -135,6 +130,7 @@ namespace Materal.WordHelper
                 {
                     row.CreateCell();
                 }
+                if (colNames == null) continue;
                 foreach (KeyValuePair<int, string> colName in colNames)
                 {
                     string[] colValues = colName.Value.Split(',');
@@ -184,7 +180,7 @@ namespace Materal.WordHelper
                 foreach (XWPFTableCell cell in row.GetTableCells())
                 {
                     IBodyElement bodyElement = cell.BodyElements[0];
-                    if (!(bodyElement is XWPFParagraph paragraph)) continue;
+                    if (bodyElement is not XWPFParagraph paragraph) continue;
                     string oldText = paragraph.ParagraphText;
                     if (string.IsNullOrEmpty(oldText)) continue;
                     string newText = oldText;
@@ -207,7 +203,7 @@ namespace Materal.WordHelper
         /// <param name="tableContent"></param>
         /// <param name="rowIndex"></param>
         /// <returns></returns>
-        private (string tableName, Dictionary<int, string> colNames) GetTableNameAndColName(XWPFTable tableContent, int rowIndex)
+        private (string? tableName, Dictionary<int, string>? colNames) GetTableNameAndColName(XWPFTable tableContent, int rowIndex)
         {
             XWPFTableRow row = tableContent.GetRow(rowIndex);
             List<XWPFTableCell> cells = row.GetTableCells();
@@ -217,7 +213,7 @@ namespace Materal.WordHelper
             for (var index = 0; index < cells.Count; index++)
             {
                 IBodyElement bodyElement = cells[index].BodyElements[0];
-                if (!(bodyElement is XWPFParagraph paragraph)) continue;
+                if (bodyElement is not XWPFParagraph paragraph) continue;
                 string value = paragraph.ParagraphText;
                 if (!value.VerifyRegex("^{\\$.+\\..+\\}$")) continue;
                 string[] tableNameAndColumnName = value.Substring(2, value.Length - 3).Split('.');
@@ -238,7 +234,7 @@ namespace Materal.WordHelper
         /// <param name="value"></param>
         /// <param name="setCell"></param>
         /// <returns></returns>
-        private XWPFParagraph GetCellContent(int rowIndex, int colIndex, IBodyElement tableContent, string value, Func<int, int, XWPFParagraph, XWPFRun> setCell)
+        private XWPFParagraph GetCellContent(int rowIndex, int colIndex, IBodyElement tableContent, string value, Func<int, int, XWPFParagraph, XWPFRun>? setCell)
         {
             var ctP = new CT_P();
             var paragraph = new XWPFParagraph(ctP, tableContent.Body);

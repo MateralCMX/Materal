@@ -1,7 +1,5 @@
 ﻿using Materal.Common;
 using NPOI.SS.UserModel;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Materal.ExcelHelper.Model
 {
@@ -10,7 +8,7 @@ namespace Materal.ExcelHelper.Model
         /// <summary>
         /// 表格行
         /// </summary>
-        public List<IRow> Rows { get; set; }
+        public List<IRow> Rows { get; set; } = new();
         /// <summary>
         /// 最大的单元格数
         /// </summary>

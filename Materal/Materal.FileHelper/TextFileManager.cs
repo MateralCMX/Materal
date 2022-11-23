@@ -12,7 +12,7 @@ namespace Materal.FileHelper
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static async Task WriteTextAsync(string fileName, string text)
+        public static async Task WriteTextAsync(string fileName, string? text)
         {
             using (var streamWriter = new StreamWriter(fileName, false, Encoding.UTF8))
             {
@@ -26,7 +26,7 @@ namespace Materal.FileHelper
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static async Task WriteTextLineAsync(string fileName, string text)
+        public static async Task WriteTextLineAsync(string fileName, string? text)
         {
             using (var streamWriter = new StreamWriter(fileName, false, Encoding.UTF8))
             {
@@ -40,7 +40,7 @@ namespace Materal.FileHelper
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static void WriteText(string fileName, string text)
+        public static void WriteText(string fileName, string? text)
         {
             using (var streamWriter = new StreamWriter(fileName, false, Encoding.UTF8))
             {
@@ -54,7 +54,7 @@ namespace Materal.FileHelper
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static void WriteLineText(string fileName, string text)
+        public static void WriteLineText(string fileName, string? text)
         {
             using (var streamWriter = new StreamWriter(fileName, false, Encoding.UTF8))
             {
@@ -68,7 +68,7 @@ namespace Materal.FileHelper
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static async Task AppendTextAsync(string fileName, string text)
+        public static async Task AppendTextAsync(string fileName, string? text)
         {
             using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
             {
@@ -82,7 +82,7 @@ namespace Materal.FileHelper
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static async Task AppendTextLineAsync(string fileName, string text)
+        public static async Task AppendTextLineAsync(string fileName, string? text)
         {
             using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
             {
@@ -96,7 +96,7 @@ namespace Materal.FileHelper
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static void AppendText(string fileName, string text)
+        public static void AppendText(string fileName, string? text)
         {
             using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
             {
@@ -110,7 +110,7 @@ namespace Materal.FileHelper
         /// <param name="fileName"></param>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static void AppendLineText(string fileName, string text)
+        public static void AppendLineText(string fileName, string? text)
         {
             using (var streamWriter = new StreamWriter(fileName, true, Encoding.UTF8))
             {
@@ -126,7 +126,7 @@ namespace Materal.FileHelper
         /// <param name="text"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task WriteTextAsync(string fileName, string text, Encoding encoding)
+        public static async Task WriteTextAsync(string fileName, string? text, Encoding encoding)
         {
             using (var streamWriter = new StreamWriter(fileName, false, encoding))
             {
@@ -142,7 +142,7 @@ namespace Materal.FileHelper
         /// <param name="text"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task WriteTextLineAsync(string fileName, string text, Encoding encoding)
+        public static async Task WriteTextLineAsync(string fileName, string? text, Encoding encoding)
         {
             using (var streamWriter = new StreamWriter(fileName, false, encoding))
             {
@@ -158,7 +158,7 @@ namespace Materal.FileHelper
         /// <param name="text"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static void WriteText(string fileName, string text, Encoding encoding)
+        public static void WriteText(string fileName, string? text, Encoding encoding)
         {
             using (var streamWriter = new StreamWriter(fileName, false, encoding))
             {
@@ -174,7 +174,7 @@ namespace Materal.FileHelper
         /// <param name="text"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static void WriteTextLine(string fileName, string text, Encoding encoding)
+        public static void WriteTextLine(string fileName, string? text, Encoding encoding)
         {
             using (var streamWriter = new StreamWriter(fileName, false, encoding))
             {
@@ -190,7 +190,7 @@ namespace Materal.FileHelper
         /// <param name="text"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task AppendTextAsync(string fileName, string text, Encoding encoding)
+        public static async Task AppendTextAsync(string fileName, string? text, Encoding encoding)
         {
             using (var streamWriter = new StreamWriter(fileName, true, encoding))
             {
@@ -206,7 +206,7 @@ namespace Materal.FileHelper
         /// <param name="text"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static async Task AppendTextLineAsync(string fileName, string text, Encoding encoding)
+        public static async Task AppendTextLineAsync(string fileName, string? text, Encoding encoding)
         {
             using (var streamWriter = new StreamWriter(fileName, true, encoding))
             {
@@ -222,7 +222,7 @@ namespace Materal.FileHelper
         /// <param name="text"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static void AppendText(string fileName, string text, Encoding encoding)
+        public static void AppendText(string fileName, string? text, Encoding encoding)
         {
             using (var streamWriter = new StreamWriter(fileName, true, encoding))
             {
@@ -237,7 +237,7 @@ namespace Materal.FileHelper
         /// <param name="text"></param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static void AppendTextLine(string fileName, string text, Encoding encoding)
+        public static void AppendTextLine(string fileName, string? text, Encoding encoding)
         {
             using (var streamWriter = new StreamWriter(fileName, true, encoding))
             {

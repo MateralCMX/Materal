@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿using System.Data;
 
 namespace Materal.ConvertHelper
 {
@@ -15,14 +13,11 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T">目标类型</typeparam>
         /// <param name="dataRow">数据行</param>
         /// <returns>目标对象</returns>
-        public static T ToObject<T>(this DataRow dataRow)
+        public static T? ToObject<T>(this DataRow dataRow)
         {
             var result = ConvertManager.GetDefaultObject<T>();
-            if (result != null)
-            {
-                result.SetValueByDataRow(dataRow);
-            }
-            return result == null ? default(T) : result;
+            result?.SetValueByDataRow(dataRow);
+            return result == null ? default : result;
         }
         /// <summary>
         /// 把数据表转换为List
@@ -35,7 +30,9 @@ namespace Materal.ConvertHelper
             var result = new List<T>();
             foreach (DataRow dr in dataTable.Rows)
             {
-                result.Add(dr.ToObject<T>());
+                var value = dr.ToObject<T>();
+                if (value == null) continue;
+                result.Add(value);
             }
             return result;
         }
@@ -45,10 +42,10 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T">要转换的类型(需要有一个没有参数的构造方法)</typeparam>
         /// <param name="dataTable">数据表</param>
         /// <returns>转换后的数组</returns>
-        public static T[] ToArray<T>(this DataTable dataTable)
+        public static T?[] ToArray<T>(this DataTable dataTable)
         {
             int count = dataTable.Rows.Count;
-            var result = new T[count];
+            var result = new T?[count];
             for (var i = 0; i < count; i++)
             {
                 result[i] = dataTable.Rows[i].ToObject<T>();
@@ -76,21 +73,23 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T">要转换的类型(需要有一个没有参数的构造方法)</typeparam>
         /// <param name="dataSet">数据集</param>
         /// <returns>转换后的数组</returns>
-        public static T[,] ToArray<T>(this DataSet dataSet)
+        public static T?[,] ToArray<T>(this DataSet dataSet)
         {
             int tableCount = dataSet.Tables.Count;
+            DataTableCollection tables = dataSet.Tables;
             var rowCounts = new int[tableCount];
             for (var i = 0; i < tableCount; i++)
             {
-                rowCounts[i] = dataSet.Tables[i].Rows.Count;
+                rowCounts[i] = tables[i].Rows.Count;
             }
             int rowCount = rowCounts.Max();
-            var result = new T[tableCount, rowCount];
+            var result = new T?[tableCount, rowCount];
             for (var i = 0; i < tableCount; i++)
             {
                 for (var j = 0; j < rowCounts[i]; j++)
                 {
-                    result[i, j] = dataSet.Tables[i].Rows[j].ToObject<T>();
+                    DataRow row = tables[i].Rows[j];
+                    result[i, j] = row.ToObject<T>();
                 }
             }
             return result;

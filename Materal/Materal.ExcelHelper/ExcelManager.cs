@@ -4,10 +4,7 @@ using Materal.ExcelHelper.Model;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
 
 namespace Materal.ExcelHelper
 {
@@ -20,9 +17,10 @@ namespace Materal.ExcelHelper
         /// <param name="filePath">文件地址</param>
         /// <param name="startRowNumbers">开始行数组</param>
         /// <returns>数据集</returns>
-        public DataSet ReadExcelToDataSet(string filePath, params int[] startRowNumbers)
+        public DataSet? ReadExcelToDataSet(string filePath, params int[] startRowNumbers)
         {
-            IWorkbook workbook = ReadExcelToWorkbook(filePath);
+            IWorkbook? workbook = ReadExcelToWorkbook(filePath);
+            if (workbook == null) return null;
             return WorkbookToDataSet(workbook, startRowNumbers);
         }
         /// <summary>
@@ -31,9 +29,10 @@ namespace Materal.ExcelHelper
         /// <param name="fileStream">文件流</param>
         /// <param name="startRowNumbers">开始行数组</param>
         /// <returns>数据集</returns>
-        public DataSet ReadExcelToDataSet(FileStream fileStream, params int[] startRowNumbers)
+        public DataSet? ReadExcelToDataSet(FileStream fileStream, params int[] startRowNumbers)
         {
-            IWorkbook workbook = ReadExcelToWorkbook(fileStream);
+            IWorkbook? workbook = ReadExcelToWorkbook(fileStream);
+            if (workbook == null) return null;
             return WorkbookToDataSet(workbook, startRowNumbers);
         }
         /// <summary>
@@ -41,23 +40,21 @@ namespace Materal.ExcelHelper
         /// </summary>
         /// <param name="filePath">文件地址</param>
         /// <returns>工作簿对象</returns>
-        public IWorkbook ReadExcelToWorkbook(string filePath)
+        public IWorkbook? ReadExcelToWorkbook(string filePath)
         {
             if (!File.Exists(filePath)) throw new MateralException("文件不存在");
-            using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                IWorkbook result = ReadExcelToWorkbook(fs);
-                return result;
-            }
+            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            IWorkbook? result = ReadExcelToWorkbook(fs);
+            return result;
         }
         /// <summary>
         /// 读取Excel到工作簿
         /// </summary>
         /// <param name="fileStream">文件流</param>
         /// <returns>工作簿对象</returns>
-        public IWorkbook ReadExcelToWorkbook(FileStream fileStream)
+        public IWorkbook? ReadExcelToWorkbook(FileStream fileStream)
         {
-            IWorkbook workbook = null;
+            IWorkbook? workbook = null;
             try
             {
                 if (fileStream.Name.IndexOf(".xlsx", StringComparison.Ordinal) > 0)
@@ -80,9 +77,10 @@ namespace Materal.ExcelHelper
         /// </summary>
         /// <param name="filePath">文件地址</param>
         /// <returns>工作表组</returns>
-        public List<ISheet> ReadExcelToSheets(string filePath)
+        public List<ISheet>? ReadExcelToSheets(string filePath)
         {
-            IWorkbook workbook = ReadExcelToWorkbook(filePath);
+            IWorkbook? workbook = ReadExcelToWorkbook(filePath);
+            if (workbook == null) return null;
             return GetAllSheets(workbook);
         }
         /// <summary>
@@ -90,9 +88,10 @@ namespace Materal.ExcelHelper
         /// </summary>
         /// <param name="fileStream">文件流</param>
         /// <returns>工作表组</returns>
-        public List<ISheet> ReadExcelToSheets(FileStream fileStream)
+        public List<ISheet>? ReadExcelToSheets(FileStream fileStream)
         {
-            IWorkbook workbook = ReadExcelToWorkbook(fileStream);
+            IWorkbook? workbook = ReadExcelToWorkbook(fileStream);
+            if (workbook == null) return null;
             return GetAllSheets(workbook);
         }
         /// <summary>
@@ -213,7 +212,6 @@ namespace Materal.ExcelHelper
         #endregion
         #endregion
         #region 生成
-
         /// <summary>
         /// 
         /// </summary>
@@ -222,10 +220,10 @@ namespace Materal.ExcelHelper
         /// <param name="setStyle"></param>
         /// <param name="setTableHeads"></param>
         /// <returns></returns>
-        public IWorkbook DataSetToWorkbook<T>(DataSet dataSet, Action<IWorkbook, ISheet, int, int, ICell> setStyle, params Func<IWorkbook, ISheet, int>[] setTableHeads) where T : IWorkbook
+        public IWorkbook DataSetToWorkbook<T>(DataSet dataSet, Action<IWorkbook, ISheet, int, int, ICell> setStyle, params Func<IWorkbook, ISheet, int>[] setTableHeads)
+            where T : IWorkbook, new()
         {
-            T workbook = default;
-            workbook = workbook.GetDefaultObject<T>();
+            T workbook = new();
             #region 表头委托
             if (setTableHeads.Length != dataSet.Tables.Count)
             {
@@ -265,7 +263,7 @@ namespace Materal.ExcelHelper
         /// <param name="configCell"></param>
         /// <param name="setTableHead"></param>
         /// <returns></returns>
-        public ISheet DataTableToSheet(IWorkbook workbook, DataTable dataTable, Action<IWorkbook, ISheet, int, int, ICell> configCell, Func<IWorkbook, ISheet, int> setTableHead = null)
+        public ISheet DataTableToSheet(IWorkbook workbook, DataTable dataTable, Action<IWorkbook, ISheet, int, int, ICell> configCell, Func<IWorkbook, ISheet, int>? setTableHead = null)
         {
             ISheet sheet = string.IsNullOrEmpty(dataTable.TableName) ? workbook.CreateSheet() : workbook.CreateSheet(dataTable.TableName);
             int rowNum = 0;

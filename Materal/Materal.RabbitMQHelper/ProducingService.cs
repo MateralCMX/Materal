@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Materal.RabbitMQHelper.Model;
+﻿using Materal.RabbitMQHelper.Model;
 using RabbitMQ.Client;
 
 namespace Materal.RabbitMQHelper
@@ -13,12 +12,14 @@ namespace Materal.RabbitMQHelper
             _config = config;
             _channels = new Dictionary<QueueConfig, IModel>();
             var isFirst = true;
+            if (_config.QueueConfigs == null || _config.QueueConfigs.Count <= 0) return;
             foreach (QueueConfig queueConfig in _config.QueueConfigs)
             {
                 if (_channels.ContainsKey(queueConfig)) continue;
                 IModel channel;
                 if (isFirst)
                 {
+                    if (_config.ExchangeConfig == null) continue;
                     channel = GetChannel(_connection, _config.ExchangeConfig, queueConfig);
                     isFirst = false;
                 }
@@ -44,8 +45,9 @@ namespace Materal.RabbitMQHelper
         /// <param name="body"></param>
         public void SendBytes(byte[] body)
         {
-            System.Threading.Tasks.Parallel.ForEach(_channels, channel =>
+            Parallel.ForEach(_channels, channel =>
             {
+                if (_config.ExchangeConfig == null) return;
                 channel.Value.BasicPublish(_config.ExchangeConfig.ExchangeName, channel.Key.RoutingKey, null, body);
             });
         }

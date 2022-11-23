@@ -80,7 +80,7 @@ namespace Materal.Common
         /// <param name="rightModel"></param>
         /// <param name="maps"></param>
         /// <returns></returns>
-        public static bool PropertyContain(this object leftModel, object rightModel, Dictionary<string, Func<bool>> maps = null)
+        public static bool PropertyContain(this object leftModel, object rightModel, Dictionary<string, Func<bool>>? maps = null)
         {
             Type aType = leftModel.GetType();
             Type bType = rightModel.GetType();

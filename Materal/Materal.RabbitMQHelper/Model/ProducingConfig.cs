@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text;
-
-namespace Materal.RabbitMQHelper.Model
+﻿namespace Materal.RabbitMQHelper.Model
 {
     /// <summary>
     /// 简单发布者配置
@@ -11,10 +8,10 @@ namespace Materal.RabbitMQHelper.Model
         /// <summary>
         /// 交换机配置
         /// </summary>
-        public ExchangeConfig ExchangeConfig { get; set; }
+        public ExchangeConfig? ExchangeConfig { get; set; }
         /// <summary>
         /// 队列配置
         /// </summary>
-        public IList<QueueConfig> QueueConfigs { get; set; }
+        public IList<QueueConfig>? QueueConfigs { get; set; }
     }
 }

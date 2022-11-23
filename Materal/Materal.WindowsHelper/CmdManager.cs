@@ -5,8 +5,8 @@ namespace Materal.WindowsHelper
 {
     public class CmdManager
     {
-        public event DataReceivedEventHandler OutputDataReceived;
-        public event DataReceivedEventHandler ErrorDataReceived;
+        public event DataReceivedEventHandler? OutputDataReceived;
+        public event DataReceivedEventHandler? ErrorDataReceived;
         public async Task RunCmdCommandsAsync(params string[] commands)
         {
             ProcessStartInfo processStartInfo = ProcessManager.GetProcessStartInfo("cmd.exe", string.Empty);

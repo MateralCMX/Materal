@@ -1,27 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.5</Version>
-    <Authors>Materal</Authors>
-    <Product>Materal</Product>
-    <PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
-    <Copyright>Materal</Copyright>
-    <Description>Materal微信帮助类</Description>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="LitJson" Version="0.16.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
-    <ProjectReference Include="..\Materal.DateTimeHelper\Materal.DateTimeHelper.csproj" />
-    <ProjectReference Include="..\Materal.EnumHelper\Materal.EnumHelper.csproj" />
-    <ProjectReference Include="..\Materal.Model\Materal.Model.csproj" />
-    <ProjectReference Include="..\Materal.NetworkHelper\Materal.NetworkHelper.csproj" />
-    <ProjectReference Include="..\Materal.SystemHelper\Materal.SystemHelper.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<!--<Nullable>enable</Nullable>-->
+		<LangVersion>10.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.1.9</Version>
+		<Authors>Materal</Authors>
+		<Product>Materal</Product>
+		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+		<Copyright>Materal</Copyright>
+		<Description>Materal微信帮助类</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="LitJson" Version="0.18.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
+		<ProjectReference Include="..\Materal.DateTimeHelper\Materal.DateTimeHelper.csproj" />
+		<ProjectReference Include="..\Materal.EnumHelper\Materal.EnumHelper.csproj" />
+		<ProjectReference Include="..\Materal.Model\Materal.Model.csproj" />
+		<ProjectReference Include="..\Materal.NetworkHelper\Materal.NetworkHelper.csproj" />
+		<ProjectReference Include="..\Materal.SystemHelper\Materal.SystemHelper.csproj" />
+	</ItemGroup>
 </Project>

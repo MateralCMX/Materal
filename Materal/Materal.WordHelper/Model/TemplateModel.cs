@@ -12,7 +12,7 @@ namespace Materal.WordHelper.Model
         /// <summary>
         /// 键
         /// </summary>
-        public string Key { get; set; }
+        public string? Key { get; set; }
     }
     /// <summary>
     /// 字符串模板模型
@@ -22,7 +22,7 @@ namespace Materal.WordHelper.Model
         /// <summary>
         /// 值
         /// </summary>
-        public string Value { get; set; }
+        public string? Value { get; set; }
     }
     /// <summary>
     /// 表格模板模型
@@ -32,7 +32,7 @@ namespace Materal.WordHelper.Model
         /// <summary>
         /// 值
         /// </summary>
-        public DataTable Value { get; set; }
+        public DataTable? Value { get; set; }
         /// <summary>
         /// 开始行数
         /// </summary>
@@ -40,6 +40,6 @@ namespace Materal.WordHelper.Model
         /// <summary>
         /// 设置单元格
         /// </summary>
-        public Func<int ,int, XWPFParagraph, XWPFRun> OnSetCellText { get; set; }
+        public Func<int ,int, XWPFParagraph, XWPFRun>? OnSetCellText { get; set; }
     }
 }

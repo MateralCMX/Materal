@@ -7,7 +7,7 @@ namespace Materal.ConvertHelper.Example
         public static void Main(string[] args)
         {
             var example = new ExampleByObjectExtension();
-            example.ConvertToExample1();
+            ExampleByObjectExtension.ConvertToExample1();
             Console.ReadKey();
         }
     }

@@ -13,7 +13,7 @@
         /// <summary>
         /// 密码
         /// </summary>
-        public string Password { get; set; }
+        public string? Password { get; set; }
         /// <summary>
         /// 链接字符串
         /// </summary>

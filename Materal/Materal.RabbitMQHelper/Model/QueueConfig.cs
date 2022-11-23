@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Materal.RabbitMQHelper.Model
+﻿namespace Materal.RabbitMQHelper.Model
 {
     /// <summary>
     /// 队列配置
@@ -10,7 +8,7 @@ namespace Materal.RabbitMQHelper.Model
         /// <summary>
         /// Queues名称
         /// </summary>
-        public string QueueName { get; set; }
+        public string QueueName { get; set; } = string.Empty;
         /// <summary>
         /// 排外
         /// </summary>
@@ -26,7 +24,7 @@ namespace Materal.RabbitMQHelper.Model
         /// <summary>
         /// 参数组
         /// </summary>
-        public IDictionary<string, object> Arguments { get; set; } = null;
+        public IDictionary<string, object>? Arguments { get; set; } = null;
         /// <summary>
         /// 路由键
         /// </summary>

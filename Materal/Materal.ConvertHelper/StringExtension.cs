@@ -21,10 +21,7 @@ namespace Materal.ConvertHelper
         /// </summary>
         /// <param name="jsonStr">json字符串</param>
         /// <returns>XML文档对象</returns>
-        public static XmlDocument JsonToXml(this string jsonStr)
-        {
-            return JsonConvert.DeserializeXmlNode(jsonStr);
-        }
+        public static XmlDocument? JsonToXml(this string jsonStr) => JsonConvert.DeserializeXmlNode(jsonStr);
         /// <summary>
         /// Json字符串转换对象
         /// </summary>
@@ -72,7 +69,8 @@ namespace Materal.ConvertHelper
         {
             try
             {
-                var model = ConvertManager.GetDefaultObject<T>();
+                T? model = ConvertManager.GetDefaultObject<T>();
+                if (model == null) return model;
                 JsonConvert.PopulateObject(jsonStr, model);
                 return model;
             }
@@ -86,11 +84,11 @@ namespace Materal.ConvertHelper
         /// </summary>
         /// <param name="jsonStr">Json字符串</param>
         /// <returns>转换后的对象</returns>
-        public static object JsonToDeserializeObject(this string jsonStr)
+        public static object? JsonToDeserializeObject(this string jsonStr)
         {
             try
             {
-                object model = JsonConvert.DeserializeObject(jsonStr);
+                object? model = JsonConvert.DeserializeObject(jsonStr);
                 return model;
             }
             catch (Exception ex)
@@ -104,11 +102,11 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T">目标对象类型</typeparam>
         /// <param name="jsonStr">Json字符串</param>
         /// <returns>转换后的对象</returns>
-        public static T JsonToDeserializeObject<T>(this string jsonStr)
+        public static T? JsonToDeserializeObject<T>(this string jsonStr)
         {
             try
             {
-                var model = JsonConvert.DeserializeObject<T>(jsonStr);
+                T? model = JsonConvert.DeserializeObject<T>(jsonStr);
                 return model;
             }
             catch (Exception ex)
@@ -345,7 +343,7 @@ namespace Materal.ConvertHelper
         /// <param name="inputKey">密钥,必须为8位字符串</param>
         /// <param name="encoding">编码格式</param>
         /// <returns>解密后的字符串</returns>
-        public static string ToDesEncode(this string inputString, string inputKey, Encoding encoding = null)
+        public static string ToDesEncode(this string inputString, string inputKey, Encoding? encoding = null)
         {
             return ToDesEncode(inputString, inputKey, InputIv, encoding);
         }
@@ -356,7 +354,7 @@ namespace Materal.ConvertHelper
         /// <param name="inputKey">密钥,必须为8位字符串</param>
         /// <param name="encoding">编码格式</param>
         /// <returns>解密后的字符串</returns>
-        public static string DesDecode(this string inputString, string inputKey, Encoding encoding = null)
+        public static string DesDecode(this string inputString, string inputKey, Encoding? encoding = null)
         {
             return DesDecode(inputString, inputKey, InputIv, encoding);
         }
@@ -368,7 +366,7 @@ namespace Materal.ConvertHelper
         /// <param name="inputIv">向量,必须为8位字符串</param>
         /// <param name="encoding">编码格式</param>
         /// <returns>加密后的字符串</returns>
-        public static string ToDesEncode(this string inputString, string inputKey, string inputIv, Encoding encoding = null)
+        public static string ToDesEncode(this string inputString, string inputKey, string inputIv, Encoding? encoding = null)
         {
             if (inputKey.Length != 8) throw new MateralConvertException("密钥必须为8位");
             if (inputIv.Length != 8) throw new MateralConvertException("向量必须为8位");
@@ -400,7 +398,7 @@ namespace Materal.ConvertHelper
         /// <param name="inputIv">向量,必须为8位字符串</param>
         /// <param name="encoding">编码格式</param>
         /// <returns>解密后的字符串</returns>
-        public static string DesDecode(this string inputString, string inputKey, string inputIv, Encoding encoding = null)
+        public static string DesDecode(this string inputString, string inputKey, string inputIv, Encoding? encoding = null)
         {
             if (inputKey.Length != 8) throw new MateralConvertException("密钥必须为8位");
             if (inputIv.Length != 8) throw new MateralConvertException("向量必须为8位");
@@ -490,7 +488,7 @@ namespace Materal.ConvertHelper
         /// <param name="lightColor">亮色</param>
         /// <param name="icon">图标</param>
         /// <returns>二维码图片</returns>
-        public static Bitmap ToQRCode(this string inputStr, int pixelsPerModule = 20, Color? darkColor = null, Color? lightColor = null, Bitmap icon = null)
+        public static Bitmap ToQRCode(this string inputStr, int pixelsPerModule = 20, Color? darkColor = null, Color? lightColor = null, Bitmap? icon = null)
         {
             darkColor ??= Color.Black;
             lightColor ??= Color.White;

@@ -9,10 +9,10 @@ namespace Materal.TTA.EFRepository
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
     {
-        private static readonly List<string> SubscriberChannelNames = new();
-        private readonly RedisManager? _redisManager;
-        private readonly ICacheManager _cacheManager;
-        private string AllInfoCacheName => GetAllCacheName();
+        protected static readonly List<string> SubscriberChannelNames = new();
+        protected readonly RedisManager? _redisManager;
+        protected readonly ICacheManager _cacheManager;
+        protected string AllInfoCacheName => GetAllCacheName();
         protected CacheEFRepositoryImpl(DbContext dbContext, ICacheManager cacheManager, RedisManager? redisManager = null) : base(dbContext)
         {
             _redisManager = redisManager;
@@ -64,7 +64,7 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public async Task<List<T>> GetInfoFromCacheAsync(string key)
+        public virtual async Task<List<T>> GetInfoFromCacheAsync(string key)
         {
             var result = _cacheManager.Get<List<T>>(key);
             if (result != null) return result;
@@ -92,10 +92,16 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public async Task ClearCacheAsync(string key)
+        public virtual async Task ClearCacheAsync(string key)
         {
-            if (_redisManager == null) return;
-            await _redisManager.PublishAsync(key, null);
+            if (_redisManager != null)
+            {
+                await _redisManager.PublishAsync(key, null);
+            }
+            else if (_cacheManager.GetCacheKeys().Contains(key))
+            {
+                _cacheManager.Remove(key);
+            }
         }
     }
 }

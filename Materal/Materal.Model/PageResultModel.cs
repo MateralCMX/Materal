@@ -1,5 +1,4 @@
 ﻿using Materal.Common;
-using System.Collections.Generic;
 
 namespace Materal.Model
 {
@@ -8,11 +7,11 @@ namespace Materal.Model
         /// <summary>
         /// 返回数据
         /// </summary>
-        public ICollection<T> Data { get; set; }
+        public ICollection<T>? Data { get; set; }
         /// <summary>
         /// 分页模型
         /// </summary>
-        public PageModel PageModel { get; set; }
+        public PageModel? PageModel { get; set; }
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -26,7 +25,7 @@ namespace Materal.Model
         /// <param name="data">返回数据对象</param>
         /// <param name="pageModel">分页模型</param>
         /// <param name="message">返回消息</param>
-        public PageResultModel(ResultTypeEnum resultType, ICollection<T> data, PageModel pageModel, string message = "") : base(resultType, message)
+        public PageResultModel(ResultTypeEnum resultType, ICollection<T>? data, PageModel? pageModel, string message = "") : base(resultType, message)
         {
             Data = data;
             PageModel = pageModel;

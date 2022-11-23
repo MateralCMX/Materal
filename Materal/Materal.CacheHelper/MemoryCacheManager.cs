@@ -1,104 +1,84 @@
-﻿using Materal.DateTimeHelper;
+﻿using Materal.Common;
+using Materal.ConvertHelper;
+using Materal.DateTimeHelper;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace Materal.CacheHelper
 {
     public class MemoryCacheManager : ICacheManager
     {
+        private readonly List<string> allKey = new();
         private readonly IMemoryCache _memoryCache;
-
-        public MemoryCacheManager()
+        private readonly object _setValueLockObj = new();
+        public MemoryCacheManager(IMemoryCache? memoryCache = null)
         {
-            _memoryCache = new MemoryCache(Options.Create(new MemoryCacheOptions()));
+            _memoryCache = memoryCache ?? new MemoryCache(Options.Create(new MemoryCacheOptions()));
         }
-
-        public MemoryCacheManager(IMemoryCache memoryCache)
-        {
-            _memoryCache = memoryCache;
-        }
-
-        public void SetBySliding(string key, object content, double hours)
-        {
-            SetBySliding(key, content, hours, DateTimeTypeEnum.Hour);
-        }
-
+        public void SetBySliding(string key, object content, double hours) => SetBySliding(key, content, hours, DateTimeTypeEnum.Hour);
         public void SetBySliding(string key, object content, double timer, DateTimeTypeEnum dateTimeType)
         {
             double millisecond = DateTimeManager.ToMilliseconds(timer, dateTimeType);
             SetBySliding(key, content, TimeSpan.FromMilliseconds(millisecond));
         }
-
         public void SetBySliding(string key, object content, DateTime date)
         {
             TimeSpan timeSpan = DateTime.Now - date;
             SetBySliding(key, content, timeSpan);
         }
-
         public void SetBySliding(string key, object content, TimeSpan timeSpan)
         {
             MemoryCacheEntryOptions options = new MemoryCacheEntryOptions().SetSlidingExpiration(timeSpan);
-            _memoryCache.Set(key, content, options);
+            SetValue(key, content, options);
         }
-
-        public void SetByAbsolute(string key, object content, double hours)
-        {
-            SetByAbsolute(key, content, hours, DateTimeTypeEnum.Hour);
-        }
-
+        public void SetByAbsolute(string key, object content, double hours) => SetByAbsolute(key, content, hours, DateTimeTypeEnum.Hour);
         public void SetByAbsolute(string key, object content, double timer, DateTimeTypeEnum dateTimeType)
         {
             double millisecond = DateTimeManager.ToMilliseconds(timer, dateTimeType);
             SetByAbsolute(key, content, TimeSpan.FromMilliseconds(millisecond));
         }
-
         public void SetByAbsolute(string key, object content, DateTime date)
         {
             TimeSpan timeSpan = DateTime.Now - date;
             SetByAbsolute(key, content, timeSpan);
         }
-
         public void SetByAbsolute(string key, object content, TimeSpan timeSpan)
         {
             MemoryCacheEntryOptions options = new MemoryCacheEntryOptions().SetAbsoluteExpiration(timeSpan);
-            _memoryCache.Set(key, content, options);
+            SetValue(key, content, options);
         }
-
-        public object Get(string key)
-        {
-            return _memoryCache.Get(key);
-        }
-
-        public T Get<T>(string key)
-        {
-            return (T)Get(key);
-        }
-
+        public object Get(string key) => GetOrDefault(key) ?? throw new MateralException("值不存在");
+        public T Get<T>(string key) => GetOrDefault<T>(key) ?? throw new MateralException("值不存在");
+        public object? GetOrDefault(string key) => _memoryCache.Get(key);
+        public T? GetOrDefault<T>(string key) => _memoryCache.Get<T>(key);
         public void Remove(string key)
         {
-            _memoryCache.Remove(key);
-        }
-        public List<string> GetCacheKeys()
-        {
-            FieldInfo field = _memoryCache.GetType().GetField("_entries", BindingFlags.Instance | BindingFlags.NonPublic);
-            var stringList = new List<string>();
-            if (!(field?.GetValue(_memoryCache) is IDictionary dictionary)) return stringList;
-
-            foreach (DictionaryEntry dictionaryEntry in dictionary)
+            lock (_setValueLockObj)
             {
-                stringList.Add(dictionaryEntry.Key.ToString());
+                allKey.Remove(key);
+                _memoryCache.Remove(key);
             }
-            return stringList;
         }
+        public List<string> GetCacheKeys() => allKey.ToJson().JsonToDeserializeObject<List<string>>() ?? new();
+        public bool KeyAny(string key) => GetOrDefault(key) != null;
         public void Clear()
         {
-            foreach (string cacheKey in GetCacheKeys())
+            string[]? tempAllKey = allKey.ToJson().JsonToDeserializeObject<string[]>();
+            if (tempAllKey == null || tempAllKey.Length <= 0) return;
+            foreach (var item in tempAllKey)
             {
-                Remove(cacheKey);
+                Remove(item);
+            }
+        }
+        private void SetValue(string key, object content, MemoryCacheEntryOptions options)
+        {
+            lock (_setValueLockObj)
+            {
+                if (!KeyAny(key))
+                {
+                    allKey.Add(key);
+                }
+                _memoryCache.Set(key, content, options);
             }
         }
     }

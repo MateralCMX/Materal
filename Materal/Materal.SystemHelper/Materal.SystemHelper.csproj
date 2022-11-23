@@ -1,13 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.2</Version>
-    <Authors>Materal</Authors>
-    <Product>Materal</Product>
-    <PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
-    <Description>Materal系统帮助类</Description>
-  </PropertyGroup>
-
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.1.9</Version>
+		<Authors>Materal</Authors>
+		<Product>Materal</Product>
+		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+		<Description>Materal系统帮助类</Description>
+	</PropertyGroup>
 </Project>

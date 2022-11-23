@@ -23,7 +23,7 @@ namespace Materal.Model
             Type thisType = GetType();
             ParameterExpression mParameterExpression = Expression.Parameter(tType, "m");
             PropertyInfo[] propertyInfos = thisType.GetProperties();
-            Expression expression = null;
+            Expression? expression = null;
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
                 IEnumerable<FilterAttribute> filterAttributes = propertyInfo.GetCustomAttributes<FilterAttribute>();
@@ -65,8 +65,8 @@ namespace Materal.Model
         /// <summary>
         /// 目标属性名称
         /// </summary>
-        public string TargetPropertyName { get; protected set; }
-        protected FilterAttribute(string targetPropertyName = null)
+        public string? TargetPropertyName { get; protected set; }
+        protected FilterAttribute(string? targetPropertyName = null)
         {
             TargetPropertyName = targetPropertyName;
         }
@@ -80,7 +80,6 @@ namespace Materal.Model
         /// <param name="targetPropertyInfo"></param>
         /// <returns></returns>
         public abstract Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo);
-
         /// <summary>
         /// 获得表达式目录树
         /// </summary>
@@ -91,11 +90,10 @@ namespace Materal.Model
         /// <param name="targetPropertyInfo"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        protected Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo,
-            T value, PropertyInfo targetPropertyInfo, Func<Expression, Expression, Expression> func)
+        protected Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo, Func<Expression, Expression, Expression> func)
         {
-            if (value.IsNullOrEmptyString()) return null;
-            (Expression leftExpression, Expression rightExpression, Expression otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
+            if (value == null || value.IsNullOrEmptyString()) throw new MateralException("值为空");
+            (Expression leftExpression, Expression rightExpression, Expression? otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
             Expression result = func(leftExpression, rightExpression);
             if (otherExpression != null)
             {
@@ -103,7 +101,6 @@ namespace Materal.Model
             }
             return result;
         }
-
         /// <summary>
         /// 获得左边和右边的表达式目录树
         /// </summary>
@@ -114,7 +111,7 @@ namespace Materal.Model
         /// <param name="targetPropertyInfo"></param>
         /// <returns></returns>
         /// <exception cref="MateralConvertException"></exception>
-        protected (Expression leftExpression, Expression rightExpression, Expression otherExpression) GetLeftAndRightExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
+        protected (Expression leftExpression, Expression rightExpression, Expression? otherExpression) GetLeftAndRightExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
             var isNullable = false;
             if (targetPropertyInfo != null)
@@ -125,7 +122,7 @@ namespace Materal.Model
             }
             Expression leftExpression = GetLeftExpression(parameterExpression, propertyInfo, isNullable);
             Expression rightExpression = GetRightExpression(propertyInfo,value);
-            Expression otherExpression = null;
+            Expression? otherExpression = null;
             if (isNullable)
             {
                 otherExpression = Expression.Property(parameterExpression, TargetPropertyName ?? propertyInfo.Name);
@@ -133,7 +130,6 @@ namespace Materal.Model
             }
             return (leftExpression, rightExpression, otherExpression);
         }
-
         /// <summary>
         /// 获得左边的表达式目录树
         /// </summary>
@@ -163,7 +159,7 @@ namespace Materal.Model
         /// <returns></returns>
         protected Expression GetRightExpression<T>(PropertyInfo propertyInfo, T value)
         {
-            dynamic useValue = GetValue(propertyInfo, value);
+            dynamic? useValue = GetValue(propertyInfo, value);
             if(useValue == null) throw new MateralConvertException("不能转换为对应类型");
             ConstantExpression rightExpression = Expression.Constant(useValue);
             return rightExpression;
@@ -175,9 +171,10 @@ namespace Materal.Model
         /// <param name="propertyInfo"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected dynamic GetValue<T>(PropertyInfo propertyInfo, T value)
+        protected dynamic? GetValue<T>(PropertyInfo propertyInfo, T value)
         {
-            dynamic useValue = value;
+            if (value == null) return null;
+            dynamic? useValue = value;
             Type propertyType = propertyInfo.PropertyType;
             if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
@@ -205,8 +202,8 @@ namespace Materal.Model
         {
             Type propertyType = propertyInfo.PropertyType;
             MethodInfo methodInfo = propertyType.GetMethod(methodName, new[] { propertyType });
-            if (methodInfo == null) return null;
-            (Expression leftExpression, Expression rightExpression, Expression otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
+            if (methodInfo == null) throw new MateralException("未找到方法");
+            (Expression leftExpression, Expression rightExpression, Expression? otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
             Expression result = Expression.Call(leftExpression, methodInfo, rightExpression);
             if (otherExpression != null)
             {
@@ -221,7 +218,7 @@ namespace Materal.Model
     [AttributeUsage(AttributeTargets.Property)]
     public class EqualAttribute : FilterAttribute
     {
-        public EqualAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
+        public EqualAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
             return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.Equal);
@@ -233,7 +230,7 @@ namespace Materal.Model
     [AttributeUsage(AttributeTargets.Property)]
     public class NotEqualAttribute : FilterAttribute
     {
-        public NotEqualAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
+        public NotEqualAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
             return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.NotEqual);
@@ -245,7 +242,7 @@ namespace Materal.Model
     [AttributeUsage(AttributeTargets.Property)]
     public class GreaterThanAttribute : FilterAttribute
     {
-        public GreaterThanAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
+        public GreaterThanAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
             return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.GreaterThan);
@@ -257,7 +254,7 @@ namespace Materal.Model
     [AttributeUsage(AttributeTargets.Property)]
     public class GreaterThanOrEqualAttribute : FilterAttribute
     {
-        public GreaterThanOrEqualAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
+        public GreaterThanOrEqualAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
             return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.GreaterThanOrEqual);
@@ -269,7 +266,7 @@ namespace Materal.Model
     [AttributeUsage(AttributeTargets.Property)]
     public class LessThanAttribute : FilterAttribute
     {
-        public LessThanAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
+        public LessThanAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
             return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.LessThan);
@@ -281,7 +278,7 @@ namespace Materal.Model
     [AttributeUsage(AttributeTargets.Property)]
     public class LessThanOrEqualAttribute : FilterAttribute
     {
-        public LessThanOrEqualAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
+        public LessThanOrEqualAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
             return GetSearchExpression(parameterExpression, propertyInfo, value, targetPropertyInfo, Expression.LessThanOrEqual);
@@ -293,10 +290,10 @@ namespace Materal.Model
     [AttributeUsage(AttributeTargets.Property)]
     public class ContainsAttribute : FilterAttribute
     {
-        public ContainsAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
+        public ContainsAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            if (value.IsNullOrEmptyString()) return null;
+            if (value == null || value.IsNullOrEmptyString()) throw new MateralException("值为空");
             Expression result = GetCallExpression(parameterExpression, propertyInfo, value, "Contains", targetPropertyInfo);
             return result;
         }
@@ -307,10 +304,10 @@ namespace Materal.Model
     [AttributeUsage(AttributeTargets.Property)]
     public class StartContainsAttribute : FilterAttribute
     {
-        public StartContainsAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
+        public StartContainsAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            if (value.IsNullOrEmptyString()) return null;
+            if (value == null || value.IsNullOrEmptyString()) throw new MateralException("值为空");
             Expression result = GetCallExpression(parameterExpression, propertyInfo, value, "StartsWith", targetPropertyInfo);
             return result;
         }
@@ -321,10 +318,10 @@ namespace Materal.Model
     [AttributeUsage(AttributeTargets.Property)]
     public class EndContainsAttribute : FilterAttribute
     {
-        public EndContainsAttribute(string targetPropertyName = null) : base(targetPropertyName) { }
+        public EndContainsAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         public override Expression GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            if (value.IsNullOrEmptyString()) return null;
+            if (value == null || value.IsNullOrEmptyString()) throw new MateralException("值为空");
             Expression result = GetCallExpression(parameterExpression, propertyInfo, value, "EndsWith", targetPropertyInfo);
             return result;
         }

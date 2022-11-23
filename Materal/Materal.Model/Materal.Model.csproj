@@ -1,26 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.9</Version>
-    <Authors>Materal</Authors>
-    <Product>Materal</Product>
-    <PackageReleaseNotes>https://github.com/MateralCMX/Materal
-1、修复数据验证对可空类型的判断</PackageReleaseNotes>
-    <Copyright>Materal</Copyright>
-    <Description>Materal模型库</Description>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AspectCore.Core" Version="2.1.0" />
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />
-    <ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.1.9</Version>
+		<Authors>Materal</Authors>
+		<Product>Materal</Product>
+		<Copyright>Materal</Copyright>
+		<Description>Materal模型库</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="AspectCore.Core" Version="2.2.0" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />
+		<ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
+	</ItemGroup>
 </Project>

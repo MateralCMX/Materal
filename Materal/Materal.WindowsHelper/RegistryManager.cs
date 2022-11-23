@@ -22,7 +22,7 @@ namespace Materal.WindowsHelper
             };
             foreach (RegistryKey registryKey in registryKeys)
             {
-                RegistryKey temp = registryKey.OpenSubKey(name);
+                RegistryKey? temp = registryKey.OpenSubKey(name);
                 if (temp != null)
                 {
                     return true;

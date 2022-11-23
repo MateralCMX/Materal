@@ -6,7 +6,7 @@ namespace Materal.ConvertHelper.Example
     public class ExampleByObjectExtension
     {
         #region ConvertTo
-        public void ConvertToExample1()
+        public static void ConvertToExample1()
         {
             const string exampleString1 = "1993";
             var intResult = exampleString1.ConvertTo<int>();
@@ -66,7 +66,7 @@ namespace Materal.ConvertHelper.Example
             });
             var customClass4 = customClass1.ConvertTo<CustomClass4>();
             Bitmap qrCode = "Materal".ToQRCode();
-            qrCode.Save(@"D:\Test\TestQRCode.jpg");
+            //qrCode.Save(@"D:\Test\TestQRCode.jpg");
         }
         #endregion
 

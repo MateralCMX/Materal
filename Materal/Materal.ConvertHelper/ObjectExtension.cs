@@ -62,7 +62,7 @@ namespace Materal.ConvertHelper
         {
             return i =>
             {
-                if (i == null || i is DBNull) return null;
+                if (i == null || i is DBNull) return default;
                 return input(i);
             };
         }
@@ -292,8 +292,9 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T"></typeparam>
         /// <param name="inputObj">输入对象</param>
         /// <returns></returns>
-        public static T CloneByJson<T>(this T inputObj)
+        public static T? CloneByJson<T>(this T inputObj)
         {
+            if (inputObj == null) return default;
             string jsonStr = inputObj.ToJson();
             return jsonStr.JsonToObject<T>();
         }

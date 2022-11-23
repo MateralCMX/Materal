@@ -12,7 +12,7 @@ namespace Materal.RedisHelper
     public class RedisManager
     {
         private readonly string _connectionString;
-        private ISubscriber _subscriber;
+        private ISubscriber? _subscriber;
         /// <summary>
         /// Redis管理器
         /// </summary>
@@ -62,7 +62,7 @@ namespace Materal.RedisHelper
         /// <param name="collectionName">集合名称</param>
         /// <param name="key">键</param>
         /// <returns></returns>
-        public async Task<T> HashGetAsync<T>(string collectionName, string key)
+        public async Task<T?> HashGetAsync<T>(string collectionName, string key)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.HashGetAsync(collectionName, key);
@@ -212,7 +212,7 @@ namespace Materal.RedisHelper
         /// <typeparam name="T"></typeparam>
         /// <param name="collectionName">集合名称</param>
         /// <returns></returns>
-        public async Task<T> StringGetAsync<T>(string collectionName)
+        public async Task<T?> StringGetAsync<T>(string collectionName)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.StringGetAsync(collectionName);
@@ -288,7 +288,7 @@ namespace Materal.RedisHelper
         /// </summary>
         /// <param name="collectionName">集合名称</param>
         /// <returns></returns>
-        public async Task<T> ListLeftPopAsync<T>(string collectionName)
+        public async Task<T?> ListLeftPopAsync<T>(string collectionName)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.ListLeftPopAsync(collectionName);
@@ -300,7 +300,7 @@ namespace Materal.RedisHelper
         /// </summary>
         /// <param name="collectionName">集合名称</param>
         /// <returns></returns>
-        public async Task<T> ListRightPopAsync<T>(string collectionName)
+        public async Task<T?> ListRightPopAsync<T>(string collectionName)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.ListRightPopAsync(collectionName);
@@ -313,7 +313,7 @@ namespace Materal.RedisHelper
         /// <param name="collectionName">集合名称</param>
         /// <param name="index">位序</param>
         /// <returns></returns>
-        public async Task<T> ListGetByIndexAsync<T>(string collectionName, long index)
+        public async Task<T?> ListGetByIndexAsync<T>(string collectionName, long index)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.ListGetByIndexAsync(collectionName, index);
@@ -375,7 +375,7 @@ namespace Materal.RedisHelper
         /// <param name="startIndex">开始位序</param>
         /// <param name="endIndex">结束位序</param>
         /// <returns></returns>
-        public async Task<T[]> ListRangeAsync<T>(string collectionName, long startIndex, long endIndex = -1)
+        public async Task<T?[]> ListRangeAsync<T>(string collectionName, long startIndex, long endIndex = -1)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue[] redisValues = await database.ListRangeAsync(collectionName, startIndex, endIndex);
@@ -386,7 +386,7 @@ namespace Materal.RedisHelper
         /// </summary>
         /// <param name="collectionName">集合名称</param>
         /// <returns></returns>
-        public async Task<T[]> ListGetAllAsync<T>(string collectionName)
+        public async Task<T?[]> ListGetAllAsync<T>(string collectionName)
         {
             return await ListRangeAsync<T>(collectionName, 0);
         }
@@ -450,7 +450,7 @@ namespace Materal.RedisHelper
         /// </summary>
         /// <param name="collectionName">集合名称</param>
         /// <returns></returns>
-        public async Task<T> SetGetAsync<T>(string collectionName)
+        public async Task<T?> SetGetAsync<T>(string collectionName)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.SetRandomMemberAsync(collectionName);
@@ -461,7 +461,7 @@ namespace Materal.RedisHelper
         /// </summary>
         /// <param name="collectionName">集合名称</param>
         /// <returns></returns>
-        public async Task<T> SetPopAsync<T>(string collectionName)
+        public async Task<T?> SetPopAsync<T>(string collectionName)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.SetPopAsync(collectionName);
@@ -484,7 +484,7 @@ namespace Materal.RedisHelper
         /// </summary>
         /// <param name="channelName"></param>
         /// <param name="action"></param>
-        public async Task SubscriberAsync(string channelName, Action<string, string> action)
+        public async Task SubscriberAsync(string channelName, Action<string?, string?> action)
         {
             ISubscriber subscriber = GetSubscriber();
             await subscriber.SubscribeAsync(channelName, (redisChannel, redisValue) =>
@@ -668,7 +668,7 @@ namespace Materal.RedisHelper
         /// <param name="key">键</param>
         /// <param name="timeout">过期时间</param>
         /// <returns></returns>
-        public async Task<RedisLock> GetNonBlockingLockAsync(string key, TimeSpan timeout)
+        public async Task<RedisLock?> GetNonBlockingLockAsync(string key, TimeSpan timeout)
         {
             IDatabase database = GetDB(key);
             bool isLock = await database.LockTakeAsync(key, string.Empty, timeout);
@@ -682,7 +682,7 @@ namespace Materal.RedisHelper
         /// <param name="key">键</param>
         /// <param name="timeout">过期时间</param>
         /// <returns></returns>
-        public async Task<RedisLock> GetNonBlockingLockAsync(string key, DateTime timeout)
+        public async Task<RedisLock?> GetNonBlockingLockAsync(string key, DateTime timeout)
         {
             TimeSpan expiry = timeout - DateTime.Now;
             return await GetNonBlockingLockAsync(key, expiry);
@@ -694,7 +694,7 @@ namespace Materal.RedisHelper
         /// <param name="timeout">过期时间</param>
         /// <param name="timeoutType"></param>
         /// <returns></returns>
-        public async Task<RedisLock> GetNonBlockingLockAsync(string key, int timeout, DateTimeTypeEnum timeoutType)
+        public async Task<RedisLock?> GetNonBlockingLockAsync(string key, int timeout, DateTimeTypeEnum timeoutType)
         {
             var milliseconds = Convert.ToInt64(DateTimeManager.ToMilliseconds(timeout, timeoutType));
             var expiry = new TimeSpan(milliseconds * 10000);
@@ -706,7 +706,7 @@ namespace Materal.RedisHelper
         /// <param name="key">键</param>
         /// <param name="timeout">过期时间</param>
         /// <returns></returns>
-        public async Task<RedisLock> GetNonBlockingLockAsync(string key, int timeout)
+        public async Task<RedisLock?> GetNonBlockingLockAsync(string key, int timeout)
         {
             return await GetNonBlockingLockAsync(key, timeout, DateTimeTypeEnum.Millisecond);
         }
@@ -751,8 +751,9 @@ namespace Materal.RedisHelper
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        protected virtual RedisValue ObjectToRedisValue(object obj)
+        protected virtual RedisValue ObjectToRedisValue(object? obj)
         {
+            if (obj == null) return new RedisValue(string.Empty);
             if (obj is string stringObj)
             {
                 return new RedisValue(stringObj);
@@ -765,10 +766,10 @@ namespace Materal.RedisHelper
         /// <typeparam name="T"></typeparam>
         /// <param name="redisValue"></param>
         /// <returns></returns>
-        protected virtual T RedisValueToObject<T>(RedisValue redisValue)
+        protected virtual T? RedisValueToObject<T>(RedisValue redisValue)
         {
             string stringResult = RedisValueToString(redisValue);
-            dynamic result;
+            dynamic? result;
             try
             {
                 if (typeof(T) == typeof(string))

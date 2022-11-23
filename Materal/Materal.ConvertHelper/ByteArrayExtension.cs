@@ -30,7 +30,7 @@ namespace Materal.ConvertHelper
         /// </summary>
         /// <param name="buff">被转换byte数组</param>
         /// <returns>转换完成后的对象</returns>
-        public static T ToObject<T>(this byte[] buff)
+        public static T? ToObject<T>(this byte[] buff)
         {
             object obj = ToObject(buff);
             return obj is T model ? model : default(T);

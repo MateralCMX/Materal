@@ -1,12 +1,18 @@
-﻿using System;
-
-namespace Materal.StringHelper
+﻿namespace Materal.StringHelper
 {
     /// <summary>
     /// 连接和端口号模型
     /// </summary>
     public class UrlAndPortModel
     {
+        /// <summary>
+        /// 连接地址
+        /// </summary>
+        public string Url { get; } = string.Empty;
+        /// <summary>
+        /// 端口号
+        /// </summary>
+        public int? Port { get; }
         public UrlAndPortModel(string url)
         {
             if (!url.IsUrl()) return;
@@ -23,13 +29,5 @@ namespace Materal.StringHelper
                     break;
             }
         }
-        /// <summary>
-        /// 连接地址
-        /// </summary>
-        public string Url { get;}
-        /// <summary>
-        /// 端口号
-        /// </summary>
-        public int? Port { get;}
     }
 }

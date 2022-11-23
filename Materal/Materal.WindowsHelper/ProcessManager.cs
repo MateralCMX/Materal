@@ -4,9 +4,9 @@ namespace Materal.WindowsHelper
 {
     public class ProcessManager
     {
-        public event DataReceivedEventHandler OutputDataReceived;
+        public event DataReceivedEventHandler? OutputDataReceived;
 
-        public event DataReceivedEventHandler ErrorDataReceived;
+        public event DataReceivedEventHandler? ErrorDataReceived;
         public static ProcessStartInfo GetProcessStartInfo(string cmd, string arg)
         {
             var processStartInfo = new ProcessStartInfo

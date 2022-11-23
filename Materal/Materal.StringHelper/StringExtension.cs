@@ -134,9 +134,9 @@ namespace Materal.StringHelper
         /// <param name="obj">要验证的字符串</param>
         /// <param name="regStr">验证正则表达式</param>
         /// <returns></returns>
-        public static MatchCollection GetVerifyRegex(this string obj, string regStr)
+        public static MatchCollection? GetVerifyRegex(this string obj, string regStr)
         {
-            MatchCollection resM = null;
+            MatchCollection? resM = null;
             if (!string.IsNullOrEmpty(regStr) && !string.IsNullOrEmpty(obj))
             {
                 resM = Regex.Matches(obj, regStr);
@@ -150,7 +150,7 @@ namespace Materal.StringHelper
         /// <param name="regStr">验证正则表达式</param>
         /// <param name="isPerfect">完全匹配</param>
         /// <returns></returns>
-        public static MatchCollection GetVerifyRegex(this string obj, string regStr, bool isPerfect)
+        public static MatchCollection? GetVerifyRegex(this string obj, string regStr, bool isPerfect)
         {
             regStr = isPerfect ? GetPerfectRegStr(regStr) : regStr;
             return obj.GetVerifyRegex(regStr);
@@ -217,7 +217,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的16进制颜色
         /// </returns>
-        public static MatchCollection GetHexColor(this string obj)
+        public static MatchCollection? GetHexColor(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.HexColor, false);
         }
@@ -240,7 +240,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的IPv4地址(无端口号)
         /// </returns>
-        public static MatchCollection GetIPv4(this string obj)
+        public static MatchCollection? GetIPv4(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.InternetProtocolV4, false);
         }
@@ -263,7 +263,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的IPv4地址(带端口号)
         /// </returns>
-        public static MatchCollection GetIPv4AndPort(this string obj)
+        public static MatchCollection? GetIPv4AndPort(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.InternetProtocolV4AndPort, false);
         }
@@ -286,7 +286,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的邮箱
         /// </returns>
-        public static MatchCollection GetEMail(this string obj)
+        public static MatchCollection? GetEMail(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.EMail, false);
         }
@@ -309,7 +309,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的实数
         /// </returns>
-        public static MatchCollection GetNumber(this string obj)
+        public static MatchCollection? GetNumber(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.Number, false);
         }
@@ -332,7 +332,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的正实数
         /// </returns>
-        public static MatchCollection GetNumberPositive(this string obj)
+        public static MatchCollection? GetNumberPositive(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.NumberPositive, false);
         }
@@ -355,7 +355,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的负实数
         /// </returns>
-        public static MatchCollection GetNumberNegative(this string obj)
+        public static MatchCollection? GetNumberNegative(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.NumberNegative, false);
         }
@@ -378,7 +378,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的整数
         /// </returns>
-        public static MatchCollection GetInteger(this string obj)
+        public static MatchCollection? GetInteger(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.Integer, false);
         }
@@ -401,7 +401,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的正整数
         /// </returns>
-        public static MatchCollection GetIntegerPositive(this string obj)
+        public static MatchCollection? GetIntegerPositive(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.IntegerPositive, false);
         }
@@ -424,7 +424,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的负整数
         /// </returns>
-        public static MatchCollection GetIntegerNegative(this string obj)
+        public static MatchCollection? GetIntegerNegative(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.IntegerNegative, false);
         }
@@ -447,7 +447,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的URL地址
         /// </returns>
-        public static MatchCollection GetUrl(this string obj)
+        public static MatchCollection? GetUrl(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.Url, false);
         }
@@ -470,7 +470,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的相对路径
         /// </returns>
-        public static MatchCollection GetRelativePath(this string obj)
+        public static MatchCollection? GetRelativePath(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.RelativePath, false);
         }
@@ -493,7 +493,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的文件名
         /// </returns>
-        public static MatchCollection GetFileName(this string obj)
+        public static MatchCollection? GetFileName(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.FileName, false);
         }
@@ -516,7 +516,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的文件名
         /// </returns>
-        public static MatchCollection GetAbsoluteDirectoryPath(this string obj)
+        public static MatchCollection? GetAbsoluteDirectoryPath(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.AbsoluteDirectoryPath, false);
         }
@@ -539,7 +539,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的手机号码
         /// </returns>
-        public static MatchCollection GetPhoneNumber(this string obj)
+        public static MatchCollection? GetPhoneNumber(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.PhoneNumber, false);
         }
@@ -594,7 +594,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的日期
         /// </returns>
-        public static MatchCollection GetDate(this string obj, string delimiter = "-/.")
+        public static MatchCollection? GetDate(this string obj, string delimiter = "-/.")
         {
             return obj.GetVerifyRegex(RegexData.Date(delimiter), false);
         }
@@ -617,7 +617,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的时间
         /// </returns>
-        public static MatchCollection GetTime(this string obj)
+        public static MatchCollection? GetTime(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.Time, false);
         }
@@ -647,7 +647,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的日期和时间
         /// </returns>
-        public static MatchCollection GetDateTime(this string obj, string delimiter = "-/.")
+        public static MatchCollection? GetDateTime(this string obj, string delimiter = "-/.")
         {
             return obj.GetVerifyRegex(RegexData.DateTime(delimiter), false);
         }
@@ -670,7 +670,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母
         /// </returns>
-        public static MatchCollection GetLetter(this string obj)
+        public static MatchCollection? GetLetter(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.Letter, false);
         }
@@ -693,7 +693,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母或数字
         /// </returns>
-        public static MatchCollection GetLetterOrNumber(this string obj)
+        public static MatchCollection? GetLetterOrNumber(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.LetterNumber, false);
         }
@@ -716,7 +716,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母
         /// </returns>
-        public static MatchCollection GetLowerLetter(this string obj)
+        public static MatchCollection? GetLowerLetter(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.LowerLetter, false);
         }
@@ -739,7 +739,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母
         /// </returns>
-        public static MatchCollection GetLowerLetterOrNumber(this string obj)
+        public static MatchCollection? GetLowerLetterOrNumber(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.LowerLetterNumber, false);
         }
@@ -762,7 +762,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母
         /// </returns>
-        public static MatchCollection GetUpperLetter(this string obj)
+        public static MatchCollection? GetUpperLetter(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.UpperLetter, false);
         }
@@ -785,7 +785,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母
         /// </returns>
-        public static MatchCollection GetUpperLetterOrNumber(this string obj)
+        public static MatchCollection? GetUpperLetterOrNumber(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.UpperLetterNumber, false);
         }
@@ -808,7 +808,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的中文或数字
         /// </returns>
-        public static MatchCollection GetChinese(this string obj)
+        public static MatchCollection? GetChinese(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.Chinese, false);
         }
@@ -831,7 +831,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的中文或字母或数字
         /// </returns>
-        public static MatchCollection GetChineseOrLetterOrNumber(this string obj)
+        public static MatchCollection? GetChineseOrLetterOrNumber(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.ChineseLetterNumber, false);
         }
@@ -854,7 +854,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的日文或数字
         /// </returns>
-        public static MatchCollection GetJapanese(this string obj)
+        public static MatchCollection? GetJapanese(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.Japanese, false);
         }
@@ -877,7 +877,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的日文或字母或数字
         /// </returns>
-        public static MatchCollection GetJapaneseOrLetterOrNumber(this string obj)
+        public static MatchCollection? GetJapaneseOrLetterOrNumber(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.JapaneseLetterNumber, false);
         }
@@ -900,7 +900,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的十六进制数字
         /// </returns>
-        public static MatchCollection GetHexNumber(this string obj)
+        public static MatchCollection? GetHexNumber(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.HexNumber, false);
         }
@@ -923,7 +923,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的Guid
         /// </returns>
-        public static MatchCollection GetGuid(this string obj)
+        public static MatchCollection? GetGuid(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.Guid, false);
         }
@@ -974,7 +974,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的(中国)身份证18位
         /// </returns>
-        public static MatchCollection GetIDCard18ForChina(this string obj)
+        public static MatchCollection? GetIDCard18ForChina(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.IDCard18China, false);
         }
@@ -997,7 +997,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的(中国)身份证15位
         /// </returns>
-        public static MatchCollection GetIDCard15ForChina(this string obj)
+        public static MatchCollection? GetIDCard15ForChina(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.IDCard15China, false);
         }
@@ -1102,10 +1102,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的磁盘根目录
         /// </returns>
-        public static MatchCollection GetDiskPath(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.DiskPath, false);
-        }
+        public static MatchCollection? GetDiskPath(this string obj) => obj.GetVerifyRegex(RegexData.DiskPath, false);
         /// <summary>
         /// 验证输入字符串是否为绝对路径
         /// </summary>
@@ -1128,7 +1125,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的绝对路径
         /// </returns>
-        public static MatchCollection GetAbsolutePath(this string obj)
+        public static MatchCollection? GetAbsolutePath(this string obj)
         {
             return obj.GetVerifyRegex(RegexData.AbsolutePath, false);
         }

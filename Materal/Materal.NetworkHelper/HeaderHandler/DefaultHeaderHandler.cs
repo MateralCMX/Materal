@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-
-namespace Materal.NetworkHelper.HeaderHandler
+﻿namespace Materal.NetworkHelper.HeaderHandler
 {
     public class DefaultHeaderHandler
     {
-        private DefaultHeaderHandler _next;
+        private DefaultHeaderHandler? _next;
 
         public void SetNext(DefaultHeaderHandler defaultHeader)
         {

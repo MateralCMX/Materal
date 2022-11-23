@@ -12,7 +12,7 @@ namespace Materal.BlockchainHelper
         /// <summary>
         /// 数据
         /// </summary>
-        public string Data { get; set; }
+        public string Data { get; set; } = string.Empty;
         /// <summary>
         /// 区块位置
         /// </summary>
@@ -24,11 +24,11 @@ namespace Materal.BlockchainHelper
         /// <summary>
         /// 当前区块散列值
         /// </summary>
-        public string Hash{ get; set; }
+        public string Hash{ get; set; } = string.Empty;
         /// <summary>
         /// 前一个区块的散列值
         /// </summary>
-        public string PrevHash{ get; set; }
+        public string PrevHash{ get; set; } = string.Empty;
         /// <summary>
         /// 构造一个创世区块
         /// </summary>
@@ -65,7 +65,7 @@ namespace Materal.BlockchainHelper
         /// </summary>
         /// <param name="jsonData"></param>
         /// <returns></returns>
-        public static MBlock FormJson(string jsonData)
+        public static MBlock? FormJson(string jsonData)
         {
             var block = new MBlock();
             JsonConvert.PopulateObject(jsonData, block);
@@ -87,10 +87,7 @@ namespace Materal.BlockchainHelper
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public virtual T GetData<T>()
-        {
-            return Data.JsonToDeserializeObject<T>();
-        }
+        public virtual T? GetData<T>() => Data.JsonToDeserializeObject<T>();
         /// <summary>
         /// 是否为下一个区块
         /// </summary>

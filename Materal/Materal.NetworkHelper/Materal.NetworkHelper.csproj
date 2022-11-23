@@ -1,18 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.8</Version>
-    <Authors>Materal</Authors>
-    <Product>Materal</Product>
-    <Description>Materal网络帮助类</Description>
-    <PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Version>1.1.9</Version>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Version>1.1.9</Version>
+		<Authors>Materal</Authors>
+		<Product>Materal</Product>
+		<Description>Materal网络帮助类</Description>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
+	</ItemGroup>
 </Project>
