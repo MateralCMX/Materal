@@ -70,11 +70,12 @@ namespace Materal.TTA.EFRepository
         /// <returns></returns>
         public virtual async Task<List<T>> GetInfoFromCacheAsync(string key)
         {
-            var result = _cacheManager.Get<List<T>>(key);
+            List<T>? result = _cacheManager.GetOrDefault<List<T>>(key);
             if (result != null) return result;
             if (_redisManager != null && await _redisManager.StringExistsAsync(key))
             {
-                result = await _redisManager.StringGetAsync<List<T>>(key) ?? new List<T>();
+                result = await _redisManager.StringGetAsync<List<T>>(key);
+                if (result == null) return new List<T>();
                 _cacheManager.SetBySliding(key, result, 1);
                 return result;
             }
@@ -102,7 +103,7 @@ namespace Materal.TTA.EFRepository
             {
                 await _redisManager.PublishAsync(key, null);
             }
-            else if (_cacheManager.GetCacheKeys().Contains(key))
+            else if (_cacheManager.KeyAny(key))
             {
                 _cacheManager.Remove(key);
             }
