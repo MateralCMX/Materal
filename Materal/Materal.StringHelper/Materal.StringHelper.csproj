@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>10.0</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.1.10</Version>
+		<Version>1.1.11</Version>
 		<Description>Materal字符串帮助类</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<Authors>Materal</Authors>
