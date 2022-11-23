@@ -17,7 +17,7 @@ namespace Materal.TTA.EFRepository
         /// <summary>
         /// 实体对象
         /// </summary>
-        protected DbSet<T> DBSet => DBContext.Set<T>();
+        protected IQueryable<T> DBSet => MateralTTAConfig.EnableTracking ? DBContext.Set<T>() : DBContext.Set<T>().AsNoTracking();
         /// <summary>
         /// 构造方法
         /// </summary>

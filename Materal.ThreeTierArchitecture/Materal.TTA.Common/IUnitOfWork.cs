@@ -16,18 +16,24 @@
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
-        void RegisterAdd<T>(T obj) where T : class;
+        void RegisterAdd<T, TPrimaryKeyType>(T obj)
+            where T : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct;
         /// <summary>
         /// 注册修改
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
-        void RegisterEdit<T>(T obj) where T : class;
+        void RegisterEdit<T, TPrimaryKeyType>(T obj)
+            where T : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct;
         /// <summary>
         /// 注册删除
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
-        void RegisterDelete<T>(T obj) where T : class;
+        void RegisterDelete<T, TPrimaryKeyType>(T obj)
+            where T : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct;
     }
 }

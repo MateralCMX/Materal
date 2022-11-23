@@ -58,7 +58,7 @@ namespace Materal.TTA.EFRepository
             {
                 await _redisManager.StringDeleteAsync(channelName);
             }
-            if (_cacheManager.GetCacheKeys().Contains(channelName))
+            if (_cacheManager.KeyAny(channelName))
             {
                 _cacheManager.Remove(channelName);
             }

@@ -190,7 +190,7 @@ namespace Materal.TTA.SqlServerRepository
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        private static IQueryable<T> GetSubordinateQueryable(TContext context) => context.Set<T>();
+        private static IQueryable<T> GetSubordinateQueryable(TContext context) => MateralTTAConfig.EnableTracking ? context.Set<T>() : context.Set<T>().AsNoTracking();
         #endregion
     }
 }
