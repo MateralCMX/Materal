@@ -19,7 +19,7 @@ namespace Materal.ConvertHelper
         /// <summary>
         /// 可转换类型字典
         /// </summary>
-        private static readonly Dictionary<Type, Func<object, object>> ConvertDictionary = new Dictionary<Type, Func<object, object>>();
+        private static readonly Dictionary<Type, Func<object, object>> ConvertDictionary = new();
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -49,6 +49,7 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T"></typeparam>
         /// <param name="func"></param>
         public static void AddConvertDictionary<T>(Func<object, T> func)
+            where T : notnull
         {
             ConvertDictionary.Add(typeof(T), WrapValueConvert(func));
         }
@@ -59,12 +60,9 @@ namespace Materal.ConvertHelper
         /// <param name="input"></param>
         /// <returns></returns>
         private static Func<object, object> WrapValueConvert<T>(Func<object, T> input)
+            where T : notnull
         {
-            return i =>
-            {
-                if (i == null || i is DBNull) return default;
-                return input(i);
-            };
+            return i => input(i);
         }
         /// <summary>
         /// 对象转换为数据行
@@ -128,10 +126,10 @@ namespace Materal.ConvertHelper
         /// <summary>
         /// 获得默认对象
         /// </summary>
-        /// <param name="obj">要设置的对象</param>
+        /// <param name="_">要设置的对象</param>
         /// <param name="type">要设置的类型</param>
         /// <returns>默认对象</returns>
-        public static object GetDefaultObject(this object obj, Type type)
+        public static object GetDefaultObject(this object _, Type type)
         {
             return ConvertManager.GetDefaultObject(type);
         }
@@ -139,9 +137,9 @@ namespace Materal.ConvertHelper
         /// 获得默认对象
         /// </summary>
         /// <typeparam name="T">要设置的类型</typeparam>
-        /// <param name="obj">要设置的对象</param>
+        /// <param name="_">要设置的对象</param>
         /// <returns>默认对象</returns>
-        public static T GetDefaultObject<T>(this object obj)
+        public static T GetDefaultObject<T>(this object _)
         {
             return ConvertManager.GetDefaultObject<T>();
         }
@@ -189,7 +187,6 @@ namespace Materal.ConvertHelper
         /// <returns>复制的对象</returns>
         public static T CopyProperties<T>(this object sourceM, Func<PropertyInfo, object, bool> isCopy)
         {
-            if (sourceM == null) return default(T);
             var targetM = ConvertManager.GetDefaultObject<T>();
             sourceM.CopyProperties(targetM, isCopy);
             return targetM;
@@ -226,7 +223,6 @@ namespace Materal.ConvertHelper
         /// <returns>复制的对象</returns>
         public static T CopyProperties<T>(this object sourceM, params string[] notCopyPropertyNames)
         {
-            if (sourceM == null) return default(T);
             var targetM = ConvertManager.GetDefaultObject<T>();
             sourceM.CopyProperties(targetM, notCopyPropertyNames);
             return targetM;
@@ -251,7 +247,7 @@ namespace Materal.ConvertHelper
         /// <param name="obj"></param>
         /// <param name="targetType"></param>
         /// <returns></returns>
-        public static bool CanConvertTo(this object obj, Type targetType)
+        public static bool CanConvertTo(this object _, Type targetType)
         {
             return ConvertDictionary.ContainsKey(targetType);
         }
@@ -261,9 +257,9 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static T ConvertTo<T>(this object obj)
+        public static T? ConvertTo<T>(this object obj)
         {
-            return (T)ConvertTo(obj, typeof(T));
+            return (T?)ConvertTo(obj, typeof(T));
         }
         /// <summary>
         /// 转换到特定类型
@@ -271,9 +267,9 @@ namespace Materal.ConvertHelper
         /// <param name="obj"></param>
         /// <param name="targetType"></param>
         /// <returns></returns>
-        public static object ConvertTo(this object obj, Type targetType)
+        public static object? ConvertTo(this object obj, Type targetType)
         {
-            if (obj == null) return !targetType.IsValueType ? (object)null : throw new ArgumentNullException(nameof(obj), "不能将null转换为" + targetType.Name);
+            if (obj == null) return !targetType.IsValueType ? null : throw new ArgumentNullException(nameof(obj), "不能将null转换为" + targetType.Name);
             if (obj.GetType() == targetType || targetType.IsInstanceOfType(obj)) return obj;
             if (ConvertDictionary.ContainsKey(targetType)) return ConvertDictionary[targetType](obj);
             try
@@ -306,6 +302,7 @@ namespace Materal.ConvertHelper
         /// <param name="inputObj">输入对象</param>
         /// <returns>克隆的对象</returns>
         public static T CloneByXml<T>(this T inputObj)
+            where T : notnull
         {
             Type tType = inputObj.GetType();
             Attribute attr = tType.GetCustomAttribute(typeof(SerializableAttribute));
@@ -328,6 +325,7 @@ namespace Materal.ConvertHelper
         /// <param name="inputObj">输入对象</param>
         /// <returns>克隆的对象</returns>
         public static T CloneByReflex<T>(this T inputObj)
+            where T : notnull
         {
             Type tType = inputObj.GetType();
             var resM = (T)Activator.CreateInstance(tType);
@@ -347,17 +345,16 @@ namespace Materal.ConvertHelper
         /// <param name="inputObj">输入对象</param>
         /// <returns>克隆的对象</returns>
         public static T CloneBySerializable<T>(this T inputObj)
+            where T : notnull
         {
             Type tType = inputObj.GetType();
             Attribute attr = tType.GetCustomAttribute(typeof(SerializableAttribute));
             if (attr == null) throw new MateralConvertException("未标识为可序列化");
-            using (var stream = new MemoryStream())
-            {
-                var bf2 = new BinaryFormatter();
-                bf2.Serialize(stream, inputObj);
-                stream.Position = 0;
-                return (T)bf2.Deserialize(stream);
-            }
+            using var stream = new MemoryStream();
+            var bf2 = new BinaryFormatter();
+            bf2.Serialize(stream, inputObj);
+            stream.Position = 0;
+            return (T)bf2.Deserialize(stream);
         }
         /// <summary>
         /// 克隆对象
@@ -366,6 +363,7 @@ namespace Materal.ConvertHelper
         /// <param name="inputObj">输入对象</param>
         /// <returns>克隆的对象</returns>
         public static T Clone<T>(this T inputObj)
+            where T : notnull
         {
             Type tType = inputObj.GetType();
             Attribute attr = tType.GetCustomAttribute(typeof(SerializableAttribute));

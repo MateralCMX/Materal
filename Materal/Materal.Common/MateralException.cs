@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Materal.Common
+﻿namespace Materal.Common
 {
     /// <inheritdoc />
     /// <summary>

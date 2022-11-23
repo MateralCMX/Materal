@@ -1,10 +1,8 @@
-﻿using System;
-using Materal.Common;
-using System.Collections.Generic;
+﻿using Materal.Common;
+using Materal.StringHelper;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using Materal.StringHelper;
 
 namespace Materal.EmailHelper
 {

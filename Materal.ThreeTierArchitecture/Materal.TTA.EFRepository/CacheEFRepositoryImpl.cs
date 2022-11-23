@@ -38,17 +38,21 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        private async Task SubscriberAsync(string key)
+        protected virtual async Task SubscriberAsync(string key)
         {
             if (_redisManager == null) return;
-            await _redisManager.SubscriberAsync(key, async (channelName, value) => await ClearCacheHandlerAsync(channelName));
+            await _redisManager.SubscriberAsync(key, async (channelName, value) =>
+            {
+                if (string.IsNullOrWhiteSpace(channelName)) return;
+                await ClearCacheHandlerAsync(channelName);
+            });
         }
         /// <summary>
         /// 清理缓存处理器
         /// </summary>
         /// <param name="channelName"></param>
         /// <returns></returns>
-        private async Task ClearCacheHandlerAsync(string channelName)
+        protected virtual async Task ClearCacheHandlerAsync(string channelName)
         {
             if (_redisManager != null && await _redisManager.StringExistsAsync(channelName))
             {
@@ -70,7 +74,7 @@ namespace Materal.TTA.EFRepository
             if (result != null) return result;
             if (_redisManager != null && await _redisManager.StringExistsAsync(key))
             {
-                result = await _redisManager.StringGetAsync<List<T>>(key);
+                result = await _redisManager.StringGetAsync<List<T>>(key) ?? new List<T>();
                 _cacheManager.SetBySliding(key, result, 1);
                 return result;
             }

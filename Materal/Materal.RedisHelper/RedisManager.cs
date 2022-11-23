@@ -37,7 +37,7 @@ namespace Materal.RedisHelper
         /// <param name="key">键</param>
         /// <param name="value">值</param>
         /// <returns>是否成功</returns>
-        public async Task<bool> HashSetAsync(string collectionName, string key, object value)
+        public async Task<bool> HashSetAsync(string collectionName, string key, object? value)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = ObjectToRedisValue(value);
@@ -200,7 +200,7 @@ namespace Materal.RedisHelper
         /// <param name="collectionName">集合名称</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public async Task<bool> StringSetAsync(string collectionName, object value)
+        public async Task<bool> StringSetAsync(string collectionName, object? value)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = ObjectToRedisValue(value);
@@ -225,7 +225,7 @@ namespace Materal.RedisHelper
         /// <param name="collectionName">集合名称</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public async Task<long> StringAppendAsync(string collectionName, object value)
+        public async Task<long> StringAppendAsync(string collectionName, object? value)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = ObjectToRedisValue(value);
@@ -326,7 +326,7 @@ namespace Materal.RedisHelper
         /// <param name="collectionName">集合名称</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public async Task<long> ListLeftPushAsync(string collectionName, object value)
+        public async Task<long> ListLeftPushAsync(string collectionName, object? value)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = ObjectToRedisValue(value);
@@ -338,7 +338,7 @@ namespace Materal.RedisHelper
         /// <param name="collectionName">集合名称</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public async Task<long> ListRightPushAsync(string collectionName, object value)
+        public async Task<long> ListRightPushAsync(string collectionName, object? value)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = ObjectToRedisValue(value);
@@ -350,7 +350,7 @@ namespace Materal.RedisHelper
         /// <param name="collectionName">集合名称</param>
         /// <param name="index">位序</param>
         /// <param name="value">值</param>
-        public async Task ListSetByIndexAsync(string collectionName, int index, object value)
+        public async Task ListSetByIndexAsync(string collectionName, int index, object? value)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = ObjectToRedisValue(value);
@@ -362,7 +362,7 @@ namespace Materal.RedisHelper
         /// <param name="collectionName">集合名称</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public async Task<long> ListRemoveAsync(string collectionName, object value)
+        public async Task<long> ListRemoveAsync(string collectionName, object? value)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = ObjectToRedisValue(value);
@@ -439,7 +439,7 @@ namespace Materal.RedisHelper
         /// <param name="collectionName">集合名称</param>
         /// <param name="value">值</param>
         /// <returns></returns>
-        public async Task<bool> SetAddAsync(string collectionName, object value)
+        public async Task<bool> SetAddAsync(string collectionName, object? value)
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = ObjectToRedisValue(value);
@@ -497,7 +497,7 @@ namespace Materal.RedisHelper
         /// </summary>
         /// <param name="channelName"></param>
         /// <param name="value"></param>
-        public async Task PublishAsync(string channelName, object value)
+        public async Task PublishAsync(string channelName, object? value)
         {
             ISubscriber subscriber = GetSubscriber();
             RedisValue redisValue = ObjectToRedisValue(value);
@@ -753,7 +753,7 @@ namespace Materal.RedisHelper
         /// <returns></returns>
         protected virtual RedisValue ObjectToRedisValue(object? obj)
         {
-            if (obj == null) return new RedisValue(string.Empty);
+            if (obj == null) return new RedisValue();
             if (obj is string stringObj)
             {
                 return new RedisValue(stringObj);
