@@ -3,9 +3,10 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<!--<Nullable>enable</Nullable>-->
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>11.0</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.1.11</Version>
+		<PackageOutputPath>../nupkg</PackageOutputPath>
+		<Version>1.1.13</Version>
 		<Authors>Materal</Authors>
 		<Product>Materal</Product>
 		<Copyright>Materal</Copyright>
@@ -14,7 +15,7 @@
 	<ItemGroup>
 		<PackageReference Include="MySql.Data" Version="8.0.31" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-		<PackageReference Include="System.Data.SQLite" Version="1.0.116" />
+		<PackageReference Include="System.Data.SQLite" Version="1.0.117" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />

@@ -3,9 +3,10 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>11.0</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Version>1.1.11</Version>
+		<PackageOutputPath>../nupkg</PackageOutputPath>
+		<Version>1.1.13</Version>
 		<Authors>Materal</Authors>
 		<Product>Materal</Product>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
@@ -14,7 +15,7 @@
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 		<PackageReference Include="QRCoder" Version="1.4.3" />
 		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
 	</ItemGroup>

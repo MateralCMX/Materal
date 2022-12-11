@@ -8,7 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Materal.TTA.SqlServerRepository\Materal.TTA.SqlServerRepository.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Materal.TTA.SqliteRepository\Materal.TTA.SqliteRepository.csproj" />
   </ItemGroup>
 
 </Project>

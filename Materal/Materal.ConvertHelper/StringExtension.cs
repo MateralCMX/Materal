@@ -1,13 +1,11 @@
 ﻿using Materal.StringHelper;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+using QRCoder;
 using System.Drawing;
-using System.IO;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using QRCoder;
 
 namespace Materal.ConvertHelper
 {
@@ -16,6 +14,8 @@ namespace Materal.ConvertHelper
     /// </summary>
     public static class StringExtension
     {
+        private readonly static Dictionary<string, Type> _cacheTypes = new();
+        private readonly static object _operationCacheObjectLock = new();
         /// <summary>
         /// Json转换为XML文档对象
         /// </summary>
@@ -113,6 +113,144 @@ namespace Materal.ConvertHelper
             {
                 throw new MateralConvertException("Json字符串有误", ex);
             }
+        }
+        /// <summary>
+        /// Json字符串转换对象
+        /// </summary>
+        /// <param name="jsonStr"></param>
+        /// <param name="typeName"></param>
+        /// <returns></returns>
+        public static object JsonToObject(this string jsonStr, string typeName)
+        {
+            Type? triggerDataType = null;
+            object? result = null;
+            if (_cacheTypes.ContainsKey(typeName))
+            {
+                triggerDataType = _cacheTypes[typeName];
+            }
+            else
+            {
+                Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                foreach (Assembly assembly in assemblies)
+                {
+                    Type? targetType = assembly.GetTypes().Where(m => m.Name == typeName && m.IsClass && !m.IsAbstract).FirstOrDefault();
+                    if (targetType == null) continue;
+                    ConstructorInfo? constructorInfo = targetType.GetConstructor(Array.Empty<Type>());
+                    if (constructorInfo == null) continue;
+                    triggerDataType = targetType;
+                    break;
+                }
+            }
+            if (triggerDataType == null) throw new MateralConvertException("转换失败");
+            result = jsonStr.JsonToObject(triggerDataType);
+            if (!_cacheTypes.ContainsKey(typeName))
+            {
+                lock (_operationCacheObjectLock)
+                {
+
+                    if (!_cacheTypes.ContainsKey(typeName))
+                    {
+                        _cacheTypes.Add(typeName, triggerDataType);
+                    }
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        /// Json字符串转换对象
+        /// </summary>
+        /// <typeparam name="T">接口类型</typeparam>
+        /// <param name="jsonStr"></param>
+        /// <param name="typeName"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralConvertException"></exception>
+        public static T? JsonToInterface<T>(this string jsonStr, string typeName)
+        {
+            Type? triggerDataType = typeName.GetTypeByInterface<T>();
+            return triggerDataType == null ? default : (T)jsonStr.JsonToObject(triggerDataType);
+        }
+        /// <summary>
+        /// 获得类型
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralConvertException"></exception>
+        public static Type? GetTypeByTypeName(this string typeName)
+        {
+            if (string.IsNullOrWhiteSpace(typeName)) return null;
+            Type? triggerDataType = null;
+            if (_cacheTypes.ContainsKey(typeName))
+            {
+                triggerDataType = _cacheTypes[typeName];
+            }
+            else
+            {
+                Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                foreach (Assembly assembly in assemblies)
+                {
+                    Type? targetType = assembly.GetTypes().Where(m => m.Name == typeName && m.IsClass && !m.IsAbstract).FirstOrDefault();
+                    if (targetType == null) continue;
+                    triggerDataType = targetType;
+                    break;
+                }
+            }
+            if (triggerDataType == null) return null;
+            if (!_cacheTypes.ContainsKey(typeName))
+            {
+                lock (_operationCacheObjectLock)
+                {
+
+                    if (!_cacheTypes.ContainsKey(typeName))
+                    {
+                        _cacheTypes.Add(typeName, triggerDataType);
+                    }
+                }
+            }
+            return triggerDataType;
+        }
+        /// <summary>
+        /// 获得类型
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="typeName"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralConvertException"></exception>
+        public static Type? GetTypeByInterface<T>(this string typeName, params object[] args)
+        {
+            if (string.IsNullOrWhiteSpace(typeName)) return null;
+            Type? triggerDataType = null;
+            if (_cacheTypes.ContainsKey(typeName))
+            {
+                triggerDataType = _cacheTypes[typeName];
+            }
+            else
+            {
+                Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                Type[] argTypes = args.Select(m => m.GetType()).ToArray();
+                foreach (Assembly assembly in assemblies)
+                {
+                    Type? targetType = assembly.GetTypes().Where(m => m.Name == typeName && m.IsClass && !m.IsAbstract && m.IsAssignableFrom(typeof(T))).FirstOrDefault();
+                    if (targetType == null) continue;
+                    ConstructorInfo? constructorInfo = targetType.GetConstructor(argTypes);
+                    if (constructorInfo == null) continue;
+                    triggerDataType = targetType;
+                    break;
+                }
+            }
+            if (triggerDataType == null) return null;
+            if (!_cacheTypes.ContainsKey(typeName))
+            {
+                lock (_operationCacheObjectLock)
+                {
+
+                    if (!_cacheTypes.ContainsKey(typeName))
+                    {
+                        _cacheTypes.Add(typeName, triggerDataType);
+                    }
+                }
+            }
+            return triggerDataType;
         }
         /// <summary>
         /// 字符串转16进制字节数组
