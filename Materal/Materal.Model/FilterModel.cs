@@ -27,17 +27,14 @@ namespace Materal.Model
                 IEnumerable<FilterAttribute> filterAttributes = propertyInfo.GetCustomAttributes<FilterAttribute>();
                 foreach (FilterAttribute filterAttribute in filterAttributes)
                 {
-                    try
+                    object? value = propertyInfo.GetValue(this);
+                    PropertyInfo? tValuePropertyInfo = tType.GetProperty(filterAttribute.TargetPropertyName ?? propertyInfo.Name);
+                    if (tValuePropertyInfo == null) continue;
+                    Expression? binaryExpression = filterAttribute.GetSearchExpression(mParameterExpression, propertyInfo, value, tValuePropertyInfo);
+                    if (binaryExpression != null)
                     {
-                        object value = propertyInfo.GetValue(this);
-                        PropertyInfo tValuePropertyInfo = tType.GetProperty(filterAttribute.TargetPropertyName ?? propertyInfo.Name);
-                        Expression? binaryExpression = filterAttribute.GetSearchExpression(mParameterExpression, propertyInfo, value, tValuePropertyInfo);
-                        if (binaryExpression != null)
-                        {
-                            expression = expression == null ? binaryExpression : Expression.And(expression, binaryExpression);
-                        }
+                        expression = expression == null ? binaryExpression : Expression.And(expression, binaryExpression);
                     }
-                    catch (MateralConvertException) { }
                 }
             }
             Expression<Func<T, bool>> result = expression != null
@@ -114,8 +111,8 @@ namespace Materal.Model
             var isNullable = false;
             if (targetPropertyInfo != null)
             {
-                string fullName = targetPropertyInfo.PropertyType.FullName;
-                if (fullName == null) throw new InvalidOperationException("");
+                string? fullName = targetPropertyInfo.PropertyType.FullName;
+                if (string.IsNullOrWhiteSpace(fullName)) throw new InvalidOperationException("获取属性名失败");
                 isNullable = fullName.IndexOf("System.Nullable", StringComparison.Ordinal) == 0;
             }
             Expression leftExpression = GetLeftExpression(parameterExpression, propertyInfo, isNullable);
@@ -155,7 +152,7 @@ namespace Materal.Model
         /// <param name="propertyInfo"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected Expression GetRightExpression<T>(PropertyInfo propertyInfo, T value)
+        protected static Expression GetRightExpression<T>(PropertyInfo propertyInfo, T value)
         {
             dynamic? useValue = GetValue(propertyInfo, value);
             if(useValue == null) throw new MateralConvertException("不能转换为对应类型");
@@ -169,7 +166,7 @@ namespace Materal.Model
         /// <param name="propertyInfo"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        protected dynamic? GetValue<T>(PropertyInfo propertyInfo, T value)
+        protected static dynamic? GetValue<T>(PropertyInfo propertyInfo, T value)
         {
             if (value == null) return null;
             dynamic? useValue = value;
@@ -199,7 +196,7 @@ namespace Materal.Model
         protected Expression? GetCallExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, string methodName, PropertyInfo targetPropertyInfo)
         {
             Type propertyType = propertyInfo.PropertyType;
-            MethodInfo methodInfo = propertyType.GetMethod(methodName, new[] { propertyType });
+            MethodInfo? methodInfo = propertyType.GetMethod(methodName, new[] { propertyType });
             if (methodInfo == null) return null;
             (Expression leftExpression, Expression rightExpression, Expression? otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
             Expression result = Expression.Call(leftExpression, methodInfo, rightExpression);

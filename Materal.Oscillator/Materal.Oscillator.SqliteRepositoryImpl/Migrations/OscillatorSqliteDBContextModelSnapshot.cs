@@ -40,10 +40,6 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<bool>("Enable")
                         .HasColumnType("INTEGER");
 
@@ -69,10 +65,66 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Answer");
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Answer");
+            modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.AnswerView", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
-                    b.UseTphMappingStrategy();
+                    b.Property<string>("AnswerData")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AnswerType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(400)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ScheduleID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ScheduleName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Territory")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkEvent")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("AnswerView");
                 });
 
             modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.Plan", b =>
@@ -86,10 +138,6 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
 
                     b.Property<string>("Description")
                         .HasMaxLength(400)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("Enable")
@@ -119,10 +167,58 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Plan");
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Plan");
+            modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.PlanView", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
-                    b.UseTphMappingStrategy();
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(400)
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PlanTriggerData")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PlanTriggerType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ScheduleID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ScheduleName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Territory")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("PlanView");
                 });
 
             modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.Schedule", b =>
@@ -168,10 +264,6 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("FailEvent")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -197,10 +289,67 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("ScheduleWork");
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("ScheduleWork");
+            modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.ScheduleWorkView", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
 
-                    b.UseTphMappingStrategy();
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("FailEvent")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ScheduleID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ScheduleName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SuccessEvent")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Territory")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkData")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("WorkID")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("WorkType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("ScheduleWorkView");
                 });
 
             modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.Work", b =>
@@ -252,10 +401,6 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                         .HasMaxLength(400)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -275,81 +420,28 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("WorkEvent");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("WorkEvent");
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.AnswerView", b =>
-                {
-                    b.HasBaseType("Materal.Oscillator.Abstractions.Domain.Answer");
-
-                    b.Property<string>("ScheduleName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Territory")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.HasDiscriminator().HasValue("AnswerView");
-                });
-
-            modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.PlanView", b =>
-                {
-                    b.HasBaseType("Materal.Oscillator.Abstractions.Domain.Plan");
-
-                    b.Property<string>("ScheduleName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Territory")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.HasDiscriminator().HasValue("PlanView");
-                });
-
-            modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.ScheduleWorkView", b =>
-                {
-                    b.HasBaseType("Materal.Oscillator.Abstractions.Domain.ScheduleWork");
-
-                    b.Property<string>("ScheduleName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Territory")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("WorkData")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("WorkName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("WorkType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.HasDiscriminator().HasValue("ScheduleWorkView");
                 });
 
             modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.WorkEventView", b =>
                 {
-                    b.HasBaseType("Materal.Oscillator.Abstractions.Domain.WorkEvent");
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(400)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ScheduleID")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ScheduleName")
                         .IsRequired()
@@ -361,7 +453,17 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.HasDiscriminator().HasValue("WorkEventView");
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("WorkEventView");
                 });
 #pragma warning restore 612, 618
         }

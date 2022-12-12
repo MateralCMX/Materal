@@ -50,6 +50,7 @@ namespace Materal.Oscillator
         public IOscillatorBuild AddWork(WorkModel model)
         {
             ScheduleWorkView scheduleWork = _mapper.Map<ScheduleWorkView>(model);
+            scheduleWork.WorkID = Guid.NewGuid();
             scheduleWork.OrderIndex = _scheduleWorks.Count + 1;
             _scheduleWorks.Add(scheduleWork);
             return this;
@@ -58,6 +59,7 @@ namespace Materal.Oscillator
         {
             ScheduleWorkView scheduleWork = new()
             {
+                ID = Guid.NewGuid(),
                 WorkID = workID,
                 OrderIndex = _scheduleWorks.Count + 1
             };
@@ -72,11 +74,13 @@ namespace Materal.Oscillator
             Plan[] plans = _mapper.Map<Plan[]>(_plans);
             foreach (Plan plan in plans)
             {
+                plan.ScheduleID = schedule.ID;
                 _unitOfWork.RegisterAdd(plan);
             }
             WorkEvent[] workEvents = _mapper.Map<WorkEvent[]>(_workEvents);
             foreach (WorkEvent workEvent in workEvents)
             {
+                workEvent.ScheduleID = schedule.ID;
                 _unitOfWork.RegisterAdd(workEvent);
             }
             Answer[] answers = _mapper.Map<Answer[]>(_answers);
@@ -84,6 +88,17 @@ namespace Materal.Oscillator
             {
                 answers[i].OrderIndex = i + 1;
                 _unitOfWork.RegisterAdd(answers[i]);
+            }
+            Work[] works = _mapper.Map<Work[]>(_scheduleWorks);
+            foreach (Work work in works)
+            {
+                _unitOfWork.RegisterAdd(work);
+            }
+            ScheduleWork[] scheduleWorks = _mapper.Map<ScheduleWork[]>(_scheduleWorks);
+            foreach (ScheduleWork scheduleWork in scheduleWorks)
+            {
+                scheduleWork.ScheduleID = schedule.ID;
+                _unitOfWork.RegisterAdd(scheduleWork);
             }
             await _unitOfWork.CommitAsync();
             return schedule.ID;

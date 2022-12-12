@@ -13,7 +13,7 @@ namespace Materal.WordHelper.Example
         {
             var wordManager = new WordManager();
             string documentPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/本年度支部工作计划-模板.docx");
-            XWPFDocument document = wordManager.ReadWord(documentPath);
+            XWPFDocument document = WordManager.ReadWord(documentPath);
             var template = new List<TemplateModel>
             {
                 new StringTemplateModel
@@ -54,7 +54,7 @@ namespace Materal.WordHelper.Example
                     OnSetCellText = null
                 }
             };
-            wordManager.ApplyToTemplate(document, template.ToArray());
+            WordManager.ApplyToTemplate(document, template.ToArray());
             string documentSavePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data/本年度支部工作计划.docx");
             if (File.Exists(documentSavePath)) File.Delete(documentSavePath);
             using (var fileStream = new FileStream(documentSavePath, FileMode.Create))

@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.SqliteRe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.SqlServerRepositoryImpl", "Materal.Oscillator.SqlServerRepositoryImpl\Materal.Oscillator.SqlServerRepositoryImpl.csproj", "{2C34EE0E-7E7B-4448-8DC5-38C230F9702F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.LocalDR", "Materal.Oscillator.LocalDR\Materal.Oscillator.LocalDR.csproj", "{753E63CB-A3D8-4EBC-A7D3-9FA75CDB0A90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.LocalDR", "Materal.Oscillator.LocalDR\Materal.Oscillator.LocalDR.csproj", "{753E63CB-A3D8-4EBC-A7D3-9FA75CDB0A90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.DR", "Materal.Oscillator.DR\Materal.Oscillator.DR.csproj", "{0AAC6850-8C4E-4768-8F33-A7F2285AA33A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.DR", "Materal.Oscillator.DR\Materal.Oscillator.DR.csproj", "{0AAC6850-8C4E-4768-8F33-A7F2285AA33A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

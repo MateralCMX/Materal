@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>net6.0-windows</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>11.0</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>../nupkg</PackageOutputPath>
-		<Version>1.1.13</Version>
+		<Version>1.1.16</Version>
 		<Authors>Materal</Authors>
 		<Product>Materal</Product>
 		<Description>Materal Windows帮助类</Description>

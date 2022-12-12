@@ -1,9 +1,8 @@
 ﻿using Materal.Common;
-using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Materal.FileHelper
+namespace Materal.ConvertHelper
 {
     public static class StreamExtension
     {
@@ -16,10 +15,8 @@ namespace Materal.FileHelper
         public static string ToFileMd5_32Encode(this string inputString, bool isLower = false)
         {
             if (File.Exists(inputString)) throw new MateralException("文件不存在");
-            using (var stream = new FileStream(inputString, FileMode.Open))
-            {
-                return ToMd5_32Encode(stream, isLower);
-            }
+            using var stream = new FileStream(inputString, FileMode.Open);
+            return stream.ToMd5_32Encode(isLower);
         }
         /// <summary>
         /// 获得MD5加密结果(16位)
@@ -30,10 +27,8 @@ namespace Materal.FileHelper
         public static string ToFileMd5_16Encode(this string inputString, bool isLower = false)
         {
             if (File.Exists(inputString)) throw new MateralException("文件不存在");
-            using (var stream = new FileStream(inputString, FileMode.Open))
-            {
-                return ToMd5_16Encode(stream, isLower);
-            }
+            using var stream = new FileStream(inputString, FileMode.Open);
+            return stream.ToMd5_16Encode(isLower);
         }
         /// <summary>
         /// 获得MD5加密结果(32位)
@@ -43,7 +38,7 @@ namespace Materal.FileHelper
         /// <returns></returns>
         public static string ToMd5_32Encode(this Stream stream, bool isLower = false)
         {
-            MD5 md5 = new MD5CryptoServiceProvider();
+            MD5 md5 = MD5.Create();
             byte[] resultValue = md5.ComputeHash(stream);
             var stringBuilder = new StringBuilder();
             foreach (byte value in resultValue)
@@ -62,7 +57,7 @@ namespace Materal.FileHelper
         /// <returns></returns>
         public static string ToMd5_16Encode(this Stream stream, bool isLower = false)
         {
-            return ToMd5_32Encode(stream, isLower).Substring(8, 16);
+            return stream.ToMd5_32Encode(isLower).Substring(8, 16);
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Materal.TFMS.EventBus
+﻿namespace Materal.TFMS.EventBus
 {
     /// <inheritdoc />
     /// <summary>
@@ -18,7 +14,7 @@ namespace Materal.TFMS.EventBus
         /// 事件类型
         /// </summary>
         private readonly List<Type> _eventTypes;
-        public event EventHandler<string> OnEventRemoved;
+        public event EventHandler<string>? OnEventRemoved;
         public bool IsEmpty => _handlers?.Count == 0;
         /// <summary>
         /// 内存事件总线订阅管理器
@@ -46,14 +42,14 @@ namespace Materal.TFMS.EventBus
 
         public void RemoveSubscription<T, TH>() where T : IntegrationEvent where TH : IIntegrationEventHandler<T>
         {
-            SubscriptionInfo handlerToRemove = FindSubscription<T, TH>();
+            SubscriptionInfo? handlerToRemove = FindSubscription<T, TH>();
             string eventName = GetEventKey<T>();
             DoRemoveSubscription(eventName, handlerToRemove);
         }
 
         public void RemoveDynamicSubscription<TH>(string eventName) where TH : IDynamicIntegrationEventHandler
         {
-            SubscriptionInfo handlerToRemove = FindDynamicSubscription<TH>(eventName);
+            SubscriptionInfo? handlerToRemove = FindDynamicSubscription<TH>(eventName);
             DoRemoveSubscription(eventName, handlerToRemove);
         }
 
@@ -68,7 +64,7 @@ namespace Materal.TFMS.EventBus
             return _handlers.ContainsKey(eventName);
         }
 
-        public Type GetEventTypeByName(string eventName)
+        public Type? GetEventTypeByName(string eventName)
         {
             return _eventTypes.SingleOrDefault(m => m.Name == eventName);
         }
@@ -125,7 +121,7 @@ namespace Materal.TFMS.EventBus
         /// </summary>
         /// <param name="eventName"></param>
         /// <param name="subscriptionInfo"></param>
-        private void DoRemoveSubscription(string eventName,SubscriptionInfo subscriptionInfo)
+        private void DoRemoveSubscription(string eventName, SubscriptionInfo? subscriptionInfo)
         {
             if (eventName == null) throw new ArgumentNullException(nameof(eventName));
             if (subscriptionInfo == null) throw new ArgumentNullException(nameof(subscriptionInfo));
@@ -133,7 +129,7 @@ namespace Materal.TFMS.EventBus
             _handlers[eventName].Remove(subscriptionInfo);
             if (_handlers[eventName].Any()) return;
             _handlers.Remove(eventName);
-            Type eventType = GetEventTypeByName(eventName);
+            Type? eventType = GetEventTypeByName(eventName);
             if (eventType != null) _eventTypes.Remove(eventType);
             OnEventRemoved?.Invoke(this, eventName);
         }
@@ -143,7 +139,7 @@ namespace Materal.TFMS.EventBus
         /// <typeparam name="TH"></typeparam>
         /// <param name="eventName"></param>
         /// <returns></returns>
-        private SubscriptionInfo FindDynamicSubscription<TH>(string eventName)
+        private SubscriptionInfo? FindDynamicSubscription<TH>(string eventName)
             where TH : IDynamicIntegrationEventHandler
         {
             return DoFindSubscription(eventName, typeof(TH));
@@ -154,7 +150,7 @@ namespace Materal.TFMS.EventBus
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TH"></typeparam>
         /// <returns></returns>
-        private SubscriptionInfo FindSubscription<T, TH>()
+        private SubscriptionInfo? FindSubscription<T, TH>()
             where T : IntegrationEvent
             where TH : IIntegrationEventHandler<T>
         {
@@ -167,7 +163,7 @@ namespace Materal.TFMS.EventBus
         /// <param name="eventName"></param>
         /// <param name="handlerType"></param>
         /// <returns></returns>
-        private SubscriptionInfo DoFindSubscription(string eventName, Type handlerType)
+        private SubscriptionInfo? DoFindSubscription(string eventName, Type handlerType)
         {
             if (HasSubscriptionsForEvent(eventName)) throw new ArgumentException($"事件{eventName}没有订阅", nameof(eventName));
             return _handlers[eventName].SingleOrDefault(s => s.HandlerType == handlerType);
@@ -178,7 +174,7 @@ namespace Materal.TFMS.EventBus
         /// <typeparam name="T"></typeparam>
         /// <param name="type"></param>
         /// <returns></returns>
-        private string GetEventKey<T>(out Type type)
+        private static string GetEventKey<T>(out Type type)
         {
             type = typeof(T);
             return type.Name;

@@ -36,11 +36,11 @@ namespace Materal.ConvertHelper
         public static object GetDefaultObject(Type type)
         {
             ConstructorInfo[] constructors = type.GetConstructors();
-            ConstructorInfo constructor = (from m in constructors
+            ConstructorInfo? constructor = (from m in constructors
                                            where m.GetParameters().Length == 0
                                            select m).FirstOrDefault();
             return constructor != null
-                ? constructor.Invoke(new object[0])
+                ? constructor.Invoke(Array.Empty<object>())
                 : throw new MateralConvertException("没有可用构造方法，需要一个无参数的构造方法");
         }
         /// <summary>
@@ -52,7 +52,7 @@ namespace Materal.ConvertHelper
         public static object GetDefaultObject(Type type, params object[] parameters)
         {
             ConstructorInfo[] constructors = type.GetConstructors();
-            ConstructorInfo constructor = (from m in constructors
+            ConstructorInfo? constructor = (from m in constructors
                                            where m.GetParameters().Length == parameters.Length
                                            select m).FirstOrDefault();
             try

@@ -15,15 +15,12 @@ namespace Materal.Oscillator
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddOscillatorService(this IServiceCollection services, IConfiguration? configuration = null, params Assembly[] autoMapperAssemblys)
+        public static IServiceCollection AddOscillatorService(this IServiceCollection services, IConfiguration? configuration = null)
         {
             if(configuration != null)
             {
                 OscillatorConfig.Init(configuration);
             }
-            List<Assembly> autoMapperAssemblyList = autoMapperAssemblys.ToList();
-            autoMapperAssemblyList.Add(Assembly.Load("Materal.Oscillator"));
-            services.AddAutoMapper(autoMapperAssemblyList);
             services.AddTransient<IOscillatorManager, OscillatorManager>();
             services.AddTransient<IWorkEventBus, WorkEventBusImpl>();
             services.AddSingleton<OscillatorService>();

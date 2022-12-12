@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Materal.Common
 {
@@ -11,8 +9,10 @@ namespace Materal.Common
         {
             _expressions = expressions;
         }
-        public bool Equals(T x, T y)
+        public bool Equals(T? x, T? y)
         {
+            if (x == null && y == null) return true;
+            else if (x == null || y == null) return false;
             foreach (Expression<Func<T, object>> expression in _expressions)
             {
                 object xValue = expression.Compile().Invoke(x);

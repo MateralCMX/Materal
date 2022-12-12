@@ -64,10 +64,5 @@ namespace Materal.Oscillator.DR
         /// </summary>
         /// <returns></returns>
         public Task ScheduleStartAsync();
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        /// <returns></returns>
-        Task InitAsync();
     }
 }

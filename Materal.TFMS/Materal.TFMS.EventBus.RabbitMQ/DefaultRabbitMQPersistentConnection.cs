@@ -31,7 +31,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <summary>
         /// 连接对象 
         /// </summary>
-        protected IConnection Connection;
+        protected IConnection? Connection;
         /// <summary>
         /// 释放标识
         /// </summary>
@@ -40,7 +40,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <summary>
         /// 联线RabbitMQ锁
         /// </summary>
-        protected static readonly object OnlineRabbitMQLock = new object();
+        protected static readonly object OnlineRabbitMQLock = new();
         /// <summary>
         /// 默认RabbitMQ持久连接
         /// </summary>
@@ -61,7 +61,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
 
             try
             {
-                Connection.Dispose();
+                Connection?.Dispose();
             }
             catch (IOException ex)
             {
@@ -81,7 +81,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                         }
                     );
                 policy.Execute(() => Connection = _connectionFactory.CreateConnection());
-                if (IsConnected)
+                if (IsConnected && Connection != null)
                 {
                     Connection.ConnectionShutdown += OnConnectionShutdown;
                     Connection.CallbackException += OnCallbackException;
@@ -95,7 +95,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         }
         public async Task<IModel> CreateModelAsync()
         {
-            if (!IsConnected)
+            if (!IsConnected || Connection == null)
             {
                 throw new InvalidOperationException("没有可用的RabbitMQ连接");
             }
@@ -108,7 +108,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnConnectionBlocked(object sender, ConnectionBlockedEventArgs e)
+        private void OnConnectionBlocked(object? sender, ConnectionBlockedEventArgs e)
         {
             if (Disposed) return;
             Logger?.LogWarning("RabbitMQ连接被阻塞,正在重新连接...");
@@ -119,7 +119,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnCallbackException(object sender, CallbackExceptionEventArgs e)
+        private void OnCallbackException(object? sender, CallbackExceptionEventArgs e)
         {
             if (Disposed) return;
             Logger?.LogWarning("RabbitMQ发送了一个异常({ExceptionMessage}),正在重新连接...", e.Exception.Message);
@@ -130,7 +130,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="reason"></param>
-        private void OnConnectionShutdown(object sender, ShutdownEventArgs reason)
+        private void OnConnectionShutdown(object? sender, ShutdownEventArgs reason)
         {
             if (Disposed) return;
             Logger?.LogWarning("RabbitMQ连接被关闭,正在重新连接...");

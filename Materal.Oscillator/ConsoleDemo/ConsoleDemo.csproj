@@ -15,7 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Materal.Oscillator.LocalDR\Materal.Oscillator.LocalDR.csproj" />
     <ProjectReference Include="..\Materal.Oscillator.SqliteRepositoryImpl\Materal.Oscillator.SqliteRepositoryImpl.csproj" />
+    <ProjectReference Include="..\Materal.Oscillator.SqlServerRepositoryImpl\Materal.Oscillator.SqlServerRepositoryImpl.csproj" />
     <ProjectReference Include="..\Materal.Oscillator\Materal.Oscillator.csproj" />
   </ItemGroup>
 

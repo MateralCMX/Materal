@@ -1,9 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageOutputPath>../nupkg</PackageOutputPath>
+		<Product>Materal.Oscillator</Product>
+		<Company>Materal</Company>
+		<Authors>Materal</Authors>
+		<Version>0.0.1</Version>
+		<Copyright>Materal</Copyright>
+		<Description>Materal.Oscillator.SqlServerRepositoryImpl</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.TTA.SqlServerRepository" Version="2.0.18" />
+		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />
+	</ItemGroup>
 </Project>

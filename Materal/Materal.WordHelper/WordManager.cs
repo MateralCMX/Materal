@@ -15,7 +15,7 @@ namespace Materal.WordHelper
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public XWPFDocument ReadWord(string filePath)
+        public static XWPFDocument ReadWord(string filePath)
         {
             if (!File.Exists(filePath)) throw new MateralException("文件不存在");
             using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
@@ -26,7 +26,7 @@ namespace Materal.WordHelper
         /// </summary>
         /// <param name="fileStream"></param>
         /// <returns></returns>
-        public XWPFDocument ReadWord(FileStream fileStream)
+        public static XWPFDocument ReadWord(FileStream fileStream)
         {
             return new XWPFDocument(fileStream);
         }
@@ -36,7 +36,7 @@ namespace Materal.WordHelper
         /// </summary>
         /// <param name="document">文档对象</param>
         /// <param name="templates">模板模型</param>
-        public void ApplyToTemplate(XWPFDocument document, params TemplateModel[] templates)
+        public static void ApplyToTemplate(XWPFDocument document, params TemplateModel[] templates)
         {
             var stringTemplates = new List<StringTemplateModel>();
             var tableTemplates = new List<TableTemplateModel>();
@@ -66,7 +66,7 @@ namespace Materal.WordHelper
         /// </summary>
         /// <param name="document"></param>
         /// <param name="stringTemplates"></param>
-        private void ApplyToStringTemplate(IBody document, IReadOnlyCollection<StringTemplateModel> stringTemplates)
+        private static void ApplyToStringTemplate(IBody document, IReadOnlyCollection<StringTemplateModel> stringTemplates)
         {
             foreach (XWPFParagraph paragraph in document.Paragraphs)
             {
@@ -91,7 +91,7 @@ namespace Materal.WordHelper
         /// <param name="document"></param>
         /// <param name="tableTemplates"></param>
         /// <param name="stringTemplates"></param>
-        private void ApplyToTableTemplate(IBody document, IReadOnlyCollection<TableTemplateModel> tableTemplates, IReadOnlyCollection<StringTemplateModel> stringTemplates)
+        private static void ApplyToTableTemplate(IBody document, IReadOnlyCollection<TableTemplateModel> tableTemplates, IReadOnlyCollection<StringTemplateModel> stringTemplates)
         {
             foreach (XWPFTable tableContent in document.Tables)
             {
@@ -99,9 +99,9 @@ namespace Materal.WordHelper
                 {
                     for (var rowIndex = 0; rowIndex < tableContent.NumberOfRows; rowIndex++)
                     {
-                        (string? tableName, Dictionary<int, string>? colNames) = GetTableNameAndColName(tableContent, rowIndex);
+                        (string? tableName, Dictionary<int, string> colNames) = GetTableNameAndColName(tableContent, rowIndex);
                         if (string.IsNullOrEmpty(tableName)) continue;
-                        TableTemplateModel tableTemplate = tableTemplates.FirstOrDefault(m => m.Key == tableName);
+                        TableTemplateModel? tableTemplate = tableTemplates.FirstOrDefault(m => m.Key == tableName);
                         if (tableTemplate == null) continue;
                         ApplyToTableTemplate(tableContent, tableTemplate, colNames);
                         break;
@@ -116,7 +116,7 @@ namespace Materal.WordHelper
         /// <param name="tableContent"></param>
         /// <param name="tableTemplate"></param>
         /// <param name="colNames"></param>
-        private void ApplyToTableTemplate(XWPFTable tableContent, TableTemplateModel tableTemplate, Dictionary<int, string>? colNames)
+        private static void ApplyToTableTemplate(XWPFTable tableContent, TableTemplateModel tableTemplate, Dictionary<int, string> colNames)
         {
             int startRowNum = tableTemplate.StartRowNumber;
             if (tableTemplate.Value == null) return;
@@ -125,16 +125,17 @@ namespace Materal.WordHelper
                 int documentRowIndex = rowIndex + startRowNum;
                 XWPFTableRow row = rowIndex == 0 ? tableContent.GetRow(documentRowIndex) : tableContent.InsertNewTableRow(documentRowIndex - 1);
                 int cellCount = row.GetTableCells().Count;
+                if (colNames == null) continue;
                 int count = colNames.Max(m => m.Key);
                 for (int i = cellCount - 1; i < count; i++)
                 {
                     row.CreateCell();
                 }
-                if (colNames == null) continue;
                 foreach (KeyValuePair<int, string> colName in colNames)
                 {
                     string[] colValues = colName.Value.Split(',');
-                    string value = tableTemplate.Value.Rows[rowIndex][colValues[0]].ToString();
+                    string? value = tableTemplate.Value.Rows[rowIndex][colValues[0]].ToString();
+                    if (string.IsNullOrWhiteSpace(value)) continue;
                     XWPFParagraph paragraph = GetCellContent(rowIndex, colName.Key, tableContent, value, tableTemplate.OnSetCellText);
                     XWPFTableCell cell = row.GetCell(colName.Key);
                     cell.SetParagraph(paragraph);
@@ -151,7 +152,7 @@ namespace Materal.WordHelper
         /// <param name="command"></param>
         /// <param name="colIndex"></param>
         /// <param name="row"></param>
-        private void ApplyCommand(string command, int colIndex, XWPFTableRow row)
+        private static void ApplyCommand(string command, int colIndex, XWPFTableRow row)
         {
             string[] commands = command.Split(':');
             if (commands.Length != 2) return;
@@ -173,7 +174,7 @@ namespace Materal.WordHelper
         /// </summary>
         /// <param name="tableContent"></param>
         /// <param name="stringTemplates"></param>
-        private void ApplyTableToStringTemplate(XWPFTable tableContent, IReadOnlyCollection<StringTemplateModel> stringTemplates)
+        private static void ApplyTableToStringTemplate(XWPFTable tableContent, IReadOnlyCollection<StringTemplateModel> stringTemplates)
         {
             foreach (XWPFTableRow row in tableContent.Rows)
             {
@@ -203,11 +204,11 @@ namespace Materal.WordHelper
         /// <param name="tableContent"></param>
         /// <param name="rowIndex"></param>
         /// <returns></returns>
-        private (string? tableName, Dictionary<int, string>? colNames) GetTableNameAndColName(XWPFTable tableContent, int rowIndex)
+        private static (string? tableName, Dictionary<int, string> colNames) GetTableNameAndColName(XWPFTable tableContent, int rowIndex)
         {
             XWPFTableRow row = tableContent.GetRow(rowIndex);
             List<XWPFTableCell> cells = row.GetTableCells();
-            if (cells.Count <= 0 || cells[0].BodyElements.Count <= 0) return (null, null);
+            if (cells.Count <= 0 || cells[0].BodyElements.Count <= 0) return (string.Empty, new Dictionary<int, string>());
             string tableName = string.Empty;
             var colNames = new Dictionary<int, string>();
             for (var index = 0; index < cells.Count; index++)
@@ -216,7 +217,7 @@ namespace Materal.WordHelper
                 if (bodyElement is not XWPFParagraph paragraph) continue;
                 string value = paragraph.ParagraphText;
                 if (!value.VerifyRegex("^{\\$.+\\..+\\}$")) continue;
-                string[] tableNameAndColumnName = value.Substring(2, value.Length - 3).Split('.');
+                string[] tableNameAndColumnName = value[2..^1].Split('.');
                 if (tableNameAndColumnName.Length != 2) continue;
                 tableName = tableNameAndColumnName[0];
                 if (colNames.ContainsKey(index)) continue;
@@ -234,7 +235,7 @@ namespace Materal.WordHelper
         /// <param name="value"></param>
         /// <param name="setCell"></param>
         /// <returns></returns>
-        private XWPFParagraph GetCellContent(int rowIndex, int colIndex, IBodyElement tableContent, string value, Func<int, int, XWPFParagraph, XWPFRun>? setCell)
+        private static XWPFParagraph GetCellContent(int rowIndex, int colIndex, IBodyElement tableContent, string value, Func<int, int, XWPFParagraph, XWPFRun>? setCell)
         {
             var ctP = new CT_P();
             var paragraph = new XWPFParagraph(ctP, tableContent.Body);

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDataBase : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,9 +24,6 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                     Description = table.Column<string>(type: "TEXT", maxLength: 400, nullable: true),
                     AnswerType = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     AnswerData = table.Column<string>(type: "TEXT", maxLength: 4000, nullable: false),
-                    Discriminator = table.Column<string>(type: "TEXT", nullable: false),
-                    ScheduleName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Territory = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -46,9 +43,6 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                     Description = table.Column<string>(type: "TEXT", maxLength: 400, nullable: true),
                     PlanTriggerType = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     PlanTriggerData = table.Column<string>(type: "TEXT", maxLength: 4000, nullable: false),
-                    Discriminator = table.Column<string>(type: "TEXT", nullable: false),
-                    ScheduleName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Territory = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -84,12 +78,6 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                     OrderIndex = table.Column<int>(type: "INTEGER", nullable: false),
                     SuccessEvent = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     FailEvent = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Discriminator = table.Column<string>(type: "TEXT", nullable: false),
-                    WorkName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    WorkType = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    WorkData = table.Column<string>(type: "TEXT", maxLength: 4000, nullable: true),
-                    ScheduleName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Territory = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
@@ -124,9 +112,6 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Migrations
                     Value = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     ScheduleID = table.Column<Guid>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 400, nullable: true),
-                    Discriminator = table.Column<string>(type: "TEXT", nullable: false),
-                    ScheduleName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    Territory = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },

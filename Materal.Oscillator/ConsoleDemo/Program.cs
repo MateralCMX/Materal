@@ -6,20 +6,35 @@ using Materal.Oscillator.Abstractions.DataTransmitModel;
 using Materal.Oscillator.Abstractions.Models.Plan;
 using Materal.Oscillator.Abstractions.Models.Work;
 using Materal.Oscillator.Answers;
+using Materal.Oscillator.LocalDR;
 using Materal.Oscillator.PlanTriggers;
 using Materal.Oscillator.Works;
 using Materal.TTA.EFRepository;
 using Materal.TTA.SqliteRepository.Model;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace ConsoleDemo
 {
     public class Program
     {
+        public static string _targetDB = "Sqlite";
         public static async Task Main()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddOscillatorService();//注入调度器服务
+            serviceCollection.AddAutoMapper(Assembly.Load("Materal.Oscillator"));//注入AutoMapper
+            #region SqlServer
+            //serviceCollection.AddOscillatorSqlServerRepositoriesService(new SqlServerConfigModel
+            //{
+            //    Address = "175.27.194.19",
+            //    Port = "1433",
+            //    Name = "OscillatorTestDB",
+            //    UserID = "sa",
+            //    Password = "XMJry@456",
+            //    TrustServerCertificate = true
+            //});
+            #endregion
             #region Sqlite
             serviceCollection.AddOscillatorSqliteRepositoriesService(new SqliteConfigModel
             {
@@ -28,12 +43,21 @@ namespace ConsoleDemo
             #endregion
             serviceCollection.AddSingleton<IRetryAnswerListener, RetryAnswerListenerImpl>();
             serviceCollection.AddSingleton<IOscillatorListener, OscillatorListenerImpl>();
-            //serviceCollection.AddSingleton<IOscillatorDR, OscillatorLocalDR>();
+            serviceCollection.AddOscillatorLocalDRService(new SqliteConfigModel
+            {
+                Source = "OscillatorDR.db"
+            });
             MateralServices.Services = serviceCollection.BuildServiceProvider();
-            #region Sqlite
-            var migrateHelper = MateralServices.Services.GetService<MigrateHelper<OscillatorSqliteDBContext>>() ?? throw new OscillatorException("获取服务失败");
-            await migrateHelper.MigrateAsync();
+            #region SqlServer
+            //var sqlServerMigrateHelper = MateralServices.Services.GetService<MigrateHelper<OscillatorSqlServerDBContext>>() ?? throw new OscillatorException("获取服务失败");
+            //await sqlServerMigrateHelper.MigrateAsync();
             #endregion
+            #region Sqlite
+            var sqliteMigrateHelper = MateralServices.Services.GetService<MigrateHelper<OscillatorSqliteDBContext>>() ?? throw new OscillatorException("获取服务失败");
+            await sqliteMigrateHelper.MigrateAsync();
+            #endregion
+            var drMigrateHelper = MateralServices.Services.GetService<MigrateHelper<OscillatorLocalDRDBContext>>() ?? throw new OscillatorException("获取服务失败");
+            await drMigrateHelper.MigrateAsync();
             #region 测试调度器
             IOscillatorManager oscillatorManager = MateralServices.Services.GetService<IOscillatorManager>() ?? throw new OscillatorException("获取管理器失败");
             List<ScheduleDTO> allSchedules = await oscillatorManager.GetAllScheduleListAsync();

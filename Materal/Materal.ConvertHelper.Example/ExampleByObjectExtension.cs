@@ -65,7 +65,7 @@ namespace Materal.ConvertHelper.Example
                 return null;
             });
             var customClass4 = customClass1.ConvertTo<CustomClass4>();
-            Bitmap qrCode = "Materal".ToQRCode();
+            //Bitmap qrCode = "Materal".ToQRCode();
             //qrCode.Save(@"D:\Test\TestQRCode.jpg");
         }
         #endregion

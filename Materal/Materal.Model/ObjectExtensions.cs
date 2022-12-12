@@ -36,7 +36,7 @@ namespace Materal.Model
             {
                 foreach (ValidationAttribute validationAttribute in propertyInfo.GetCustomAttributes<ValidationAttribute>())
                 {
-                    object propertyValue = propertyInfo.GetValue(model, null);
+                    object? propertyValue = propertyInfo.GetValue(model, null);
                     if (!validationAttribute.IsValid(propertyValue))
                     {
                         throw new ValidationException(validationAttribute.ErrorMessage, validationAttribute, propertyValue);

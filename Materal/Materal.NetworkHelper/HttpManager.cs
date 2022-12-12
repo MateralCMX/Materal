@@ -81,7 +81,7 @@ namespace Materal.NetworkHelper
             }
             catch (Exception)
             {
-                return data.ToString();
+                return data.ToString() ?? string.Empty;
             }
         }
 
@@ -177,7 +177,7 @@ namespace Materal.NetworkHelper
                 else
                 {
                     var memoryStream = new MemoryStream();
-                    string temp = dataHandler == null ? DefaultHandlerData(data) : await dataHandler(data);
+                    string? temp = dataHandler == null ? DefaultHandlerData(data) : await dataHandler(data);
                     httpRequestMessage.Content = GetHttpContentByFormDataBytes(memoryStream, temp, encoding);
                 }
             }
@@ -206,7 +206,7 @@ namespace Materal.NetworkHelper
         {
             encoding ??= Encoding.UTF8;
             byte[] resultBytes = await SendByteByHttpContentAsync(url, httpMethod, httpContent, queryParams, headers);
-            string result = encoding.GetString(resultBytes);
+            string? result = encoding.GetString(resultBytes);
             return result;
         }
 
@@ -228,7 +228,7 @@ namespace Materal.NetworkHelper
         {
             encoding ??= Encoding.UTF8;
             byte[] resultBytes = await SendByteAsync(url, httpMethod, data, queryParams, headers, encoding, dataHandler);
-            string result = encoding.GetString(resultBytes);
+            string? result = encoding.GetString(resultBytes);
             return result;
         }
 
@@ -246,7 +246,7 @@ namespace Materal.NetworkHelper
         /// <exception cref="MateralHttpException"></exception>
         public static async Task<string> SendPostAsync(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null)
         {
-            string result = await SendByHttpContentAsync(url, HttpMethod.Post, httpContent, queryParams, headers, encoding);
+            string? result = await SendByHttpContentAsync(url, HttpMethod.Post, httpContent, queryParams, headers, encoding);
             return result;
         }
 
@@ -264,7 +264,7 @@ namespace Materal.NetworkHelper
         /// <exception cref="MateralHttpException"></exception>
         public static async Task<string> SendPutAsync(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null)
         {
-            string result = await SendByHttpContentAsync(url, HttpMethod.Put, httpContent, queryParams, headers, encoding);
+            string? result = await SendByHttpContentAsync(url, HttpMethod.Put, httpContent, queryParams, headers, encoding);
             return result;
         }
 
@@ -282,7 +282,7 @@ namespace Materal.NetworkHelper
         /// <exception cref="MateralHttpException"></exception>
         public static async Task<string> SendDeleteAsync(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null)
         {
-            string result = await SendByHttpContentAsync(url, HttpMethod.Delete, httpContent, queryParams, headers, encoding);
+            string? result = await SendByHttpContentAsync(url, HttpMethod.Delete, httpContent, queryParams, headers, encoding);
             return result;
         }
 
@@ -301,7 +301,7 @@ namespace Materal.NetworkHelper
         public static async Task<string> SendPatchAsync(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null)
         {
             var httpMethod = new HttpMethod("PATCH");
-            string result = await SendByHttpContentAsync(url, httpMethod, httpContent, queryParams, headers, encoding);
+            string? result = await SendByHttpContentAsync(url, httpMethod, httpContent, queryParams, headers, encoding);
             return result;
         }
 
@@ -318,7 +318,7 @@ namespace Materal.NetworkHelper
         /// <exception cref="MateralHttpException"></exception>
         public static async Task<string> SendGetAsync(string url, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null)
         {
-            string result = await SendAsync(url, HttpMethod.Get, null, queryParams, headers, encoding);
+            string? result = await SendAsync(url, HttpMethod.Get, null, queryParams, headers, encoding);
             return result;
         }
 
@@ -337,7 +337,7 @@ namespace Materal.NetworkHelper
         /// <exception cref="MateralHttpException"></exception>
         public static async Task<string> SendPostAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Func<object, Task<string>>? dataHandler = null)
         {
-            string result = await SendAsync(url, HttpMethod.Post, data, queryParams, headers, encoding, dataHandler);
+            string? result = await SendAsync(url, HttpMethod.Post, data, queryParams, headers, encoding, dataHandler);
             return result;
         }
 
@@ -356,7 +356,7 @@ namespace Materal.NetworkHelper
         /// <exception cref="MateralHttpException"></exception>
         public static async Task<string> SendPutAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Func<object, Task<string>>? dataHandler = null)
         {
-            string result = await SendAsync(url, HttpMethod.Put, data, queryParams, headers, encoding, dataHandler);
+            string? result = await SendAsync(url, HttpMethod.Put, data, queryParams, headers, encoding, dataHandler);
             return result;
         }
 
@@ -375,7 +375,7 @@ namespace Materal.NetworkHelper
         /// <exception cref="MateralHttpException"></exception>
         public static async Task<string> SendDeleteAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Func<object, Task<string>>? dataHandler = null)
         {
-            string result = await SendAsync(url, HttpMethod.Delete, data, queryParams, headers, encoding, dataHandler);
+            string? result = await SendAsync(url, HttpMethod.Delete, data, queryParams, headers, encoding, dataHandler);
             return result;
         }
 
@@ -395,7 +395,7 @@ namespace Materal.NetworkHelper
         public static async Task<string> SendPatchAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Func<object, Task<string>>? dataHandler = null)
         {
             var httpMethod = new HttpMethod("PATCH");
-            string result = await SendAsync(url, httpMethod, data, queryParams, headers, encoding, dataHandler);
+            string? result = await SendAsync(url, httpMethod, data, queryParams, headers, encoding, dataHandler);
             return result;
         }
 
@@ -414,7 +414,7 @@ namespace Materal.NetworkHelper
         public static string SendPost(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null)
         {
             Task<string> resultTask = SendByHttpContentAsync(url, HttpMethod.Post, httpContent, queryParams, headers, encoding);
-            Task.WaitAll(resultTask);
+            resultTask.Wait();
             return resultTask.Result;
         }
 
@@ -433,7 +433,7 @@ namespace Materal.NetworkHelper
         public static string SendPut(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null)
         {
             Task<string> resultTask = SendByHttpContentAsync(url, HttpMethod.Put, httpContent, queryParams, headers, encoding);
-            Task.WaitAll(resultTask);
+            resultTask.Wait();
             return resultTask.Result;
         }
 
@@ -452,7 +452,7 @@ namespace Materal.NetworkHelper
         public static string SendDelete(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null)
         {
             Task<string> resultTask = SendByHttpContentAsync(url, HttpMethod.Delete, httpContent, queryParams, headers, encoding);
-            Task.WaitAll(resultTask);
+            resultTask.Wait();
             return resultTask.Result;
         }
 
@@ -472,7 +472,7 @@ namespace Materal.NetworkHelper
         {
             var httpMethod = new HttpMethod("PATCH");
             Task<string> resultTask = SendByHttpContentAsync(url, httpMethod, httpContent, queryParams, headers, encoding);
-            Task.WaitAll(resultTask);
+            resultTask.Wait();
             return resultTask.Result;
         }
 
@@ -490,7 +490,7 @@ namespace Materal.NetworkHelper
         public static string SendGet(string url, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null)
         {
             Task<string> resultTask = SendAsync(url, HttpMethod.Get, null, queryParams, headers, encoding);
-            Task.WaitAll(resultTask);
+            resultTask.Wait();
             return resultTask.Result;
         }
 
@@ -510,7 +510,7 @@ namespace Materal.NetworkHelper
         public static string SendPost(string url, object? data = null, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Func<object, Task<string>>? dataHandler = null)
         {
             Task<string> resultTask = SendAsync(url, HttpMethod.Post, data, queryParams, headers, encoding, dataHandler);
-            Task.WaitAll(resultTask);
+            resultTask.Wait();
             return resultTask.Result;
         }
 
@@ -530,7 +530,7 @@ namespace Materal.NetworkHelper
         public static string SendPut(string url, object? data = null, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Func<object, Task<string>>? dataHandler = null)
         {
             Task<string> resultTask = SendAsync(url, HttpMethod.Put, data, queryParams, headers, encoding, dataHandler);
-            Task.WaitAll(resultTask);
+            resultTask.Wait();
             return resultTask.Result;
         }
 
@@ -550,7 +550,7 @@ namespace Materal.NetworkHelper
         public static string SendDelete(string url, object? data = null, Dictionary<string, string>? queryParams = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Func<object, Task<string>>? dataHandler = null)
         {
             Task<string> resultTask = SendAsync(url, HttpMethod.Delete, data, queryParams, headers, encoding, dataHandler);
-            Task.WaitAll(resultTask);
+            resultTask.Wait();
             return resultTask.Result;
         }
 
@@ -571,37 +571,37 @@ namespace Materal.NetworkHelper
         {
             var httpMethod = new HttpMethod("PATCH");
             Task<string> resultTask = SendAsync(url, httpMethod, data, queryParams, headers, encoding, dataHandler);
-            Task.WaitAll(resultTask);
+            resultTask.Wait();
             return resultTask.Result;
         }
 
-        /// <summary>
-        /// Http下载
-        /// </summary>
-        /// <param name="downloadUrl">下载地址</param>
-        /// <param name="saveFilePath">保存文件地址</param>
-        /// <param name="cover">覆盖</param>
-        /// <returns></returns>
-        public static void HttpDownload(string downloadUrl, string saveFilePath, bool cover = false)
-        {
-            string filePath = GetSaveFilePath(saveFilePath, cover);
-            var uri = new Uri(downloadUrl);
-            new WebClient().DownloadFile(uri, filePath);
-        }
+        ///// <summary>
+        ///// Http下载
+        ///// </summary>
+        ///// <param name="downloadUrl">下载地址</param>
+        ///// <param name="saveFilePath">保存文件地址</param>
+        ///// <param name="cover">覆盖</param>
+        ///// <returns></returns>
+        //public static void HttpDownload(string downloadUrl, string saveFilePath, bool cover = false)
+        //{
+        //    string? filePath = GetSaveFilePath(saveFilePath, cover);
+        //    var uri = new Uri(downloadUrl);
+        //    new WebClient().DownloadFile(uri, filePath);
+        //}
 
-        /// <summary>
-        /// Http下载
-        /// </summary>
-        /// <param name="downloadUrl">下载地址</param>
-        /// <param name="saveFilePath">保存文件地址</param>
-        /// <param name="cover">覆盖</param>
-        /// <returns></returns>
-        public static void HttpDownloadAsync(string downloadUrl, string saveFilePath, bool cover = false)
-        {
-            string filePath = GetSaveFilePath(saveFilePath, cover);
-            var uri = new Uri(downloadUrl);
-            new WebClient().DownloadFileAsync(uri, filePath);
-        }
+        ///// <summary>
+        ///// Http下载
+        ///// </summary>
+        ///// <param name="downloadUrl">下载地址</param>
+        ///// <param name="saveFilePath">保存文件地址</param>
+        ///// <param name="cover">覆盖</param>
+        ///// <returns></returns>
+        //public static void HttpDownloadAsync(string downloadUrl, string saveFilePath, bool cover = false)
+        //{
+        //    string? filePath = GetSaveFilePath(saveFilePath, cover);
+        //    var uri = new Uri(downloadUrl);
+        //    new WebClient().DownloadFileAsync(uri, filePath);
+        //}
 
         /// <summary>
         /// 获取保存文件路径
@@ -612,13 +612,13 @@ namespace Materal.NetworkHelper
         private static string GetSaveFilePath(string saveFilePath, bool cover)
         {
             if (saveFilePath == null) throw new ArgumentNullException(nameof(saveFilePath));
-            string directoryName = Path.GetDirectoryName(saveFilePath);
+            string? directoryName = Path.GetDirectoryName(saveFilePath);
             if (string.IsNullOrEmpty(directoryName)) throw new ArgumentNullException(nameof(saveFilePath));
             if (!Directory.Exists(directoryName))
             {
                 Directory.CreateDirectory(directoryName);
             }
-            string filePath = saveFilePath;
+            string? filePath = saveFilePath;
             if (cover)
             {
                 if (File.Exists(filePath))
@@ -631,8 +631,8 @@ namespace Materal.NetworkHelper
                 var fileIndex = 1;
                 while (File.Exists(filePath))
                 {
-                    string fileName = Path.GetFileNameWithoutExtension(saveFilePath);
-                    string extension = Path.GetExtension(saveFilePath);
+                    string? fileName = Path.GetFileNameWithoutExtension(saveFilePath);
+                    string? extension = Path.GetExtension(saveFilePath);
                     if (string.IsNullOrEmpty(extension))
                     {
                         filePath = directoryName + @"\" + fileName + "(" + fileIndex++ + ")";

@@ -15,8 +15,10 @@ namespace Materal.Common
         public static string GetDescription(this object inputObj)
         {
             Type objType = inputObj.GetType();
-            FieldInfo fieldInfo = objType.GetField(inputObj.ToString());
-            Attribute attribute = fieldInfo != null ? 
+            string? inputString = inputObj.ToString();
+            if(string.IsNullOrEmpty(inputString)) return string.Empty;
+            FieldInfo? fieldInfo = objType.GetField(inputString);
+            Attribute? attribute = fieldInfo != null ? 
                 fieldInfo.GetCustomAttribute(typeof(DescriptionAttribute)) : 
                 objType.GetCustomAttribute(typeof(DescriptionAttribute));
             return attribute != null && attribute is DescriptionAttribute descriptionAttribute ?
@@ -32,7 +34,7 @@ namespace Materal.Common
         public static string GetDescription(this object inputObj, string propertyName)
         {
             Type objType = inputObj.GetType();
-            PropertyInfo propertyInfo = objType.GetProperty(propertyName);
+            PropertyInfo? propertyInfo = objType.GetProperty(propertyName);
             if(propertyInfo == null) throw new MateralException($"未找到名称是{propertyName}的属性");
             var attribute = propertyInfo.GetCustomAttribute<DescriptionAttribute>();
             return attribute != null ?
@@ -93,10 +95,10 @@ namespace Materal.Common
                 }
                 else
                 {
-                    PropertyInfo bProperty = bType.GetProperty(aProperty.Name);
+                    PropertyInfo? bProperty = bType.GetProperty(aProperty.Name);
                     if (bProperty == null || aProperty.PropertyType != bProperty.PropertyType) return false;
-                    object aValue = aProperty.GetValue(leftModel);
-                    object bValue = bProperty.GetValue(rightModel);
+                    object? aValue = aProperty.GetValue(leftModel);
+                    object? bValue = bProperty.GetValue(rightModel);
                     if (aValue != bValue) return false;
                 }
             }

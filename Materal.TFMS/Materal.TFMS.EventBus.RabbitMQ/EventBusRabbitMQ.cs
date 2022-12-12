@@ -7,12 +7,9 @@ using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
-using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Materal.TFMS.EventBus.RabbitMQ
 {
@@ -36,7 +33,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <summary>
         /// 日志
         /// </summary>
-        private readonly ILogger<EventBusRabbitMQ> _logger;
+        private readonly ILogger<EventBusRabbitMQ>? _logger;
         /// <summary>
         /// 订阅管理器
         /// </summary>
@@ -48,7 +45,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <summary>
         /// 消费通道
         /// </summary>
-        private IModel _consumerChannel;
+        private IModel? _consumerChannel;
         /// <summary>
         /// RabbitMQ事件总线
         /// </summary>
@@ -59,11 +56,10 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="queueName">队列名称</param>
         /// <param name="exchangeName">交换机名称</param>
         /// <param name="autoListening"></param>
-        public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, ILogger<EventBusRabbitMQ> logger, IServiceProvider service, IEventBusSubscriptionsManager subsManager, string queueName, string exchangeName = "MateralTFMSEventBusExchange", bool autoListening = true)
+        public EventBusRabbitMQ(IRabbitMQPersistentConnection persistentConnection, IServiceProvider service, IEventBusSubscriptionsManager subsManager, string queueName, string exchangeName = "MateralTFMSEventBusExchange", bool autoListening = true, ILogger<EventBusRabbitMQ>? logger = null)
         {
-            _persistentConnection =
-                persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
+            _logger = logger;
             _subsManager = subsManager ?? new InMemoryEventBusSubscriptionsManager();
             _queueName = queueName;
             _service = service;
@@ -73,7 +69,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             {
                 _consumerChannel = await CreateConsumerChannelAsync();
             });
-            Task.WaitAll(task);
+            task.Wait();
             if (autoListening)
             {
                 StartListening();
@@ -135,7 +131,11 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         }
         public void Dispose()
         {
-            _consumerChannel?.Dispose();
+            if(_consumerChannel != null)
+            {
+                _consumerChannel.Dispose();
+                GC.SuppressFinalize(this);
+            }
             _subsManager.Clear();
         }
         #region 私有方法
@@ -156,7 +156,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             channel.CallbackException += async (sender, ea) =>
             {
                 _logger?.LogWarning(ea.Exception, "重新创建RabbitMQ消费通道...");
-                _consumerChannel.Dispose();
+                _consumerChannel?.Dispose();
                 _consumerChannel = await CreateConsumerChannelAsync();
                 StartBasicConsume();
             };
@@ -197,18 +197,18 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 }
                 if (await TryProcessEvent(eventName, message))
                 {
-                    _consumerChannel.BasicAck(eventArgs.DeliveryTag, false);
+                    _consumerChannel?.BasicAck(eventArgs.DeliveryTag, false);
                 }
                 else
                 {
                     _logger?.LogError(new MateralTFMSException("消息处理失败"), "错误消息: \"{Message}\"", message);
-                    _consumerChannel.BasicReject(eventArgs.DeliveryTag, !MateralTFMSRabbitMQConfig.EventErrorConfig.Discard);
+                    _consumerChannel?.BasicReject(eventArgs.DeliveryTag, !MateralTFMSRabbitMQConfig.EventErrorConfig.Discard);
                 }
             }
             catch (Exception exception)
             {
                 _logger?.LogError(exception, "错误消息: \"{Message}\"", message);
-                _consumerChannel.BasicReject(eventArgs.DeliveryTag, !MateralTFMSRabbitMQConfig.EventErrorConfig.Discard);
+                _consumerChannel?.BasicReject(eventArgs.DeliveryTag, !MateralTFMSRabbitMQConfig.EventErrorConfig.Discard);
             }
         }
         /// <summary>
@@ -217,7 +217,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="exception"></param>
         /// <param name="handler"></param>
         /// <returns></returns>
-        private async Task HandlerErrorMessageAsync(Exception exception, Func<Task> handler)
+        private static async Task HandlerErrorMessageAsync(Exception exception, Func<Task> handler)
         {
             var isOK = false;
             if (MateralTFMSRabbitMQConfig.EventErrorConfig.IsRetry)
@@ -249,7 +249,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <returns></returns>
         private async Task<bool> TryProcessEvent(string eventName, string message)
         {
-            _logger?.LogInformation($"处理事件: {eventName}");
+            _logger?.LogInformation("处理事件: {eventName}", eventName);
             var result = false;
             if (_subsManager.HasSubscriptionsForEvent(eventName))
             {
@@ -258,7 +258,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 {
                     if (subscription.IsDynamic)
                     {
-                        if (!(_service.GetService(subscription.HandlerType) is IDynamicIntegrationEventHandler handler)) continue;
+                        if (_service.GetService(subscription.HandlerType) is not IDynamicIntegrationEventHandler handler) continue;
                         dynamic eventData = JObject.Parse(message);
                         try
                         {
@@ -271,32 +271,44 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                     }
                     else
                     {
-                        object handler = _service.GetService(subscription.HandlerType);
+                        object? handler = _service.GetService(subscription.HandlerType);
                         if (handler == null) continue;
-                        Type eventType = _subsManager.GetEventTypeByName(eventName);
-                        object integrationEvent = JsonConvert.DeserializeObject(message, eventType);
+                        Type? eventType = _subsManager.GetEventTypeByName(eventName);
+                        if (eventType == null) continue;
+                        object? integrationEvent = JsonConvert.DeserializeObject(message, eventType);
                         Type concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
-                        MethodInfo handlerMethodInfo = concreteType.GetMethod("HandleAsync");
+                        MethodInfo? handlerMethodInfo = concreteType.GetMethod("HandleAsync");
                         if (handlerMethodInfo == null || handlerMethodInfo.ReturnType != typeof(Task)) continue;
                         try
                         {
                             await Task.Run(async () =>
                             {
-                                await (Task) handlerMethodInfo.Invoke(handler, new[] {integrationEvent});
+                                object? handlerObj = handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
+                                if(handlerObj is Task handlerTask)
+                                {
+                                    await handlerTask;
+                                }
                             });
                         }
                         catch (Exception exception)
                         {
-                            await HandlerErrorMessageAsync(exception, async () => await (Task)handlerMethodInfo.Invoke(handler, new[] { integrationEvent }));
+                            await HandlerErrorMessageAsync(exception, async () =>
+                            {
+                                object? handlerObj = handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
+                                if (handlerObj is Task handlerTask)
+                                {
+                                    await handlerTask;
+                                }
+                            });
                         }
                     }
-                    _logger?.LogTrace($"处理器{subscription.HandlerType.Name}执行完毕");
+                    _logger?.LogTrace("处理器{Name}执行完毕", subscription.HandlerType.Name);
                 }
                 result= true;
             }
             else
             {
-                _logger?.LogError($"未找到订阅事件: {eventName}");
+                _logger?.LogError("未找到订阅事件: {eventName}", eventName);
             }
             return result;
         }
@@ -305,19 +317,17 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="eventName"></param>
-        private async void SubsManager_OnEventRemoved(object sender, string eventName)
+        private async void SubsManager_OnEventRemoved(object? sender, string eventName)
         {
             if (!_persistentConnection.IsConnected)
             {
                 _persistentConnection.TryConnect();
             }
-            using (IModel channel = await _persistentConnection.CreateModelAsync())
-            {
-                channel.QueueUnbind(_queueName, _exchangeName, eventName);
-                if (!_subsManager.IsEmpty) return;
-                _queueName = string.Empty;
-                _consumerChannel.Close();
-            }
+            using IModel channel = await _persistentConnection.CreateModelAsync();
+            channel.QueueUnbind(_queueName, _exchangeName, eventName);
+            if (!_subsManager.IsEmpty) return;
+            _queueName = string.Empty;
+            _consumerChannel?.Close();
         }
         /// <summary>
         /// 内部订阅
@@ -331,10 +341,8 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             {
                 _persistentConnection.TryConnect();
             }
-            using (IModel channel = await _persistentConnection.CreateModelAsync())
-            {
-                channel.QueueBind(_queueName, _exchangeName, eventName);
-            }
+            using IModel channel = await _persistentConnection.CreateModelAsync();
+            channel.QueueBind(_queueName, _exchangeName, eventName);
         }
         #endregion
     }

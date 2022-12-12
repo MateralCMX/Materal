@@ -35,7 +35,7 @@ namespace Materal.LinqHelper
         /// <returns></returns>
         protected override Expression VisitParameter(ParameterExpression p)
         {
-            if (_map.TryGetValue(p, out ParameterExpression replacement))
+            if (_map.TryGetValue(p, out ParameterExpression? replacement))
             {
                 p = replacement;
             }

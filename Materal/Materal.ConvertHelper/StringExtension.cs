@@ -1,7 +1,5 @@
 ﻿using Materal.StringHelper;
 using Newtonsoft.Json;
-using QRCoder;
-using System.Drawing;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -50,7 +48,8 @@ namespace Materal.ConvertHelper
         {
             try
             {
-                object model = Activator.CreateInstance(type);
+                object? model = Activator.CreateInstance(type);
+                if (model == null) throw new MateralConvertException("创建实体失败");
                 JsonConvert.PopulateObject(jsonStr, model);
                 return model;
             }
@@ -230,7 +229,7 @@ namespace Materal.ConvertHelper
                 Type[] argTypes = args.Select(m => m.GetType()).ToArray();
                 foreach (Assembly assembly in assemblies)
                 {
-                    Type? targetType = assembly.GetTypes().Where(m => m.Name == typeName && m.IsClass && !m.IsAbstract && m.IsAssignableFrom(typeof(T))).FirstOrDefault();
+                    Type? targetType = assembly.GetTypes().Where(m => m.Name == typeName && m.IsClass && !m.IsAbstract && m.IsAssignableTo(typeof(T))).FirstOrDefault();
                     if (targetType == null) continue;
                     ConstructorInfo? constructorInfo = targetType.GetConstructor(argTypes);
                     if (constructorInfo == null) continue;
@@ -312,6 +311,36 @@ namespace Materal.ConvertHelper
             return Encoding.UTF8.GetString(bytes);
         }
         /// <summary>
+        /// 转换为64位SHA256加密字符串
+        /// </summary>
+        /// <param name="inputStr">输入字符串</param>
+        /// <param name="isLower">小写</param>
+        /// <returns></returns>
+        public static string ToSHA256_64Encode(this string inputStr, bool isLower = false)
+        {
+            if (inputStr == null) throw new ArgumentNullException(nameof(inputStr));
+            using SHA256 sha256 = SHA256.Create();
+            byte[] output = sha256.ComputeHash(Encoding.Default.GetBytes(inputStr));
+            string outputStr = BitConverter.ToString(output).Replace("-", "");
+            outputStr = isLower ? outputStr.ToLower() : outputStr.ToUpper();
+            return outputStr;
+        }
+        /// <summary>
+        /// 转换为40位SHA256加密字符串
+        /// </summary>
+        /// <param name="inputStr">输入字符串</param>
+        /// <param name="isLower">小写</param>
+        /// <returns></returns>
+        public static string ToSHA1_40Encode(this string inputStr, bool isLower = false)
+        {
+            if (inputStr == null) throw new ArgumentNullException(nameof(inputStr));
+            using SHA1 sha1 = SHA1.Create();
+            byte[] output = sha1.ComputeHash(Encoding.Default.GetBytes(inputStr));
+            string outputStr = BitConverter.ToString(output).Replace("-", "");
+            outputStr = isLower ? outputStr.ToLower() : outputStr.ToUpper();
+            return outputStr;
+        }
+        /// <summary>
         /// 转换为32位Md5加密字符串
         /// </summary>
         /// <param name="inputStr">输入字符串</param>
@@ -320,7 +349,7 @@ namespace Materal.ConvertHelper
         public static string ToMd5_32Encode(this string inputStr, bool isLower = false)
         {
             if (inputStr == null) throw new ArgumentNullException(nameof(inputStr));
-            MD5 md5 = new MD5CryptoServiceProvider();
+            using MD5 md5 = MD5.Create();
             byte[] output = md5.ComputeHash(Encoding.Default.GetBytes(inputStr));
             string outputStr = BitConverter.ToString(output).Replace("-", "");
             outputStr = isLower ? outputStr.ToLower() : outputStr.ToUpper();
@@ -401,13 +430,13 @@ namespace Materal.ConvertHelper
             var num2 = 0;
             if (count % 2 == 0)
             {
-                outPutStr1 = inputStr.Substring(0, count / 2);
-                outPutStr2 = inputStr.Substring(count / 2);
+                outPutStr1 = inputStr[..(count / 2)];
+                outPutStr2 = inputStr[(count / 2)..];
             }
             else
             {
-                outPutStr1 = inputStr.Substring(0, (count / 2) + 1);
-                outPutStr2 = inputStr.Substring((count / 2) + 1);
+                outPutStr1 = inputStr[..((count / 2) + 1)];
+                outPutStr2 = inputStr[((count / 2) + 1)..];
             }
             for (var i = 0; i < count; i++)
             {
@@ -508,25 +537,18 @@ namespace Materal.ConvertHelper
         {
             if (inputKey.Length != 8) throw new MateralConvertException("密钥必须为8位");
             if (inputIv.Length != 8) throw new MateralConvertException("向量必须为8位");
-            if (encoding == null)
-            {
-                encoding = Encoding.UTF8;
-            }
-            var dsp = new DESCryptoServiceProvider();
-            using (var memoryStream = new MemoryStream())
-            {
-                byte[] key = encoding.GetBytes(inputKey);
-                byte[] iv = encoding.GetBytes(inputIv);
-                using (var cryptoStream = new CryptoStream(memoryStream, dsp.CreateEncryptor(key, iv), CryptoStreamMode.Write))
-                {
-                    var writer = new StreamWriter(cryptoStream);
-                    writer.Write(inputString);
-                    writer.Flush();
-                    cryptoStream.FlushFinalBlock();
-                    memoryStream.Flush();
-                    return Convert.ToBase64String(memoryStream.GetBuffer(), 0, (int)memoryStream.Length);
-                }
-            }
+            encoding ??= Encoding.UTF8;
+            DES dsp = DES.Create();
+            using var memoryStream = new MemoryStream();
+            byte[] key = encoding.GetBytes(inputKey);
+            byte[] iv = encoding.GetBytes(inputIv);
+            using var cryptoStream = new CryptoStream(memoryStream, dsp.CreateEncryptor(key, iv), CryptoStreamMode.Write);
+            var writer = new StreamWriter(cryptoStream);
+            writer.Write(inputString);
+            writer.Flush();
+            cryptoStream.FlushFinalBlock();
+            memoryStream.Flush();
+            return Convert.ToBase64String(memoryStream.GetBuffer(), 0, (int)memoryStream.Length);
         }
         /// <summary>
         /// DES解密
@@ -540,23 +562,16 @@ namespace Materal.ConvertHelper
         {
             if (inputKey.Length != 8) throw new MateralConvertException("密钥必须为8位");
             if (inputIv.Length != 8) throw new MateralConvertException("向量必须为8位");
-            if (encoding == null)
-            {
-                encoding = Encoding.UTF8;
-            }
-            var dsp = new DESCryptoServiceProvider();
+            encoding ??= Encoding.UTF8;
+            DES dsp = DES.Create();
             byte[] buffer = Convert.FromBase64String(inputString);
-            using (var memoryStream = new MemoryStream())
-            {
-                byte[] key = encoding.GetBytes(inputKey);
-                byte[] iv = encoding.GetBytes(inputIv);
-                using (var cryptoStream = new CryptoStream(memoryStream, dsp.CreateDecryptor(key, iv), CryptoStreamMode.Write))
-                {
-                    cryptoStream.Write(buffer, 0, buffer.Length);
-                    cryptoStream.FlushFinalBlock();
-                    return encoding.GetString(memoryStream.ToArray());
-                }
-            }
+            using var memoryStream = new MemoryStream();
+            byte[] key = encoding.GetBytes(inputKey);
+            byte[] iv = encoding.GetBytes(inputIv);
+            using var cryptoStream = new CryptoStream(memoryStream, dsp.CreateDecryptor(key, iv), CryptoStreamMode.Write);
+            cryptoStream.Write(buffer, 0, buffer.Length);
+            cryptoStream.FlushFinalBlock();
+            return encoding.GetString(memoryStream.ToArray());
         }
         /// <summary>
         /// 获取RSA
@@ -617,24 +632,24 @@ namespace Materal.ConvertHelper
             return Convert.ToBase64String(resultBytes);
         }
 
-        /// <summary>
-        /// 获得二维码
-        /// </summary>
-        /// <param name="inputStr">需要加密的字符串</param>
-        /// <param name="pixelsPerModule">每个模块的像素</param>
-        /// <param name="darkColor">暗色</param>
-        /// <param name="lightColor">亮色</param>
-        /// <param name="icon">图标</param>
-        /// <returns>二维码图片</returns>
-        public static Bitmap ToQRCode(this string inputStr, int pixelsPerModule = 20, Color? darkColor = null, Color? lightColor = null, Bitmap? icon = null)
-        {
-            darkColor ??= Color.Black;
-            lightColor ??= Color.White;
-            var qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(inputStr, QRCodeGenerator.ECCLevel.H);
-            var qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(pixelsPerModule, darkColor.Value, lightColor.Value, icon);
-            return qrCodeImage;
-        }
+        ///// <summary>
+        ///// 获得二维码
+        ///// </summary>
+        ///// <param name="inputStr">需要加密的字符串</param>
+        ///// <param name="pixelsPerModule">每个模块的像素</param>
+        ///// <param name="darkColor">暗色</param>
+        ///// <param name="lightColor">亮色</param>
+        ///// <param name="icon">图标</param>
+        ///// <returns>二维码图片</returns>
+        //public static Bitmap ToQRCode(this string inputStr, int pixelsPerModule = 20, Color? darkColor = null, Color? lightColor = null, Bitmap? icon = null)
+        //{
+        //    darkColor ??= Color.Black;
+        //    lightColor ??= Color.White;
+        //    var qrGenerator = new QRCodeGenerator();
+        //    QRCodeData qrCodeData = qrGenerator.CreateQrCode(inputStr, QRCodeGenerator.ECCLevel.H);
+        //    var qrCode = new QRCode(qrCodeData);
+        //    Bitmap qrCodeImage = qrCode.GetGraphic(pixelsPerModule, darkColor.Value, lightColor.Value, icon);
+        //    return qrCodeImage;
+        //}
     }
 }

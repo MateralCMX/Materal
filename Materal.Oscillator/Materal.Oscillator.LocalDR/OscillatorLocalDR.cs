@@ -1,6 +1,5 @@
 ﻿using Materal.ConvertHelper;
 using Materal.Oscillator.Abstractions.Domain;
-using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.DR;
 using Materal.Oscillator.DR.Domain;
 using Materal.Oscillator.DR.Models;
@@ -12,18 +11,14 @@ namespace Materal.Oscillator.LocalDR
 {
     public class OscillatorLocalDR : IOscillatorDR
     {
-        private readonly IOscillatorUnitOfWork _unitOfWork;
+        private readonly IOscillatorDRUnitOfWork _unitOfWork;
         private readonly IFlowRepository _flowRepository;
         private readonly OscillatorService _oscillatorService;
-        public OscillatorLocalDR(IFlowRepository flowRepository, OscillatorService oscillatorService, IOscillatorUnitOfWork unitOfWork)
+        public OscillatorLocalDR(IFlowRepository flowRepository, OscillatorService oscillatorService, IOscillatorDRUnitOfWork unitOfWork)
         {
             _flowRepository = flowRepository;
             _oscillatorService = oscillatorService;
             _unitOfWork = unitOfWork;
-        }
-        public async Task InitAsync()
-        {
-            await _flowRepository.InitTableAsync();
         }
         public async Task ScheduleExecuteAsync(Schedule schedule)
         {

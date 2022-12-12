@@ -23,6 +23,7 @@ namespace Materal.Oscillator.AutoMapperProfile
                 .ForMember(m => m.ID, m => m.MapFrom(n => n.WorkID))
                 .ForMember(m => m.CreateTime, m => m.MapFrom(n => n.CreateTime))
                 .ForMember(m => m.Name, m => m.MapFrom(n => n.WorkName));
+            CreateMap<ScheduleWorkView, ScheduleWork>();
         }
     }
 }

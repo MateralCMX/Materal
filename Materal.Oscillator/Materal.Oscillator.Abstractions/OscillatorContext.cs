@@ -50,6 +50,5 @@ namespace Materal.Oscillator.Abstractions
         /// </summary>
         public DbSet<WorkEventView> WorkEventView { get; set; }
         #endregion
-        protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.ApplyConfigurationsFromAssembly(Assembly.Load("Materal.Oscillator.SqliteRepositoryImpl"));
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Materal.FileHelper
+﻿namespace Materal.FileHelper
 {
     /// <summary>
     /// 文件夹信息扩展
@@ -18,10 +16,10 @@ namespace Materal.FileHelper
             string[] sourceFilesPath = Directory.GetFileSystemEntries(obj.FullName);
             foreach (string sourceFilePath in sourceFilesPath)
             {
-                string directoryName = Path.GetDirectoryName(sourceFilePath);
+                string? directoryName = Path.GetDirectoryName(sourceFilePath);
                 if (directoryName == null) continue;
                 string[] forlders = directoryName.Split('\\');
-                string lastDirectory = forlders[forlders.Length - 1];
+                string lastDirectory = forlders[^1];
                 string dest = Path.Combine(targetPath, lastDirectory);
                 if (File.Exists(sourceFilePath))
                 {

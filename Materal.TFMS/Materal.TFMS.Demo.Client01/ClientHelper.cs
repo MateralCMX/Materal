@@ -62,11 +62,11 @@ namespace Materal.TFMS.Demo.Client01
         /// </summary>
         public static void Configure()
         {
-            LogManager.LoadConfiguration("NLog.config");
-            LogManager.Configuration.Install(new InstallationContext());
-            LogManager.Configuration.Variables["AppName"] = AppName;
-            var factory = ServiceProvider.GetService<ILoggerFactory>();
-            factory.AddNLog();
+            //LogManager.LoadConfiguration("NLog.config");
+            //LogManager.Configuration.Install(new InstallationContext());
+            //LogManager.Configuration.Variables["AppName"] = AppName;
+            //var factory = ServiceProvider.GetService<ILoggerFactory>();
+            //factory.AddNLog();
         }
         /// <summary>
         /// 生成

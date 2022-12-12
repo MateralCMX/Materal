@@ -63,7 +63,7 @@ namespace Materal.TFMS.EventBus
         /// </summary>
         /// <param name="eventName"></param>
         /// <returns></returns>
-        Type GetEventTypeByName(string eventName);
+        Type? GetEventTypeByName(string eventName);
         /// <summary>
         /// 清空
         /// </summary>

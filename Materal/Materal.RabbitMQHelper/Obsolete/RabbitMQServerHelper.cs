@@ -22,7 +22,7 @@ namespace Materal.RabbitMQHelper
         public RabbitMQServerHelper(RabbitMQServerConfig config) : base(config, 1, 1)
         {
             _serverMQConfig = config;
-            IConnection connection = Connections.Keys.FirstOrDefault();
+            IConnection? connection = Connections.Keys.FirstOrDefault();
             if (connection != null)
             {
                 _channel = Connections[connection].FirstOrDefault();

@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.10</Version>
-    <Authors>Materal</Authors>
-    <Product>Materal.TFMS</Product>
-    <Description>Materal事件总线</Description>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Materal.Common" Version="1.0.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>11.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageOutputPath>../nupkg</PackageOutputPath>
+		<Version>0.1.1</Version>
+		<Authors>Materal</Authors>
+		<Product>Materal.TFMS</Product>
+		<Description>Materal事件总线</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.Common" Version="1.1.16" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+	</ItemGroup>
 </Project>

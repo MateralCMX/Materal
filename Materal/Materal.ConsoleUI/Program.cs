@@ -1,4 +1,5 @@
-﻿using Materal.CacheHelper;
+﻿using Materal.ConvertHelper;
+using Materal.Model;
 
 namespace Materal.ConsoleUI
 {
@@ -6,8 +7,20 @@ namespace Materal.ConsoleUI
     {
         public static void Main()
         {
-            ICacheManager cacheManager = new MemoryCacheManager();
-            cacheManager.SetBySliding("1234", "2234", 1);
+            TestMode test = new()
+            {
+                Name = "Test",
+            };
+            var a = test.GetSearchExpression<Test>();
         }
+    }
+    public class TestMode : FilterModel
+    {
+        [Equal]
+        public string? Name { get; set; }
+    }
+    public class Test
+    {
+        public string Name { get; set; } = string.Empty;
     }
 }

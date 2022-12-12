@@ -1,12 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Materal.StringHelper;
+using Newtonsoft.Json;
 using System.Data;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 
 namespace Materal.ConvertHelper
@@ -19,7 +14,7 @@ namespace Materal.ConvertHelper
         /// <summary>
         /// 可转换类型字典
         /// </summary>
-        private static readonly Dictionary<Type, Func<object, object>> ConvertDictionary = new();
+        private static readonly Dictionary<Type, Func<object, object?>> ConvertDictionary = new();
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -37,8 +32,24 @@ namespace Materal.ConvertHelper
             ConvertDictionary.Add(typeof(double?), WrapValueConvert(Convert.ToDouble));
             ConvertDictionary.Add(typeof(float), WrapValueConvert(Convert.ToSingle));
             ConvertDictionary.Add(typeof(float?), WrapValueConvert(Convert.ToSingle));
-            ConvertDictionary.Add(typeof(Guid), m => Guid.Parse(m.ToString()));
-            ConvertDictionary.Add(typeof(Guid?), m => Guid.Parse(m.ToString()));
+            ConvertDictionary.Add(typeof(Guid), m =>
+            {
+                string? inputString = m.ToString();
+                if (string.IsNullOrWhiteSpace(inputString) || !inputString.IsGuid())
+                {
+                    return Guid.Empty;
+                }
+                return Guid.Parse(inputString);
+            });
+            ConvertDictionary.Add(typeof(Guid?), m =>
+            {
+                string? inputString = m.ToString();
+                if (string.IsNullOrWhiteSpace(inputString) || !inputString.IsGuid())
+                {
+                    return null;
+                }
+                return Guid.Parse(inputString);
+            });
             ConvertDictionary.Add(typeof(string), Convert.ToString);
             ConvertDictionary.Add(typeof(DateTime), WrapValueConvert(Convert.ToDateTime));
             ConvertDictionary.Add(typeof(DateTime?), WrapValueConvert(Convert.ToDateTime));
@@ -160,17 +171,17 @@ namespace Materal.ConvertHelper
         /// <param name="targetM">复制目标对象</param>
         /// <param name="isCopy">是否复制</param>
         /// <returns>复制的对象</returns>
-        public static void CopyProperties<T>(this object sourceM, T targetM, Func<PropertyInfo, object, bool> isCopy)
+        public static void CopyProperties<T>(this object sourceM, T targetM, Func<PropertyInfo, object?, bool> isCopy)
         {
             if (sourceM == null) return;
             PropertyInfo[] t1Props = sourceM.GetType().GetProperties();
             PropertyInfo[] t2Props = typeof(T).GetProperties();
             foreach (PropertyInfo prop in t1Props)
             {
-                PropertyInfo tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
+                PropertyInfo? tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
                 if (tempProp != null && tempProp.CanWrite)
                 {
-                    object value = prop.GetValue(sourceM, null);
+                    object? value = prop.GetValue(sourceM, null);
                     if (isCopy(tempProp, value))
                     {
                         tempProp.SetValue(targetM, value, null);
@@ -185,7 +196,7 @@ namespace Materal.ConvertHelper
         /// <param name="sourceM">复制源头对象</param>
         /// <param name="isCopy">是否复制</param>
         /// <returns>复制的对象</returns>
-        public static T CopyProperties<T>(this object sourceM, Func<PropertyInfo, object, bool> isCopy)
+        public static T CopyProperties<T>(this object sourceM, Func<PropertyInfo, object?, bool> isCopy)
         {
             var targetM = ConvertManager.GetDefaultObject<T>();
             sourceM.CopyProperties(targetM, isCopy);
@@ -207,7 +218,7 @@ namespace Materal.ConvertHelper
             foreach (PropertyInfo prop in t1Props)
             {
                 if (notCopyPropertyNames.Contains(prop.Name)) continue;
-                PropertyInfo tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
+                PropertyInfo? tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
                 if (tempProp != null && tempProp.CanWrite)
                 {
                     tempProp.SetValue(targetM, prop.GetValue(sourceM, null), null);
@@ -226,19 +237,6 @@ namespace Materal.ConvertHelper
             var targetM = ConvertManager.GetDefaultObject<T>();
             sourceM.CopyProperties(targetM, notCopyPropertyNames);
             return targetM;
-        }
-        /// <summary>
-        /// 将对象转换为byte数组
-        /// </summary>
-        /// <param name="obj">被转换对象</param>
-        /// <returns>转换后byte数组</returns>
-        public static byte[] ToBytes(this object obj)
-        {
-            using var ms = new MemoryStream();
-            IFormatter iFormatter = new BinaryFormatter();
-            iFormatter.Serialize(ms, obj);
-            byte[] buffer = ms.GetBuffer();
-            return buffer;
         }
 
         /// <summary>
@@ -301,13 +299,13 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T"></typeparam>
         /// <param name="inputObj">输入对象</param>
         /// <returns>克隆的对象</returns>
-        public static T CloneByXml<T>(this T inputObj)
+        public static T? CloneByXml<T>(this T inputObj)
             where T : notnull
         {
             Type tType = inputObj.GetType();
-            Attribute attr = tType.GetCustomAttribute(typeof(SerializableAttribute));
+            Attribute? attr = tType.GetCustomAttribute(typeof(SerializableAttribute));
             if (attr == null) throw new MateralConvertException("未标识为可序列化");
-            object resM;
+            object? resM;
             using (var ms = new MemoryStream())
             {
                 var xml = new XmlSerializer(typeof(T));
@@ -316,7 +314,7 @@ namespace Materal.ConvertHelper
                 resM = xml.Deserialize(ms);
                 ms.Close();
             }
-            return (T)resM;
+            return (T?)resM;
         }
         /// <summary>
         /// 克隆对象(反射)
@@ -324,37 +322,19 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T"></typeparam>
         /// <param name="inputObj">输入对象</param>
         /// <returns>克隆的对象</returns>
-        public static T CloneByReflex<T>(this T inputObj)
+        public static T? CloneByReflex<T>(this T inputObj)
             where T : notnull
         {
             Type tType = inputObj.GetType();
-            var resM = (T)Activator.CreateInstance(tType);
+            T? resM = (T?)Activator.CreateInstance(tType);
             PropertyInfo[] pis = tType.GetProperties();
             foreach (PropertyInfo pi in pis)
             {
-                object piValue = pi.GetValue(inputObj);
+                object? piValue = pi.GetValue(inputObj);
                 if (piValue == null) continue;
                 pi.SetValue(resM, piValue is ValueType ? piValue : Clone(piValue));
             }
             return resM;
-        }
-        /// <summary>
-        /// 克隆对象(二进制序列化)
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="inputObj">输入对象</param>
-        /// <returns>克隆的对象</returns>
-        public static T CloneBySerializable<T>(this T inputObj)
-            where T : notnull
-        {
-            Type tType = inputObj.GetType();
-            Attribute attr = tType.GetCustomAttribute(typeof(SerializableAttribute));
-            if (attr == null) throw new MateralConvertException("未标识为可序列化");
-            using var stream = new MemoryStream();
-            var bf2 = new BinaryFormatter();
-            bf2.Serialize(stream, inputObj);
-            stream.Position = 0;
-            return (T)bf2.Deserialize(stream);
         }
         /// <summary>
         /// 克隆对象
@@ -362,12 +342,10 @@ namespace Materal.ConvertHelper
         /// <typeparam name="T"></typeparam>
         /// <param name="inputObj">输入对象</param>
         /// <returns>克隆的对象</returns>
-        public static T Clone<T>(this T inputObj)
+        public static T? Clone<T>(this T inputObj)
             where T : notnull
         {
-            Type tType = inputObj.GetType();
-            Attribute attr = tType.GetCustomAttribute(typeof(SerializableAttribute));
-            return attr != null ? CloneBySerializable(inputObj) : CloneByReflex(inputObj);
+            return CloneByJson(inputObj);
         }
     }
 }

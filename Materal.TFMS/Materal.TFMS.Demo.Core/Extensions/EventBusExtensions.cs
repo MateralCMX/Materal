@@ -15,9 +15,9 @@ namespace Materal.TFMS.Demo.Core.Extensions
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(serviceProvider =>
             {
                 var rabbitMQPersistentConnection = serviceProvider.GetService<IRabbitMQPersistentConnection>();
-                var logger = serviceProvider.GetRequiredService<ILogger<EventBusRabbitMQ>>();
+                ILogger<EventBusRabbitMQ> logger = serviceProvider.GetService<ILogger<EventBusRabbitMQ>>();
                 var eventBusSubscriptionsManager = serviceProvider.GetService<IEventBusSubscriptionsManager>();
-                return new EventBusRabbitMQ(rabbitMQPersistentConnection, logger, serviceProvider, eventBusSubscriptionsManager, queueName, exchangeName, false);
+                return new EventBusRabbitMQ(rabbitMQPersistentConnection, serviceProvider, eventBusSubscriptionsManager, queueName, exchangeName, false, logger);
             });
             return services;
         }
