@@ -1,10 +1,12 @@
 ﻿using Materal.Common;
+using Materal.DateTimeHelper;
 using Materal.Oscillator;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Common;
 using Materal.Oscillator.Abstractions.DataTransmitModel;
 using Materal.Oscillator.Abstractions.Models.Plan;
 using Materal.Oscillator.Abstractions.Models.Work;
+using Materal.Oscillator.Abstractions.Services.Trigger;
 using Materal.Oscillator.Answers;
 using Materal.Oscillator.LocalDR;
 using Materal.Oscillator.PlanTriggers;
@@ -80,7 +82,7 @@ namespace ConsoleDemo
             else
             {
                 IOscillatorBuild build = oscillatorManager.CreateOscillatorBuild("测试调度器");
-                await build.AddPlan(new PlanModel
+                build.AddPlan(new PlanModel
                 {
                     Name = "测试计划",
                     PlanTriggerData = new OneTimePlanTrigger(DateTime.Now.AddSeconds(5))
@@ -88,7 +90,31 @@ namespace ConsoleDemo
                 {
                     Name = "测试任务",
                     WorkData = new ConsoleWork("喵喵喵喵喵")
-                }).BuildAsync();
+                })
+                .AddSchedule("测试调度器2")
+                .AddPlan(new PlanModel
+                {
+                    Name = "测试计划2",
+                    PlanTriggerData = new RepeatPlanTrigger
+                    {
+                        DateTrigger = new DateDayTrigger
+                        {
+                            Interval = 1,
+                            StartDate = DateTime.Now.ToDate().AddDay(-1)
+                        },
+                        EveryDayTrigger = new EveryDayRepeatTrigger
+                        {
+                            Interval= 5,
+                            IntervalType = EveryDayIntervalType.Second,
+                            StartTime = new Time(0,0,0)
+                        }
+                    }
+                }).AddWork(new WorkModel
+                {
+                    Name = "测试任务2",
+                    WorkData = new ConsoleWork("汪汪汪汪汪")
+                });
+                await build.BuildAsync();
             }
             #endregion
             #region 测试启动

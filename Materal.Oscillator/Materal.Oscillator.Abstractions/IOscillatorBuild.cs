@@ -1,5 +1,6 @@
 ﻿using Materal.Oscillator.Abstractions.Models.Answer;
 using Materal.Oscillator.Abstractions.Models.Plan;
+using Materal.Oscillator.Abstractions.Models.Schedule;
 using Materal.Oscillator.Abstractions.Models.Work;
 using Materal.Oscillator.Abstractions.Models.WorkEvent;
 
@@ -42,5 +43,18 @@ namespace Materal.Oscillator.Abstractions
         /// </summary>
         /// <returns></returns>
         public Task<Guid> BuildAsync();
+        /// <summary>
+        /// 添加调度器
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        public IOscillatorBuild AddSchedule(string name, string? description = null);
+        /// <summary>
+        /// 添加调度器
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public IOscillatorBuild AddSchedule(ScheduleModel model);
     }
 }

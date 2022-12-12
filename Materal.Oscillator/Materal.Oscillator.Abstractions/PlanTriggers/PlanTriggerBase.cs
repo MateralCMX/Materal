@@ -17,7 +17,7 @@ namespace Materal.Oscillator.Abstractions.PlanTriggers
         /// <returns></returns>
         public virtual ITrigger? CreateTrigger(string name, string group, DateTime startTime, DateTime? endTime = null)
         {
-            if (startTime < DateTime.Now) return null;
+            if (startTime < DateTime.Now && !CanRepeated) return null;
             TriggerBuilder triggerBuilder = TriggerBuilder.Create()
                 .WithIdentity(name, group)
                 .StartAt(startTime);

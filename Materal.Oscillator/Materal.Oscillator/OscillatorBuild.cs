@@ -9,28 +9,29 @@ using Materal.Oscillator.Abstractions.Models.Work;
 using Materal.Oscillator.Abstractions.Models.WorkEvent;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Models;
-using Materal.TTA.Common;
 
 namespace Materal.Oscillator
 {
     public class OscillatorBuild : IOscillatorBuild
     {
+        private OscillatorBuild? _up;
+        private OscillatorBuild? _next;
+        private bool isBuild = false;
         private readonly ScheduleModel _schedule;
         private readonly List<AnswerModel> _answers = new();
         private readonly List<WorkEventModel> _workEvents = new();
         private readonly List<PlanModel> _plans = new();
         private readonly List<ScheduleWorkView> _scheduleWorks = new();
         private readonly ScheduleOperationModel _oscillatorManager;
-        private readonly IScheduleRepository _scheduleRepository;
         private readonly IMapper _mapper;
         private readonly IOscillatorUnitOfWork _unitOfWork;
-        public OscillatorBuild(ScheduleModel schedule, ScheduleOperationModel scheduleIperationModel)
+        public OscillatorBuild(ScheduleModel schedule, ScheduleOperationModel scheduleIperationModel, OscillatorBuild? up = null, IOscillatorUnitOfWork? unitOfWork = null)
         {
             _schedule = schedule;
             _oscillatorManager = scheduleIperationModel;
-            _scheduleRepository = MateralServices.GetService<IScheduleRepository>();
+            _up = up;
             _mapper = MateralServices.GetService<IMapper>();
-            _unitOfWork = MateralServices.GetService<IOscillatorUnitOfWork>();
+            _unitOfWork = unitOfWork ?? MateralServices.GetService<IOscillatorUnitOfWork>();
         }
         public IOscillatorBuild AddAnswer(AnswerModel model)
         {
@@ -68,6 +69,18 @@ namespace Materal.Oscillator
         }
         public async Task<Guid> BuildAsync()
         {
+            Guid scheduleID = BuildNotSave();
+            await _unitOfWork.CommitAsync();
+            return scheduleID;
+        }
+        /// <summary>
+        /// 构造不保存
+        /// </summary>
+        /// <returns></returns>
+        public Guid BuildNotSave()
+        {
+            if (isBuild) return Guid.Empty;
+            isBuild = true;
             Schedule schedule = _mapper.Map<Schedule>(_schedule);
             _oscillatorManager.SetTerritoryProperties(schedule);
             _unitOfWork.RegisterAdd(schedule);
@@ -100,8 +113,24 @@ namespace Materal.Oscillator
                 scheduleWork.ScheduleID = schedule.ID;
                 _unitOfWork.RegisterAdd(scheduleWork);
             }
-            await _unitOfWork.CommitAsync();
+            _up?.BuildNotSave();
+            _next?.BuildNotSave();
             return schedule.ID;
+        }
+
+        public IOscillatorBuild AddSchedule(string name, string? description = null)
+        {
+            return AddSchedule(new ScheduleModel
+            {
+                Name = name,
+                Description = description
+            });
+        }
+
+        public IOscillatorBuild AddSchedule(ScheduleModel model)
+        {
+            _next = new OscillatorBuild(model, _oscillatorManager, this, _unitOfWork);
+            return _next;
         }
     }
 }
