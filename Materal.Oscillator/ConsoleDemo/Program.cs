@@ -44,8 +44,8 @@ namespace ConsoleDemo
                 Source = "Oscillator.db"
             });
             #endregion
-            serviceCollection.AddSingleton<IRetryAnswerListener, RetryAnswerListenerImpl>();
-            serviceCollection.AddSingleton<IOscillatorListener, OscillatorListenerImpl>();
+            //serviceCollection.AddSingleton<IRetryAnswerListener, RetryAnswerListenerImpl>();
+            //serviceCollection.AddSingleton<IOscillatorListener, OscillatorListenerImpl>();
             serviceCollection.AddOscillatorLocalDRService(new SqliteConfigModel
             {
                 Source = "OscillatorDR.db"
@@ -143,6 +143,10 @@ namespace ConsoleDemo
             #endregion
             #region 测试启动
             await oscillatorManager.StartAllAsync();
+            for (int i = 0; i < 100; i++)
+            {
+                await oscillatorManager.RunNowAsync(Guid.Parse("E7E0001F-0618-44EC-9CF6-7532510DDD5C"));
+            }
             #endregion
             Console.ReadLine();
         }

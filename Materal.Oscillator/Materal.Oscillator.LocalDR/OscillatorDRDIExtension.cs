@@ -1,5 +1,4 @@
-﻿using Materal.Oscillator.Abstractions.Repositories;
-using Materal.Oscillator.DR;
+﻿using Materal.Oscillator.DR;
 using Materal.Oscillator.DR.Repositories;
 using Materal.Oscillator.SqliteRepositoryImpl;
 using Materal.TTA.EFRepository;
@@ -18,7 +17,7 @@ namespace Materal.Oscillator.LocalDR
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddOscillatorLocalDRService(this IServiceCollection services, SqliteConfigModel dbConfig, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+        public static IServiceCollection AddOscillatorLocalDRService(this IServiceCollection services, SqliteConfigModel dbConfig)
         {
             services.AddDbContext<OscillatorLocalDRDBContext>(options =>
             {
@@ -26,13 +25,13 @@ namespace Materal.Oscillator.LocalDR
                 {
                     m.CommandTimeout(300);
                 });
-            }, serviceLifetime);
+            }, ServiceLifetime.Transient);
             services.AddTransient<MigrateHelper<OscillatorLocalDRDBContext>>();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.Oscillator.LocalDR"))
                 .Where(m => m.Name.EndsWith("RepositoryImpl") && m.IsClass && !m.IsAbstract)
                 .AsPublicImplementedInterfaces();
             services.AddTransient<IOscillatorDRUnitOfWork, OscillatorLocalDRUnitOfWorkImpl>();
-            services.AddTransient<IOscillatorDR, OscillatorLocalDR>();
+            services.AddSingleton<IOscillatorDR, OscillatorLocalDR>();
             return services;
         }
     }

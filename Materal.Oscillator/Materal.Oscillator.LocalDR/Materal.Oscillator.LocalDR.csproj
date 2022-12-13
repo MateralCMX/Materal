@@ -8,13 +8,14 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>0.0.3</Version>
+		<Version>0.0.4</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.LocalDR</Description>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.18" />
 		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
+		<PackageReference Include="System.Threading.Tasks.Dataflow" Version="7.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Oscillator\Materal.Oscillator.csproj" />

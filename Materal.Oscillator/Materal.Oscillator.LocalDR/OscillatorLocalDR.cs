@@ -6,6 +6,7 @@ using Materal.Oscillator.DR.Models;
 using Materal.Oscillator.DR.Repositories;
 using Materal.Oscillator.QuartZExtend;
 using Quartz;
+using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Oscillator.LocalDR
 {
@@ -14,15 +15,17 @@ namespace Materal.Oscillator.LocalDR
         private readonly IOscillatorDRUnitOfWork _unitOfWork;
         private readonly IFlowRepository _flowRepository;
         private readonly OscillatorService _oscillatorService;
-        public OscillatorLocalDR(IFlowRepository flowRepository, OscillatorService oscillatorService, IOscillatorDRUnitOfWork unitOfWork)
+        private readonly ActionBlock<Func<Task>> _actionBlock;
+        public OscillatorLocalDR(IOscillatorDRUnitOfWork unitOfWork, IFlowRepository flowRepository, OscillatorService oscillatorService)
         {
             _flowRepository = flowRepository;
             _oscillatorService = oscillatorService;
+            _actionBlock = new(SaveChange);
             _unitOfWork = unitOfWork;
         }
-        public async Task ScheduleExecuteAsync(Schedule schedule)
+        public Task ScheduleExecuteAsync(Schedule schedule)
         {
-            if (schedule is not ScheduleFlowModel scheduleFlow) return;
+            if (schedule is not ScheduleFlowModel scheduleFlow) return Task.CompletedTask;
             JobKey jobKey = QuartZHelper.GetJobKey(scheduleFlow);
             Flow flow = new()
             {
@@ -31,58 +34,72 @@ namespace Materal.Oscillator.LocalDR
                 ScheduleData = scheduleFlow.ToJson(),
                 AuthenticationCode = scheduleFlow.AuthenticationCode
             };
-            _unitOfWork.RegisterAdd(flow);
-            await _unitOfWork.CommitAsync();
-            await ScheduleExecuteAsync(flow);
+            _actionBlock.Post(async () =>
+            {
+                _unitOfWork.RegisterAdd(flow);
+                await _unitOfWork.CommitAsync();
+            });
+            return Task.CompletedTask;
         }
-        public async Task ScheduleExecutedAsync(Schedule schedule)
+        public Task ScheduleExecutedAsync(Schedule schedule)
         {
-            if (schedule is not ScheduleFlowModel scheduleFlow) return;
-            Flow? flow = await GetFlowBySchedultAsync(scheduleFlow);
-            if (flow == null) return;
-            await ScheduleExecutedAsync(flow);
+            if (schedule is not ScheduleFlowModel scheduleFlow) return Task.CompletedTask;
+            _actionBlock.Post(async () =>
+            {
+                Flow? flow = await GetFlowBySchedultAsync(scheduleFlow);
+                if (flow == null) return;
+                _unitOfWork.RegisterDelete(flow);
+                await _unitOfWork.CommitAsync();
+            });
+            return Task.CompletedTask;
         }
         public Task ScheduleExecuteAsync(Flow flow) => Task.CompletedTask;
-        public async Task ScheduleExecutedAsync(Flow flow)
+        public Task ScheduleExecutedAsync(Flow flow)
         {
-            _unitOfWork.RegisterDelete(flow);
-            await _unitOfWork.CommitAsync();
-        }
-        public async Task WorkExecuteAsync(Schedule schedule, ScheduleWorkView scheduleWork)
-        {
-            if (schedule is not ScheduleFlowModel scheduleFlow) return;
-            Flow? flow = await GetFlowBySchedultAsync(scheduleFlow);
-            if (flow == null) return;
-            await WorkExecuteAsync(flow, scheduleWork);
-        }
-        public async Task WorkExecutedAsync(Schedule schedule, ScheduleWorkView scheduleWork, string? workResult)
-        {
-            if (schedule is not ScheduleFlowModel scheduleFlow) return;
-            Flow? flow = await GetFlowBySchedultAsync(scheduleFlow);
-            if (flow == null || flow.WorkID != scheduleWork.WorkID) return;
-            await WorkExecutedAsync(flow, scheduleWork, workResult);
-        }
-        public async Task WorkExecuteAsync(Flow flow, ScheduleWorkView scheduleWork)
-        {
-            flow.WorkID = scheduleWork.WorkID;
-            _unitOfWork.RegisterEdit(flow);
-            await _unitOfWork.CommitAsync();
-        }
-        public async Task WorkExecutedAsync(Flow flow, ScheduleWorkView scheduleWork, string? workResult)
-        {
-            List<string?> workResults;
-            if (string.IsNullOrWhiteSpace(flow.WorkResults))
+            _actionBlock.Post(async () =>
             {
-                workResults = new List<string?> { workResult };
-            }
-            else
+                _unitOfWork.RegisterDelete(flow);
+                await _unitOfWork.CommitAsync();
+            });
+            return Task.CompletedTask;
+        }
+        public Task WorkExecuteAsync(Schedule schedule, ScheduleWorkView scheduleWork)
+        {
+            if (schedule is not ScheduleFlowModel scheduleFlow) return Task.CompletedTask;
+            _actionBlock.Post(async () =>
             {
-                workResults = flow.WorkResults.JsonToObject<List<string?>>();
-                workResults.Add(workResult);
-            }
-            flow.WorkResults = workResults.ToJson();
-            _unitOfWork.RegisterEdit(flow);
-            await _unitOfWork.CommitAsync();
+                Flow? flow = await GetFlowBySchedultAsync(scheduleFlow);
+                if (flow == null) return;
+                await SaveEditAsync(flow, scheduleWork);
+            });
+            return Task.CompletedTask;
+        }
+        public Task WorkExecutedAsync(Schedule schedule, ScheduleWorkView scheduleWork, string? workResult)
+        {
+            if (schedule is not ScheduleFlowModel scheduleFlow) return Task.CompletedTask;
+            _actionBlock.Post(async () =>
+            {
+                Flow? flow = await GetFlowBySchedultAsync(scheduleFlow);
+                if (flow == null || flow.WorkID != scheduleWork.WorkID) return;
+                await SaveEditAsync(flow, scheduleWork, workResult);
+            });
+            return Task.CompletedTask;
+        }
+        public Task WorkExecuteAsync(Flow flow, ScheduleWorkView scheduleWork)
+        {
+            _actionBlock.Post(async () =>
+            {
+                await SaveEditAsync(flow, scheduleWork);
+            });
+            return Task.CompletedTask;
+        }
+        public Task WorkExecutedAsync(Flow flow, ScheduleWorkView scheduleWork, string? workResult)
+        {
+            _actionBlock.Post(async () =>
+            {
+                await SaveEditAsync(flow, scheduleWork, workResult);
+            });
+            return Task.CompletedTask;
         }
         public async Task ScheduleStartAsync()
         {
@@ -97,6 +114,43 @@ namespace Materal.Oscillator.LocalDR
             }
         }
         #region 私有方法
+        private async Task SaveEditAsync(Flow flow, ScheduleWorkView scheduleWork)
+        {
+            flow.WorkID = scheduleWork.WorkID;
+            _unitOfWork.RegisterEdit(flow);
+            await _unitOfWork.CommitAsync();
+        }
+        private async Task SaveEditAsync(Flow flow, ScheduleWorkView scheduleWork, string? workResult)
+        {
+            flow.WorkID = scheduleWork.WorkID;
+            List<string?> workResults;
+            if (string.IsNullOrWhiteSpace(flow.WorkResults))
+            {
+                workResults = new List<string?> { workResult };
+            }
+            else
+            {
+                workResults = flow.WorkResults.JsonToObject<List<string?>>();
+                workResults.Add(workResult);
+            }
+            flow.WorkResults = workResults.ToJson();
+            _unitOfWork.RegisterEdit(flow);
+            await _unitOfWork.CommitAsync();
+        }
+        /// <summary>
+        /// 保存更改
+        /// </summary>
+        /// <param name="task"></param>
+        private void SaveChange(Func<Task> task)
+        {
+            task().Wait();
+            int count = _flowRepository.CountAsync(m => true).Result;
+        }
+        /// <summary>
+        /// 调度器启动
+        /// </summary>
+        /// <param name="flow"></param>
+        /// <returns></returns>
         private async Task ScheduleStartAsync(Flow flow)
         {
             await _oscillatorService.DRRunAsync(flow);
