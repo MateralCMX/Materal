@@ -144,7 +144,6 @@ namespace Materal.Oscillator.LocalDR
         private void SaveChange(Func<Task> task)
         {
             task().Wait();
-            int count = _flowRepository.CountAsync(m => true).Result;
         }
         /// <summary>
         /// 调度器启动
