@@ -114,12 +114,25 @@ namespace Materal.Oscillator.LocalDR
             }
         }
         #region 私有方法
+        /// <summary>
+        /// 保存修改
+        /// </summary>
+        /// <param name="flow"></param>
+        /// <param name="scheduleWork"></param>
+        /// <returns></returns>
         private async Task SaveEditAsync(Flow flow, ScheduleWorkView scheduleWork)
         {
             flow.WorkID = scheduleWork.WorkID;
             _unitOfWork.RegisterEdit(flow);
             await _unitOfWork.CommitAsync();
         }
+        /// <summary>
+        /// 保存修改
+        /// </summary>
+        /// <param name="flow"></param>
+        /// <param name="scheduleWork"></param>
+        /// <param name="workResult"></param>
+        /// <returns></returns>
         private async Task SaveEditAsync(Flow flow, ScheduleWorkView scheduleWork, string? workResult)
         {
             flow.WorkID = scheduleWork.WorkID;
