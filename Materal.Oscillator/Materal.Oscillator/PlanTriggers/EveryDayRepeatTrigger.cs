@@ -46,13 +46,13 @@ namespace Materal.Oscillator.PlanTriggers
                     switch (IntervalType)
                     {
                         case EveryDayIntervalType.Hour:
-                            result = upRunTime.Add(TimeSpan.FromHours(Interval));
+                            result = startTime.Add(TimeSpan.FromHours(Interval * (nowCount + 1)));
                             break;
                         case EveryDayIntervalType.Minute:
-                            result = upRunTime.Add(TimeSpan.FromMinutes(Interval));
+                            result = startTime.Add(TimeSpan.FromMinutes(Interval * (nowCount + 1)));
                             break;
                         case EveryDayIntervalType.Second:
-                            result = upRunTime.Add(TimeSpan.FromSeconds(Interval));
+                            result = startTime.Add(TimeSpan.FromSeconds(Interval * (nowCount + 1)));
                             break;
                     }
                 }
