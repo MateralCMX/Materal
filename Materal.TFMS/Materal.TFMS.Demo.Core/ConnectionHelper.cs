@@ -9,11 +9,11 @@ namespace Materal.TFMS.Demo.Core
         {
             return new ConnectionFactory
             {
-                HostName = "127.0.0.1",
+                HostName = "175.27.194.19",
                 Port = 5672,
                 DispatchConsumersAsync = true,
-                UserName = "admin",
-                Password = "Materal@123456"
+                UserName = "GDB",
+                Password = "GDB2022"
             };
         }
     }

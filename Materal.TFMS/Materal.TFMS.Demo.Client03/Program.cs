@@ -1,16 +1,14 @@
 ﻿using Materal.TFMS.Demo.Core;
-using System;
-using System.Threading.Tasks;
 
 namespace Materal.TFMS.Demo.Client03
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
             Console.Title = ClientHelper.AppName;
             var client = ClientHelper.GetService<IClient>();
-            string inputString;
+            string? inputString;
             do
             {
                 inputString = Console.ReadLine();

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Materal.TFMS.Demo.Client01.EventHandlers;
+﻿using Materal.TFMS.Demo.Client01.EventHandlers;
 using Materal.TFMS.Demo.Core;
 using Materal.TFMS.Demo.Events;
 using Materal.TFMS.EventBus;
@@ -14,7 +13,9 @@ namespace Materal.TFMS.Demo.Client01
         {
             _eventBus = eventBus;
             eventBus.SubscribeAsync<Event02, Client01Event02Handler>();
+            eventBus.SubscribeAsync<Event02, Client01Event02Handler2>();
             eventBus.SubscribeAsync<Event03, Client01Event03Handler>();
+            eventBus.SubscribeAsync<Event03, Client01Event03Handler2>();
             _eventBus.StartListening();
         }
 

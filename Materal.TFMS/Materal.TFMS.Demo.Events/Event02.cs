@@ -7,6 +7,6 @@ namespace Materal.TFMS.Demo.Events
         /// <summary>
         /// 消息
         /// </summary>
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
     }
 }

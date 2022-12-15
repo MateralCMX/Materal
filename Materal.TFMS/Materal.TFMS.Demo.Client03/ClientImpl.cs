@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Materal.TFMS.Demo.Client03.EventHandlers;
+﻿using Materal.TFMS.Demo.Client03.EventHandlers;
 using Materal.TFMS.Demo.Core;
 using Materal.TFMS.Demo.Events;
 using Materal.TFMS.EventBus;
@@ -23,7 +22,7 @@ namespace Materal.TFMS.Demo.Client03
         {
             var @event = new Event03
             {
-                Message = "这是来自Client03的事件"
+                Message = $"这是来自Client02的{nameof(Event03)}事件"
             };
             await _eventBus.PublishAsync(@event);
         }

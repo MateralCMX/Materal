@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Materal.TFMS.Demo.Core
+﻿namespace Materal.TFMS.Demo.Core
 {
     public interface IClient
     {

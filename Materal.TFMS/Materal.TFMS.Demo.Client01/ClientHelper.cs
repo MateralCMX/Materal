@@ -1,80 +1,39 @@
-﻿using Materal.TFMS.Demo.Client01.EventHandlers;
+﻿using Materal.Logger;
+using Materal.TFMS.Demo.Client01.EventHandlers;
 using Materal.TFMS.Demo.Core;
 using Materal.TFMS.Demo.Core.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using NLog;
-using NLog.Config;
-using NLog.Extensions.Logging;
-using RabbitMQ.Client;
-using System;
-using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Materal.TFMS.Demo.Client01
 {
     public static class ClientHelper
     {
-        public static IServiceCollection Services { get; set; }
-        public static IServiceProvider ServiceProvider { get; private set; }
-        public static string AppName { get; set; }
+        private static readonly IServiceCollection _serviceCollection = new ServiceCollection();
+        private static IServiceProvider _serviceProvider;
+        public static string AppName { get; private set; } = "Client01";
         static ClientHelper()
         {
+            IConfiguration configuration = new ConfigurationBuilder()
+                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                        .Build();
+            _serviceCollection.AddMateralLogger(configuration);
+            MateralLoggerConfig.Application = AppName;
             RegisterServices();
-            BuildServices();
-            Configure();
+            _serviceProvider = _serviceCollection.BuildServiceProvider();
         }
         /// <summary>
         /// 注册依赖注入
         /// </summary>
         public static void RegisterServices()
         {
-            AppName = "Client01";
-            Services = new ServiceCollection();
-            Services.AddTransient<IConnectionFactory, ConnectionFactory>(serviceProvider => ConnectionHelper.GetConnectionFactory());
-            Services.AddTransient<ILoggerFactory, LoggerFactory>();
             const string queueName = "MateralTFMSDemoQueueName1";
-            Services.AddEventBus(queueName, ConnectionHelper.ExchangeName);
-            Services.AddSingleton<IClient, ClientImpl>();
-            Services.AddTransient<Client01Event01Handler>();
-            Services.AddTransient<Client01Event02Handler>();
-            Services.AddTransient<Client01Event02Handler2>();
-            Services.AddTransient<Client01Event03Handler>();
-            Services.AddTransient<Client01Event03Handler2>();
-            Services.AddLogging(builder =>
-            {
-                builder.SetMinimumLevel(LogLevel.Trace);
-                builder.AddNLog(new NLogProviderOptions
-                {
-                    CaptureMessageTemplates = true,
-                    CaptureMessageProperties = true
-                });
-            });
-        }
-        /// <summary>
-        /// Build服务
-        /// </summary>
-        public static void BuildServices()
-        {
-            Build();
-        }
-        /// <summary>
-        /// 配置
-        /// </summary>
-        public static void Configure()
-        {
-            //LogManager.LoadConfiguration("NLog.config");
-            //LogManager.Configuration.Install(new InstallationContext());
-            //LogManager.Configuration.Variables["AppName"] = AppName;
-            //var factory = ServiceProvider.GetService<ILoggerFactory>();
-            //factory.AddNLog();
-        }
-        /// <summary>
-        /// 生成
-        /// </summary>
-        public static void Build()
-        {
-            if (Services == null) throw new InvalidOperationException("依赖注入服务未找到");
-            ServiceProvider = Services.BuildServiceProvider();
+            _serviceCollection.AddEventBus(queueName, ConnectionHelper.ExchangeName);
+            _serviceCollection.AddSingleton<IClient, ClientImpl>();
+            _serviceCollection.AddTransient<Client01Event02Handler>();
+            _serviceCollection.AddTransient<Client01Event02Handler2>();
+            _serviceCollection.AddTransient<Client01Event03Handler>();
+            _serviceCollection.AddTransient<Client01Event03Handler2>();
         }
         /// <summary>
         /// 获得服务
@@ -83,7 +42,7 @@ namespace Materal.TFMS.Demo.Client01
         /// <returns></returns>
         public static T GetService<T>()
         {
-            return ServiceProvider.GetService<T>();
+            return _serviceProvider.GetService<T>() ?? throw new ApplicationException("服务未找到");
         }
     }
 }
