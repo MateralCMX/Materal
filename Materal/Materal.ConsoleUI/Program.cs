@@ -1,5 +1,4 @@
-﻿using Materal.ConvertHelper;
-using Materal.Model;
+﻿using Materal.Common;
 
 namespace Materal.ConsoleUI
 {
@@ -7,20 +6,21 @@ namespace Materal.ConsoleUI
     {
         public static void Main()
         {
-            TestMode test = new()
+            ConsoleQueue.WriteLine("1234", ConsoleColor.DarkGreen);
+            ConsoleQueue.WriteLine("2234");
+            ConsoleQueue.WriteLine(new Exception("Test", new Exception("InnerTest")));
+            try
             {
-                Name = "Test",
-            };
-            var a = test.GetSearchExpression<Test>();
+                int a = 0;
+                int b = 1;
+                int c = b / a;
+            }
+            catch (Exception ex)
+            {
+                ConsoleQueue.WriteLine(new Exception("Test", ex));
+            }
+            ConsoleQueue.WriteLine("3234");
+            Console.ReadKey();
         }
-    }
-    public class TestMode : FilterModel
-    {
-        [Equal]
-        public string? Name { get; set; }
-    }
-    public class Test
-    {
-        public string Name { get; set; } = string.Empty;
     }
 }
