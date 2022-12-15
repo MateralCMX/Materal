@@ -10,6 +10,20 @@ namespace Materal.ConvertHelper
     public static class TypeExtension
     {
         /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? GetObjectByType(this Type type, params object[] args)
+        {
+            Type[] argTypes = args.Select(m => m.GetType()).ToArray();
+            ConstructorInfo? constructorInfo = type.GetConstructor(argTypes);
+            if (constructorInfo == null) return default;
+            object result = constructorInfo.Invoke(args);
+            return result;
+        }
+        /// <summary>
         /// 将类型转换为数据表
         /// 该数据表的列即为类型的属性
         /// </summary>

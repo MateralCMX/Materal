@@ -3,10 +3,10 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.1.17</Version>
+		<Version>1.1.19</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>../nupkg</PackageOutputPath>
-		<Version>1.1.17</Version>
+		<Version>1.1.19</Version>
 		<Authors>Materal</Authors>
 		<Product>Materal</Product>
 		<Description>Materal网络帮助类</Description>

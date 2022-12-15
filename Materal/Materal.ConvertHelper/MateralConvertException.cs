@@ -1,5 +1,4 @@
 ﻿using Materal.Common;
-using System;
 
 namespace Materal.ConvertHelper
 {

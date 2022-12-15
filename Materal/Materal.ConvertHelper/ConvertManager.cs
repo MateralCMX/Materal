@@ -10,6 +10,19 @@ namespace Materal.ConvertHelper
     public class ConvertManager
     {
         /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T? GetObject<T>(params object[] args)
+        {
+            Type tType = typeof(T);
+            object? typeObject = tType.GetObjectByType(args);
+            if (typeObject == null || typeObject is not T result) return default;
+            return result;
+        }
+        /// <summary>
         /// 获得默认对象
         /// </summary>
         /// <typeparam name="T">要设置的类型</typeparam>

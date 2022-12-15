@@ -1,5 +1,6 @@
 ﻿using Materal.StringHelper;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -165,7 +166,7 @@ namespace Materal.ConvertHelper
         /// <exception cref="MateralConvertException"></exception>
         public static T? JsonToInterface<T>(this string jsonStr, string typeName)
         {
-            Type? triggerDataType = typeName.GetTypeByInterface<T>();
+            Type? triggerDataType = typeName.GetTypeByTypeName<T>();
             return triggerDataType == null ? default : (T)jsonStr.JsonToObject(triggerDataType);
         }
         /// <summary>
@@ -175,7 +176,7 @@ namespace Materal.ConvertHelper
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="MateralConvertException"></exception>
-        public static Type? GetTypeByTypeName(this string typeName)
+        public static Type? GetTypeByTypeName(this string typeName, params object[] args)
         {
             if (string.IsNullOrWhiteSpace(typeName)) return null;
             Type? triggerDataType = null;
@@ -186,10 +187,13 @@ namespace Materal.ConvertHelper
             else
             {
                 Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+                Type[] argTypes = args.Select(m => m.GetType()).ToArray();
                 foreach (Assembly assembly in assemblies)
                 {
-                    Type? targetType = assembly.GetTypes().Where(m => m.Name == typeName && m.IsClass && !m.IsAbstract).FirstOrDefault();
+                    Type? targetType = assembly.GetTypes().FirstOrDefault(m => m.Name == typeName && m.IsClass && !m.IsAbstract);
                     if (targetType == null) continue;
+                    ConstructorInfo? constructorInfo = targetType.GetConstructor(argTypes);
+                    if (constructorInfo == null) continue;
                     triggerDataType = targetType;
                     break;
                 }
@@ -215,41 +219,38 @@ namespace Materal.ConvertHelper
         /// <param name="typeName"></param>
         /// <returns></returns>
         /// <exception cref="MateralConvertException"></exception>
-        public static Type? GetTypeByInterface<T>(this string typeName, params object[] args)
+        public static Type? GetTypeByTypeName<T>(this string typeName, params object[] args)
         {
             if (string.IsNullOrWhiteSpace(typeName)) return null;
-            Type? triggerDataType = null;
-            if (_cacheTypes.ContainsKey(typeName))
-            {
-                triggerDataType = _cacheTypes[typeName];
-            }
-            else
-            {
-                Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-                Type[] argTypes = args.Select(m => m.GetType()).ToArray();
-                foreach (Assembly assembly in assemblies)
-                {
-                    Type? targetType = assembly.GetTypes().Where(m => m.Name == typeName && m.IsClass && !m.IsAbstract && m.IsAssignableTo(typeof(T))).FirstOrDefault();
-                    if (targetType == null) continue;
-                    ConstructorInfo? constructorInfo = targetType.GetConstructor(argTypes);
-                    if (constructorInfo == null) continue;
-                    triggerDataType = targetType;
-                    break;
-                }
-            }
-            if (triggerDataType == null) return null;
-            if (!_cacheTypes.ContainsKey(typeName))
-            {
-                lock (_operationCacheObjectLock)
-                {
-
-                    if (!_cacheTypes.ContainsKey(typeName))
-                    {
-                        _cacheTypes.Add(typeName, triggerDataType);
-                    }
-                }
-            }
+            Type? triggerDataType = GetTypeByTypeName(typeName, args);
+            if (triggerDataType == null || !triggerDataType.IsAssignableTo(typeof(T))) return null;
             return triggerDataType;
+        }
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? GetObjectByTypeName(this string typeName, params object[] args)
+        {
+            Type? type = GetTypeByTypeName(typeName, args);
+            if (type == null) return null;
+            return type.GetObjectByType(args);
+        }
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T? GetObjectByTypeName<T>(this string typeName, params object[] args)
+        {
+            Type? type = GetTypeByTypeName<T>(typeName, args);
+            if (type == null) return default;
+            object? typeObject = type.GetObjectByType(args);
+            if (typeObject == null || typeObject is not T result) return default;
+            return result;
         }
         /// <summary>
         /// 字符串转16进制字节数组
