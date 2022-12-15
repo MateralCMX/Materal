@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Materal.TFMS.EventBus
+﻿namespace Materal.TFMS.EventBus
 {
     /// <summary>
     /// 订阅信息

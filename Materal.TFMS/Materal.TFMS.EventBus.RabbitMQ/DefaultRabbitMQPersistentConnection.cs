@@ -4,10 +4,7 @@ using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
-using System;
-using System.IO;
 using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace Materal.TFMS.EventBus.RabbitMQ
 {
@@ -23,7 +20,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <summary>
         /// 日志对象
         /// </summary>
-        protected readonly ILogger<DefaultRabbitMQPersistentConnection> Logger;
+        protected readonly ILogger<DefaultRabbitMQPersistentConnection>? Logger;
         /// <summary>
         /// 重试次数
         /// </summary>
@@ -47,29 +44,28 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="connectionFactory">连接工厂</param>
         /// <param name="logger">日志对象</param>
         /// <param name="retryCount">重试次数</param>
-        public DefaultRabbitMQPersistentConnection(IConnectionFactory connectionFactory, ILogger<DefaultRabbitMQPersistentConnection> logger, int retryCount = 5)
+        public DefaultRabbitMQPersistentConnection(IConnectionFactory connectionFactory, ILogger<DefaultRabbitMQPersistentConnection>? logger, int retryCount = 5)
         {
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
-            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            Logger = logger;
             _retryCount = retryCount;
         }
         public void Dispose()
         {
             if (Disposed) return;
-
             Disposed = true;
-
             try
             {
                 Connection?.Dispose();
             }
             catch (IOException ex)
             {
-                Logger?.LogCritical(ex.ToString());
+                Logger?.LogCritical(ex, "连接释放失败");
             }
         }
         public bool TryConnect()
         {
+            using IDisposable? scope = Logger?.BeginScope("Connect");
             Logger?.LogInformation("正在连接RabbitMQ....");
             lock (OnlineRabbitMQLock)
             {
@@ -110,6 +106,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <param name="e"></param>
         private void OnConnectionBlocked(object? sender, ConnectionBlockedEventArgs e)
         {
+            using IDisposable? scope = Logger?.BeginScope("ConnectionBlocked");
             if (Disposed) return;
             Logger?.LogWarning("RabbitMQ连接被阻塞,正在重新连接...");
             TryConnect();
@@ -122,6 +119,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         private void OnCallbackException(object? sender, CallbackExceptionEventArgs e)
         {
             if (Disposed) return;
+            using IDisposable? scope = Logger?.BeginScope("CallbackException");
             Logger?.LogWarning("RabbitMQ发送了一个异常({ExceptionMessage}),正在重新连接...", e.Exception.Message);
             TryConnect();
         }
@@ -133,6 +131,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         private void OnConnectionShutdown(object? sender, ShutdownEventArgs reason)
         {
             if (Disposed) return;
+            using IDisposable? scope = Logger?.BeginScope("ConnectionShutdown");
             Logger?.LogWarning("RabbitMQ连接被关闭,正在重新连接...");
             TryConnect();
         }

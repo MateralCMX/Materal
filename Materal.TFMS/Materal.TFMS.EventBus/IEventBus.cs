@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Materal.TFMS.EventBus
+﻿namespace Materal.TFMS.EventBus
 {
     /// <summary>
     /// 事件总线

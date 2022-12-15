@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace Materal.TFMS.EventBus.Extensions
+﻿namespace Materal.TFMS.EventBus.Extensions
 {
     public static class GenericTypeExtensions
     {

@@ -81,6 +81,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         }
         public async Task PublishAsync(IntegrationEvent @event)
         {
+            using IDisposable? scope = _logger?.BeginScope("Publish");
             if (!_persistentConnection.IsConnected)
             {
                 _persistentConnection.TryConnect();
@@ -107,6 +108,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         }
         public async Task SubscribeAsync<T, THandler>() where T : IntegrationEvent where THandler : IIntegrationEventHandler<T>
         {
+            using IDisposable? scope = _logger?.BeginScope("Subscribe");
             string eventName = _subsManager.GetEventKey<T>();
             await DoInternalSubscriptionAsync(eventName);
             _logger?.LogInformation("订阅事件{EventName},处理器为{EventHandler}", eventName, typeof(THandler).GetGenericTypeName());
@@ -114,18 +116,21 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         }
         public void Unsubscribe<T, THandler>() where T : IntegrationEvent where THandler : IIntegrationEventHandler<T>
         {
+            using IDisposable? scope = _logger?.BeginScope("Unsubscribe");
             string eventName = _subsManager.GetEventKey<T>();
             _logger?.LogInformation("取消订阅事件{EventName}", eventName);
             _subsManager.RemoveSubscription<T, THandler>();
         }
         public async Task SubscribeDynamicAsync<THandler>(string eventName) where THandler : IDynamicIntegrationEventHandler
         {
+            using IDisposable? scope = _logger?.BeginScope("Subscribe");
             _logger?.LogInformation("订阅动态事件{EventName},处理器为{EventHandler}", eventName, typeof(THandler).GetGenericTypeName());
             await DoInternalSubscriptionAsync(eventName);
             _subsManager.AddDynamicSubscription<THandler>(eventName);
         }
         public void UnsubscribeDynamic<THandler>(string eventName) where THandler : IDynamicIntegrationEventHandler
         {
+            using IDisposable? scope = _logger?.BeginScope("Unsubscribe");
             _logger?.LogInformation("取消订阅动态事件{EventName}", eventName);
             _subsManager.RemoveDynamicSubscription<THandler>(eventName);
         }
@@ -187,6 +192,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <returns></returns>
         private async Task Consumer_ReceivedAsync(object sender, BasicDeliverEventArgs eventArgs)
         {
+            using IDisposable? scope = _logger?.BeginScope("Received");
             string eventName = eventArgs.RoutingKey;
             string message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
             try
@@ -249,6 +255,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <returns></returns>
         private async Task<bool> TryProcessEvent(string eventName, string message)
         {
+            using IDisposable? scope = _logger?.BeginScope("ProcessEvent");
             _logger?.LogInformation("处理事件: {eventName}", eventName);
             var result = false;
             if (_subsManager.HasSubscriptionsForEvent(eventName))

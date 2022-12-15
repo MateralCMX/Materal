@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Materal.Common;
+﻿using Materal.Common;
 
 namespace Materal.TFMS.EventBus
 {

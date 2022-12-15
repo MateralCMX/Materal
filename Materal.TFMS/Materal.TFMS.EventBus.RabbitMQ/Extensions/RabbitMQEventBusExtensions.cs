@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using RabbitMQ.Client;
 
 namespace Materal.TFMS.EventBus.RabbitMQ.Extensions
 {

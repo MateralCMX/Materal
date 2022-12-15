@@ -1,6 +1,4 @@
 ﻿using RabbitMQ.Client;
-using System;
-using System.Threading.Tasks;
 
 namespace Materal.TFMS.EventBus.RabbitMQ
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Materal.TFMS.EventBus
+﻿namespace Materal.TFMS.EventBus
 {
     /// <summary>
     /// 事件总线订阅管理器
