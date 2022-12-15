@@ -20,12 +20,19 @@ namespace Materal.TTA.EFRepository
             if (migrations.Any())
             {
                 _logger?.LogInformation("正在迁移数据库...");
-                await dbContext.Database.MigrateAsync();
-                _logger?.LogInformation("数据库迁移完毕");
+                try
+                {
+                    await dbContext.Database.MigrateAsync();
+                    _logger?.LogInformation("数据库迁移完毕");
+                }
+                catch (Exception exception)
+                {
+                    _logger?.LogError(exception, "数据库迁移失败.");
+                }
             }
             else
             {
-                _logger?.LogInformation("数据无需迁移.");
+                _logger?.LogInformation("数据库无需迁移.");
             }
         }
     }
