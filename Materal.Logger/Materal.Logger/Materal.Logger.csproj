@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
-		<Version>0.0.2</Version>
+		<Version>0.0.3</Version>
 		<Company>Materal</Company>
 		<Product>Materal日志模块</Product>
 		<Authors>Materal</Authors>

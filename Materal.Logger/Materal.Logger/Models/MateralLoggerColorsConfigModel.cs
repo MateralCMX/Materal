@@ -4,18 +4,14 @@ namespace Materal.Logger.Models
 {
     public class MateralLoggerColorsConfigModel
     {
-        public static ConsoleColor Default { get; set; }
-        public ConsoleColor? Trace { get; set; }
-        public ConsoleColor? Debug { get; set; }
-        public ConsoleColor? Information { get; set; }
-        public ConsoleColor? Warning { get; set; }
-        public ConsoleColor? Error { get; set; }
-        public ConsoleColor? Critical { get; set; }
-        public ConsoleColor? None { get; set; }
-        static MateralLoggerColorsConfigModel()
-        {
-            Default = Console.ForegroundColor;
-        }
+        public static ConsoleColor Default => ConsoleColor.Gray;
+        public ConsoleColor Trace { get; set; } = ConsoleColor.Gray;
+        public ConsoleColor Debug { get; set; } = ConsoleColor.Gray;
+        public ConsoleColor Information { get; set; } = ConsoleColor.Gray;
+        public ConsoleColor Warning { get; set; } = ConsoleColor.Gray;
+        public ConsoleColor Error { get; set; } = ConsoleColor.Gray;
+        public ConsoleColor Critical { get; set; } = ConsoleColor.Gray;
+        public ConsoleColor None { get; set; } = ConsoleColor.Gray;
         /// <summary>
         /// 获得控制台颜色
         /// </summary>
@@ -23,7 +19,7 @@ namespace Materal.Logger.Models
         /// <returns></returns>
         public ConsoleColor GetConsoleColor(LogLevel logLevel)
         {
-            ConsoleColor? consoleColor = logLevel switch
+            return logLevel switch
             {
                 LogLevel.Trace => Trace,
                 LogLevel.Debug => Debug,
@@ -34,7 +30,6 @@ namespace Materal.Logger.Models
                 LogLevel.None => None,
                 _ => Default
             };
-            return consoleColor ?? Default;
         }
     }
 }

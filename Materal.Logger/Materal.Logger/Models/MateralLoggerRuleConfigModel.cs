@@ -7,11 +7,11 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 启用标识
         /// </summary>
-        public bool Enable { get; set; }
+        public bool Enable { get; set; } = true;
         /// <summary>
         /// 最小等级
         /// </summary>
-        public LogLevel MinLevel { get; set; } = LogLevel.Trace;
+        public LogLevel MinLevel { get; set; } = LogLevel.Debug;
         /// <summary>
         /// 最大等级
         /// </summary>
