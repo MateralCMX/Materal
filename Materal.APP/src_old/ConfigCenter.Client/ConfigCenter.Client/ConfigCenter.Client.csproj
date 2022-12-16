@@ -1,25 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-	  <TargetFramework>net6.0</TargetFramework>
-	  <ImplicitUsings>enable</ImplicitUsings>
-	  <Nullable>enable</Nullable>
-	  <LangVersion>11.0</LangVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Product>ConfigCenter.Client</Product>
-    <Company>Materal</Company>
-    <Authors>Materal</Authors>
-    <Version>0.1.2</Version>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Materal.ConfigurationHelper" Version="1.1.19" />
-    <PackageReference Include="Materal.NetworkHelper" Version="1.1.19" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\ConfigCenter.Environment\ConfigCenter.Environment.DataTransmitModel\ConfigCenter.Environment.DataTransmitModel.csproj" />
-    <ProjectReference Include="..\..\ConfigCenter.Environment\ConfigCenter.Environment.PresentationModel\ConfigCenter.Environment.PresentationModel.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>11.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageOutputPath>../../nupkgs</PackageOutputPath>
+		<Product>ConfigCenter.Client</Product>
+		<Company>Materal</Company>
+		<Authors>Materal</Authors>
+		<Version>0.1.3</Version>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.19" />
+		<PackageReference Include="Materal.NetworkHelper" Version="1.1.19" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\ConfigCenter.Environment\ConfigCenter.Environment.DataTransmitModel\ConfigCenter.Environment.DataTransmitModel.csproj" />
+		<ProjectReference Include="..\..\ConfigCenter.Environment\ConfigCenter.Environment.PresentationModel\ConfigCenter.Environment.PresentationModel.csproj" />
+	</ItemGroup>
 </Project>
