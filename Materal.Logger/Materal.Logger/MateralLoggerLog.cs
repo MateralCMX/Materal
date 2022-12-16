@@ -6,8 +6,8 @@ namespace Materal.Logger
 {
     public static class MateralLoggerLog
     {
-        public static LogLevel MinLevel = LogLevel.Debug;
-        public static LogLevel MaxLevel = LogLevel.Error;
+        public static LogLevel MinLevel { get; set; } = LogLevel.Warning;
+        public static LogLevel MaxLevel { get; set; } = LogLevel.Critical;
         public static void LogDebug(string message)
         {
             if (LogLevel.Debug < MinLevel || LogLevel.Debug > MaxLevel) return;

@@ -103,6 +103,18 @@ namespace Materal.Logger.LoggerHandlers
         /// 计算机名称
         /// </summary>
         public static string MachineName => Environment.MachineName;
+        public static string RootPath
+        {
+            get
+            {
+                string result = AppDomain.CurrentDomain.BaseDirectory;
+                if (result.EndsWith("\\") || result.EndsWith("/"))
+                {
+                    result = result[0..^1];
+                }
+                return result;
+            }
+        }
         /// <summary>
         /// 格式化消息
         /// </summary>
@@ -121,6 +133,7 @@ namespace Materal.Logger.LoggerHandlers
             {
                 result = result.Replace($"${{{item.Key}}}", item.Value);
             }
+            result = result.Replace("${RootPath}", RootPath);
             result = result.Replace("${Date}", dateTime.ToString("yyyy-MM-dd"));
             result = result.Replace("${Time}", dateTime.ToString("HH:mm:ss"));
             result = result.Replace("${DateTime}", dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -159,6 +172,7 @@ namespace Materal.Logger.LoggerHandlers
             {
                 result = result.Replace($"${{{item.Key}}}", item.Value);
             }
+            result = result.Replace("${RootPath}", RootPath);
             result = result.Replace("${Date}", dateTime.ToString("yyyyMMdd"));
             result = result.Replace("${Year}", dateTime.Year.ToString());
             result = result.Replace("${Month}", dateTime.Month.ToString());
