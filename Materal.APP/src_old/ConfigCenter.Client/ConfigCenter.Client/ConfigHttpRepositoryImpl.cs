@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem;
+﻿using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem;
 using ConfigCenter.Environment.PresentationModel.ConfigurationItem;
 using Materal.Common;
 using Materal.Model;
@@ -10,16 +7,16 @@ namespace ConfigCenter.Client
 {
     public class ConfigHttpRepositoryImpl : BaseHttpClient, IConfigRepository
     {
-        public async Task<List<ConfigurationItemListDTO>> GetAllConfigurationItemAsync(string address, string projectName, string[] namespaceNames)
+        public async Task<List<ConfigurationItemListDTO>> GetConfigurationItemsAsync(string address, string projectName, params string[] namespaceNames)
         {
             try
             {
-                var data = new QueryConfigurationItemFilterRequestModel
+                QueryConfigurationItemFilterRequestModel data = new()
                 {
                     ProjectName = projectName,
                     NamespaceNames = namespaceNames
                 };
-                var resultModel = await SendPostAsync<ResultModel<List<ConfigurationItemListDTO>>>(address, data);
+                ResultModel<List<ConfigurationItemListDTO>> resultModel = await SendPostAsync<ResultModel<List<ConfigurationItemListDTO>>>(address, data);
                 if (resultModel.ResultType == ResultTypeEnum.Success)
                 {
                     return resultModel.Data;

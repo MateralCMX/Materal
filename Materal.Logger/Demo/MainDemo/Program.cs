@@ -2,7 +2,6 @@
 using Materal.Logger;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace MainDemo
 {
@@ -16,6 +15,8 @@ namespace MainDemo
             IConfiguration configuration = new ConfigurationBuilder()
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .Build();
+            MateralLoggerManager.CustomConfig.Add("LogDBConnectionString", "Data Source=175.27.194.19;Database=LogTestDB; User ID=sa; Password=XMJry@456;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
+            MateralLoggerManager.CustomConfig.Add("ApplicationName", "MainDemo");
             serviceCollection.AddMateralLogger(configuration);
             #endregion
             #region 通过代码配置

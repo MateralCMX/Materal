@@ -4,10 +4,17 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>0.0.1</Version>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageOutputPath>./nupkg</PackageOutputPath>
+		<Version>0.0.2</Version>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>Materal.Logger</ToolCommandName>
-		<PackageOutputPath>./nupkg</PackageOutputPath>
+		<Company>Materal</Company>
+		<Product>Materal日志模块</Product>
+		<Authors>Materal</Authors>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
+		<Title>Materal-日志</Title>
+		<Description>日志监听工具</Description>
 	</PropertyGroup>
 	<ItemGroup>
 	  <PackageReference Include="Materal.ConvertHelper" Version="1.1.19" />

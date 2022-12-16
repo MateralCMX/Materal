@@ -1,10 +1,6 @@
 ﻿using Materal.ConvertHelper;
 using Materal.Model;
 using Materal.NetworkHelper;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace ConfigCenter.Client
 {
@@ -17,11 +13,10 @@ namespace ConfigCenter.Client
         /// <param name="queryParams"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        protected async Task<T> SendGetAsync<T>(string url, Dictionary<string, string> queryParams = null, string contentType = "application/json") where T : ResultModel
+        protected async Task<T> SendGetAsync<T>(string url, Dictionary<string, string>? queryParams = null, string contentType = "application/json") where T : ResultModel
         {
             return await SendAsync<T>(async httpHeaders => await HttpManager.SendGetAsync(GetUrl(url), queryParams, httpHeaders), contentType);
         }
-
         /// <summary>
         /// 发送Post请求
         /// </summary>
@@ -30,11 +25,10 @@ namespace ConfigCenter.Client
         /// <param name="queryParams"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        protected async Task<T> SendPostAsync<T>(string url, object data = null, Dictionary<string, string> queryParams = null, string contentType = "application/json") where T : ResultModel
+        protected async Task<T> SendPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null, string contentType = "application/json") where T : ResultModel
         {
             return await SendAsync<T>(async httpHeaders => await HttpManager.SendPostAsync(GetUrl(url), data, queryParams, httpHeaders), contentType);
         }
-
         /// <summary>
         /// 发送Put请求
         /// </summary>
@@ -43,11 +37,10 @@ namespace ConfigCenter.Client
         /// <param name="queryParams"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        protected async Task<T> SendPutAsync<T>(string url, object data = null, Dictionary<string, string> queryParams = null, string contentType = "application/json") where T : ResultModel
+        protected async Task<T> SendPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null, string contentType = "application/json") where T : ResultModel
         {
             return await SendAsync<T>(async httpHeaders => await HttpManager.SendPutAsync(GetUrl(url), data, queryParams, httpHeaders), contentType);
         }
-
         /// <summary>
         /// 发送Delete请求
         /// </summary>
@@ -56,11 +49,10 @@ namespace ConfigCenter.Client
         /// <param name="queryParams"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        protected async Task<T> SendDeleteAsync<T>(string url, object data = null, Dictionary<string, string> queryParams = null, string contentType = "application/json") where T : ResultModel
+        protected async Task<T> SendDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null, string contentType = "application/json") where T : ResultModel
         {
             return await SendAsync<T>(async httpHeaders => await HttpManager.SendDeleteAsync(GetUrl(url), data, queryParams, httpHeaders), contentType);
         }
-
         /// <summary>
         /// 发送Patch请求
         /// </summary>
@@ -69,11 +61,10 @@ namespace ConfigCenter.Client
         /// <param name="queryParams"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        protected async Task<T> SendPatchAsync<T>(string url, object data = null, Dictionary<string, string> queryParams = null, string contentType = "application/json") where T : ResultModel
+        protected async Task<T> SendPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null, string contentType = "application/json") where T : ResultModel
         {
             return await SendAsync<T>(async httpHeaders => await HttpManager.SendPatchAsync(GetUrl(url), data, queryParams, httpHeaders), contentType);
         }
-
         /// <summary>
         /// 发送Post请求
         /// </summary>
@@ -82,11 +73,10 @@ namespace ConfigCenter.Client
         /// <param name="queryParams"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        protected async Task<T> SendPostAsync<T>(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, string contentType = "application/json") where T : ResultModel
+        protected async Task<T> SendPostAsync<T>(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, string contentType = "application/json") where T : ResultModel
         {
             return await SendAsync<T>(async httpHeaders => await HttpManager.SendPostAsync(GetUrl(url), httpContent, queryParams, httpHeaders), contentType);
         }
-
         /// <summary>
         /// 发送Put请求
         /// </summary>
@@ -95,11 +85,10 @@ namespace ConfigCenter.Client
         /// <param name="queryParams"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        protected async Task<T> SendPutAsync<T>(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, string contentType = "application/json") where T : ResultModel
+        protected async Task<T> SendPutAsync<T>(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, string contentType = "application/json") where T : ResultModel
         {
             return await SendAsync<T>(async httpHeaders => await HttpManager.SendPutAsync(GetUrl(url), httpContent, queryParams, httpHeaders), contentType);
         }
-
         /// <summary>
         /// 发送Delete请求
         /// </summary>
@@ -108,11 +97,10 @@ namespace ConfigCenter.Client
         /// <param name="queryParams"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        protected async Task<T> SendDeleteAsync<T>(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, string contentType = "application/json") where T : ResultModel
+        protected async Task<T> SendDeleteAsync<T>(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, string contentType = "application/json") where T : ResultModel
         {
             return await SendAsync<T>(async httpHeaders => await HttpManager.SendDeleteAsync(GetUrl(url), httpContent, queryParams, httpHeaders), contentType);
         }
-
         /// <summary>
         /// 发送Patch请求
         /// </summary>
@@ -121,7 +109,7 @@ namespace ConfigCenter.Client
         /// <param name="queryParams"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        protected async Task<T> SendPatchAsync<T>(string url, HttpContent httpContent, Dictionary<string, string> queryParams = null, string contentType = "application/json") where T : ResultModel
+        protected async Task<T> SendPatchAsync<T>(string url, HttpContent httpContent, Dictionary<string, string>? queryParams = null, string contentType = "application/json") where T : ResultModel
         {
             return await SendAsync<T>(async httpHeaders => await HttpManager.SendPatchAsync(GetUrl(url), httpContent, queryParams, httpHeaders), contentType);
         }
@@ -135,7 +123,7 @@ namespace ConfigCenter.Client
         /// 获得Http头
         /// </summary>
         /// <returns></returns>
-        protected Dictionary<string, string> GetHttpHeaders(string contentType)
+        protected static Dictionary<string, string> GetHttpHeaders(string contentType)
         {
             var httpHeaders = new Dictionary<string, string>
             {
@@ -155,7 +143,7 @@ namespace ConfigCenter.Client
         /// <param name="action"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        private async Task<T> SendAsync<T>(Func<Dictionary<string, string>, Task<string>> action, string contentType) where T: ResultModel
+        private static async Task<T> SendAsync<T>(Func<Dictionary<string, string>, Task<string>> action, string contentType) where T: ResultModel
         {
             Dictionary<string, string> httpHeaders = GetHttpHeaders(contentType);
             string resultJson = await action(httpHeaders);

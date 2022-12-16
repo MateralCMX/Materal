@@ -117,6 +117,10 @@ namespace Materal.Logger.LoggerHandlers
         protected static string FormatMessage(string writeMessage, LogLevel logLevel, string message, string? categoryName, MateralLoggerScope? scope, DateTime dateTime, Exception? exception, string threadID)
         {
             string result = writeMessage;
+            foreach (KeyValuePair<string, string> item in MateralLoggerManager.CustomData)
+            {
+                result = result.Replace($"${{{item.Key}}}", item.Value);
+            }
             result = result.Replace("${Date}", dateTime.ToString("yyyy-MM-dd"));
             result = result.Replace("${Time}", dateTime.ToString("HH:mm:ss"));
             result = result.Replace("${DateTime}", dateTime.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -137,10 +141,6 @@ namespace Materal.Logger.LoggerHandlers
             result = result.Replace("${ProgressID}", progressID);
             result = result.Replace("${ThreadID}", threadID);
             result = result.Replace("${MachineName}", MachineName);
-            foreach (KeyValuePair<string, string> item in MateralLoggerManager.CustomData)
-            {
-                result = result.Replace($"${{{item.Key}}}", item.Value);
-            }
             return result;
         }
         /// <summary>
@@ -155,6 +155,10 @@ namespace Materal.Logger.LoggerHandlers
         public static string FormatPath(string path, LogLevel logLevel, string? categoryName, MateralLoggerScope? scope, DateTime dateTime, string threadID)
         {
             string result = path;
+            foreach (KeyValuePair<string, string> item in MateralLoggerManager.CustomData)
+            {
+                result = result.Replace($"${{{item.Key}}}", item.Value);
+            }
             result = result.Replace("${Date}", dateTime.ToString("yyyyMMdd"));
             result = result.Replace("${Year}", dateTime.Year.ToString());
             result = result.Replace("${Month}", dateTime.Month.ToString());
@@ -170,10 +174,6 @@ namespace Materal.Logger.LoggerHandlers
             result = result.Replace("${ProgressID}", progressID);
             result = result.Replace("${ThreadID}", threadID);
             result = result.Replace("${MachineName}", MachineName);
-            foreach (KeyValuePair<string, string> item in MateralLoggerManager.CustomData)
-            {
-                result = result.Replace($"${{{item.Key}}}", item.Value);
-            }
             return result;
         }
         /// <summary>

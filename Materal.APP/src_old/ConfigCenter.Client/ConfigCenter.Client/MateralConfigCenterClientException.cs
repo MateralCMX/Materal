@@ -1,5 +1,4 @@
 ﻿using Materal.Common;
-using System;
 
 namespace ConfigCenter.Client
 {
@@ -8,11 +7,9 @@ namespace ConfigCenter.Client
         public MateralConfigCenterClientException()
         {
         }
-
         public MateralConfigCenterClientException(string message) : base(message)
         {
         }
-
         public MateralConfigCenterClientException(string message, Exception innerException) : base(message, innerException)
         {
         }

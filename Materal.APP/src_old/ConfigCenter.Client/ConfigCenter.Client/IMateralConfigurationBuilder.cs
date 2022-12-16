@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace ConfigCenter.Client
 {
@@ -16,10 +15,5 @@ namespace ConfigCenter.Client
         /// </summary>
         /// <returns></returns>
         IMateralConfigurationBuilder AddDefaultNamespace();
-        /// <summary>
-        /// 生成配置
-        /// </summary>
-        /// <returns></returns>
-        Task<IConfigurationRoot> BuildMateralConfigAsync();
     }
 }

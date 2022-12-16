@@ -5,7 +5,7 @@
         /// <summary>
         /// 启用标识
         /// </summary>
-        public bool Enable { get; set; }
+        public bool Enable { get; set; } = true;
         /// <summary>
         /// 名称
         /// </summary>

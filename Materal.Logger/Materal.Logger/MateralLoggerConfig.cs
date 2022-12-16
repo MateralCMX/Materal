@@ -1,7 +1,8 @@
 ﻿using Materal.ConfigurationHelper;
-using Materal.ConvertHelper;
 using Materal.Logger.Models;
 using Microsoft.Extensions.Configuration;
+using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace Materal.Logger
@@ -17,7 +18,6 @@ namespace Materal.Logger
             if (configuration == null) return;
             _config = configuration;
         }
-        private static string? _application;
         /// <summary>
         /// 应用程序名称
         /// </summary>
@@ -25,17 +25,15 @@ namespace Materal.Logger
         {
             get
             {
-                if (_application != null) return _application;
-                _application = GetValue("Application");
-                if (string.IsNullOrWhiteSpace(_application))
+                string? application = GetValue("Application");
+                if (string.IsNullOrWhiteSpace(application))
                 {
-                    _application = "未知应用程序";
+                    application = "MateralLogger";
                 }
-                return _application;
+                application = FormatConfig(application);
+                return application;
             }
-            set => _application = value;
         }
-        private static List<MateralLoggerTargetConfigModel>? _targetsConfig;
         /// <summary>
         /// 目标配置
         /// </summary>
@@ -43,12 +41,11 @@ namespace Materal.Logger
         {
             get
             {
-                if (_targetsConfig != null) return _targetsConfig;
-                _targetsConfig = GetValueObject<List<MateralLoggerTargetConfigModel>>("Targets");
-                return _targetsConfig;
+                List<MateralLoggerTargetConfigModel> targetsConfig = GetValueObject<List<MateralLoggerTargetConfigModel>>("Targets");
+                targetsConfig = FormatConfigs(targetsConfig);
+                return targetsConfig;
             }
         }
-        private static List<MateralLoggerRuleConfigModel>? _rulesConfig;
         /// <summary>
         /// 规则配置
         /// </summary>
@@ -56,12 +53,11 @@ namespace Materal.Logger
         {
             get
             {
-                if (_rulesConfig != null) return _rulesConfig;
-                _rulesConfig = GetValueObject<List<MateralLoggerRuleConfigModel>>("Rules");
-                return _rulesConfig;
+                List<MateralLoggerRuleConfigModel> rulesConfig = GetValueObject<List<MateralLoggerRuleConfigModel>>("Rules");
+                rulesConfig = FormatConfigs(rulesConfig);
+                return rulesConfig;
             }
         }
-        private static MateralLoggerServerConfigModel? _serverConfig;
         /// <summary>
         /// 服务配置
         /// </summary>
@@ -69,11 +65,12 @@ namespace Materal.Logger
         {
             get
             {
-                if (_serverConfig != null) return _serverConfig;
-                _serverConfig = GetValueObject<MateralLoggerServerConfigModel>("Server");
-                return _serverConfig;
+                MateralLoggerServerConfigModel serverConfig = GetValueObject<MateralLoggerServerConfigModel>("Server");
+                serverConfig = FormatConfig(serverConfig);
+                return serverConfig;
             }
         }
+        private const string ConfigKey = "MateralLogger";
         /// <summary>
         /// 获取配置项
         /// </summary>
@@ -87,7 +84,7 @@ namespace Materal.Logger
             T? result = default;
             if (_config != null)
             {
-                result = GetValueObject<T>(_config, name);
+                result = _config.GetValueObject<T>($"{ConfigKey}:{name}");
             }
             return result ?? new();
         }
@@ -102,25 +99,66 @@ namespace Materal.Logger
             string? result = null;
             if (_config != null)
             {
-                result = GetValue(_config, name);
+                result = _config.GetValue($"{ConfigKey}:{name}");
             }
             return result;
         }
-        private const string ConfigKey = "MateralLogger";
-        /// <summary>
-        /// 获得值对象
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="configuration"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        private static T? GetValueObject<T>(IConfiguration configuration, string key) => configuration.GetValueObject<T>($"{ConfigKey}:{key}");
-        /// <summary>
-        /// 获得值
-        /// </summary>
-        /// <param name="configuration"></param>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        private static string? GetValue(IConfiguration configuration, string key) => configuration.GetValue($"{ConfigKey}:{key}");
+        private static List<T> FormatConfigs<T>(List<T> objs)
+        {
+            IList list = FormatListConfig(objs);
+            if(list is List<T> result)
+            {
+                return result;
+            }
+            return objs;
+        }
+        private static IList FormatListConfig(IList objs)
+        {
+            for (int i = 0; i < objs.Count; i++)
+            {
+                if (objs[i] == null) continue;
+                else if (objs[i] is string stringValue)
+                {
+                    objs[i] = FormatConfig(stringValue);
+                }
+                else
+                {
+                    objs[i] = FormatConfig(objs[i]);
+                }
+            }
+            return objs;
+        }
+        private static T FormatConfig<T>(T obj)
+        {
+            if (obj == null) return obj;
+            foreach (PropertyInfo propertyInfo in obj.GetType().GetProperties())
+            {
+                if (!propertyInfo.CanWrite || !propertyInfo.CanRead) continue;
+                object? value = propertyInfo.GetValue(obj);
+                if (value == null) continue;
+                else if(value is string stringValue)
+                {
+                    propertyInfo.SetValue(obj, FormatConfig(stringValue));
+                }
+                else if(propertyInfo.PropertyType.IsAssignableTo(typeof(IList)))
+                {
+                    IList list = (IList)value;
+                    propertyInfo.SetValue(obj, FormatListConfig(list));
+                }
+                else
+                {
+                    propertyInfo.SetValue(obj, FormatConfig(value));
+                }
+            }
+            return obj;
+        }
+        private static string FormatConfig(string stringValue)
+        {
+            foreach (KeyValuePair<string, string> item in MateralLoggerManager.CustomConfig)
+            {
+                stringValue = stringValue.Replace($"${{{item.Key}}}", item.Value);
+            }
+            return stringValue;
+        }
     }
 }

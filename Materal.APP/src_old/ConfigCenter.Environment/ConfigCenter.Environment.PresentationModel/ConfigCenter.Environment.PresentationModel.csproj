@@ -6,7 +6,7 @@
     <Product>ConfigCenter.Environment.PresentationModel</Product>
     <Company>Materal</Company>
     <Authors>Materal</Authors>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

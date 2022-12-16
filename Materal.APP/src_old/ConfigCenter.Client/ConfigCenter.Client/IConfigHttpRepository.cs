@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem;
+﻿using ConfigCenter.Environment.DataTransmitModel.ConfigurationItem;
 
 namespace ConfigCenter.Client
 {
     public interface IConfigRepository
     {
-        Task<List<ConfigurationItemListDTO>> GetAllConfigurationItemAsync(string address, string projectName, string[] namespaceNames);
+        Task<List<ConfigurationItemListDTO>> GetConfigurationItemsAsync(string address, string projectName, params string[] namespaceNames);
     }
 }
