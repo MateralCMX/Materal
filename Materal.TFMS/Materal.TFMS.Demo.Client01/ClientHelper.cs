@@ -18,7 +18,7 @@ namespace Materal.TFMS.Demo.Client01
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .Build();
             _serviceCollection.AddMateralLogger(configuration);
-            MateralLoggerConfig.Application = AppName;
+            MateralLoggerManager.CustomConfig.Add("ApplicationName", AppName);
             RegisterServices();
             _serviceProvider = _serviceCollection.BuildServiceProvider();
         }

@@ -8,12 +8,12 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>0.0.5</Version>
+		<Version>0.0.6</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.SqliteRepositoryImpl</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.20" />
+		<PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.21" />
 		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
 	</ItemGroup>
 	<ItemGroup>

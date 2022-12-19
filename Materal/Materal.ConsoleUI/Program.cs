@@ -1,4 +1,4 @@
-﻿using Materal.Common;
+﻿using Materal.Model;
 
 namespace Materal.ConsoleUI
 {
@@ -6,21 +6,32 @@ namespace Materal.ConsoleUI
     {
         public static void Main()
         {
-            ConsoleQueue.WriteLine("1234", ConsoleColor.DarkGreen);
-            ConsoleQueue.WriteLine("2234");
-            ConsoleQueue.WriteLine(new Exception("Test", new Exception("InnerTest")));
-            try
+            ClassA classA = new()
             {
-                int a = 0;
-                int b = 1;
-                int c = b / a;
-            }
-            catch (Exception ex)
+                IDs = new()
+                {
+                    1, 2, 3, 4, 5, 6
+                },
+                Name2 = "T"
+            };
+            List<ClassA> classAs = new()
             {
-                ConsoleQueue.WriteLine(new Exception("Test", ex));
-            }
-            ConsoleQueue.WriteLine("3234");
-            Console.ReadKey();
+                new ClassA{ ID = 0, Name="Test0" },
+                new ClassA{ ID = 1, Name="Test1" },
+                new ClassA{ ID = 2, Name="Test2" }
+            };
+            Func<ClassA, bool> a = classA.GetSearchDelegate<ClassA>();
+            List<ClassA> b = classAs.Where(a).ToList();
         }
+
+    }
+    public class ClassA : FilterModel
+    {
+        public int ID { get; set; }
+        [Contains("ID")]
+        public List<int> IDs { get; set; } = new();
+        public string Name { get; set; } = string.Empty;
+        [Contains("Name")]
+        public string Name2 { get; set; } = string.Empty;
     }
 }

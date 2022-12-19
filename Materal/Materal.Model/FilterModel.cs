@@ -197,9 +197,20 @@ namespace Materal.Model
         {
             Type propertyType = propertyInfo.PropertyType;
             MethodInfo? methodInfo = propertyType.GetMethod(methodName, new[] { propertyType });
-            if (methodInfo == null) return null;
-            (Expression leftExpression, Expression rightExpression, Expression? otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
-            Expression result = Expression.Call(leftExpression, methodInfo, rightExpression);
+            Expression? otherExpression;
+            Expression result;
+            if (methodInfo != null)
+            {
+                (Expression leftExpression, Expression rightExpression, otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
+                result = Expression.Call(leftExpression, methodInfo, rightExpression);
+            }
+            else
+            {
+                methodInfo = propertyType.GetMethod(methodName, new[] { targetPropertyInfo.PropertyType });
+                if (methodInfo == null) return null;
+                (Expression rightExpression, Expression leftExpression, otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
+                result = Expression.Call(leftExpression, methodInfo, rightExpression);
+            }
             if (otherExpression != null)
             {
                 result = Expression.Add(otherExpression, result);
