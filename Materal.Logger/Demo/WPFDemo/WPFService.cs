@@ -10,12 +10,13 @@ namespace WPFDemo
         public static IServiceProvider Services { get; private set; }
         static WPFService()
         {
+            IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddMateralLogger();
+            Services = serviceCollection.BuildServiceProvider();
             IConfiguration configuration = new ConfigurationBuilder()
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .Build();
-            IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddMateralLogger(configuration);
-            Services = serviceCollection.BuildServiceProvider();
+            MateralLoggerManager.Init(null, configuration);
         }
         /// <summary>
         /// 获得服务或者默认值

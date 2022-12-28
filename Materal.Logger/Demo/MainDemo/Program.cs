@@ -10,6 +10,8 @@ namespace MainDemo
         public static void Main()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddMateralLogger();
+            IServiceProvider services = serviceCollection.BuildServiceProvider();
             #region MateralLogger
             #region 通过配置文件配置
             IConfiguration configuration = new ConfigurationBuilder()
@@ -17,7 +19,7 @@ namespace MainDemo
                         .Build();
             MateralLoggerManager.CustomConfig.Add("LogDBConnectionString", "Data Source=175.27.194.19;Database=LogTestDB; User ID=sa; Password=XMJry@456;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
             MateralLoggerManager.CustomConfig.Add("ApplicationName", "MainDemo");
-            serviceCollection.AddMateralLogger(configuration);
+            MateralLoggerManager.Init(null, configuration);
             #endregion
             #region 通过代码配置
             //MateralLoggerConfig.Application = "测试程序";
@@ -51,7 +53,6 @@ namespace MainDemo
             //    configure.AddSerilog(dispose: true);
             //});
             #endregion
-            IServiceProvider services = serviceCollection.BuildServiceProvider();
             MateralLoggerManager.CustomData.Add("UserName", "Administrator");
             CommandBus commandBus = new();
             bool canExit = false;

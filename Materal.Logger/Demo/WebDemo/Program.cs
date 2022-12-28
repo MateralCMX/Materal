@@ -15,9 +15,10 @@ namespace WebDemo
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddMateralLogger(builder.Configuration);
+            builder.Services.AddMateralLogger();
 
             var app = builder.Build();
+            app.UseMateralLogger(null, builder.Configuration);
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

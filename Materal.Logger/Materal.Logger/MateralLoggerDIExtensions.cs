@@ -1,15 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Materal.Common;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger
 {
-    public static class MateralLoggerDependencyInjectionExtensions
+    public static class MateralLoggerDIExtensions
     {
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration? configuration = null)
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services)
         {
-            MateralLoggerConfig.Init(configuration);
             services.AddLogging(builder =>
             {
                 builder.ClearProviders();
@@ -17,14 +18,12 @@ namespace Materal.Logger
             });
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, MateralLoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, MateralLoggerProvider>());
-            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
-            MateralLogger.InitServer();
             return services;
         }
-
-        private static void CurrentDomain_ProcessExit(object? sender, EventArgs e)
+        public static IApplicationBuilder UseMateralLogger(this IApplicationBuilder app, Action<MateralLoggerConfigOptions>? option = null, IConfiguration? configuration = null)
         {
-            MateralLoggerManager.Shutdown();
+            MateralLoggerManager.Init(option, configuration);
+            return app;
         }
     }
 }
