@@ -16,7 +16,29 @@ namespace Materal.HttpGenerator.Swagger
         private SwaggerContentModel? _swaggerContent;
         public event Action<string>? OnMessage;
         public string OutputPath { get; set; }
-        public string ProjectName { get; set; } = "MateralHttpProject";
+        public string ProjectName { get; set; } = "Materal.HttpProject";
+        private string? _prefixName;
+        public string PrefixName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_prefixName)) return _prefixName;
+                int dotIndex = ProjectName.IndexOf(".");
+                if(dotIndex > 0)
+                {
+                    _prefixName = ProjectName[0..dotIndex];
+                }
+                else
+                {
+                    _prefixName = ProjectName;
+                }
+                return _prefixName;
+            }
+            set
+            {
+                _prefixName = value;
+            }
+        }
         public GeneratorBuildImpl()
         {
             OutputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "HttpClientOutput");
@@ -67,9 +89,9 @@ namespace Materal.HttpGenerator.Swagger
                 StringBuilder codeContent = new();
                 codeContent.AppendLine($"using Materal.Model;");
                 codeContent.AppendLine($"using Materal.HttpClient.Base;");
-                codeContent.AppendLine($"using {ProjectName}.HttpClient.Models;");
+                codeContent.AppendLine($"using {PrefixName}.HttpClient.Models;");
                 codeContent.AppendLine($"");
-                codeContent.AppendLine($"namespace {ProjectName}.HttpClient");
+                codeContent.AppendLine($"namespace {PrefixName}.HttpClient");
                 codeContent.AppendLine($"{{");
                 codeContent.AppendLine($"    public class {path.Key}HttpClient : HttpClientBase");
                 codeContent.AppendLine($"    {{");
@@ -90,14 +112,16 @@ namespace Materal.HttpGenerator.Swagger
                     #region 解析对象
                     string resultType;
                     string baseFuncType;
+                    string baseFuncName = "GetResultModelBy";
                     if (item.Response.EndsWith("PageResultModel"))
                     {
                         baseFuncType = item.Response[0..^"PageResultModel".Length];
-                        resultType = $"async Task<{baseFuncType}>";
+                        resultType = $"async Task<(List<{baseFuncType}> data, PageModel pageInfo)>";
+                        baseFuncName = "GetPageResultModelBy";
                     }
                     else if (item.Response.EndsWith("ListResultModel"))
                     {
-                        baseFuncType = item.Response[0..^"ListResultModel".Length];
+                        baseFuncType = $"List<{item.Response[0..^"ListResultModel".Length]}>";
                         resultType = $"async Task<{baseFuncType}>";
                     }
                     else if (item.Response == "ResultModel")
@@ -119,7 +143,7 @@ namespace Materal.HttpGenerator.Swagger
                     {
                         baseFuncType = $"<{baseFuncType}>";
                     }
-                    string baseFunc = $"await GetResultModelBy{item.HttpMethod}Async{baseFuncType}";
+                    string baseFunc = $"await {baseFuncName}{item.HttpMethod}Async{baseFuncType}";
                     #endregion
                     #region 解析传入参数
                     List<string> paramCodes = new();
@@ -194,7 +218,7 @@ namespace Materal.HttpGenerator.Swagger
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
             codeContent.AppendLine($"");
-            codeContent.AppendLine($"namespace {ProjectName}.HttpClient.Models");
+            codeContent.AppendLine($"namespace {PrefixName}.HttpClient.Models");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    public class {schema.Name}");
             codeContent.AppendLine($"    {{");
@@ -254,9 +278,14 @@ namespace Materal.HttpGenerator.Swagger
         /// </summary>
         private void CreateModelFiles()
         {
+            string[] blackList = new string[]
+            {
+                "PageModel"
+            };
             if (_swaggerContent == null || _swaggerContent.Schemas == null) return;
             foreach (SchemaModel schema in _swaggerContent.Schemas)
             {
+                if (blackList.Contains(schema.Name)) continue;
                 if (schema.IsEnum) continue;
                 if (schema.Properties == null || schema.Properties.Count <= 0) continue;
                 if (schema.Name.EndsWith("ResultModel")) continue;

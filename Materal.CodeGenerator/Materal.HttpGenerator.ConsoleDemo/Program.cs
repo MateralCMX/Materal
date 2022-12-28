@@ -17,7 +17,9 @@ namespace Materal.HttpGenerator.ConsoleDemo
             string? path = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(path)) return;
             ConsoleQueue.WriteLine("请输入项目名称");
-            generator.ProjectName = Console.ReadLine() ?? "MateralHttpClient";
+            generator.ProjectName = Console.ReadLine() ?? "Materal.HttpClient";
+            ConsoleQueue.WriteLine($"请输入项目前缀[回车使用:{generator.PrefixName}]");
+            generator.PrefixName = Console.ReadLine() ?? string.Empty;
             generator.OutputPath = Path.Combine(Environment.CurrentDirectory, "HttpClientOutput", $"{generator.ProjectName}.HttpClient");
             await generator.SetSourceAsync(path);
 #endif
