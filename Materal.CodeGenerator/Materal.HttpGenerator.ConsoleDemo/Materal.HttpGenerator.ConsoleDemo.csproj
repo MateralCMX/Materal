@@ -7,7 +7,6 @@
 		<LangVersion>10.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Materal.HttpGenerator.Swagger\Materal.HttpGenerator.Swagger.csproj" />
 		<ProjectReference Include="..\Materal.HttpGenerator\Materal.HttpGenerator.csproj" />
 	</ItemGroup>
 </Project>

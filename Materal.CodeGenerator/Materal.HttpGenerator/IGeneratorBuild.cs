@@ -3,6 +3,10 @@
     public interface IGeneratorBuild
     {
         /// <summary>
+        /// 消息
+        /// </summary>
+        event Action<string>? OnMessage;
+        /// <summary>
         /// 输出路径
         /// </summary>
         string OutputPath { get; set; }
@@ -10,14 +14,6 @@
         /// 项目名称
         /// </summary>
         string ProjectName { get; set; }
-        /// <summary>
-        /// 项目名称
-        /// </summary>
-        string PrefixName { get; set; }
-        /// <summary>
-        /// 基础路径
-        /// </summary>
-        string BaseUrl { get; set; }
         /// <summary>
         /// 设置源
         /// </summary>

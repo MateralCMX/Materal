@@ -1,4 +1,5 @@
-﻿using Materal.HttpGenerator.Swagger;
+﻿using Materal.Common;
+using Materal.HttpGenerator.Swagger;
 
 namespace Materal.HttpGenerator.ConsoleDemo
 {
@@ -7,25 +8,23 @@ namespace Materal.HttpGenerator.ConsoleDemo
         public static async Task Main()
         {
             IGeneratorBuild generator = new GeneratorBuildImpl();
+            generator.OnMessage += Generator_OnMessage;
 #if DEBUG
             generator.ProjectName = "XMJ.Authority";
-            generator.PrefixName = "XMJ";
             await generator.SetSourceAsync("http://175.27.254.187:18800/swagger/v1/swagger.json");
 #else
-            Console.WriteLine("请输入SwaggerJson地址");
+            ConsoleQueue.WriteLine("请输入SwaggerJson地址");
             string? path = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(path)) return;
-            Console.WriteLine("请输入项目名称");
-            generator.ProjectName = Console.ReadLine() ?? "Test";
-            Console.WriteLine("请输入前缀名称");
-            generator.PrefixName = Console.ReadLine() ?? "Test";
-            Console.WriteLine("正在获取Swagger数据......");
+            ConsoleQueue.WriteLine("请输入项目名称");
+            generator.ProjectName = Console.ReadLine() ?? "MateralHttpClient";
+            generator.OutputPath = Path.Combine(Environment.CurrentDirectory, "HttpClientOutput", $"{generator.ProjectName}.HttpClient");
             await generator.SetSourceAsync(path);
 #endif
-            Console.WriteLine("开始构建......");
             await generator.BuildAsync();
-            Console.WriteLine("构建完毕,按任意键退出。");
+            ConsoleQueue.WriteLine("按任意键退出");
             Console.ReadKey();
         }
+        private static void Generator_OnMessage(string message) => ConsoleQueue.WriteLine(message);
     }
 }

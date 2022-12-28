@@ -1,10 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>10.0</LangVersion>
 	</PropertyGroup>
-
+	<ItemGroup>
+		<PackageReference Include="Materal.Model" Version="1.1.20" />
+		<PackageReference Include="Materal.NetworkHelper" Version="1.1.20" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Templetes\CSharpProject.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Templetes\HttpClientBase.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>

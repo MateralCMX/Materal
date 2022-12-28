@@ -7,15 +7,15 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// <summary>
         /// 版本号
         /// </summary>
-        public string? OpenAPI { get; set; }
+        public string? OpenAPI { get; }
         /// <summary>
         /// 地址组
         /// </summary>
-        public List<PathModel>? Paths { get; set; }
+        public List<PathModel>? Paths { get; }
         /// <summary>
         /// 组件
         /// </summary>
-        public ComponentModel? Components { get; set; }
+        public List<SchemaModel>? Schemas { get; }
         public SwaggerContentModel(JObject source)
         {
             foreach (KeyValuePair<string, JToken?> item in source)
@@ -30,12 +30,19 @@ namespace Materal.HttpGenerator.Swagger.Models
                         Paths = new();
                         foreach (JToken? path in item.Value)
                         {
-                            if (path == null || path is not JProperty property) continue;
-                            Paths.Add(new PathModel(property.Value, property.Name));
+                            if (path == null || path is not JProperty pathItem) continue;
+                            Paths.Add(new PathModel(pathItem.Value, pathItem.Name));
                         }
                         break;
                     case "components":
-                        Components = new ComponentModel(item.Value);
+                        JToken? schemas = item.Value["schemas"];
+                        if (schemas == null) continue;
+                        Schemas = new();
+                        foreach (JToken schema in schemas)
+                        {
+                            if (schema is not JProperty schemaProperty) continue;
+                            Schemas.Add(new(schemaProperty));
+                        }
                         break;
                 }
             }
