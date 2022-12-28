@@ -143,6 +143,9 @@ namespace Materal.HttpGenerator.Swagger
                     {
                         baseFuncType = $"<{baseFuncType}>";
                     }
+                    #region 替换大写类型
+                    resultType = resultType.Replace("String", "string");
+                    #endregion
                     string baseFunc = $"await {baseFuncName}{item.HttpMethod}Async{baseFuncType}";
                     #endregion
                     #region 解析传入参数
