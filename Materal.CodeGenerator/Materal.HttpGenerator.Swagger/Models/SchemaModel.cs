@@ -14,7 +14,7 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// 属性
         /// </summary>
         public Dictionary<string, PropertyModel>? Properties { get; set; }
-        public SchemaModel(JToken source) : base(source)
+        public SchemaModel(JToken source, string baseName) : base(source, baseName)
         {
             foreach (JToken item in source)
             {
@@ -25,7 +25,7 @@ namespace Materal.HttpGenerator.Swagger.Models
                     foreach (JToken? propertyValue in property.Value)
                     {
                         if (propertyValue == null || propertyValue is not JProperty tempProperty) continue;
-                        Properties.Add(tempProperty.Name, new PropertyModel(tempProperty.Value));
+                        Properties.Add(tempProperty.Name, new PropertyModel(tempProperty.Value, tempProperty.Name));
                     }
                 }
                 else if (property.Name == "enum")
@@ -48,7 +48,9 @@ namespace Materal.HttpGenerator.Swagger.Models
                         if (propertyValue == null) return;
                         if (propertyValue.CanConvertTo(typeof(string)))
                         {
-                            Required.Add(propertyValue.ConvertTo<string>());
+                            string? value = propertyValue.ConvertTo<string>();
+                            if (string.IsNullOrWhiteSpace(value)) continue;
+                            Required.Add(value);
                         }
                     }
                 }

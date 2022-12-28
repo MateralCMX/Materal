@@ -8,7 +8,8 @@ namespace Materal.HttpGenerator.ConsoleDemo
         {
             IGeneratorBuild generator = new GeneratorBuildImpl();
 #if DEBUG
-            generator.ProjectName = "Authority";
+            generator.ProjectName = "XMJ.Authority";
+            generator.PrefixName = "XMJ";
             await generator.SetSourceAsync("http://175.27.254.187:18800/swagger/v1/swagger.json");
 #else
             Console.WriteLine("请输入SwaggerJson地址");
@@ -16,6 +17,8 @@ namespace Materal.HttpGenerator.ConsoleDemo
             if (string.IsNullOrWhiteSpace(path)) return;
             Console.WriteLine("请输入项目名称");
             generator.ProjectName = Console.ReadLine() ?? "Test";
+            Console.WriteLine("请输入前缀名称");
+            generator.PrefixName = Console.ReadLine() ?? "Test";
             Console.WriteLine("正在获取Swagger数据......");
             await generator.SetSourceAsync(path);
 #endif

@@ -15,7 +15,7 @@ namespace Materal.HttpGenerator.Swagger.Models
                     case "schemas":
                         foreach (JProperty schemaSource in property.Value.Cast<JProperty>())
                         {
-                            Schemas.Add(schemaSource.Name, new SchemaModel(schemaSource.Value));
+                            Schemas.Add(schemaSource.Name, new SchemaModel(schemaSource.Value, schemaSource.Name));
                         }
                         break;
                     case "securitySchemes":

@@ -9,7 +9,7 @@
         /// <summary>
         /// 消息
         /// </summary>
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
         /// <summary>
         /// 参数
         /// </summary>

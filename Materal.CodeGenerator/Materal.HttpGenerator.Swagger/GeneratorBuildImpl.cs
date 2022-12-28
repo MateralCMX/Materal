@@ -16,7 +16,8 @@ namespace Materal.HttpGenerator.Swagger
         /// </summary>
         public SwaggerContentModel? SwaggerContent { get; set; }
         public string OutputPath { get; set; } = string.Empty;
-        public string ProjectName { get; set; } = "MateralProject";
+        public string ProjectName { get; set; } = "Materal.Project";
+        public string PrefixName { get; set; } = "Materal";
         public string BaseUrl { get; set; } = "http://localhost:5000/api/";
         public GeneratorBuildImpl()
         {
@@ -33,7 +34,8 @@ namespace Materal.HttpGenerator.Swagger
             {
                 swaggerJson = soucre;
             }
-            JObject jObj = swaggerJson.JsonToDeserializeObject<JObject>();
+            JObject? jObj = swaggerJson.JsonToDeserializeObject<JObject>();
+            if (jObj == null) return;
             SwaggerContent = new SwaggerContentModel(jObj);
         }
         public Task BuildAsync()
@@ -60,13 +62,17 @@ namespace Materal.HttpGenerator.Swagger
                 if (path.Key == null) continue;
                 StringBuilder codeConent = new();
                 codeConent.AppendLine($"using Materal.Model;");
-                codeConent.AppendLine($"using {ProjectName}.HttpClient.Base;");
-                codeConent.AppendLine($"using {ProjectName}.HttpClient.Models;");
+                codeConent.AppendLine($"using {PrefixName}.HttpClient.Base;");
+                codeConent.AppendLine($"using {PrefixName}.HttpClient.Models;");
                 codeConent.AppendLine($"");
-                codeConent.AppendLine($"namespace {ProjectName}.HttpClient");
+                codeConent.AppendLine($"namespace {PrefixName}.HttpClient");
                 codeConent.AppendLine($"{{");
                 codeConent.AppendLine($"    public class {path.Key}HttpClient : HttpClientBase");
                 codeConent.AppendLine($"    {{");
+                codeConent.AppendLine($"        /// <summary>");
+                codeConent.AppendLine($"        /// 构造方法");
+                codeConent.AppendLine($"        /// </summary>");
+                codeConent.AppendLine($"        public {path.Key}HttpClient() : base(\"{ProjectName}\") {{ }}");
                 int actionCount = 0;
                 foreach (PathModel item in path)
                 {
@@ -217,24 +223,24 @@ namespace Materal.HttpGenerator.Swagger
                 StringBuilder codeConent = new();
                 if (item.Value.Enum != null && item.Value.Enum.Count > 0)
                 {
-                    #region 生成Enum
-                    codeConent.AppendLine($"namespace {ProjectName}.HttpClient.Models");
-                    codeConent.AppendLine($"{{");
-                    codeConent.AppendLine($"    public enum {item.Key}");
-                    codeConent.AppendLine($"    {{");
-                    foreach (int @enum in item.Value.Enum)
-                    {
-                        codeConent.AppendLine($"        Item{@enum} = {@enum},");
-                    }
-                    codeConent.AppendLine($"    }}");
-                    codeConent.AppendLine($"}}");
-                    #endregion
+                    //#region 生成Enum
+                    //codeConent.AppendLine($"namespace {PrefixName}.HttpClient.Models");
+                    //codeConent.AppendLine($"{{");
+                    //codeConent.AppendLine($"    public enum {item.Key}");
+                    //codeConent.AppendLine($"    {{");
+                    //foreach (int @enum in item.Value.Enum)
+                    //{
+                    //    codeConent.AppendLine($"        Item{@enum} = {@enum},");
+                    //}
+                    //codeConent.AppendLine($"    }}");
+                    //codeConent.AppendLine($"}}");
+                    //#endregion
                 }
                 else
                 {
                     codeConent.AppendLine($"using System.ComponentModel.DataAnnotations;");
                     codeConent.AppendLine($"");
-                    codeConent.AppendLine($"namespace {ProjectName}.HttpClient.Models");
+                    codeConent.AppendLine($"namespace {PrefixName}.HttpClient.Models");
                     codeConent.AppendLine($"{{");
                     codeConent.AppendLine($"    public class {item.Key}");
                     codeConent.AppendLine($"    {{");
@@ -250,18 +256,29 @@ namespace Materal.HttpGenerator.Swagger
                             }
                             string attributeContent = "";
                             string suffix = string.Empty;
-                            if(item.Value.Required?.Count > 0 && item.Value.Required.Contains(property.Key))
-                            {
-
-                            }
                             if (!property.Value.Nullable || (item.Value.Required?.Count > 0 && item.Value.Required.Contains(property.Key)))
                             {
                                 attributeContent += "Required";
-                                suffix = property.Value.TrueType switch
+                                switch (property.Value.TrueType)
                                 {
-                                    "string" => " = string.Empty;",
-                                    _ => string.Empty
-                                };
+                                    case "string":
+                                        suffix = " = string.Empty;";
+                                        break;
+                                    case "bool":
+                                    case "byte":
+                                    case "int":
+                                    case "long":
+                                    case "decimal":
+                                    case "float":
+                                    case "double":
+                                    case "Guid":
+                                    case "DateTime":
+                                        suffix = string.Empty;
+                                        break;
+                                    default:
+                                        suffix = " = new();";
+                                        break;
+                                }
                             }
                             if (property.Value.MaxLength != null)
                             {
@@ -317,6 +334,7 @@ namespace Materal.HttpGenerator.Swagger
             if (!File.Exists(filePath)) throw new MateralException("模版文件丢失");
             string fileContent = File.ReadAllText(filePath);
             fileContent = fileContent.Replace("{{ProjectName}}", ProjectName);
+            fileContent = fileContent.Replace("{{PrefixName}}", PrefixName);
             fileContent = fileContent.Replace("{{BaseUrl}}", BaseUrl);
             return fileContent;
         }

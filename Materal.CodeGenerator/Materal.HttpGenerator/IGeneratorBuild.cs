@@ -11,6 +11,10 @@
         /// </summary>
         string ProjectName { get; set; }
         /// <summary>
+        /// 项目名称
+        /// </summary>
+        string PrefixName { get; set; }
+        /// <summary>
         /// 基础路径
         /// </summary>
         string BaseUrl { get; set; }

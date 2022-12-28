@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
 
-namespace {{ProjectName}}.HttpClient.Base
+namespace {{PrefixName}}.HttpClient.Base
 {
     /// <summary>
     /// Http客户端基类
@@ -21,6 +21,12 @@ namespace {{ProjectName}}.HttpClient.Base
         /// 默认编码
         /// </summary>
         private readonly Encoding DefaultEncoding = Encoding.UTF8;
+        public HttpClientBase()
+        {
+        }
+        public HttpClientBase(string projectName)
+        {
+        }
         /// <summary>
         /// 获得默认头部
         /// </summary>

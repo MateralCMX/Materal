@@ -30,7 +30,7 @@ namespace Materal.HttpGenerator.Swagger.Models
                     if (ItemType == null) throw new MateralException("未找到类型");
                     result = $"List<{ItemType}>";
                 }
-                if (Nullable)
+                if (Nullable && !result.EndsWith("?"))
                 {
                     result += "?";
                 }
@@ -99,9 +99,13 @@ namespace Materal.HttpGenerator.Swagger.Models
             {
                 result = "bool";
             }
+            else if (result.EndsWith("Enum"))
+            {
+                result = "int";
+            }
             return result;
         }
-        public PropertyModel(JToken source)
+        public PropertyModel(JToken source, string baseName)
         {
             foreach (JToken item in source)
             {
@@ -110,6 +114,10 @@ namespace Materal.HttpGenerator.Swagger.Models
                 if (property.Name == "$ref")
                 {
                     Type = property.Value.ToString().HandlerRef();
+                    if (baseName.StartsWith("Query") && Type.EndsWith("Enum"))
+                    {
+                        Nullable = true;
+                    }
                 }
                 else if (property.Name == "items")
                 {
