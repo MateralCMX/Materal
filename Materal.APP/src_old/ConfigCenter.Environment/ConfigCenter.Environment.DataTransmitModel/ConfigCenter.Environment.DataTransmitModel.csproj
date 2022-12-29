@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>../../nupkgs</PackageOutputPath>
 		<Product>ConfigCenter.Environment.DataTransmitModel</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>0.1.3</Version>
+		<Version>0.1.4</Version>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>ConfigCenter.Environment.DataTransmitModel.xml</DocumentationFile>

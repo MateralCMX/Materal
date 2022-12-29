@@ -7,7 +7,7 @@ namespace ConfigCenter.Client
 {
     public class ConfigHttpRepositoryImpl : BaseHttpClient, IConfigRepository
     {
-        public async Task<List<ConfigurationItemListDTO>> GetConfigurationItemsAsync(string address, string projectName, params string[] namespaceNames)
+        public async Task<List<ConfigurationItemListDTO>?> GetConfigurationItemsAsync(string address, string projectName, params string[] namespaceNames)
         {
             try
             {

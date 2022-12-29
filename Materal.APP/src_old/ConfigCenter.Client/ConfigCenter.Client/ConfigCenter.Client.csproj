@@ -9,11 +9,11 @@
 		<Product>ConfigCenter.Client</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>0.1.3</Version>
+		<Version>0.1.4</Version>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.19" />
-		<PackageReference Include="Materal.NetworkHelper" Version="1.1.19" />
+		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.20" />
+		<PackageReference Include="Materal.NetworkHelper" Version="1.1.20" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\ConfigCenter.Environment\ConfigCenter.Environment.DataTransmitModel\ConfigCenter.Environment.DataTransmitModel.csproj" />

@@ -4,6 +4,6 @@ namespace ConfigCenter.Client
 {
     public interface IConfigRepository
     {
-        Task<List<ConfigurationItemListDTO>> GetConfigurationItemsAsync(string address, string projectName, params string[] namespaceNames);
+        Task<List<ConfigurationItemListDTO>?> GetConfigurationItemsAsync(string address, string projectName, params string[] namespaceNames);
     }
 }

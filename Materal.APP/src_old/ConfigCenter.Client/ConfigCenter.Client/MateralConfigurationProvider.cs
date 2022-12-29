@@ -36,7 +36,8 @@ namespace ConfigCenter.Client
         public override void Load()
         {
             IConfigRepository configRepository = new ConfigHttpRepositoryImpl();
-            List<ConfigurationItemListDTO> configurationItems = configRepository.GetConfigurationItemsAsync(_configUrl, _projectName, NamespaceName).Result;
+            List<ConfigurationItemListDTO>? configurationItems = configRepository.GetConfigurationItemsAsync(_configUrl, _projectName, NamespaceName).Result;
+            if (configurationItems == null) return;
             foreach (ConfigurationItemListDTO item in configurationItems)
             {
                 try
