@@ -8,6 +8,7 @@
 	<ItemGroup>
 		<PackageReference Include="Materal.Model" Version="1.1.20" />
 		<PackageReference Include="Materal.NetworkHelper" Version="1.1.20" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 	</ItemGroup>
 </Project>

@@ -11,7 +11,7 @@ namespace Materal.HttpGenerator.ConsoleDemo
             generator.OnMessage += Generator_OnMessage;
 #if DEBUG
             generator.ProjectName = "XMJ.Authority";
-            //generator.PrefixName = "Authority";
+            generator.PrefixName = "Demo";
             await generator.SetSourceAsync("http://175.27.254.187:18800/swagger/v1/swagger.json");
 #else
             ConsoleQueue.WriteLine("请输入SwaggerJson地址");

@@ -2,7 +2,7 @@
 using Materal.ConvertHelper;
 using Materal.Model;
 using Materal.NetworkHelper;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Logging;
 using System.Text;
 
 namespace Materal.HttpClient.Base
@@ -380,6 +380,164 @@ namespace Materal.HttpClient.Base
                 return (result.Data.ToList(), result.PageModel);
             }
             throw new MateralNetworkException("数据是空");
+        }
+    }
+    /// <summary>
+    /// Http客户端基类
+    /// </summary>
+    /// <typeparam name="TClient"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
+    /// <typeparam name="TQuery"></typeparam>
+    public abstract class HttpClientBase<TClient, TResult, TQuery> : HttpClientBase
+            where TClient : HttpClientBase
+            where TQuery : class, new()
+    {
+        protected readonly ILogger? Logger;
+        protected HttpClientBase(string projectName) : base(projectName)
+        {
+            Logger = MateralServices.GetServiceOrDefatult<ILogger<TClient>>();
+        }
+        /// <summary>
+        /// 获得数据
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <typeparam name="TQuery"></typeparam>
+        /// <param name="requestModel"></param>
+        /// <param name="_logger"></param>
+        /// <returns></returns>
+        public async Task<List<TResult>> GetDataAsync(TQuery requestModel)
+        {
+            List<TResult> result = new();
+            try
+            {
+                if (requestModel == null) return result;
+                MethodInfo? methodInfo = GetType().GetMethod("GetListAsync", new Type[] { typeof(TQuery) });
+                if (methodInfo == null) return result;
+                object? methodInfoResult = methodInfo.Invoke(this, new object[] { requestModel });
+                if (methodInfoResult != null && methodInfoResult is Task<(List<TResult> data, PageModel pageInfo)> methodTask)
+                {
+                    (result, _) = await methodTask;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogWarning(ex, "获取数据失败");
+            }
+            return result;
+        }
+        /// <summary>
+        /// 获得数据
+        /// </summary>
+        /// <typeparam name="TResult"></typeparam>
+        /// <typeparam name="TQuery"></typeparam>
+        /// <param name="httpClient"></param>
+        /// <param name="requestModel"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="_logger"></param>
+        /// <returns></returns>
+        public async Task<(bool isQuery, List<TResult> data)> GetDataAsync(object requestModel, int pageSize = 10, int pageIndex = 1)
+        {
+            try
+            {
+                (bool isQuery, TQuery queryModel) = requestModel.GetQueryModel<TQuery>(pageSize, pageIndex);
+                if (isQuery)
+                {
+                    return (isQuery, await GetDataAsync(queryModel));
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogWarning(ex, "获取数据失败");
+            }
+            return (false, new());
+        }
+        /// <summary>
+        /// 获得数据
+        /// </summary>
+        /// <param name="httpClient"></param>
+        /// <param name="ids"></param>
+        /// <param name="_logger"></param>
+        /// <returns></returns>
+        public async Task<List<TResult>> GetDataAsync(Guid[] ids)
+        {
+            try
+            {
+                TQuery queryModel = new();
+                Type queryType = queryModel.GetType();
+                List<Guid> allIDs = ids.Distinct().ToList();
+                queryType.GetProperty("IDs")?.SetValue(queryModel, allIDs);
+                queryModel.SetPageInfo(allIDs.Count, 1);
+                List<TResult> data = await GetDataAsync(queryModel);
+                return data;
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogWarning(ex, "获取数据失败");
+            }
+            return new List<TResult>();
+        }
+        /// <summary>
+        /// 获得数据
+        /// </summary>
+        /// <param name="httpClient"></param>
+        /// <param name="ids"></param>
+        /// <param name="_logger"></param>
+        /// <returns></returns>
+        public async Task<TResult?> FirstDataAsync(Guid id)
+        {
+            try
+            {
+                List<TResult> data = await GetDataAsync(new Guid[] { id });
+                return data.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogWarning(ex, "获取数据失败");
+            }
+            return default;
+        }
+        /// <summary>
+        /// 绑定数据
+        /// </summary>
+        /// <param name="httpClient"></param>
+        /// <param name="ids"></param>
+        /// <param name="bindAction"></param>
+        /// <returns></returns>
+        public async Task BindDataAsync(ICollection<Guid> ids, Action<TResult> bindAction)
+        {
+            try
+            {
+                List<TResult> data = await GetDataAsync(ids.ToArray());
+                foreach (var item in data)
+                {
+                    bindAction(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogWarning(ex, "绑定数据失败");
+            }
+        }
+        /// <summary>
+        /// 绑定数据
+        /// </summary>
+        /// <param name="httpClient"></param>
+        /// <param name="ids"></param>
+        /// <param name="bindAction"></param>
+        /// <returns></returns>
+        public async Task BindDataAsync(Guid id, Action<TResult> bindAction)
+        {
+            try
+            {
+                TResult? data = await FirstDataAsync(id);
+                if (data == null) return;
+                bindAction(data);
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogWarning(ex, "绑定数据失败");
+            }
         }
     }
 }

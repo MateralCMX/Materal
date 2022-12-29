@@ -40,6 +40,14 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// </summary>
         public string? Response { get; }
         /// <summary>
+        /// 返回对象类型
+        /// </summary>
+        public string? ResponseType { get; private set; }
+        /// <summary>
+        /// 前缀返回对象类型
+        /// </summary>
+        public string? PrefixResponseType { get; private set; }
+        /// <summary>
         /// 返回类型
         /// </summary>
         public string? ResultType { get; private set; }
@@ -47,6 +55,14 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// 前缀返回类型
         /// </summary>
         public string? PrefixResultType { get; private set; }
+        /// <summary>
+        /// 参数类型
+        /// </summary>
+        public List<string> ParamTypes { get; } = new();
+        /// <summary>
+        /// 前缀参数类型
+        /// </summary>
+        public List<string> PrefixParamTypes { get; } = new();
         /// <summary>
         /// 参数代码
         /// </summary>
@@ -137,14 +153,18 @@ namespace Materal.HttpGenerator.Swagger.Models
             #region 处理返回类型与执行方法
             if (Response.EndsWith("PageResultModel"))
             {
-                ResultType = ConvertKeyword(Response[0..^"PageResultModel".Length]);
-                if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + ResultType))
+                ResponseType = ConvertKeyword(Response[0..^"PageResultModel".Length]);
+                if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + ResponseType))
                 {
-                    PrefixResultType = prefixName + ResultType;
+                    PrefixResponseType = prefixName + ResponseType;
+                    ResultType = ResponseType;
+                    PrefixResultType = prefixName + ResponseType;
                 }
                 else
                 {
-                    PrefixResultType = ResultType;
+                    PrefixResponseType = ResponseType;
+                    ResultType = ResponseType;
+                    PrefixResultType = ResponseType;
                 }
                 ExcuteFuncName = $"await GetPageResultModelBy{HttpMethod}Async<{ResultType}>";
                 PrefixExcuteFuncName = $"await GetPageResultModelBy{HttpMethod}Async<{PrefixResultType}>";
@@ -153,16 +173,18 @@ namespace Materal.HttpGenerator.Swagger.Models
             }
             else if (Response.EndsWith("ListResultModel"))
             {
-                ResultType = ConvertKeyword(Response[0..^"ListResultModel".Length]);
-                if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + ResultType))
+                ResponseType = ConvertKeyword(Response[0..^"ListResultModel".Length]);
+                if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + ResponseType))
                 {
-                    PrefixResultType = $"List<{prefixName}{ResultType}>";
-                    ResultType = $"List<{ResultType}>";
+                    PrefixResponseType = prefixName + ResponseType;
+                    ResultType = $"List<{ResponseType}>";
+                    PrefixResultType = $"List<{prefixName}{ResponseType}>";
                 }
                 else
                 {
-                    ResultType = $"List<{ResultType}>";
-                    PrefixResultType = ResultType;
+                    PrefixResponseType = ResponseType;
+                    ResultType = $"List<{ResponseType}>";
+                    PrefixResultType = $"List<{ResponseType}>";
                 }
                 ExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{ResultType}>";
                 PrefixExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{PrefixResultType}>";
@@ -178,14 +200,18 @@ namespace Materal.HttpGenerator.Swagger.Models
             }
             else if (Response.EndsWith("ResultModel"))
             {
-                ResultType = ConvertKeyword(Response[0..^"ResultModel".Length]);
-                if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + ResultType))
+                ResponseType = ConvertKeyword(Response[0..^"ResultModel".Length]);
+                if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + ResponseType))
                 {
+                    PrefixResponseType = prefixName + ResponseType;
+                    ResultType = ResponseType;
                     PrefixResultType = prefixName + ResultType;
                 }
                 else
                 {
-                    PrefixResultType = ResultType;
+                    PrefixResponseType = ResponseType;
+                    ResultType = ResponseType;
+                    PrefixResultType = ResponseType;
                 }
                 ExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{ResultType}>";
                 PrefixExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{PrefixResultType}>";
@@ -194,13 +220,15 @@ namespace Materal.HttpGenerator.Swagger.Models
             }
             else
             {
-                ResultType = $"async Task<{Response}>";
+                ResponseType = $"async Task<{Response}>";
                 if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + Response))
                 {
+                    ResultType = $"async Task<{Response}>";
                     PrefixResultType = $"async Task<{prefixName}{Response}>";
                 }
                 else
                 {
+                    ResultType = ResponseType;
                     PrefixResultType = ResultType;
                 }
                 ExcuteFuncName = $"await Send{HttpMethod}Async<{ResultType}>";
@@ -221,14 +249,17 @@ namespace Materal.HttpGenerator.Swagger.Models
             #region Body参数
             if (!string.IsNullOrWhiteSpace(BodyParam))
             {
+                ParamTypes.Add(BodyParam);
                 paramsCodes.Add($"{BodyParam} requestModel");
                 string prefixParamName = $"{prefixName}{BodyParam}";
                 if (schemas != null && schemas.Any(m => m.PrefixName == prefixParamName))
                 {
+                    PrefixParamTypes.Add(prefixParamName);
                     prefixParamsCodes.Add($"{prefixParamName} requestModel");
                 }
                 else
                 {
+                    PrefixParamTypes.Add(BodyParam);
                     prefixParamsCodes.Add($"{BodyParam} requestModel");
                 }
                 sendParamsCodes.Add("requestModel");

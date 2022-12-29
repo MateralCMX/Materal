@@ -89,6 +89,7 @@ namespace Materal.HttpGenerator.Swagger.Models
             foreach (IGrouping<string?, PathModel> path in paths)
             {
                 if (path.Key == null) continue;
+                PathModel? getListPath = path.FirstOrDefault(m => m.ActionName == "GetList" && !string.IsNullOrWhiteSpace(m.PrefixResponseType) && m.PrefixParamTypes.Count == 1);
                 StringBuilder codeContent = new();
                 codeContent.AppendLine($"using Materal.Model;");
                 codeContent.AppendLine($"using Materal.HttpClient.Base;");
@@ -96,7 +97,14 @@ namespace Materal.HttpGenerator.Swagger.Models
                 codeContent.AppendLine($"");
                 codeContent.AppendLine($"namespace {generatorBuildImpl.ProjectName}.HttpClient");
                 codeContent.AppendLine($"{{");
-                codeContent.AppendLine($"    public class {path.Key}HttpClient : HttpClientBase");
+                if (getListPath != null && getListPath.PrefixParamTypes.Count == 1)
+                {
+                    codeContent.AppendLine($"    public class {path.Key}HttpClient : HttpClientBase<{path.Key}HttpClient, {getListPath.PrefixResponseType}, {getListPath.PrefixParamTypes[0]}>");
+                }
+                else
+                {
+                    codeContent.AppendLine($"    public class {path.Key}HttpClient : HttpClientBase");
+                }
                 codeContent.AppendLine($"    {{");
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 构造方法");
