@@ -92,8 +92,8 @@ namespace Materal.HttpGenerator.Swagger
             OnMessage?.Invoke("开始创建文件...");
             CreateCSharpProjectFile();
             CreateHttpClientBaseFile();
-            CreateModelFiles();
-            //CreateHttpClientFiles();
+            SwaggerContent?.CreateModelFiles(this);
+            SwaggerContent?.CreateHttpClientFiles(this);
             OnMessage?.Invoke("创建文件完毕");
             return Task.CompletedTask;
         }
@@ -248,85 +248,6 @@ namespace Materal.HttpGenerator.Swagger
         //        }
         //    }
         //}
-        ///// <summary>
-        ///// 创建默认模型
-        ///// </summary>
-        ///// <param name="schema"></param>
-        ///// <returns></returns>
-        //private string CreateDefaultModel(SchemaModel schema)
-        //{
-        //    StringBuilder codeContent = new();
-        //    codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
-        //    codeContent.AppendLine($"");
-        //    codeContent.AppendLine($"namespace {ProjectName}.HttpClient.Models");
-        //    codeContent.AppendLine($"{{");
-        //    codeContent.AppendLine($"    public class {schema.Name}");
-        //    codeContent.AppendLine($"    {{");
-        //    foreach (PropertyModel property in schema.Properties)
-        //    {
-        //        SchemaModel? targetSchema = SwaggerContent?.Schemas?.FirstOrDefault(m => m.Name == property.Type);
-        //        if (targetSchema != null)
-        //        {
-        //            codeContent.AppendLine($"        /// <summary>");
-        //            codeContent.AppendLine($"        /// {targetSchema.Description}");
-        //            codeContent.AppendLine($"        /// </summary>");
-        //        }
-        //        else if (!string.IsNullOrWhiteSpace(property.Description))
-        //        {
-        //            codeContent.AppendLine($"        /// <summary>");
-        //            codeContent.AppendLine($"        /// {property.Description}");
-        //            codeContent.AppendLine($"        /// </summary>");
-        //        }
-        //        string attributeContent = string.Empty;
-        //        if (!property.IsNull)
-        //        {
-        //            attributeContent += "Required";
-        //        }
-        //        if (property.MaxLength != null)
-        //        {
-        //            if (!property.IsNull)
-        //            {
-        //                attributeContent += ", ";
-        //            }
-        //            attributeContent += "StringLength(100";
-        //            if (property.MinLength != null)
-        //            {
-        //                attributeContent += ", MinimumLength = 0";
-        //            }
-        //            attributeContent += ")";
-        //        }
-        //        if (!string.IsNullOrWhiteSpace(attributeContent))
-        //        {
-        //            codeContent.AppendLine($"        [{attributeContent}]");
-        //        }
-        //        //string getset = property.ReadOnly ? "{ get; }" : "{ get; set; }";
-        //        const string getset = "{ get; set; }";
-        //        if (targetSchema != null && targetSchema.IsEnum)
-        //        {
-        //            codeContent.AppendLine($"        public {targetSchema.Type.GetCSharpType(targetSchema.Format, property.IsNull)} {property.Name} {getset}");
-        //        }
-        //        else
-        //        {
-        //            codeContent.AppendLine($"        public {property.CSharpType} {property.Name} {getset}{property.DefaultValue}");
-        //        }
-        //    }
-        //    codeContent.AppendLine($"    }}");
-        //    codeContent.AppendLine($"}}");
-        //    return codeContent.ToString();
-        //}
-        /// <summary>
-        /// 创建模型文件
-        /// </summary>
-        private void CreateModelFiles()
-        {
-            if (SwaggerContent == null || SwaggerContent.Schemas == null) return;
-            foreach (SchemaModel schema in SwaggerContent.Schemas)
-            {
-                if (schema.IsEnum) continue;
-                if (schema.Properties == null || schema.Properties.Count <= 0) continue;
-                schema.CreateModelFile(this);
-            }
-        }
         /// <summary>
         /// 创建HttpClientBase
         /// </summary>

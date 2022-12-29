@@ -381,25 +381,5 @@ namespace Materal.HttpClient.Base
             }
             throw new MateralNetworkException("数据是空");
         }
-        /// <summary>
-        /// 验证
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="errorMessage"></param>
-        /// <returns></returns>
-        protected static bool Validation(object model, out string errorMessage)
-        {
-            try
-            {
-                Validation(model);
-                errorMessage = string.Empty;
-                return true;
-            }
-            catch (ValidationException ex)
-            {
-                errorMessage = ex.Message;
-                return false;
-            }
-        }
     }
 }

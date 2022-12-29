@@ -1,6 +1,7 @@
 ﻿using Materal.Common;
 using Materal.NetworkHelper;
 using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace Materal.HttpGenerator.Swagger.Models
 {
@@ -38,6 +39,22 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// 返回对象
         /// </summary>
         public string? Response { get; }
+        /// <summary>
+        /// 返回类型
+        /// </summary>
+        public string? ResultType { get; private set; }
+        /// <summary>
+        /// 参数代码
+        /// </summary>
+        public string? ParamsCode { get; private set; }
+        /// <summary>
+        /// 执行方法
+        /// </summary>
+        public string? ExcuteFuncName { get; private set; }
+        /// <summary>
+        /// 发送参数代码
+        /// </summary>
+        public string? SendParamsCode { get; private set; }
         public PathModel(JToken source, string url)
         {
             #region 解析Url
@@ -98,5 +115,132 @@ namespace Materal.HttpGenerator.Swagger.Models
                 break;
             }
         }
+        public void Init(IReadOnlyCollection<SchemaModel>? schemas)
+        {
+            if (string.IsNullOrWhiteSpace(Response)) return;
+            #region 处理返回类型与执行方法
+            if (Response.EndsWith("PageResultModel"))
+            {
+                ResultType = ConvertKeyword(Response[0..^"PageResultModel".Length]);
+                ExcuteFuncName = $"await GetPageResultModelBy{HttpMethod}Async<{ResultType}>";
+                ResultType = $"async Task<(List<{ResultType}> data, PageModel pageInfo)>";
+            }
+            else if (Response.EndsWith("ListResultModel"))
+            {
+                ResultType = ConvertKeyword(Response[0..^"ListResultModel".Length]);
+                ResultType = $"List<{ResultType}>";
+                ExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{ResultType}>";
+                ResultType = $"async Task<{ResultType}>";
+            }
+            else if (Response == "ResultModel")
+            {
+                ResultType = "async Task";
+                ExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async";
+            }
+            else if (Response.EndsWith("ResultModel"))
+            {
+                ResultType = ConvertKeyword(Response[0..^"ResultModel".Length]);
+                ExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{ResultType}>";
+                ResultType = $"async Task<{ResultType}>";
+            }
+            else
+            {
+                ResultType = $"async Task<{Response}>";
+                ExcuteFuncName = $"await Send{HttpMethod}Async<{ResultType}>";
+            }
+            #endregion
+            #region 处理参数代码
+            List<string> paramsCodes = new();
+            List<string> sendParamsCodes = new()
+            {
+                $"\"{ControllerName}/{ActionName}\""
+            };
+            #region Body参数
+            if (!string.IsNullOrWhiteSpace(BodyParam))
+            {
+                //SchemaModel? targetSchema = schemas?.FirstOrDefault(m => m.Name == $"{BodyParam}");
+                //if (targetSchema != null)
+                //{
+                //    paramsCodes.Add($"{BodyParam} requestModel");
+                //}
+                //else
+                //{
+                //    paramsCodes.Add($"{BodyParam} requestModel");
+                //}
+                paramsCodes.Add($"{BodyParam} requestModel");
+                sendParamsCodes.Add("requestModel");
+            }
+            #endregion
+            #region Query参数
+            if (QueryParams != null)
+            {
+                List<string> queryArgs = new();
+                foreach (QueryParamModel queryParam in QueryParams)
+                {
+                    paramsCodes.Add($"{queryParam.CSharpType} {queryParam.Name}");
+                    if (queryParam.CSharpType.EndsWith("?"))
+                    {
+                        if (queryParam.CSharpType == "string?")
+                        {
+                            queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name} ?? string.Empty");
+                        }
+                        else
+                        {
+                            queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name}?.ToString() ?? string.Empty");
+                        }
+                    }
+                    else
+                    {
+                        if (queryParam.CSharpType == "string")
+                        {
+                            queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name}");
+                        }
+                        else
+                        {
+                            queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name}.ToString()");
+                        }
+                    }
+                }
+                if (queryArgs.Count > 0)
+                {
+                    sendParamsCodes.Add("new Dictionary<string, string>{" + string.Join(", ", queryArgs) + "}");
+                }
+            }
+            #endregion
+            ParamsCode = string.Join(", ", paramsCodes);
+            SendParamsCode = string.Join(", ", sendParamsCodes);
+            #endregion
+        }
+        /// <summary>
+        /// 获得代码
+        /// </summary>
+        /// <returns></returns>
+        public string? GetCode()
+        {
+            if (string.IsNullOrWhiteSpace(ActionName) || ControllerName == ActionName) return null;
+            if (string.IsNullOrWhiteSpace(ResultType) || string.IsNullOrWhiteSpace(ActionName) || string.IsNullOrWhiteSpace(ExcuteFuncName) || string.IsNullOrWhiteSpace(SendParamsCode)) return null;
+            StringBuilder codeContent = new();
+            if (Description != null)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {Description}");
+                codeContent.AppendLine($"        /// </summary>");
+            }
+            codeContent.AppendLine($"        public {ResultType} {ActionName}Async({ParamsCode}) => {ExcuteFuncName}({SendParamsCode});");
+            string code = codeContent.ToString();
+            return code;
+        }
+        #region 私有方法
+        /// <summary>
+        /// 转换关键字
+        /// </summary>
+        /// <param name="inputStr"></param>
+        /// <returns></returns>
+        private string ConvertKeyword(string inputStr)
+        {
+            inputStr = inputStr.Replace("String", "string");
+            return inputStr;
+        }
+        #endregion
     }
 }
