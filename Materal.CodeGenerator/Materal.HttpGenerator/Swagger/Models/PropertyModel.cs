@@ -213,11 +213,11 @@ namespace Materal.HttpGenerator.Swagger.Models
             #region 拼装主体
             if (targetEnumSchema != null)
             {
-                codeContent.AppendLine($"        public {targetEnumSchema.Type.GetCSharpType(targetEnumSchema.Format, IsNull)} {Name} {{ get; set; }}");
+                codeContent.Append($"        public {targetEnumSchema.Type.GetCSharpType(targetEnumSchema.Format, IsNull)} {Name} {{ get; set; }}");
             }
             else
             {
-                codeContent.AppendLine($"        public {CSharpType} {Name} {{ get; set; }}{DefaultValueCode}");
+                codeContent.Append($"        public {CSharpType} {Name} {{ get; set; }}{DefaultValueCode}");
             }
             #endregion
             string code = codeContent.ToString();

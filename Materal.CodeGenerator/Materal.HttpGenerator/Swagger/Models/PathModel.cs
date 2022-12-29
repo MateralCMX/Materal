@@ -273,6 +273,7 @@ namespace Materal.HttpGenerator.Swagger.Models
                 foreach (QueryParamModel queryParam in QueryParams)
                 {
                     paramsCodes.Add($"{queryParam.CSharpType} {queryParam.Name}");
+                    prefixParamsCodes.Add($"{queryParam.CSharpType} {queryParam.Name}");
                     if (queryParam.CSharpType.EndsWith("?"))
                     {
                         if (queryParam.CSharpType == "string?")
@@ -324,7 +325,7 @@ namespace Materal.HttpGenerator.Swagger.Models
                 codeContent.AppendLine($"        /// {Description}");
                 codeContent.AppendLine($"        /// </summary>");
             }
-            codeContent.AppendLine($"        public {PrefixResultType} {ActionName}Async({PrefixParamsCode}) => {PrefixExcuteFuncName}({PrefixSendParamsCode});");
+            codeContent.Append($"        public {PrefixResultType} {ActionName}Async({PrefixParamsCode}) => {PrefixExcuteFuncName}({PrefixSendParamsCode});");
             string code = codeContent.ToString();
             return code;
         }

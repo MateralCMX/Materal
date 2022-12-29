@@ -133,7 +133,7 @@ namespace Materal.HttpGenerator.Swagger.Models
                 codeContent.AppendLine(propertyCode);
             }
             codeContent.AppendLine($"    }}");
-            codeContent.AppendLine($"}}");
+            codeContent.Append('}');
             string code = codeContent.ToString();
             generatorBuild.SaveFile("Models", $"{PrefixName}.cs", code);
         }
