@@ -299,6 +299,7 @@ namespace Materal.HttpGenerator.Swagger.Models
                 if (queryArgs.Count > 0)
                 {
                     sendParamsCodes.Add("new Dictionary<string, string>{" + string.Join(", ", queryArgs) + "}");
+                    prefixSendParamsCodes.Add("new Dictionary<string, string>{" + string.Join(", ", queryArgs) + "}");
                 }
             }
             #endregion
