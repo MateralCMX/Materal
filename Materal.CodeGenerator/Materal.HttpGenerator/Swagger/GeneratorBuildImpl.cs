@@ -262,7 +262,8 @@ namespace Materal.HttpGenerator.Swagger
                 {
                     codeContent.AppendLine($"        [{attributeContent}]");
                 }
-                string getset = property.ReadOnly ? "{ get; }" : "{ get; set; }";
+                //string getset = property.ReadOnly ? "{ get; }" : "{ get; set; }";
+                const string getset = "{ get; set; }";
                 if (targetSchema != null && targetSchema.IsEnum)
                 {
                     codeContent.AppendLine($"        public {targetSchema.Type.GetCSharpType(targetSchema.Format, property.IsNull)} {property.Name} {getset}");
