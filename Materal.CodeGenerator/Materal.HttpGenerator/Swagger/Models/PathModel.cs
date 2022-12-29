@@ -44,17 +44,33 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// </summary>
         public string? ResultType { get; private set; }
         /// <summary>
+        /// 前缀返回类型
+        /// </summary>
+        public string? PrefixResultType { get; private set; }
+        /// <summary>
         /// 参数代码
         /// </summary>
         public string? ParamsCode { get; private set; }
+        /// <summary>
+        /// 前缀参数代码
+        /// </summary>
+        public string? PrefixParamsCode { get; private set; }
         /// <summary>
         /// 执行方法
         /// </summary>
         public string? ExcuteFuncName { get; private set; }
         /// <summary>
+        /// 前缀执行方法
+        /// </summary>
+        public string? PrefixExcuteFuncName { get; private set; }
+        /// <summary>
         /// 发送参数代码
         /// </summary>
         public string? SendParamsCode { get; private set; }
+        /// <summary>
+        /// 前缀发送参数代码
+        /// </summary>
+        public string? PrefixSendParamsCode { get; private set; }
         public PathModel(JToken source, string url)
         {
             #region 解析Url
@@ -62,8 +78,8 @@ namespace Materal.HttpGenerator.Swagger.Models
                 Url = url;
                 string[] temp = url.Split("/");
                 if (temp.Length < 2) throw new MateralException("解析Url失败");
-                ControllerName = temp[temp.Length - 2];
-                ActionName= temp[temp.Length - 1];
+                ControllerName = temp[^2];
+                ActionName = temp[^1];
             }
             #endregion
             foreach (JToken item in source)
@@ -115,60 +131,108 @@ namespace Materal.HttpGenerator.Swagger.Models
                 break;
             }
         }
-        public void Init(IReadOnlyCollection<SchemaModel>? schemas)
+        public void Init(IReadOnlyCollection<SchemaModel>? schemas, string? prefixName)
         {
             if (string.IsNullOrWhiteSpace(Response)) return;
             #region 处理返回类型与执行方法
             if (Response.EndsWith("PageResultModel"))
             {
                 ResultType = ConvertKeyword(Response[0..^"PageResultModel".Length]);
+                if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + ResultType))
+                {
+                    PrefixResultType = prefixName + ResultType;
+                }
+                else
+                {
+                    PrefixResultType = ResultType;
+                }
                 ExcuteFuncName = $"await GetPageResultModelBy{HttpMethod}Async<{ResultType}>";
+                PrefixExcuteFuncName = $"await GetPageResultModelBy{HttpMethod}Async<{PrefixResultType}>";
                 ResultType = $"async Task<(List<{ResultType}> data, PageModel pageInfo)>";
+                PrefixResultType = $"async Task<(List<{PrefixResultType}> data, PageModel pageInfo)>";
             }
             else if (Response.EndsWith("ListResultModel"))
             {
                 ResultType = ConvertKeyword(Response[0..^"ListResultModel".Length]);
-                ResultType = $"List<{ResultType}>";
+                if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + ResultType))
+                {
+                    PrefixResultType = $"List<{prefixName}{ResultType}>";
+                    ResultType = $"List<{ResultType}>";
+                }
+                else
+                {
+                    ResultType = $"List<{ResultType}>";
+                    PrefixResultType = ResultType;
+                }
                 ExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{ResultType}>";
+                PrefixExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{PrefixResultType}>";
                 ResultType = $"async Task<{ResultType}>";
+                PrefixResultType = $"async Task<{PrefixResultType}>";
             }
             else if (Response == "ResultModel")
             {
                 ResultType = "async Task";
+                PrefixResultType = ResultType;
                 ExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async";
+                PrefixExcuteFuncName = ExcuteFuncName;
             }
             else if (Response.EndsWith("ResultModel"))
             {
                 ResultType = ConvertKeyword(Response[0..^"ResultModel".Length]);
+                if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + ResultType))
+                {
+                    PrefixResultType = prefixName + ResultType;
+                }
+                else
+                {
+                    PrefixResultType = ResultType;
+                }
                 ExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{ResultType}>";
+                PrefixExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{PrefixResultType}>";
                 ResultType = $"async Task<{ResultType}>";
+                PrefixResultType = $"async Task<{PrefixResultType}>";
             }
             else
             {
                 ResultType = $"async Task<{Response}>";
+                if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + Response))
+                {
+                    PrefixResultType = $"async Task<{prefixName}{Response}>";
+                }
+                else
+                {
+                    PrefixResultType = ResultType;
+                }
                 ExcuteFuncName = $"await Send{HttpMethod}Async<{ResultType}>";
+                PrefixExcuteFuncName = $"await Send{HttpMethod}Async<{PrefixResultType}>";
             }
             #endregion
             #region 处理参数代码
             List<string> paramsCodes = new();
+            List<string> prefixParamsCodes = new();
             List<string> sendParamsCodes = new()
+            {
+                $"\"{ControllerName}/{ActionName}\""
+            };
+            List<string> prefixSendParamsCodes = new()
             {
                 $"\"{ControllerName}/{ActionName}\""
             };
             #region Body参数
             if (!string.IsNullOrWhiteSpace(BodyParam))
             {
-                //SchemaModel? targetSchema = schemas?.FirstOrDefault(m => m.Name == $"{BodyParam}");
-                //if (targetSchema != null)
-                //{
-                //    paramsCodes.Add($"{BodyParam} requestModel");
-                //}
-                //else
-                //{
-                //    paramsCodes.Add($"{BodyParam} requestModel");
-                //}
                 paramsCodes.Add($"{BodyParam} requestModel");
+                string prefixParamName = $"{prefixName}{BodyParam}";
+                if (schemas != null && schemas.Any(m => m.PrefixName == prefixParamName))
+                {
+                    prefixParamsCodes.Add($"{prefixParamName} requestModel");
+                }
+                else
+                {
+                    prefixParamsCodes.Add($"{BodyParam} requestModel");
+                }
                 sendParamsCodes.Add("requestModel");
+                prefixSendParamsCodes.Add("requestModel");
             }
             #endregion
             #region Query参数
@@ -208,7 +272,9 @@ namespace Materal.HttpGenerator.Swagger.Models
             }
             #endregion
             ParamsCode = string.Join(", ", paramsCodes);
+            PrefixParamsCode = string.Join(", ", prefixParamsCodes);
             SendParamsCode = string.Join(", ", sendParamsCodes);
+            PrefixSendParamsCode = string.Join(", ", prefixSendParamsCodes);
             #endregion
         }
         /// <summary>
@@ -218,7 +284,7 @@ namespace Materal.HttpGenerator.Swagger.Models
         public string? GetCode()
         {
             if (string.IsNullOrWhiteSpace(ActionName) || ControllerName == ActionName) return null;
-            if (string.IsNullOrWhiteSpace(ResultType) || string.IsNullOrWhiteSpace(ActionName) || string.IsNullOrWhiteSpace(ExcuteFuncName) || string.IsNullOrWhiteSpace(SendParamsCode)) return null;
+            if (string.IsNullOrWhiteSpace(PrefixResultType) || string.IsNullOrWhiteSpace(PrefixExcuteFuncName) || string.IsNullOrWhiteSpace(PrefixSendParamsCode)) return null;
             StringBuilder codeContent = new();
             if (Description != null)
             {
@@ -226,7 +292,7 @@ namespace Materal.HttpGenerator.Swagger.Models
                 codeContent.AppendLine($"        /// {Description}");
                 codeContent.AppendLine($"        /// </summary>");
             }
-            codeContent.AppendLine($"        public {ResultType} {ActionName}Async({ParamsCode}) => {ExcuteFuncName}({SendParamsCode});");
+            codeContent.AppendLine($"        public {PrefixResultType} {ActionName}Async({PrefixParamsCode}) => {PrefixExcuteFuncName}({PrefixSendParamsCode});");
             string code = codeContent.ToString();
             return code;
         }
@@ -236,7 +302,7 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// </summary>
         /// <param name="inputStr"></param>
         /// <returns></returns>
-        private string ConvertKeyword(string inputStr)
+        private static string ConvertKeyword(string inputStr)
         {
             inputStr = inputStr.Replace("String", "string");
             return inputStr;

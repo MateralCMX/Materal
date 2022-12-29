@@ -1,6 +1,5 @@
 ﻿using Materal.ConvertHelper;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Text;
 
 namespace Materal.HttpGenerator.Swagger.Models
@@ -11,6 +10,10 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// 名称
         /// </summary>
         public string Name { get; }
+        /// <summary>
+        /// 前缀名称
+        /// </summary>
+        public string PrefixName { get; private set; }
         /// <summary>
         /// 必填列表
         /// </summary>
@@ -46,6 +49,7 @@ namespace Materal.HttpGenerator.Swagger.Models
         public SchemaModel(JProperty source)
         {
             Name = source.Name;
+            PrefixName = Name;
             foreach (JToken item in source)
             {
                 if (item is not JObject subSource) continue;
@@ -94,6 +98,23 @@ namespace Materal.HttpGenerator.Swagger.Models
             }
         }
         /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init(string? prefixName)
+        {
+            PrefixName = prefixName + Name;
+        }
+        /// <summary>
+        /// 初始化属性
+        /// </summary>
+        public void InitProperty(IReadOnlyCollection<SchemaModel>? schemas, string? prefixName)
+        {
+            foreach (PropertyModel property in Properties)
+            {
+                property.Init(schemas, prefixName);
+            }
+        }
+        /// <summary>
         /// 获得代码
         /// </summary>
         /// <returns></returns>
@@ -104,7 +125,7 @@ namespace Materal.HttpGenerator.Swagger.Models
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {generatorBuild.ProjectName}.HttpClient.Models");
             codeContent.AppendLine($"{{");
-            codeContent.AppendLine($"    public class {Name}");
+            codeContent.AppendLine($"    public class {PrefixName}");
             codeContent.AppendLine($"    {{");
             foreach (PropertyModel property in Properties)
             {
@@ -114,7 +135,7 @@ namespace Materal.HttpGenerator.Swagger.Models
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             string code = codeContent.ToString();
-            generatorBuild.SaveFile("Models", $"{Name}.cs", code);
+            generatorBuild.SaveFile("Models", $"{PrefixName}.cs", code);
         }
     }
 }

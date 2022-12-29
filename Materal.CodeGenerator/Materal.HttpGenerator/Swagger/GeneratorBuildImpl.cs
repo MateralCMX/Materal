@@ -16,50 +16,7 @@ namespace Materal.HttpGenerator.Swagger
         public event Action<string>? OnMessage;
         public string OutputPath { get; set; }
         public string ProjectName { get; set; } = "Materal.HttpProject";
-        private string? _prefixName;
-        public string PrefixName
-        {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(_prefixName)) return _prefixName;
-                int dotIndex = ProjectName.IndexOf(".");
-                if(dotIndex > 0)
-                {
-                    _prefixName = ProjectName[0..dotIndex];
-                }
-                else
-                {
-                    _prefixName = ProjectName;
-                }
-                return _prefixName;
-            }
-            set
-            {
-                _prefixName = value;
-            }
-        }
-        private string? _suffixName;
-        public string SuffixName
-        {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(_suffixName)) return _suffixName;
-                int dotIndex = ProjectName.LastIndexOf(".");
-                if (dotIndex > 0)
-                {
-                    _suffixName = ProjectName[(dotIndex + 1)..];
-                }
-                else
-                {
-                    _suffixName = ProjectName;
-                }
-                return _suffixName;
-            }
-            set
-            {
-                _suffixName = value;
-            }
-        }
+        public string? PrefixName { get; set; }
         public GeneratorBuildImpl()
         {
             OutputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "HttpClientOutput");
@@ -80,6 +37,7 @@ namespace Materal.HttpGenerator.Swagger
             JObject? jObj = swaggerJson.JsonToDeserializeObject<JObject>();
             if (jObj == null) return;
             SwaggerContent = new SwaggerContentModel(jObj);
+            SwaggerContent.Init(PrefixName);
             OnMessage?.Invoke("swagger解析完毕");
         }
         public Task BuildAsync()

@@ -15,13 +15,25 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// </summary>
         public string Type { get; } = string.Empty;
         /// <summary>
+        /// 前缀类型
+        /// </summary>
+        public string PrefixType { get; set; } = string.Empty;
+        /// <summary>
+        /// 是列表
+        /// </summary>
+        public bool IsList { get; } = false;
+        /// <summary>
+        /// 真实类型
+        /// </summary>
+        public string TrueType => IsList ? $"List<{PrefixType}>" : PrefixType;
+        /// <summary>
         /// 格式
         /// </summary>
         public string Format { get; } = string.Empty;
         /// <summary>
         /// 类型
         /// </summary>
-        public string CSharpType => Type.GetCSharpType(Format, IsNull);
+        public string CSharpType => TrueType.GetCSharpType(Format, IsNull);
         /// <summary>
         /// 说明
         /// </summary>
@@ -45,7 +57,7 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// <summary>
         /// 默认值
         /// </summary>
-        public string? DefaultValueCode { get; }
+        public string? DefaultValueCode { get; private set; }
         /// <summary>
         /// 特性值
         /// </summary>
@@ -82,15 +94,16 @@ namespace Materal.HttpGenerator.Swagger.Models
             else
             {
                 Type = source["type"]?.ToString() ?? string.Empty;
-                if(Type == "array")
+                if (Type == "array")
                 {
                     JToken? arrayItems = source["items"];
-                    if(arrayItems != null)
+                    if (arrayItems != null)
                     {
                         string? refFormat = arrayItems["$ref"]?.ToString().HandlerRef();
-                        if(!string.IsNullOrWhiteSpace(refFormat))
+                        if (!string.IsNullOrWhiteSpace(refFormat))
                         {
-                            Type = $"List<{refFormat}>";
+                            Type = refFormat;
+                            IsList = true;
                         }
                         else
                         {
@@ -99,7 +112,8 @@ namespace Materal.HttpGenerator.Swagger.Models
                             if (arrayType != null)
                             {
                                 arrayType = arrayType.GetCSharpType(arrayFormat);
-                                Type = $"List<{arrayType}>";
+                                Type = arrayType;
+                                IsList = true;
                             }
                         }
                     }
@@ -109,17 +123,9 @@ namespace Materal.HttpGenerator.Swagger.Models
             #region 处理默认值
             if (!IsNull)
             {
-                if(refToken != null)
+                if (refToken != null)
                 {
                     DefaultValueCode = " = new();";
-                }
-                else
-                {
-                    DefaultValueCode = CSharpType switch
-                    {
-                        "string" => " = string.Empty;",
-                        _ => string.Empty
-                    };
                 }
             }
             #endregion
@@ -152,6 +158,25 @@ namespace Materal.HttpGenerator.Swagger.Models
             }
             #endregion
         }
+        public void Init(IReadOnlyCollection<SchemaModel>? schemas, string? prefixName)
+        {
+            if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + Type && !m.IsEnum))
+            {
+                PrefixType = prefixName + Type;
+            }
+            else
+            {
+                PrefixType = Type;
+            }
+            if(!IsNull && string.IsNullOrWhiteSpace(DefaultValueCode))
+            {
+                DefaultValueCode = CSharpType switch
+                {
+                    "string" => " = string.Empty;",
+                    _ => string.Empty
+                };
+            }
+        }
         /// <summary>
         /// 获得代码
         /// </summary>
@@ -163,7 +188,7 @@ namespace Materal.HttpGenerator.Swagger.Models
             SchemaModel? targetEnumSchema = null;
             if (generatorBuild.SwaggerContent != null && generatorBuild.SwaggerContent.Schemas != null)
             {
-                targetEnumSchema = generatorBuild.SwaggerContent.Schemas.FirstOrDefault(m => m.Name == Type && m.IsEnum);
+                targetEnumSchema = generatorBuild.SwaggerContent.Schemas.FirstOrDefault(m => m.Name == TrueType && m.IsEnum);
             }
             #region 拼装注释
             if (targetEnumSchema != null)

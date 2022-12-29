@@ -15,9 +15,9 @@
         /// </summary>
         string ProjectName { get; set; }
         /// <summary>
-        /// 项目名称
+        /// 特征前缀
         /// </summary>
-        string PrefixName { get; set; }
+        string? PrefixName { get; set; }
         /// <summary>
         /// 设置源
         /// </summary>

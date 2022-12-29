@@ -53,11 +53,28 @@ namespace Materal.HttpGenerator.Swagger.Models
                         break;
                 }
             }
-            if(Paths != null && Paths.Count > 0)
+        }
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init(string? prefixName)
+        {
+            if (Schemas != null && Schemas.Count > 0)
+            {
+                foreach (SchemaModel schema in Schemas)
+                {
+                    schema.Init(prefixName);
+                }
+                foreach (SchemaModel schema in Schemas)
+                {
+                    schema.InitProperty(Schemas, prefixName);
+                }
+            }
+            if (Paths != null && Paths.Count > 0)
             {
                 foreach (PathModel path in Paths)
                 {
-                    path.Init(Schemas);
+                    path.Init(Schemas, prefixName);
                 }
             }
         }
