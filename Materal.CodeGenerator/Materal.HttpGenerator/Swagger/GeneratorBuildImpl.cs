@@ -39,6 +39,28 @@ namespace Materal.HttpGenerator.Swagger
                 _prefixName = value;
             }
         }
+        private string? _suffixName;
+        public string SuffixName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_suffixName)) return _suffixName;
+                int dotIndex = ProjectName.LastIndexOf(".");
+                if (dotIndex > 0)
+                {
+                    _suffixName = ProjectName[(dotIndex + 1)..];
+                }
+                else
+                {
+                    _suffixName = ProjectName;
+                }
+                return _suffixName;
+            }
+            set
+            {
+                _suffixName = value;
+            }
+        }
         public GeneratorBuildImpl()
         {
             OutputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "HttpClientOutput");
@@ -81,7 +103,7 @@ namespace Materal.HttpGenerator.Swagger
         /// </summary>
         private void CreateHttpClientFiles()
         {
-            if (_swaggerContent == null || _swaggerContent.Paths == null) return;
+            if (_swaggerContent == null || _swaggerContent.Paths == null || _swaggerContent.Schemas == null) return;
             var paths = _swaggerContent.Paths.GroupBy(m => m.ControllerName).ToList();
             foreach (IGrouping<string?, PathModel> path in paths)
             {
@@ -89,9 +111,9 @@ namespace Materal.HttpGenerator.Swagger
                 StringBuilder codeContent = new();
                 codeContent.AppendLine($"using Materal.Model;");
                 codeContent.AppendLine($"using Materal.HttpClient.Base;");
-                codeContent.AppendLine($"using {PrefixName}.HttpClient.Models;");
+                codeContent.AppendLine($"using {ProjectName}.HttpClient.Models;");
                 codeContent.AppendLine($"");
-                codeContent.AppendLine($"namespace {PrefixName}.HttpClient");
+                codeContent.AppendLine($"namespace {ProjectName}.HttpClient");
                 codeContent.AppendLine($"{{");
                 codeContent.AppendLine($"    public class {path.Key}HttpClient : HttpClientBase");
                 codeContent.AppendLine($"    {{");
@@ -116,12 +138,20 @@ namespace Materal.HttpGenerator.Swagger
                     if (item.Response.EndsWith("PageResultModel"))
                     {
                         baseFuncType = item.Response[0..^"PageResultModel".Length];
+                        if (_swaggerContent.Schemas.Any(m => m.Name == baseFuncType))
+                        {
+                            baseFuncType = SuffixName + baseFuncType;
+                        }
                         resultType = $"async Task<(List<{baseFuncType}> data, PageModel pageInfo)>";
                         baseFuncName = "GetPageResultModelBy";
                     }
                     else if (item.Response.EndsWith("ListResultModel"))
                     {
-                        baseFuncType = $"List<{item.Response[0..^"ListResultModel".Length]}>";
+                        baseFuncType = item.Response[0..^"ListResultModel".Length];
+                        if (_swaggerContent.Schemas.Any(m => m.Name == baseFuncType))
+                        {
+                            baseFuncType = $"List<{SuffixName}{baseFuncType}>";
+                        }
                         resultType = $"async Task<{baseFuncType}>";
                     }
                     else if (item.Response == "ResultModel")
@@ -132,14 +162,22 @@ namespace Materal.HttpGenerator.Swagger
                     else if (item.Response.EndsWith("ResultModel"))
                     {
                         baseFuncType = item.Response[0..^"ResultModel".Length];
+                        if(_swaggerContent.Schemas.Any(m=>m.Name == baseFuncType))
+                        {
+                            baseFuncType = SuffixName + baseFuncType;
+                        }
                         resultType = $"async Task<{baseFuncType}>";
                     }
                     else
                     {
                         baseFuncType = item.Response;
+                        if (_swaggerContent.Schemas.Any(m => m.Name == baseFuncType))
+                        {
+                            baseFuncType = SuffixName + baseFuncType;
+                        }
                         resultType = $"async Task<{baseFuncType}>";
                     }
-                    if (!string.IsNullOrWhiteSpace(baseFuncType))
+                    if (!string.IsNullOrWhiteSpace(baseFuncType) && baseFuncType != SuffixName)
                     {
                         baseFuncType = $"<{baseFuncType}>";
                     }
@@ -221,9 +259,9 @@ namespace Materal.HttpGenerator.Swagger
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
             codeContent.AppendLine($"");
-            codeContent.AppendLine($"namespace {PrefixName}.HttpClient.Models");
+            codeContent.AppendLine($"namespace {ProjectName}.HttpClient.Models");
             codeContent.AppendLine($"{{");
-            codeContent.AppendLine($"    public class {schema.Name}");
+            codeContent.AppendLine($"    public class {SuffixName}{schema.Name}");
             codeContent.AppendLine($"    {{");
             foreach (PropertyModel property in schema.Properties)
             {
@@ -294,7 +332,7 @@ namespace Materal.HttpGenerator.Swagger
                 if (schema.Properties == null || schema.Properties.Count <= 0) continue;
                 if (schema.Name.EndsWith("ResultModel")) continue;
                 string codeContent = CreateDefaultModel(schema);
-                WriteFile("Models", $"{schema.Name}.cs", codeContent);
+                WriteFile("Models", $"{SuffixName}{schema.Name}.cs", codeContent);
             }
         }
         /// <summary>
