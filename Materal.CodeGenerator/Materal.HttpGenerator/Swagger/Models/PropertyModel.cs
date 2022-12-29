@@ -1,5 +1,6 @@
 ﻿using Materal.ConvertHelper;
 using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace Materal.HttpGenerator.Swagger.Models
 {
@@ -32,19 +33,23 @@ namespace Materal.HttpGenerator.Swagger.Models
         /// <summary>
         /// 最大长度
         /// </summary>
-        public int? MaxLength { get; set; }
+        public int? MaxLength { get; }
         /// <summary>
         /// 最小长度
         /// </summary>
-        public int? MinLength { get; set; }
+        public int? MinLength { get; }
         /// <summary>
         /// 只读
         /// </summary>
-        public bool ReadOnly { get; set; }
+        public bool ReadOnly { get; }
         /// <summary>
         /// 默认值
         /// </summary>
-        public string? DefaultValue { get; set; }
+        public string? DefaultValueCode { get; }
+        /// <summary>
+        /// 特性值
+        /// </summary>
+        public string? AttributeCode { get; }
         public PropertyModel(string name, JObject source, List<string>? requireds)
         {
             Name = name;
@@ -106,11 +111,11 @@ namespace Materal.HttpGenerator.Swagger.Models
             {
                 if(refToken != null)
                 {
-                    DefaultValue = " = new();";
+                    DefaultValueCode = " = new();";
                 }
                 else
                 {
-                    DefaultValue = CSharpType switch
+                    DefaultValueCode = CSharpType switch
                     {
                         "string" => " = string.Empty;",
                         _ => string.Empty
@@ -118,6 +123,80 @@ namespace Materal.HttpGenerator.Swagger.Models
                 }
             }
             #endregion
+            #region 处理特性
+            AttributeCode = string.Empty;
+            if (!IsNull)
+            {
+                AttributeCode += "Required";
+            }
+            if (MaxLength != null)
+            {
+                if (!IsNull)
+                {
+                    AttributeCode += ", ";
+                }
+                AttributeCode += "StringLength(100";
+                if (MinLength != null)
+                {
+                    AttributeCode += ", MinimumLength = 0";
+                }
+                AttributeCode += ")";
+            }
+            if (string.IsNullOrWhiteSpace(AttributeCode))
+            {
+                AttributeCode = null;
+            }
+            else
+            {
+                AttributeCode = $"[{AttributeCode}]";
+            }
+            #endregion
+        }
+        /// <summary>
+        /// 获得代码
+        /// </summary>
+        /// <param name="generatorBuild"></param>
+        /// <returns></returns>
+        public string GetCode(GeneratorBuildImpl generatorBuild)
+        {
+            StringBuilder codeContent = new();
+            SchemaModel? targetEnumSchema = null;
+            if (generatorBuild.SwaggerContent != null && generatorBuild.SwaggerContent.Schemas != null)
+            {
+                targetEnumSchema = generatorBuild.SwaggerContent.Schemas.FirstOrDefault(m => m.Name == Type && m.IsEnum);
+            }
+            #region 拼装注释
+            if (targetEnumSchema != null)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {targetEnumSchema.Description}");
+                codeContent.AppendLine($"        /// </summary>");
+            }
+            else if (!string.IsNullOrWhiteSpace(Description))
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {Description}");
+                codeContent.AppendLine($"        /// </summary>");
+            }
+            #endregion
+            #region 拼装特性
+            if (!string.IsNullOrWhiteSpace(AttributeCode))
+            {
+                codeContent.AppendLine($"        {AttributeCode}");
+            }
+            #endregion
+            #region 拼装主体
+            if (targetEnumSchema != null)
+            {
+                codeContent.AppendLine($"        public {targetEnumSchema.Type.GetCSharpType(targetEnumSchema.Format, IsNull)} {Name} {{ get; set; }}");
+            }
+            else
+            {
+                codeContent.AppendLine($"        public {CSharpType} {Name} {{ get; set; }}{DefaultValueCode}");
+            }
+            #endregion
+            string code = codeContent.ToString();
+            return code;
         }
     }
 }

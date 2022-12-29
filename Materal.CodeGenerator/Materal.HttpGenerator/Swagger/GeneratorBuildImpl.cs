@@ -4,7 +4,6 @@ using Materal.HttpGenerator.Swagger.Models;
 using Materal.NetworkHelper;
 using Materal.StringHelper;
 using Newtonsoft.Json.Linq;
-using System.Text;
 
 namespace Materal.HttpGenerator.Swagger
 {
@@ -13,7 +12,7 @@ namespace Materal.HttpGenerator.Swagger
         /// <summary>
         /// Swgger内容
         /// </summary>
-        private SwaggerContentModel? _swaggerContent;
+        public SwaggerContentModel? SwaggerContent { get; private set; }
         public event Action<string>? OnMessage;
         public string OutputPath { get; set; }
         public string ProjectName { get; set; } = "Materal.HttpProject";
@@ -80,7 +79,7 @@ namespace Materal.HttpGenerator.Swagger
             OnMessage?.Invoke("开始解析swagger....");
             JObject? jObj = swaggerJson.JsonToDeserializeObject<JObject>();
             if (jObj == null) return;
-            _swaggerContent = new SwaggerContentModel(jObj);
+            SwaggerContent = new SwaggerContentModel(jObj);
             OnMessage?.Invoke("swagger解析完毕");
         }
         public Task BuildAsync()
@@ -94,245 +93,238 @@ namespace Materal.HttpGenerator.Swagger
             CreateCSharpProjectFile();
             CreateHttpClientBaseFile();
             CreateModelFiles();
-            CreateHttpClientFiles();
+            //CreateHttpClientFiles();
             OnMessage?.Invoke("创建文件完毕");
             return Task.CompletedTask;
         }
-        /// <summary>
-        /// 创建HttpClient
-        /// </summary>
-        private void CreateHttpClientFiles()
-        {
-            if (_swaggerContent == null || _swaggerContent.Paths == null || _swaggerContent.Schemas == null) return;
-            var paths = _swaggerContent.Paths.GroupBy(m => m.ControllerName).ToList();
-            foreach (IGrouping<string?, PathModel> path in paths)
-            {
-                if (path.Key == null) continue;
-                StringBuilder codeContent = new();
-                codeContent.AppendLine($"using Materal.Model;");
-                codeContent.AppendLine($"using Materal.HttpClient.Base;");
-                codeContent.AppendLine($"using {ProjectName}.HttpClient.Models;");
-                codeContent.AppendLine($"");
-                codeContent.AppendLine($"namespace {ProjectName}.HttpClient");
-                codeContent.AppendLine($"{{");
-                codeContent.AppendLine($"    public class {path.Key}HttpClient : HttpClientBase");
-                codeContent.AppendLine($"    {{");
-                codeContent.AppendLine($"        /// <summary>");
-                codeContent.AppendLine($"        /// 构造方法");
-                codeContent.AppendLine($"        /// </summary>");
-                codeContent.AppendLine($"        public {path.Key}HttpClient() : base(\"{ProjectName}\") {{ }}");
-                int actionCount = 0;
-                foreach (PathModel item in path)
-                {
-                    if (string.IsNullOrWhiteSpace(item.Response) || string.IsNullOrWhiteSpace(item.ActionName) || item.ControllerName == item.ActionName) continue;
-                    if (item.Description != null)
-                    {
-                        codeContent.AppendLine($"        /// <summary>");
-                        codeContent.AppendLine($"        /// {item.Description}");
-                        codeContent.AppendLine($"        /// </summary>");
-                    }
-                    #region 解析对象
-                    string resultType;
-                    string baseFuncType;
-                    string baseFuncName = "GetResultModelBy";
-                    if (item.Response.EndsWith("PageResultModel"))
-                    {
-                        baseFuncType = item.Response[0..^"PageResultModel".Length];
-                        if (_swaggerContent.Schemas.Any(m => m.Name == baseFuncType))
-                        {
-                            baseFuncType = SuffixName + baseFuncType;
-                        }
-                        resultType = $"async Task<(List<{baseFuncType}> data, PageModel pageInfo)>";
-                        baseFuncName = "GetPageResultModelBy";
-                    }
-                    else if (item.Response.EndsWith("ListResultModel"))
-                    {
-                        baseFuncType = item.Response[0..^"ListResultModel".Length];
-                        if (_swaggerContent.Schemas.Any(m => m.Name == baseFuncType))
-                        {
-                            baseFuncType = $"List<{SuffixName}{baseFuncType}>";
-                        }
-                        resultType = $"async Task<{baseFuncType}>";
-                    }
-                    else if (item.Response == "ResultModel")
-                    {
-                        baseFuncType = string.Empty;
-                        resultType = $"async Task";
-                    }
-                    else if (item.Response.EndsWith("ResultModel"))
-                    {
-                        baseFuncType = item.Response[0..^"ResultModel".Length];
-                        if(_swaggerContent.Schemas.Any(m=>m.Name == baseFuncType))
-                        {
-                            baseFuncType = SuffixName + baseFuncType;
-                        }
-                        resultType = $"async Task<{baseFuncType}>";
-                    }
-                    else
-                    {
-                        baseFuncType = item.Response;
-                        if (_swaggerContent.Schemas.Any(m => m.Name == baseFuncType))
-                        {
-                            baseFuncType = SuffixName + baseFuncType;
-                        }
-                        resultType = $"async Task<{baseFuncType}>";
-                    }
-                    if (!string.IsNullOrWhiteSpace(baseFuncType) && baseFuncType != SuffixName)
-                    {
-                        baseFuncType = $"<{baseFuncType}>";
-                    }
-                    #region 替换大写类型
-                    resultType = resultType.Replace("String", "string");
-                    #endregion
-                    string baseFunc = $"await {baseFuncName}{item.HttpMethod}Async{baseFuncType}";
-                    #endregion
-                    #region 解析传入参数
-                    List<string> paramCodes = new();
-                    List<string> baseFuncArgs = new()
-                    {
-                        $"\"{item.ControllerName}/{item.ActionName}\""
-                    };
-                    #region Body参数
-                    if (!string.IsNullOrWhiteSpace(item.BodyParam))
-                    {
-                        paramCodes.Add($"{item.BodyParam} requestModel");
-                        baseFuncArgs.Add("requestModel");
-                    }
-                    #endregion
-                    #region Query参数
-                    if (item.QueryParams != null)
-                    {
-                        List<string> queryArgs = new();
-                        foreach (QueryParamModel queryParam in item.QueryParams)
-                        {
-                            paramCodes.Add($"{queryParam.CSharpType} {queryParam.Name}");
-                            if (queryParam.CSharpType.EndsWith("?"))
-                            {
-                                if (queryParam.CSharpType == "string?")
-                                {
-                                    queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name} ?? string.Empty");
-                                }
-                                else
-                                {
-                                    queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name}?.ToString() ?? string.Empty");
-                                }
-                            }
-                            else
-                            {
-                                if (queryParam.CSharpType == "string")
-                                {
-                                    queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name}");
-                                }
-                                else
-                                {
-                                    queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name}.ToString()");
-                                }
-                            }
-                        }
-                        if(queryArgs.Count > 0)
-                        {
-                            baseFuncArgs.Add("new Dictionary<string, string>{" + string.Join(", ", queryArgs) + "}");
-                        }
-                    }
-                    #endregion
-                    string paramsCode = string.Join(", ", paramCodes);
-                    string baseFuncCode = string.Join(", ", baseFuncArgs);
-                    #endregion
-                    codeContent.AppendLine($"        public {resultType} {item.ActionName}Async({paramsCode}) => {baseFunc}({baseFuncCode});");
-                    actionCount++;
-                }
-                codeContent.AppendLine($"    }}");
-                codeContent.AppendLine($"}}");
-                if (actionCount > 0)
-                {
-                    WriteFile("", $"{path.Key}HttpClient.cs", codeContent.ToString());
-                }
-            }
-        }
-        /// <summary>
-        /// 创建默认模型
-        /// </summary>
-        /// <param name="schema"></param>
-        /// <returns></returns>
-        private string CreateDefaultModel(SchemaModel schema)
-        {
-            StringBuilder codeContent = new();
-            codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
-            codeContent.AppendLine($"");
-            codeContent.AppendLine($"namespace {ProjectName}.HttpClient.Models");
-            codeContent.AppendLine($"{{");
-            codeContent.AppendLine($"    public class {SuffixName}{schema.Name}");
-            codeContent.AppendLine($"    {{");
-            foreach (PropertyModel property in schema.Properties)
-            {
-                SchemaModel? targetSchema = _swaggerContent?.Schemas?.FirstOrDefault(m => m.Name == property.Type);
-                if (targetSchema != null)
-                {
-                    codeContent.AppendLine($"        /// <summary>");
-                    codeContent.AppendLine($"        /// {targetSchema.Description}");
-                    codeContent.AppendLine($"        /// </summary>");
-                }
-                else if (!string.IsNullOrWhiteSpace(property.Description))
-                {
-                    codeContent.AppendLine($"        /// <summary>");
-                    codeContent.AppendLine($"        /// {property.Description}");
-                    codeContent.AppendLine($"        /// </summary>");
-                }
-                string attributeContent = string.Empty;
-                if (!property.IsNull)
-                {
-                    attributeContent += "Required";
-                }
-                if (property.MaxLength != null)
-                {
-                    if (!property.IsNull)
-                    {
-                        attributeContent += ", ";
-                    }
-                    attributeContent += "StringLength(100";
-                    if (property.MinLength != null)
-                    {
-                        attributeContent += ", MinimumLength = 0";
-                    }
-                    attributeContent += ")";
-                }
-                if (!string.IsNullOrWhiteSpace(attributeContent))
-                {
-                    codeContent.AppendLine($"        [{attributeContent}]");
-                }
-                //string getset = property.ReadOnly ? "{ get; }" : "{ get; set; }";
-                const string getset = "{ get; set; }";
-                if (targetSchema != null && targetSchema.IsEnum)
-                {
-                    codeContent.AppendLine($"        public {targetSchema.Type.GetCSharpType(targetSchema.Format, property.IsNull)} {property.Name} {getset}");
-                }
-                else
-                {
-                    codeContent.AppendLine($"        public {property.CSharpType} {property.Name} {getset}{property.DefaultValue}");
-                }
-            }
-            codeContent.AppendLine($"    }}");
-            codeContent.AppendLine($"}}");
-            return codeContent.ToString();
-        }
+        ///// <summary>
+        ///// 创建HttpClient
+        ///// </summary>
+        //private void CreateHttpClientFiles()
+        //{
+        //    if (SwaggerContent == null || SwaggerContent.Paths == null || SwaggerContent.Schemas == null) return;
+        //    var paths = SwaggerContent.Paths.GroupBy(m => m.ControllerName).ToList();
+        //    foreach (IGrouping<string?, PathModel> path in paths)
+        //    {
+        //        if (path.Key == null) continue;
+        //        StringBuilder codeContent = new();
+        //        codeContent.AppendLine($"using Materal.Model;");
+        //        codeContent.AppendLine($"using Materal.HttpClient.Base;");
+        //        codeContent.AppendLine($"using {ProjectName}.HttpClient.Models;");
+        //        codeContent.AppendLine($"");
+        //        codeContent.AppendLine($"namespace {ProjectName}.HttpClient");
+        //        codeContent.AppendLine($"{{");
+        //        codeContent.AppendLine($"    public class {path.Key}HttpClient : HttpClientBase");
+        //        codeContent.AppendLine($"    {{");
+        //        codeContent.AppendLine($"        /// <summary>");
+        //        codeContent.AppendLine($"        /// 构造方法");
+        //        codeContent.AppendLine($"        /// </summary>");
+        //        codeContent.AppendLine($"        public {path.Key}HttpClient() : base(\"{ProjectName}\") {{ }}");
+        //        int actionCount = 0;
+        //        foreach (PathModel item in path)
+        //        {
+        //            if (string.IsNullOrWhiteSpace(item.ActionName) || item.ControllerName == item.ActionName) continue;
+        //            if (item.Description != null)
+        //            {
+        //                codeContent.AppendLine($"        /// <summary>");
+        //                codeContent.AppendLine($"        /// {item.Description}");
+        //                codeContent.AppendLine($"        /// </summary>");
+        //            }
+        //            #region 解析对象
+        //            string resultType;
+        //            string baseFuncName = "GetResultModelBy";
+        //            SchemaModel? targetSchema = SwaggerContent.Schemas.FirstOrDefault(m => m.Name == $"{SuffixName}{item.ResponseType}");
+        //            if (!string.IsNullOrWhiteSpace(item.Response) && item.Response.StartsWith("PageResultModel"))
+        //            {
+        //                if(targetSchema != null)
+        //                {
+        //                    resultType = $"async Task<(List<{SuffixName}{item.ResponseType}> data, PageModel pageInfo)>";
+        //                }
+        //                else
+        //                {
+        //                    resultType = $"async Task<({item.InnerResponse} data, PageModel pageInfo)>";
+        //                }
+        //                baseFuncName = "GetPageResultModelBy";
+        //            }
+        //            else if (!string.IsNullOrWhiteSpace(item.InnerResponse))
+        //            {
+        //                if (targetSchema != null)
+        //                {
+        //                    resultType = $"async Task<List<{SuffixName}{item.ResponseType}>>";
+        //                }
+        //                else
+        //                {
+        //                    resultType = $"async Task<{item.InnerResponse}>";
+        //                }
+        //            }
+        //            else
+        //            {
+        //                resultType = $"async Task";
+        //            }
+        //            #region 替换大写类型
+        //            resultType = resultType.Replace("String", "string");
+        //            #endregion
+        //            string baseFunc = $"await {baseFuncName}{item.HttpMethod}Async";
+        //            if (!string.IsNullOrWhiteSpace(item.InnerResponse))
+        //            {
+        //                if (targetSchema != null)
+        //                {
+        //                    baseFunc += $"<{SuffixName}{item.ResponseType}>";
+        //                }
+        //                else
+        //                {
+        //                    resultType = $"async Task<{item.InnerResponse}>";
+        //                }
+        //            }
+        //            #endregion
+        //            #region 解析传入参数
+        //            List<string> paramCodes = new();
+        //            List<string> baseFuncArgs = new()
+        //            {
+        //                $"\"{item.ControllerName}/{item.ActionName}\""
+        //            };
+        //            #region Body参数
+        //            if (!string.IsNullOrWhiteSpace(item.BodyParam))
+        //            {
+        //                targetSchema = SwaggerContent.Schemas.FirstOrDefault(m => m.Name == $"{SuffixName}{item.BodyParam}");
+        //                if (targetSchema != null)
+        //                {
+        //                    paramCodes.Add($"{SuffixName}{item.BodyParam} requestModel");
+        //                }
+        //                else
+        //                {
+        //                    paramCodes.Add($"{item.BodyParam} requestModel");
+        //                }
+        //                baseFuncArgs.Add("requestModel");
+        //            }
+        //            #endregion
+        //            #region Query参数
+        //            if (item.QueryParams != null)
+        //            {
+        //                List<string> queryArgs = new();
+        //                foreach (QueryParamModel queryParam in item.QueryParams)
+        //                {
+        //                    paramCodes.Add($"{queryParam.CSharpType} {queryParam.Name}");
+        //                    if (queryParam.CSharpType.EndsWith("?"))
+        //                    {
+        //                        if (queryParam.CSharpType == "string?")
+        //                        {
+        //                            queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name} ?? string.Empty");
+        //                        }
+        //                        else
+        //                        {
+        //                            queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name}?.ToString() ?? string.Empty");
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        if (queryParam.CSharpType == "string")
+        //                        {
+        //                            queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name}");
+        //                        }
+        //                        else
+        //                        {
+        //                            queryArgs.Add($"[nameof({queryParam.Name})]={queryParam.Name}.ToString()");
+        //                        }
+        //                    }
+        //                }
+        //                if(queryArgs.Count > 0)
+        //                {
+        //                    baseFuncArgs.Add("new Dictionary<string, string>{" + string.Join(", ", queryArgs) + "}");
+        //                }
+        //            }
+        //            #endregion
+        //            string paramsCode = string.Join(", ", paramCodes);
+        //            string baseFuncCode = string.Join(", ", baseFuncArgs);
+        //            #endregion
+        //            codeContent.AppendLine($"        public {resultType} {item.ActionName}Async({paramsCode}) => {baseFunc}({baseFuncCode});");
+        //            actionCount++;
+        //        }
+        //        codeContent.AppendLine($"    }}");
+        //        codeContent.AppendLine($"}}");
+        //        if (actionCount > 0)
+        //        {
+        //            WriteFile("", $"{path.Key}HttpClient.cs", codeContent.ToString());
+        //        }
+        //    }
+        //}
+        ///// <summary>
+        ///// 创建默认模型
+        ///// </summary>
+        ///// <param name="schema"></param>
+        ///// <returns></returns>
+        //private string CreateDefaultModel(SchemaModel schema)
+        //{
+        //    StringBuilder codeContent = new();
+        //    codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
+        //    codeContent.AppendLine($"");
+        //    codeContent.AppendLine($"namespace {ProjectName}.HttpClient.Models");
+        //    codeContent.AppendLine($"{{");
+        //    codeContent.AppendLine($"    public class {schema.Name}");
+        //    codeContent.AppendLine($"    {{");
+        //    foreach (PropertyModel property in schema.Properties)
+        //    {
+        //        SchemaModel? targetSchema = SwaggerContent?.Schemas?.FirstOrDefault(m => m.Name == property.Type);
+        //        if (targetSchema != null)
+        //        {
+        //            codeContent.AppendLine($"        /// <summary>");
+        //            codeContent.AppendLine($"        /// {targetSchema.Description}");
+        //            codeContent.AppendLine($"        /// </summary>");
+        //        }
+        //        else if (!string.IsNullOrWhiteSpace(property.Description))
+        //        {
+        //            codeContent.AppendLine($"        /// <summary>");
+        //            codeContent.AppendLine($"        /// {property.Description}");
+        //            codeContent.AppendLine($"        /// </summary>");
+        //        }
+        //        string attributeContent = string.Empty;
+        //        if (!property.IsNull)
+        //        {
+        //            attributeContent += "Required";
+        //        }
+        //        if (property.MaxLength != null)
+        //        {
+        //            if (!property.IsNull)
+        //            {
+        //                attributeContent += ", ";
+        //            }
+        //            attributeContent += "StringLength(100";
+        //            if (property.MinLength != null)
+        //            {
+        //                attributeContent += ", MinimumLength = 0";
+        //            }
+        //            attributeContent += ")";
+        //        }
+        //        if (!string.IsNullOrWhiteSpace(attributeContent))
+        //        {
+        //            codeContent.AppendLine($"        [{attributeContent}]");
+        //        }
+        //        //string getset = property.ReadOnly ? "{ get; }" : "{ get; set; }";
+        //        const string getset = "{ get; set; }";
+        //        if (targetSchema != null && targetSchema.IsEnum)
+        //        {
+        //            codeContent.AppendLine($"        public {targetSchema.Type.GetCSharpType(targetSchema.Format, property.IsNull)} {property.Name} {getset}");
+        //        }
+        //        else
+        //        {
+        //            codeContent.AppendLine($"        public {property.CSharpType} {property.Name} {getset}{property.DefaultValue}");
+        //        }
+        //    }
+        //    codeContent.AppendLine($"    }}");
+        //    codeContent.AppendLine($"}}");
+        //    return codeContent.ToString();
+        //}
         /// <summary>
         /// 创建模型文件
         /// </summary>
         private void CreateModelFiles()
         {
-            string[] blackList = new string[]
+            if (SwaggerContent == null || SwaggerContent.Schemas == null) return;
+            foreach (SchemaModel schema in SwaggerContent.Schemas)
             {
-                "PageModel"
-            };
-            if (_swaggerContent == null || _swaggerContent.Schemas == null) return;
-            foreach (SchemaModel schema in _swaggerContent.Schemas)
-            {
-                if (blackList.Contains(schema.Name)) continue;
                 if (schema.IsEnum) continue;
                 if (schema.Properties == null || schema.Properties.Count <= 0) continue;
-                if (schema.Name.EndsWith("ResultModel")) continue;
-                string codeContent = CreateDefaultModel(schema);
-                WriteFile("Models", $"{SuffixName}{schema.Name}.cs", codeContent);
+                schema.CreateModelFile(this);
             }
         }
         /// <summary>
@@ -341,7 +333,7 @@ namespace Materal.HttpGenerator.Swagger
         private void CreateHttpClientBaseFile()
         {
             string templeteContent = GetTempleteContent("HttpClientBase");
-            WriteFile("Base", "HttpClientBase.cs", templeteContent);
+            SaveFile("Base", "HttpClientBase.cs", templeteContent);
         }
         /// <summary>
         /// 创建CSharpProject文件
@@ -349,7 +341,7 @@ namespace Materal.HttpGenerator.Swagger
         private void CreateCSharpProjectFile()
         {
             string templeteContent = GetTempleteContent("CSharpProject");
-            WriteFile("", $"{ProjectName}.HttpClient.csproj", templeteContent);
+            SaveFile("", $"{ProjectName}.HttpClient.csproj", templeteContent);
         }
         /// <summary>
         /// 获得模版内容
@@ -371,7 +363,7 @@ namespace Materal.HttpGenerator.Swagger
         /// <param name="path"></param>
         /// <param name="fileName"></param>
         /// <param name="content"></param>
-        private void WriteFile(string path, string fileName, string content)
+        public void SaveFile(string path, string fileName, string content)
         {
             string outputPath = OutputPath;
             if (!string.IsNullOrWhiteSpace(path))

@@ -1,6 +1,7 @@
 ﻿using Materal.ConvertHelper;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Text;
 
 namespace Materal.HttpGenerator.Swagger.Models
 {
@@ -91,6 +92,29 @@ namespace Materal.HttpGenerator.Swagger.Models
                 }
                 #endregion
             }
+        }
+        /// <summary>
+        /// 获得代码
+        /// </summary>
+        /// <returns></returns>
+        public void CreateModelFile(GeneratorBuildImpl generatorBuild)
+        {
+            StringBuilder codeContent = new();
+            codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {generatorBuild.ProjectName}.HttpClient.Models");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    public class {Name}");
+            codeContent.AppendLine($"    {{");
+            foreach (PropertyModel property in Properties)
+            {
+                string propertyCode = property.GetCode(generatorBuild);
+                codeContent.AppendLine(propertyCode);
+            }
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            string code = codeContent.ToString();
+            generatorBuild.SaveFile("Models", $"{Name}.cs", code);
         }
     }
 }

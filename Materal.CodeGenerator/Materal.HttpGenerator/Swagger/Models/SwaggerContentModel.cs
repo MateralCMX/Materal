@@ -18,6 +18,10 @@ namespace Materal.HttpGenerator.Swagger.Models
         public List<SchemaModel>? Schemas { get; }
         public SwaggerContentModel(JObject source)
         {
+            string[] schemasBlackList = new[]
+            {
+                "PageModel"
+            };
             foreach (KeyValuePair<string, JToken?> item in source)
             {
                 if (item.Value == null) continue;
@@ -31,7 +35,7 @@ namespace Materal.HttpGenerator.Swagger.Models
                         foreach (JToken? path in item.Value)
                         {
                             if (path == null || path is not JProperty pathItem) continue;
-                            Paths.Add(new PathModel(pathItem.Value, pathItem.Name));
+                            Paths.Add(new(pathItem.Value, pathItem.Name));
                         }
                         break;
                     case "components":
@@ -41,6 +45,8 @@ namespace Materal.HttpGenerator.Swagger.Models
                         foreach (JToken schema in schemas)
                         {
                             if (schema is not JProperty schemaProperty) continue;
+                            if (schemaProperty.Name.EndsWith("ResultModel")) continue;
+                            if (schemasBlackList.Contains(schemaProperty.Name)) continue;
                             Schemas.Add(new(schemaProperty));
                         }
                         break;

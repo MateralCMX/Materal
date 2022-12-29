@@ -28,5 +28,12 @@
         /// </summary>
         /// <returns></returns>
         Task BuildAsync();
+        /// <summary>
+        /// 写文件
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="fileName"></param>
+        /// <param name="content"></param>
+        void SaveFile(string path, string fileName, string content);
     }
 }
