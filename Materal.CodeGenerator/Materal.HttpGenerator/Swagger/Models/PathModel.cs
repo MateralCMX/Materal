@@ -168,8 +168,8 @@ namespace Materal.HttpGenerator.Swagger.Models
                 }
                 ExcuteFuncName = $"await GetPageResultModelBy{HttpMethod}Async<{ResultType}>";
                 PrefixExcuteFuncName = $"await GetPageResultModelBy{HttpMethod}Async<{PrefixResultType}>";
-                ResultType = $"async Task<(List<{ResultType}> data, PageModel pageInfo)>";
-                PrefixResultType = $"async Task<(List<{PrefixResultType}> data, PageModel pageInfo)>";
+                ResultType = $"async Task<(List<{ResultType}>? data, PageModel pageInfo)>";
+                PrefixResultType = $"async Task<(List<{PrefixResultType}>? data, PageModel pageInfo)>";
             }
             else if (Response.EndsWith("ListResultModel"))
             {
@@ -188,8 +188,8 @@ namespace Materal.HttpGenerator.Swagger.Models
                 }
                 ExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{ResultType}>";
                 PrefixExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{PrefixResultType}>";
-                ResultType = $"async Task<{ResultType}>";
-                PrefixResultType = $"async Task<{PrefixResultType}>";
+                ResultType = $"async Task<{ResultType}?>";
+                PrefixResultType = $"async Task<{PrefixResultType}?>";
             }
             else if (Response == "ResultModel")
             {
@@ -215,16 +215,16 @@ namespace Materal.HttpGenerator.Swagger.Models
                 }
                 ExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{ResultType}>";
                 PrefixExcuteFuncName = $"await GetResultModelBy{HttpMethod}Async<{PrefixResultType}>";
-                ResultType = $"async Task<{ResultType}>";
-                PrefixResultType = $"async Task<{PrefixResultType}>";
+                ResultType = $"async Task<{ResultType}?>";
+                PrefixResultType = $"async Task<{PrefixResultType}?>";
             }
             else
             {
                 ResponseType = $"async Task<{Response}>";
                 if (schemas != null && schemas.Any(m => m.PrefixName == prefixName + Response))
                 {
-                    ResultType = $"async Task<{Response}>";
-                    PrefixResultType = $"async Task<{prefixName}{Response}>";
+                    ResultType = $"async Task<{Response}?>";
+                    PrefixResultType = $"async Task<{prefixName}{Response}?>";
                 }
                 else
                 {
@@ -264,6 +264,10 @@ namespace Materal.HttpGenerator.Swagger.Models
                 }
                 sendParamsCodes.Add("requestModel");
                 prefixSendParamsCodes.Add("requestModel");
+            }
+            else
+            {
+                prefixSendParamsCodes.Add("null");
             }
             #endregion
             #region Query参数

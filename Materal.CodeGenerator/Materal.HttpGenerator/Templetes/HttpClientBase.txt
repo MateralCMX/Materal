@@ -2,542 +2,498 @@
 using Materal.ConvertHelper;
 using Materal.Model;
 using Materal.NetworkHelper;
-using Microsoft.Extensions.Logging;
+using System.Reflection;
 using System.Text;
 
 namespace Materal.HttpClient.Base
 {
-    /// <summary>
-    /// Http客户端基类
-    /// </summary>
-    public abstract class HttpClientBase
-    {
-        protected readonly string _projectName;
-        /// <summary>
-        /// 默认编码
-        /// </summary>
-        private readonly Encoding DefaultEncoding = Encoding.UTF8;
-        protected HttpClientBase(string projectName)
-        {
-            _projectName = projectName;
-        }
-        protected virtual string GetBaseUrl(string url) => $"http://127.0.0.1:5000/api/{url}";
-        /// <summary>
-        /// 获得默认头部
-        /// </summary>
-        /// <returns></returns>
-        protected virtual Dictionary<string, string> GetDefaultHeaders()
-        {
-            Dictionary<string, string> result = new()
-            {
-                ["Content-Type"] = "application/json"
-            };
-            return result;
-        }
-        /// <summary>
-        /// 发送Post请求
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<T> SendPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            if (data != null)
-            {
-                data.Validation();
-            }
-            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
-            string trueUrl = GetBaseUrl(url);
-            string httpReslt = await HttpManager.SendPostAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
-            T result = httpReslt.JsonToObject<T>();
-            return result;
-        }
-        /// <summary>
-        /// 发送Put请求
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<T> SendPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            if (data != null)
-            {
-                data.Validation();
-            }
-            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
-            string trueUrl = GetBaseUrl(url);
-            string httpReslt = await HttpManager.SendPutAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
-            T result = httpReslt.JsonToObject<T>();
-            return result;
-        }
-        /// <summary>
-        /// 发送Patch请求
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<T> SendPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            if (data != null)
-            {
-                data.Validation();
-            }
-            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
-            string trueUrl = GetBaseUrl(url);
-            string httpReslt = await HttpManager.SendPatchAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
-            T result = httpReslt.JsonToObject<T>();
-            return result;
-        }
-        /// <summary>
-        /// 发送Delete请求
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<T> SendDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            if (data != null)
-            {
-                data.Validation();
-            }
-            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
-            string trueUrl = GetBaseUrl(url);
-            string httpReslt = await HttpManager.SendDeleteAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
-            T result = httpReslt.JsonToObject<T>();
-            return result;
-        }
-        /// <summary>
-        /// 发送Get请求
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="url"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<T> SendGetAsync<T>(string url, Dictionary<string, string>? queryParams = null)
-        {
-            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
-            string trueUrl = GetBaseUrl(url);
-            string httpReslt = await HttpManager.SendGetAsync(trueUrl, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
-            T result = httpReslt.JsonToObject<T>();
-            return result;
-        }
-        /// <summary>
-        /// 获得Post返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task GetResultModelByPostAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            ResultModel result = await SendPostAsync<ResultModel>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-        }
-        /// <summary>
-        /// 获得Post返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<T> GetResultModelByPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            ResultModel<T> result = await SendPostAsync<ResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-            if (result.Data != null)
-            {
-                return result.Data;
-            }
-            throw new MateralNetworkException("数据是空");
-        }
-        /// <summary>
-        /// 获得Post返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<(List<T> data, PageModel pageInfo)> GetPageResultModelByPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            PageResultModel<T> result = await SendPostAsync<PageResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-            if(result.Data != null && result.PageModel != null)
-            {
-                return (result.Data.ToList(), result.PageModel);
-            }
-            throw new MateralNetworkException("数据是空");
-        }
-        /// <summary>
-        /// 获得Put返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task GetResultModelByPutAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            ResultModel result = await SendPutAsync<ResultModel>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-        }
-        /// <summary>
-        /// 获得Put返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<T> GetResultModelByPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            ResultModel<T> result = await SendPutAsync<ResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-            if (result.Data != null)
-            {
-                return result.Data;
-            }
-            throw new MateralNetworkException("数据是空");
-        }
-        /// <summary>
-        /// 获得Put返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<(List<T> data, PageModel pageInfo)> GetPageResultModelByPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            PageResultModel<T> result = await SendPutAsync<PageResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-            if (result.Data != null && result.PageModel != null)
-            {
-                return (result.Data.ToList(), result.PageModel);
-            }
-            throw new MateralNetworkException("数据是空");
-        }
-        /// <summary>
-        /// 获得Patch返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task GetResultModelByPatchAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            ResultModel result = await SendPatchAsync<ResultModel>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-        }
-        /// <summary>
-        /// 获得Patch返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<T> GetResultModelByPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            ResultModel<T> result = await SendPatchAsync<ResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-            if (result.Data != null)
-            {
-                return result.Data;
-            }
-            throw new MateralNetworkException("数据是空");
-        }
-        /// <summary>
-        /// 获得Patch返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<(List<T> data, PageModel pageInfo)> GetPageResultModelByPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            PageResultModel<T> result = await SendPatchAsync<PageResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-            if (result.Data != null && result.PageModel != null)
-            {
-                return (result.Data.ToList(), result.PageModel);
-            }
-            throw new MateralNetworkException("数据是空");
-        }
-        /// <summary>
-        /// 获得Delete返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task GetResultModelByDeleteAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            ResultModel result = await SendDeleteAsync<ResultModel>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-        }
-        /// <summary>
-        /// 获得Delete返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<T> GetResultModelByDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            ResultModel<T> result = await SendDeleteAsync<ResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-            if (result.Data != null)
-            {
-                return result.Data;
-            }
-            throw new MateralNetworkException("数据是空");
-        }
-        /// <summary>
-        /// 获得Delete返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="data"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<(List<T> data, PageModel pageInfo)> GetPageResultModelByDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            PageResultModel<T> result = await SendDeleteAsync<PageResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-            if (result.Data != null && result.PageModel != null)
-            {
-                return (result.Data.ToList(), result.PageModel);
-            }
-            throw new MateralNetworkException("数据是空");
-        }
-        /// <summary>
-        /// 获得Get返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task GetResultModelByGetAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            ResultModel result = await SendGetAsync<ResultModel>(url, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-        }
-        /// <summary>
-        /// 获得Get返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<T> GetResultModelByGetAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            ResultModel<T> result = await SendGetAsync<ResultModel<T>>(url, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-            if (result.Data != null)
-            {
-                return result.Data;
-            }
-            throw new MateralNetworkException("数据是空");
-        }
-        /// <summary>
-        /// 获得Get返回
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="queryParams"></param>
-        /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
-        protected virtual async Task<(List<T> data, PageModel pageInfo)> GetPageResultModelByGetAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
-        {
-            PageResultModel<T> result = await SendGetAsync<PageResultModel<T>>(url, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
-            if (result.Data != null && result.PageModel != null)
-            {
-                return (result.Data.ToList(), result.PageModel);
-            }
-            throw new MateralNetworkException("数据是空");
-        }
-    }
-    /// <summary>
-    /// Http客户端基类
-    /// </summary>
-    /// <typeparam name="TClient"></typeparam>
-    /// <typeparam name="TResult"></typeparam>
-    /// <typeparam name="TQuery"></typeparam>
-    public abstract class HttpClientBase<TClient, TResult, TQuery> : HttpClientBase
-            where TClient : HttpClientBase
-            where TQuery : class, new()
-    {
-        protected readonly ILogger? Logger;
-        protected HttpClientBase(string projectName) : base(projectName)
-        {
-            Logger = MateralServices.GetServiceOrDefatult<ILogger<TClient>>();
-        }
-        /// <summary>
-        /// 获得数据
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <typeparam name="TQuery"></typeparam>
-        /// <param name="requestModel"></param>
-        /// <param name="_logger"></param>
-        /// <returns></returns>
-        public async Task<List<TResult>> GetDataAsync(TQuery requestModel)
-        {
-            List<TResult> result = new();
-            try
-            {
-                if (requestModel == null) return result;
-                MethodInfo? methodInfo = GetType().GetMethod("GetListAsync", new Type[] { typeof(TQuery) });
-                if (methodInfo == null) return result;
-                object? methodInfoResult = methodInfo.Invoke(this, new object[] { requestModel });
-                if (methodInfoResult != null && methodInfoResult is Task<(List<TResult> data, PageModel pageInfo)> methodTask)
-                {
-                    (result, _) = await methodTask;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger?.LogWarning(ex, "获取数据失败");
-            }
-            return result;
-        }
-        /// <summary>
-        /// 获得数据
-        /// </summary>
-        /// <typeparam name="TResult"></typeparam>
-        /// <typeparam name="TQuery"></typeparam>
-        /// <param name="httpClient"></param>
-        /// <param name="requestModel"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="_logger"></param>
-        /// <returns></returns>
-        public async Task<(bool isQuery, List<TResult> data)> GetDataAsync(object requestModel, int pageSize = 10, int pageIndex = 1)
-        {
-            try
-            {
-                (bool isQuery, TQuery queryModel) = requestModel.GetQueryModel<TQuery>(pageSize, pageIndex);
-                if (isQuery)
-                {
-                    return (isQuery, await GetDataAsync(queryModel));
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger?.LogWarning(ex, "获取数据失败");
-            }
-            return (false, new());
-        }
-        /// <summary>
-        /// 获得数据
-        /// </summary>
-        /// <param name="httpClient"></param>
-        /// <param name="ids"></param>
-        /// <param name="_logger"></param>
-        /// <returns></returns>
-        public async Task<List<TResult>> GetDataAsync(Guid[] ids)
-        {
-            try
-            {
-                TQuery queryModel = new();
-                Type queryType = queryModel.GetType();
-                List<Guid> allIDs = ids.Distinct().ToList();
-                queryType.GetProperty("IDs")?.SetValue(queryModel, allIDs);
-                queryModel.SetPageInfo(allIDs.Count, 1);
-                List<TResult> data = await GetDataAsync(queryModel);
-                return data;
-            }
-            catch (Exception ex)
-            {
-                Logger?.LogWarning(ex, "获取数据失败");
-            }
-            return new List<TResult>();
-        }
-        /// <summary>
-        /// 获得数据
-        /// </summary>
-        /// <param name="httpClient"></param>
-        /// <param name="ids"></param>
-        /// <param name="_logger"></param>
-        /// <returns></returns>
-        public async Task<TResult?> FirstDataAsync(Guid id)
-        {
-            try
-            {
-                List<TResult> data = await GetDataAsync(new Guid[] { id });
-                return data.FirstOrDefault();
-            }
-            catch (Exception ex)
-            {
-                Logger?.LogWarning(ex, "获取数据失败");
-            }
-            return default;
-        }
-        /// <summary>
-        /// 绑定数据
-        /// </summary>
-        /// <param name="httpClient"></param>
-        /// <param name="ids"></param>
-        /// <param name="bindAction"></param>
-        /// <returns></returns>
-        public async Task BindDataAsync(ICollection<Guid> ids, Action<TResult> bindAction)
-        {
-            try
-            {
-                List<TResult> data = await GetDataAsync(ids.ToArray());
-                foreach (var item in data)
-                {
-                    bindAction(item);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger?.LogWarning(ex, "绑定数据失败");
-            }
-        }
-        /// <summary>
-        /// 绑定数据
-        /// </summary>
-        /// <param name="httpClient"></param>
-        /// <param name="ids"></param>
-        /// <param name="bindAction"></param>
-        /// <returns></returns>
-        public async Task BindDataAsync(Guid id, Action<TResult> bindAction)
-        {
-            try
-            {
-                TResult? data = await FirstDataAsync(id);
-                if (data == null) return;
-                bindAction(data);
-            }
-            catch (Exception ex)
-            {
-                Logger?.LogWarning(ex, "绑定数据失败");
-            }
-        }
-    }
+	/// <summary>
+	/// Http客户端基类
+	/// </summary>
+	public abstract class HttpClientBase
+	{
+		/// <summary>
+		/// 默认编码
+		/// </summary>
+		private readonly Encoding DefaultEncoding = Encoding.UTF8;
+		protected readonly string _projectName;
+		protected HttpClientBase(string projectName)
+		{
+			_projectName = projectName;
+		}
+		protected virtual string GetBaseUrl(string url) => $"http://127.0.0.1:5000/api/{url}";
+		/// <summary>
+		/// 获得默认头部
+		/// </summary>
+		/// <returns></returns>
+		protected virtual Dictionary<string, string> GetDefaultHeaders()
+		{
+			Dictionary<string, string> result = new()
+			{
+				["Content-Type"] = "application/json"
+			};
+			return result;
+		}
+		/// <summary>
+		/// 发送Post请求
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<T> SendPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			data?.Validation();
+			Dictionary<string, string> httpHeaders = GetDefaultHeaders();
+			string trueUrl = GetBaseUrl(url);
+			string httpReslt = await HttpManager.SendPostAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
+			if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+			T result = httpReslt.JsonToObject<T>();
+			return result;
+		}
+		/// <summary>
+		/// 发送Put请求
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<T> SendPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			data?.Validation();
+			Dictionary<string, string> httpHeaders = GetDefaultHeaders();
+			string trueUrl = GetBaseUrl(url);
+			string httpReslt = await HttpManager.SendPutAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
+			if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+			T result = httpReslt.JsonToObject<T>();
+			return result;
+		}
+		/// <summary>
+		/// 发送Patch请求
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<T> SendPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			data?.Validation();
+			Dictionary<string, string> httpHeaders = GetDefaultHeaders();
+			string trueUrl = GetBaseUrl(url);
+			string httpReslt = await HttpManager.SendPatchAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
+			if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+			T result = httpReslt.JsonToObject<T>();
+			return result;
+		}
+		/// <summary>
+		/// 发送Delete请求
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<T> SendDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			data?.Validation();
+			Dictionary<string, string> httpHeaders = GetDefaultHeaders();
+			string trueUrl = GetBaseUrl(url);
+			string httpReslt = await HttpManager.SendDeleteAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
+			if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+			T result = httpReslt.JsonToObject<T>();
+			return result;
+		}
+		/// <summary>
+		/// 发送Get请求
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="url"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<T> SendGetAsync<T>(string url, Dictionary<string, string>? queryParams = null)
+		{
+			Dictionary<string, string> httpHeaders = GetDefaultHeaders();
+			string trueUrl = GetBaseUrl(url);
+			string httpReslt = await HttpManager.SendGetAsync(trueUrl, queryParams, httpHeaders, DefaultEncoding);
+			if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+			T result = httpReslt.JsonToObject<T>();
+			return result;
+		}
+		/// <summary>
+		/// 获得Post返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task GetResultModelByPostAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			ResultModel result = await SendPostAsync<ResultModel>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+		}
+		/// <summary>
+		/// 获得Post返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<T?> GetResultModelByPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			ResultModel<T> result = await SendPostAsync<ResultModel<T>>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+			return result.Data;
+		}
+		/// <summary>
+		/// 获得Post返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<(List<T>? data, PageModel pageInfo)> GetPageResultModelByPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			PageResultModel<T> result = await SendPostAsync<PageResultModel<T>>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+			if (result.Data != null && result.PageModel != null)
+			{
+				return (result.Data.ToList(), result.PageModel);
+			}
+			return (null, new PageModel());
+		}
+		/// <summary>
+		/// 获得Put返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task GetResultModelByPutAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			ResultModel result = await SendPutAsync<ResultModel>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+		}
+		/// <summary>
+		/// 获得Put返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<T?> GetResultModelByPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			ResultModel<T> result = await SendPutAsync<ResultModel<T>>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+			return result.Data;
+		}
+		/// <summary>
+		/// 获得Put返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<(List<T>? data, PageModel pageInfo)> GetPageResultModelByPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			PageResultModel<T> result = await SendPutAsync<PageResultModel<T>>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+			if (result.Data != null && result.PageModel != null)
+			{
+				return (result.Data.ToList(), result.PageModel);
+			}
+			return (null, new PageModel());
+		}
+		/// <summary>
+		/// 获得Patch返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task GetResultModelByPatchAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			ResultModel result = await SendPatchAsync<ResultModel>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+		}
+		/// <summary>
+		/// 获得Patch返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<T?> GetResultModelByPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			ResultModel<T> result = await SendPatchAsync<ResultModel<T>>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+			return result.Data;
+		}
+		/// <summary>
+		/// 获得Patch返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<(List<T>? data, PageModel pageInfo)> GetPageResultModelByPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			PageResultModel<T> result = await SendPatchAsync<PageResultModel<T>>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+			if (result.Data != null && result.PageModel != null)
+			{
+				return (result.Data.ToList(), result.PageModel);
+			}
+			return (null, new PageModel());
+		}
+		/// <summary>
+		/// 获得Delete返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task GetResultModelByDeleteAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			ResultModel result = await SendDeleteAsync<ResultModel>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+		}
+		/// <summary>
+		/// 获得Delete返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<T?> GetResultModelByDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			ResultModel<T> result = await SendDeleteAsync<ResultModel<T>>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+			return result.Data;
+		}
+		/// <summary>
+		/// 获得Delete返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="data"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<(List<T>? data, PageModel pageInfo)> GetPageResultModelByDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			PageResultModel<T> result = await SendDeleteAsync<PageResultModel<T>>(url, data, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+			if (result.Data != null && result.PageModel != null)
+			{
+				return (result.Data.ToList(), result.PageModel);
+			}
+			return (null, new PageModel());
+		}
+		/// <summary>
+		/// 获得Get返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task GetResultModelByGetAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			ResultModel result = await SendGetAsync<ResultModel>(url, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+		}
+		/// <summary>
+		/// 获得Get返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<T?> GetResultModelByGetAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			ResultModel<T> result = await SendGetAsync<ResultModel<T>>(url, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+			return result.Data;
+		}
+		/// <summary>
+		/// 获得Get返回
+		/// </summary>
+		/// <param name="url"></param>
+		/// <param name="queryParams"></param>
+		/// <returns></returns>
+		/// <exception cref="MateralNetworkException"></exception>
+		protected virtual async Task<(List<T>? data, PageModel pageInfo)> GetPageResultModelByGetAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+		{
+			PageResultModel<T> result = await SendGetAsync<PageResultModel<T>>(url, queryParams);
+			if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+			if (result.Data != null && result.PageModel != null)
+			{
+				return (result.Data.ToList(), result.PageModel);
+			}
+			return (null, new PageModel());
+		}
+	}
+	/// <summary>
+	/// Http客户端基类
+	/// </summary>
+	/// <typeparam name="TClient"></typeparam>
+	/// <typeparam name="TResult"></typeparam>
+	/// <typeparam name="TQuery"></typeparam>
+	public abstract class HttpClientBase<TClient, TResult, TQuery> : HttpClientBase
+			where TClient : HttpClientBase
+			where TQuery : class, new()
+	{
+		protected readonly ILogger? Logger;
+		protected HttpClientBase(string projectName) : base(projectName)
+		{
+			Logger = MateralServices.GetServiceOrDefatult<ILogger<TClient>>();
+		}
+		/// <summary>
+		/// 获得数据
+		/// </summary>
+		/// <param name="requestModel"></param>
+		/// <returns></returns>
+		public async Task<List<TResult>?> GetDataAsync(TQuery requestModel)
+		{
+			List<TResult> result = new();
+			try
+			{
+				if (requestModel == null) return result;
+				MethodInfo? methodInfo = GetType().GetMethod("GetListAsync", new Type[] { typeof(TQuery) });
+				if (methodInfo == null) return result;
+				object? methodInfoResult = methodInfo.Invoke(this, new object[] { requestModel });
+				if (methodInfoResult != null && methodInfoResult is Task<(List<TResult> data, PageModel pageInfo)> methodTask)
+				{
+					(result, _) = await methodTask;
+				}
+			}
+			catch (Exception ex)
+			{
+				Logger?.LogWarning(ex, "获取数据失败");
+			}
+			return result;
+		}
+		/// <summary>
+		/// 获得数据
+		/// </summary>
+		/// <param name="requestModel"></param>
+		/// <param name="pageSize"></param>
+		/// <param name="pageIndex"></param>
+		/// <returns></returns>
+		public async Task<(bool isQuery, List<TResult>? data)> GetDataAsync(object requestModel, int pageSize = 10, int pageIndex = 1)
+		{
+			try
+			{
+				(bool isQuery, TQuery queryModel) = requestModel.GetQueryModel<TQuery>(pageSize, pageIndex);
+				if (isQuery)
+				{
+					return (isQuery, await GetDataAsync(queryModel));
+				}
+			}
+			catch (Exception ex)
+			{
+				Logger?.LogWarning(ex, "获取数据失败");
+			}
+			return (false, new());
+		}
+		/// <summary>
+		/// 获得数据
+		/// </summary>
+		/// <param name="ids"></param>
+		/// <returns></returns>
+		public async Task<List<TResult>?> GetDataAsync(params Guid[] ids)
+		{
+			try
+			{
+				TQuery queryModel = new();
+				Type queryType = queryModel.GetType();
+				List<Guid> allIDs = ids.Distinct().ToList();
+				queryType.GetProperty("IDs")?.SetValue(queryModel, allIDs);
+				queryModel.SetPageInfo(allIDs.Count, 1);
+				List<TResult>? data = await GetDataAsync(queryModel);
+				return data;
+			}
+			catch (Exception ex)
+			{
+				Logger?.LogWarning(ex, "获取数据失败");
+			}
+			return new List<TResult>();
+		}
+		/// <summary>
+		/// 获得数据
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public async Task<TResult?> FirstDataAsync(Guid id)
+		{
+			try
+			{
+				List<TResult>? data = await GetDataAsync(new Guid[] { id });
+				if (data == null) return default;
+				return data.FirstOrDefault();
+			}
+			catch (Exception ex)
+			{
+				Logger?.LogWarning(ex, "获取数据失败");
+			}
+			return default;
+		}
+		/// <summary>
+		/// 绑定数据
+		/// </summary>
+		/// <param name="ids"></param>
+		/// <param name="bindAction"></param>
+		/// <returns></returns>
+		public async Task BindDataAsync(ICollection<Guid> ids, Action<TResult> bindAction)
+		{
+			try
+			{
+				List<TResult>? data = await GetDataAsync(ids.ToArray());
+				if (data == null) return;
+				foreach (var item in data)
+				{
+					bindAction(item);
+				}
+			}
+			catch (Exception ex)
+			{
+				Logger?.LogWarning(ex, "绑定数据失败");
+			}
+		}
+		/// <summary>
+		/// 绑定数据
+		/// </summary>
+		/// <param name="bindAction"></param>
+		/// <returns></returns>
+		public async Task BindDataAsync(Guid id, Action<TResult> bindAction)
+		{
+			try
+			{
+				TResult? data = await FirstDataAsync(id);
+				if (data == null) return;
+				bindAction(data);
+			}
+			catch (Exception ex)
+			{
+				Logger?.LogWarning(ex, "绑定数据失败");
+			}
+		}
+	}
 }
