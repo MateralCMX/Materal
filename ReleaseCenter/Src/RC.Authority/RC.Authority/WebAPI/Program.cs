@@ -22,7 +22,7 @@ namespace RC.Authority.WebAPI
             WebApplication app = Start(args, services =>
             {
                 services.AddAuthorityService();
-            }, "测试系统");
+            }, "发布中心-权限");
             MigrateHelper<AuthorityDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<AuthorityDBContext>>();
             await migrateHelper.MigrateAsync();
             #region 添加默认用户
