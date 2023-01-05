@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Content Include="RCConfig.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.1" />
+		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.12" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Formatters.Json" Version="2.2.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="Consul" Version="1.6.10.8" />
+		<PackageReference Include="Polly" Version="7.2.3" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
+		<PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="2.3.0" />
+		<PackageReference Include="Materal.Model" Version="1.1.20" />
+		<PackageReference Include="Materal.EnumHelper" Version="1.1.20" />
+		<PackageReference Include="Materal.LinqHelper" Version="1.1.20" />
+		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.20" />
+		<PackageReference Include="Materal.NetworkHelper" Version="1.1.20" />
+		<PackageReference Include="Materal.TFMS.EventBus.RabbitMQ" Version="0.1.4" />
+		<PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.22" />
+		<PackageReference Include="Materal.TTA.EFRepository" Version="2.0.22" />
+		<PackageReference Include="Materal.Logger" Version="0.0.6" />
+	</ItemGroup>
+</Project>
