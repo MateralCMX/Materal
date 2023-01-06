@@ -11,7 +11,7 @@
     "Port": 5672,
     "UserName": "GDB",
     "Password": "GDB2022",
-    "ExchangeName": "XMJEventBusExchange_Fat",
+    "ExchangeName": "RCEventBusExchange_Fat",
     "RetryCount": 5
   },
   "Exception": {

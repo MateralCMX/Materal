@@ -14,6 +14,10 @@ namespace RC.Core.WebAPI.Common
         /// </summary>
         public static string AppName => RCConfig.GetValue(nameof(AppName), "RCApplication");
         /// <summary>
+        /// 应用标题
+        /// </summary>
+        public static string AppTitle => RCConfig.GetValue(nameof(AppTitle), "发布中心程序");
+        /// <summary>
         /// 启用Swagger
         /// </summary>
         public static bool EnableSwagger => RCConfig.GetValueObject(nameof(EnableSwagger), true);

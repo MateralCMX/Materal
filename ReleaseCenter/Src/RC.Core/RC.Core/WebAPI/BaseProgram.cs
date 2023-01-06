@@ -12,6 +12,7 @@ namespace RC.Core.WebAPI
     /// </summary>
     public class BaseProgram
     {
+        private readonly static Timer _titleChangeTtimer = new(TitleTimerRun);
         /// <summary>
         /// 启动程序
         /// </summary>
@@ -30,6 +31,7 @@ namespace RC.Core.WebAPI
             });
             builder.Configuration.AddJsonFile("RCConfig.json", false, true);
             RCConfig.Configuration = builder.Configuration;
+            _titleChangeTtimer.Change(TimeSpan.Zero, TimeSpan.FromMinutes(1));//立即启动，间隔1分钟
             configService?.Invoke(builder.Services);
             builder.Host.UseDefaultServiceProvider(configure =>
             {
@@ -50,6 +52,14 @@ namespace RC.Core.WebAPI
             {
                 ConsulManager.UnregisterConsul();
             }
+        }
+        /// <summary>
+        /// 标题计时器运行
+        /// </summary>
+        /// <param name="state"></param>
+        private static void TitleTimerRun(object? state)
+        {
+            Console.Title = WebAPIConfig.AppTitle;
         }
     }
 }

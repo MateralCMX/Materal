@@ -51,8 +51,7 @@ namespace RC.Core.WebAPI
                     List<string> tags = new()
                     {
                         "RC",
-                        "MateralReleaseCenter",
-                        "Materal发布中心"
+                        WebAPIConfig.AppTitle
                     };
                     if (!string.IsNullOrWhiteSpace(consulTag))
                     {
