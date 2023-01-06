@@ -45,6 +45,13 @@ namespace RC.Deploy.Services
         [DataValidation]
         void Stop(Guid id);
         /// <summary>
+        /// 杀死程序
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [DataValidation]
+        void Kill(Guid id);
+        /// <summary>
         /// 全部启动
         /// </summary>
         /// <returns></returns>

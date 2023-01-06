@@ -180,6 +180,15 @@ namespace RC.Deploy.ServiceImpl
             _applications[id].ExecuteStopTask();
         }
         /// <summary>
+        /// 杀死程序
+        /// </summary>
+        /// <param name="id"></param>
+        public void Kill([Required(ErrorMessage = "唯一标识为空")] Guid id)
+        {
+            if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            _applications[id].Kill();
+        }
+        /// <summary>
         /// 启动所有
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>

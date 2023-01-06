@@ -14,20 +14,31 @@ namespace RC.Deploy.WebAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpPost]
-        public Task<ResultModel> StartAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
+        public ResultModel Start([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             DefaultService.Start(id);
-            return Task.FromResult(ResultModel.Success("应用程序已启动"));
+            return ResultModel.Success("应用程序已启动");
         }
         /// <summary>
         /// 停止程序
         /// </summary>
         /// <param name="id"></param>
         [HttpPost]
-        public Task<ResultModel> StopAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
+        public ResultModel Stop([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
         {
             DefaultService.Stop(id);
-            return Task.FromResult(ResultModel.Success("应用程序已停止"));
+            return ResultModel.Success("应用程序已停止");
+        }
+        /// <summary>
+        /// 杀死程序
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ResultModel Kill([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
+        {
+            DefaultService.Kill(id);
+            return ResultModel.Success("应用程序已停止");
         }
         /// <summary>
         /// 获取控制台消息
@@ -53,19 +64,19 @@ namespace RC.Deploy.WebAPI.Controllers
         /// 启动所有程序
         /// </summary>
         [HttpPost]
-        public Task<ResultModel> StartAllAsync()
+        public ResultModel StartAll()
         {
             DefaultService.StartAll();
-            return Task.FromResult(ResultModel.Success("应用程序已全部启动"));
+            return ResultModel.Success("应用程序已全部启动");
         }
         /// <summary>
         /// 停止所有程序
         /// </summary>
         [HttpPost]
-        public Task<ResultModel> StopAllAsync()
+        public ResultModel StopAll()
         {
             DefaultService.StopAll();
-            return Task.FromResult(ResultModel.Success("应用程序已全部停止"));
+            return ResultModel.Success("应用程序已全部停止");
         }
         /// <summary>
         /// 上传新文件
@@ -85,7 +96,7 @@ namespace RC.Deploy.WebAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut]
-        public ResultModel ApplyLasetFileAsync([Required(ErrorMessage = "唯一标识为空")] Guid id)
+        public ResultModel ApplyLasetFile([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
             DefaultService.ApplyLasetFile(id);
             return ResultModel.Success("正在更新发布文件...");

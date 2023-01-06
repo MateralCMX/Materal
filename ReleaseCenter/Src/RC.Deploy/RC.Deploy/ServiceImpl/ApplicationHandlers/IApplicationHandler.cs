@@ -11,18 +11,24 @@ namespace RC.Deploy.ServiceImpl.ApplicationHandlers
         /// <summary>
         /// 进程
         /// </summary>
-        public Process? BindProcess { get; }
+        Process? BindProcess { get; }
         /// <summary>
         /// 启动应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
         /// <returns></returns>
-        public void StartApplication(ApplicationRuntimeModel applicationRuntime);
+        void StartApplication(ApplicationRuntimeModel applicationRuntime);
         /// <summary>
-        /// 启动应用程序
+        /// 关闭应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
         /// <returns></returns>
-        public void StopApplication(ApplicationRuntimeModel applicationRuntime);
+        void StopApplication(ApplicationRuntimeModel applicationRuntime);
+        /// <summary>
+        /// 杀死应用程序
+        /// </summary>
+        /// <param name="applicationRuntime"></param>
+        /// <returns></returns>
+        void KillApplication(ApplicationRuntimeModel applicationRuntime);
     }
 }

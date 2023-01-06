@@ -104,6 +104,10 @@ namespace RC.Deploy.ServiceImpl.Models
             Application = this,
             TargetAction = () => { ApplyFile(fileName); }
         });
+        /// <summary>
+        /// 杀死程序
+        /// </summary>
+        public void Kill() => _applicationHandler.KillApplication(this);
         #region 私有方法
         /// <summary>
         /// 启动
@@ -114,7 +118,7 @@ namespace RC.Deploy.ServiceImpl.Models
         /// 停止
         /// </summary>
         /// <exception cref="RCException"></exception>
-        private void Stop() => _applicationHandler?.StopApplication(this);
+        private void Stop() => _applicationHandler.StopApplication(this);
         /// <summary>
         /// 更新最新的文件
         /// </summary>
