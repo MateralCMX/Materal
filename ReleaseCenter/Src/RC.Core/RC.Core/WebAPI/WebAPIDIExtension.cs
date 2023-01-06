@@ -121,10 +121,13 @@ namespace RC.Core.WebAPI
             #region 跨域
             services.AddCors(policy =>
             {
-                policy.AddPolicy("*", opt => opt
-                .AllowAnyOrigin()
-                .AllowAnyHeader()
-                .AllowAnyMethod());
+                policy.AddDefaultPolicy(opt =>
+                    opt.SetIsOriginAllowed(_ => true)
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    //.AllowCredentials()
+                );
             });
             #endregion
             services.AddDataBaseServices<T>(dbConfig, dbServiceLifetime);

@@ -1,10 +1,12 @@
 ﻿using Materal.Common;
 using Materal.WindowsHelper;
+using Microsoft.AspNetCore.SignalR;
 using RC.Core.Common;
 using RC.Deploy.Common;
 using RC.Deploy.Domain;
 using RC.Deploy.Enums;
 using RC.Deploy.ServiceImpl.ApplicationHandlers;
+using RC.Deploy.WebAPI.Hubs;
 using System.Diagnostics;
 using System.Threading.Tasks.Dataflow;
 
@@ -19,12 +21,14 @@ namespace RC.Deploy.ServiceImpl.Models
         /// 任务队列
         /// </summary>
         private static readonly ActionBlock<ApplicationTask> _taskQueue;
+        private static readonly IHubContext<ConsoleMessageHub> _hubContext;
         /// <summary>
         /// 构造方法
         /// </summary>
         static ApplicationRuntimeModel()
         {
             _taskQueue = new(RunTask);
+            _hubContext = MateralServices.GetService<IHubContext<ConsoleMessageHub>>();
         }
         /// <summary>
         /// 应用程序信息
@@ -32,7 +36,6 @@ namespace RC.Deploy.ServiceImpl.Models
         public ApplicationInfo ApplicationInfo { get; set; }
         /// <summary>
         /// 应用程序状态
-        /// (init)ReadyRun->(Start)Runing->(Stop)Stoping->Stop->ReadyRun
         /// </summary>
         public ApplicationStatusEnum ApplicationStatus { get; set; } = ApplicationStatusEnum.Stop;
         /// <summary>
@@ -59,7 +62,6 @@ namespace RC.Deploy.ServiceImpl.Models
         {
             ApplicationInfo = applicationInfo;
             _applicationHandler = ApplicationInfo.ApplicationType.GetApplicationHandler();
-#warning 检测现有程序并关闭
         }
         /// <summary>
         /// 执行启动任务
@@ -104,11 +106,13 @@ namespace RC.Deploy.ServiceImpl.Models
         public void AddConsoleMessage(string message)
         {
             const int consoleCount = 500;
+            if (string.IsNullOrWhiteSpace(message)) return;
             _consoleMessages.Add(message);
             if (_consoleMessages.Count > consoleCount)
             {
                 _consoleMessages.RemoveRange(0, _consoleMessages.Count - consoleCount);
             }
+            _hubContext.Clients.All.SendAsync("NewConsoleMessage", ApplicationInfo.ID, message);
         }
         /// <summary>
         /// 清空控制台消息
@@ -116,6 +120,7 @@ namespace RC.Deploy.ServiceImpl.Models
         public void ClearConsoleMessage()
         {
             _consoleMessages.Clear();
+            _hubContext.Clients.All.SendAsync("ClearConsoleMessage", ApplicationInfo.ID);
         }
         /// <summary>
         /// 获得控制台消息

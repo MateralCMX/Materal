@@ -18,9 +18,10 @@ namespace RC.Core.WebAPI
         /// </summary>
         /// <param name="args"></param>
         /// <param name="configService"></param>
+        /// <param name="configApp"></param>
         /// <param name="consulTag"></param>
         /// <returns></returns>
-        protected static WebApplication Start(string[] args, Action<IServiceCollection>? configService, string consulTag)
+        protected static WebApplication Start(string[] args, Action<IServiceCollection>? configService, Action<WebApplication>? configApp, string consulTag)
         {
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             WebApplicationBuilder builder = WebApplication.CreateBuilder(new WebApplicationOptions()
@@ -38,6 +39,7 @@ namespace RC.Core.WebAPI
                 configure.ValidateScopes = false;
             });
             WebApplication app = builder.Build();
+            configApp?.Invoke(app);
             app.WebApplicationConfig(consulTag);
             return app;
         }

@@ -54,7 +54,8 @@ namespace RC.Deploy.Common
         {
             "api",
             "swagger",
-            "Deploy"
+            "Deploy",
+            "ConsoleMessage"
         };
     }
 }

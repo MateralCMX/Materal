@@ -28,7 +28,7 @@ namespace RC.Core.WebAPI
                 context.Request.EnableBuffering();
                 await next.Invoke();
             });
-            app.UseCors("*");
+            app.UseCors();
             if (Convert.ToBoolean(WebAPIConfig.EnableSwagger))
             {
                 app.UseSwagger();

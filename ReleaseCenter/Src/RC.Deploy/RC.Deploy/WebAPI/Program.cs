@@ -8,6 +8,7 @@ using RC.Core.WebAPI.Common;
 using RC.Deploy.Common;
 using RC.Deploy.RepositoryImpl;
 using RC.Deploy.Services;
+using RC.Deploy.WebAPI.Hubs;
 
 namespace RC.Deploy.WebAPI
 {
@@ -23,9 +24,14 @@ namespace RC.Deploy.WebAPI
         /// <returns></returns>
         public static async Task Main(string[] args)
         {
+            AppDomain.CurrentDomain.ProcessExit += Deploy_ProcessExit;
             WebApplication app = Start(args, services =>
             {
+                services.AddSignalR();
                 services.AddDeployService();
+            }, a =>
+            {
+                a.MapHub<ConsoleMessageHub>("/ConsoleMessage");
             }, "RC.Deploy");
             #region 处理重写
             RewriteOptions rewriteOptions = new();
@@ -94,6 +100,16 @@ namespace RC.Deploy.WebAPI
             MigrateHelper<DeployDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<DeployDBContext>>();
             await migrateHelper.MigrateAsync();
             await app.RunAsync();
+        }
+        /// <summary>
+        /// 程序退出时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected static void Deploy_ProcessExit(object? sender, EventArgs e)
+        {
+            IApplicationInfoService applicationInfoService = MateralServices.GetService<IApplicationInfoService>();
+            applicationInfoService.StopAll();
         }
     }
 }
