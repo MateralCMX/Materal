@@ -39,8 +39,8 @@ namespace RC.Deploy.ServiceImpl.ApplicationHandlers
             if (!exePath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) throw new RCException("主模块必须以.exe结尾");
             if (applicationRuntime.ApplicationStatus != ApplicationStatusEnum.Stop) throw new RCException("应用程序尚未停止");
             applicationRuntime.ApplicationStatus = ApplicationStatusEnum.ReadyRun;
-            applicationRuntime.ConsoleMessages.Clear();
-            applicationRuntime.ConsoleMessages.Add($"{applicationRuntime.ApplicationInfo.Name}准备启动....");
+            applicationRuntime.ClearConsoleMessage();
+            applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}准备启动....");
             try
             {
                 ProcessStartInfo processStartInfo = GetProcessStartInfo(applicationRuntime, exePath, !string.IsNullOrWhiteSpace(runParams) ? runParams : "");
@@ -48,14 +48,14 @@ namespace RC.Deploy.ServiceImpl.ApplicationHandlers
                 void DataHandler(object sender, DataReceivedEventArgs e)
                 {
                     if (string.IsNullOrWhiteSpace(e.Data)) return;
-                    applicationRuntime.ConsoleMessages.Add(e.Data);
+                    applicationRuntime.AddConsoleMessage(e.Data);
                 }
                 BindProcess.OutputDataReceived += DataHandler;
                 BindProcess.ErrorDataReceived += DataHandler;
-                applicationRuntime.ConsoleMessages.Add($"{applicationRuntime.ApplicationInfo.Name}开始启动");
+                applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}开始启动");
                 if (BindProcess.Start())
                 {
-                    applicationRuntime.ConsoleMessages.Add($"{applicationRuntime.ApplicationInfo.Name}启动完毕");
+                    applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}启动完毕");
                     BindProcess.BeginOutputReadLine();
                     BindProcess.BeginErrorReadLine();
                 }
@@ -64,12 +64,11 @@ namespace RC.Deploy.ServiceImpl.ApplicationHandlers
                     throw new RCException("启动失败");
                 }
                 applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Runing;
-                applicationRuntime.ClearConsoleMessageTimer.Start();
             }
             catch (Exception ex)
             {
                 applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Stop;
-                applicationRuntime.ConsoleMessages.Add(ex.GetErrorMessage());
+                applicationRuntime.AddConsoleMessage(ex.GetErrorMessage());
             }
         }
         private static ProcessStartInfo GetProcessStartInfo(ApplicationRuntimeModel applicationRuntime, string processPath, string arg)

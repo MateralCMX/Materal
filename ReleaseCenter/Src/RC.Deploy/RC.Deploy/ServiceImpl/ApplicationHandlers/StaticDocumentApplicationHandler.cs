@@ -19,12 +19,12 @@ namespace RC.Deploy.ServiceImpl.ApplicationHandlers
         {
             if (applicationRuntime.ApplicationStatus != ApplicationStatusEnum.Stop) throw new RCException("应用程序尚未停止");
             applicationRuntime.ApplicationStatus = ApplicationStatusEnum.ReadyRun;
-            applicationRuntime.ConsoleMessages.Clear();
-            applicationRuntime.ConsoleMessages.Add($"{applicationRuntime.ApplicationInfo.Name}准备启动....");
-            applicationRuntime.ConsoleMessages.Add($"{applicationRuntime.ApplicationInfo.Name}开始启动");
+            applicationRuntime.ClearConsoleMessage();
+            applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}准备启动....");
+            applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}开始启动");
             applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Runing;
-            applicationRuntime.ConsoleMessages.Add($"{applicationRuntime.ApplicationInfo.Name}启动完毕");
-            applicationRuntime.ConsoleMessages.Add($"网站[{applicationRuntime.ApplicationInfo.Name}]已启动:{WebAPIConfig.ExternalUrl.Url}/{applicationRuntime.ApplicationInfo.RootPath}/{applicationRuntime.ApplicationInfo.MainModule}");
+            applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}启动完毕");
+            applicationRuntime.AddConsoleMessage($"网站[{applicationRuntime.ApplicationInfo.Name}]已启动:{WebAPIConfig.ExternalUrl.Url}/{applicationRuntime.ApplicationInfo.RootPath}/{applicationRuntime.ApplicationInfo.MainModule}");
         }
         /// <summary>
         /// 停止应用程序

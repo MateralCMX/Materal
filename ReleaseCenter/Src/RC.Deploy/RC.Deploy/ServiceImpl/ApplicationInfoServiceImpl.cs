@@ -221,7 +221,7 @@ namespace RC.Deploy.ServiceImpl
         public ICollection<string> GetConsoleMessages([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
             if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            return _applications[id].ConsoleMessages;
+            return _applications[id].GetConsoleMessages();
         }
         /// <summary>
         /// 清空控制台消息
@@ -231,7 +231,7 @@ namespace RC.Deploy.ServiceImpl
         public void ClearConsoleMessages([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
             if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            _applications[id].ConsoleMessages.Clear();
+            _applications[id].ClearConsoleMessage();
         }
         /// <summary>
         /// 应用程序是否在运行

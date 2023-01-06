@@ -7,7 +7,6 @@ using RC.Deploy.Enums;
 using RC.Deploy.ServiceImpl.ApplicationHandlers;
 using System.Diagnostics;
 using System.Threading.Tasks.Dataflow;
-using System.Timers;
 
 namespace RC.Deploy.ServiceImpl.Models
 {
@@ -16,10 +15,6 @@ namespace RC.Deploy.ServiceImpl.Models
     /// </summary>
     public class ApplicationRuntimeModel
     {
-        /// <summary>
-        /// 日志对象
-        /// </summary>
-        private static readonly ILogger<ApplicationRuntimeModel>? _logger = MateralServices.GetServiceOrDefatult<ILogger<ApplicationRuntimeModel>>();
         /// <summary>
         /// 任务队列
         /// </summary>
@@ -32,10 +27,6 @@ namespace RC.Deploy.ServiceImpl.Models
             _taskQueue = new(RunTask);
         }
         /// <summary>
-        /// 清理控制台消息计时器
-        /// </summary>
-        public System.Timers.Timer ClearConsoleMessageTimer;
-        /// <summary>
         /// 应用程序信息
         /// </summary>
         public ApplicationInfo ApplicationInfo { get; set; }
@@ -47,7 +38,7 @@ namespace RC.Deploy.ServiceImpl.Models
         /// <summary>
         /// 控制台信息
         /// </summary>
-        public List<string> ConsoleMessages { get; } = new();
+        private List<string> _consoleMessages = new();
         /// <summary>
         /// 压缩包文件组文件夹路径
         /// </summary>
@@ -67,8 +58,6 @@ namespace RC.Deploy.ServiceImpl.Models
         public ApplicationRuntimeModel(ApplicationInfo applicationInfo)
         {
             ApplicationInfo = applicationInfo;
-            ClearConsoleMessageTimer = new System.Timers.Timer(60000);
-            ClearConsoleMessageTimer.Elapsed += ClearConsoleMessageTimer_Elapsed;
             _applicationHandler = ApplicationInfo.ApplicationType.GetApplicationHandler();
 #warning 检测现有程序并关闭
         }
@@ -108,6 +97,31 @@ namespace RC.Deploy.ServiceImpl.Models
         /// 杀死程序
         /// </summary>
         public void Kill() => _applicationHandler.KillApplication(this);
+        /// <summary>
+        /// 添加控制台消息
+        /// </summary>
+        /// <param name="message"></param>
+        public void AddConsoleMessage(string message)
+        {
+            const int consoleCount = 500;
+            _consoleMessages.Add(message);
+            if (_consoleMessages.Count > consoleCount)
+            {
+                _consoleMessages.RemoveRange(0, _consoleMessages.Count - consoleCount);
+            }
+        }
+        /// <summary>
+        /// 清空控制台消息
+        /// </summary>
+        public void ClearConsoleMessage()
+        {
+            _consoleMessages.Clear();
+        }
+        /// <summary>
+        /// 获得控制台消息
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetConsoleMessages() => _consoleMessages;
         #region 私有方法
         /// <summary>
         /// 启动
@@ -129,7 +143,7 @@ namespace RC.Deploy.ServiceImpl.Models
             ApplicationStatus = ApplicationStatusEnum.Update;
             try
             {
-                ConsoleMessages.Add($"{ApplicationInfo.Name}开始更新...");
+                AddConsoleMessage($"{ApplicationInfo.Name}开始更新...");
                 DirectoryInfo rarFilesDirectoryInfo = new(RarFilesDirectoryPath);
                 if (!rarFilesDirectoryInfo.Exists) return;
                 FileInfo[] rarFileInfos = rarFilesDirectoryInfo.GetFiles();
@@ -171,7 +185,7 @@ namespace RC.Deploy.ServiceImpl.Models
         /// <exception cref="RCException"></exception>
         private string UnRarFile(string rarFilePath)
         {
-            ConsoleMessages.Add($"{ApplicationInfo.Name}解压文件{Path.GetFileName(rarFilePath)}...");
+            AddConsoleMessage($"{ApplicationInfo.Name}解压文件{Path.GetFileName(rarFilePath)}...");
             string unRarPath = Path.Combine(RarFilesDirectoryPath, "Temp");
             DirectoryInfo unRarDirectoryInfo = Directory.CreateDirectory(unRarPath);
             string winRarPath = Path.Combine(ApplicationConfig.WinRarPath, "UnRaR.exe");
@@ -181,7 +195,7 @@ namespace RC.Deploy.ServiceImpl.Models
             void DataHandler(object sender, DataReceivedEventArgs e)
             {
                 if (e.Data == null || string.IsNullOrWhiteSpace(e.Data)) return;
-                ConsoleMessages.Add(e.Data);
+                AddConsoleMessage(e.Data);
             }
             processManager.ErrorDataReceived += DataHandler;
             processManager.OutputDataReceived += DataHandler;
@@ -247,19 +261,8 @@ namespace RC.Deploy.ServiceImpl.Models
             }
             catch (Exception ex)
             {
-                task.Application?.ConsoleMessages.Add(ex.GetErrorMessage());
+                task.Application?.AddConsoleMessage(ex.GetErrorMessage());
             }
-        }
-        /// <summary>
-        /// 清理控制台消息
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        private void ClearConsoleMessageTimer_Elapsed(object? sender, ElapsedEventArgs e)
-        {
-            if (ConsoleMessages.Count <= 1000) return;
-            ConsoleMessages.RemoveRange(0, ConsoleMessages.Count - 1000);
         }
         #endregion
     }

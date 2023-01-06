@@ -34,7 +34,7 @@ namespace RC.Deploy.ServiceImpl.ApplicationHandlers
             if (applicationRuntime.ApplicationStatus == ApplicationStatusEnum.Stop) throw new RCException("应用程序尚未启动");
             KillProcess();
             applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Stop;
-            applicationRuntime.ConsoleMessages.Add($"{applicationRuntime.ApplicationInfo.Name}已强制停止");
+            applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}已强制停止");
         }
         /// <summary>
         /// 停止应用程序
@@ -44,18 +44,18 @@ namespace RC.Deploy.ServiceImpl.ApplicationHandlers
         protected virtual void StopApplication(ApplicationRuntimeModel applicationRuntime, ApplicationTypeEnum applicationType)
         {
             if (applicationRuntime.ApplicationInfo.ApplicationType != applicationType) throw new RCException("处理器类型错误");
-            applicationRuntime.ConsoleMessages.Add($"{applicationRuntime.ApplicationInfo.Name}准备停止");
+            applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}准备停止");
             applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Stoping;
             try
             {
                 CloseProcess(applicationRuntime);
                 applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Stop;
-                applicationRuntime.ConsoleMessages.Add($"{applicationRuntime.ApplicationInfo.Name}已停止");
+                applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}已停止");
             }
             catch (Exception ex)
             {
                 applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Runing;
-                applicationRuntime.ConsoleMessages.Add(ex.GetErrorMessage());
+                applicationRuntime.AddConsoleMessage(ex.GetErrorMessage());
             }
         }
         /// <summary>
