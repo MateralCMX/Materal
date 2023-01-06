@@ -23,11 +23,11 @@ namespace RC.Core.WebAPI
         protected static WebApplication Start(string[] args, Action<IServiceCollection>? configService, string consulTag)
         {
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
-            WebApplicationBuilder builder = WebApplication.CreateBuilder(new WebApplicationOptions
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(new WebApplicationOptions()
             {
                 Args = args,
                 ContentRootPath = AppDomain.CurrentDomain.BaseDirectory,
-                WebRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "www")
+                WebRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application")
             });
             builder.Configuration.AddJsonFile("RCConfig.json", false, true);
             RCConfig.Configuration = builder.Configuration;
