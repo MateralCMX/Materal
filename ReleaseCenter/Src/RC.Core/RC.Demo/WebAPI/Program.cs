@@ -1,8 +1,4 @@
 using RC.Core.WebAPI;
-using Materal.Common;
-using Materal.TTA.EFRepository;
-using RC.Demo.RepositoryImpl;
-using RC.Demo.Common;
 
 namespace RC.Demo.WebAPI
 {
@@ -20,11 +16,13 @@ namespace RC.Demo.WebAPI
         {
             WebApplication app = Start(args, services =>
             {
-                services.AddDemoService();
+                //services.AddDemoService();
+            },
+            appconfig =>
+            {
             }, "≤‚ ‘œµÕ≥");
-            var a = ApplicationConfig.DBConfig.ConnectionString;
-            MigrateHelper<DemoDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<DemoDBContext>>();
-            await migrateHelper.MigrateAsync();
+            //MigrateHelper<DemoDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<DemoDBContext>>();
+            //await migrateHelper.MigrateAsync();
             //IEventBus? eventBus = MateralServices.GetServiceOrDefatult<IEventBus>();
             //if (eventBus != null)
             //{
