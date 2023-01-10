@@ -1,21 +1,27 @@
 #nullable enable
 using Materal.Model;
 using Materal.BaseCore.Services;
+using RC.Demo.Enums;
 
 namespace RC.Demo.Services.Models.User
 {
     /// <summary>
-    ///  用户查询模型
+    /// 用户查询模型
     /// </summary>
     public partial class QueryUserModel : PageRequestModel, IQueryServiceModel
     {
         /// <summary>
-        ///  姓名
+        /// 姓名
         /// </summary>
         [Contains]
         public string? Name { get; set; }
         /// <summary>
-        ///  账号
+        /// 性别
+        /// </summary>
+        [Equal]
+        public SexEnum? Sex { get; set; }
+        /// <summary>
+        /// 账号
         /// </summary>
         [Equal]
         public string? Account { get; set; }

@@ -14,7 +14,7 @@ namespace RC.Demo.EFRepository
         /// </summary>
         public DemoDBContext(DbContextOptions<DemoDBContext> options) : base(options) { }
         /// <summary>
-        ///  用户
+        /// 用户
         /// </summary>
         public DbSet<User> User { get; set; }
         /// <summary>

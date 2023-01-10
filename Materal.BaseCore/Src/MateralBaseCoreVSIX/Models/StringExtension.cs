@@ -70,7 +70,7 @@ namespace MateralBaseCoreVSIX.Models
                         string result = codes[startIndex + 1].Trim();
                         if (result.StartsWith("/// "))
                         {
-                            result = result.Substring(3);
+                            result = result.Substring(3).Trim();
                         }
                         startIndex -= 1;
                         return result;

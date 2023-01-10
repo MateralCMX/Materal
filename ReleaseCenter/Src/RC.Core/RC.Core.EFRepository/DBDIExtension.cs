@@ -4,7 +4,7 @@ using Materal.TTA.SqliteRepository.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MBC.Core.EFRepository
+namespace RC.Core.EFRepository
 {
     public static class DBDIExtension
     {

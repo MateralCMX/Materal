@@ -5,7 +5,7 @@ using RC.Demo.Domain.Repositories;
 namespace RC.Demo.EFRepository.RepositoryImpl
 {
     /// <summary>
-    ///  用户仓储实现
+    /// 用户仓储实现
     /// </summary>
     public partial class UserRepositoryImpl: RCEFRepositoryImpl<User, Guid>, IUserRepository
     {

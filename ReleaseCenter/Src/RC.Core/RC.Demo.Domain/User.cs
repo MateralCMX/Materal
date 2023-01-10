@@ -1,6 +1,7 @@
 ﻿using Materal.BaseCore.CodeGenerator;
 using Materal.BaseCore.Domain;
 using Materal.Model;
+using RC.Demo.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace RC.Demo.Domain
@@ -16,6 +17,12 @@ namespace RC.Demo.Domain
         [Required(ErrorMessage = "姓名为空"), StringLength(100, ErrorMessage = "姓名过长")]
         [Contains]
         public string Name { get; set; } = string.Empty;
+        /// <summary>
+        /// 性别
+        /// </summary>
+        [Required(ErrorMessage = "性别为空")]
+        [Equal]
+        public SexEnum Sex { get; set; }
         /// <summary>
         /// 账号
         /// </summary>

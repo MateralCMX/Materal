@@ -2,20 +2,25 @@
 using Materal.Model;
 using Materal.BaseCore.PresentationModel;
 using System.ComponentModel.DataAnnotations;
+using RC.Demo.Enums;
 
 namespace RC.Demo.PresentationModel.User
 {
     /// <summary>
-    ///  用户查询请求模型
+    /// 用户查询请求模型
     /// </summary>
     public partial class QueryUserRequestModel : PageRequestModel, IQueryRequestModel
     {
         /// <summary>
-        ///  姓名
+        /// 姓名
         /// </summary>
         public string? Name { get; set; }
         /// <summary>
-        ///  账号
+        /// 性别
+        /// </summary>
+        public SexEnum? Sex { get; set; }
+        /// <summary>
+        /// 账号
         /// </summary>
         public string? Account { get; set; }
         /// <summary>

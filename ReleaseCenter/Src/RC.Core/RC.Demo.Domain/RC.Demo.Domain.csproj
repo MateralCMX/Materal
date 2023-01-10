@@ -8,4 +8,7 @@
 		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="0.0.1" />
 		<PackageReference Include="Materal.BaseCore.Domain" Version="0.0.1" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\RC.Demo.Enums\RC.Demo.Enums.csproj" />
+	</ItemGroup>
 </Project>

@@ -1,22 +1,21 @@
 ﻿using AspectCore.DynamicProxy;
 using Materal.BaseCore.Common;
-using Materal.BaseCore.WebAPI.Controllers;
 using Materal.Model;
-using MBC.Core.Common;
-using MBC.Demo.DataTransmitModel.User;
-using MBC.Demo.PresentationModel.User;
-using MBC.Demo.Services;
-using MBC.Demo.Services.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RC.Core.Common;
+using RC.Demo.DataTransmitModel.User;
+using RC.Demo.PresentationModel;
+using RC.Demo.PresentationModel.User;
+using RC.Demo.Services.Models.User;
 using System.ComponentModel.DataAnnotations;
 
-namespace MBC.Demo.WebAPI.Controllers
+namespace RC.Demo.WebAPI.Controllers
 {
     /// <summary>
     /// 用户控制器
     /// </summary>
-    public class UserController : MateralCoreWebAPIServiceControllerBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserService>
+    public partial class UserController
     {
         /// <summary>
         /// 获得登录用户信息
@@ -51,13 +50,13 @@ namespace MBC.Demo.WebAPI.Controllers
             }
             catch (AspectInvocationException exception)
             {
-                if (exception.InnerException is MBCException)
+                if (exception.InnerException is RCException)
                 {
                     return ResultModel<LoginResultDTO>.Fail("账号或者密码错误");
                 }
                 throw;
             }
-            catch (MBCException)
+            catch (RCException)
             {
                 return ResultModel<LoginResultDTO>.Fail("账号或者密码错误");
             }

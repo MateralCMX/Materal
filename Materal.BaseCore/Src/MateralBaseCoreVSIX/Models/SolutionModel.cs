@@ -171,7 +171,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
-            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.Common\" Version=\"0.0.1\" />");
+            codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_domainProject.PrefixName}.Core.Common\\{_domainProject.PrefixName}.Core.Common.csproj\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"</Project>");
             string filePath = codeContent.SaveFile(directoryPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Common.csproj");

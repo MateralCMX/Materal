@@ -7,7 +7,7 @@ using RC.Demo.Domain;
 namespace RC.Demo.WebAPI.AutoMapperProfile
 {
     /// <summary>
-    ///  用户AutoMapper映射配置基类
+    /// 用户AutoMapper映射配置基类
     /// </summary>
     public partial class UserProfileBase : Profile
     {
@@ -26,7 +26,7 @@ namespace RC.Demo.WebAPI.AutoMapperProfile
         }
     }
     /// <summary>
-    ///  用户AutoMapper映射配置
+    /// 用户AutoMapper映射配置
     /// </summary>
     public partial class UserProfile : UserProfileBase
     {
