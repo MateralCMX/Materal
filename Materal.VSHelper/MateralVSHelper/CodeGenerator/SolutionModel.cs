@@ -13,6 +13,12 @@ namespace MateralVSHelper.CodeGenerator
         private readonly string _rootPath;
         private readonly List<DomainModel> _domains = new List<DomainModel>();
         private readonly ProjectModel _domainProject;
+        private readonly ProjectModel _webAPIProject;
+        private readonly ProjectModel _servicesProject;
+        private readonly ProjectModel _serviceImplProject;
+        private readonly ProjectModel _efRepositoryProject;
+        private readonly ProjectModel _dataTransmitModelProject;
+        private readonly ProjectModel _presentationModelProject;
         private readonly List<ProjectModel> _otherProjects = new List<ProjectModel>();
         public SolutionModel(Solution solution)
         {
@@ -29,11 +35,37 @@ namespace MateralVSHelper.CodeGenerator
                     oldDomainCount = _domains.Count;
                     _domainProject = new ProjectModel(project, _rootPath);
                 }
-                else
+                if (project.Name.EndsWith(".DataTransmitModel"))
                 {
-                    _otherProjects.Add(new ProjectModel(project, _rootPath));
+                    _dataTransmitModelProject = new ProjectModel(project, _rootPath);
+                }
+                else if (project.Name.EndsWith(".PresentationModel"))
+                {
+                    _presentationModelProject = new ProjectModel(project, _rootPath);
+                }
+                else if (project.Name.EndsWith(".WebAPI"))
+                {
+                    _presentationModelProject = new ProjectModel(project, _rootPath);
+                }
+                else if (project.Name.EndsWith(".Services"))
+                {
+                    _presentationModelProject = new ProjectModel(project, _rootPath);
+                }
+                else if (project.Name.EndsWith(".ServiceImpl"))
+                {
+                    _presentationModelProject = new ProjectModel(project, _rootPath);
+                }
+                else if (project.Name.EndsWith("EFRepository"))
+                {
+                    _presentationModelProject = new ProjectModel(project, _rootPath);
                 }
             }
+            if (_webAPIProject == null) _webAPIProject = _domainProject;
+            if (_servicesProject == null) _servicesProject = _domainProject;
+            if (_serviceImplProject == null) _serviceImplProject = _domainProject;
+            if (_efRepositoryProject == null) _efRepositoryProject = _domainProject;
+            if (_dataTransmitModelProject == null) _dataTransmitModelProject = _domainProject;
+            if (_presentationModelProject == null) _presentationModelProject = _domainProject;
         }
         public void FillDomains(ProjectItems projectItems, string path)
         {
@@ -90,7 +122,13 @@ namespace MateralVSHelper.CodeGenerator
         /// </summary>
         public void CreateCodeFiles()
         {
-            _domainProject.CreateFiles(_domains);
+            _domainProject.CreateDomainFiles(_domains);
+            _webAPIProject.CreateWebAPIFiles(_domains);
+            _servicesProject.CreateServicesFiles(_domains);
+            _serviceImplProject.CreateServiceImplFiles(_domains);
+            _efRepositoryProject.CreateEFRepositoryFiles(_domains);
+            _dataTransmitModelProject.CreateDataTransmitModelFiles(_domains);
+            _presentationModelProject.CreatePresentationModelFiles(_domains);
         }
     }
 }

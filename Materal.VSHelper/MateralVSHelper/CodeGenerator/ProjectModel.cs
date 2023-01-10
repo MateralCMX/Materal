@@ -80,7 +80,7 @@ namespace MateralVSHelper.CodeGenerator
             }
             DomainNamespace = $"{Namespace}.Domain";
             IRepositoryNamespace = $"{Namespace}.Repositories";
-            RepositoryImplNamespace = $"{Namespace}.RepositoryImpl";
+            RepositoryImplNamespace = $"{Namespace}.EFRepository";
             DataTransmitModelNamespace = $"{Namespace}.DataTransmitModel";
             PresentationModelNamespace = $"{Namespace}.PresentationModel";
             ServiceNamespace = $"{Namespace}.Services";
@@ -90,15 +90,96 @@ namespace MateralVSHelper.CodeGenerator
             DBContextName = $"{_projectName}DBContext";
         }
         /// <summary>
-        /// 创建文件
+        /// 创建WebAPI文件
         /// </summary>
         /// <param name="domains"></param>
-        public void CreateFiles(List<DomainModel> domains)
+        public void CreateWebAPIFiles(List<DomainModel> domains)
+        {
+            foreach (DomainModel domain in domains)
+            {
+                domain.Init(this);
+                domain.CreateWebAPIControllerFile(this);
+                domain.CreateAutoMapperProfileFile(this);
+            }
+        }
+        /// <summary>
+        /// 创建服务文件
+        /// </summary>
+        /// <param name="domains"></param>
+        public void CreateServicesFiles(List<DomainModel> domains)
+        {
+            foreach (DomainModel domain in domains)
+            {
+                domain.Init(this);
+                domain.CreateIServiceFile(this);
+                domain.CreateAddModelFile(this);
+                domain.CreateEditModelFile(this);
+                domain.CreateQueryModelFile(this, domains);
+            }
+        }
+        /// <summary>
+        /// 创建服务实现文件
+        /// </summary>
+        /// <param name="domains"></param>
+        public void CreateServiceImplFiles(List<DomainModel> domains)
+        {
+            foreach (DomainModel domain in domains)
+            {
+                domain.Init(this);
+                domain.CreateServiceImplFile(this);
+            }
+        }
+        /// <summary>
+        /// 创建EF仓储实现文件
+        /// </summary>
+        /// <param name="domains"></param>
+        public void CreateEFRepositoryFiles(List<DomainModel> domains)
         {
             CreateDBContextFile(domains);
             foreach (DomainModel domain in domains)
             {
-                domain.CreateDefaultFiles(this, domains);
+                domain.Init(this);
+                domain.CreateEntityConfigFile(this);
+                domain.CreateRepositoryImplFile(this);
+            }
+        }
+        /// <summary>
+        /// 创建数据传输模型文件
+        /// </summary>
+        /// <param name="domains"></param>
+        public void CreateDataTransmitModelFiles(List<DomainModel> domains)
+        {
+            foreach (DomainModel domain in domains)
+            {
+                domain.Init(this);
+                domain.CreateListDTOFile(this, domains);
+                domain.CreateDTOFile(this, domains);
+            }
+        }
+        /// <summary>
+        /// 创建数据传输模型文件
+        /// </summary>
+        /// <param name="domains"></param>
+        public void CreatePresentationModelFiles(List<DomainModel> domains)
+        {
+            foreach (DomainModel domain in domains)
+            {
+                domain.Init(this);
+                domain.CreateAddRequestModelFile(this);
+                domain.CreateEditRequestModelFile(this);
+                domain.CreateQueryRequestModelFile(this, domains);
+            }
+        }
+        /// <summary>
+        /// 创建Domain文件
+        /// </summary>
+        /// <param name="domains"></param>
+        public void CreateDomainFiles(List<DomainModel> domains)
+        {
+            foreach (DomainModel domain in domains)
+            {
+                domain.Init(this);
+                domain.CreateIRepositoryFile(this);
             }
         }
         /// <summary>

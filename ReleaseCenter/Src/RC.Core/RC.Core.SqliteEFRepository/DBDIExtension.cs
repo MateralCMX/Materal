@@ -1,0 +1,32 @@
+﻿using Materal.BaseCore.EFRepository;
+using Materal.TTA.EFRepository;
+using Materal.TTA.SqliteRepository.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace MBC.Core.SqliteEFRepository
+{
+    public static class DBDIExtension
+    {
+        /// <summary>
+        /// 添加数据库服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="sqliteConfig"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddDBService<T>(this IServiceCollection services, SqliteConfigModel dbConfig)
+            where T : DbContext
+        {
+            services.AddDbContext<T>(options =>
+            {
+                options.UseSqlite(dbConfig.ConnectionString, m =>
+                {
+                    m.CommandTimeout(300);
+                });
+            }, ServiceLifetime.Transient);
+            services.AddTransient<MigrateHelper<T>>();
+            services.AddTransient<IMateralCoreUnitOfWork, MateralCoreUnitOfWorkImpl<T>>();
+            return services;
+        }
+    }
+}

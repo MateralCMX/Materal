@@ -1,0 +1,75 @@
+{
+  "ConsulConfig": {
+    "Enable": false,
+    "Url": "http://175.27.194.19:8500",
+    "HealthInterval": 30,
+    "ReconnectionInterval": 30
+  },
+  "EnableSwagger": true,
+  "EventBusConfig": {
+    "HostName": "175.27.194.19",
+    "Port": 5672,
+    "UserName": "GDB",
+    "Password": "GDB2022",
+    "ExchangeName": "RCEventBusExchange_Fat",
+    "RetryCount": 5
+  },
+  "Exception": {
+    "ShowException": true,
+    "ErrorMessage": "服务器发生错误,请联系后台工程师处理。"
+  },
+  "JWT": {
+    "Audience": "WebAPI",
+    "ExpiredTime": "18000",
+    "Issuer": "MateralReleaseCenter",
+    "Key": "MateralCMXConfig"
+  },
+  "MateralLogger": {
+    "Application": "${ApplicationName}",
+    "Targets": [
+      {
+        "Name": "LifeConsole",
+        "Type": "Console",
+        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}"
+      },
+      {
+        "Name": "ErrorConsole",
+        "Type": "Console",
+        "Colors": {
+          "Warning": "DarkYellow",
+          "Error": "DarkRed",
+          "Critical": "DarkRed"
+        },
+        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}"
+      },
+      {
+        "Name": "LevelFile",
+        "Type": "File",
+        "Path": "${RootPath}\\Logs\\${Date}\\${Level}.log",
+        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}"
+      }
+    ],
+    "Rules": [
+      {
+        "MinLevel": "Information",
+        "MaxLevel": "Information",
+        "Targets": [
+          "LifeConsole",
+          "LevelFile"
+        ],
+        "Ignores": [
+          "Microsoft.AspNetCore.*",
+          "Microsoft.EntityFrameworkCore.*"
+        ]
+      },
+      {
+        "MinLevel": "Warning",
+        "MaxLevel": "Critical",
+        "Targets": [
+          "ErrorConsole",
+          "LevelFile"
+        ]
+      }
+    ]
+  }
+}

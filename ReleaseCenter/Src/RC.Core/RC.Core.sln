@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Demo", "RC.Demo\RC.Demo.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core", "RC.Core\RC.Core.csproj", "{6BCA00A5-F8A3-445D-8D24-3792B067BC02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC.Core.Common", "RC.Core.Common\RC.Core.Common.csproj", "{6FBD5798-7646-433E-BA56-44362B52A963}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC.Core.SqliteEFRepository", "RC.Core.SqliteEFRepository\RC.Core.SqliteEFRepository.csproj", "{BEE1A4D0-B218-4F0A-95AA-5F36192DD812}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{6BCA00A5-F8A3-445D-8D24-3792B067BC02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BCA00A5-F8A3-445D-8D24-3792B067BC02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BCA00A5-F8A3-445D-8D24-3792B067BC02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FBD5798-7646-433E-BA56-44362B52A963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FBD5798-7646-433E-BA56-44362B52A963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FBD5798-7646-433E-BA56-44362B52A963}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FBD5798-7646-433E-BA56-44362B52A963}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEE1A4D0-B218-4F0A-95AA-5F36192DD812}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEE1A4D0-B218-4F0A-95AA-5F36192DD812}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEE1A4D0-B218-4F0A-95AA-5F36192DD812}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEE1A4D0-B218-4F0A-95AA-5F36192DD812}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

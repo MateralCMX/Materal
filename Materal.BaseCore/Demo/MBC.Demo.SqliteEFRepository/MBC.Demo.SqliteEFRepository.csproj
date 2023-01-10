@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\MBC.Core\MBC.Core.SqliteEFRepository\MBC.Core.SqliteEFRepository.csproj" />
+	  <ProjectReference Include="..\MBC.Demo.Domain\MBC.Demo.Domain.csproj" />
+	</ItemGroup>
+</Project>

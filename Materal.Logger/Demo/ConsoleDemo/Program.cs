@@ -14,10 +14,14 @@ namespace ConsoleDemo
             serviceCollection.AddMateralLogger();
             IServiceProvider services = serviceCollection.BuildServiceProvider();
             MateralLoggerManager.CustomData.Add("UserName", "Administrator");
+            #region 配置文件方式
+            MateralLoggerManager.CustomConfig.Add("ApplicationName", "ConsoleDemo");//会替换配置文件中${{ApplicationName}}的地方
             IConfiguration configuration = new ConfigurationBuilder()
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .Build();
             MateralLoggerManager.Init(null, configuration);
+            #endregion
+            #region 代码配置方式
             //MateralLoggerManager.Init(option => {
             //    const string messageFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}";
             //    option.AddConsoleTarget("LifeConsole", messageFormat);
@@ -25,6 +29,7 @@ namespace ConsoleDemo
             //    //option.AddSqliteTarget("LocalDB", "${RootPath}\\Logs\\Logger.db");
             //    option.AddAllTargetRule();
             //});
+            #endregion
             ILogger<Program> logger = services.GetService<ILogger<Program>>() ?? throw new Exception("获取日志记录器失败");
             ConsoleQueue.WriteLine("按任意键进行日志输出");
             Console.ReadKey();
