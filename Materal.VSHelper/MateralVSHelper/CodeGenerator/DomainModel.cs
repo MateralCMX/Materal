@@ -1,10 +1,8 @@
-﻿using EnvDTE;
-using Materal.CodeGenerator;
-using System.CodeDom;
+﻿using Materal.CodeGenerator;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
 using System.Text;
 
 namespace MateralVSHelper.CodeGenerator
@@ -39,14 +37,14 @@ namespace MateralVSHelper.CodeGenerator
         /// 属性
         /// </summary>
         public List<DomainPropertyModel> Properties { get; } = new List<DomainPropertyModel>();
-        /// <summary>
-        /// 使用缓存
-        /// </summary>
-        private bool _useCache => Attributes.HasAttribute<CacheAttribute>();
-        /// <summary>
-        /// 生成目标查询服务
-        /// </summary>
-        private bool _generatorQueryTargetService => Attributes.HasAttribute<QueryTragetGeneratorAttribute>();
+        private readonly bool _useCache;
+        private readonly bool _generatorQueryTargetService;
+        private readonly bool _generatorService;
+        private readonly bool _generatorQueryModel;
+        private readonly bool _generatorWebAPI;
+        private readonly bool _generatorServiceWebAPI;
+        private readonly bool _generatorDefaultService;
+        private readonly bool _extendQueryGenerator;
         #region 文件名称
         private readonly string _entityConfigName;
         private readonly string _iRepositoryName;
@@ -55,6 +53,16 @@ namespace MateralVSHelper.CodeGenerator
         private readonly string _dtoName;
         private readonly string _addModelName;
         private readonly string _editModelName;
+        private readonly string _queryModelName;
+        private readonly string _iServiceName;
+        private readonly string _serviceImplName;
+        private readonly string _autoMapperProfileName;
+        private readonly string _addRequestModelName;
+        private readonly string _editRequestModelName;
+        private readonly string _queryRequestModelName;
+        private readonly string _controllerName;
+        public readonly string _queryTargetName;
+        public readonly string _iQueryTargetRepositoryName;
         #endregion
         public DomainModel(string[] codes, int classLineIndex)
         {
@@ -82,7 +90,29 @@ namespace MateralVSHelper.CodeGenerator
                     startIndex -= 1;
                     List<string> attributeCodes = attributeCode.GetAttributeCodes();
                     Attributes.AddRange(attributeCodes.Select(attributeName => new AttributeModel(attributeName.Trim())));
-                } while (true);
+                } while (true); 
+                _useCache = Attributes.HasAttribute<CacheAttribute>();
+                AttributeModel queryTragetGeneratorAttribute = Attributes.GetAttribute<QueryTragetGeneratorAttribute>();
+                if (queryTragetGeneratorAttribute != null)
+                {
+                    _generatorQueryTargetService = true;
+                    AttributeArgumentModel target = queryTragetGeneratorAttribute.AttributeArguments.First(m => string.IsNullOrWhiteSpace(m.Target));
+                    _queryTargetName = target.Value;
+                    _iQueryTargetRepositoryName = $"I{_queryTargetName}Repository";
+                }
+                else
+                {
+                    _generatorQueryTargetService = false;
+                    _queryTargetName = null;
+                    _iQueryTargetRepositoryName = null;
+                }
+                _generatorQueryTargetService = Attributes.HasAttribute<QueryTragetGeneratorAttribute>();
+                _generatorService = !Attributes.HasAttribute<NotServiceGeneratorAttribute>();
+                _generatorDefaultService = !Attributes.HasAttribute<NotDefaultServiceGeneratorAttribute>();
+                _generatorQueryModel = !Attributes.HasAttribute<NotServiceAndQueryGeneratorAttribute>();
+                _generatorWebAPI = !Attributes.HasAttribute<NotWebAPIGeneratorAttribute>();
+                _generatorServiceWebAPI = !Attributes.HasAttribute<NotWebAPIServiceGeneratorAttribute>();
+                _extendQueryGenerator = !Attributes.HasAttribute<NotExtendQueryGeneratorAttribute>();
                 #endregion
                 #region 解析注释
                 Annotation = codes.GetAnnotation(ref startIndex);
@@ -127,6 +157,14 @@ namespace MateralVSHelper.CodeGenerator
             _dtoName = $"{Name}DTO";
             _addModelName = $"Add{Name}Model";
             _editModelName = $"Edit{Name}Model";
+            _queryModelName = $"Query{Name}Model";
+            _iServiceName = $"I{Name}Service";
+            _serviceImplName = $"{Name}ServiceImpl";
+            _autoMapperProfileName = $"{Name}Profile";
+            _addRequestModelName = $"Add{Name}RequestModel";
+            _editRequestModelName = $"Edit{Name}RequestModel";
+            _queryRequestModelName = $"Query{Name}RequestModel";
+            _controllerName = $"{Name}Controller";
             #endregion
         }
         /// <summary>
@@ -154,34 +192,418 @@ namespace MateralVSHelper.CodeGenerator
             CreateIRepositoryFile(project);
             CreateRepositoryImplFile(project);
             CreateEntityConfigFile(project);
-            //if (GeneratorService || GeneratorQueryModel)
-            //{
-            //    CreateAutoMapperProfile(project);
-            //}
-            //if (GeneratorQueryModel)
+            if (_generatorService || _generatorQueryModel)
             {
-                //CreateQueryModelFile(project);
-                //CreateQueryRequestModelFile(project);
+                CreateAutoMapperProfile(project);
+            }
+            if (_generatorQueryModel)
+            {
+                CreateQueryModelFile(project, domains);
+                CreateQueryRequestModelFile(project, domains);
                 CreateListDTOFile(project, domains);
                 CreateDTOFile(project, domains);
             }
-            //if (!GeneratorService) return;
+            if (!_generatorService) return;
             CreateAddModelFile(project);
             CreateEditModelFile(project);
-            //CreateIServiceFile(project);
-            //CreateServiceImplFile(project);
-            //if (!GeneratorWebAPI) return;
-            //CreateAddRequestModelFile(project);
-            //CreateEditRequestModelFile(project);
-            //CreateWebAPIControllerFile(project);
-
-            //CreateEntityConfigFile(project);
-            //CreateIRepositoryFile(project);
-            //CreateRepositoryImplFile(project);
-            //CreateListDTOFile(project, domains);
-            //CreateDTOFile(project, domains);
-            //CreateAddModelFile(project);
-            //CreateEditModelFile(project);
+            CreateIServiceFile(project);
+            CreateServiceImplFile(project);
+            if (!_generatorWebAPI) return;
+            CreateAddRequestModelFile(project);
+            CreateEditRequestModelFile(project);
+            CreateWebAPIControllerFile(project);
+        }
+        /// <summary>
+        /// 创建WebAPI控制器文件
+        /// </summary>
+        private void CreateWebAPIControllerFile(ProjectModel project)
+        {
+            StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"using AutoMapper;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.WebAPI.Controllers;");
+            codeContent.AppendLine($"using {project.DataTransmitModelNamespace}.{Name};");
+            codeContent.AppendLine($"using {project.PresentationModelNamespace}.{Name};");
+            codeContent.AppendLine($"using {project.ServiceNamespace};");
+            codeContent.AppendLine($"using {project.ServiceNamespace}.Models.{Name};");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.WebAPINamespace}.Controllers");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {Annotation}控制器");
+            codeContent.AppendLine($"    /// </summary>");
+            if (_generatorServiceWebAPI && _generatorDefaultService)
+            {
+                codeContent.AppendLine($"    public partial class {_controllerName} : {project.PrefixName}WebAPIServiceControllerBase<{_addRequestModelName}, {_editRequestModelName}, {_queryRequestModelName}, {_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}, {_iServiceName}>");
+            }
+            else
+            {
+                codeContent.AppendLine($"    public partial class {_controllerName} : {project.PrefixName}WebAPIControllerBase");
+            }
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveFile(project.RootPath, $"{_controllerName}.g.cs");
+        }
+        /// <summary>
+        /// 创建查询请求文件
+        /// </summary>
+        private void CreateQueryRequestModelFile(ProjectModel project, List<DomainModel> domains)
+        {
+            StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"using Materal.Model;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Models;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.PresentationModel;");
+            DomainModel targetDomain;
+            if (_generatorQueryTargetService)
+            {
+                targetDomain = domains.FirstOrDefault(m => m.Name == _queryTargetName) ?? this;
+            }
+            else
+            {
+                targetDomain = this;
+            }
+            AppendOtherUsings(codeContent, targetDomain);
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.PresentationModelNamespace}.{Name}");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {Annotation}查询请求模型");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {_queryRequestModelName} : PageRequestModel, IQueryRequestModel, IRequestModel");
+            codeContent.AppendLine($"    {{");
+            FillQueryRequestModelProperties(targetDomain, codeContent);
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveFile(project.RootPath, $"{_queryRequestModelName}.g.cs");
+        }
+        /// <summary>
+        /// 填充查询请求模型属性
+        /// </summary>
+        /// <param name="domain"></param>
+        /// <param name="codeContent"></param>
+        private static void FillQueryRequestModelProperties(DomainModel domain, StringBuilder codeContent)
+        {
+            foreach (DomainPropertyModel property in domain.Properties)
+            {
+                if (property.HasQueryAttribute)
+                {
+                    codeContent.AppendLine($"        /// <summary>");
+                    codeContent.AppendLine($"        /// {property.Annotation}");
+                    codeContent.AppendLine($"        /// </summary>");
+                    codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
+                }
+                if (property.IsBetween)
+                {
+                    codeContent.AppendLine($"        /// <summary>");
+                    codeContent.AppendLine($"        /// 最大{property.Annotation}");
+                    codeContent.AppendLine($"        /// </summary>");
+                    codeContent.AppendLine($"        public {property.NullPredefinedType} Max{property.Name} {{ get; set; }}");
+                    codeContent.AppendLine($"        /// <summary>");
+                    codeContent.AppendLine($"        /// 最小{property.Annotation}");
+                    codeContent.AppendLine($"        /// </summary>");
+                    codeContent.AppendLine($"        public {property.NullPredefinedType} Min{property.Name} {{ get; set; }}");
+                }
+            }
+            if (domain._extendQueryGenerator)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 唯一标识组");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        public List<Guid>? IDs {{ get; set; }}");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 最大创建时间");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        public DateTime? MaxCreateTime {{ get; set; }}");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 最小创建时间");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        public DateTime? MinCreateTime {{ get; set; }}");
+            }
+        }
+        /// <summary>
+        /// 创建修改请求文件
+        /// </summary>
+        private void CreateEditRequestModelFile(ProjectModel project)
+        {
+            StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Models;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.PresentationModel;");
+            AppendOtherUsings(codeContent, this);
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.PresentationModelNamespace}.{Name}");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {Annotation}修改请求模型");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {_editRequestModelName} : IEditRequestModel, IRequestModel");
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"        /// <summary>");
+            codeContent.AppendLine($"        /// 唯一标识");
+            codeContent.AppendLine($"        /// </summary>");
+            codeContent.AppendLine($"        [Required(ErrorMessage = \"唯一标识为空\")]");
+            codeContent.AppendLine($"        public Guid ID {{ get; set; }}");
+            foreach (DomainPropertyModel property in Properties)
+            {
+                if (!property.GeneratorEditModel) continue;
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {property.Annotation}");
+                codeContent.AppendLine($"        /// </summary>");
+                AppendValidationAttributeCode(codeContent, property);
+                codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }} {property.Initializer}");
+            }
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveFile(project.RootPath, $"{_editRequestModelName}.g.cs");
+        }
+        /// <summary>
+        /// 创建添加请求文件
+        /// </summary>
+        private void CreateAddRequestModelFile(ProjectModel project)
+        {
+            StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.PresentationModel;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Models;");
+            AppendOtherUsings(codeContent, this);
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.PresentationModelNamespace} .{Name}");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {Annotation}添加请求模型");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {_addRequestModelName} : IRequestModel");
+            codeContent.AppendLine($"    {{");
+            foreach (DomainPropertyModel property in Properties)
+            {
+                if (!property.GeneratorAddModel) continue;
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {property.Annotation}");
+                codeContent.AppendLine($"        /// </summary>");
+                AppendValidationAttributeCode(codeContent, property);
+                codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }} {property.Initializer}");
+            }
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveFile(project.RootPath, $"{_addRequestModelName}.g.cs");
+        }
+        /// <summary>
+        /// 创建AutoMapper配置文件
+        /// </summary>
+        private void CreateAutoMapperProfile(ProjectModel project)
+        {
+            StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"using AutoMapper;");
+            if ((_generatorService && _generatorWebAPI) || _generatorQueryModel)
+            {
+                codeContent.AppendLine($"using {project.PresentationModelNamespace}.{Name};");
+            }
+            codeContent.AppendLine($"using {project.ServiceNamespace}.Models.{Name};");
+            if (_generatorQueryModel)
+            {
+                codeContent.AppendLine($"using {project.DataTransmitModelNamespace}.{Name};");
+            }
+            codeContent.AppendLine($"using {project.DomainNamespace};");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.Namespace}.AutoMapperProfile");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {Annotation}AutoMapper映射配置基类");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {_autoMapperProfileName}Base : Profile");
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"        /// <summary>");
+            codeContent.AppendLine($"        /// 初始化");
+            codeContent.AppendLine($"        /// </summary>");
+            codeContent.AppendLine($"        protected virtual void Init()");
+            codeContent.AppendLine($"        {{");
+            if (_generatorService)
+            {
+                codeContent.AppendLine($"            CreateMap<{_addModelName}, {Name}>();");
+                codeContent.AppendLine($"            CreateMap<{_editModelName}, {Name}>();");
+                if (_generatorWebAPI)
+                {
+                    codeContent.AppendLine($"            CreateMap<{_addRequestModelName}, {_addModelName}>();");
+                    codeContent.AppendLine($"            CreateMap<{_editRequestModelName}, {_editModelName}>();");
+                }
+            }
+            if (_generatorQueryModel)
+            {
+                if (_generatorQueryTargetService)
+                {
+                    codeContent.AppendLine($"            CreateMap<{_queryTargetName}, {_listDTOName}>();");
+                    codeContent.AppendLine($"            CreateMap<{_queryTargetName}, {_dtoName}>();");
+                }
+                codeContent.AppendLine($"            CreateMap<{Name}, {_listDTOName}>();");
+                codeContent.AppendLine($"            CreateMap<{Name}, {_dtoName}>();");
+                codeContent.AppendLine($"            CreateMap<{_queryRequestModelName}, {_queryModelName}>();");
+            }
+            codeContent.AppendLine($"        }}");
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {Annotation}AutoMapper映射配置");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {_autoMapperProfileName} : {_autoMapperProfileName}Base");
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"        /// <summary>");
+            codeContent.AppendLine($"        /// 构造方法");
+            codeContent.AppendLine($"        /// </summary>");
+            codeContent.AppendLine($"        public {_autoMapperProfileName}()");
+            codeContent.AppendLine($"        {{");
+            codeContent.AppendLine($"            Init();");
+            codeContent.AppendLine($"        }}");
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveFile(project.RootPath, $"{_autoMapperProfileName}.g.cs");
+        }
+        /// <summary>
+        /// 创建服务文件
+        /// </summary>
+        private void CreateServiceImplFile(ProjectModel project)
+        {
+            StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"using AutoMapper;");
+            codeContent.AppendLine($"using Materal.TTA.Common;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.ServiceImpl;");
+            codeContent.AppendLine($"using {project.DataTransmitModelNamespace}.{Name};");
+            codeContent.AppendLine($"using {project.DomainNamespace};");
+            codeContent.AppendLine($"using {project.IRepositoryNamespace};");
+            codeContent.AppendLine($"using {project.ServiceNamespace};");
+            codeContent.AppendLine($"using {project.ServiceNamespace}.Models.{Name};");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.ServiceImplNamespace}");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// 服务实现");
+            codeContent.AppendLine($"    /// </summary>");
+            if (_generatorDefaultService)
+            {
+                if (_generatorQueryTargetService)
+                {
+                    codeContent.AppendLine($"    public partial class {_serviceImplName} : BaseServiceImpl<{_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}, {_iRepositoryName}, {_iQueryTargetRepositoryName}, {Name}, {_queryTargetName}>, {_iServiceName}");
+                }
+                else
+                {
+                    codeContent.AppendLine($"    public partial class {_serviceImplName} : BaseServiceImpl<{_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}, {_iRepositoryName}, {Name}>, {_iServiceName}");
+                }
+            }
+            else
+            {
+                codeContent.AppendLine($"    public partial class {_serviceImplName} : {_iServiceName}");
+            }
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveFile(project.RootPath, $"{_serviceImplName}.g.cs");
+        }
+        /// <summary>
+        /// 创建服务接口文件
+        /// </summary>
+        private void CreateIServiceFile(ProjectModel project)
+        {
+            StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Services;");
+            codeContent.AppendLine($"using {project.DataTransmitModelNamespace}.{Name};");
+            codeContent.AppendLine($"using {project.ServiceNamespace}.Models.{Name};");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.ServiceNamespace}");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// 服务");
+            codeContent.AppendLine($"    /// </summary>");
+            if (_generatorDefaultService)
+            {
+                codeContent.AppendLine($"    public partial interface {_iServiceName} : IBaseService<{_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}>");
+            }
+            else
+            {
+                codeContent.AppendLine($"    public partial interface {_iServiceName}");
+            }
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveFile(project.RootPath, $"{_iServiceName}.g.cs");
+        }
+        /// <summary>
+        /// 创建查询模型文件
+        /// </summary>
+        private void CreateQueryModelFile(ProjectModel project, List<DomainModel> domains)
+        {
+            StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"using Materal.Model;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Services;");
+            DomainModel targetDomain;
+            if (_generatorQueryTargetService)
+            {
+                targetDomain = domains.FirstOrDefault((DomainModel m) => m.Name == _queryTargetName) ?? this;
+            }
+            else
+            {
+                targetDomain = this;
+            }
+            AppendOtherUsings(codeContent, targetDomain);
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.ServiceNamespace}.Models.{Name}");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {Annotation}查询模型");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {_queryModelName} : PageRequestModel, IQueryServiceModel");
+            codeContent.AppendLine($"    {{");
+            FillQueryModelProperties(targetDomain, codeContent);
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveFile(project.RootPath, $"{_queryModelName}.g.cs");
+        }
+        /// <summary>
+        /// 填充查询请求模型属性
+        /// </summary>
+        /// <param name="domain"></param>
+        /// <param name="codeContent"></param>
+        private static void FillQueryModelProperties(DomainModel domain, StringBuilder codeContent)
+        {
+            foreach (DomainPropertyModel property in domain.Properties)
+            {
+                if (property.HasQueryAttribute)
+                {
+                    codeContent.AppendLine($"        /// <summary>");
+                    codeContent.AppendLine($"        /// {property.Annotation}");
+                    codeContent.AppendLine($"        /// </summary>");
+                    AppendQueryAttributeCode(codeContent, property);
+                    codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
+                }
+                if (property.IsBetween)
+                {
+                    codeContent.AppendLine($"        /// <summary>");
+                    codeContent.AppendLine($"        /// 最大{property.Annotation}");
+                    codeContent.AppendLine($"        /// </summary>");
+                    codeContent.AppendLine($"        [LessThanOrEqual(\"{property.Name}\")]");
+                    codeContent.AppendLine($"        public {property.NullPredefinedType} Max{property.Name} {{ get; set; }}");
+                    codeContent.AppendLine($"        /// <summary>");
+                    codeContent.AppendLine($"        /// 最小{property.Annotation}");
+                    codeContent.AppendLine($"        /// </summary>");
+                    codeContent.AppendLine($"        [GreaterThanOrEqual(\"{property.Name}\")]");
+                    codeContent.AppendLine($"        public {property.NullPredefinedType} Min{property.Name} {{ get; set; }}");
+                }
+            }
+            if (domain._extendQueryGenerator)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 唯一标识组");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        [Contains(\"ID\")]");
+                codeContent.AppendLine($"        public List<Guid>? IDs {{ get; set; }}");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 最大创建时间");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        [LessThanOrEqual(\"CreateTime\")]");
+                codeContent.AppendLine($"        public DateTime? MaxCreateTime {{ get; set; }}");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 最小创建时间");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        [GreaterThanOrEqual(\"CreateTime\")]");
+                codeContent.AppendLine($"        public DateTime? MinCreateTime {{ get; set; }}");
+            }
         }
         /// <summary>
         /// 创建修改模型文件
@@ -190,8 +612,8 @@ namespace MateralVSHelper.CodeGenerator
         {
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
-            codeContent.AppendLine($"using RC.Core.Models;");
-            codeContent.AppendLine($"using RC.Core.Services;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Models;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Services;");
             AppendOtherUsings(codeContent, this);
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.ServiceNamespace}.Models.{Name}");
@@ -212,7 +634,7 @@ namespace MateralVSHelper.CodeGenerator
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// {property.Annotation}");
                 codeContent.AppendLine($"        /// </summary>");
-                AppendValidationCode(codeContent, property);
+                AppendValidationAttributeCode(codeContent, property);
                 codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }} {property.Initializer}");
             }
             codeContent.AppendLine($"    }}");
@@ -226,8 +648,8 @@ namespace MateralVSHelper.CodeGenerator
         {
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
-            codeContent.AppendLine($"using RC.Core.Services;");
-            codeContent.AppendLine($"using RC.Core.Models;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Services;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Models;");
             AppendOtherUsings(codeContent, this);
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.ServiceNamespace}.Models.{Name}");
@@ -243,8 +665,8 @@ namespace MateralVSHelper.CodeGenerator
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// {property.Annotation}");
                 codeContent.AppendLine($"        /// </summary>");
-                AppendValidationCode(codeContent, property);
-                codeContent.AppendLine($"        public {property.Type} {property.Name} {{ get; set; }} {property.Initializer}");
+                AppendValidationAttributeCode(codeContent, property);
+                codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }} {property.Initializer}");
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
@@ -257,15 +679,13 @@ namespace MateralVSHelper.CodeGenerator
         {
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
-            codeContent.AppendLine($"using RC.Core.DataTransmitModel;");
-            codeContent.AppendLine($"using RC.Core.Models;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.DataTransmitModel;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Models;");
             codeContent.AppendLine($"using System;");
             DomainModel targetDomain;
             if (_generatorQueryTargetService)
             {
-                AttributeModel attributeModel = Attributes.GetAttribute<QueryTragetGeneratorAttribute>();
-                AttributeArgumentModel target = attributeModel.AttributeArguments.First(m => string.IsNullOrWhiteSpace(m.Target));
-                targetDomain = domains.FirstOrDefault((DomainModel m) => m.Name == target.Value) ?? this;
+                targetDomain = domains.FirstOrDefault((DomainModel m) => m.Name == _queryTargetName) ?? this;
             }
             else
             {
@@ -299,8 +719,8 @@ namespace MateralVSHelper.CodeGenerator
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// {property.Annotation}");
                 codeContent.AppendLine($"        /// </summary>");
-                AppendValidationCode(codeContent, property);
-                codeContent.AppendLine($"        public {property.Type} {property.Name} {{ get; set; }} {property.Initializer}");
+                AppendValidationAttributeCode(codeContent, property);
+                codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }} {property.Initializer}");
             }
         }
         /// <summary>
@@ -316,9 +736,7 @@ namespace MateralVSHelper.CodeGenerator
             DomainModel targetDomain;
             if (_generatorQueryTargetService)
             {
-                AttributeModel attributeModel = Attributes.GetAttribute<QueryTragetGeneratorAttribute>();
-                AttributeArgumentModel target = attributeModel.AttributeArguments.First(m => string.IsNullOrWhiteSpace(m.Target));
-                targetDomain = domains.FirstOrDefault((DomainModel m) => m.Name == target.Value) ?? this;
+                targetDomain = domains.FirstOrDefault((DomainModel m) => m.Name == _queryTargetName) ?? this;
             }
             else
             {
@@ -361,8 +779,8 @@ namespace MateralVSHelper.CodeGenerator
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// {property.Annotation}");
                 codeContent.AppendLine($"        /// </summary>");
-                AppendValidationCode(codeContent, property);
-                codeContent.AppendLine($"        public {property.Type} {property.Name} {{ get; set; }} {property.Initializer}");
+                AppendValidationAttributeCode(codeContent, property);
+                codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }} {property.Initializer}");
             }
         }
         /// <summary>
@@ -387,7 +805,7 @@ namespace MateralVSHelper.CodeGenerator
             codeContent.AppendLine($"    /// </summary>");
             if (_useCache)
             {
-                codeContent.AppendLine($"    public partial class {_repositoryImplName}: RCCacheRepositoryImpl<{Name}, Guid>, I{Name}Repository");
+                codeContent.AppendLine($"    public partial class {_repositoryImplName}: {project.PrefixName}CacheRepositoryImpl<{Name}, Guid>, I{Name}Repository");
                 codeContent.AppendLine($"    {{");
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 构造方法");
@@ -401,7 +819,7 @@ namespace MateralVSHelper.CodeGenerator
             }
             else
             {
-                codeContent.AppendLine($"    public partial class {_repositoryImplName}: RCEFRepositoryImpl<{Name}, Guid>, I{Name}Repository");
+                codeContent.AppendLine($"    public partial class {_repositoryImplName}: {project.PrefixName}EFRepositoryImpl<{Name}, Guid>, I{Name}Repository");
                 codeContent.AppendLine($"    {{");
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 构造方法");
@@ -529,17 +947,36 @@ namespace MateralVSHelper.CodeGenerator
             }
         }
         /// <summary>
-        /// 添加验证代码
+        /// 添加验证特性代码
         /// </summary>
         /// <param name="codeContent"></param>
         /// <param name="property"></param>
-        private static void AppendValidationCode(StringBuilder codeContent, DomainPropertyModel property)
+        private static void AppendValidationAttributeCode(StringBuilder codeContent, DomainPropertyModel property)
         {
             if (property.HasValidationAttribute)
             {
                 codeContent.Append($"        [");
                 List<string> attributesString = new List<string>();
                 foreach (AttributeModel attribute in property.ValidationAttributes)
+                {
+                    attributesString.Add(attribute.ToString());
+                }
+                codeContent.Append(string.Join(", ", attributesString));
+                codeContent.AppendLine($"]");
+            }
+        }
+        /// <summary>
+        /// 添加查询特性代码
+        /// </summary>
+        /// <param name="codeContent"></param>
+        /// <param name="property"></param>
+        private static void AppendQueryAttributeCode(StringBuilder codeContent, DomainPropertyModel property)
+        {
+            if (property.HasQueryAttribute)
+            {
+                codeContent.Append($"        [");
+                List<string> attributesString = new List<string>();
+                foreach (AttributeModel attribute in property.QueryAttributes)
                 {
                     attributesString.Add(attribute.ToString());
                 }

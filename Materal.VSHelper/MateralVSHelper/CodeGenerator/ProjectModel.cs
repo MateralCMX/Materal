@@ -19,7 +19,14 @@ namespace MateralVSHelper.CodeGenerator
         /// </summary>
         public string PrefixName { get; }
         #region 命名空间
-        private readonly string _nameSpace;
+        /// <summary>
+        /// 命名空间
+        /// </summary>
+        public string Namespace { get; }
+        /// <summary>
+        /// Domain命名空间
+        /// </summary>
+        public string DomainNamespace { get; }
         /// <summary>
         /// 仓储命名空间
         /// </summary>
@@ -33,6 +40,10 @@ namespace MateralVSHelper.CodeGenerator
         /// </summary>
         public string DataTransmitModelNamespace { get; }
         /// <summary>
+        /// 表现模型命名空间
+        /// </summary>
+        public string PresentationModelNamespace { get; }
+        /// <summary>
         /// 服务命名空间
         /// </summary>
         public string ServiceNamespace { get; }
@@ -40,6 +51,10 @@ namespace MateralVSHelper.CodeGenerator
         /// 服务实现命名空间
         /// </summary>
         public string ServiceImplNamespace { get; }
+        /// <summary>
+        /// WebAPI命名空间
+        /// </summary>
+        public string WebAPINamespace { get; }
         #endregion
         #region 文件名
         /// <summary>
@@ -51,23 +66,26 @@ namespace MateralVSHelper.CodeGenerator
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             RootPath = Path.Combine(rootPath, project.Name, "MCG");
-            _nameSpace = project.Name;
-            int dotIndex = _nameSpace.LastIndexOf('.');
+            Namespace = project.Name;
+            int dotIndex = Namespace.LastIndexOf('.');
             if(dotIndex > 0)
             {
-                _projectName = _nameSpace.Substring(dotIndex + 1);
-                PrefixName = _nameSpace.Substring(0, dotIndex);
+                _projectName = Namespace.Substring(dotIndex + 1);
+                PrefixName = Namespace.Substring(0, dotIndex);
             }
             else
             {
-                _projectName = _nameSpace;
+                _projectName = Namespace;
                 PrefixName = _projectName;
             }
-            IRepositoryNamespace = $"{_nameSpace}.Repositories";
-            RepositoryImplNamespace = $"{_nameSpace}.RepositoryImpl";
-            DataTransmitModelNamespace = $"{_nameSpace}.DataTransmitModel";
-            ServiceNamespace = $"{_nameSpace}.Services";
-            ServiceImplNamespace = $"{_nameSpace}.ServiceImpl";
+            DomainNamespace = $"{Namespace}.Domain";
+            IRepositoryNamespace = $"{Namespace}.Repositories";
+            RepositoryImplNamespace = $"{Namespace}.RepositoryImpl";
+            DataTransmitModelNamespace = $"{Namespace}.DataTransmitModel";
+            PresentationModelNamespace = $"{Namespace}.PresentationModel";
+            ServiceNamespace = $"{Namespace}.Services";
+            ServiceImplNamespace = $"{Namespace}.ServiceImpl"; 
+            WebAPINamespace = $"{Namespace}.WebAPI";
 
             DBContextName = $"{_projectName}DBContext";
         }

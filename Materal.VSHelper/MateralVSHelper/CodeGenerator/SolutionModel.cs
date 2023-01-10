@@ -40,9 +40,16 @@ namespace MateralVSHelper.CodeGenerator
             ThreadHelper.ThrowIfNotOnUIThread();
             foreach (ProjectItem item in projectItems)
             {
-                if (item.ProjectItems.Count > 0)
+                var itemPath = Path.Combine(path, item.Name);
+                if (item.Name == "MCG")
                 {
-                    var itemPath = Path.Combine(path, item.Name);
+                    if (Directory.Exists(itemPath))
+                    {
+                        Directory.Delete(itemPath, true);
+                    }
+                }
+                else if (item.ProjectItems != null && item.ProjectItems.Count > 0)
+                {
                     FillDomains(item.ProjectItems, itemPath);
                 }
                 else if (Path.GetExtension(item.Name) == ".cs")
@@ -84,14 +91,6 @@ namespace MateralVSHelper.CodeGenerator
         public void CreateCodeFiles()
         {
             _domainProject.CreateFiles(_domains);
-            //创建DB
-            //创建仓储接口
-            //创建仓储实现
-            //创建Add模型
-            //创建Edit模型
-            //创建Query模型
-            //创建服务接口
-            //创建服务实现
         }
     }
 }

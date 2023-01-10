@@ -5,9 +5,7 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MateralVSHelper", "MateralVSHelper\MateralVSHelper.csproj", "{649A9F33-6E21-4246-A035-83AE653A9D1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MateralConsoleHelper", "MateralConsoleHelper\MateralConsoleHelper.csproj", "{041B0F7B-96FF-40BA-AC08-1A9808F4E229}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.CodeGenerator", "Materal.CodeGenerator\Materal.CodeGenerator.csproj", "{D3419B85-6D62-425F-ADB7-E3EABEAD1B6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.CodeGenerator", "Materal.CodeGenerator\Materal.CodeGenerator.csproj", "{D3419B85-6D62-425F-ADB7-E3EABEAD1B6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,18 +29,6 @@ Global
 		{649A9F33-6E21-4246-A035-83AE653A9D1C}.Release|arm64.Build.0 = Release|arm64
 		{649A9F33-6E21-4246-A035-83AE653A9D1C}.Release|x86.ActiveCfg = Release|x86
 		{649A9F33-6E21-4246-A035-83AE653A9D1C}.Release|x86.Build.0 = Release|x86
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Debug|arm64.Build.0 = Debug|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Debug|x86.Build.0 = Debug|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Release|Any CPU.Build.0 = Release|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Release|arm64.ActiveCfg = Release|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Release|arm64.Build.0 = Release|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Release|x86.ActiveCfg = Release|Any CPU
-		{041B0F7B-96FF-40BA-AC08-1A9808F4E229}.Release|x86.Build.0 = Release|Any CPU
 		{D3419B85-6D62-425F-ADB7-E3EABEAD1B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D3419B85-6D62-425F-ADB7-E3EABEAD1B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3419B85-6D62-425F-ADB7-E3EABEAD1B6F}.Debug|arm64.ActiveCfg = Debug|Any CPU
