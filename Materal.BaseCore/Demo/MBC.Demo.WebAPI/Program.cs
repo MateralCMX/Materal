@@ -4,7 +4,7 @@ using Materal.Common;
 using Materal.Logger;
 using Materal.TTA.EFRepository;
 using MBC.Demo.Services;
-using MBC.Demo.SqliteEFRepository;
+using MBC.Demo.EFRepository;
 
 namespace MBC.Demo.WebAPI
 {

@@ -1,4 +1,5 @@
-﻿using MBC.Core.Common;
+﻿using Materal.BaseCore.ServiceImpl;
+using MBC.Core.Common;
 using MBC.Demo.Common;
 using MBC.Demo.DataTransmitModel.User;
 using MBC.Demo.Domain;
@@ -8,7 +9,7 @@ using MBC.Demo.Services.Models.User;
 
 namespace MBC.Demo.ServiceImpl
 {
-    public class UserServiceImpl : Materal.BaseCore.ServiceImpl.BaseServiceImpl<AddUserModel,EditUserModel,QueryUserModel,UserDTO,UserListDTO, IUserRepository, User>, IUserService
+    public class UserServiceImpl : BaseServiceImpl<AddUserModel,EditUserModel,QueryUserModel,UserDTO,UserListDTO, IUserRepository, User>, IUserService
     {
         public override async Task<Guid> AddAsync(AddUserModel model)
         {

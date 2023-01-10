@@ -1,7 +1,7 @@
 ﻿using Materal.BaseCore.WebAPI;
-using MBC.Core.SqliteEFRepository;
+using MBC.Core.EFRepository;
 using MBC.Demo.Common;
-using MBC.Demo.SqliteEFRepository;
+using MBC.Demo.EFRepository;
 using NetCore.AutoRegisterDi;
 using RC.Core;
 using System.Reflection;
@@ -29,7 +29,7 @@ namespace MBC.Demo.WebAPI
             services.AddDBService<DemoDBContext>(DemoConfig.DBConfig);
             services.AddWebAPIService(swaggerXmlPaths);
             services.AddMateralCoreServices(currentAssembly);
-            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.SqliteEFRepository"))
+            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.EFRepository"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
                 .AsPublicImplementedInterfaces();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.ServiceImpl"))
