@@ -8,51 +8,23 @@ namespace MateralBaseCoreVSIX.Models
 {
     public class SolutionModel
     {
-        private readonly ProjectModel _commonProject;
-        private readonly ProjectModel _domainProject;
-        private readonly ProjectModel _webAPIProject;
-        private readonly ProjectModel _servicesProject;
-        private readonly ProjectModel _serviceImplProject;
-        private readonly ProjectModel _efRepositoryProject;
-        private readonly ProjectModel _dataTransmitModelProject;
-        private readonly ProjectModel _presentationModelProject;
-        private readonly List<DomainModel> _domains = new List<DomainModel>();
+        private ProjectModel _commonProject;
+        private ProjectModel _domainProject;
+        private ProjectModel _webAPIProject;
+        private ProjectModel _servicesProject;
+        private ProjectModel _serviceImplProject;
+        private ProjectModel _efRepositoryProject;
+        private ProjectModel _dataTransmitModelProject;
+        private ProjectModel _presentationModelProject;
+        private ProjectModel _enumsProject;
+        private List<DomainModel> _domains = new List<DomainModel>();
+        private List<EnumModel> _enums = new List<EnumModel>();
         public SolutionModel(Solution solution, Project domainProject)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             _domainProject = new ProjectModel(domainProject);
             FillDoamins(domainProject);
-            foreach (Project project in solution.Projects)
-            {
-                if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Common")
-                {
-                    _commonProject = new ProjectModel(project);
-                }
-                else if(project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.EFRepository")
-                {
-                    _efRepositoryProject = new ProjectModel(project);
-                }
-                else if(project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.DataTransmitModel")
-                {
-                    _dataTransmitModelProject = new ProjectModel(project);
-                }
-                else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Services")
-                {
-                    _servicesProject = new ProjectModel(project);
-                }
-                else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.ServiceImpl")
-                {
-                    _serviceImplProject = new ProjectModel(project);
-                }
-                else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.PresentationModel")
-                {
-                    _presentationModelProject = new ProjectModel(project);
-                }
-                else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.WebAPI")
-                {
-                    _webAPIProject = new ProjectModel(project);
-                }
-            }
+            FillProjects(solution.Projects);
             if (_commonProject == null)
             {
                 _commonProject = CreateCommonProjectFile(solution);
@@ -94,8 +66,143 @@ namespace MateralBaseCoreVSIX.Models
             _serviceImplProject.CreateServiceImplFiles(_domains);
             _presentationModelProject.CreatePresentationModelFiles(_domains);
             _webAPIProject.CreateWebAPIFiles(_domains);
+            if(_enums != null && _enums.Count > 0)
+            {
+                _webAPIProject.CreateEnumsControllers(_enums);
+            }
         }
         #region 私有方法
+        /// <summary>
+        /// 填充项目
+        /// </summary>
+        /// <param name="projects"></param>
+        private void FillProjects(Projects projects)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            foreach (Project project in projects)
+            {
+                if (project.ProjectItems != null)
+                {
+                    foreach (object objItem in project.ProjectItems)
+                    {
+                        if(objItem is ProjectItem projectItem)
+                        {
+                            FillProject(projectItem.SubProject);
+                        }
+                    }
+                }
+                else if (project.Collection != null && project.Collection.Count > 0)
+                {
+                    FillProjects(project.Collection);
+                }
+                else
+                {
+                    FillProject(project);
+                }
+            }
+        }
+        private void FillProject(Project project)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Common")
+            {
+                _commonProject = new ProjectModel(project);
+            }
+            else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.EFRepository")
+            {
+                _efRepositoryProject = new ProjectModel(project);
+            }
+            else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.DataTransmitModel")
+            {
+                _dataTransmitModelProject = new ProjectModel(project);
+            }
+            else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Services")
+            {
+                _servicesProject = new ProjectModel(project);
+            }
+            else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.ServiceImpl")
+            {
+                _serviceImplProject = new ProjectModel(project);
+            }
+            else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.PresentationModel")
+            {
+                _presentationModelProject = new ProjectModel(project);
+            }
+            else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.WebAPI")
+            {
+                _webAPIProject = new ProjectModel(project);
+            }
+            else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Enums")
+            {
+                _enumsProject = new ProjectModel(project);
+                FillEnums(project);
+            }
+        }
+        /// <summary>
+        /// 填充枚举
+        /// </summary>
+        /// <param name="enumProject"></param>
+        private void FillEnums(Project enumProject)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            FillEnums(enumProject.ProjectItems, _enumsProject.RootPath);
+        }
+        /// <summary>
+        /// 填充Domain
+        /// </summary>
+        /// <param name="projectItems"></param>
+        /// <param name="path"></param>
+        private void FillEnums(ProjectItems projectItems, string path)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            foreach (ProjectItem item in projectItems)
+            {
+                var itemPath = Path.Combine(path, item.Name);
+                if (item.Name == "MCG")
+                {
+                    continue;
+                }
+                else if (item.ProjectItems != null && item.ProjectItems.Count > 0)
+                {
+                    FillDomains(item.ProjectItems, itemPath);
+                }
+                else if (Path.GetExtension(item.Name) == ".cs")
+                {
+                    var enumModel = GetEnumModelOrNull(item, path);
+                    if (enumModel == null) continue;
+                    _enums.Add(enumModel);
+                }
+            }
+        }
+        /// <summary>
+        /// 获得Enum模型
+        /// </summary>
+        /// <param name="projectItem"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private EnumModel GetEnumModelOrNull(ProjectItem projectItem, string path)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (Path.GetExtension(projectItem.Name) != ".cs") return null;
+            string filePath = Path.Combine(path, projectItem.Name);
+            if (!File.Exists(filePath)) return null;
+            string[] codes = File.ReadAllLines(filePath);
+            for (int i = 0; i < codes.Length; i++)
+            {
+                string namespaceCode = codes[i];
+                if (!namespaceCode.StartsWith("namespace ") || !namespaceCode.EndsWith(".Enums")) continue;
+                for (int j = i; j < codes.Length; j++)
+                {
+                    string classCode = codes[j];
+                    int publicIndex = classCode.IndexOf("public ");
+                    if (publicIndex <= 0) continue;
+                    int classIndex = classCode.IndexOf(" enum ");
+                    if (classIndex <= 0) continue;
+                    return new EnumModel(codes, j);
+                }
+            }
+            return null;
+        }
         /// <summary>
         /// 填充Domain
         /// </summary>
@@ -132,6 +239,12 @@ namespace MateralBaseCoreVSIX.Models
                 }
             }
         }
+        /// <summary>
+        /// 获得Domain模型
+        /// </summary>
+        /// <param name="projectItem"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private DomainModel GetDomainModelOrNull(ProjectItem projectItem, string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -234,6 +347,12 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t<ItemGroup>");
             codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.DataTransmitModel\" Version=\"0.0.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
+            if(_enumsProject != null)
+            {
+                codeContent.AppendLine($"\t<ItemGroup>");
+                codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_enumsProject.Namespace}\\{_enumsProject.Namespace}.csproj\" />");
+                codeContent.AppendLine($"\t</ItemGroup>");
+            }
             codeContent.AppendLine($"</Project>");
             return CreateProjectFile(solution, codeContent, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.DataTransmitModel");
         }
@@ -300,6 +419,12 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t<ItemGroup>");
             codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.PresentationModel\" Version=\"0.0.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
+            if (_enumsProject != null)
+            {
+                codeContent.AppendLine($"\t<ItemGroup>");
+                codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_enumsProject.Namespace}\\{_enumsProject.Namespace}.csproj\" />");
+                codeContent.AppendLine($"\t</ItemGroup>");
+            }
             codeContent.AppendLine($"</Project>");
             return CreateProjectFile(solution, codeContent, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.PresentationModel");
         }

@@ -171,8 +171,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <summary>
         /// 初始化
         /// </summary>
-        /// <param name="project"></param>
-        public void Init(ProjectModel project)
+        public void Init()
         {
             string[] blackList = new[]
             {

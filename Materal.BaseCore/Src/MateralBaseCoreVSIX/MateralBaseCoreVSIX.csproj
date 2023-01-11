@@ -51,6 +51,7 @@
     <Compile Include="Models\AttributeModel.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\DomainPropertyModel.cs" />
+    <Compile Include="Models\EnumModel.cs" />
     <Compile Include="Models\ProjectModel.cs" />
     <Compile Include="Models\SolutionModel.cs" />
     <Compile Include="Models\StringExtension.cs" />

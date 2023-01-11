@@ -63,6 +63,59 @@ namespace MateralBaseCoreVSIX.Models
             DBContextName = $"{ProjectName}DBContext";
         }
         /// <summary>
+        /// 创建枚举控制器
+        /// </summary>
+        /// <param name="enums"></param>
+        public void CreateEnumsControllers(List<EnumModel> enums)
+        {
+            const string controllerName = "EnumsController";
+            StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"using Materal.BaseCore.WebAPI.Controllers;");
+            codeContent.AppendLine($"using Materal.Model;");
+            codeContent.AppendLine($"using Materal.EnumHelper;");
+            codeContent.AppendLine($"using Microsoft.AspNetCore.Authorization;");
+            codeContent.AppendLine($"using Microsoft.AspNetCore.Mvc;");
+            string[] enumNamespaces = enums.Select(m => m.Namespace).Distinct().ToArray();
+            foreach (var item in enumNamespaces)
+            {
+                codeContent.AppendLine($"using {item};");
+            }
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {PrefixName}.{ProjectName}.WebAPI.Controllers");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// 枚举控制器");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {controllerName} : MateralCoreWebAPIControllerBase");
+            codeContent.AppendLine($"    {{");
+            foreach (var @enum in enums)
+            {
+                if (!@enum.GeneratorCode) continue;
+                codeContent.AppendLine($"        /// <summary>");
+                string annotation = @enum.Annotation;
+                if (string.IsNullOrWhiteSpace(annotation))
+                {
+                    annotation = @enum.Name;
+                }
+                if (!annotation.EndsWith("枚举"))
+                {
+                    annotation += "枚举";
+                }
+                codeContent.AppendLine($"        /// 获取所有{annotation}");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [HttpGet]");
+                codeContent.AppendLine($"        public ResultModel<List<KeyValueModel<{@enum.Name}>>> GetAll{@enum.Name}()");
+                codeContent.AppendLine($"        {{");
+                codeContent.AppendLine($"            List<KeyValueModel<{@enum.Name}>> result = KeyValueModel<{@enum.Name}>.GetAllCode();");
+                codeContent.AppendLine($"            return ResultModel<List<KeyValueModel<{@enum.Name}>>>.Success(result, \"获取成功\");");
+                codeContent.AppendLine($"        }}");
+            }
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveFile(GeneratorRootPath, $"{controllerName}.g.cs");
+        }
+        /// <summary>
         /// 创建WebAPI文件
         /// </summary>
         /// <param name="domains"></param>
@@ -71,7 +124,7 @@ namespace MateralBaseCoreVSIX.Models
             ClearMCG();
             foreach (DomainModel domain in domains)
             {
-                domain.Init(this);
+                domain.Init();
                 domain.CreateWebAPIControllerFile(this);
                 domain.CreateAutoMapperProfileFile(this);
             }
@@ -85,7 +138,7 @@ namespace MateralBaseCoreVSIX.Models
             ClearMCG();
             foreach (DomainModel domain in domains)
             {
-                domain.Init(this);
+                domain.Init();
                 domain.CreateIServiceFile(this);
                 domain.CreateAddModelFile(this);
                 domain.CreateEditModelFile(this);
@@ -101,7 +154,7 @@ namespace MateralBaseCoreVSIX.Models
             ClearMCG();
             foreach (DomainModel domain in domains)
             {
-                domain.Init(this);
+                domain.Init();
                 domain.CreateServiceImplFile(this);
             }
         }
@@ -115,7 +168,7 @@ namespace MateralBaseCoreVSIX.Models
             CreateDBContextFile(domains);
             foreach (DomainModel domain in domains)
             {
-                domain.Init(this);
+                domain.Init();
                 domain.CreateEntityConfigFile(this);
                 domain.CreateRepositoryImplFile(this);
             }
@@ -129,7 +182,7 @@ namespace MateralBaseCoreVSIX.Models
             ClearMCG();
             foreach (DomainModel domain in domains)
             {
-                domain.Init(this);
+                domain.Init();
                 domain.CreateListDTOFile(this, domains);
                 domain.CreateDTOFile(this, domains);
             }
@@ -143,7 +196,7 @@ namespace MateralBaseCoreVSIX.Models
             ClearMCG();
             foreach (DomainModel domain in domains)
             {
-                domain.Init(this);
+                domain.Init();
                 domain.CreateAddRequestModelFile(this);
                 domain.CreateEditRequestModelFile(this);
                 domain.CreateQueryRequestModelFile(this, domains);
@@ -158,7 +211,7 @@ namespace MateralBaseCoreVSIX.Models
             ClearMCG();
             foreach (DomainModel domain in domains)
             {
-                domain.Init(this);
+                domain.Init();
                 domain.CreateIRepositoryFile(this);
             }
         }
@@ -167,14 +220,14 @@ namespace MateralBaseCoreVSIX.Models
         /// </summary>
         private void CreateDBContextFile(List<DomainModel> domains)
         {
-            string[] domainNamespaces = domains.Select(m => m.Namespace).Distinct().ToArray();
             StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine("using Microsoft.EntityFrameworkCore;");
+            codeContent.AppendLine("using System.Reflection;");
+            string[] domainNamespaces = domains.Select(m => m.Namespace).Distinct().ToArray();
             foreach (var item in domainNamespaces)
             {
                 codeContent.AppendLine($"using {item};");
             }
-            codeContent.AppendLine("using Microsoft.EntityFrameworkCore;");
-            codeContent.AppendLine("using System.Reflection;");
             codeContent.AppendLine("");
             codeContent.AppendLine($"namespace {Namespace}");
             codeContent.AppendLine("{");
