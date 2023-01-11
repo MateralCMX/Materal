@@ -1,6 +1,6 @@
-using RC.Demo.Domain;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using RC.Demo.Domain;
 
 namespace RC.Demo.EFRepository
 {

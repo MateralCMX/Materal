@@ -2,6 +2,9 @@
 
 namespace RC.Demo.Enums
 {
+    /// <summary>
+    /// 性别
+    /// </summary>
     public enum SexEnum : byte
     {
         /// <summary>
