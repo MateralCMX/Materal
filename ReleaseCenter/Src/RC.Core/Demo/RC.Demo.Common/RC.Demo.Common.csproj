@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.Common" Version="0.2.1" />
+		<PackageReference Include="Materal.BaseCore.Common" Version="0.2.2" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\RC.Core.Common\RC.Core.Common.csproj" />

@@ -1,4 +1,5 @@
 #nullable enable
+using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.DataTransmitModel;
 using RC.Deploy.Enums;
 

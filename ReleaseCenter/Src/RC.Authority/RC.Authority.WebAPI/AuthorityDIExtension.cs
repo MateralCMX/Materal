@@ -1,7 +1,7 @@
-﻿using NetCore.AutoRegisterDi;
+﻿using Materal.BaseCore.Common;
+using NetCore.AutoRegisterDi;
 using RC.Authority.Common;
 using RC.Authority.EFRepository;
-using RC.Core;
 using RC.Core.WebAPI;
 using System.Reflection;
 

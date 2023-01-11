@@ -1,5 +1,5 @@
-﻿using NetCore.AutoRegisterDi;
-using RC.Core;
+﻿using Materal.BaseCore.Common;
+using NetCore.AutoRegisterDi;
 using RC.Core.WebAPI;
 using RC.Deploy.Common;
 using RC.Deploy.EFRepository;

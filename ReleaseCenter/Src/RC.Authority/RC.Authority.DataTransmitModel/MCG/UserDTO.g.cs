@@ -1,3 +1,5 @@
+#nullable enable
+using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.DataTransmitModel;
 
 namespace RC.Authority.DataTransmitModel.User
