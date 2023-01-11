@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.BaseCore.Services" Version="0.2.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\RC.Deploy.Common\RC.Deploy.Common.csproj" />
+		<ProjectReference Include="..\RC.Deploy.DataTransmitModel\RC.Deploy.DataTransmitModel.csproj" />
+	</ItemGroup>
+</Project>

@@ -3,6 +3,7 @@ using EnvDTE80;
 using MateralBaseCoreVSIX.Models;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Threading;
 using System;
 using System.ComponentModel.Design;
 using Task = System.Threading.Tasks.Task;

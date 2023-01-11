@@ -296,6 +296,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateCommonProjectFile(Solution solution)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -315,6 +316,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateEFRepositoryProjectFile(Solution solution)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -337,6 +339,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateDataTransmitModelProjectFile(Solution solution)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -363,6 +366,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateServicesProjectFile(Solution solution)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -386,6 +390,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateServiceImplProjectFile(Solution solution)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -409,6 +414,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreatePresentationModelProjectFile(Solution solution)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -435,6 +441,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateWebAPIProjectFile(Solution solution)
         {
+            ThreadHelper.ThrowIfNotOnUIThread();
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk.Web\">");
             codeContent.AppendLine($"\t<PropertyGroup>");

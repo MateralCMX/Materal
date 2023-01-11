@@ -673,6 +673,7 @@ namespace MateralBaseCoreVSIX.Models
         {
             if (!_generatorCode || !_generatorQueryModel) return;
             StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"#nullable enable");
             codeContent.AppendLine($"using Materal.BaseCore.DataTransmitModel;");
             DomainModel targetDomain;
             if (_generatorQueryTargetService)
@@ -722,6 +723,7 @@ namespace MateralBaseCoreVSIX.Models
         {
             if (!_generatorCode || !_generatorQueryModel) return;
             StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"#nullable enable");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
             codeContent.AppendLine($"using Materal.BaseCore.DataTransmitModel;");
             DomainModel targetDomain;
