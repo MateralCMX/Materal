@@ -8,7 +8,6 @@ namespace MateralBaseCoreVSIX.Models
 {
     public class SolutionModel
     {
-        #region 项目
         private readonly ProjectModel _commonProject;
         private readonly ProjectModel _domainProject;
         private readonly ProjectModel _webAPIProject;
@@ -17,44 +16,41 @@ namespace MateralBaseCoreVSIX.Models
         private readonly ProjectModel _efRepositoryProject;
         private readonly ProjectModel _dataTransmitModelProject;
         private readonly ProjectModel _presentationModelProject;
-        #endregion
-        private readonly string _rootPath;
         private readonly List<DomainModel> _domains = new List<DomainModel>();
         public SolutionModel(Solution solution, Project domainProject)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            _rootPath = Path.GetDirectoryName(solution.FullName);
+            _domainProject = new ProjectModel(domainProject);
             FillDoamins(domainProject);
-            _domainProject = new ProjectModel(domainProject, _rootPath);
             foreach (Project project in solution.Projects)
             {
                 if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Common")
                 {
-                    _commonProject = new ProjectModel(project, _rootPath);
+                    _commonProject = new ProjectModel(project);
                 }
                 else if(project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.EFRepository")
                 {
-                    _efRepositoryProject = new ProjectModel(project, _rootPath);
+                    _efRepositoryProject = new ProjectModel(project);
                 }
                 else if(project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.DataTransmitModel")
                 {
-                    _dataTransmitModelProject = new ProjectModel(project, _rootPath);
+                    _dataTransmitModelProject = new ProjectModel(project);
                 }
                 else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Services")
                 {
-                    _servicesProject = new ProjectModel(project, _rootPath);
+                    _servicesProject = new ProjectModel(project);
                 }
                 else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.ServiceImpl")
                 {
-                    _serviceImplProject = new ProjectModel(project, _rootPath);
+                    _serviceImplProject = new ProjectModel(project);
                 }
                 else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.PresentationModel")
                 {
-                    _presentationModelProject = new ProjectModel(project, _rootPath);
+                    _presentationModelProject = new ProjectModel(project);
                 }
                 else if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.WebAPI")
                 {
-                    _webAPIProject = new ProjectModel(project, _rootPath);
+                    _webAPIProject = new ProjectModel(project);
                 }
             }
             if (_commonProject == null)
@@ -86,6 +82,9 @@ namespace MateralBaseCoreVSIX.Models
                 _webAPIProject = CreateWebAPIProjectFile(solution);
             }
         }
+        /// <summary>
+        /// 创建代码文件
+        /// </summary>
         public void CreateCodeFiles()
         {
             _domainProject.CreateDomainFiles(_domains);
@@ -97,12 +96,20 @@ namespace MateralBaseCoreVSIX.Models
             _webAPIProject.CreateWebAPIFiles(_domains);
         }
         #region 私有方法
+        /// <summary>
+        /// 填充Domain
+        /// </summary>
+        /// <param name="domainProject"></param>
         private void FillDoamins(Project domainProject)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            string itemPath = Path.Combine(_rootPath, domainProject.Name);
-            FillDomains(domainProject.ProjectItems, itemPath);
+            FillDomains(domainProject.ProjectItems, _domainProject.RootPath);
         }
+        /// <summary>
+        /// 填充Domain
+        /// </summary>
+        /// <param name="projectItems"></param>
+        /// <param name="path"></param>
         private void FillDomains(ProjectItems projectItems, string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -151,18 +158,30 @@ namespace MateralBaseCoreVSIX.Models
             return null;
         }
         /// <summary>
+        /// 创建项目文件
+        /// </summary>
+        /// <param name="solution"></param>
+        /// <param name="codeContent"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private ProjectModel CreateProjectFile(Solution solution, StringBuilder codeContent, string name)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            string directoryPath = Path.Combine(_domainProject.DiskDirectoryPath, name);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            string filePath = codeContent.SaveFile(directoryPath, $"{name}.csproj");
+            Project project = solution.AddFromFile(filePath, false);
+            return new ProjectModel(project);
+        }
+        /// <summary>
         /// 创建公共项目文件
         /// </summary>
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateCommonProjectFile(Solution solution)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            string directoryPath = Path.Combine(_rootPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Common");
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            #region CsProject
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -171,13 +190,10 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
-            codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_domainProject.PrefixName}.Core.Common\\{_domainProject.PrefixName}.Core.Common.csproj\" />");
+            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.Common\" Version=\"0.0.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"</Project>");
-            string filePath = codeContent.SaveFile(directoryPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Common.csproj");
-            #endregion
-            Project project = solution.AddFromFile(filePath, false);
-            return new ProjectModel(project, _rootPath);
+            return CreateProjectFile(solution, codeContent, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Common");
         }
         /// <summary>
         /// 创建数据传输模型项目文件
@@ -185,13 +201,6 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateEFRepositoryProjectFile(Solution solution)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            string directoryPath = Path.Combine(_rootPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.EFRepository");
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            #region CsProject
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -206,10 +215,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_domainProject.Namespace}\\{_domainProject.Namespace}.csproj\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"</Project>");
-            string filePath = codeContent.SaveFile(directoryPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.EFRepository.csproj");
-            #endregion
-            Project project = solution.AddFromFile(filePath, false);
-            return new ProjectModel(project, _rootPath);
+            return CreateProjectFile(solution, codeContent, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.EFRepository");
         }
         /// <summary>
         /// 创建数据传输模型项目文件
@@ -217,13 +223,6 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateDataTransmitModelProjectFile(Solution solution)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            string directoryPath = Path.Combine(_rootPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.DataTransmitModel");
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            #region CsProject
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -236,10 +235,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.DataTransmitModel\" Version=\"0.0.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"</Project>");
-            string filePath = codeContent.SaveFile(directoryPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.DataTransmitModel.csproj");
-            #endregion
-            Project project = solution.AddFromFile(filePath, false);
-            return new ProjectModel(project, _rootPath);
+            return CreateProjectFile(solution, codeContent, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.DataTransmitModel");
         }
         /// <summary>
         /// 创建服务项目文件
@@ -247,13 +243,6 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateServicesProjectFile(Solution solution)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            string directoryPath = Path.Combine(_rootPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Services");
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            #region CsProject
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -269,10 +258,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_dataTransmitModelProject.Namespace}\\{_dataTransmitModelProject.Namespace}.csproj\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"</Project>");
-            string filePath = codeContent.SaveFile(directoryPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Services.csproj");
-            #endregion
-            Project project = solution.AddFromFile(filePath, false);
-            return new ProjectModel(project, _rootPath);
+            return CreateProjectFile(solution, codeContent, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Services");
         }
         /// <summary>
         /// 创建服务实现项目文件
@@ -280,13 +266,6 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateServiceImplProjectFile(Solution solution)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            string directoryPath = Path.Combine(_rootPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.ServiceImpl");
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            #region CsProject
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -302,10 +281,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_servicesProject.Namespace}\\{_servicesProject.Namespace}.csproj\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"</Project>");
-            string filePath = codeContent.SaveFile(directoryPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.ServiceImpl.csproj");
-            #endregion
-            Project project = solution.AddFromFile(filePath, false);
-            return new ProjectModel(project, _rootPath);
+            return CreateProjectFile(solution, codeContent, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.ServiceImpl");
         }
         /// <summary>
         /// 创建表现模型项目文件
@@ -313,13 +289,6 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreatePresentationModelProjectFile(Solution solution)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            string directoryPath = Path.Combine(_rootPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.PresentationModel");
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            #region CsProject
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -332,10 +301,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.PresentationModel\" Version=\"0.0.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"</Project>");
-            string filePath = codeContent.SaveFile(directoryPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.PresentationModel.csproj");
-            #endregion
-            Project project = solution.AddFromFile(filePath, false);
-            return new ProjectModel(project, _rootPath);
+            return CreateProjectFile(solution, codeContent, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.PresentationModel");
         }
         /// <summary>
         /// 创建WebAPI项目文件
@@ -343,13 +309,6 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="solution">解决方案对象</param>
         private ProjectModel CreateWebAPIProjectFile(Solution solution)
         {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            string directoryPath = Path.Combine(_rootPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.WebAPI");
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            #region CsProject
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk.Web\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
@@ -371,12 +330,8 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_efRepositoryProject.Namespace}\\{_efRepositoryProject.Namespace}.csproj\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"</Project>");
-            string filePath = codeContent.SaveFile(directoryPath, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.WebAPI.csproj");
-            #endregion
-            Project project = solution.AddFromFile(filePath, false);
-            return new ProjectModel(project, _rootPath);
+            return CreateProjectFile(solution, codeContent, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.WebAPI");
         }
         #endregion
-
     }
 }

@@ -10,9 +10,17 @@ namespace MateralBaseCoreVSIX.Models
     public class ProjectModel
     {
         /// <summary>
-        /// 根路径
+        /// 磁盘文件夹路径
+        /// </summary>
+        public string DiskDirectoryPath { get; }
+        /// <summary>
+        /// 项目根路径
         /// </summary>
         public string RootPath { get; }
+        /// <summary>
+        /// 生成根路径
+        /// </summary>
+        public string GeneratorRootPath { get; }
         /// <summary>
         /// 项目名称
         /// MBC.Demo.Service->Demo
@@ -32,10 +40,13 @@ namespace MateralBaseCoreVSIX.Models
         /// 数据库上下文名称
         /// </summary>
         public string DBContextName { get; }
-        public ProjectModel(Project project, string rootPath)
+        public ProjectModel(Project project)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            RootPath = Path.Combine(rootPath, project.Name, "MCG");
+            RootPath = Path.GetDirectoryName(project.FullName);
+            int biasIndex = RootPath.LastIndexOf('\\');
+            DiskDirectoryPath = RootPath.Substring(0, biasIndex);
+            GeneratorRootPath = Path.Combine(RootPath, "MCG");
             Namespace = project.Name;
             string[] names = project.Name.Split('.');
             if (names.Length >= 2)
@@ -189,16 +200,16 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine("        protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());");
             codeContent.AppendLine("    }");
             codeContent.AppendLine("}");
-            codeContent.SaveFile(RootPath, $"{DBContextName}.g.cs");
+            codeContent.SaveFile(GeneratorRootPath, $"{DBContextName}.g.cs");
         }
         /// <summary>
         /// 清空MCG文件
         /// </summary>
         private void ClearMCG()
         {
-            if (Directory.Exists(RootPath))
+            if (Directory.Exists(GeneratorRootPath))
             {
-                Directory.Delete(RootPath, true);
+                Directory.Delete(GeneratorRootPath, true);
             }
         }
     }

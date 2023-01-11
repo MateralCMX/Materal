@@ -5,10 +5,9 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.EFRepository" Version="0.0.1" />
+		<PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.22" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\RC.Core.EFRepository\RC.Core.EFRepository.csproj" />
-		<ProjectReference Include="..\RC.Demo.Domain\RC.Demo.Domain.csproj" />
+	  <ProjectReference Include="..\..\Src\RC.Core.Common\RC.Core.Common.csproj" />
 	</ItemGroup>
 </Project>

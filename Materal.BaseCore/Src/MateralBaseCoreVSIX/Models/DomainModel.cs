@@ -218,7 +218,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"    {{");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_controllerName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_controllerName}.g.cs");
         }
         /// <summary>
         /// 创建AutoMapper配置文件
@@ -289,7 +289,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"        }}");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_autoMapperProfileName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_autoMapperProfileName}.g.cs");
         }
         #endregion
         #region Services
@@ -320,7 +320,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"    {{");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_iServiceName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_iServiceName}.g.cs");
         }
         /// <summary>
         /// 创建查询模型文件
@@ -353,7 +353,7 @@ namespace MateralBaseCoreVSIX.Models
             FillQueryModelProperties(targetDomain, codeContent);
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_queryModelName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_queryModelName}.g.cs");
         }
         /// <summary>
         /// 填充查询请求模型属性
@@ -440,7 +440,7 @@ namespace MateralBaseCoreVSIX.Models
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_editModelName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_editModelName}.g.cs");
         }
         /// <summary>
         /// 创建添加模型文件
@@ -472,7 +472,7 @@ namespace MateralBaseCoreVSIX.Models
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_addModelName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_addModelName}.g.cs");
         }
         #endregion
         #region ServiceImpl
@@ -513,7 +513,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"    {{");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_serviceImplName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_serviceImplName}.g.cs");
         }
         #endregion
         #region EFRepository
@@ -562,7 +562,7 @@ namespace MateralBaseCoreVSIX.Models
                 codeContent.AppendLine($"    }}");
             }
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_repositoryImplName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_repositoryImplName}.g.cs");
         }
         /// <summary>
         /// 创建实体配置文件
@@ -636,7 +636,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"    {{");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_entityConfigName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_entityConfigName}.g.cs");
         }
         #endregion
         #region Domain
@@ -663,7 +663,7 @@ namespace MateralBaseCoreVSIX.Models
                 codeContent.AppendLine($"    public partial interface {_iRepositoryName} : ICacheEFRepository<{Name}, Guid> {{ }}");
             }
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_iRepositoryName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_iRepositoryName}.g.cs");
         }
         #endregion
         #region DataTransmitModel
@@ -696,7 +696,7 @@ namespace MateralBaseCoreVSIX.Models
             FillDTOProperty(targetDomain, codeContent);
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_dtoName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_dtoName}.g.cs");
         }
         /// <summary>
         /// 填充数据传输模型属性
@@ -756,7 +756,7 @@ namespace MateralBaseCoreVSIX.Models
             FillListDTOProperty(targetDomain, codeContent);
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_listDTOName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_listDTOName}.g.cs");
         }
         /// <summary>
         /// 填充列表数据传输模型属性
@@ -809,7 +809,7 @@ namespace MateralBaseCoreVSIX.Models
             FillQueryRequestModelProperties(targetDomain, codeContent);
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_queryRequestModelName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_queryRequestModelName}.g.cs");
         }
         /// <summary>
         /// 填充查询请求模型属性
@@ -890,7 +890,7 @@ namespace MateralBaseCoreVSIX.Models
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_editRequestModelName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_editRequestModelName}.g.cs");
         }
         /// <summary>
         /// 创建添加请求文件
@@ -922,7 +922,7 @@ namespace MateralBaseCoreVSIX.Models
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{_addRequestModelName}.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{_addRequestModelName}.g.cs");
         }
         #endregion
         /// <summary>

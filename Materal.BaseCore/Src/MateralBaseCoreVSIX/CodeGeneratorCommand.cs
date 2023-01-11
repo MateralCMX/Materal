@@ -95,6 +95,7 @@ namespace MateralBaseCoreVSIX
                 object temp = ServiceProvider.GetServiceAsync(typeof(DTE)).Result;
                 if(temp is DTE dte && dte.ActiveSolutionProjects != null && dte.ActiveSolutionProjects is object[] activeObjects)
                 {
+                    bool isGenerator = false;
                     foreach (object activeItem in activeObjects)
                     {
                         if (activeItem is Project project && project.Name.EndsWith(".Domain"))
@@ -102,7 +103,12 @@ namespace MateralBaseCoreVSIX
                             DTE2 dte2 = Package.GetGlobalService(typeof(DTE)) as DTE2;
                             var solution = new SolutionModel(dte2.Solution, project);
                             solution.CreateCodeFiles();
+                            isGenerator = true;
                         }
+                    }
+                    if (!isGenerator)
+                    {
+                        throw new VSIXException("激活项目不是Domain");
                     }
                 }
                 else
@@ -115,7 +121,7 @@ namespace MateralBaseCoreVSIX
                 message = ex.Message;
             }
             VsShellUtilities.ShowMessageBox(
-                this.package,
+                package,
                 message,
                 "Materal.VsHelper",
                 OLEMSGICON.OLEMSGICON_INFO,
