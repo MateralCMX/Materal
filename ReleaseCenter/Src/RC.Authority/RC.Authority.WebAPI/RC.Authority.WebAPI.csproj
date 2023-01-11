@@ -10,12 +10,11 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Materal.BaseCore.WebAPI" Version="0.2.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Src\RC.Core.WebAPI\RC.Core.WebAPI.csproj" />
-		<ProjectReference Include="..\RC.Demo.PresentationModel\RC.Demo.PresentationModel.csproj" />
-		<ProjectReference Include="..\RC.Demo.ServiceImpl\RC.Demo.ServiceImpl.csproj" />
-		<ProjectReference Include="..\RC.Demo.EFRepository\RC.Demo.EFRepository.csproj" />
+		<ProjectReference Include="..\..\RC.Core\Src\RC.Core.WebAPI\RC.Core.WebAPI.csproj" />
+		<ProjectReference Include="..\RC.Authority.EFRepository\RC.Authority.EFRepository.csproj" />
+		<ProjectReference Include="..\RC.Authority.PresentationModel\RC.Authority.PresentationModel.csproj" />
+		<ProjectReference Include="..\RC.Authority.ServiceImpl\RC.Authority.ServiceImpl.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,10 +1,13 @@
+using Materal.BaseCore.WebAPI;
+using Materal.BaseCore.WebAPI.Common;
 using Materal.Common;
+using Materal.Logger;
 using Materal.TTA.EFRepository;
+using RC.Authority.EFRepository;
+using RC.Authority.Services;
 using RC.Core.WebAPI;
-using RC.Demo.EFRepository;
-using RC.Demo.Services;
 
-namespace RC.Demo.WebAPI
+namespace RC.Authority.WebAPI
 {
     /// <summary>
     /// 主程序
@@ -20,13 +23,14 @@ namespace RC.Demo.WebAPI
         {
             WebApplication app = RCStart(args, services =>
             {
-                services.AddDemoService();
-            }, null, "RC.Demo");
-            MigrateHelper<DemoDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<DemoDBContext>>();
+                services.AddAuthorityService();
+            }, null, "RC.Authority");
+            MigrateHelper<AuthorityDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<AuthorityDBContext>>();
             await migrateHelper.MigrateAsync();
             #region 添加默认用户
             IUserService? userService = MateralServices.GetService<IUserService>();
             await userService.AddDefaultUserAsync();
+            userService = null;
             #endregion
             await app.RunAsync();
         }

@@ -81,28 +81,29 @@ namespace MateralBaseCoreVSIX.Models
             ThreadHelper.ThrowIfNotOnUIThread();
             foreach (Project project in projects)
             {
+                if (project == null) continue;
+                FillProject(project);
                 if (project.ProjectItems != null)
                 {
                     foreach (object objItem in project.ProjectItems)
                     {
-                        if(objItem is ProjectItem projectItem)
-                        {
-                            FillProject(projectItem.SubProject);
-                        }
+                        if (!(objItem is ProjectItem projectItem) || projectItem.SubProject == null) continue;
+                        FillProject(projectItem.SubProject);
                     }
                 }
                 else if (project.Collection != null && project.Collection.Count > 0)
                 {
                     FillProjects(project.Collection);
                 }
-                else
-                {
-                    FillProject(project);
-                }
             }
         }
+        /// <summary>
+        /// 填充项目
+        /// </summary>
+        /// <param name="project"></param>
         private void FillProject(Project project)
         {
+            if (project == null && project.GetType().Name == "OAProject") return;
             ThreadHelper.ThrowIfNotOnUIThread();
             if (project.Name == $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Common")
             {

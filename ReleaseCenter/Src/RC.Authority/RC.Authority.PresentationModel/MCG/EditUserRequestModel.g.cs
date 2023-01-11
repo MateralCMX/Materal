@@ -1,9 +1,8 @@
 #nullable enable
 using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.PresentationModel;
-using RC.Demo.Enums;
 
-namespace RC.Demo.PresentationModel.User
+namespace RC.Authority.PresentationModel.User
 {
     /// <summary>
     /// 用户修改请求模型
@@ -18,17 +17,12 @@ namespace RC.Demo.PresentationModel.User
         /// <summary>
         /// 姓名
         /// </summary>
-        [Required(ErrorMessage = "姓名为空"), StringLength(100, ErrorMessage = "姓名过长")]
+        [Required(ErrorMessage = "姓名为空"), StringLength(100, ErrorMessage = "姓名最多100个字符")]
         public string Name { get; set; }  = string.Empty;
-        /// <summary>
-        /// 性别
-        /// </summary>
-        [Required(ErrorMessage = "性别为空")]
-        public SexEnum Sex { get; set; } 
         /// <summary>
         /// 账号
         /// </summary>
-        [Required(ErrorMessage = "账号为空"), StringLength(50, ErrorMessage = "账号过长")]
+        [Required(ErrorMessage = "账号为空"), StringLength(100, ErrorMessage = "账号最多100个字符")]
         public string Account { get; set; }  = string.Empty;
     }
 }
