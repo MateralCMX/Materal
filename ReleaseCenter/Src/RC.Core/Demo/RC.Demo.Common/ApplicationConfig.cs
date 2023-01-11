@@ -4,7 +4,7 @@ using Materal.TTA.SqliteRepository.Model;
 
 namespace RC.Demo.Common
 {
-    public class DemoConfig
+    public class ApplicationConfig
     {
         /// <summary>
         /// 数据库配置

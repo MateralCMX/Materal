@@ -1,9 +1,9 @@
-﻿using Materal.BaseCore.WebAPI;
+﻿using Materal.BaseCore.Common;
+using Materal.BaseCore.WebAPI;
 using MBC.Core.EFRepository;
 using MBC.Demo.Common;
 using MBC.Demo.EFRepository;
 using NetCore.AutoRegisterDi;
-using RC.Core;
 using System.Reflection;
 
 namespace MBC.Demo.WebAPI

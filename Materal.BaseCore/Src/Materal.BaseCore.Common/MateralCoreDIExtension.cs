@@ -1,5 +1,4 @@
-﻿using Materal.BaseCore.Common;
-using Materal.CacheHelper;
+﻿using Materal.CacheHelper;
 using Materal.Common;
 using Materal.TFMS.EventBus;
 using Materal.TFMS.EventBus.Extensions;
@@ -10,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using System.Reflection;
 
-namespace RC.Core
+namespace Materal.BaseCore.Common
 {
     /// <summary>
     /// 发布中心依赖注入扩展

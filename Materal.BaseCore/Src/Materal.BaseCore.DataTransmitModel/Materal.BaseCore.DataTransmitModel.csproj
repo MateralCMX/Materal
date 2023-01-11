@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../nupkgs</PackageOutputPath>
-		<Version>0.2.1</Version>
+		<Version>0.2.2</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -13,4 +13,7 @@
 		<Title>Materal.BaseCore.DataTransmitModel</Title>
 		<Description>请应用对应名称包</Description>
 	</PropertyGroup>
+	<ItemGroup>
+	  <PackageReference Include="Materal.Common" Version="1.1.20" />
+	</ItemGroup>
 </Project>

@@ -27,7 +27,7 @@ namespace RC.Demo.WebAPI
                 $"{basePath}RC.Demo.PresentationModel.xml"
             };
             services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
-            services.AddRCService<DemoDBContext>(DemoConfig.DBConfig, swaggerXmlPaths);
+            services.AddRCService<DemoDBContext>(ApplicationConfig.DBConfig, swaggerXmlPaths);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.Demo.EFRepository"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
                 .AsPublicImplementedInterfaces();
