@@ -111,6 +111,11 @@ namespace MateralBaseCoreVSIX.Models
                 _generatorService = !Attributes.HasAttribute<NotServiceGeneratorAttribute>();
                 _generatorDefaultService = !Attributes.HasAttribute<NotDefaultServiceGeneratorAttribute>();
                 _generatorQueryModel = !Attributes.HasAttribute<NotServiceAndQueryGeneratorAttribute>();
+                if (!_generatorQueryModel)
+                {
+                    _generatorService = false;
+                    _generatorDefaultService = false;
+                }
                 _generatorWebAPI = !Attributes.HasAttribute<NotWebAPIGeneratorAttribute>();
                 _generatorServiceWebAPI = !Attributes.HasAttribute<NotWebAPIServiceGeneratorAttribute>();
                 _extendQueryGenerator = !Attributes.HasAttribute<NotExtendQueryGeneratorAttribute>();
@@ -179,6 +184,8 @@ namespace MateralBaseCoreVSIX.Models
                 "using System.ComponentModel.DataAnnotations;",
                 $"using Materal.BaseCore.Domain;",
                 $"using Materal.BaseCore.CodeGenerator;",
+                $"using Materal.BaseCore.Common.Utils.IndexHelper;",
+                $"using Materal.BaseCore.Common.Utils.TreeHelper;",
             };
             OtherUsings.Clear();
             foreach (string usingCode in Usings)
@@ -674,6 +681,7 @@ namespace MateralBaseCoreVSIX.Models
             if (!_generatorCode || !_generatorQueryModel) return;
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"#nullable enable");
+            codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
             codeContent.AppendLine($"using Materal.BaseCore.DataTransmitModel;");
             DomainModel targetDomain;
             if (_generatorQueryTargetService)
