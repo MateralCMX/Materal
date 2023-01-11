@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 
@@ -24,11 +25,11 @@ namespace Materal.BaseCore.WebAPI
         /// </summary>
         /// <param name="services"></param>
         /// <param name="swaggerXmlPaths"></param>
-        public static IServiceCollection AddWebAPIService(this IServiceCollection services, string[] swaggerXmlPaths)
+        public static IServiceCollection AddWebAPIService(this IServiceCollection services, string[] swaggerXmlPaths, params Assembly[] otherControlesAssemblys)
         {
             services.AddMateralLogger();
             #region MVC
-            services.AddControllers(mvcOptions =>
+            IMvcBuilder mvcBuild = services.AddControllers(mvcOptions =>
             {
                 mvcOptions.Filters.Add(new AuthorizeFilter());
                 mvcOptions.Filters.Add<ActionPageQueryFilterAttribute>();
@@ -42,6 +43,10 @@ namespace Materal.BaseCore.WebAPI
                 jsonOptions.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new FirstUpperNamingPolicy();
             });
+            foreach (Assembly assembly in otherControlesAssemblys)
+            {
+                mvcBuild.AddApplicationPart(assembly);
+            }
             #endregion
             #region 响应压缩
             services.AddResponseCompression();

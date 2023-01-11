@@ -49,7 +49,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MateralBaseCoreVSIX", "Src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Core.EFRepository", "Demo\MBC.Core\MBC.Core.EFRepository\MBC.Core.EFRepository.csproj", "{CA815962-0BF1-488A-A953-156320F8501F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBC.Demo.EFRepository", "Demo\MBC.Demo.EFRepository\MBC.Demo.EFRepository.csproj", "{024E6BBB-1234-4B93-B838-D3FE3097E9E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Demo.EFRepository", "Demo\MBC.Demo.EFRepository\MBC.Demo.EFRepository.csproj", "{024E6BBB-1234-4B93-B838-D3FE3097E9E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

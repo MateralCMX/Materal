@@ -304,7 +304,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
-            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.Common\" Version=\"0.2.0\" />");
+            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.Common\" Version=\"0.2.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"</Project>");
             return CreateProjectFile(solution, codeContent, $"{_domainProject.PrefixName}.{_domainProject.ProjectName}.Common");
@@ -323,7 +323,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
-            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.EFRepository\" Version=\"0.2.0\" />");
+            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.EFRepository\" Version=\"0.2.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
             codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_domainProject.Namespace}\\{_domainProject.Namespace}.csproj\" />");
@@ -346,7 +346,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<GenerateDocumentationFile>True</GenerateDocumentationFile>");
             codeContent.AppendLine($"\t</PropertyGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
-            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.DataTransmitModel\" Version=\"0.2.0\" />");
+            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.DataTransmitModel\" Version=\"0.2.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             if(_enumsProject != null)
             {
@@ -371,7 +371,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
-            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.Services\" Version=\"0.2.0\" />");
+            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.Services\" Version=\"0.2.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
             codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_commonProject.Namespace}\\{_commonProject.Namespace}.csproj\" />");
@@ -394,7 +394,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
-            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.ServiceImpl\" Version=\"0.2.0\" />");
+            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.ServiceImpl\" Version=\"0.2.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
             codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_domainProject.Namespace}\\{_domainProject.Namespace}.csproj\" />");
@@ -418,7 +418,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<GenerateDocumentationFile>True</GenerateDocumentationFile>");
             codeContent.AppendLine($"\t</PropertyGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
-            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.PresentationModel\" Version=\"0.2.0\" />");
+            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.PresentationModel\" Version=\"0.2.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             if (_enumsProject != null)
             {
@@ -448,7 +448,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t\t<PrivateAssets>all</PrivateAssets>");
             codeContent.AppendLine($"\t\t\t<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>");
             codeContent.AppendLine($"\t\t</PackageReference>");
-            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.WebAPI\" Version=\"0.2.0\" />");
+            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.WebAPI\" Version=\"0.2.1\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
             codeContent.AppendLine($"\t\t<ProjectReference Include=\"..\\{_presentationModelProject.Namespace}\\{_presentationModelProject.Namespace}.csproj\" />");

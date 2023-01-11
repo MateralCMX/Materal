@@ -4,8 +4,8 @@
 $codeDir = "D:\Project\Materal\Project\Materal\ReleaseCenter\Src\"#源码文件夹路径
 $publishDir = "D:\Project\Materal\Application\"#发布文件夹路径
 
-$applicationSuffixs = "Authority"#"Authority","FileServer","Operate","QuestionBank","Financial","Logger","DataCenter","Educational","Market"#后缀名
-$applicationPrefixs = ""#前缀名
+$applicationSuffixs = "WebAPI"#"Authority","FileServer","Operate","QuestionBank","Financial","Logger","DataCenter","Educational","Market"#后缀名
+$applicationPrefixs = "RC.Authority"#前缀名
 $version = "Release"#Debug Release
 Remove-Item -Path:"$publishDir\*" -Recurse:$true
 Function GetChildItems(){
