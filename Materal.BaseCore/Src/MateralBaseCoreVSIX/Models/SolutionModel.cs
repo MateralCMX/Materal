@@ -444,7 +444,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<GenerateDocumentationFile>True</GenerateDocumentationFile>");
             codeContent.AppendLine($"\t</PropertyGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
-            codeContent.AppendLine($"\t\t<PackageReference Include=\"Microsoft.EntityFrameworkCore.Tools\" Version=\"7.0.1\">");
+            codeContent.AppendLine($"\t\t<PackageReference Include=\"Microsoft.EntityFrameworkCore.Tools\" Version=\"7.0.2\">");
             codeContent.AppendLine($"\t\t\t<PrivateAssets>all</PrivateAssets>");
             codeContent.AppendLine($"\t\t\t<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>");
             codeContent.AppendLine($"\t\t</PackageReference>");

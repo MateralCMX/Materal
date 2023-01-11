@@ -1,7 +1,6 @@
-﻿using Materal.BaseCore.WebAPI;
-using NetCore.AutoRegisterDi;
+﻿using NetCore.AutoRegisterDi;
 using RC.Core;
-using RC.Core.EFRepository;
+using RC.Core.WebAPI;
 using RC.Demo.Common;
 using RC.Demo.EFRepository;
 using System.Reflection;
@@ -20,15 +19,15 @@ namespace RC.Demo.WebAPI
         /// <returns></returns>
         public static IServiceCollection AddDemoService(this IServiceCollection services)
         {
-            Assembly currentAssembly = Assembly.GetExecutingAssembly();
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string[] swaggerXmlPaths = new[]
             {
-                $"{basePath}{currentAssembly.GetName().Name}.xml",
+                $"{basePath}RC.Demo.WebAPI.xml",
+                $"{basePath}RC.Demo.DataTransmitModel.xml",
+                $"{basePath}RC.Demo.PresentationModel.xml"
             };
-            services.AddDBService<DemoDBContext>(DemoConfig.DBConfig);
-            services.AddWebAPIService(swaggerXmlPaths);
-            services.AddMateralCoreServices(currentAssembly);
+            services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
+            services.AddRCService<DemoDBContext>(DemoConfig.DBConfig, swaggerXmlPaths);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.Demo.EFRepository"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
                 .AsPublicImplementedInterfaces();
