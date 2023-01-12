@@ -218,6 +218,14 @@ namespace MateralBaseCoreVSIX.Models
             }
         }
         /// <summary>
+        /// 创建HttpClient文件
+        /// </summary>
+        /// <param name="controllers"></param>
+        public void CreateHttpClientFiles(List<ControllerModel> controllers)
+        {
+
+        }
+        /// <summary>
         /// 创建DBContext
         /// </summary>
         private void CreateDBContextFile(List<DomainModel> domains)

@@ -1,6 +1,7 @@
 ﻿using Materal.BaseCore.Common;
-using Materal.BaseCore.WebAPI;
-using MBC.Core.EFRepository;
+using Materal.BaseCore.HttpClient.Extensions;
+using Materal.BaseCore.WebAPI.Common;
+using MBC.Core.WebAPI;
 using MBC.Demo.Common;
 using MBC.Demo.EFRepository;
 using NetCore.AutoRegisterDi;
@@ -20,21 +21,22 @@ namespace MBC.Demo.WebAPI
         /// <returns></returns>
         public static IServiceCollection AddDemoService(this IServiceCollection services)
         {
-            Assembly currentAssembly = Assembly.GetExecutingAssembly();
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string[] swaggerXmlPaths = new[]
             {
-                $"{basePath}{currentAssembly.GetName().Name}.xml",
+                $"{basePath}MBC.Demo.WebAPI.xml",
+                $"{basePath}MBC.Demo.DataTransmitModel.xml",
+                $"{basePath}MBC.Demo.PresentationModel.xml",
             };
-            services.AddDBService<DemoDBContext>(DemoConfig.DBConfig);
-            services.AddWebAPIService(swaggerXmlPaths);
-            services.AddMateralCoreServices(currentAssembly);
+            services.AddMBCService<DemoDBContext>(DemoConfig.DBConfig, swaggerXmlPaths);
+            services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.EFRepository"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
                 .AsPublicImplementedInterfaces();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.ServiceImpl"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("ServiceImpl"))
                 .AsPublicImplementedInterfaces();
+            services.AddHttpClientService(WebAPIConfig.AppName, Assembly.Load("MBC.Demo.HttpClient"));
             return services;
         }
     }

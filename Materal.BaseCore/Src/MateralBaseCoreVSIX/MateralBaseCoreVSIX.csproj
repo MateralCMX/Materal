@@ -46,15 +46,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CodeGeneratorCommand.cs" />
+    <Compile Include="HttpClientGeneratorCommand.cs" />
     <Compile Include="Models\AttributeArgumentModel.cs" />
     <Compile Include="Models\AttributeExtension.cs" />
     <Compile Include="Models\AttributeModel.cs" />
+    <Compile Include="Models\ControllerModel.cs" />
     <Compile Include="Models\DomainModel.cs" />
     <Compile Include="Models\DomainPropertyModel.cs" />
     <Compile Include="Models\EnumModel.cs" />
     <Compile Include="Models\ProjectModel.cs" />
-    <Compile Include="Models\SolutionModel.cs" />
+    <Compile Include="Models\DomainSolutionModel.cs" />
     <Compile Include="Models\StringExtension.cs" />
+    <Compile Include="Models\WebAPISolutionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MateralBaseCoreVSIXPackage.cs" />
     <Compile Include="VSIXException.cs" />
@@ -94,6 +97,7 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\HttpClientGeneratorCommand.png" />
     <Content Include="Resources\CodeGeneratorCommand.png" />
     <Content Include="尘歌壶.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

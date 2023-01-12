@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\MBC.Core.HttpClient\MBC.Core.HttpClient.csproj" />
+    <ProjectReference Include="..\MBC.Demo.DataTransmitModel\MBC.Demo.DataTransmitModel.csproj" />
+    <ProjectReference Include="..\MBC.Demo.PresentationModel\MBC.Demo.PresentationModel.csproj" />
+  </ItemGroup>
+
+</Project>

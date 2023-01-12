@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MateralBaseCoreVSIX.Models
 {
-    public class SolutionModel
+    public class DomainSolutionModel
     {
         private ProjectModel _commonProject;
         private ProjectModel _domainProject;
@@ -19,7 +19,7 @@ namespace MateralBaseCoreVSIX.Models
         private ProjectModel _enumsProject;
         private List<DomainModel> _domains = new List<DomainModel>();
         private List<EnumModel> _enums = new List<EnumModel>();
-        public SolutionModel(Solution solution, Project domainProject)
+        public DomainSolutionModel(Solution solution, Project domainProject)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             _domainProject = new ProjectModel(domainProject);

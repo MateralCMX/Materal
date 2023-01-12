@@ -1,11 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <Extern href="stdidcmd.h"/>
-  <Extern href="vsshlids.h"/>
+  <Extern href="stdidcmd.h" />
+  <Extern href="vsshlids.h" />
   <Commands package="guidMateralBaseCoreVSIXPackage">
     <Groups>
       <Group guid="guidMateralBaseCoreVSIXPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
+      </Group>
+      <Group guid="guidMateralBaseCoreVSIXPackageCmdSet1" id="MyMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
       </Group>
     </Groups>
     <Buttons>
@@ -16,9 +19,16 @@
           <ButtonText>生成代码</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidMateralBaseCoreVSIXPackageCmdSet1" id="cmdidHttpClientGeneratorCommand" priority="0x0100" type="Button">
+        <Parent guid="guidMateralBaseCoreVSIXPackageCmdSet1" id="MyMenuGroup" />
+        <Icon guid="guidImages" id="codeGeneratorPic" />
+        <Strings>
+          <ButtonText>生成HttpClient</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
     <Bitmaps>
-      <Bitmap guid="guidImages" href="Resources\CodeGeneratorCommand.png" usedList="codeGeneratorPic"/>
+      <Bitmap guid="guidImages" href="Resources\CodeGeneratorCommand.png" usedList="codeGeneratorPic" />
     </Bitmaps>
   </Commands>
   <Symbols>
@@ -27,8 +37,12 @@
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="CodeGeneratorCommandId" value="0x0100" />
     </GuidSymbol>
-    <GuidSymbol name="guidImages" value="{b7d77d8c-ce92-4025-a43e-9595fc0030a1}" >
+    <GuidSymbol name="guidImages" value="{b7d77d8c-ce92-4025-a43e-9595fc0030a1}">
       <IDSymbol name="codeGeneratorPic" value="1" />
+    </GuidSymbol>  
+    <GuidSymbol value="{fba24dd1-d084-4ce7-8e7d-c74d72d9792f}" name="guidMateralBaseCoreVSIXPackageCmdSet1">
+      <IDSymbol value="4128" name="MyMenuGroup" />
+      <IDSymbol value="256" name="cmdidHttpClientGeneratorCommand" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

@@ -3,6 +3,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\Materal.BaseCore.DataTransmitModel\Materal.BaseCore.DataTransmitModel.csproj" />
