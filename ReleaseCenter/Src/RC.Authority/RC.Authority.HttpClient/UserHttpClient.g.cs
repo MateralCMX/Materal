@@ -1,16 +1,16 @@
 using RC.Core.HttpClient;
-using RC.Demo.DataTransmitModel.User;
-using RC.Demo.PresentationModel.User;
+using RC.Authority.DataTransmitModel.User;
+using RC.Authority.PresentationModel.User;
 using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.Common.Utils.TreeHelper;
 using Materal.BaseCore.Common.Utils.IndexHelper;
 using Materal.Model;
 
-namespace RC.Demo.HttpClient
+namespace RC.Authority.HttpClient
 {
     public class UserHttpClient : HttpClientBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, UserDTO, UserListDTO>
     {
-        public UserHttpClient() : base("RC.Demo") { }
+        public UserHttpClient() : base("RC.Authority") { }
         /// <summary>
         /// 获得登录用户信息
         /// </summary>
@@ -34,11 +34,5 @@ namespace RC.Demo.HttpClient
         /// <param name="requestModel"></param>
         /// <returns></returns>
         public async Task ChangePasswordAsync(ChangePasswordRequestModel requestModel) => await GetResultModelByPutAsync("User/ChangePassword", requestModel, null);
-        /// <summary>
-        /// 测试
-        /// </summary>
-        /// <param name="requestModel"></param>
-        /// <returns></returns>
-        public async Task<List<UserDTO>> TestAsync(ChangePasswordRequestModel requestModel) => await GetResultModelByPutAsync<List<UserDTO>>("User/Test", requestModel, null);
     }
 }

@@ -97,6 +97,7 @@ namespace MateralBaseCoreVSIX.Models
         /// </summary>
         public void CreateHttpClientFile(ProjectModel project)
         {
+            if (!actionModels.Any(m => m.GeneratorCode) && !_isServiceHttpClient) return;
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"using {project.PrefixName}.Core.HttpClient;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
@@ -124,6 +125,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"        public {Name}HttpClient() : base(\"{project.PrefixName}.{project.ProjectName}\") {{ }}");
             foreach (ActionModel action in actionModels)
             {
+                if (!action.GeneratorCode) continue;
                 foreach (string annotation in action.Annotations)
                 {
                     codeContent.AppendLine($"        {annotation}");

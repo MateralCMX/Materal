@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EnvDTE;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,6 +7,10 @@ namespace MateralBaseCoreVSIX.Models
 {
     public class ActionModel
     {
+        /// <summary>
+        /// 生成代码
+        /// </summary>
+        public bool GeneratorCode { get; } = true;
         /// <summary>
         /// 注释
         /// </summary>
@@ -90,17 +95,35 @@ namespace MateralBaseCoreVSIX.Models
                     {
                         "Guid","string","DateTime","int","decimal","float","double","uint"
                     };
+                    string[] removeList = new string[]
+                    {
+                        "[FromBody]","[FromForm]","[FromQuery]"
+                    };
+                    string[] blackList = new string[]
+                    {
+                        "IFormFile"
+                    };
                     foreach (string code in backCodes)
                     {
                         if (string.IsNullOrWhiteSpace(code)) continue;
-                        string[] temps = code.Split(' ');
-                        if (queryTypeList.Contains(temps[temps.Length - 2]))
+                        var trueCode = code;
+                        foreach (var item in removeList)
                         {
-                            QueryParams.Add(code);
+                            trueCode = trueCode.Replace(item, "");
+                        }
+                        string[] temps = trueCode.Split(' ');
+                        string type = temps[temps.Length - 2];
+                        if(blackList.Contains(type))
+                        {
+                            GeneratorCode = false;
+                        }
+                        if (queryTypeList.Contains(type))
+                        {
+                            QueryParams.Add(trueCode);
                         }
                         else
                         {
-                            BodyParams = code;
+                            BodyParams = trueCode;
                         }
                     }
                 }
@@ -157,13 +180,12 @@ namespace MateralBaseCoreVSIX.Models
             }
             if (angleBracketStartIndex < 0) return code;
             string type = code.Substring(angleBracketStartIndex + 1);
-            if (type.EndsWith(">>"))
-            {
-                type = type.Substring(0, type.Length - 2);
-            }
-            else
+            int frontCount = type.Count(m => m == '<');
+            int backCount = type.Count(m => m == '>');
+            while (frontCount != backCount && type.EndsWith(">"))
             {
                 type = type.Substring(0, type.Length - 1);
+                backCount = type.Count(m => m == '>');
             }
             return type;
         }
