@@ -114,7 +114,8 @@ namespace MateralBaseCoreVSIX.Models
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(GeneratorRootPath, $"{controllerName}.g.cs");
+            string filePath = Path.Combine(GeneratorRootPath, "Controllers");
+            codeContent.SaveFile(filePath, $"{controllerName}.g.cs");
         }
         /// <summary>
         /// 创建WebAPI文件
