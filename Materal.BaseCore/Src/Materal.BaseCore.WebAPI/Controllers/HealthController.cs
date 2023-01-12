@@ -7,7 +7,7 @@ namespace Materal.BaseCore.WebAPI.Controllers
     /// 健康检查
     /// </summary>
     [Route("api/[controller]"), ApiController, AllowAnonymous]
-    public class HealthController : ControllerBase
+    public class HealthController : MateralCoreWebAPIControllerBase
     {
         /// <summary>
         /// 健康检查

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RC.Core.Common;
 using RC.Demo.DataTransmitModel.User;
-using RC.Demo.PresentationModel;
 using RC.Demo.PresentationModel.User;
 using RC.Demo.Services.Models.User;
 using System.ComponentModel.DataAnnotations;
@@ -84,6 +83,16 @@ namespace RC.Demo.WebAPI.Controllers
             model.ID = GetLoginUserID();
             await DefaultService.ChangePasswordAsync(model);
             return ResultModel.Success("修改成功");
+        }
+        /// <summary>
+        /// 测试
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<ResultModel<List<UserDTO>>> TestAsync(ChangePasswordRequestModel requestModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

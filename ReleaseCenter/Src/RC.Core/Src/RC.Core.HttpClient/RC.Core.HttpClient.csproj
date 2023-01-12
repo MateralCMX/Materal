@@ -5,6 +5,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Src\Materal.BaseCore.HttpClient\Materal.BaseCore.HttpClient.csproj" />
+		<PackageReference Include="Materal.BaseCore.HttpClient" Version="0.2.2" />
 	</ItemGroup>
 </Project>

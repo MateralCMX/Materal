@@ -1,5 +1,4 @@
-﻿using RC.Demo.PresentationModel;
-using RC.Demo.PresentationModel.User;
+﻿using RC.Demo.PresentationModel.User;
 using RC.Demo.Services.Models.User;
 
 namespace RC.Demo.WebAPI.AutoMapperProfile

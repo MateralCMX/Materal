@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RC.Demo.PresentationModel
+namespace RC.Demo.PresentationModel.User
 {
     /// <summary>
     /// 更改密码请求模型

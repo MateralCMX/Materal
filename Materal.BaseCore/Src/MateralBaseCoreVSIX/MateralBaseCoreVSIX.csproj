@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="CodeGeneratorCommand.cs" />
     <Compile Include="HttpClientGeneratorCommand.cs" />
+    <Compile Include="Models\ActionModel.cs" />
     <Compile Include="Models\AttributeArgumentModel.cs" />
     <Compile Include="Models\AttributeExtension.cs" />
     <Compile Include="Models\AttributeModel.cs" />

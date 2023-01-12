@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Shell;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace MateralBaseCoreVSIX.Models
@@ -17,14 +18,17 @@ namespace MateralBaseCoreVSIX.Models
             _webAPIProject = new ProjectModel(webAPIProject);
             FillControllers(webAPIProject);
             FillProjects(solution.Projects);
-            _httpClientProject.CreateHttpClientFiles(_controllers);
+            if (_httpClientProject == null)
+            {
+                _httpClientProject = CreateHttpClientProjectFile(solution);
+            }
         }
         /// <summary>
         /// 创建代码文件
         /// </summary>
         public void CreateCodeFiles()
         {
-
+            _httpClientProject.CreateHttpClientFiles(_controllers);
         }
         #region 私有方法
         /// <summary>
@@ -89,14 +93,14 @@ namespace MateralBaseCoreVSIX.Models
                 {
                     FillControllers(item.ProjectItems, itemPath);
                 }
-                else if (Path.GetExtension(item.Name) == ".cs")
+                else if (item.Name.EndsWith("Controller.cs") || item.Name.EndsWith("Controller.g.cs"))
                 {
                     var controllerModel = GetControllerModelOrNull(item, path);
                     if (controllerModel == null) continue;
                     _controllers.Add(controllerModel);
                 }
             }
-        }
+        }        
         /// <summary>
         /// 获得Controller模型
         /// </summary>
@@ -106,24 +110,35 @@ namespace MateralBaseCoreVSIX.Models
         private ControllerModel GetControllerModelOrNull(ProjectItem projectItem, string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            if (Path.GetExtension(projectItem.Name) != ".cs") return null;
+            if (!projectItem.Name.EndsWith("Controller.cs") && !projectItem.Name.EndsWith("Controller.g.cs")) return null;
             string filePath = Path.Combine(path, projectItem.Name);
             if (!File.Exists(filePath)) return null;
             string[] codes = File.ReadAllLines(filePath);
             for (int i = 0; i < codes.Length; i++)
             {
-                string namespaceCode = codes[i];
-                if (!namespaceCode.StartsWith("namespace ") || !namespaceCode.EndsWith(".Domain")) continue;
-                for (int j = i; j < codes.Length; j++)
+                string classCode = codes[i];
+                int publicIndex = classCode.IndexOf("public ");
+                if (publicIndex <= 0) continue;
+                int classIndex = classCode.IndexOf(" class ");
+                if (classIndex <= 0) continue;
+                int controllerIndex = classCode.IndexOf("Controller");
+                if (controllerIndex <= 0) continue;
+                int enumsControllerIndex = classCode.IndexOf("EnumsController");
+                if (enumsControllerIndex >= 0) continue;
+                ControllerModel result = null;
+                string controllerName = ControllerModel.GetControllerName(classCode);
+                if (!string.IsNullOrWhiteSpace(controllerName))
                 {
-                    string classCode = codes[j];
-                    int publicIndex = classCode.IndexOf("public ");
-                    if (publicIndex <= 0) continue;
-                    int classIndex = classCode.IndexOf(" class ");
-                    if (classIndex <= 0) continue;
-                    int domainIndex = classCode.IndexOf("Controller");
-                    if (domainIndex <= 0) continue;
-                    return new ControllerModel(codes, j);
+                    result = _controllers.FirstOrDefault(m => m.Name == controllerName);
+                }
+                if(result == null)
+                {
+                    return new ControllerModel(codes, i);
+                }
+                else
+                {
+                    result.Append(codes, i);
+                    return null;
                 }
             }
             return null;

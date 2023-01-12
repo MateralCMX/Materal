@@ -123,7 +123,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="domains"></param>
         public void CreateWebAPIFiles(List<DomainModel> domains)
         {
-            ClearMCG();
+            ClearMCGFiles();
             foreach (DomainModel domain in domains)
             {
                 domain.Init();
@@ -137,7 +137,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="domains"></param>
         public void CreateServicesFiles(List<DomainModel> domains)
         {
-            ClearMCG();
+            ClearMCGFiles();
             foreach (DomainModel domain in domains)
             {
                 domain.Init();
@@ -153,7 +153,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="domains"></param>
         public void CreateServiceImplFiles(List<DomainModel> domains)
         {
-            ClearMCG();
+            ClearMCGFiles();
             foreach (DomainModel domain in domains)
             {
                 domain.Init();
@@ -166,7 +166,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="domains"></param>
         public void CreateEFRepositoryFiles(List<DomainModel> domains)
         {
-            ClearMCG();
+            ClearMCGFiles();
             CreateDBContextFile(domains);
             foreach (DomainModel domain in domains)
             {
@@ -181,7 +181,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="domains"></param>
         public void CreateDataTransmitModelFiles(List<DomainModel> domains)
         {
-            ClearMCG();
+            ClearMCGFiles();
             foreach (DomainModel domain in domains)
             {
                 domain.Init();
@@ -195,7 +195,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="domains"></param>
         public void CreatePresentationModelFiles(List<DomainModel> domains)
         {
-            ClearMCG();
+            ClearMCGFiles();
             foreach (DomainModel domain in domains)
             {
                 domain.Init();
@@ -210,7 +210,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="domains"></param>
         public void CreateDomainFiles(List<DomainModel> domains)
         {
-            ClearMCG();
+            ClearMCGFiles();
             foreach (DomainModel domain in domains)
             {
                 domain.Init();
@@ -223,7 +223,11 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="controllers"></param>
         public void CreateHttpClientFiles(List<ControllerModel> controllers)
         {
-
+            ClearHttpClientFiles();
+            foreach (ControllerModel controller in controllers)
+            {
+                controller.CreateHttpClientFile(this);
+            }
         }
         /// <summary>
         /// 创建DBContext
@@ -268,11 +272,23 @@ namespace MateralBaseCoreVSIX.Models
         /// <summary>
         /// 清空MCG文件
         /// </summary>
-        private void ClearMCG()
+        private void ClearMCGFiles()
         {
             if (Directory.Exists(GeneratorRootPath))
             {
                 Directory.Delete(GeneratorRootPath, true);
+            }
+        }
+        /// <summary>
+        /// 清空HttpClient文件
+        /// </summary>
+        private void ClearHttpClientFiles()
+        {
+            DirectoryInfo directoryInfo = new DirectoryInfo(RootPath);
+            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
+            {
+                if (!fileInfo.Name.EndsWith("HttpClient.g.cs")) continue;
+                fileInfo.Delete();
             }
         }
     }
