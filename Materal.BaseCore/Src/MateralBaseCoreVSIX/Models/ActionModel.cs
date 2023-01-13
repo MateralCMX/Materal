@@ -62,14 +62,14 @@ namespace MateralBaseCoreVSIX.Models
                 if (code.StartsWith("Task<PageResultModel<") || code.StartsWith("PageResultModel<"))
                 {
                     string type = GetType(code);
-                    ResultType = $"Task<(List<{type}> data, PageModel pageInfo)>";
+                    ResultType = $"Task<(List<{type}>? data, PageModel pageInfo)>";
                     MethodName = $"GetPageResultModelBy";
                     methodType = type;
                 }
                 else if (code.StartsWith("Task<ResultModel<") || code.StartsWith("ResultModel<"))
                 {
                     string type = GetType(code);
-                    ResultType = $"Task<{type}>";
+                    ResultType = $"Task<{type}?>";
                     MethodName = $"GetResultModelBy";
                     methodType = type;
                 }
@@ -85,6 +85,7 @@ namespace MateralBaseCoreVSIX.Models
                     MethodName = $"GetResultBy";
                     methodType = null;
                 }
+                ResultType = ResultType.Replace("??", "?");
                 Name = frontCodes[frontCodes.Count - 1].Trim();
                 if (Name.EndsWith("Async"))
                 {

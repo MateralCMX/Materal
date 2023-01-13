@@ -99,6 +99,7 @@ namespace MateralBaseCoreVSIX.Models
         {
             if (!actionModels.Any(m => m.GeneratorCode) && !_isServiceHttpClient) return;
             StringBuilder codeContent = new StringBuilder();
+            codeContent.AppendLine($"#nullable enable");
             codeContent.AppendLine($"using {project.PrefixName}.Core.HttpClient;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.PresentationModel.{Name};");
