@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Build.Framework.XamlTypes;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -102,6 +103,51 @@ namespace MateralBaseCoreVSIX.Models
             outputPath = Path.Combine(outputPath, fileName);
             File.WriteAllText(outputPath, content);
             return outputPath;
+        }
+        /// <summary>
+        /// 是完整代码
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static bool IsFullCode(this string code)
+        {
+            if (code.Count(m => m == '"') % 2 != 0) return false;
+            int left = code.Count(m => m == '(');
+            int right = code.Count(m => m == ')');
+            if (left != right) return false;
+            left = code.Count(m => m == '<');
+            right = code.Count(m => m == '>');
+            if (left != right) return false;
+            left = code.Count(m => m == '[');
+            right = code.Count(m => m == ']');
+            if (left != right) return false;
+            return true;
+        }
+        /// <summary>
+        /// 拼装完整代码
+        /// </summary>
+        /// <param name="codes"></param>
+        /// <param name="linkString"></param>
+        /// <returns></returns>
+        public static List<string> AssemblyFullCode(this string[] codes, string linkString)
+        {
+            List<string> trueCodes = new List<string>();
+            string tempArg = null;
+            foreach (string arg in codes)
+            {
+                if (string.IsNullOrWhiteSpace(tempArg))
+                {
+                    tempArg = arg;
+                }
+                else
+                {
+                    tempArg += $"{linkString}{arg}";
+                }
+                if (!tempArg.IsFullCode()) continue;
+                trueCodes.Add(tempArg);
+                tempArg = null;
+            }
+            return trueCodes;
         }
     }
 }

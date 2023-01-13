@@ -223,7 +223,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="controllers"></param>
         public void CreateHttpClientFiles(List<ControllerModel> controllers)
         {
-            ClearHttpClientFiles();
+            ClearMCGFiles();
             foreach (ControllerModel controller in controllers)
             {
                 controller.CreateHttpClientFile(this);
@@ -277,18 +277,6 @@ namespace MateralBaseCoreVSIX.Models
             if (Directory.Exists(GeneratorRootPath))
             {
                 Directory.Delete(GeneratorRootPath, true);
-            }
-        }
-        /// <summary>
-        /// 清空HttpClient文件
-        /// </summary>
-        private void ClearHttpClientFiles()
-        {
-            DirectoryInfo directoryInfo = new DirectoryInfo(RootPath);
-            foreach (FileInfo fileInfo in directoryInfo.GetFiles())
-            {
-                if (!fileInfo.Name.EndsWith("HttpClient.g.cs")) continue;
-                fileInfo.Delete();
             }
         }
     }

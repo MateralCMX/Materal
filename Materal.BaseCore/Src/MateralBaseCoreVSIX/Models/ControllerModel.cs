@@ -105,6 +105,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
             codeContent.AppendLine($"using Materal.BaseCore.Common.Utils.TreeHelper;");
             codeContent.AppendLine($"using Materal.BaseCore.Common.Utils.IndexHelper;");
+            codeContent.AppendLine($"using Materal.BaseCore.PresentationModel;");
             codeContent.AppendLine($"using Materal.Model;");
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.HttpClient");
@@ -115,11 +116,11 @@ namespace MateralBaseCoreVSIX.Models
             }
             if (_isServiceHttpClient)
             {
-                codeContent.AppendLine($"    public class {Name}HttpClient : HttpClientBase<{_tModels[0]}, {_tModels[1]}, {_tModels[2]}, {_tModels[3]}, {_tModels[4]}>");
+                codeContent.AppendLine($"    public partial class {Name}HttpClient : HttpClientBase<{_tModels[0]}, {_tModels[1]}, {_tModels[2]}, {_tModels[3]}, {_tModels[4]}>");
             }
             else
             {
-                codeContent.AppendLine($"    public class {Name}HttpClient : HttpClientBase");
+                codeContent.AppendLine($"    public partial class {Name}HttpClient : HttpClientBase");
             }
             codeContent.AppendLine($"    {{");
             codeContent.AppendLine($"        public {Name}HttpClient() : base(\"{project.PrefixName}.{project.ProjectName}\") {{ }}");
@@ -176,7 +177,7 @@ namespace MateralBaseCoreVSIX.Models
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveFile(project.RootPath, $"{Name}HttpClient.g.cs");
+            codeContent.SaveFile(project.GeneratorRootPath, $"{Name}HttpClient.g.cs");
         }
     }
 }

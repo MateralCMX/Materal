@@ -6,7 +6,7 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="0.2.2" />
+		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="0.2.3" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\RC.Demo.Enums\RC.Demo.Enums.csproj" />

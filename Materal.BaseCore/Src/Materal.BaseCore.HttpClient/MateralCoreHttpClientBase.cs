@@ -3,6 +3,7 @@ using Materal.BaseCore.HttpClient.Extensions;
 using Materal.BaseCore.PresentationModel;
 using Materal.Common;
 using Materal.ConvertHelper;
+using Materal.DateTimeHelper;
 using Materal.Model;
 using Materal.NetworkHelper;
 using Microsoft.Extensions.Logging;
@@ -43,6 +44,90 @@ namespace Materal.BaseCore.HttpClient
             return result;
         }
         /// <summary>
+        /// 获得Post返回
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <param name="queryParams"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralNetworkException"></exception>
+        protected virtual async Task<string> GetResultByPostAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+        {
+            data?.Validation();
+            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
+            string trueUrl = GetTrueUrl(url);
+            string httpReslt = await HttpManager.SendPostAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
+            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            return httpReslt;
+        }
+        /// <summary>
+        /// 获得Put返回
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <param name="queryParams"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralNetworkException"></exception>
+        protected virtual async Task<string> GetResultByPutAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+        {
+            data?.Validation();
+            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
+            string trueUrl = GetTrueUrl(url);
+            string httpReslt = await HttpManager.SendPutAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
+            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            return httpReslt;
+        }
+        /// <summary>
+        /// 获得Patch返回
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <param name="queryParams"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralNetworkException"></exception>
+        protected virtual async Task<string> GetResultByPathAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+        {
+            data?.Validation();
+            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
+            string trueUrl = GetTrueUrl(url);
+            string httpReslt = await HttpManager.SendPatchAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
+            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            return httpReslt;
+        }
+        /// <summary>
+        /// 获得Delete返回
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <param name="queryParams"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralNetworkException"></exception>
+        protected virtual async Task<string> GetResultByDeleteAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+        {
+            data?.Validation();
+            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
+            string trueUrl = GetTrueUrl(url);
+            string httpReslt = await HttpManager.SendDeleteAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
+            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            return httpReslt;
+        }
+        /// <summary>
+        /// 获得Get返回
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="data"></param>
+        /// <param name="queryParams"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralNetworkException"></exception>
+        protected virtual async Task<string> GetResultByGetAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
+        {
+            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
+            string trueUrl = GetTrueUrl(url);
+            string httpReslt = await HttpManager.SendGetAsync(trueUrl, queryParams, httpHeaders, DefaultEncoding);
+            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            return httpReslt;
+        }
+        /// <summary>
         /// 发送Post请求
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -53,11 +138,7 @@ namespace Materal.BaseCore.HttpClient
         /// <exception cref="MateralNetworkException"></exception>
         protected virtual async Task<T> SendPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
-            data?.Validation();
-            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
-            string trueUrl = GetTrueUrl(url);
-            string httpReslt = await HttpManager.SendPostAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            string httpReslt = await GetResultByPostAsync(url, data, queryParams);
             T result = httpReslt.JsonToObject<T>();
             return result;
         }
@@ -72,11 +153,7 @@ namespace Materal.BaseCore.HttpClient
         /// <exception cref="MateralNetworkException"></exception>
         protected virtual async Task<T> SendPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
-            data?.Validation();
-            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
-            string trueUrl = GetTrueUrl(url);
-            string httpReslt = await HttpManager.SendPutAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            string httpReslt = await GetResultByPutAsync(url, data, queryParams);
             T result = httpReslt.JsonToObject<T>();
             return result;
         }
@@ -91,11 +168,7 @@ namespace Materal.BaseCore.HttpClient
         /// <exception cref="MateralNetworkException"></exception>
         protected virtual async Task<T> SendPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
-            data?.Validation();
-            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
-            string trueUrl = GetTrueUrl(url);
-            string httpReslt = await HttpManager.SendPatchAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            string httpReslt = await GetResultByPathAsync(url, data, queryParams);
             T result = httpReslt.JsonToObject<T>();
             return result;
         }
@@ -110,11 +183,7 @@ namespace Materal.BaseCore.HttpClient
         /// <exception cref="MateralNetworkException"></exception>
         protected virtual async Task<T> SendDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
-            data?.Validation();
-            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
-            string trueUrl = GetTrueUrl(url);
-            string httpReslt = await HttpManager.SendDeleteAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            string httpReslt = await GetResultByDeleteAsync(url, data, queryParams);
             T result = httpReslt.JsonToObject<T>();
             return result;
         }
@@ -128,10 +197,7 @@ namespace Materal.BaseCore.HttpClient
         /// <exception cref="MateralNetworkException"></exception>
         protected virtual async Task<T> SendGetAsync<T>(string url, Dictionary<string, string>? queryParams = null)
         {
-            Dictionary<string, string> httpHeaders = GetDefaultHeaders();
-            string trueUrl = GetTrueUrl(url);
-            string httpReslt = await HttpManager.SendGetAsync(trueUrl, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            string httpReslt = await GetResultByGetAsync(url, null, queryParams);
             T result = httpReslt.JsonToObject<T>();
             return result;
         }

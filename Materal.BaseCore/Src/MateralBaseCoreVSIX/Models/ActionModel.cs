@@ -1,4 +1,5 @@
 ﻿using EnvDTE;
+using Microsoft.Build.Framework.XamlTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,8 +56,9 @@ namespace MateralBaseCoreVSIX.Models
             }
             #region 解析方法
             {
-                string[] frontCodes = actionCode.Substring(0, bracketStartIndex).Split(' ');
-                string code = frontCodes[frontCodes.Length - 2].Trim();
+                string[] tempFrontCodes = actionCode.Substring(0, bracketStartIndex).Split(' ');
+                List<string> frontCodes = tempFrontCodes.AssemblyFullCode(" ");
+                string code = frontCodes[frontCodes.Count - 2].Trim();
                 if (code.StartsWith("Task<PageResultModel<") || code.StartsWith("PageResultModel<"))
                 {
                     string type = GetType(code);
@@ -77,7 +79,13 @@ namespace MateralBaseCoreVSIX.Models
                     MethodName = $"GetResultModelBy";
                     methodType = null;
                 }
-                Name = frontCodes[frontCodes.Length - 1].Trim();
+                else
+                {
+                    ResultType = "Task<string>";
+                    MethodName = $"GetResultBy";
+                    methodType = null;
+                }
+                Name = frontCodes[frontCodes.Count - 1].Trim();
                 if (Name.EndsWith("Async"))
                 {
                     Name = Name.Substring(0, Name.Length - 5);
@@ -169,6 +177,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <returns></returns>
         private string GetType(string code)
         {
+            //Task<ResultModel<Dictionary<
             int angleBracketStartIndex = -1;
             if (code.StartsWith("Task<PageResultModel<") || code.StartsWith("PageResultModel<"))
             {

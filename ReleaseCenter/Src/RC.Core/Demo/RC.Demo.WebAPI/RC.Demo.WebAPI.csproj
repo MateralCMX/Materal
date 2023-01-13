@@ -10,7 +10,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Materal.BaseCore.WebAPI" Version="0.2.2" />
+		<PackageReference Include="Materal.BaseCore.WebAPI" Version="0.2.3" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\RC.Core.WebAPI\RC.Core.WebAPI.csproj" />

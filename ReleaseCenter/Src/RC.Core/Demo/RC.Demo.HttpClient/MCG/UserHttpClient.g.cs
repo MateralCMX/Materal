@@ -4,11 +4,12 @@ using RC.Demo.PresentationModel.User;
 using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.Common.Utils.TreeHelper;
 using Materal.BaseCore.Common.Utils.IndexHelper;
+using Materal.BaseCore.PresentationModel;
 using Materal.Model;
 
 namespace RC.Demo.HttpClient
 {
-    public class UserHttpClient : HttpClientBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, UserDTO, UserListDTO>
+    public partial class UserHttpClient : HttpClientBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, UserDTO, UserListDTO>
     {
         public UserHttpClient() : base("RC.Demo") { }
         /// <summary>

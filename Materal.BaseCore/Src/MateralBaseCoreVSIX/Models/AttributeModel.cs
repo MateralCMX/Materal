@@ -17,31 +17,7 @@ namespace MateralBaseCoreVSIX.Models
                 string argumentString = attributeName.Substring(leftbracketIndex + 1);
                 argumentString = argumentString.Substring(0, argumentString.Length - 1);
                 string[] arguments = argumentString.Trim().Split(',');
-                List<string> trueArguments = new List<string>();
-                string tempArg = null;
-                foreach (string arg in arguments)
-                {
-                    if (string.IsNullOrWhiteSpace(tempArg))
-                    {
-                        tempArg = arg;
-                    }
-                    else
-                    {
-                        tempArg += $",{arg}";
-                    }
-                    if (tempArg.Count(m => m == '"') % 2 != 0) continue;
-                    int left = tempArg.Count(m => m == '(');
-                    int right = tempArg.Count(m => m == ')');
-                    if (left != right) continue;
-                    left = tempArg.Count(m => m == '<');
-                    right = tempArg.Count(m => m == '>');
-                    if (left != right) continue;
-                    left = tempArg.Count(m => m == '[');
-                    right = tempArg.Count(m => m == ']');
-                    if (left != right) continue;
-                    trueArguments.Add(tempArg);
-                    tempArg = null;
-                }
+                List<string> trueArguments = arguments.AssemblyFullCode(",");
                 AttributeArguments.AddRange(trueArguments.Select(item => new AttributeArgumentModel(item)));
             }
             else

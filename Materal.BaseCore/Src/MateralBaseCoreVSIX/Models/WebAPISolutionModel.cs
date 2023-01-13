@@ -177,7 +177,7 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
             codeContent.AppendLine($"\t<ItemGroup>");
-            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.HttpClient\" Version=\"0.2.2\" />");
+            codeContent.AppendLine($"\t\t<PackageReference Include=\"Materal.BaseCore.HttpClient\" Version=\"0.2.3\" />");
             codeContent.AppendLine($"\t</ItemGroup>");
             codeContent.AppendLine($"</Project>");
             return CreateProjectFile(solution, codeContent, $"{_webAPIProject.PrefixName}.{_webAPIProject.ProjectName}.HttpClient");
