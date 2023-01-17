@@ -10,5 +10,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\RC.EnvironmentServer.Common\RC.EnvironmentServer.Common.csproj" />
 		<ProjectReference Include="..\RC.EnvironmentServer.DataTransmitModel\RC.EnvironmentServer.DataTransmitModel.csproj" />
+		<ProjectReference Include="..\RC.EnvironmentServer.IntegrationEvents\RC.EnvironmentServer.IntegrationEvents.csproj" />
 	</ItemGroup>
 </Project>

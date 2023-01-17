@@ -43,6 +43,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.HttpClient"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.HttpClient", "RC.EnvironmentServer.HttpClient\RC.EnvironmentServer.HttpClient.csproj", "{AA7FDA22-79FF-48AC-87EA-E918146670AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC.EnvironmentServer.IntegrationEvents", "RC.EnvironmentServer.IntegrationEvents\RC.EnvironmentServer.IntegrationEvents.csproj", "{EE2364A7-FB73-4B9A-8EB9-15DF63D93391}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC.EnvironmentServer.Enums", "RC.EnvironmentServer.Enums\RC.EnvironmentServer.Enums.csproj", "{D61FFCF6-DB04-4AF4-BEEC-892580F8FC65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +125,14 @@ Global
 		{AA7FDA22-79FF-48AC-87EA-E918146670AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA7FDA22-79FF-48AC-87EA-E918146670AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA7FDA22-79FF-48AC-87EA-E918146670AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE2364A7-FB73-4B9A-8EB9-15DF63D93391}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE2364A7-FB73-4B9A-8EB9-15DF63D93391}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE2364A7-FB73-4B9A-8EB9-15DF63D93391}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE2364A7-FB73-4B9A-8EB9-15DF63D93391}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D61FFCF6-DB04-4AF4-BEEC-892580F8FC65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61FFCF6-DB04-4AF4-BEEC-892580F8FC65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61FFCF6-DB04-4AF4-BEEC-892580F8FC65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61FFCF6-DB04-4AF4-BEEC-892580F8FC65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

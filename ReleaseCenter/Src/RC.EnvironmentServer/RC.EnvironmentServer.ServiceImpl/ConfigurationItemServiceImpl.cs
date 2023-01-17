@@ -1,10 +1,14 @@
 ﻿using Materal.BaseCore.Common.Utils;
+using Materal.Model;
+using Materal.TFMS.EventBus;
 using RC.Core.Common;
+using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
 using RC.EnvironmentServer.Domain;
 using RC.EnvironmentServer.Services.Models.ConfigurationItem;
 using RC.ServerCenter.DataTransmitModel.Namespace;
 using RC.ServerCenter.DataTransmitModel.Project;
 using RC.ServerCenter.HttpClient;
+using XMJ.Authority.IntegrationEvents;
 
 namespace RC.EnvironmentServer.ServiceImpl
 {
@@ -12,10 +16,12 @@ namespace RC.EnvironmentServer.ServiceImpl
     {
         private readonly ProjectHttpClient _projectHttpClient;
         private readonly NamespaceHttpClient _namespaceHttpClient;
-        public ConfigurationItemServiceImpl(ProjectHttpClient projectHttpClient, NamespaceHttpClient namespaceHttpClient)
+        private readonly IEventBus _eventBus;
+        public ConfigurationItemServiceImpl(ProjectHttpClient projectHttpClient, NamespaceHttpClient namespaceHttpClient, IEventBus eventBus)
         {
             _projectHttpClient = projectHttpClient;
             _namespaceHttpClient = namespaceHttpClient;
+            _eventBus = eventBus;
         }
         public override async Task<Guid> AddAsync(AddConfigurationItemModel model)
         {
@@ -77,6 +83,23 @@ namespace RC.EnvironmentServer.ServiceImpl
             }
             await UnitOfWork.CommitAsync();
             await ClearCacheAsync();
+        }
+        /// <summary>
+        /// 同步配置
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task SyncConfigAsync(SyncConfigModel model)
+        {
+            if (model.TargetEnvironments.Length <= 0) throw new RCException("同步目标为0");
+            List<ConfigurationItem> configurationItems = await DefaultRepository.FindAsync(model);
+            SyncConfigEvent @event = new()
+            {
+                Mode = model.Mode,
+                TargetEnvironments = model.TargetEnvironments,
+                ConfigurationItems = Mapper.Map<List<ConfigurationItemListDTO>>(configurationItems)
+            };
+            await _eventBus.PublishAsync(@event);
         }
     }
 }

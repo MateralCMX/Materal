@@ -5,8 +5,8 @@ $codeDir = "D:\Project\Materal\Project\Materal\ReleaseCenter\Src\"#Ô´ÂëÎÄ¼þ¼ÐÂ·¾
 $publishDir = "D:\Project\Materal\Application\"#·¢²¼ÎÄ¼þ¼ÐÂ·¾¶
 
 $applicationSuffixs = "WebAPI"#ºó×ºÃû
-$applicationPrefixs = "RC.ServerCenter"#Ç°×ºÃû
-#"RC.Authority","RC.Deploy","RC.ServerCenter"
+$applicationPrefixs = "RC.EnvironmentServer"#Ç°×ºÃû
+#"RC.Authority","RC.Deploy","RC.ServerCenter","RC.EnvironmentServer"
 $version = "Release"#Debug Release
 Remove-Item -Path:"$publishDir\*" -Recurse:$true
 Function GetChildItems(){

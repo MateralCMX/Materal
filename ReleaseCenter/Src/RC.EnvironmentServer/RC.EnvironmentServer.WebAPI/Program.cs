@@ -37,6 +37,7 @@ namespace RC.EnvironmentServer.WebAPI
             IEventBus eventBus = MateralServices.GetService<IEventBus>();
             await eventBus.SubscribeAsync<ProjectDeleteEvent, ProjectDeleteEventHandler>();
             await eventBus.SubscribeAsync<NamespaceDeleteEvent, NamespaceDeleteEventHandler>();
+            await eventBus.SubscribeAsync<SyncConfigEvent, SyncConfigEventHandler>();
             eventBus.StartListening();
             #endregion
             await app.RunAsync();
