@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="0.2.3" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\RC.ServerCenter\RC.ServerCenter.HttpClient\RC.ServerCenter.HttpClient.csproj" />
+		<ProjectReference Include="..\RC.EnvironmentServer.Domain\RC.EnvironmentServer.Domain.csproj" />
+		<ProjectReference Include="..\RC.EnvironmentServer.Services\RC.EnvironmentServer.Services.csproj" />
+	</ItemGroup>
+</Project>
