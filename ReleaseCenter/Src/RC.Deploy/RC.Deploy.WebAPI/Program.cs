@@ -10,6 +10,7 @@ using RC.Deploy;
 using RC.Deploy.Common;
 using RC.Deploy.EFRepository;
 using RC.Deploy.Hubs;
+using RC.Deploy.ServiceImpl;
 using RC.Deploy.Services;
 
 namespace RC.Authority.WebAPI
@@ -110,9 +111,7 @@ namespace RC.Authority.WebAPI
         /// <param name="e"></param>
         protected static void Deploy_ProcessExit(object? sender, EventArgs e)
         {
-#warning ªÒ»° ß∞‹
-            IApplicationInfoService applicationInfoService = MateralServices.GetService<IApplicationInfoService>();
-            applicationInfoService.StopAll();
+            ApplicationRuntimeManage.ShutDownAsync().Wait();
         }
     }
 }

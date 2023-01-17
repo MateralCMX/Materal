@@ -8,7 +8,6 @@ using RC.Deploy.Domain.Repositories;
 using RC.Deploy.Enums;
 using RC.Deploy.ServiceImpl.Models;
 using RC.Deploy.Services.Models.ApplicationInfo;
-using System.Collections.Concurrent;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 
@@ -16,7 +15,6 @@ namespace RC.Deploy.ServiceImpl
 {
     public partial class ApplicationInfoServiceImpl
     {
-        private readonly static ConcurrentDictionary<Guid, ApplicationRuntimeModel> _applications = new();
         static ApplicationInfoServiceImpl()
         {
             IApplicationInfoRepository applicationInfoRepository = MateralServices.GetService<IApplicationInfoRepository>();
@@ -24,7 +22,7 @@ namespace RC.Deploy.ServiceImpl
             foreach (ApplicationInfo applicationInfo in allApplicationInfos)
             {
                 ApplicationRuntimeModel model = new(applicationInfo);
-                _applications.TryAdd(applicationInfo.ID, model);
+                ApplicationRuntimeManage.ApplicationRuntimes.TryAdd(applicationInfo.ID, model);
             }
         }
         /// <summary>
@@ -48,7 +46,7 @@ namespace RC.Deploy.ServiceImpl
         protected override async Task<Guid> AddAsync(ApplicationInfo domain, AddApplicationInfoModel model)
         {
             Guid result = await base.AddAsync(domain, model);
-            _applications.TryAdd(result, new ApplicationRuntimeModel(domain));
+            ApplicationRuntimeManage.ApplicationRuntimes.TryAdd(result, new ApplicationRuntimeModel(domain));
             return result;
         }
         /// <summary>
@@ -59,7 +57,7 @@ namespace RC.Deploy.ServiceImpl
         /// <exception cref="RCException"></exception>
         public override async Task EditAsync(EditApplicationInfoModel model)
         {
-            if (_applications[model.ID].ApplicationStatus != ApplicationStatusEnum.Stop) throw new RCException("应用程序尚未停止");
+            if (ApplicationRuntimeManage.ApplicationRuntimes[model.ID].ApplicationStatus != ApplicationStatusEnum.Stop) throw new RCException("应用程序尚未停止");
             await base.EditAsync(model);
         }
         /// <summary>
@@ -71,7 +69,7 @@ namespace RC.Deploy.ServiceImpl
         protected override async Task EditAsync(ApplicationInfo domainFromDB, EditApplicationInfoModel model)
         {
             await base.EditAsync(domainFromDB, model);
-            _applications[model.ID].ApplicationInfo = domainFromDB;
+            ApplicationRuntimeManage.ApplicationRuntimes[model.ID].ApplicationInfo = domainFromDB;
         }
         /// <summary>
         /// 获得信息
@@ -81,8 +79,8 @@ namespace RC.Deploy.ServiceImpl
         /// <exception cref="RCException"></exception>
         public override Task<ApplicationInfoDTO> GetInfoAsync([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            if (!_applications.ContainsKey(id)) throw new RCException("应用程序不存在");
-            ApplicationRuntimeModel application = _applications[id];
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序不存在");
+            ApplicationRuntimeModel application = ApplicationRuntimeManage.ApplicationRuntimes[id];
             ApplicationInfoDTO result = Mapper.Map<ApplicationInfoDTO>(application);
             DirectoryInfo rarFilesDirectoryInfo = new(application.RarFilesDirectoryPath);
             if (rarFilesDirectoryInfo.Exists)
@@ -98,7 +96,7 @@ namespace RC.Deploy.ServiceImpl
         /// <returns></returns>
         public override Task<(List<ApplicationInfoListDTO> data, PageModel pageInfo)> GetListAsync(QueryApplicationInfoModel model)
         {
-            List<ApplicationRuntimeModel> allApplications = _applications.Select(m => m.Value).ToList();
+            List<ApplicationRuntimeModel> allApplications = ApplicationRuntimeManage.ApplicationRuntimes.Select(m => m.Value).ToList();
             if(model.ApplicationStatus != null)
             {
                 allApplications = allApplications.Where(m => m.ApplicationStatus == model.ApplicationStatus.Value).ToList();
@@ -122,8 +120,8 @@ namespace RC.Deploy.ServiceImpl
             string fileName = file.FileName;
             if (string.IsNullOrWhiteSpace(fileName)) throw new RCException("未识别文件名");
             if (!Path.GetExtension(fileName).Equals(".rar", StringComparison.OrdinalIgnoreCase)) throw new RCException("只能上传.rar文件");
-            if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            ApplicationRuntimeModel applicationInfo = _applications[id];
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            ApplicationRuntimeModel applicationInfo = ApplicationRuntimeManage.ApplicationRuntimes[id];
             string directoryPath = applicationInfo.RarFilesDirectoryPath;
             if (!Directory.Exists(directoryPath))
             {
@@ -144,8 +142,8 @@ namespace RC.Deploy.ServiceImpl
         /// <returns></returns>
         public void ApplyLasetFile([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            ApplicationRuntimeModel applicationInfo = _applications[id];
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            ApplicationRuntimeModel applicationInfo = ApplicationRuntimeManage.ApplicationRuntimes[id];
             applicationInfo.ExecuteApplyLatestFileTask();
         }
         /// <summary>
@@ -156,8 +154,8 @@ namespace RC.Deploy.ServiceImpl
         /// <returns></returns>
         public void ApplyFile([Required(ErrorMessage = "唯一标识为空")] Guid id, string fileName)
         {
-            if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            ApplicationRuntimeModel applicationInfo = _applications[id];
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            ApplicationRuntimeModel applicationInfo = ApplicationRuntimeManage.ApplicationRuntimes[id];
             applicationInfo.ExecuteApplyFileTask(fileName);
         }
         /// <summary>
@@ -167,8 +165,8 @@ namespace RC.Deploy.ServiceImpl
         /// <exception cref="NotImplementedException"></exception>
         public void Start([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            _applications[id].ExecuteStartTask();
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            ApplicationRuntimeManage.ApplicationRuntimes[id].ExecuteStartTask();
         }
         /// <summary>
         /// 停止
@@ -177,8 +175,8 @@ namespace RC.Deploy.ServiceImpl
         /// <exception cref="NotImplementedException"></exception>
         public void Stop([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            _applications[id].ExecuteStopTask();
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            ApplicationRuntimeManage.ApplicationRuntimes[id].ExecuteStopTask();
         }
         /// <summary>
         /// 杀死程序
@@ -186,8 +184,8 @@ namespace RC.Deploy.ServiceImpl
         /// <param name="id"></param>
         public void Kill([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            _applications[id].Kill();
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            ApplicationRuntimeManage.ApplicationRuntimes[id].Kill();
         }
         /// <summary>
         /// 启动所有
@@ -195,7 +193,7 @@ namespace RC.Deploy.ServiceImpl
         /// <exception cref="NotImplementedException"></exception>
         public void StartAll()
         {
-            foreach (KeyValuePair<Guid, ApplicationRuntimeModel> item in _applications)
+            foreach (KeyValuePair<Guid, ApplicationRuntimeModel> item in ApplicationRuntimeManage.ApplicationRuntimes)
             {
                 if (item.Value.ApplicationStatus != ApplicationStatusEnum.Stop) continue;
                 item.Value.ExecuteStartTask();
@@ -207,7 +205,7 @@ namespace RC.Deploy.ServiceImpl
         /// <exception cref="NotImplementedException"></exception>
         public void StopAll()
         {
-            foreach (KeyValuePair<Guid, ApplicationRuntimeModel> item in _applications)
+            foreach (KeyValuePair<Guid, ApplicationRuntimeModel> item in ApplicationRuntimeManage.ApplicationRuntimes)
             {
                 if (item.Value.ApplicationStatus != ApplicationStatusEnum.Runing) continue;
                 item.Value.ExecuteStopTask();
@@ -221,8 +219,8 @@ namespace RC.Deploy.ServiceImpl
         /// <exception cref="NotImplementedException"></exception>
         public ICollection<string> GetConsoleMessages([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            return _applications[id].GetConsoleMessages();
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            return ApplicationRuntimeManage.ApplicationRuntimes[id].GetConsoleMessages();
         }
         /// <summary>
         /// 清空控制台消息
@@ -231,8 +229,8 @@ namespace RC.Deploy.ServiceImpl
         /// <exception cref="RCException"></exception>
         public void ClearConsoleMessages([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            if (!_applications.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            _applications[id].ClearConsoleMessage();
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            ApplicationRuntimeManage.ApplicationRuntimes[id].ClearConsoleMessage();
         }
         /// <summary>
         /// 应用程序是否在运行
@@ -241,7 +239,7 @@ namespace RC.Deploy.ServiceImpl
         /// <returns></returns>
         public bool IsRunningApplication(string path)
         {            
-            ApplicationRuntimeModel? runtimeModel = _applications.Select(m => m.Value).FirstOrDefault(m => m.ApplicationInfo.RootPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+            ApplicationRuntimeModel? runtimeModel = ApplicationRuntimeManage.ApplicationRuntimes.Select(m => m.Value).FirstOrDefault(m => m.ApplicationInfo.RootPath.Equals(path, StringComparison.OrdinalIgnoreCase));
             if (runtimeModel == null) return false;
             return runtimeModel.ApplicationStatus == ApplicationStatusEnum.Runing;
         }

@@ -127,6 +127,16 @@ namespace RC.Deploy.ServiceImpl.Models
         /// </summary>
         /// <returns></returns>
         public List<string> GetConsoleMessages() => _consoleMessages;
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        /// <returns></returns>
+        public async Task ShutDownAsync()
+        {
+            ExecuteStopTask();
+            _taskQueue.Complete();
+            await _taskQueue.Completion;
+        }
         #region 私有方法
         /// <summary>
         /// 启动
