@@ -1,14 +1,16 @@
+#nullable enable
 using RC.Core.HttpClient;
 using RC.Deploy.DataTransmitModel.ApplicationInfo;
 using RC.Deploy.PresentationModel.ApplicationInfo;
 using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.Common.Utils.TreeHelper;
 using Materal.BaseCore.Common.Utils.IndexHelper;
+using Materal.BaseCore.PresentationModel;
 using Materal.Model;
 
 namespace RC.Deploy.HttpClient
 {
-    public class ApplicationInfoHttpClient : HttpClientBase<AddApplicationInfoRequestModel, EditApplicationInfoRequestModel, QueryApplicationInfoRequestModel, ApplicationInfoDTO, ApplicationInfoListDTO>
+    public partial class ApplicationInfoHttpClient : HttpClientBase<AddApplicationInfoRequestModel, EditApplicationInfoRequestModel, QueryApplicationInfoRequestModel, ApplicationInfoDTO, ApplicationInfoListDTO>
     {
         public ApplicationInfoHttpClient() : base("RC.Deploy") { }
         /// <summary>
@@ -31,7 +33,7 @@ namespace RC.Deploy.HttpClient
         /// 获取控制台消息
         /// </summary>
         /// <param name="id"></param>
-        public async Task<ICollection<string>> GetConsoleMessagesAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id) => await GetResultModelByGetAsync<ICollection<string>>("ApplicationInfo/GetConsoleMessages", null, new Dictionary<string, string> { [nameof(id)] = id.ToString()});
+        public async Task<ICollection<string>?> GetConsoleMessagesAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id) => await GetResultModelByGetAsync<ICollection<string>>("ApplicationInfo/GetConsoleMessages", null, new Dictionary<string, string> { [nameof(id)] = id.ToString()});
         /// <summary>
         /// 清空控制台消息
         /// </summary>
