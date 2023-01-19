@@ -10,6 +10,10 @@ namespace RC.ConfigClient.Demo
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
                 .AddDefaultNameSpace("http://175.27.254.187:8700/RCES_FatAPI", "MateralReleaseCenter", 10)
                 .AddNameSpace("ConfigClient");
+            //IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
+            //    .SetConfigCenter("http://175.27.254.187:8700/RCES_FatAPI", "MateralReleaseCenter", 10)
+            //    .AddDefaultNameSpace()
+            //    .AddNameSpace("ConfigClient");
             IConfiguration _configuration = configurationBuilder.Build();
             while (true)
             {
