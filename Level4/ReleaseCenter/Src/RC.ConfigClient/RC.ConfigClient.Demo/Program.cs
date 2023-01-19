@@ -13,7 +13,7 @@ namespace RC.ConfigClient.Demo
             //IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
             //    .SetConfigCenter("http://175.27.254.187:8700/RCES_FatAPI", "MateralReleaseCenter", 10)
             //    .AddDefaultNameSpace()
-            //    .AddNameSpace("ConfigClient");
+            //    .AddNameSpace("ConfigClient");//会优先获取后加载命名空间的值
             IConfiguration _configuration = configurationBuilder.Build();
             while (true)
             {
