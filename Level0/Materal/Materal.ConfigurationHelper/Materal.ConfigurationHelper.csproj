@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>11.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageOutputPath>../nupkg</PackageOutputPath>
+		<Version>1.1.21</Version>
+		<Authors>Materal</Authors>
+		<Product>Materal</Product>
+		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+		<Copyright>Materal</Copyright>
+		<Description>Materal配置帮助类</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />
+	</ItemGroup>
+</Project>

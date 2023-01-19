@@ -1,8 +1,0 @@
-{
-  "EnableSwagger": true,
-  "NLog": {
-    "MinLogLevel": "Trace"
-  },
-  "ShowException": true,
-  "ExternalUrl": null
-}

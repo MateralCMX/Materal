@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>11.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageOutputPath>../nupkg</PackageOutputPath>
+		<Version>1.1.21</Version>
+		<Description>Materal字符串帮助类</Description>
+		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+		<Authors>Materal</Authors>
+		<Product>Materal</Product>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="PinYinConverterCore" Version="1.0.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />
+	</ItemGroup>
+</Project>

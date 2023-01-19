@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.BaseCore.Services" Version="0.2.6" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\RC.Authority.Common\RC.Authority.Common.csproj" />
+		<ProjectReference Include="..\RC.Authority.DataTransmitModel\RC.Authority.DataTransmitModel.csproj" />
+	</ItemGroup>
+</Project>
