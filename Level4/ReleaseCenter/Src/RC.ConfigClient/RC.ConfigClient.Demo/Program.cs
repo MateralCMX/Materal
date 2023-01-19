@@ -1,42 +1,22 @@
-﻿using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
-using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
+﻿using Materal.ConfigurationHelper;
+using Microsoft.Extensions.Configuration;
 
 namespace RC.ConfigClient.Demo
 {
-    internal class Program
+    public class Program
     {
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            List<string> a = new()
+            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
+                .AddDefaultNameSpace("http://175.27.254.187:8700/RCES_FatAPI", "MateralReleaseCenter", 10)
+                .AddNameSpace("ConfigClient");
+            IConfiguration _configuration = configurationBuilder.Build();
+            while (true)
             {
-                "a","b"
-            };
-            if(a.Contains("a"))
-            {
-
+                string? testValue = _configuration.GetValue("Test");
+                Console.WriteLine(testValue);
+                await Task.Delay(1000);
             }
-            if (a.Contains("b"))
-            {
-
-            }
-            if (a.Contains("c"))
-            {
-
-            }
-            ConfigurationItemHttpClient configurationItemHttpClient = new("http://175.27.254.187:8700/RCES_DevAPI");
-            ICollection<ConfigurationItemListDTO>? items = await configurationItemHttpClient.GetDataAsync(new QueryConfigurationItemRequestModel
-            {
-                PageIndex = 1,
-                PageSize = int.MaxValue,
-                ProjectName = "MateralReleaseCenter",
-                NamespaceNames = new()
-                {
-                    "Application",
-                    "ConfigClient"
-                }
-            });
-            if (items == null) return;
-            Console.WriteLine(items.Count);
         }
     }
 }
