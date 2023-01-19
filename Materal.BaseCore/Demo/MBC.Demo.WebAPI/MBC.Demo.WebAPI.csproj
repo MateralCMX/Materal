@@ -10,6 +10,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="SignalRSwaggerGen" Version="4.1.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Core\MBC.Core.WebAPI\MBC.Core.WebAPI.csproj" />

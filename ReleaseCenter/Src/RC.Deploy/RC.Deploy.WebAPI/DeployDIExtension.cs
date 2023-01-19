@@ -25,8 +25,15 @@ namespace RC.Deploy
                 $"{basePath}RC.Deploy.WebAPI.xml",
                 $"{basePath}RC.Deploy.DataTransmitModel.xml",
                 $"{basePath}RC.Deploy.PresentationModel.xml",
+                $"{basePath}RC.Deploy.Hubs.xml"
             };
-            services.AddRCService<DeployDBContext>(ApplicationConfig.DBConfig, swaggerXmlPaths);
+            services.AddRCService<DeployDBContext>(ApplicationConfig.DBConfig, config => 
+            {
+                config.AddSignalRSwaggerGen(option =>
+                {
+                    option.ScanAssembly(Assembly.Load("RC.Deploy.Hubs"));
+                });
+            }, swaggerXmlPaths);
             services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.Deploy.EFRepository"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))

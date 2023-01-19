@@ -1,7 +1,4 @@
-using Materal.BaseCore.WebAPI;
-using Materal.BaseCore.WebAPI.Common;
 using Materal.Common;
-using Materal.Logger;
 using Materal.TTA.EFRepository;
 using RC.Authority.EFRepository;
 using RC.Authority.Services;
@@ -24,7 +21,7 @@ namespace RC.Authority.WebAPI
             WebApplication app = RCStart(args, services =>
             {
                 services.AddAuthorityService();
-            }, null, "RC.Authority");
+            }, "RC.Authority");
             MigrateHelper<AuthorityDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<AuthorityDBContext>>();
             await migrateHelper.MigrateAsync();
             #region 添加默认用户

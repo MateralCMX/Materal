@@ -28,7 +28,11 @@ namespace MBC.Demo.WebAPI
                 $"{basePath}MBC.Demo.DataTransmitModel.xml",
                 $"{basePath}MBC.Demo.PresentationModel.xml",
             };
-            services.AddMBCService<DemoDBContext>(DemoConfig.DBConfig, swaggerXmlPaths);
+            services.AddSignalR();
+            services.AddMBCService<DemoDBContext>(DemoConfig.DBConfig, config =>
+            {
+                config.AddSignalRSwaggerGen();
+            }, swaggerXmlPaths);
             services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.EFRepository"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))

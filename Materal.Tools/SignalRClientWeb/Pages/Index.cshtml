@@ -1,0 +1,77 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "SignalR测试客户端";
+}
+<div>
+    <!--操作面板-->
+    <form class="container align-items-start">
+        <div class="row mb-3">
+            <div class="col-auto">
+                <label for="inputUrl" class="col-form-label">Url</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="inputUrl" class="form-control input-url" />
+            </div>
+            <div class="col-auto">
+                <label for="inputHubName" class="col-form-label">Hub</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" id="inputHubName" class="form-control" />
+            </div>
+            <div class="col-auto">
+                <button id="btnConnect" type="button" class="btn btn-success">连接</button>
+            </div>
+            <div class="col-auto">
+                <label id="labelStatus" class="col-form-label dot">未连接</label>
+            </div>
+        </div>
+        <div class="row mb-3" style="position:relative;">
+            <div class="col-5">
+                <input type="text" id="inputSubscribeName" class="form-control" disabled />
+            </div>
+            <div class="col-auto">
+                <div class="btn-group" role="group">
+                    <button id="btnSubscribe" type="button" class="btn btn-primary" disabled>订阅</button>
+                    <button id="btnCancelSubscribe" type="button" class="btn btn-danger" disabled>取消</button>
+                </div>
+            </div>
+            <ul id="subscribeList" class="subscribes"></ul>
+        </div>
+        <div class="row mb-3">
+            <div class="col-auto">
+                <label for="inputActionName" class="col-form-label">Action</label>
+            </div>
+            <div class="col-5">
+                <input type="text" id="inputActionName" class="form-control" disabled />
+            </div>
+            <div class="col-auto">
+                <button id="btnSend" type="button" class="btn btn-primary" disabled>发送</button>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="textareaMessage" class="form-label">参数[请使用数组Json格式]</label>
+            <textarea class="form-control" id="textareaMessage" rows="3" disabled></textarea>
+        </div>
+    </form>
+    <!--输出-->
+    <div class="container align-items-start">
+        <div class="row mb-1">
+            <div class="col">
+                <label for="textareaReplyMessage" class="form-label btn-title-label">回复消息</label>
+            </div>
+            <div class="col-auto align-self-end">
+                <div class="btn-group btn-group-sm form-item-tools-btn-groups" role="group">
+                    <button id="btnClearReplyMessage" type="button" class="btn btn-danger">清空</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <ul id="listReplyMessage" class="reply-message"></ul>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/lib/signalr/signalr.min.js"></script>
+    <script src="../Pages/Index.cshtml.js" asp-append-version="true"></script>
+}

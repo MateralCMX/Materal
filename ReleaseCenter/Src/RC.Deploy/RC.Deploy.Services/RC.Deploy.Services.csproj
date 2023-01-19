@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.Services" Version="0.2.3" />
+		<PackageReference Include="Materal.BaseCore.Services" Version="0.2.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
 	</ItemGroup>
 	<ItemGroup>

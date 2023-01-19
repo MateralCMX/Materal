@@ -34,7 +34,14 @@ namespace MBC.Demo.WebAPI.Controllers
                 PageIndex = 1,
                 PageSize = 10,
             });
-            return ResultModel<List<UserListDTO>>.Success(userInfos, "测试成功");
+            if(userInfos != null)
+            {
+                return ResultModel<List<UserListDTO>>.Success(userInfos, "测试成功");
+            }
+            else
+            {
+                return ResultModel.Fail("测试失败");
+            }
         }
     }
 }

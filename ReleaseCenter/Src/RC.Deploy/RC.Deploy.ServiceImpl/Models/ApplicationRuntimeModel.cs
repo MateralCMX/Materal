@@ -21,14 +21,14 @@ namespace RC.Deploy.ServiceImpl.Models
         /// 任务队列
         /// </summary>
         private static readonly ActionBlock<ApplicationTask> _taskQueue;
-        private static readonly IHubContext<ConsoleMessageHub> _hubContext;
+        private static readonly IHubContext<ConsoleMessageHub, IConsoleMessageHub> _hubContext;
         /// <summary>
         /// 构造方法
         /// </summary>
         static ApplicationRuntimeModel()
         {
             _taskQueue = new(RunTask);
-            _hubContext = MateralServices.GetService<IHubContext<ConsoleMessageHub>>();
+            _hubContext = MateralServices.GetService<IHubContext<ConsoleMessageHub, IConsoleMessageHub>>();
         }
         /// <summary>
         /// 应用程序信息
@@ -103,7 +103,7 @@ namespace RC.Deploy.ServiceImpl.Models
         /// 添加控制台消息
         /// </summary>
         /// <param name="message"></param>
-        public void AddConsoleMessage(string message)
+        public async void AddConsoleMessage(string message)
         {
             const int consoleCount = 500;
             if (string.IsNullOrWhiteSpace(message)) return;
@@ -112,15 +112,15 @@ namespace RC.Deploy.ServiceImpl.Models
             {
                 _consoleMessages.RemoveRange(0, _consoleMessages.Count - consoleCount);
             }
-            _hubContext.Clients.All.SendAsync("NewConsoleMessage", ApplicationInfo.ID, message);
+            await _hubContext.Clients.All.NewConsoleMessageEvent(ApplicationInfo.ID, message);
         }
         /// <summary>
         /// 清空控制台消息
         /// </summary>
-        public void ClearConsoleMessage()
+        public async void ClearConsoleMessage()
         {
             _consoleMessages.Clear();
-            _hubContext.Clients.All.SendAsync("ClearConsoleMessage", ApplicationInfo.ID);
+            await _hubContext.Clients.All.ClearConsoleMessageEvent(ApplicationInfo.ID);
         }
         /// <summary>
         /// 获得控制台消息

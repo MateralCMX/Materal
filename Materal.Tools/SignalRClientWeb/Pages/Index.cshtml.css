@@ -1,0 +1,67 @@
+﻿.dot {
+    position: relative;
+    padding-right: 15px;
+}
+
+    .dot:after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
+        background-color: gray;
+    }
+
+    .dot.dot-red:after {
+        background-color: red;
+    }
+
+    .dot.dot-green:after {
+        background-color: lawngreen;
+    }
+    .dot.dot-yellow:after {
+        background-color: greenyellow;
+    }
+
+.btn-title-label {
+    line-height: 38px;
+    margin: 0;
+}
+
+.input-url {
+    width: 400px;
+}
+
+.reply-message {
+    background-color: black;
+    list-style: none;
+    color: darkgray;
+    padding: 10px;
+    margin: 0;
+    height: 430px;
+    overflow: scroll;
+}
+
+    .reply-message li {
+        overflow-wrap: break-word;
+    }
+.subscribes {
+    background-color: black;
+    list-style: none;
+    color: darkgray;
+    padding: 10px;
+    margin: 0;
+    overflow: scroll;
+    position: absolute;
+    width: 300px;
+    height: 125px;
+    right: 0;
+    top: 0;
+}
+    .subscribes li {
+        overflow-wrap: break-word;
+    }

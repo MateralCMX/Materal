@@ -3,6 +3,7 @@ using Materal.TTA.EFRepository;
 using MBC.Core.WebAPI;
 using MBC.Demo.EFRepository;
 using MBC.Demo.Services;
+using MBC.Demo.WebAPI.Hubs;
 
 namespace MBC.Demo.WebAPI
 {
@@ -21,7 +22,8 @@ namespace MBC.Demo.WebAPI
             WebApplication app = MBCStart(args, services =>
             {
                 services.AddDemoService();
-            }, null, "MBC.Demo");
+            }, "MBC.Demo");
+            app.MapHub<SomeHub>("/hubs/Some");
             MigrateHelper<DemoDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<DemoDBContext>>();
             await migrateHelper.MigrateAsync();
             #region 添加默认用户

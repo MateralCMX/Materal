@@ -53,9 +53,9 @@ namespace RC.Deploy.Common
         public static string[] ApplicationNameWhiteList { get; } =
         {
             "api",
+            "hubs",
             "swagger",
-            "Deploy",
-            "ConsoleMessage"
+            "Deploy"
         };
     }
 }

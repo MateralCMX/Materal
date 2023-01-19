@@ -32,17 +32,15 @@ namespace RC.Authority.WebAPI
             {
                 services.AddSignalR();
                 services.AddDeployService();
-            }, configApp =>
-            {
-                configApp.MapHub<ConsoleMessageHub>("/ConsoleMessage");
             }, "RC.Deploy");
+            app.MapHub<ConsoleMessageHub>("/hubs/ConsoleMessage");
             #region ¥¶¿Ì÷ÿ–¥
             RewriteOptions rewriteOptions = new();
             if (ApplicationConfig.RewriteConfig.Enable)
             {
                 rewriteOptions.Add(new RewriteHomeIndexRequests(ApplicationConfig.RewriteConfig.Address));
             }
-            else if (WebAPIConfig.EnableSwagger)
+            else if (WebAPIConfig.SwaggerConfig.Enable)
             {
                 rewriteOptions.Add(new RedirectHomeIndexRequests("/swagger/index.html"));
             }

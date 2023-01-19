@@ -17,9 +17,13 @@ namespace Materal.BaseCore.WebAPI.Common
         /// </summary>
         public static string AppTitle => MateralCoreConfig.GetValue(nameof(AppTitle), "MateralCore程序");
         /// <summary>
-        /// 启用Swagger
+        /// Swagger配置
         /// </summary>
-        public static bool EnableSwagger => MateralCoreConfig.GetValueObject(nameof(EnableSwagger), true);
+        public static SwaggerConfigModel SwaggerConfig => MateralCoreConfig.GetValueObject(nameof(SwaggerConfig), new SwaggerConfigModel());
+        /// <summary>
+        /// 启用鉴权
+        /// </summary>
+        public static bool EnableAuthentication => MateralCoreConfig.GetValueObject(nameof(EnableAuthentication), true);
         private static UrlConfigModel? _baseUrlConfig;
         /// <summary>
         /// 链接配置

@@ -3,6 +3,7 @@ using Materal.TTA.SqliteRepository.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RC.Core.EFRepository;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
 namespace RC.Core.WebAPI
@@ -20,8 +21,28 @@ namespace RC.Core.WebAPI
         public static IServiceCollection AddRCService<T>(this IServiceCollection services, SqliteConfigModel sqliteConfig, params string[] swaggerXmlPaths)
             where T : DbContext
         {
+            return AddRCService<T>(services, sqliteConfig, null, swaggerXmlPaths);
+        }
+        /// <summary>
+        /// 添加RC服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddRCService<T>(this IServiceCollection services, SqliteConfigModel sqliteConfig, Action<SwaggerGenOptions>? swaggerGenConfig, params string[] swaggerXmlPaths)
+            where T : DbContext
+        {
             services.AddDBService<T>(sqliteConfig);
-            services.AddWebAPIService(swaggerXmlPaths, Assembly.Load("RC.Core.WebAPI"));
+            services.AddWebAPIService(config =>
+            {
+                swaggerGenConfig?.Invoke(config);
+                if (swaggerXmlPaths != null && swaggerXmlPaths.Length > 0)
+                {
+                    foreach (string path in swaggerXmlPaths)
+                    {
+                        config.IncludeXmlComments(path);
+                    }
+                }
+            }, Assembly.Load("RC.Core.WebAPI"));
             return services;
         }
     }

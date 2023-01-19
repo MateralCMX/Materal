@@ -24,7 +24,7 @@ namespace RC.EnvironmentServer.WebAPI
             WebApplication app = RCStart(args, services =>
             {
                 services.AddEnvironmentServerService();
-            }, null, "RC.EnvironmentServer");
+            }, "RC.EnvironmentServer");
             #region Ç¨ÒÆÊý¾Ý¿â
             MigrateHelper<EnvironmentServerDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<EnvironmentServerDBContext>>();
             await migrateHelper.MigrateAsync();

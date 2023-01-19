@@ -5,7 +5,15 @@
     "HealthInterval": 30,
     "ReconnectionInterval": 30
   },
-  "EnableSwagger": true,
+  "SwaggerConfig": {
+    "Enable": true,
+    "Title": null,
+    "Version": null,
+    "Description": null,
+    "Author": null,
+    "Email": null
+  },
+  "EnableAuthentication": true,
   "EventBusConfig": {
     "HostName": "175.27.194.19",
     "Port": 5672,

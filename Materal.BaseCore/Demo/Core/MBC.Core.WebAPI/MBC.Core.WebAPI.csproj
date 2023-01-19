@@ -6,6 +6,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Src\Materal.BaseCore.WebAPI\Materal.BaseCore.WebAPI.csproj" />
-	  <ProjectReference Include="..\..\MBC.Core\MBC.Core.EFRepository\MBC.Core.EFRepository.csproj" />
+	  <ProjectReference Include="..\MBC.Core.EFRepository\MBC.Core.EFRepository.csproj" />
 	</ItemGroup>
 </Project>

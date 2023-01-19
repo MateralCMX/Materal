@@ -9,6 +9,10 @@ namespace RC.Core.WebAPI
 {
     public abstract class RCProgram : BaseProgram
     {
+        public static WebApplication RCStart(string[] args, Action<IServiceCollection>? configService, string consulTag)
+        {
+            return RCStart(args, configService, null, consulTag);
+        }
         public static WebApplication RCStart(string[] args, Action<IServiceCollection>? configService, Action<WebApplication>? configAppAction, string consulTag)
         {
             WebApplication app = Start(args, config =>

@@ -8,6 +8,6 @@
 		<PackageReference Include="Materal.TTA.SqliteRepository" Version="2.0.23" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\MBC.Core\MBC.Core.Common\MBC.Core.Common.csproj" />
+	  <ProjectReference Include="..\Core\MBC.Core.Common\MBC.Core.Common.csproj" />
 	</ItemGroup>
 </Project>

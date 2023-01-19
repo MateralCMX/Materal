@@ -28,8 +28,7 @@ namespace Materal.BaseCore.WebAPI
                 context.Request.EnableBuffering();
                 await next.Invoke();
             });
-            app.UseCors();
-            if (Convert.ToBoolean(WebAPIConfig.EnableSwagger))
+            if (WebAPIConfig.SwaggerConfig.Enable)
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
@@ -42,8 +41,12 @@ namespace Materal.BaseCore.WebAPI
             {
                 app.UseHttpsRedirection();
             }
-            app.UseAuthentication();
+            if (WebAPIConfig.EnableAuthentication)
+            {
+                app.UseAuthentication();
+            }
             app.MapControllers();
+            app.UseCors();
             if (WebAPIConfig.ConsulConfig.Enable)
             {
                 Task.Run(() =>

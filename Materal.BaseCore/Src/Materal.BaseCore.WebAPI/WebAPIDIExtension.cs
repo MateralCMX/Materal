@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
@@ -25,7 +26,7 @@ namespace Materal.BaseCore.WebAPI
         /// </summary>
         /// <param name="services"></param>
         /// <param name="swaggerXmlPaths"></param>
-        public static IServiceCollection AddWebAPIService(this IServiceCollection services, string[] swaggerXmlPaths, params Assembly[] otherControlesAssemblys)
+        public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, params Assembly[] otherControlesAssemblys)
         {
             services.AddMateralLogger();
             #region MVC
@@ -52,73 +53,74 @@ namespace Materal.BaseCore.WebAPI
             services.AddResponseCompression();
             #endregion
             #region 鉴权
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
-                {
-                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+            if (WebAPIConfig.EnableAuthentication)
+            {
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
                     {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(MateralCoreConfig.JWTConfig.KeyBytes),
-                        ValidateIssuer = true,
-                        ValidIssuer = MateralCoreConfig.JWTConfig.Issuer,
-                        ValidateAudience = true,
-                        ValidAudience = MateralCoreConfig.JWTConfig.Audience,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.FromSeconds(MateralCoreConfig.JWTConfig.ExpiredTime)
-                    };
-                });
+                        jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(MateralCoreConfig.JWTConfig.KeyBytes),
+                            ValidateIssuer = true,
+                            ValidIssuer = MateralCoreConfig.JWTConfig.Issuer,
+                            ValidateAudience = true,
+                            ValidAudience = MateralCoreConfig.JWTConfig.Audience,
+                            ValidateLifetime = true,
+                            ClockSkew = TimeSpan.FromSeconds(MateralCoreConfig.JWTConfig.ExpiredTime)
+                        };
+                    });
+            }
             #endregion
             #region Swagger
-            if (Convert.ToBoolean(WebAPIConfig.EnableSwagger))
+            string GetSwaggerConfigString(string? configString, string defaultString) => string.IsNullOrWhiteSpace(configString) ? defaultString : configString;
+            if (WebAPIConfig.SwaggerConfig.Enable)
             {
                 services.AddSwaggerGen(config =>
                 {
-                    config.SwaggerDoc("v1", new OpenApiInfo
+                    config.SwaggerDoc(GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Version, "v1"), new OpenApiInfo
                     {
-                        Title = $"{WebAPIConfig.AppName}.WebAPI",
-                        Version = "v1",
-                        Description = "提供WebAPI接口",
-                        Contact = new OpenApiContact { Name = "Materal", Email = "cloomcmx1554@hotmail.com" }
+                        Title = GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Title, $"{WebAPIConfig.AppName}.WebAPI"),
+                        Version = GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Version, "v1"),
+                        Description = GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Description, "提供WebAPI接口"),
+                        Contact = new OpenApiContact { Name = GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Author, "Materal"), Email = GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Email, "cloomcmx1554@hotmail.com") }
                     });
-                    OpenApiSecurityScheme bearerScheme = new()
+                    if (WebAPIConfig.EnableAuthentication)
                     {
-                        Description = "在请求头部加入JWT授权。例子:Authorization:Bearer {token}",
-                        Name = "Authorization",
-                        In = ParameterLocation.Header,
-                        Type = SecuritySchemeType.ApiKey,
-                        Reference = new OpenApiReference
+                        OpenApiSecurityScheme bearerScheme = new()
                         {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = JwtBearerDefaults.AuthenticationScheme
-                        }
-                    };
-                    config.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, bearerScheme);
-                    config.AddSecurityRequirement(new OpenApiSecurityRequirement
-                    {
-                        {bearerScheme , new List<string>()}
-                    });
-                    var basePath = AppDomain.CurrentDomain.BaseDirectory;
-                    if (swaggerXmlPaths != null && swaggerXmlPaths.Length > 0)
-                    {
-                        foreach (string path in swaggerXmlPaths)
+                            Description = "在请求头部加入JWT授权。例子:Authorization:Bearer {token}",
+                            Name = "Authorization",
+                            In = ParameterLocation.Header,
+                            Type = SecuritySchemeType.ApiKey,
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            }
+                        };
+                        config.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, bearerScheme);
+                        config.AddSecurityRequirement(new OpenApiSecurityRequirement
                         {
-                            config.IncludeXmlComments(path);
-                        }
+                            {bearerScheme , new List<string>()}
+                        });
                     }
+                    swaggerGenConfig?.Invoke(config);
                 });
             }
             #endregion
             #region 跨域
-            services.AddCors(policy =>
-            {
-                policy.AddDefaultPolicy(opt =>
-                    opt.SetIsOriginAllowed(_ => true)
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    //.AllowCredentials()
-                );
-            });
+            services.AddCors(options =>
+             {
+                 options.AddDefaultPolicy(
+                     builder =>
+                     {
+                         builder.SetIsOriginAllowed(_ => true)
+                         .AllowAnyHeader()
+                         .AllowAnyMethod()
+                         .AllowCredentials();
+                     });
+             });
             #endregion
             services.AddEndpointsApiExplorer();
             return services;
