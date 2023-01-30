@@ -72,6 +72,11 @@ namespace ProjectClear
                     item.Delete();
                 }
             }
+            if(directoryInfo.GetFiles().Length <= 0 && directoryInfo.GetDirectories().Length <= 0)//空文件夹
+            {
+                Console.WriteLine($"移除文件夹:{directoryInfo.FullName}");
+                directoryInfo.Delete(true);
+            }
         }
     }
 }
