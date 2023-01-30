@@ -1,4 +1,6 @@
-﻿namespace Materal.DateTimeHelper
+﻿using System.Globalization;
+
+namespace Materal.DateTimeHelper
 {
     public static class DateTimeExtension
     {
@@ -67,5 +69,104 @@
         /// <param name="dateTime"></param>
         /// <returns></returns>
         public static Time ToTime(this DateTime dateTime) => new(dateTime.Hour, dateTime.Minute, dateTime.Second);
+        /// <summary>
+        /// 获得该日期是该年的第几季度
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static int GetQuarterOfYear(this DateTime dateTime)
+        {
+            int result = dateTime.Month / 3;
+            if (dateTime.Month % 3 != 0)
+            {
+                result++;
+            }
+            return result;
+        }
+        /// <summary>
+        /// 获得该日期是该季度的第几月
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static int GetMonthOfQuarter(this DateTime dateTime)
+        {
+            int quarter = dateTime.GetQuarterOfYear();
+            int result = dateTime.Month - (quarter - 1) * 3;
+            return result;
+        }
+        /// <summary>
+        /// 获得该日期是该季度的第几周
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static int GetWeekOfQuarter(this DateTime dateTime)
+        {
+            int quarter = dateTime.GetQuarterOfYear();
+            DateTime startDate = new(dateTime.Year, (quarter - 1) * 3 + 1, 1);
+            while (startDate.DayOfWeek != DayOfWeek.Monday)
+            {
+                startDate = startDate.AddDays(-1);
+            }
+            int result = 0;
+            while (dateTime.Year > startDate.Year)
+            {
+                startDate = startDate.AddDays(7);
+                result += 1;
+            }
+            int differenceDay = dateTime.DayOfYear - startDate.DayOfYear + 1;
+            if (differenceDay < 0)
+            {
+                differenceDay = 0;
+            }
+            result += differenceDay / 7;
+            if (differenceDay % 7 != 0)
+            {
+                result += 1;
+            }
+            return result;
+        }
+        /// <summary>
+        /// 获得该日期是该季度的第几天
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static int GetDayOfQuarter(this DateTime dateTime)
+        {
+            int quarter = dateTime.GetQuarterOfYear();
+            DateTime startDate = new(dateTime.Year, (quarter - 1) * 3 + 1, 1);
+            int result = dateTime.DayOfYear - startDate.DayOfYear + 1;
+            return result;
+        }
+        /// <summary>
+        /// 获得该日期是该年的第几周
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static int GetWeekOfYear(this DateTime dateTime)
+        {
+            GregorianCalendar gregoranCalendar = new();
+            int result = gregoranCalendar.GetWeekOfYear(dateTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+            return result;
+        }
+        /// <summary>
+        /// 获得该日期是该月的第几周
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static int GetWeekOfMonth(this DateTime dateTime)
+        {
+            DateTime monthFirstDay = new(dateTime.Year, dateTime.Month, 1);
+            DayOfWeek monthFirstDayOfWeek = monthFirstDay.Date.DayOfWeek;
+            int result;
+            if (monthFirstDayOfWeek == DayOfWeek.Sunday)
+            {
+                result = (dateTime.Date.Day + 5) / 7 + 1;
+            }
+            else
+            {
+                result = (dateTime.Date.Day + (int)monthFirstDayOfWeek - 2) / 7 + 1;
+            }
+            return result;
+        }
     }
 }
