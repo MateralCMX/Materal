@@ -9,12 +9,12 @@
 		<Product>Materal.ThreeTierArchitecture</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>2.0.24</Version>
+		<Version>2.0.25</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.TTA.MongoDBRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+		<PackageReference Include="MongoDB.Driver" Version="2.19.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />

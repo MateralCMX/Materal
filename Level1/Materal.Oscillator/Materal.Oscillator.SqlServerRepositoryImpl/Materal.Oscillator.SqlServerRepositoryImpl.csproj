@@ -8,12 +8,12 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>0.0.7</Version>
+		<Version>0.0.8</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.SqlServerRepositoryImpl</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqlServerRepository" Version="2.0.24" />
+		<PackageReference Include="Materal.TTA.SqlServerRepository" Version="2.0.25" />
 		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
 	</ItemGroup>
 	<ItemGroup>

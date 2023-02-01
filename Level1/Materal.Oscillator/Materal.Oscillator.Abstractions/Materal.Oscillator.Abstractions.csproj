@@ -9,14 +9,14 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>0.0.7</Version>
+		<Version>0.0.8</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.Abstractions</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.21" />
-		<PackageReference Include="Materal.EnumHelper" Version="1.1.21" />
-		<PackageReference Include="Materal.TTA.EFRepository" Version="2.0.24" />
-		<PackageReference Include="Quartz" Version="3.5.0" />
+		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.22" />
+		<PackageReference Include="Materal.EnumHelper" Version="1.1.22" />
+		<PackageReference Include="Materal.TTA.EFRepository" Version="2.0.25" />
+		<PackageReference Include="Quartz" Version="3.6.0" />
 	</ItemGroup>
 </Project>

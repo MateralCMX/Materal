@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
-		<Version>0.0.7</Version>
+		<Version>0.0.8</Version>
 		<Company>Materal</Company>
 		<Product>Materal日志模块</Product>
 		<Authors>Materal</Authors>
@@ -14,7 +14,7 @@
 		<Description>包含日志所需的所有内容</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.21" />
+		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.22" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
