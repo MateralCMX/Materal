@@ -54,7 +54,8 @@ namespace ProjectClear
         private static void ClearByNameList(DirectoryInfo directoryInfo)
         {
             if (!directoryInfo.Exists) return;
-            if (_dictionaryWhiteList.Contains(directoryInfo.Name) && !_dictionaryBlackList.Contains(directoryInfo.Name))
+            if (_dictionaryBlackList.Contains(directoryInfo.Name)) return;
+            if (_dictionaryWhiteList.Contains(directoryInfo.Name))
             {
                 Console.WriteLine($"移除文件夹:{directoryInfo.FullName}");
                 directoryInfo.Delete(true);
