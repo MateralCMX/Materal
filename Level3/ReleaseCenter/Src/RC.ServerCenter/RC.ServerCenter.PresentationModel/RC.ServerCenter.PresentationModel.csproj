@@ -6,6 +6,6 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="0.2.9" />
+		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="0.2.10" />
 	</ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
         /// </summary>
         public void CreateCodeFiles()
         {
+            if (_controllers.Count <= 0) return;
             HttpClientProject?.CreateHttpClientFiles(_controllers);
         }
     }

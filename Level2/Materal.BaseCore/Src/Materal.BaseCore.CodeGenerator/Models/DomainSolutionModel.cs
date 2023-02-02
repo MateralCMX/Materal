@@ -23,6 +23,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateCodeFiles()
         {
+            if (Domains.Count <= 0) return;
             DomainProject?.CreateDomainFiles(Domains);
             EFRepositoryProject?.CreateEFRepositoryFiles(Domains);
             DataTransmitModelProject?.CreateDataTransmitModelFiles(Domains);
@@ -38,7 +39,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             foreach (DomainModel domain in Domains)
             {
                 AttributeModel attributeModel = domain.GetAttribute<CodeGeneratorPlugAttribute>();
-                if (attributeModel == null) return;
+                if (attributeModel == null) continue;
                 string className = attributeModel.AttributeArguments[1].Value.RemovePackag();
                 if (!className.EndsWith(".cs"))
                 {
