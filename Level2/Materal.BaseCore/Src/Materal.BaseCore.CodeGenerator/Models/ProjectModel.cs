@@ -5,37 +5,41 @@ namespace Materal.BaseCore.CodeGenerator.Models
 {
     public class ProjectModel
     {
+        public ProjectModel()
+        {
+        }
+
         /// <summary>
         /// 磁盘文件夹路径
         /// </summary>
-        public string DiskDirectoryPath { get; protected set; } = string.Empty;
+        public string DiskDirectoryPath { get; set; } = string.Empty;
         /// <summary>
         /// 项目根路径
         /// </summary>
-        public string RootPath { get; protected set; } = string.Empty;
+        public string RootPath { get; set; } = string.Empty;
         /// <summary>
         /// 生成根路径
         /// </summary>
-        public string GeneratorRootPath { get; protected set; } = string.Empty;
+        public string GeneratorRootPath { get; set; } = string.Empty;
         /// <summary>
         /// 项目名称
         /// MBC.Demo.Service->Demo
         /// </summary>
-        public string ProjectName { get; protected set; } = string.Empty;
+        public string ProjectName { get; set; } = string.Empty;
         /// <summary>
         /// 前缀
         /// MBC.Demo.Service->MBC
         /// </summary>
-        public string PrefixName { get; protected set; } = string.Empty;
+        public string PrefixName { get; set; } = string.Empty;
         /// <summary>
         /// 命名空间
         /// MBC.Demo.Service->MBC.Demo.Service
         /// </summary>
-        public string Namespace { get; protected set; } = string.Empty;
+        public string Namespace { get; set; } = string.Empty;
         /// <summary>
         /// 数据库上下文名称
         /// </summary>
-        public string DBContextName { get; protected set; } = string.Empty;
+        public string DBContextName { get; set; } = string.Empty;
         /// <summary>
         /// 清空生成文件
         /// </summary>

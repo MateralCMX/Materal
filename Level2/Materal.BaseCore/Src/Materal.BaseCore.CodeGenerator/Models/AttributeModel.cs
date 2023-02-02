@@ -5,8 +5,9 @@ namespace Materal.BaseCore.CodeGenerator.Models
 {
     public class AttributeModel
     {
-        public string Name { get; private set; }
-        public List<AttributeArgumentModel> AttributeArguments { get; } = new List<AttributeArgumentModel>();
+        public string Name { get; set; } = string.Empty;
+        public List<AttributeArgumentModel> AttributeArguments { get; set; } = new List<AttributeArgumentModel>();
+        public AttributeModel() { }
         public AttributeModel(string attributeName)
         {
             int leftbracketIndex = attributeName.IndexOf("(");

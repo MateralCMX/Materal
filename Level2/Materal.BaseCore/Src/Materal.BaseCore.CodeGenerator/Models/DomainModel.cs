@@ -1,5 +1,4 @@
-﻿//using System.ComponentModel.DataAnnotations;
-using Materal.BaseCore.CodeGenerator.Extensions;
+﻿using Materal.BaseCore.CodeGenerator.Extensions;
 using System.Text;
 
 namespace Materal.BaseCore.CodeGenerator.Models
@@ -9,31 +8,31 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 引用组
         /// </summary>
-        public List<string> Usings { get; } = new();
+        public List<string> Usings { get; set; } = new();
         /// <summary>
         /// 其他引用组
         /// </summary>
-        public List<string> OtherUsings { get; } = new();
+        public List<string> OtherUsings { get; set; } = new();
         /// <summary>
         /// 注释
         /// </summary>
-        public string? Annotation { get; }
+        public string? Annotation { get; set; }
         /// <summary>
         /// 命名空间
         /// </summary>
-        public string Namespace { get; }
+        public string Namespace { get; set; } = string.Empty;
         /// <summary>
         /// 名称
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; } = string.Empty;
         /// <summary>
         /// 特性组
         /// </summary>
-        public List<AttributeModel> Attributes { get; } = new();
+        public List<AttributeModel> Attributes { get; set; } = new();
         /// <summary>
         /// 属性
         /// </summary>
-        public List<DomainPropertyModel> Properties { get; } = new();
+        public List<DomainPropertyModel> Properties { get; set; } = new();
         private readonly bool _useCache;
         private readonly bool _generatorCode;
         private readonly bool _generatorQueryTargetService;
@@ -44,24 +43,25 @@ namespace Materal.BaseCore.CodeGenerator.Models
         private readonly bool _generatorDefaultService;
         private readonly bool _extendQueryGenerator;
         #region 文件名称
-        private readonly string _entityConfigName;
-        private readonly string _iRepositoryName;
-        private readonly string _repositoryImplName;
-        private readonly string _listDTOName;
-        private readonly string _dtoName;
-        private readonly string _addModelName;
-        private readonly string _editModelName;
-        private readonly string _queryModelName;
-        private readonly string _iServiceName;
-        private readonly string _serviceImplName;
-        private readonly string _autoMapperProfileName;
-        private readonly string _addRequestModelName;
-        private readonly string _editRequestModelName;
-        private readonly string _queryRequestModelName;
-        private readonly string _controllerName;
+        private readonly string _entityConfigName = string.Empty;
+        private readonly string _iRepositoryName = string.Empty;
+        private readonly string _repositoryImplName = string.Empty;
+        private readonly string _listDTOName = string.Empty;
+        private readonly string _dtoName = string.Empty;
+        private readonly string _addModelName = string.Empty;
+        private readonly string _editModelName = string.Empty;
+        private readonly string _queryModelName = string.Empty;
+        private readonly string _iServiceName = string.Empty;
+        private readonly string _serviceImplName = string.Empty;
+        private readonly string _autoMapperProfileName = string.Empty;
+        private readonly string _addRequestModelName = string.Empty;
+        private readonly string _editRequestModelName = string.Empty;
+        private readonly string _queryRequestModelName = string.Empty;
+        private readonly string _controllerName = string.Empty;
         private readonly string? _queryTargetName;
         private readonly string? _iQueryTargetRepositoryName;
         #endregion
+        public DomainModel() { }
         public DomainModel(string[] codes, int classLineIndex)
         {
             #region 解析Class

@@ -8,11 +8,12 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 名称
         /// </summary>
-        public string? Name { get; }
+        public string? Name { get; set; }
         private readonly List<string> _annotations = new();
         private bool _isServiceHttpClient = false;
         private readonly string[] _tModels = new string[5];
         private readonly List<ActionModel> actionModels = new();
+        public ControllerModel() { }
         public ControllerModel(string[] codes, int classLineIndex)
         {
             Name = GetControllerName(codes[classLineIndex]);

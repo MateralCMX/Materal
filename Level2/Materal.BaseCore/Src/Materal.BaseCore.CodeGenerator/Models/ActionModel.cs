@@ -7,23 +7,23 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 生成代码
         /// </summary>
-        public bool GeneratorCode { get; } = true;
+        public bool GeneratorCode { get; set; } = true;
         /// <summary>
         /// 注释
         /// </summary>
-        public List<string> Annotations { get; } = new();
+        public List<string> Annotations { get; set; } = new();
         /// <summary>
         /// Http类型
         /// </summary>
-        public string HttpMethod { get; } = string.Empty;
+        public string HttpMethod { get; set; } = string.Empty;
         /// <summary>
         /// 方法名称
         /// </summary>
-        public string MethodName { get; } = string.Empty;
+        public string MethodName { get; set; } = string.Empty;
         /// <summary>
         /// 返回类型
         /// </summary>
-        public string ResultType { get; } = string.Empty;
+        public string ResultType { get; set; } = string.Empty;
         /// <summary>
         /// 名称
         /// </summary>
@@ -31,11 +31,11 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// Body参数
         /// </summary>
-        public string? BodyParams { get; } = null;
+        public string? BodyParams { get; set; } = null;
         /// <summary>
         /// Query参数
         /// </summary>
-        public List<string> QueryParams { get; } = new List<string>();
+        public List<string> QueryParams { get; set; } = new List<string>();
         public ActionModel(string[] codes, int startIndex)
         {
             string actionCode = codes[startIndex--].Trim();
@@ -167,6 +167,11 @@ namespace Materal.BaseCore.CodeGenerator.Models
             }
             #endregion
         }
+
+        public ActionModel()
+        {
+        }
+
         /// <summary>
         /// 获得类型
         /// </summary>

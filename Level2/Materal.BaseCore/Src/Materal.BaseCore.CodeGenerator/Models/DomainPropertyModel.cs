@@ -8,15 +8,15 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 默认值
         /// </summary>
-        public string? Initializer { get; } = null;
+        public string? Initializer { get; set; } = null;
         /// <summary>
         /// 名称
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; } = string.Empty;
         /// <summary>
         /// 类型
         /// </summary>
-        public string PredefinedType { get; }
+        public string PredefinedType { get; set; } = string.Empty;
         /// <summary>
         /// 可空类型
         /// </summary>
@@ -24,15 +24,15 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 是否可空
         /// </summary>
-        public bool CanNull { get; } = false;
+        public bool CanNull { get; set; } = false;
         /// <summary>
         /// 注释
         /// </summary>
-        public string? Annotation { get; }
+        public string? Annotation { get; set; }
         /// <summary>
         /// 特性组
         /// </summary>
-        public List<AttributeModel> Attributes { get; } = new List<AttributeModel>();
+        public List<AttributeModel> Attributes { get; set; } = new List<AttributeModel>();
         /// <summary>
         /// 有验证特性
         /// </summary>
@@ -40,7 +40,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 验证特性
         /// </summary>
-        public List<AttributeModel> ValidationAttributes { get; } = new List<AttributeModel>();
+        public List<AttributeModel> ValidationAttributes { get; set; } = new List<AttributeModel>();
         /// <summary>
         /// 有查询特性
         /// </summary>
@@ -48,31 +48,32 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 查询特性
         /// </summary>
-        public List<AttributeModel> QueryAttributes { get; } = new List<AttributeModel>();
+        public List<AttributeModel> QueryAttributes { get; set; } = new List<AttributeModel>();
         /// <summary>
         /// 是之间
         /// </summary>
-        public bool IsBetween { get; }
+        public bool IsBetween { get; set; }
         /// <summary>
         /// 生成实体配置
         /// </summary>
-        public bool GeneratorEntityConfig { get; }
+        public bool GeneratorEntityConfig { get; set; }
         /// <summary>
         /// 生成数据传输模型
         /// </summary>
-        public bool GeneratorDTO { get; }
+        public bool GeneratorDTO { get; set; }
         /// <summary>
         /// 生成列表数据传输模型
         /// </summary>
-        public bool GeneratorListDTO { get; }
+        public bool GeneratorListDTO { get; set; }
         /// <summary>
         /// 生成添加模型
         /// </summary>
-        public bool GeneratorAddModel { get; }
+        public bool GeneratorAddModel { get; set; }
         /// <summary>
         /// 生成修改模型
         /// </summary>
-        public bool GeneratorEditModel { get; }
+        public bool GeneratorEditModel { get; set; }
+        public DomainPropertyModel() { }
         public DomainPropertyModel(string[] codes, int classLineIndex)
         {
             string propertyCode = codes[classLineIndex].Trim();

@@ -1,0 +1,738 @@
+{
+  "Domain": {
+    "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Domain;", "using Materal.Model;", "using RC.Demo.Enums;", "using System.ComponentModel.DataAnnotations;" ],
+    "OtherUsings": [ "using RC.Demo.Enums;" ],
+    "Annotation": "用户",
+    "Namespace": "RC.Demo.Domain",
+    "Name": "User",
+    "Attributes": [
+      {
+        "Name": "CodeGeneratorPlug",
+        "AttributeArguments": [
+          {
+            "Target": null,
+            "Value": "\"RC.Demo.CodeGenerator\""
+          },
+          {
+            "Target": null,
+            "Value": "\"TestPlug\""
+          }
+        ]
+      }
+    ],
+    "Properties": [
+      {
+        "Initializer": " = string.Empty;",
+        "Name": "Name",
+        "PredefinedType": "string",
+        "NullPredefinedType": "string?",
+        "CanNull": false,
+        "Annotation": "姓名",
+        "Attributes": [
+          {
+            "Name": "Contains",
+            "AttributeArguments": []
+          },
+          {
+            "Name": "Required",
+            "AttributeArguments": [
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"姓名为空\""
+              }
+            ]
+          },
+          {
+            "Name": "StringLength",
+            "AttributeArguments": [
+              {
+                "Target": null,
+                "Value": "100"
+              },
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"姓名过长\""
+              }
+            ]
+          }
+        ],
+        "HasValidationAttribute": true,
+        "ValidationAttributes": [
+          {
+            "Name": "Required",
+            "AttributeArguments": [
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"姓名为空\""
+              }
+            ]
+          },
+          {
+            "Name": "StringLength",
+            "AttributeArguments": [
+              {
+                "Target": null,
+                "Value": "100"
+              },
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"姓名过长\""
+              }
+            ]
+          }
+        ],
+        "HasQueryAttribute": true,
+        "QueryAttributes": [
+          {
+            "Name": "Contains",
+            "AttributeArguments": []
+          }
+        ],
+        "IsBetween": false,
+        "GeneratorEntityConfig": true,
+        "GeneratorDTO": true,
+        "GeneratorListDTO": true,
+        "GeneratorAddModel": true,
+        "GeneratorEditModel": true
+      },
+      {
+        "Initializer": null,
+        "Name": "Sex",
+        "PredefinedType": "SexEnum",
+        "NullPredefinedType": "SexEnum?",
+        "CanNull": false,
+        "Annotation": "性别",
+        "Attributes": [
+          {
+            "Name": "Equal",
+            "AttributeArguments": []
+          },
+          {
+            "Name": "Required",
+            "AttributeArguments": [
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"性别为空\""
+              }
+            ]
+          }
+        ],
+        "HasValidationAttribute": true,
+        "ValidationAttributes": [
+          {
+            "Name": "Required",
+            "AttributeArguments": [
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"性别为空\""
+              }
+            ]
+          }
+        ],
+        "HasQueryAttribute": true,
+        "QueryAttributes": [
+          {
+            "Name": "Equal",
+            "AttributeArguments": []
+          }
+        ],
+        "IsBetween": false,
+        "GeneratorEntityConfig": true,
+        "GeneratorDTO": true,
+        "GeneratorListDTO": true,
+        "GeneratorAddModel": true,
+        "GeneratorEditModel": true
+      },
+      {
+        "Initializer": " = string.Empty;",
+        "Name": "Account",
+        "PredefinedType": "string",
+        "NullPredefinedType": "string?",
+        "CanNull": false,
+        "Annotation": "账号",
+        "Attributes": [
+          {
+            "Name": "Equal",
+            "AttributeArguments": []
+          },
+          {
+            "Name": "Required",
+            "AttributeArguments": [
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"账号为空\""
+              }
+            ]
+          },
+          {
+            "Name": "StringLength",
+            "AttributeArguments": [
+              {
+                "Target": null,
+                "Value": "50"
+              },
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"账号过长\""
+              }
+            ]
+          }
+        ],
+        "HasValidationAttribute": true,
+        "ValidationAttributes": [
+          {
+            "Name": "Required",
+            "AttributeArguments": [
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"账号为空\""
+              }
+            ]
+          },
+          {
+            "Name": "StringLength",
+            "AttributeArguments": [
+              {
+                "Target": null,
+                "Value": "50"
+              },
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"账号过长\""
+              }
+            ]
+          }
+        ],
+        "HasQueryAttribute": true,
+        "QueryAttributes": [
+          {
+            "Name": "Equal",
+            "AttributeArguments": []
+          }
+        ],
+        "IsBetween": false,
+        "GeneratorEntityConfig": true,
+        "GeneratorDTO": true,
+        "GeneratorListDTO": true,
+        "GeneratorAddModel": true,
+        "GeneratorEditModel": true
+      },
+      {
+        "Initializer": " = string.Empty;",
+        "Name": "Password",
+        "PredefinedType": "string",
+        "NullPredefinedType": "string?",
+        "CanNull": false,
+        "Annotation": "密码",
+        "Attributes": [
+          {
+            "Name": "Required",
+            "AttributeArguments": [
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"账号为空\""
+              }
+            ]
+          },
+          {
+            "Name": "StringLength",
+            "AttributeArguments": [
+              {
+                "Target": null,
+                "Value": "32"
+              },
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"密码过长\""
+              }
+            ]
+          },
+          {
+            "Name": "NotDTOGenerator",
+            "AttributeArguments": []
+          },
+          {
+            "Name": "NotListDTOGenerator",
+            "AttributeArguments": []
+          }
+        ],
+        "HasValidationAttribute": true,
+        "ValidationAttributes": [
+          {
+            "Name": "Required",
+            "AttributeArguments": [
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"账号为空\""
+              }
+            ]
+          },
+          {
+            "Name": "StringLength",
+            "AttributeArguments": [
+              {
+                "Target": null,
+                "Value": "32"
+              },
+              {
+                "Target": "ErrorMessage",
+                "Value": "\"密码过长\""
+              }
+            ]
+          }
+        ],
+        "HasQueryAttribute": false,
+        "QueryAttributes": [],
+        "IsBetween": false,
+        "GeneratorEntityConfig": true,
+        "GeneratorDTO": false,
+        "GeneratorListDTO": false,
+        "GeneratorAddModel": true,
+        "GeneratorEditModel": true
+      },
+      {
+        "Initializer": null,
+        "Name": "Test",
+        "PredefinedType": "decimal",
+        "NullPredefinedType": "decimal?",
+        "CanNull": false,
+        "Annotation": "测试",
+        "Attributes": [
+          {
+            "Name": "ColumnType",
+            "AttributeArguments": [
+              {
+                "Target": null,
+                "Value": "\"decimal(18, 2)\""
+              }
+            ]
+          }
+        ],
+        "HasValidationAttribute": false,
+        "ValidationAttributes": [],
+        "HasQueryAttribute": false,
+        "QueryAttributes": [],
+        "IsBetween": false,
+        "GeneratorEntityConfig": true,
+        "GeneratorDTO": true,
+        "GeneratorListDTO": true,
+        "GeneratorAddModel": true,
+        "GeneratorEditModel": true
+      }
+    ]
+  },
+  "CommonProject": {
+    "DiskDirectoryPath": "D:\\Project\\测试项目\\RC.Core\\Demo",
+    "RootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.Common",
+    "GeneratorRootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.Common\\MCG",
+    "ProjectName": "Demo",
+    "PrefixName": "RC",
+    "Namespace": "RC.Demo.Common",
+    "DBContextName": "DemoDBContext"
+  },
+  "DomainProject": {
+    "DiskDirectoryPath": "D:\\Project\\测试项目\\RC.Core\\Demo",
+    "RootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.Domain",
+    "GeneratorRootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.Domain\\MCG",
+    "ProjectName": "Demo",
+    "PrefixName": "RC",
+    "Namespace": "RC.Demo.Domain",
+    "DBContextName": "DemoDBContext"
+  },
+  "WebAPIProject": {
+    "DiskDirectoryPath": "D:\\Project\\测试项目\\RC.Core\\Demo",
+    "RootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.WebAPI",
+    "GeneratorRootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.WebAPI\\MCG",
+    "ProjectName": "Demo",
+    "PrefixName": "RC",
+    "Namespace": "RC.Demo.WebAPI",
+    "DBContextName": "DemoDBContext"
+  },
+  "ServicesProject": {
+    "DiskDirectoryPath": "D:\\Project\\测试项目\\RC.Core\\Demo",
+    "RootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.Services",
+    "GeneratorRootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.Services\\MCG",
+    "ProjectName": "Demo",
+    "PrefixName": "RC",
+    "Namespace": "RC.Demo.Services",
+    "DBContextName": "DemoDBContext"
+  },
+  "ServiceImplProject": {
+    "DiskDirectoryPath": "D:\\Project\\测试项目\\RC.Core\\Demo",
+    "RootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.ServiceImpl",
+    "GeneratorRootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.ServiceImpl\\MCG",
+    "ProjectName": "Demo",
+    "PrefixName": "RC",
+    "Namespace": "RC.Demo.ServiceImpl",
+    "DBContextName": "DemoDBContext"
+  },
+  "EFRepositoryProject": {
+    "DiskDirectoryPath": "D:\\Project\\测试项目\\RC.Core\\Demo",
+    "RootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.EFRepository",
+    "GeneratorRootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.EFRepository\\MCG",
+    "ProjectName": "Demo",
+    "PrefixName": "RC",
+    "Namespace": "RC.Demo.EFRepository",
+    "DBContextName": "DemoDBContext"
+  },
+  "DataTransmitModelProject": {
+    "DiskDirectoryPath": "D:\\Project\\测试项目\\RC.Core\\Demo",
+    "RootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.DataTransmitModel",
+    "GeneratorRootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.DataTransmitModel\\MCG",
+    "ProjectName": "Demo",
+    "PrefixName": "RC",
+    "Namespace": "RC.Demo.DataTransmitModel",
+    "DBContextName": "DemoDBContext"
+  },
+  "PresentationModelProject": {
+    "DiskDirectoryPath": "D:\\Project\\测试项目\\RC.Core\\Demo",
+    "RootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.PresentationModel",
+    "GeneratorRootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.PresentationModel\\MCG",
+    "ProjectName": "Demo",
+    "PrefixName": "RC",
+    "Namespace": "RC.Demo.PresentationModel",
+    "DBContextName": "DemoDBContext"
+  },
+  "EnumsProject": {
+    "DiskDirectoryPath": "D:\\Project\\测试项目\\RC.Core\\Demo",
+    "RootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.Enums",
+    "GeneratorRootPath": "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.Enums\\MCG",
+    "ProjectName": "Demo",
+    "PrefixName": "RC",
+    "Namespace": "RC.Demo.Enums",
+    "DBContextName": "DemoDBContext"
+  },
+  "Domains": [
+    {
+      "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Domain;", "using Materal.Model;", "using RC.Demo.Enums;", "using System.ComponentModel.DataAnnotations;" ],
+      "OtherUsings": [ "using RC.Demo.Enums;" ],
+      "Annotation": "用户",
+      "Namespace": "RC.Demo.Domain",
+      "Name": "User",
+      "Attributes": [
+        {
+          "Name": "CodeGeneratorPlug",
+          "AttributeArguments": [
+            {
+              "Target": null,
+              "Value": "\"RC.Demo.CodeGenerator\""
+            },
+            {
+              "Target": null,
+              "Value": "\"TestPlug\""
+            }
+          ]
+        }
+      ],
+      "Properties": [
+        {
+          "Initializer": " = string.Empty;",
+          "Name": "Name",
+          "PredefinedType": "string",
+          "NullPredefinedType": "string?",
+          "CanNull": false,
+          "Annotation": "姓名",
+          "Attributes": [
+            {
+              "Name": "Contains",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"姓名为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "100"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"姓名过长\""
+                }
+              ]
+            }
+          ],
+          "HasValidationAttribute": true,
+          "ValidationAttributes": [
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"姓名为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "100"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"姓名过长\""
+                }
+              ]
+            }
+          ],
+          "HasQueryAttribute": true,
+          "QueryAttributes": [
+            {
+              "Name": "Contains",
+              "AttributeArguments": []
+            }
+          ],
+          "IsBetween": false,
+          "GeneratorEntityConfig": true,
+          "GeneratorDTO": true,
+          "GeneratorListDTO": true,
+          "GeneratorAddModel": true,
+          "GeneratorEditModel": true
+        },
+        {
+          "Initializer": null,
+          "Name": "Sex",
+          "PredefinedType": "SexEnum",
+          "NullPredefinedType": "SexEnum?",
+          "CanNull": false,
+          "Annotation": "性别",
+          "Attributes": [
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"性别为空\""
+                }
+              ]
+            }
+          ],
+          "HasValidationAttribute": true,
+          "ValidationAttributes": [
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"性别为空\""
+                }
+              ]
+            }
+          ],
+          "HasQueryAttribute": true,
+          "QueryAttributes": [
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
+            }
+          ],
+          "IsBetween": false,
+          "GeneratorEntityConfig": true,
+          "GeneratorDTO": true,
+          "GeneratorListDTO": true,
+          "GeneratorAddModel": true,
+          "GeneratorEditModel": true
+        },
+        {
+          "Initializer": " = string.Empty;",
+          "Name": "Account",
+          "PredefinedType": "string",
+          "NullPredefinedType": "string?",
+          "CanNull": false,
+          "Annotation": "账号",
+          "Attributes": [
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "50"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号过长\""
+                }
+              ]
+            }
+          ],
+          "HasValidationAttribute": true,
+          "ValidationAttributes": [
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "50"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号过长\""
+                }
+              ]
+            }
+          ],
+          "HasQueryAttribute": true,
+          "QueryAttributes": [
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
+            }
+          ],
+          "IsBetween": false,
+          "GeneratorEntityConfig": true,
+          "GeneratorDTO": true,
+          "GeneratorListDTO": true,
+          "GeneratorAddModel": true,
+          "GeneratorEditModel": true
+        },
+        {
+          "Initializer": " = string.Empty;",
+          "Name": "Password",
+          "PredefinedType": "string",
+          "NullPredefinedType": "string?",
+          "CanNull": false,
+          "Annotation": "密码",
+          "Attributes": [
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "32"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"密码过长\""
+                }
+              ]
+            },
+            {
+              "Name": "NotDTOGenerator",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "NotListDTOGenerator",
+              "AttributeArguments": []
+            }
+          ],
+          "HasValidationAttribute": true,
+          "ValidationAttributes": [
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "32"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"密码过长\""
+                }
+              ]
+            }
+          ],
+          "HasQueryAttribute": false,
+          "QueryAttributes": [],
+          "IsBetween": false,
+          "GeneratorEntityConfig": true,
+          "GeneratorDTO": false,
+          "GeneratorListDTO": false,
+          "GeneratorAddModel": true,
+          "GeneratorEditModel": true
+        },
+        {
+          "Initializer": null,
+          "Name": "Test",
+          "PredefinedType": "decimal",
+          "NullPredefinedType": "decimal?",
+          "CanNull": false,
+          "Annotation": "测试",
+          "Attributes": [
+            {
+              "Name": "ColumnType",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "\"decimal(18, 2)\""
+                }
+              ]
+            }
+          ],
+          "HasValidationAttribute": false,
+          "ValidationAttributes": [],
+          "HasQueryAttribute": false,
+          "QueryAttributes": [],
+          "IsBetween": false,
+          "GeneratorEntityConfig": true,
+          "GeneratorDTO": true,
+          "GeneratorListDTO": true,
+          "GeneratorAddModel": true,
+          "GeneratorEditModel": true
+        }
+      ]
+    }
+  ],
+  "Enums": [
+    {
+      "Namespace": "RC.Demo.Enums",
+      "Annotation": "性别",
+      "Name": "SexEnum",
+      "GeneratorCode": true,
+      "Attributes": []
+    }
+  ]
+}

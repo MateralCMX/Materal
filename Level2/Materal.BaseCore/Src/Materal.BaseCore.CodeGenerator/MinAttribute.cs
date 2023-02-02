@@ -11,7 +11,7 @@ namespace Materal.BaseCore.CodeGenerator
         /// <summary>
         /// 最小值
         /// </summary>
-        public decimal MinNumber { get; }
+        public decimal MinNumber { get; set; }
         /// <summary>
         /// 构造方法
         /// </summary>

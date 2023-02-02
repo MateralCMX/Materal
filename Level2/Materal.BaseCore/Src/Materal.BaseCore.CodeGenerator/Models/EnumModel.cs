@@ -10,23 +10,24 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 命名空间
         /// </summary>
-        public string Namespace { get; } = string.Empty;
+        public string Namespace { get; set; } = string.Empty;
         /// <summary>
         /// 注释
         /// </summary>
-        public string? Annotation { get; }
+        public string? Annotation { get; set; }
         /// <summary>
         /// 名称
         /// </summary>
-        public string Name { get; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
         /// <summary>
         /// 生成代码
         /// </summary>
-        public bool GeneratorCode { get; }
+        public bool GeneratorCode { get; set; }
         /// <summary>
         /// 特性组
         /// </summary>
-        public List<AttributeModel> Attributes { get; } = new List<AttributeModel>();
+        public List<AttributeModel> Attributes { get; set; } = new List<AttributeModel>();
+        public EnumModel() { }
         /// <summary>
         /// 枚举模型
         /// </summary>

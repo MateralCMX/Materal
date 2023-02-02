@@ -5,11 +5,12 @@
         /// <summary>
         /// 目标
         /// </summary>
-        public string? Target { get; private set; } = null;
+        public string? Target { get; set; } = null;
         /// <summary>
         /// 值
         /// </summary>
-        public string Value { get; private set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
+        public AttributeArgumentModel() { }
         public AttributeArgumentModel(string argument)
         {
             string[] temp = argument.Split('=');

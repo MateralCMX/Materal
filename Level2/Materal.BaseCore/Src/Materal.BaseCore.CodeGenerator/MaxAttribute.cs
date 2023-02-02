@@ -11,7 +11,7 @@ namespace Materal.BaseCore.CodeGenerator
         /// <summary>
         /// 最大值
         /// </summary>
-        public decimal MaxNumber { get; }
+        public decimal MaxNumber { get; set; }
         /// <summary>
         /// 构造方法
         /// </summary>

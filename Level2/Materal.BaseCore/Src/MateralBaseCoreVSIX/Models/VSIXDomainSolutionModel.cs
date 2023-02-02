@@ -1,13 +1,11 @@
 ﻿using EnvDTE;
-using Materal.BaseCore.CodeGenerator;
 using Materal.BaseCore.CodeGenerator.Extensions;
 using Materal.BaseCore.CodeGenerator.Models;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Emit;
+using Materal.WindowsHelper;
 using Microsoft.VisualStudio.Shell;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -52,73 +50,112 @@ namespace MateralBaseCoreVSIX.Models
                 WebAPIProject = CreateWebAPIProjectFile(solution);
             }
         }
-        private Dictionary<string, Assembly> buildSuccessAssembly = new Dictionary<string, Assembly>();
-        private List<string> removeFilePaths = new List<string>();
-        public static bool firstBuild = true;
-        protected override void GetPlugBefore()
+        #region 插件相关
+        private DirectoryInfo _plugTempDirectoryInfo;
+        private StringBuilder _plugErrorMessages;
+        private const string _resourceStart = "MateralBaseCoreVSIX.Tools";
+        protected override void AllPlugExecuteBefore()
         {
-            if (!firstBuild) return;
-            Assembly defaultAssembly = typeof(DomainSolutionModel).Assembly;
-            string savePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultAssembly.GetName().Name + ".dll");
-            File.Copy(defaultAssembly.Location, savePath, true);
-            firstBuild = false;
+            if (DomainProject == null) return;
+            string plugTempPath = Path.Combine(DomainProject.RootPath, "PlugTemp");
+            _plugTempDirectoryInfo = new DirectoryInfo(plugTempPath);
+            SaveToolsRessources(_plugTempDirectoryInfo);
         }
-        protected override IMateralBaseCoreCodeGeneratorPlug GetPlug(string projectPath, string className)
+        protected override void PlugExecuteBefore(string projectPath, string className)
         {
-            Assembly plugAssembly;
-            if (!buildSuccessAssembly.ContainsKey(className))
-            {
-                DirectoryInfo projectDirectoryInfo = new DirectoryInfo(projectPath);
-                if (!projectDirectoryInfo.Exists) throw new CodeGeneratorException("插件项目不存在");
-                string classPath = Path.Combine(projectDirectoryInfo.FullName, className);
-                FileInfo classFileInfo = new FileInfo(classPath);
-                if (!classFileInfo.Exists) throw new CodeGeneratorException("插件类不存在");
-                string dllLibPath = Path.Combine(projectDirectoryInfo.FullName, "Libs");
-                string dllPath = BuildDLLFile(classFileInfo.FullName, dllLibPath);
-                plugAssembly = Assembly.Load(File.ReadAllBytes(dllPath));
-                buildSuccessAssembly.Add(className, plugAssembly);
-            }
-            else
-            {
-                plugAssembly = buildSuccessAssembly[className];
-            }
-            Type[] types = plugAssembly.GetTypes();
-            if (className.EndsWith(".cs"))
-            {
-                className = className.Substring(0, className.Length - 3);
-            }
-            Type type = types.FirstOrDefault(m => m.Name == className);
-            if (type == null) throw new Exception("未找到插件类");
-            if (!type.IsAssignableTo(typeof(IMateralBaseCoreCodeGeneratorPlug))) throw new Exception("插件类必须实现IMateralBaseCoreCodeGeneratorPlug");
-            IMateralBaseCoreCodeGeneratorPlug plug = type.Instantiation() as IMateralBaseCoreCodeGeneratorPlug;
-            return plug;
+            _plugErrorMessages = new StringBuilder();
         }
-        protected override void PlugExcuted()
+        protected override void PlugExecute(DomainPlugModel model, string projectPath, string className)
         {
-            List<string> directoryPaths = new List<string>();
-            foreach (string removeFilePath in removeFilePaths)
+            if (_plugTempDirectoryInfo == null) return;
+            string modelJson = JsonConvert.SerializeObject(model);
+            SaveModelJson(_plugTempDirectoryInfo, "ModelData.json", modelJson);
+            ProcessManager processManager = new ProcessManager();
+            processManager.ErrorDataReceived += ProcessManager_ErrorDataReceived;
+            string plugExe = Path.Combine(_plugTempDirectoryInfo.FullName, "MateralBasePlugBuild.dll");
+            processManager.ProcessStart("dotnet", $"{plugExe} {projectPath} {className}");
+        }
+        protected override void PlugExcuteAfter(string projectPath, string className)
+        {
+            if (_plugErrorMessages == null ||  _plugErrorMessages.Length == 0) return;
+            throw new VSIXException(_plugErrorMessages.ToString());
+        }
+        protected override void AllPlugExcuteAfter()
+        {
+            _plugTempDirectoryInfo?.Delete(true);
+        }
+        private void ProcessManager_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(e.Data)) return;
+            if (_plugErrorMessages == null) return;
+            _plugErrorMessages.AppendLine(e.Data);
+        }
+        /// <summary>
+        /// 保存模型Json
+        /// </summary>
+        /// <param name="rootDirectoryInfo"></param>
+        /// <param name="fileName"></param>
+        /// <param name="dataJson"></param>
+        private static void SaveModelJson(DirectoryInfo rootDirectoryInfo, string fileName, string dataJson)
+        {
+            if (!rootDirectoryInfo.Exists) rootDirectoryInfo.Create();
+            string filePath = Path.Combine(rootDirectoryInfo.FullName, fileName);
+            if (File.Exists(filePath)) File.Delete(filePath);
+            File.WriteAllText(filePath, dataJson);
+        }
+        /// <summary>
+        /// 保存资源
+        /// </summary>
+        /// <param name="rootDirectoryInfo"></param>
+        /// <param name="dllName"></param>
+        private static void SaveToolsRessources(DirectoryInfo rootDirectoryInfo)
+        {
+            string[] resourceNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            resourceNames = resourceNames.Where(m => m.StartsWith(_resourceStart)).ToArray();
+            foreach (string ressourceName in resourceNames)
             {
-                if(File.Exists(removeFilePath)) File.Delete(removeFilePath);
-                directoryPaths.Add(Path.GetDirectoryName(removeFilePath));
-            }
-            directoryPaths = directoryPaths.Distinct().OrderBy(m => m.Length).ToList();
-            foreach (string directoryPath in directoryPaths)
-            {
-                DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
-                if (!directoryInfo.Exists) continue;
-                if (directoryInfo.GetFiles().Length > 0 || directoryInfo.GetDirectories().Length > 0) continue;
-                directoryInfo.Delete();
+                SaveRessource(rootDirectoryInfo, ressourceName);
             }
         }
         /// <summary>
-        /// 保存DLL
+        /// 文件夹名称组
         /// </summary>
-        /// <param name="directoryInfo"></param>
-        /// <param name="dllName"></param>
-        private void SaveDLL(DirectoryInfo directoryInfo, string dllName)
+        private readonly static string[] resourceDirectoryNames = new[]
         {
-            Stream dllStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"MateralBaseCoreVSIX.Libs.{dllName}.dll");
-            string savePath = Path.Combine(directoryInfo.FullName, $"{dllName}.dll");
+            "cs","de","es","fr","it","ja","ko","pl","pt-BR","ru","zh-Hans","zh-Hant",
+        };
+        /// <summary>
+        /// 保存资源
+        /// </summary>
+        /// <param name="rootDirectoryInfo"></param>
+        /// <param name="dllName"></param>
+        private static void SaveRessource(DirectoryInfo rootDirectoryInfo, string resourceName)
+        {
+            if (!resourceName.StartsWith(_resourceStart)) return;
+            string temp = resourceName.Substring(_resourceStart.Length + 1);
+            string[] temps = temp.Split('.');
+            string directoryPath;
+            string fileName;
+            if (resourceDirectoryNames.Contains(temps[0]))
+            {
+                directoryPath = temps[0];
+                fileName = temp.Substring(temps[0].Length + 1);
+            }
+            else
+            {
+                directoryPath = string.Empty;
+                fileName = temp;
+            }
+            directoryPath = Path.Combine(rootDirectoryInfo.FullName, directoryPath);
+            Stream dllStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+            if (dllStream == null) return;
+            DirectoryInfo directoryInfo = new DirectoryInfo(directoryPath);
+            if (!directoryInfo.Exists)
+            {
+                directoryInfo.Create();
+            }
+            string savePath = Path.Combine(directoryInfo.FullName, fileName);
+            if (File.Exists(savePath)) File.Delete(savePath);
             using (FileStream fileStream = new FileStream(savePath, FileMode.OpenOrCreate))
             {
                 dllStream.CopyTo(fileStream);
@@ -126,69 +163,9 @@ namespace MateralBaseCoreVSIX.Models
             }
             dllStream.Close();
             dllStream.Dispose();
-            removeFilePaths.Add(savePath);
         }
-        /// <summary>
-        /// 构建DLL文件
-        /// </summary>
-        /// <returns></returns>
-        private string BuildDLLFile(string filePath, string dllLibPath)
-        {
-            FileInfo csFileInfo = new FileInfo(filePath);
-            if (!csFileInfo.Exists) throw new Exception(".cs文件不存在");
-            DirectoryInfo dllLibDirectoryInfo = new DirectoryInfo(dllLibPath);
-            if (!dllLibDirectoryInfo.Exists)
-            {
-                dllLibDirectoryInfo.Create();
-            }
-            string dllFileName = csFileInfo.Name.Substring(0, csFileInfo.Name.LastIndexOf('.')) + ".dll";
-            string dllFilePath = Path.Combine(dllLibPath ?? "", dllFileName);
-            FileInfo dllFileInfo = new FileInfo(dllFilePath);
-            if (dllFileInfo.Exists) dllFileInfo.Delete();
-            List<string> usingAssemblies = new List<string>()
-            {
-                typeof(DomainSolutionModel).Assembly.Location,
-                typeof(object).Assembly.Location
-            };
-            SaveDLL(dllLibDirectoryInfo, "netstandard");
-            SaveDLL(dllLibDirectoryInfo, "System.Runtime");
-            foreach (FileInfo fileInfo in dllLibDirectoryInfo.GetFiles())
-            {
-                if (fileInfo.Extension.ToUpper() != ".DLL") continue;
-                Assembly assembly = Assembly.Load(File.ReadAllBytes(fileInfo.FullName));
-                usingAssemblies.Add(assembly.Location);
-            }
-            List<MetadataReference> refs = usingAssemblies.Select(m => MetadataReference.CreateFromFile(m)).ToList<MetadataReference>();
-            var cSharpCompilation = CSharpCompilation
-                            .Create(dllFileName)
-                            .WithOptions(new CSharpCompilationOptions(
-                                OutputKind.DynamicallyLinkedLibrary,
-                                usings: null,
-                                optimizationLevel: OptimizationLevel.Release,
-                                checkOverflow: false,
-                                allowUnsafe: true,
-                                platform: Platform.AnyCpu,
-                                warningLevel: 4,
-                                xmlReferenceResolver: null
-                            ))
-                            .AddReferences(refs);
-            string soureCode = File.ReadAllText(csFileInfo.FullName);
-            cSharpCompilation = cSharpCompilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText(soureCode));
-            EmitResult emitResult = cSharpCompilation.Emit(dllFilePath);
-            if (!emitResult.Success)
-            {
-                if (File.Exists(dllFilePath)) File.Delete(dllFilePath);
-                StringBuilder errorMessage = new StringBuilder();
-                foreach (Diagnostic item in emitResult.Diagnostics)
-                {
-                    errorMessage.AppendLine(item.ToString());
-                }
-                PlugExcuted();
-                throw new Exception(errorMessage.ToString());
-            }
-            removeFilePaths.Add(dllFilePath);
-            return dllFilePath;
-        }
+        #endregion
+        #region 构建相关
         /// <summary>
         /// 填充Domain
         /// </summary>
@@ -582,5 +559,6 @@ namespace MateralBaseCoreVSIX.Models
             codeContent.AppendLine($"</Project>");
             return CreateProjectFile(solution, codeContent, $"{DomainProject.PrefixName}.{DomainProject.ProjectName}.WebAPI");
         }
+        #endregion
     }
 }

@@ -1,9 +1,4 @@
 ﻿using Materal.BaseCore.CodeGenerator.Extensions;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Emit;
-using System.Reflection;
-using System.Text;
 
 namespace Materal.BaseCore.CodeGenerator.Models
 {
@@ -20,6 +15,9 @@ namespace Materal.BaseCore.CodeGenerator.Models
         protected ProjectModel? EnumsProject;
         protected List<DomainModel> Domains = new();
         protected List<EnumModel> Enums = new();
+        protected DomainSolutionModel()
+        {
+        }
         /// <summary>
         /// 创建代码文件
         /// </summary>
@@ -36,7 +34,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             {
                 WebAPIProject?.CreateEnumsControllers(Enums);
             }
-            GetPlugBefore();
+            AllPlugExecuteBefore();
             foreach (DomainModel domain in Domains)
             {
                 AttributeModel attributeModel = domain.GetAttribute<CodeGeneratorPlugAttribute>();
@@ -48,47 +46,61 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 }
                 string projectPath = attributeModel.AttributeArguments[0].Value.RemovePackag();
                 projectPath = Path.Combine(DomainProject?.DiskDirectoryPath, projectPath);
+                DomainPlugModel model = new()
+                {
+                    Domain = domain,
+                    WebAPIProject = WebAPIProject,
+                    CommonProject = CommonProject,
+                    DataTransmitModelProject = DataTransmitModelProject,
+                    DomainProject = DomainProject,
+                    Domains = Domains,
+                    EFRepositoryProject = EFRepositoryProject,
+                    Enums = Enums,
+                    EnumsProject = EnumsProject,
+                    PresentationModelProject = PresentationModelProject,
+                    ServiceImplProject = ServiceImplProject,
+                    ServicesProject = ServicesProject
+                };
                 try
                 {
-                    IMateralBaseCoreCodeGeneratorPlug plug = GetPlug(projectPath, className);
-                    plug?.CreateFileByDomain(new PlugCreateFileModel
-                    {
-                        Domain = domain,
-                        WebAPIProject = WebAPIProject,
-                        CommonProject = CommonProject,
-                        DataTransmitModelProject = DataTransmitModelProject,
-                        DomainProject = DomainProject,
-                        Domains = Domains,
-                        EFRepositoryProject = EFRepositoryProject,
-                        Enums = Enums,
-                        EnumsProject = EnumsProject,
-                        PresentationModelProject = PresentationModelProject,
-                        ServiceImplProject = ServiceImplProject,
-                        ServicesProject = ServicesProject
-                    });
+                    PlugExecuteBefore(projectPath, className);
+                    PlugExecute(model, projectPath, className);
+                    PlugExcuteAfter(projectPath, className);
                 }
                 catch
                 {
-                    PlugExcuted();
+                    AllPlugExcuteAfter();
                     throw;
                 }
             }
-            PlugExcuted();
+            AllPlugExcuteAfter();
         }
         /// <summary>
-        /// 获取插件之前
+        /// 所有插件执行之前
         /// </summary>
-        protected abstract void GetPlugBefore();
+        protected abstract void AllPlugExecuteBefore();
         /// <summary>
-        /// 获取插件
+        /// 插件执行之前
         /// </summary>
         /// <param name="projectPath"></param>
         /// <param name="className"></param>
-        /// <returns></returns>
-        protected abstract IMateralBaseCoreCodeGeneratorPlug GetPlug(string projectPath, string className);
+        protected abstract void PlugExecuteBefore(string projectPath, string className);
+        /// <summary>
+        /// 插件执行
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="projectPath"></param>
+        /// <param name="className"></param>
+        protected abstract void PlugExecute(DomainPlugModel model, string projectPath, string className);
         /// <summary>
         /// 插件执行完毕
         /// </summary>
-        protected abstract void PlugExcuted();
+        /// <param name="projectPath"></param>
+        /// <param name="className"></param>
+        protected abstract void PlugExcuteAfter(string projectPath, string className);
+        /// <summary>
+        /// 插件执行完毕
+        /// </summary>
+        protected abstract void AllPlugExcuteAfter();
     }
 }

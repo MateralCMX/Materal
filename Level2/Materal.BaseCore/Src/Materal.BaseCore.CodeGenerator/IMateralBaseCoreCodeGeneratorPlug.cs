@@ -5,9 +5,9 @@ namespace Materal.BaseCore.CodeGenerator
     public interface IMateralBaseCoreCodeGeneratorPlug
     {
         /// <summary>
-        /// 根据Domain创建文件
+        /// 插件执行
         /// </summary>
-        /// <param name="plugCreateFileModel"></param>
-        public void CreateFileByDomain(PlugCreateFileModel plugCreateFileModel);
+        /// <param name="model"></param>
+        public void PlugExecute(DomainPlugModel model);
     }
 }
