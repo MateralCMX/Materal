@@ -129,7 +129,10 @@ async function btnConnectClick() {
         window.localStorage.setItem(hubUrlKey, inputUrl.value);
         window.localStorage.setItem(hubNameKey, inputHubName.value);
         connection = new signalR.HubConnectionBuilder()
-            .withUrl(inputUrl.value + inputHubName.value)
+            .withUrl(inputUrl.value + inputHubName.value, {
+                skipNegotiation: true,
+                transport: signalR.HttpTransportType.WebSockets
+            })
             .configureLogging(signalR.LogLevel.Information)
             .build();
         try {
