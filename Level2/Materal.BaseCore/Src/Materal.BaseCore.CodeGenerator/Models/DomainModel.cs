@@ -313,7 +313,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.Services");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
-            codeContent.AppendLine($"    /// 服务");
+            codeContent.AppendLine($"    /// {Annotation}服务");
             codeContent.AppendLine($"    /// </summary>");
             if (_generatorDefaultService)
             {
@@ -502,7 +502,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.ServiceImpl");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
-            codeContent.AppendLine($"    /// 服务实现");
+            codeContent.AppendLine($"    /// {Annotation}服务实现");
             codeContent.AppendLine($"    /// </summary>");
             if (_generatorDefaultService)
             {
