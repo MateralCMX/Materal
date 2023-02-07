@@ -8,7 +8,7 @@ using RC.Deploy.Services.Models.ApplicationInfo;
 namespace RC.Deploy.ServiceImpl
 {
     /// <summary>
-    /// 服务实现
+    /// 应用程序信息服务实现
     /// </summary>
     public partial class ApplicationInfoServiceImpl : BaseServiceImpl<AddApplicationInfoModel, EditApplicationInfoModel, QueryApplicationInfoModel, ApplicationInfoDTO, ApplicationInfoListDTO, IApplicationInfoRepository, ApplicationInfo>, IApplicationInfoService
     {

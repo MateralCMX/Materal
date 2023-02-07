@@ -43,7 +43,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 清空生成文件
         /// </summary>
-        protected void ClearMCGFiles()
+        public void ClearMCGFiles()
         {
             if (Directory.Exists(GeneratorRootPath))
             {

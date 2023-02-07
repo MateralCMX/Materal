@@ -9,6 +9,7 @@ namespace RC.Deploy.Domain
     /// <summary>
     /// 应用程序信息
     /// </summary>
+    [CodeGeneratorPlug("RC.Core.CodeGenerator", "InitProject")]
     public class ApplicationInfo : BaseDomain, IDomain
     {
         /// <summary>

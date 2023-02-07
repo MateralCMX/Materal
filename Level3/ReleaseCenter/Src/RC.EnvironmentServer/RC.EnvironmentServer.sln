@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.HttpClient", "..\RC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.WebAPI", "..\RC.Core\Src\RC.Core.WebAPI\RC.Core.WebAPI.csproj", "{598B651E-6951-4C57-92C6-D40D37C0DA14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC.EnvironmentServer.Domain", "RC.EnvironmentServer.Domain\RC.EnvironmentServer.Domain.csproj", "{627A6DE9-1B9A-4523-B5CC-8C15B6832830}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.Domain", "RC.EnvironmentServer.Domain\RC.EnvironmentServer.Domain.csproj", "{627A6DE9-1B9A-4523-B5CC-8C15B6832830}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.Common", "RC.EnvironmentServer.Common\RC.EnvironmentServer.Common.csproj", "{EAFD2C6E-9D0A-4A54-8DFC-A275F3A80734}"
 EndProject
@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.Presen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.WebAPI", "RC.EnvironmentServer.WebAPI\RC.EnvironmentServer.WebAPI.csproj", "{F7AEE0B4-51AF-48F4-9819-4CCD7D17D527}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC.EnvironmentServer.IntegrationEventHandlers", "RC.EnvironmentServer.IntegrationEventHandlers\RC.EnvironmentServer.IntegrationEventHandlers.csproj", "{0F12B703-9937-4B6D-BD61-DC5324670E61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.IntegrationEventHandlers", "RC.EnvironmentServer.IntegrationEventHandlers\RC.EnvironmentServer.IntegrationEventHandlers.csproj", "{0F12B703-9937-4B6D-BD61-DC5324670E61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServerCenter", "ServerCenter", "{522CDE8F-9674-439F-BE74-F57A0F13AA6F}"
 EndProject
@@ -43,9 +43,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.HttpClient"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.HttpClient", "RC.EnvironmentServer.HttpClient\RC.EnvironmentServer.HttpClient.csproj", "{AA7FDA22-79FF-48AC-87EA-E918146670AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC.EnvironmentServer.IntegrationEvents", "RC.EnvironmentServer.IntegrationEvents\RC.EnvironmentServer.IntegrationEvents.csproj", "{EE2364A7-FB73-4B9A-8EB9-15DF63D93391}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.IntegrationEvents", "RC.EnvironmentServer.IntegrationEvents\RC.EnvironmentServer.IntegrationEvents.csproj", "{EE2364A7-FB73-4B9A-8EB9-15DF63D93391}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC.EnvironmentServer.Enums", "RC.EnvironmentServer.Enums\RC.EnvironmentServer.Enums.csproj", "{D61FFCF6-DB04-4AF4-BEEC-892580F8FC65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.Enums", "RC.EnvironmentServer.Enums\RC.EnvironmentServer.Enums.csproj", "{D61FFCF6-DB04-4AF4-BEEC-892580F8FC65}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.CodeGenerator", "..\RC.Core\Src\RC.Core.CodeGenerator\RC.Core.CodeGenerator.csproj", "{93135192-D3D7-41D0-9FCC-AF77B58E5899}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +135,10 @@ Global
 		{D61FFCF6-DB04-4AF4-BEEC-892580F8FC65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D61FFCF6-DB04-4AF4-BEEC-892580F8FC65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D61FFCF6-DB04-4AF4-BEEC-892580F8FC65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93135192-D3D7-41D0-9FCC-AF77B58E5899}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93135192-D3D7-41D0-9FCC-AF77B58E5899}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93135192-D3D7-41D0-9FCC-AF77B58E5899}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93135192-D3D7-41D0-9FCC-AF77B58E5899}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,6 +152,7 @@ Global
 		{737DC0CA-809D-4CED-A015-B97F300FAB6A} = {522CDE8F-9674-439F-BE74-F57A0F13AA6F}
 		{593080E9-E032-4BBD-B17D-08DA9F120C6D} = {522CDE8F-9674-439F-BE74-F57A0F13AA6F}
 		{7A0223E3-9169-4087-8C95-A9469181E988} = {522CDE8F-9674-439F-BE74-F57A0F13AA6F}
+		{93135192-D3D7-41D0-9FCC-AF77B58E5899} = {26F6BF5F-3F16-4E84-A939-7B255CFC249D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36C8642A-A1FA-4094-9186-F57DF07CF6AC}

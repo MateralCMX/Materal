@@ -5,7 +5,7 @@ using RC.ServerCenter.Services.Models.Project;
 namespace RC.ServerCenter.Services
 {
     /// <summary>
-    /// 服务
+    /// 项目服务
     /// </summary>
     public partial interface IProjectService : IBaseService<AddProjectModel, EditProjectModel, QueryProjectModel, ProjectDTO, ProjectListDTO>
     {

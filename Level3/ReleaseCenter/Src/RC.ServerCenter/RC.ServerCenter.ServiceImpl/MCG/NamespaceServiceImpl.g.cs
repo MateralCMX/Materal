@@ -8,7 +8,7 @@ using RC.ServerCenter.Services.Models.Namespace;
 namespace RC.ServerCenter.ServiceImpl
 {
     /// <summary>
-    /// 服务实现
+    /// 命名空间服务实现
     /// </summary>
     public partial class NamespaceServiceImpl : BaseServiceImpl<AddNamespaceModel, EditNamespaceModel, QueryNamespaceModel, NamespaceDTO, NamespaceListDTO, INamespaceRepository, Namespace>, INamespaceService
     {

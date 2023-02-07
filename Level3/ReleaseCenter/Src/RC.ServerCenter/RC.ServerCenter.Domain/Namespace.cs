@@ -8,6 +8,7 @@ namespace RC.ServerCenter.Domain
     /// <summary>
     /// 命名空间
     /// </summary>
+    [CodeGeneratorPlug("RC.Core.CodeGenerator", "InitProject")]
     public class Namespace : BaseDomain, IDomain
     {
         /// <summary>

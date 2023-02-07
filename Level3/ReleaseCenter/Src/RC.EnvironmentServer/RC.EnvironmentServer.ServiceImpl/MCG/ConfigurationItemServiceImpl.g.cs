@@ -8,7 +8,7 @@ using RC.EnvironmentServer.Services.Models.ConfigurationItem;
 namespace RC.EnvironmentServer.ServiceImpl
 {
     /// <summary>
-    /// 服务实现
+    /// 配置项服务实现
     /// </summary>
     public partial class ConfigurationItemServiceImpl : BaseServiceImpl<AddConfigurationItemModel, EditConfigurationItemModel, QueryConfigurationItemModel, ConfigurationItemDTO, ConfigurationItemListDTO, IConfigurationItemRepository, ConfigurationItem>, IConfigurationItemService
     {

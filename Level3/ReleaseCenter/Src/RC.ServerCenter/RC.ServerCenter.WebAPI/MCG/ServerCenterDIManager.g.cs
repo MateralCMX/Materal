@@ -1,41 +1,54 @@
-﻿using Materal.BaseCore.Common;
-using Materal.BaseCore.WebAPI.Common;
+#nullable enable
+using Materal.BaseCore.Common;
 using NetCore.AutoRegisterDi;
 using RC.Core.WebAPI;
 using RC.ServerCenter.Common;
 using RC.ServerCenter.EFRepository;
 using System.Reflection;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace RC.ServerCenter
+namespace RC.ServerCenter.WebAPI
 {
     /// <summary>
-    /// ServerCenter依赖注入扩展
+    /// ServerCenter依赖注入管理器
     /// </summary>
-    public static class ServerCenterDIExtension
+    public partial class ServerCenterDIManager : DIManager
     {
         /// <summary>
         /// 添加ServerCenter服务
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddServerCenterService(this IServiceCollection services)
+        public virtual IServiceCollection AddServerCenterService(IServiceCollection services) => AddRCServerCenterService(services);
+    }
+    /// <summary>
+    /// 依赖注入管理器
+    /// </summary>
+    public abstract class DIManager
+    {
+        /// <summary>
+        /// 添加ServerCenter服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="swaggerGenConfig"></param>
+        /// <returns></returns>
+        public virtual IServiceCollection AddRCServerCenterService(IServiceCollection services, Action<SwaggerGenOptions>? swaggerGenConfig = null)
         {
             string basePath = AppDomain.CurrentDomain.BaseDirectory;
             string[] swaggerXmlPaths = new[]
             {
                 $"{basePath}RC.ServerCenter.WebAPI.xml",
                 $"{basePath}RC.ServerCenter.DataTransmitModel.xml",
-                $"{basePath}RC.ServerCenter.PresentationModel.xml",
+                $"{basePath}RC.ServerCenter.PresentationModel.xml"
             };
-            services.AddRCService<ServerCenterDBContext>(ApplicationConfig.DBConfig, swaggerXmlPaths);
             services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
+            services.AddRCService<ServerCenterDBContext>(ApplicationConfig.DBConfig, swaggerGenConfig, swaggerXmlPaths);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.ServerCenter.EFRepository"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
                 .AsPublicImplementedInterfaces();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.ServerCenter.ServiceImpl"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("ServiceImpl"))
                 .AsPublicImplementedInterfaces();
-            services.AddIntegrationEventBus($"{WebAPIConfig.AppName}Queue");
             return services;
         }
     }

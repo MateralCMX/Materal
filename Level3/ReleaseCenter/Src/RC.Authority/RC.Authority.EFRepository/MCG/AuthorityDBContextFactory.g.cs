@@ -1,14 +1,13 @@
-﻿using Materal.TTA.SqliteRepository.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using RC.Authority.EFRepository;
+using RC.Authority.Common;
 
-namespace RC.Authority
+namespace RC.Authority.EFRepository
 {
     /// <summary>
     /// 数据库上下文工厂
     /// </summary>
-    public class AuthorityDBContextFactory : IDesignTimeDbContextFactory<AuthorityDBContext>
+    public partial class AuthorityDBContextFactory : IDesignTimeDbContextFactory<AuthorityDBContext>
     {
         /// <summary>
         /// 创建数据库连接
@@ -17,12 +16,8 @@ namespace RC.Authority
         /// <returns></returns>
         public AuthorityDBContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<AuthorityDBContext>();
-            var config = new SqliteConfigModel
-            {
-                Source = "./Authority.db"
-            };
-            optionsBuilder.UseSqlite(config.ConnectionString);
+            DbContextOptionsBuilder<AuthorityDBContext> optionsBuilder = new();
+            optionsBuilder.UseSqlite(ApplicationConfig.DBConfig.ConnectionString);
             return new AuthorityDBContext(optionsBuilder.Options);
         }
     }

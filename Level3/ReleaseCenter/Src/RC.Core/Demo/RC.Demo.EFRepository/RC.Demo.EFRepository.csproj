@@ -6,6 +6,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\RC.Core.EFRepository\RC.Core.EFRepository.csproj" />
+		<ProjectReference Include="..\RC.Demo.Common\RC.Demo.Common.csproj" />
 		<ProjectReference Include="..\RC.Demo.Domain\RC.Demo.Domain.csproj" />
 	</ItemGroup>
 </Project>

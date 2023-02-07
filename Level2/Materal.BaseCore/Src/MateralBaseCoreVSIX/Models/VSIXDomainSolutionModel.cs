@@ -5,6 +5,7 @@ using Materal.WindowsHelper;
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace MateralBaseCoreVSIX.Models
 {
     public class VSIXDomainSolutionModel : DomainSolutionModel
     {
+        protected List<ProjectModel> OtherProjects = new List<ProjectModel>();
         public VSIXDomainSolutionModel(Solution solution, Project domainProject)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -61,21 +63,34 @@ namespace MateralBaseCoreVSIX.Models
             _plugTempDirectoryInfo = new DirectoryInfo(plugTempPath);
             SaveToolsRessources(_plugTempDirectoryInfo);
         }
-        protected override void PlugExecuteBefore(string projectPath, string className)
+        protected override void PlugExecuteBefore(DomainPlugModel domainPlugModel, AttributeModel attributeModel)
         {
             _plugErrorMessages = new StringBuilder();
         }
-        protected override void PlugExecute(DomainPlugModel model, string projectPath, string className)
+        protected override void PlugExecute(DomainPlugModel domainPlugModel, AttributeModel attributeModel)
         {
             if (_plugTempDirectoryInfo == null) return;
-            string modelJson = JsonConvert.SerializeObject(model);
+            #region 获取插件项目路径
+            string projectPath = attributeModel.AttributeArguments[0].Value.RemovePackag();
+            ProjectModel codeGeneratorProjectModel = OtherProjects.FirstOrDefault(m => m.Namespace == projectPath);
+            if (codeGeneratorProjectModel == null) throw new VSIXException("插件项目未引用");
+            projectPath = codeGeneratorProjectModel.RootPath;
+            #endregion
+            #region 获取类名称
+            string classFileName = attributeModel.AttributeArguments[1].Value.RemovePackag();
+            if (!classFileName.EndsWith(".cs"))
+            {
+                classFileName += ".cs";
+            }
+            #endregion
+            string modelJson = JsonConvert.SerializeObject(domainPlugModel);
             SaveModelJson(_plugTempDirectoryInfo, "ModelData.json", modelJson);
             ProcessManager processManager = new ProcessManager();
             processManager.ErrorDataReceived += ProcessManager_ErrorDataReceived;
             string plugExe = Path.Combine(_plugTempDirectoryInfo.FullName, "MateralBasePlugBuild.dll");
-            processManager.ProcessStart("dotnet", $"{plugExe} {projectPath} {className}");
+            processManager.ProcessStart("dotnet", $"{plugExe} {projectPath} {classFileName}");
         }
-        protected override void PlugExcuteAfter(string projectPath, string className)
+        protected override void PlugExcuteAfter(DomainPlugModel domainPlugModel, AttributeModel attributeModel)
         {
             if (_plugErrorMessages == null ||  _plugErrorMessages.Length == 0) return;
             throw new VSIXException(_plugErrorMessages.ToString());
@@ -264,7 +279,7 @@ namespace MateralBaseCoreVSIX.Models
         /// <param name="project"></param>
         private void FillProject(Project project)
         {
-            if (project == null && project.GetType().Name == "OAProject") return;
+            if (project == null || project.GetType().Name != "OAProject") return;
             ThreadHelper.ThrowIfNotOnUIThread();
             if (project.Name == $"{DomainProject.PrefixName}.{DomainProject.ProjectName}.Common")
             {
@@ -298,6 +313,10 @@ namespace MateralBaseCoreVSIX.Models
             {
                 EnumsProject = new VSIXProjectModel(project);
                 FillEnums(project);
+            }
+            else
+            {
+                OtherProjects.Add(new VSIXProjectModel(project));
             }
         }
         /// <summary>

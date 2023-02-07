@@ -8,6 +8,7 @@ namespace RC.Authority.Domain
     /// <summary>
     /// 用户
     /// </summary>
+    [CodeGeneratorPlug("RC.Core.CodeGenerator", "InitProject")]
     public class User : BaseDomain, IDomain
     {
         /// <summary>

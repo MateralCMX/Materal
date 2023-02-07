@@ -8,7 +8,7 @@ using RC.Deploy.Services.Models.DefaultData;
 namespace RC.Deploy.ServiceImpl
 {
     /// <summary>
-    /// 服务实现
+    /// 默认数据服务实现
     /// </summary>
     public partial class DefaultDataServiceImpl : BaseServiceImpl<AddDefaultDataModel, EditDefaultDataModel, QueryDefaultDataModel, DefaultDataDTO, DefaultDataListDTO, IDefaultDataRepository, DefaultData>, IDefaultDataService
     {

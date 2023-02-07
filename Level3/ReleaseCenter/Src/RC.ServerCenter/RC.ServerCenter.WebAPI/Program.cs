@@ -1,35 +1,25 @@
 using Materal.Common;
 using Materal.TFMS.EventBus;
-using Materal.TTA.EFRepository;
-using RC.Core.WebAPI;
-using RC.ServerCenter.EFRepository;
 
 namespace RC.ServerCenter.WebAPI
 {
     /// <summary>
     /// 主程序
     /// </summary>
-    public class Program : RCProgram
+    public partial class Program
     {
         /// <summary>
-        /// 入口函数
+        /// 初始化
         /// </summary>
         /// <param name="args"></param>
+        /// <param name="services"></param>
+        /// <param name="app"></param>
         /// <returns></returns>
-        public static async Task Main(string[] args)
+        public override async Task InitAsync(string[] args, IServiceProvider services, WebApplication app)
         {
-            WebApplication app = RCStart(args, services =>
-            {
-                services.AddServerCenterService();
-            }, null, "RC.ServerCenter");
-            MigrateHelper<ServerCenterDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<ServerCenterDBContext>>();
-            await migrateHelper.MigrateAsync();
             IEventBus? eventBus = MateralServices.GetServiceOrDefatult<IEventBus>();
-            if (eventBus != null)
-            {
-                eventBus.StartListening();
-            }
-            await app.RunAsync();
+            eventBus?.StartListening();
+            await base.InitAsync(args, services, app);
         }
     }
 }

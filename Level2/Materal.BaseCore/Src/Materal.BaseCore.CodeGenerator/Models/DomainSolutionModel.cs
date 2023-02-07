@@ -30,23 +30,24 @@ namespace Materal.BaseCore.CodeGenerator.Models
             ServicesProject?.CreateServicesFiles(Domains);
             ServiceImplProject?.CreateServiceImplFiles(Domains);
             PresentationModelProject?.CreatePresentationModelFiles(Domains);
+            CommonProject?.ClearMCGFiles();
             WebAPIProject?.CreateWebAPIFiles(Domains);
             if (Enums != null && Enums.Count > 0)
             {
                 WebAPIProject?.CreateEnumsControllers(Enums);
             }
+            RuningPlug();
+        }
+        /// <summary>
+        /// 运行插件
+        /// </summary>
+        private void RuningPlug()
+        {
             AllPlugExecuteBefore();
             foreach (DomainModel domain in Domains)
             {
                 AttributeModel attributeModel = domain.GetAttribute<CodeGeneratorPlugAttribute>();
                 if (attributeModel == null) continue;
-                string className = attributeModel.AttributeArguments[1].Value.RemovePackag();
-                if (!className.EndsWith(".cs"))
-                {
-                    className += ".cs";
-                }
-                string projectPath = attributeModel.AttributeArguments[0].Value.RemovePackag();
-                projectPath = Path.Combine(DomainProject?.DiskDirectoryPath, projectPath);
                 DomainPlugModel model = new()
                 {
                     Domain = domain,
@@ -64,9 +65,9 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 };
                 try
                 {
-                    PlugExecuteBefore(projectPath, className);
-                    PlugExecute(model, projectPath, className);
-                    PlugExcuteAfter(projectPath, className);
+                    PlugExecuteBefore(model, attributeModel);
+                    PlugExecute(model, attributeModel);
+                    PlugExcuteAfter(model, attributeModel);
                 }
                 catch
                 {
@@ -83,22 +84,21 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 插件执行之前
         /// </summary>
-        /// <param name="projectPath"></param>
-        /// <param name="className"></param>
-        protected abstract void PlugExecuteBefore(string projectPath, string className);
+        /// <param name="domainPlugModel"></param>
+        /// <param name="attributeModel"></param>
+        protected abstract void PlugExecuteBefore(DomainPlugModel domainPlugModel, AttributeModel attributeModel);
         /// <summary>
         /// 插件执行
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="projectPath"></param>
-        /// <param name="className"></param>
-        protected abstract void PlugExecute(DomainPlugModel model, string projectPath, string className);
+        /// <param name="domainPlugModel"></param>
+        /// <param name="attributeModel"></param>
+        protected abstract void PlugExecute(DomainPlugModel domainPlugModel, AttributeModel attributeModel);
         /// <summary>
         /// 插件执行完毕
         /// </summary>
-        /// <param name="projectPath"></param>
-        /// <param name="className"></param>
-        protected abstract void PlugExcuteAfter(string projectPath, string className);
+        /// <param name="domainPlugModel"></param>
+        /// <param name="attributeModel"></param>
+        protected abstract void PlugExcuteAfter(DomainPlugModel domainPlugModel, AttributeModel attributeModel);
         /// <summary>
         /// 插件执行完毕
         /// </summary>

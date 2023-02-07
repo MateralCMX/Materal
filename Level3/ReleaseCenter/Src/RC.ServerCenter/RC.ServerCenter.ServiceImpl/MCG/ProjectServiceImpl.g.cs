@@ -8,7 +8,7 @@ using RC.ServerCenter.Services.Models.Project;
 namespace RC.ServerCenter.ServiceImpl
 {
     /// <summary>
-    /// 服务实现
+    /// 项目服务实现
     /// </summary>
     public partial class ProjectServiceImpl : BaseServiceImpl<AddProjectModel, EditProjectModel, QueryProjectModel, ProjectDTO, ProjectListDTO, IProjectRepository, Project>, IProjectService
     {

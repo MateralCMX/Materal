@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace RC.Core.WebAPI
 {
-    public abstract class RCProgram : BaseProgram
+    public class RCProgram : BaseProgram
     {
         public static WebApplication RCStart(string[] args, Action<IServiceCollection>? configService, string consulTag)
         {
@@ -25,5 +25,23 @@ namespace RC.Core.WebAPI
             }, consulTag);
             return app;
         }
+        /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="services"></param>
+        public virtual void ConfigService(IServiceCollection services) { }
+        /// <summary>
+        /// 配置应用程序
+        /// </summary>
+        /// <param name="app"></param>
+        public virtual void ConfigApp(WebApplication app) { }
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="services"></param>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public virtual Task InitAsync(string[] args, IServiceProvider services, WebApplication app) => Task.CompletedTask;
     }
 }

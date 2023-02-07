@@ -8,7 +8,7 @@ using RC.Demo.Services.Models.User;
 namespace RC.Demo.ServiceImpl
 {
     /// <summary>
-    /// 服务实现
+    /// 用户服务实现
     /// </summary>
     public partial class UserServiceImpl : BaseServiceImpl<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserRepository, User>, IUserService
     {

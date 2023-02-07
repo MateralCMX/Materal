@@ -1,38 +1,31 @@
 using Materal.BaseCore.WebAPI;
 using Materal.BaseCore.WebAPI.Common;
 using Materal.Common;
-using Materal.TTA.EFRepository;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
-using RC.Core.WebAPI;
-using RC.Deploy;
 using RC.Deploy.Common;
-using RC.Deploy.EFRepository;
 using RC.Deploy.Hubs;
 using RC.Deploy.ServiceImpl;
 using RC.Deploy.Services;
 
-namespace RC.Authority.WebAPI
+namespace RC.Deploy.WebAPI
 {
     /// <summary>
     /// 主程序
     /// </summary>
-    public class Program : RCProgram
+    public partial class Program
     {
         /// <summary>
-        /// 入口函数
+        /// 初始化
         /// </summary>
         /// <param name="args"></param>
+        /// <param name="services"></param>
+        /// <param name="app"></param>
         /// <returns></returns>
-        public static async Task Main(string[] args)
+        public override async Task InitAsync(string[] args, IServiceProvider services, WebApplication app)
         {
             AppDomain.CurrentDomain.ProcessExit += Deploy_ProcessExit;
-            WebApplication app = RCStart(args, services =>
-            {
-                services.AddSignalR();
-                services.AddDeployService();
-            }, "RC.Deploy");
             app.MapHub<ConsoleMessageHub>("/hubs/ConsoleMessage");
             #region 处理重写
             RewriteOptions rewriteOptions = new();
@@ -98,9 +91,7 @@ namespace RC.Authority.WebAPI
                 DefaultContentType = "application/octet-stream"
             });
             #endregion
-            MigrateHelper<DeployDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<DeployDBContext>>();
-            await migrateHelper.MigrateAsync();
-            await app.RunAsync();
+            await base.InitAsync(args, services, app);
         }
         /// <summary>
         /// 程序退出时

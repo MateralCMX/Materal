@@ -5,7 +5,7 @@ using RC.Deploy.Services.Models.ApplicationInfo;
 namespace RC.Deploy.Services
 {
     /// <summary>
-    /// 服务
+    /// 应用程序信息服务
     /// </summary>
     public partial interface IApplicationInfoService : IBaseService<AddApplicationInfoModel, EditApplicationInfoModel, QueryApplicationInfoModel, ApplicationInfoDTO, ApplicationInfoListDTO>
     {

@@ -5,7 +5,7 @@ using RC.Deploy.Services.Models.DefaultData;
 namespace RC.Deploy.Services
 {
     /// <summary>
-    /// 服务
+    /// 默认数据服务
     /// </summary>
     public partial interface IDefaultDataService : IBaseService<AddDefaultDataModel, EditDefaultDataModel, QueryDefaultDataModel, DefaultDataDTO, DefaultDataListDTO>
     {

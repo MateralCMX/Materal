@@ -1,35 +1,28 @@
 using Materal.Common;
-using Materal.TTA.EFRepository;
-using RC.Authority.EFRepository;
 using RC.Authority.Services;
-using RC.Core.WebAPI;
 
 namespace RC.Authority.WebAPI
 {
     /// <summary>
     /// 主程序
     /// </summary>
-    public class Program : RCProgram
+    public partial class Program
     {
         /// <summary>
-        /// 入口函数
+        /// 初始化
         /// </summary>
         /// <param name="args"></param>
+        /// <param name="services"></param>
+        /// <param name="app"></param>
         /// <returns></returns>
-        public static async Task Main(string[] args)
+        public override async Task InitAsync(string[] args, IServiceProvider services, WebApplication app)
         {
-            WebApplication app = RCStart(args, services =>
-            {
-                services.AddAuthorityService();
-            }, "RC.Authority");
-            MigrateHelper<AuthorityDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<AuthorityDBContext>>();
-            await migrateHelper.MigrateAsync();
             #region 添加默认用户
             IUserService? userService = MateralServices.GetService<IUserService>();
             await userService.AddDefaultUserAsync();
             userService = null;
             #endregion
-            await app.RunAsync();
+            await base.InitAsync(args, services, app);
         }
     }
 }
