@@ -180,14 +180,14 @@ namespace Materal.BaseCore.CodeGenerator.Models
             {
                 "using Materal.Model;",
                 "using System.ComponentModel.DataAnnotations;",
-                $"using Materal.BaseCore.Domain;",
-                $"using Materal.BaseCore.CodeGenerator;",
-                $"using Materal.BaseCore.Common.Utils.IndexHelper;",
-                $"using Materal.BaseCore.Common.Utils.TreeHelper;",
+                "using Materal.BaseCore.Domain;",
+                "using Materal.BaseCore.Common.Utils.IndexHelper;",
+                "using Materal.BaseCore.Common.Utils.TreeHelper;",
             };
             OtherUsings.Clear();
             foreach (string usingCode in Usings)
             {
+                if (usingCode.EndsWith("CodeGenerator")) continue;
                 if (blackList.Contains(usingCode.Trim())) continue;
                 OtherUsings.Add(usingCode.Trim());
             }
