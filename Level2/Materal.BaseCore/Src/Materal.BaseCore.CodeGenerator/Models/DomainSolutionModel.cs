@@ -46,8 +46,8 @@ namespace Materal.BaseCore.CodeGenerator.Models
             AllPlugExecuteBefore();
             foreach (DomainModel domain in Domains)
             {
-                AttributeModel attributeModel = domain.GetAttribute<CodeGeneratorPlugAttribute>();
-                if (attributeModel == null) continue;
+                AttributeModel[] attributeModels = domain.GetAttributes<CodeGeneratorPlugAttribute>();
+                if (attributeModels == null || attributeModels.Length == 0) continue;
                 DomainPlugModel model = new()
                 {
                     Domain = domain,
@@ -65,9 +65,12 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 };
                 try
                 {
-                    PlugExecuteBefore(model, attributeModel);
-                    PlugExecute(model, attributeModel);
-                    PlugExcuteAfter(model, attributeModel);
+                    foreach (AttributeModel attributeModel in attributeModels)
+                    {
+                        PlugExecuteBefore(model, attributeModel);
+                        PlugExecute(model, attributeModel);
+                        PlugExcuteAfter(model, attributeModel);
+                    }
                 }
                 catch
                 {

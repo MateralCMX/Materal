@@ -187,7 +187,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             OtherUsings.Clear();
             foreach (string usingCode in Usings)
             {
-                if (usingCode.EndsWith("CodeGenerator")) continue;
+                if (usingCode.EndsWith("CodeGenerator;")) continue;
                 if (blackList.Contains(usingCode.Trim())) continue;
                 OtherUsings.Add(usingCode.Trim());
             }
