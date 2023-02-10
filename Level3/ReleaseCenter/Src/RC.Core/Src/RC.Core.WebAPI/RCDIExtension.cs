@@ -17,6 +17,8 @@ namespace RC.Core.WebAPI
         /// 添加RC服务
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="sqliteConfig"></param>
+        /// <param name="swaggerXmlPaths"></param>
         /// <returns></returns>
         public static IServiceCollection AddRCService<T>(this IServiceCollection services, SqliteConfigModel sqliteConfig, params string[] swaggerXmlPaths)
             where T : DbContext
@@ -27,6 +29,9 @@ namespace RC.Core.WebAPI
         /// 添加RC服务
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="sqliteConfig"></param>
+        /// <param name="swaggerGenConfig"></param>
+        /// <param name="swaggerXmlPaths"></param>
         /// <returns></returns>
         public static IServiceCollection AddRCService<T>(this IServiceCollection services, SqliteConfigModel sqliteConfig, Action<SwaggerGenOptions>? swaggerGenConfig, params string[] swaggerXmlPaths)
             where T : DbContext

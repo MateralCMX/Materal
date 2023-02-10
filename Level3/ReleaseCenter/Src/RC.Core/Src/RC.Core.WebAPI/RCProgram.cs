@@ -9,10 +9,25 @@ namespace RC.Core.WebAPI
 {
     public class RCProgram : BaseProgram
     {
+        /// <summary>
+        /// 开始
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="configService"></param>
+        /// <param name="consulTag"></param>
+        /// <returns></returns>
         public static WebApplication RCStart(string[] args, Action<IServiceCollection>? configService, string consulTag)
         {
             return RCStart(args, configService, null, consulTag);
         }
+        /// <summary>
+        /// 开始
+        /// </summary>
+        /// <param name="args"></param>
+        /// <param name="configService"></param>
+        /// <param name="configAppAction"></param>
+        /// <param name="consulTag"></param>
+        /// <returns></returns>
         public static WebApplication RCStart(string[] args, Action<IServiceCollection>? configService, Action<WebApplication>? configAppAction, string consulTag)
         {
             WebApplication app = Start(args, config =>
