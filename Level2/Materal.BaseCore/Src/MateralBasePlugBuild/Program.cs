@@ -27,8 +27,8 @@ namespace MateralBasePlugBuild
             }
             else
             {
-                projectPath = "D:\\Project\\测试项目\\RC.Core\\Demo\\RC.Demo.CodeGenerator";
-                className = "TestPlug.cs";
+                projectPath = "D:\\Project\\古典部\\新明解\\Src\\XMJ.DataCenter\\XMJ.DataCenter.CodeGenerator";
+                className = "ReoprtDomain.cs";
             }
 #else
             if (args.Length != 2) return;
@@ -40,7 +40,7 @@ namespace MateralBasePlugBuild
             {
                 typeName = typeName[0..^3];
             }
-            string dllFilePath = BuildClass(projectPath, className);
+            string dllFilePath = BuildClass(projectPath);
             Assembly assembly = Assembly.LoadFile(dllFilePath);
             Type[] allTypes = assembly.GetTypes();
             Type? type = allTypes.FirstOrDefault(m => m.Name == typeName);
@@ -53,28 +53,39 @@ namespace MateralBasePlugBuild
             plug.PlugExecute(model);
         }
         /// <summary>
+        /// 获得CS文件
+        /// </summary>
+        /// <param name="directoryInfo"></param>
+        /// <returns></returns>
+        private static List<FileInfo> GetCShaprCodeFiles(DirectoryInfo directoryInfo)
+        {
+            List<FileInfo> result = new();
+            foreach (FileInfo item in directoryInfo.GetFiles().Where(m=>m.Extension == ".cs"))
+            {
+                result.Add(item);
+            }
+            foreach (DirectoryInfo item in directoryInfo.GetDirectories())
+            {
+                if (item.Name == "bin") continue;
+                if (item.Name == "obj") continue;
+                result.AddRange(GetCShaprCodeFiles(item));
+            }
+            return result;
+        }
+        /// <summary>
         /// 构建Class
         /// </summary>
-        private static string BuildClass(string projectPath, string className)
+        private static string BuildClass(string projectPath)
         {
-            string classFileName = className;
-            string dllFileName = className;
-            if (!classFileName.EndsWith(".cs"))
-            {
-                classFileName += ".cs";
-                dllFileName += ".dll";
-            }
-            else
-            {
-                dllFileName = dllFileName[..dllFileName.LastIndexOf('.')] + ".dll";
-            }
-            string filePath = Path.Combine(projectPath, classFileName);
+            DirectoryInfo projectDirectoryInfo = new(projectPath);
+            if (!projectDirectoryInfo.Exists) throw new Exception("项目文件夹不存在");
+            FileInfo? csProjectFileInfo = projectDirectoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
+            if(csProjectFileInfo == null) throw new Exception("项目文件不存在");
+            string dllFileName = Path.GetFileNameWithoutExtension(csProjectFileInfo.Name) + ".dll";
+            List<FileInfo> csharpFileInfos = GetCShaprCodeFiles(projectDirectoryInfo);
             string dllFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllFileName);
-            if (File.Exists(dllFilePath)) return dllFilePath;
-            FileInfo csFileInfo = new(filePath);
-            if (!csFileInfo.Exists) throw new Exception(".cs文件不存在");
             FileInfo dllFileInfo = new(dllFilePath);
-            if (dllFileInfo.Exists) dllFileInfo.Delete();
+            if (dllFileInfo.Exists) return dllFilePath;
             static string getRootDllPath(string dllName) => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllName);
             List<string> usingAssemblies = new()
             {
@@ -82,6 +93,8 @@ namespace MateralBasePlugBuild
                 Assembly.Load("netstandard").Location,
                 Assembly.Load("System.Runtime").Location,
                 Assembly.Load("System.Console").Location,
+                Assembly.Load("System.Collections").Location,
+                Assembly.Load("System.Linq").Location,
                 getRootDllPath("Materal.BaseCore.CodeGenerator.dll"),
                 typeof(object).Assembly.Location
             };
@@ -109,8 +122,11 @@ namespace MateralBasePlugBuild
                                 xmlReferenceResolver: null
                             ))
                             .AddReferences(refs);
-            string soureCode = File.ReadAllText(csFileInfo.FullName);
-            cSharpCompilation = cSharpCompilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText(soureCode));
+            foreach (FileInfo csFileInfo in csharpFileInfos)
+            {
+                string soureCode = File.ReadAllText(csFileInfo.FullName);
+                cSharpCompilation = cSharpCompilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText(soureCode));
+            }
             EmitResult emitResult = cSharpCompilation.Emit(dllFilePath);
             if (!emitResult.Success)
             {
