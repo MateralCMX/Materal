@@ -84,23 +84,24 @@ namespace MateralBasePlugBuild
             if (!projectDirectoryInfo.Exists) throw new Exception("项目文件夹不存在");
             FileInfo? csProjectFileInfo = projectDirectoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
             if (csProjectFileInfo == null) throw new Exception("项目文件不存在");
+            List<FileInfo> csharpFileInfos = GetCShaprCodeFiles(projectDirectoryInfo);
+            DateTime lastWriteTime = csharpFileInfos.Max(m => m.LastWriteTime);
             string dllFileName = Path.GetFileNameWithoutExtension(csProjectFileInfo.Name) + ".dll";
             string dllFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllFileName);
             FileInfo dllFileInfo = new(dllFilePath);
             string debugDLLFilePath = Path.Combine(projectPath, "bin", "Debug", "net6.0", dllFileName);
             FileInfo debugDLLFileInfo = new(debugDLLFilePath);
-            if (debugDLLFileInfo.Exists && csProjectFileInfo.LastWriteTime < debugDLLFileInfo.CreationTime)
+            if (debugDLLFileInfo.Exists && lastWriteTime < debugDLLFileInfo.CreationTime)
             {
                 dllFileInfo = debugDLLFileInfo;
             }
             string releaseDLLFilePath = Path.Combine(projectPath, "bin", "Release", "net6.0", dllFileName);
             FileInfo releaseDLLFileInfo = new(releaseDLLFilePath);
-            if (releaseDLLFileInfo.Exists && csProjectFileInfo.LastWriteTime < releaseDLLFileInfo.CreationTime)
+            if (releaseDLLFileInfo.Exists && lastWriteTime < releaseDLLFileInfo.CreationTime)
             {
                 dllFileInfo = releaseDLLFileInfo;
             }
-            if (dllFileInfo.Exists) return dllFilePath;
-            List<FileInfo> csharpFileInfos = GetCShaprCodeFiles(projectDirectoryInfo);
+            if (dllFileInfo.Exists) return dllFileInfo.FullName;
             static string getRootDllPath(string dllName) => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllName);
             List<string> usingAssemblies = new()
             {
@@ -142,10 +143,11 @@ namespace MateralBasePlugBuild
                 string soureCode = File.ReadAllText(csFileInfo.FullName);
                 cSharpCompilation = cSharpCompilation.AddSyntaxTrees(CSharpSyntaxTree.ParseText(soureCode));
             }
-            EmitResult emitResult = cSharpCompilation.Emit(dllFilePath);
+            EmitResult emitResult = cSharpCompilation.Emit(dllFileInfo.FullName);
+            dllFileInfo.Refresh();
             if (!emitResult.Success)
             {
-                if (File.Exists(dllFilePath)) File.Delete(dllFilePath);
+                if (dllFileInfo.Exists) dllFileInfo.Delete();
                 StringBuilder errorMessage = new();
                 foreach (Diagnostic item in emitResult.Diagnostics)
                 {
@@ -153,7 +155,7 @@ namespace MateralBasePlugBuild
                 }
                 throw new Exception(errorMessage.ToString());
             }
-            return dllFilePath;
+            return dllFileInfo.FullName;
         }
     }
 }
