@@ -42,6 +42,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         private readonly bool _generatorServiceWebAPI;
         private readonly bool _generatorDefaultService;
         private readonly bool _extendQueryGenerator;
+        private readonly bool _isTable;
         #region 文件名称
         private readonly string _entityConfigName = string.Empty;
         private readonly string _iRepositoryName = string.Empty;
@@ -117,6 +118,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 _generatorWebAPI = !Attributes.HasAttribute<NotWebAPIGeneratorAttribute>();
                 _generatorServiceWebAPI = !Attributes.HasAttribute<NotWebAPIServiceGeneratorAttribute>();
                 _extendQueryGenerator = !Attributes.HasAttribute<NotExtendQueryGeneratorAttribute>();
+                _isTable = !Attributes.HasAttribute<NotTableAttribute>();
                 #endregion
                 #region 解析注释
                 Annotation = codes.GetAnnotation(ref startIndex);
@@ -579,7 +581,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateEntityConfigFile(ProjectModel project)
         {
-            if (!_generatorCode) return;
+            if (!_generatorCode || !_isTable) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Microsoft.EntityFrameworkCore;");
             codeContent.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
