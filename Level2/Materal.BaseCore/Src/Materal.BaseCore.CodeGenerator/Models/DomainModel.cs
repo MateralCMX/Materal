@@ -599,10 +599,22 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"        public override void Configure(EntityTypeBuilder<{Name}> builder)");
             codeContent.AppendLine($"        {{");
             codeContent.AppendLine($"            builder = BaseConfigure(builder);");
+            #region 有注释
+            if (!string.IsNullOrWhiteSpace(Annotation))
+            {
+                codeContent.AppendLine($"            builder.ToTable(m => m.HasComment(\"{Annotation}\"));");
+            }
+            #endregion
             foreach (DomainPropertyModel property in Properties)
             {
                 if (!property.GeneratorEntityConfig) continue;
                 codeContent.AppendLine($"            builder.Property(e => e.{property.Name})");
+                #region 有注释
+                if (!string.IsNullOrWhiteSpace(property.Annotation))
+                {
+                    codeContent.Append($"                .HasComment(\"{property.Annotation}\")");
+                }
+                #endregion
                 #region IsRequired
                 if (property.CanNull)
                 {
