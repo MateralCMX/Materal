@@ -16,16 +16,21 @@ namespace RC.Demo.EFRepository.EntityConfigs
         public override void Configure(EntityTypeBuilder<User> builder)
         {
             builder = BaseConfigure(builder);
+            builder.ToTable(m => m.HasComment("用户"));
             builder.Property(e => e.Name)
                 .IsRequired()
+                .HasComment("姓名")
                 .HasMaxLength(100);
             builder.Property(e => e.Sex)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("性别");
             builder.Property(e => e.Account)
                 .IsRequired()
+                .HasComment("账号")
                 .HasMaxLength(50);
             builder.Property(e => e.Password)
                 .IsRequired()
+                .HasComment("密码")
                 .HasMaxLength(32);
         }
     }

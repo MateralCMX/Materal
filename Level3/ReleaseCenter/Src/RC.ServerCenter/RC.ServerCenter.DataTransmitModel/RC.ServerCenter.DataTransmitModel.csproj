@@ -6,6 +6,6 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="0.2.10" />
+		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="0.2.11" />
 	</ItemGroup>
 </Project>

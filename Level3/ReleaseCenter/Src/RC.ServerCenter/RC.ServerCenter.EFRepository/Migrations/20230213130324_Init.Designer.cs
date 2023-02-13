@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RC.Deploy.EFRepository;
+using RC.ServerCenter.EFRepository;
 
 #nullable disable
 
-namespace RC.Deploy.EFRepository.Migrations
+namespace RC.ServerCenter.EFRepository.Migrations
 {
-    [DbContext(typeof(DeployDBContext))]
-    [Migration("20230117054429_Init")]
+    [DbContext(typeof(ServerCenterDBContext))]
+    [Migration("20230213130324_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -20,70 +20,72 @@ namespace RC.Deploy.EFRepository.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.2");
 
-            modelBuilder.Entity("RC.Deploy.Domain.ApplicationInfo", b =>
+            modelBuilder.Entity("RC.ServerCenter.Domain.Namespace", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte>("ApplicationType")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsIncrementalUpdating")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("MainModule")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT")
+                        .HasComment("描述");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT")
+                        .HasComment("名称");
 
-                    b.Property<string>("RootPath")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("RunParams")
-                        .HasColumnType("TEXT");
+                    b.Property<Guid>("ProjectID")
+                        .HasColumnType("TEXT")
+                        .HasComment("命名空间唯一标识");
 
                     b.Property<DateTime>("UpdateTime")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("ApplicationInfo");
+                    b.ToTable("Namespace", t =>
+                        {
+                            t.HasComment("命名空间");
+                        });
                 });
 
-            modelBuilder.Entity("RC.Deploy.Domain.DefaultData", b =>
+            modelBuilder.Entity("RC.ServerCenter.Domain.Project", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<byte>("ApplicationType")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Data")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT")
+                        .HasComment("描述");
 
-                    b.Property<string>("Key")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT")
+                        .HasComment("名称");
 
                     b.Property<DateTime>("UpdateTime")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("DefaultData");
+                    b.ToTable("Project", t =>
+                        {
+                            t.HasComment("项目");
+                        });
                 });
 #pragma warning restore 612, 618
         }

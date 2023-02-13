@@ -16,18 +16,25 @@ namespace RC.Deploy.EFRepository.EntityConfigs
         public override void Configure(EntityTypeBuilder<ApplicationInfo> builder)
         {
             builder = BaseConfigure(builder);
+            builder.ToTable(m => m.HasComment("应用程序信息"));
             builder.Property(e => e.Name)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("名称");
             builder.Property(e => e.RootPath)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("根路径");
             builder.Property(e => e.MainModule)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("主模块");
             builder.Property(e => e.ApplicationType)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("应用程序类型");
             builder.Property(e => e.IsIncrementalUpdating)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("增量更新");
             builder.Property(e => e.RunParams)
-                .IsRequired(false);
+                .IsRequired(false)
+                .HasComment("运行参数");
         }
     }
     /// <summary>

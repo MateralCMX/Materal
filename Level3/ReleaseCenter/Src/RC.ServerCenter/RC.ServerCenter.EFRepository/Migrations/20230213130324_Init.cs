@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace RC.Deploy.EFRepository.Migrations
+namespace RC.ServerCenter.EFRepository.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration
@@ -12,49 +12,47 @@ namespace RC.Deploy.EFRepository.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ApplicationInfo",
+                name: "Namespace",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    RootPath = table.Column<string>(type: "TEXT", nullable: false),
-                    MainModule = table.Column<string>(type: "TEXT", nullable: false),
-                    ApplicationType = table.Column<byte>(type: "INTEGER", nullable: false),
-                    IsIncrementalUpdating = table.Column<bool>(type: "INTEGER", nullable: false),
-                    RunParams = table.Column<string>(type: "TEXT", nullable: true),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, comment: "名称"),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false, comment: "描述"),
+                    ProjectID = table.Column<Guid>(type: "TEXT", nullable: false, comment: "命名空间唯一标识"),
                     CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationInfo", x => x.ID);
-                });
+                    table.PrimaryKey("PK_Namespace", x => x.ID);
+                },
+                comment: "命名空间");
 
             migrationBuilder.CreateTable(
-                name: "DefaultData",
+                name: "Project",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ApplicationType = table.Column<byte>(type: "INTEGER", nullable: false),
-                    Key = table.Column<string>(type: "TEXT", nullable: false),
-                    Data = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false, comment: "名称"),
+                    Description = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false, comment: "描述"),
                     CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DefaultData", x => x.ID);
-                });
+                    table.PrimaryKey("PK_Project", x => x.ID);
+                },
+                comment: "项目");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ApplicationInfo");
+                name: "Namespace");
 
             migrationBuilder.DropTable(
-                name: "DefaultData");
+                name: "Project");
         }
     }
 }

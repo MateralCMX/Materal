@@ -16,23 +16,31 @@ namespace RC.EnvironmentServer.EFRepository.EntityConfigs
         public override void Configure(EntityTypeBuilder<ConfigurationItem> builder)
         {
             builder = BaseConfigure(builder);
+            builder.ToTable(m => m.HasComment("配置项"));
             builder.Property(e => e.ProjectID)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("项目唯一标识");
             builder.Property(e => e.ProjectName)
                 .IsRequired()
+                .HasComment("项目名称")
                 .HasMaxLength(50);
             builder.Property(e => e.NamespaceID)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("命名空间唯一标识");
             builder.Property(e => e.NamespaceName)
                 .IsRequired()
+                .HasComment("命名空间名称")
                 .HasMaxLength(50);
             builder.Property(e => e.Key)
                 .IsRequired()
+                .HasComment("键")
                 .HasMaxLength(50);
             builder.Property(e => e.Value)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("值");
             builder.Property(e => e.Description)
                 .IsRequired()
+                .HasComment("描述")
                 .HasMaxLength(200);
         }
     }

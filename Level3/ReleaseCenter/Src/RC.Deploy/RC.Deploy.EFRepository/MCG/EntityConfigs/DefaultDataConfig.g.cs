@@ -16,12 +16,16 @@ namespace RC.Deploy.EFRepository.EntityConfigs
         public override void Configure(EntityTypeBuilder<DefaultData> builder)
         {
             builder = BaseConfigure(builder);
+            builder.ToTable(m => m.HasComment("默认数据"));
             builder.Property(e => e.ApplicationType)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("应用程序类型");
             builder.Property(e => e.Key)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("键");
             builder.Property(e => e.Data)
-                .IsRequired();
+                .IsRequired()
+                .HasComment("数据");
         }
     }
     /// <summary>

@@ -6,7 +6,7 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../nupkgs</PackageOutputPath>
-		<Version>0.0.1</Version>
+		<Version>0.0.2</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.ReleaseCenter</Product>
 		<Authors>Materal</Authors>
@@ -15,7 +15,7 @@
 		<Description>发布中心环境公开模型</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="0.2.10" />
+		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="0.2.11" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\RC.EnvironmentServer.Enums\RC.EnvironmentServer.Enums.csproj" />

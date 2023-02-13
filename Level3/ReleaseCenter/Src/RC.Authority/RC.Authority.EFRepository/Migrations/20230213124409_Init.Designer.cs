@@ -11,14 +11,14 @@ using RC.Authority.EFRepository;
 namespace RC.Authority.EFRepository.Migrations
 {
     [DbContext(typeof(AuthorityDBContext))]
-    [Migration("20230111060916_Init")]
+    [Migration("20230213124409_Init")]
     partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.2");
 
             modelBuilder.Entity("RC.Authority.Domain.User", b =>
                 {
@@ -29,7 +29,8 @@ namespace RC.Authority.EFRepository.Migrations
                     b.Property<string>("Account")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("账号");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("TEXT");
@@ -37,19 +38,24 @@ namespace RC.Authority.EFRepository.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("姓名");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("密码");
 
                     b.Property<DateTime>("UpdateTime")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("User");
+                    b.ToTable("User", t =>
+                        {
+                            t.HasComment("用户");
+                        });
                 });
 #pragma warning restore 612, 618
         }

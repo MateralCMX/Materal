@@ -29,22 +29,28 @@ namespace RC.ServerCenter.EFRepository.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("描述");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("名称");
 
                     b.Property<Guid>("ProjectID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("命名空间唯一标识");
 
                     b.Property<DateTime>("UpdateTime")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("Namespace");
+                    b.ToTable("Namespace", t =>
+                        {
+                            t.HasComment("命名空间");
+                        });
                 });
 
             modelBuilder.Entity("RC.ServerCenter.Domain.Project", b =>
@@ -59,19 +65,24 @@ namespace RC.ServerCenter.EFRepository.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("描述");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("名称");
 
                     b.Property<DateTime>("UpdateTime")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("Project");
+                    b.ToTable("Project", t =>
+                        {
+                            t.HasComment("项目");
+                        });
                 });
 #pragma warning restore 612, 618
         }

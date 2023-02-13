@@ -11,7 +11,7 @@ using RC.EnvironmentServer.EFRepository;
 namespace RC.EnvironmentServer.EFRepository.Migrations
 {
     [DbContext(typeof(EnvironmentServerDBContext))]
-    [Migration("20230117074822_Init")]
+    [Migration("20230213125922_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -32,39 +32,49 @@ namespace RC.EnvironmentServer.EFRepository.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("描述");
 
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("键");
 
                     b.Property<Guid>("NamespaceID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("命名空间唯一标识");
 
                     b.Property<string>("NamespaceName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("命名空间名称");
 
                     b.Property<Guid>("ProjectID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("项目唯一标识");
 
                     b.Property<string>("ProjectName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("项目名称");
 
                     b.Property<DateTime>("UpdateTime")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("值");
 
                     b.HasKey("ID");
 
-                    b.ToTable("ConfigurationItem");
+                    b.ToTable("ConfigurationItem", t =>
+                        {
+                            t.HasComment("配置项");
+                        });
                 });
 #pragma warning restore 612, 618
         }

@@ -11,14 +11,14 @@ using RC.Demo.EFRepository;
 namespace RC.Demo.EFRepository.Migrations
 {
     [DbContext(typeof(DemoDBContext))]
-    [Migration("20230110151233_Init")]
+    [Migration("20230213125008_Init")]
     partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.1");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.2");
 
             modelBuilder.Entity("RC.Demo.Domain.User", b =>
                 {
@@ -29,7 +29,8 @@ namespace RC.Demo.EFRepository.Migrations
                     b.Property<string>("Account")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("账号");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("TEXT");
@@ -37,22 +38,28 @@ namespace RC.Demo.EFRepository.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("姓名");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasComment("密码");
 
                     b.Property<byte>("Sex")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasComment("性别");
 
                     b.Property<DateTime>("UpdateTime")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("User");
+                    b.ToTable("User", t =>
+                        {
+                            t.HasComment("用户");
+                        });
                 });
 #pragma warning restore 612, 618
         }
