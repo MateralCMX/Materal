@@ -85,10 +85,22 @@ namespace MateralBasePlugBuild
             FileInfo? csProjectFileInfo = projectDirectoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
             if (csProjectFileInfo == null) throw new Exception("项目文件不存在");
             string dllFileName = Path.GetFileNameWithoutExtension(csProjectFileInfo.Name) + ".dll";
-            List<FileInfo> csharpFileInfos = GetCShaprCodeFiles(projectDirectoryInfo);
             string dllFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllFileName);
             FileInfo dllFileInfo = new(dllFilePath);
+            string debugDLLFilePath = Path.Combine(projectPath, "bin", "Debug", "net6.0", dllFileName);
+            FileInfo debugDLLFileInfo = new(debugDLLFilePath);
+            if (debugDLLFileInfo.Exists && csProjectFileInfo.LastWriteTime < debugDLLFileInfo.CreationTime)
+            {
+                dllFileInfo = debugDLLFileInfo;
+            }
+            string releaseDLLFilePath = Path.Combine(projectPath, "bin", "Release", "net6.0", dllFileName);
+            FileInfo releaseDLLFileInfo = new(releaseDLLFilePath);
+            if (releaseDLLFileInfo.Exists && csProjectFileInfo.LastWriteTime < releaseDLLFileInfo.CreationTime)
+            {
+                dllFileInfo = releaseDLLFileInfo;
+            }
             if (dllFileInfo.Exists) return dllFilePath;
+            List<FileInfo> csharpFileInfos = GetCShaprCodeFiles(projectDirectoryInfo);
             static string getRootDllPath(string dllName) => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllName);
             List<string> usingAssemblies = new()
             {
