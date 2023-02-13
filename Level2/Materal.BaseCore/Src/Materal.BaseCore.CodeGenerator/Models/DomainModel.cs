@@ -609,12 +609,6 @@ namespace Materal.BaseCore.CodeGenerator.Models
             {
                 if (!property.GeneratorEntityConfig) continue;
                 codeContent.AppendLine($"            builder.Property(e => e.{property.Name})");
-                #region 有注释
-                if (!string.IsNullOrWhiteSpace(property.Annotation))
-                {
-                    codeContent.Append($"                .HasComment(\"{property.Annotation}\")");
-                }
-                #endregion
                 #region IsRequired
                 if (property.CanNull)
                 {
@@ -623,6 +617,12 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 else
                 {
                     codeContent.Append($"                .IsRequired()");
+                }
+                #endregion
+                #region 有注释
+                if (!string.IsNullOrWhiteSpace(property.Annotation))
+                {
+                    codeContent.Append($"\r\n                .HasComment(\"{property.Annotation}\")");
                 }
                 #endregion
                 #region HasMaxLength
