@@ -1,7 +1,6 @@
 ﻿using EnvDTE;
 using Materal.BaseCore.CodeGenerator.Extensions;
 using Materal.BaseCore.CodeGenerator.Models;
-using Materal.WindowsHelper;
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
 using System;
@@ -55,17 +54,18 @@ namespace MateralBaseCoreVSIX.Models
         #region 插件相关
         private DirectoryInfo _plugTempDirectoryInfo;
         private StringBuilder _plugErrorMessages;
+        private PlugProjectModelCollection _plugProjectModels;
         private const string _resourceStart = "MateralBaseCoreVSIX.Tools";
         protected override void AllPlugExecuteBefore()
         {
             if (DomainProject == null) return;
             string plugTempPath = Path.Combine(DomainProject.RootPath, "PlugTemp");
             _plugTempDirectoryInfo = new DirectoryInfo(plugTempPath);
-            SaveToolsRessources(_plugTempDirectoryInfo);
+            _plugProjectModels = null;
+            _plugErrorMessages = new StringBuilder();
         }
         protected override void PlugExecuteBefore(DomainPlugModel domainPlugModel, AttributeModel attributeModel)
         {
-            _plugErrorMessages = new StringBuilder();
         }
         protected override void PlugExecute(DomainPlugModel domainPlugModel, AttributeModel attributeModel)
         {
@@ -76,28 +76,66 @@ namespace MateralBaseCoreVSIX.Models
             if (codeGeneratorProjectModel == null) throw new VSIXException("插件项目未引用");
             projectPath = codeGeneratorProjectModel.RootPath;
             #endregion
-            #region 获取类名称
-            string classFileName = attributeModel.AttributeArguments[1].Value.RemovePackag();
-            if (!classFileName.EndsWith(".cs"))
+            if (_plugProjectModels == null)
             {
-                classFileName += ".cs";
+                _plugProjectModels = new PlugProjectModelCollection
+                {
+                    WebAPIProject = domainPlugModel.WebAPIProject,
+                    CommonProject = domainPlugModel.CommonProject,
+                    DataTransmitModelProject = domainPlugModel.DataTransmitModelProject,
+                    DomainProject = domainPlugModel.DomainProject,
+                    Domains = domainPlugModel.Domains,
+                    EFRepositoryProject = domainPlugModel.EFRepositoryProject,
+                    Enums = domainPlugModel.Enums,
+                    EnumsProject = domainPlugModel.EnumsProject,
+                    ServiceImplProject = domainPlugModel.ServiceImplProject,
+                    ServicesProject = domainPlugModel.ServicesProject,
+                    PresentationModelProject = domainPlugModel.PresentationModelProject
+                };
+            }
+            PlugProjectModel plugProjectModel = _plugProjectModels.Projects.FirstOrDefault(m => m.Name == projectPath);
+            if(plugProjectModel == null)
+            {
+                plugProjectModel = new PlugProjectModel
+                {
+                    Name = projectPath,
+                };
+                _plugProjectModels.Projects.Add(plugProjectModel);
+            }
+            #region 获取插件名称
+            string plugName = attributeModel.AttributeArguments[1].Value.RemovePackag();
+            if (plugName.EndsWith(".cs"))
+            {
+                plugName = plugName.Substring(0, plugName.Length - 3);
+            }
+            PlugModel plugModel = plugProjectModel.Plugs.FirstOrDefault(m => m.Name == plugName);
+            if (plugModel == null)
+            {
+                plugModel = new PlugModel
+                {
+                    Name = plugName
+                };
+                plugProjectModel.Plugs.Add(plugModel);
             }
             #endregion
-            string modelJson = JsonConvert.SerializeObject(domainPlugModel);
-            SaveModelJson(_plugTempDirectoryInfo, "ModelData.json", modelJson);
-            ProcessManager processManager = new ProcessManager();
-            processManager.ErrorDataReceived += ProcessManager_ErrorDataReceived;
-            string plugExe = Path.Combine(_plugTempDirectoryInfo.FullName, "MateralBasePlugBuild.dll");
-            processManager.ProcessStart("dotnet", $"{plugExe} {projectPath} {classFileName}");
+            plugModel.ExcuteDomainNames.Add(domainPlugModel.Domain.Name);
         }
         protected override void PlugExcuteAfter(DomainPlugModel domainPlugModel, AttributeModel attributeModel)
         {
-            if (_plugErrorMessages == null ||  _plugErrorMessages.Length == 0) return;
-            throw new VSIXException(_plugErrorMessages.ToString());
         }
         protected override void AllPlugExcuteAfter()
         {
+            if (_plugProjectModels == null || _plugProjectModels.Projects.Count <= 0) return;
+            SaveToolsRessources(_plugTempDirectoryInfo);
+            string modelJson = JsonConvert.SerializeObject(_plugProjectModels);
+            SaveModelJson(_plugTempDirectoryInfo, "ModelData.json", modelJson);
+            Materal.WindowsHelper.ProcessManager processManager = new Materal.WindowsHelper.ProcessManager();
+            processManager.ErrorDataReceived += ProcessManager_ErrorDataReceived;
+            string plugExe = Path.Combine(_plugTempDirectoryInfo.FullName, "MateralBasePlugBuild.dll");
+            processManager.ProcessStart("dotnet", $"{plugExe}");
             _plugTempDirectoryInfo?.Delete(true);
+            if (_plugErrorMessages == null || _plugErrorMessages.Length == 0) return;
+            throw new VSIXException(_plugErrorMessages.ToString());
         }
         private void ProcessManager_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {

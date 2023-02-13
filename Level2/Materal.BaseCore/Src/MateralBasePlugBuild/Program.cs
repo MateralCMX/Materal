@@ -12,45 +12,48 @@ namespace MateralBasePlugBuild
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            string projectPath;
-            string className;
             string dataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ModelData.json");
-            if (!File.Exists(dataPath)) throw new Exception("未找到数据");
+            if (!File.Exists(dataPath)) return;
             string executeModelJson = File.ReadAllText(dataPath);
-#if DEBUG
-            if (args.Length == 2)
+            PlugProjectModelCollection? plugProjectModels = JsonConvert.DeserializeObject<PlugProjectModelCollection>(executeModelJson);
+            if (plugProjectModels == null || plugProjectModels.Projects.Count <= 0) return;
+            DomainPlugModel domainPlugModel = new()
             {
-                projectPath = args[0];
-                className = args[1];
-            }
-            else
+                WebAPIProject = plugProjectModels.WebAPIProject,
+                CommonProject = plugProjectModels.CommonProject,
+                DataTransmitModelProject = plugProjectModels.DataTransmitModelProject,
+                DomainProject = plugProjectModels.DomainProject,
+                Domains = plugProjectModels.Domains,
+                EFRepositoryProject = plugProjectModels.EFRepositoryProject,
+                Enums = plugProjectModels.Enums,
+                EnumsProject = plugProjectModels.EnumsProject,
+                PresentationModelProject = plugProjectModels.PresentationModelProject,
+                ServiceImplProject = plugProjectModels.ServiceImplProject,
+                ServicesProject = plugProjectModels.ServicesProject,
+            };
+            foreach (PlugProjectModel plugProjectModel in plugProjectModels.Projects)
             {
-                projectPath = "D:\\Project\\古典部\\新明解\\Src\\XMJ.DataCenter\\XMJ.DataCenter.CodeGenerator";
-                className = "ReoprtDomain.cs";
+                string dllFilePath = BuildProject(plugProjectModel.Name);
+                Assembly assembly = Assembly.LoadFile(dllFilePath);
+                Type[] allTypes = assembly.GetTypes();
+                foreach (PlugModel plugModel in plugProjectModel.Plugs)
+                {
+                    Type? type = allTypes.FirstOrDefault(m => m.Name == plugModel.Name);
+                    if (type == null) continue;
+                    object? typeObj = type.Instantiation();
+                    if (typeObj == null) continue;
+                    if (typeObj is not IMateralBaseCoreCodeGeneratorPlug plug) continue;
+                    foreach (string domainName in plugModel.ExcuteDomainNames)
+                    {
+                        DomainModel? model = domainPlugModel.Domains.FirstOrDefault(m => m.Name == domainName);
+                        if (model == null) continue;
+                        domainPlugModel.Domain = model;
+                        plug.PlugExecute(domainPlugModel);
+                    }
+                }
             }
-#else
-            if (args.Length != 2) return;
-            projectPath = args[0];
-            className = args[1];
-#endif
-            string typeName = className;
-            if (typeName.EndsWith(".cs"))
-            {
-                typeName = typeName[0..^3];
-            }
-            string dllFilePath = BuildClass(projectPath);
-            Assembly assembly = Assembly.LoadFile(dllFilePath);
-            Type[] allTypes = assembly.GetTypes();
-            Type? type = allTypes.FirstOrDefault(m => m.Name == typeName);
-            if (type == null) return;
-            object? typeObj = type.Instantiation();
-            if (typeObj == null) return;
-            if (typeObj is not IMateralBaseCoreCodeGeneratorPlug plug) return;
-            DomainPlugModel? model = JsonConvert.DeserializeObject<DomainPlugModel>(executeModelJson);
-            if (model == null) return;
-            plug.PlugExecute(model);
         }
         /// <summary>
         /// 获得CS文件
@@ -60,7 +63,7 @@ namespace MateralBasePlugBuild
         private static List<FileInfo> GetCShaprCodeFiles(DirectoryInfo directoryInfo)
         {
             List<FileInfo> result = new();
-            foreach (FileInfo item in directoryInfo.GetFiles().Where(m=>m.Extension == ".cs"))
+            foreach (FileInfo item in directoryInfo.GetFiles().Where(m => m.Extension == ".cs"))
             {
                 result.Add(item);
             }
@@ -73,14 +76,14 @@ namespace MateralBasePlugBuild
             return result;
         }
         /// <summary>
-        /// 构建Class
+        /// 构建项目
         /// </summary>
-        private static string BuildClass(string projectPath)
+        private static string BuildProject(string projectPath)
         {
             DirectoryInfo projectDirectoryInfo = new(projectPath);
             if (!projectDirectoryInfo.Exists) throw new Exception("项目文件夹不存在");
             FileInfo? csProjectFileInfo = projectDirectoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
-            if(csProjectFileInfo == null) throw new Exception("项目文件不存在");
+            if (csProjectFileInfo == null) throw new Exception("项目文件不存在");
             string dllFileName = Path.GetFileNameWithoutExtension(csProjectFileInfo.Name) + ".dll";
             List<FileInfo> csharpFileInfos = GetCShaprCodeFiles(projectDirectoryInfo);
             string dllFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, dllFileName);
