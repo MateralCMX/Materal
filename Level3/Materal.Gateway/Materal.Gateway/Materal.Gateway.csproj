@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
@@ -6,5 +6,10 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Gateway.OcelotExtension\Materal.Gateway.OcelotExtension.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Update="GatewayConfig.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 </Project>

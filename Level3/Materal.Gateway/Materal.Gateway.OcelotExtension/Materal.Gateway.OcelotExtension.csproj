@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="Materal.ConvertHelper" Version="1.1.22" />
 		<PackageReference Include="Ocelot" Version="18.0.0" />
 		<PackageReference Include="Ocelot.Cache.CacheManager" Version="18.0.0" />
 		<PackageReference Include="Ocelot.Provider.Consul" Version="18.0.0" />

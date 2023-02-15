@@ -1,0 +1,97 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/TestServer/api/TestWebAPI/GetNowDateTime",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamPathTemplate": "/api/TestWebAPI/GetNowDateTime",
+      "DownstreamScheme": "https",
+      "FileCacheOptions": { //缓存
+        "TtlSeconds": 10,
+        "Region": "TestServerAPICacheKey"
+      },
+      "ServiceName": "TestServer",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/TestServer/api/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "https",
+      "ServiceName": "TestServer", //服务发现
+      "LoadBalancerOptions": { //负载均衡
+        "Type": "RoundRobin" //LeastConnection:最小连接 RoundRobin:循环 NoLoadBalancer:第一个可用 CookieStickySessions:会话黏贴
+      },
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5100
+        },
+        {
+          "Host": "localhost",
+          "Port": 5101
+        },
+        {
+          "Host": "localhost",
+          "Port": 5102
+        }
+      ],
+      "QoSOptions": { //服务质量
+        "DurationOfBreak": 10000, //熔断时间ms
+        "ExceptionsAllowedBeforeBreaking": 3, //熔断前允许多少个异常
+        "TimeoutValue": 2000 //超时时间ms
+      },
+      "RateLimitOptions": { //限流
+        "EnableRateLimiting": true, //是否启用限流
+        "Period": "10s", //统计时间 1s 1m 1h 1d
+        "Limit": 5, //统计时间内允许最大请求数量S
+        "PeriodTimespan": 10, //重试时间S
+        "ClientWhitelist": [ "MyClient", "MyClient2" ] //白名单HttpHeaders中加入 ClientId:MyClient
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/TestServer/hubs/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/hubs/{url}",
+      "DownstreamScheme": "wss",
+      "ServiceName": "TestServer",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/TestServer/grpc/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "grpcs",
+      "DownstreamHttpVersion": "2.0", //grpc必须指定Http2.0
+      "ServiceName": "TestServer",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/TestServer/{url}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/{url}",
+      "DownstreamScheme": "https",
+      "ServiceName": "TestServer",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": { //全局服务发现配置
+      "Host": "127.0.0.1",
+      "Port": 8500,
+      "Type": "Consul"
+    },
+    "RateLimitOptions": { //全局限流配置
+      "QuotaExceededMessage": "访问过于频繁，请稍后再试",
+      "HttpStatusCode": 429,
+      "ClientIdHeader": "ClientId"
+    }
+  }
+}
