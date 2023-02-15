@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Ocelot" Version="18.0.0" />
+		<PackageReference Include="Ocelot.Cache.CacheManager" Version="18.0.0" />
+		<PackageReference Include="Ocelot.Provider.Consul" Version="18.0.0" />
+		<PackageReference Include="Ocelot.Provider.Polly" Version="18.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Materal.Gateway.Common\Materal.Gateway.Common.csproj" />
+	</ItemGroup>
+</Project>
