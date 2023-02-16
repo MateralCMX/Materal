@@ -8,6 +8,11 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     public class GlobalConfigurationModel
     {
         /// <summary>
+        /// BaseUrl
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string? BaseUrl { get; set; }
+        /// <summary>
         /// 服务发现配置
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

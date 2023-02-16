@@ -15,28 +15,14 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/TestServer/api/{url}",
+      "UpstreamPathTemplate": "/TestServer/api/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
-      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "https",
       "ServiceName": "TestServer", //服务发现
       "LoadBalancerOptions": { //负载均衡
         "Type": "RoundRobin" //LeastConnection:最小连接 RoundRobin:循环 NoLoadBalancer:第一个可用 CookieStickySessions:会话黏贴
       },
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5100
-        },
-        {
-          "Host": "localhost",
-          "Port": 5101
-        },
-        {
-          "Host": "localhost",
-          "Port": 5102
-        }
-      ],
       "QoSOptions": { //服务质量
         "DurationOfBreak": 10000, //熔断时间ms
         "ExceptionsAllowedBeforeBreaking": 3, //熔断前允许多少个异常
@@ -48,12 +34,13 @@
         "Limit": 5, //统计时间内允许最大请求数量S
         "PeriodTimespan": 10, //重试时间S
         "ClientWhitelist": [ "MyClient", "MyClient2" ] //白名单HttpHeaders中加入 ClientId:MyClient
-      }
+      },
+      "SwaggerKey": "TestServer"
     },
     {
-      "UpstreamPathTemplate": "/TestServer/hubs/{url}",
+      "UpstreamPathTemplate": "/TestServer/hubs/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
-      "DownstreamPathTemplate": "/hubs/{url}",
+      "DownstreamPathTemplate": "/hubs/{everything}",
       "DownstreamScheme": "wss",
       "ServiceName": "TestServer",
       "LoadBalancerOptions": {
@@ -61,9 +48,9 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/TestServer/grpc/{url}",
+      "UpstreamPathTemplate": "/TestServer/grpc/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
-      "DownstreamPathTemplate": "/{url}",
+      "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "grpcs",
       "DownstreamHttpVersion": "2.0", //grpc必须指定Http2.0
       "ServiceName": "TestServer",
@@ -72,14 +59,30 @@
       }
     },
     {
-      "UpstreamPathTemplate": "/TestServer/{url}",
+      "UpstreamPathTemplate": "/TestServer/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
-      "DownstreamPathTemplate": "/{url}",
+      "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "https",
       "ServiceName": "TestServer",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       }
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "TestServer",
+      "Config": [
+        {
+          "Name": "TestServerAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "TestServer",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
     }
   ],
   "GlobalConfiguration": {

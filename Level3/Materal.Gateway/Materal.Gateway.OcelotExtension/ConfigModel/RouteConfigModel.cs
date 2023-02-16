@@ -58,5 +58,10 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// 忽略证书错误
         /// </summary>
         public bool DangerousAcceptAnyServerCertificateValidator { get; set; } = false;
+        /// <summary>
+        /// Swagger标识
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string? SwaggerKey { get; set; }
     }
 }

@@ -14,6 +14,10 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// </summary>
         public GlobalConfigurationModel GlobalConfiguration { get; set; } = new();
         /// <summary>
+        /// Swagger配置
+        /// </summary>
+        public List<SwaggerEndPointsModel> SwaggerEndPoints { get; set; } = new();
+        /// <summary>
         /// 构造方法
         /// </summary>
         public OcelotConfigModel() { }
