@@ -1,14 +1,10 @@
 using Materal.Common;
 using Materal.Gateway.Common;
-using Materal.Gateway.Filters;
+using Materal.Gateway.Data;
 using Materal.Gateway.OcelotExtension;
 using Materal.Logger;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
+using Microsoft.AspNetCore.Builder;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Materal.Gateway
 {
@@ -20,7 +16,7 @@ namespace Materal.Gateway
             {
                 Args = args,
                 ContentRootPath = AppDomain.CurrentDomain.BaseDirectory,
-                WebRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "www")
+                WebRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wwwroot")
             });
             #region 加载配置文件
             builder.Configuration.AddJsonFile("MateralLogger.json", false, true); //加载MateralLogger配置
@@ -31,55 +27,13 @@ namespace Materal.Gateway
             #region 日志
             services.AddMateralLogger();
             #endregion
-            #region MVC
-            IMvcBuilder mvcBuild = services.AddControllers(mvcOptions =>
-            {
-                mvcOptions.Filters.Add(new AuthorizeFilter());
-                mvcOptions.Filters.Add<ExceptionFilter>();
-                mvcOptions.SuppressAsyncSuffixInActionNames = true;
-            })
-            .AddJsonOptions(jsonOptions =>
-            {
-                jsonOptions.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All, UnicodeRanges.All);
-                jsonOptions.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new FirstUpperNamingPolicy();
-            });
-            #endregion
-            #region 响应压缩
-            services.AddResponseCompression();
-            #endregion
-            #region 鉴权
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
-                {
-                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(ApplicationConfig.JWTConfig.KeyBytes),
-                        ValidateIssuer = true,
-                        ValidIssuer = ApplicationConfig.JWTConfig.Issuer,
-                        ValidateAudience = true,
-                        ValidAudience = ApplicationConfig.JWTConfig.Audience,
-                        ValidateLifetime = true,
-                        ClockSkew = TimeSpan.FromSeconds(ApplicationConfig.JWTConfig.ExpiredTime)
-                    };
-                });
+            #region Blazor
+            builder.Services.AddRazorPages();
+            builder.Services.AddServerSideBlazor();
+            builder.Services.AddSingleton<WeatherForecastService>();
             #endregion
             #region Swagger
             services.AddSwaggerForOcelot(builder.Configuration);
-            #endregion
-            #region 跨域
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(
-                    builder =>
-                    {
-                        builder.SetIsOriginAllowed(_ => true)
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                    });
-            });
             #endregion
             #region 网关
             services.AddOcelotGatewayAsync();
@@ -94,24 +48,19 @@ namespace Materal.Gateway
             #region WebApplication
             MateralServices.Services = app.Services;
             app.UseMateralLogger(null, ApplicationConfig.Configuration);
+            app.Map("/admin", application =>
+            {
+                application.UseStaticFiles();
+                application.UseRouting();
+                application.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapBlazorHub();
+                    endpoints.MapFallbackToPage("/_Host");
+                });
+            });
             app.UseSwaggerForOcelotUI(opt =>
             {
                 opt.PathToSwaggerGenerator = "/swagger/docs";
-            });
-            if (app.Environment.IsDevelopment() && string.IsNullOrWhiteSpace(ApplicationConfig.BaseUrlConfig.Url))
-            {
-                ApplicationConfig.BaseUrlConfig.Url = ApplicationConfig.GetValue("ASPNETCORE_URLS");
-            }
-            if (ApplicationConfig.BaseUrlConfig.IsSSL)
-            {
-                app.UseHttpsRedirection();
-            }
-            app.UseAuthentication();
-            app.UseCors();
-            app.MapControllers();
-            app.Use(async (httpContext, next) =>
-            {
-                await next.Invoke();
             });
             await app.UseOcelotGateway();
             #endregion

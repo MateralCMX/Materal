@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.OcelotExten
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.Common", "Materal.Gateway.Common\Materal.Gateway.Common.csproj", "{6248AB1C-F830-4035-93AE-DFB2CE2A98E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1", "BlazorApp1\BlazorApp1.csproj", "{E391CCF0-F5B6-4CF1-AA81-5FDA2C9B6746}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{6248AB1C-F830-4035-93AE-DFB2CE2A98E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6248AB1C-F830-4035-93AE-DFB2CE2A98E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6248AB1C-F830-4035-93AE-DFB2CE2A98E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E391CCF0-F5B6-4CF1-AA81-5FDA2C9B6746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E391CCF0-F5B6-4CF1-AA81-5FDA2C9B6746}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E391CCF0-F5B6-4CF1-AA81-5FDA2C9B6746}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E391CCF0-F5B6-4CF1-AA81-5FDA2C9B6746}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

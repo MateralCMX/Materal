@@ -1,4 +1,4 @@
-namespace BlazorApp1.Data
+namespace Materal.Gateway.Data
 {
     public class WeatherForecast
     {
