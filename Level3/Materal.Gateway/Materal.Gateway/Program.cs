@@ -19,8 +19,9 @@ namespace Materal.Gateway
                 WebRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wwwroot")
             });
             #region ¼ÓÔØÅäÖÃÎÄ¼þ
-            builder.Configuration.AddJsonFile("MateralLogger.json", false, true); //¼ÓÔØMateralLoggerÅäÖÃ
-            builder.Configuration.AddJsonFile("Ocelot.json", false, true); //¼ÓÔØOcelotÅäÖÃ
+            builder.Configuration
+                .AddJsonFile("MateralLogger.json", false, true) //¼ÓÔØMateralLoggerÅäÖÃ
+                .AddJsonFile("Ocelot.json", false, true); //¼ÓÔØOcelotÅäÖÃ
             #endregion
             #region DI
             IServiceCollection services = builder.Services;
@@ -47,6 +48,7 @@ namespace Materal.Gateway
             WebApplication app = builder.Build();
             #region WebApplication
             MateralServices.Services = app.Services;
+            ApplicationConfig.Configuration = builder.Configuration;
             app.UseMateralLogger(null, ApplicationConfig.Configuration);
             app.Map("/admin", application =>
             {

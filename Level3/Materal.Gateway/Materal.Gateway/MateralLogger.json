@@ -33,7 +33,8 @@
           "LevelFile"
         ],
         "Ignores": [
-          "Microsoft.AspNetCore.*"
+          "Microsoft.AspNetCore.*",
+          "Ocelot.*"
         ]
       },
       {
