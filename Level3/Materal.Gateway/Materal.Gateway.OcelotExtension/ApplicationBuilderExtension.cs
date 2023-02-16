@@ -47,7 +47,7 @@ namespace Materal.Gateway.OcelotExtension
             builder.Properties["analysis.NextMiddlewareName"] = "TransitionToOcelotMiddleware";
             return builder;
         }
-        private static GatewayException GetStopOcelotStartingException(Response? config)
+        private static MateralGatewayException GetStopOcelotStartingException(Response? config)
         {
             StringBuilder errorMessage = new();
             errorMessage.Append("Ocelot启动失败");
@@ -55,7 +55,7 @@ namespace Materal.Gateway.OcelotExtension
             {
                 errorMessage.Append($"错误组: {string.Join(",", config.Errors.Select((Error x) => x.ToString()))}");
             }
-            return new GatewayException(errorMessage.ToString());
+            return new MateralGatewayException(errorMessage.ToString());
         }
         private static async Task<IInternalConfiguration> CreateConfiguration(IApplicationBuilder builder)
         {

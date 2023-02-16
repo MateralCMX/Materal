@@ -1,0 +1,49 @@
+{
+  "MateralLogger": {
+    "Application": "MateralGateway",
+    "Targets": [
+      {
+        "Name": "LifeConsole",
+        "Type": "Console",
+        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}"
+      },
+      {
+        "Name": "ErrorConsole",
+        "Type": "Console",
+        "Colors": {
+          "Warning": "DarkYellow",
+          "Error": "DarkRed",
+          "Critical": "DarkRed"
+        },
+        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}"
+      },
+      {
+        "Name": "LevelFile",
+        "Type": "File",
+        "Path": "${RootPath}\\Logs\\${Date}\\${Level}.log",
+        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}"
+      }
+    ],
+    "Rules": [
+      {
+        "MinLevel": "Information",
+        "MaxLevel": "Information",
+        "Targets": [
+          "LifeConsole",
+          "LevelFile"
+        ],
+        "Ignores": [
+          "Microsoft.AspNetCore.*"
+        ]
+      },
+      {
+        "MinLevel": "Warning",
+        "MaxLevel": "Critical",
+        "Targets": [
+          "ErrorConsole",
+          "LevelFile"
+        ]
+      }
+    ]
+  }
+}

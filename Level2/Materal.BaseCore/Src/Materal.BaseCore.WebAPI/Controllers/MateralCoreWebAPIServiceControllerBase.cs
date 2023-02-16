@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Materal.BaseCore.WebAPI.Controllers
 {
     /// <summary>
-    /// 新明解WebAPI服务控制器基类
+    /// WebAPI服务控制器基类
     /// </summary>
     /// <typeparam name="TAddRequestModel"></typeparam>
     /// <typeparam name="TEditRequestModel"></typeparam>

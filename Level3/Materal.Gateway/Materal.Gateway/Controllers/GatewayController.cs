@@ -1,14 +1,14 @@
-﻿using Materal.BaseCore.Common;
+﻿using Materal.Gateway.Common;
 using Materal.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
-namespace Materal.BaseCore.WebAPI.Controllers
+namespace Materal.Gateway.Controllers
 {
     /// <summary>
-    /// 中心控制器
+    /// 网关控制器
     /// </summary>
-    public class MateralCoreController : MateralCoreWebAPIControllerBase
+    public class GatewayController : GatewayWebAPIControllerBase
     {
         /// <summary>
         /// 重新加载配置
@@ -17,12 +17,17 @@ namespace Materal.BaseCore.WebAPI.Controllers
         [HttpGet]
         public ResultModel ReloadConfigs()
         {
-            if (MateralCoreConfig.Configuration is IConfigurationRoot configurationRoot)
+            if (ApplicationConfig.Configuration is IConfigurationRoot configurationRoot)
             {
                 configurationRoot.Reload();
                 return ResultModel.Success("配置加载完毕");
             }
             return ResultModel.Fail("重新加载配置失败");
+        }
+        [HttpGet, AllowAnonymous]
+        public ResultModel Test()
+        {
+            return ResultModel.Success("测试");
         }
     }
 }

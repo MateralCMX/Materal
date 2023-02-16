@@ -15,7 +15,7 @@ namespace Materal.Gateway.OcelotExtension.ServiceDiscovery
         private readonly IServiceProvider _provider;
         public GatewayServiceDiscoveryProviderFactory()
         {
-            if (OcelotService.Service == null) throw new GatewayException("服务不存在");
+            if (OcelotService.Service == null) throw new MateralGatewayException("服务不存在");
             _provider = OcelotService.Service;
             _delegates = OcelotService.GetServiceOrDefault<ServiceDiscoveryFinderDelegate>();
         }
@@ -43,7 +43,7 @@ namespace Materal.Gateway.OcelotExtension.ServiceDiscovery
             if (_delegates != null)
             {
                 IServiceDiscoveryProvider? provider = _delegates?.Invoke(_provider, config, route);
-                if (provider == null || config.Type == null) throw new GatewayException("网关错误");
+                if (provider == null || config.Type == null) throw new MateralGatewayException("网关错误");
                 if (provider.GetType().Name.ToLower() == config.Type.ToLower())
                 {
                     return new OkResponse<IServiceDiscoveryProvider>(provider);

@@ -1,4 +1,6 @@
-﻿namespace Materal.Gateway.OcelotExtension.ConfigModel
+﻿using Newtonsoft.Json;
+
+namespace Materal.Gateway.OcelotExtension.ConfigModel
 {
     /// <summary>
     /// Swagger项配置模型
@@ -24,6 +26,7 @@
         /// <summary>
         /// SwaggerJson文件地址
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string? Url { get; set; }
     }
 }

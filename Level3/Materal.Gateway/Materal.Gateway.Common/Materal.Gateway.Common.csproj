@@ -5,6 +5,13 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Materal.Common" Version="1.1.22" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+		<PackageReference Include="Materal.CacheHelper" Version="1.1.22" />
+		<PackageReference Include="Materal.EnumHelper" Version="1.1.22" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
+		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.22" />
+		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
+		<PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="2.3.0" />
 	</ItemGroup>
 </Project>
