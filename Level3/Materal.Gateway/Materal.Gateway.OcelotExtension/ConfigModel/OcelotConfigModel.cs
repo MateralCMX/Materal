@@ -48,5 +48,19 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
             if(fileInfo.Directory != null && !fileInfo.Directory.Exists) fileInfo.Directory.Create();
             await File.WriteAllTextAsync(filePath, jsonString, encoding);
         }
+        /// <summary>
+        /// 保存文件
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public void SaveAs(string filePath, Encoding? encoding = null)
+        {
+            encoding ??= Encoding.UTF8;
+            string jsonString = this.ToJson();
+            FileInfo fileInfo = new(filePath);
+            if (fileInfo.Directory != null && !fileInfo.Directory.Exists) fileInfo.Directory.Create();
+            File.WriteAllText(filePath, jsonString, encoding);
+        }
     }
 }

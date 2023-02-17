@@ -1,0 +1,40 @@
+﻿@page "/Setting/GlobalConfiguration/ServiceDiscoveryProvider"
+
+@using Materal.Gateway.OcelotExtension.ConfigModel;
+
+<BaseCtrl Model="_model.Data" InitData="InitData" SaveData="SaveData">
+    <FormTemplate>
+        <FormItem Label="启用">
+            <Switch @bind-Value="@_model.Enable" />
+        </FormItem>
+        <FormItem Label="主机">
+            <Input @bind-Value="@context.Host" Disabled="@(!_model.Enable)" />
+        </FormItem>
+        <FormItem Label="端口号">
+            <AntDesign.InputNumber Min="1" Style="width:200px" @bind-Value="@context.Port" Disabled="@(!_model.Enable)" />
+        </FormItem>
+        <FormItem Label="类型">
+            <Select Mode="default" DataSource="@_model.ServiceTypes" @bind-Value="@context.Type" Disabled="@(!_model.Enable)"></Select>
+        </FormItem>
+    </FormTemplate>
+</BaseCtrl>
+
+@code {
+    private ViewModel _model = new();
+    private void InitData(OcelotConfigModel configModel)
+    {
+        if (configModel.GlobalConfiguration.ServiceDiscoveryProvider == null) return;
+        _model.Data = configModel.GlobalConfiguration.ServiceDiscoveryProvider;
+        _model.Enable = true;
+    }
+    private void SaveData(OcelotConfigModel configModel) => configModel.GlobalConfiguration.ServiceDiscoveryProvider = _model.Enable ? _model.Data : null;
+    private class ViewModel
+    {
+        public ServiceDiscoveryProviderModel Data { get; set; } = new();
+        public bool Enable { get; set; } = false;
+        public List<string> ServiceTypes = new()
+        {
+            "Consul"
+        };
+    }
+}

@@ -1,10 +1,7 @@
 using Materal.Common;
 using Materal.Gateway.Common;
-using Materal.Gateway.Data;
 using Materal.Gateway.OcelotExtension;
 using Materal.Logger;
-using Microsoft.AspNetCore.Builder;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Materal.Gateway
 {
@@ -29,9 +26,9 @@ namespace Materal.Gateway
             services.AddMateralLogger();
             #endregion
             #region Blazor
-            builder.Services.AddRazorPages();
-            builder.Services.AddServerSideBlazor();
-            builder.Services.AddSingleton<WeatherForecastService>();
+            services.AddAntDesign();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
             #endregion
             #region Swagger
             services.AddSwaggerForOcelot(builder.Configuration);

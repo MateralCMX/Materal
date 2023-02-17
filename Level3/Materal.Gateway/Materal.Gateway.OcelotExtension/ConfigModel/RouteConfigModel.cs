@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Materal.Gateway.OcelotExtension.ConfigModel
 {
@@ -10,6 +11,7 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// <summary>
         /// 上游路径模版
         /// </summary>
+        [Required(ErrorMessage = "必填")]
         public string UpstreamPathTemplate { get; set; } = "/{url}";
         /// <summary>
         /// 上游Http方法
@@ -18,11 +20,13 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// <summary>
         /// 下游路径模版
         /// </summary>
+        [Required(ErrorMessage = "必填")]
         public string DownstreamPathTemplate { get; set; } = "/{url}";
         /// <summary>
         /// 下游方案
         /// http https ws wss grpc grpcs
         /// </summary>
+        [Required(ErrorMessage = "必填")]
         public string DownstreamScheme { get; set; } = "http";
         /// <summary>
         /// 缓存

@@ -1,0 +1,31 @@
+﻿@page "/Setting/GlobalConfiguration/SwaggerEndPoints"
+@using Materal.Gateway.OcelotExtension.ConfigModel;
+@using Materal.Gateway.OcelotExtension.Services;
+
+@inject OcelotConfigService _ocelotConfigService;
+
+<AntList Grid="_grid" DataSource="@_models">
+    <ListItem>
+        <Card Bordered Title="@(context.Key)">
+            <Extra>
+                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+            </Extra>
+            <Body>
+                <Descriptions Title="@($"{context.Config[0].Name}[{context.Config.Count}]")">
+                    <DescriptionsItem Title="版本">@context.Config[0].Version</DescriptionsItem>
+                    <DescriptionsItem Title="服务发现">@(context.Config[0].TakeServersFromDownstreamService ? "是" : "否")</DescriptionsItem>
+                    </Descriptions>
+                </Body>
+            </Card>
+        </ListItem>
+    </AntList>
+
+    @code {
+    private ListGridType _grid = new() { Gutter = 16, Column = 4 };
+    private List<SwaggerEndPointsModel> _models = new();
+    protected override void OnInitialized()
+    {
+        _models = _ocelotConfigService.OcelotConfig.SwaggerEndPoints;
+        base.OnInitialized();
+    }
+}

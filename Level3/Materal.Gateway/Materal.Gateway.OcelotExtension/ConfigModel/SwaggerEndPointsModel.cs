@@ -1,4 +1,6 @@
-﻿namespace Materal.Gateway.OcelotExtension.ConfigModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Materal.Gateway.OcelotExtension.ConfigModel
 {
     /// <summary>
     /// Swagger配置模型
@@ -8,6 +10,7 @@
         /// <summary>
         /// 唯一标识
         /// </summary>
+        [Required(ErrorMessage = "必填")]
         public string Key { get; set; } = "SwaggerKey";
         /// <summary>
         /// 配置项

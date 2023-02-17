@@ -1,38 +1,20 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Materal.Gateway</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> 首页
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-braces" aria-hidden="true"></span> 网关配置
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Swagger文档
-            </NavLink>
-        </div>
-    </nav>
-</div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
+﻿
+<Menu Mode="MenuMode.Inline">
+    <MenuItem RouterLink="/Admin" RouterMatch="NavLinkMatch.All">首页</MenuItem>
+    <li class="ant-menu-item" role="menuitem" style="">
+        <span class="ant-menu-title-content">
+            <a href="/Swagger" target="_blank">
+                Swagger
+            </a>
+        </span>
+    </li>
+    <SubMenu Title="配置">
+        <SubMenu Title="全局配置">
+            <MenuItem RouterLink="/Admin/Setting/GlobalConfiguration/ServiceDiscoveryProvider" RouterMatch="NavLinkMatch.All">服务发现</MenuItem>
+            <MenuItem RouterLink="/Admin/Setting/GlobalConfiguration/GlobalRateLimitOptions" RouterMatch="NavLinkMatch.All">限流</MenuItem>
+            <MenuItem RouterLink="/Admin/Setting/GlobalConfiguration/BaseUrlCtrl" RouterMatch="NavLinkMatch.All">基地址</MenuItem>
+        </SubMenu>
+        <MenuItem RouterLink="/Admin/Setting/GlobalConfiguration/SwaggerEndPoints" RouterMatch="NavLinkMatch.All">Swagger配置</MenuItem>
+        <MenuItem RouterLink="/Admin/Setting/GlobalConfiguration/Routes" RouterMatch="NavLinkMatch.All">路由配置</MenuItem>
+    </SubMenu>
+</Menu>

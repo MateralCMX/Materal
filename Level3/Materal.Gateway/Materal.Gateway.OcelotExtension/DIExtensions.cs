@@ -4,6 +4,7 @@ using Materal.Gateway.OcelotExtension.Requester;
 using Materal.Gateway.OcelotExtension.RequestMonitor;
 using Materal.Gateway.OcelotExtension.Responder;
 using Materal.Gateway.OcelotExtension.ServiceDiscovery;
+using Materal.Gateway.OcelotExtension.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Ocelot.Cache.CacheManager;
@@ -35,6 +36,7 @@ namespace Materal.Gateway.OcelotExtension
             services.AddSingleton<IRequestMonitorHandlers, DefatultRequestMonitorHandlers>();
             services.AddSingleton<ICustomHandlers, DefaultCustomHandlers>();
             services.AddSingleton<IExceptionInterceptor, DefaultExceptionInterceptor>();
+            services.AddSingleton<OcelotConfigService>();
             services.Replace(new ServiceDescriptor(typeof(IServiceDiscoveryProviderFactory), typeof(GatewayServiceDiscoveryProviderFactory), ServiceLifetime.Singleton));
             services.Replace(new ServiceDescriptor(typeof(IHttpRequester), typeof(GatewayHttpRequester), ServiceLifetime.Singleton));
             services.Replace(new ServiceDescriptor(typeof(IHttpResponder), typeof(GatewayHttpContextResponder), ServiceLifetime.Singleton));
