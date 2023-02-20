@@ -1,0 +1,121 @@
+﻿@page "/Setting/Routes"
+@using AntDesign.Internal;
+@using Materal.Gateway.OcelotExtension.ConfigModel;
+@using Materal.Gateway.OcelotExtension.Services;
+@using Materal.Gateway.OcelotExtension.Services.Model;
+<PageTitle>路由-Materal.Gateway</PageTitle>
+@inject IOcelotConfigService _ocelotConfigService;
+@inject IMessageService _message;
+@inject NavigationManager _navigation;
+
+<Space Direction="DirectionVHType.Vertical">
+    <SpaceItem>
+        <Form @ref="_form" Model="_searchModel">
+            <Row Gutter="24">
+                <GridCol Span="4">
+                    <FormItem Label="服务名称">
+                        <Input @bind-Value="context.ServiceName" />
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="4">
+                    <FormItem Label="Swagger">
+                        <Input @bind-Value="context.SwaggerKey" />
+                    </FormItem>
+                </GridCol>
+            </Row>
+            <Row>
+                <GridCol Span="24" Style="text-align:right;">
+                    <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
+                    <Button Type="primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
+                    <Button Icon="@IconType.Outline.Retweet" OnClick="()=>{_form?.Reset();}"></Button>
+                </GridCol>
+            </Row>
+        </Form>
+    </SpaceItem>
+    <SpaceItem>
+        <Table DataSource="_data">
+            <PropertyColumn Title="转发方式" Property="m=>m.DownstreamScheme"></PropertyColumn>
+            <PropertyColumn Title="上游地址" Property="m=>m.UpstreamPathTemplate"></PropertyColumn>
+            <PropertyColumn Title="下游地址" Property="m=>m.DownstreamPathTemplate"></PropertyColumn>
+            <PropertyColumn Title="服务名称" Property="m=>m.ServiceName"></PropertyColumn>
+            <PropertyColumn Title="Swagger" Property="m=>m.SwaggerKey"></PropertyColumn>
+            <PropertyColumn Title="缓存" Property="m=>m.FileCacheOptions">
+                @if (context.FileCacheOptions == null)
+                {
+                    <Tag>未配置</Tag>
+                }
+                else
+                {
+                    <Tag Color="@PresetColor.Green.ToString()">已配置</Tag>
+                }
+            </PropertyColumn>
+            <PropertyColumn Title="鉴权" Property="m=>m.AuthenticationOptions">
+                @if (context.AuthenticationOptions == null)
+                {
+                    <Tag>未配置</Tag>
+                }
+                else
+                {
+                    <Tag Color="@PresetColor.Green.ToString()">已配置</Tag>
+                }
+            </PropertyColumn>
+            <PropertyColumn Title="限流" Property="m=>m.RateLimitOptions">
+                @if (context.RateLimitOptions == null)
+                {
+                    <Tag>未配置</Tag>
+                }
+                else
+                {
+                    <Tag Color="@PresetColor.Green.ToString()">已配置</Tag>
+                }
+            </PropertyColumn>
+            <PropertyColumn Title="熔断" Property="m=>m.QoSOptions">
+                @if (context.QoSOptions == null)
+                {
+                    <Tag>未配置</Tag>
+                }
+                else
+                {
+                    <Tag Color="@PresetColor.Green.ToString()">已配置</Tag>
+                }
+            </PropertyColumn>
+            <ActionColumn Title="操作">
+                <Space Size=@("middle")>
+                    <SpaceItem>
+                        <Button Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Popconfirm Title="确定删除该配置?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context)">
+                            <Button Icon="@IconType.Outline.Delete"></Button>
+                        </Popconfirm>
+                    </SpaceItem>
+                </Space>
+            </ActionColumn>
+        </Table>
+    </SpaceItem>
+</Space>
+
+@code {
+    private IForm? _form;
+    private List<RouteConfigModel> _data = new();
+    public QueryRouteConfigModel _searchModel = new();
+    protected override void OnInitialized()
+    {
+        Reload();
+        base.OnInitialized();
+    }
+    private void Reload()
+    {
+        _ocelotConfigService.Reload();
+        _data = _ocelotConfigService.OcelotConfig.Routes;
+        StateHasChanged();
+    }
+    private void Add() => _navigation.NavigateTo("./Setting/Routes/Route");
+    private void Edit(Guid id) => _navigation.NavigateTo($"./Setting/Routes/Route/{id}");
+    private void Delete(RouteConfigModel model)
+    {
+        _ocelotConfigService.OcelotConfig.Routes.Remove(model);
+        _ocelotConfigService.Save();
+        Reload();
+    }
+}

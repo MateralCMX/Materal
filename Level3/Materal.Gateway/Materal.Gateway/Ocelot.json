@@ -1,150 +1,136 @@
 {
+  "ID": "e8603b78-a0a0-403d-8c10-690cc892dc34",
   "Routes": [
     {
+      "ID": "9ccaa0c3-7832-419a-8375-713075b4c76b",
       "UpstreamPathTemplate": "/TestServer/api/TestWebAPI/GetNowDateTime",
       "UpstreamHttpMethod": [ "GET" ],
       "DownstreamPathTemplate": "/api/TestWebAPI/GetNowDateTime",
       "DownstreamScheme": "https",
-      "FileCacheOptions": { //缓存
+      "FileCacheOptions": {
+        "ID": "fec9daa8-7729-4fa8-b5fc-4e6f97daa875",
         "TtlSeconds": 10,
         "Region": "TestServerAPICacheKey"
       },
       "ServiceName": "TestServer",
       "LoadBalancerOptions": {
+        "ID": "31a779a9-a276-4c22-9af0-c0e7bca83697",
         "Type": "RoundRobin"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false
     },
     {
+      "ID": "a2166bc9-028b-4bd5-b933-093eaf3cb8c1",
       "UpstreamPathTemplate": "/TestServer/api/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "https",
-      "ServiceName": "TestServer", //服务发现
-      "LoadBalancerOptions": { //负载均衡
-        "Type": "RoundRobin" //LeastConnection:最小连接 RoundRobin:循环 NoLoadBalancer:第一个可用 CookieStickySessions:会话黏贴
+      "LoadBalancerOptions": {
+        "ID": "1b2cc0a3-976a-45a8-9690-17b65fc4752f",
+        "Type": "RoundRobin"
       },
-      "QoSOptions": { //服务质量
-        "DurationOfBreak": 10000, //熔断时间ms
-        "ExceptionsAllowedBeforeBreaking": 3, //熔断前允许多少个异常
-        "TimeoutValue": 2000 //超时时间ms
+      "DownstreamHostAndPorts": [
+        {
+          "ID": "62982519-2575-4140-b472-645a2865611f",
+          "Host": "127.0.0.1",
+          "Port": 5000
+        },
+        {
+          "ID": "85580cdb-b00e-480f-ad48-19344b297244",
+          "Host": "127.0.0.1",
+          "Port": 5001
+        }
+      ],
+      "QoSOptions": {
+        "ID": "7d0680a6-ec25-4301-b5e3-f770395927ce",
+        "DurationOfBreak": 10000,
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "TimeoutValue": 2000
       },
-      "RateLimitOptions": { //限流
-        "EnableRateLimiting": true, //是否启用限流
-        "Period": "10s", //统计时间 1s 1m 1h 1d
-        "Limit": 5, //统计时间内允许最大请求数量S
-        "PeriodTimespan": 10, //重试时间S
-        "ClientWhitelist": [ "MyClient", "MyClient2" ] //白名单HttpHeaders中加入 ClientId:MyClient
+      "RateLimitOptions": {
+        "ID": "2d02e94b-0649-4071-a652-fb1ab6fe7424",
+        "EnableRateLimiting": true,
+        "Period": "10s",
+        "Limit": 5,
+        "PeriodTimespan": 10,
+        "ClientWhitelist": [ "MyClient", "MyClient2" ]
       },
+      "DangerousAcceptAnyServerCertificateValidator": false,
       "SwaggerKey": "TestServer"
     },
     {
+      "ID": "6dc1d454-1b69-4c0d-882a-1de25071ab8b",
       "UpstreamPathTemplate": "/TestServer/hubs/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamPathTemplate": "/hubs/{everything}",
       "DownstreamScheme": "wss",
       "ServiceName": "TestServer",
       "LoadBalancerOptions": {
+        "ID": "007043e1-a648-4353-a82c-54fb0d3f94d6",
         "Type": "RoundRobin"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false
     },
     {
+      "ID": "caa35593-5867-4d71-83f0-f2e8e1b5be41",
       "UpstreamPathTemplate": "/TestServer/grpc/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "grpcs",
-      "DownstreamHttpVersion": "2.0", //grpc必须指定Http2.0
+      "DownstreamHttpVersion": "2.0",
       "ServiceName": "TestServer",
       "LoadBalancerOptions": {
+        "ID": "bf29cfe5-a1b1-44b1-ab6d-dd579dab31fb",
         "Type": "RoundRobin"
-      }
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false
     },
     {
+      "ID": "81c99672-dfda-47a1-80d8-6eafb28ffabb",
       "UpstreamPathTemplate": "/TestServer/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "https",
       "ServiceName": "TestServer",
       "LoadBalancerOptions": {
+        "ID": "687a7b61-c3d0-4e33-909b-250f7d8119b0",
         "Type": "RoundRobin"
-      }
-    }
-  ],
-  "SwaggerEndPoints": [
-    {
-      "Key": "TestServer",
-      "Config": [
-        {
-          "Name": "TestServerAPI",
-          "TakeServersFromDownstreamService": true,
-          "Version": "v1",
-          "Service": {
-            "Name": "TestServer",
-            "Path": "/swagger/v1/swagger.json"
-          }
-        },
-        {
-          "Name": "TestServerAPI",
-          "TakeServersFromDownstreamService": true,
-          "Version": "v2",
-          "Service": {
-            "Name": "TestServer",
-            "Path": "/swagger/v2/swagger.json"
-          }
-        },
-        {
-          "Name": "TestServerAPI",
-          "TakeServersFromDownstreamService": true,
-          "Version": "v3",
-          "Service": {
-            "Name": "TestServer",
-            "Path": "/swagger/v3/swagger.json"
-          }
-        }
-      ]
-    },
-    {
-      "Key": "TestServer2",
-      "Config": [
-        {
-          "Name": "TestServer2API",
-          "TakeServersFromDownstreamService": true,
-          "Version": "v1",
-          "Service": {
-            "Name": "TestServer2",
-            "Path": "/swagger/v1/swagger.json"
-          }
-        },
-        {
-          "Name": "TestServer2API",
-          "TakeServersFromDownstreamService": true,
-          "Version": "v2",
-          "Service": {
-            "Name": "TestServer2",
-            "Path": "/swagger/v2/swagger.json"
-          }
-        },
-        {
-          "Name": "TestServer2API",
-          "TakeServersFromDownstreamService": true,
-          "Version": "v3",
-          "Service": {
-            "Name": "TestServer2",
-            "Path": "/swagger/v3/swagger.json"
-          }
-        }
-      ]
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false
     }
   ],
   "GlobalConfiguration": {
-    "ServiceDiscoveryProvider": { //全局服务发现配置
+    "ID": "d0f41914-108f-4167-9f4e-5c11adde0f61",
+    "ServiceDiscoveryProvider": {
+      "ID": "d86e2256-8464-4f3f-87e0-3e7dddc727e8",
       "Host": "127.0.0.1",
       "Port": 8500,
       "Type": "Consul"
     },
-    "RateLimitOptions": { //全局限流配置
+    "RateLimitOptions": {
+      "ID": "1f47d565-cf98-4b1f-a7d6-ad5b64f3fb68",
       "QuotaExceededMessage": "访问过于频繁，请稍后再试",
-      "HttpStatusCode": 429,
+      "StatusCode": 429,
       "ClientIdHeader": "ClientId"
     }
-  }
+  },
+  "SwaggerEndPoints": [
+    {
+      "ID": "1c1309c1-e96e-46d0-b1d9-481d426fe457",
+      "Key": "TestServer",
+      "Config": [
+        {
+          "ID": "be305a38-7b71-405c-9a47-f4cb98f8b5db",
+          "Name": "TestServerAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "ID": "27e32709-6fe3-4e66-916e-80e9ad6f7511",
+            "Name": "TestServer",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    }
+  ]
 }

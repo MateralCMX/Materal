@@ -29,7 +29,8 @@ namespace Materal.Gateway.OcelotExtension.Services
             }
             else
             {
-                OcelotConfig = File.ReadAllText(_ocelotFileInfo.FullName).JsonToObject<OcelotConfigModel>();
+                string configContent = File.ReadAllText(_ocelotFileInfo.FullName);
+                OcelotConfig = configContent.JsonToObject<OcelotConfigModel>();
             }
         }
 

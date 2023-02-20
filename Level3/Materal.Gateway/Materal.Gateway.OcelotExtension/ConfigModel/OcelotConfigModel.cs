@@ -6,6 +6,10 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     public class OcelotConfigModel
     {
         /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public Guid ID { get; set; } = Guid.NewGuid();
+        /// <summary>
         /// 路由配置组
         /// </summary>
         public List<RouteConfigModel> Routes { get; set; } = new();

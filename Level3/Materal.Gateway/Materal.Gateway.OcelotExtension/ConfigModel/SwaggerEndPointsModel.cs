@@ -10,6 +10,10 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// <summary>
         /// 唯一标识
         /// </summary>
+        public Guid ID { get; set; } = Guid.NewGuid();
+        /// <summary>
+        /// 唯一标识
+        /// </summary>
         [Required(ErrorMessage = "必填")]
         public string Key { get; set; } = "SwaggerKey";
         /// <summary>

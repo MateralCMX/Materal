@@ -1,0 +1,191 @@
+﻿@page "/Setting/Routes/Route"
+@page "/Setting/Routes/Route/{id:guid}"
+@using Materal.Gateway.OcelotExtension.ConfigModel;
+@using Materal.Gateway.OcelotExtension.Services;
+
+@inject IOcelotConfigService _ocelotConfigService;
+@inject IMessageService _message;
+@inject NavigationManager _navigation;
+
+<Form Model="_model" ValidateMode="FormValidateMode.Complex" LabelColSpan="2" WrapperColSpan="8">
+    <Collapse DefaultActiveKey="@(new[]{"3"})" Accordion>
+        <Panel Header="基础信息" Key="1">
+            <FormItem Label="上游路径模版">
+                <Input @bind-Value="context.Data.UpstreamPathTemplate" />
+            </FormItem>
+            <FormItem Label="下游路径模版">
+                <Input @bind-Value="context.Data.DownstreamPathTemplate" />
+            </FormItem>
+            <FormItem Label="转发方式">
+                <Select Mode="default" DataSource="context.SchemeTypes" @bind-Value="context.Data.DownstreamScheme"></Select>
+            </FormItem>
+            <FormItem Label="Http版本">
+                <Select Mode="default" DataSource="context.HttpVersions" @bind-Value="context.Data.DownstreamHttpVersion"></Select>
+            </FormItem>
+            <FormItem Label="转发方式">
+                <Select Mode="multiple" DataSource="context.HttpMethods" @bind-Values="context.Data.UpstreamHttpMethod"></Select>
+            </FormItem>
+            <FormItem Label="忽略安全证书">
+                <Switch @bind-Value="context.Data.DangerousAcceptAnyServerCertificateValidator" />
+            </FormItem>
+        </Panel>
+        <Panel Header="下游配置" Key="2">
+            <FormItem Label="负载均衡">
+                <Select Mode="default" DataSource="context.LoadBalancerTypes" @bind-Value="context.Data.LoadBalancerOptions.Type"></Select>
+            </FormItem>
+            <FormItem Label="模式">
+                <Segmented @bind-Value="context.DownstreamType" TValue="string" Options="_downstreamTypes" />
+                @if (context.DownstreamType == "Custom" && context.Data.DownstreamHostAndPorts != null)
+                {
+                    <Button Icon="@IconType.Outline.FileAdd" OnClick="AddDownstreamHostAndPort"></Button>
+                }
+            </FormItem>
+            @if (context.DownstreamType == "Custom" && context.Data.DownstreamHostAndPorts != null)
+            {
+                foreach (HostAndPortModel item in context.Data.DownstreamHostAndPorts)
+                {
+                    <FormItem Label="目标">
+                        <Space>
+                            <SpaceItem>
+                                <Input @bind-Value="item.Host" />
+                            </SpaceItem>
+                            <SpaceItem>
+                                <AntDesign.InputNumber Min="1" @bind-Value="item.Port" />
+                            </SpaceItem>
+                            <SpaceItem>
+                                <Button Icon="@IconType.Outline.Delete" OnClick="e => DeleteDownstreamHostAndPort(item)"></Button>
+                            </SpaceItem>
+                        </Space>
+                    </FormItem>
+                }
+            }
+            else
+            {
+                <FormItem Label="服务名称" Rules="_requiredRule">
+                    <Input @bind-Value="context.Data.ServiceName" />
+                </FormItem>
+            }
+        </Panel>
+        <Panel Header="缓存配置" Key="3">
+            缓存配置
+        </Panel>
+        <Panel Header="熔断超时" Key="3">
+            熔断超时
+        </Panel>
+        <Panel Header="限流配置" Key="3">
+            限流配置
+        </Panel>
+    </Collapse>
+    <FormItem WrapperColOffset="2" WrapperColSpan="8">
+        <Button Style="margin:10px 0 0 0" Type="@ButtonType.Primary" Block HtmlType="submit">保存</Button>
+    </FormItem>
+</Form>
+
+@code {
+    [Parameter]
+    public Guid? ID { get; set; }
+    private ViewModel _model = new();
+    private SegmentedOption<string>[] _downstreamTypes { get; set; } = new SegmentedOption<string>[2]
+    {
+        new("Custom"),
+        new("Service")
+    };
+    private FormValidationRule[] _requiredRule = new[]
+    {
+        new FormValidationRule{ Required = true, Message="必填" }
+    };
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Reload();
+        }
+        base.OnAfterRender(firstRender);
+    }
+    private void Reload()
+    {
+        if(ID == null)
+        {
+            _model.Data = new();
+        }
+        else
+        {
+            RouteConfigModel? model = _ocelotConfigService.OcelotConfig.Routes.FirstOrDefault(m => m.ID == ID.Value);
+            if (model == null)
+            {
+                _navigation.NavigateTo("./Setting/Routes");
+                return;
+            }
+            _model.Data = model;
+        }
+        _downstreamTypes[1].Disabled = _ocelotConfigService.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider == null;
+        StateHasChanged();
+    }
+    private void AddDownstreamHostAndPort()
+    {
+        if (_model.Data.DownstreamHostAndPorts == null) return;
+        _model.Data.DownstreamHostAndPorts.Add(new());
+    }
+    private void DeleteDownstreamHostAndPort(HostAndPortModel model)
+    {
+        if(_model.Data.DownstreamHostAndPorts == null) return;
+        _model.Data.DownstreamHostAndPorts.Remove(model);
+    }
+    private class ViewModel
+    {
+        private RouteConfigModel _data = new();
+        public RouteConfigModel Data
+        {
+            get => _data;
+            set
+            {
+                _data = value;
+                if (string.IsNullOrWhiteSpace(_data.ServiceName))
+                {
+                    DownstreamType = "Custom";
+                }
+                else
+                {
+                    DownstreamType = "Service";
+                }
+                if (_data.DownstreamHostAndPorts == null)
+                {
+                    _data.DownstreamHostAndPorts = new();
+                }
+            }
+        } 
+        public bool Enable { get; set; } = false;
+        public string DownstreamType { get; set; } = "Service";
+        public List<string> SchemeTypes = new()
+        {
+            "http",
+            "https",
+            "ws",
+            "wss",
+            "grpc",
+            "grpcs",
+        };
+        public List<string> HttpMethods = new()
+        {
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "OPTIONS",
+            "PATCH",
+        };
+        public List<string> LoadBalancerTypes = new()
+        {
+            "NoLoadBalancer",
+            "LeastConnection",
+            "RoundRobin",
+            "CookieStickySessions"
+        };
+        public List<string> HttpVersions = new()
+        {
+            "1.0",
+            "1.1",
+            "2.0",
+        };
+    }
+}

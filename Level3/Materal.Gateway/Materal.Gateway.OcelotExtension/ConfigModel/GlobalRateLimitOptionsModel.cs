@@ -9,6 +9,10 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     public class GlobalRateLimitOptionsModel
     {
         /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public Guid ID { get; set; } = Guid.NewGuid();
+        /// <summary>
         /// 限流消息
         /// </summary>
         [Required(ErrorMessage = "必填")]

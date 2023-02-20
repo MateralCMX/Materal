@@ -8,6 +8,10 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     public class QoSOptionsModel
     {
         /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public Guid ID { get; set; } = Guid.NewGuid();
+        /// <summary>
         /// 熔断时间(ms)
         /// </summary>
         [Required(ErrorMessage = "必填")]

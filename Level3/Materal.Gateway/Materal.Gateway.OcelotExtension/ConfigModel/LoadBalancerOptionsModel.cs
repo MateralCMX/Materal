@@ -8,6 +8,10 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     public class LoadBalancerOptionsModel
     {
         /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public Guid ID { get; set; } = Guid.NewGuid();
+        /// <summary>
         /// 类型
         /// NoLoadBalancer:不使用负载均衡 LeastConnection:最小连接 RoundRobin:循环 CookieStickySessions:会话黏贴
         /// </summary>

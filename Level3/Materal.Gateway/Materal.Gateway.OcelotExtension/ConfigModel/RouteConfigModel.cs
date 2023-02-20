@@ -9,25 +9,33 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     public class RouteConfigModel
     {
         /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public Guid ID { get; set; } = Guid.NewGuid();
+        /// <summary>
         /// 上游路径模版
         /// </summary>
         [Required(ErrorMessage = "必填")]
-        public string UpstreamPathTemplate { get; set; } = "/{url}";
+        public string UpstreamPathTemplate { get; set; } = "/{everything}";
         /// <summary>
         /// 上游Http方法
         /// </summary>
-        public List<string> UpstreamHttpMethod { get; set; } = new() { "GET", "POST", "PUT", "DELETE", "OPTIONS" };
+        public IEnumerable<string> UpstreamHttpMethod { get; set; } = new List<string>();
         /// <summary>
         /// 下游路径模版
         /// </summary>
         [Required(ErrorMessage = "必填")]
-        public string DownstreamPathTemplate { get; set; } = "/{url}";
+        public string DownstreamPathTemplate { get; set; } = "/{everything}";
         /// <summary>
         /// 下游方案
         /// http https ws wss grpc grpcs
         /// </summary>
         [Required(ErrorMessage = "必填")]
         public string DownstreamScheme { get; set; } = "http";
+        /// <summary>
+        /// 下游Http版本
+        /// </summary>
+        public string DownstreamHttpVersion { get; set; } = "1.1";
         /// <summary>
         /// 缓存
         /// </summary>
@@ -41,8 +49,7 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// <summary>
         /// 负载均衡
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public LoadBalancerOptionsModel? LoadBalancerOptionsModel { get; set; }
+        public LoadBalancerOptionsModel LoadBalancerOptions { get; set; } = new();
         /// <summary>
         /// 下游主机和端口
         /// </summary>
@@ -58,6 +65,11 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public AuthenticationOptionsModel? AuthenticationOptions { get; set; }
+        /// <summary>
+        /// 限流配置
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public RateLimitOptionsModel? RateLimitOptions { get; set; }
         /// <summary>
         /// 忽略证书错误
         /// </summary>
