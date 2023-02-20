@@ -1,0 +1,47 @@
+﻿@using Materal.Gateway.OcelotExtension.ConfigModel;
+@using Materal.Gateway.OcelotExtension.Services;
+@inject IOcelotConfigService _ocelotConfigService;
+@inject IMessageService _message;
+
+<Form @ref="_form" Loading="_loading" Model="Model" LabelColSpan="6">
+    <FormItem Label="名称">
+        <Input @bind-Value="context.Key" />
+    </FormItem>
+</Form>
+
+@code {
+    private bool _loading = false;
+    [Parameter]
+    public bool IsAdd { get; set; } = false;
+    [Parameter]
+    public SwaggerEndPointsModel Model { get; set; } = new();
+    private Form<SwaggerEndPointsModel>? _form;
+    /// <summary>
+    /// 保存
+    /// </summary>
+    /// <returns></returns>
+    public bool Save()
+    {
+        if (_form == null || !_form.Validate()) return false;
+        _loading = true;
+        try
+        {
+            if (IsAdd)
+            {
+                _ocelotConfigService.OcelotConfig.SwaggerEndPoints.Add(Model);
+            }
+            _ocelotConfigService.Save();
+            _message.Success("保存成功");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _message.Error($"保存失败:{ex.Message}");
+            return false;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}

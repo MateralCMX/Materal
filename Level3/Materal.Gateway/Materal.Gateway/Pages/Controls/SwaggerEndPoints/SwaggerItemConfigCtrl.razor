@@ -1,0 +1,89 @@
+﻿@using Materal.Gateway.OcelotExtension.ConfigModel;
+@using Materal.Gateway.OcelotExtension.Services;
+@inject IOcelotConfigService _ocelotConfigService;
+@inject IMessageService _message;
+
+<Form @ref="_form" ValidateMode="FormValidateMode.Rules" Loading="_loading" Model="Model" LabelColSpan="6">
+    <FormItem Label="名称" Rules="_requiredRule">
+        <Input @bind-Value="context.Name" />
+    </FormItem>
+    <FormItem Label="版本" Rules="_requiredRule">
+        <Input @bind-Value="context.Version" />
+    </FormItem>
+    <FormItem Label="服务发现">
+        <Switch @bind-Value="context.TakeServersFromDownstreamService" OnChange="OnServiceChange" />
+    </FormItem>
+    @if (context.TakeServersFromDownstreamService && context.Service != null)
+    {
+        <FormItem Label="服务名称" Rules="_requiredRule">
+            <Input @bind-Value="context.Service.Name" />
+        </FormItem>
+        <FormItem Label="路径" Rules="_requiredRule">
+            <Input @bind-Value="context.Service.Path" />
+        </FormItem>
+    }
+    else
+    {
+        <FormItem Label="Json文件地址" Rules="_requiredRule">
+            <Input @bind-Value="context.Url" />
+        </FormItem>
+    }
+</Form>
+
+@code {
+    private bool _loading = false;
+    [Parameter]
+    public bool IsAdd { get; set; } = false;
+    [Parameter]
+    public SwaggerEndPointsModel Parent { get; set; } = new();
+    [Parameter]
+    public SwaggerItemConfigModel Model { get; set; } = new();
+    private Form<SwaggerItemConfigModel>? _form;
+    private FormValidationRule[] _requiredRule = new[]
+    {
+        new FormValidationRule{ Required = true, Message="必填" }
+    };
+    private void OnServiceChange(bool value)
+    {
+        if (!value || Model.Service != null) return;
+        Model.Service = new();
+    }
+    /// <summary>
+    /// 保存
+    /// </summary>
+    /// <returns></returns>
+    public bool Save()
+    {
+        if (_form == null || !_form.Validate()) return false;
+        _loading = true;
+        #region 数据处理
+        if (Model.TakeServersFromDownstreamService)
+        {
+            Model.Url = null;
+        }
+        else
+        {
+            Model.Service = null;
+        }
+        #endregion
+        try
+        {
+            if (IsAdd)
+            {
+                Parent.Config.Add(Model);
+            }
+            _ocelotConfigService.Save();
+            _message.Success("保存成功");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _message.Error($"保存失败:{ex.Message}");
+            return false;
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+}

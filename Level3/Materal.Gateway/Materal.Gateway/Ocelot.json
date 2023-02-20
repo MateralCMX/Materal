@@ -81,6 +81,56 @@
             "Name": "TestServer",
             "Path": "/swagger/v1/swagger.json"
           }
+        },
+        {
+          "Name": "TestServerAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v2",
+          "Service": {
+            "Name": "TestServer",
+            "Path": "/swagger/v2/swagger.json"
+          }
+        },
+        {
+          "Name": "TestServerAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v3",
+          "Service": {
+            "Name": "TestServer",
+            "Path": "/swagger/v3/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "TestServer2",
+      "Config": [
+        {
+          "Name": "TestServer2API",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "TestServer2",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        },
+        {
+          "Name": "TestServer2API",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v2",
+          "Service": {
+            "Name": "TestServer2",
+            "Path": "/swagger/v2/swagger.json"
+          }
+        },
+        {
+          "Name": "TestServer2API",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v3",
+          "Service": {
+            "Name": "TestServer2",
+            "Path": "/swagger/v3/swagger.json"
+          }
         }
       ]
     }

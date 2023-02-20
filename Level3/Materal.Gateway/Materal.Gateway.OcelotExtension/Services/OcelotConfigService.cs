@@ -4,18 +4,23 @@ using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.Services
 {
-    public class OcelotConfigService
+    public class OcelotConfigService : IOcelotConfigService
     {
         private readonly Encoding _encoding = Encoding.UTF8;
         private readonly FileInfo _ocelotFileInfo;
-        /// <summary>
-        /// Oceelot配置
-        /// </summary>
-        public OcelotConfigModel OcelotConfig { get; }
-
+        public OcelotConfigModel OcelotConfig { get; private set; } = new();
         public OcelotConfigService()
         {
             _ocelotFileInfo = new(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ocelot.json"));
+            Reload();
+        }
+        public async Task SaveAsync() => await SaveAsync(OcelotConfig);
+        public void Save() => Save(OcelotConfig);
+        public async Task SaveAsync(OcelotConfigModel ocelotConfig) => await ocelotConfig.SaveAsAsync(_ocelotFileInfo.FullName, _encoding);
+        public void Save(OcelotConfigModel ocelotConfig) => ocelotConfig.SaveAs(_ocelotFileInfo.FullName, _encoding);
+
+        public void Reload()
+        {
             if (!_ocelotFileInfo.Exists)
             {
                 OcelotConfig = new();
@@ -28,13 +33,10 @@ namespace Materal.Gateway.OcelotExtension.Services
             }
         }
 
-        public async Task SaveAsync()
+        public Task ReloadAsync()
         {
-            await OcelotConfig.SaveAsAsync(_ocelotFileInfo.FullName, _encoding);
-        }
-        public void Save()
-        {
-            OcelotConfig.SaveAs(_ocelotFileInfo.FullName, _encoding);
+            Reload();
+            return Task.CompletedTask;
         }
     }
 }

@@ -33,10 +33,10 @@ namespace Materal.Gateway.OcelotExtension
             });
             result.AddConsul();
             result.AddPolly();
-            services.AddSingleton<IRequestMonitorHandlers, DefatultRequestMonitorHandlers>();
-            services.AddSingleton<ICustomHandlers, DefaultCustomHandlers>();
-            services.AddSingleton<IExceptionInterceptor, DefaultExceptionInterceptor>();
-            services.AddSingleton<OcelotConfigService>();
+            services.TryAddSingleton<IRequestMonitorHandlers, DefatultRequestMonitorHandlers>();
+            services.TryAddSingleton<ICustomHandlers, DefaultCustomHandlers>();
+            services.TryAddSingleton<IExceptionInterceptor, DefaultExceptionInterceptor>();
+            services.AddSingleton<IOcelotConfigService, OcelotConfigService>();
             services.Replace(new ServiceDescriptor(typeof(IServiceDiscoveryProviderFactory), typeof(GatewayServiceDiscoveryProviderFactory), ServiceLifetime.Singleton));
             services.Replace(new ServiceDescriptor(typeof(IHttpRequester), typeof(GatewayHttpRequester), ServiceLifetime.Singleton));
             services.Replace(new ServiceDescriptor(typeof(IHttpResponder), typeof(GatewayHttpContextResponder), ServiceLifetime.Singleton));

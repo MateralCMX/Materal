@@ -1,6 +1,6 @@
 ﻿@using Materal.Gateway.OcelotExtension.ConfigModel;
 @using Materal.Gateway.OcelotExtension.Services;
-@inject OcelotConfigService _ocelotConfigService;
+@inject IOcelotConfigService _ocelotConfigService;
 @inject IMessageService _message;
 @typeparam T
 
@@ -28,10 +28,14 @@
     [Parameter]
     public RenderFragment<T>? FormTemplate { get; set; }
     private bool _loading = false;
-    protected override void OnInitialized()
+    protected override void OnAfterRender(bool firstRender)
     {
-        InitData?.Invoke(_ocelotConfigService.OcelotConfig);
-        base.OnInitialized();
+        if (firstRender)
+        {
+            _ocelotConfigService.Reload();
+            InitData?.Invoke(_ocelotConfigService.OcelotConfig);
+        }
+        base.OnAfterRender(firstRender);
     }
     private void OnFinish(EditContext context)
     {
