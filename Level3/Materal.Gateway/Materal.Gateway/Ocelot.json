@@ -1,114 +1,77 @@
 {
-  "ID": "e8603b78-a0a0-403d-8c10-690cc892dc34",
+  "ID": "12933593-6e1c-46f7-9e84-78d2859122ea",
   "Routes": [
     {
-      "ID": "9ccaa0c3-7832-419a-8375-713075b4c76b",
-      "UpstreamPathTemplate": "/TestServer/api/TestWebAPI/GetNowDateTime",
-      "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamPathTemplate": "/api/TestWebAPI/GetNowDateTime",
-      "DownstreamScheme": "https",
-      "FileCacheOptions": {
-        "ID": "fec9daa8-7729-4fa8-b5fc-4e6f97daa875",
-        "TtlSeconds": 10,
-        "Region": "TestServerAPICacheKey"
-      },
-      "ServiceName": "TestServer",
-      "LoadBalancerOptions": {
-        "ID": "31a779a9-a276-4c22-9af0-c0e7bca83697",
-        "Type": "RoundRobin"
-      },
-      "DangerousAcceptAnyServerCertificateValidator": false
-    },
-    {
-      "ID": "a2166bc9-028b-4bd5-b933-093eaf3cb8c1",
-      "UpstreamPathTemplate": "/TestServer/api/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "ID": "34324219-e321-482b-808a-15a3a665cbbe",
+      "UpstreamPathTemplate": "/Article_FatAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH" ],
       "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "Article_FatAPI",
       "LoadBalancerOptions": {
-        "ID": "1b2cc0a3-976a-45a8-9690-17b65fc4752f",
+        "ID": "271292ab-60ba-4339-ae83-49b1d0f3d578",
         "Type": "RoundRobin"
-      },
-      "DownstreamHostAndPorts": [
-        {
-          "ID": "62982519-2575-4140-b472-645a2865611f",
-          "Host": "127.0.0.1",
-          "Port": 5000
-        },
-        {
-          "ID": "85580cdb-b00e-480f-ad48-19344b297244",
-          "Host": "127.0.0.1",
-          "Port": 5001
-        }
-      ],
-      "QoSOptions": {
-        "ID": "7d0680a6-ec25-4301-b5e3-f770395927ce",
-        "DurationOfBreak": 10000,
-        "ExceptionsAllowedBeforeBreaking": 3,
-        "TimeoutValue": 2000
-      },
-      "RateLimitOptions": {
-        "ID": "2d02e94b-0649-4071-a652-fb1ab6fe7424",
-        "EnableRateLimiting": true,
-        "Period": "10s",
-        "Limit": 5,
-        "PeriodTimespan": 10,
-        "ClientWhitelist": [ "MyClient", "MyClient2" ]
       },
       "DangerousAcceptAnyServerCertificateValidator": false,
-      "SwaggerKey": "TestServer"
+      "SwaggerKey": "Article_FatAPI"
     },
     {
-      "ID": "6dc1d454-1b69-4c0d-882a-1de25071ab8b",
-      "UpstreamPathTemplate": "/TestServer/hubs/{everything}",
+      "ID": "d4585971-70f5-4082-8e31-2339b2a93faf",
+      "UpstreamPathTemplate": "/Adv_FatAPI/api/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
-      "DownstreamPathTemplate": "/hubs/{everything}",
-      "DownstreamScheme": "wss",
-      "ServiceName": "TestServer",
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "Adv_FatAPI",
       "LoadBalancerOptions": {
-        "ID": "007043e1-a648-4353-a82c-54fb0d3f94d6",
+        "ID": "0e810052-223d-4146-b040-3d50663e958f",
         "Type": "RoundRobin"
       },
-      "DangerousAcceptAnyServerCertificateValidator": false
+      "DangerousAcceptAnyServerCertificateValidator": false,
+      "SwaggerKey": "Adv_FatAPI"
     },
     {
-      "ID": "caa35593-5867-4d71-83f0-f2e8e1b5be41",
-      "UpstreamPathTemplate": "/TestServer/grpc/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
-      "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "grpcs",
-      "DownstreamHttpVersion": "2.0",
-      "ServiceName": "TestServer",
+      "ID": "9a9c5a97-cd4b-40cd-8d81-3407531ae320",
+      "UpstreamPathTemplate": "/DataCenter_FatAPI/api/{everything}",
+      "UpstreamHttpMethod": [],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "DataCenter_FatAPI",
       "LoadBalancerOptions": {
-        "ID": "bf29cfe5-a1b1-44b1-ab6d-dd579dab31fb",
-        "Type": "RoundRobin"
+        "ID": "860f25d4-3893-4e44-b683-e7087a399117",
+        "Type": "NoLoadBalancer"
       },
-      "DangerousAcceptAnyServerCertificateValidator": false
+      "DangerousAcceptAnyServerCertificateValidator": false,
+      "SwaggerKey": "DataCenter_FatAPI"
     },
     {
-      "ID": "81c99672-dfda-47a1-80d8-6eafb28ffabb",
-      "UpstreamPathTemplate": "/TestServer/{everything}",
+      "ID": "642a6379-77c8-4973-9a64-ff252f9b6784",
+      "UpstreamPathTemplate": "/Authority_FatAPI/api/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
-      "DownstreamPathTemplate": "/{everything}",
-      "DownstreamScheme": "https",
-      "ServiceName": "TestServer",
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "Authority_FatAPI",
       "LoadBalancerOptions": {
-        "ID": "687a7b61-c3d0-4e33-909b-250f7d8119b0",
+        "ID": "e77cb8f0-8a04-42d1-8df5-b1a5b915849c",
         "Type": "RoundRobin"
       },
-      "DangerousAcceptAnyServerCertificateValidator": false
+      "DangerousAcceptAnyServerCertificateValidator": false,
+      "SwaggerKey": "Authority_FatAPI"
     }
   ],
   "GlobalConfiguration": {
-    "ID": "d0f41914-108f-4167-9f4e-5c11adde0f61",
+    "ID": "780b18a1-132c-4b53-8110-4fb1ed1420aa",
     "ServiceDiscoveryProvider": {
-      "ID": "d86e2256-8464-4f3f-87e0-3e7dddc727e8",
-      "Host": "127.0.0.1",
+      "ID": "04560665-a4d8-4bae-a7e1-d35429bfbbdc",
+      "Host": "175.27.194.19",
       "Port": 8500,
       "Type": "Consul"
     },
     "RateLimitOptions": {
-      "ID": "1f47d565-cf98-4b1f-a7d6-ad5b64f3fb68",
+      "ID": "4c29a26a-c339-4e7e-b0c2-fc93a6bdd9c1",
       "QuotaExceededMessage": "访问过于频繁，请稍后再试",
       "StatusCode": 429,
       "ClientIdHeader": "ClientId"
@@ -116,17 +79,68 @@
   },
   "SwaggerEndPoints": [
     {
-      "ID": "1c1309c1-e96e-46d0-b1d9-481d426fe457",
-      "Key": "TestServer",
+      "ID": "3c96e704-1bcb-4376-a0cc-44a2e20ba5df",
+      "Key": "Adv_FatAPI",
       "Config": [
         {
-          "ID": "be305a38-7b71-405c-9a47-f4cb98f8b5db",
-          "Name": "TestServerAPI",
+          "ID": "959b80e5-0e08-4ecd-a398-0f0d5ed1091e",
+          "Name": "Adv_FatAPI",
           "TakeServersFromDownstreamService": true,
           "Version": "v1",
           "Service": {
-            "ID": "27e32709-6fe3-4e66-916e-80e9ad6f7511",
-            "Name": "TestServer",
+            "ID": "90b89964-cb52-40be-9ed5-283b618c7eb0",
+            "Name": "Adv_FatAPI",
+            "Path": "swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "ID": "99f9d1b0-c4ce-45b7-b4d9-bcab9b023346",
+      "Key": "Article_FatAPI",
+      "Config": [
+        {
+          "ID": "9c4b15e4-a1a6-4d2e-942f-97e360960700",
+          "Name": "Article_FatAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "ID": "9d1a2d26-226e-4d45-b6ec-5bea8bc53a5d",
+            "Name": "Article_FatAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "ID": "c5594b80-713c-44b1-91e1-90c981286d81",
+      "Key": "Authority_FatAPI",
+      "Config": [
+        {
+          "ID": "7421e4ae-6517-408f-ab73-b08f3b570d0a",
+          "Name": "Authority_FatAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "ID": "19a9a86e-9c69-4d2e-b402-55146358f583",
+            "Name": "Authority_FatAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "ID": "6ee7b322-56b6-41fd-8735-46296a9055b7",
+      "Key": "DataCenter_FatAPI",
+      "Config": [
+        {
+          "ID": "3f529373-7bc6-4d24-8690-fed892d47e0c",
+          "Name": "DataCenter_FatAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "ID": "a7172e3a-74fd-46cc-9128-c3c5ef95cff7",
+            "Name": "DataCenter_FatAPI",
             "Path": "/swagger/v1/swagger.json"
           }
         }

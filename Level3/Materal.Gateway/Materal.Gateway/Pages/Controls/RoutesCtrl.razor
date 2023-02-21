@@ -1,33 +1,47 @@
 ﻿@page "/Setting/Routes"
+@using System.Linq.Expressions;
 @using AntDesign.Internal;
+@using Materal.Gateway.Model;
 @using Materal.Gateway.OcelotExtension.ConfigModel;
 @using Materal.Gateway.OcelotExtension.Services;
-@using Materal.Gateway.OcelotExtension.Services.Model;
+@using Materal.Gateway.OcelotExtension.Model;
+@using Materal.LinqHelper;
+
 <PageTitle>路由-Materal.Gateway</PageTitle>
 @inject IOcelotConfigService _ocelotConfigService;
 @inject IMessageService _message;
 @inject NavigationManager _navigation;
 
-<Space Direction="DirectionVHType.Vertical">
+<Space Direction="DirectionVHType.Vertical" Style="width:100%;">
     <SpaceItem>
-        <Form @ref="_form" Model="_searchModel">
+        <Form @ref="_form" Model="_searchModel" OnFinish="Reload">
             <Row Gutter="24">
-                <GridCol Span="4">
+                <GridCol Span="6">
+                    <FormItem Label="地址">
+                        <Input @bind-Value="context.Url" />
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="6">
                     <FormItem Label="服务名称">
                         <Input @bind-Value="context.ServiceName" />
                     </FormItem>
                 </GridCol>
-                <GridCol Span="4">
+                <GridCol Span="6">
                     <FormItem Label="Swagger">
                         <Input @bind-Value="context.SwaggerKey" />
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="6">
+                    <FormItem Label="缓存">
+                        <Select Mode="default" DataSource="_queryUseModel" LabelName="Key" ValueName="Value" @bind-Value="context.EnableCache" />
                     </FormItem>
                 </GridCol>
             </Row>
             <Row>
                 <GridCol Span="24" Style="text-align:right;">
-                    <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
                     <Button Type="primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
                     <Button Icon="@IconType.Outline.Retweet" OnClick="()=>{_form?.Reset();}"></Button>
+                    <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
                 </GridCol>
             </Row>
         </Form>
@@ -98,7 +112,13 @@
 @code {
     private IForm? _form;
     private List<RouteConfigModel> _data = new();
-    public QueryRouteConfigModel _searchModel = new();
+    private QueryRouteConfigModel _searchModel = new();
+    private List<SelectKeyValueModel<bool>> _queryUseModel = new()
+    {
+        new SelectKeyValueModel<bool>("所有", null),
+        new SelectKeyValueModel<bool>("启用", true),
+        new SelectKeyValueModel<bool>("禁用", false)
+    };
     protected override void OnInitialized()
     {
         Reload();
@@ -107,7 +127,31 @@
     private void Reload()
     {
         _ocelotConfigService.Reload();
-        _data = _ocelotConfigService.OcelotConfig.Routes;
+        Expression<Func<RouteConfigModel, bool>> expression = m => true;
+        if (!string.IsNullOrWhiteSpace(_searchModel.Url))
+        {
+            expression = expression.And(m => m.UpstreamPathTemplate.Contains(_searchModel.Url) || m.DownstreamPathTemplate.Contains(_searchModel.Url));
+        }
+        if (!string.IsNullOrWhiteSpace(_searchModel.SwaggerKey))
+        {
+            expression = expression.And(m => !string.IsNullOrWhiteSpace(m.SwaggerKey) && m.SwaggerKey.Contains(_searchModel.SwaggerKey));
+        }
+        if (!string.IsNullOrWhiteSpace(_searchModel.ServiceName))
+        {
+            expression = expression.And(m => !string.IsNullOrWhiteSpace(m.ServiceName) && m.ServiceName.Contains(_searchModel.ServiceName));
+        }
+        if (_searchModel.EnableCache != null)
+        {
+            if (_searchModel.EnableCache.Value)
+            {
+                expression = expression.And(m => m.FileCacheOptions != null);
+            }
+            else
+            {
+                expression = expression.And(m => m.FileCacheOptions == null);
+            }
+        }
+        _data = _ocelotConfigService.OcelotConfig.Routes.Where(expression.Compile()).ToList();
         StateHasChanged();
     }
     private void Add() => _navigation.NavigateTo("./Setting/Routes/Route");

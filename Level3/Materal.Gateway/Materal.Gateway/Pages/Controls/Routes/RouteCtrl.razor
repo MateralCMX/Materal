@@ -2,13 +2,14 @@
 @page "/Setting/Routes/Route/{id:guid}"
 @using Materal.Gateway.OcelotExtension.ConfigModel;
 @using Materal.Gateway.OcelotExtension.Services;
+@using System.ComponentModel.DataAnnotations;
 
 @inject IOcelotConfigService _ocelotConfigService;
 @inject IMessageService _message;
 @inject NavigationManager _navigation;
 
-<Form Model="_model" ValidateMode="FormValidateMode.Complex" LabelColSpan="2" WrapperColSpan="8">
-    <Collapse DefaultActiveKey="@(new[]{"3"})" Accordion>
+<Form Model="_model" Loading="_loading" ValidateMode="FormValidateMode.Complex" LabelColSpan="3" WrapperColSpan="8" OnFinish="OnFinish">
+    <Collapse DefaultActiveKey="@(new[]{"2"})" Accordion>
         <Panel Header="基础信息" Key="1">
             <FormItem Label="上游路径模版">
                 <Input @bind-Value="context.Data.UpstreamPathTemplate" />
@@ -24,6 +25,9 @@
             </FormItem>
             <FormItem Label="转发方式">
                 <Select Mode="multiple" DataSource="context.HttpMethods" @bind-Values="context.Data.UpstreamHttpMethod"></Select>
+            </FormItem>
+            <FormItem Label="Swagger">
+                <Input @bind-Value="context.Data.SwaggerKey" />
             </FormItem>
             <FormItem Label="忽略安全证书">
                 <Switch @bind-Value="context.Data.DangerousAcceptAnyServerCertificateValidator" />
@@ -61,19 +65,101 @@
             }
             else
             {
-                <FormItem Label="服务名称" Rules="_requiredRule">
+                <FormItem Label="服务名称">
                     <Input @bind-Value="context.Data.ServiceName" />
                 </FormItem>
             }
         </Panel>
         <Panel Header="缓存配置" Key="3">
-            缓存配置
+            <FormItem Label="启用">
+                <Switch @bind-Value="context.EnableCache" OnChange="OnCacheEnableChange" />
+            </FormItem>
+            @if (context.EnableCache && context.Data.FileCacheOptions != null)
+            {
+                <FormItem Label="缓存区键">
+                    <Input @bind-Value="context.Data.FileCacheOptions.Region" />
+                </FormItem>
+                <FormItem Label="缓存时间(s)">
+                    <AntDesign.InputNumber Min="1" @bind-Value="context.Data.FileCacheOptions.TtlSeconds" />
+                </FormItem>
+            }
         </Panel>
-        <Panel Header="熔断超时" Key="3">
-            熔断超时
+        <Panel Header="熔断超时" Key="4">
+            <FormItem Label="启用">
+                <Switch @bind-Value="context.EnableQos" OnChange="OnQosEnableChange" />
+            </FormItem>
+            @if (context.EnableQos && context.Data.QoSOptions != null)
+            {
+                <FormItem Label="超时时间(ms)">
+                    <AntDesign.InputNumber Min="1" @bind-Value="context.Data.QoSOptions.TimeoutValue" />
+                </FormItem>
+                <FormItem Label="超时次数">
+                    <AntDesign.InputNumber Min="1" @bind-Value="context.Data.QoSOptions.ExceptionsAllowedBeforeBreaking" />
+                </FormItem>
+                <FormItem Label="熔断时间(ms)">
+                    <AntDesign.InputNumber Min="1" @bind-Value="context.Data.QoSOptions.DurationOfBreak" />
+                </FormItem>
+            }
         </Panel>
-        <Panel Header="限流配置" Key="3">
-            限流配置
+        <Panel Header="限流配置" Key="5">
+            <FormItem Label="启用">
+                <Switch @bind-Value="context.EnableRateLimit" OnChange="OnRateLimitEnableChange" />
+            </FormItem>
+            @if (context.EnableRateLimit && context.Data.RateLimitOptions != null)
+            {
+                <FormItem Label="统计时间(1s1m1h1d)">
+                    <Input @bind-Value="context.Data.RateLimitOptions.Period" />
+                </FormItem>
+                <FormItem Label="访问次数">
+                    <AntDesign.InputNumber Min="1" @bind-Value="context.Data.RateLimitOptions.Limit" />
+                </FormItem>
+                <FormItem Label="限流时间(s)">
+                    <AntDesign.InputNumber Min="1" @bind-Value="context.Data.RateLimitOptions.PeriodTimespan" />
+                </FormItem>
+                <FormItem Label="白名单">
+                    <Button Icon="@IconType.Outline.FileAdd" OnClick="AddWhiteClient"></Button>
+                </FormItem>
+                @foreach (ClientModel item in context.WhiteClients)
+                {
+                    <FormItem Label="客户端名称">
+                        <Space>
+                            <SpaceItem>
+                                <Input @bind-Value="item.Name" />
+                            </SpaceItem>
+                            <SpaceItem>
+                                <Button Icon="@IconType.Outline.Delete" OnClick="e => DeleteWhiteClient(item)"></Button>
+                            </SpaceItem>
+                        </Space>
+                    </FormItem>
+                }
+            }
+        </Panel>
+        <Panel Header="鉴权配置" Key="6">
+            <FormItem Label="启用">
+                <Switch @bind-Value="context.EnableAuthentication" OnChange="OnAuthenticationEnableChange" />
+            </FormItem>
+            @if (context.EnableAuthentication && context.Data.AuthenticationOptions != null)
+            {
+                <FormItem Label="验证键">
+                    <Input @bind-Value="context.Data.AuthenticationOptions.AuthenticationProviderKey" />
+                </FormItem>
+                <FormItem Label="允许域">
+                    <Button Icon="@IconType.Outline.FileAdd" OnClick="AddScope"></Button>
+                </FormItem>
+                @foreach (ScopeModel item in context.AllowedScopes)
+                {
+                    <FormItem Label="域名称">
+                        <Space>
+                            <SpaceItem>
+                                <Input @bind-Value="item.Name" />
+                            </SpaceItem>
+                            <SpaceItem>
+                                <Button Icon="@IconType.Outline.Delete" OnClick="e => DeleteScope(item)"></Button>
+                            </SpaceItem>
+                        </Space>
+                    </FormItem>
+                }
+            }
         </Panel>
     </Collapse>
     <FormItem WrapperColOffset="2" WrapperColSpan="8">
@@ -84,15 +170,12 @@
 @code {
     [Parameter]
     public Guid? ID { get; set; }
+    private bool _loading = false;
     private ViewModel _model = new();
     private SegmentedOption<string>[] _downstreamTypes { get; set; } = new SegmentedOption<string>[2]
     {
         new("Custom"),
         new("Service")
-    };
-    private FormValidationRule[] _requiredRule = new[]
-    {
-        new FormValidationRule{ Required = true, Message="必填" }
     };
     protected override void OnAfterRender(bool firstRender)
     {
@@ -104,7 +187,8 @@
     }
     private void Reload()
     {
-        if(ID == null)
+        _downstreamTypes[1].Disabled = _ocelotConfigService.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider == null;
+        if (ID == null)
         {
             _model.Data = new();
         }
@@ -118,8 +202,27 @@
             }
             _model.Data = model;
         }
-        _downstreamTypes[1].Disabled = _ocelotConfigService.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider == null;
         StateHasChanged();
+    }
+    private void OnCacheEnableChange(bool enable)
+    {
+        if (!enable || _model.Data.FileCacheOptions != null) return;
+        _model.Data.FileCacheOptions = new();
+    }
+    private void OnQosEnableChange(bool enable)
+    {
+        if (!enable || _model.Data.QoSOptions != null) return;
+        _model.Data.QoSOptions = new();
+    }
+    private void OnRateLimitEnableChange(bool enable)
+    {
+        if (!enable || _model.Data.RateLimitOptions != null) return;
+        _model.Data.RateLimitOptions = new();
+    }
+    private void OnAuthenticationEnableChange(bool enable)
+    {
+        if (!enable || _model.Data.AuthenticationOptions != null) return;
+        _model.Data.AuthenticationOptions = new();
     }
     private void AddDownstreamHostAndPort()
     {
@@ -128,8 +231,81 @@
     }
     private void DeleteDownstreamHostAndPort(HostAndPortModel model)
     {
-        if(_model.Data.DownstreamHostAndPorts == null) return;
+        if (_model.Data.DownstreamHostAndPorts == null) return;
         _model.Data.DownstreamHostAndPorts.Remove(model);
+    }
+    private void AddWhiteClient()
+    {
+        if (_model.Data.RateLimitOptions == null) return;
+        _model.WhiteClients.Add(new());
+    }
+    private void DeleteWhiteClient(ClientModel model)
+    {
+        _model.WhiteClients.Remove(model);
+    }
+    private void AddScope()
+    {
+        _model.AllowedScopes.Add(new());
+    }
+    private void DeleteScope(ScopeModel model)
+    {
+        _model.AllowedScopes.Remove(model);
+    }
+    private void OnFinish(EditContext context)
+    {
+        _loading = true;
+        try
+        {
+            #region 数据处理
+            if (!_model.EnableCache)
+            {
+                _model.Data.FileCacheOptions = null;
+            }
+            if (!_model.EnableQos)
+            {
+                _model.Data.QoSOptions = null;
+            }
+            if (!_model.EnableRateLimit)
+            {
+                _model.Data.RateLimitOptions = null;
+            }
+            else if (_model.Data.RateLimitOptions != null)
+            {
+                _model.Data.RateLimitOptions.ClientWhitelist = _model.WhiteClients.Select(m => m.Name).ToList();
+            }
+            if (!_model.EnableAuthentication)
+            {
+                _model.Data.AuthenticationOptions = null;
+            }
+            else if (_model.Data.AuthenticationOptions != null)
+            {
+                _model.Data.AuthenticationOptions.AllowedScopes = _model.AllowedScopes.Select(m => m.Name).ToList();
+            }
+            if (_model.DownstreamType == "Service")
+            {
+                _model.Data.DownstreamHostAndPorts = null;
+            }
+            else
+            {
+                _model.Data.ServiceName = null;
+            }
+            if (ID == null)
+            {
+                _ocelotConfigService.OcelotConfig.Routes.Add(_model.Data);
+            }
+            #endregion
+            _ocelotConfigService.Save();
+            _message.Success("保存成功");
+            _navigation.NavigateTo("./Setting/Routes");
+        }
+        catch (Exception ex)
+        {
+            _message.Error($"保存失败:{ex.Message}");
+        }
+        finally
+        {
+            _loading = false;
+        }
     }
     private class ViewModel
     {
@@ -152,11 +328,26 @@
                 {
                     _data.DownstreamHostAndPorts = new();
                 }
+                EnableCache = _data.FileCacheOptions != null;
+                EnableQos = _data.QoSOptions != null;
+                if (_data.RateLimitOptions != null)
+                {
+                    EnableRateLimit = true;
+                    WhiteClients = _data.RateLimitOptions.ClientWhitelist.Select(m => new ClientModel() { Name = m }).ToList();
+                }
+                if (_data.AuthenticationOptions != null)
+                {
+                    EnableAuthentication = true;
+                    AllowedScopes = _data.AuthenticationOptions.AllowedScopes.Select(m => new ScopeModel() { Name = m }).ToList();
+                }
             }
-        } 
-        public bool Enable { get; set; } = false;
+        }
+        public bool EnableCache { get; set; } = false;
+        public bool EnableQos { get; set; } = false;
+        public bool EnableRateLimit { get; set; } = false;
+        public bool EnableAuthentication { get; set; } = false;
         public string DownstreamType { get; set; } = "Service";
-        public List<string> SchemeTypes = new()
+        public List<string> SchemeTypes { get; set; } = new()
         {
             "http",
             "https",
@@ -165,7 +356,7 @@
             "grpc",
             "grpcs",
         };
-        public List<string> HttpMethods = new()
+        public List<string> HttpMethods { get; set; } = new()
         {
             "GET",
             "POST",
@@ -174,18 +365,36 @@
             "OPTIONS",
             "PATCH",
         };
-        public List<string> LoadBalancerTypes = new()
+        public List<string> LoadBalancerTypes { get; set; } = new()
         {
             "NoLoadBalancer",
             "LeastConnection",
             "RoundRobin",
             "CookieStickySessions"
         };
-        public List<string> HttpVersions = new()
+        public List<string> HttpVersions { get; set; } = new()
         {
             "1.0",
             "1.1",
             "2.0",
         };
+        public List<ClientModel> WhiteClients { get; set; } = new();
+        public List<ScopeModel> AllowedScopes { get; set; } = new();
+    }
+    private class ClientModel
+    {
+        /// <summary>
+        /// 名称
+        /// </summary>
+        [Required(ErrorMessage = "必填")]
+        public string Name { get; set; } = "ClientName";
+    }
+    private class ScopeModel
+    {
+        /// <summary>
+        /// 名称
+        /// </summary>
+        [Required(ErrorMessage = "必填")]
+        public string Name { get; set; } = "NewScope";
     }
 }

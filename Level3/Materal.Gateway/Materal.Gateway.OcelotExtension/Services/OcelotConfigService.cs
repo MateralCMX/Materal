@@ -18,7 +18,6 @@ namespace Materal.Gateway.OcelotExtension.Services
         public void Save() => Save(OcelotConfig);
         public async Task SaveAsync(OcelotConfigModel ocelotConfig) => await ocelotConfig.SaveAsAsync(_ocelotFileInfo.FullName, _encoding);
         public void Save(OcelotConfigModel ocelotConfig) => ocelotConfig.SaveAs(_ocelotFileInfo.FullName, _encoding);
-
         public void Reload()
         {
             if (!_ocelotFileInfo.Exists)
@@ -33,7 +32,6 @@ namespace Materal.Gateway.OcelotExtension.Services
                 OcelotConfig = configContent.JsonToObject<OcelotConfigModel>();
             }
         }
-
         public Task ReloadAsync()
         {
             Reload();

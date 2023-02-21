@@ -12,7 +12,7 @@ namespace Materal.Gateway.Common
         /// <summary>
         /// 本地配置项
         /// </summary>
-        public static IConfiguration? Configuration { get; set; }
+        public static IConfigurationRoot? Configuration { get; set; }
         /// <summary>
         /// 授权配置
         /// </summary>

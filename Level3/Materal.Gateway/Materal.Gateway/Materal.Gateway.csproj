@@ -6,6 +6,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="AntDesign" Version="*" />
+		<PackageReference Include="Materal.LinqHelper" Version="*" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.14" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="*" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
