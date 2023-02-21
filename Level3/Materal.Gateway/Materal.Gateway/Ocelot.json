@@ -8,20 +8,20 @@
       "DownstreamHttpVersion": "1.1",
       "ServiceName": "Adv_FatAPI",
       "LoadBalancerOptions": {
-        "Type": "RoundRobin"
+        "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": false,
       "SwaggerKey": "Adv_FatAPI"
     },
     {
       "UpstreamPathTemplate": "/Article_FatAPI/api/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH" ],
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
       "ServiceName": "Article_FatAPI",
       "LoadBalancerOptions": {
-        "Type": "RoundRobin"
+        "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": false,
       "SwaggerKey": "Article_FatAPI"
@@ -34,23 +34,118 @@
       "DownstreamHttpVersion": "1.1",
       "ServiceName": "Authority_FatAPI",
       "LoadBalancerOptions": {
-        "Type": "RoundRobin"
+        "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": false,
       "SwaggerKey": "Authority_FatAPI"
     },
     {
-      "UpstreamPathTemplate": "/DataCenter_FatAPI/api/{everything}",
+      "UpstreamPathTemplate": "/Educational_FatAPI/api/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "DataCenter_FatAPI",
+      "ServiceName": "Educational_FatAPI",
       "LoadBalancerOptions": {
-        "Type": "NoLoadBalancer"
+        "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": false,
-      "SwaggerKey": "DataCenter_FatAPI"
+      "SwaggerKey": "Educational_FatAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/FileServer_FatAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "FileCacheOptions": {
+        "TtlSeconds": 10,
+        "Region": "CacheKey"
+      },
+      "ServiceName": "FileServer_FatAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false,
+      "SwaggerKey": "FileServer_FatAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/Financial_FatAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "Financial_FatAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false,
+      "SwaggerKey": "Financial_FatAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/Logger_FatAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "Logger_FatAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false,
+      "SwaggerKey": "Logger_FatAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/Market_FatAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "Market_FatAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false,
+      "SwaggerKey": "Market_FatAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/Operate_FatAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "Operate_FatAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false,
+      "SwaggerKey": "Operate_FatAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/QuestionBank_FatAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "QuestionBank_FatAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false,
+      "SwaggerKey": "QuestionBank_FatAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/StudyingAbroad_FatAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "StudyingAbroad_FatAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": false,
+      "SwaggerKey": "StudyingAbroad_FatAPI"
     }
   ],
   "GlobalConfiguration": {
@@ -75,7 +170,7 @@
           "Version": "v1",
           "Service": {
             "Name": "Adv_FatAPI",
-            "Path": "swagger/v1/swagger.json"
+            "Path": "/swagger/v1/swagger.json"
           }
         }
       ]
@@ -109,14 +204,112 @@
       ]
     },
     {
-      "Key": "DataCenter_FatAPI",
+      "Key": "Educational_FatAPI",
       "Config": [
         {
-          "Name": "DataCenter_FatAPI",
+          "Name": "Educational_FatAPI",
           "TakeServersFromDownstreamService": true,
           "Version": "v1",
           "Service": {
-            "Name": "DataCenter_FatAPI",
+            "Name": "Educational_FatAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "FileServer_FatAPI",
+      "Config": [
+        {
+          "Name": "FileServer_FatAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "FileServer_FatAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "Financial_FatAPI",
+      "Config": [
+        {
+          "Name": "Financial_FatAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "Financial_FatAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "Logger_FatAPI",
+      "Config": [
+        {
+          "Name": "Logger_FatAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "Logger_FatAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "Market_FatAPI",
+      "Config": [
+        {
+          "Name": "Market_FatAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "Market_FatAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "Operate_FatAPI",
+      "Config": [
+        {
+          "Name": "Operate_FatAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "Operate_FatAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "QuestionBank_FatAPI",
+      "Config": [
+        {
+          "Name": "QuestionBank_FatAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "QuestionBank_FatAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "StudyingAbroad_FatAPI",
+      "Config": [
+        {
+          "Name": "StudyingAbroad_FatAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "StudyingAbroad_FatAPI",
             "Path": "/swagger/v1/swagger.json"
           }
         }

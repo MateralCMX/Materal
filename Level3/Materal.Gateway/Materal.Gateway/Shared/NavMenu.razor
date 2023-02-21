@@ -1,4 +1,5 @@
-﻿
+﻿@using Materal.Gateway.OcelotExtension.Services;
+@inject IOcelotConfigService _ocelotConfigService;
 <Menu Mode="MenuMode.Inline">
     <MenuItem RouterLink="/Admin" RouterMatch="NavLinkMatch.All">首页</MenuItem>
     <li class="ant-menu-item" role="menuitem" style="">
@@ -16,5 +17,11 @@
         </SubMenu>
         <MenuItem RouterLink="./Setting/SwaggerEndPoints" RouterMatch="NavLinkMatch.All">Swagger配置</MenuItem>
         <MenuItem RouterLink="./Setting/Routes" RouterMatch="NavLinkMatch.Prefix">路由配置</MenuItem>
+        <SubMenu Title="工具">
+            @if (_ocelotConfigService.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider != null)
+            {
+                <MenuItem RouterLink="./Tools/SyncConsul">同步Consul</MenuItem>
+            }
+        </SubMenu>
     </SubMenu>
 </Menu>

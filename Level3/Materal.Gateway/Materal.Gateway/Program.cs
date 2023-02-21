@@ -2,6 +2,7 @@ using Materal.Common;
 using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension;
 using Materal.Logger;
+using System.Text.RegularExpressions;
 
 namespace Materal.Gateway
 {

@@ -1,0 +1,178 @@
+﻿@page "/Tools/SyncConsul"
+@using Materal.Gateway.Model;
+@using Materal.Gateway.OcelotExtension.ConfigModel;
+@using Materal.Gateway.OcelotExtension.Services;
+@using Materal.StringHelper;
+@using System.Text.RegularExpressions;
+
+@inject IOcelotConfigService _ocelotConfigService;
+@inject IMessageService _message;
+
+<PageTitle>同步Consul-Materal.Gateway</PageTitle>
+
+<Row Gutter="24">
+    <GridCol Span="6">
+        <Card Bordered Title="同步Swagger配置">
+            <Extra>
+                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Sync" OnClick="SyncSwagger"></Button>
+            </Extra>
+            <Body>
+                <Form Model="_syncSwaggerModel">
+                    <FormItem Label="名称">
+                        <Input @bind-Value="context.Name" />
+                    </FormItem>
+                    <FormItem Label="标签">
+                        <Input @bind-Value="context.Tag" />
+                    </FormItem>
+                    <FormItem Label="清空同步">
+                        <Switch @bind-Value="context.Clear" />
+                    </FormItem>
+                </Form>
+            </Body>
+        </Card>
+    </GridCol>
+    <GridCol Span="6">
+        <Card Bordered Title="同步路由配置">
+            <Extra>
+                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Sync" OnClick="SyncRout"></Button>
+            </Extra>
+            <Body>
+                <Form Model="_syncRoutModel">
+                    <FormItem Label="名称">
+                        <Input @bind-Value="context.Name" />
+                    </FormItem>
+                    <FormItem Label="标签">
+                        <Input @bind-Value="context.Tag" />
+                    </FormItem>
+                    <FormItem Label="清空同步">
+                        <Switch @bind-Value="context.Clear" />
+                    </FormItem>
+                    <FormItem Label="转发方式">
+                        <Select DataSource="SchemeTypes" @bind-Value="context.DownstreamScheme" />
+                    </FormItem>
+                </Form>
+            </Body>
+        </Card>
+    </GridCol>
+</Row>
+
+@code {
+    private SyncSwaggerModel _syncSwaggerModel = new();
+    private void SyncSwagger()
+    {
+        List<ConsulServiceModel> servies = ConsulManager.GetServices();
+        if (_ocelotConfigService.OcelotConfig.SwaggerEndPoints == null) _ocelotConfigService.OcelotConfig.SwaggerEndPoints = new();
+        if (_syncSwaggerModel.Clear) _ocelotConfigService.OcelotConfig.SwaggerEndPoints.Clear();
+        foreach (ConsulServiceModel service in servies)
+        {
+            if (string.IsNullOrWhiteSpace(service.Service)) continue;
+            if (!string.IsNullOrWhiteSpace(_syncSwaggerModel.Name) && !Regex.IsMatch(service.Service, _syncSwaggerModel.Name)) continue;
+            bool next = true;
+            if (!string.IsNullOrWhiteSpace(_syncSwaggerModel.Tag))
+            {
+                next = false;
+                if (service.Tags == null || service.Tags.Length == 0) continue;
+                foreach (string tag in service.Tags)
+                {
+                    if (!Regex.IsMatch(tag, _syncSwaggerModel.Tag)) continue;
+                    next = true;
+                    break;
+                }
+            }
+            if (!next) continue;
+            if (_ocelotConfigService.OcelotConfig.SwaggerEndPoints.Exists(m => m.Key == service.Service)) continue;
+            SwaggerEndPointsModel swaggerConfig = new() { Key = service.Service };
+            swaggerConfig.Config.Add(new()
+                {
+                    Name = service.Service,
+                    TakeServersFromDownstreamService = true,
+                    Url = null,
+                    Version = "v1",
+                    Service = new()
+                    {
+                        Name = service.Service,
+                        Path = "/swagger/v1/swagger.json"
+                    }
+                });
+            _ocelotConfigService.OcelotConfig.SwaggerEndPoints.Add(swaggerConfig);
+        }
+        _ocelotConfigService.OcelotConfig.SwaggerEndPoints = _ocelotConfigService.OcelotConfig.SwaggerEndPoints.OrderBy(m => m.Key).ToList();
+        _ocelotConfigService.Save();
+        _message.Success("同步成功");
+    }
+    private SyncRoutModel _syncRoutModel = new();
+    public List<string> SchemeTypes { get; set; } = new()
+        {
+            "http",
+            "https",
+            "ws",
+            "wss",
+            "grpc",
+            "grpcs",
+        };
+    private void SyncRout()
+    {
+        List<ConsulServiceModel> servies = ConsulManager.GetServices();
+        if (_ocelotConfigService.OcelotConfig.Routes == null) _ocelotConfigService.OcelotConfig.Routes = new();
+        if (_syncRoutModel.Clear) _ocelotConfigService.OcelotConfig.Routes.Clear();
+        List<RouteConfigModel> routeConfigs = new();
+        foreach (ConsulServiceModel service in servies)
+        {
+            if (string.IsNullOrWhiteSpace(service.Service)) continue;
+            if (!string.IsNullOrWhiteSpace(_syncRoutModel.Name) && !Regex.IsMatch(service.Service, _syncRoutModel.Name)) continue;
+            bool next = true;
+            if (!string.IsNullOrWhiteSpace(_syncRoutModel.Tag))
+            {
+                next = false;
+                if (service.Tags == null || service.Tags.Length == 0) continue;
+                foreach (string tag in service.Tags)
+                {
+                    if (!Regex.IsMatch(tag, _syncRoutModel.Tag)) continue;
+                    next = true;
+                    break;
+                }
+            }
+            if (!next) continue;
+            if (_ocelotConfigService.OcelotConfig.Routes.Exists(m => !string.IsNullOrWhiteSpace(m.ServiceName) && m.ServiceName == service.Service)) continue;
+            if (routeConfigs.Exists(m => !string.IsNullOrWhiteSpace(m.ServiceName) && m.ServiceName == service.Service)) continue;
+            RouteConfigModel routeConfigModel = new()
+                {
+                    UpstreamPathTemplate = $"/{service.Service}/api/{{everything}}",
+                    DownstreamPathTemplate = "/api/{everything}",
+                    DownstreamScheme = _syncRoutModel.DownstreamScheme,
+                    DownstreamHttpVersion = "1.1",
+                    UpstreamHttpMethod = new List<string> { "GET", "POST", "PUT", "DELETE", "OPTIONS" },
+                    ServiceName = service.Service,
+                    LoadBalancerOptions = new() { Type = "LeastConnection" },
+                    AuthenticationOptions = null,
+                    DangerousAcceptAnyServerCertificateValidator = false,
+                    DownstreamHostAndPorts = null,
+                    FileCacheOptions = null,
+                    RateLimitOptions = null,
+                    QoSOptions = null,
+                };
+            if (_ocelotConfigService.OcelotConfig.SwaggerEndPoints.Exists(m => m.Key == service.Service))
+            {
+                routeConfigModel.SwaggerKey = service.Service;
+            }
+            routeConfigs.Add(routeConfigModel);
+        }
+        routeConfigs = routeConfigs.OrderBy(m => m.ServiceName).ToList();
+        _ocelotConfigService.OcelotConfig.Routes.AddRange(routeConfigs);
+        _ocelotConfigService.Save();
+        _message.Success("同步成功");
+    }
+    private class SyncSwaggerModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Tag { get; set; } = string.Empty;
+        public bool Clear { get; set; } = false;
+    }
+    private class SyncRoutModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Tag { get; set; } = string.Empty;
+        public bool Clear { get; set; } = false;
+        public string DownstreamScheme { get; set; } = "http";
+    }
+}
