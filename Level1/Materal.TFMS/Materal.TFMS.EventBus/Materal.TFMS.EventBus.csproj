@@ -12,7 +12,7 @@
 		<Description>Materal事件总线</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Common" Version="1.1.22" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="Materal.Common" Version="*" />
+		<PackageReference Include="Newtonsoft.Json" Version="*" />
 	</ItemGroup>
 </Project>

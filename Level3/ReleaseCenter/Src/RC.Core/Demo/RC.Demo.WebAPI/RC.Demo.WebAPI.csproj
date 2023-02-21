@@ -6,11 +6,11 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Materal.BaseCore.WebAPI" Version="0.2.11" />
+		<PackageReference Include="Materal.BaseCore.WebAPI" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\RC.Core.WebAPI\RC.Core.WebAPI.csproj" />

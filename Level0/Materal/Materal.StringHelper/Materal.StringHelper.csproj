@@ -13,7 +13,7 @@
 		<Product>Materal</Product>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="PinYinConverterCore" Version="1.0.2" />
+		<PackageReference Include="PinYinConverterCore" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />

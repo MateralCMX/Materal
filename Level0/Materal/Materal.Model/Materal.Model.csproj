@@ -13,9 +13,9 @@
 		<Description>Materal模型库</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="AspectCore.Core" Version="2.3.0" />
-		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+		<PackageReference Include="AspectCore.Core" Version="*" />
+		<PackageReference Include="Microsoft.CSharp" Version="*" />
+		<PackageReference Include="System.ComponentModel.Annotations" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />

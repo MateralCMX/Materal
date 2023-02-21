@@ -15,7 +15,7 @@
 		<Description>代码生成器库</Description>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
-	  <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="*" />
+	  <PackageReference Include="System.ComponentModel.Annotations" Version="*" />
 	</ItemGroup>
 </Project>

@@ -18,6 +18,6 @@
 		<ProjectReference Include="..\Materal.BaseCore.DataTransmitModel\Materal.BaseCore.DataTransmitModel.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Model" Version="1.1.22" />
+		<PackageReference Include="Materal.Model" Version="*" />
 	</ItemGroup>
 </Project>

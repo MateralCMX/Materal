@@ -14,14 +14,14 @@
 		<Description>请应用对应名称包</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-		<PackageReference Include="Materal.CacheHelper" Version="1.1.22" />
-		<PackageReference Include="Materal.EnumHelper" Version="1.1.22" />
-		<PackageReference Include="Materal.TFMS.EventBus.RabbitMQ" Version="0.1.7" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
-		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.22" />
-		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
-		<PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="2.3.0" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="*" />
+		<PackageReference Include="Materal.CacheHelper" Version="*" />
+		<PackageReference Include="Materal.EnumHelper" Version="*" />
+		<PackageReference Include="Materal.TFMS.EventBus.RabbitMQ" Version="*" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="*" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="*" />
+		<PackageReference Include="Materal.ConfigurationHelper" Version="*" />
+		<PackageReference Include="NetCore.AutoRegisterDi" Version="*" />
+		<PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="*" />
 	</ItemGroup>
 </Project>

@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.BaseCore.CodeGenerator\Materal.BaseCore.CodeGenerator.csproj" />

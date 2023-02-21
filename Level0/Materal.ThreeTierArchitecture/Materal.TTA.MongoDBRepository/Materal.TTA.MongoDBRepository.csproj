@@ -14,7 +14,7 @@
 		<Description>Materal.TTA.MongoDBRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="MongoDB.Driver" Version="2.19.0" />
+		<PackageReference Include="MongoDB.Driver" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />

@@ -5,9 +5,9 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="0.2.11" />
-		<PackageReference Include="Materal.BaseCore.WebAPI" Version="0.2.11" />
-		<PackageReference Include="Materal.WindowsHelper" Version="1.1.22" />
+		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="*" />
+		<PackageReference Include="Materal.BaseCore.WebAPI" Version="*" />
+		<PackageReference Include="Materal.WindowsHelper" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.Deploy.Domain\RC.Deploy.Domain.csproj" />

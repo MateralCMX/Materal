@@ -13,7 +13,7 @@
 		<Description>MateralRabbitMQ帮助类</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="RabbitMQ.Client" Version="6.4.0" />
+		<PackageReference Include="RabbitMQ.Client" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Common\Materal.Common.csproj" />

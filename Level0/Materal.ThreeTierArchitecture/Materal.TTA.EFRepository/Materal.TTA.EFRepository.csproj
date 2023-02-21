@@ -14,10 +14,10 @@
 		<Description>Materal.TTA.EFRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.CacheHelper" Version="1.1.22" />
-		<PackageReference Include="Materal.RedisHelper" Version="1.1.22" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.2" />
+		<PackageReference Include="Materal.CacheHelper" Version="*" />
+		<PackageReference Include="Materal.RedisHelper" Version="*" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="*" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />

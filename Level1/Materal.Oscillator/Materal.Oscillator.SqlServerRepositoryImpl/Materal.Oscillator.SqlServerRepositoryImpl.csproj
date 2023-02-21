@@ -13,8 +13,8 @@
 		<Description>Materal.Oscillator.SqlServerRepositoryImpl</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqlServerRepository" Version="2.0.25" />
-		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
+		<PackageReference Include="Materal.TTA.SqlServerRepository" Version="*" />
+		<PackageReference Include="NetCore.AutoRegisterDi" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />

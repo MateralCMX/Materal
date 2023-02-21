@@ -17,7 +17,7 @@
 		<Description>日志监听工具</Description>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Materal.ConvertHelper" Version="1.1.22" />
+	  <PackageReference Include="Materal.ConvertHelper" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Logger.Message\Materal.Logger.Message.csproj" />

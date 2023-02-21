@@ -14,13 +14,13 @@
 		<Description>包含日志所需的所有内容</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.22" />
-		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-		<PackageReference Include="Fleck" Version="1.2.0" />
-		<PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
-		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
+		<PackageReference Include="Materal.ConfigurationHelper" Version="*" />
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="*" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="*" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="*" />
+		<PackageReference Include="Fleck" Version="*" />
+		<PackageReference Include="System.Data.SqlClient" Version="*" />
+		<PackageReference Include="System.Data.SQLite.Core" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Logger.Message\Materal.Logger.Message.csproj" />

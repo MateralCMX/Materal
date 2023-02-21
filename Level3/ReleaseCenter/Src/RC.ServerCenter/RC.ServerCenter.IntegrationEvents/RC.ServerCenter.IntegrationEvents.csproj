@@ -5,6 +5,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TFMS.EventBus" Version="0.1.7" />
+		<PackageReference Include="Materal.TFMS.EventBus" Version="*" />
 	</ItemGroup>
 </Project>

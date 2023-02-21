@@ -6,6 +6,6 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="SignalRSwaggerGen" Version="4.1.0" />
+	  <PackageReference Include="SignalRSwaggerGen" Version="*" />
 	</ItemGroup>
 </Project>

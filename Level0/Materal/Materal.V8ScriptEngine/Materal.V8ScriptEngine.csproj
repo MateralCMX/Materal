@@ -13,7 +13,7 @@
 		<Description>Materal V8引擎帮助类</Description>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.ClearScript.V8" Version="7.3.7" />
+	  <PackageReference Include="Microsoft.ClearScript.V8" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.CacheHelper\Materal.CacheHelper.csproj" />

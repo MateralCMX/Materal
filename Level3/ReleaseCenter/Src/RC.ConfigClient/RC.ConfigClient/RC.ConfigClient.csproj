@@ -14,8 +14,8 @@
 		<Description>配置中心客户端</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.22" />
-		<PackageReference Include="Materal.NetworkHelper" Version="1.1.22" />
+		<PackageReference Include="Materal.ConfigurationHelper" Version="*" />
+		<PackageReference Include="Materal.NetworkHelper" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.DataTransmitModel\RC.EnvironmentServer.DataTransmitModel.csproj" />

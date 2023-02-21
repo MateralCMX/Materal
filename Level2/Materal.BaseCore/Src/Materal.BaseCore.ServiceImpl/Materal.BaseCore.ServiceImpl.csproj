@@ -18,6 +18,6 @@
 		<ProjectReference Include="..\Materal.BaseCore.Services\Materal.BaseCore.Services.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.LinqHelper" Version="1.1.22" />
+		<PackageReference Include="Materal.LinqHelper" Version="*" />
 	</ItemGroup>
 </Project>

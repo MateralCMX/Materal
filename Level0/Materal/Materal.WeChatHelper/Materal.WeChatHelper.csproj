@@ -14,7 +14,7 @@
 		<Description>Materal微信帮助类</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="LitJson" Version="0.18.0" />
+		<PackageReference Include="LitJson" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />

@@ -14,9 +14,9 @@
 		<Description>Materal.Oscillator.Abstractions</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.ConfigurationHelper" Version="1.1.22" />
-		<PackageReference Include="Materal.EnumHelper" Version="1.1.22" />
-		<PackageReference Include="Materal.TTA.EFRepository" Version="2.0.25" />
-		<PackageReference Include="Quartz" Version="3.6.0" />
+		<PackageReference Include="Materal.ConfigurationHelper" Version="*" />
+		<PackageReference Include="Materal.EnumHelper" Version="*" />
+		<PackageReference Include="Materal.TTA.EFRepository" Version="*" />
+		<PackageReference Include="Quartz" Version="*" />
 	</ItemGroup>
 </Project>

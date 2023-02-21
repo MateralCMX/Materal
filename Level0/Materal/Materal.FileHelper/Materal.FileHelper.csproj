@@ -14,7 +14,7 @@
 		<Description>Materal文件、文件夹帮助类库</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+		<PackageReference Include="System.Drawing.Common" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.ConvertHelper\Materal.ConvertHelper.csproj" />

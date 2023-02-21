@@ -5,15 +5,15 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="AntDesign" Version="0.14.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.13" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-		<PackageReference Include="Consul" Version="1.6.10.8" />
-		<PackageReference Include="Polly" Version="7.2.3" />
-		<PackageReference Include="Materal.NetworkHelper" Version="1.1.22" />
-		<PackageReference Include="Materal.Model" Version="1.1.22" />
-		<PackageReference Include="Materal.Logger" Version="0.0.8" />
+		<PackageReference Include="AntDesign" Version="*" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.14" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="*" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
+		<PackageReference Include="Consul" Version="*" />
+		<PackageReference Include="Polly" Version="*" />
+		<PackageReference Include="Materal.NetworkHelper" Version="*" />
+		<PackageReference Include="Materal.Model" Version="*" />
+		<PackageReference Include="Materal.Logger" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Gateway.OcelotExtension\Materal.Gateway.OcelotExtension.csproj" />
