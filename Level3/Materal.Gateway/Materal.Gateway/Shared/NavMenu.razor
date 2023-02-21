@@ -17,11 +17,11 @@
         </SubMenu>
         <MenuItem RouterLink="./Setting/SwaggerEndPoints" RouterMatch="NavLinkMatch.All">Swagger配置</MenuItem>
         <MenuItem RouterLink="./Setting/Routes" RouterMatch="NavLinkMatch.Prefix">路由配置</MenuItem>
-        <SubMenu Title="工具">
-            @if (_ocelotConfigService.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider != null)
-            {
-                <MenuItem RouterLink="./Tools/SyncConsul">同步Consul</MenuItem>
-            }
-        </SubMenu>
+    </SubMenu>
+    <SubMenu Title="工具">
+        @if (_ocelotConfigService.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider != null)
+        {
+            <MenuItem RouterLink="./Tools/SyncConsul">同步Consul</MenuItem>
+        }
     </SubMenu>
 </Menu>
