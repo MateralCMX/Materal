@@ -1,0 +1,62 @@
+﻿@using Materal.Gateway.OcelotExtension.ConfigModel;
+
+<Descriptions Size="DescriptionsSize.Small">
+    <DescriptionsItem Title="上游路径">@Model.UpstreamPathTemplate</DescriptionsItem>
+    <DescriptionsItem Title="下游路径">@Model.DownstreamPathTemplate</DescriptionsItem>
+    <DescriptionsItem Title="转发方式">@Model.DownstreamScheme</DescriptionsItem>
+    <DescriptionsItem Title="Http版本">@Model.DownstreamHttpVersion</DescriptionsItem>
+    <DescriptionsItem Title="服务名称">@Model.ServiceName</DescriptionsItem>
+    <DescriptionsItem Title="Swagger">@Model.SwaggerKey</DescriptionsItem>
+    <DescriptionsItem Title="转发类型">@(string.Join(',', Model.UpstreamHttpMethod))</DescriptionsItem>
+        <DescriptionsItem Title="其他配置">
+            @if (Model.FileCacheOptions == null)
+        {
+            <Tag>缓存</Tag>
+        }
+        else
+        {
+            <Tag Color="@PresetColor.Green.ToString()">缓存</Tag>
+        }
+        @if (Model.QoSOptions == null)
+        {
+            <Tag>熔断</Tag>
+        }
+        else
+        {
+            <Tag Color="@PresetColor.Green.ToString()">熔断</Tag>
+        }
+        @if (Model.AuthenticationOptions == null)
+        {
+            <Tag>鉴权</Tag>
+        }
+        else
+        {
+            <Tag Color="@PresetColor.Green.ToString()">鉴权</Tag>
+        }
+        @if (Model.RateLimitOptions == null)
+        {
+            <Tag>限流</Tag>
+        }
+        else
+        {
+            <Tag Color="@PresetColor.Green.ToString()">限流</Tag>
+        }
+    </DescriptionsItem>
+    <DescriptionsItem Title="操作">
+        <ButtonGroup>
+            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(Model.ID)"></Button>
+            <Popconfirm Title="确定删除该配置?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(Model)">
+                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+            </Popconfirm>
+        </ButtonGroup>
+    </DescriptionsItem>
+</Descriptions>
+
+@code {
+    [Parameter]
+    public RouteConfigModel Model { get; set; } = new();
+    [Parameter]
+    public Action<Guid> Edit { get; set; } = id => { };
+    [Parameter]
+    public Action<RouteConfigModel> Delete { get; set; } = id => { };
+}

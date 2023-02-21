@@ -5,6 +5,7 @@
 @using Materal.Gateway.OcelotExtension.ConfigModel;
 @using Materal.Gateway.OcelotExtension.Services;
 @using Materal.Gateway.OcelotExtension.Model;
+@using Materal.Gateway.Pages.Controls.Routes
 @using Materal.LinqHelper;
 
 <PageTitle>路由-Materal.Gateway</PageTitle>
@@ -47,70 +48,21 @@
         </Form>
     </SpaceItem>
     <SpaceItem>
-        <Table DataSource="_data">
-            <PropertyColumn Title="转发方式" Property="m=>m.DownstreamScheme"></PropertyColumn>
-            <PropertyColumn Title="上游地址" Property="m=>m.UpstreamPathTemplate"></PropertyColumn>
-            <PropertyColumn Title="下游地址" Property="m=>m.DownstreamPathTemplate"></PropertyColumn>
-            <PropertyColumn Title="服务名称" Property="m=>m.ServiceName"></PropertyColumn>
-            <PropertyColumn Title="Swagger" Property="m=>m.SwaggerKey"></PropertyColumn>
-            <PropertyColumn Title="缓存" Property="m=>m.FileCacheOptions">
-                @if (context.FileCacheOptions == null)
-                {
-                    <Tag>未配置</Tag>
-                }
-                else
-                {
-                    <Tag Color="@PresetColor.Green.ToString()">已配置</Tag>
-                }
-            </PropertyColumn>
-            <PropertyColumn Title="鉴权" Property="m=>m.AuthenticationOptions">
-                @if (context.AuthenticationOptions == null)
-                {
-                    <Tag>未配置</Tag>
-                }
-                else
-                {
-                    <Tag Color="@PresetColor.Green.ToString()">已配置</Tag>
-                }
-            </PropertyColumn>
-            <PropertyColumn Title="限流" Property="m=>m.RateLimitOptions">
-                @if (context.RateLimitOptions == null)
-                {
-                    <Tag>未配置</Tag>
-                }
-                else
-                {
-                    <Tag Color="@PresetColor.Green.ToString()">已配置</Tag>
-                }
-            </PropertyColumn>
-            <PropertyColumn Title="熔断" Property="m=>m.QoSOptions">
-                @if (context.QoSOptions == null)
-                {
-                    <Tag>未配置</Tag>
-                }
-                else
-                {
-                    <Tag Color="@PresetColor.Green.ToString()">已配置</Tag>
-                }
-            </PropertyColumn>
-            <ActionColumn Title="操作">
-                <Space Size=@("middle")>
-                    <SpaceItem>
-                        <Button Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
-                    </SpaceItem>
-                    <SpaceItem>
-                        <Popconfirm Title="确定删除该配置?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context)">
-                            <Button Icon="@IconType.Outline.Delete"></Button>
-                        </Popconfirm>
-                    </SpaceItem>
-                </Space>
-            </ActionColumn>
-        </Table>
+        <AntList DataSource="_data">
+            <ChildContent Context="item">
+                <ListItem>
+                    <div draggable="true" @ondrop="e => OnDrop(e, item)" @ondragstart="e => OnDragStart(e, item)" ondragover="event.preventDefault()">
+                        <RouteItemCtrl Model="@item" Edit="Edit" Delete="Delete"></RouteItemCtrl>
+                    </div>
+                </ListItem>
+            </ChildContent>
+        </AntList>
     </SpaceItem>
 </Space>
 
 @code {
     private IForm? _form;
+    private RouteConfigModel? _dragging;
     private List<RouteConfigModel> _data = new();
     private QueryRouteConfigModel _searchModel = new();
     private List<SelectKeyValueModel<bool>> _queryUseModel = new()
@@ -119,10 +71,13 @@
         new SelectKeyValueModel<bool>("启用", true),
         new SelectKeyValueModel<bool>("禁用", false)
     };
-    protected override void OnInitialized()
+    protected override void OnAfterRender(bool firstRender)
     {
-        Reload();
-        base.OnInitialized();
+        if (firstRender)
+        {
+            Reload();
+        }
+        base.OnAfterRender(firstRender);
     }
     private void Reload()
     {
@@ -161,5 +116,25 @@
         _ocelotConfigService.OcelotConfig.Routes.Remove(model);
         _ocelotConfigService.Save();
         Reload();
+    }
+    private void OnDrop(DragEventArgs e, RouteConfigModel model)
+    {
+        if (_dragging == null) return;
+        int index = _ocelotConfigService.OcelotConfig.Routes.IndexOf(model);
+        _ocelotConfigService.OcelotConfig.Routes.Remove(_dragging);
+        _ocelotConfigService.OcelotConfig.Routes.Insert(index, _dragging);
+        _ocelotConfigService.Save();
+        Reload();
+        //int index = _data.IndexOf(model);
+        //_data.Remove(_dragging);
+        //_data.Insert(index, _dragging);
+        //_dragging = null;
+        //StateHasChanged();
+    }
+    private void OnDragStart(DragEventArgs e, RouteConfigModel model)
+    {
+        e.DataTransfer.DropEffect = "move";
+        e.DataTransfer.EffectAllowed = "move";
+        _dragging = model;
     }
 }
