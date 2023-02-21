@@ -9,8 +9,8 @@
 @inject NavigationManager _navigation;
 
 <Form Model="_model" Loading="_loading" ValidateMode="FormValidateMode.Complex" LabelColSpan="3" WrapperColSpan="8" OnFinish="OnFinish">
-    <Collapse DefaultActiveKey="@(new[]{"2"})" Accordion>
-        <Panel Header="基础信息" Key="1">
+    <Tabs>
+        <TabPane Tab="基础信息" Key="1">
             <FormItem Label="上游路径模版">
                 <Input @bind-Value="context.Data.UpstreamPathTemplate" />
             </FormItem>
@@ -32,8 +32,8 @@
             <FormItem Label="忽略安全证书">
                 <Switch @bind-Value="context.Data.DangerousAcceptAnyServerCertificateValidator" />
             </FormItem>
-        </Panel>
-        <Panel Header="下游配置" Key="2">
+        </TabPane>
+        <TabPane Tab="下游配置" Key="2">
             <FormItem Label="负载均衡">
                 <Select Mode="default" DataSource="context.LoadBalancerTypes" @bind-Value="context.Data.LoadBalancerOptions.Type"></Select>
             </FormItem>
@@ -69,8 +69,8 @@
                     <Input @bind-Value="context.Data.ServiceName" />
                 </FormItem>
             }
-        </Panel>
-        <Panel Header="缓存配置" Key="3">
+        </TabPane>
+        <TabPane Tab="缓存配置" Key="3">
             <FormItem Label="启用">
                 <Switch @bind-Value="context.EnableCache" OnChange="OnCacheEnableChange" />
             </FormItem>
@@ -83,8 +83,8 @@
                     <AntDesign.InputNumber Min="1" @bind-Value="context.Data.FileCacheOptions.TtlSeconds" />
                 </FormItem>
             }
-        </Panel>
-        <Panel Header="熔断超时" Key="4">
+        </TabPane>
+        <TabPane Tab="熔断超时" Key="4">
             <FormItem Label="启用">
                 <Switch @bind-Value="context.EnableQos" OnChange="OnQosEnableChange" />
             </FormItem>
@@ -100,8 +100,8 @@
                     <AntDesign.InputNumber Min="1" @bind-Value="context.Data.QoSOptions.DurationOfBreak" />
                 </FormItem>
             }
-        </Panel>
-        <Panel Header="限流配置" Key="5">
+        </TabPane>
+        <TabPane Tab="限流配置" Key="5">
             <FormItem Label="启用">
                 <Switch @bind-Value="context.EnableRateLimit" OnChange="OnRateLimitEnableChange" />
             </FormItem>
@@ -133,8 +133,8 @@
                     </FormItem>
                 }
             }
-        </Panel>
-        <Panel Header="鉴权配置" Key="6">
+        </TabPane>
+        <TabPane Tab="鉴权配置" Key="6">
             <FormItem Label="启用">
                 <Switch @bind-Value="context.EnableAuthentication" OnChange="OnAuthenticationEnableChange" />
             </FormItem>
@@ -160,8 +160,8 @@
                     </FormItem>
                 }
             }
-        </Panel>
-    </Collapse>
+        </TabPane>
+    </Tabs>
     <FormItem WrapperColOffset="2" WrapperColSpan="8">
         <Button Style="margin:10px 0 0 0" Type="@ButtonType.Primary" Block HtmlType="submit">保存</Button>
     </FormItem>
