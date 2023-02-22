@@ -1,6 +1,9 @@
 ﻿namespace Materal.Logger.Models
 {
-    public class MateralLoggerTargetConfigModel
+    /// <summary>
+    /// 日志目标配置模型
+    /// </summary>
+    public class LoggerTargetConfigModel
     {
         /// <summary>
         /// 启用标识
@@ -30,6 +33,9 @@
         /// 连接字符串
         /// </summary>
         public string? ConnectionString { get; set; }
-        public MateralLoggerColorsConfigModel Colors { get; set; } = new();
+        /// <summary>
+        /// 颜色组
+        /// </summary>
+        public LoggerColorsConfigModel Colors { get; set; } = new();
     }
 }

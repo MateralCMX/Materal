@@ -3,10 +3,13 @@ using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger
 {
-    public class MateralLoggerConfigOptions
+    /// <summary>
+    /// 日志配置选项
+    /// </summary>
+    public class LoggerConfigOptions
     {
-        private readonly List<Action<List<MateralLoggerTargetConfigModel>>> _initTargets = new();
-        private readonly List<Action<List<MateralLoggerRuleConfigModel>, string[]>> _initRules = new();
+        private readonly List<Action<List<LoggerTargetConfigModel>>> _initTargets = new();
+        private readonly List<Action<List<LoggerRuleConfigModel>, string[]>> _initRules = new();
         /// <summary>
         /// 添加一个控制台目标
         /// </summary>
@@ -55,7 +58,6 @@ namespace Materal.Logger
         /// <summary>
         /// 添加一个全目标规则
         /// </summary>
-        /// <param name="targets"></param>
         /// <param name="minLevel"></param>
         /// <param name="maxLevel"></param>
         /// <param name="ignores"></param>
@@ -79,14 +81,14 @@ namespace Materal.Logger
         /// </summary>
         /// <param name="targets"></param>
         /// <param name="rules"></param>
-        public void Apply(List<MateralLoggerTargetConfigModel> targets, List<MateralLoggerRuleConfigModel> rules)
+        public void Apply(List<LoggerTargetConfigModel> targets, List<LoggerRuleConfigModel> rules)
         {
-            foreach (Action<List<MateralLoggerTargetConfigModel>> initTarget in _initTargets)
+            foreach (Action<List<LoggerTargetConfigModel>> initTarget in _initTargets)
             {
                 initTarget?.Invoke(targets);
             }
             string[] allTargetNames = targets.Select(m => m.Name).ToArray();
-            foreach (Action<List<MateralLoggerRuleConfigModel>, string[]> initRule in _initRules)
+            foreach (Action<List<LoggerRuleConfigModel>, string[]> initRule in _initRules)
             {
                 initRule?.Invoke(rules, allTargetNames);
             }

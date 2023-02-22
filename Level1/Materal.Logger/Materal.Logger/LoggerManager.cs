@@ -2,25 +2,28 @@
 
 namespace Materal.Logger
 {
-    public static class MateralLoggerManager
+    /// <summary>
+    /// 日志管理器
+    /// </summary>
+    public static class LoggerManager
     {
         /// <summary>
         /// 初始化
         /// </summary>
         /// <param name="option"></param>
         /// <param name="configuration"></param>
-        public static void Init(Action<MateralLoggerConfigOptions>? option = null, IConfiguration? configuration = null)
+        public static void Init(Action<LoggerConfigOptions>? option = null, IConfiguration? configuration = null)
         {
-            MateralLoggerConfigOptions config = new();
+            LoggerConfigOptions config = new();
             option?.Invoke(config);
-            MateralLoggerConfig.Init(config, configuration);
+            LoggerConfig.Init(config, configuration);
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
-            MateralLogger.InitServer();
+            Logger.InitServer();
         }
         /// <summary>
         /// 关闭
         /// </summary>
-        public static void Shutdown() => MateralLogger.Shutdown();
+        public static void Shutdown() => Logger.Shutdown();
         /// <summary>
         /// 自定义数据
         /// </summary>

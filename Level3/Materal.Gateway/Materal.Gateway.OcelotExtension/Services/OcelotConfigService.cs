@@ -1,4 +1,5 @@
 ﻿using Materal.ConvertHelper;
+using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension.ConfigModel;
 using System.Text;
 
@@ -29,7 +30,7 @@ namespace Materal.Gateway.OcelotExtension.Services
             else
             {
                 string configContent = File.ReadAllText(_ocelotFileInfo.FullName);
-                OcelotConfig = configContent.JsonToObject<OcelotConfigModel>();
+                OcelotConfig = configContent.JsonToObject<OcelotConfigModel>() ?? throw new GatewayException("反序列化失败");
             }
         }
         public Task ReloadAsync()

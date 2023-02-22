@@ -1,5 +1,8 @@
 ﻿namespace Materal.Logger.LoggerHandlers.Models
 {
+    /// <summary>
+    /// 文件模型
+    /// </summary>
     public class FileModel
     {
         /// <summary>

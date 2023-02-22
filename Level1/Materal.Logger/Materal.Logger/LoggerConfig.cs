@@ -6,7 +6,10 @@ using System.Reflection;
 
 namespace Materal.Logger
 {
-    public static class MateralLoggerConfig
+    /// <summary>
+    /// 日志配置
+    /// </summary>
+    public static class LoggerConfig
     {
         /// <summary>
         /// 本地配置项
@@ -21,7 +24,7 @@ namespace Materal.Logger
         /// </summary>
         /// <param name="options"></param>
         /// <param name="configuration"></param>
-        public static void Init(MateralLoggerConfigOptions options, IConfiguration? configuration)
+        public static void Init(LoggerConfigOptions options, IConfiguration? configuration)
         {
             _config = configuration;
             _application = null;
@@ -50,44 +53,44 @@ namespace Materal.Logger
                 _application = FormatConfig(_application);
             }
         }
-        private static List<MateralLoggerTargetConfigModel>? _targetsConfig;
+        private static List<LoggerTargetConfigModel>? _targetsConfig;
         /// <summary>
         /// 目标配置
         /// </summary>
-        public static List<MateralLoggerTargetConfigModel> TargetsConfig
+        public static List<LoggerTargetConfigModel> TargetsConfig
         {
             get
             {
                 if (_targetsConfig != null) return _targetsConfig;
-                _targetsConfig = GetValueObject<List<MateralLoggerTargetConfigModel>>("Targets");
+                _targetsConfig = GetValueObject<List<LoggerTargetConfigModel>>("Targets");
                 _targetsConfig = FormatListConfig(_targetsConfig);
                 return _targetsConfig;
             }
         }
-        private static List<MateralLoggerRuleConfigModel>? _rulesConfig;
+        private static List<LoggerRuleConfigModel>? _rulesConfig;
         /// <summary>
         /// 规则配置
         /// </summary>
-        public static List<MateralLoggerRuleConfigModel> RulesConfig
+        public static List<LoggerRuleConfigModel> RulesConfig
         {
             get
             {
                 if (_rulesConfig != null) return _rulesConfig;
-                _rulesConfig = GetValueObject<List<MateralLoggerRuleConfigModel>>("Rules");
+                _rulesConfig = GetValueObject<List<LoggerRuleConfigModel>>("Rules");
                 _rulesConfig = FormatListConfig(_rulesConfig);
                 return _rulesConfig;
             }
         }
-        private static MateralLoggerServerConfigModel? _serverConfig;
+        private static LoggerServerConfigModel? _serverConfig;
         /// <summary>
         /// 服务配置
         /// </summary>
-        public static MateralLoggerServerConfigModel ServerConfig
+        public static LoggerServerConfigModel ServerConfig
         {
             get
             {
                 if (_serverConfig != null) return _serverConfig;
-                _serverConfig = GetValueObject<MateralLoggerServerConfigModel>("Server");
+                _serverConfig = GetValueObject<LoggerServerConfigModel>("Server");
                 _serverConfig = FormatConfig(_serverConfig);
                 return _serverConfig;
             }
@@ -166,7 +169,7 @@ namespace Materal.Logger
         /// <returns></returns>
         public static string FormatConfig(string stringValue)
         {
-            foreach (KeyValuePair<string, string> item in MateralLoggerManager.CustomConfig)
+            foreach (KeyValuePair<string, string> item in LoggerManager.CustomConfig)
             {
                 stringValue = stringValue.Replace($"${{{item.Key}}}", item.Value);
             }
@@ -175,7 +178,6 @@ namespace Materal.Logger
         /// <summary>
         /// 获得值对象
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
@@ -190,6 +192,7 @@ namespace Materal.Logger
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
+        /// <param name="defaultValue"></param>
         /// <returns></returns>
         private static T GetValueObject<T>(string key, T defaultValue)
         {

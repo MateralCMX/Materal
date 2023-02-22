@@ -29,7 +29,7 @@
         {
             authenticationState.Login(_model.Account, _model.Password);
         }
-        catch (MateralGatewayException ex)
+        catch (GatewayException ex)
         {
             _message.Error(ex.Message);
         }

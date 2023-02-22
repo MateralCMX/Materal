@@ -6,15 +6,33 @@ using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger.LoggerHandlers
 {
+    /// <summary>
+    /// Sqilite日志处理器
+    /// </summary>
     public class SqliteLoggerHandler : BufferLoggerHandler<DBDataModel>
     {
-        public SqliteLoggerHandler(MateralLoggerRuleConfigModel rule, MateralLoggerTargetConfigModel target) : base(rule, target)
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <param name="target"></param>
+        public SqliteLoggerHandler(LoggerRuleConfigModel rule, LoggerTargetConfigModel target) : base(rule, target)
         {
         }
-        public override void Handler(LogLevel logLevel, string message, string? categoryName, MateralLoggerScope? scope, DateTime dateTime, Exception? exception, string threadID)
+        /// <summary>
+        /// 处理
+        /// </summary>
+        /// <param name="logLevel"></param>
+        /// <param name="message"></param>
+        /// <param name="categoryName"></param>
+        /// <param name="scope"></param>
+        /// <param name="dateTime"></param>
+        /// <param name="exception"></param>
+        /// <param name="threadID"></param>
+        public override void Handler(LogLevel logLevel, string message, string? categoryName, LoggerScope? scope, DateTime dateTime, Exception? exception, string threadID)
         {
-            if (string.IsNullOrWhiteSpace(Target.Path)) return;
-            MateralLogModel data = GetMateralLogModel(logLevel, message, categoryName, scope, dateTime, exception, threadID);
+            if (Target.Path == null || string.IsNullOrWhiteSpace(Target.Path)) return;
+            LogModel data = GetMateralLogModel(logLevel, message, categoryName, scope, dateTime, exception, threadID);
             string path = FormatPath(Target.Path, logLevel, categoryName, scope, dateTime, threadID);
             PushData(new DBDataModel
             {
@@ -23,6 +41,10 @@ namespace Materal.Logger.LoggerHandlers
             });
             SendMessage(data.ToJson(), logLevel);
         }
+        /// <summary>
+        /// 保存数据
+        /// </summary>
+        /// <param name="datas"></param>
         protected override void SaveData(DBDataModel[] datas)
         {
             IGrouping<string, DBDataModel>[] groupDatas = datas.GroupBy(m => m.DBConnectionString).ToArray();
@@ -30,14 +52,14 @@ namespace Materal.Logger.LoggerHandlers
             {
                 try
                 {
-                    MateralLoggerSqliteRepository repository = new(item.Key);
+                    LoggerSqliteRepository repository = new(item.Key);
                     repository.Init();
-                    MateralLogModel[] datas = item.Select(m => m.Model).ToArray();
+                    LogModel[] datas = item.Select(m => m.Model).ToArray();
                     repository.Inserts(datas);
                 }
                 catch (Exception exception)
                 {
-                    MateralLoggerLog.LogError("保存Sqlite数据库失败：", exception);
+                    LoggerLog.LogError("保存Sqlite数据库失败：", exception);
                 }
             });
         }

@@ -13,13 +13,13 @@ namespace ConsoleDemo
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralLogger();
             IServiceProvider services = serviceCollection.BuildServiceProvider();
-            MateralLoggerManager.CustomData.Add("UserName", "Administrator");
+            LoggerManager.CustomData.Add("UserName", "Administrator");
             #region 配置文件方式
-            MateralLoggerManager.CustomConfig.Add("ApplicationName", "ConsoleDemo");//会替换配置文件中${{ApplicationName}}的地方
+            LoggerManager.CustomConfig.Add("ApplicationName", "ConsoleDemo");//会替换配置文件中${{ApplicationName}}的地方
             IConfiguration configuration = new ConfigurationBuilder()
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .Build();
-            MateralLoggerManager.Init(null, configuration);
+            LoggerManager.Init(null, configuration);
             #endregion
             #region 代码配置方式
             //MateralLoggerManager.Init(option => {

@@ -47,7 +47,7 @@ namespace Materal.Gateway
         public void Login(string account, string password)
         {
             UserConfigModel? user = ApplicationConfig.Users.FirstOrDefault(m => m.Account == account && m.Password == password);
-            if (user == null) throw new MateralGatewayException("账号或者密码错误");
+            if (user == null) throw new GatewayException("账号或者密码错误");
             UserInfo userInfo = new(user.Account);
             _sessionStorage.SetAsync(_tokenKey, userInfo);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());

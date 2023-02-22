@@ -1,11 +1,8 @@
-using Materal.CacheHelper;
 using Materal.Common;
 using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension;
 using Materal.Logger;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
 
 namespace Materal.Gateway
 {

@@ -1,6 +1,9 @@
 ﻿namespace Materal.Logger.Models
 {
-    public class MateralLogModel
+    /// <summary>
+    /// 日志模型
+    /// </summary>
+    public class LogModel
     {
         /// <summary>
         /// 唯一标识

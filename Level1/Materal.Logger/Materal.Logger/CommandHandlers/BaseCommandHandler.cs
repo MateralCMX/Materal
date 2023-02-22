@@ -3,12 +3,27 @@ using Materal.Logger.Models;
 
 namespace Materal.Logger.CommandHandlers
 {
+    /// <summary>
+    /// 基础命令处理器
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class BaseCommandHandler<T> : ICommandHander<T>
         where T : ICommand
     {
-        public abstract void Handler(MateralLoggerLocalServer server, WebSocketConnectionModel websocket, T command);
-
-        public void Handler(MateralLoggerLocalServer server, WebSocketConnectionModel websocket, ICommand command)
+        /// <summary>
+        /// 处理
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="websocket"></param>
+        /// <param name="command"></param>
+        public abstract void Handler(LoggerLocalServer server, WebSocketConnectionModel websocket, T command);
+        /// <summary>
+        /// 处理
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="websocket"></param>
+        /// <param name="command"></param>
+        public void Handler(LoggerLocalServer server, WebSocketConnectionModel websocket, ICommand command)
         {
             if (command is T tCommand)
             {

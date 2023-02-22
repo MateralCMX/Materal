@@ -8,7 +8,8 @@ namespace Materal.Common
         /// 获得错误消息
         /// </summary>
         /// <param name="exception"></param>
-        /// <param name="func"></param>
+        /// <param name="beforFunc"></param>
+        /// <param name="afterFunc"></param>
         /// <returns></returns>
         public static string GetErrorMessage(this Exception? exception, Func<Exception, string>? beforFunc = null, Func<Exception, string>? afterFunc = null)
         {

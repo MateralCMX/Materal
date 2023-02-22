@@ -6,24 +6,33 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Materal.Logger
 {
-    public class MateralLogger : ILogger
+    /// <summary>
+    /// 日志
+    /// </summary>
+    public class Logger : ILogger
     {
         private static readonly List<LoggerHandler> _loggerHandlers = new();
-        public static MateralLoggerLocalServer? LocalServer { get; private set; }
+        /// <summary>
+        /// 本地服务
+        /// </summary>
+        public static LoggerLocalServer? LocalServer { get; private set; }
         private readonly string? _categoryName;
         private static readonly object initLockObject = new();
         private static readonly ActionBlock<LoggerHandlerModel> actionBlock;
-        static MateralLogger()
+        static Logger()
         {
             actionBlock = new(HandlerLog);
         }
-        public MateralLogger()
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public Logger()
         {
             if (_loggerHandlers.Count > 0) return;
             lock (initLockObject)
             {
                 if (_loggerHandlers.Count > 0) return;
-                foreach (MateralLoggerRuleConfigModel rule in MateralLoggerConfig.RulesConfig)
+                foreach (LoggerRuleConfigModel rule in LoggerConfig.RulesConfig)
                 {
                     if (!rule.Enable) continue;
                     List<LoggerHandler> tempHandler = LoggerHandlerFactroy.GetLoggerHandlers(rule);
@@ -31,16 +40,25 @@ namespace Materal.Logger
                 }
             }
         }
-        public MateralLogger(string categoryName) : this()
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="categoryName"></param>
+        public Logger(string categoryName) : this()
         {
             _categoryName = categoryName;
         }
-        private MateralLoggerScope? _loggerScope;
-        public MateralLoggerScope BeginScope(string scope)
+        private LoggerScope? _loggerScope;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="scope"></param>
+        /// <returns></returns>
+        public LoggerScope BeginScope(string scope)
         {
             if (_loggerScope == null)
             {
-                _loggerScope = new MateralLoggerScope(scope, this);
+                _loggerScope = new LoggerScope(scope, this);
             }
             else if(_loggerScope.Scope != scope)
             {
@@ -48,6 +66,12 @@ namespace Materal.Logger
             }
             return _loggerScope;
         }
+        /// <summary>
+        /// 开启域
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
+        /// <param name="state"></param>
+        /// <returns></returns>
         public IDisposable? BeginScope<TState>(TState state)
             where TState : notnull
         {
@@ -55,7 +79,21 @@ namespace Materal.Logger
             if (scope == null) return null;
             return BeginScope(scope);
         }
+        /// <summary>
+        /// 是否启用
+        /// </summary>
+        /// <param name="logLevel"></param>
+        /// <returns></returns>
         public bool IsEnabled(LogLevel logLevel) => true;
+        /// <summary>
+        /// 写日志
+        /// </summary>
+        /// <typeparam name="TState"></typeparam>
+        /// <param name="logLevel"></param>
+        /// <param name="eventId"></param>
+        /// <param name="state"></param>
+        /// <param name="exception"></param>
+        /// <param name="formatter"></param>
         public virtual void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
         {
             LoggerHandlerModel model = new()
@@ -68,6 +106,9 @@ namespace Materal.Logger
             };
             actionBlock.Post(model);
         }
+        /// <summary>
+        /// 退出域
+        /// </summary>
         public void ExitScope()
         {
             _loggerScope = null;
@@ -77,9 +118,12 @@ namespace Materal.Logger
         /// </summary>
         public static void InitServer()
         {
-            if (!MateralLoggerConfig.ServerConfig.Enable) return;
-            LocalServer = new MateralLoggerLocalServer();
+            if (!LoggerConfig.ServerConfig.Enable) return;
+            LocalServer = new LoggerLocalServer();
         }
+        /// <summary>
+        /// 关闭
+        /// </summary>
         public static void Shutdown()
         {
             actionBlock.Complete();

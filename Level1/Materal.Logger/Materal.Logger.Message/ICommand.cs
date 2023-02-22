@@ -1,5 +1,8 @@
 ﻿namespace Materal.Logger.Message
 {
+    /// <summary>
+    /// 命令
+    /// </summary>
     public interface ICommand
     {
         /// <summary>

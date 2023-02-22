@@ -1,29 +1,38 @@
-﻿using Materal.Logger.Message;
+﻿using Fleck;
+using Materal.Logger.CommandHandlers;
+using Materal.Logger.Message;
 using Materal.Logger.Models;
-using Materal.LoggerClientHandler;
-using Fleck;
+using System.Collections.Concurrent;
 
 namespace Materal.Logger
 {
-    public class MateralLoggerLocalServer
+    /// <summary>
+    /// 日志本地服务
+    /// </summary>
+    public class LoggerLocalServer
     {
-        private readonly System.Collections.Concurrent.ConcurrentDictionary<Guid, WebSocketConnectionModel> webSockets = new();
+        private readonly ConcurrentDictionary<Guid, WebSocketConnectionModel> webSockets = new();
         private readonly WebSocketServer webSocketServer;
-        private static readonly CommandBus commandBus = new();
-        public MateralLoggerLocalServer()
+        private static readonly ICommandBus commandBus = new CommandBus();
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public LoggerLocalServer()
         {
             //commandBus.Subscribe<>
-            webSocketServer = new WebSocketServer($"ws://0.0.0.0:{MateralLoggerConfig.ServerConfig.Port}");
+            webSocketServer = new WebSocketServer($"ws://0.0.0.0:{LoggerConfig.ServerConfig.Port}");
             FleckLog.LogAction = WriteWebsocketMessage;
             webSocketServer.Start(WebscoketConfig);
         }
         /// <summary>
         /// 发送消息
         /// </summary>
-        /// <param name="messageEvent"></param>
-        public void SendMessage(MateralLoggerTargetConfigModel target, string message, Microsoft.Extensions.Logging.LogLevel logLevel)
+        /// <param name="target"></param>
+        /// <param name="message"></param>
+        /// <param name="logLevel"></param>
+        public void SendMessage(LoggerTargetConfigModel target, string message, Microsoft.Extensions.Logging.LogLevel logLevel)
         {
-            if (!MateralLoggerConfig.ServerConfig.Enable || !MateralLoggerConfig.ServerConfig.Targets.Contains(target.Name)) return;
+            if (!LoggerConfig.ServerConfig.Enable || !LoggerConfig.ServerConfig.Targets.Contains(target.Name)) return;
             LogMessageEvent messageEvent = new()
             {
                 Color = target.Colors.GetConsoleColor(logLevel),
@@ -35,10 +44,11 @@ namespace Materal.Logger
         /// <summary>
         /// 发送消息
         /// </summary>
+        /// <param name="target"></param>
         /// <param name="messageEvent"></param>
-        public void SendMessage(MateralLoggerTargetConfigModel target, LogMessageEvent messageEvent)
+        public void SendMessage(LoggerTargetConfigModel target, LogMessageEvent messageEvent)
         {
-            if (!MateralLoggerConfig.ServerConfig.Enable || !MateralLoggerConfig.ServerConfig.Targets.Contains(target.Name)) return;
+            if (!LoggerConfig.ServerConfig.Enable || !LoggerConfig.ServerConfig.Targets.Contains(target.Name)) return;
             var nowWebSockets = webSockets.Select(m => m.Value).ToArray();
             List<WebSocketConnectionModel> removeList = new();
             foreach (WebSocketConnectionModel item in nowWebSockets)
@@ -75,11 +85,11 @@ namespace Materal.Logger
         private void WebSocketModel_OnClose(WebSocketConnectionModel webSocketModel)
         {
             KeyValuePair<Guid, WebSocketConnectionModel> tempModel = webSockets.FirstOrDefault(m => m.Key == webSocketModel.ID);
-            while (!webSockets.TryRemove(tempModel)) { }
+            while (!webSockets.TryRemove(tempModel.Key, out _)) { }
         }
         private void WriteWebsocketMessage(LogLevel logLevel, string message, Exception ex)
         {
-            if (logLevel < MateralLoggerConfig.ServerConfig.FleckMinLevel || logLevel > MateralLoggerConfig.ServerConfig.FleckMaxLevel) return;
+            if (logLevel < LoggerConfig.ServerConfig.FleckMinLevel || logLevel > LoggerConfig.ServerConfig.FleckMaxLevel) return;
             Console.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}|{logLevel}|MateralLoggerLocalServer]{message}");
         }
     }

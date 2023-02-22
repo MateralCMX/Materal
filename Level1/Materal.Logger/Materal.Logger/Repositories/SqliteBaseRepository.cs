@@ -5,11 +5,19 @@ using System.Text;
 
 namespace Materal.Logger.DBHelper
 {
+    /// <summary>
+    /// Sqlite基仓储
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class SqliteBaseRepository<T> : BaseRepository<T>
     {
         private readonly static object _createTableLockObj = new();
         private static bool _canCreateTable = false;
         private readonly string _dbPath;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="path"></param>
         protected SqliteBaseRepository(string path) : base(() =>
         {
             SQLiteConnectionStringBuilder builder = new($"Data Source={path};");
@@ -18,9 +26,13 @@ namespace Materal.Logger.DBHelper
         {
             _dbPath = path;
         }
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <exception cref="LoggerException"></exception>
         public override void Init()
         {
-            if (string.IsNullOrEmpty(_dbPath)) throw new MateralLoggerException("未指定Sqlite数据库位置");
+            if (string.IsNullOrEmpty(_dbPath)) throw new LoggerException("未指定Sqlite数据库位置");
             FileInfo fileInfo = new(_dbPath);
             if (fileInfo.Directory != null && !fileInfo.Directory.Exists)
             {
@@ -35,7 +47,7 @@ namespace Materal.Logger.DBHelper
         /// <summary>
         /// 创建数据库表
         /// </summary>
-        /// <exception cref="MateralLoggerException"></exception>
+        /// <exception cref="LoggerException"></exception>
         protected virtual void CreateTable()
         {
             if (!_canCreateTable) return;
@@ -89,6 +101,11 @@ PRAGMA foreign_keys = true;";
         /// </summary>
         /// <returns></returns>
         protected abstract string GetCreateTableTSQL();
+        /// <summary>
+        /// 批量插入
+        /// </summary>
+        /// <param name="domains"></param>
+        /// <exception cref="LoggerException"></exception>
         public override void Inserts(T[] domains)
         {
             DBConnection ??= GetDBConnection();
@@ -102,12 +119,12 @@ PRAGMA foreign_keys = true;";
                 cmd.CommandText = GetInsertCommandText(typeof(T));
                 try
                 {
-                    if (cmd is not SQLiteCommand sqliteCmd) throw new MateralLoggerException("sqlcmd类型错误");
+                    if (cmd is not SQLiteCommand sqliteCmd) throw new LoggerException("sqlcmd类型错误");
                     foreach (var domain in domains)
                     {
                         FillParams(sqliteCmd, domain);
                         int result = sqliteCmd.ExecuteNonQuery();
-                        if (result <= 0) throw new MateralLoggerException("添加失败");
+                        if (result <= 0) throw new LoggerException("添加失败");
                     }
                     dbTransaction.Commit();
                 }

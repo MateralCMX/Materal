@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Materal.Logger.Models
 {
+    /// <summary>
+    /// WebSocket链接模型
+    /// </summary>
     public class WebSocketConnectionModel
     {
         private static readonly Encoding _encoding = Encoding.UTF8;
@@ -11,13 +14,26 @@ namespace Materal.Logger.Models
         /// 唯一标识
         /// </summary>
         public Guid ID => WebSocket.ConnectionInfo.Id;
+        /// <summary>
+        /// 开启链接
+        /// </summary>
         public event Action<WebSocketConnectionModel>? OnOpen;
+        /// <summary>
+        /// 关闭链接
+        /// </summary>
         public event Action<WebSocketConnectionModel>? OnClose;
+        /// <summary>
+        /// 发送消息
+        /// </summary>
         public event Action<WebSocketConnectionModel, string>? OnMessage;
         /// <summary>
         /// 连接对象
         /// </summary>
         public IWebSocketConnection WebSocket { get; private set; }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="webSocket"></param>
         public WebSocketConnectionModel(IWebSocketConnection webSocket)
         {
             WebSocket = webSocket;
@@ -27,13 +43,17 @@ namespace Materal.Logger.Models
             WebSocket.OnPong = WebSocketOnPong;
             WebSocket.OnPing = WebSocketOnPing;
         }
+        /// <summary>
+        /// 发送命令
+        /// </summary>
+        /// <param name="message"></param>
         public void SendMessage(string message)
         {
             WebSocket.Send(message);
         }
         private void WebSocketOnOpen()
         {
-            MateralLoggerLog.LogInfomation($"新的监测程序已连接:{WebSocket.ConnectionInfo.ClientIpAddress}:{WebSocket.ConnectionInfo.ClientPort}");
+            LoggerLog.LogInfomation($"新的监测程序已连接:{WebSocket.ConnectionInfo.ClientIpAddress}:{WebSocket.ConnectionInfo.ClientPort}");
             OnOpen?.Invoke(this);
         }
         private void WebSocketOnClose()

@@ -1,9 +1,8 @@
-﻿using Materal.Common;
-using Materal.ConvertHelper;
+﻿using Materal.ConvertHelper;
 using Materal.Gateway.Common;
 using Materal.Gateway.Model;
+using Materal.Gateway.OcelotExtension;
 using Materal.Gateway.OcelotExtension.Services;
-using Materal.NetworkHelper;
 using System.Text;
 using System.Text.Json;
 
@@ -14,10 +13,12 @@ namespace Materal.Gateway
     /// </summary>
     public class ConsulManager
     {
-        private static IOcelotConfigService _ocelotConfigService;
+        private readonly static IOcelotConfigService _ocelotConfigService;
+        private readonly static HttpClient _httpClient;
         static ConsulManager()
         {
-            _ocelotConfigService = MateralServices.GetService<IOcelotConfigService>();
+            _httpClient = new HttpClient();
+            _ocelotConfigService = OcelotService.GetService<IOcelotConfigService>();
         }
         /// <summary>
         /// 获得服务
@@ -40,11 +41,11 @@ namespace Materal.Gateway
             string url = $"{scheam}://{_ocelotConfigService.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider.Host}:{_ocelotConfigService.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider.Port}/v1/agent/services";
             string requestText = SendHttpGet(url);
             JsonDocument jsonDocument = JsonDocument.Parse(requestText);
-            if (jsonDocument.RootElement.ValueKind != JsonValueKind.Object) throw new MateralGatewayException("ConsulServices返回错误");
+            if (jsonDocument.RootElement.ValueKind != JsonValueKind.Object) throw new GatewayException("ConsulServices返回错误");
             JsonElement.ObjectEnumerator element = jsonDocument.RootElement.EnumerateObject();
             List<JsonProperty> jsonProperties = element.ToList();
             List<string> jsonTexts = jsonProperties.Select(jsonProperty => jsonProperty.Value.ToString()).ToList();
-            List<ConsulServiceModel> result = jsonTexts.Select(jsonText => jsonText.JsonToObject<ConsulServiceModel>()).ToList();
+            List<ConsulServiceModel> result = jsonTexts.Select(jsonText => jsonText.JsonToObject<ConsulServiceModel>() ?? throw new GatewayException("反序列化失败")).ToList();
             if (filter != null)
             {
                 result = result.Where(filter).ToList();
@@ -58,7 +59,7 @@ namespace Materal.Gateway
                 RequestUri = new Uri(url),
                 Method = HttpMethod.Get
             };
-            HttpResponseMessage response = HttpManager.HttpClient.Send(httpRequest);
+            HttpResponseMessage response = _httpClient.Send(httpRequest);
             using Stream responseContent = response.Content.ReadAsStream();
             using MemoryStream memoryStream = new();
             responseContent.CopyTo(memoryStream);

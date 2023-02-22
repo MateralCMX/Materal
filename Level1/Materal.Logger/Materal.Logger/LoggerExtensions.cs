@@ -3,7 +3,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger
 {
-    public static class MateralLoggerExtensions
+    /// <summary>
+    /// 日志扩展
+    /// </summary>
+    public static class LoggerExtensions
     {
         /// <summary>
         /// 添加一个控制台输出
@@ -12,9 +15,9 @@ namespace Materal.Logger
         /// <param name="name"></param>
         /// <param name="format"></param>
         /// <param name="colors"></param>
-        public static void AddConsole(this List<MateralLoggerTargetConfigModel> list, string name, string? format = null, Dictionary<LogLevel, ConsoleColor>? colors = null)
+        public static void AddConsole(this List<LoggerTargetConfigModel> list, string name, string? format = null, Dictionary<LogLevel, ConsoleColor>? colors = null)
         {
-            MateralLoggerTargetConfigModel model = new()
+            LoggerTargetConfigModel model = new()
             {
                 Enable = true,
                 Type = TargetTypeEnum.Console,
@@ -32,9 +35,9 @@ namespace Materal.Logger
         /// <param name="format"></param>
         /// <param name="colors"></param>
         /// <param name="bufferCount"></param>
-        public static void AddFile(this List<MateralLoggerTargetConfigModel> list, string name, string path, string? format = null, Dictionary<LogLevel, ConsoleColor>? colors = null, int? bufferCount = null)
+        public static void AddFile(this List<LoggerTargetConfigModel> list, string name, string path, string? format = null, Dictionary<LogLevel, ConsoleColor>? colors = null, int? bufferCount = null)
         {
-            MateralLoggerTargetConfigModel model = new()
+            LoggerTargetConfigModel model = new()
             {
                 Enable = true,
                 Type = TargetTypeEnum.File,
@@ -52,9 +55,9 @@ namespace Materal.Logger
         /// <param name="path"></param>
         /// <param name="colors"></param>
         /// <param name="bufferCount"></param>
-        public static void AddSqlite(this List<MateralLoggerTargetConfigModel> list, string name, string path, Dictionary<LogLevel, ConsoleColor>? colors = null, int? bufferCount = null)
+        public static void AddSqlite(this List<LoggerTargetConfigModel> list, string name, string path, Dictionary<LogLevel, ConsoleColor>? colors = null, int? bufferCount = null)
         {
-            MateralLoggerTargetConfigModel model = new()
+            LoggerTargetConfigModel model = new()
             {
                 Enable = true,
                 Type = TargetTypeEnum.Sqlite,
@@ -72,9 +75,9 @@ namespace Materal.Logger
         /// <param name="connectionString"></param>
         /// <param name="colors"></param>
         /// <param name="bufferCount"></param>
-        public static void AddSqlServer(this List<MateralLoggerTargetConfigModel> list, string name, string connectionString, Dictionary<LogLevel, ConsoleColor>? colors = null, int? bufferCount = null)
+        public static void AddSqlServer(this List<LoggerTargetConfigModel> list, string name, string connectionString, Dictionary<LogLevel, ConsoleColor>? colors = null, int? bufferCount = null)
         {
-            MateralLoggerTargetConfigModel model = new()
+            LoggerTargetConfigModel model = new()
             {
                 Enable = true,
                 Type = TargetTypeEnum.Sqlite,
@@ -92,9 +95,9 @@ namespace Materal.Logger
         /// <param name="minLevel"></param>
         /// <param name="maxLevel"></param>
         /// <param name="ignores"></param>
-        public static void AddRule(this List<MateralLoggerRuleConfigModel> list, string[] targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, string[]? ignores = null)
+        public static void AddRule(this List<LoggerRuleConfigModel> list, string[] targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, string[]? ignores = null)
         {
-            MateralLoggerRuleConfigModel model = new()
+            LoggerRuleConfigModel model = new()
             {
                 Enable = true
             };
@@ -120,9 +123,9 @@ namespace Materal.Logger
         /// <param name="format"></param>
         /// <param name="colors"></param>
         /// <param name="bufferCount"></param>
-        private static void InitModel(MateralLoggerTargetConfigModel model, string? format, Dictionary<LogLevel, ConsoleColor>? colors, int? bufferCount)
+        private static void InitModel(LoggerTargetConfigModel model, string? format, Dictionary<LogLevel, ConsoleColor>? colors, int? bufferCount)
         {
-            if (!string.IsNullOrWhiteSpace(format))
+            if (format != null && !string.IsNullOrWhiteSpace(format))
             {
                 model.Format = format;
             }

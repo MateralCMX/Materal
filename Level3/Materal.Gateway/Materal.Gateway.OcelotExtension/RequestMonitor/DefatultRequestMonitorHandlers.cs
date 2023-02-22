@@ -11,7 +11,7 @@ namespace Materal.Gateway.OcelotExtension.RequestMonitor
         public static void AddHandler<T>() where T : class, IRequestMonitorHandler => _handlerTypes.Add(typeof(T));
         public static void AddHandler(Type handlerType)
         {
-            if (handlerType.IsAssignableTo(typeof(IRequestMonitorHandler))) throw new MateralGatewayException($"处理器必须实现{nameof(ICustomHandler)}");
+            if (handlerType.IsAssignableTo(typeof(IRequestMonitorHandler))) throw new GatewayException($"处理器必须实现{nameof(ICustomHandler)}");
             _handlerTypes.Add(handlerType);
         }
         public async Task HandlerRequstAsync(HandlerRequestModel model)

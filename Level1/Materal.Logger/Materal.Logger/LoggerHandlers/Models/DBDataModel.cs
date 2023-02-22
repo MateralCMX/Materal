@@ -2,6 +2,9 @@
 
 namespace Materal.Logger.LoggerHandlers.Models
 {
+    /// <summary>
+    /// 数据库数据模型
+    /// </summary>
     public class DBDataModel
     {
         /// <summary>
@@ -11,6 +14,6 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <summary>
         /// 
         /// </summary>
-        public MateralLogModel Model { get; set; } = new MateralLogModel();
+        public LogModel Model { get; set; } = new LogModel();
     }
 }

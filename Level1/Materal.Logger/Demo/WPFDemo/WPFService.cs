@@ -16,14 +16,14 @@ namespace WPFDemo
             IConfiguration configuration = new ConfigurationBuilder()
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .Build();
-            MateralLoggerManager.Init(null, configuration);
+            LoggerManager.Init(null, configuration);
         }
         /// <summary>
         /// 获得服务或者默认值
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        /// <exception cref="MateralLoggerException"></exception>
+        /// <exception cref="LoggerException"></exception>
         public static T? GetServiceOrDefatult<T>()
         {
             T? result = Services.GetService<T>();

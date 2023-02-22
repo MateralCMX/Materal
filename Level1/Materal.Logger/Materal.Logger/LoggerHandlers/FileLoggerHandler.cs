@@ -5,14 +5,32 @@ using System.Text;
 
 namespace Materal.Logger.LoggerHandlers
 {
+    /// <summary>
+    /// 文件日志处理器
+    /// </summary>
     public class FileLoggerHandler : BufferLoggerHandler<FileModel>
     {
-        public FileLoggerHandler(MateralLoggerRuleConfigModel rule, MateralLoggerTargetConfigModel target) : base(rule, target)
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <param name="target"></param>
+        public FileLoggerHandler(LoggerRuleConfigModel rule, LoggerTargetConfigModel target) : base(rule, target)
         {
         }
-        public override void Handler(LogLevel logLevel, string message, string? categoryName, MateralLoggerScope? scope, DateTime dateTime, Exception? exception, string threadID)
+        /// <summary>
+        /// 处理
+        /// </summary>
+        /// <param name="logLevel"></param>
+        /// <param name="message"></param>
+        /// <param name="categoryName"></param>
+        /// <param name="scope"></param>
+        /// <param name="dateTime"></param>
+        /// <param name="exception"></param>
+        /// <param name="threadID"></param>
+        public override void Handler(LogLevel logLevel, string message, string? categoryName, LoggerScope? scope, DateTime dateTime, Exception? exception, string threadID)
         {
-            if (string.IsNullOrWhiteSpace(Target.Path)) return;
+            if (Target.Path == null || string.IsNullOrWhiteSpace(Target.Path)) return;
             string writeMessage = FormatMessage(Target.Format, logLevel, message, categoryName, scope, dateTime, exception, threadID);
             string path = FormatPath(Target.Path, logLevel, categoryName, scope, dateTime, threadID);
             var data = new FileModel
@@ -23,6 +41,10 @@ namespace Materal.Logger.LoggerHandlers
             PushData(data);
             SendMessage(writeMessage, logLevel);
         }
+        /// <summary>
+        /// 保存数据
+        /// </summary>
+        /// <param name="datas"></param>
         protected override void SaveData(FileModel[] datas)
         {
             IGrouping<string, FileModel>[] fileModels = datas.GroupBy(m => m.Path).ToArray();
@@ -76,7 +98,7 @@ namespace Materal.Logger.LoggerHandlers
             }
             catch (Exception exception)
             {
-                MateralLoggerLog.LogError("保存文件失败", exception);
+                LoggerLog.LogError("保存文件失败", exception);
             }
         }
     }

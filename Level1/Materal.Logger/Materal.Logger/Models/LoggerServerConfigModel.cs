@@ -2,7 +2,10 @@
 
 namespace Materal.Logger.Models
 {
-    public class MateralLoggerServerConfigModel
+    /// <summary>
+    /// 日志服务配置
+    /// </summary>
+    public class LoggerServerConfigModel
     {
         /// <summary>
         /// 启用标识

@@ -1,12 +1,13 @@
 ﻿using Materal.ConvertHelper;
-using Materal.Logger;
-using Materal.Logger.CommandHandlers;
 using Materal.Logger.Message;
 using Materal.Logger.Models;
 
-namespace Materal.LoggerClientHandler
+namespace Materal.Logger.CommandHandlers
 {
-    public class CommandBus
+    /// <summary>
+    /// 命令总线
+    /// </summary>
+    public class CommandBus : ICommandBus
     {
         private readonly Dictionary<string, List<ICommandHander>> handers = new();
         /// <summary>
@@ -23,7 +24,13 @@ namespace Materal.LoggerClientHandler
             }
             handers[key].Add(new TCommandHander());
         }
-        public void Handler(MateralLoggerLocalServer server, WebSocketConnectionModel websocket, string message)
+        /// <summary>
+        /// 处理
+        /// </summary>
+        /// <param name="server"></param>
+        /// <param name="websocket"></param>
+        /// <param name="message"></param>
+        public void Handler(LoggerLocalServer server, WebSocketConnectionModel websocket, string message)
         {
             try
             {
@@ -43,6 +50,7 @@ namespace Materal.LoggerClientHandler
         /// <summary>
         /// 发送事件
         /// </summary>
+        /// <param name="websocket"></param>
         /// <param name="event"></param>
         public void SendEvent(WebSocketConnectionModel websocket, IEvent @event)
         {

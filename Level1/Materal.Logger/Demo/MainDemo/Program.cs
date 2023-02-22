@@ -17,9 +17,9 @@ namespace MainDemo
             IConfiguration configuration = new ConfigurationBuilder()
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .Build();
-            MateralLoggerManager.CustomConfig.Add("LogDBConnectionString", "Data Source=175.27.194.19;Database=LogTestDB; User ID=sa; Password=XMJry@456;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
-            MateralLoggerManager.CustomConfig.Add("ApplicationName", "MainDemo");
-            MateralLoggerManager.Init(null, configuration);
+            LoggerManager.CustomConfig.Add("LogDBConnectionString", "Data Source=175.27.194.19;Database=LogTestDB; User ID=sa; Password=XMJry@456;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
+            LoggerManager.CustomConfig.Add("ApplicationName", "MainDemo");
+            LoggerManager.Init(null, configuration);
             #endregion
             #region 通过代码配置
             //MateralLoggerConfig.Application = "测试程序";
@@ -53,7 +53,7 @@ namespace MainDemo
             //    configure.AddSerilog(dispose: true);
             //});
             #endregion
-            MateralLoggerManager.CustomData.Add("UserName", "Administrator");
+            LoggerManager.CustomData.Add("UserName", "Administrator");
             CommandBus commandBus = new();
             bool canExit = false;
             while (!canExit)

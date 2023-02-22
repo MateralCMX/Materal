@@ -1,4 +1,5 @@
 ﻿using Materal.ConvertHelper;
+using Materal.Gateway.Common;
 using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.ConfigModel
@@ -35,7 +36,7 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         {
             encoding ??= Encoding.UTF8;
             string configString = await File.ReadAllTextAsync(filePath, encoding);
-            OcelotConfigModel result = configString.JsonToObject<OcelotConfigModel>();
+            OcelotConfigModel result = configString.JsonToObject<OcelotConfigModel>() ?? throw new GatewayException("序列化失败");
             return result;
         }
         /// <summary>

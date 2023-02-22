@@ -2,6 +2,9 @@
 
 namespace Materal.Logger.Message
 {
+    /// <summary>
+    /// 日志消息事件
+    /// </summary>
     public class LogMessageEvent : BaseEvent
     {
         /// <summary>

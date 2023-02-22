@@ -3,6 +3,9 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Common
 {
+    /// <summary>
+    /// 控制台队列
+    /// </summary>
     public class ConsoleQueue
     {
         private readonly static ActionBlock<ConsoleMessageModel> writeBuffer;
@@ -10,9 +13,28 @@ namespace Materal.Common
         {
             writeBuffer = new(WriteMessage);
         }
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(ConsoleColor consoleColor = ConsoleColor.Gray) => WriteLine(string.Empty, consoleColor);
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(bool value, ConsoleColor consoleColor = ConsoleColor.Gray) => WriteLine(value.ToString(), consoleColor);
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(char value, ConsoleColor consoleColor = ConsoleColor.Gray) => WriteLine(value.ToString(), consoleColor);
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(char[]? buffer, ConsoleColor consoleColor = ConsoleColor.Gray)
         {
             if (buffer == null || buffer.Length == 0)
@@ -24,6 +46,13 @@ namespace Materal.Common
                 WriteLine(buffer, 0, buffer.Length, consoleColor);
             }
         }
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="index"></param>
+        /// <param name="count"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(char[] buffer, int index, int count, ConsoleColor consoleColor = ConsoleColor.Gray)
         {
             char[] value = new char[count];
@@ -33,13 +62,53 @@ namespace Materal.Common
             }
             WriteLine(value.ToString(), consoleColor);
         }
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(decimal value, ConsoleColor consoleColor = ConsoleColor.Gray) => WriteLine(value.ToString(), consoleColor);
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(double value, ConsoleColor consoleColor = ConsoleColor.Gray) => WriteLine(value.ToString(), consoleColor);
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(float value, ConsoleColor consoleColor = ConsoleColor.Gray) => WriteLine(value.ToString(), consoleColor);
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(int value, ConsoleColor consoleColor = ConsoleColor.Gray) => WriteLine(value.ToString(), consoleColor);
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(uint value, ConsoleColor consoleColor = ConsoleColor.Gray) => WriteLine(value.ToString(), consoleColor);
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(long value, ConsoleColor consoleColor = ConsoleColor.Gray) => WriteLine(value.ToString(), consoleColor);
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(ulong value, ConsoleColor consoleColor = ConsoleColor.Gray) => WriteLine(value.ToString(), consoleColor);
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(object? value, ConsoleColor consoleColor = ConsoleColor.Gray)
         {
             if (value == null)
@@ -51,6 +120,11 @@ namespace Materal.Common
                 WriteLine(value.ToString(), consoleColor);
             }
         }
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(Exception? exception, ConsoleColor consoleColor = ConsoleColor.DarkRed)
         {
             if (exception == null)
@@ -62,6 +136,11 @@ namespace Materal.Common
                 WriteLine(exception.GetErrorMessage(), consoleColor);
             }
         }
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="consoleColor"></param>
         public static void WriteLine(string? value, ConsoleColor consoleColor = ConsoleColor.Gray)
         {
             writeBuffer.Post(new()
@@ -70,6 +149,12 @@ namespace Materal.Common
                 Message = value ?? string.Empty
             });
         }
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="consoleColor"></param>
+        /// <param name="args"></param>
         public static void WriteLine(string format, ConsoleColor consoleColor = ConsoleColor.Gray, params object?[]? args)
         {
             if (args == null || args.Length == 0)
@@ -86,6 +171,11 @@ namespace Materal.Common
                 });
             }
         }
+        /// <summary>
+        /// 写一行消息
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="args"></param>
         public static void WriteLine(string format, params object?[]? args) => WriteLine(format, ConsoleColor.Gray, args);
         private static void WriteMessage(ConsoleMessageModel model)
         {

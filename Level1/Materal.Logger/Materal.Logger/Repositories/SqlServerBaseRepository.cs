@@ -2,16 +2,22 @@
 using Materal.Logger.Models;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection;
-using System.Text;
 
 namespace Materal.Logger.DBHelper
 {
+    /// <summary>
+    /// Sqlserver基础仓储
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class SqlServerBaseRepository<T> : BaseRepository<T>
     {
         private readonly static object _createTableLockObj = new();
         private static bool _canCreateTable = true;
         private readonly string _connectionString;
+        /// <summary>
+        /// Sqlserver基础仓储
+        /// </summary>
+        /// <param name="connectionString"></param>
         protected SqlServerBaseRepository(string connectionString) : base(() =>
         {
             SqlConnectionStringBuilder builder = new(connectionString);
@@ -20,15 +26,19 @@ namespace Materal.Logger.DBHelper
         {
             _connectionString = connectionString;
         }
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <exception cref="LoggerException"></exception>
         public override void Init()
         {
-            if (string.IsNullOrEmpty(_connectionString)) throw new MateralLoggerException("未指定数据库链接字符串");
+            if (string.IsNullOrEmpty(_connectionString)) throw new LoggerException("未指定数据库链接字符串");
             CreateTable();
         }
         /// <summary>
         /// 创建数据库表
         /// </summary>
-        /// <exception cref="MateralLoggerException"></exception>
+        /// <exception cref="LoggerException"></exception>
         protected virtual void CreateTable()
         {
             if (!_canCreateTable) return;
@@ -79,7 +89,7 @@ namespace Materal.Logger.DBHelper
                 {
                     cmd.CommandText = $@"CREATE NONCLUSTERED INDEX [IX_MateralLogs] ON [{TableName}]
 (
-	[{nameof(MateralLogModel.CreateTime)}] DESC
+	[{nameof(LogModel.CreateTime)}] DESC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]";
                     int result = cmd.ExecuteNonQuery();
                     dbTransaction.Commit();
@@ -102,13 +112,18 @@ namespace Materal.Logger.DBHelper
         /// </summary>
         /// <returns></returns>
         protected abstract string GetCreateTableTSQL();
+        /// <summary>
+        /// 插入多个
+        /// </summary>
+        /// <param name="domains"></param>
+        /// <exception cref="LoggerException"></exception>
         public override async void Inserts(T[] domains)
         {
             DBConnection ??= GetDBConnection();
             OpenDBConnection();
             try
             {
-                if (DBConnection is not SqlConnection sqlConnection) throw new MateralLoggerException("连接对象不是SqlServer连接对象");
+                if (DBConnection is not SqlConnection sqlConnection) throw new LoggerException("连接对象不是SqlServer连接对象");
                 using SqlBulkCopy sqlBulkCopy = new(sqlConnection);
                 sqlBulkCopy.DestinationTableName = TableName;
                 DataTable dt = domains.ToDataTable();
