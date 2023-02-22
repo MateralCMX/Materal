@@ -1,4 +1,6 @@
-﻿namespace Materal.Logger.Models
+﻿using System.Text.Json.Serialization;
+
+namespace Materal.Logger.Models
 {
     /// <summary>
     /// 日志目标配置模型
@@ -16,6 +18,7 @@
         /// <summary>
         /// 类型
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public TargetTypeEnum Type { get; set; } = TargetTypeEnum.Console;
         /// <summary>
         /// 格式化
