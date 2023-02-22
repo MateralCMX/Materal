@@ -19,10 +19,10 @@
             <Body>
                 <Form Model="_syncSwaggerModel">
                     <FormItem Label="名称">
-                        <Input @bind-Value="context.Name" />
+                        <Input @bind-Value="context.Name" Placeholder="支持正则表达式" />
                     </FormItem>
                     <FormItem Label="标签">
-                        <Input @bind-Value="context.Tag" />
+                        <Input @bind-Value="context.Tag" Placeholder="支持正则表达式" />
                     </FormItem>
                     <FormItem Label="清空同步">
                         <Switch @bind-Value="context.Clear" />
@@ -39,10 +39,10 @@
             <Body>
                 <Form Model="_syncRoutModel">
                     <FormItem Label="名称">
-                        <Input @bind-Value="context.Name" />
+                        <Input @bind-Value="context.Name" Placeholder="支持正则表达式" />
                     </FormItem>
                     <FormItem Label="标签">
-                        <Input @bind-Value="context.Tag" />
+                        <Input @bind-Value="context.Tag" Placeholder="支持正则表达式" />
                     </FormItem>
                     <FormItem Label="清空同步">
                         <Switch @bind-Value="context.Clear" />
