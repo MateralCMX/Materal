@@ -153,11 +153,6 @@
       "Host": "175.27.194.19",
       "Port": 8500,
       "Type": "Consul"
-    },
-    "RateLimitOptions": {
-      "QuotaExceededMessage": "访问过于频繁，请稍后再试",
-      "StatusCode": 429,
-      "ClientIdHeader": "ClientId"
     }
   },
   "SwaggerEndPoints": [

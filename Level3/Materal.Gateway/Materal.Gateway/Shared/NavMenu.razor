@@ -1,14 +1,10 @@
 ﻿@using Materal.Gateway.OcelotExtension.Services;
 @inject IOcelotConfigService _ocelotConfigService;
+
+@attribute [Authorize]
+
 <Menu Mode="MenuMode.Inline">
-    <MenuItem RouterLink="/Admin" RouterMatch="NavLinkMatch.All">首页</MenuItem>
-    <li class="ant-menu-item" role="menuitem" style="">
-        <span class="ant-menu-title-content">
-            <a href="/Swagger" target="_blank">
-                Swagger
-            </a>
-        </span>
-    </li>
+    <MenuItem RouterLink="./" RouterMatch="NavLinkMatch.All">首页</MenuItem>
     <SubMenu Title="配置">
         <SubMenu Title="全局配置">
             <MenuItem RouterLink="./Setting/GlobalConfiguration/ServiceDiscoveryProvider" RouterMatch="NavLinkMatch.All">服务发现</MenuItem>

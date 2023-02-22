@@ -1,8 +1,11 @@
+using Materal.CacheHelper;
 using Materal.Common;
 using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension;
 using Materal.Logger;
-using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Materal.Gateway
 {
@@ -30,6 +33,8 @@ namespace Materal.Gateway
             services.AddAntDesign();
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddScoped<CustomAuthenticationStateProvider>();
+            services.AddScoped<AuthenticationStateProvider>(factory => factory.GetRequiredService<CustomAuthenticationStateProvider>());
             #endregion
             #region Swagger
             services.AddSwaggerForOcelot(builder.Configuration);
@@ -52,6 +57,7 @@ namespace Materal.Gateway
             {
                 application.UseStaticFiles();
                 application.UseRouting();
+                application.UseAuthorization();
                 application.UseEndpoints(endpoints =>
                 {
                     endpoints.MapBlazorHub();

@@ -1,5 +1,5 @@
 ﻿using Materal.ConfigurationHelper;
-using Materal.Gateway.Common.ConfigModels;
+using Materal.Gateway.Common.ConfigModel;
 using Microsoft.Extensions.Configuration;
 
 namespace Materal.Gateway.Common
@@ -16,19 +16,7 @@ namespace Materal.Gateway.Common
         /// <summary>
         /// 授权配置
         /// </summary>
-        public static JWTConfigModel JWTConfig => GetValueObject<JWTConfigModel>("JWT");
-        /// <summary>
-        /// 异常配置
-        /// </summary>
-        public static ExceptionConfigModel ExceptionConfig => GetValueObject<ExceptionConfigModel>("Exception");
-        private static UrlConfigModel? _baseUrlConfig;
-        /// <summary>
-        /// 链接配置
-        /// </summary>
-        public static UrlConfigModel BaseUrlConfig => _baseUrlConfig ??= new()
-        {
-            Url = GetValue("URLS", "http://localhost:5000")
-        };
+        public static List<UserConfigModel> Users => GetValueObject<List<UserConfigModel>>("Users");
         /// <summary>
         /// 获取配置项
         /// </summary>
