@@ -27,13 +27,10 @@ namespace Materal.Gateway.OcelotExtension.Responder.Middleware
             await _next.Invoke(httpContext);
             List<Error> errors = httpContext.Items.Errors();
             if (errors.Count > 0)
-            {
-                Logger.LogWarning($"{errors.ToErrorString()} errors found in {MiddlewareName}. Setting error response for request path:{httpContext.Request.Path}, request method: {httpContext.Request.Method}");
-                SetErrorResponse(httpContext, errors);
+            {SetErrorResponse(httpContext, errors);
             }
             else
             {
-                Logger.LogDebug("no pipeline errors, setting and returning completed response");
                 DownstreamResponse downstreamResponse = httpContext.Items.DownstreamResponse();
                 await _responder.SetResponseOnHttpContext(httpContext, downstreamResponse);
             }

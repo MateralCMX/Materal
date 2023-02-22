@@ -72,19 +72,26 @@ namespace Materal.Gateway
         protected override async Task<bool> ValidateAuthenticationStateAsync(AuthenticationState authenticationState, CancellationToken cancellationToken)
         {
             bool result = false;
-            ProtectedBrowserStorageResult<UserInfo> storageValue = await _sessionStorage.GetAsync<UserInfo>(_tokenKey);
-            if (storageValue.Success && storageValue.Value != null)
+            try
             {
-                if (storageValue.Value.ExpirationTime > DateTime.Now)
+                ProtectedBrowserStorageResult<UserInfo> storageValue = await _sessionStorage.GetAsync<UserInfo>(_tokenKey);
+                if (storageValue.Success && storageValue.Value != null)
                 {
-                    result = true;
+                    if (storageValue.Value.ExpirationTime > DateTime.Now)
+                    {
+                        result = true;
+                    }
+                    else if (_autoContractExtension)
+                    {
+                        storageValue.Value.ExpirationTime = DateTime.Now.AddHours(1);
+                        await _sessionStorage.SetAsync(_tokenKey, storageValue.Value);
+                        result = true;
+                    }
                 }
-                else if (_autoContractExtension)
-                {
-                    storageValue.Value.ExpirationTime = DateTime.Now.AddHours(1);
-                    await _sessionStorage.SetAsync(_tokenKey, storageValue.Value);
-                    result = true;
-                }
+            }
+            catch
+            {
+                result = false;
             }
             if (!result)
             {

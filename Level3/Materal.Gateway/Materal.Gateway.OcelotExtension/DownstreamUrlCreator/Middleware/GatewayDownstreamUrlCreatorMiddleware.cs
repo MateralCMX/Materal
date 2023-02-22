@@ -29,7 +29,6 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
             DownstreamRequest downstreamRequest = httpContext.Items.DownstreamRequest();
             if (response.IsError)
             {
-                Logger.LogDebug("IDownstreamPathPlaceholderReplacer returned an error, setting pipeline error");
                 httpContext.Items.UpsertErrors(response.Errors);
                 return;
             }
@@ -67,7 +66,6 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
                     downstreamRequest.AbsolutePath = dsPath.Value;
                 }
             }
-            Logger.LogDebug($"Downstream url is {downstreamRequest}");
             await _next.Invoke(httpContext);
         }
         private static void RemoveQueryStringParametersThatHaveBeenUsedInTemplate(DownstreamRequest downstreamRequest, List<PlaceholderNameAndValue> templatePlaceholderNameAndValues)
