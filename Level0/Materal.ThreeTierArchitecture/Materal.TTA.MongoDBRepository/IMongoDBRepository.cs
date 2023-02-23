@@ -1,5 +1,5 @@
-﻿using Materal.Model;
-using Materal.TTA.Common;
+﻿using Materal.TTA.Common;
+using Materal.Utils.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Linq.Expressions;

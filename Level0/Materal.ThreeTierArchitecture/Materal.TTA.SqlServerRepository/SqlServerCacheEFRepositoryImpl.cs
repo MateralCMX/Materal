@@ -1,7 +1,7 @@
-﻿using Materal.CacheHelper;
-using Materal.RedisHelper;
-using Materal.TTA.Common;
+﻿using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
+using Materal.Utils.Cache;
+using Materal.Utils.Redis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.SqlServerRepository
@@ -10,7 +10,7 @@ namespace Materal.TTA.SqlServerRepository
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
     {
-        protected SqlServerCacheEFRepositoryImpl(DbContext dbContext, ICacheManager cacheManager, RedisManager? redisManager = null) : base(dbContext, cacheManager, redisManager)
+        protected SqlServerCacheEFRepositoryImpl(DbContext dbContext, ICacheHelper cacheManager, RedisManager? redisManager = null) : base(dbContext, cacheManager, redisManager)
         {
         }
     }

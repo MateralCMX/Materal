@@ -1,9 +1,9 @@
-﻿using Materal.Common;
-using Materal.ConvertHelper;
+﻿using Materal.Abstractions;
 using Materal.TTA.Demo.Domain;
 using Materal.TTA.Demo.Sqlite;
 using Materal.TTA.EFRepository;
 using Materal.TTA.SqliteRepository.Model;
+using Materal.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +14,7 @@ namespace Materal.TTA.Demo
         public static async Task Main()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddMateralUtils();
             serviceCollection.AddTransient<MigrateHelper<TTADemoDBContext>>();
             #region sqlite
             SqliteConfigModel dbConfig = new()

@@ -1,4 +1,4 @@
-﻿using Materal.Model;
+﻿using Materal.Utils.Model;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
 

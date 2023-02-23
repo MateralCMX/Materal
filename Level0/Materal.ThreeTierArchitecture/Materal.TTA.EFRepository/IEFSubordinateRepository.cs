@@ -1,5 +1,5 @@
-﻿using Materal.Model;
-using Materal.TTA.Common;
+﻿using Materal.TTA.Common;
+using Materal.Utils.Model;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
 

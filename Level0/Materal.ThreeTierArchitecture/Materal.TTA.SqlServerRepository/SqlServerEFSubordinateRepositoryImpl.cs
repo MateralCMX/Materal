@@ -1,8 +1,8 @@
-﻿using Materal.Common;
-using Materal.Model;
+﻿using Materal.Abstractions;
 using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
 using Materal.TTA.SqlServerRepository.Model;
+using Materal.Utils.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Linq.Expressions;

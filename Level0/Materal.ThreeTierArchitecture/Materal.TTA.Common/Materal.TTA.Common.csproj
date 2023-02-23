@@ -14,8 +14,7 @@
 		<Description>Materal.TTA.Common</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Common" Version="*" />
-		<PackageReference Include="Materal.Model" Version="*" />
+		<PackageReference Include="Materal.Utils" Version="*" />
 		<PackageReference Include="System.Data.SqlClient" Version="*" />
 	</ItemGroup>
 </Project>

@@ -14,8 +14,7 @@
 		<Description>Materal.TTA.EFRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.CacheHelper" Version="*" />
-		<PackageReference Include="Materal.RedisHelper" Version="*" />
+		<PackageReference Include="Materal.Utils.Redis" Version="*" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="*" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="*" />
 	</ItemGroup>

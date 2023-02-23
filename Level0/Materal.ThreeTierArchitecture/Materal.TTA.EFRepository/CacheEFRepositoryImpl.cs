@@ -1,6 +1,6 @@
-﻿using Materal.CacheHelper;
-using Materal.RedisHelper;
-using Materal.TTA.Common;
+﻿using Materal.TTA.Common;
+using Materal.Utils.Cache;
+using Materal.Utils.Redis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.EFRepository
@@ -11,9 +11,9 @@ namespace Materal.TTA.EFRepository
     {
         protected static readonly List<string> SubscriberChannelNames = new();
         protected readonly RedisManager? _redisManager;
-        protected readonly ICacheManager _cacheManager;
+        protected readonly ICacheHelper _cacheManager;
         protected string AllInfoCacheName => GetAllCacheName();
-        protected CacheEFRepositoryImpl(DbContext dbContext, ICacheManager cacheManager, RedisManager? redisManager = null) : base(dbContext)
+        protected CacheEFRepositoryImpl(DbContext dbContext, ICacheHelper cacheManager, RedisManager? redisManager = null) : base(dbContext)
         {
             _redisManager = redisManager;
             _cacheManager = cacheManager;

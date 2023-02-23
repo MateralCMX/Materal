@@ -1,5 +1,5 @@
-﻿using Materal.Common;
-using Materal.Model;
+﻿using Materal.Abstractions;
+using Materal.Utils.Model;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Data.SqlClient;
