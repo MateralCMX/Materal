@@ -6,7 +6,7 @@
 		<LangVersion>11.0</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>../nupkg</PackageOutputPath>
-		<Version>1.1.22</Version>
+		<Version>1.1.23</Version>
 		<Description>Materal字符串帮助类</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<Authors>Materal</Authors>
