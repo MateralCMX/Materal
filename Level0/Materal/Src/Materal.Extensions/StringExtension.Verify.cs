@@ -1,107 +1,86 @@
-﻿using Materal.StringHelper.Models;
-using Microsoft.International.Converters.PinYinConverter;
+﻿using Materal.Extensions;
 using System.Text.RegularExpressions;
 
-namespace Materal.StringHelper
+namespace System
 {
     /// <summary>
-    /// 字符串扩展类
+    /// 字符串验证扩展类
     /// </summary>
-    public static class StringExtension
+    public static partial class StringExtension
     {
-        /// <summary>
-        /// 获得中文拼音
-        /// </summary>
-        /// <param name="inputString"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-        public static IEnumerable<string> GetChinesePinYin(this string inputString, PinYinMode mode = PinYinMode.NoTone)
-        {
-            var chineseChars = new object[inputString.Length];
-            for (var i = 0; i < inputString.Length; i++)
-            {
-                char inputChar = inputString[i];
-                if (!inputChar.ToString().IsChinese())
-                {
-                    chineseChars[i] = inputChar;
-                    continue;
-                }
-                chineseChars[i] = new ChineseChar(inputChar);
-            }
-            IEnumerable<string> result = GetPinYin("", 0, chineseChars.ToList(), mode);
-            return result.Distinct();
-        }
+        ///// <summary>
+        ///// 获得中文拼音
+        ///// </summary>
+        ///// <param name="inputString"></param>
+        ///// <param name="mode"></param>
+        ///// <returns></returns>
+        //public static IEnumerable<string> GetChinesePinYin(this string inputString, PinYinMode mode = PinYinMode.NoTone)
+        //{
+        //    var chineseChars = new object[inputString.Length];
+        //    for (var i = 0; i < inputString.Length; i++)
+        //    {
+        //        char inputChar = inputString[i];
+        //        if (!inputChar.ToString().IsChinese())
+        //        {
+        //            chineseChars[i] = inputChar;
+        //            continue;
+        //        }
+        //        chineseChars[i] = new ChineseChar(inputChar);
+        //    }
+        //    IEnumerable<string> result = GetPinYin("", 0, chineseChars.ToList(), mode);
+        //    return result.Distinct();
+        //}
 
-        /// <summary>
-        /// 获得拼音
-        /// </summary>
-        /// <param name="nowPinyin"></param>
-        /// <param name="index"></param>
-        /// <param name="chineseChars"></param>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-        private static IEnumerable<string> GetPinYin(string nowPinyin, int index, IReadOnlyList<object> chineseChars, PinYinMode mode)
-        {
-            var inputPinYin = new List<string>();
-            if (chineseChars.Count <= index)
-            {
-                inputPinYin.Add(nowPinyin); 
-            }
-            else
-            {
-                switch (chineseChars[index])
-                {
-                    case char charString:
-                        inputPinYin.AddRange(GetPinYin(nowPinyin + charString, index + 1, chineseChars, mode));
-                        break;
-                    case ChineseChar chinese:
-                        for (var i = 0; i < chinese.PinyinCount; i++)
-                        {
-                            string pinyin = chinese.Pinyins[i];
-                            switch (mode)
-                            {
-                                case PinYinMode.Full:
-                                    pinyin = pinyin.ToLower().FirstUpper();
-                                    break;
-                                case PinYinMode.NoTone:
-                                    pinyin = pinyin.ToLower().FirstUpper().Substring(0, pinyin.Length - 1);
-                                    break;
-                                case PinYinMode.Abbreviation:
-                                    pinyin = pinyin[0].ToString();
-                                    break;
-                            }
-                            string str = pinyin;
-                            if (!string.IsNullOrEmpty(nowPinyin))
-                            {
-                                str = nowPinyin + str;
-                            }
-                            inputPinYin.AddRange(GetPinYin(str, index + 1, chineseChars, mode));
-                        }
-                        break;
-                }
-            }
-            return inputPinYin;
-        }
-        /// <summary>
-        /// 首字母小写
-        /// </summary>
-        /// <param name="inputString"></param>
-        /// <returns></returns>
-        public static string FirstLower(this string inputString)
-        {
-            if (string.IsNullOrWhiteSpace(inputString)) return inputString;
-            return inputString[0].ToString().ToLower() + inputString.Substring(1);
-        }
-        /// <summary>
-        /// 首字母大写
-        /// </summary>
-        /// <param name="inputString"></param>
-        /// <returns></returns>
-        public static string FirstUpper(this string inputString)
-        {
-            if (string.IsNullOrWhiteSpace(inputString)) return inputString;
-            return inputString[0].ToString().ToUpper() + inputString.Substring(1);
-        }
+        ///// <summary>
+        ///// 获得拼音
+        ///// </summary>
+        ///// <param name="nowPinyin"></param>
+        ///// <param name="index"></param>
+        ///// <param name="chineseChars"></param>
+        ///// <param name="mode"></param>
+        ///// <returns></returns>
+        //private static IEnumerable<string> GetPinYin(string nowPinyin, int index, IReadOnlyList<object> chineseChars, PinYinMode mode)
+        //{
+        //    var inputPinYin = new List<string>();
+        //    if (chineseChars.Count <= index)
+        //    {
+        //        inputPinYin.Add(nowPinyin);
+        //    }
+        //    else
+        //    {
+        //        switch (chineseChars[index])
+        //        {
+        //            case char charString:
+        //                inputPinYin.AddRange(GetPinYin(nowPinyin + charString, index + 1, chineseChars, mode));
+        //                break;
+        //            case ChineseChar chinese:
+        //                for (var i = 0; i < chinese.PinyinCount; i++)
+        //                {
+        //                    string pinyin = chinese.Pinyins[i];
+        //                    switch (mode)
+        //                    {
+        //                        case PinYinMode.Full:
+        //                            pinyin = pinyin.ToLower().FirstUpper();
+        //                            break;
+        //                        case PinYinMode.NoTone:
+        //                            pinyin = pinyin.ToLower().FirstUpper().Substring(0, pinyin.Length - 1);
+        //                            break;
+        //                        case PinYinMode.Abbreviation:
+        //                            pinyin = pinyin[0].ToString();
+        //                            break;
+        //                    }
+        //                    string str = pinyin;
+        //                    if (!string.IsNullOrEmpty(nowPinyin))
+        //                    {
+        //                        str = nowPinyin + str;
+        //                    }
+        //                    inputPinYin.AddRange(GetPinYin(str, index + 1, chineseChars, mode));
+        //                }
+        //                break;
+        //        }
+        //    }
+        //    return inputPinYin;
+        //}
         /// <summary>
         /// 验证字符串
         /// </summary>
@@ -195,6 +174,20 @@ namespace Materal.StringHelper
         }
         #region 简单验证
         /// <summary>
+        /// 验证输入字符串是否为Json
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool IsJson(this string obj)
+        {
+            if (obj.StartsWith("{") && obj.EndsWith("}") ||
+                obj.StartsWith("[") && obj.EndsWith("]"))
+            {
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
         /// 验证输入字符串是否为16进制颜色
         /// </summary>
         /// <param name="obj">输入的字符串</param>
@@ -202,10 +195,7 @@ namespace Materal.StringHelper
         /// true是16进制颜色
         /// false不是16进制颜色
         /// </returns>
-        public static bool IsHexColor(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.HexColor, true);
-        }
+        public static bool IsHexColor(this string obj) => obj.VerifyRegex(Regexes.HexColor, true);
         /// <summary>
         /// 获取输入字符串中所有的16进制颜色
         /// </summary>
@@ -213,10 +203,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的16进制颜色
         /// </returns>
-        public static MatchCollection? GetHexColor(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.HexColor, false);
-        }
+        public static MatchCollection? GetHexColor(this string obj) => obj.GetVerifyRegex(Regexes.HexColor, false);
         /// <summary>
         /// 验证输入字符串是否为IPv4地址(无端口号)
         /// </summary>
@@ -225,10 +212,7 @@ namespace Materal.StringHelper
         /// true是IPv4地址(无端口号)
         /// false不是IPv4地址(无端口号)
         /// </returns>
-        public static bool IsIPv4(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.InternetProtocolV4, true);
-        }
+        public static bool IsIPv4(this string obj) => obj.VerifyRegex(Regexes.InternetProtocolV4, true);
         /// <summary>
         /// 获取输入字符串中所有的IPv4地址(无端口号)
         /// </summary>
@@ -236,10 +220,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的IPv4地址(无端口号)
         /// </returns>
-        public static MatchCollection? GetIPv4(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.InternetProtocolV4, false);
-        }
+        public static MatchCollection? GetIPv4(this string obj) => obj.GetVerifyRegex(Regexes.InternetProtocolV4, false);
         /// <summary>
         /// 验证输入字符串是否为IPv4地址(带端口号)
         /// </summary>
@@ -248,10 +229,7 @@ namespace Materal.StringHelper
         /// true是IPv4地址(带端口号)
         /// false不是IPv4地址(带端口号)
         /// </returns>
-        public static bool IsIPv4AndPort(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.InternetProtocolV4AndPort, true);
-        }
+        public static bool IsIPv4AndPort(this string obj) => obj.VerifyRegex(Regexes.InternetProtocolV4AndPort, true);
         /// <summary>
         /// 获取输入字符串中所有的IPv4地址(带端口号)
         /// </summary>
@@ -259,10 +237,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的IPv4地址(带端口号)
         /// </returns>
-        public static MatchCollection? GetIPv4AndPort(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.InternetProtocolV4AndPort, false);
-        }
+        public static MatchCollection? GetIPv4AndPort(this string obj) => obj.GetVerifyRegex(Regexes.InternetProtocolV4AndPort, false);
         /// <summary>
         /// 验证输入字符串是否为邮箱
         /// </summary>
@@ -271,10 +246,7 @@ namespace Materal.StringHelper
         /// true是邮箱
         /// false不是邮箱
         /// </returns>
-        public static bool IsEMail(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.EMail, true);
-        }
+        public static bool IsEMail(this string obj) => obj.VerifyRegex(Regexes.EMail, true);
         /// <summary>
         /// 获取输入字符串中所有的邮箱
         /// </summary>
@@ -282,10 +254,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的邮箱
         /// </returns>
-        public static MatchCollection? GetEMail(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.EMail, false);
-        }
+        public static MatchCollection? GetEMail(this string obj) => obj.GetVerifyRegex(Regexes.EMail, false);
         /// <summary>
         /// 验证输入字符串是否为实数
         /// </summary>
@@ -294,10 +263,7 @@ namespace Materal.StringHelper
         /// true是实数
         /// false不是实数
         /// </returns>
-        public static bool IsNumber(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.Number, true);
-        }
+        public static bool IsNumber(this string obj) => obj.VerifyRegex(Regexes.Number, true);
         /// <summary>
         /// 获取输入字符串中所有的实数
         /// </summary>
@@ -305,10 +271,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的实数
         /// </returns>
-        public static MatchCollection? GetNumber(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.Number, false);
-        }
+        public static MatchCollection? GetNumber(this string obj) => obj.GetVerifyRegex(Regexes.Number, false);
         /// <summary>
         /// 验证输入字符串是否为正实数
         /// </summary>
@@ -317,10 +280,7 @@ namespace Materal.StringHelper
         /// true是正实数
         /// false不是正实数
         /// </returns>
-        public static bool IsNumberPositive(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.NumberPositive, true);
-        }
+        public static bool IsNumberPositive(this string obj) => obj.VerifyRegex(Regexes.NumberPositive, true);
         /// <summary>
         /// 获取输入字符串中所有的正实数
         /// </summary>
@@ -328,10 +288,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的正实数
         /// </returns>
-        public static MatchCollection? GetNumberPositive(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.NumberPositive, false);
-        }
+        public static MatchCollection? GetNumberPositive(this string obj) => obj.GetVerifyRegex(Regexes.NumberPositive, false);
         /// <summary>
         /// 验证输入字符串是否为负实数
         /// </summary>
@@ -340,10 +297,7 @@ namespace Materal.StringHelper
         /// true是负实数
         /// false不是负实数
         /// </returns>
-        public static bool IsNumberNegative(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.NumberNegative, true);
-        }
+        public static bool IsNumberNegative(this string obj) => obj.VerifyRegex(Regexes.NumberNegative, true);
         /// <summary>
         /// 获取输入字符串中所有的负实数
         /// </summary>
@@ -351,10 +305,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的负实数
         /// </returns>
-        public static MatchCollection? GetNumberNegative(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.NumberNegative, false);
-        }
+        public static MatchCollection? GetNumberNegative(this string obj) => obj.GetVerifyRegex(Regexes.NumberNegative, false);
         /// <summary>
         /// 验证输入字符串是否为整数
         /// </summary>
@@ -363,10 +314,7 @@ namespace Materal.StringHelper
         /// true是整数
         /// false不是整数
         /// </returns>
-        public static bool IsInteger(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.Integer, true);
-        }
+        public static bool IsInteger(this string obj) => obj.VerifyRegex(Regexes.Integer, true);
         /// <summary>
         /// 获取输入字符串中所有的整数
         /// </summary>
@@ -374,10 +322,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的整数
         /// </returns>
-        public static MatchCollection? GetInteger(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.Integer, false);
-        }
+        public static MatchCollection? GetInteger(this string obj) => obj.GetVerifyRegex(Regexes.Integer, false);
         /// <summary>
         /// 验证输入字符串是否为正整数
         /// </summary>
@@ -386,10 +331,7 @@ namespace Materal.StringHelper
         /// true是正整数
         /// false不是正整数
         /// </returns>
-        public static bool IsIntegerPositive(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.IntegerPositive, true);
-        }
+        public static bool IsIntegerPositive(this string obj) => obj.VerifyRegex(Regexes.IntegerPositive, true);
         /// <summary>
         /// 获取输入字符串中所有的正整数
         /// </summary>
@@ -397,10 +339,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的正整数
         /// </returns>
-        public static MatchCollection? GetIntegerPositive(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.IntegerPositive, false);
-        }
+        public static MatchCollection? GetIntegerPositive(this string obj) => obj.GetVerifyRegex(Regexes.IntegerPositive, false);
         /// <summary>
         /// 验证输入字符串是否为负整数
         /// </summary>
@@ -409,10 +348,7 @@ namespace Materal.StringHelper
         /// true是负整数
         /// false不是负整数
         /// </returns>
-        public static bool IsIntegerNegative(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.IntegerNegative, true);
-        }
+        public static bool IsIntegerNegative(this string obj) => obj.VerifyRegex(Regexes.IntegerNegative, true);
         /// <summary>
         /// 获取输入字符串中所有的负整数
         /// </summary>
@@ -420,10 +356,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的负整数
         /// </returns>
-        public static MatchCollection? GetIntegerNegative(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.IntegerNegative, false);
-        }
+        public static MatchCollection? GetIntegerNegative(this string obj) => obj.GetVerifyRegex(Regexes.IntegerNegative, false);
         /// <summary>
         /// 验证输入字符串是否为URL地址
         /// </summary>
@@ -432,10 +365,7 @@ namespace Materal.StringHelper
         /// true是URL地址
         /// false不是URL地址
         /// </returns>
-        public static bool IsUrl(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.Url, true);
-        }
+        public static bool IsUrl(this string obj) => obj.VerifyRegex(Regexes.Url, true);
         /// <summary>
         /// 获取输入字符串中所有的URL地址
         /// </summary>
@@ -443,10 +373,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的URL地址
         /// </returns>
-        public static MatchCollection? GetUrl(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.Url, false);
-        }
+        public static MatchCollection? GetUrl(this string obj) => obj.GetVerifyRegex(Regexes.Url, false);
         /// <summary>
         /// 验证输入字符串是否为相对路径
         /// </summary>
@@ -455,10 +382,7 @@ namespace Materal.StringHelper
         /// true是相对路径
         /// false不是相对路径
         /// </returns>
-        public static bool IsRelativePath(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.RelativePath, true);
-        }
+        public static bool IsRelativePath(this string obj) => obj.VerifyRegex(Regexes.RelativePath, true);
         /// <summary>
         /// 获取输入字符串中所有的相对路径
         /// </summary>
@@ -466,10 +390,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的相对路径
         /// </returns>
-        public static MatchCollection? GetRelativePath(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.RelativePath, false);
-        }
+        public static MatchCollection? GetRelativePath(this string obj) => obj.GetVerifyRegex(Regexes.RelativePath, false);
         /// <summary>
         /// 验证输入字符串是否为文件名
         /// </summary>
@@ -478,10 +399,7 @@ namespace Materal.StringHelper
         /// true是文件名
         /// false不是文件名
         /// </returns>
-        public static bool IsFileName(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.FileName, true);
-        }
+        public static bool IsFileName(this string obj) => obj.VerifyRegex(Regexes.FileName, true);
         /// <summary>
         /// 获取输入字符串中所有的文件名
         /// </summary>
@@ -489,10 +407,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的文件名
         /// </returns>
-        public static MatchCollection? GetFileName(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.FileName, false);
-        }
+        public static MatchCollection? GetFileName(this string obj) => obj.GetVerifyRegex(Regexes.FileName, false);
         /// <summary>
         /// 验证输入字符串是否为文件夹绝对路径
         /// </summary>
@@ -501,10 +416,7 @@ namespace Materal.StringHelper
         /// true是文件名
         /// false不是文件名
         /// </returns>
-        public static bool IsAbsoluteDirectoryPath(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.AbsoluteDirectoryPath, true);
-        }
+        public static bool IsAbsoluteDirectoryPath(this string obj) => obj.VerifyRegex(Regexes.AbsoluteDirectoryPath, true);
         /// <summary>
         /// 获取输入字符串中所有的文件夹绝对路径
         /// </summary>
@@ -512,10 +424,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的文件名
         /// </returns>
-        public static MatchCollection? GetAbsoluteDirectoryPath(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.AbsoluteDirectoryPath, false);
-        }
+        public static MatchCollection? GetAbsoluteDirectoryPath(this string obj) => obj.GetVerifyRegex(Regexes.AbsoluteDirectoryPath, false);
         /// <summary>
         /// 验证输入字符串是否为手机号码
         /// </summary>
@@ -524,10 +433,7 @@ namespace Materal.StringHelper
         /// true是手机号码
         /// false不是手机号码
         /// </returns>
-        public static bool IsPhoneNumber(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.PhoneNumber, true);
-        }
+        public static bool IsPhoneNumber(this string obj) => obj.VerifyRegex(Regexes.PhoneNumber, true);
         /// <summary>
         /// 获取输入字符串中所有的手机号码
         /// </summary>
@@ -535,10 +441,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的手机号码
         /// </returns>
-        public static MatchCollection? GetPhoneNumber(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.PhoneNumber, false);
-        }
+        public static MatchCollection? GetPhoneNumber(this string obj) => obj.GetVerifyRegex(Regexes.PhoneNumber, false);
         /// <summary>
         /// 验证输入字符串是否为日期
         /// </summary>
@@ -550,7 +453,7 @@ namespace Materal.StringHelper
         /// </returns>
         public static bool IsDate(this string obj, string delimiter = "-/.")
         {
-            if (!obj.VerifyRegex(RegexData.Date(delimiter), true)) return false;
+            if (!obj.VerifyRegex(Regexes.Date(delimiter), true)) return false;
             var resM = false;
             char[] delimiters = delimiter.ToCharArray();
             foreach (char item in delimiters)
@@ -590,10 +493,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的日期
         /// </returns>
-        public static MatchCollection? GetDate(this string obj, string delimiter = "-/.")
-        {
-            return obj.GetVerifyRegex(RegexData.Date(delimiter), false);
-        }
+        public static MatchCollection? GetDate(this string obj, string delimiter = "-/.") => obj.GetVerifyRegex(Regexes.Date(delimiter), false);
         /// <summary>
         /// 验证输入字符串是否为时间
         /// </summary>
@@ -602,10 +502,7 @@ namespace Materal.StringHelper
         /// true是时间
         /// false不是时间
         /// </returns>
-        public static bool IsTime(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.Time, true);
-        }
+        public static bool IsTime(this string obj) => obj.VerifyRegex(Regexes.Time, true);
         /// <summary>
         /// 获取输入字符串中所有的时间
         /// </summary>
@@ -613,10 +510,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的时间
         /// </returns>
-        public static MatchCollection? GetTime(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.Time, false);
-        }
+        public static MatchCollection? GetTime(this string obj) => obj.GetVerifyRegex(Regexes.Time, false);
         /// <summary>
         /// 验证输入字符串是否为日期和时间
         /// </summary>
@@ -628,7 +522,7 @@ namespace Materal.StringHelper
         /// </returns>
         public static bool IsDateTime(this string obj, string delimiter = "-/.")
         {
-            if (!obj.VerifyRegex(RegexData.DateTime(delimiter), true)) return false;
+            if (!obj.VerifyRegex(Regexes.DateTime(delimiter), true)) return false;
             int index = obj.IndexOf(' ');
             if (index < 0) index = obj.IndexOf('T');
             if (index < 0) return false;
@@ -643,10 +537,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的日期和时间
         /// </returns>
-        public static MatchCollection? GetDateTime(this string obj, string delimiter = "-/.")
-        {
-            return obj.GetVerifyRegex(RegexData.DateTime(delimiter), false);
-        }
+        public static MatchCollection? GetDateTime(this string obj, string delimiter = "-/.") => obj.GetVerifyRegex(Regexes.DateTime(delimiter), false);
         /// <summary>
         /// 验证输入字符串是否为字母
         /// </summary>
@@ -655,10 +546,7 @@ namespace Materal.StringHelper
         /// true是字母
         /// false不是字母
         /// </returns>
-        public static bool IsLetter(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.Letter, true);
-        }
+        public static bool IsLetter(this string obj) => obj.VerifyRegex(Regexes.Letter, true);
         /// <summary>
         /// 获取输入字符串中所有的字母
         /// </summary>
@@ -666,10 +554,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母
         /// </returns>
-        public static MatchCollection? GetLetter(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.Letter, false);
-        }
+        public static MatchCollection? GetLetter(this string obj) => obj.GetVerifyRegex(Regexes.Letter, false);
         /// <summary>
         /// 验证输入字符串是否为字母或数字
         /// </summary>
@@ -678,10 +563,7 @@ namespace Materal.StringHelper
         /// true是字母或数字
         /// false不是字母或数字
         /// </returns>
-        public static bool IsLetterOrNumber(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.LetterNumber, true);
-        }
+        public static bool IsLetterOrNumber(this string obj) => obj.VerifyRegex(Regexes.LetterNumber, true);
         /// <summary>
         /// 获取输入字符串中所有的字母或数字
         /// </summary>
@@ -689,10 +571,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母或数字
         /// </returns>
-        public static MatchCollection? GetLetterOrNumber(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.LetterNumber, false);
-        }
+        public static MatchCollection? GetLetterOrNumber(this string obj) => obj.GetVerifyRegex(Regexes.LetterNumber, false);
         /// <summary>
         /// 验证输入字符串是否为小写字母
         /// </summary>
@@ -701,10 +580,7 @@ namespace Materal.StringHelper
         /// true是字母
         /// false不是字母
         /// </returns>
-        public static bool IsLowerLetterr(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.LowerLetter, true);
-        }
+        public static bool IsLowerLetterr(this string obj) => obj.VerifyRegex(Regexes.LowerLetter, true);
         /// <summary>
         /// 获取输入字符串中所有的小写字母
         /// </summary>
@@ -712,10 +588,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母
         /// </returns>
-        public static MatchCollection? GetLowerLetter(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.LowerLetter, false);
-        }
+        public static MatchCollection? GetLowerLetter(this string obj) => obj.GetVerifyRegex(Regexes.LowerLetter, false);
         /// <summary>
         /// 验证输入字符串是否为小写字母或数字
         /// </summary>
@@ -724,10 +597,7 @@ namespace Materal.StringHelper
         /// true是字母
         /// false不是字母
         /// </returns>
-        public static bool IsLowerLetterrOrNumber(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.LowerLetterNumber, true);
-        }
+        public static bool IsLowerLetterrOrNumber(this string obj) => obj.VerifyRegex(Regexes.LowerLetterNumber, true);
         /// <summary>
         /// 获取输入字符串中所有的小写字母或数字
         /// </summary>
@@ -735,10 +605,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母
         /// </returns>
-        public static MatchCollection? GetLowerLetterOrNumber(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.LowerLetterNumber, false);
-        }
+        public static MatchCollection? GetLowerLetterOrNumber(this string obj) => obj.GetVerifyRegex(Regexes.LowerLetterNumber, false);
         /// <summary>
         /// 验证输入字符串是否为大写字母
         /// </summary>
@@ -747,10 +614,7 @@ namespace Materal.StringHelper
         /// true是字母
         /// false不是字母
         /// </returns>
-        public static bool IsUpperLetterr(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.UpperLetter, true);
-        }
+        public static bool IsUpperLetterr(this string obj) => obj.VerifyRegex(Regexes.UpperLetter, true);
         /// <summary>
         /// 获取输入字符串中所有的大写字母
         /// </summary>
@@ -758,10 +622,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母
         /// </returns>
-        public static MatchCollection? GetUpperLetter(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.UpperLetter, false);
-        }
+        public static MatchCollection? GetUpperLetter(this string obj) => obj.GetVerifyRegex(Regexes.UpperLetter, false);
         /// <summary>
         /// 验证输入字符串是否为大写字母或数字
         /// </summary>
@@ -770,10 +631,7 @@ namespace Materal.StringHelper
         /// true是字母
         /// false不是字母
         /// </returns>
-        public static bool IsUpperLetterrOrNumber(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.UpperLetterNumber, true);
-        }
+        public static bool IsUpperLetterrOrNumber(this string obj) => obj.VerifyRegex(Regexes.UpperLetterNumber, true);
         /// <summary>
         /// 获取输入字符串中所有的大写字母或数字
         /// </summary>
@@ -781,10 +639,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的字母
         /// </returns>
-        public static MatchCollection? GetUpperLetterOrNumber(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.UpperLetterNumber, false);
-        }
+        public static MatchCollection? GetUpperLetterOrNumber(this string obj) => obj.GetVerifyRegex(Regexes.UpperLetterNumber, false);
         /// <summary>
         /// 验证输入字符串是否为中文
         /// </summary>
@@ -793,10 +648,7 @@ namespace Materal.StringHelper
         /// true是中文
         /// false不是中文
         /// </returns>
-        public static bool IsChinese(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.Chinese, true);
-        }
+        public static bool IsChinese(this string obj) => obj.VerifyRegex(Regexes.Chinese, true);
         /// <summary>
         /// 获取输入字符串中所有的中文
         /// </summary>
@@ -804,10 +656,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的中文或数字
         /// </returns>
-        public static MatchCollection? GetChinese(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.Chinese, false);
-        }
+        public static MatchCollection? GetChinese(this string obj) => obj.GetVerifyRegex(Regexes.Chinese, false);
         /// <summary>
         /// 验证输入字符串是否为中文或字母或数字
         /// </summary>
@@ -816,10 +665,7 @@ namespace Materal.StringHelper
         /// true是中文或字母或数字
         /// false不是中文或字母或数字
         /// </returns>
-        public static bool IsChineseOrLetterOrNumber(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.ChineseLetterNumber, true);
-        }
+        public static bool IsChineseOrLetterOrNumber(this string obj) => obj.VerifyRegex(Regexes.ChineseLetterNumber, true);
         /// <summary>
         /// 获取输入字符串中所有的中文或字母或数字
         /// </summary>
@@ -827,10 +673,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的中文或字母或数字
         /// </returns>
-        public static MatchCollection? GetChineseOrLetterOrNumber(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.ChineseLetterNumber, false);
-        }
+        public static MatchCollection? GetChineseOrLetterOrNumber(this string obj) => obj.GetVerifyRegex(Regexes.ChineseLetterNumber, false);
         /// <summary>
         /// 验证输入字符串是否为日文
         /// </summary>
@@ -839,10 +682,7 @@ namespace Materal.StringHelper
         /// true是日文
         /// false不是日文
         /// </returns>
-        public static bool IsJapanese(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.Japanese, true);
-        }
+        public static bool IsJapanese(this string obj) => obj.VerifyRegex(Regexes.Japanese, true);
         /// <summary>
         /// 获取输入字符串中所有的日文
         /// </summary>
@@ -850,10 +690,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的日文或数字
         /// </returns>
-        public static MatchCollection? GetJapanese(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.Japanese, false);
-        }
+        public static MatchCollection? GetJapanese(this string obj) => obj.GetVerifyRegex(Regexes.Japanese, false);
         /// <summary>
         /// 验证输入字符串是否为日文或字母或数字
         /// </summary>
@@ -862,10 +699,7 @@ namespace Materal.StringHelper
         /// true是日文或字母或数字
         /// false不是日文或字母或数字
         /// </returns>
-        public static bool IsJapaneseOrLetterOrNumber(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.JapaneseLetterNumber, true);
-        }
+        public static bool IsJapaneseOrLetterOrNumber(this string obj) => obj.VerifyRegex(Regexes.JapaneseLetterNumber, true);
         /// <summary>
         /// 获取输入字符串中所有的日文或字母或数字
         /// </summary>
@@ -873,10 +707,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的日文或字母或数字
         /// </returns>
-        public static MatchCollection? GetJapaneseOrLetterOrNumber(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.JapaneseLetterNumber, false);
-        }
+        public static MatchCollection? GetJapaneseOrLetterOrNumber(this string obj) => obj.GetVerifyRegex(Regexes.JapaneseLetterNumber, false);
         /// <summary>
         /// 验证输入字符串是否为十六进制数字
         /// </summary>
@@ -885,10 +716,7 @@ namespace Materal.StringHelper
         /// true是十六进制数字
         /// false不是十六进制数字
         /// </returns>
-        public static bool IsHexNumber(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.HexNumber, true);
-        }
+        public static bool IsHexNumber(this string obj) => obj.VerifyRegex(Regexes.HexNumber, true);
         /// <summary>
         /// 获取输入字符串中所有的十六进制数字
         /// </summary>
@@ -896,10 +724,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的十六进制数字
         /// </returns>
-        public static MatchCollection? GetHexNumber(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.HexNumber, false);
-        }
+        public static MatchCollection? GetHexNumber(this string obj) => obj.GetVerifyRegex(Regexes.HexNumber, false);
         /// <summary>
         /// 验证输入字符串是否为Guid
         /// </summary>
@@ -908,10 +733,7 @@ namespace Materal.StringHelper
         /// true是Guid
         /// false不是Guid
         /// </returns>
-        public static bool IsGuid(this string obj)
-        {
-            return obj.VerifyRegex(RegexData.Guid, true);
-        }
+        public static bool IsGuid(this string obj) => obj.VerifyRegex(Regexes.Guid, true);
         /// <summary>
         /// 获取输入字符串中所有的Guid
         /// </summary>
@@ -919,10 +741,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的Guid
         /// </returns>
-        public static MatchCollection? GetGuid(this string obj)
-        {
-            return obj.GetVerifyRegex(RegexData.Guid, false);
-        }
+        public static MatchCollection? GetGuid(this string obj) => obj.GetVerifyRegex(Regexes.Guid, false);
         #endregion
         #region 复杂验证
         /// <summary>  
@@ -961,7 +780,7 @@ namespace Materal.StringHelper
         /// </returns>
         public static bool IsIDCard18ForChina(this string obj)
         {
-            return obj.VerifyRegex(RegexData.IDCard18China, true);
+            return obj.VerifyRegex(Regexes.IDCard18China, true);
         }
         /// <summary>
         /// 获取输入字符串中所有的(中国)身份证18位
@@ -972,7 +791,7 @@ namespace Materal.StringHelper
         /// </returns>
         public static MatchCollection? GetIDCard18ForChina(this string obj)
         {
-            return obj.GetVerifyRegex(RegexData.IDCard18China, false);
+            return obj.GetVerifyRegex(Regexes.IDCard18China, false);
         }
         /// <summary>
         /// 验证输入字符串是否为(中国)身份证15位
@@ -984,7 +803,7 @@ namespace Materal.StringHelper
         /// </returns>
         public static bool IsIDCard15ForChina(this string obj)
         {
-            return obj.VerifyRegex(RegexData.IDCard15China, true);
+            return obj.VerifyRegex(Regexes.IDCard15China, true);
         }
         /// <summary>
         /// 获取输入字符串中所有的(中国)身份证15位
@@ -995,7 +814,7 @@ namespace Materal.StringHelper
         /// </returns>
         public static MatchCollection? GetIDCard15ForChina(this string obj)
         {
-            return obj.GetVerifyRegex(RegexData.IDCard15China, false);
+            return obj.GetVerifyRegex(Regexes.IDCard15China, false);
         }
         /// <summary>  
         /// 18位身份证号码验证  
@@ -1067,7 +886,7 @@ namespace Materal.StringHelper
         /// </returns>
         public static bool IsDiskPath(this string obj, bool isReal = false)
         {
-            if (!obj.VerifyRegex(RegexData.DiskPath, true)) return false;
+            if (!obj.VerifyRegex(Regexes.DiskPath, true)) return false;
             var isOk = false;
             if (isReal)
             {
@@ -1098,7 +917,7 @@ namespace Materal.StringHelper
         /// <returns>
         /// 字符串中所有的磁盘根目录
         /// </returns>
-        public static MatchCollection? GetDiskPath(this string obj) => obj.GetVerifyRegex(RegexData.DiskPath, false);
+        public static MatchCollection? GetDiskPath(this string obj) => obj.GetVerifyRegex(Regexes.DiskPath, false);
         /// <summary>
         /// 验证输入字符串是否为绝对路径
         /// </summary>
@@ -1110,7 +929,7 @@ namespace Materal.StringHelper
         /// </returns>
         public static bool IsAbsolutePath(this string obj, bool isReal = false)
         {
-            if (!obj.VerifyRegex(RegexData.AbsolutePath, true)) return false;
+            if (!obj.VerifyRegex(Regexes.AbsolutePath, true)) return false;
             string diskPath = obj.Length >= 3 ? obj.Substring(0, 3) : obj;
             return IsDiskPath(diskPath, isReal);
         }
@@ -1123,7 +942,7 @@ namespace Materal.StringHelper
         /// </returns>
         public static MatchCollection? GetAbsolutePath(this string obj)
         {
-            return obj.GetVerifyRegex(RegexData.AbsolutePath, false);
+            return obj.GetVerifyRegex(Regexes.AbsolutePath, false);
         }
         #endregion
     }
