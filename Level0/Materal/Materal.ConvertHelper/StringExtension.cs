@@ -1,6 +1,5 @@
 ﻿using Materal.StringHelper;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -38,6 +37,20 @@ namespace Materal.ConvertHelper
             {
                 throw new MateralConvertException("Json字符串有误", ex);
             }
+        }
+        /// <summary>
+        /// Json字符串转换对象
+        /// </summary>
+        /// <param name="jsonStr"></param>
+        /// <param name="typeName"></param>
+        /// <returns></returns>
+        public static object JsonToObject(this string jsonStr, string typeName)
+        {
+            Type? triggerDataType = GetTypeByTypeName(typeName, Array.Empty<object>());
+            if (triggerDataType == null) throw new MateralConvertException("转换失败");
+            object? result = jsonStr.JsonToObject(triggerDataType);
+            if (result == null) throw new MateralConvertException("转换失败");
+            return result;
         }
         /// <summary>
         /// Json字符串转换对象
@@ -117,48 +130,6 @@ namespace Materal.ConvertHelper
         /// <summary>
         /// Json字符串转换对象
         /// </summary>
-        /// <param name="jsonStr"></param>
-        /// <param name="typeName"></param>
-        /// <returns></returns>
-        public static object JsonToObject(this string jsonStr, string typeName)
-        {
-            Type? triggerDataType = null;
-            object? result = null;
-            if (_cacheTypes.ContainsKey(typeName))
-            {
-                triggerDataType = _cacheTypes[typeName];
-            }
-            else
-            {
-                Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-                foreach (Assembly assembly in assemblies)
-                {
-                    Type? targetType = assembly.GetTypes().Where(m => m.Name == typeName && m.IsClass && !m.IsAbstract).FirstOrDefault();
-                    if (targetType == null) continue;
-                    ConstructorInfo? constructorInfo = targetType.GetConstructor(Array.Empty<Type>());
-                    if (constructorInfo == null) continue;
-                    triggerDataType = targetType;
-                    break;
-                }
-            }
-            if (triggerDataType == null) throw new MateralConvertException("转换失败");
-            result = jsonStr.JsonToObject(triggerDataType);
-            if (!_cacheTypes.ContainsKey(typeName))
-            {
-                lock (_operationCacheObjectLock)
-                {
-
-                    if (!_cacheTypes.ContainsKey(typeName))
-                    {
-                        _cacheTypes.Add(typeName, triggerDataType);
-                    }
-                }
-            }
-            return result;
-        }
-        /// <summary>
-        /// Json字符串转换对象
-        /// </summary>
         /// <typeparam name="T">接口类型</typeparam>
         /// <param name="jsonStr"></param>
         /// <param name="typeName"></param>
@@ -173,10 +144,10 @@ namespace Materal.ConvertHelper
         /// 获得类型
         /// </summary>
         /// <param name="typeName"></param>
+        /// <param name="filter">过滤器</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        /// <exception cref="MateralConvertException"></exception>
-        public static Type? GetTypeByTypeName(this string typeName, params object[] args)
+        public static Type? GetTypeByTypeName(this string typeName, Func<Type, bool> filter, params Type[] args)
         {
             if (string.IsNullOrWhiteSpace(typeName)) return null;
             Type? triggerDataType = null;
@@ -190,7 +161,7 @@ namespace Materal.ConvertHelper
                 Type[] argTypes = args.Select(m => m.GetType()).ToArray();
                 foreach (Assembly assembly in assemblies)
                 {
-                    Type? targetType = assembly.GetTypes().FirstOrDefault(m => m.Name == typeName && m.IsClass && !m.IsAbstract);
+                    Type? targetType = assembly.GetTypes().Where(m => filter(m)).FirstOrDefault();
                     if (targetType == null) continue;
                     ConstructorInfo? constructorInfo = targetType.GetConstructor(argTypes);
                     if (constructorInfo == null) continue;
@@ -215,8 +186,28 @@ namespace Materal.ConvertHelper
         /// <summary>
         /// 获得类型
         /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static Type? GetTypeByTypeName(this string typeName, params Type[] args) => typeName.GetTypeByTypeName(m => m.Name == typeName && m.IsClass && !m.IsAbstract, args);
+        /// <summary>
+        /// 获得类型
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralConvertException"></exception>
+        public static Type? GetTypeByTypeName(this string typeName, params object[] args)
+        {
+            Type[] argTypes = args.Select(m => m.GetType()).ToArray();
+            return GetTypeByTypeName(typeName, m => m.Name == typeName && m.IsClass && !m.IsAbstract, argTypes);
+        }
+        /// <summary>
+        /// 获得类型
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="typeName"></param>
+        /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="MateralConvertException"></exception>
         public static Type? GetTypeByTypeName<T>(this string typeName, params object[] args)
@@ -236,7 +227,7 @@ namespace Materal.ConvertHelper
         {
             Type? type = GetTypeByTypeName(typeName, args);
             if (type == null) return null;
-            return type.GetObjectByType(args);
+            return type.Instantiation(args);
         }
         /// <summary>
         /// 根据类型名称获得对象
@@ -248,8 +239,50 @@ namespace Materal.ConvertHelper
         {
             Type? type = GetTypeByTypeName<T>(typeName, args);
             if (type == null) return default;
-            object? typeObject = type.GetObjectByType(args);
+            object? typeObject = type.Instantiation(args);
             if (typeObject == null || typeObject is not T result) return default;
+            return result;
+        }
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="parentType"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static Type? GetTypeByParentType(this string typeName, Type parentType, params Type[] args) => typeName.GetTypeByTypeName((m => m.Name == typeName && m.IsClass && !m.IsAbstract && TypeExtension.IsNameAssignableTo(m, parentType)), args);
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <typeparam name="T">父级类型</typeparam>
+        /// <param name="typeName"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static Type? GetTypeByParentType<T>(this string typeName, params Type[] args) => typeName.GetTypeByParentType(parentType: typeof(T), args);
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="parentType"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? GetObjectByParentType(this string typeName, Type parentType, params object[] args)
+        {
+            Type[] argTypes = args.Select(m => m.GetType()).ToArray();
+            Type? type = typeName.GetTypeByParentType(parentType, argTypes);
+            if (type == null) return null;
+            return type.Instantiation(args);
+        }
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T? GetObjectByParentType<T>(this string typeName, params object[] args)
+        {
+            object? obj = typeName.GetObjectByParentType(parentType: typeof(T), args);
+            if (obj == null || obj is not T result) return default;
             return result;
         }
         /// <summary>

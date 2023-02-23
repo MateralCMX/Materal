@@ -18,7 +18,7 @@ namespace Materal.ConvertHelper
         public static T? GetObject<T>(params object[] args)
         {
             Type tType = typeof(T);
-            object? typeObject = tType.GetObjectByType(args);
+            object? typeObject = tType.Instantiation(args);
             if (typeObject == null || typeObject is not T result) return default;
             return result;
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Text.Json.Serialization;
 
 namespace Materal.Logger.Models
 {
@@ -10,6 +11,7 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 日志等级
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public LogLevel LogLevel { get; set; }
         /// <summary>
         /// 异常

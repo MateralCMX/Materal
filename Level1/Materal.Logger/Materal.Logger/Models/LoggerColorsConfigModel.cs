@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Text.Json.Serialization;
 
 namespace Materal.Logger.Models
 {
@@ -7,6 +8,7 @@ namespace Materal.Logger.Models
     /// </summary>
     public class LoggerColorsConfigModel
     {
+
         /// <summary>
         /// 默认颜色
         /// </summary>
@@ -14,30 +16,37 @@ namespace Materal.Logger.Models
         /// <summary>
         /// Trace颜色
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Trace { get; set; } = ConsoleColor.Gray;
         /// <summary>
         /// Debug颜色
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Debug { get; set; } = ConsoleColor.Gray;
         /// <summary>
         /// Information颜色
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Information { get; set; } = ConsoleColor.Gray;
         /// <summary>
         /// Warning颜色
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Warning { get; set; } = ConsoleColor.Gray;
         /// <summary>
         /// Error颜色
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Error { get; set; } = ConsoleColor.Gray;
         /// <summary>
         /// Critical颜色
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Critical { get; set; } = ConsoleColor.Gray;
         /// <summary>
         /// None颜色
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor None { get; set; } = ConsoleColor.Gray;
         /// <summary>
         /// 获得控制台颜色
