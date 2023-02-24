@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Materal.WeChatHelper.Model
+namespace Materal.Utils.Wechat.Model
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public abstract class MenuButtonModel : DefaultMenuButtonModel

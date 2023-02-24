@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Materal.WeChatHelper.Model
+namespace Materal.Utils.Wechat.Model
 {
     /// <summary>
     /// 菜单按钮类型枚举

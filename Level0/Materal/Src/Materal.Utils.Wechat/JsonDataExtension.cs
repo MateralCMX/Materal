@@ -1,6 +1,6 @@
 ﻿using LitJson;
 
-namespace Materal.WeChatHelper
+namespace Materal.Utils.Wechat
 {
     public static class JsonDataExtension
     {

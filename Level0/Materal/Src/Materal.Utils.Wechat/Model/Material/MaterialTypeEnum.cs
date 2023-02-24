@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Materal.WeChatHelper.Model.Material
+namespace Materal.Utils.Wechat.Model.Material
 {
     /// <summary>
     /// 素材类型枚举

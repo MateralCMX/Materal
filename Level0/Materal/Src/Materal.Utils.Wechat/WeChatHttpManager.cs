@@ -1,11 +1,11 @@
 ﻿//using Materal.ConvertHelper;
-//using Materal.WeChatHelper.Model;
+//using Materal.Utils.Wechat.Model;
 //using System.Net;
 //using System.Net.Security;
 //using System.Security.Cryptography.X509Certificates;
 //using System.Text;
 
-//namespace Materal.WeChatHelper
+//namespace Materal.Utils.Wechat
 //{
 //    /// <summary>
 //    /// 微信Http管理器

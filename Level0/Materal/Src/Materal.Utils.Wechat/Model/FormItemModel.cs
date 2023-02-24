@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Materal.WeChatHelper.Model
+namespace Materal.Utils.Wechat.Model
 {
     /// <summary>
     /// 表单数据项

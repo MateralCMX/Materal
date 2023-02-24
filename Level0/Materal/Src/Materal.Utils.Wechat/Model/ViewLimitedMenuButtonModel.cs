@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Materal.WeChatHelper.Model
+namespace Materal.Utils.Wechat.Model
 {
     /// <summary>
     /// 跳转图文消息URL用户点击view_limited类型按钮后，

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Materal.WeChatHelper.Model
+namespace Materal.Utils.Wechat.Model
 {
     /// <summary>
     /// 扫码推事件用户点击按钮后，微信客户端将调起扫一扫工具，

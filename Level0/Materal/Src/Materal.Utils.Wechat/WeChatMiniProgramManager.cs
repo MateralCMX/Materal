@@ -1,10 +1,10 @@
 ﻿using LitJson;
 using Materal.Utils.Http;
-using Materal.WeChatHelper.Model;
-using Materal.WeChatHelper.Model.Basis.Request;
-using Materal.WeChatHelper.Model.Basis.Result;
+using Materal.Utils.Wechat.Model;
+using Materal.Utils.Wechat.Model.Basis.Request;
+using Materal.Utils.Wechat.Model.Basis.Result;
 
-namespace Materal.WeChatHelper
+namespace Materal.Utils.Wechat
 {
     /// <summary>
     /// 微信小程序管理器

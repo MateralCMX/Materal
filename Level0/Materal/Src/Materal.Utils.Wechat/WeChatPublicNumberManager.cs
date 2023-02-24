@@ -1,16 +1,16 @@
 ﻿//using LitJson;
 //using Materal.ConvertHelper;
-//using Materal.WeChatHelper.Model;
-//using Materal.WeChatHelper.Model.Basis.Result;
-//using Materal.WeChatHelper.Model.Material.Request;
-//using Materal.WeChatHelper.Model.Material.Result;
+//using Materal.Utils.Wechat.Model;
+//using Materal.Utils.Wechat.Model.Basis.Result;
+//using Materal.Utils.Wechat.Model.Material.Request;
+//using Materal.Utils.Wechat.Model.Material.Result;
 //using System;
 //using System.Collections.Generic;
 //using System.IO;
-//using Materal.WeChatHelper.Model.Material;
+//using Materal.Utils.Wechat.Model.Material;
 //using Materal.NetworkHelper;
 
-//namespace Materal.WeChatHelper
+//namespace Materal.Utils.Wechat
 //{
 //    public class WeChatPublicNumberManager
 //    {

@@ -1,4 +1,4 @@
-﻿namespace Materal.WeChatHelper.Model
+﻿namespace Materal.Utils.Wechat.Model
 {
     public class NetworkDetectionPingModel
     {

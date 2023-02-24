@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Materal.WeChatHelper.Model.Material.Result
+namespace Materal.Utils.Wechat.Model.Material.Result
 {
     /// <summary>
     /// 获取素材列表返回模型

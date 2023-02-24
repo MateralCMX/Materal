@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Materal.WeChatHelper.Model.Basis.Request
+namespace Materal.Utils.Wechat.Model.Basis.Request
 {
     public class SubscribeMessageSendRequestModel
     {

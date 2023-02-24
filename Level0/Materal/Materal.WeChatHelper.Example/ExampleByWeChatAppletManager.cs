@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using Materal.WeChatHelper;
 using Materal.WeChatHelper.Model;
 using Materal.WeChatHelper.Model.Basis.Request;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace Materal.WeChatHelper.Example
+namespace Materal.Utils.Wechat.Example
 {
     public class ExampleByWeChatAppletManager
     {

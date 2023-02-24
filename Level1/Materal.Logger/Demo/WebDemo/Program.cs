@@ -14,7 +14,6 @@ namespace WebDemo
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
             builder.Services.AddMateralLogger();
             var app = builder.Build();
             #region 配置文件方式
@@ -30,7 +29,6 @@ namespace WebDemo
             //    option.AddAllTargetRule();
             //}, builder.Configuration);
             #endregion
-
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

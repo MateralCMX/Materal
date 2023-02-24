@@ -36,7 +36,7 @@
     "Issuer": "MateralMBC",
     "Key": "MateralCMXConfig"
   },
-  "MateralLogger": {
+  "Logger": {
     "Application": "${ApplicationName}",
     "Targets": [
       {

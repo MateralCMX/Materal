@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.HttpClient"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.CodeGenerator", "..\RC.Core\Src\RC.Core.CodeGenerator\RC.Core.CodeGenerator.csproj", "{82807708-1451-4545-8473-E790F9167C38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC.ServerCenter.Web", "RC.ServerCenter.Web\RC.ServerCenter.Web.csproj", "{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,6 +103,10 @@ Global
 		{82807708-1451-4545-8473-E790F9167C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82807708-1451-4545-8473-E790F9167C38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82807708-1451-4545-8473-E790F9167C38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

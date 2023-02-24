@@ -1,11 +1,11 @@
 #$codeDir = "E:\Project\古典部\新明解\Project\XMJ\"#源码文件夹路径
 #$publishDir = "E:\Project\古典部\新明解\Application\"#发布文件夹路径
 
-$codeDir = "D:\Project\Materal\Project\Materal\Level4\ReleaseCenter\Src\"#源码文件夹路径
+$codeDir = "D:\Project\Materal\Project\Materal\Level3\ReleaseCenter\Src\"#源码文件夹路径
 $publishDir = "D:\Project\Materal\Application\"#发布文件夹路径
 
-$applicationSuffixs = "WebAPI"#后缀名
-$applicationPrefixs = "RC.EnvironmentServer"#前缀名
+$applicationSuffixs = "WebAPI","Web"#后缀名
+$applicationPrefixs = "RC.Authority","RC.Deploy","RC.ServerCenter","RC.EnvironmentServer"#前缀名
 #"RC.Authority","RC.Deploy","RC.ServerCenter","RC.EnvironmentServer"
 $version = "Release"#Debug Release
 Remove-Item -Path:"$publishDir\*" -Recurse:$true

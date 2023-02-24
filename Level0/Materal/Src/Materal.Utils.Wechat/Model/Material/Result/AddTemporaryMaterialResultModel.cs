@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Materal.WeChatHelper.Model.Material.Result
+namespace Materal.Utils.Wechat.Model.Material.Result
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class AddTemporaryMaterialResultModel

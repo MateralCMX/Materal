@@ -1,7 +1,7 @@
 ﻿using LitJson;
-using Materal.WeChatHelper.Model;
+using Materal.Utils.Wechat.Model;
 
-namespace Materal.WeChatHelper
+namespace Materal.Utils.Wechat
 {
     public class WeChatPublicNumberErrorHelper
     {

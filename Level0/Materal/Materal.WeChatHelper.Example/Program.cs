@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Materal.WeChatHelper.Example
+namespace Materal.Utils.Wechat.Example
 {
     public class Program
     {

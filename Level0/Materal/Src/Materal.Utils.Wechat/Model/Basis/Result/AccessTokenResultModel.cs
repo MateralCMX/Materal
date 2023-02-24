@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Materal.WeChatHelper.Model.Basis.Result
+namespace Materal.Utils.Wechat.Model.Basis.Result
 {
     /// <summary>
     /// AccessToken返回模型

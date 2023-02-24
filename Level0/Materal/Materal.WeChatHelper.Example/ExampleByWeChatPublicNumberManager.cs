@@ -8,7 +8,7 @@
 //using System.IO;
 //using System.Reflection;
 
-//namespace Materal.WeChatHelper.Example
+//namespace Materal.Utils.Wechat.Example
 //{
 //    public class ExampleByWeChatPublicNumberManager
 //    {

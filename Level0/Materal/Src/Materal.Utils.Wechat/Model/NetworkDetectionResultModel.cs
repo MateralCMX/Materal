@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Materal.WeChatHelper.Model
+namespace Materal.Utils.Wechat.Model
 {
     public class NetworkDetectionResultModel
     {

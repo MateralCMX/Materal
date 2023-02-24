@@ -2,7 +2,7 @@
 using System.Text;
 using System.Xml;
 
-namespace Materal.WeChatHelper.Model
+namespace Materal.Utils.Wechat.Model
 {
     /// <summary>
     /// 微信支数据模型
