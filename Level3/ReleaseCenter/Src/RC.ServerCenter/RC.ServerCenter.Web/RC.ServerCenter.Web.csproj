@@ -11,4 +11,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.10" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\RC.Authority\RC.Authority.HttpClient\RC.Authority.HttpClient.csproj" />
+    <ProjectReference Include="..\..\RC.Deploy\RC.Deploy.HttpClient\RC.Deploy.HttpClient.csproj" />
+    <ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.HttpClient\RC.EnvironmentServer.HttpClient.csproj" />
+    <ProjectReference Include="..\RC.ServerCenter.HttpClient\RC.ServerCenter.HttpClient.csproj" />
+  </ItemGroup>
+
 </Project>
