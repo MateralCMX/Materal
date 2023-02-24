@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.WebAPI", "RC.ServerCenter.WebAPI\RC.ServerCenter.WebAPI.csproj", "{F231EBC0-6B08-4AF3-AFEC-978F97844E74}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.Web", "RC.ServerCenter.Web\RC.ServerCenter.Web.csproj", "{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{197F84FB-DB68-4F83-A7C3-B3F0D96D2677}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.Common", "..\RC.Core\Src\RC.Core.Common\RC.Core.Common.csproj", "{DCDC5392-298C-45C6-8207-44A2049AFE1C}"
@@ -27,15 +31,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.ServiceImpl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.PresentationModel", "RC.ServerCenter.PresentationModel\RC.ServerCenter.PresentationModel.csproj", "{7C380917-2C56-4FA6-BAD4-87FFD1A3D43A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.WebAPI", "RC.ServerCenter.WebAPI\RC.ServerCenter.WebAPI.csproj", "{F231EBC0-6B08-4AF3-AFEC-978F97844E74}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.IntegrationEvents", "RC.ServerCenter.IntegrationEvents\RC.ServerCenter.IntegrationEvents.csproj", "{ABABE0F4-A18D-445A-9B8F-C468C3F631BD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.HttpClient", "RC.ServerCenter.HttpClient\RC.ServerCenter.HttpClient.csproj", "{5B8051EC-2591-4A11-BA70-66DBCA1001F1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.CodeGenerator", "..\RC.Core\Src\RC.Core.CodeGenerator\RC.Core.CodeGenerator.csproj", "{82807708-1451-4545-8473-E790F9167C38}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RC.ServerCenter.Web", "RC.ServerCenter.Web\RC.ServerCenter.Web.csproj", "{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +43,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F231EBC0-6B08-4AF3-AFEC-978F97844E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F231EBC0-6B08-4AF3-AFEC-978F97844E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F231EBC0-6B08-4AF3-AFEC-978F97844E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F231EBC0-6B08-4AF3-AFEC-978F97844E74}.Release|Any CPU.Build.0 = Release|Any CPU		
+		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DCDC5392-298C-45C6-8207-44A2049AFE1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCDC5392-298C-45C6-8207-44A2049AFE1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCDC5392-298C-45C6-8207-44A2049AFE1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -87,10 +95,6 @@ Global
 		{7C380917-2C56-4FA6-BAD4-87FFD1A3D43A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C380917-2C56-4FA6-BAD4-87FFD1A3D43A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C380917-2C56-4FA6-BAD4-87FFD1A3D43A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F231EBC0-6B08-4AF3-AFEC-978F97844E74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F231EBC0-6B08-4AF3-AFEC-978F97844E74}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F231EBC0-6B08-4AF3-AFEC-978F97844E74}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F231EBC0-6B08-4AF3-AFEC-978F97844E74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{ABABE0F4-A18D-445A-9B8F-C468C3F631BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ABABE0F4-A18D-445A-9B8F-C468C3F631BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABABE0F4-A18D-445A-9B8F-C468C3F631BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -103,10 +107,6 @@ Global
 		{82807708-1451-4545-8473-E790F9167C38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82807708-1451-4545-8473-E790F9167C38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82807708-1451-4545-8473-E790F9167C38}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2DF235CA-6ABF-4810-A0F6-DF1C4FBC14B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

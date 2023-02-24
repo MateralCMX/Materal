@@ -15,22 +15,8 @@ namespace Materal.Test.UtilsTest
         [TestMethod]
         public async Task TestSendAsync()
         {
-            string url = "http://82.156.11.176:8700/Authority_FatAPI/api/ActionAuthority/GetList";
-            Dictionary<string, string> headers = new()
-            {
-                ["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiV2ViQVBJIiwiV2ViQVBJIl0sImlzcyI6Ik1hdGVyYWwuQVBQIiwiVXNlcklEIjoiYWQ0N2YzZWEtMTA5NS00NTRiLWI2YjItNDQ1MTk5YTBhNzIxIiwiU3ViU3lzdGVtQ29kZSI6Ik1hbmFnZW1lbnRTeXN0ZW0iLCJuYmYiOjE2NzcxMzQ5NjYsImV4cCI6MTY3NzE1Mjk2NiwiaWF0IjoxNjc3MTM0OTY2fQ.SGSZ1skoTl9X08hffL-Gk92sFCapB_x02BQL6Jmnw0o"
-            };
-            object data = new
-            {
-                PageIndex = 1,
-                PageSize = 10
-            };
-            Dictionary<string, string> queryData = new()
-            {
-                ["Name"] = "ะกร๗",
-                ["Age"] = "25"
-            };
-            string result = await _httpHelper.SendPostAsync(url, queryData, data, headers);
+            string url = "http://127.0.0.1:8500/v1/agent/services";
+            string result = await _httpHelper.SendGetAsync(url);
         }
     }
 }

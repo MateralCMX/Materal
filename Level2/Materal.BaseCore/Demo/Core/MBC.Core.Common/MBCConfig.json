@@ -1,8 +1,8 @@
 {
   "ConsulConfig": {
-    "Enable": false,
-    "Url": "http://175.27.194.19:8500",
-    "HealthInterval": 30,
+    "Enable": true,
+    "Url": "http://127.0.0.1:8500",
+    "HealthInterval": 10,
     "ReconnectionInterval": 30
   },
   "SwaggerConfig": {
@@ -27,7 +27,7 @@
     "ErrorMessage": "服务器发生错误,请联系后台工程师处理。"
   },
   "HttpClienUrltConfig": {
-    "BaseUrl": "http://localhost:5000/",
+    "BaseUrl": "http://127.0.0.1:8700/",
     "Suffix": null
   },
   "JWT": {

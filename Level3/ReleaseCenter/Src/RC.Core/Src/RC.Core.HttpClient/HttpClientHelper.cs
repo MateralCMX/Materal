@@ -23,7 +23,6 @@ namespace RC.Core.HttpClient
         {
             Dictionary<string, string> result = new()
             {
-                ["Content-Type"] = "application/json",
                 ["Authorization"] = $"Bearer {_token}"
             };
             return result;

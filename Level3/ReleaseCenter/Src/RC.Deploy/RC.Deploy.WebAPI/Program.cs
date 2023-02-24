@@ -17,6 +17,15 @@ namespace RC.Deploy.WebAPI
     public partial class Program
     {
         /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="services"></param>
+        public override void ConfigService(IServiceCollection services)
+        {
+            base.ConfigService(services);
+            services.AddSignalR();
+        }
+        /// <summary>
         /// 初始化
         /// </summary>
         /// <param name="args"></param>

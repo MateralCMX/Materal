@@ -84,7 +84,9 @@ namespace Materal.Utils.Http
             byte[] responseContent = await SendByBytesAsync(httpRequestMessage, httpResponseMessage);
             try
             {
-                Encoding encoding = Encoding.GetEncoding(httpResponseMessage.Content.Headers.ContentType.CharSet);
+                Encoding encoding = httpResponseMessage.Content.Headers.ContentType.CharSet == null ?
+                    Encoding.Default :
+                    Encoding.GetEncoding(httpResponseMessage.Content.Headers.ContentType.CharSet);
                 string result = encoding.GetString(responseContent);
                 return result;
             }
