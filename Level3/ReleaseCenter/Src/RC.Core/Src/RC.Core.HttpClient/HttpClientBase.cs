@@ -43,6 +43,6 @@ namespace RC.Core.HttpClient
             }
         }
         protected override Dictionary<string, string> GetDefaultHeaders() => HttpClientHelper.GetDefaultHeaders();
-        protected override string GetTrueUrl(string url) => $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{_appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/{url}";
+        protected override string GetTrueUrl(string url) => $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{_appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/api/{url}";
     }
 }

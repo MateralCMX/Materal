@@ -2,7 +2,7 @@
   "ConsulConfig": {
     "Enable": true,
     "Url": "http://127.0.0.1:8500",
-    "HealthInterval": 10,
+    "HealthInterval": 30,
     "ReconnectionInterval": 30
   },
   "SwaggerConfig": {
