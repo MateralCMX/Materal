@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<!--<Nullable>enable</Nullable>-->
+		<LangVersion>10.0</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Title>Materal Wechat工具包</Title>
+		<Company>Materal</Company>
+		<Product>Materal</Product>
+		<Authors>Materal</Authors>
+		<Version>0.0.1</Version>
+		<Description>Materal Wechat工具包</Description>
+		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+		<PackageOutputPath>../../nupkgs</PackageOutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="LitJson" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
+	</ItemGroup>
+</Project>

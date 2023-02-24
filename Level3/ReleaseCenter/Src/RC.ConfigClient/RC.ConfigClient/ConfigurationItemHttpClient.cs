@@ -14,22 +14,24 @@ namespace RC.ConfigClient
             _httpHelper = new HttpHelper();
         }
         private readonly string _url;
-        public ConfigurationItemHttpClient(string url)
+        private readonly bool _isAbsoluteUrl;
+        public ConfigurationItemHttpClient(string url, bool isAbsoluteUrl = false)
         {
             _url = url;
+            _isAbsoluteUrl = isAbsoluteUrl;
         }
-        /// <summary>
-        /// 获得默认头部
-        /// </summary>
-        /// <returns></returns>
-        public static Dictionary<string, string> GetDefaultHeaders() => new()
-        {
-            ["Content-Type"] = "application/json"
-        };
         public async Task<ICollection<ConfigurationItemListDTO>?> GetDataAsync(QueryConfigurationItemRequestModel requestModel)
         {
-            string url = $"{_url}/ConfigurationItem/GetList";
-            string httpResult = await _httpHelper.SendPostAsync(url, null, requestModel, GetDefaultHeaders());
+            string url = _url;
+            if (!_isAbsoluteUrl)
+            {
+                if (!_url.EndsWith("/"))
+                {
+                    url += "/";
+                }
+                url += $"ConfigurationItem/GetList";
+            }
+            string httpResult = await _httpHelper.SendPostAsync(url, null, requestModel);
             PageResultModel<ConfigurationItemListDTO> result = httpResult.JsonToObject<PageResultModel<ConfigurationItemListDTO>>();
             if(result.ResultType == ResultTypeEnum.Success) return result.Data;
             throw new MateralException("获取配置项失败");
