@@ -1,4 +1,4 @@
-using Materal.Common;
+using Materal.Abstractions;
 using Materal.TFMS.EventBus;
 
 namespace RC.ServerCenter.WebAPI

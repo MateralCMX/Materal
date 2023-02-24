@@ -1,5 +1,5 @@
 ﻿using Materal.BaseCore.WebAPI.Controllers;
-using Materal.Model;
+using Materal.Utils.Model;
 using MBC.Demo.DataTransmitModel.User;
 using MBC.Demo.HttpClient;
 using MBC.Demo.PresentationModel.User;

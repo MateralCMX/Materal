@@ -5,6 +5,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.ConfigurationHelper" Version="*" />
+	  <PackageReference Include="Materal.Utils" Version="*" />
 	</ItemGroup>
 </Project>

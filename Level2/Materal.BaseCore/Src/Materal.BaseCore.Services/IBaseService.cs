@@ -1,6 +1,6 @@
 ﻿using Materal.BaseCore.Common;
 using Materal.BaseCore.DataTransmitModel;
-using Materal.Model;
+using Materal.Utils.Model;
 
 namespace Materal.BaseCore.Services
 {

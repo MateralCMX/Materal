@@ -1,5 +1,5 @@
-﻿using Materal.Common;
-using Materal.Model;
+﻿using Materal.Abstractions;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Materal.BaseCore.WebAPI.Filters

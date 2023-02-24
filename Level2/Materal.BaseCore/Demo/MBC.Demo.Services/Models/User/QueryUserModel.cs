@@ -1,5 +1,5 @@
 ﻿using Materal.BaseCore.Services;
-using Materal.Model;
+using Materal.Utils.Model;
 
 namespace MBC.Demo.Services.Models.User
 {

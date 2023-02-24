@@ -1,5 +1,4 @@
-﻿using Materal.Common;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace Materal.BaseCore.HttpClient.Extensions
 {

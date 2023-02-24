@@ -1,6 +1,6 @@
 ﻿using AspectCore.DynamicProxy;
 using Materal.BaseCore.Common;
-using Materal.Model;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RC.Authority.DataTransmitModel.User;

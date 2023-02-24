@@ -1,7 +1,4 @@
-﻿using Materal.Common;
-using Materal.EnumHelper;
-
-namespace Materal.BaseCore.Common.Utils
+﻿namespace Materal.BaseCore.Common.Utils
 {
     public static class EnumHelperExtensions
     {

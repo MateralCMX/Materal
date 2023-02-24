@@ -1,5 +1,4 @@
-﻿using Materal.Model;
-using Materal.Oscillator.Abstractions.DataTransmitModel;
+﻿using Materal.Oscillator.Abstractions.DataTransmitModel;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Models.Answer;
 using Materal.Oscillator.Abstractions.Models.Plan;
@@ -7,6 +6,7 @@ using Materal.Oscillator.Abstractions.Models.Schedule;
 using Materal.Oscillator.Abstractions.Models.ScheduleWork;
 using Materal.Oscillator.Abstractions.Models.Work;
 using Materal.Oscillator.Abstractions.Models.WorkEvent;
+using Materal.Utils.Model;
 
 namespace Materal.Oscillator.Abstractions
 {

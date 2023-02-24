@@ -50,7 +50,6 @@
     <Compile Include="Models\VSIXDomainSolutionModel.cs" />
     <Compile Include="Models\VSIXProjectModel.cs" />
     <Compile Include="Models\VSIXWebAPISolutionModel.cs" />
-    <Compile Include="ProcessManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MateralBaseCoreVSIXPackage.cs" />
     <Compile Include="VSIXException.cs" />
@@ -72,10 +71,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Materal.Utils.Windows">
+      <Version>0.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.4.33103.184" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.4.2119">
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.5.4065">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
@@ -97,37 +99,11 @@
   <ItemGroup>
     <Content Include="Resources\HttpClientGeneratorCommand.png" />
     <Content Include="Resources\CodeGeneratorCommand.png" />
-    <EmbeddedResource Include="Tools\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\cs\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\de\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\de\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\es\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\es\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\fr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\fr\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\it\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\it\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\ja\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\ja\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\ko\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\ko\Microsoft.CodeAnalysis.resources.dll" />
     <EmbeddedResource Include="Tools\Materal.BaseCore.CodeGenerator.dll" />
     <EmbeddedResource Include="Tools\MateralBasePlugBuild.dll" />
     <EmbeddedResource Include="Tools\Microsoft.CodeAnalysis.CSharp.dll" />
     <EmbeddedResource Include="Tools\Microsoft.CodeAnalysis.dll" />
     <EmbeddedResource Include="Tools\Newtonsoft.Json.dll" />
-    <EmbeddedResource Include="Tools\pl\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\pl\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\pt-BR\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\ru\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\ru\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\tr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\tr\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\zh-Hans\Microsoft.CodeAnalysis.resources.dll" />
-    <EmbeddedResource Include="Tools\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll" />
-    <EmbeddedResource Include="Tools\zh-Hant\Microsoft.CodeAnalysis.resources.dll" />
     <Content Include="尘歌壶.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

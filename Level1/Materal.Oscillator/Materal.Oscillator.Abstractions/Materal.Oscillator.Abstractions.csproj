@@ -5,17 +5,16 @@
 		<LangVersion>11.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../nupkg</PackageOutputPath>
+		<PackageOutputPath>../nupkgs</PackageOutputPath>
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>0.0.8</Version>
+		<Version>0.0.9</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.Abstractions</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.ConfigurationHelper" Version="*" />
-		<PackageReference Include="Materal.EnumHelper" Version="*" />
+		<PackageReference Include="Materal.Utils" Version="*" />
 		<PackageReference Include="Materal.TTA.EFRepository" Version="*" />
 		<PackageReference Include="Quartz" Version="*" />
 	</ItemGroup>

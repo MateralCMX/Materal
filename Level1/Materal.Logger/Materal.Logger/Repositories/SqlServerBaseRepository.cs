@@ -1,5 +1,4 @@
-﻿using Materal.ConvertHelper;
-using Materal.Logger.Models;
+﻿using Materal.Logger.Models;
 using System.Data;
 using System.Data.SqlClient;
 

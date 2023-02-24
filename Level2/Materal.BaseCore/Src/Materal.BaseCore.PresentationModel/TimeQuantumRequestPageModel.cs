@@ -1,4 +1,4 @@
-﻿using Materal.Model;
+﻿using Materal.Utils.Model;
 using System.ComponentModel.DataAnnotations;
 
 namespace Materal.BaseCore.PresentationModel

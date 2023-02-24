@@ -14,10 +14,6 @@
 		<Description>配置中心客户端</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.ConfigurationHelper" Version="*" />
-		<PackageReference Include="Materal.NetworkHelper" Version="*" />
-	</ItemGroup>
-	<ItemGroup>
 		<ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.DataTransmitModel\RC.EnvironmentServer.DataTransmitModel.csproj" />
 		<ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.Enums\RC.EnvironmentServer.Enums.csproj" />
 		<ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.PresentationModel\RC.EnvironmentServer.PresentationModel.csproj" />

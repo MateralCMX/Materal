@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using Materal.Abstractions;
 using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.PresentationModel;
 using Materal.BaseCore.Services;
-using Materal.Common;
-using Materal.Model;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 

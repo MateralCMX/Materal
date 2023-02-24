@@ -1,5 +1,4 @@
-﻿using Materal.ConfigurationHelper;
-using Materal.Gateway.Common.ConfigModel;
+﻿using Materal.Gateway.Common.ConfigModel;
 using Microsoft.Extensions.Configuration;
 
 namespace Materal.Gateway.Common

@@ -171,7 +171,7 @@ namespace RC.Core.CodeGenerator
             FileInfo configFileInfo = new(configFilePath);
             if (configFileInfo.Exists) return;
             StringBuilder codeContent = new();
-            codeContent.AppendLine($"using Materal.Common;");
+            codeContent.AppendLine($"using Materal.Abstractions;");
             codeContent.AppendLine($"using Materal.TTA.EFRepository;");
             codeContent.AppendLine($"using RC.Core.WebAPI;");
             codeContent.AppendLine($"using RC.{model.WebAPIProject.ProjectName}.EFRepository;");

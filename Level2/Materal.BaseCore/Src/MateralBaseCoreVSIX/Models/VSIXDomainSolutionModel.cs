@@ -1,6 +1,7 @@
 ﻿using EnvDTE;
 using Materal.BaseCore.CodeGenerator.Extensions;
 using Materal.BaseCore.CodeGenerator.Models;
+using Materal.WindowsHelper;
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
 using System;
@@ -129,10 +130,10 @@ namespace MateralBaseCoreVSIX.Models
             SaveToolsRessources(_plugTempDirectoryInfo);
             string modelJson = JsonConvert.SerializeObject(_plugProjectModels);
             SaveModelJson(_plugTempDirectoryInfo, "ModelData.json", modelJson);
-            Materal.WindowsHelper.ProcessManager processManager = new Materal.WindowsHelper.ProcessManager();
-            processManager.ErrorDataReceived += ProcessManager_ErrorDataReceived;
+            ProcessHelper processHelper = new ProcessHelper();
+            processHelper.ErrorDataReceived += ProcessManager_ErrorDataReceived;
             string plugExe = Path.Combine(_plugTempDirectoryInfo.FullName, "MateralBasePlugBuild.dll");
-            processManager.ProcessStart("dotnet", $"{plugExe}");
+            processHelper.ProcessStart("dotnet", $"{plugExe}");
             _plugTempDirectoryInfo?.Delete(true);
             if (_plugErrorMessages == null || _plugErrorMessages.Length == 0) return;
             throw new VSIXException(_plugErrorMessages.ToString());

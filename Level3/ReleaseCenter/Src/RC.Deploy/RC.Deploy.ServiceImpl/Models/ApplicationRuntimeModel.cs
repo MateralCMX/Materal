@@ -1,4 +1,4 @@
-﻿using Materal.Common;
+﻿using Materal.Abstractions;
 using Materal.WindowsHelper;
 using Microsoft.AspNetCore.SignalR;
 using RC.Core.Common;
@@ -41,7 +41,7 @@ namespace RC.Deploy.ServiceImpl.Models
         /// <summary>
         /// 控制台信息
         /// </summary>
-        private List<string> _consoleMessages = new();
+        private readonly List<string> _consoleMessages = new();
         /// <summary>
         /// 压缩包文件组文件夹路径
         /// </summary>
@@ -53,7 +53,7 @@ namespace RC.Deploy.ServiceImpl.Models
         /// <summary>
         /// 应用程序处理器
         /// </summary>
-        private IApplicationHandler _applicationHandler { get; }
+        private readonly IApplicationHandler _applicationHandler;
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -206,15 +206,15 @@ namespace RC.Deploy.ServiceImpl.Models
             string winRarPath = Path.Combine(ApplicationConfig.WinRarPath, "UnRaR.exe");
             if (!File.Exists(winRarPath)) throw new RCException("UnRar.exe文件丢失");
             string cmdArgs = $"x -o+ -y \"{rarFilePath}\" \"{unRarPath}\"";
-            ProcessManager processManager = new();
+            ProcessHelper processHelper = new();
             void DataHandler(object sender, DataReceivedEventArgs e)
             {
                 if (e.Data == null || string.IsNullOrWhiteSpace(e.Data)) return;
                 AddConsoleMessage(e.Data);
             }
-            processManager.ErrorDataReceived += DataHandler;
-            processManager.OutputDataReceived += DataHandler;
-            processManager.ProcessStart(winRarPath, cmdArgs);
+            processHelper.ErrorDataReceived += DataHandler;
+            processHelper.OutputDataReceived += DataHandler;
+            processHelper.ProcessStart(winRarPath, cmdArgs);
             return unRarPath;
         }
         /// <summary>

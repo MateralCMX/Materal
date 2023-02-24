@@ -1,5 +1,5 @@
-﻿using Materal.Common;
-using Materal.Logger.Models;
+﻿using Materal.Logger.Models;
+using Materal.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger.LoggerHandlers

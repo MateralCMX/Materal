@@ -1,6 +1,6 @@
-﻿using Materal.Common;
-using Materal.Core.Logger.CommandHandlers;
+﻿using Materal.Core.Logger.CommandHandlers;
 using Materal.Logger.Message;
+using Materal.Utils;
 using Microsoft.Extensions.Logging;
 
 namespace Materal.LoggerClient.EventHandlers

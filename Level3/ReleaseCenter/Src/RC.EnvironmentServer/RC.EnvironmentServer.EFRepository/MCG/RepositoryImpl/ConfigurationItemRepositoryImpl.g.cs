@@ -1,7 +1,7 @@
 using RC.Core.EFRepository;
 using RC.EnvironmentServer.Domain;
 using RC.EnvironmentServer.Domain.Repositories;
-using Materal.CacheHelper;
+using Materal.Utils.Cache;
 
 namespace RC.EnvironmentServer.EFRepository.RepositoryImpl
 {
@@ -13,7 +13,7 @@ namespace RC.EnvironmentServer.EFRepository.RepositoryImpl
         /// <summary>
         /// 构造方法
         /// </summary>
-        public ConfigurationItemRepositoryImpl(EnvironmentServerDBContext dbContext, ICacheManager cacheManager) : base(dbContext, cacheManager) { }
+        public ConfigurationItemRepositoryImpl(EnvironmentServerDBContext dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager) { }
         /// <summary>
         /// 获得所有缓存名称
         /// </summary>

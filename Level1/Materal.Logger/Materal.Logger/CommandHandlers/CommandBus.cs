@@ -1,5 +1,4 @@
-﻿using Materal.ConvertHelper;
-using Materal.Logger.Message;
+﻿using Materal.Logger.Message;
 using Materal.Logger.Models;
 
 namespace Materal.Logger.CommandHandlers

@@ -1,6 +1,6 @@
 ﻿using AspectCore.DynamicProxy;
 using Materal.BaseCore.Common;
-using Materal.Model;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RC.Core.Common;
@@ -90,7 +90,7 @@ namespace RC.Demo.WebAPI.Controllers
         /// <param name="requestModel"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ResultModel<List<UserDTO>>> TestAsync(ChangePasswordRequestModel requestModel)
+        public Task<ResultModel<List<UserDTO>>> TestAsync(ChangePasswordRequestModel requestModel)
         {
             throw new NotImplementedException();
         }

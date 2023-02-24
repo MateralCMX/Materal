@@ -1,7 +1,4 @@
-﻿using Materal.ConvertHelper;
-using Materal.StringHelper;
-
-namespace Materal.BaseCore.WebAPI.Common.Models
+﻿namespace Materal.BaseCore.WebAPI.Common.Models
 {
     /// <summary>
     /// Url配置模型

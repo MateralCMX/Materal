@@ -1,5 +1,5 @@
-﻿using Materal.Common;
-using Materal.Model;
+﻿using Materal.Abstractions;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Http;
 using RC.Core.Common;
 using RC.Deploy.DataTransmitModel.ApplicationInfo;

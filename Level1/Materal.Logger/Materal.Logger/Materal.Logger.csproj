@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>netstandard2.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
-		<Version>0.0.8</Version>
+		<Version>0.0.9</Version>
 		<Company>Materal</Company>
 		<Product>Materal日志模块</Product>
 		<Authors>Materal</Authors>
@@ -15,7 +16,7 @@
 		<Description>包含日志所需的所有内容</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.ConfigurationHelper" Version="*" />
+		<PackageReference Include="Materal.Utils" Version="*" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="*" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="*" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="*" />

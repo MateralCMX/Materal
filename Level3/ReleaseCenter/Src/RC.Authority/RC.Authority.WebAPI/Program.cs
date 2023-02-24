@@ -1,4 +1,4 @@
-using Materal.Common;
+using Materal.Abstractions;
 using RC.Authority.Services;
 
 namespace RC.Authority.WebAPI
@@ -20,7 +20,6 @@ namespace RC.Authority.WebAPI
             #region 添加默认用户
             IUserService? userService = MateralServices.GetService<IUserService>();
             await userService.AddDefaultUserAsync();
-            userService = null;
             #endregion
             await base.InitAsync(args, services, app);
         }

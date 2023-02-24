@@ -1,4 +1,4 @@
-﻿using Materal.DateTimeHelper;
+﻿using Materal.Abstractions;
 
 namespace Materal.Oscillator.PlanTriggers
 {

@@ -1,6 +1,5 @@
 using Materal.BaseCore.WebAPI.Controllers;
-using Materal.Model;
-using Materal.EnumHelper;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RC.Deploy.Enums;

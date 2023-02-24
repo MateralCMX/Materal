@@ -1,4 +1,4 @@
-﻿using Materal.Common;
+﻿using Materal.Abstractions;
 
 namespace ConfigCenter.Client
 {

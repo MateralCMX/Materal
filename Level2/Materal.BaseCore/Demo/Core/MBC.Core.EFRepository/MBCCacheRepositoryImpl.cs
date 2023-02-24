@@ -1,6 +1,6 @@
-﻿using Materal.CacheHelper;
-using Materal.TTA.Common;
+﻿using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
+using Materal.Utils.Cache;
 using Microsoft.EntityFrameworkCore;
 
 namespace MBC.Core.EFRepository
@@ -19,7 +19,7 @@ namespace MBC.Core.EFRepository
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="cacheManager"></param>
-        public MBCCacheRepositoryImpl(DbContext dbContext, ICacheManager cacheManager) : base(dbContext, cacheManager, null)
+        public MBCCacheRepositoryImpl(DbContext dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager, null)
         {
         }
     }

@@ -1,5 +1,4 @@
-﻿using Materal.ConfigurationHelper;
-using Materal.Logger.Models;
+﻿using Materal.Logger.Models;
 using Microsoft.Extensions.Configuration;
 using System.Collections;
 using System.Reflection;

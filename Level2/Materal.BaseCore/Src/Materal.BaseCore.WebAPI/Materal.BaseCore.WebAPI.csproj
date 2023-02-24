@@ -23,7 +23,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 		<PackageReference Include="Consul" Version="*" />
 		<PackageReference Include="Polly" Version="*" />
-		<PackageReference Include="Materal.NetworkHelper" Version="*" />
 		<PackageReference Include="Materal.Logger" Version="*" />
 	</ItemGroup>
 </Project>

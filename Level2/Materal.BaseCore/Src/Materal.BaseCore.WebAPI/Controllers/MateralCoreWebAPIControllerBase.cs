@@ -1,7 +1,6 @@
 ﻿using Materal.BaseCore.Common;
 using Materal.BaseCore.Common.ConfigModels;
 using Materal.BaseCore.WebAPI.Filters;
-using Materal.StringHelper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

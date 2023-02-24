@@ -1,4 +1,4 @@
-﻿using Materal.Model;
+﻿using Materal.Utils.Model;
 using RC.Demo.DataTransmitModel.User;
 using RC.Demo.Services.Models.User;
 

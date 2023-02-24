@@ -1,5 +1,4 @@
-﻿using Materal.Model;
-using Materal.Oscillator.Abstractions.Answers;
+﻿using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Answers;
 using System.ComponentModel.DataAnnotations;
 

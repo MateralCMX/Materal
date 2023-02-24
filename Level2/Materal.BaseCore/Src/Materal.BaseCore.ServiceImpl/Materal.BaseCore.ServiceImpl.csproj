@@ -17,7 +17,4 @@
 		<ProjectReference Include="..\Materal.BaseCore.EFRepository\Materal.BaseCore.EFRepository.csproj" />
 		<ProjectReference Include="..\Materal.BaseCore.Services\Materal.BaseCore.Services.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Materal.LinqHelper" Version="*" />
-	</ItemGroup>
 </Project>

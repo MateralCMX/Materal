@@ -1,6 +1,6 @@
-﻿using Materal.Common;
-using Materal.Logger.Message;
+﻿using Materal.Logger.Message;
 using Materal.LoggerClient.EventHandlers;
+using Materal.Utils;
 using Microsoft.Extensions.Logging;
 using System.Net.WebSockets;
 using System.Text;

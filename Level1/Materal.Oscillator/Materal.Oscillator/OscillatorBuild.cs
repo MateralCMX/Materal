@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Materal.Common;
+using Materal.Abstractions;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Models.Answer;

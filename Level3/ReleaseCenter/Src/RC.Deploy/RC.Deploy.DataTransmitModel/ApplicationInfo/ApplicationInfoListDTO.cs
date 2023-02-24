@@ -1,5 +1,4 @@
-﻿using Materal.Common;
-using RC.Deploy.Enums;
+﻿using RC.Deploy.Enums;
 
 namespace RC.Deploy.DataTransmitModel.ApplicationInfo
 {

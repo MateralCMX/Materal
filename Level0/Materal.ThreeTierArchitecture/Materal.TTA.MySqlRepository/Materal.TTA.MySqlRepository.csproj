@@ -4,14 +4,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>11.0</LangVersion>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../nupkg</PackageOutputPath>
-		<Product>Materal.ThreeTierArchitecture</Product>
-		<Company>Materal</Company>
-		<Authors>Materal</Authors>
-		<Version>2.0.25</Version>
-		<Copyright>Materal</Copyright>
-		<Description>Materal.TTA.MySqlRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />

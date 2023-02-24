@@ -1,5 +1,5 @@
 ﻿using Materal.BaseCore.Common;
-using Materal.Model;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 

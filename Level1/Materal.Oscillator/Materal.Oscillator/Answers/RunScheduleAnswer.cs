@@ -1,4 +1,4 @@
-﻿using Materal.Common;
+﻿using Materal.Abstractions;
 using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.QuartZExtend;

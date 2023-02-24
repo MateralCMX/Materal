@@ -1,4 +1,4 @@
-﻿using Materal.Model;
+﻿using Materal.Utils.Model;
 using RC.EnvironmentServer.Services.Models.ConfigurationItem;
 
 namespace RC.EnvironmentServer.Services
@@ -15,6 +15,7 @@ namespace RC.EnvironmentServer.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        [DataValidation]
         Task SyncConfigAsync(SyncConfigModel model);
     }
 }

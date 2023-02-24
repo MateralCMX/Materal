@@ -1,4 +1,5 @@
-﻿using Materal.Oscillator.Abstractions;
+﻿using Materal.Abstractions;
+using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Common;
 using Materal.Oscillator.Abstractions.Domain;
@@ -7,12 +8,10 @@ using Materal.Oscillator.Abstractions.Models.Answer;
 using Materal.Oscillator.Abstractions.QuartZExtend;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Abstractions.Works;
-using Quartz;
-using Materal.ConvertHelper;
-using Materal.Common;
 using Materal.Oscillator.AutoMapperProfile;
-using Materal.Oscillator.DR.Domain;
 using Materal.Oscillator.DR;
+using Materal.Oscillator.DR.Domain;
+using Quartz;
 
 namespace Materal.Oscillator.QuartZExtend
 {

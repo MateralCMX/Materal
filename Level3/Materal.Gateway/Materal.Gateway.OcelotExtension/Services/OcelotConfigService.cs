@@ -1,5 +1,4 @@
-﻿using Materal.ConvertHelper;
-using Materal.Gateway.Common;
+﻿using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension.ConfigModel;
 using System.Text;
 

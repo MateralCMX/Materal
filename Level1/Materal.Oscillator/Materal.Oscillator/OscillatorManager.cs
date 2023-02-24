@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Materal.Model;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Common;
 using Materal.Oscillator.Abstractions.DataTransmitModel;
@@ -14,6 +13,7 @@ using Materal.Oscillator.Abstractions.Models.WorkEvent;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Models;
 using Materal.Oscillator.QuartZExtend;
+using Materal.Utils.Model;
 using Quartz;
 
 namespace Materal.Oscillator

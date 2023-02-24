@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Materal.BaseCore.Common;
-using Materal.Common;
-using Materal.Model;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;

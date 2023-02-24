@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
+using Materal.Abstractions;
 using Materal.BaseCore.Common;
 using Materal.BaseCore.Common.Utils;
 using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.Domain;
 using Materal.BaseCore.EFRepository;
 using Materal.BaseCore.Services;
-using Materal.Common;
-using Materal.Model;
 using Materal.TTA.EFRepository;
+using Materal.Utils.Model;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using System.Linq.Expressions;

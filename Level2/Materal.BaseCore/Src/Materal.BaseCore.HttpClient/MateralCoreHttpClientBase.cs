@@ -1,11 +1,9 @@
+using Materal.Abstractions;
 using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.HttpClient.Extensions;
 using Materal.BaseCore.PresentationModel;
-using Materal.Common;
-using Materal.ConvertHelper;
-using Materal.DateTimeHelper;
-using Materal.Model;
-using Materal.NetworkHelper;
+using Materal.Utils.Http;
+using Materal.Utils.Model;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -21,6 +19,7 @@ namespace Materal.BaseCore.HttpClient
         /// 日志
         /// </summary>
         protected readonly ILogger? Logger = MateralServices.GetServiceOrDefatult<ILogger<MateralCoreHttpClientBase>>();
+        protected readonly IHttpHelper httpHelper = MateralServices.GetService<IHttpHelper>();
         /// <summary>
         /// 默认编码
         /// </summary>
@@ -50,14 +49,14 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<string> GetResultByPostAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             data?.Validation();
             Dictionary<string, string> httpHeaders = GetDefaultHeaders();
             string trueUrl = GetTrueUrl(url);
-            string httpReslt = await HttpManager.SendPostAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            string httpReslt = await httpHelper.SendPostAsync(trueUrl, queryParams, data, httpHeaders, DefaultEncoding);
+            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralHttpException("返回值内容为空");
             return httpReslt;
         }
         /// <summary>
@@ -67,14 +66,14 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<string> GetResultByPutAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             data?.Validation();
             Dictionary<string, string> httpHeaders = GetDefaultHeaders();
             string trueUrl = GetTrueUrl(url);
-            string httpReslt = await HttpManager.SendPutAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            string httpReslt = await httpHelper.SendPutAsync(trueUrl, queryParams, data, httpHeaders, DefaultEncoding);
+            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralHttpException("返回值内容为空");
             return httpReslt;
         }
         /// <summary>
@@ -84,14 +83,14 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<string> GetResultByPathAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             data?.Validation();
             Dictionary<string, string> httpHeaders = GetDefaultHeaders();
             string trueUrl = GetTrueUrl(url);
-            string httpReslt = await HttpManager.SendPatchAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            string httpReslt = await httpHelper.SendPatchAsync(trueUrl, queryParams, data, httpHeaders, DefaultEncoding);
+            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralHttpException("返回值内容为空");
             return httpReslt;
         }
         /// <summary>
@@ -101,14 +100,14 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<string> GetResultByDeleteAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             data?.Validation();
             Dictionary<string, string> httpHeaders = GetDefaultHeaders();
             string trueUrl = GetTrueUrl(url);
-            string httpReslt = await HttpManager.SendDeleteAsync(trueUrl, data, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            string httpReslt = await httpHelper.SendDeleteAsync(trueUrl, queryParams, data, httpHeaders, DefaultEncoding);
+            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralHttpException("返回值内容为空");
             return httpReslt;
         }
         /// <summary>
@@ -118,13 +117,13 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<string> GetResultByGetAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             Dictionary<string, string> httpHeaders = GetDefaultHeaders();
             string trueUrl = GetTrueUrl(url);
-            string httpReslt = await HttpManager.SendGetAsync(trueUrl, queryParams, httpHeaders, DefaultEncoding);
-            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralNetworkException("返回值内容为空");
+            string httpReslt = await httpHelper.SendGetAsync(trueUrl, queryParams, data, httpHeaders, DefaultEncoding);
+            if (string.IsNullOrWhiteSpace(httpReslt)) throw new MateralHttpException("返回值内容为空");
             return httpReslt;
         }
         /// <summary>
@@ -135,7 +134,7 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<T> SendPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             string httpReslt = await GetResultByPostAsync(url, data, queryParams);
@@ -150,7 +149,7 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<T> SendPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             string httpReslt = await GetResultByPutAsync(url, data, queryParams);
@@ -165,7 +164,7 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<T> SendPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             string httpReslt = await GetResultByPathAsync(url, data, queryParams);
@@ -180,7 +179,7 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<T> SendDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             string httpReslt = await GetResultByDeleteAsync(url, data, queryParams);
@@ -194,7 +193,7 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="url"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<T> SendGetAsync<T>(string url, Dictionary<string, string>? queryParams = null)
         {
             string httpReslt = await GetResultByGetAsync(url, null, queryParams);
@@ -208,11 +207,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task GetResultModelByPostAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
-            ResultModel result = await SendPostAsync<ResultModel>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            ResultModel result = await SendPostAsync<ResultModel>(url, queryParams);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
         }
         /// <summary>
         /// 获得Post返回
@@ -221,11 +220,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<T?> GetResultModelByPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             ResultModel<T> result = await SendPostAsync<ResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
             return result.Data;
         }
         /// <summary>
@@ -235,11 +234,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<(List<T>? data, PageModel pageInfo)> GetPageResultModelByPostAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             PageResultModel<T> result = await SendPostAsync<PageResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
             if (result.Data != null && result.PageModel != null)
             {
                 return (result.Data.ToList(), result.PageModel);
@@ -253,11 +252,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task GetResultModelByPutAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             ResultModel result = await SendPutAsync<ResultModel>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
         }
         /// <summary>
         /// 获得Put返回
@@ -266,11 +265,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<T?> GetResultModelByPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             ResultModel<T> result = await SendPutAsync<ResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
             return result.Data;
         }
         /// <summary>
@@ -280,11 +279,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<(List<T>? data, PageModel pageInfo)> GetPageResultModelByPutAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             PageResultModel<T> result = await SendPutAsync<PageResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
             if (result.Data != null && result.PageModel != null)
             {
                 return (result.Data.ToList(), result.PageModel);
@@ -298,11 +297,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task GetResultModelByPatchAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             ResultModel result = await SendPatchAsync<ResultModel>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
         }
         /// <summary>
         /// 获得Patch返回
@@ -311,11 +310,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<T?> GetResultModelByPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             ResultModel<T> result = await SendPatchAsync<ResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
             return result.Data;
         }
         /// <summary>
@@ -325,11 +324,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<(List<T>? data, PageModel pageInfo)> GetPageResultModelByPatchAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             PageResultModel<T> result = await SendPatchAsync<PageResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
             if (result.Data != null && result.PageModel != null)
             {
                 return (result.Data.ToList(), result.PageModel);
@@ -343,11 +342,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task GetResultModelByDeleteAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             ResultModel result = await SendDeleteAsync<ResultModel>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
         }
         /// <summary>
         /// 获得Delete返回
@@ -356,11 +355,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<T?> GetResultModelByDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             ResultModel<T> result = await SendDeleteAsync<ResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
             return result.Data;
         }
         /// <summary>
@@ -370,11 +369,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="data"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<(List<T>? data, PageModel pageInfo)> GetPageResultModelByDeleteAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             PageResultModel<T> result = await SendDeleteAsync<PageResultModel<T>>(url, data, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
             if (result.Data != null && result.PageModel != null)
             {
                 return (result.Data.ToList(), result.PageModel);
@@ -387,11 +386,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="url"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task GetResultModelByGetAsync(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             ResultModel result = await SendGetAsync<ResultModel>(url, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
         }
         /// <summary>
         /// 获得Get返回
@@ -399,11 +398,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="url"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<T?> GetResultModelByGetAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             ResultModel<T> result = await SendGetAsync<ResultModel<T>>(url, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
             return result.Data;
         }
         /// <summary>
@@ -412,11 +411,11 @@ namespace Materal.BaseCore.HttpClient
         /// <param name="url"></param>
         /// <param name="queryParams"></param>
         /// <returns></returns>
-        /// <exception cref="MateralNetworkException"></exception>
+        /// <exception cref="MateralHttpException"></exception>
         protected virtual async Task<(List<T>? data, PageModel pageInfo)> GetPageResultModelByGetAsync<T>(string url, object? data = null, Dictionary<string, string>? queryParams = null)
         {
             PageResultModel<T> result = await SendGetAsync<PageResultModel<T>>(url, queryParams);
-            if (result.ResultType != ResultTypeEnum.Success) throw new MateralNetworkException(result.Message);
+            if (result.ResultType != ResultTypeEnum.Success) throw new MateralHttpException(result.Message ?? string.Empty);
             if (result.Data != null && result.PageModel != null)
             {
                 return (result.Data.ToList(), result.PageModel);

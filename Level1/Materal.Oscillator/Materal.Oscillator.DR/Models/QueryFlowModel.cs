@@ -1,4 +1,4 @@
-﻿using Materal.Model;
+﻿using Materal.Utils.Model;
 
 namespace Materal.Oscillator.DR.Models
 {

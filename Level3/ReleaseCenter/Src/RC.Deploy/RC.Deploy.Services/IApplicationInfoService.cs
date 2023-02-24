@@ -1,4 +1,4 @@
-﻿using Materal.Model;
+﻿using Materal.Utils.Model;
 using Microsoft.AspNetCore.Http;
 
 namespace RC.Deploy.Services

@@ -1,5 +1,4 @@
-﻿using Materal.ConvertHelper;
-using Materal.Oscillator.Abstractions.Domain;
+﻿using Materal.Oscillator.Abstractions.Domain;
 
 namespace Materal.Oscillator.Abstractions.Works
 {

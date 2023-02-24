@@ -1,5 +1,5 @@
-﻿using Materal.Common;
-using Materal.Logger;
+﻿using Materal.Logger;
+using Materal.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

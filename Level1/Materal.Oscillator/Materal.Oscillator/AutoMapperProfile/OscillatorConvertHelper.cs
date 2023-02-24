@@ -1,5 +1,4 @@
-﻿using Materal.ConvertHelper;
-using Materal.Oscillator.Abstractions.Models;
+﻿using Materal.Oscillator.Abstractions.Models;
 using System.Reflection;
 
 namespace Materal.Oscillator.AutoMapperProfile

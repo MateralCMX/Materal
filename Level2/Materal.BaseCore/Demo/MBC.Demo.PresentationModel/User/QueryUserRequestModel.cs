@@ -1,5 +1,5 @@
 ﻿using Materal.BaseCore.PresentationModel;
-using Materal.Model;
+using Materal.Utils.Model;
 
 namespace MBC.Demo.PresentationModel.User
 {

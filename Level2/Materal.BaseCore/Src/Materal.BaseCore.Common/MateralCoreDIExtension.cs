@@ -1,9 +1,9 @@
-﻿using Materal.CacheHelper;
-using Materal.Common;
+﻿using Materal.Abstractions;
 using Materal.TFMS.EventBus;
 using Materal.TFMS.EventBus.Extensions;
 using Materal.TFMS.EventBus.RabbitMQ;
 using Materal.TFMS.EventBus.RabbitMQ.Extensions;
+using Materal.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
@@ -26,7 +26,7 @@ namespace Materal.BaseCore.Common
         {
             MateralConfig.PageStartNumber = 1;
             services.AddMemoryCache();
-            services.AddSingleton<ICacheManager, MemoryCacheManager>();
+            services.AddMateralUtils();
             services.AddAutoMapper(config =>
             {
                 config.AllowNullCollections = true;

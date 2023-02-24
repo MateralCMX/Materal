@@ -5,9 +5,6 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace MateralBaseCoreVSIX
@@ -95,7 +92,9 @@ namespace MateralBaseCoreVSIX
             string message = "HttpClient生成成功";
             try
             {
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
                 object temp = ServiceProvider.GetServiceAsync(typeof(DTE)).Result;
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
                 if (temp is DTE dte && dte.ActiveSolutionProjects != null && dte.ActiveSolutionProjects is object[] activeObjects)
                 {
                     bool isGenerator = false;

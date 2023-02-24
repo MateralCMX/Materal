@@ -107,7 +107,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"using Materal.BaseCore.Common.Utils.TreeHelper;");
             codeContent.AppendLine($"using Materal.BaseCore.Common.Utils.IndexHelper;");
             codeContent.AppendLine($"using Materal.BaseCore.PresentationModel;");
-            codeContent.AppendLine($"using Materal.Model;");
+            codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.HttpClient");
             codeContent.AppendLine($"{{");

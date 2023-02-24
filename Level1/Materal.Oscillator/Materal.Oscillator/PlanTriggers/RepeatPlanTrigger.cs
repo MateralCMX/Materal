@@ -1,5 +1,4 @@
-﻿using Materal.ConvertHelper;
-using Materal.Oscillator.Abstractions.PlanTriggers;
+﻿using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.AutoMapperProfile;
 using Materal.Oscillator.PlanTriggers;
 using Newtonsoft.Json.Linq;

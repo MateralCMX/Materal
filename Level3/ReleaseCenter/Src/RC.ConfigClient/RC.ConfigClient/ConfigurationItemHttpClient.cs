@@ -1,8 +1,6 @@
-﻿using Materal.Common;
-using Materal.ConvertHelper;
-using Materal.Model;
-using Materal.NetworkHelper;
-using Newtonsoft.Json.Linq;
+﻿using Materal.Abstractions;
+using Materal.Utils.Http;
+using Materal.Utils.Model;
 using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
 using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
 
@@ -10,6 +8,11 @@ namespace RC.ConfigClient
 {
     public class ConfigurationItemHttpClient
     {
+        private static readonly IHttpHelper _httpHelper;
+        static ConfigurationItemHttpClient()
+        {
+            _httpHelper = new HttpHelper();
+        }
         private readonly string _url;
         public ConfigurationItemHttpClient(string url)
         {
@@ -26,7 +29,7 @@ namespace RC.ConfigClient
         public async Task<ICollection<ConfigurationItemListDTO>?> GetDataAsync(QueryConfigurationItemRequestModel requestModel)
         {
             string url = $"{_url}/ConfigurationItem/GetList";
-            string httpResult = await HttpManager.SendPostAsync(url, requestModel, null, GetDefaultHeaders());
+            string httpResult = await _httpHelper.SendPostAsync(url, null, requestModel, GetDefaultHeaders());
             PageResultModel<ConfigurationItemListDTO> result = httpResult.JsonToObject<PageResultModel<ConfigurationItemListDTO>>();
             if(result.ResultType == ResultTypeEnum.Success) return result.Data;
             throw new MateralException("获取配置项失败");

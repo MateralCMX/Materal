@@ -1,9 +1,9 @@
-﻿using Materal.EnumHelper;
-using Materal.Oscillator.Abstractions;
+﻿using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Enums;
 using Materal.Oscillator.Abstractions.Models.WorkEvent;
 using Materal.Oscillator.Abstractions.Repositories;
+using Materal.Utils.Model;
 
 namespace Materal.Oscillator.SqliteRepositoryImpl.Repositories
 {

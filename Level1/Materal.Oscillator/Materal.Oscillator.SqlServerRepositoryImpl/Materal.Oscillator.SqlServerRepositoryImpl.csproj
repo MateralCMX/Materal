@@ -4,11 +4,11 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../nupkg</PackageOutputPath>
+		<PackageOutputPath>../nupkgs</PackageOutputPath>
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>0.0.8</Version>
+		<Version>0.0.9</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.SqlServerRepositoryImpl</Description>
 	</PropertyGroup>

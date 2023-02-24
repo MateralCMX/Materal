@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.Common;
-using Materal.ConvertHelper;
 
 namespace RC.Authority.Common
 {

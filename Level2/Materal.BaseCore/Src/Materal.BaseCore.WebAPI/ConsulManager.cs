@@ -1,10 +1,9 @@
 ﻿using Consul;
+using Materal.Abstractions;
 using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Common;
 using Materal.BaseCore.WebAPI.Models;
-using Materal.Common;
-using Materal.ConvertHelper;
-using Materal.NetworkHelper;
+using Materal.Utils.Http;
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
@@ -22,12 +21,19 @@ namespace Materal.BaseCore.WebAPI
     {
         private static ConsulClient? _consulClient;
         private static AgentServiceRegistration? _registration;
-        private static ILogger<ConsulManager>? _logger;
+        private static readonly ILogger<ConsulManager>? _logger;
         private static Timer? _healthTimer;
+        private static readonly IHttpHelper? _httpHelper;
         /// <summary>
         /// 节点ID
         /// </summary>
         public static Guid NodeID { get; private set; }
+        static ConsulManager()
+        {
+            NodeID = Guid.NewGuid();
+            _httpHelper = MateralServices.GetService<IHttpHelper>();
+            _logger = MateralServices.GetServiceOrDefatult<ILogger<ConsulManager>>();
+        }
         /// <summary>
         /// 初始化
         /// </summary>
@@ -35,8 +41,6 @@ namespace Materal.BaseCore.WebAPI
         public static void Init(params string[] tags)
         {
             string serviceName = $"{WebAPIConfig.AppName}API";
-            NodeID = Guid.NewGuid();
-            _logger = MateralServices.GetServiceOrDefatult<ILogger<ConsulManager>>();
             _consulClient = new ConsulClient(config =>
             {
                 config.Address = new Uri(WebAPIConfig.ConsulConfig.Url);
@@ -166,8 +170,9 @@ namespace Materal.BaseCore.WebAPI
         /// <returns></returns>
         public static async Task<List<ConsulServiceModel>> GetServicesAsync(Func<ConsulServiceModel, bool>? filter = null)
         {
+            if (_httpHelper == null) throw new MateralException("获取HttpHelper失败");
             string url = $"{WebAPIConfig.ConsulConfig.Url}/v1/agent/services";
-            string requestText = await HttpManager.SendGetAsync(url);
+            string requestText = await _httpHelper.SendGetAsync(url);
             JsonDocument jsonDocument = JsonDocument.Parse(requestText);
             if (jsonDocument.RootElement.ValueKind != JsonValueKind.Object) throw new MateralCoreException("ConsulServices返回错误");
             JsonElement.ObjectEnumerator element = jsonDocument.RootElement.EnumerateObject();

@@ -1,6 +1,6 @@
-﻿using Materal.CacheHelper;
-using Materal.TTA.Common;
+﻿using Materal.TTA.Common;
 using Materal.TTA.SqliteRepository;
+using Materal.Utils.Cache;
 using Microsoft.EntityFrameworkCore;
 
 namespace RC.Core.EFRepository
@@ -19,7 +19,7 @@ namespace RC.Core.EFRepository
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="cacheManager"></param>
-        public RCCacheRepositoryImpl(DbContext dbContext, ICacheManager cacheManager) : base(dbContext, cacheManager, null)
+        public RCCacheRepositoryImpl(DbContext dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager, null)
         {
         }
     }

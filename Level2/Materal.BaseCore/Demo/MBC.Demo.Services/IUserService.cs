@@ -1,5 +1,5 @@
 ﻿using Materal.BaseCore.Services;
-using Materal.Model;
+using Materal.Utils.Model;
 using MBC.Core.Common;
 using MBC.Demo.DataTransmitModel.User;
 using MBC.Demo.Services.Models.User;

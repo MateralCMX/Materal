@@ -1,6 +1,4 @@
-﻿using Materal.ConvertHelper;
-
-namespace Materal.Oscillator.Abstractions.PlanTriggers
+﻿namespace Materal.Oscillator.Abstractions.PlanTriggers
 {
     public static class PlanTriggerExtension
     {

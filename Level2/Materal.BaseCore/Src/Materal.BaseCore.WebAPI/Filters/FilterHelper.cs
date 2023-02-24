@@ -1,5 +1,4 @@
-﻿using Materal.StringHelper;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Text;
 

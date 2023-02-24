@@ -1,5 +1,4 @@
-﻿using Materal.ConvertHelper;
-using Materal.Core.Logger.CommandHandlers;
+﻿using Materal.Core.Logger.CommandHandlers;
 using Materal.Logger.Message;
 using System.Net.WebSockets;
 using System.Text;

@@ -1,4 +1,4 @@
-﻿using Materal.Model;
+﻿using Materal.Utils.Model;
 using RC.EnvironmentServer.Enums;
 
 namespace RC.EnvironmentServer.Services.Models.ConfigurationItem

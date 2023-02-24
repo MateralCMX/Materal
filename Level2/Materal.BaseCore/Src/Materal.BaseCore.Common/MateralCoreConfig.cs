@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.Common.ConfigModels;
-using Materal.ConfigurationHelper;
 using Microsoft.Extensions.Configuration;
 
 namespace Materal.BaseCore.Common

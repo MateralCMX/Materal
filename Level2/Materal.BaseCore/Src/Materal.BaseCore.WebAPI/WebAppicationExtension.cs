@@ -1,6 +1,6 @@
-﻿using Materal.BaseCore.Common;
+﻿using Materal.Abstractions;
+using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Common;
-using Materal.Common;
 using Materal.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

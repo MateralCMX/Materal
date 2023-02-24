@@ -20,7 +20,7 @@ namespace MBC.Core.WebAPI
                 config.AddJsonFile("MBCConfig.json", false, true);
             }, configService, configApp =>
             {
-                MateralLoggerManager.CustomConfig.Add("ApplicationName", WebAPIConfig.AppName);
+                LoggerManager.CustomConfig.Add("ApplicationName", WebAPIConfig.AppName);
                 configAppAction?.Invoke(configApp);
             }, consulTag);
             return app;

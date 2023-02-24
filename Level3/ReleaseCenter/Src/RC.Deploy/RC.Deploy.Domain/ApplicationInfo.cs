@@ -1,6 +1,6 @@
 ﻿using Materal.BaseCore.CodeGenerator;
 using Materal.BaseCore.Domain;
-using Materal.Model;
+using Materal.Utils.Model;
 using RC.Deploy.Enums;
 using System.ComponentModel.DataAnnotations;
 

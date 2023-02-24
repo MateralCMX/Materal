@@ -1,7 +1,7 @@
 ﻿using AspectCore.DynamicProxy;
 using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Controllers;
-using Materal.Model;
+using Materal.Utils.Model;
 using MBC.Core.Common;
 using MBC.Demo.DataTransmitModel.User;
 using MBC.Demo.PresentationModel.User;

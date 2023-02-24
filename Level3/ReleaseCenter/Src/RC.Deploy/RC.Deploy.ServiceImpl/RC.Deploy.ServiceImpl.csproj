@@ -7,7 +7,7 @@
 	<ItemGroup>
 		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="*" />
 		<PackageReference Include="Materal.BaseCore.WebAPI" Version="*" />
-		<PackageReference Include="Materal.WindowsHelper" Version="*" />
+		<PackageReference Include="Materal.Utils.Windows" Version="0.0.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.Deploy.Domain\RC.Deploy.Domain.csproj" />

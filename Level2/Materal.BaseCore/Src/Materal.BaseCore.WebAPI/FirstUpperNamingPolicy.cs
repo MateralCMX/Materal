@@ -1,5 +1,4 @@
-﻿using Materal.StringHelper;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace Materal.BaseCore.WebAPI
 {
@@ -13,9 +12,6 @@ namespace Materal.BaseCore.WebAPI
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public override string ConvertName(string name)
-        {
-            return name.FirstUpper();
-        }
+        public override string ConvertName(string name) => name.FirstUpper();
     }
 }

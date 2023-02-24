@@ -1,11 +1,10 @@
-﻿using Materal.ConfigurationHelper;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace RC.ConfigClient.Demo
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
                 .AddDefaultNameSpace("http://175.27.254.187:8700/RCES_FatAPI", "MateralReleaseCenter", 10)

@@ -1,5 +1,4 @@
 ﻿using Fleck;
-using Materal.StringHelper;
 using System.Text;
 
 namespace Materal.Logger.Models

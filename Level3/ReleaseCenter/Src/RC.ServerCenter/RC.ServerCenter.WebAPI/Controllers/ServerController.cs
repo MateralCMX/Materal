@@ -2,7 +2,7 @@
 using Materal.BaseCore.WebAPI;
 using Materal.BaseCore.WebAPI.Controllers;
 using Materal.BaseCore.WebAPI.Models;
-using Materal.Model;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using RC.ServerCenter.DataTransmitModel.Server;
 

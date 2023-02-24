@@ -1,6 +1,4 @@
-﻿using Materal.ConvertHelper;
-
-namespace Materal.Oscillator.Abstractions.Works
+﻿namespace Materal.Oscillator.Abstractions.Works
 {
     public static class WorksExtension
     {

@@ -1,6 +1,4 @@
-﻿using Materal.ConvertHelper;
-
-namespace Materal.BaseCore.Common.Utils.TreeHelper
+﻿namespace Materal.BaseCore.Common.Utils.TreeHelper
 {
     public static class TreeExtensions
     {

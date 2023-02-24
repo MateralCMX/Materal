@@ -59,8 +59,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             const string controllerName = "EnumsController";
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.BaseCore.WebAPI.Controllers;");
-            codeContent.AppendLine($"using Materal.Model;");
-            codeContent.AppendLine($"using Materal.EnumHelper;");
+            codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"using Microsoft.AspNetCore.Authorization;");
             codeContent.AppendLine($"using Microsoft.AspNetCore.Mvc;");
             string[] enumNamespaces = enums.Select(m => m.Namespace).Distinct().ToArray();

@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.Common;
-using Materal.TTA.SqliteRepository.Model;
 using RC.Deploy.Common.Models;
 
 namespace RC.Deploy.Common

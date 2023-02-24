@@ -3,7 +3,6 @@ using EnvDTE80;
 using MateralBaseCoreVSIX.Models;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.VisualStudio.Threading;
 using System;
 using System.ComponentModel.Design;
 using Task = System.Threading.Tasks.Task;
@@ -93,8 +92,10 @@ namespace MateralBaseCoreVSIX
             string message = "代码生成成功";
             try
             {
+#pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
                 object temp = ServiceProvider.GetServiceAsync(typeof(DTE)).Result;
-                if(temp is DTE dte && dte.ActiveSolutionProjects != null && dte.ActiveSolutionProjects is object[] activeObjects)
+#pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
+                if (temp is DTE dte && dte.ActiveSolutionProjects != null && dte.ActiveSolutionProjects is object[] activeObjects)
                 {
                     bool isGenerator = false;
                     foreach (object activeItem in activeObjects)

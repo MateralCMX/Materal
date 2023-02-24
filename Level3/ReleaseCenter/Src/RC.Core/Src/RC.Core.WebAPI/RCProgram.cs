@@ -35,7 +35,7 @@ namespace RC.Core.WebAPI
                 config.AddJsonFile("RCConfig.json", false, true);
             }, configService, configApp =>
             {
-                MateralLoggerManager.CustomConfig.Add("ApplicationName", WebAPIConfig.AppName);
+                LoggerManager.CustomConfig.Add("ApplicationName", WebAPIConfig.AppName);
                 configAppAction?.Invoke(configApp);
             }, consulTag);
             return app;

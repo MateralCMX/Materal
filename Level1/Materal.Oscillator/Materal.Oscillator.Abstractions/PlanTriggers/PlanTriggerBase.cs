@@ -1,5 +1,4 @@
-﻿using Materal.ConvertHelper;
-using Materal.Oscillator.Abstractions.QuartZExtend;
+﻿using Materal.Oscillator.Abstractions.QuartZExtend;
 using Quartz;
 
 namespace Materal.Oscillator.Abstractions.PlanTriggers

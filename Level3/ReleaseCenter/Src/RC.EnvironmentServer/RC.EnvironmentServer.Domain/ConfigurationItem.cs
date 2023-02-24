@@ -1,6 +1,6 @@
 ﻿using Materal.BaseCore.CodeGenerator;
 using Materal.BaseCore.Domain;
-using Materal.Model;
+using Materal.Utils.Model;
 using System.ComponentModel.DataAnnotations;
 
 namespace RC.EnvironmentServer.Domain

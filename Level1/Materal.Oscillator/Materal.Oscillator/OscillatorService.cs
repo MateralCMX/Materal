@@ -1,20 +1,19 @@
 ﻿using AutoMapper;
 using Materal.Oscillator.Abstractions;
+using Materal.Oscillator.Abstractions.Common;
 using Materal.Oscillator.Abstractions.Domain;
+using Materal.Oscillator.Abstractions.Models.Plan;
 using Materal.Oscillator.Abstractions.Models.Schedule;
 using Materal.Oscillator.Abstractions.Models.ScheduleWork;
+using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.Abstractions.Repositories;
+using Materal.Oscillator.AutoMapperProfile;
+using Materal.Oscillator.DR.Domain;
+using Materal.Oscillator.DR.Models;
 using Materal.Oscillator.Models;
+using Materal.Oscillator.PlanTriggers;
 using Materal.Oscillator.QuartZExtend;
 using Quartz;
-using Materal.ConvertHelper;
-using Materal.Oscillator.Abstractions.PlanTriggers;
-using Materal.Oscillator.Abstractions.Models.Plan;
-using Materal.Oscillator.PlanTriggers;
-using Materal.Oscillator.Abstractions.Common;
-using Materal.Oscillator.AutoMapperProfile;
-using Materal.Oscillator.DR.Models;
-using Materal.Oscillator.DR.Domain;
 
 namespace Materal.Oscillator
 {

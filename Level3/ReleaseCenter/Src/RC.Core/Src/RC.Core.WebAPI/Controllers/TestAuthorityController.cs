@@ -1,7 +1,7 @@
 ﻿#if DEBUG
 using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Controllers;
-using Materal.Model;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,4 @@
 ﻿using ConfigCenter.Client;
-using Materal.StringHelper;
 using Microsoft.Extensions.Configuration;
 
 namespace RC.ConfigClient

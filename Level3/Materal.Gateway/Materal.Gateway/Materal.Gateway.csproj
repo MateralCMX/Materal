@@ -6,7 +6,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="AntDesign" Version="*" />
-		<PackageReference Include="Materal.LinqHelper" Version="*" />
 		<PackageReference Include="Materal.Logger" Version="*" />
 	</ItemGroup>
 	<ItemGroup>

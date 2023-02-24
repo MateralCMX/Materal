@@ -6,7 +6,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="MMLib.SwaggerForOcelot" Version="*" />
-		<PackageReference Include="Materal.ConvertHelper" Version="*" />
 		<PackageReference Include="Ocelot" Version="*" />
 		<PackageReference Include="Ocelot.Cache.CacheManager" Version="*" />
 		<PackageReference Include="Ocelot.Provider.Consul" Version="*" />

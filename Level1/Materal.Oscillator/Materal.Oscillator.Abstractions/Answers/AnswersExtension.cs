@@ -1,6 +1,4 @@
-﻿using Materal.ConvertHelper;
-
-namespace Materal.Oscillator.Abstractions.Answers
+﻿namespace Materal.Oscillator.Abstractions.Answers
 {
     public static class AnswersExtension
     {

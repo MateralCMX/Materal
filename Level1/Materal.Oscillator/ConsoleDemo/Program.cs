@@ -1,16 +1,9 @@
-﻿using Materal.Common;
-using Materal.DateTimeHelper;
+﻿using Materal.Abstractions;
 using Materal.Oscillator;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Common;
-using Materal.Oscillator.Abstractions.DataTransmitModel;
-using Materal.Oscillator.Abstractions.Models.Plan;
-using Materal.Oscillator.Abstractions.Models.Work;
-using Materal.Oscillator.Abstractions.Services.Trigger;
 using Materal.Oscillator.Answers;
 using Materal.Oscillator.LocalDR;
-using Materal.Oscillator.PlanTriggers;
-using Materal.Oscillator.Works;
 using Materal.TTA.EFRepository;
 using Materal.TTA.SqliteRepository.Model;
 using Microsoft.Extensions.DependencyInjection;

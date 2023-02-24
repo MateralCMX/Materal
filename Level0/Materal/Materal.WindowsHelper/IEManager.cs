@@ -9,19 +9,19 @@ namespace Materal.WindowsHelper
         {
             Hide = 0,
             ShowNormal = 1,
-            Normal = 1,
-            ShowMinimized = 2,
-            ShowMaximized = 3,
-            Maximize = 3,
-            ShowNoactivate = 4,
-            Show = 5,
-            Minimize = 6,
-            ShowMinnoactive = 7,
-            ShowNa = 8,
-            Restore = 9,
-            ShowDefault = 10,
-            ForceMinimize = 11,
-            Max = 11
+            Normal = 2,
+            ShowMinimized = 3,
+            ShowMaximized = 4,
+            Maximize = 5,
+            ShowNoactivate = 6,
+            Show = 7,
+            Minimize = 8,
+            ShowMinnoactive = 9,
+            ShowNa = 10,
+            Restore = 11,
+            ShowDefault = 12,
+            ForceMinimize = 13,
+            Max = 14
         }
         /// <summary>
         /// 执行Shell
@@ -33,8 +33,8 @@ namespace Materal.WindowsHelper
         /// <param name="lpDirectory"></param>
         /// <param name="nShowCmd"></param>
         /// <returns></returns>
-        [DllImport("shell32.dll")]
-        public static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, ShowCommands nShowCmd);
+        [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
+        private static extern IntPtr ShellExecute(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, ShowCommands nShowCmd);
         /// <summary>
         /// 清空缓存
         /// </summary>

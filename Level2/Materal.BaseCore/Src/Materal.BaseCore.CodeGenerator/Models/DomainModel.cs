@@ -180,7 +180,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         {
             string[] blackList = new[]
             {
-                "using Materal.Model;",
+                "using Materal.Utils.Model;",
                 "using System.ComponentModel.DataAnnotations;",
                 "using Materal.BaseCore.Domain;",
                 "using Materal.BaseCore.Common.Utils.IndexHelper;",
@@ -338,7 +338,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             if (!_generatorCode || !_generatorQueryModel) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine("#nullable enable");
-            codeContent.AppendLine($"using Materal.Model;");
+            codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"using Materal.BaseCore.Services;");
             DomainModel targetDomain;
             if (_generatorQueryTargetService)
@@ -540,7 +540,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain.Repositories;");
             if (_useCache)
             {
-                codeContent.AppendLine($"using Materal.CacheHelper;");
+                codeContent.AppendLine($"using Materal.Utils.Cache;");
             }
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.EFRepository.RepositoryImpl");
@@ -555,7 +555,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 构造方法");
                 codeContent.AppendLine($"        /// </summary>");
-                codeContent.AppendLine($"        public {_repositoryImplName}({project.DBContextName} dbContext, ICacheManager cacheManager) : base(dbContext, cacheManager) {{ }}");
+                codeContent.AppendLine($"        public {_repositoryImplName}({project.DBContextName} dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager) {{ }}");
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 获得所有缓存名称");
                 codeContent.AppendLine($"        /// </summary>");
@@ -816,7 +816,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             if (!_generatorCode || !_generatorQueryModel) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine("#nullable enable");
-            codeContent.AppendLine($"using Materal.Model;");
+            codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"using Materal.BaseCore.PresentationModel;");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
             DomainModel targetDomain;

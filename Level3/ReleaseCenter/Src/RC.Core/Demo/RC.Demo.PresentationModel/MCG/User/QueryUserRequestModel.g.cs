@@ -1,5 +1,5 @@
 #nullable enable
-using Materal.Model;
+using Materal.Utils.Model;
 using Materal.BaseCore.PresentationModel;
 using System.ComponentModel.DataAnnotations;
 using RC.Demo.Enums;
