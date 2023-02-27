@@ -20,14 +20,18 @@ namespace RC.Core.HttpClient
             }
         }
         protected override Dictionary<string, string> GetDefaultHeaders() => HttpClientHelper.GetDefaultHeaders();
-        protected override string GetTrueUrl(string url) => $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{_appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/{url}";
+        protected override string GetTrueUrl(string url)
+        {
+            if (HttpClientHelper.GetUrl == null) return $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{_appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/{url}";
+            return HttpClientHelper.GetUrl(url, _appName);
+        }
     }
     public class HttpClientBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> : MateralCoreHttpClientBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>
-        where TAddRequestModel : class, IAddRequestModel, new()
-        where TEditRequestModel : class, IEditRequestModel, new()
-        where TQueryRequestModel : IQueryRequestModel, new()
-        where TDTO : class, IDTO, new()
-        where TListDTO : class, IListDTO, new()
+    where TAddRequestModel : class, IAddRequestModel, new()
+    where TEditRequestModel : class, IEditRequestModel, new()
+    where TQueryRequestModel : IQueryRequestModel, new()
+    where TDTO : class, IDTO, new()
+    where TListDTO : class, IListDTO, new()
     {
         private string _appName;
         public HttpClientBase(string projectName)
@@ -43,6 +47,10 @@ namespace RC.Core.HttpClient
             }
         }
         protected override Dictionary<string, string> GetDefaultHeaders() => HttpClientHelper.GetDefaultHeaders();
-        protected override string GetTrueUrl(string url) => $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{_appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/api/{url}";
+        protected override string GetTrueUrl(string url)
+        {
+            if (HttpClientHelper.GetUrl == null) return $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{_appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/{url}";
+            return HttpClientHelper.GetUrl(url, _appName);
+        }
     }
 }

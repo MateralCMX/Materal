@@ -1,0 +1,56 @@
+﻿@using Materal.Utils.Http;
+@using RC.Authority.DataTransmitModel.User;
+@using RC.Authority.HttpClient;
+@using RC.Authority.PresentationModel.User;
+
+@inject IMessageService _message;
+@inject UserHttpClient _userHttpClient;
+@inject CustomAuthenticationStateProvider authenticationState;
+
+<PageTitle>登录-RC</PageTitle>
+
+<Card Title="RC登录" Style="width: 450px;display: block;position: absolute;top: 200px;left: 50%;transform: translate(-50%, 0)">
+    <Body>
+        <Form Loading="_loging" Model="_model" OnFinish="OnFinish" LabelColSpan="4" WrapperColSpan="18">
+            <FormItem Label="账号">
+                <Input @bind-Value="context.Account" />
+            </FormItem>
+            <FormItem Label="密码">
+                <InputPassword @bind-Value="context.Password" />
+            </FormItem>
+            <FormItem WrapperColOffset="4" WrapperColSpan="18">
+                <Button Type="@ButtonType.Primary" Block HtmlType="submit">登录</Button>
+            </FormItem>
+        </Form>
+    </Body>
+</Card>
+
+@code {
+    private LoginRequestModel _model = new();
+    private bool _loging = false;
+    private void OnFinish(EditContext context)
+    {
+        _loging = true;
+        Task.Run(async () =>
+        {
+            try
+            {
+                LoginResultDTO? result = await _userHttpClient.LoginAsync(_model);
+                if (result == null) return;
+                authenticationState.SetToken(result.Token);
+            }
+            catch (MateralHttpException ex)
+            {
+                ex.HandlerHttpError();
+            }
+            catch(Exception ex)
+            {
+                _message.ShowError(ex.Message);
+            }
+            finally
+            {
+                _loging = false;
+            }
+        });
+    }
+}

@@ -1,0 +1,153 @@
+﻿@page "/UserList"
+@using System.ComponentModel;
+@using AntDesign.Internal;
+@using AntDesign.TableModels;
+@using Materal.Utils.Http;
+@using Materal.Utils.Model;
+@using RC.Authority.DataTransmitModel.User;
+@using RC.Authority.HttpClient;
+@using RC.Authority.PresentationModel.User;
+@using System.Net;
+
+@inject IMessageService _message;
+@inject NavigationManager _navigation;
+@inject UserHttpClient _userHttpClient;
+
+<PageTitle>用户管理-RC</PageTitle>
+<Space Direction="DirectionVHType.Vertical" Style="width:100%;">
+    <SpaceItem>
+        <Form @ref="_form" Loading="_loading" Model="_searchModel" OnFinish="Reload">
+            <Row Gutter="24">
+                <GridCol Span="6">
+                    <FormItem Label="姓名">
+                        <Input @bind-Value="context.Name" />
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="6">
+                    <FormItem Label="账号">
+                        <Input @bind-Value="context.Account" />
+                    </FormItem>
+                </GridCol>
+            </Row>
+            <Row>
+                <GridCol Span="24" Style="text-align:right;">
+                    <Button Type="primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
+                    <Button Icon="@IconType.Outline.Retweet" OnClick="()=>{_form?.Reset();}"></Button>
+                    <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
+                </GridCol>
+            </Row>
+        </Form>
+    </SpaceItem>
+    <SpaceItem>
+        <Table DataSource="@_tableData" PageIndex="_searchModel.PageIndex" PageSize="_searchModel.PageSize" PageSizeChanged="Reload" PageIndexChanged="Reload">
+            <PropertyColumn Title="姓名" Property="m => m.Name"></PropertyColumn>
+            <PropertyColumn Title="账号" Property="c => c.Account"></PropertyColumn>
+            <ActionColumn Title="操作">
+                <Space Size=@("middle")>
+                    <SpaceItem>
+                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Popconfirm Title="确定重置该用户的密码?" OkText="重置" CancelText="取消" OnConfirm="e => Restpassword(context.ID)">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Retweet"></Button>
+                        </Popconfirm>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Popconfirm Title="确定删除该用户?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context.ID)">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                        </Popconfirm>
+                    </SpaceItem>
+                </Space>
+            </ActionColumn>
+        </Table>
+    </SpaceItem>
+</Space>
+@code {
+    private IForm? _form;
+    private bool _loading = false;
+    private List<UserListDTO> _tableData = new();
+    private QueryUserRequestModel _searchModel = new()
+        {
+            PageIndex = 1,
+            PageSize = 10
+        };
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await SearchAsync();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+    private void Add() => _navigation.NavigateTo("./User");
+    private void Edit(Guid id) => _navigation.NavigateTo($"./User/{id}");
+    private void Delete(Guid id)
+    {
+        _loading = true;
+        Task.Run(async () =>
+        {
+            try
+            {
+                await _userHttpClient.DeleteAsync(id);
+                await SearchAsync();
+            }
+            catch (MateralHttpException ex)
+            {
+                ex.HandlerHttpError();
+            }
+            catch (Exception ex)
+            {
+                await _message.Error(ex.Message);
+            }
+        });
+    }
+    private void Restpassword(Guid id)
+    {
+        _loading = true;
+        Task.Run(async () =>
+        {
+            try
+            {
+                string? password = await _userHttpClient.ResetPasswordAsync(id);
+                _message.ShowSuccess($"密码已重置为:{password}");
+            }
+            catch (MateralHttpException ex)
+            {
+                ex.HandlerHttpError();
+            }
+            catch (Exception ex)
+            {
+                _message.ShowError(ex.Message);
+            }
+            finally
+            {
+                _loading = false;
+            }
+            StateHasChanged();
+        });
+    }
+    private void Reload() => Task.Run(async () => await SearchAsync());
+    private async Task SearchAsync()
+    {
+        _loading = true;
+        try
+        {
+            (List<UserListDTO>? data, PageModel pageInfo) = await _userHttpClient.GetListAsync(_searchModel);
+            if (data != null)
+            {
+                _tableData = data;
+            }
+            _searchModel.PageIndex = pageInfo.PageIndex;
+            _searchModel.PageSize = pageInfo.PageSize;
+        }
+        catch (MateralHttpException ex)
+        {
+            ex.HandlerHttpError();
+        }
+        finally
+        {
+            _loading = false;
+        }
+        StateHasChanged();
+    }
+}

@@ -1,21 +1,28 @@
 ﻿@inherits LayoutComponentBase
 
-<Layout>
-    <Header>
-        <HeaderContent></HeaderContent>
-    </Header>
-    <Layout>
-        <Sider Width="250" Theme="SiderTheme.Light">
-            <NavMenu />
-        </Sider>
-        <Layout Style="padding: 0 24px 24px;">
-            <Content>
-                <div class="site-layout-content">
-                    @Body
-                </div>
-            </Content>
+
+<AuthorizeView>
+    <Authorized>
+        <Layout>
+            <Header>
+                <HeaderContent></HeaderContent>
+            </Header>
+            <Layout>
+                <Content>
+                    <div class="site-layout-content">
+                        @Body
+                    </div>
+                </Content>
+            </Layout>
+            <Footer Style="text-align: center; ">Materal ©2023 Created</Footer>
         </Layout>
-    </Layout>
-    <Footer Style="text-align: center; ">Materal ©2023 Created</Footer>
-</Layout>
+    </Authorized>
+    <NotAuthorized>
+        <Login></Login>
+    </NotAuthorized>
+</AuthorizeView>
 <AntContainer />
+
+@code {
+
+}

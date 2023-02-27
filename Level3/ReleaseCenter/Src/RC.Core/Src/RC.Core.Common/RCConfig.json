@@ -7,7 +7,7 @@
   },
   "EnableAuthentication": true,
   "EventBusConfig": {
-    "HostName": "175.27.194.19",
+    "HostName": "121.40.18.199",
     "Port": 5672,
     "UserName": "GDB",
     "Password": "GDB2022",
@@ -19,7 +19,7 @@
     "ErrorMessage": "服务器发生错误,请联系后台工程师处理。"
   },
   "HttpClienUrltConfig": {
-    "BaseUrl": "http://82.156.11.176:8700/",
+    "BaseUrl": "http://121.40.18.199:8700/",
     "Suffix": "API"
   },
   "JWT": {

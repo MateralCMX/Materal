@@ -1,23 +1,13 @@
-﻿@*@using Materal.Gateway.OcelotExtension.Services;
-@inject IOcelotConfigService _ocelotConfigService;
-
-@attribute [Authorize]*@
-
-<Menu Mode="MenuMode.Inline">
+﻿<Menu Mode="MenuMode.Horizontal" Theme="MenuTheme.Dark">
     <MenuItem RouterLink="./" RouterMatch="NavLinkMatch.All">首页</MenuItem>
-    <SubMenu Title="配置">
-        <SubMenu Title="全局配置">
-            <MenuItem RouterLink="./Setting/GlobalConfiguration/ServiceDiscoveryProvider" RouterMatch="NavLinkMatch.All">服务发现</MenuItem>
-            <MenuItem RouterLink="./Setting/GlobalConfiguration/GlobalRateLimitOptions" RouterMatch="NavLinkMatch.All">限流</MenuItem>
-            <MenuItem RouterLink="./Setting/GlobalConfiguration/BaseUrlCtrl" RouterMatch="NavLinkMatch.All">基地址</MenuItem>
-        </SubMenu>
-        <MenuItem RouterLink="./Setting/SwaggerEndPoints" RouterMatch="NavLinkMatch.All">Swagger配置</MenuItem>
-        <MenuItem RouterLink="./Setting/Routes" RouterMatch="NavLinkMatch.Prefix">路由配置</MenuItem>
+    <SubMenu Title="发布中心">
+        <MenuItem RouterLink="./ProgramList" RouterMatch="NavLinkMatch.All">程序管理</MenuItem>
+        <MenuItem RouterLink="./DefaultDataList" RouterMatch="NavLinkMatch.Prefix">默认数据</MenuItem>
     </SubMenu>
-@*    <SubMenu Title="工具">
-        @if (_ocelotConfigService.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider != null)
-        {
-            <MenuItem RouterLink="./Tools/SyncConsul">同步Consul</MenuItem>
-        }
-    </SubMenu>*@
+    <SubMenu Title="配置中心">
+        <MenuItem RouterLink="./ProjectList" RouterMatch="NavLinkMatch.All">项目管理</MenuItem>
+        <MenuItem RouterLink="./NamespaceList" RouterMatch="NavLinkMatch.Prefix">命名空间</MenuItem>
+        <MenuItem RouterLink="./ConfigItemList" RouterMatch="NavLinkMatch.Prefix">配置管理</MenuItem>
+    </SubMenu>
+    <MenuItem RouterLink="./UserList" RouterMatch="NavLinkMatch.All">用户管理</MenuItem>
 </Menu>
