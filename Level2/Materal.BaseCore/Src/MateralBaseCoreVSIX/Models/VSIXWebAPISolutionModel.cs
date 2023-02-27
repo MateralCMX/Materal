@@ -84,7 +84,7 @@ namespace MateralBaseCoreVSIX.Models
                 {
                     FillControllers(item.ProjectItems, itemPath);
                 }
-                else if (item.Name.EndsWith("Controller.cs") || item.Name.EndsWith("Controller.g.cs"))
+                else if (item.Name.Contains("Controller") && item.Name != "Controllers")
                 {
                     var controllerModel = GetControllerModelOrNull(item, path);
                     if (controllerModel == null) continue;
@@ -101,7 +101,7 @@ namespace MateralBaseCoreVSIX.Models
         private ControllerModel GetControllerModelOrNull(ProjectItem projectItem, string path)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            if (!projectItem.Name.EndsWith("Controller.cs") && !projectItem.Name.EndsWith("Controller.g.cs")) return null;
+            if (!projectItem.Name.Contains("Controller") || projectItem.Name == "Controllers") return null;
             string filePath = Path.Combine(path, projectItem.Name);
             if (!File.Exists(filePath)) return null;
             string[] codes = File.ReadAllLines(filePath);

@@ -9,10 +9,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// 名称
         /// </summary>
         public string? Name { get; set; }
-        private readonly List<string> _annotations = new();
-        private bool _isServiceHttpClient = false;
-        private readonly string[] _tModels = new string[5];
-        private readonly List<ActionModel> actionModels = new();
+        public List<string> Annotations { get; set; } = new();
+        public bool IsServiceHttpClient { get; set; } = false;
+        public string[] TModels { get; set; } = new string[5];
+        public List<ActionModel> ActionModels { get; set; } = new();
         public ControllerModel() { }
         public ControllerModel(string[] codes, int classLineIndex)
         {
@@ -36,23 +36,23 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 string[] tModels = tModel.Split(',');
                 if (tModels.Length == 9)
                 {
-                    _isServiceHttpClient = true;
-                    _tModels[0] = tModels[0].Trim();
-                    _tModels[1] = tModels[1].Trim();
-                    _tModels[2] = tModels[2].Trim();
-                    _tModels[3] = tModels[6].Trim();
-                    _tModels[4] = tModels[7].Trim();
+                    IsServiceHttpClient = true;
+                    TModels[0] = tModels[0].Trim();
+                    TModels[1] = tModels[1].Trim();
+                    TModels[2] = tModels[2].Trim();
+                    TModels[3] = tModels[6].Trim();
+                    TModels[4] = tModels[7].Trim();
                 }
             }
             #region 解析注释
             {
-                if (_annotations.Count == 0)
+                if (Annotations.Count == 0)
                 {
                     int startIndex = classLineIndex;
                     string code = codes[startIndex--].Trim();
                     while (code.StartsWith("///"))
                     {
-                        _annotations.Insert(0, code);
+                        Annotations.Insert(0, code);
                         code = codes[startIndex--].Trim();
                     }
                 }
@@ -68,7 +68,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     actionCode = codes[i].Trim();
                     int overrideIndex = actionCode.IndexOf(" override ");
                     if (overrideIndex >= 0) continue;
-                    actionModels.Add(new ActionModel(codes, i));
+                    ActionModels.Add(new ActionModel(codes, i));
                 }
             }
             #endregion
@@ -97,7 +97,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateHttpClientFile(ProjectModel project)
         {
-            if (!actionModels.Any(m => m.GeneratorCode) && !_isServiceHttpClient) return;
+            if (!ActionModels.Any(m => m.GeneratorCode) && !IsServiceHttpClient) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"#nullable enable");
             codeContent.AppendLine($"using {project.PrefixName}.Core.HttpClient;");
@@ -111,13 +111,13 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.HttpClient");
             codeContent.AppendLine($"{{");
-            foreach (string annotation in _annotations)
+            foreach (string annotation in Annotations)
             {
                 codeContent.AppendLine($"    {annotation}");
             }
-            if (_isServiceHttpClient)
+            if (IsServiceHttpClient)
             {
-                codeContent.AppendLine($"    public partial class {Name}HttpClient : HttpClientBase<{_tModels[0]}, {_tModels[1]}, {_tModels[2]}, {_tModels[3]}, {_tModels[4]}>");
+                codeContent.AppendLine($"    public partial class {Name}HttpClient : HttpClientBase<{TModels[0]}, {TModels[1]}, {TModels[2]}, {TModels[3]}, {TModels[4]}>");
             }
             else
             {
@@ -125,7 +125,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             }
             codeContent.AppendLine($"    {{");
             codeContent.AppendLine($"        public {Name}HttpClient() : base(\"{project.PrefixName}.{project.ProjectName}\") {{ }}");
-            foreach (ActionModel action in actionModels)
+            foreach (ActionModel action in ActionModels)
             {
                 if (!action.GeneratorCode) continue;
                 foreach (string annotation in action.Annotations)
