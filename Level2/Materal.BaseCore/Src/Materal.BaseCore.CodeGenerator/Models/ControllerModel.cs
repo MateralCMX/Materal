@@ -155,24 +155,20 @@ namespace Materal.BaseCore.CodeGenerator.Models
                         querySendArgs.Add($"[nameof({temp})] = {temp}");
                     }
                 }
-                codeContent.Append($"{string.Join(", ", args)}) => await {action.MethodName}(\"{Name}/{action.Name}\", ");
-                if (string.IsNullOrWhiteSpace(bodySendArgs))
-                {
-                    codeContent.Append($"null, ");
-                }
-                else
-                {
-                    codeContent.Append($"{bodySendArgs}, ");
-                }
+                codeContent.Append($"{string.Join(", ", args)}) => await {action.MethodName}(\"{Name}/{action.Name}\"");
                 if (querySendArgs.Count > 0)
                 {
-                    codeContent.Append($"new Dictionary<string, string> {{ ");
+                    codeContent.Append($", new Dictionary<string, string> {{ ");
                     codeContent.Append(string.Join(", ", querySendArgs));
                     codeContent.Append($"}}");
                 }
-                else
+                if (!string.IsNullOrWhiteSpace(bodySendArgs))
                 {
-                    codeContent.Append($"null");
+                    if (querySendArgs.Count <= 0)
+                    {
+                        codeContent.Append($", null");
+                    }
+                    codeContent.Append($", {bodySendArgs}");
                 }
                 codeContent.AppendLine($");");
             }

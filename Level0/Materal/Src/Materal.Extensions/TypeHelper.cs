@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static T Instantiation<T>(params object[] args) => typeof(T).Instantiation<T>(typeof(T), args);
+        public static T Instantiation<T>(params object[] args) => typeof(T).Instantiation<T>(args);
         /// <summary>
         /// 实例化对象
         /// </summary>

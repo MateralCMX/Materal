@@ -12,6 +12,7 @@ namespace Materal.Test.ExtensionsTest
             if(studentType != null)
             {
                 User model = studentType.Instantiation<User>("1234", 22);
+                User model2 = model.CopyProperties<User>();
             }
         }
     }

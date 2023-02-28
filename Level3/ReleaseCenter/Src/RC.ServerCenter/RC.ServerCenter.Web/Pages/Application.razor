@@ -1,0 +1,34 @@
+﻿@page "/Applications/Application"
+@page "/Applications/Application/{id:guid}"
+
+@using RC.Deploy.DataTransmitModel.ApplicationInfo;
+@using RC.Deploy.HttpClient;
+@using RC.Deploy.PresentationModel.ApplicationInfo;
+@using RC.ServerCenter.Web.Controls.ApplicationControls
+
+@inherits BaseDetail<AddApplicationInfoRequestModel, EditApplicationInfoRequestModel, QueryApplicationInfoRequestModel, ApplicationInfoDTO, ApplicationInfoListDTO, ApplicationInfoHttpClient>;
+
+<PageTitle>程序管理-RC</PageTitle>
+
+@if (IsAdd)
+{
+    <AddApplicationInfo Model="AddModel" Loading="Loading" OnFinish="Add"></AddApplicationInfo>
+}
+else
+{
+    <EditApplicationInfo Model="EditModel" Loading="Loading" OnFinish="Edit"></EditApplicationInfo>
+}
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            RCData.ShowDeploys = false;
+            RCData.ShowEnvironments = false;
+            ListName = "Applications";
+            Reload();
+        }
+        base.OnAfterRender(firstRender);
+    }
+}

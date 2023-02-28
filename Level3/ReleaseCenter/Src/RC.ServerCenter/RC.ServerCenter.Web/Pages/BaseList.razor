@@ -1,0 +1,59 @@
+﻿@using AntDesign.Internal;
+@using Materal.BaseCore.DataTransmitModel;
+@using Materal.BaseCore.PresentationModel;
+@using Materal.Utils.Model;
+@using RC.Core.HttpClient;
+
+@typeparam TAddRequestModel where TAddRequestModel : class, IAddRequestModel, new()
+@typeparam TEditRequestModel where TEditRequestModel : class, IEditRequestModel, new()
+@typeparam TQueryRequestModel where TQueryRequestModel : IQueryRequestModel, new()
+@typeparam TDTO where TDTO : class, IDTO, new()
+@typeparam TListDTO where TListDTO : class, IListDTO, new()
+@typeparam THttpClient where THttpClient : HttpClientBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>
+
+@inject NavigationManager _navigation;
+@inject THttpClient _httpClient;
+
+@code {
+    protected IForm? SearchForm;
+    protected bool SearchLoading = false;
+    protected List<TListDTO> TableData = new();
+    protected TQueryRequestModel SearchModel = new()
+        {
+            PageIndex = 1,
+            PageSize = 10
+        };
+    protected virtual bool CanReload { get; } = true;
+    protected virtual void Add() => _navigation.NavigateTo($"./{DetailPageName}");
+    protected virtual void Edit(Guid id) => _navigation.NavigateTo($"./{DetailPageName}/{id}");
+    protected virtual void Delete(Guid id)
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            await _httpClient.DeleteAsync(id);
+            Reload();
+        });
+    }
+    protected virtual void Reload()
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            while (!CanReload){ await Task.Delay(500); }
+            (List<TListDTO>? data, PageModel pageInfo) = await _httpClient.GetListAsync(SearchModel);
+            if (data != null)
+            {
+                TableData = data;
+            }
+            SearchModel.PageIndex = pageInfo.PageIndex;
+            SearchModel.PageSize = pageInfo.PageSize;
+        }, () =>
+        {
+            SearchLoading = false;
+            StateHasChanged();
+        });
+    }
+    protected string DetailPageName { get; set; } = "Base";
+    protected virtual void ResetSearchForm() => SearchForm?.Reset();
+}

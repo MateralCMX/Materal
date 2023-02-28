@@ -18,6 +18,6 @@ namespace RC.EnvironmentServer.HttpClient
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        public async Task SyncConfigAsync(SyncConfigRequestModel requestModel) => await GetResultModelByPutAsync("ConfigurationItem/SyncConfig", requestModel, null);
+        public async Task SyncConfigAsync(SyncConfigRequestModel requestModel) => await GetResultModelByPutAsync("ConfigurationItem/SyncConfig", null, requestModel);
     }
 }

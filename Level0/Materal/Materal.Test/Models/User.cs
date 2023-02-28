@@ -2,7 +2,11 @@
 {
     public class User
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
+
+        public User()
+        {
+        }
 
         public User(string name)
         {
@@ -12,6 +16,9 @@
     public class Student : User
     {
         public int Age { get; set; }
+        public Student() : base()
+        {
+        }
         public Student(string name, int age) : base(name)
         {
             Age = age;

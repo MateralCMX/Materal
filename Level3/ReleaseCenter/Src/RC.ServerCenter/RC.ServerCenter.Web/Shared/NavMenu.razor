@@ -1,13 +1,13 @@
 ﻿<Menu Mode="MenuMode.Horizontal" Theme="MenuTheme.Dark">
     <MenuItem RouterLink="./" RouterMatch="NavLinkMatch.All">首页</MenuItem>
     <SubMenu Title="发布中心">
-        <MenuItem RouterLink="./Applications" RouterMatch="NavLinkMatch.All">程序管理</MenuItem>
+        <MenuItem RouterLink="./Applications" RouterMatch="NavLinkMatch.Prefix">程序管理</MenuItem>
         <MenuItem RouterLink="./DefaultDatas" RouterMatch="NavLinkMatch.Prefix">默认数据</MenuItem>
     </SubMenu>
     <SubMenu Title="配置中心">
-        <MenuItem RouterLink="./Projects" RouterMatch="NavLinkMatch.All">项目管理</MenuItem>
+        <MenuItem RouterLink="./Projects" RouterMatch="NavLinkMatch.Prefix">项目管理</MenuItem>
         <MenuItem RouterLink="./Namespaces" RouterMatch="NavLinkMatch.Prefix">命名空间</MenuItem>
         <MenuItem RouterLink="./ConfigItems" RouterMatch="NavLinkMatch.Prefix">配置管理</MenuItem>
     </SubMenu>
-    <MenuItem RouterLink="./Users" RouterMatch="NavLinkMatch.All">用户管理</MenuItem>
+    <MenuItem RouterLink="./Users" RouterMatch="NavLinkMatch.Prefix">用户管理</MenuItem>
 </Menu>

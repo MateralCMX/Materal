@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using RC.Core.HttpClient;
+using RC.ServerCenter.DataTransmitModel.Server;
+using RC.ServerCenter.HttpClient;
 using System.Reflection;
 
 namespace RC.ServerCenter.Web
@@ -21,7 +23,6 @@ namespace RC.ServerCenter.Web
             builder.RootComponents.Add<App>("#app");
             builder.RootComponents.Add<HeadOutlet>("head::after");
             IServiceCollection services = builder.Services;
-            //builder.Services.AddScoped(sp => new System.Net.Http.HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             services.AddBlazoredLocalStorage();
             services.AddScoped<CustomAuthenticationStateProvider>();
             services.AddScoped<AuthenticationStateProvider>(factory => factory.GetRequiredService<CustomAuthenticationStateProvider>());
@@ -29,7 +30,7 @@ namespace RC.ServerCenter.Web
             services.AddAuthorizationCore();
             services.AddMateralUtils();
             services.AddAntDesign();
-            services.AddHttpClientService(WebAppConfig.AppName, Assembly.Load("RC.Authority.HttpClient"), Assembly.Load("RC.EnvironmentServer.HttpClient"));
+            services.AddHttpClientService(WebAppConfig.AppName, Assembly.Load("RC.ServerCenter.HttpClient"), Assembly.Load("RC.Authority.HttpClient"), Assembly.Load("RC.EnvironmentServer.HttpClient"), Assembly.Load("RC.Deploy.HttpClient"));
             WebAssemblyHost app = builder.Build();
             MateralServices.Services = app.Services;
             ConfigHttpClient();
@@ -39,7 +40,11 @@ namespace RC.ServerCenter.Web
         {
             HttpClientHelper.GetUrl = (url, appName) =>
             {
-                return $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/api/{url}";
+                return appName switch
+                {
+                    "Deploy" => $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}{RCData.SelectedDeploy}/api/{url}",
+                    _ => $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/api/{url}",
+                };
             };
             HttpClientHelper.CloseAutoToken();
             HttpClientHelper.GetToken = () =>

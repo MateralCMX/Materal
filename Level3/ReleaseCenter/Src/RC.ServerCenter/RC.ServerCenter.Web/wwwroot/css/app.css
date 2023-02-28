@@ -61,3 +61,24 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.ant-upload.ant-upload-drag .ant-upload{
+    padding: 0px !important;
+}
+
+.right-group {
+    position: absolute;
+    right: 10px;
+    height: 64px;
+    top: 0px;
+}
+
+    .right-group > .right-group-select {
+        width: 250px !important;
+        display: inline-block;
+    }
+
+    .right-group > .right-group-button {
+        height: 100%;
+        display: inline-block;
+    }

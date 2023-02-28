@@ -1,102 +1,34 @@
-﻿@page "/User"
-@page "/User/{id:guid}"
-@using Materal.Utils.Http;
+﻿@page "/Users/User"
+@page "/Users/User/{id:guid}"
+
 @using RC.Authority.DataTransmitModel.User;
 @using RC.Authority.HttpClient;
 @using RC.Authority.PresentationModel.User;
+@using RC.ServerCenter.Web.Controls.UserControls
 
-@inject UserHttpClient _userHttpClient;
-@inject NavigationManager _navigation;
-@inject IMessageService _message;
+@inherits BaseDetail<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, UserDTO, UserListDTO, UserHttpClient>;
 
 <PageTitle>用户管理-RC</PageTitle>
 
-<Form Model="_model" Loading="_loading" ValidateMode="FormValidateMode.Complex" LabelColSpan="3" WrapperColSpan="8" OnFinish="OnFinish">
-    <FormItem Label="账号">
-        <Input @bind-Value="context.Account" />
-    </FormItem>
-    <FormItem Label="名称">
-        <Input @bind-Value="context.Name" />
-    </FormItem>
-    <FormItem WrapperColOffset="3" WrapperColSpan="8">
-        <Button Style="margin:10px 0 0 0" Type="@ButtonType.Primary" Block HtmlType="submit">保存</Button>
-    </FormItem>
-</Form>
+@if (IsAdd)
+{
+    <AddUser Model="AddModel" Loading="Loading" OnFinish="Add"></AddUser>
+}
+else
+{
+    <EditUser Model="EditModel" Loading="Loading" OnFinish="Edit"></EditUser>
+}
 
 @code {
-    [Parameter]
-    public Guid? ID { get; set; }
-    private bool _loading = false;
-    private EditUserRequestModel _model = new();
-    protected override async void OnAfterRender(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            await ReloadAsync();
+            RCData.ShowDeploys = false;
+            RCData.ShowEnvironments = false;
+            ListName = "Users";
+            Reload();
         }
         base.OnAfterRender(firstRender);
-    }
-    private void OnFinish(EditContext editContext)
-    {
-        _loading = true;
-        Task.Run(async () =>
-        {
-            try
-            {
-                if (ID == null)
-                {
-                    AddUserRequestModel addModel = new();
-                    _model.CopyProperties(addModel);
-                    await _userHttpClient.AddAsync(addModel);
-                }
-                else
-                {
-                    await _userHttpClient.EditAsync(_model);
-                }
-                _navigation.NavigateTo("./UserList");
-            }
-            catch (MateralHttpException ex)
-            {
-                ex.HandlerHttpError();
-            }
-            catch(Exception ex)
-            {
-                _message.ShowError(ex.Message);
-            }
-            finally
-            {
-                _loading = false;
-                StateHasChanged();
-            }
-        });
-    }
-    private async Task ReloadAsync()
-    {
-        _loading = true;
-        if (ID == null)
-        {
-            _model = new();
-        }
-        else
-        {
-            try
-            {
-                UserDTO? userInfo = await _userHttpClient.GetInfoAsync(ID.Value);
-                if (userInfo != null)
-                {
-                    userInfo.CopyProperties(_model);
-                }
-            }
-            catch (MateralHttpException ex)
-            {
-                ex.HandlerHttpError();
-            }
-            catch(Exception ex)
-            {
-                _message.ShowError(ex.Message);
-            }
-        }
-        _loading = false;
-        StateHasChanged();
     }
 }

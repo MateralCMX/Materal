@@ -72,6 +72,26 @@ namespace RC.Deploy.ServiceImpl
             ApplicationRuntimeManage.ApplicationRuntimes[model.ID].ApplicationInfo = domainFromDB;
         }
         /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public override async Task DeleteAsync([Required(ErrorMessage = "唯一标识为空")] Guid id)
+        {
+            if (ApplicationRuntimeManage.ApplicationRuntimes[id].ApplicationStatus != ApplicationStatusEnum.Stop) throw new RCException("应用程序尚未停止");
+            await base.DeleteAsync(id);
+        }
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="domain"></param>
+        /// <returns></returns>
+        protected override async Task DeleteAsync(ApplicationInfo domain)
+        {
+            await base.DeleteAsync(domain);
+            ApplicationRuntimeManage.ApplicationRuntimes.TryRemove(domain.ID, out _);
+        }
+        /// <summary>
         /// 获得信息
         /// </summary>
         /// <param name="id"></param>

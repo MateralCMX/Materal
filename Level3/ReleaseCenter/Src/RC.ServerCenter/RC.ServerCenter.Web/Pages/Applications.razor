@@ -1,0 +1,226 @@
+﻿@page "/Applications"
+@using System.ComponentModel;
+@using AntDesign.Internal;
+@using AntDesign.TableModels;
+@using Materal.Utils.Http;
+@using Materal.Utils.Model;
+@using System.Net;
+@using RC.Core.HttpClient;
+@using RC.Deploy.DataTransmitModel.ApplicationInfo;
+@using RC.Deploy.Enums;
+@using RC.Deploy.HttpClient;
+@using RC.Deploy.PresentationModel.ApplicationInfo;
+
+@inherits BaseList<AddApplicationInfoRequestModel, EditApplicationInfoRequestModel, QueryApplicationInfoRequestModel, ApplicationInfoDTO, ApplicationInfoListDTO, ApplicationInfoHttpClient>;
+
+@inject IMessageService _message;
+@inject NavigationManager _navigation;
+@inject ApplicationInfoHttpClient _httpClient;
+
+<PageTitle>程序管理-RC</PageTitle>
+
+<Space Direction="DirectionVHType.Vertical" Style="width:100%;">
+    <SpaceItem>
+        <Form @ref="SearchForm" Loading="SearchLoading" Model="SearchModel" OnFinish="Reload">
+            <Row Gutter="24">
+                <GridCol Span="6">
+                    <FormItem Label="名称">
+                        <Input @bind-Value="context.Name" />
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="6">
+                    <FormItem Label="主模块">
+                        <Input @bind-Value="context.MainModule" />
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="6">
+                    <FormItem Label="状态">
+                        <Select DataSource="allApplicationStatus" ValueName="Value" LabelName="Name" @bind-Value="context.ApplicationStatus"></Select>
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="6">
+                    <FormItem Label="类型">
+                        <Select DataSource="allApplicationTypes" ValueName="Value" LabelName="Name" @bind-Value="context.ApplicationType"></Select>
+                    </FormItem>
+                </GridCol>
+            </Row>
+            <Row>
+                <GridCol Span="24" Style="text-align:right;">
+                    <Tooltip Title="查询">
+                        <Button Type="primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
+                    </Tooltip>
+                    <Tooltip Title="重置条件">
+                        <Button Icon="@IconType.Outline.Retweet" OnClick="ResetSearchForm"></Button>
+                    </Tooltip>
+                    <Tooltip Title="启动所有">
+                        <Button Icon="@IconType.Outline.PlayCircle" OnClick="StartAll"></Button>
+                    </Tooltip>
+                    <Tooltip Title="停止所有">
+                        <Button Icon="@IconType.Outline.Poweroff" OnClick="StopAll"></Button>
+                    </Tooltip>
+                    <Tooltip Title="新增">
+                        <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
+                    </Tooltip>
+                </GridCol>
+            </Row>
+        </Form>
+    </SpaceItem>
+    <SpaceItem>
+        <Table Loading="SearchLoading" DataSource="@TableData" PageIndex="SearchModel.PageIndex" PageSize="SearchModel.PageSize" PageSizeChanged="Reload" PageIndexChanged="Reload">
+            <PropertyColumn Title="名称" Property="m => m.Name"></PropertyColumn>
+            <PropertyColumn Title="类型" Property="c => c.ApplicationTypeTxt"></PropertyColumn>
+            <PropertyColumn Title="路径" Property="c => c.RootPath"></PropertyColumn>
+            <PropertyColumn Title="主模块" Property="c => c.MainModule"></PropertyColumn>
+            <PropertyColumn Title="运行参数" Property="c => c.RunParams"></PropertyColumn>
+            <PropertyColumn Title="状态" Property="c => c.ApplicationStatusTxt"></PropertyColumn>
+            <ActionColumn Title="操作">
+                <Space Size=@("middle")>
+                    <SpaceItem>
+                        <Tooltip Title="控制台">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Code" OnClick="e => Edit(context.ID)"></Button>
+                        </Tooltip>
+                    </SpaceItem>
+                    @if (context.ApplicationStatus == ApplicationStatusEnum.Stop)
+                    {
+                        <SpaceItem>
+                            <Tooltip Title="启动">
+                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.PlayCircle" OnClick="e => Start(context.ID)"></Button>
+                            </Tooltip>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Tooltip Title="上传">
+                                <Upload Action="@(RCData.GetUploadUrl(context.ID))" Name="file" Method="put" Headers="@HttpClientHelper.GetDefaultHeaders()" Drag OnSingleCompleted="OnSingleCompleted" ShowUploadList="false" BeforeUpload="Newupload">
+                                    <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Upload"></Button>
+                                </Upload>
+                            </Tooltip>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Tooltip Title="使用最后一次上传的文件">
+                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Snippets" OnClick="e => ApplyLasetFile(context.ID)"></Button>
+                            </Tooltip>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Tooltip Title="编辑">
+                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
+                            </Tooltip>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Tooltip Title="删除">
+                                <Popconfirm Title="确定删除该程序?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context.ID)">
+                                    <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                                </Popconfirm>
+                            </Tooltip>
+                        </SpaceItem>
+                    }
+                    else if (context.ApplicationStatus == ApplicationStatusEnum.Runing)
+                    {
+                        <SpaceItem>
+                            <Tooltip Title="关闭">
+                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Poweroff" OnClick="e => Stop(context.ID)"></Button>
+                            </Tooltip>
+                        </SpaceItem>
+                        <SpaceItem>
+                            <Tooltip Title="强制关闭">
+                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.CloseCircle" OnClick="e => Kill(context.ID)"></Button>
+                            </Tooltip>
+                        </SpaceItem>
+                    }
+                </Space>
+            </ActionColumn>
+        </Table>
+    </SpaceItem>
+</Space>
+@code {
+    private List<SelectDataModel<ApplicationStatusEnum>> allApplicationStatus = SelectDataModel<ApplicationStatusEnum>.GetListAndAll<ApplicationStatusEnum>();
+    private List<SelectDataModel<ApplicationTypeEnum>> allApplicationTypes = SelectDataModel<ApplicationTypeEnum>.GetListAndAll<ApplicationTypeEnum>();
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            RCData.ShowDeploys = true;
+            RCData.ShowEnvironments = false;
+            DetailPageName = "Applications/Application";
+            Reload();
+        }
+        base.OnAfterRender(firstRender);
+    }
+    protected override bool CanReload => !String.IsNullOrWhiteSpace(RCData.SelectedDeploy);
+    private void OnSingleCompleted(UploadInfo fileinfo)
+    {
+        if (fileinfo.File.State == UploadState.Success)
+        {
+            _message.Success("上传成功");
+        }
+        else
+        {
+            _message.Error("上传失败");
+        }
+        SearchLoading = false;
+        StateHasChanged();
+    }
+    private bool Newupload(UploadFileItem fileInfo)
+    {
+        if (fileInfo.Ext.ToLower() != ".rar")
+        {
+            _message.Error("只能上传.rar压缩包文件");
+            return false;
+        }
+        SearchLoading = true;
+        StateHasChanged();
+        return true;
+    }
+    protected virtual void Start(Guid id)
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            await _httpClient.StartAsync(id);
+            Reload();
+        });
+    }
+    protected virtual void Stop(Guid id)
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            await _httpClient.StopAsync(id);
+            Reload();
+        });
+    }
+    protected virtual void Kill(Guid id)
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            await _httpClient.KillAsync(id);
+            Reload();
+        });
+    }
+    protected virtual void ApplyLasetFile(Guid id)
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            await _httpClient.ApplyLasetFileAsync(id);
+            Reload();
+        });
+    }
+    protected virtual void StartAll()
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            await _httpClient.StartAllAsync();
+            Reload();
+        });
+    }
+    protected virtual void StopAll()
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            await _httpClient.StopAllAsync();
+            Reload();
+        });
+    }
+}

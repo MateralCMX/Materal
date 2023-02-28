@@ -5,3 +5,15 @@
 <h1>Hello, world! @WebAppConfig.AppName </h1>
 
 Welcome to your new app.
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            RCData.ShowDeploys = false;
+            RCData.ShowEnvironments = false;
+        }
+        base.OnAfterRender(firstRender);
+    }
+}

@@ -31,26 +31,15 @@
     private void OnFinish(EditContext context)
     {
         _loging = true;
-        Task.Run(async () =>
+        HttpHandler.Handler(async () =>
         {
-            try
-            {
-                LoginResultDTO? result = await _userHttpClient.LoginAsync(_model);
-                if (result == null) return;
-                authenticationState.SetToken(result.Token);
-            }
-            catch (MateralHttpException ex)
-            {
-                ex.HandlerHttpError();
-            }
-            catch(Exception ex)
-            {
-                _message.ShowError(ex.Message);
-            }
-            finally
-            {
-                _loging = false;
-            }
+            LoginResultDTO? result = await _userHttpClient.LoginAsync(_model);
+            if (result == null) return;
+            authenticationState.SetToken(result.Token);
+        }, () =>
+        {
+            _loging = false;
+            StateHasChanged();
         });
     }
 }

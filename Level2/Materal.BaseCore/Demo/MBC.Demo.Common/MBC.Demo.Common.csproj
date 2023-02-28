@@ -5,9 +5,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqliteRepository" Version="*" />
-	</ItemGroup>
-	<ItemGroup>
 	  <ProjectReference Include="..\Core\MBC.Core.Common\MBC.Core.Common.csproj" />
 	</ItemGroup>
 </Project>

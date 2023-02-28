@@ -11,11 +11,11 @@ namespace RC.ServerCenter.HttpClient
         /// 获得发布程序列表
         /// </summary>
         /// <returns></returns>
-        public async Task<List<DeployListDTO>?> GetDeployListAsync() => await GetResultModelByGetAsync<List<DeployListDTO>>("Server/GetDeployList", null, null);
+        public async Task<List<DeployListDTO>?> GetDeployListAsync() => await GetResultModelByGetAsync<List<DeployListDTO>>("Server/GetDeployList");
         /// <summary>
         /// 获得环境服务程序列表
         /// </summary>
         /// <returns></returns>
-        public async Task<List<EnvironmentServerListDTO>?> GetEnvironmentServerListAsync() => await GetResultModelByGetAsync<List<EnvironmentServerListDTO>>("Server/GetEnvironmentServerList", null, null);
+        public async Task<List<EnvironmentServerListDTO>?> GetEnvironmentServerListAsync() => await GetResultModelByGetAsync<List<EnvironmentServerListDTO>>("Server/GetEnvironmentServerList");
     }
 }

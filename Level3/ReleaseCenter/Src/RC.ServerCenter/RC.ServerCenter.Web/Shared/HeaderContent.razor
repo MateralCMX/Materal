@@ -3,11 +3,46 @@
 
 <div class="logo">服务器管理工具</div>
 <NavMenu />
-<div class="btn_logout">
-    <Button style="height:100%;display:inline-block;" Type="@ButtonType.Link" OnClick="Logout">退出</Button>
+<div class="right-group">
+    @if (RCData.ShowDeploys)
+    {
+        <Select Class="right-group-select" DataSource="RCData.Deploys" ValueName="Value" LabelName="Name" @bind-Value="RCData.SelectedDeploy"></Select>
+    }
+    @if (RCData.ShowEnvironments)
+    {
+        <Select Class="right-group-select" DataSource="RCData.Environments" ValueName="Value" LabelName="Name" @bind-Value="RCData.SelectedEnvironment"></Select>
+    }    
+    <Button Class="right-group-button" Type="@ButtonType.Link" OnClick="Logout">退出</Button>
 </div>
 
 @code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            RCData.OnChange += RefreshPageState;
+            if (!RCData.IsLoaded)
+            {
+                await RCData.InitAsync();
+                SelectDataModel? deploy = RCData.Deploys.FirstOrDefault();
+                if (deploy != null)
+                {
+                    RCData.SelectedDeploy = deploy.Value ?? string.Empty;
+                }
+                SelectDataModel? environment = RCData.Environments.FirstOrDefault();
+                if (environment != null)
+                {
+                    RCData.SelectedEnvironment = environment.Value ?? string.Empty;
+                }
+                StateHasChanged();
+            }
+        }
+        base.OnAfterRender(firstRender);
+    }
+    private void RefreshPageState()
+    {
+        StateHasChanged();
+    }
     private void Logout()
     {
         authenticationState.LoginOut();
