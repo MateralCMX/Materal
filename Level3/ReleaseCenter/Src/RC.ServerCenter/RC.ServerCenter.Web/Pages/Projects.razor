@@ -1,0 +1,74 @@
+﻿@page "/Projects"
+
+@using RC.ServerCenter.DataTransmitModel.Project;
+@using RC.ServerCenter.HttpClient;
+@using RC.ServerCenter.PresentationModel.Project;
+
+@inherits BaseList<AddProjectRequestModel, EditProjectRequestModel, QueryProjectRequestModel, ProjectDTO, ProjectListDTO, ProjectHttpClient>;
+
+@inject IMessageService _message;
+@inject ProjectHttpClient _httpClient;
+
+<PageTitle>项目管理-RC</PageTitle>
+
+<Space Direction="DirectionVHType.Vertical" Style="width:100%;">
+    <SpaceItem>
+        <Form @ref="SearchForm" Loading="SearchLoading" Model="SearchModel" OnFinish="Reload">
+            <Row Gutter="24">
+                <GridCol Span="6">
+                    <FormItem Label="名称">
+                        <Input @bind-Value="context.Name" />
+                    </FormItem>
+                </GridCol>
+            </Row>
+            <Row>
+                <GridCol Span="24" Style="text-align:right;">
+                    <Tooltip Title="查询">
+                        <Button Type="primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
+                    </Tooltip>
+                    <Tooltip Title="重置条件">
+                        <Button Icon="@IconType.Outline.Retweet" OnClick="ResetSearchForm"></Button>
+                    </Tooltip>
+                    <Tooltip Title="新增">
+                        <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
+                    </Tooltip>
+                </GridCol>
+            </Row>
+        </Form>
+    </SpaceItem>
+    <SpaceItem>
+        <Table Loading="SearchLoading" DataSource="@TableData" PageIndex="SearchModel.PageIndex" PageSize="SearchModel.PageSize" PageSizeChanged="Reload" PageIndexChanged="Reload">
+            <PropertyColumn Title="名称" Property="m => m.Name"></PropertyColumn>
+            <PropertyColumn Title="描述" Property="m => m.Description"></PropertyColumn>
+            <ActionColumn Title="操作">
+                <Space Size=@("middle")>
+                    <SpaceItem>
+                        <Tooltip Title="编辑">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
+                        </Tooltip>
+                    </SpaceItem>
+                    <SpaceItem>
+                        <Tooltip Title="删除">
+                            <Popconfirm Title="确定删除该用户?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context.ID)">
+                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                            </Popconfirm>
+                        </Tooltip>
+                    </SpaceItem>
+                </Space>
+            </ActionColumn>
+        </Table>
+    </SpaceItem>
+</Space>
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            RCData.ShowDeploys = false;
+            RCData.ShowEnvironments = false;
+            DetailPageName = "Projects/Project";
+            Reload();
+        }
+        base.OnAfterRender(firstRender);
+    }
+}

@@ -12,7 +12,7 @@
         <Checkbox @bind-Value="context.IsIncrementalUpdating" />
     </FormItem>
     <FormItem Label="运行参数">
-        <Input @bind-Value="context.RunParams" />
+        <TextArea Rows="4" @bind-Value="context.RunParams" />
     </FormItem>
     <FormItem WrapperColOffset="3" WrapperColSpan="8">
         <Button Style="margin:10px 0 0 0" Type="@ButtonType.Primary" Block HtmlType="submit">保存</Button>
