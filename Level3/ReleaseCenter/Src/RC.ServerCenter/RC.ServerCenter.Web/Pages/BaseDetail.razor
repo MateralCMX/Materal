@@ -21,11 +21,14 @@
     protected TAddRequestModel AddModel = new();
     protected TEditRequestModel EditModel = new();
     protected string ListName { get; set; } = "BaseList";
+    protected virtual void BeforeAdd() { }
+    protected virtual void BeforeEdit() { }
     protected virtual void Add()
     {
         Loading = true;
         HttpHandler.Handler(async () =>
         {
+            BeforeAdd();
             await MainHttpClient.AddAsync(AddModel);
             _navigation.NavigateTo($"./{ListName}");
         }, () =>
@@ -39,6 +42,7 @@
         Loading = true;
         HttpHandler.Handler(async () =>
         {
+            BeforeEdit();
             await MainHttpClient.EditAsync(EditModel);
             _navigation.NavigateTo($"./{ListName}");
         }, () =>

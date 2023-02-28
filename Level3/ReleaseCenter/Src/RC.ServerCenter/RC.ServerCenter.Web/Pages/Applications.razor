@@ -139,11 +139,11 @@
         {
             RCData.ShowDeploys = true;
             RCData.ShowEnvironments = false;
-            DetailPageName = "Applications/Application";
             Reload();
         }
         base.OnAfterRender(firstRender);
     }
+    protected override string GetDetailPageName => "Applications/Application";
     protected override bool CanReload => !String.IsNullOrWhiteSpace(RCData.SelectedDeploy);
     private void OnSingleCompleted(UploadInfo fileinfo)
     {

@@ -8,7 +8,6 @@ namespace RC.ServerCenter.Web
         public string Name { get; set; } = string.Empty;
     }
     public class SelectDataModel<T>
-        where T : struct, Enum
     {
         public T? Value { get; set; }
         public string Name { get; set; } = string.Empty;

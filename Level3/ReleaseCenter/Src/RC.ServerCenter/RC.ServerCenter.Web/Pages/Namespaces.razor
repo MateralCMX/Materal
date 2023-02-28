@@ -1,28 +1,29 @@
-﻿@page "/DefaultDatas"
+﻿@page "/Namespaces"
 
-@using RC.Deploy.DataTransmitModel.DefaultData;
-@using RC.Deploy.Enums;
-@using RC.Deploy.HttpClient;
-@using RC.Deploy.PresentationModel.DefaultData;
+@using RC.ServerCenter.DataTransmitModel.Namespace;
+@using RC.ServerCenter.DataTransmitModel.Project;
+@using RC.ServerCenter.HttpClient;
+@using RC.ServerCenter.PresentationModel.Namespace;
 
-@inherits BaseList<AddDefaultDataRequestModel, EditDefaultDataRequestModel, QueryDefaultDataRequestModel, DefaultDataDTO, DefaultDataListDTO, DefaultDataHttpClient>;
+@inherits BaseList<AddNamespaceRequestModel, EditNamespaceRequestModel, QueryNamespaceRequestModel, NamespaceDTO, NamespaceListDTO, NamespaceHttpClient>;
 
 @inject IMessageService _message;
+@inject ProjectHttpClient _projectHttpClient;
 
-<PageTitle>默认数据管理-RC</PageTitle>
+<PageTitle>命名空间管理-RC</PageTitle>
 
 <Space Direction="DirectionVHType.Vertical" Style="width:100%;">
     <SpaceItem>
         <Form @ref="SearchForm" Loading="SearchLoading" Model="SearchModel" OnFinish="Reload">
             <Row Gutter="24">
                 <GridCol Span="6">
-                    <FormItem Label="键">
-                        <Input @bind-Value="context.Key" />
+                    <FormItem Label="项目">
+                        <Select DataSource="projectData" ValueName="Value" LabelName="Name" @bind-Value="context.ProjectID" />
                     </FormItem>
                 </GridCol>
                 <GridCol Span="6">
-                    <FormItem Label="类型">
-                        <Select DataSource="allApplicationTypes" ValueName="Value" LabelName="Name" @bind-Value="context.ApplicationType"></Select>
+                    <FormItem Label="名称">
+                        <Input @bind-Value="context.Name" />
                     </FormItem>
                 </GridCol>
             </Row>
@@ -43,9 +44,8 @@
     </SpaceItem>
     <SpaceItem>
         <Table Loading="SearchLoading" DataSource="@TableData" PageIndex="SearchModel.PageIndex" PageSize="SearchModel.PageSize" PageSizeChanged="Reload" PageIndexChanged="Reload">
-            <PropertyColumn Title="名称" Property="m => m.Key"></PropertyColumn>
-            <PropertyColumn Title="类型" Property="m => m.ApplicationType.GetDescription()"></PropertyColumn>
-            <PropertyColumn Title="数据" Property="m => m.Data"></PropertyColumn>
+            <PropertyColumn Title="名称" Property="m => m.Name"></PropertyColumn>
+            <PropertyColumn Title="描述" Property="m => m.Description"></PropertyColumn>
             <ActionColumn Title="操作">
                 <Space Size=@("middle")>
                     <SpaceItem>
@@ -66,16 +66,36 @@
     </SpaceItem>
 </Space>
 @code {
-    private List<SelectDataModel<ApplicationTypeEnum>> allApplicationTypes = SelectDataModel<ApplicationTypeEnum>.GetListAndAll<ApplicationTypeEnum>();
+    private readonly List<SelectDataModel<Guid>> projectData = new();
+    private Guid selectedProjectID = Guid.Empty;
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            RCData.ShowDeploys = true;
+            RCData.ShowDeploys = false;
             RCData.ShowEnvironments = false;
-            Reload();
+            LoadAllProjects();
         }
         base.OnAfterRender(firstRender);
     }
-    protected override string GetDetailPageName => "DefaultDatas/DefaultData";
+    protected override string GetDetailPageName => $"Namespaces/Namespace/{SearchModel.ProjectID}";
+    private void LoadAllProjects()
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            (List<ProjectListDTO>? projects, _) = await _projectHttpClient.GetListAsync(new()
+                {
+                    PageIndex = 1,
+                    PageSize = int.MaxValue
+                });
+            if (projects == null) return;
+            foreach (ProjectListDTO project in projects)
+            {
+                projectData.Add(new() { Value = project.ID, Name = project.Name });
+            }
+            SearchModel.ProjectID = projects.First().ID;
+            Reload();
+        });
+    }
 }

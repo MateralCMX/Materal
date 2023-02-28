@@ -78,11 +78,11 @@
         {
             RCData.ShowDeploys = false;
             RCData.ShowEnvironments = false;
-            DetailPageName = "Users/User";
             Reload();
         }
         base.OnAfterRender(firstRender);
     }
+    protected override string GetDetailPageName => "Users/User";
     private void Restpassword(Guid id)
     {
         SearchLoading = true;        

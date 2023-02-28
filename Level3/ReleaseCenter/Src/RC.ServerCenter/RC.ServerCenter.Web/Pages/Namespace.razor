@@ -1,0 +1,41 @@
+﻿@page "/Namespaces/Namespace/{projectID:guid}"
+@page "/Namespaces/Namespace/{projectID:guid}/{id:guid}"
+
+@using RC.ServerCenter.DataTransmitModel.Namespace;
+@using RC.ServerCenter.HttpClient;
+@using RC.ServerCenter.PresentationModel.Namespace;
+@using RC.ServerCenter.Web.Controls.NamespaceControls
+
+@inherits BaseDetail<AddNamespaceRequestModel, EditNamespaceRequestModel, QueryNamespaceRequestModel, NamespaceDTO, NamespaceListDTO, NamespaceHttpClient>;
+
+<PageTitle>项目管理-RC</PageTitle>
+
+@if (IsAdd)
+{
+    <AddNamespace Model="AddModel" Loading="Loading" OnFinish="Add"></AddNamespace>
+}
+else
+{
+    <EditNamespace Model="EditModel" Loading="Loading" OnFinish="Edit"></EditNamespace>
+}
+
+@code {
+    [Parameter]
+    public Guid ProjectID { get; set; }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            RCData.ShowDeploys = false;
+            RCData.ShowEnvironments = false;
+            ListName = "Namespaces";
+            Reload();
+        }
+        base.OnAfterRender(firstRender);
+    }
+    protected override void BeforeAdd()
+    {
+        AddModel.ProjectID = ProjectID;
+        base.BeforeAdd();
+    }
+}

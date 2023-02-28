@@ -18,11 +18,6 @@ namespace RC.ServerCenter.ServiceImpl
             if (await DefaultRepository.ExistedAsync(m => m.Name == model.Name)) throw new RCException("名称重复");
             return await base.AddAsync(model);
         }
-        public override async Task EditAsync(EditNamespaceModel model)
-        {
-            if (await DefaultRepository.ExistedAsync(m => m.ID != model.ID)) throw new RCException("名称重复");
-            await base.EditAsync(model);
-        }
         protected override async Task DeleteAsync(Namespace domain)
         {
             await base.DeleteAsync(domain);

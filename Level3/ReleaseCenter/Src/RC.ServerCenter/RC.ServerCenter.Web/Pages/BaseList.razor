@@ -24,8 +24,8 @@
             PageSize = 10
         };
     protected virtual bool CanReload { get; } = true;
-    protected virtual void Add() => _navigation.NavigateTo($"./{DetailPageName}");
-    protected virtual void Edit(Guid id) => _navigation.NavigateTo($"./{DetailPageName}/{id}");
+    protected virtual void Add() => _navigation.NavigateTo($"./{GetDetailPageName}");
+    protected virtual void Edit(Guid id) => _navigation.NavigateTo($"./{GetDetailPageName}/{id}");
     protected virtual void Delete(Guid id)
     {
         SearchLoading = true;
@@ -54,6 +54,6 @@
             StateHasChanged();
         });
     }
-    protected string DetailPageName { get; set; } = "Base";
+    protected virtual string GetDetailPageName => "Base";
     protected virtual void ResetSearchForm() => SearchForm?.Reset();
 }

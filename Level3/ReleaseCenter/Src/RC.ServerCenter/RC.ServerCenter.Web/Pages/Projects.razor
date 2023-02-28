@@ -7,7 +7,6 @@
 @inherits BaseList<AddProjectRequestModel, EditProjectRequestModel, QueryProjectRequestModel, ProjectDTO, ProjectListDTO, ProjectHttpClient>;
 
 @inject IMessageService _message;
-@inject ProjectHttpClient _httpClient;
 
 <PageTitle>项目管理-RC</PageTitle>
 
@@ -66,9 +65,9 @@
         {
             RCData.ShowDeploys = false;
             RCData.ShowEnvironments = false;
-            DetailPageName = "Projects/Project";
             Reload();
         }
         base.OnAfterRender(firstRender);
     }
+    protected override string GetDetailPageName => "Projects/Project";
 }
