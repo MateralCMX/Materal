@@ -1,4 +1,4 @@
-﻿@page "/UserList"
+﻿@page "/Users"
 @using System.ComponentModel;
 @using AntDesign.Internal;
 @using AntDesign.TableModels;
@@ -71,13 +71,13 @@
             PageIndex = 1,
             PageSize = 10
         };
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            await SearchAsync();
+            Reload();
         }
-        await base.OnAfterRenderAsync(firstRender);
+        base.OnAfterRenderAsync(firstRender);
     }
     private void Add() => _navigation.NavigateTo("./User");
     private void Edit(Guid id) => _navigation.NavigateTo($"./User/{id}");

@@ -5,8 +5,10 @@
     font-size: 18px;
     font-weight: bold;
 }
+
 .btn_logout {
     position: absolute;
     right: 10px;
     height: 64px;
+    top: 0px;
 }

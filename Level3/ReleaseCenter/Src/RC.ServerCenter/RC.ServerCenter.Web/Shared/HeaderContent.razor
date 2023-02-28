@@ -1,11 +1,15 @@
-﻿<div class="logo">服务器管理工具</div>
+﻿
+@inject CustomAuthenticationStateProvider authenticationState;
+
+<div class="logo">服务器管理工具</div>
 <NavMenu />
-@*<div class="btn_logout">
+<div class="btn_logout">
     <Button style="height:100%;display:inline-block;" Type="@ButtonType.Link" OnClick="Logout">退出</Button>
-</div>*@
+</div>
 
 @code {
     private void Logout()
     {
+        authenticationState.LoginOut();
     }
 }
