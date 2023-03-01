@@ -9,6 +9,7 @@ namespace RC.ServerCenter.Web
         public static void Handler(Func<Task> httpHandler, Action? afterHandler = null)
         {
             IMessageService message = MateralServices.GetService<IMessageService>();
+            NotificationService notificationService = MateralServices.GetService<NotificationService>();
             Task.Run(async () =>
             {
                 try
@@ -17,11 +18,11 @@ namespace RC.ServerCenter.Web
                 }
                 catch (MateralHttpException ex)
                 {
-                    ex.HandlerHttpError(message);
+                    ex.HandlerHttpError(message, notificationService);
                 }
                 catch (Exception ex)
                 {
-                    await message.Error(ex.Message);
+                    notificationService.ShowErrorMessage(ex.GetErrorMessage());
                 }
                 finally
                 {

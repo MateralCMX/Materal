@@ -7,9 +7,10 @@ namespace RC.ServerCenter.Web
 {
     public static class HttpExceptionExtension
     {
-        public static void HandlerHttpError(this MateralHttpException exception, IMessageService? message = null)
+        public static void HandlerHttpError(this MateralHttpException exception, IMessageService? message = null, NotificationService? notificationService = null)
         {
             message ??= MateralServices.GetService<IMessageService>();
+            notificationService ??= MateralServices.GetService<NotificationService>();
             CustomAuthenticationStateProvider authenticationState = MateralServices.GetService<CustomAuthenticationStateProvider>();
             if (exception.HttpResponseMessage != null)
             {
@@ -25,7 +26,8 @@ namespace RC.ServerCenter.Web
             }
             else
             {
-                message.ShowError(exception.Message);
+                string errorMessage = exception.GetErrorMessage();
+                notificationService.ShowErrorMessage(errorMessage);
             }
         }
     }

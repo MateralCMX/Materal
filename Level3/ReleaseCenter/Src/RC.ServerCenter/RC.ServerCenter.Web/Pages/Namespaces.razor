@@ -29,15 +29,17 @@
             </Row>
             <Row>
                 <GridCol Span="24" Style="text-align:right;">
-                    <Tooltip Title="查询">
-                        <Button Type="primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
-                    </Tooltip>
-                    <Tooltip Title="重置条件">
-                        <Button Icon="@IconType.Outline.Retweet" OnClick="ResetSearchForm"></Button>
-                    </Tooltip>
-                    <Tooltip Title="新增">
-                        <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
-                    </Tooltip>
+                    <ButtonGroup>
+                        <Tooltip Title="查询">
+                            <Button Type="primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
+                        </Tooltip>
+                        <Tooltip Title="重置条件">
+                            <Button Icon="@IconType.Outline.Retweet" OnClick="ResetSearchForm"></Button>
+                        </Tooltip>
+                        <Tooltip Title="新增">
+                            <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
+                        </Tooltip>
+                    </ButtonGroup>
                 </GridCol>
             </Row>
         </Form>
@@ -47,20 +49,16 @@
             <PropertyColumn Title="名称" Property="m => m.Name"></PropertyColumn>
             <PropertyColumn Title="描述" Property="m => m.Description"></PropertyColumn>
             <ActionColumn Title="操作">
-                <Space Size=@("middle")>
-                    <SpaceItem>
-                        <Tooltip Title="编辑">
-                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
-                        </Tooltip>
-                    </SpaceItem>
-                    <SpaceItem>
-                        <Tooltip Title="删除">
-                            <Popconfirm Title="确定删除该用户?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context.ID)">
-                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
-                            </Popconfirm>
-                        </Tooltip>
-                    </SpaceItem>
-                </Space>
+                <ButtonGroup>
+                    <Tooltip Title="编辑">
+                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
+                    </Tooltip>
+                    <Tooltip Title="删除">
+                        <Popconfirm Title="确定删除该用户?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context.ID)">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                        </Popconfirm>
+                    </Tooltip>
+                </ButtonGroup>
             </ActionColumn>
         </Table>
     </SpaceItem>

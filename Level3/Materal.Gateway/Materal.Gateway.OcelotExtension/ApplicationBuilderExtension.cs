@@ -1,4 +1,6 @@
 ﻿using Materal.Gateway.Common;
+using Materal.Gateway.OcelotExtension.Middleware;
+using Materal.Gateway.OcelotExtension.WebSockets.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +29,6 @@ using Ocelot.Request.Middleware;
 using Ocelot.RequestId.Middleware;
 using Ocelot.Responses;
 using Ocelot.Security.Middleware;
-using Ocelot.WebSockets.Middleware;
 using System.Diagnostics;
 using System.Text;
 
@@ -117,7 +118,7 @@ namespace Materal.Gateway.OcelotExtension
                 wenSocketsApp.UseDownstreamRequestInitialiser();
                 wenSocketsApp.UseLoadBalancingMiddleware();
                 wenSocketsApp.UseDownstreamUrlCreatorMiddleware();
-                wenSocketsApp.UseWebSocketsProxyMiddleware();
+                wenSocketsApp.UseGatewayWebSocketsProxyMiddleware();
             });
             app.UseGatewayResponderMiddleware();
             app.UseDownstreamRouteFinderMiddleware();

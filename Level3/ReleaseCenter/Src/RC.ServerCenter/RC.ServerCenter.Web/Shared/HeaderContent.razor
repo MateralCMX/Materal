@@ -1,4 +1,5 @@
-﻿
+﻿@using Materal.Utils.Http;
+
 @inject CustomAuthenticationStateProvider authenticationState;
 
 <div class="logo">服务器管理工具</div>
@@ -16,25 +17,28 @@
 </div>
 
 @code {
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
             RCData.OnChange += RefreshPageState;
             if (!RCData.IsLoaded)
             {
-                await RCData.InitAsync();
-                SelectDataModel? deploy = RCData.Deploys.FirstOrDefault();
-                if (deploy != null)
+                HttpHandler.Handler(async () =>
                 {
-                    RCData.SelectedDeploy = deploy.Value ?? string.Empty;
-                }
-                SelectDataModel? environment = RCData.Environments.FirstOrDefault();
-                if (environment != null)
-                {
-                    RCData.SelectedEnvironment = environment.Value ?? string.Empty;
-                }
-                StateHasChanged();
+                    await RCData.InitAsync();
+                    SelectDataModel? deploy = RCData.Deploys.FirstOrDefault();
+                    if (deploy != null)
+                    {
+                        RCData.SelectedDeploy = deploy.Value ?? string.Empty;
+                    }
+                    SelectDataModel? environment = RCData.Environments.FirstOrDefault();
+                    if (environment != null)
+                    {
+                        RCData.SelectedEnvironment = environment.Value ?? string.Empty;
+                    }
+                    StateHasChanged();
+                });
             }
         }
         base.OnAfterRender(firstRender);

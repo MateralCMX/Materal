@@ -46,21 +46,23 @@
             </Row>
             <Row>
                 <GridCol Span="24" Style="text-align:right;">
-                    <Tooltip Title="查询">
-                        <Button Type="primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
-                    </Tooltip>
-                    <Tooltip Title="重置条件">
-                        <Button Icon="@IconType.Outline.Retweet" OnClick="ResetSearchForm"></Button>
-                    </Tooltip>
-                    <Tooltip Title="启动所有">
-                        <Button Icon="@IconType.Outline.PlayCircle" OnClick="StartAll"></Button>
-                    </Tooltip>
-                    <Tooltip Title="停止所有">
-                        <Button Icon="@IconType.Outline.Poweroff" OnClick="StopAll"></Button>
-                    </Tooltip>
-                    <Tooltip Title="新增">
-                        <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
-                    </Tooltip>
+                    <ButtonGroup>
+                        <Tooltip Title="查询">
+                            <Button Type="primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
+                        </Tooltip>
+                        <Tooltip Title="重置条件">
+                            <Button Icon="@IconType.Outline.Retweet" OnClick="ResetSearchForm"></Button>
+                        </Tooltip>
+                        <Tooltip Title="启动所有">
+                            <Button Icon="@IconType.Outline.PlayCircle" OnClick="StartAll"></Button>
+                        </Tooltip>
+                        <Tooltip Title="停止所有">
+                            <Button Icon="@IconType.Outline.Poweroff" OnClick="StopAll"></Button>
+                        </Tooltip>
+                        <Tooltip Title="新增">
+                            <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
+                        </Tooltip>
+                    </ButtonGroup>
                 </GridCol>
             </Row>
         </Form>
@@ -74,58 +76,42 @@
             <PropertyColumn Title="运行参数" Property="c => c.RunParams"></PropertyColumn>
             <PropertyColumn Title="状态" Property="c => c.ApplicationStatusTxt"></PropertyColumn>
             <ActionColumn Title="操作">
-                <Space Size=@("middle")>
-                    <SpaceItem>
-                        <Tooltip Title="控制台">
-                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Code" OnClick="e => Edit(context.ID)"></Button>
-                        </Tooltip>
-                    </SpaceItem>
+                <ButtonGroup>
+                    <Tooltip Title="控制台">
+                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Code" OnClick="e => Edit(context.ID)"></Button>
+                    </Tooltip>
                     @if (context.ApplicationStatus == ApplicationStatusEnum.Stop)
                     {
-                        <SpaceItem>
-                            <Tooltip Title="启动">
-                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.PlayCircle" OnClick="e => Start(context.ID)"></Button>
-                            </Tooltip>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Tooltip Title="上传">
-                                <Upload Action="@(RCData.GetUploadUrl(context.ID))" Name="file" Method="put" Headers="@HttpClientHelper.GetDefaultHeaders()" Drag OnSingleCompleted="OnSingleCompleted" ShowUploadList="false" BeforeUpload="Newupload">
-                                    <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Upload"></Button>
-                                </Upload>
-                            </Tooltip>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Tooltip Title="使用最后一次上传的文件">
-                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Snippets" OnClick="e => ApplyLasetFile(context.ID)"></Button>
-                            </Tooltip>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Tooltip Title="编辑">
-                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
-                            </Tooltip>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Tooltip Title="删除">
-                                <Popconfirm Title="确定删除该程序?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context.ID)">
-                                    <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
-                                </Popconfirm>
-                            </Tooltip>
-                        </SpaceItem>
+                        <Tooltip Title="启动">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.PlayCircle" OnClick="e => Start(context.ID)"></Button>
+                        </Tooltip>
+                        <Tooltip Title="上传">
+                            <Upload Action="@(RCData.GetUploadUrl(context.ID))" Name="file" Method="put" Headers="@HttpClientHelper.GetDefaultHeaders()" Drag OnSingleCompleted="OnSingleCompleted" ShowUploadList="false" BeforeUpload="Newupload">
+                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Upload"></Button>
+                            </Upload>
+                        </Tooltip>
+                        <Tooltip Title="使用最后一次上传的文件">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Snippets" OnClick="e => ApplyLasetFile(context.ID)"></Button>
+                        </Tooltip>
+                        <Tooltip Title="编辑">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
+                        </Tooltip>
+                        <Tooltip Title="删除">
+                            <Popconfirm Title="确定删除该程序?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context.ID)">
+                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                            </Popconfirm>
+                        </Tooltip>
                     }
                     else if (context.ApplicationStatus == ApplicationStatusEnum.Runing)
                     {
-                        <SpaceItem>
-                            <Tooltip Title="关闭">
-                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Poweroff" OnClick="e => Stop(context.ID)"></Button>
-                            </Tooltip>
-                        </SpaceItem>
-                        <SpaceItem>
-                            <Tooltip Title="强制关闭">
-                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.CloseCircle" OnClick="e => Kill(context.ID)"></Button>
-                            </Tooltip>
-                        </SpaceItem>
+                        <Tooltip Title="关闭">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Poweroff" OnClick="e => Stop(context.ID)"></Button>
+                        </Tooltip>
+                        <Tooltip Title="强制关闭">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.CloseCircle" OnClick="e => Kill(context.ID)"></Button>
+                        </Tooltip>
                     }
-                </Space>
+                </ButtonGroup>
             </ActionColumn>
         </Table>
     </SpaceItem>

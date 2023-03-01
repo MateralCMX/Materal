@@ -26,10 +26,10 @@ namespace Materal.Gateway.OcelotExtension.Custom.Middleware
         public async Task Invoke(HttpContext httpContext)
         {
             (Response<HttpResponseMessage?> result, string handlerName) = await _customHandlers.BeforeTransmitAsync(httpContext);
-            if (UpdateDownstreamResponse(httpContext, result, handlerName)) return;
+            if (!UpdateDownstreamResponse(httpContext, result, handlerName)) return;
             await _next.Invoke(httpContext);
             (result, handlerName) = await _customHandlers.AfterTransmitAsync(httpContext);
-            if (UpdateDownstreamResponse(httpContext, result, handlerName)) return;
+            if (!UpdateDownstreamResponse(httpContext, result, handlerName)) return;
         }
         /// <summary>
         /// 更新下游返回
@@ -43,7 +43,7 @@ namespace Materal.Gateway.OcelotExtension.Custom.Middleware
             if (response.Data != null)
             {
                 httpContext.Items.UpsertDownstreamResponse(new GatewayDownstreamResponse(response.Data));
-                return true;
+                return false;
             }
             else if (response.IsError)
             {
@@ -62,9 +62,9 @@ namespace Materal.Gateway.OcelotExtension.Custom.Middleware
                 HttpContent content = new StringContent(message, Encoding.UTF8, "text/plain");
                 DownstreamResponse downstreamResponse = new(content, httpStatusCode, headers, reasonPhrase);
                 httpContext.Items.UpsertDownstreamResponse(downstreamResponse);
-                return true;
+                return false;
             }
-            return false;
+            return true;
         }
     }
 }

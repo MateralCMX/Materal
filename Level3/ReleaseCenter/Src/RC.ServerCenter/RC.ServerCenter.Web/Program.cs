@@ -7,9 +7,10 @@ using Materal.Utils;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using RC.Authority.DataTransmitModel.User;
+using RC.Authority.HttpClient;
+using RC.Authority.PresentationModel.User;
 using RC.Core.HttpClient;
-using RC.ServerCenter.DataTransmitModel.Server;
-using RC.ServerCenter.HttpClient;
 using System.Reflection;
 
 namespace RC.ServerCenter.Web

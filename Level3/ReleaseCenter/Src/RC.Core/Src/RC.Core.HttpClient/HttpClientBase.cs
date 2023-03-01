@@ -22,7 +22,7 @@ namespace RC.Core.HttpClient
         protected override Dictionary<string, string> GetDefaultHeaders() => HttpClientHelper.GetDefaultHeaders();
         protected override string GetTrueUrl(string url)
         {
-            if (HttpClientHelper.GetUrl == null) return $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{_appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/{url}";
+            if (HttpClientHelper.GetUrl == null) return $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{_appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/api/{url}";
             return HttpClientHelper.GetUrl(url, _appName);
         }
     }
@@ -49,7 +49,7 @@ namespace RC.Core.HttpClient
         protected override Dictionary<string, string> GetDefaultHeaders() => HttpClientHelper.GetDefaultHeaders();
         protected override string GetTrueUrl(string url)
         {
-            if (HttpClientHelper.GetUrl == null) return $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{_appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/{url}";
+            if (HttpClientHelper.GetUrl == null) return $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{_appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/api/{url}";
             return HttpClientHelper.GetUrl(url, _appName);
         }
     }
