@@ -100,6 +100,9 @@ namespace Materal.BaseCore.WebAPI
         {
             List<string> tagsValue = new() { "MateralCore" };
             tagsValue.AddRange(tags);
+            string healthUrl = $"{WebAPIConfig.ExternalUrl.Url}/api/Health?id={NodeID}";
+            bool isHttps = healthUrl.StartsWith("https");
+            _logger?.LogInformation($"健康检查地址:{healthUrl}");
             return new AgentServiceRegistration
             {
                 ID = NodeID.ToString(),
@@ -110,8 +113,9 @@ namespace Materal.BaseCore.WebAPI
                 Check = new AgentServiceCheck
                 {
                     DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
-                    HTTP = $"{WebAPIConfig.ExternalUrl.Url}/api/Health?id={NodeID}",
-                    Interval = TimeSpan.FromSeconds(10),
+                    HTTP = healthUrl,
+                    TLSSkipVerify = isHttps,
+                    Interval = TimeSpan.FromSeconds(WebAPIConfig.ConsulConfig.HealthInterval),
                     Timeout = TimeSpan.FromSeconds(5),
                 }
             };

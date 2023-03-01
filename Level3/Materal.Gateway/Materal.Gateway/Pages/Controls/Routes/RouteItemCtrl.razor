@@ -44,10 +44,14 @@
     </DescriptionsItem>
     <DescriptionsItem Title="操作">
         <ButtonGroup>
-            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(Model.ID)"></Button>
-            <Popconfirm Title="确定删除该配置?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(Model)">
-                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
-            </Popconfirm>
+            <Tooltip Title="编辑">
+                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(Model.ID)"></Button>
+            </Tooltip>
+            <Tooltip Title="删除">
+                <Popconfirm Title="确定删除该配置?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(Model)">
+                    <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                </Popconfirm>
+            </Tooltip>
         </ButtonGroup>
     </DescriptionsItem>
 </Descriptions>

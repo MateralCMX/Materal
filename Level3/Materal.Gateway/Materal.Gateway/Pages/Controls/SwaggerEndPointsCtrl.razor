@@ -6,35 +6,43 @@
 
 <AntList Grid="_grid" DataSource="@_models">
     <Header>
-        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.FileAdd" OnClick="e => ShowModal(true, new())"></Button>
+        <Tooltip Title="添加">
+            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.FileAdd" OnClick="e => ShowModal(true, new())"></Button>
+        </Tooltip>
     </Header>
     <ChildContent>
         <ListItem>
             <Card Title="@(context.Key)" Style="margin:10px 0 0 0;" BodyStyle="padding: 0;">
                 <Extra>
-                    <div style="display:inline-flex;">
-                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.FileAdd" OnClick="e => ShowItemModal(true, context, new())"></Button>
-                    </div>
-                    <div style="display:inline-flex;">
-                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => ShowModal(false, context)"></Button>
-                    </div>
-                    <Popconfirm Title="确定删除该配置?" OkText="删除" CancelText="取消" OnConfirm="e => OnDelete(context)">
-                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
-                    </Popconfirm>
+                    <ButtonGroup>
+                        <Tooltip Title="添加">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.FileAdd" OnClick="e => ShowItemModal(true, context, new())"></Button>
+                        </Tooltip>
+                        <Tooltip Title="编辑">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => ShowModal(false, context)"></Button>
+                        </Tooltip>
+                        <Tooltip Title="删除">
+                            <Popconfirm Title="确定删除该配置?" OkText="删除" CancelText="取消" OnConfirm="e => OnDelete(context)">
+                                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                            </Popconfirm>
+                        </Tooltip>
+                    </ButtonGroup>
                 </Extra>
                 <Body>
                     <AntList DataSource="@context.Config" Size="small">
                         <ChildContent Context="item">
                             <ListItem>
                                 <span>@item.Name @item.Version 服务发现：@(item.TakeServersFromDownstreamService ? "是" : "否")</span>
-                                <div>
-                                    <div style="display:inline-flex;">
+                                <ButtonGroup>
+                                    <Tooltip Title="编辑">
                                         <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => ShowItemModal(false, context, item)"></Button>
-                                    </div>
-                                    <Popconfirm Title="确定删除该配置?" OkText="删除" CancelText="取消" OnConfirm="e => OnDeleteItem(context, item)">
-                                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
-                                    </Popconfirm>
-                                </div>
+                                    </Tooltip>
+                                    <Tooltip Title="删除">
+                                        <Popconfirm Title="确定删除该配置?" OkText="删除" CancelText="取消" OnConfirm="e => OnDeleteItem(context, item)">
+                                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                                        </Popconfirm>
+                                    </Tooltip>
+                                </ButtonGroup>
                             </ListItem>
                         </ChildContent>
                     </AntList>

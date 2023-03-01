@@ -13,7 +13,9 @@
     <GridCol Span="6">
         <Card Bordered Title="同步Swagger配置">
             <Extra>
-                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Sync" OnClick="SyncSwagger"></Button>
+                <Tooltip Title="同步">
+                    <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Sync" OnClick="SyncSwagger"></Button>
+                </Tooltip>
             </Extra>
             <Body>
                 <Form Model="_syncSwaggerModel">
@@ -33,7 +35,9 @@
     <GridCol Span="6">
         <Card Bordered Title="同步路由配置">
             <Extra>
-                <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Sync" OnClick="SyncRout"></Button>
+                <Tooltip Title="同步">
+                    <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Sync" OnClick="SyncRout"></Button>
+                </Tooltip>
             </Extra>
             <Body>
                 <Form Model="_syncRoutModel">
@@ -43,11 +47,14 @@
                     <FormItem Label="标签">
                         <Input @bind-Value="context.Tag" Placeholder="支持正则表达式" />
                     </FormItem>
-                    <FormItem Label="清空同步">
-                        <Switch @bind-Value="context.Clear" />
+                    <FormItem Label="忽略证书安全">
+                        <Switch @bind-Value="context.DangerousAcceptAnyServerCertificateValidator" />
                     </FormItem>
                     <FormItem Label="转发方式">
                         <Select DataSource="SchemeTypes" @bind-Value="context.DownstreamScheme" />
+                    </FormItem>
+                    <FormItem Label="清空同步">
+                        <Switch @bind-Value="context.Clear" />
                     </FormItem>
                 </Form>
             </Body>
@@ -144,7 +151,7 @@
                     ServiceName = service.Service,
                     LoadBalancerOptions = new() { Type = "LeastConnection" },
                     AuthenticationOptions = null,
-                    DangerousAcceptAnyServerCertificateValidator = false,
+                    DangerousAcceptAnyServerCertificateValidator = _syncRoutModel.DangerousAcceptAnyServerCertificateValidator,
                     DownstreamHostAndPorts = null,
                     FileCacheOptions = null,
                     RateLimitOptions = null,
@@ -171,6 +178,7 @@
     {
         public string Name { get; set; } = string.Empty;
         public string Tag { get; set; } = string.Empty;
+        public bool DangerousAcceptAnyServerCertificateValidator { get; set; } = true;
         public bool Clear { get; set; } = false;
         public string DownstreamScheme { get; set; } = "http";
     }

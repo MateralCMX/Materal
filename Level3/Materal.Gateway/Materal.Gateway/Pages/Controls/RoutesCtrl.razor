@@ -40,9 +40,17 @@
             </Row>
             <Row>
                 <GridCol Span="24" Style="text-align:right;">
-                    <Button Type="primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
-                    <Button Icon="@IconType.Outline.Retweet" OnClick="()=>{_form?.Reset();}"></Button>
-                    <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
+                    <ButtonGroup>
+                        <Tooltip Title="查询">
+                            <Button Type="@ButtonType.Primary" Icon="@IconType.Outline.Search" HtmlType="submit"></Button>
+                        </Tooltip>
+                        <Tooltip Title="重置">
+                            <Button Icon="@IconType.Outline.Retweet" OnClick="()=>{_form?.Reset();}"></Button>
+                        </Tooltip>
+                        <Tooltip Title="添加">
+                            <Button Icon="@IconType.Outline.FileAdd" OnClick="Add"></Button>
+                        </Tooltip>
+                    </ButtonGroup>
                 </GridCol>
             </Row>
         </Form>

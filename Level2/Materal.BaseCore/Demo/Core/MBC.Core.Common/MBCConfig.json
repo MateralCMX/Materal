@@ -27,7 +27,7 @@
     "ErrorMessage": "服务器发生错误,请联系后台工程师处理。"
   },
   "HttpClienUrltConfig": {
-    "BaseUrl": "http://127.0.0.1:8700/",
+    "BaseUrl": "https://127.0.0.1:8700/",
     "Suffix": null
   },
   "JWT": {

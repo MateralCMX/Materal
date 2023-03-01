@@ -24,13 +24,26 @@ namespace Materal.BaseCore.WebAPI
         /// <returns></returns>
         protected static WebApplication Start(string[] args, Action<ConfigurationManager> initConfig, Action<IServiceCollection>? configService, Action<WebApplication>? configApp, string consulTag)
         {
-            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
-            WebApplicationBuilder builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+            WebApplicationOptions applicationOptions = new()
             {
                 Args = args,
-                ContentRootPath = AppDomain.CurrentDomain.BaseDirectory,
-                WebRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application")
-            });
+                ContentRootPath = AppDomain.CurrentDomain.BaseDirectory
+            };
+            return Start(applicationOptions, initConfig, configService, configApp, consulTag);
+        }
+        /// <summary>
+        /// 启动程序
+        /// </summary>
+        /// <param name="applicationOptions"></param>
+        /// <param name="initConfig">初始化配置</param>
+        /// <param name="configService"></param>
+        /// <param name="configApp"></param>
+        /// <param name="consulTag"></param>
+        /// <returns></returns>
+        protected static WebApplication Start(WebApplicationOptions applicationOptions, Action<ConfigurationManager> initConfig, Action<IServiceCollection>? configService, Action<WebApplication>? configApp, string consulTag)
+        {
+            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(applicationOptions);
             initConfig?.Invoke(builder.Configuration);
             MateralCoreConfig.Configuration = builder.Configuration;
             _titleChangeTtimer.Change(TimeSpan.Zero, TimeSpan.FromMinutes(1));//立即启动，间隔1分钟

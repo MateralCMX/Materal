@@ -31,11 +31,6 @@ namespace RC.ServerCenter.ServiceImpl
             });
             return await base.AddAsync(domain, model);
         }
-        public override async Task EditAsync(EditProjectModel model)
-        {
-            if (await DefaultRepository.ExistedAsync(m => m.ID != model.ID)) throw new RCException("名称重复");
-            await base.EditAsync(model);
-        }
         protected override async Task DeleteAsync(Project domain)
         {
             List<Namespace> namespaces = await _namespaceRepository.FindAsync(m => m.ProjectID == domain.ID);

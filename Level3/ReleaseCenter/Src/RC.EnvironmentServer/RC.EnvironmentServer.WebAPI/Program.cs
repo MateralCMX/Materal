@@ -1,5 +1,6 @@
 using Materal.Abstractions;
 using Materal.TFMS.EventBus;
+using Materal.Utils.Http;
 using RC.EnvironmentServer.IntegrationEventHandlers;
 using RC.EnvironmentServer.Services;
 using XMJ.Authority.IntegrationEvents;

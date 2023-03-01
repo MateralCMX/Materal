@@ -37,6 +37,12 @@ namespace RC.Core.WebAPI
             where T : DbContext
         {
             services.AddDBService<T>(sqliteConfig);
+            HttpMessageHandler httpClientHandler = new HttpClientHandler()
+            {
+                ServerCertificateCustomValidationCallback = (request, cert, chan, error) => true
+            };
+            HttpClient httpClient = new(httpClientHandler);
+            services.AddSingleton(httpClient);
             services.AddWebAPIService(config =>
             {
                 swaggerGenConfig?.Invoke(config);

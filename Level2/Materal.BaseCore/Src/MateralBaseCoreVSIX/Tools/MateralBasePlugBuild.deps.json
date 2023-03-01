@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "MateralBasePlugBuild/1.0.0": {
         "dependencies": {
-          "Materal.BaseCore.CodeGenerator": "0.2.14",
+          "Materal.BaseCore.CodeGenerator": "0.2.15",
           "Newtonsoft.Json": "13.0.2"
         },
         "runtime": {
@@ -73,7 +73,7 @@
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
       },
-      "Materal.BaseCore.CodeGenerator/0.2.14": {
+      "Materal.BaseCore.CodeGenerator/0.2.15": {
         "dependencies": {
           "Microsoft.CodeAnalysis.CSharp": "4.5.0",
           "System.ComponentModel.Annotations": "5.0.0"
@@ -153,7 +153,7 @@
       "path": "system.text.encoding.codepages/6.0.0",
       "hashPath": "system.text.encoding.codepages.6.0.0.nupkg.sha512"
     },
-    "Materal.BaseCore.CodeGenerator/0.2.14": {
+    "Materal.BaseCore.CodeGenerator/0.2.15": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

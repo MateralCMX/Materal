@@ -3,7 +3,6 @@ using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Ocelot.Configuration;
 using Ocelot.Errors;
-using Ocelot.Logging;
 using Ocelot.Middleware;
 using Ocelot.Request.Middleware;
 using Ocelot.Requester;
@@ -20,17 +19,15 @@ namespace Materal.Gateway.OcelotExtension.Requester
         private readonly IExceptionToErrorMapper _mapper;
         private readonly IDelegatingHandlerHandlerFactory _factory;
         private readonly IHttpClientCache _cacheHandlers;
-        private readonly IOcelotLogger _logger;
-        public GatewayHttpRequester(IExceptionToErrorMapper mapper, IDelegatingHandlerHandlerFactory factory, IHttpClientCache cacheHandlers, IOcelotLoggerFactory loggerFactory)
+        public GatewayHttpRequester(IExceptionToErrorMapper mapper, IDelegatingHandlerHandlerFactory factory, IHttpClientCache cacheHandlers)
         {
             _mapper = mapper;
             _factory = factory;
             _cacheHandlers = cacheHandlers;
-            _logger = loggerFactory.CreateLogger<GatewayHttpRequester>();
         }
         public async Task<Response<HttpResponseMessage>> GetResponse(HttpContext httpContext)
         {
-            IHttpClientBuilder builder = new HttpClientBuilder(_factory, _cacheHandlers, _logger);
+            IHttpClientBuilder builder = new GatewayHttpClientBuilder(_factory, _cacheHandlers);
             DownstreamRoute downstreamRoute = httpContext.Items.DownstreamRoute();
             DownstreamRequest downstreamRequest = httpContext.Items.DownstreamRequest();
             IHttpClient httpClient = builder.Create(downstreamRoute);
