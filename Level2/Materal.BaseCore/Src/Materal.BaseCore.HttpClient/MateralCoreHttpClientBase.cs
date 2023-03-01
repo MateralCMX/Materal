@@ -490,11 +490,6 @@ namespace Materal.BaseCore.HttpClient
                     result = data;
                 }
             }
-            catch (MateralHttpException ex)
-            {
-                string errorMessage = ex.GetHttpErrorMessage();
-                Logger?.LogWarning(ex, errorMessage);
-            }
             catch (Exception ex)
             {
                 Logger?.LogWarning(ex, "获取数据失败");
@@ -517,11 +512,6 @@ namespace Materal.BaseCore.HttpClient
                 {
                     return (isQuery, await GetDataAsync(queryModel));
                 }
-            }
-            catch (MateralHttpException ex)
-            {
-                string errorMessage = ex.GetHttpErrorMessage();
-                Logger?.LogWarning(ex, errorMessage);
             }
             catch (Exception ex)
             {
@@ -546,11 +536,6 @@ namespace Materal.BaseCore.HttpClient
                 List<TListDTO>? data = await GetDataAsync(queryModel);
                 return data;
             }
-            catch (MateralHttpException ex)
-            {
-                string errorMessage = ex.GetHttpErrorMessage();
-                Logger?.LogWarning(ex, errorMessage);
-            }
             catch (Exception ex)
             {
                 Logger?.LogWarning(ex, "获取数据失败");
@@ -569,11 +554,6 @@ namespace Materal.BaseCore.HttpClient
                 List<TListDTO>? data = await GetDataAsync(new Guid[] { id });
                 if (data == null) return default;
                 return data.FirstOrDefault();
-            }
-            catch (MateralHttpException ex)
-            {
-                string errorMessage = ex.GetHttpErrorMessage();
-                Logger?.LogWarning(ex, errorMessage);
             }
             catch (Exception ex)
             {
@@ -598,11 +578,6 @@ namespace Materal.BaseCore.HttpClient
                     bindAction(item);
                 }
             }
-            catch (MateralHttpException ex)
-            {
-                string errorMessage = ex.GetHttpErrorMessage();
-                Logger?.LogWarning(ex, errorMessage);
-            }
             catch (Exception ex)
             {
                 Logger?.LogWarning(ex, "绑定数据失败");
@@ -620,11 +595,6 @@ namespace Materal.BaseCore.HttpClient
                 TListDTO? data = await FirstDataAsync(id);
                 if (data == null) return;
                 bindAction(data);
-            }
-            catch (MateralHttpException ex)
-            {
-                string errorMessage = ex.GetHttpErrorMessage();
-                Logger?.LogWarning(ex, errorMessage);
             }
             catch (Exception ex)
             {
