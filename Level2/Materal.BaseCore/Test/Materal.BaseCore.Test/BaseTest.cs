@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Materal.Test
+namespace Materal.BaseCore.Test
 {
     public abstract class BaseTest
     {
@@ -20,7 +20,7 @@ namespace Materal.Test
             {
                 ServerCertificateCustomValidationCallback = (request, ceti, chain, errors) => true
             };
-            HttpClient httpClient = new(handler);
+            System.Net.Http.HttpClient httpClient = new(handler);
             _serviceCollection.TryAddSingleton(httpClient);
             _serviceCollection.AddMateralUtils();
             AddServices(_serviceCollection);

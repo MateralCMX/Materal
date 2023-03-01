@@ -2,13 +2,13 @@ using Materal.Abstractions;
 using Materal.Utils.Http;
 using System.Text;
 
-namespace Materal.Test.UtilsTest
+namespace Materal.BaseCore.Test
 {
     [TestClass]
-    public class HttpHelperTest : BaseTest
+    public class HttpClientTest : BaseTest
     {
         private readonly IHttpHelper _httpHelper;
-        public HttpHelperTest() : base()
+        public HttpClientTest() : base()
         {
             _httpHelper = MateralServices.GetService<IHttpHelper>();
         }

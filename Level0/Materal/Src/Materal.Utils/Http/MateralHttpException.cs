@@ -1,4 +1,5 @@
 ﻿using Materal.Abstractions;
+using System.Text;
 
 namespace Materal.Utils.Http
 {
@@ -20,7 +21,7 @@ namespace Materal.Utils.Http
         /// </summary>
         /// <param name="httpRequestMessage"></param>
         /// <param name="httpResponseMessage"></param>
-        public MateralHttpException(HttpRequestMessage httpRequestMessage, HttpResponseMessage httpResponseMessage):this(httpRequestMessage, httpResponseMessage, $"Http请求错误{Convert.ToInt32(httpResponseMessage.StatusCode)}")
+        public MateralHttpException(HttpRequestMessage httpRequestMessage, HttpResponseMessage httpResponseMessage) : this(httpRequestMessage, httpResponseMessage, $"Http请求错误{Convert.ToInt32(httpResponseMessage.StatusCode)}")
         {
         }
         /// <summary>
@@ -80,5 +81,98 @@ namespace Materal.Utils.Http
         public MateralHttpException(string message) : base(message)
         {
         }
+        /// <summary>
+        /// 获得Http异常消息
+        /// </summary>
+        /// <returns></returns>
+        public string GetHttpErrorMessage() => this.GetErrorMessage(exception =>
+        {
+            if (exception is not MateralHttpException httpException) return null;
+            StringBuilder errorMessage = new();
+            if (httpException.HttpRequestMessage != null)
+            {
+                errorMessage.AppendLine("Request:");
+                if (httpException.HttpRequestMessage.RequestUri != null)
+                {
+                    errorMessage.AppendLine($"  Url:{httpException.HttpRequestMessage.RequestUri.AbsoluteUri}");
+                }
+                if (httpException.HttpRequestMessage.Headers.Count() > 0)
+                {
+                    errorMessage.AppendLine($"  Headers:");
+                    foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpRequestMessage.Headers)
+                    {
+                        errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
+                    }
+                }
+                if (httpException.HttpRequestMessage.Content != null)
+                {
+                    if (httpException.HttpRequestMessage.Content.Headers.Count() > 0)
+                    {
+                        errorMessage.AppendLine($"  ContentHeaders:");
+                        foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpRequestMessage.Content.Headers)
+                        {
+                            errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
+                        }
+                    }
+                    if (httpException.HttpRequestMessage.Content is StringContent stringContent)
+                    {
+                        try
+                        {
+                            Encoding encoding = string.IsNullOrWhiteSpace(stringContent.Headers.ContentType.CharSet) ?
+                                    Encoding.Default :
+                                    Encoding.GetEncoding(stringContent.Headers.ContentType.CharSet);
+                            using MemoryStream memoryStream = new();
+                            stringContent.CopyToAsync(memoryStream).Wait();
+                            byte[] messageBuffer = memoryStream.ToArray();
+                            errorMessage.AppendLine($"  ContentBody:{encoding.GetString(messageBuffer)}");
+                        }
+                        catch (Exception ex)
+                        {
+                            errorMessage.AppendLine($"  获取ContentBody失败:{ex.Message}");
+                        }
+                    }
+                }
+            }
+            if (httpException.HttpResponseMessage != null)
+            {
+                errorMessage.AppendLine("Response:");
+                errorMessage.AppendLine($"  StatusCode:{httpException.HttpResponseMessage.StatusCode}[{(int)httpException.HttpResponseMessage.StatusCode}]");
+                if (httpException.HttpResponseMessage.Headers.Count() > 0)
+                {
+                    errorMessage.AppendLine($"  Headers:");
+                    foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpResponseMessage.Headers)
+                    {
+                        errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
+                    }
+                }
+                if (httpException.HttpResponseMessage.Content != null && httpException.HttpResponseMessage.Content.Headers.Count() > 0)
+                {
+                    errorMessage.AppendLine($"  ContentHeaders:");
+                    foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpResponseMessage.Content.Headers)
+                    {
+                        errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
+                    }
+                    if(httpException.HttpResponseMessage.Content.Headers.ContentLength != null && httpException.HttpResponseMessage.Content.Headers.ContentLength > 0)
+                    {
+                        try
+                        {
+                            Encoding encoding = string.IsNullOrWhiteSpace(httpException.HttpResponseMessage.Content.Headers.ContentType.CharSet) ?
+                                    Encoding.Default :
+                                    Encoding.GetEncoding(httpException.HttpResponseMessage.Content.Headers.ContentType.CharSet);
+                            using MemoryStream memoryStream = new();
+                            httpException.HttpResponseMessage.Content.CopyToAsync(memoryStream).Wait();
+                            byte[] messageBuffer = memoryStream.ToArray();
+                            errorMessage.AppendLine($"  ContentBody:{encoding.GetString(messageBuffer)}");
+                        }
+                        catch (Exception ex)
+                        {
+                            errorMessage.AppendLine($"  获取ContentBody失败:{ex.Message}");
+                        }
+                    }
+                }
+            }
+            string result = errorMessage.ToString();
+            return result;
+        });
     }
 }

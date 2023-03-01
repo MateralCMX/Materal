@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Microsoft.Extensions.Primitives;
+using System.Text;
 
 namespace System
 {
@@ -14,7 +15,7 @@ namespace System
         /// <param name="beforFunc"></param>
         /// <param name="afterFunc"></param>
         /// <returns></returns>
-        public static string GetErrorMessage(this Exception? exception, Func<Exception, string>? beforFunc = null, Func<Exception, string>? afterFunc = null)
+        public static string GetErrorMessage(this Exception? exception, Func<Exception, string?>? beforFunc = null, Func<Exception, string?>? afterFunc = null)
         {
             if(exception == null) return string.Empty;
             StringBuilder messageBuilder = new();
@@ -23,10 +24,14 @@ namespace System
             {
                 if (beforFunc != null)
                 {
-                    messageBuilder.Append(beforFunc(tempException));
+                    string? temp = beforFunc(tempException);
+                    if (!string.IsNullOrWhiteSpace(temp))
+                    {
+                        messageBuilder.AppendLine(temp);
+                    }
                 }
                 messageBuilder.Append(tempException.GetType().FullName);
-                messageBuilder.Append("->");
+                messageBuilder.Append("-->");
                 messageBuilder.AppendLine(tempException.Message);
                 if (!string.IsNullOrWhiteSpace(tempException.StackTrace))
                 {
@@ -34,11 +39,16 @@ namespace System
                 }
                 if (afterFunc != null)
                 {
-                    messageBuilder.Append(afterFunc(tempException));
+                    string? temp = afterFunc(tempException);
+                    if (!string.IsNullOrWhiteSpace(temp))
+                    {
+                        messageBuilder.AppendLine(temp);
+                    }
                 }
                 tempException = tempException.InnerException;
             }
-            return messageBuilder.ToString();
+            string result = messageBuilder.ToString();
+            return result;
         }
     }
 }
