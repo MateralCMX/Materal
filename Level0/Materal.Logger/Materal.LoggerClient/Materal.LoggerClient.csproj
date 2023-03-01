@@ -7,7 +7,7 @@
 		<LangVersion>10.0</LangVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
-		<Version>0.0.11</Version>
+		<Version>0.0.13</Version>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>Materal.Logger</ToolCommandName>
 		<Company>Materal</Company>

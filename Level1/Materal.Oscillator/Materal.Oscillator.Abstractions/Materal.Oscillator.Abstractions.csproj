@@ -9,7 +9,7 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>0.0.10</Version>
+		<Version>0.0.11</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.Abstractions</Description>
 	</PropertyGroup>

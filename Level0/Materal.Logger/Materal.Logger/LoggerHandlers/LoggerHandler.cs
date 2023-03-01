@@ -1,4 +1,5 @@
 ﻿using Materal.Logger.Models;
+using Materal.Utils.Http;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Text;
@@ -73,30 +74,14 @@ namespace Materal.Logger.LoggerHandlers
         /// <returns></returns>
         protected static string GetErrorMessage(Exception exception)
         {
-            StringBuilder builder = new();
-            Exception? tempException = exception;
-            while (true)
+            if(exception is MateralHttpException httpException)
             {
-                if (string.IsNullOrWhiteSpace(tempException.StackTrace))
-                {
-                    builder.Append(tempException.Message);
-                }
-                else
-                {
-                    builder.AppendLine(tempException.Message);
-                    builder.Append(tempException.StackTrace);
-                }
-                tempException = tempException.InnerException;
-                if(tempException != null)
-                {
-                    builder.AppendLine("-->");
-                }
-                else
-                {
-                    break;
-                }
+                return httpException.GetHttpErrorMessage();
             }
-            return builder.ToString();
+            else
+            {
+                return exception.GetErrorMessage();
+            }
         }
         /// <summary>
         /// 获得进程ID

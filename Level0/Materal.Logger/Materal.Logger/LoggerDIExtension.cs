@@ -9,7 +9,7 @@ namespace Materal.Logger
     /// <summary>
     /// DI扩展
     /// </summary>
-    public static class LoggerDIExtensions
+    public static class LoggerDIExtension
     {
         /// <summary>
         /// 添加日志服务

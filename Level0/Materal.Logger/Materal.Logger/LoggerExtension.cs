@@ -6,7 +6,7 @@ namespace Materal.Logger
     /// <summary>
     /// 日志扩展
     /// </summary>
-    public static class LoggerExtensions
+    public static class LoggerExtension
     {
         /// <summary>
         /// 添加一个控制台输出

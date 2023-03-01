@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System.Text;
 
 namespace Materal.BaseCore.WebAPI.Filters
 {
@@ -86,29 +87,29 @@ namespace Materal.BaseCore.WebAPI.Filters
         /// <param name="context"></param>
         private async void WriteError(ExceptionContext context)
         {
-            string message = string.Empty;
+            StringBuilder message = new();
             if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor)
             {
-                message = $"Controller:{actionDescriptor.ControllerName}\r\n";
-                message += $"Action:{actionDescriptor.ActionName}\r\n";
+                message.AppendLine($"Controller:{actionDescriptor.ControllerName}");
+                message.AppendLine($"Action:{actionDescriptor.ActionName}");
                 string? ipAddress = FilterHelper.GetIPAddress(context.HttpContext.Connection);
                 if (!string.IsNullOrEmpty(ipAddress))
                 {
-                    message += $"ClientIP:{ipAddress}\r\n";
+                    message.AppendLine($"ClientIP:{ipAddress}");
                 }
                 Guid? loginUserID = FilterHelper.GetOperatingUserID(context.HttpContext.User);
                 if (loginUserID.HasValue)
                 {
-                    message += $"UserID:{loginUserID.Value}\r\n";
+                    message.AppendLine($"UserID:{loginUserID.Value}");
                 }
                 string? paramsValue = await FilterHelper.GetRequestContentAsync(context.HttpContext.Request);
                 if (!string.IsNullOrWhiteSpace(paramsValue))
                 {
-                    message += $"{paramsValue}\r\n";
+                    message.AppendLine(paramsValue);
                 }
             }
-            message += context.Exception.Message;
-            _logger.LogError(context.Exception, message);
+            Exception exception = new MateralCoreException(message.ToString(), context.Exception);
+            _logger.LogError(exception, "服务器发生错误");
         }
     }
 }
