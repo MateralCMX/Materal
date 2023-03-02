@@ -1,0 +1,134 @@
+﻿@page "/SyncConfigurationItem"
+
+@using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
+@using RC.EnvironmentServer.Enums;
+@using RC.ServerCenter.HttpClient;
+@using RC.EnvironmentServer.HttpClient;
+@using System.ComponentModel.DataAnnotations;
+
+@inject IMessageService _message;
+@inject NavigationManager _navigation;
+@inject ProjectHttpClient _projectHttpClient;
+@inject NamespaceHttpClient _namespaceHttpClient;
+@inject ConfigurationItemHttpClient _configurationItemHttpClient;
+
+<PageTitle>同步配置-@WebAppConfig.AppTitle</PageTitle>
+
+<Row Gutter="24">
+    <GridCol Span="24">
+        <Card Bordered Title="同步配置">
+            <Extra>
+                <Tooltip Title="同步">
+                    <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Sync" OnClick="Sync"></Button>
+                </Tooltip>
+            </Extra>
+            <Body>
+                <Form Loading="SearchLoading" Model="requestModel">
+                    <FormItem Label="项目">
+                        <Select TItem="SelectDataModel<Guid>" TItemValue="Guid" DataSource="projectData" ValueName="Value" LabelName="Name" @bind-Value="context.ProjectID" OnSelectedItemChanged="LoadAllNamespaces" />
+                    </FormItem>
+                    <FormItem Label="命名空间">
+                        <Select Mode="multiple" DataSource="namespaceData" ValueName="Value" LabelName="Name" @bind-Values="selectedNamespaceIDs" />
+                    </FormItem>
+                    <FormItem Label="同步方式">
+                        <Select DataSource="_syncModes" ValueName="Value" LabelName="Name" @bind-Value="context.Mode"></Select>
+                    </FormItem>
+                    <FormItem Label="目标环境">
+                        <Select Mode="multiple" DataSource="targetEnvironments" ValueName="Value" LabelName="Name" @bind-Values="selectedEnvironments" />
+                    </FormItem>
+                </Form>
+            </Body>
+        </Card>
+    </GridCol>
+</Row>
+
+@code {
+    private List<SelectDataModel<SyncModeEnum>> _syncModes = SelectDataModel<SyncModeEnum>.GetList<SyncModeEnum>();
+    private List<SelectDataModel<Guid>> projectData = new();
+    private List<SelectDataModel<Guid>> namespaceData = new();
+    private List<SelectDataModel> targetEnvironments = new();
+    private IEnumerable<Guid> selectedNamespaceIDs = new List<Guid>();
+    private IEnumerable<string> selectedEnvironments = new List<string>();
+    private SyncConfigRequestModel requestModel = new();
+    private bool SearchLoading = false;
+    protected override void OnInitialized()
+    {
+        _navigation.LocationChanged += (sender, e) => RCData.OnChangeDeploy -= ChangeTargetEnvironments;
+        base.OnInitialized();
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            RCData.ShowDeploys = false;
+            RCData.ShowEnvironments = true;
+            RCData.OnChangeEnvironment += ChangeTargetEnvironments;
+            LoadAllProjects();
+            ChangeTargetEnvironments();
+        }
+        base.OnAfterRender(firstRender);
+    }
+    private void LoadAllProjects()
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            projectData = await _projectHttpClient.GetSelectDataModelAsync();
+            if (projectData.Count > 0)
+            {
+                requestModel.ProjectID = projectData.First().Value;
+                LoadAllNamespaces();
+            }
+            else
+            {
+                _message.ShowError("无项目信息，请先添加项目");
+            }
+        });
+    }
+    private void LoadAllNamespaces()
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            namespaceData = await _namespaceHttpClient.GetSelectDataModelAsync(requestModel.ProjectID);
+            selectedNamespaceIDs = new List<Guid>();
+        }, () =>
+        {
+            SearchLoading = false;
+            StateHasChanged();
+        });
+    }
+    private void ChangeTargetEnvironments()
+    {
+        targetEnvironments.Clear();
+        foreach (SelectDataModel item in RCData.Environments)
+        {
+            if (item.Value == RCData.SelectedEnvironment) continue;
+            targetEnvironments.Add(item);
+        }
+        List<string> temp = selectedEnvironments.ToList();
+        for (int i = 0; i < temp.Count; i++)
+        {
+            if (temp[i] != RCData.SelectedEnvironment) continue;
+            temp.RemoveAt(i);
+            break;
+        }
+        selectedEnvironments = temp;
+        StateHasChanged();
+    }
+    private void Sync()
+    {
+        SearchLoading = true;
+        requestModel.NamespaceIDs = selectedNamespaceIDs.ToList();
+        requestModel.TargetEnvironments = selectedEnvironments.Select(m => m[0..^3]).ToArray();
+        HttpHandler.Handler(async () =>
+        {
+            await _configurationItemHttpClient.SyncConfigAsync(requestModel);
+            _message.ShowSuccess("同步中，请稍后查看。");
+        }, () =>
+        {
+            SearchLoading = false;
+            StateHasChanged();
+        });
+    }
+}
