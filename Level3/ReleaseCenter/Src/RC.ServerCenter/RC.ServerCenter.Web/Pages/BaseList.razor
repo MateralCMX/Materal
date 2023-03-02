@@ -37,6 +37,8 @@
     }
     protected virtual void Reload()
     {
+        string typeName = GetType().Name;
+        if (!_navigation.Uri.EndsWith(typeName)) return;
         SearchLoading = true;
         HttpHandler.Handler(async () =>
         {

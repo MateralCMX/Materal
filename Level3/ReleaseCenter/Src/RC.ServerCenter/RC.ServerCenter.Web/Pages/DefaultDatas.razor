@@ -8,6 +8,7 @@
 @inherits BaseList<AddDefaultDataRequestModel, EditDefaultDataRequestModel, QueryDefaultDataRequestModel, DefaultDataDTO, DefaultDataListDTO, DefaultDataHttpClient>;
 
 @inject IMessageService _message;
+@inject NavigationManager _navigation;
 
 <PageTitle>默认数据管理-@WebAppConfig.AppTitle</PageTitle>
 
@@ -67,7 +68,7 @@
     private List<SelectDataModel<ApplicationTypeEnum>> allApplicationTypes = SelectDataModel<ApplicationTypeEnum>.GetListAndAll<ApplicationTypeEnum>();
     protected override void OnInitialized()
     {
-        RCData.OnChangeDeploy += Reload;
+        _navigation.LocationChanged += (sender, e) => RCData.OnChangeDeploy -= Reload;
         base.OnInitialized();
     }
     protected override void OnAfterRender(bool firstRender)
@@ -76,6 +77,7 @@
         {
             RCData.ShowDeploys = true;
             RCData.ShowEnvironments = false;
+            RCData.OnChangeDeploy += Reload;
             Reload();
         }
         base.OnAfterRender(firstRender);

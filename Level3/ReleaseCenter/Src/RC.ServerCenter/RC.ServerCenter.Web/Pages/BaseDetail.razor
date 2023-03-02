@@ -53,7 +53,7 @@
     }
     protected virtual void Reload()
     {
-        if (IsAdd)
+        if (ID == null)
         {
             AddModel = new();
             StateHasChanged();

@@ -12,6 +12,7 @@
 @inherits BaseList<AddConfigurationItemRequestModel, EditConfigurationItemRequestModel, QueryConfigurationItemRequestModel, ConfigurationItemDTO, ConfigurationItemListDTO, ConfigurationItemHttpClient>;
 
 @inject IMessageService _message;
+@inject NavigationManager _navigation;
 @inject ProjectHttpClient _projectHttpClient;
 @inject NamespaceHttpClient _namespaceHttpClient;
 
@@ -83,7 +84,7 @@
     private List<SelectDataModel<Guid>> namespaceData = new();
     protected override void OnInitialized()
     {
-        RCData.OnChangeEnvironment += Reload;
+        _navigation.LocationChanged += (sender, e) => RCData.OnChangeEnvironment -= Reload;
         base.OnInitialized();
     }
     protected override void OnAfterRender(bool firstRender)
@@ -92,6 +93,7 @@
         {
             RCData.ShowDeploys = false;
             RCData.ShowEnvironments = true;
+            RCData.OnChangeEnvironment += Reload;
             LoadAllProjects();
         }
         base.OnAfterRender(firstRender);
