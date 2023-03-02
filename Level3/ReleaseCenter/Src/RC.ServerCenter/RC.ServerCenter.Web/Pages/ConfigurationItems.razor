@@ -81,6 +81,11 @@
     public Guid? NamespaceID { get; set; }
     private List<SelectDataModel<Guid>> projectData = new();
     private List<SelectDataModel<Guid>> namespaceData = new();
+    protected override void OnInitialized()
+    {
+        RCData.OnChangeEnvironment += Reload;
+        base.OnInitialized();
+    }
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
@@ -105,6 +110,11 @@
         }
         Reload();
         base.AfterResetSearchForm();
+    }
+    protected override void Reload()
+    {
+        if (SearchModel.ProjectID == null || SearchModel.NamespaceID == null) return;
+        base.Reload();
     }
     private void LoadAllProjects()
     {

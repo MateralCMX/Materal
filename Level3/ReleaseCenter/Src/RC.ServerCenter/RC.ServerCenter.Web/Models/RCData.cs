@@ -12,7 +12,8 @@ namespace RC.ServerCenter.Web
 
         public static List<SelectDataModel> Deploys { get; } = new();
         public static List<SelectDataModel> Environments { get; } = new();
-        public static event Action? OnChange;
+        public static event Action? OnChangeDeploy;
+        public static event Action? OnChangeEnvironment;
         public static string SelectedDeploy { get; set; } = string.Empty;
         public static string SelectedEnvironment { get; set; } = string.Empty;
         public static bool IsLoaded { get; private set; } = false;
@@ -22,7 +23,7 @@ namespace RC.ServerCenter.Web
             set
             {
                 showDeploys = value;
-                OnChange?.Invoke();
+                OnChangeDeploy?.Invoke();
             }
         }
         public static bool ShowEnvironments
@@ -31,7 +32,7 @@ namespace RC.ServerCenter.Web
             set
             {
                 showEnvironments = value;
-                OnChange?.Invoke();
+                OnChangeEnvironment?.Invoke();
             }
         }
         public static string GetUploadUrl(Guid id) => $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}{SelectedDeploy}/api/ApplicationInfo/UploadNewFile?id={id}";
@@ -72,6 +73,14 @@ namespace RC.ServerCenter.Web
                     }
                 }
             }
+        }
+        public static void ChangeDeploy()
+        {
+            OnChangeDeploy?.Invoke();
+        }
+        public static void ChangeEnvironment()
+        {
+            OnChangeEnvironment?.Invoke();
         }
     }
 }

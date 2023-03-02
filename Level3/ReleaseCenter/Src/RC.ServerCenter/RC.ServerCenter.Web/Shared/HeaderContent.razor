@@ -7,21 +7,26 @@
 <div class="right-group">
     @if (RCData.ShowDeploys)
     {
-        <Select Class="right-group-select" DataSource="RCData.Deploys" ValueName="Value" LabelName="Name" @bind-Value="RCData.SelectedDeploy"></Select>
+        <Select TItem="SelectDataModel" TItemValue="string" Class="right-group-select" DataSource="RCData.Deploys" ValueName="Value" LabelName="Name" @bind-Value="RCData.SelectedDeploy" OnSelectedItemChanged="RCData.ChangeDeploy"></Select>
     }
     @if (RCData.ShowEnvironments)
     {
-        <Select Class="right-group-select" DataSource="RCData.Environments" ValueName="Value" LabelName="Name" @bind-Value="RCData.SelectedEnvironment"></Select>
+        <Select TItem="SelectDataModel" TItemValue="string" Class="right-group-select" DataSource="RCData.Environments" ValueName="Value" LabelName="Name" @bind-Value="RCData.SelectedEnvironment" OnSelectedItemChanged="RCData.ChangeEnvironment"></Select>
     }    
     <Button Class="right-group-button" Type="@ButtonType.Link" OnClick="Logout">退出</Button>
 </div>
 
 @code {
+    protected override void OnInitialized()
+    {
+        RCData.OnChangeDeploy += RefreshPageState;
+        RCData.OnChangeEnvironment += RefreshPageState;
+        base.OnInitialized();
+    }
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            RCData.OnChange += RefreshPageState;
             if (!RCData.IsLoaded)
             {
                 HttpHandler.Handler(async () =>

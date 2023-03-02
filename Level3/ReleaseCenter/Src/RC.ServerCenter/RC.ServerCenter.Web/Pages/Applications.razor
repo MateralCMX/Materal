@@ -119,6 +119,11 @@
 @code {
     private List<SelectDataModel<ApplicationStatusEnum>> allApplicationStatus = SelectDataModel<ApplicationStatusEnum>.GetListAndAll<ApplicationStatusEnum>();
     private List<SelectDataModel<ApplicationTypeEnum>> allApplicationTypes = SelectDataModel<ApplicationTypeEnum>.GetListAndAll<ApplicationTypeEnum>();
+    protected override void OnInitialized()
+    {
+        RCData.OnChangeDeploy += Reload;
+        base.OnInitialized();
+    }
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
