@@ -68,7 +68,7 @@ namespace RC.ServerCenter.Web
                             Value = item.Service,
                             Name = item.Name,
                         });
-                        SelectedDeploy = Environments.First().Value ?? string.Empty;
+                        SelectedEnvironment = Environments.First().Value ?? string.Empty;
                     }
                 }
             }

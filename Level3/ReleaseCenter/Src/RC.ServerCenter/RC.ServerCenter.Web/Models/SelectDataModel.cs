@@ -11,7 +11,6 @@ namespace RC.ServerCenter.Web
     {
         public T? Value { get; set; }
         public string Name { get; set; } = string.Empty;
-
         public static List<SelectDataModel<TEnum>> GetListAndAll<TEnum>(List<KeyValueModel<TEnum>> keyValues, string allName = "所有")
             where TEnum : struct, Enum
         {

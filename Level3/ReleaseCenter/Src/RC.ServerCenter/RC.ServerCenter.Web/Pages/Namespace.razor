@@ -8,7 +8,7 @@
 
 @inherits BaseDetail<AddNamespaceRequestModel, EditNamespaceRequestModel, QueryNamespaceRequestModel, NamespaceDTO, NamespaceListDTO, NamespaceHttpClient>;
 
-<PageTitle>项目管理-RC</PageTitle>
+<PageTitle>命名空间管理-@WebAppConfig.AppTitle</PageTitle>
 
 @if (IsAdd)
 {
@@ -28,7 +28,7 @@ else
         {
             RCData.ShowDeploys = false;
             RCData.ShowEnvironments = false;
-            ListName = "Namespaces";
+            ListName = $"Namespaces/{ProjectID}";
             Reload();
         }
         base.OnAfterRender(firstRender);

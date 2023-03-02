@@ -1,17 +1,21 @@
-﻿@page "/Namespaces"
-@page "/Namespaces/{projectID:guid}"
+﻿@page "/ConfigurationItems"
+@page "/ConfigurationItems/{projectID:guid}"
+@page "/ConfigurationItems/{projectID:guid}/{namespaceID:guid}"
 
+@using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
+@using RC.EnvironmentServer.HttpClient;
+@using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
 @using RC.ServerCenter.DataTransmitModel.Namespace;
 @using RC.ServerCenter.DataTransmitModel.Project;
 @using RC.ServerCenter.HttpClient;
-@using RC.ServerCenter.PresentationModel.Namespace;
 
-@inherits BaseList<AddNamespaceRequestModel, EditNamespaceRequestModel, QueryNamespaceRequestModel, NamespaceDTO, NamespaceListDTO, NamespaceHttpClient>;
+@inherits BaseList<AddConfigurationItemRequestModel, EditConfigurationItemRequestModel, QueryConfigurationItemRequestModel, ConfigurationItemDTO, ConfigurationItemListDTO, ConfigurationItemHttpClient>;
 
 @inject IMessageService _message;
 @inject ProjectHttpClient _projectHttpClient;
+@inject NamespaceHttpClient _namespaceHttpClient;
 
-<PageTitle>命名空间管理-@WebAppConfig.AppTitle</PageTitle>
+<PageTitle>配置管理-@WebAppConfig.AppTitle</PageTitle>
 
 <Space Direction="DirectionVHType.Vertical" Style="width:100%;">
     <SpaceItem>
@@ -19,12 +23,17 @@
             <Row Gutter="24">
                 <GridCol Span="6">
                     <FormItem Label="项目">
-                        <Select DataSource="projectData" ValueName="Value" LabelName="Name" @bind-Value="context.ProjectID" />
+                        <Select TItem="SelectDataModel<Guid>" TItemValue="Guid?" DataSource="projectData" ValueName="Value" LabelName="Name" @bind-Value="context.ProjectID" OnSelectedItemChanged="LoadAllNamespaces" />
                     </FormItem>
                 </GridCol>
                 <GridCol Span="6">
-                    <FormItem Label="名称">
-                        <Input @bind-Value="context.Name" />
+                    <FormItem Label="命名空间">
+                        <Select TItem="SelectDataModel<Guid>" TItemValue="Guid?" DataSource="namespaceData" ValueName="Value" LabelName="Name" @bind-Value="context.NamespaceID" OnSelectedItemChanged="Reload" />
+                    </FormItem>
+                </GridCol>
+                <GridCol Span="6">
+                    <FormItem Label="键">
+                        <Input @bind-Value="context.Key" />
                     </FormItem>
                 </GridCol>
             </Row>
@@ -47,15 +56,16 @@
     </SpaceItem>
     <SpaceItem>
         <Table Loading="SearchLoading" DataSource="@TableData" PageIndex="SearchModel.PageIndex" PageSize="SearchModel.PageSize" PageSizeChanged="Reload" PageIndexChanged="Reload">
-            <PropertyColumn Title="名称" Property="m => m.Name"></PropertyColumn>
-            <PropertyColumn Title="描述" Property="m => m.Description"></PropertyColumn>
+            <PropertyColumn Title="键" Property="m => m.Key"></PropertyColumn>
+            <PropertyColumn Title="值" Property="c => c.Value"></PropertyColumn>
+            <PropertyColumn Title="描述" Property="c => c.Description"></PropertyColumn>
             <ActionColumn Title="操作">
                 <ButtonGroup>
                     <Tooltip Title="编辑">
                         <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
                     </Tooltip>
                     <Tooltip Title="删除">
-                        <Popconfirm Title="确定删除该用户?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context.ID)">
+                        <Popconfirm Title="确定删除该程序?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(context.ID)">
                             <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
                         </Popconfirm>
                     </Tooltip>
@@ -67,19 +77,35 @@
 @code {
     [Parameter]
     public Guid? ProjectID { get; set; }
+    [Parameter]
+    public Guid? NamespaceID { get; set; }
     private List<SelectDataModel<Guid>> projectData = new();
-    private Guid selectedProjectID = Guid.Empty;
+    private List<SelectDataModel<Guid>> namespaceData = new();
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
             RCData.ShowDeploys = false;
-            RCData.ShowEnvironments = false;
+            RCData.ShowEnvironments = true;
             LoadAllProjects();
         }
         base.OnAfterRender(firstRender);
     }
-    protected override string GetDetailPageName => $"Namespaces/Namespace/{SearchModel.ProjectID}";
+    protected override string GetDetailPageName => $"ConfigurationItems/ConfigurationItem/{SearchModel.ProjectID}/{SearchModel.NamespaceID}";
+    protected override bool CanReload => !String.IsNullOrWhiteSpace(RCData.SelectedEnvironment);
+    protected override void AfterResetSearchForm()
+    {
+        if (projectData.Count > 0)
+        {
+            SearchModel.ProjectID = projectData.First().Value;
+        }
+        if (namespaceData.Count > 0)
+        {
+            SearchModel.NamespaceID = namespaceData.First().Value;
+        }
+        Reload();
+        base.AfterResetSearchForm();
+    }
     private void LoadAllProjects()
     {
         SearchLoading = true;
@@ -89,11 +115,28 @@
             if (projectData.Count > 0)
             {
                 SearchModel.ProjectID = (projectData.FirstOrDefault(m => m.Value == ProjectID) ?? projectData.First()).Value;
-                Reload();
+                LoadAllNamespaces();
             }
             else
             {
                 _message.ShowError("无项目信息，请先添加项目");
+            }
+        });
+    }
+    private void LoadAllNamespaces()
+    {
+        SearchLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            namespaceData = await _namespaceHttpClient.GetSelectDataModelAsync(SearchModel.ProjectID);
+            if (namespaceData.Count > 0)
+            {
+                SearchModel.NamespaceID = (namespaceData.FirstOrDefault(m => m.Value == ProjectID) ?? namespaceData.First()).Value;
+                Reload();
+            }
+            else
+            {
+                _message.ShowError("无命名空间信息，请先添加命名空间");
             }
         });
     }

@@ -44,6 +44,7 @@ namespace RC.ServerCenter.Web
                 return appName switch
                 {
                     "Deploy" => $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}{RCData.SelectedDeploy}/api/{url}",
+                    "EnvironmentServer" => $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}{RCData.SelectedEnvironment}/api/{url}",
                     _ => $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}RC{appName}{HttpClientConfig.HttpClienUrltConfig.Suffix}/api/{url}",
                 };
             };

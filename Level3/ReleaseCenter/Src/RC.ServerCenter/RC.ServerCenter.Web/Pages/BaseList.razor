@@ -40,7 +40,7 @@
         SearchLoading = true;
         HttpHandler.Handler(async () =>
         {
-            while (!CanReload){ await Task.Delay(500); }
+            while (!CanReload) { await Task.Delay(500); }
             (List<TListDTO>? data, PageModel pageInfo) = await _httpClient.GetListAsync(SearchModel);
             if (data != null)
             {
@@ -55,5 +55,10 @@
         });
     }
     protected virtual string GetDetailPageName => "Base";
-    protected virtual void ResetSearchForm() => SearchForm?.Reset();
+    protected virtual void AfterResetSearchForm() { }
+    protected virtual void ResetSearchForm()
+    {
+        SearchForm?.Reset();
+        AfterResetSearchForm();
+    }
 }

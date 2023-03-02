@@ -36,7 +36,7 @@
             LoginResultDTO? result = await _userHttpClient.LoginAsync(_model);
             if (result == null) return;
             authenticationState.SetToken(result.Token);
-        }, () =>
+        }, errorHandler: () =>
         {
             _loging = false;
             StateHasChanged();

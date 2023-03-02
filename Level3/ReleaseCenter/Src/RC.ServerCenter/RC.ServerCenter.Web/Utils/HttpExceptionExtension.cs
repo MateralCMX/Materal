@@ -12,7 +12,11 @@ namespace RC.ServerCenter.Web
             message ??= MateralServices.GetService<IMessageService>();
             notificationService ??= MateralServices.GetService<NotificationService>();
             CustomAuthenticationStateProvider authenticationState = MateralServices.GetService<CustomAuthenticationStateProvider>();
-            if (exception.HttpResponseMessage != null)
+            if (exception.HttpRequestMessage == null && exception.HttpResponseMessage == null)
+            {
+                message.ShowError(exception.Message);
+            }
+            else if (exception.HttpResponseMessage != null)
             {
                 switch (exception.HttpResponseMessage.StatusCode)
                 {

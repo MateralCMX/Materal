@@ -1,7 +1,11 @@
 ﻿using Materal.TFMS.EventBus;
+using Materal.Utils.Model;
 using RC.Core.Common;
+using RC.ServerCenter.DataTransmitModel.Namespace;
 using RC.ServerCenter.Domain;
 using RC.ServerCenter.Services.Models.Namespace;
+using System.Data.SqlClient;
+using System.Linq.Expressions;
 using XMJ.Authority.IntegrationEvents;
 
 namespace RC.ServerCenter.ServiceImpl
@@ -25,6 +29,15 @@ namespace RC.ServerCenter.ServiceImpl
             {
                 NamespaceID = domain.ID
             });
+        }
+        protected override async Task<(List<NamespaceListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<Namespace, bool>> expression, QueryNamespaceModel model, Expression<Func<Namespace, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
+        {
+            if (orderExpression == null)
+            {
+                sortOrder = SortOrder.Ascending;
+                orderExpression = m => m.Name;
+            }
+            return await base.GetListAsync(expression, model, orderExpression, sortOrder);
         }
     }
 }

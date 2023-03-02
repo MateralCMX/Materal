@@ -42,7 +42,10 @@ namespace RC.ServerCenter.Web
         public void SetToken(string token)
         {
             _localStorage.SetItem(_tokenKey, token);
-            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            HttpHandler.Handler(RCData.InitAsync, () =>
+            {
+                NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            });
         }
         public void LoginOut()
         {
