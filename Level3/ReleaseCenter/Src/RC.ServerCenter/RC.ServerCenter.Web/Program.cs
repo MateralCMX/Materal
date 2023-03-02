@@ -11,6 +11,7 @@ using RC.Authority.DataTransmitModel.User;
 using RC.Authority.HttpClient;
 using RC.Authority.PresentationModel.User;
 using RC.Core.HttpClient;
+using System.Net;
 using System.Reflection;
 
 namespace RC.ServerCenter.Web
@@ -31,6 +32,11 @@ namespace RC.ServerCenter.Web
             services.AddAuthorizationCore();
             services.AddMateralUtils();
             services.AddAntDesign();
+            System.Net.Http.HttpClient httpClient = new()
+            {
+                DefaultRequestVersion = HttpVersion.Version20
+            };
+            services.AddSingleton(httpClient);
             services.AddHttpClientService(WebAppConfig.AppName, Assembly.Load("RC.ServerCenter.HttpClient"), Assembly.Load("RC.Authority.HttpClient"), Assembly.Load("RC.EnvironmentServer.HttpClient"), Assembly.Load("RC.Deploy.HttpClient"));
             WebAssemblyHost app = builder.Build();
             MateralServices.Services = app.Services;

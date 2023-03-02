@@ -9,31 +9,33 @@ namespace RC.ServerCenter.Web
         public static async Task<List<SelectDataModel<Guid>>> GetSelectDataModelAsync(this ProjectHttpClient projectHttpClient)
         {
             List<SelectDataModel<Guid>> result = new();
-            (List<ProjectListDTO>? projects, _) = await projectHttpClient.GetListAsync(new()
+            (List<ProjectListDTO>? datas, _) = await projectHttpClient.GetListAsync(new()
             {
                 PageIndex = 1,
                 PageSize = int.MaxValue
             });
-            if (projects == null) return result;
-            foreach (ProjectListDTO project in projects)
+            if (datas == null) return result;
+            datas = datas.OrderBy(m => m.Name).ToList();
+            foreach (ProjectListDTO item in datas)
             {
-                result.Add(new() { Value = project.ID, Name = $"{project.Name}[{project.Description}]" });
+                result.Add(new() { Value = item.ID, Name = $"{item.Name}[{item.Description}]" });
             }
             return result;
         }
         public static async Task<List<SelectDataModel<Guid>>> GetSelectDataModelAsync(this NamespaceHttpClient namespaceHttpClient, Guid? projectID = null)
         {
             List<SelectDataModel<Guid>> result = new();
-            (List<NamespaceListDTO>? namespaces, _) = await namespaceHttpClient.GetListAsync(new()
+            (List<NamespaceListDTO>? datas, _) = await namespaceHttpClient.GetListAsync(new()
             {
                 ProjectID = projectID,
                 PageIndex = 1,
                 PageSize = int.MaxValue
             });
-            if (namespaces == null) return result;
-            foreach (NamespaceListDTO @namespace in namespaces)
+            if (datas == null) return result;
+            datas = datas.OrderBy(m => m.Name).ToList();
+            foreach (NamespaceListDTO item in datas)
             {
-                result.Add(new() { Value = @namespace.ID, Name = $"{@namespace.Name}[{@namespace.Description}]" });
+                result.Add(new() { Value = item.ID, Name = $"{item.Name}[{item.Description}]" });
             }
             return result;
         }

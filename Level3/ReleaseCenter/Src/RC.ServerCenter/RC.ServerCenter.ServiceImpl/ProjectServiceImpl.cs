@@ -1,12 +1,8 @@
 ﻿using Materal.TFMS.EventBus;
-using Materal.Utils.Model;
 using RC.Core.Common;
-using RC.ServerCenter.DataTransmitModel.Project;
 using RC.ServerCenter.Domain;
 using RC.ServerCenter.Domain.Repositories;
 using RC.ServerCenter.Services.Models.Project;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 using XMJ.Authority.IntegrationEvents;
 
 namespace RC.ServerCenter.ServiceImpl
@@ -47,15 +43,6 @@ namespace RC.ServerCenter.ServiceImpl
             {
                 ProjectID = domain.ID
             });
-        }
-        protected override async Task<(List<ProjectListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<Project, bool>> expression, QueryProjectModel model, Expression<Func<Project, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
-        {
-            if(orderExpression == null)
-            {
-                sortOrder = SortOrder.Ascending;
-                orderExpression = m => m.Name;
-            }
-            return await base.GetListAsync(expression, model, orderExpression, sortOrder);
         }
     }
 }

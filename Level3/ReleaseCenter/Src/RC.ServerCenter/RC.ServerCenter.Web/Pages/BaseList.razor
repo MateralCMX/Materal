@@ -18,7 +18,8 @@
     protected IForm? SearchForm;
     protected bool SearchLoading = false;
     protected List<TListDTO> TableData = new();
-    protected TQueryRequestModel SearchModel = new()
+    protected TQueryRequestModel SearchModel = new();
+    protected PageModel PageInfo = new()
         {
             PageIndex = 1,
             PageSize = 10
@@ -35,7 +36,8 @@
             Reload();
         });
     }
-    protected virtual void Reload()
+    protected virtual void Reload() => ReloadByPageIndex(1);
+    protected virtual void ReloadByPageIndex(int index)
     {
         string typeName = GetType().Name;
         if (!_navigation.Uri.Contains($"/{typeName}")) return;
@@ -43,13 +45,16 @@
         HttpHandler.Handler(async () =>
         {
             while (!CanReload) { await Task.Delay(500); }
+            SearchModel.PageIndex = index;
+            SearchModel.PageSize = PageInfo.PageSize;
             (List<TListDTO>? data, PageModel pageInfo) = await _httpClient.GetListAsync(SearchModel);
             if (data != null)
             {
                 TableData = data;
             }
-            SearchModel.PageIndex = pageInfo.PageIndex;
-            SearchModel.PageSize = pageInfo.PageSize;
+            PageInfo.PageIndex = pageInfo.PageIndex;
+            PageInfo.PageSize = pageInfo.PageSize;
+            PageInfo.DataCount = pageInfo.DataCount;
         }, () =>
         {
             SearchLoading = false;

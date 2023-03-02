@@ -56,7 +56,7 @@
         </Form>
     </SpaceItem>
     <SpaceItem>
-        <Table Loading="SearchLoading" DataSource="@TableData" PageIndex="SearchModel.PageIndex" PageSize="SearchModel.PageSize" PageSizeChanged="Reload" PageIndexChanged="Reload">
+        <Table Loading="SearchLoading" DataSource="@TableData" HidePagination="true">
             <PropertyColumn Title="键" Property="m => m.Key"></PropertyColumn>
             <PropertyColumn Title="值" Property="c => c.Value"></PropertyColumn>
             <PropertyColumn Title="描述" Property="c => c.Description"></PropertyColumn>
@@ -94,6 +94,7 @@
             RCData.ShowDeploys = false;
             RCData.ShowEnvironments = true;
             RCData.OnChangeEnvironment += Reload;
+            PageInfo.PageSize = int.MaxValue;
             LoadAllProjects();
         }
         base.OnAfterRender(firstRender);
@@ -143,7 +144,7 @@
             namespaceData = await _namespaceHttpClient.GetSelectDataModelAsync(SearchModel.ProjectID);
             if (namespaceData.Count > 0)
             {
-                SearchModel.NamespaceID = (namespaceData.FirstOrDefault(m => m.Value == ProjectID) ?? namespaceData.First()).Value;
+                SearchModel.NamespaceID = (namespaceData.FirstOrDefault(m => m.Value == NamespaceID) ?? namespaceData.First()).Value;
                 Reload();
             }
             else

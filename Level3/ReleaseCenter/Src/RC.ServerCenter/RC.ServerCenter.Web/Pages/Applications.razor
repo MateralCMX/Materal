@@ -69,7 +69,7 @@
         </Form>
     </SpaceItem>
     <SpaceItem>
-        <Table Loading="SearchLoading" DataSource="@TableData" PageIndex="SearchModel.PageIndex" PageSize="SearchModel.PageSize" PageSizeChanged="Reload" PageIndexChanged="Reload">
+        <Table Loading="SearchLoading" DataSource="@TableData" HidePagination="true">
             <PropertyColumn Title="名称" Property="m => m.Name"></PropertyColumn>
             <PropertyColumn Title="类型" Property="c => c.ApplicationTypeTxt"></PropertyColumn>
             <PropertyColumn Title="路径" Property="c => c.RootPath"></PropertyColumn>
@@ -137,6 +137,7 @@
             RCData.ShowDeploys = true;
             RCData.ShowEnvironments = false;
             RCData.OnChangeDeploy += Reload;
+            PageInfo.PageSize = int.MaxValue;
             Reload();
         }
         base.OnAfterRender(firstRender);

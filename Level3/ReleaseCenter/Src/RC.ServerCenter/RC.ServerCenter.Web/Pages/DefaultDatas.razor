@@ -45,7 +45,7 @@
         </Form>
     </SpaceItem>
     <SpaceItem>
-        <Table Loading="SearchLoading" DataSource="@TableData" PageIndex="SearchModel.PageIndex" PageSize="SearchModel.PageSize" PageSizeChanged="Reload" PageIndexChanged="Reload">
+        <Table Loading="SearchLoading" DataSource="@TableData" PageIndex="PageInfo.PageIndex" PageSize="PageInfo.PageSize" Total="PageInfo.DataCount" PageIndexChanged="ReloadByPageIndex">
             <PropertyColumn Title="名称" Property="m => m.Key"></PropertyColumn>
             <PropertyColumn Title="类型" Property="m => m.ApplicationType.GetDescription()"></PropertyColumn>
             <PropertyColumn Title="数据" Property="m => m.Data"></PropertyColumn>

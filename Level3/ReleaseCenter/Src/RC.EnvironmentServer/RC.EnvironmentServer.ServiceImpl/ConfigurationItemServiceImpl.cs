@@ -47,11 +47,8 @@ namespace RC.EnvironmentServer.ServiceImpl
         }
         protected override async Task<(List<ConfigurationItemListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<ConfigurationItem, bool>> expression, QueryConfigurationItemModel model, Expression<Func<ConfigurationItem, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
         {
-            if (orderExpression == null)
-            {
-                sortOrder = SortOrder.Ascending;
-                orderExpression = m => m.Key;
-            }
+            sortOrder = SortOrder.Ascending;
+            orderExpression = m => m.Key;
             return await base.GetListAsync(expression, model, orderExpression, sortOrder);
         }
         public async Task InitAsync()
