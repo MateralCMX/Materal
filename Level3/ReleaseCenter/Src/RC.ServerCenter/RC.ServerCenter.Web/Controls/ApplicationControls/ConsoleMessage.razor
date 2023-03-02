@@ -1,0 +1,81 @@
+﻿@using RC.Deploy.HttpClient;
+
+@inject ApplicationInfoHttpClient _httpClient;
+
+@if (IsShow)
+{
+    <div>
+        <Row Gutter="24">
+            <GridCol Span="6">
+                <ButtonGroup>
+                    <Tooltip Title="刷新">
+                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Reload" OnClick="LoadMessage" Disabled="_isLoading"></Button>
+                    </Tooltip>
+                    <Tooltip Title="清空">
+                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Clear" OnClick="ClearMessage" Disabled="_isLoading"></Button>
+                    </Tooltip>
+                </ButtonGroup>
+            </GridCol>
+        </Row>
+        <Row Gutter="24">
+            <GridCol Span="24">
+                <ul class="messges">
+                    @foreach (string message in messages)
+                    {
+                        <li>@message</li>
+                    }
+                </ul>
+            </GridCol>
+        </Row>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool IsShow{ get; set; }
+    private bool _isLoading{ get; set; }
+    private Guid? _nowID = null;
+    private List<string> messages = new();
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+    public void Dispose()
+    {
+    }
+    public void SetSelect(Guid id)
+    {
+        _nowID = id;
+        LoadMessage();
+    }
+    private void LoadMessage()
+    {
+        if (_nowID == null) return;
+        _isLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            ICollection<string>? result = await _httpClient.GetConsoleMessagesAsync(_nowID.Value);
+            if (result == null) return;
+            messages.Clear();
+            messages.AddRange(result);
+        }, () =>
+        {
+            _isLoading = false;
+            StateHasChanged();
+        });
+    }
+    private void ClearMessage()
+    {
+        if (_nowID == null) return;
+        _isLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            await _httpClient.ClearConsoleMessagesAsync(_nowID.Value);
+            messages.Clear();
+        }, () =>
+        {
+            _isLoading = false;
+            StateHasChanged();
+        });
+    }
+}

@@ -6,12 +6,13 @@
 		<LangVersion>10.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="AntDesign" Version="0.14.3" />
+		<PackageReference Include="AntDesign" Version="0.14.4" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
 		<PackageReference Include="Blazored.SessionStorage" Version="2.3.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.14" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.14" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.14" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.3" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\RC.Authority\RC.Authority.HttpClient\RC.Authority.HttpClient.csproj" />

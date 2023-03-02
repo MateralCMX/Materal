@@ -10,6 +10,7 @@
 @using RC.Deploy.Enums;
 @using RC.Deploy.HttpClient;
 @using RC.Deploy.PresentationModel.ApplicationInfo;
+@using RC.ServerCenter.Web.Controls.ApplicationControls
 
 @inherits BaseList<AddApplicationInfoRequestModel, EditApplicationInfoRequestModel, QueryApplicationInfoRequestModel, ApplicationInfoDTO, ApplicationInfoListDTO, ApplicationInfoHttpClient>;
 
@@ -78,7 +79,7 @@
             <ActionColumn Title="操作">
                 <ButtonGroup>
                     <Tooltip Title="控制台">
-                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Code" OnClick="e => Edit(context.ID)"></Button>
+                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Code" OnClick="e => OpenConsoleMessage(context.ID)"></Button>
                     </Tooltip>
                     @if (context.ApplicationStatus == ApplicationStatusEnum.Stop)
                     {
@@ -116,7 +117,12 @@
         </Table>
     </SpaceItem>
 </Space>
+<Drawer Width="1000" Closable="true" Visible="_consoleMessageVisible" Placement="right" Title="@("控制台")" OnClose="CloseConsoleMessage">
+    <ConsoleMessage @ref="_consoleMessage" IsShow="_consoleMessageVisible"></ConsoleMessage>
+</Drawer>
 @code {
+    private ConsoleMessage? _consoleMessage;
+    private bool _consoleMessageVisible = false;
     private List<SelectDataModel<ApplicationStatusEnum>> allApplicationStatus = SelectDataModel<ApplicationStatusEnum>.GetListAndAll<ApplicationStatusEnum>();
     private List<SelectDataModel<ApplicationTypeEnum>> allApplicationTypes = SelectDataModel<ApplicationTypeEnum>.GetListAndAll<ApplicationTypeEnum>();
     protected override void OnInitialized()
@@ -161,7 +167,7 @@
         StateHasChanged();
         return true;
     }
-    protected virtual void Start(Guid id)
+    private void Start(Guid id)
     {
         SearchLoading = true;
         HttpHandler.Handler(async () =>
@@ -170,7 +176,7 @@
             Reload();
         });
     }
-    protected virtual void Stop(Guid id)
+    private void Stop(Guid id)
     {
         SearchLoading = true;
         HttpHandler.Handler(async () =>
@@ -179,7 +185,7 @@
             Reload();
         });
     }
-    protected virtual void Kill(Guid id)
+    private void Kill(Guid id)
     {
         SearchLoading = true;
         HttpHandler.Handler(async () =>
@@ -188,7 +194,7 @@
             Reload();
         });
     }
-    protected virtual void ApplyLasetFile(Guid id)
+    private void ApplyLasetFile(Guid id)
     {
         SearchLoading = true;
         HttpHandler.Handler(async () =>
@@ -197,7 +203,7 @@
             Reload();
         });
     }
-    protected virtual void StartAll()
+    private void StartAll()
     {
         SearchLoading = true;
         HttpHandler.Handler(async () =>
@@ -206,7 +212,7 @@
             Reload();
         });
     }
-    protected virtual void StopAll()
+    private void StopAll()
     {
         SearchLoading = true;
         HttpHandler.Handler(async () =>
@@ -214,5 +220,14 @@
             await _httpClient.StopAllAsync();
             Reload();
         });
+    }
+    private void OpenConsoleMessage(Guid id)
+    {
+        _consoleMessage?.SetSelect(id);
+        _consoleMessageVisible = true;
+    }
+    private void CloseConsoleMessage()
+    {
+        _consoleMessageVisible = false;
     }
 }
