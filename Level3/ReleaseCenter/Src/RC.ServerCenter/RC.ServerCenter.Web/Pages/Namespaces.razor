@@ -19,7 +19,7 @@
             <Row Gutter="24">
                 <GridCol Span="6">
                     <FormItem Label="项目">
-                        <Select DataSource="projectData" ValueName="Value" LabelName="Name" @bind-Value="context.ProjectID" />
+                        <Select TItem="SelectDataModel<Guid>" TItemValue="Guid?" DataSource="projectData" ValueName="Value" LabelName="Name" @bind-Value="context.ProjectID" OnSelectedItemChanged="Reload" />
                     </FormItem>
                 </GridCol>
                 <GridCol Span="6">

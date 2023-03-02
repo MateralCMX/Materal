@@ -19,7 +19,4 @@
 		<ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.HttpClient\RC.EnvironmentServer.HttpClient.csproj" />
 		<ProjectReference Include="..\RC.ServerCenter.HttpClient\RC.ServerCenter.HttpClient.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Helper\" />
-	</ItemGroup>
 </Project>
