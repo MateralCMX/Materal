@@ -7,7 +7,7 @@
 @inject IOcelotConfigService _ocelotConfigService;
 @inject IMessageService _message;
 
-<PageTitle>同步Consul-Materal.Gateway</PageTitle>
+<PageTitle>同步Consul-Dy.Gateway</PageTitle>
 
 <Row Gutter="24">
     <GridCol Span="6">
@@ -47,14 +47,23 @@
                     <FormItem Label="标签">
                         <Input @bind-Value="context.Tag" Placeholder="支持正则表达式" />
                     </FormItem>
+                    <FormItem Label="上游模版">
+                        <Input @bind-Value="context.UpstreamPathTemplate" />
+                    </FormItem>
+                    <FormItem Label="下游模版">
+                        <Input @bind-Value="context.DownstreamPathTemplate" />
+                    </FormItem>
                     <FormItem Label="忽略证书安全">
                         <Switch @bind-Value="context.DangerousAcceptAnyServerCertificateValidator" />
                     </FormItem>
                     <FormItem Label="转发方式">
                         <Select DataSource="SchemeTypes" @bind-Value="context.DownstreamScheme" />
                     </FormItem>
-                    <FormItem Label="清空同步">
-                        <Switch @bind-Value="context.Clear" />
+                    <FormItem Label="Http版本">
+                        <Select DataSource="HttpVersions" @bind-Value="context.HttpVersion" />
+                    </FormItem>
+                    <FormItem Label="同步模式">
+                        <EnumSelect TEnum="SyncModeEnum" @bind-Value="context.Mode"></EnumSelect>
                     </FormItem>
                 </Form>
             </Body>
@@ -63,6 +72,7 @@
 </Row>
 
 @code {
+    #region Swagger
     private SyncSwaggerModel _syncSwaggerModel = new();
     private void SyncSwagger()
     {
@@ -106,6 +116,8 @@
         _ocelotConfigService.Save();
         _message.Success("同步成功");
     }
+    #endregion
+    #region 路由
     private SyncRoutModel _syncRoutModel = new();
     public List<string> SchemeTypes { get; set; } = new()
         {
@@ -116,11 +128,17 @@
             "grpc",
             "grpcs",
         };
+    public List<string> HttpVersions { get; set; } = new()
+        {
+            "1.0",
+            "1.1",
+            "2.0",
+        };
     private void SyncRout()
     {
         List<ConsulServiceModel> servies = ConsulManager.GetServices();
         if (_ocelotConfigService.OcelotConfig.Routes == null) _ocelotConfigService.OcelotConfig.Routes = new();
-        if (_syncRoutModel.Clear) _ocelotConfigService.OcelotConfig.Routes.Clear();
+        if (_syncRoutModel.Mode == SyncModeEnum.覆盖) _ocelotConfigService.OcelotConfig.Routes.Clear();
         List<RouteConfigModel> routeConfigs = new();
         foreach (ConsulServiceModel service in servies)
         {
@@ -139,14 +157,26 @@
                 }
             }
             if (!next) continue;
-            if (_ocelotConfigService.OcelotConfig.Routes.Exists(m => !string.IsNullOrWhiteSpace(m.ServiceName) && m.ServiceName == service.Service)) continue;
             if (routeConfigs.Exists(m => !string.IsNullOrWhiteSpace(m.ServiceName) && m.ServiceName == service.Service)) continue;
-            RouteConfigModel routeConfigModel = new()
+            RouteConfigModel? routeConfigModel = _ocelotConfigService.OcelotConfig.Routes.FirstOrDefault(m => !string.IsNullOrWhiteSpace(m.ServiceName) && m.ServiceName == service.Service);
+            if (routeConfigModel != null)
+            {
+                if (_syncRoutModel.Mode == SyncModeEnum.替换)
                 {
-                    UpstreamPathTemplate = $"/{service.Service}/api/{{everything}}",
-                    DownstreamPathTemplate = "/api/{everything}",
+                    _ocelotConfigService.OcelotConfig.Routes.Remove(routeConfigModel);
+                    routeConfigModel = null;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            routeConfigModel = new()
+                {
+                    UpstreamPathTemplate = $"/{service.Service}{_syncRoutModel.UpstreamPathTemplate}",
+                    DownstreamPathTemplate = _syncRoutModel.DownstreamPathTemplate,
                     DownstreamScheme = _syncRoutModel.DownstreamScheme,
-                    DownstreamHttpVersion = "1.1",
+                    DownstreamHttpVersion = _syncRoutModel.HttpVersion,
                     UpstreamHttpMethod = new List<string> { "GET", "POST", "PUT", "DELETE", "OPTIONS" },
                     ServiceName = service.Service,
                     LoadBalancerOptions = new() { Type = "LeastConnection" },
@@ -179,7 +209,17 @@
         public string Name { get; set; } = string.Empty;
         public string Tag { get; set; } = string.Empty;
         public bool DangerousAcceptAnyServerCertificateValidator { get; set; } = true;
-        public bool Clear { get; set; } = false;
+        public SyncModeEnum Mode { get; set; } = SyncModeEnum.替换;
         public string DownstreamScheme { get; set; } = "http";
+        public string HttpVersion { get; set; } = "1.1";
+        public string UpstreamPathTemplate { get; set; } = "/api/{everything}";
+        public string DownstreamPathTemplate { get; set; } = "/api/{everything}";
+    }
+    #endregion
+    private enum SyncModeEnum
+    {
+        新增,
+        替换,
+        覆盖
     }
 }
