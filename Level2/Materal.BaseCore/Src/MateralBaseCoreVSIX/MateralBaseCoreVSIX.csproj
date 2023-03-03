@@ -104,7 +104,7 @@
     <EmbeddedResource Include="Tools\Microsoft.CodeAnalysis.CSharp.dll" />
     <EmbeddedResource Include="Tools\Microsoft.CodeAnalysis.dll" />
     <EmbeddedResource Include="Tools\Newtonsoft.Json.dll" />
-    <Content Include="Tools\System.Reflection.Metadata.dll" />
+    <EmbeddedResource Include="Tools\System.Reflection.Metadata.dll" />
     <Content Include="尘歌壶.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>
