@@ -122,7 +122,7 @@ namespace RC.Deploy.ServiceImpl
                 allApplications = allApplications.Where(m => m.ApplicationStatus == model.ApplicationStatus.Value).ToList();
             }
             Guid[] targetApplicationIDs = allApplications.Select(m => m.ApplicationInfo).Where(model.GetSearchDelegate<ApplicationInfo>()).Select(m => m.ID).ToArray();
-            allApplications = allApplications.Where(m => targetApplicationIDs.Contains(m.ApplicationInfo.ID)).OrderBy(m => m.ApplicationInfo.Name).ToList();
+            allApplications = allApplications.Where(m => targetApplicationIDs.Contains(m.ApplicationInfo.ID)).OrderBy(m => m.ApplicationInfo.MainModule).ToList();
             PageModel pageInfo = new(model, allApplications.Count);
             allApplications = allApplications.Skip(model.Skip).Take(model.Take).ToList();
             List<ApplicationInfoListDTO> result = Mapper.Map<List<ApplicationInfoListDTO>>(allApplications);
