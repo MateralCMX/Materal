@@ -51,7 +51,7 @@ namespace RC.ServerCenter.Web
                         Deploys.Add(new()
                         {
                             Value = item.Service,
-                            Name = item.Name,
+                            Name = $"{item.Name}[{item.Host}:{item.Port}]",
                         });
                     }
                     SelectedDeploy = Deploys.First().Value ?? string.Empty;
@@ -67,7 +67,7 @@ namespace RC.ServerCenter.Web
                         Environments.Add(new()
                         {
                             Value = item.Service,
-                            Name = item.Name,
+                            Name = $"{item.Name}[{item.Host}:{item.Port}]",
                         });
                         SelectedEnvironment = Environments.First().Value ?? string.Empty;
                     }
