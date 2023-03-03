@@ -14,23 +14,18 @@ namespace RC.ConfigClient
             _httpHelper = new HttpHelper();
         }
         private readonly string _url;
-        private readonly bool _isAbsoluteUrl;
-        public ConfigurationItemHttpClient(string url, bool isAbsoluteUrl = false)
+        public ConfigurationItemHttpClient(string url)
         {
             _url = url;
-            _isAbsoluteUrl = isAbsoluteUrl;
         }
         public async Task<ICollection<ConfigurationItemListDTO>?> GetDataAsync(QueryConfigurationItemRequestModel requestModel)
         {
             string url = _url;
-            if (!_isAbsoluteUrl)
+            if (!_url.EndsWith("/"))
             {
-                if (!_url.EndsWith("/"))
-                {
-                    url += "/";
-                }
-                url += $"ConfigurationItem/GetList";
+                url += "/";
             }
+            url += $"api/ConfigurationItem/GetList";
             string httpResult = await _httpHelper.SendPostAsync(url, null, requestModel);
             PageResultModel<ConfigurationItemListDTO> result = httpResult.JsonToObject<PageResultModel<ConfigurationItemListDTO>>();
             if(result.ResultType == ResultTypeEnum.Success) return result.Data;

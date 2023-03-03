@@ -16,14 +16,12 @@ namespace RC.ConfigClient
         private readonly int _reloadSecondInterval;
         private readonly TimeSpan _reloadInterval;
         private readonly Timer reloadTimer;
-        private readonly bool _isAbsoluteUrl;
-        public MateralConfigurationProvider(string namespaceName, string configUrl, string projectName, int reloadSecondInterval, bool isAbsoluteUrl = false)
+        public MateralConfigurationProvider(string namespaceName, string configUrl, string projectName, int reloadSecondInterval)
         {
             NamespaceName = namespaceName;
             _configUrl = configUrl;
             _projectName = projectName;
             _reloadSecondInterval = reloadSecondInterval;
-            _isAbsoluteUrl = isAbsoluteUrl;
             Load();
             reloadTimer = new Timer(AutoLoad);
             if (_reloadSecondInterval > 0)
@@ -38,7 +36,7 @@ namespace RC.ConfigClient
         }
         public override void Load()
         {
-            ConfigurationItemHttpClient configRepository = new(_configUrl, _isAbsoluteUrl);
+            ConfigurationItemHttpClient configRepository = new(_configUrl);
             ICollection<ConfigurationItemListDTO>? configurationItems = configRepository.GetDataAsync(new QueryConfigurationItemRequestModel
             {
                 PageIndex = 1,

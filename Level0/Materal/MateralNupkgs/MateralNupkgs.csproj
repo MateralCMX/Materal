@@ -35,9 +35,9 @@
 		<PackageReference Include="Materal.Utils.Redis" Version="0.0.5" />
 		<PackageReference Include="Materal.Utils.Wechat" Version="0.0.5" />
 		<PackageReference Include="Materal.Utils.Windows" Version="0.0.5" />
-		<PackageReference Include="RC.ConfigClient" Version="0.0.3" />
-		<PackageReference Include="RC.EnvironmentServer.DataTransmitModel" Version="0.0.3" />
-		<PackageReference Include="RC.EnvironmentServer.Enums" Version="0.0.3" />
-		<PackageReference Include="RC.EnvironmentServer.PresentationModel" Version="0.0.3" />
+		<PackageReference Include="RC.ConfigClient" Version="0.0.4" />
+		<PackageReference Include="RC.EnvironmentServer.DataTransmitModel" Version="0.0.4" />
+		<PackageReference Include="RC.EnvironmentServer.Enums" Version="0.0.4" />
+		<PackageReference Include="RC.EnvironmentServer.PresentationModel" Version="0.0.4" />
 	</ItemGroup>
 </Project>

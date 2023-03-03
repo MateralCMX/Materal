@@ -6,15 +6,22 @@ namespace RC.ConfigClient.Demo
     {
         public static async Task Main()
         {
+            const string url = "http://121.40.18.199:8701/RCES_DEVAPI";
+            const string projectName = "XMJProject";
+            string[] namespaces = new[]
+            {
+                "WebAPI",
+                "Demo"
+            };
             //IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
-            //    .SetConfigCenter("http://175.27.254.187:8700/RCES_FatAPI", "MateralReleaseCenter", 10)
+            //    .SetConfigCenter(url, projectName, 10)
             //    .AddDefaultNameSpace()
-            //    .AddNameSpace("ConfigClient");//会优先获取后加载命名空间的值
+            //    .AddNameSpace(namespaces[0])
+            //    .AddNameSpace(namespaces[1]);//会优先获取后加载命名空间的值
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
-                .AddDefaultNameSpace("http://175.27.254.187:8700/RCES_FatAPI", "MateralReleaseCenter", 10)
-                .AddNameSpace("ConfigClient");
-            //.AddDefaultNameSpace("http://175.27.194.19:8701/DevEnvAPI/ConfigurationItem/GetConfigurationItemList", "XMJProject", 10, true)
-            //.AddNameSpace("Demo");
+                .AddDefaultNameSpace(url, projectName, 10)
+                .AddNameSpace(namespaces[0])
+                .AddNameSpace(namespaces[1]);//会优先获取后加载命名空间的值
             IConfiguration _configuration = configurationBuilder.Build();
             while (true)
             {

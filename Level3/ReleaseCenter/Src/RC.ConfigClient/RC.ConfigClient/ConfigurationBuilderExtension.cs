@@ -9,19 +9,17 @@ namespace RC.ConfigClient
         private static string? _configUrl;
         private static string? _projectName;
         private static int? _reloadSecondInterval;
-        private static bool _isAbsoluteUrl = false;
-        public static IConfigurationBuilder SetConfigCenter(this IConfigurationBuilder builder, string configUrl, string projectName, int reloadSecondInterval = 60, bool isAbsoluteUrl = false)
+        public static IConfigurationBuilder SetConfigCenter(this IConfigurationBuilder builder, string configUrl, string projectName, int reloadSecondInterval = 60)
         {
             _configUrl = configUrl;
             _projectName = projectName;
             _reloadSecondInterval = reloadSecondInterval;
-            _isAbsoluteUrl = isAbsoluteUrl;
             return builder;
         }
-        public static IConfigurationBuilder AddNameSpace(this IConfigurationBuilder builder, string configUrl, string projectName, string @namespace, int reloadSecondInterval = 60, bool isAbsoluteUrl = false)
+        public static IConfigurationBuilder AddNameSpace(this IConfigurationBuilder builder, string configUrl, string projectName, string @namespace, int reloadSecondInterval = 60)
         {
-            SetConfigCenter(builder, configUrl, projectName, reloadSecondInterval, isAbsoluteUrl);
-            builder.Add(new MateralConfigurationSource(@namespace, configUrl, projectName, reloadSecondInterval, isAbsoluteUrl));
+            SetConfigCenter(builder, configUrl, projectName, reloadSecondInterval);
+            builder.Add(new MateralConfigurationSource(@namespace, configUrl, projectName, reloadSecondInterval));
             return builder;
         }
         public static IConfigurationBuilder AddNameSpace(this IConfigurationBuilder builder, string @namespace)
@@ -30,10 +28,10 @@ namespace RC.ConfigClient
             {
                 throw new MateralConfigClientException($"请先调用IConfigurationBuilder.{nameof(SetConfigCenter)}方法设置环境");
             }
-            builder.Add(new MateralConfigurationSource(@namespace, _configUrl, _projectName, _reloadSecondInterval.Value, _isAbsoluteUrl));
+            builder.Add(new MateralConfigurationSource(@namespace, _configUrl, _projectName, _reloadSecondInterval.Value));
             return builder;
         }
-        public static IConfigurationBuilder AddDefaultNameSpace(this IConfigurationBuilder builder, string configUrl, string projectName, int reloadSecondInterval = 60, bool isAbsoluteUrl = false) => builder.AddNameSpace(configUrl, projectName, _defaultNameSpace, reloadSecondInterval, isAbsoluteUrl);
+        public static IConfigurationBuilder AddDefaultNameSpace(this IConfigurationBuilder builder, string configUrl, string projectName, int reloadSecondInterval = 60) => builder.AddNameSpace(configUrl, projectName, _defaultNameSpace, reloadSecondInterval);
         public static IConfigurationBuilder AddDefaultNameSpace(this IConfigurationBuilder builder) => builder.AddNameSpace(_defaultNameSpace);
     }
 }
