@@ -32,7 +32,7 @@
         /// <summary>
         /// 启用标签重写
         /// </summary>
-        public string? EnableTagOverride { get; set; }
+        public bool? EnableTagOverride { get; set; }
         /// <summary>
         /// 数据中心
         /// </summary>
