@@ -5,7 +5,7 @@ $publishDir = "E:\Project\Materal\Application\ReleaseCenter\"#发布文件夹路径
 #$publishDir = "D:\Project\Materal\RCApplication\"#发布文件夹路径
 
 $applicationSuffixs = "WebAPI","Web"#后缀名
-$applicationPrefixs = "RC.EnvironmentServer"#前缀名
+$applicationPrefixs = "RC.Deploy"#前缀名
 #"RC.Authority","RC.Deploy","RC.ServerCenter","RC.EnvironmentServer"
 $version = "Release"#Debug Release
 Remove-Item -Path:"$publishDir\*" -Recurse:$true

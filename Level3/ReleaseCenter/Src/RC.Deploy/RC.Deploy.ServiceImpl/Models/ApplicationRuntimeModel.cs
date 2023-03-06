@@ -170,7 +170,7 @@ namespace RC.Deploy.ServiceImpl.Models
                 }
                 else
                 {
-                    rarFileInfo = rarFileInfos.OrderByDescending(m => m.CreationTime).FirstOrDefault();
+                    rarFileInfo = rarFileInfos.OrderByDescending(m => m.LastWriteTime).FirstOrDefault();
                 }
                 if (rarFileInfo == null) return;
                 string unRarDirectoryPath = UnRarFile(rarFileInfo.FullName);
