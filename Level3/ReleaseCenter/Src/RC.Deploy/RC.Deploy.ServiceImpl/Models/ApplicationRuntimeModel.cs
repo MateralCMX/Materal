@@ -200,7 +200,7 @@ namespace RC.Deploy.ServiceImpl.Models
         /// <exception cref="RCException"></exception>
         private string UnRarFile(string rarFilePath)
         {
-            AddConsoleMessage($"{ApplicationInfo.Name}解压文件{Path.GetFileName(rarFilePath)}...");
+            AddConsoleMessage($"解压文件{Path.GetFileName(rarFilePath)}...");
             string unRarPath = Path.Combine(RarFilesDirectoryPath, "Temp");
             DirectoryInfo unRarDirectoryInfo = Directory.CreateDirectory(unRarPath);
             string winRarPath = Path.Combine(ApplicationConfig.WinRarPath, "UnRaR.exe");
@@ -222,13 +222,15 @@ namespace RC.Deploy.ServiceImpl.Models
         /// </summary>
         /// <param name="sourceDirectoryInfo"></param>
         /// <param name="targetDirectoryInfo"></param>
-        private static void MoveToDirectory(DirectoryInfo sourceDirectoryInfo, DirectoryInfo targetDirectoryInfo)
+        private void MoveToDirectory(DirectoryInfo sourceDirectoryInfo, DirectoryInfo targetDirectoryInfo)
         {
             if (!sourceDirectoryInfo.Exists) return;
             try
             {
                 if (!targetDirectoryInfo.Exists)
                 {
+
+                    AddConsoleMessage($"创建文件夹:{targetDirectoryInfo.FullName}");
                     targetDirectoryInfo.Create();
                 }
                 foreach (DirectoryInfo subDirectoryInfo in sourceDirectoryInfo.GetDirectories())
@@ -240,6 +242,7 @@ namespace RC.Deploy.ServiceImpl.Models
                     }
                     else
                     {
+                        AddConsoleMessage($"移动文件夹:{subDirectoryInfo.FullName}到{targetDirectoryInfo.FullName}");
                         subDirectoryInfo.MoveTo(targetSubDirectoryInfo.FullName);
                     }
                 }
@@ -248,13 +251,17 @@ namespace RC.Deploy.ServiceImpl.Models
                     FileInfo targetSubFileInfo = new(Path.Combine(targetDirectoryInfo.FullName, subFileInfo.Name));
                     if (targetSubFileInfo.Exists)
                     {
+                        AddConsoleMessage($"删除文件:{targetSubFileInfo.FullName}");
                         targetSubFileInfo.Delete();
                     }
+                    AddConsoleMessage($"移动文件:{subFileInfo.FullName}到{targetSubFileInfo.FullName}");
                     subFileInfo.MoveTo(targetSubFileInfo.FullName);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                AddConsoleMessage(ex.GetErrorMessage());
+                AddConsoleMessage($"删除文件夹:{sourceDirectoryInfo.FullName}");
                 sourceDirectoryInfo.Delete(true);
                 throw;
             }
