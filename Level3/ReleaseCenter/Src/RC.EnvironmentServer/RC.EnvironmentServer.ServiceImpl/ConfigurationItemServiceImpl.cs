@@ -59,7 +59,12 @@ namespace RC.EnvironmentServer.ServiceImpl
             Guid[] removeIDs;
             #region 移除项目不存在的
             Guid[] allProjectIDs = configurationItems.Select(m => m.ProjectID).Distinct().ToArray();
-            List<ProjectListDTO>? allProjectInfo = await _projectHttpClient.GetDataAsync(allProjectIDs);
+            (List<ProjectListDTO> ? allProjectInfo, _) = await _projectHttpClient.GetListAsync(new()
+            {
+                PageIndex = 1,
+                PageSize = allProjectIDs.Length,
+                IDs = allProjectIDs.ToList()
+            });
             if (allProjectInfo != null)
             {
                 hastIDs = allProjectInfo.Select(m => m.ID).ToArray();
@@ -72,7 +77,12 @@ namespace RC.EnvironmentServer.ServiceImpl
             #endregion
             #region 移除命名空间不存在的
             Guid[] allNamespaceIDs = configurationItems.Select(m => m.NamespaceID).Distinct().ToArray();
-            List<NamespaceListDTO>? allNamespaceInfo = await _namespaceHttpClient.GetDataAsync(allNamespaceIDs);
+            (List<NamespaceListDTO>? allNamespaceInfo, _) = await _namespaceHttpClient.GetListAsync(new()
+            {
+                PageIndex = 1,
+                PageSize = allNamespaceIDs.Length,
+                IDs = allNamespaceIDs.ToList()
+            });
             if (allNamespaceInfo != null)
             {
                 hastIDs = allNamespaceInfo.Select(m => m.ID).ToArray();
