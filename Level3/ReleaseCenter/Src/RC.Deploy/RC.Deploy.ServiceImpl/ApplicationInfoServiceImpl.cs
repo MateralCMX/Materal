@@ -263,5 +263,20 @@ namespace RC.Deploy.ServiceImpl
             if (runtimeModel == null) return false;
             return runtimeModel.ApplicationStatus == ApplicationStatusEnum.Runing;
         }
+        /// <summary>
+        /// 获得上传文件列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="RCException"></exception>
+        public List<FileInfoDTO> GetUploadFiles([Required(ErrorMessage = "唯一标识为空")] Guid id)
+        {
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            FileInfo[]? fileInfos = ApplicationRuntimeManage.ApplicationRuntimes[id].GetRarFileNames();
+            if (fileInfos == null) return new();
+            List<FileInfoDTO> result = Mapper.Map<List<FileInfoDTO>>(fileInfos);
+            result = result.OrderByDescending(m => m.LastWriteTime).ToList();
+            return result;
+        }
     }
 }

@@ -94,6 +94,9 @@
                         <Tooltip Title="使用最后一次上传的文件">
                             <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Snippets" OnClick="e => ApplyLasetFile(context.ID)"></Button>
                         </Tooltip>
+                        <Tooltip Title="文件列表">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Snippets" OnClick="e => OpenFilesDialog(context.ID)"></Button>
+                        </Tooltip>
                         <Tooltip Title="编辑">
                             <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
                         </Tooltip>
@@ -203,6 +206,10 @@
             await _httpClient.ApplyLasetFileAsync(id);
             Reload();
         });
+    }
+    private void OpenFilesDialog(Guid id)
+    {
+        
     }
     private void StartAll()
     {

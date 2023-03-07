@@ -128,6 +128,17 @@ namespace RC.Deploy.ServiceImpl.Models
         /// <returns></returns>
         public List<string> GetConsoleMessages() => _consoleMessages;
         /// <summary>
+        /// 获得压缩包文件列表名称
+        /// </summary>
+        /// <returns></returns>
+        public FileInfo[]? GetRarFileNames()
+        {
+            DirectoryInfo rarFilesDirectoryInfo = new(RarFilesDirectoryPath);
+            if (!rarFilesDirectoryInfo.Exists) return null;
+            FileInfo[] rarFileInfos = rarFilesDirectoryInfo.GetFiles();
+            return rarFileInfos;
+        }
+        /// <summary>
         /// 关闭
         /// </summary>
         /// <returns></returns>

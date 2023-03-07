@@ -1,5 +1,7 @@
 ﻿using Materal.Utils.Model;
 using Microsoft.AspNetCore.Http;
+using RC.Deploy.DataTransmitModel.ApplicationInfo;
+using System.ComponentModel.DataAnnotations;
 
 namespace RC.Deploy.Services
 {
@@ -82,5 +84,11 @@ namespace RC.Deploy.Services
         /// <param name="path"></param>
         /// <returns></returns>
         bool IsRunningApplication(string path);
+        /// <summary>
+        /// 获得上传文件列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        List<FileInfoDTO> GetUploadFiles(Guid id);
     }
 }

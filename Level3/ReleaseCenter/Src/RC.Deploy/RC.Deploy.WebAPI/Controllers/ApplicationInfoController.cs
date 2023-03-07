@@ -1,5 +1,6 @@
 ﻿using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
+using RC.Deploy.DataTransmitModel.ApplicationInfo;
 using System.ComponentModel.DataAnnotations;
 
 namespace RC.Deploy.WebAPI.Controllers
@@ -112,6 +113,17 @@ namespace RC.Deploy.WebAPI.Controllers
         {
             DefaultService.ApplyFile(id, fileName);
             return ResultModel.Success("正在更新发布文件...");
+        }
+        /// <summary>
+        /// 获得上传文件列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ResultModel<List<FileInfoDTO>> GetUploadFiles(Guid id)
+        {
+            List<FileInfoDTO> result = DefaultService.GetUploadFiles(id);
+            return ResultModel<List<FileInfoDTO>>.Success(result, "获取成功");
         }
     }
 }

@@ -15,6 +15,7 @@ namespace RC.Deploy.WebAPI.AutoMapperProfile
                 .AfterMap(ModelToDTO);
             CreateMap<ApplicationRuntimeModel, ApplicationInfoListDTO>()
                 .AfterMap(ModelToDTO);
+            CreateMap<FileInfo, FileInfoDTO>();
         }
         /// <summary>
         /// 模型转换为数据传输模型
