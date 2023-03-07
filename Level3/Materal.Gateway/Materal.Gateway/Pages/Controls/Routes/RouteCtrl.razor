@@ -232,6 +232,11 @@
     private void DeleteDownstreamHostAndPort(HostAndPortModel model)
     {
         if (_model.Data.DownstreamHostAndPorts == null) return;
+        if(_model.Data.DownstreamHostAndPorts.Count <= 1)
+        {
+            _message.Info("不能删除最后一组下游数据");
+            return;
+        }
         _model.Data.DownstreamHostAndPorts.Remove(model);
     }
     private void AddWhiteClient()
@@ -283,6 +288,11 @@
             }
             if (_model.DownstreamType == "Service")
             {
+                if (string.IsNullOrWhiteSpace(_model.Data.ServiceName))
+                {
+                    _message.Error("未找到服务名称");
+                    return;
+                }
                 _model.Data.DownstreamHostAndPorts = null;
             }
             else
@@ -327,6 +337,10 @@
                 if (_data.DownstreamHostAndPorts == null)
                 {
                     _data.DownstreamHostAndPorts = new();
+                }
+                if(_data.DownstreamHostAndPorts.Count < 1)
+                {
+                    _data.DownstreamHostAndPorts.Add(new());
                 }
                 EnableCache = _data.FileCacheOptions != null;
                 EnableQos = _data.QoSOptions != null;
