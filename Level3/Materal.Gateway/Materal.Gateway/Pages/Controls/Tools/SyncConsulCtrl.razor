@@ -82,7 +82,15 @@
         foreach (ConsulServiceModel service in servies)
         {
             if (string.IsNullOrWhiteSpace(service.Service)) continue;
-            if (!string.IsNullOrWhiteSpace(_syncSwaggerModel.Name) && !Regex.IsMatch(service.Service, _syncSwaggerModel.Name)) continue;
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(_syncSwaggerModel.Name) && !Regex.IsMatch(service.Service, _syncSwaggerModel.Name)) continue;
+            }
+            catch (Exception ex)
+            {
+                _message.Error($"正则表达式错误:{ex.Message}");
+                return;
+            }
             bool next = true;
             if (!string.IsNullOrWhiteSpace(_syncSwaggerModel.Tag))
             {
@@ -143,7 +151,15 @@
         foreach (ConsulServiceModel service in servies)
         {
             if (string.IsNullOrWhiteSpace(service.Service)) continue;
-            if (!string.IsNullOrWhiteSpace(_syncRoutModel.Name) && !Regex.IsMatch(service.Service, _syncRoutModel.Name)) continue;
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(_syncRoutModel.Name) && !Regex.IsMatch(service.Service, _syncRoutModel.Name)) continue;
+            }
+            catch (Exception ex)
+            {
+                _message.Error($"正则表达式错误:{ex.Message}");
+                return;
+            }
             bool next = true;
             if (!string.IsNullOrWhiteSpace(_syncRoutModel.Tag))
             {
