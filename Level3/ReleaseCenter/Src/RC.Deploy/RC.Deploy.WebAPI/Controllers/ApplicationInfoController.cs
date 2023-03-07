@@ -115,6 +115,18 @@ namespace RC.Deploy.WebAPI.Controllers
             return ResultModel.Success("正在更新发布文件...");
         }
         /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public ResultModel DeleteFile([Required(ErrorMessage = "唯一标识为空")] Guid id, string fileName)
+        {
+            DefaultService.DeleteFile(id, fileName);
+            return ResultModel.Success("正在更新发布文件...");
+        }
+        /// <summary>
         /// 获得上传文件列表
         /// </summary>
         /// <param name="id"></param>

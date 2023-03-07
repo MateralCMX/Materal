@@ -1,8 +1,8 @@
-$codeDir = "E:\Project\Materal\Project\Level3\ReleaseCenter\Src\"#源码文件夹路径
-$publishDir = "E:\Project\Materal\Application\ReleaseCenter\"#发布文件夹路径
+#$codeDir = "E:\Project\Materal\Project\Level3\ReleaseCenter\Src\"#源码文件夹路径
+#$publishDir = "E:\Project\Materal\Application\ReleaseCenter\"#发布文件夹路径
 
-#$codeDir = "D:\Project\Materal\Project\Materal\Level3\ReleaseCenter\Src\"#源码文件夹路径
-#$publishDir = "D:\Project\Materal\RCApplication\"#发布文件夹路径
+$codeDir = "D:\Project\Materal\Project\Materal\Level3\ReleaseCenter\Src\"#源码文件夹路径
+$publishDir = "D:\Project\Materal\RCApplication\"#发布文件夹路径
 
 $applicationSuffixs = "WebAPI","Web"#后缀名
 $applicationPrefixs = "RC.Deploy"#前缀名

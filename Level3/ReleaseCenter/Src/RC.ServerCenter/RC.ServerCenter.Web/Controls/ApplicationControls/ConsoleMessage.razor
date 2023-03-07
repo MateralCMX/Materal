@@ -36,13 +36,6 @@
     private bool _isLoading{ get; set; }
     private Guid? _nowID = null;
     private List<string> messages = new();
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-    public void Dispose()
-    {
-    }
     public void SetSelect(Guid id)
     {
         _nowID = id;

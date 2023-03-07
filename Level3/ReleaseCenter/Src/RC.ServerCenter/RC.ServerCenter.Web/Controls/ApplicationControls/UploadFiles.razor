@@ -1,0 +1,61 @@
+﻿@using RC.Deploy.DataTransmitModel.ApplicationInfo;
+@using RC.Deploy.Enums;
+@using RC.Deploy.HttpClient;
+
+@inject ApplicationInfoHttpClient _httpClient;
+
+@if (IsShow)
+{
+    <AntList Class="demo-loadmore-list" DataSource="_files" ItemLayout="ListItemLayout.Horizontal" Loading="_isLoading">
+        <ChildContent Context="item">
+            <ListItem>
+                <span>@item.Name[@($"{item.LastWriteTime:yyyy-MM-dd HH:mm:ss}")]</span>
+                <ButtonGroup>
+                    <Tooltip Title="下载">
+                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Download"></Button>
+                    </Tooltip>
+                    @if(_applicationStatus == ApplicationStatusEnum.Stop)
+                    {
+                        <Tooltip Title="应用">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Download"></Button>
+                        </Tooltip>
+                    }
+                    <Tooltip Title="删除">
+                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                    </Tooltip>
+                </ButtonGroup>
+            </ListItem>
+        </ChildContent>
+    </AntList>
+}
+
+@code {
+    [Parameter]
+    public bool IsShow { get; set; }
+    private bool _isLoading { get; set; }
+    private Guid? _nowID = null;
+    public ApplicationStatusEnum _applicationStatus { get; set; }
+    private List<FileInfoDTO> _files = new();
+    public void SetSelect(Guid id, ApplicationStatusEnum applicationStatus)
+    {
+        _nowID = id;
+        _applicationStatus = applicationStatus;
+        LoadFiles();
+    }
+    private void LoadFiles()
+    {
+        if (_nowID == null) return;
+        _isLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            List<FileInfoDTO>? files = await _httpClient.GetUploadFilesAsync(id);
+            if (files == null) return;
+            _files.Clear();
+            _files.AddRange(files);
+        }, () =>
+        {
+            _isLoading = false;
+            StateHasChanged();
+        });
+    }
+}

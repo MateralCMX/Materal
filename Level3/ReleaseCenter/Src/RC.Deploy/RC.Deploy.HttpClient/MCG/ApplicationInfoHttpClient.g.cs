@@ -60,5 +60,11 @@ namespace RC.Deploy.HttpClient
         /// <param name="fileName"></param>
         /// <returns></returns>
         public async Task ApplyFileAsync([Required(ErrorMessage = "唯一标识为空")] Guid id,  string fileName) => await GetResultModelByPutAsync("ApplicationInfo/ApplyFile", new Dictionary<string, string> { [nameof(id)] = id.ToString(), [nameof(fileName)] = fileName});
+        /// <summary>
+        /// 获得上传文件列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<FileInfoDTO>?> GetUploadFilesAsync(Guid id) => await GetResultModelByGetAsync<List<FileInfoDTO>>("ApplicationInfo/GetUploadFiles", new Dictionary<string, string> { [nameof(id)] = id.ToString()});
     }
 }

@@ -34,6 +34,14 @@ namespace RC.Deploy.Services
         [DataValidation]
         void ApplyFile(Guid id, string fileName);
         /// <summary>
+        /// 应用文件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        [DataValidation]
+        void DeleteFile(Guid id, string fileName);
+        /// <summary>
         /// 启动程序
         /// </summary>
         /// <param name="id"></param>

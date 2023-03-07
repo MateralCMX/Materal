@@ -10,6 +10,7 @@ using RC.Deploy.ServiceImpl.Models;
 using RC.Deploy.Services.Models.ApplicationInfo;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RC.Deploy.ServiceImpl
 {
@@ -117,7 +118,7 @@ namespace RC.Deploy.ServiceImpl
         public override Task<(List<ApplicationInfoListDTO> data, PageModel pageInfo)> GetListAsync(QueryApplicationInfoModel model)
         {
             List<ApplicationRuntimeModel> allApplications = ApplicationRuntimeManage.ApplicationRuntimes.Select(m => m.Value).ToList();
-            if(model.ApplicationStatus != null)
+            if (model.ApplicationStatus != null)
             {
                 allApplications = allApplications.Where(m => m.ApplicationStatus == model.ApplicationStatus.Value).ToList();
             }
@@ -177,6 +178,29 @@ namespace RC.Deploy.ServiceImpl
             if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
             ApplicationRuntimeModel applicationInfo = ApplicationRuntimeManage.ApplicationRuntimes[id];
             applicationInfo.ExecuteApplyFileTask(fileName);
+        }
+        /// <summary>
+        /// 应用文件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public void DeleteFile([Required(ErrorMessage = "唯一标识为空")] Guid id, string fileName)
+        {
+            if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
+            ApplicationRuntimeModel applicationInfo = ApplicationRuntimeManage.ApplicationRuntimes[id];
+            FileInfo[]? fileInfos = applicationInfo.GetRarFileNames();
+            if (fileInfos == null) throw new RCException("文件不存在");
+            FileInfo? fileInfo = fileInfos.FirstOrDefault(m => m.Name == fileName);
+            if (fileInfo == null || !fileInfo.Exists) throw new RCException("文件不存在");
+            try
+            {
+                fileInfo.Delete();
+            }
+            catch (Exception ex)
+            {
+                throw new RCException($"文件删除失败:{ex.Message}", ex);
+            }
         }
         /// <summary>
         /// 启动
@@ -258,7 +282,7 @@ namespace RC.Deploy.ServiceImpl
         /// <param name="path"></param>
         /// <returns></returns>
         public bool IsRunningApplication(string path)
-        {            
+        {
             ApplicationRuntimeModel? runtimeModel = ApplicationRuntimeManage.ApplicationRuntimes.Select(m => m.Value).FirstOrDefault(m => m.ApplicationInfo.RootPath.Equals(path, StringComparison.OrdinalIgnoreCase));
             if (runtimeModel == null) return false;
             return runtimeModel.ApplicationStatus == ApplicationStatusEnum.Runing;

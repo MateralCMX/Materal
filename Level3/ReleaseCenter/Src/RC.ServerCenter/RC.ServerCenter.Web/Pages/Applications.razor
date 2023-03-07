@@ -81,6 +81,9 @@
                     <Tooltip Title="控制台">
                         <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Code" OnClick="e => OpenConsoleMessage(context.ID)"></Button>
                     </Tooltip>
+                    <Tooltip Title="文件列表">
+                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.UnorderedList" OnClick="e => OpenFilesDialog(context.ID, context.ApplicationStatus)"></Button>
+                    </Tooltip>
                     @if (context.ApplicationStatus == ApplicationStatusEnum.Stop)
                     {
                         <Tooltip Title="启动">
@@ -93,9 +96,6 @@
                         </Tooltip>
                         <Tooltip Title="使用最后一次上传的文件">
                             <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Snippets" OnClick="e => ApplyLasetFile(context.ID)"></Button>
-                        </Tooltip>
-                        <Tooltip Title="文件列表">
-                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Snippets" OnClick="e => OpenFilesDialog(context.ID)"></Button>
                         </Tooltip>
                         <Tooltip Title="编辑">
                             <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
@@ -120,12 +120,17 @@
         </Table>
     </SpaceItem>
 </Space>
+<Drawer Width="1000" Closable="true" Visible="_filesVisible" Placement="right" Title="@("文件列表")" OnClose="CloseFilesDialog">
+    <UploadFiles @ref="_uploadFiles" IsShow="_filesVisible"></UploadFiles>
+</Drawer>
 <Drawer Width="1000" Closable="true" Visible="_consoleMessageVisible" Placement="right" Title="@("控制台")" OnClose="CloseConsoleMessage">
     <ConsoleMessage @ref="_consoleMessage" IsShow="_consoleMessageVisible"></ConsoleMessage>
 </Drawer>
 @code {
+    private UploadFiles? _uploadFiles;
     private ConsoleMessage? _consoleMessage;
     private bool _consoleMessageVisible = false;
+    private bool _filesVisible = false;
     private List<SelectDataModel<ApplicationStatusEnum>> allApplicationStatus = SelectDataModel<ApplicationStatusEnum>.GetListAndAll<ApplicationStatusEnum>();
     private List<SelectDataModel<ApplicationTypeEnum>> allApplicationTypes = SelectDataModel<ApplicationTypeEnum>.GetListAndAll<ApplicationTypeEnum>();
     protected override void OnInitialized()
@@ -207,9 +212,14 @@
             Reload();
         });
     }
-    private void OpenFilesDialog(Guid id)
+    private void OpenFilesDialog(Guid id, ApplicationStatusEnum applicationStatus)
     {
-        
+        _uploadFiles?.SetSelect(id, applicationStatus);
+        _filesVisible = true;
+    }
+    private void CloseFilesDialog()
+    {
+        _filesVisible = false;
     }
     private void StartAll()
     {
