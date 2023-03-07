@@ -272,10 +272,15 @@ namespace RC.Deploy.ServiceImpl
         public List<FileInfoDTO> GetUploadFiles([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
             if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
-            FileInfo[]? fileInfos = ApplicationRuntimeManage.ApplicationRuntimes[id].GetRarFileNames();
+            ApplicationRuntimeModel application = ApplicationRuntimeManage.ApplicationRuntimes[id];
+            FileInfo[]? fileInfos = application.GetRarFileNames();
             if (fileInfos == null) return new();
             List<FileInfoDTO> result = Mapper.Map<List<FileInfoDTO>>(fileInfos);
             result = result.OrderByDescending(m => m.LastWriteTime).ToList();
+            foreach (FileInfoDTO fileInfo in result)
+            {
+                fileInfo.DownloadUrl = $"/UploadFiles/{application.ApplicationInfo.Name}/{fileInfo.Name}";
+            }
             return result;
         }
     }

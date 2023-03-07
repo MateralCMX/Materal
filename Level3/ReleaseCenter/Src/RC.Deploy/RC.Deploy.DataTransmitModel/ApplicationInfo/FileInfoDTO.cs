@@ -13,5 +13,9 @@
         /// 最后写入时间
         /// </summary>
         public DateTime LastWriteTime { get; set; }
+        /// <summary>
+        /// 下载地址
+        /// </summary>
+        public string DownloadUrl { get; set; } = string.Empty;
     }
 }

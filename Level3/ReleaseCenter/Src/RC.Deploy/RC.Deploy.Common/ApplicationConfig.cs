@@ -28,7 +28,8 @@ namespace RC.Deploy.Common
             "api",
             "hubs",
             "swagger",
-            "Deploy"
+            "Deploy",
+            "UploadFiles"
         };
     }
 }

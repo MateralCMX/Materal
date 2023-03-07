@@ -99,6 +99,25 @@ namespace RC.Deploy.WebAPI
                 ServeUnknownFileTypes = true,
                 DefaultContentType = "application/octet-stream"
             });
+            path = Path.Combine(basePath, "UploadFiles");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(path),
+                OnPrepareResponse = context =>
+                {
+                    context.Context.Response.Headers.Add("Access-Control-Allow-Methods", "*");
+                    context.Context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                    context.Context.Response.Headers.Add("Access-Control-Allow-Headers", "*");
+                },
+                RequestPath = "/UploadFiles",
+                ContentTypeProvider = provider,
+                ServeUnknownFileTypes = true,
+                DefaultContentType = "application/octet-stream"
+            });
             #endregion
             await base.InitAsync(args, services, app);
         }
