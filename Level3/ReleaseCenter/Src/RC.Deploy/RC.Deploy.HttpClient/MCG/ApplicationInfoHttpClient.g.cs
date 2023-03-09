@@ -61,6 +61,13 @@ namespace RC.Deploy.HttpClient
         /// <returns></returns>
         public async Task ApplyFileAsync([Required(ErrorMessage = "唯一标识为空")] Guid id,  string fileName) => await GetResultModelByPutAsync("ApplicationInfo/ApplyFile", new Dictionary<string, string> { [nameof(id)] = id.ToString(), [nameof(fileName)] = fileName});
         /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public async Task DeleteFileAsync([Required(ErrorMessage = "唯一标识为空")] Guid id,  string fileName) => await GetResultModelByDeleteAsync("ApplicationInfo/DeleteFile", new Dictionary<string, string> { [nameof(id)] = id.ToString(), [nameof(fileName)] = fileName});
+        /// <summary>
         /// 获得上传文件列表
         /// </summary>
         /// <param name="id"></param>

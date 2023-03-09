@@ -1,27 +1,33 @@
-﻿@using RC.Deploy.DataTransmitModel.ApplicationInfo;
+﻿@using Materal.BaseCore.HttpClient;
+@using RC.Core.HttpClient;
+@using RC.Deploy.DataTransmitModel.ApplicationInfo;
 @using RC.Deploy.Enums;
 @using RC.Deploy.HttpClient;
 
 @inject ApplicationInfoHttpClient _httpClient;
+@inject IMessageService _message;
+@inject IJSRuntime JS
 
 @if (IsShow)
 {
     <AntList Class="demo-loadmore-list" DataSource="_files" ItemLayout="ListItemLayout.Horizontal" Loading="_isLoading">
         <ChildContent Context="item">
             <ListItem>
-                <span>@item.Name[@($"{item.LastWriteTime:yyyy-MM-dd HH:mm:ss}")]</span>
+                <span>[@($"{item.LastWriteTime:yyyy-MM-dd HH:mm:ss}")]@item.Name</span>
                 <ButtonGroup>
                     <Tooltip Title="下载">
-                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Download"></Button>
+                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Download" OnClick="m=>DownloadFile(item)"></Button>
                     </Tooltip>
-                    @if(_applicationStatus == ApplicationStatusEnum.Stop)
+                    @if (_applicationStatus == ApplicationStatusEnum.Stop)
                     {
                         <Tooltip Title="应用">
-                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Download"></Button>
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Snippets" OnClick="m=>Apply(item.Name)"></Button>
                         </Tooltip>
                     }
                     <Tooltip Title="删除">
-                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                        <Popconfirm Title="确定删除该文件吗?" OkText="删除" CancelText="取消" OnConfirm="e => Delete(item.Name)">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Delete"></Button>
+                        </Popconfirm>
                     </Tooltip>
                 </ButtonGroup>
             </ListItem>
@@ -48,7 +54,7 @@
         _isLoading = true;
         HttpHandler.Handler(async () =>
         {
-            List<FileInfoDTO>? files = await _httpClient.GetUploadFilesAsync(id);
+            List<FileInfoDTO>? files = await _httpClient.GetUploadFilesAsync(_nowID.Value);
             if (files == null) return;
             _files.Clear();
             _files.AddRange(files);
@@ -57,5 +63,39 @@
             _isLoading = false;
             StateHasChanged();
         });
+    }
+    private void Apply(string fileName)
+    {
+        if (_nowID == null || string.IsNullOrWhiteSpace(fileName)) return;
+        _isLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            await _httpClient.ApplyFileAsync(_nowID.Value, fileName);
+            _message.ShowSuccess("正在更新....");
+        }, () =>
+        {
+            _isLoading = false;
+            StateHasChanged();
+        });
+    }
+    private void Delete(string fileName)
+    {
+        if (_nowID == null || string.IsNullOrWhiteSpace(fileName)) return;
+        _isLoading = true;
+        HttpHandler.Handler(async () =>
+        {
+            await _httpClient.DeleteFileAsync(_nowID.Value, fileName);
+            _message.ShowSuccess("文件已删除");
+            LoadFiles();
+        }, null, () =>
+        {
+            _isLoading = false;
+            StateHasChanged();
+        });
+    }
+    private async Task DownloadFile(FileInfoDTO file)
+    {
+        string fileURL = $"{HttpClientConfig.HttpClienUrltConfig.BaseUrl}{RCData.SelectedDeploy}{file.DownloadUrl}";
+        await JS.InvokeVoidAsync("triggerFileDownload", file.Name, fileURL);
     }
 }

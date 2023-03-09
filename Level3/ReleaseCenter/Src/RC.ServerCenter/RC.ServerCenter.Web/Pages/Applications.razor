@@ -81,9 +81,6 @@
                     <Tooltip Title="控制台">
                         <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Code" OnClick="e => OpenConsoleMessage(context.ID)"></Button>
                     </Tooltip>
-                    <Tooltip Title="文件列表">
-                        <Button Type="@ButtonType.Text" Icon="@IconType.Outline.UnorderedList" OnClick="e => OpenFilesDialog(context.ID, context.ApplicationStatus)"></Button>
-                    </Tooltip>
                     @if (context.ApplicationStatus == ApplicationStatusEnum.Stop)
                     {
                         <Tooltip Title="启动">
@@ -97,6 +94,9 @@
                         <Tooltip Title="使用最后一次上传的文件">
                             <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Snippets" OnClick="e => ApplyLasetFile(context.ID)"></Button>
                         </Tooltip>
+                        <Tooltip Title="文件列表">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.UnorderedList" OnClick="e => OpenFilesDialog(context.ID, context.ApplicationStatus)"></Button>
+                        </Tooltip>
                         <Tooltip Title="编辑">
                             <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Edit" OnClick="e => Edit(context.ID)"></Button>
                         </Tooltip>
@@ -108,6 +108,9 @@
                     }
                     else if (context.ApplicationStatus == ApplicationStatusEnum.Runing)
                     {
+                        <Tooltip Title="文件列表">
+                            <Button Type="@ButtonType.Text" Icon="@IconType.Outline.UnorderedList" OnClick="e => OpenFilesDialog(context.ID, context.ApplicationStatus)"></Button>
+                        </Tooltip>
                         <Tooltip Title="关闭">
                             <Button Type="@ButtonType.Text" Icon="@IconType.Outline.Poweroff" OnClick="e => Stop(context.ID)"></Button>
                         </Tooltip>
@@ -120,7 +123,7 @@
         </Table>
     </SpaceItem>
 </Space>
-<Drawer Width="1000" Closable="true" Visible="_filesVisible" Placement="right" Title="@("文件列表")" OnClose="CloseFilesDialog">
+<Drawer Width="600" Closable="true" Visible="_filesVisible" Placement="right" Title="@("文件列表")" OnClose="CloseFilesDialog">
     <UploadFiles @ref="_uploadFiles" IsShow="_filesVisible"></UploadFiles>
 </Drawer>
 <Drawer Width="1000" Closable="true" Visible="_consoleMessageVisible" Placement="right" Title="@("控制台")" OnClose="CloseConsoleMessage">

@@ -1,7 +1,10 @@
-﻿namespace Materal.Test.Models
+﻿using Materal.Utils.Model;
+
+namespace Materal.Test.Models
 {
-    public class User
+    public class User : FilterModel
     {
+        [Equal]
         public string Name { get; set; } = string.Empty;
 
         public User()
