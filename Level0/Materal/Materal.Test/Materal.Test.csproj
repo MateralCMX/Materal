@@ -14,6 +14,8 @@
 		<PackageReference Include="coverlet.collector" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\Src\Materal.Abstractions\Materal.Abstractions.csproj" />
+	  <ProjectReference Include="..\Src\Materal.Utils.Wechat\Materal.Utils.Wechat.csproj" />
 	  <ProjectReference Include="..\Src\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>
 </Project>

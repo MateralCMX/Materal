@@ -1,4 +1,5 @@
 ﻿using LitJson;
+using Materal.Abstractions;
 using Materal.Utils.Http;
 using Materal.Utils.Wechat.Model;
 using Materal.Utils.Wechat.Model.Basis.Request;
@@ -15,14 +16,20 @@ namespace Materal.Utils.Wechat
         /// 配置文件
         /// </summary>
         protected readonly WeChatConfigModel Config;
-        protected readonly IHttpHelper _httpHelper;
+        /// <summary>
+        /// Http帮助类
+        /// </summary>
+        protected readonly IHttpHelper HttpHelper;
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="configM"></param>
-        public WeChatMiniProgramManager(WeChatConfigModel configM)
+        /// <param name="httpHelper"></param>
+        public WeChatMiniProgramManager(WeChatConfigModel configM, IHttpHelper httpHelper = null)
         {
             Config = configM;
+            httpHelper ??= MateralServices.GetService<IHttpHelper>();
+            HttpHelper = httpHelper;
         }
         /// <summary>
         /// 根据Code获得OpenID
@@ -38,7 +45,7 @@ namespace Materal.Utils.Wechat
                 {"grant_type", "authorization_code"},
                 {"js_code", code},
             };
-            string httpResult = await _httpHelper.SendGetAsync($"{Config.WeChatAPIUrl}sns/jscode2session", queryParams);
+            string httpResult = await HttpHelper.SendGetAsync($"{Config.WeChatAPIUrl}sns/jscode2session", queryParams);
             JsonData jsonData = HandlerHttpResult(httpResult);
             string openID = jsonData.GetString("openid") ?? throw GetWeChatException(jsonData);
             return openID;
@@ -56,7 +63,7 @@ namespace Materal.Utils.Wechat
                 {"appid", Config.APPID},
                 {"secret", Config.APPSECRET}
             };
-            string httpResult = await _httpHelper.SendGetAsync($"{Config.WeChatAPIUrl}cgi-bin/token", queryParams);
+            string httpResult = await HttpHelper.SendGetAsync($"{Config.WeChatAPIUrl}cgi-bin/token", queryParams);
             JsonData jsonData = HandlerHttpResult(httpResult);
             var result = new AccessTokenResultModel
             {
@@ -89,7 +96,7 @@ namespace Materal.Utils.Wechat
             {
                 data.data.Add(item.Key, new { value = item.Value });
             }
-            string result = await _httpHelper.SendPostAsync($"{Config.WeChatAPIUrl}cgi-bin/message/subscribe/send", queryParams, data);
+            string result = await HttpHelper.SendPostAsync($"{Config.WeChatAPIUrl}cgi-bin/message/subscribe/send", queryParams, data);
             HandlerHttpResult(result);
         }
         /// <summary>

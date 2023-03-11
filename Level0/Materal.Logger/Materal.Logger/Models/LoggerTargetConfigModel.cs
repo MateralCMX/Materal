@@ -23,7 +23,7 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 格式化
         /// </summary>
-        public string Format { get; set; } = "${DateTime}|${Level}|${CategoryName}:${Message}}";
+        public string Format { get; set; } = "${DateTime}|${Level}|${CategoryName}:${Message}\r\n${Exception}";
         /// <summary>
         /// 路径
         /// </summary>

@@ -10,7 +10,7 @@
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>0.0.5</Version>
+		<Version>0.0.6</Version>
 		<Description>Materal基础抽象包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageOutputPath>../../nupkgs</PackageOutputPath>
