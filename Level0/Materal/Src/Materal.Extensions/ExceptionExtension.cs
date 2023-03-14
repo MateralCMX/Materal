@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Primitives;
+﻿using Materal.Abstractions;
+using Microsoft.Extensions.Primitives;
 using System.Text;
 
 namespace System
@@ -17,33 +18,40 @@ namespace System
         /// <returns></returns>
         public static string GetErrorMessage(this Exception? exception, Func<Exception, string?>? beforFunc = null, Func<Exception, string?>? afterFunc = null)
         {
-            if(exception == null) return string.Empty;
+            if (exception == null) return string.Empty;
             StringBuilder messageBuilder = new();
             Exception? tempException = exception;
             while (tempException != null)
             {
-                if (beforFunc != null)
+                if (tempException is not MateralException materalException)
                 {
-                    string? temp = beforFunc(tempException);
-                    if (!string.IsNullOrWhiteSpace(temp))
+                    if (beforFunc != null)
                     {
-                        messageBuilder.AppendLine(temp);
+                        string? temp = beforFunc(tempException);
+                        if (!string.IsNullOrWhiteSpace(temp))
+                        {
+                            messageBuilder.AppendLine(temp);
+                        }
+                    }
+                    messageBuilder.Append(tempException.GetType().FullName);
+                    messageBuilder.Append("-->");
+                    messageBuilder.AppendLine(tempException.Message);
+                    if (!string.IsNullOrWhiteSpace(tempException.StackTrace))
+                    {
+                        messageBuilder.AppendLine(tempException.StackTrace);
+                    }
+                    if (afterFunc != null)
+                    {
+                        string? temp = afterFunc(tempException);
+                        if (!string.IsNullOrWhiteSpace(temp))
+                        {
+                            messageBuilder.AppendLine(temp);
+                        }
                     }
                 }
-                messageBuilder.Append(tempException.GetType().FullName);
-                messageBuilder.Append("-->");
-                messageBuilder.AppendLine(tempException.Message);
-                if (!string.IsNullOrWhiteSpace(tempException.StackTrace))
+                else
                 {
-                    messageBuilder.AppendLine(tempException.StackTrace);
-                }
-                if (afterFunc != null)
-                {
-                    string? temp = afterFunc(tempException);
-                    if (!string.IsNullOrWhiteSpace(temp))
-                    {
-                        messageBuilder.AppendLine(temp);
-                    }
+                    messageBuilder.AppendLine(materalException.GetExceptionMessage(beforFunc, afterFunc));
                 }
                 tempException = tempException.InnerException;
             }
