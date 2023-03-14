@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Materal.Abstractions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
 using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
 using System.Text.Json;
@@ -16,8 +18,10 @@ namespace RC.ConfigClient
         private readonly int _reloadSecondInterval;
         private readonly TimeSpan _reloadInterval;
         private readonly Timer reloadTimer;
+        private readonly ILogger<MateralConfigurationProvider>? _logger;
         public MateralConfigurationProvider(string namespaceName, string configUrl, string projectName, int reloadSecondInterval)
         {
+            _logger = MateralServices.GetServiceOrDefatult<ILogger<MateralConfigurationProvider>>();
             NamespaceName = namespaceName;
             _configUrl = configUrl;
             _projectName = projectName;
@@ -113,7 +117,14 @@ namespace RC.ConfigClient
         private void AutoLoad(object? state)
         {
             StopReloadTimer();
-            Load();
+            try
+            {
+                Load();
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogWarning(ex, "重读配置失败");
+            }
             StartReloadTimer();
         }
         private void StartReloadTimer()

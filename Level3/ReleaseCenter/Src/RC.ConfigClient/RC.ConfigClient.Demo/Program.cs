@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Materal.Abstractions;
+using Materal.Logger;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace RC.ConfigClient.Demo
 {
@@ -6,7 +10,17 @@ namespace RC.ConfigClient.Demo
     {
         public static async Task Main()
         {
-            const string url = "http://121.40.18.199:8701/RCES_DEVAPI";
+            #region 初始化DI
+            IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddMateralLogger();
+            MateralServices.Services = serviceCollection.BuildServiceProvider();
+            LoggerManager.Init(option =>
+            {
+                option.AddConsoleTarget("LifeConsole");
+                option.AddAllTargetRule();
+            });
+            #endregion
+            const string url = "https://gateway.xmjriyu.com/RCESDEVAPI";
             const string projectName = "XMJProject";
             string[] namespaces = new[]
             {
@@ -25,7 +39,7 @@ namespace RC.ConfigClient.Demo
             IConfiguration _configuration = configurationBuilder.Build();
             while (true)
             {
-                string? testValue = _configuration.GetValue("Test");
+                string? testValue = _configuration.GetValue("AppName");
                 Console.WriteLine(testValue);
                 await Task.Delay(1000);
             }
