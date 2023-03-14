@@ -9,10 +9,7 @@ namespace RC.ConfigClient
 {
     public class MateralConfigurationProvider : ConfigurationProvider
     {
-        /// <summary>
-        /// 命名空间名称
-        /// </summary>
-        public string NamespaceName { get; }
+        private readonly string _namespaceName;
         private readonly string _configUrl;
         private readonly string _projectName;
         private readonly int _reloadSecondInterval;
@@ -22,11 +19,11 @@ namespace RC.ConfigClient
         public MateralConfigurationProvider(string namespaceName, string configUrl, string projectName, int reloadSecondInterval)
         {
             _logger = MateralServices.GetServiceOrDefatult<ILogger<MateralConfigurationProvider>>();
-            NamespaceName = namespaceName;
+            _namespaceName = namespaceName;
             _configUrl = configUrl;
             _projectName = projectName;
             _reloadSecondInterval = reloadSecondInterval;
-            Load();
+            LoadConfig();
             reloadTimer = new Timer(AutoLoad);
             if (_reloadSecondInterval > 0)
             {
@@ -40,13 +37,28 @@ namespace RC.ConfigClient
         }
         public override void Load()
         {
+            try
+            {
+                LoadConfig();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    ex = ex.InnerException;
+                }
+                _logger?.LogWarning(ex, $"重读配置失败{_projectName}->{_namespaceName}");
+            }
+        }
+        private void LoadConfig()
+        {
             ConfigurationItemHttpClient configRepository = new(_configUrl);
             ICollection<ConfigurationItemListDTO>? configurationItems = configRepository.GetDataAsync(new QueryConfigurationItemRequestModel
             {
                 PageIndex = 1,
                 PageSize = int.MaxValue,
                 ProjectName = _projectName,
-                NamespaceName = NamespaceName
+                NamespaceName = _namespaceName
             }).Result;
             if (configurationItems == null) return;
             foreach (ConfigurationItemListDTO item in configurationItems)
@@ -117,14 +129,7 @@ namespace RC.ConfigClient
         private void AutoLoad(object? state)
         {
             StopReloadTimer();
-            try
-            {
-                Load();
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogWarning(ex, "重读配置失败");
-            }
+            Load();
             StartReloadTimer();
         }
         private void StartReloadTimer()
