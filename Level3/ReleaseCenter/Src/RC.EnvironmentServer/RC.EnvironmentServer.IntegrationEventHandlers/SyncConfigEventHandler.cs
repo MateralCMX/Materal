@@ -15,38 +15,42 @@ namespace RC.EnvironmentServer.IntegrationEventHandlers
         private readonly IMapper _mapper;
         private readonly IMateralCoreUnitOfWork _unitOfWork;
         private readonly IConfigurationItemRepository _configurationItemRepository;
+        private static readonly object _syncLockObj = new();
         public SyncConfigEventHandler(IMapper mapper, IMateralCoreUnitOfWork unitOfWork, IConfigurationItemRepository configurationItemRepository)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _configurationItemRepository = configurationItemRepository;
         }
-        public async Task HandleAsync(SyncConfigEvent @event)
+        public Task HandleAsync(SyncConfigEvent @event)
         {
-            if (@event.TargetEnvironments.Length == 0 || !@event.TargetEnvironments.Contains(WebAPIConfig.AppName)) return;
-            switch (@event.Mode)
+            if (@event.TargetEnvironments.Length == 0 || !@event.TargetEnvironments.Contains(WebAPIConfig.AppName)) return Task.CompletedTask;
+            lock (_syncLockObj)
             {
-                case Enums.SyncModeEnum.Mission:
-                    await AddItemsAsync(@event.ConfigurationItems);
-                    break;
-                case Enums.SyncModeEnum.Replace:
-                    await ReplaceItemsAsync(@event.ConfigurationItems);
-                    break;
-                case Enums.SyncModeEnum.Cover:
-                    await ReplaceItemsAsync(@event.ConfigurationItems);
-                    await AddItemsAsync(@event.ConfigurationItems);
-                    break;
+                switch (@event.Mode)
+                {
+                    case Enums.SyncModeEnum.Mission:
+                        AddItems(@event.ConfigurationItems);
+                        break;
+                    case Enums.SyncModeEnum.Replace:
+                        ReplaceItems(@event.ConfigurationItems);
+                        break;
+                    case Enums.SyncModeEnum.Cover:
+                        ClearItems();
+                        AddItems(@event.ConfigurationItems);
+                        break;
+                }
             }
-            await _unitOfWork.CommitAsync();
+            return Task.CompletedTask;
         }
         /// <summary>
         /// 添加项
         /// </summary>
         /// <param name="configurationItems"></param>
         /// <returns></returns>
-        private async Task AddItemsAsync(List<ConfigurationItemListDTO> configurationItems)
+        private void AddItems(List<ConfigurationItemListDTO> configurationItems)
         {
-            List<ConfigurationItem> allConfigurationItems = await _configurationItemRepository.GetAllInfoFromCacheAsync();
+            List<ConfigurationItem> allConfigurationItems = _configurationItemRepository.Find(m => true);
             foreach (ConfigurationItemListDTO item in configurationItems)
             {
                 if (allConfigurationItems.Any(m => m.ProjectID == item.ProjectID && m.NamespaceID == item.NamespaceID && m.Key == item.Key)) continue;
@@ -54,15 +58,16 @@ namespace RC.EnvironmentServer.IntegrationEventHandlers
                 target.ID = Guid.NewGuid();
                 _unitOfWork.RegisterAdd(target);
             }
+            _unitOfWork.Commit();
         }
         /// <summary>
         /// 替换项
         /// </summary>
         /// <param name="configurationItems"></param>
         /// <returns></returns>
-        private async Task ReplaceItemsAsync(List<ConfigurationItemListDTO> configurationItems)
+        private void ReplaceItems(List<ConfigurationItemListDTO> configurationItems)
         {
-            List<ConfigurationItem> allConfigurationItems = await _configurationItemRepository.GetAllInfoFromCacheAsync();
+            List<ConfigurationItem> allConfigurationItems = _configurationItemRepository.Find(m => true);
             foreach (ConfigurationItemListDTO item in configurationItems)
             {
                 ConfigurationItem? target = allConfigurationItems.FirstOrDefault(m => m.ProjectID == item.ProjectID && m.NamespaceID == item.NamespaceID && m.Key == item.Key);
@@ -70,6 +75,20 @@ namespace RC.EnvironmentServer.IntegrationEventHandlers
                 _mapper.Map(item, target);
                 _unitOfWork.RegisterEdit(target);
             }
+            _unitOfWork.Commit();
+        }
+        /// <summary>
+        /// 清空项
+        /// </summary>
+        /// <returns></returns>
+        private void ClearItems()
+        {
+            List<ConfigurationItem> allConfigurationItems = _configurationItemRepository.Find(m => true);
+            foreach (ConfigurationItem item in allConfigurationItems)
+            {
+                _unitOfWork.RegisterDelete(item);
+            }
+            _unitOfWork.Commit();
         }
     }
 }

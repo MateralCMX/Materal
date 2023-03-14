@@ -8,7 +8,6 @@ namespace RC.EnvironmentServer.Domain
     /// <summary>
     /// 配置项
     /// </summary>
-    [Cache]
     [CodeGeneratorPlug("RC.Core.CodeGenerator", "InitProject")]
     public class ConfigurationItem : BaseDomain, IDomain
     {

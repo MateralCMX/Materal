@@ -53,7 +53,7 @@ namespace RC.EnvironmentServer.ServiceImpl
         }
         public async Task InitAsync()
         {
-            List<ConfigurationItem> configurationItems = await DefaultRepository.GetAllInfoFromCacheAsync();
+            List<ConfigurationItem> configurationItems = await DefaultRepository.FindAsync(m => true);
             List<ConfigurationItem> removeItems = new();
             Guid[] hastIDs;
             Guid[] removeIDs;
