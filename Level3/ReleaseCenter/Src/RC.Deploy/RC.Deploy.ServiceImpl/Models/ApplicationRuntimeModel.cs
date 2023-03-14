@@ -23,6 +23,11 @@ namespace RC.Deploy.ServiceImpl.Models
         private static readonly ActionBlock<ApplicationTask> _taskQueue;
         private static readonly IHubContext<ConsoleMessageHub, IConsoleMessageHub> _hubContext;
         /// <summary>
+        /// 应用程序处理器
+        /// </summary>
+        private IApplicationHandler _applicationHandler;
+        private ApplicationInfo _applicationInfo;
+        /// <summary>
         /// 构造方法
         /// </summary>
         static ApplicationRuntimeModel()
@@ -33,7 +38,15 @@ namespace RC.Deploy.ServiceImpl.Models
         /// <summary>
         /// 应用程序信息
         /// </summary>
-        public ApplicationInfo ApplicationInfo { get; set; }
+        public ApplicationInfo ApplicationInfo
+        {
+            get => _applicationInfo; set
+            {
+                if(ApplicationStatus != ApplicationStatusEnum.Stop) throw new RCException("应用程序尚未停止");
+                _applicationInfo = value;
+                _applicationHandler = _applicationInfo.ApplicationType.GetApplicationHandler();
+            }
+        }
         /// <summary>
         /// 应用程序状态
         /// </summary>
@@ -51,17 +64,13 @@ namespace RC.Deploy.ServiceImpl.Models
         /// </summary>
         public string PublishDirectoryPath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application", ApplicationInfo.RootPath);
         /// <summary>
-        /// 应用程序处理器
-        /// </summary>
-        private readonly IApplicationHandler _applicationHandler;
-        /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="applicationInfo"></param>
         public ApplicationRuntimeModel(ApplicationInfo applicationInfo)
         {
-            ApplicationInfo = applicationInfo;
-            _applicationHandler = ApplicationInfo.ApplicationType.GetApplicationHandler();
+            _applicationInfo = applicationInfo;
+            _applicationHandler = _applicationInfo.ApplicationType.GetApplicationHandler();
         }
         /// <summary>
         /// 执行启动任务
