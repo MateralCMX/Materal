@@ -4,13 +4,13 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<!--<Nullable>enable</Nullable>-->
 		<LangVersion>10.0</LangVersion>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Title>Materal Wechat工具包</Title>
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>0.0.6</Version>
+		<Version>0.0.7</Version>
 		<Description>Materal Wechat工具包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageOutputPath>../../nupkgs</PackageOutputPath>

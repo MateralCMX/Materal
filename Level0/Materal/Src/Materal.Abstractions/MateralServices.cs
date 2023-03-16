@@ -19,7 +19,7 @@ namespace Materal.Abstractions
         /// <exception cref="MateralException"></exception>
         public static T? GetServiceOrDefatult<T>()
         {
-            if (Services == null) throw new MateralException("容器未构建");
+            if (Services == null) return default;
             T? result = Services.GetService<T>();
             return result;
         }
@@ -42,7 +42,7 @@ namespace Materal.Abstractions
         /// <exception cref="MateralException"></exception>
         public static object? GetServiceOrDefatult(Type type)
         {
-            if (Services == null) throw new MateralException("容器未构建");
+            if (Services == null) return null;
             object? result = Services.GetService(type);
             return result;
         }

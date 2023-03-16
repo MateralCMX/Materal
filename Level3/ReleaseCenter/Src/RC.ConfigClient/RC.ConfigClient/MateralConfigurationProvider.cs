@@ -1,4 +1,5 @@
 ﻿using Materal.Abstractions;
+using Materal.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
@@ -15,10 +16,9 @@ namespace RC.ConfigClient
         private readonly int _reloadSecondInterval;
         private readonly TimeSpan _reloadInterval;
         private readonly Timer reloadTimer;
-        private readonly ILogger<MateralConfigurationProvider>? _logger;
+        private ILogger<MateralConfigurationProvider>? _logger;
         public MateralConfigurationProvider(string namespaceName, string configUrl, string projectName, int reloadSecondInterval)
         {
-            _logger = MateralServices.GetServiceOrDefatult<ILogger<MateralConfigurationProvider>>();
             _namespaceName = namespaceName;
             _configUrl = configUrl;
             _projectName = projectName;
@@ -47,7 +47,15 @@ namespace RC.ConfigClient
                 {
                     ex = ex.InnerException;
                 }
-                _logger?.LogWarning(ex, $"重读配置失败{_projectName}->{_namespaceName}");
+                _logger ??= MateralServices.GetServiceOrDefatult<ILogger<MateralConfigurationProvider>>();
+                if(_logger != null)
+                {
+                    _logger?.LogWarning(ex, $"重读配置失败{_projectName}->{_namespaceName}");
+                }
+                else
+                {
+                    ConsoleQueue.WriteLine(ex, ConsoleColor.DarkYellow);
+                }
             }
         }
         private void LoadConfig()
