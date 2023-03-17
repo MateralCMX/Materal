@@ -332,15 +332,18 @@ namespace Materal.Workflow.StepDatas
             Expression rightValue = GetConditionValueExpression(decisionConditionData.RightValue, decisionConditionData.RightValueSource, stepData, mValue, nValue);
             if(leftValue.Type != rightValue.Type)
             {
+                Type tempType;
                 if (leftValue.Type != typeof(object))
                 {
-                    rightValue = SyncType(rightValue, leftValue.Type);
-                    leftValue = SyncType(leftValue, leftValue.Type);
+                    tempType = leftValue.Type;
+                    rightValue = SyncType(rightValue, tempType);
+                    leftValue = SyncType(leftValue, tempType);
                 }
                 else
                 {
-                    rightValue = SyncType(rightValue, rightValue.Type);
-                    leftValue = SyncType(leftValue, rightValue.Type);
+                    tempType = rightValue.Type;
+                    rightValue = SyncType(rightValue, tempType);
+                    leftValue = SyncType(leftValue, tempType);
                 }
             }
             Expression result = decisionConditionData.ComparisonType switch
@@ -363,17 +366,30 @@ namespace Materal.Workflow.StepDatas
         /// <returns></returns>
         private Expression SyncType(Expression expression, Type targetType)
         {
-            Type tempType = targetType;
-            if (tempType == typeof(short) || tempType == typeof(int) || tempType == typeof(long) ||
-                tempType == typeof(ushort) || tempType == typeof(uint) || tempType == typeof(ulong) ||
-                tempType == typeof(float) || tempType == typeof(double))
+            Expression result = expression;
+            if (targetType == typeof(short) || targetType == typeof(int) || targetType == typeof(long) ||
+                targetType == typeof(ushort) || targetType == typeof(uint) || targetType == typeof(ulong) ||
+                targetType == typeof(ushort) || targetType == typeof(uint) || targetType == typeof(ulong) ||
+                targetType == typeof(float) || targetType == typeof(double))
             {
-                tempType = typeof(decimal);
+                MethodInfo? convertToDecimalMethodInfo = GetConvertToDecimalMethodInfo(expression.Type);
+                if(convertToDecimalMethodInfo != null)
+                {
+                    result = Expression.Call(null, convertToDecimalMethodInfo, expression);
+                }
             }
-            if (tempType == expression.Type) return expression;
-            UnaryExpression result = Expression.Convert(expression, tempType);
+            else if(targetType == typeof(string) && expression.Type != targetType)
+            {
+                result = Expression.Call(expression, StepHandlerHelper.ToStringMethodInfo);
+            }
             return result;
         }
+        /// <summary>
+        /// 获得转换为Decimal方法
+        /// </summary>
+        /// <param name="sourceType"></param>
+        /// <returns></returns>
+        public MethodInfo? GetConvertToDecimalMethodInfo(Type sourceType) => typeof(Convert).GetMethod(nameof(Convert.ToDecimal), new Type[] { sourceType });
         /// <summary>
         /// 获得比较值表达式
         /// </summary>

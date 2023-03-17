@@ -31,37 +31,25 @@ namespace Materal.Workflow.Demo
             #region 流程定义
             const string buildDataJson = "{\"Name\":\"Materal\",\"Number\":1,\"Message\":\"个人介绍\"}";
             Dictionary<string, object?> buildData = buildDataJson.JsonToObject<Dictionary<string, object?>>();
-            const string runtimJson = "{\"Name\":\"Materal\",\"Number\":1,\"Message\":\"动态工作流运行[RuntimeData]\",\"Result\":\"\"}";
+            const string runtimJson = "{\"Name\":\"Materal\",\"Number\":1.2,\"Message\":\"动态工作流运行[RuntimeData]\",\"Result\":\"\"}";
             Dictionary<string, object?> runtimeData = runtimJson.JsonToObject<Dictionary<string, object?>>();
             StartStepData stepData = new()
             {
-                Next = new ThenStepData<ConsoleMessageStep>
+                Next = new IfStepData("Name", ValueSourceEnum.RuntimeDataProperty, ComparisonTypeEnum.Equal, "Message", ValueSourceEnum.RuntimeDataProperty)
                 {
-                    Inputs = new()
+                    BuildData = buildData,
+                    StepData = new ThenStepData<ConsoleMessageStep>
                     {
-                        new InputData(nameof(ConsoleMessageStep.Message), "动态工作流运行[0]")
+                        Inputs = new()
+                        {
+                            new InputData(nameof(ConsoleMessageStep.Message), "工作流运行[0]")
+                        }
                     },
-                    Next = new ForEachStepData("张庚你吃了吗？", ValueSourceEnum.Constant)
+                    Next = new ThenStepData<ConsoleMessageStep>
                     {
-                        BuildData = buildData,
-                        StepData = new ThenStepData<ConsoleMessageStep>
+                        Inputs = new()
                         {
-                            Inputs = new()
-                            {
-                                new InputData(nameof(ConsoleMessageStep.Message), "", InputValueSourceEnum.InputData)
-                            }
-                        },
-                        Next = new ThenStepData<ConsoleMessageStep>
-                        {
-                            BuildData = buildData,
-                            Inputs = new()
-                            {
-                                new InputData(nameof(ConsoleMessageStep.Message), "动态工作流运行[2]")
-                                //new InputData(nameof(ConsoleMessageStep.Message), "Message", ValueSourceEnum.RuntimeDataProperty)
-                                //new InputData(nameof(ConsoleMessageStep.Message), "Result", ValueSourceEnum.RuntimeDataProperty)
-                                //new InputData(nameof(ConsoleMessageStep.Message), "Message", ValueSourceEnum.BuildDataProperty)
-                                //new InputData(nameof(ConsoleMessageStep.Message), "Message", ValueSourceEnum.InputData)
-                            }
+                            new InputData(nameof(ConsoleMessageStep.Message), "工作流运行[1]")
                         }
                     }
                 }

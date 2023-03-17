@@ -16,6 +16,10 @@ namespace Materal.Workflow.StepDatas
         /// 运行时数据索引器信息
         /// </summary>
         public static PropertyInfo RuntimeDataIndexerPropertyInfo { get; }
+        /// <summary>
+        /// ToString方法
+        /// </summary>
+        public static MethodInfo ToStringMethodInfo { get; } = typeof(object).GetMethod(nameof(object.ToString));
         static StepHandlerHelper()
         {
             RuntimeDataIndexerPropertyInfo = RuntimeDataType.GetProperty("Item");

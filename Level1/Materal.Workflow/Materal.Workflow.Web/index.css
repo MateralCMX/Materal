@@ -1,0 +1,37 @@
+.Steps {
+    position: absolute;
+    width: 175px;
+    height: 100%;
+    overflow: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    height: 1;
+}
+
+.Steps>.Step {
+    margin: 10px auto 0;
+}
+
+
+.Canvas {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 175px;
+    right: 300px;
+    background-color: #F7F7F7;
+}
+
+.Canvas>.Step {
+    position: absolute;
+}
+
+.Settings {
+    position: absolute;
+    width: 300px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: darkgreen;
+}

@@ -1,0 +1,14 @@
+#canvas {
+  padding: 20px;
+  width: 80%;
+  height: 200px;
+  border: 1px solid gray;
+  position: relative;
+}
+
+.item {
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  border: 1px solid blue;
+}

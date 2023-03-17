@@ -8,6 +8,9 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.Utils" Version="*" />
-		<PackageReference Include="WorkflowCore" Version="3.8.1" />
+		<!--<PackageReference Include="WorkflowCore" Version="3.8.1" />-->
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\..\..\..\达远\工作流\WorkflowCore\workflow-core-master\src\WorkflowCore\WorkflowCore.csproj" />
 	</ItemGroup>
 </Project>

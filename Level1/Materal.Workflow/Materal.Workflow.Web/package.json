@@ -1,0 +1,21 @@
+{
+  "name": "vite-project",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.3",
+    "vite": "^4.1.0"
+  },
+  "dependencies": {
+    "@jsplumb/browser-ui": "^5.13.4",
+    "@jsplumb/connector-bezier": "^5.13.4",
+    "@jsplumb/connector-flowchart": "^5.13.4",
+    "jsplumb": "^2.15.6"
+  }
+}
