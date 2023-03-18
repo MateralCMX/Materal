@@ -10,7 +10,16 @@
 <body>
   <div id="Steps" class="Steps"></div>
   <div id="Canvas" class="Canvas"></div>
-  <div id="Settings" class="Settings"></div>
+  <div id="Settings" class="Settings">
+    <form id="ThenStepData" class="form">
+      <div class="formItem">
+        <label class="inputLabel">名称：</label><input id="Name" class="input" type="text" />
+      </div>
+      <div class="formItem">
+        <label class="inputLabel">描述：</label><input id="Description" class="input" type="text" />
+      </div>
+    </form>
+  </div>
   <script type="module" src="./src/main.ts"></script>
   <script type="module" src="./scripts/CanvasManager.ts"></script>
   <script type="module" src="index.ts"></script>

@@ -33,5 +33,21 @@
     top: 0;
     bottom: 0;
     right: 0;
-    background-color: darkgreen;
+}
+.form{
+    display: block;
+}
+.form>.formItem{
+    padding: 5px 10px;
+    display: block;
+}
+.form>.formItem>.inputLabel{
+    display: inline-block;
+    width: 20%;
+    box-sizing: border-box
+}
+.form>.formItem>.input{
+    display: inline-block;
+    width: 80%;
+    box-sizing: border-box
 }

@@ -3,7 +3,7 @@ export abstract class StepData {
      * 节点数据类型
      */
     private StepDataType: string;
-    get GetStepDataType(): string {
+    get StepDataTypeName(): string {
         return this.StepDataType;
     }
     /**

@@ -1,8 +1,8 @@
 import { BrowserJsPlumbInstance, newInstance, ContainmentType } from "@jsplumb/browser-ui";
 import { DotEndpoint, RectangleEndpoint, EVENT_CONNECTION, EVENT_CONNECTION_DETACHED } from "@jsplumb/core";
-import { FlowchartConnector } from "@jsplumb/connector-flowchart";
 import { StepInfo, AllStepInfos } from "./StepInfo";
 import "../css/Steps.css";
+import { StepData } from "./StepData";
 
 /**
  * 画布管理器
@@ -10,10 +10,10 @@ import "../css/Steps.css";
 export class CanvasManager {
     private instance: BrowserJsPlumbInstance;
     private canvasElement: HTMLElement;
-    private selectedStep: (stepData: StepInfo, element: HTMLElement) => void;
+    private selectedStep: (stepData: StepData, element: HTMLElement,stepInfo: StepInfo) => void;
     private maxStepID: number = 0;
     private stepDatas: any = {};
-    constructor(targetElement: HTMLElement, selectedStep: (stepData: StepInfo, element: HTMLElement) => void) {
+    constructor(targetElement: HTMLElement, selectedStep: (stepData: StepData, element: HTMLElement, stepInfo: StepInfo) => void) {
         this.canvasElement = targetElement;
         this.selectedStep = selectedStep;
         this.instance = newInstance({
@@ -33,29 +33,29 @@ export class CanvasManager {
     /**
      * 创建节点元素
      * @param node 
-     * @param stepData 
+     * @param stepInfo 
      */
-    public CreateStepElement(stepData: StepInfo) {
+    public CreateStepElement(stepInfo: StepInfo) {
         //创建元素
         let node: HTMLElement = document.createElement("div");
         node.id = `step${this.maxStepID++}`;
         node.classList.add("Step");
-        node.classList.add(stepData.ID);
-        node.innerText = stepData.Name;
+        node.classList.add(stepInfo.ID);
+        node.innerText = stepInfo.Name;
         node.addEventListener("click", e => {
             if (this.selectedStep == null) return;
-            this.selectedStep(stepData, e.target as HTMLElement);
+            this.selectedStep(this.stepDatas[node.id], e.target as HTMLElement, stepInfo);
         });
         this.canvasElement.appendChild(node);
         //创建锚点
-        if (stepData.TargetAnchor) {
+        if (stepInfo.TargetAnchor) {
             this.CreateTargetAnchor(node);
         }
-        if (stepData.SourceAnchor) {
+        if (stepInfo.SourceAnchor) {
             this.CreateSourceAnchor(node);
         }
         //绑定数据
-        this.stepDatas[node.id] = stepData.InitStepDataAction();
+        this.stepDatas[node.id] = stepInfo.InitStepDataAction();
     }
     /**
      * 创建目标锚点
@@ -80,7 +80,7 @@ export class CanvasManager {
             connectorOverlays: [
                 { type: "Arrow", options: { location: [0.5, 0.5] } }
             ],
-            connector: FlowchartConnector.type
+            // connector: FlowchartConnector.type
         });
     }
     /**

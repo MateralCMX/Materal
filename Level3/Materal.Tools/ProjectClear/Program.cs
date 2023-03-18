@@ -9,7 +9,7 @@ namespace ProjectClear
         private static List<string> _filesWhiteList = new();
         private static List<string> _dictionaryBlackList = new()
         {
-            ".git"
+            ".git","node_modules"
         };
         public static async Task<int> Main(string[] args)
         {
