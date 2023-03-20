@@ -257,53 +257,6 @@ namespace Materal.BaseCore.ServiceImpl
         {
             await ClearCacheAsync(DefaultRepository);
         }
-        /// <summary>
-        /// 更改附件
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TR"></typeparam>
-        /// <param name="fileIDs"></param>
-        /// <param name="repository"></param>
-        /// <param name="targetName"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        protected async Task ChangeAdjunctsAsync<T, TR>(Guid[] fileIDs, TR repository, string targetName, Guid? id = null)
-            where T : class, IAdjunctDomain, new()
-            where TR : IEFRepository<T, Guid>
-        {
-            Type tType = typeof(T);
-            PropertyInfo propertyInfo = tType.GetProperty(targetName) ?? throw new MateralCoreException("操作附件失败");
-            ICollection<Guid> addIDs;
-            if (id == null)
-            {
-                addIDs = fileIDs;
-            }
-            else
-            {
-                ParameterExpression mParameterExpression = Expression.Parameter(tType, "m");
-                MemberExpression leftExpression = Expression.Property(mParameterExpression, targetName);
-                ConstantExpression rightExpression = Expression.Constant(id);
-                BinaryExpression expression = Expression.Equal(leftExpression, rightExpression);
-                Expression<Func<T, bool>> searchExpression = Expression.Lambda<Func<T, bool>>(expression, mParameterExpression);
-                List<T> allAdjunctInfos = await repository.FindAsync(searchExpression);
-                List<Guid> allAdjunctIDs = allAdjunctInfos.Select(m => m.UploadFileID).ToList();
-                (addIDs, ICollection<Guid> removeIDs) = fileIDs.GetAddArrayAndRemoveArray(allAdjunctIDs);
-                List<T> removeAdjunctInfos = allAdjunctInfos.Where(m => removeIDs.Contains(m.UploadFileID)).ToList();
-                foreach (T adjunct in removeAdjunctInfos)
-                {
-                    UnitOfWork.RegisterDelete(adjunct);
-                }
-            }
-            foreach (Guid adjunctID in addIDs)
-            {
-                T t = new()
-                {
-                    UploadFileID = adjunctID
-                };
-                propertyInfo.SetValue(t, id);
-                UnitOfWork.RegisterAdd(t);
-            }
-        }
     }
     /// <summary>
     /// 基础服务实现

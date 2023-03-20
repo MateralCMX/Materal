@@ -3,8 +3,6 @@ using RC.Core.HttpClient;
 using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
 using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
 using System.ComponentModel.DataAnnotations;
-using Materal.BaseCore.Common.Utils.TreeHelper;
-using Materal.BaseCore.Common.Utils.IndexHelper;
 using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Model;
 

@@ -3,8 +3,6 @@ using RC.Core.HttpClient;
 using RC.Deploy.DataTransmitModel.ApplicationInfo;
 using RC.Deploy.PresentationModel.ApplicationInfo;
 using System.ComponentModel.DataAnnotations;
-using Materal.BaseCore.Common.Utils.TreeHelper;
-using Materal.BaseCore.Common.Utils.IndexHelper;
 using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Model;
 

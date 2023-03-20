@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using RC.Core.EFRepository;
 using RC.EnvironmentServer.Domain;
 using RC.EnvironmentServer.Domain.Repositories;

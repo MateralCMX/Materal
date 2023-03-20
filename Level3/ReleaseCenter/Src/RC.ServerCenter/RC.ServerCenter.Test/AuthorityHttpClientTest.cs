@@ -38,7 +38,7 @@ namespace RC.ServerCenter.Test
             }
             catch (MateralHttpException ex)
             {
-                string message = ex.GetHttpErrorMessage();
+                string message = ex.GetExceptionMessage();
                 Assert.Fail(message);
             }
         }

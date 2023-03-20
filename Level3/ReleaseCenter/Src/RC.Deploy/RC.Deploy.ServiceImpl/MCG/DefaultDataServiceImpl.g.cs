@@ -1,4 +1,5 @@
 using Materal.BaseCore.ServiceImpl;
+using Materal.BaseCore.Services.Models;
 using RC.Deploy.DataTransmitModel.DefaultData;
 using RC.Deploy.Domain;
 using RC.Deploy.Domain.Repositories;

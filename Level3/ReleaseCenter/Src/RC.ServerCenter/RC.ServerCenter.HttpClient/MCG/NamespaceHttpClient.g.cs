@@ -3,8 +3,6 @@ using RC.Core.HttpClient;
 using RC.ServerCenter.DataTransmitModel.Namespace;
 using RC.ServerCenter.PresentationModel.Namespace;
 using System.ComponentModel.DataAnnotations;
-using Materal.BaseCore.Common.Utils.TreeHelper;
-using Materal.BaseCore.Common.Utils.IndexHelper;
 using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Model;
 
