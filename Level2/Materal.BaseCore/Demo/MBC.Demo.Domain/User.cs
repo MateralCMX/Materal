@@ -5,7 +5,7 @@ namespace MBC.Demo.Domain
     /// <summary>
     /// 用户
     /// </summary>
-    public class User : BaseDomain, IDomain, IIndexDomain
+    public class User : BaseDomain, IDomain
     {
         /// <summary>
         /// 姓名
@@ -19,9 +19,5 @@ namespace MBC.Demo.Domain
         /// 密码
         /// </summary>
         public string Password { get; set; } = string.Empty;
-        /// <summary>
-        /// 排序
-        /// </summary>
-        public int Index { get; set; }
     }
 }

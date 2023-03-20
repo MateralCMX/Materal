@@ -11,7 +11,7 @@ namespace Materal.BaseCore.CodeGenerator.Extensions
         /// <returns></returns>
         public static List<string> GetAttributeCodes(this string attributeCode)
         {
-            attributeCode = attributeCode.Substring(1, attributeCode.Length - 2);
+            attributeCode = attributeCode[1..^1];
             string[] temps = attributeCode.Split(',');
             List<string> attributeCodes = new();
             string? tempCode = null;
@@ -67,7 +67,7 @@ namespace Materal.BaseCore.CodeGenerator.Extensions
                         string result = codes[startIndex + 1].Trim();
                         if (result.StartsWith("/// "))
                         {
-                            result = result.Substring(3).Trim();
+                            result = result[3..].Trim();
                         }
                         startIndex -= 1;
                         return result;
@@ -171,8 +171,8 @@ namespace Materal.BaseCore.CodeGenerator.Extensions
                 if (package.Length != 2) continue;
                 if (result.StartsWith(package[0]) && result.EndsWith(package[1]))
                 {
-                    result = result.Substring(package[0].Length);
-                    result = result.Substring(0, result.Length - package[1].Length);
+                    result = result[package[0].Length..];
+                    result = result[..^package[1].Length];
                 }
             }
             return result;

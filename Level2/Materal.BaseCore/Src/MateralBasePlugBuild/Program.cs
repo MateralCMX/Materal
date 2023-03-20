@@ -82,8 +82,7 @@ namespace MateralBasePlugBuild
         {
             DirectoryInfo projectDirectoryInfo = new(projectPath);
             if (!projectDirectoryInfo.Exists) throw new Exception("项目文件夹不存在");
-            FileInfo? csProjectFileInfo = projectDirectoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
-            if (csProjectFileInfo == null) throw new Exception("项目文件不存在");
+            FileInfo? csProjectFileInfo = projectDirectoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj") ?? throw new Exception("项目文件不存在");
             List<FileInfo> csharpFileInfos = GetCShaprCodeFiles(projectDirectoryInfo);
             DateTime lastWriteTime = csharpFileInfos.Max(m => m.LastWriteTime);
             string dllFileName = Path.GetFileNameWithoutExtension(csProjectFileInfo.Name) + ".dll";

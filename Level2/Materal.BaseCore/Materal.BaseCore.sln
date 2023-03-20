@@ -67,7 +67,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPlug", "Test\TestPlug\T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestPlug2", "Test\TestPlug2\TestPlug2.csproj", "{D9C53566-55DE-4E50-A4DF-362E9AF516C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.BaseCore.Test", "Test\Materal.BaseCore.Test\Materal.BaseCore.Test.csproj", "{6554FB16-57E5-4AAF-83F5-ABEEC13BA8CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.Test", "Test\Materal.BaseCore.Test\Materal.BaseCore.Test.csproj", "{6554FB16-57E5-4AAF-83F5-ABEEC13BA8CE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A00067F2-E685-45F7-8508-B11C8DB55E42}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 {
   "ConsulConfig": {
-    "Enable": true,
+    "Enable": false,
     "Url": "http://127.0.0.1:8500",
     "HealthInterval": 30,
     "ReconnectionInterval": 30

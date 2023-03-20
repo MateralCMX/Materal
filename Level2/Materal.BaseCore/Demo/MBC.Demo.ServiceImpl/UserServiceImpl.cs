@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.ServiceImpl;
-using Materal.BaseCore.Services.Models;
 using MBC.Core.Common;
 using MBC.Demo.Common;
 using MBC.Demo.DataTransmitModel.User;
@@ -61,6 +60,5 @@ namespace MBC.Demo.ServiceImpl
                 Name = "管理员"
             });
         }
-        public virtual async Task ExchangeIndexAsync(ExchangeIndexModel model) => await ServiceImplHelper.ExchangeIndexByGroupPropertiesAsync<IUserRepository, User>(model, DefaultRepository, UnitOfWork);
     }
 }

@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace Materal.BaseCore.ServiceImpl
 {
@@ -75,6 +76,30 @@ namespace Materal.BaseCore.ServiceImpl
         /// <exception cref="MateralCoreException"></exception>
         protected virtual async Task<Guid> AddAsync(TDomain domain, TAddModel model)
         {
+            if(domain is IIndexDomain indexDomain)
+            {
+                MethodInfo? getMaxIndexAsyncMethodInfo = DefaultRepository.GetType().GetMethod("GetMaxIndexAsync");
+                if(getMaxIndexAsyncMethodInfo != null)
+                {
+                    ParameterInfo[] parameterInfos = getMaxIndexAsyncMethodInfo.GetParameters();
+                    object?[] args = new object?[parameterInfos.Length];
+                    Type domainType = domain.GetType();
+                    for (int i = 0; i < parameterInfos.Length; i++)
+                    {
+                        string? name = parameterInfos[i].Name;
+                        if (name == null || string.IsNullOrWhiteSpace(name)) continue;
+                        name = name.FirstUpper();
+                        PropertyInfo? domainPropertyInfo = domainType.GetProperty(name);
+                        if (domainPropertyInfo == null) continue;
+                        args[i] = domainPropertyInfo.GetValue(domain);
+                    }
+                    object? maxIndexResult = getMaxIndexAsyncMethodInfo.Invoke(DefaultRepository, args);
+                    if(maxIndexResult != null && maxIndexResult is Task<int> taskMaxIndexResult)
+                    {
+                        indexDomain.Index = await taskMaxIndexResult + 1;
+                    }
+                }
+            }
             UnitOfWork.RegisterAdd(domain);
             await UnitOfWork.CommitAsync();
             await ClearCacheAsync();
@@ -137,8 +162,8 @@ namespace Materal.BaseCore.ServiceImpl
         /// <exception cref="MateralCoreException"></exception>
         public virtual async Task<TDTO> GetInfoAsync([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            TDomain domainFromDB = await DefaultRepository.FirstOrDefaultAsync(id);
-            return domainFromDB == null ? throw new MateralCoreException("数据不存在") : await GetInfoAsync(domainFromDB);
+            TDomain domainFromDB = await DefaultRepository.FirstOrDefaultAsync(id) ?? throw new MateralCoreException("数据不存在");
+            return await GetInfoAsync(domainFromDB);
         }
         /// <summary>
         /// 获得信息

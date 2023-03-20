@@ -73,8 +73,7 @@ namespace MateralBaseCoreVSIX.Models
             if (_plugTempDirectoryInfo == null) return;
             #region 获取插件项目路径
             string projectPath = attributeModel.AttributeArguments[0].Value.RemovePackag();
-            ProjectModel codeGeneratorProjectModel = OtherProjects.FirstOrDefault(m => m.Namespace == projectPath);
-            if (codeGeneratorProjectModel == null) throw new VSIXException("插件项目未引用");
+            ProjectModel codeGeneratorProjectModel = OtherProjects.FirstOrDefault(m => m.Namespace == projectPath) ?? throw new VSIXException("插件项目未引用");
             projectPath = codeGeneratorProjectModel.RootPath;
             #endregion
             if (_plugProjectModels == null)

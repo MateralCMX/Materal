@@ -108,12 +108,12 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 Name = codes[startIndex];
                 int classIndex = Name.IndexOf(classTag);
                 if (classIndex <= 0) throw new CodeGeneratorException("模型不是类");
-                Name = Name.Substring(classIndex + classTag.Length);
+                Name = Name[(classIndex + classTag.Length)..];
                 int domainIndex = Name.IndexOf(" : BaseDomain, IDomain");
                 if (domainIndex <= 0) throw new CodeGeneratorException("模型不是Domain");
                 int indexDomainIndex = Name.IndexOf(", IIndexDomain");
                 IsIndexDomain = indexDomainIndex > 0;
-                Name = Name.Substring(0, domainIndex);
+                Name = Name[..domainIndex];
                 #endregion
                 startIndex -= 1;
                 #region 解析特性
@@ -164,7 +164,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 {
                     nameSpaceCode = codes[--startIndex].Trim();
                 }
-                Namespace = nameSpaceCode.Substring("namespace ".Length);
+                Namespace = nameSpaceCode["namespace ".Length..];
                 #endregion
                 #region 解析引用
                 for (int i = 0; i < startIndex; i++)
@@ -617,6 +617,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         {
             if (!GeneratorCode) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"using Microsoft.EntityFrameworkCore;");
             codeContent.AppendLine($"using {project.PrefixName}.Core.EFRepository;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain.Repositories;");
@@ -642,7 +643,6 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// 获得所有缓存名称");
                 codeContent.AppendLine($"        /// </summary>");
                 codeContent.AppendLine($"        protected override string GetAllCacheName() => \"All{Name}\";");
-                codeContent.AppendLine($"    }}");
             }
             else
             {
@@ -652,8 +652,40 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// 构造方法");
                 codeContent.AppendLine($"        /// </summary>");
                 codeContent.AppendLine($"        public {_repositoryImplName}({project.DBContextName} dbContext) : base(dbContext) {{ }}");
-                codeContent.AppendLine($"    }}");
             }
+            if (IsIndexDomain)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 获取最大位序");
+                codeContent.AppendLine($"        /// </summary>");
+                List<DomainPropertyModel> indexGourpProperties = Properties.Where(m => m.IsIndexGourpProperty).ToList();
+                List<string> args = new();
+                List<string> Lambdas = new();
+                foreach (DomainPropertyModel indexGourpProperty in indexGourpProperties)
+                {
+                    string name = indexGourpProperty.Name.FirstLower();
+                    codeContent.AppendLine($"        /// <param name=\"{name}\"></param>");
+                    args.Add($"{indexGourpProperty.PredefinedType} {name}");
+                    Lambdas.Add($"m.{indexGourpProperty.Name} == {name}");
+                }
+                string lambda = string.Join(" && ", Lambdas);
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        public async Task<int> GetMaxIndexAsync({string.Join(", ", args)})");
+                codeContent.AppendLine($"        {{");
+                if(indexGourpProperties.Count > 0)
+                {
+                    codeContent.AppendLine($"            if (!DBSet.Any(m => {lambda})) return -1;");
+                    codeContent.AppendLine($"            int result = await DBSet.Where(m => {lambda}).MaxAsync(m => m.Index);");
+                }
+                else
+                {
+                    codeContent.AppendLine($"            if (!DBSet.Any()) return -1;");
+                    codeContent.AppendLine($"            int result = await DBSet.MaxAsync(m => m.Index);");
+                }
+                codeContent.AppendLine($"            return result;");
+                codeContent.AppendLine($"        }}");
+            }
+            codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             string filePath = Path.Combine(project.GeneratorRootPath, "RepositoryImpl");
             codeContent.SaveFile(filePath, $"{_repositoryImplName}.g.cs");
@@ -763,12 +795,30 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"    /// </summary>");
             if (!UseCache)
             {
-                codeContent.AppendLine($"    public partial interface {_iRepositoryName} : IEFRepository<{Name}, Guid> {{ }}");
+                codeContent.AppendLine($"    public partial interface {_iRepositoryName} : IEFRepository<{Name}, Guid>");
             }
             else
             {
-                codeContent.AppendLine($"    public partial interface {_iRepositoryName} : ICacheEFRepository<{Name}, Guid> {{ }}");
+                codeContent.AppendLine($"    public partial interface {_iRepositoryName} : ICacheEFRepository<{Name}, Guid>");
             }
+            codeContent.AppendLine($"    {{");
+            if (IsIndexDomain)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 获取最大位序");
+                codeContent.AppendLine($"        /// </summary>");
+                List<DomainPropertyModel> indexGourpProperties = Properties.Where(m => m.IsIndexGourpProperty).ToList();
+                List<string> args = new();
+                foreach (DomainPropertyModel indexGourpProperty in indexGourpProperties)
+                {
+                    string name = indexGourpProperty.Name.FirstLower();
+                    codeContent.AppendLine($"        /// <param name=\"{name}\"></param>");
+                    args.Add($"{indexGourpProperty.PredefinedType} {name}");
+                }
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        Task<int> GetMaxIndexAsync({string.Join(", ", args)});");
+            }
+            codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             string filePath = Path.Combine(project.GeneratorRootPath, "Repositories");
             codeContent.SaveFile(filePath, $"{_iRepositoryName}.g.cs");

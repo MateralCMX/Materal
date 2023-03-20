@@ -16,6 +16,10 @@ namespace MBC.Demo.EFRepository
         /// </summary>
         public DbSet<User> User { get; set; }
         /// <summary>
+        /// 菜单权限
+        /// </summary>
+        public DbSet<MenuAuthority> MenuAuthority { get; set; }
+        /// <summary>
         /// 配置模型
         /// </summary>
         /// <param name="modelBuilder"></param>

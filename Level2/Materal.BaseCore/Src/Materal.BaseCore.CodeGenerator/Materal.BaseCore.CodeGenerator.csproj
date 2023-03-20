@@ -16,6 +16,7 @@
 		<UserSecretsId>bbb98a4b-6482-4285-a749-b45682f57b88</UserSecretsId>
 	</PropertyGroup>
 	<ItemGroup>
+	  <PackageReference Include="Materal.Extensions" Version="*" />
 	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="*" />
 	  <PackageReference Include="System.ComponentModel.Annotations" Version="*" />
 	</ItemGroup>

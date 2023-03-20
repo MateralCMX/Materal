@@ -88,17 +88,5 @@ namespace MBC.Demo.WebAPI.Controllers
             await DefaultService.ChangePasswordAsync(model);
             return ResultModel.Success("修改成功");
         }
-        /// <summary>
-        /// 交换位序
-        /// </summary>
-        /// <param name="requestModel"></param>
-        /// <returns></returns>
-        [HttpPut]
-        public async Task<ResultModel> ExchangeIndexAsync(ExchangeIndexRequestModel requestModel)
-        {
-            ExchangeIndexModel model = Mapper.Map<ExchangeIndexModel>(requestModel);
-            await DefaultService.ExchangeIndexAsync(model);
-            return ResultModel.Success("交换位序成功");
-        }
     }
 }
