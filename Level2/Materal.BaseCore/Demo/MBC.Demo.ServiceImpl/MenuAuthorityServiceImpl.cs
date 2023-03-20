@@ -18,6 +18,13 @@ namespace MBC.Demo.ServiceImpl
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task ExchangeIndexAsync(ExchangeIndexModel model) => await ServiceImplHelper.ExchangeIndexByGroupPropertiesAsync<IMenuAuthorityRepository, MenuAuthority>(model, DefaultRepository, UnitOfWork, nameof(MenuAuthority.ParentID), nameof(MenuAuthority.SubSystemID));
+        public async Task ExchangeIndexAsync(ExchangeIndexModel model) 
+            => await ServiceImplHelper.ExchangeIndexAndExchangeParentByGroupPropertiesAsync<IMenuAuthorityRepository, MenuAuthority>(model, DefaultRepository, UnitOfWork, new[] { nameof(MenuAuthority.SubSystemID) }, new[] { nameof(MenuAuthority.SubSystemID) });
+        /// <summary>
+        /// 更改父级
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task ExchangeParentAsync(ExchangeParentModel model) => await ServiceImplHelper.ExchangeParentByGroupPropertiesAsync<IMenuAuthorityRepository, MenuAuthority>(model, DefaultRepository, UnitOfWork, nameof(MenuAuthority.SubSystemID));
     }
 }

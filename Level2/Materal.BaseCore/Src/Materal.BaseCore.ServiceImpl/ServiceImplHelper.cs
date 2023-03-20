@@ -27,11 +27,31 @@ namespace Materal.BaseCore.ServiceImpl
         /// <exception cref="ArgumentException"></exception>
         public static async Task ExchangeIndexByGroupPropertiesAsync<TRepository, TDomain>(ExchangeIndexModel model, TRepository repository, IMateralCoreUnitOfWork unitOfWork, params string[] groupProperties)
             where TRepository : IEFRepository<TDomain, Guid>
+            where TDomain : class, IIndexDomain, new() => await ExchangeIndexByGroupPropertiesAsync<TRepository, TDomain>(model, repository, unitOfWork, null, groupProperties);
+        /// <summary>
+        ///根据分组交换位序
+        /// </summary>
+        /// <typeparam name="TRepository"></typeparam>
+        /// <typeparam name="TDomain"></typeparam>
+        /// <param name="model"></param>
+        /// <param name="repository"></param>
+        /// <param name="unitOfWork"></param>
+        /// <param name="groupProperties"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralCoreException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        private static async Task ExchangeIndexByGroupPropertiesAsync<TRepository, TDomain>(ExchangeIndexModel model, TRepository repository, IMateralCoreUnitOfWork unitOfWork, Action<TDomain, TDomain>? action, params string[] groupProperties)
+            where TRepository : IEFRepository<TDomain, Guid>
             where TDomain : class, IIndexDomain, new()
         {
             if (model.SourceID == model.TargetID) throw new MateralCoreException("不能以自己为排序对象");
             var domains = await repository.FindAsync(m => m.ID == model.SourceID || m.ID == model.TargetID);
             if (domains.Count != 2) throw new MateralCoreException("数据不存在");
+            if(action != null)
+            {
+                action.Invoke(domains[0], domains[1]);
+                domains = await repository.FindAsync(m => m.ID == model.SourceID || m.ID == model.TargetID);
+            }
             int minIndex = domains.Min(m => m.Index);
             int maxIndex = domains.Max(m => m.Index);
             Type domainType = typeof(TDomain);
@@ -66,6 +86,77 @@ namespace Materal.BaseCore.ServiceImpl
             foreach (var item in domains)
             {
                 unitOfWork.RegisterEdit(item);
+            }
+            await unitOfWork.CommitAsync();
+        }
+        /// <summary>
+        ///根据分组交换位序
+        /// </summary>
+        /// <typeparam name="TRepository"></typeparam>
+        /// <typeparam name="TDomain"></typeparam>
+        /// <param name="model"></param>
+        /// <param name="repository"></param>
+        /// <param name="unitOfWork"></param>
+        /// <param name="indexGroupProperties"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralCoreException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public static async Task ExchangeIndexAndExchangeParentByGroupPropertiesAsync<TRepository, TDomain>(ExchangeIndexModel model, TRepository repository, IMateralCoreUnitOfWork unitOfWork, string[] indexGroupProperties, string[] treeGroupProperties)
+            where TRepository : IEFRepository<TDomain, Guid>
+            where TDomain : class, IIndexDomain, ITreeDomain, new()
+        {
+            await ExchangeIndexByGroupPropertiesAsync<TRepository, TDomain>(model, repository, unitOfWork, async (domain1, domain2) =>
+            {
+                if (domain1.ParentID == domain2.ParentID) return;
+                await ExchangeParentByGroupPropertiesAsync<TRepository, TDomain>(new ExchangeParentModel
+                {
+                    SourceID = model.SourceID,
+                    TargetID = model.SourceID == domain1.ID ? domain2.ParentID : domain1.ParentID,
+                }, repository, unitOfWork, treeGroupProperties);
+            }, indexGroupProperties);
+        }
+
+        /// <summary>
+        /// 更改父级
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="XMJException"></exception>
+        public static async Task ExchangeParentByGroupPropertiesAsync<TRepository, TDomain>(ExchangeParentModel model, TRepository repository, IMateralCoreUnitOfWork unitOfWork, params string[] groupProperties)
+            where TRepository : IEFRepository<TDomain, Guid>
+            where TDomain : class, ITreeDomain, new()
+        {
+            if (model.SourceID == model.TargetID) throw new MateralCoreException("不能以自己为父级");
+            if (!model.TargetID.HasValue || model.TargetID.Value == Guid.Empty)
+            {
+                TDomain domain = await repository.FirstOrDefaultAsync(m => m.ID == model.SourceID) ?? throw new MateralCoreException("菜单权限不存在");
+                domain.ParentID = null;
+                unitOfWork.RegisterEdit(domain);
+            }
+            else
+            {
+                List<TDomain> domains = await repository.FindAsync(m => m.ID == model.SourceID || m.ID == model.TargetID);
+                if (domains.Count != 2) throw new MateralCoreException("菜单权限不存在");
+                Type domainType = typeof(TDomain);
+                foreach (string groupProperty in groupProperties)
+                {
+                    PropertyInfo propertyInfo = domainType.GetProperty(groupProperty) ?? throw new ArgumentException($"属性名称{groupProperty}不存在");
+                    object? value1 = propertyInfo.GetValue(domains[0]);
+                    object? value2 = propertyInfo.GetValue(domains[1]);
+                    if (value1 == null || value2 == null)
+                    {
+                        if (value1 != null || value2 != null) throw new MateralCoreException("不是同一组数据不能更改父级");
+                    }
+                    else
+                    {
+                        if (!value1.Equals(value2)) throw new MateralCoreException("不是同一组数据不能更改父级");
+                    }
+                }
+                TDomain domain = domains.First(m => m.ID == model.SourceID);
+                TDomain targetDomain = domains.First(m => m.ID == model.TargetID);
+                domain.ParentID = targetDomain.ID;
+                if(targetDomain.ParentID == domain.ID) throw new MateralCoreException("父级循环引用");
+                unitOfWork.RegisterEdit(domain);
             }
             await unitOfWork.CommitAsync();
         }

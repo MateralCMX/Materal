@@ -9,6 +9,7 @@ namespace XMJ.Authority.WebAPI.AutoMapperProfile
         public MateralBaseCoreProfile()
         {
             CreateMap<ExchangeIndexRequestModel, ExchangeIndexModel>();
+            CreateMap<ExchangeParentRequestModel, ExchangeParentModel>();
             CreateMap<TimeQuantumAndOperationUserIDRequestModel, TimeQuantumAndOperationUserIDModel>();
             CreateMap<TimeQuantumRequestModel, TimeQuantumModel>();
             CreateMap<TimeQuantumRequestPageModel, TimeQuantumPageModel>();

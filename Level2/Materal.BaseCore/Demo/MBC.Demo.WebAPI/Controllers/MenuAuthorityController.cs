@@ -27,5 +27,17 @@ namespace MBC.Demo.WebAPI.Controllers
             await DefaultService.ExchangeIndexAsync(model);
             return ResultModel.Success("交换位序成功");
         }
+        /// <summary>
+        /// 更改父级
+        /// </summary>
+        /// <param name="requestModel">请求模型</param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<ResultModel> ExchangeParentAsync(ExchangeParentRequestModel requestModel)
+        {
+            ExchangeParentModel model = Mapper.Map<ExchangeParentModel>(requestModel);
+            await DefaultService.ExchangeParentAsync(model);
+            return ResultModel.Success("已更改父级");
+        }
     }
 }

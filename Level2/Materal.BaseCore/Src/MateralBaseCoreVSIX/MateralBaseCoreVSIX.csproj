@@ -105,6 +105,26 @@
     <EmbeddedResource Include="Tools\Microsoft.CodeAnalysis.dll" />
     <EmbeddedResource Include="Tools\Newtonsoft.Json.dll" />
     <EmbeddedResource Include="Tools\System.Reflection.Metadata.dll" />
+    <EmbeddedResource Include="Tools\IndexRange.dll" />
+    <EmbeddedResource Include="Tools\Materal.Abstractions.dll" />
+    <EmbeddedResource Include="Tools\Materal.Extensions.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.Configuration.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.Configuration.Json.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.DependencyInjection.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.FileProviders.Physical.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.FileSystemGlobbing.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.Primitives.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Win32.SystemEvents.dll" />
+    <EmbeddedResource Include="Tools\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll" />
+    <EmbeddedResource Include="Tools\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll" />
+    <EmbeddedResource Include="Tools\runtimes\win\lib\net6.0\System.Drawing.Common.dll" />
+    <EmbeddedResource Include="Tools\System.Drawing.Common.dll" />
+    <EmbeddedResource Include="Tools\System.Text.Encodings.Web.dll" />
+    <EmbeddedResource Include="Tools\System.Text.Json.dll" />
     <Content Include="尘歌壶.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

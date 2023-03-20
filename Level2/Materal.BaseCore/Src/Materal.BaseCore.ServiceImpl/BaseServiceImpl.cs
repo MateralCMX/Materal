@@ -206,7 +206,17 @@ namespace Materal.BaseCore.ServiceImpl
         /// <returns></returns>
         protected virtual async Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<TDomain, bool>> expression, TQueryModel model, Expression<Func<TDomain, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
         {
-            orderExpression ??= m => m.CreateTime;
+            if(orderExpression == null)
+            {
+                if(typeof(TDomain).GetInterfaces().Contains(typeof(IIndexDomain)))
+                {
+                    orderExpression = m => ((IIndexDomain)m).Index;
+                }
+                else
+                {
+                    orderExpression = m => m.CreateTime;
+                }
+            }
             (List<TDomain> data, PageModel pageModel) = await DefaultRepository.PagingAsync(expression, orderExpression, sortOrder, model);
             List<TListDTO> result = Mapper.Map<List<TListDTO>>(data);
             return await GetListAsync(result, pageModel, model);
