@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Materal.Abstractions;
 using Materal.BaseCore.Common;
-using Materal.BaseCore.Common.Utils;
 using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.Domain;
 using Materal.BaseCore.EFRepository;
@@ -12,7 +11,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace Materal.BaseCore.ServiceImpl
 {
@@ -334,7 +332,17 @@ namespace Materal.BaseCore.ServiceImpl
         /// <returns></returns>
         protected virtual async Task<(List<TListDTO> data, PageModel pageInfo)> GetViewListAsync(Expression<Func<TViewDomain, bool>> expression, TQueryModel model, Expression<Func<TViewDomain, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
         {
-            orderExpression ??= m => m.CreateTime;
+            if (orderExpression == null)
+            {
+                if (typeof(TDomain).GetInterfaces().Contains(typeof(IIndexDomain)))
+                {
+                    orderExpression = m => ((IIndexDomain)m).Index;
+                }
+                else
+                {
+                    orderExpression = m => m.CreateTime;
+                }
+            }
             (List<TViewDomain> data, PageModel pageModel) = await DefaultViewRepository.PagingAsync(expression, orderExpression, sortOrder, model);
             List<TListDTO> result = Mapper.Map<List<TListDTO>>(data);
             return await GetListAsync(result, pageModel, model);
