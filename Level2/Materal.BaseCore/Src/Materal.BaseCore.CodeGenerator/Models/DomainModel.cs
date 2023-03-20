@@ -33,16 +33,50 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// 属性
         /// </summary>
         public List<DomainPropertyModel> Properties { get; set; } = new();
-        private readonly bool _useCache;
-        private readonly bool _generatorCode;
-        private readonly bool _generatorQueryTargetService;
-        private readonly bool _generatorService;
-        private readonly bool _generatorQueryModel;
-        private readonly bool _generatorWebAPI;
-        private readonly bool _generatorServiceWebAPI;
-        private readonly bool _generatorDefaultService;
-        private readonly bool _extendQueryGenerator;
-        private readonly bool _isTable;
+        /// <summary>
+        /// 使用缓存
+        /// </summary>
+        public bool UseCache { get; set; }
+        /// <summary>
+        /// 生成代码
+        /// </summary>
+        public bool GeneratorCode { get; set; }
+        /// <summary>
+        /// 生成目标查询服务
+        /// </summary>
+        public bool GeneratorQueryTargetService { get; set; }
+        /// <summary>
+        /// 生成服务
+        /// </summary>
+        public bool GeneratorService { get; set; }
+        /// <summary>
+        /// 生成查询模型
+        /// </summary>
+        public bool GeneratorQueryModel { get; set; }
+        /// <summary>
+        /// 生成WebAPI
+        /// </summary>
+        public bool GeneratorWebAPI { get; set; }
+        /// <summary>
+        /// 生成服务WebAPI
+        /// </summary>
+        public bool GeneratorServiceWebAPI { get; set; }
+        /// <summary>
+        /// 生成默认服务
+        /// </summary>
+        public bool GeneratorDefaultService { get; set; }
+        /// <summary>
+        /// 生成扩展查询
+        /// </summary>
+        public bool GeneratorExtendQuery { get; set; }
+        /// <summary>
+        /// 是表
+        /// </summary>
+        public bool IsTable { get; set; }
+        /// <summary>
+        /// 是IndexDomain
+        /// </summary>
+        public bool IsIndexDomain { get; set; }
         #region 文件名称
         private readonly string _entityConfigName = string.Empty;
         private readonly string _iRepositoryName = string.Empty;
@@ -77,6 +111,8 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 Name = Name.Substring(classIndex + classTag.Length);
                 int domainIndex = Name.IndexOf(" : BaseDomain, IDomain");
                 if (domainIndex <= 0) throw new CodeGeneratorException("模型不是Domain");
+                int indexDomainIndex = Name.IndexOf(", IIndexDomain");
+                IsIndexDomain = indexDomainIndex > 0;
                 Name = Name.Substring(0, domainIndex);
                 #endregion
                 startIndex -= 1;
@@ -90,35 +126,34 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     List<string> attributeCodes = attributeCode.GetAttributeCodes();
                     Attributes.AddRange(attributeCodes.Select(attributeName => new AttributeModel(attributeName.Trim())));
                 } while (true);
-                _useCache = Attributes.HasAttribute<CacheAttribute>();
-                AttributeModel queryTragetGeneratorAttribute = Attributes.GetAttribute<QueryTragetGeneratorAttribute>();
-                if (queryTragetGeneratorAttribute != null)
+                UseCache = Attributes.HasAttribute<CacheAttribute>();
+                AttributeModel queryTargetGeneratorAttribute = Attributes.GetAttribute<QueryTargetGeneratorAttribute>();
+                if (queryTargetGeneratorAttribute != null)
                 {
-                    _generatorQueryTargetService = true;
-                    AttributeArgumentModel target = queryTragetGeneratorAttribute.AttributeArguments.First(m => string.IsNullOrWhiteSpace(m.Target));
+                    GeneratorQueryTargetService = true;
+                    AttributeArgumentModel target = queryTargetGeneratorAttribute.AttributeArguments.First(m => string.IsNullOrWhiteSpace(m.Target));
                     _queryTargetName = target.Value;
                     _iQueryTargetRepositoryName = $"I{_queryTargetName}Repository";
                 }
                 else
                 {
-                    _generatorQueryTargetService = false;
+                    GeneratorQueryTargetService = false;
                     _queryTargetName = null;
                     _iQueryTargetRepositoryName = null;
                 }
-                _generatorCode = !Attributes.HasAttribute<NotGeneratorAttribute>();
-                _generatorQueryTargetService = Attributes.HasAttribute<QueryTragetGeneratorAttribute>();
-                _generatorService = !Attributes.HasAttribute<NotServiceGeneratorAttribute>();
-                _generatorDefaultService = !Attributes.HasAttribute<NotDefaultServiceGeneratorAttribute>();
-                _generatorQueryModel = !Attributes.HasAttribute<NotServiceAndQueryGeneratorAttribute>();
-                if (!_generatorQueryModel)
+                GeneratorCode = !Attributes.HasAttribute<NotGeneratorAttribute>();
+                GeneratorService = !Attributes.HasAttribute<NotServiceGeneratorAttribute>();
+                GeneratorDefaultService = !Attributes.HasAttribute<NotDefaultServiceGeneratorAttribute>();
+                GeneratorQueryModel = !Attributes.HasAttribute<NotServiceAndQueryGeneratorAttribute>();
+                if (!GeneratorQueryModel)
                 {
-                    _generatorService = false;
-                    _generatorDefaultService = false;
+                    GeneratorService = false;
+                    GeneratorDefaultService = false;
                 }
-                _generatorWebAPI = !Attributes.HasAttribute<NotWebAPIGeneratorAttribute>();
-                _generatorServiceWebAPI = !Attributes.HasAttribute<NotWebAPIServiceGeneratorAttribute>();
-                _extendQueryGenerator = !Attributes.HasAttribute<NotExtendQueryGeneratorAttribute>();
-                _isTable = !Attributes.HasAttribute<NotTableAttribute>();
+                GeneratorWebAPI = !Attributes.HasAttribute<NotWebAPIGeneratorAttribute>();
+                GeneratorServiceWebAPI = !Attributes.HasAttribute<NotWebAPIServiceGeneratorAttribute>();
+                GeneratorExtendQuery = !Attributes.HasAttribute<NotExtendQueryGeneratorAttribute>();
+                IsTable = !Attributes.HasAttribute<NotTableAttribute>();
                 #endregion
                 #region 解析注释
                 Annotation = codes.GetAnnotation(ref startIndex);
@@ -200,9 +235,13 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateWebAPIControllerFile(ProjectModel project)
         {
-            if (!_generatorCode || !_generatorService || !_generatorWebAPI) return;
+            if (!GeneratorCode || !GeneratorService || !GeneratorWebAPI) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"using Materal.BaseCore.PresentationModel;");
+            codeContent.AppendLine($"using Materal.BaseCore.Services.Models;");
             codeContent.AppendLine($"using Materal.BaseCore.WebAPI.Controllers;");
+            codeContent.AppendLine($"using Materal.Utils.Model;");
+            codeContent.AppendLine($"using Microsoft.AspNetCore.Mvc;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.PresentationModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Services;");
@@ -213,7 +252,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {Annotation}控制器");
             codeContent.AppendLine($"    /// </summary>");
-            if (_generatorServiceWebAPI && _generatorDefaultService)
+            if (GeneratorServiceWebAPI && GeneratorDefaultService)
             {
                 codeContent.AppendLine($"    public partial class {_controllerName} : MateralCoreWebAPIServiceControllerBase<{_addRequestModelName}, {_editRequestModelName}, {_queryRequestModelName}, {_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}, {_iServiceName}>");
             }
@@ -222,6 +261,21 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"    public partial class {_controllerName} : MateralCoreWebAPIControllerBase");
             }
             codeContent.AppendLine($"    {{");
+            if (IsIndexDomain)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 交换位序");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"requestModel\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [HttpPut]");
+                codeContent.AppendLine($"        public async Task<ResultModel> ExchangeIndexAsync(ExchangeIndexRequestModel requestModel)");
+                codeContent.AppendLine($"        {{");
+                codeContent.AppendLine($"            ExchangeIndexModel model = Mapper.Map<ExchangeIndexModel>(requestModel);");
+                codeContent.AppendLine($"            await DefaultService.ExchangeIndexAsync(model);");
+                codeContent.AppendLine($"            return ResultModel.Success(\"交换位序成功\");");
+                codeContent.AppendLine($"        }}");
+            }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             string filePath = Path.Combine(project.GeneratorRootPath, "Controllers");
@@ -232,16 +286,16 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateAutoMapperProfileFile(ProjectModel project)
         {
-            if (!_generatorCode) return;
-            if (!_generatorService && !_generatorQueryModel) return;
+            if (!GeneratorCode) return;
+            if (!GeneratorService && !GeneratorQueryModel) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using AutoMapper;");
-            if (_generatorService && _generatorWebAPI || _generatorQueryModel)
+            if (GeneratorService && GeneratorWebAPI || GeneratorQueryModel)
             {
                 codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.PresentationModel.{Name};");
             }
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Services.Models.{Name};");
-            if (_generatorQueryModel)
+            if (GeneratorQueryModel)
             {
                 codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
             }
@@ -259,19 +313,19 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"        /// </summary>");
             codeContent.AppendLine($"        protected virtual void Init()");
             codeContent.AppendLine($"        {{");
-            if (_generatorService)
+            if (GeneratorService)
             {
                 codeContent.AppendLine($"            CreateMap<{_addModelName}, {Name}>();");
                 codeContent.AppendLine($"            CreateMap<{_editModelName}, {Name}>();");
-                if (_generatorWebAPI)
+                if (GeneratorWebAPI)
                 {
                     codeContent.AppendLine($"            CreateMap<{_addRequestModelName}, {_addModelName}>();");
                     codeContent.AppendLine($"            CreateMap<{_editRequestModelName}, {_editModelName}>();");
                 }
             }
-            if (_generatorQueryModel)
+            if (GeneratorQueryModel)
             {
-                if (_generatorQueryTargetService)
+                if (GeneratorQueryTargetService)
                 {
                     codeContent.AppendLine($"            CreateMap<{_queryTargetName}, {_listDTOName}>();");
                     codeContent.AppendLine($"            CreateMap<{_queryTargetName}, {_dtoName}>();");
@@ -306,9 +360,11 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateIServiceFile(ProjectModel project)
         {
-            if (!_generatorCode || !_generatorService) return;
+            if (!GeneratorCode || !GeneratorService) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.BaseCore.Services;");
+            codeContent.AppendLine($"using Materal.BaseCore.Services.Models;");
+            codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Services.Models.{Name};");
             codeContent.AppendLine($"");
@@ -317,7 +373,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {Annotation}服务");
             codeContent.AppendLine($"    /// </summary>");
-            if (_generatorDefaultService)
+            if (GeneratorDefaultService)
             {
                 codeContent.AppendLine($"    public partial interface {_iServiceName} : IBaseService<{_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}>");
             }
@@ -326,6 +382,16 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"    public partial interface {_iServiceName}");
             }
             codeContent.AppendLine($"    {{");
+            if (IsIndexDomain)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 交换位序");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"model\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [DataValidation]");
+                codeContent.AppendLine($"        Task ExchangeIndexAsync(ExchangeIndexModel model);");
+            }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             codeContent.SaveFile(project.GeneratorRootPath, $"{_iServiceName}.g.cs");
@@ -335,13 +401,13 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateQueryModelFile(ProjectModel project, List<DomainModel> domains)
         {
-            if (!_generatorCode || !_generatorQueryModel) return;
+            if (!GeneratorCode || !GeneratorQueryModel) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine("#nullable enable");
             codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"using Materal.BaseCore.Services;");
             DomainModel targetDomain;
-            if (_generatorQueryTargetService)
+            if (GeneratorQueryTargetService)
             {
                 targetDomain = domains.FirstOrDefault((m) => m.Name == _queryTargetName) ?? this;
             }
@@ -395,7 +461,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     codeContent.AppendLine($"        public {property.NullPredefinedType} Min{property.Name} {{ get; set; }}");
                 }
             }
-            if (domain._extendQueryGenerator)
+            if (domain.GeneratorExtendQuery)
             {
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 唯一标识组");
@@ -419,7 +485,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateEditModelFile(ProjectModel project)
         {
-            if (!_generatorCode || !_generatorService) return;
+            if (!GeneratorCode || !GeneratorService) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine("#nullable enable");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
@@ -457,7 +523,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateAddModelFile(ProjectModel project)
         {
-            if (!_generatorCode || !_generatorService) return;
+            if (!GeneratorCode || !GeneratorService) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine("#nullable enable");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
@@ -492,9 +558,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateServiceImplFile(ProjectModel project)
         {
-            if (!_generatorCode || !_generatorService) return;
+            if (!GeneratorCode || !GeneratorService) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.BaseCore.ServiceImpl;");
+            codeContent.AppendLine($"using Materal.BaseCore.Services.Models;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain.Repositories;");
@@ -506,9 +573,9 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {Annotation}服务实现");
             codeContent.AppendLine($"    /// </summary>");
-            if (_generatorDefaultService)
+            if (GeneratorDefaultService)
             {
-                if (_generatorQueryTargetService)
+                if (GeneratorQueryTargetService)
                 {
                     codeContent.AppendLine($"    public partial class {_serviceImplName} : BaseServiceImpl<{_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}, {_iRepositoryName}, {_iQueryTargetRepositoryName}, {Name}, {_queryTargetName}>, {_iServiceName}");
                 }
@@ -522,6 +589,21 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"    public partial class {_serviceImplName} : {_iServiceName}");
             }
             codeContent.AppendLine($"    {{");
+            if (IsIndexDomain)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 交换位序");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"model\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.Append($"        public async Task ExchangeIndexAsync(ExchangeIndexModel model) => await ServiceImplHelper.ExchangeIndexByGroupPropertiesAsync<{_iRepositoryName}, {Name}>(model, DefaultRepository, UnitOfWork");
+                List<DomainPropertyModel> indexGourpProperties = Properties.Where(m => m.IsIndexGourpProperty).ToList();
+                foreach (DomainPropertyModel indexGourpProperty in indexGourpProperties)
+                {
+                    codeContent.Append($", nameof({Name}.{indexGourpProperty.Name})");
+                }
+                codeContent.AppendLine($");");
+            }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             codeContent.SaveFile(project.GeneratorRootPath, $"{_serviceImplName}.g.cs");
@@ -533,12 +615,12 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateRepositoryImplFile(ProjectModel project)
         {
-            if (!_generatorCode) return;
+            if (!GeneratorCode) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using {project.PrefixName}.Core.EFRepository;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain.Repositories;");
-            if (_useCache)
+            if (UseCache)
             {
                 codeContent.AppendLine($"using Materal.Utils.Cache;");
             }
@@ -548,7 +630,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {Annotation}仓储实现");
             codeContent.AppendLine($"    /// </summary>");
-            if (_useCache)
+            if (UseCache)
             {
                 codeContent.AppendLine($"    public partial class {_repositoryImplName}: {project.PrefixName}CacheRepositoryImpl<{Name}, Guid>, I{Name}Repository");
                 codeContent.AppendLine($"    {{");
@@ -581,7 +663,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateEntityConfigFile(ProjectModel project)
         {
-            if (!_generatorCode || !_isTable) return;
+            if (!GeneratorCode || !IsTable) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Microsoft.EntityFrameworkCore;");
             codeContent.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
@@ -670,7 +752,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateIRepositoryFile(ProjectModel project)
         {
-            if (!_generatorCode) return;
+            if (!GeneratorCode) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.TTA.EFRepository;");
             codeContent.AppendLine($"");
@@ -679,7 +761,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {Annotation}仓储接口");
             codeContent.AppendLine($"    /// </summary>");
-            if (!_useCache)
+            if (!UseCache)
             {
                 codeContent.AppendLine($"    public partial interface {_iRepositoryName} : IEFRepository<{Name}, Guid> {{ }}");
             }
@@ -698,13 +780,13 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateDTOFile(ProjectModel project, List<DomainModel> domains)
         {
-            if (!_generatorCode || !_generatorQueryModel) return;
+            if (!GeneratorCode || !GeneratorQueryModel) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"#nullable enable");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
             codeContent.AppendLine($"using Materal.BaseCore.DataTransmitModel;");
             DomainModel targetDomain;
-            if (_generatorQueryTargetService)
+            if (GeneratorQueryTargetService)
             {
                 targetDomain = domains.FirstOrDefault((m) => m.Name == _queryTargetName) ?? this;
             }
@@ -750,13 +832,13 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateListDTOFile(ProjectModel project, List<DomainModel> domains)
         {
-            if (!_generatorCode || !_generatorQueryModel) return;
+            if (!GeneratorCode || !GeneratorQueryModel) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"#nullable enable");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
             codeContent.AppendLine($"using Materal.BaseCore.DataTransmitModel;");
             DomainModel targetDomain;
-            if (_generatorQueryTargetService)
+            if (GeneratorQueryTargetService)
             {
                 targetDomain = domains.FirstOrDefault((m) => m.Name == _queryTargetName) ?? this;
             }
@@ -813,14 +895,14 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateQueryRequestModelFile(ProjectModel project, List<DomainModel> domains)
         {
-            if (!_generatorCode || !_generatorQueryModel) return;
+            if (!GeneratorCode || !GeneratorQueryModel) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine("#nullable enable");
             codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"using Materal.BaseCore.PresentationModel;");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
             DomainModel targetDomain;
-            if (_generatorQueryTargetService)
+            if (GeneratorQueryTargetService)
             {
                 targetDomain = domains.FirstOrDefault(m => m.Name == _queryTargetName) ?? this;
             }
@@ -871,7 +953,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     codeContent.AppendLine($"        public {property.NullPredefinedType} Min{property.Name} {{ get; set; }}");
                 }
             }
-            if (domain._extendQueryGenerator)
+            if (domain.GeneratorExtendQuery)
             {
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 唯一标识组");
@@ -892,7 +974,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateEditRequestModelFile(ProjectModel project)
         {
-            if (!_generatorCode || !_generatorService || !_generatorWebAPI) return;
+            if (!GeneratorCode || !GeneratorService || !GeneratorWebAPI) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine("#nullable enable");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
@@ -930,7 +1012,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public void CreateAddRequestModelFile(ProjectModel project)
         {
-            if (!_generatorCode || !_generatorService || !_generatorWebAPI) return;
+            if (!GeneratorCode || !GeneratorService || !GeneratorWebAPI) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine("#nullable enable");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");

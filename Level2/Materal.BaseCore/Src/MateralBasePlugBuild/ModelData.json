@@ -1,1379 +1,104 @@
 {
   "Projects": [
     {
-      "Name": "D:\\Project\\古典部\\新明解\\Src\\XMJ.Core\\Src\\XMJ.Core.CodeGenerator",
+      "Name": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Src\\XMJ.Core.CodeGenerator",
       "Plugs": [
         {
           "Name": "InitProject",
-          "ExcuteDomainNames": [ "Article" ]
+          "ExcuteDomainNames": [ "User" ]
         }
       ]
     }
   ],
   "CommonProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer",
-    "RootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.Common",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.Common\\MCG",
-    "ProjectName": "ArticleServer",
+    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
+    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Common",
+    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Common\\MCG",
+    "ProjectName": "Demo",
     "PrefixName": "XMJ",
-    "Namespace": "XMJ.ArticleServer.Common",
-    "DBContextName": "ArticleServerDBContext"
+    "Namespace": "XMJ.Demo.Common",
+    "DBContextName": "DemoDBContext"
   },
   "DomainProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer",
-    "RootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.Domain",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.Domain\\MCG",
-    "ProjectName": "ArticleServer",
+    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
+    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Domain",
+    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Domain\\MCG",
+    "ProjectName": "Demo",
     "PrefixName": "XMJ",
-    "Namespace": "XMJ.ArticleServer.Domain",
-    "DBContextName": "ArticleServerDBContext"
+    "Namespace": "XMJ.Demo.Domain",
+    "DBContextName": "DemoDBContext"
   },
   "WebAPIProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer",
-    "RootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.WebAPI",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.WebAPI\\MCG",
-    "ProjectName": "ArticleServer",
+    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
+    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.WebAPI",
+    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.WebAPI\\MCG",
+    "ProjectName": "Demo",
     "PrefixName": "XMJ",
-    "Namespace": "XMJ.ArticleServer.WebAPI",
-    "DBContextName": "ArticleServerDBContext"
+    "Namespace": "XMJ.Demo.WebAPI",
+    "DBContextName": "DemoDBContext"
   },
   "ServicesProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer",
-    "RootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.Services",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.Services\\MCG",
-    "ProjectName": "ArticleServer",
+    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
+    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Services",
+    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Services\\MCG",
+    "ProjectName": "Demo",
     "PrefixName": "XMJ",
-    "Namespace": "XMJ.ArticleServer.Services",
-    "DBContextName": "ArticleServerDBContext"
+    "Namespace": "XMJ.Demo.Services",
+    "DBContextName": "DemoDBContext"
   },
   "ServiceImplProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer",
-    "RootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.ServiceImpl",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.ServiceImpl\\MCG",
-    "ProjectName": "ArticleServer",
+    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
+    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.ServiceImpl",
+    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.ServiceImpl\\MCG",
+    "ProjectName": "Demo",
     "PrefixName": "XMJ",
-    "Namespace": "XMJ.ArticleServer.ServiceImpl",
-    "DBContextName": "ArticleServerDBContext"
+    "Namespace": "XMJ.Demo.ServiceImpl",
+    "DBContextName": "DemoDBContext"
   },
   "EFRepositoryProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer",
-    "RootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.EFRepository",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.EFRepository\\MCG",
-    "ProjectName": "ArticleServer",
+    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
+    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.EFRepository",
+    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.EFRepository\\MCG",
+    "ProjectName": "Demo",
     "PrefixName": "XMJ",
-    "Namespace": "XMJ.ArticleServer.EFRepository",
-    "DBContextName": "ArticleServerDBContext"
+    "Namespace": "XMJ.Demo.EFRepository",
+    "DBContextName": "DemoDBContext"
   },
   "DataTransmitModelProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer",
-    "RootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.DataTransmitModel",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.DataTransmitModel\\MCG",
-    "ProjectName": "ArticleServer",
+    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
+    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.DataTransmitModel",
+    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.DataTransmitModel\\MCG",
+    "ProjectName": "Demo",
     "PrefixName": "XMJ",
-    "Namespace": "XMJ.ArticleServer.DataTransmitModel",
-    "DBContextName": "ArticleServerDBContext"
+    "Namespace": "XMJ.Demo.DataTransmitModel",
+    "DBContextName": "DemoDBContext"
   },
   "PresentationModelProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer",
-    "RootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.PresentationModel",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\Src\\XMJ.ArticleServer\\XMJ.ArticleServer.PresentationModel\\MCG",
-    "ProjectName": "ArticleServer",
+    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
+    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.PresentationModel",
+    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.PresentationModel\\MCG",
+    "ProjectName": "Demo",
     "PrefixName": "XMJ",
-    "Namespace": "XMJ.ArticleServer.PresentationModel",
-    "DBContextName": "ArticleServerDBContext"
+    "Namespace": "XMJ.Demo.PresentationModel",
+    "DBContextName": "DemoDBContext"
   },
-  "EnumsProject": null,
+  "EnumsProject": {
+    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
+    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Enums",
+    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Enums\\MCG",
+    "ProjectName": "Demo",
+    "PrefixName": "XMJ",
+    "Namespace": "XMJ.Demo.Enums",
+    "DBContextName": "DemoDBContext"
+  },
   "Domains": [
     {
       "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Domain;", "using Materal.Utils.Model;", "using System.ComponentModel.DataAnnotations;" ],
       "OtherUsings": [],
-      "Annotation": "文章",
-      "Namespace": "XMJ.ArticleServer.Domain",
-      "Name": "Article",
-      "Attributes": [
-        {
-          "Name": "CodeGeneratorPlug",
-          "AttributeArguments": [
-            {
-              "Target": null,
-              "Value": "\"XMJ.Core.CodeGenerator\""
-            },
-            {
-              "Target": null,
-              "Value": "\"InitProject\""
-            }
-          ]
-        },
-        {
-          "Name": "QueryTragetGenerator",
-          "AttributeArguments": [
-            {
-              "Target": null,
-              "Value": "ArticleView"
-            }
-          ]
-        }
-      ],
-      "Properties": [
-        {
-          "Initializer": null,
-          "Name": "ColumnID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "栏目唯一标识",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "HasValidationAttribute": false,
-          "ValidationAttributes": [],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Title",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "标题",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"标题为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"标题过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"标题为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"标题过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "SubTitle",
-          "PredefinedType": "string?",
-          "NullPredefinedType": "string?",
-          "CanNull": true,
-          "Annotation": "副标题",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"副标题过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"副标题过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "KeyWords",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "关键字",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"关键字为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"关键字为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Author",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "作者",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"作者为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"作者过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"作者为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"作者过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Content",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "内容",
-          "Attributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"内容为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"内容为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "CreateUserID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "创建用户唯一标识",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"创建用户唯一标识为空\""
-                }
-              ]
-            },
-            {
-              "Name": "NotAddGenerator",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "NotEditGenerator",
-              "AttributeArguments": []
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"创建用户唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": false,
-          "GeneratorEditModel": false
-        },
-        {
-          "Initializer": null,
-          "Name": "Data",
-          "PredefinedType": "string?",
-          "NullPredefinedType": "string?",
-          "CanNull": true,
-          "Annotation": "数据",
-          "Attributes": [],
-          "HasValidationAttribute": false,
-          "ValidationAttributes": [],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        }
-      ]
-    },
-    {
-      "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Domain;", "using System.ComponentModel.DataAnnotations;" ],
-      "OtherUsings": [],
-      "Annotation": "文章附件",
-      "Namespace": "XMJ.ArticleServer.Domain",
-      "Name": "ArticleAdjunct",
-      "Attributes": [
-        {
-          "Name": "NotServiceAndQueryGenerator",
-          "AttributeArguments": []
-        }
-      ],
-      "Properties": [
-        {
-          "Initializer": null,
-          "Name": "ArticleID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "文章附件唯一标识",
-          "Attributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "UploadFileID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "上传文件唯一标识",
-          "Attributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"上传文件唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"上传文件唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        }
-      ]
-    },
-    {
-      "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Domain;", "using Materal.Utils.Model;", "using System.ComponentModel.DataAnnotations;" ],
-      "OtherUsings": [],
-      "Annotation": "文章视图",
-      "Namespace": "XMJ.ArticleServer.Domain",
-      "Name": "ArticleView",
-      "Attributes": [
-        {
-          "Name": "NotServiceAndQueryGenerator",
-          "AttributeArguments": []
-        },
-        {
-          "Name": "NotTable",
-          "AttributeArguments": []
-        }
-      ],
-      "Properties": [
-        {
-          "Initializer": null,
-          "Name": "ColumnID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "栏目唯一标识",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "HasValidationAttribute": false,
-          "ValidationAttributes": [],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "ColumnName",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "栏目名称",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目名称过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目名称过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "ColumnCode",
-          "PredefinedType": "string?",
-          "NullPredefinedType": "string?",
-          "CanNull": true,
-          "Annotation": "栏目代码",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目代码过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目代码过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "ColumnCategoryID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "栏目类型唯一标识",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "ColumnCategoryName",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "栏目类型名称",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型名称过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型名称过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "ColumnCategoryCode",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "栏目类型代码",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型代码为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型代码过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型代码为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型代码过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Title",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "标题",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"标题为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"标题过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"标题为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"标题过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "SubTitle",
-          "PredefinedType": "string?",
-          "NullPredefinedType": "string?",
-          "CanNull": true,
-          "Annotation": "副标题",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"副标题过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"副标题过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "KeyWords",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "关键字",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"关键字为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"关键字为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Author",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "作者",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"作者为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"作者过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"作者为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "400"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"作者过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Content",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "内容",
-          "Attributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"内容为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"内容为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "CreateUserID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "创建用户唯一标识",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"创建用户唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"创建用户唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "Data",
-          "PredefinedType": "string?",
-          "NullPredefinedType": "string?",
-          "CanNull": true,
-          "Annotation": "数据",
-          "Attributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"数据为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"数据为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        }
-      ]
-    },
-    {
-      "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Common.Utils.IndexHelper;", "using Materal.BaseCore.Common.Utils.TreeHelper;", "using Materal.BaseCore.Domain;", "using Materal.Utils.Model;", "using System.ComponentModel.DataAnnotations;" ],
-      "OtherUsings": [],
-      "Annotation": "栏目",
-      "Namespace": "XMJ.ArticleServer.Domain",
-      "Name": "Column",
-      "Attributes": [
-        {
-          "Name": "QueryTragetGenerator",
-          "AttributeArguments": [
-            {
-              "Target": null,
-              "Value": "ColumnView"
-            }
-          ]
-        }
-      ],
+      "Annotation": null,
+      "Namespace": "XMJ.Demo.Domain",
+      "Name": "MenuAuthority",
+      "Attributes": [],
       "Properties": [
         {
           "Initializer": " = string.Empty;",
@@ -1384,10 +109,6 @@
           "Annotation": "名称",
           "Attributes": [
             {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
               "Name": "Required",
               "AttributeArguments": [
                 {
@@ -1401,13 +122,17 @@
               "AttributeArguments": [
                 {
                   "Target": null,
-                  "Value": "50"
+                  "Value": "100"
                 },
                 {
                   "Target": "ErrorMessage",
-                  "Value": "\"名称过长\""
+                  "Value": "\"名称最多100个字符\""
                 }
               ]
+            },
+            {
+              "Name": "Contains",
+              "AttributeArguments": []
             }
           ],
           "HasValidationAttribute": true,
@@ -1426,11 +151,11 @@
               "AttributeArguments": [
                 {
                   "Target": null,
-                  "Value": "50"
+                  "Value": "100"
                 },
                 {
                   "Target": "ErrorMessage",
-                  "Value": "\"名称过长\""
+                  "Value": "\"名称最多100个字符\""
                 }
               ]
             }
@@ -1447,46 +172,65 @@
           "GeneratorDTO": true,
           "GeneratorListDTO": true,
           "GeneratorAddModel": true,
-          "GeneratorEditModel": true
+          "GeneratorEditModel": true,
+          "IsIndexGourpProperty": false
         },
         {
-          "Initializer": null,
+          "Initializer": " = string.Empty;",
           "Name": "Code",
-          "PredefinedType": "string?",
+          "PredefinedType": "string",
           "NullPredefinedType": "string?",
-          "CanNull": true,
+          "CanNull": false,
           "Annotation": "代码",
           "Attributes": [
             {
-              "Name": "Equal",
-              "AttributeArguments": []
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"代码为空\""
+                }
+              ]
             },
             {
               "Name": "StringLength",
               "AttributeArguments": [
                 {
                   "Target": null,
-                  "Value": "50"
+                  "Value": "100"
                 },
                 {
                   "Target": "ErrorMessage",
-                  "Value": "\"代码过长\""
+                  "Value": "\"代码最多100个字符\""
                 }
               ]
+            },
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
             }
           ],
           "HasValidationAttribute": true,
           "ValidationAttributes": [
             {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"代码为空\""
+                }
+              ]
+            },
+            {
               "Name": "StringLength",
               "AttributeArguments": [
                 {
                   "Target": null,
-                  "Value": "50"
+                  "Value": "100"
                 },
                 {
                   "Target": "ErrorMessage",
-                  "Value": "\"代码过长\""
+                  "Value": "\"代码最多100个字符\""
                 }
               ]
             }
@@ -1503,88 +247,56 @@
           "GeneratorDTO": true,
           "GeneratorListDTO": true,
           "GeneratorAddModel": true,
-          "GeneratorEditModel": true
+          "GeneratorEditModel": true,
+          "IsIndexGourpProperty": false
         },
         {
           "Initializer": null,
-          "Name": "ColumnCategoryID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "栏目类型唯一标识",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "ParentID",
-          "PredefinedType": "Guid?",
-          "NullPredefinedType": "Guid?",
+          "Name": "Path",
+          "PredefinedType": "string?",
+          "NullPredefinedType": "string?",
           "CanNull": true,
-          "Annotation": "父级栏目唯一标识",
+          "Annotation": "地址",
           "Attributes": [
             {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "NotEditGenerator",
-              "AttributeArguments": []
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "100"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"地址最多100个字符\""
+                }
+              ]
             }
           ],
-          "HasValidationAttribute": false,
-          "ValidationAttributes": [],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
+          "HasValidationAttribute": true,
+          "ValidationAttributes": [
             {
-              "Name": "Equal",
-              "AttributeArguments": []
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "100"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"地址最多100个字符\""
+                }
+              ]
             }
           ],
+          "HasQueryAttribute": false,
+          "QueryAttributes": [],
           "IsBetween": false,
           "GeneratorEntityConfig": true,
           "GeneratorDTO": true,
           "GeneratorListDTO": true,
           "GeneratorAddModel": true,
-          "GeneratorEditModel": false
+          "GeneratorEditModel": true,
+          "IsIndexGourpProperty": false
         },
         {
           "Initializer": null,
@@ -1594,15 +306,6 @@
           "CanNull": false,
           "Annotation": "位序",
           "Attributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"位序为空\""
-                }
-              ]
-            },
             {
               "Name": "NotAddGenerator",
               "AttributeArguments": []
@@ -1618,6 +321,15 @@
             {
               "Name": "NotListDTOGenerator",
               "AttributeArguments": []
+            },
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"位序为空\""
+                }
+              ]
             }
           ],
           "HasValidationAttribute": true,
@@ -1639,622 +351,8 @@
           "GeneratorDTO": false,
           "GeneratorListDTO": false,
           "GeneratorAddModel": false,
-          "GeneratorEditModel": false
-        }
-      ]
-    },
-    {
-      "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Domain;", "using System.ComponentModel.DataAnnotations;" ],
-      "OtherUsings": [],
-      "Annotation": "栏目附件",
-      "Namespace": "XMJ.ArticleServer.Domain",
-      "Name": "ColumnAdjunct",
-      "Attributes": [
-        {
-          "Name": "NotServiceAndQueryGenerator",
-          "AttributeArguments": []
-        }
-      ],
-      "Properties": [
-        {
-          "Initializer": null,
-          "Name": "ColumnID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "栏目唯一标识",
-          "Attributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "UploadFileID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "上传文件唯一标识",
-          "Attributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"上传文件唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"上传文件唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        }
-      ]
-    },
-    {
-      "Usings": [ "using Materal.BaseCore.Domain;", "using Materal.Utils.Model;", "using System.ComponentModel.DataAnnotations;" ],
-      "OtherUsings": [],
-      "Annotation": "栏目类型",
-      "Namespace": "XMJ.ArticleServer.Domain",
-      "Name": "ColumnCategory",
-      "Attributes": [],
-      "Properties": [
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Name",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "名称",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Code",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "代码",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"代码为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"代码过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"代码为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"代码过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "Remark",
-          "PredefinedType": "string?",
-          "NullPredefinedType": "string?",
-          "CanNull": true,
-          "Annotation": "备注",
-          "Attributes": [],
-          "HasValidationAttribute": false,
-          "ValidationAttributes": [],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        }
-      ]
-    },
-    {
-      "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Common.Utils.IndexHelper;", "using Materal.BaseCore.Common.Utils.TreeHelper;", "using Materal.BaseCore.Domain;", "using Materal.Utils.Model;", "using System.ComponentModel.DataAnnotations;" ],
-      "OtherUsings": [],
-      "Annotation": "栏目视图",
-      "Namespace": "XMJ.ArticleServer.Domain",
-      "Name": "ColumnView",
-      "Attributes": [
-        {
-          "Name": "NotServiceAndQueryGenerator",
-          "AttributeArguments": []
-        },
-        {
-          "Name": "NotTable",
-          "AttributeArguments": []
-        }
-      ],
-      "Properties": [
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Name",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "名称",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "Code",
-          "PredefinedType": "string?",
-          "NullPredefinedType": "string?",
-          "CanNull": true,
-          "Annotation": "代码",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"代码过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"代码过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": null,
-          "Name": "ColumnCategoryID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "栏目类型唯一标识",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "ColumnCategoryName",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "栏目类型名称",
-          "Attributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型名称过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型名称过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "ColumnCategoryCode",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "栏目类型代码",
-          "Attributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型代码为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型代码过长\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型代码为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "50"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"栏目类型代码过长\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true
+          "GeneratorEditModel": false,
+          "IsIndexGourpProperty": false
         },
         {
           "Initializer": null,
@@ -2262,8 +360,12 @@
           "PredefinedType": "Guid?",
           "NullPredefinedType": "Guid?",
           "CanNull": true,
-          "Annotation": "父级栏目唯一标识",
+          "Annotation": "父级",
           "Attributes": [
+            {
+              "Name": "NotEditGenerator",
+              "AttributeArguments": []
+            },
             {
               "Name": "Equal",
               "AttributeArguments": []
@@ -2283,20 +385,17 @@
           "GeneratorDTO": true,
           "GeneratorListDTO": true,
           "GeneratorAddModel": true,
-          "GeneratorEditModel": true
+          "GeneratorEditModel": false,
+          "IsIndexGourpProperty": false
         },
         {
           "Initializer": null,
-          "Name": "Index",
-          "PredefinedType": "int",
-          "NullPredefinedType": "int?",
+          "Name": "SubSystemID",
+          "PredefinedType": "Guid",
+          "NullPredefinedType": "Guid?",
           "CanNull": false,
-          "Annotation": "位序",
+          "Annotation": "所属子系统唯一标识",
           "Attributes": [
-            {
-              "Name": "NotAddGenerator",
-              "AttributeArguments": []
-            },
             {
               "Name": "NotEditGenerator",
               "AttributeArguments": []
@@ -2306,7 +405,112 @@
               "AttributeArguments": [
                 {
                   "Target": "ErrorMessage",
-                  "Value": "\"位序为空\""
+                  "Value": "\"子系统唯一标识为空\""
+                }
+              ]
+            },
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "IndexGroup",
+              "AttributeArguments": []
+            }
+          ],
+          "HasValidationAttribute": true,
+          "ValidationAttributes": [
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"子系统唯一标识为空\""
+                }
+              ]
+            }
+          ],
+          "HasQueryAttribute": true,
+          "QueryAttributes": [
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
+            }
+          ],
+          "IsBetween": false,
+          "GeneratorEntityConfig": true,
+          "GeneratorDTO": true,
+          "GeneratorListDTO": true,
+          "GeneratorAddModel": true,
+          "GeneratorEditModel": false,
+          "IsIndexGourpProperty": true
+        }
+      ],
+      "UseCache": false,
+      "GeneratorCode": true,
+      "GeneratorQueryTargetService": false,
+      "GeneratorService": true,
+      "GeneratorQueryModel": true,
+      "GeneratorWebAPI": true,
+      "GeneratorServiceWebAPI": true,
+      "GeneratorDefaultService": true,
+      "GeneratorExtendQuery": true,
+      "IsTable": true,
+      "IsIndexDomain": false
+    },
+    {
+      "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Domain;", "using Materal.Utils.Model;", "using System.ComponentModel.DataAnnotations;", "using XMJ.Demo.Enums;" ],
+      "OtherUsings": [ "using XMJ.Demo.Enums;" ],
+      "Annotation": "用户",
+      "Namespace": "XMJ.Demo.Domain",
+      "Name": "User",
+      "Attributes": [
+        {
+          "Name": "CodeGeneratorPlug",
+          "AttributeArguments": [
+            {
+              "Target": null,
+              "Value": "\"XMJ.Core.CodeGenerator\""
+            },
+            {
+              "Target": null,
+              "Value": "\"InitProject\""
+            }
+          ]
+        }
+      ],
+      "Properties": [
+        {
+          "Initializer": " = string.Empty;",
+          "Name": "Name",
+          "PredefinedType": "string",
+          "NullPredefinedType": "string?",
+          "CanNull": false,
+          "Annotation": "姓名",
+          "Attributes": [
+            {
+              "Name": "Contains",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"姓名为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "100"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"姓名过长\""
                 }
               ]
             }
@@ -2318,7 +522,231 @@
               "AttributeArguments": [
                 {
                   "Target": "ErrorMessage",
-                  "Value": "\"位序为空\""
+                  "Value": "\"姓名为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "100"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"姓名过长\""
+                }
+              ]
+            }
+          ],
+          "HasQueryAttribute": true,
+          "QueryAttributes": [
+            {
+              "Name": "Contains",
+              "AttributeArguments": []
+            }
+          ],
+          "IsBetween": false,
+          "GeneratorEntityConfig": true,
+          "GeneratorDTO": true,
+          "GeneratorListDTO": true,
+          "GeneratorAddModel": true,
+          "GeneratorEditModel": true,
+          "IsIndexGourpProperty": false
+        },
+        {
+          "Initializer": null,
+          "Name": "Sex",
+          "PredefinedType": "SexEnum",
+          "NullPredefinedType": "SexEnum?",
+          "CanNull": false,
+          "Annotation": "性别",
+          "Attributes": [
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"性别为空\""
+                }
+              ]
+            }
+          ],
+          "HasValidationAttribute": true,
+          "ValidationAttributes": [
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"性别为空\""
+                }
+              ]
+            }
+          ],
+          "HasQueryAttribute": true,
+          "QueryAttributes": [
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
+            }
+          ],
+          "IsBetween": false,
+          "GeneratorEntityConfig": true,
+          "GeneratorDTO": true,
+          "GeneratorListDTO": true,
+          "GeneratorAddModel": true,
+          "GeneratorEditModel": true,
+          "IsIndexGourpProperty": false
+        },
+        {
+          "Initializer": " = string.Empty;",
+          "Name": "Account",
+          "PredefinedType": "string",
+          "NullPredefinedType": "string?",
+          "CanNull": false,
+          "Annotation": "账号",
+          "Attributes": [
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "50"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号过长\""
+                }
+              ]
+            }
+          ],
+          "HasValidationAttribute": true,
+          "ValidationAttributes": [
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "50"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号过长\""
+                }
+              ]
+            }
+          ],
+          "HasQueryAttribute": true,
+          "QueryAttributes": [
+            {
+              "Name": "Equal",
+              "AttributeArguments": []
+            }
+          ],
+          "IsBetween": false,
+          "GeneratorEntityConfig": true,
+          "GeneratorDTO": true,
+          "GeneratorListDTO": true,
+          "GeneratorAddModel": true,
+          "GeneratorEditModel": true,
+          "IsIndexGourpProperty": false
+        },
+        {
+          "Initializer": " = string.Empty;",
+          "Name": "Password",
+          "PredefinedType": "string",
+          "NullPredefinedType": "string?",
+          "CanNull": false,
+          "Annotation": "密码",
+          "Attributes": [
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "32"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"密码过长\""
+                }
+              ]
+            },
+            {
+              "Name": "NotDTOGenerator",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "NotListDTOGenerator",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "NotAddGenerator",
+              "AttributeArguments": []
+            },
+            {
+              "Name": "NotEditGenerator",
+              "AttributeArguments": []
+            }
+          ],
+          "HasValidationAttribute": true,
+          "ValidationAttributes": [
+            {
+              "Name": "Required",
+              "AttributeArguments": [
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"账号为空\""
+                }
+              ]
+            },
+            {
+              "Name": "StringLength",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "32"
+                },
+                {
+                  "Target": "ErrorMessage",
+                  "Value": "\"密码过长\""
                 }
               ]
             }
@@ -2327,13 +755,33 @@
           "QueryAttributes": [],
           "IsBetween": false,
           "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
+          "GeneratorDTO": false,
+          "GeneratorListDTO": false,
           "GeneratorAddModel": false,
-          "GeneratorEditModel": false
+          "GeneratorEditModel": false,
+          "IsIndexGourpProperty": false
         }
-      ]
+      ],
+      "UseCache": false,
+      "GeneratorCode": true,
+      "GeneratorQueryTargetService": false,
+      "GeneratorService": true,
+      "GeneratorQueryModel": true,
+      "GeneratorWebAPI": true,
+      "GeneratorServiceWebAPI": true,
+      "GeneratorDefaultService": true,
+      "GeneratorExtendQuery": true,
+      "IsTable": true,
+      "IsIndexDomain": false
     }
   ],
-  "Enums": []
+  "Enums": [
+    {
+      "Namespace": "XMJ.Demo.Enums",
+      "Annotation": "性别",
+      "Name": "SexEnum",
+      "GeneratorCode": true,
+      "Attributes": []
+    }
+  ]
 }

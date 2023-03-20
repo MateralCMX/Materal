@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.BaseCore.Common.Utils.IndexHelper
+namespace Materal.BaseCore.PresentationModel
 {
-    public class ExchangeIndexModel
+    public class ExchangeIndexRequestModel
     {
         /// <summary>
         /// 唯一标识

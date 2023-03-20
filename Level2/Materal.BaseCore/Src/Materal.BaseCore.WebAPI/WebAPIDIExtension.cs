@@ -73,7 +73,7 @@ namespace Materal.BaseCore.WebAPI
             }
             #endregion
             #region Swagger
-            string GetSwaggerConfigString(string? configString, string defaultString) => string.IsNullOrWhiteSpace(configString) ? defaultString : configString;
+            static string GetSwaggerConfigString(string? configString, string defaultString) => string.IsNullOrWhiteSpace(configString) ? defaultString : configString;
             if (WebAPIConfig.SwaggerConfig.Enable)
             {
                 services.AddSwaggerGen(config =>

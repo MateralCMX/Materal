@@ -1,5 +1,7 @@
 ﻿using AspectCore.DynamicProxy;
 using Materal.BaseCore.Common;
+using Materal.BaseCore.PresentationModel;
+using Materal.BaseCore.Services.Models;
 using Materal.BaseCore.WebAPI.Controllers;
 using Materal.Utils.Model;
 using MBC.Core.Common;
@@ -85,6 +87,18 @@ namespace MBC.Demo.WebAPI.Controllers
             model.ID = GetLoginUserID();
             await DefaultService.ChangePasswordAsync(model);
             return ResultModel.Success("修改成功");
+        }
+        /// <summary>
+        /// 交换位序
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task<ResultModel> ExchangeIndexAsync(ExchangeIndexRequestModel requestModel)
+        {
+            ExchangeIndexModel model = Mapper.Map<ExchangeIndexModel>(requestModel);
+            await DefaultService.ExchangeIndexAsync(model);
+            return ResultModel.Success("交换位序成功");
         }
     }
 }

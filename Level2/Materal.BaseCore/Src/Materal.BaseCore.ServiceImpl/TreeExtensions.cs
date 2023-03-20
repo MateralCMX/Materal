@@ -1,4 +1,7 @@
-﻿namespace Materal.BaseCore.Common.Utils.TreeHelper
+﻿using Materal.BaseCore.DataTransmitModel;
+using Materal.BaseCore.Domain;
+
+namespace Materal.BaseCore.ServiceImpl
 {
     public static class TreeExtensions
     {

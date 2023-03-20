@@ -1,4 +1,6 @@
-﻿namespace Materal.BaseCore.Common.Utils.IndexHelper
+﻿using Materal.BaseCore.Domain;
+
+namespace Materal.BaseCore.ServiceImpl
 {
     public static class IndexExtensions
     {
@@ -7,7 +9,8 @@
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="domains"></param>
-        public static void ExchangeIndex<T>(this List<T> domains, Guid exchangeID, bool before) where T : IIndexDomain
+        public static void ExchangeIndex<T>(this List<T> domains, Guid exchangeID, bool before)
+            where T : IIndexDomain
         {
             domains = domains.OrderBy(m => m.Index).ToList();
             var count = 0;

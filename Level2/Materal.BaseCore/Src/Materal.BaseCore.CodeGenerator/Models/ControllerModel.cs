@@ -104,8 +104,6 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.PresentationModel.{Name};");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
-            codeContent.AppendLine($"using Materal.BaseCore.Common.Utils.TreeHelper;");
-            codeContent.AppendLine($"using Materal.BaseCore.Common.Utils.IndexHelper;");
             codeContent.AppendLine($"using Materal.BaseCore.PresentationModel;");
             codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"");

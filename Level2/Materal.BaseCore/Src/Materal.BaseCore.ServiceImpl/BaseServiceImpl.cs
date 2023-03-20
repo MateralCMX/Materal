@@ -88,8 +88,7 @@ namespace Materal.BaseCore.ServiceImpl
         /// <exception cref="MateralCoreException"></exception>
         public virtual async Task DeleteAsync([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            TDomain? domainFromDB = await DefaultRepository.FirstOrDefaultAsync(id);
-            if (domainFromDB == null) throw new MateralCoreException("数据不存在");
+            TDomain domainFromDB = await DefaultRepository.FirstOrDefaultAsync(id) ?? throw new MateralCoreException("数据不存在");
             await DeleteAsync(domainFromDB);
         }
         /// <summary>
@@ -112,8 +111,7 @@ namespace Materal.BaseCore.ServiceImpl
         /// <exception cref="MateralCoreException"></exception>
         public virtual async Task EditAsync(TEditModel model)
         {
-            TDomain? domainFromDB = await DefaultRepository.FirstOrDefaultAsync(model.ID);
-            if (domainFromDB == null) throw new MateralCoreException("数据不存在");
+            TDomain domainFromDB = await DefaultRepository.FirstOrDefaultAsync(model.ID) ?? throw new MateralCoreException("数据不存在");
             Mapper.Map(model, domainFromDB);
             await EditAsync(domainFromDB, model);
         }
@@ -139,9 +137,8 @@ namespace Materal.BaseCore.ServiceImpl
         /// <exception cref="MateralCoreException"></exception>
         public virtual async Task<TDTO> GetInfoAsync([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            TDomain? domainFromDB = await DefaultRepository.FirstOrDefaultAsync(id);
-            if (domainFromDB == null) throw new MateralCoreException("数据不存在");
-            return await GetInfoAsync(domainFromDB);
+            TDomain domainFromDB = await DefaultRepository.FirstOrDefaultAsync(id);
+            return domainFromDB == null ? throw new MateralCoreException("数据不存在") : await GetInfoAsync(domainFromDB);
         }
         /// <summary>
         /// 获得信息
@@ -240,8 +237,7 @@ namespace Materal.BaseCore.ServiceImpl
             where TR : IEFRepository<T, Guid>
         {
             Type tType = typeof(T);
-            PropertyInfo? propertyInfo = tType.GetProperty(targetName);
-            if (propertyInfo == null) throw new MateralCoreException("操作附件失败");
+            PropertyInfo propertyInfo = tType.GetProperty(targetName) ?? throw new MateralCoreException("操作附件失败");
             ICollection<Guid> addIDs;
             if (id == null)
             {
@@ -316,8 +312,7 @@ namespace Materal.BaseCore.ServiceImpl
         /// <exception cref="MateralCoreException"></exception>
         public override async Task<TDTO> GetInfoAsync([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
-            TViewDomain? domainFromDB = await DefaultViewRepository.FirstOrDefaultAsync(id);
-            if (domainFromDB == null) throw new MateralCoreException("数据不存在");
+            TViewDomain domainFromDB = await DefaultViewRepository.FirstOrDefaultAsync(id) ?? throw new MateralCoreException("数据不存在");
             return await GetInfoAsync(domainFromDB);
         }
         /// <summary>

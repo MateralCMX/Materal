@@ -27,10 +27,12 @@ namespace Materal.BaseCore.Common
             MateralConfig.PageStartNumber = 1;
             services.AddMemoryCache();
             services.AddMateralUtils();
+            List<Assembly> autoMapperAssemblyList = autoMapperAssemblys.ToList();
+            autoMapperAssemblyList.Add(Assembly.Load("Materal.BaseCore.WebAPI"));
             services.AddAutoMapper(config =>
             {
                 config.AllowNullCollections = true;
-            }, autoMapperAssemblys);
+            }, autoMapperAssemblyList);
             return services;
         }
         /// <summary>

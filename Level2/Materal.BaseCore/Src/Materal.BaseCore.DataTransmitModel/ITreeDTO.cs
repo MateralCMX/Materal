@@ -1,4 +1,4 @@
-﻿namespace Materal.BaseCore.Common.Utils.TreeHelper
+﻿namespace Materal.BaseCore.DataTransmitModel
 {
     /// <summary>
     /// 树数据传输模型

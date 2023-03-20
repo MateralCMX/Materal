@@ -73,6 +73,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// 生成修改模型
         /// </summary>
         public bool GeneratorEditModel { get; set; }
+        /// <summary>
+        /// 是位序分组属性
+        /// </summary>
+        public bool IsIndexGourpProperty { get; set; }
         public DomainPropertyModel() { }
         public DomainPropertyModel(string[] codes, int classLineIndex)
         {
@@ -138,6 +142,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             GeneratorAddModel = !Attributes.HasAttribute<NotAddGeneratorAttribute>();
             GeneratorEditModel = !Attributes.HasAttribute<NotEditGeneratorAttribute>();
             IsBetween = Attributes.HasAttribute<BetweenAttribute>();
+            IsIndexGourpProperty = Attributes.HasAttribute<IndexGroupAttribute>();
             foreach (AttributeModel attribute in Attributes)
             {
                 if (validationWhiteList.Contains(attribute.Name))

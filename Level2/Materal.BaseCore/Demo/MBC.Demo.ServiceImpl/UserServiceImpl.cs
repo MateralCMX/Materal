@@ -1,4 +1,5 @@
 ﻿using Materal.BaseCore.ServiceImpl;
+using Materal.BaseCore.Services.Models;
 using MBC.Core.Common;
 using MBC.Demo.Common;
 using MBC.Demo.DataTransmitModel.User;
@@ -29,16 +30,14 @@ namespace MBC.Demo.ServiceImpl
         }
         public async Task<UserDTO> LoginAsync(LoginModel model)
         {
-            User? domain = await DefaultRepository.FirstOrDefaultAsync(m => m.Account.Equals(model.Account));
-            if (domain == null) throw new MBCException("账号错误");
+            User domain = await DefaultRepository.FirstOrDefaultAsync(m => m.Account.Equals(model.Account)) ?? throw new MBCException("账号错误");
             if (!domain.Password.Equals(DemoConfig.EncodePassword(model.Password))) throw new MBCException("密码错误");
             UserDTO result = Mapper.Map<UserDTO>(domain);
             return result;
         }
         public async Task<string> ResetPasswordAsync(Guid id)
         {
-            User? domain = await DefaultRepository.FirstOrDefaultAsync(id);
-            if (domain == null) throw new MBCException("用户不存在");
+            User domain = await DefaultRepository.FirstOrDefaultAsync(id) ?? throw new MBCException("用户不存在");
             string password = DemoConfig.DefaultPassword;
             domain.Password = DemoConfig.EncodePassword(password);
             UnitOfWork.RegisterEdit(domain);
@@ -47,8 +46,7 @@ namespace MBC.Demo.ServiceImpl
         }
         public async Task ChangePasswordAsync(ChangePasswordModel model)
         {
-            User? domain = await DefaultRepository.FirstOrDefaultAsync(model.ID);
-            if (domain == null) throw new MBCException("用户不存在");
+            User domain = await DefaultRepository.FirstOrDefaultAsync(model.ID) ?? throw new MBCException("用户不存在");
             if (!domain.Password.Equals(DemoConfig.EncodePassword(model.OldPassword))) throw new MBCException("旧密码错误");
             domain.Password = DemoConfig.EncodePassword(model.NewPassword);
             UnitOfWork.RegisterEdit(domain);
@@ -63,5 +61,6 @@ namespace MBC.Demo.ServiceImpl
                 Name = "管理员"
             });
         }
+        public virtual async Task ExchangeIndexAsync(ExchangeIndexModel model) => await ServiceImplHelper.ExchangeIndexByGroupPropertiesAsync<IUserRepository, User>(model, DefaultRepository, UnitOfWork);
     }
 }

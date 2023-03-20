@@ -4,7 +4,7 @@
     /// 查询目标生成
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class QueryTragetGeneratorAttribute : Attribute
+    public class QueryTargetGeneratorAttribute : Attribute
     {
         /// <summary>
         /// 目标名称
@@ -14,7 +14,7 @@
         /// 构造方法
         /// </summary>
         /// <param name="targetName"></param>
-        public QueryTragetGeneratorAttribute(string targetName)
+        public QueryTargetGeneratorAttribute(string targetName)
         {
             TargetName = targetName;
         }

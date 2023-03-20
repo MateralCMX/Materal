@@ -1,4 +1,5 @@
 ﻿using Materal.BaseCore.Services;
+using Materal.BaseCore.Services.Models;
 using Materal.Utils.Model;
 using MBC.Core.Common;
 using MBC.Demo.DataTransmitModel.User;
@@ -38,5 +39,12 @@ namespace MBC.Demo.Services
         /// <returns></returns>
         /// <exception cref="MBCException"></exception>
         Task AddDefaultUserAsync();
+        /// <summary>
+        /// 交换位序
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [DataValidation]
+        Task ExchangeIndexAsync(ExchangeIndexModel model);
     }
 }

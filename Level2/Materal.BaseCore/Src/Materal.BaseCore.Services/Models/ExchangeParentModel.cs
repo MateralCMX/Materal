@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.BaseCore.Common.Utils.TreeHelper
+namespace Materal.BaseCore.Services.Models
 {
     /// <summary>
     /// 更改父级模型

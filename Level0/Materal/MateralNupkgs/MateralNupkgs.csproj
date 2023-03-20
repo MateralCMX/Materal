@@ -6,16 +6,16 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.Abstractions" Version="0.0.7" />
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="0.2.20" />
-		<PackageReference Include="Materal.BaseCore.Common" Version="0.2.20" />
-		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="0.2.20" />
-		<PackageReference Include="Materal.BaseCore.Domain" Version="0.2.20" />
-		<PackageReference Include="Materal.BaseCore.EFRepository" Version="0.2.20" />
-		<PackageReference Include="Materal.BaseCore.HttpClient" Version="0.2.20" />
-		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="0.2.20" />
-		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="0.2.20" />
-		<PackageReference Include="Materal.BaseCore.Services" Version="0.2.20" />
-		<PackageReference Include="Materal.BaseCore.WebAPI" Version="0.2.20" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="0.2.21" />
+		<PackageReference Include="Materal.BaseCore.Common" Version="0.2.21" />
+		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="0.2.21" />
+		<PackageReference Include="Materal.BaseCore.Domain" Version="0.2.21" />
+		<PackageReference Include="Materal.BaseCore.EFRepository" Version="0.2.21" />
+		<PackageReference Include="Materal.BaseCore.HttpClient" Version="0.2.21" />
+		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="0.2.21" />
+		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="0.2.21" />
+		<PackageReference Include="Materal.BaseCore.Services" Version="0.2.21" />
+		<PackageReference Include="Materal.BaseCore.WebAPI" Version="0.2.21" />
 		<PackageReference Include="Materal.Extensions" Version="0.0.7" />
 		<PackageReference Include="Materal.Logger" Version="0.0.15" />
 		<PackageReference Include="Materal.Logger.Message" Version="0.0.15" />
@@ -35,9 +35,9 @@
 		<PackageReference Include="Materal.Utils.Redis" Version="0.0.7" />
 		<PackageReference Include="Materal.Utils.Wechat" Version="0.0.7" />
 		<PackageReference Include="Materal.Utils.Windows" Version="0.0.7" />
-		<PackageReference Include="RC.ConfigClient" Version="0.0.5" />
-		<PackageReference Include="RC.EnvironmentServer.DataTransmitModel" Version="0.0.5" />
-		<PackageReference Include="RC.EnvironmentServer.Enums" Version="0.0.5" />
-		<PackageReference Include="RC.EnvironmentServer.PresentationModel" Version="0.0.5" />
+		<PackageReference Include="RC.ConfigClient" Version="0.0.6" />
+		<PackageReference Include="RC.EnvironmentServer.DataTransmitModel" Version="0.0.6" />
+		<PackageReference Include="RC.EnvironmentServer.Enums" Version="0.0.6" />
+		<PackageReference Include="RC.EnvironmentServer.PresentationModel" Version="0.0.6" />
 	</ItemGroup>
 </Project>
