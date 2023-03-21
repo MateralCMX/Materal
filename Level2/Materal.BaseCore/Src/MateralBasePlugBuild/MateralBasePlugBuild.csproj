@@ -7,9 +7,6 @@
 		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="*" />
-	</ItemGroup>
-	<ItemGroup>
 		<ProjectReference Include="..\Materal.BaseCore.CodeGenerator\Materal.BaseCore.CodeGenerator.csproj" />
 	</ItemGroup>
 	<ItemGroup>

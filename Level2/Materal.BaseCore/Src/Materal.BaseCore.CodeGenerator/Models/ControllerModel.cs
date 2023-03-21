@@ -11,7 +11,15 @@ namespace Materal.BaseCore.CodeGenerator.Models
         public string? Name { get; set; }
         public List<string> Annotations { get; set; } = new();
         public bool IsServiceHttpClient { get; set; } = false;
+        /// <summary>
+        /// 生成代码
+        /// </summary>
+        public bool GeneratorCode { get; set;} = false;
         public string[] TModels { get; set; } = new string[5];
+        /// <summary>
+        /// 特性组
+        /// </summary>
+        public List<AttributeModel> Attributes { get; set; } = new();
         public List<ActionModel> ActionModels { get; set; } = new();
         /// <summary>
         /// 引用
@@ -22,13 +30,6 @@ namespace Materal.BaseCore.CodeGenerator.Models
         {
             Name = GetControllerName(codes[classLineIndex]);
             Append(codes, classLineIndex);
-            _httpClientUsingsBlackList = new[]
-            {
-                "using Microsoft.AspNetCore.Mvc;",
-                "using Materal.BaseCore.Services.Models;",
-                "using Materal.BaseCore.WebAPI.Controllers;",
-                "using XMJ.{}.Services.Models.Comment;"
-            };
         }
         /// <summary>
         /// 添加
@@ -42,8 +43,8 @@ namespace Materal.BaseCore.CodeGenerator.Models
             {
                 int angleBracketStartIndex = classCode.IndexOf('<');
                 if (angleBracketStartIndex < 0) throw new CodeGeneratorException("类型错误");
-                string tModel = classCode.Substring(angleBracketStartIndex + 1);
-                tModel = tModel.Substring(0, tModel.Length - 1);
+                string tModel = classCode[(angleBracketStartIndex + 1)..];
+                tModel = tModel[..^1];
                 string[] tModels = tModel.Split(',');
                 if (tModels.Length == 9)
                 {
@@ -63,6 +64,21 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 Usings.Add(codes[i]);
             }
             Usings = Usings.Distinct().OrderBy(m => m).ToList();
+            #endregion
+            #region 解析特性
+            {
+                int startIndex = classLineIndex - 1;
+                do
+                {
+                    if (startIndex < 0) break;
+                    string attributeCode = codes[startIndex].Trim();
+                    if (!attributeCode.StartsWith("[") || !attributeCode.EndsWith("]")) break;
+                    startIndex -= 1;
+                    List<string> attributeCodes = attributeCode.GetAttributeCodes();
+                    Attributes.AddRange(attributeCodes.Select(attributeName => new AttributeModel(attributeName.Trim())));
+                } while (true);
+                GeneratorCode = !Attributes.HasAttribute<NotGeneratorAttribute>();
+            }
             #endregion
             #region 解析注释
             {
@@ -106,32 +122,40 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 if (temps[i] == "class")
                 {
                     string name = temps[i + 1];
-                    name = name.Substring(0, name.Length - 10);
+                    name = name[..^10];
                     return name;
                 }
             }
             return null;
         }
-
-        private string[] _httpClientUsingsBlackList = new[]
+        /// <summary>
+        /// httpClient引用黑名单
+        /// </summary>
+        private readonly string[] _httpClientUsingStaticBlackList = new[]
         {
-            "using Microsoft.AspNetCore.Mvc;",
-            "using Materal.BaseCore.Services.Models;",
-            "using Materal.BaseCore.WebAPI.Controllers;"
+            "using Microsoft.AspNetCore",
+            "using Materal.BaseCore.Services",
+            "using Materal.BaseCore.CodeGenerator",
+            "using Materal.BaseCore.WebAPI.Controllers;",
         };
         /// <summary>
         /// 创建HttpClient文件
         /// </summary>
         public void CreateHttpClientFile(ProjectModel project)
         {
+            if (!GeneratorCode) return;
             if (!ActionModels.Any(m => m.GeneratorCode) && !IsServiceHttpClient) return;
+            string[] _httpClientUsingBlackList = new[]
+            {
+                $"using {project.PrefixName}.{project.ProjectName}.Services"
+            };
             StringBuilder codeContent = new();
             codeContent.AppendLine($"#nullable enable");
-            codeContent.AppendLine($"using XMJ.Core.HttpClient;");
+            codeContent.AppendLine($"using {project.PrefixName}.Core.HttpClient;");
             foreach (string @using in Usings)
             {
-                if (_httpClientUsingsBlackList.Contains(@using)) continue;
-                if (@using.IndexOf(".Services") > 0) continue;
+                if (_httpClientUsingStaticBlackList.Any(m => @using.StartsWith(m))) continue;
+                if (_httpClientUsingBlackList.Any(m => @using.StartsWith(m))) continue;
                 codeContent.AppendLine(@using);
             }
             codeContent.AppendLine($"");
@@ -172,7 +196,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     args.Add(arg);
                     string[] temps = arg.Split(' ');
                     string temp = temps.Last();
-                    if (temps[temps.Length - 2] != "string")
+                    if (temps[^2] != "string")
                     {
                         querySendArgs.Add($"[nameof({temp})] = {temp}.ToString()");
                     }

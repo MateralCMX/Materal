@@ -36,13 +36,17 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// Query参数
         /// </summary>
         public List<string> QueryParams { get; set; } = new List<string>();
+        /// <summary>
+        /// 特性组
+        /// </summary>
+        public List<AttributeModel> Attributes { get; set; } = new();
         public ActionModel(string[] codes, int startIndex)
         {
             string actionCode = codes[startIndex--].Trim();
             int bodyIndex = actionCode.IndexOf("=>");
             if (bodyIndex >= 0)
             {
-                actionCode = actionCode.Substring(0, bodyIndex).Trim();
+                actionCode = actionCode[..bodyIndex].Trim();
             }
             string? methodType;
             int bracketStartIndex = actionCode.IndexOf("([");
@@ -50,11 +54,26 @@ namespace Materal.BaseCore.CodeGenerator.Models
             {
                 bracketStartIndex = actionCode.LastIndexOf("(");
             }
+            #region 解析特性
+            {
+                int tempIndex = startIndex;
+                do
+                {
+                    if (tempIndex < 0) break;
+                    string attributeCode = codes[tempIndex].Trim();
+                    if (!attributeCode.StartsWith("[") || !attributeCode.EndsWith("]")) break;
+                    tempIndex -= 1;
+                    List<string> attributeCodes = attributeCode.GetAttributeCodes();
+                    Attributes.AddRange(attributeCodes.Select(attributeName => new AttributeModel(attributeName.Trim())));
+                } while (true);
+                GeneratorCode = !Attributes.HasAttribute<NotGeneratorAttribute>();
+            }
+            #endregion
             #region 解析方法
             {
-                string[] tempFrontCodes = actionCode.Substring(0, bracketStartIndex).Split(' ');
+                string[] tempFrontCodes = actionCode[..bracketStartIndex].Split(' ');
                 List<string> frontCodes = tempFrontCodes.AssemblyFullCode(" ");
-                string code = frontCodes[frontCodes.Count - 2].Trim();
+                string code = frontCodes[^2].Trim();
                 if (code.StartsWith("Task<PageResultModel<") || code.StartsWith("PageResultModel<"))
                 {
                     string type = GetType(code);
@@ -82,17 +101,17 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     methodType = null;
                 }
                 ResultType = ResultType.Replace("??", "?");
-                Name = frontCodes[frontCodes.Count - 1].Trim();
+                Name = frontCodes[^1].Trim();
                 if (Name.EndsWith("Async"))
                 {
-                    Name = Name.Substring(0, Name.Length - 5);
+                    Name = Name[..^5];
                 }
             }
             #endregion
             #region 解析参数
             {
-                string backCode = actionCode.Substring(bracketStartIndex + 1);
-                backCode = backCode.Substring(0, backCode.Length - 1);
+                string backCode = actionCode[(bracketStartIndex + 1)..];
+                backCode = backCode[..^1];
                 if (!string.IsNullOrWhiteSpace(backCode))
                 {
                     string[] backCodes = backCode.Split(',');
@@ -117,7 +136,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                             trueCode = trueCode.Replace(item, "");
                         }
                         string[] temps = trueCode.Split(' ');
-                        string type = temps[temps.Length - 2];
+                        string type = temps[^2];
                         if (blackList.Contains(type))
                         {
                             GeneratorCode = false;
@@ -189,12 +208,12 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 angleBracketStartIndex = code.LastIndexOf("ResultModel<") + 11;
             }
             if (angleBracketStartIndex < 0) return code;
-            string type = code.Substring(angleBracketStartIndex + 1);
+            string type = code[(angleBracketStartIndex + 1)..];
             int frontCount = type.Count(m => m == '<');
             int backCount = type.Count(m => m == '>');
             while (frontCount != backCount && type.EndsWith(">"))
             {
-                type = type.Substring(0, type.Length - 1);
+                type = type[..^1];
                 backCount = type.Count(m => m == '>');
             }
             return type;
