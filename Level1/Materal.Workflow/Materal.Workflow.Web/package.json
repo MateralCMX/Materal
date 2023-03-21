@@ -16,6 +16,7 @@
     "@jsplumb/browser-ui": "^5.13.4",
     "@jsplumb/connector-bezier": "^5.13.4",
     "@jsplumb/connector-flowchart": "^5.13.4",
+    "@web-atoms/date-time": "^1.1.1",
     "jsplumb": "^2.15.6"
   }
 }

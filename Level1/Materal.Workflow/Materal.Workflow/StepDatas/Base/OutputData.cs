@@ -6,9 +6,9 @@
     public class OutputData
     {
         /// <summary>
-        /// 运行数据名称
+        /// 运行数据属性
         /// </summary>
-        public string RuntimeDataName { get; set; }
+        public string RuntimeDataProperty { get; set; }
         /// <summary>
         /// 值属性名称
         /// </summary>
@@ -22,11 +22,11 @@
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="runtimeDataName"></param>
+        /// <param name="runtimeDataProperty"></param>
         /// <param name="stepProperty"></param>
-        public OutputData(string runtimeDataName, string stepProperty)
+        public OutputData(string runtimeDataProperty, string stepProperty)
         {
-            RuntimeDataName = runtimeDataName;
+            RuntimeDataProperty = runtimeDataProperty;
             StepProperty = stepProperty;
         }
     }

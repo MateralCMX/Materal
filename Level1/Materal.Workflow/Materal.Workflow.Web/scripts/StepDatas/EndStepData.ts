@@ -1,4 +1,4 @@
-import { StepData } from "./StepData";
+import { StepData } from "./Base/StepData";
 
 /**
  * 结束节点数据

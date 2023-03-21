@@ -198,7 +198,7 @@ namespace Materal.Workflow.StepDatas
             Type stepType = genericTypes[1];
             #region StepBodyData
             ParameterExpression nValue = Expression.Parameter(runtimeDataType, "n");
-            Expression tempExpression = StepHandlerHelper.GetDictionaryIndexValueExpression(nValue, outputData.RuntimeDataName);
+            Expression tempExpression = StepHandlerHelper.GetDictionaryIndexValueExpression(nValue, outputData.RuntimeDataProperty);
             LambdaExpression dataProperty = Expression.Lambda(tempExpression, nValue);
             #endregion
             #region Source

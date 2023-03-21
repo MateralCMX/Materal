@@ -1,6 +1,8 @@
 import { CanvasManager } from "./scripts/CanvasManager";
-import { StepData } from "./scripts/StepData";
-import { StepInfo, AllStepInfos } from "./scripts/StepInfo";
+import { StepData } from "./scripts/StepDatas/Base/StepData";
+import { StepDataInfo, AllStepDataInfos } from "./scripts/StepDataInfo";
+import { StepFrom } from "./scripts/StepForm/StepForm";
+import { StepFormFactory } from "./scripts/StepForm/StepFormFactory";
 
 /**
  * 主页
@@ -8,12 +10,12 @@ import { StepInfo, AllStepInfos } from "./scripts/StepInfo";
 class IndexPage {
     private canvasManager: CanvasManager;
     private settingsElement: HTMLElement;
-    private stepDataForms: StepFromModel[] = [];
+    private stepDataForms: StepFrom[] = [];
     constructor() {
         this.InitStpes();
         this.InitCanvas();
         this.InitSettings();
-        this.canvasManager.CreateStepElement(AllStepInfos.ThenStep);
+        this.canvasManager.CreateStepElement(AllStepDataInfos.ThenStep);
     }
     /**
      * 初始化节点组
@@ -21,9 +23,9 @@ class IndexPage {
     private InitStpes() {
         const stepsElement = document.getElementById("Steps");
         if (stepsElement === null) throw new Error("获取Steps元素失败");
-        for (const key in AllStepInfos) {
-            if (!Object.prototype.hasOwnProperty.call(AllStepInfos, key)) continue;
-            const stepData = AllStepInfos[key] as StepInfo;
+        for (const key in AllStepDataInfos) {
+            if (!Object.prototype.hasOwnProperty.call(AllStepDataInfos, key)) continue;
+            const stepData = AllStepDataInfos[key] as StepDataInfo;
             if (!stepData.CanCreate) continue;
             const node = document.createElement("div");
             node.id = stepData.ID;
@@ -50,20 +52,20 @@ class IndexPage {
     private StepsStepElementClick(e: Event) {
         if (e.target === null) return;
         const sourceElement: HTMLDivElement = (e.target as HTMLDivElement);
-        this.canvasManager.CreateStepElement(AllStepInfos[sourceElement.id]);
+        this.canvasManager.CreateStepElement(AllStepDataInfos[sourceElement.id]);
     }
     /**
      * 选中节点
      * @param stepData 
      * @param element 
      */
-    private SelectedStep(stepData: StepData, element: HTMLElement, stepInfo: StepInfo) {
-        console.log(stepData);
+    private SelectedStep(stepData: StepData, element: HTMLElement, stepInfo: StepDataInfo) {
         if (!Object.prototype.hasOwnProperty.call(this.stepDataForms, stepData.StepDataTypeName)) {
             this.settingsElement.innerHTML = "";
             return;
         }
         this.stepDataForms[stepData.StepDataTypeName].Show(this.settingsElement, stepData);
+        console.log(stepData);
     }
     /**
      * 初始化设置
@@ -76,54 +78,9 @@ class IndexPage {
             if (!Object.prototype.hasOwnProperty.call(this.settingsElement.childNodes, key)) continue;
             const element = this.settingsElement.childNodes[key] as HTMLFormElement;
             if (element.id === undefined || element.id === null) continue;
-            this.stepDataForms[element.id] = new StepFromModel(element);
+            this.stepDataForms[element.id] = StepFormFactory.CreateStepFormModel(element);
         }
         this.settingsElement.innerHTML = "";
-    }
-}
-class StepFromModel {
-    private stepDataForm: HTMLFormElement;
-    private inputs: HTMLInputElement[] = [];
-    private nowStepData: StepData | null = null;
-    constructor(stepDataForm: HTMLFormElement) {
-        this.stepDataForm = stepDataForm;
-        const inputs = this.stepDataForm.getElementsByTagName("input");
-        for (const key in inputs) {
-            if (!Object.prototype.hasOwnProperty.call(inputs, key)) continue;
-            const element = inputs[key];
-            if (element.id === null || element.id === undefined || element.id === "") continue;
-            this.inputs[element.id] = element;
-            element.addEventListener("change", e => {
-                if(this.nowStepData === null) return;
-                const target = e.target as HTMLInputElement;
-                this.nowStepData[target.id] = target.value;
-            });
-        }
-    }
-    /**
-     * 显示
-     * @param settingsElement 
-     */
-    public Show(settingsElement: HTMLElement, stepData: StepData) {
-        settingsElement.innerHTML = "";
-        this.InitData(stepData);
-        settingsElement.appendChild(this.stepDataForm);
-    }
-    /**
-     * 初始化数据
-     * @param stepData 
-     */
-    private InitData(stepData: StepData) {
-        this.stepDataForm.reset();
-        this.nowStepData = stepData;
-        for (const key in stepData) {
-            if (!Object.prototype.hasOwnProperty.call(stepData, key)) continue;
-            if (!Object.prototype.hasOwnProperty.call(this.inputs, key)) continue;
-            const value = stepData[key];
-            if (value === null || value == undefined) continue;
-            const input = this.inputs[key] as HTMLInputElement;
-            input.value = value;
-        }
     }
 }
 new IndexPage();

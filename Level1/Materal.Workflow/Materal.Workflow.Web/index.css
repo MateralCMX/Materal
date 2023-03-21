@@ -42,12 +42,16 @@
     display: block;
 }
 .form>.formItem>.inputLabel{
-    display: inline-block;
-    width: 20%;
+    display: block;
+    width: 100%;
     box-sizing: border-box
 }
 .form>.formItem>.input{
-    display: inline-block;
-    width: 80%;
-    box-sizing: border-box
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    height: 30px;
+    border: 2px solid rgb(118, 118, 118);
+    border-radius: 4px;
+    padding: 1px;
 }

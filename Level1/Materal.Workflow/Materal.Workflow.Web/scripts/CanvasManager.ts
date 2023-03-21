@@ -1,8 +1,8 @@
 import { BrowserJsPlumbInstance, newInstance, ContainmentType } from "@jsplumb/browser-ui";
 import { DotEndpoint, RectangleEndpoint, EVENT_CONNECTION, EVENT_CONNECTION_DETACHED } from "@jsplumb/core";
-import { StepInfo, AllStepInfos } from "./StepInfo";
+import { StepDataInfo, AllStepDataInfos } from "./StepDataInfo";
 import "../css/Steps.css";
-import { StepData } from "./StepData";
+import { StepData } from "./StepDatas/Base/StepData";
 
 /**
  * 画布管理器
@@ -10,10 +10,10 @@ import { StepData } from "./StepData";
 export class CanvasManager {
     private instance: BrowserJsPlumbInstance;
     private canvasElement: HTMLElement;
-    private selectedStep: (stepData: StepData, element: HTMLElement,stepInfo: StepInfo) => void;
+    private selectedStep: (stepData: StepData, element: HTMLElement,stepInfo: StepDataInfo) => void;
     private maxStepID: number = 0;
     private stepDatas: any = {};
-    constructor(targetElement: HTMLElement, selectedStep: (stepData: StepData, element: HTMLElement, stepInfo: StepInfo) => void) {
+    constructor(targetElement: HTMLElement, selectedStep: (stepData: StepData, element: HTMLElement, stepInfo: StepDataInfo) => void) {
         this.canvasElement = targetElement;
         this.selectedStep = selectedStep;
         this.instance = newInstance({
@@ -35,7 +35,7 @@ export class CanvasManager {
      * @param node 
      * @param stepInfo 
      */
-    public CreateStepElement(stepInfo: StepInfo) {
+    public CreateStepElement(stepInfo: StepDataInfo) {
         //创建元素
         let node: HTMLElement = document.createElement("div");
         node.id = `step${this.maxStepID++}`;
@@ -87,7 +87,7 @@ export class CanvasManager {
      * 创建开始节点
      */
     private CreateStartStep() {
-        this.CreateStepElement(AllStepInfos.StartStep);
+        this.CreateStepElement(AllStepDataInfos.StartStep);
     }
     /**
      * 绑定下一步

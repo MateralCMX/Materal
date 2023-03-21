@@ -120,7 +120,7 @@ namespace Materal.Workflow.StepDatas
             #endregion
             #region dataProperty
             ParameterExpression mDataProperty = Expression.Parameter(StepHandlerHelper.RuntimeDataType, "m");
-            tempExpression = StepHandlerHelper.GetDictionaryIndexValueExpression(mDataProperty, outputData.RuntimeDataName);
+            tempExpression = StepHandlerHelper.GetDictionaryIndexValueExpression(mDataProperty, outputData.RuntimeDataProperty);
             LambdaExpression dataProperty = Expression.Lambda(tempExpression, mDataProperty);
             #endregion
             WorkflowStep step = GetWorkflowStep(stepBuilder);
