@@ -74,7 +74,6 @@ namespace System
         /// <summary>
         /// 获得类型
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="typeName"></param>
         /// <param name="targetType"></param>
         /// <param name="args"></param>

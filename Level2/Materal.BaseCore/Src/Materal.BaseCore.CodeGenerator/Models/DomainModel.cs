@@ -1,5 +1,6 @@
 ﻿using Materal.BaseCore.CodeGenerator.Extensions;
 using Microsoft.Extensions.Primitives;
+using System;
 using System.Text;
 
 namespace Materal.BaseCore.CodeGenerator.Models
@@ -684,7 +685,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 创建仓储实现文件
         /// </summary>
-        public void CreateRepositoryImplFile(ProjectModel project)
+        public void CreateRepositoryImplFile(ProjectModel project, List<EnumModel> enums)
         {
             if (!GeneratorCode) return;
             StringBuilder codeContent = new();
@@ -692,6 +693,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"using {project.PrefixName}.Core.EFRepository;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain.Repositories;");
+            if (enums != null && enums.Count > 0)
+            {
+                codeContent.AppendLine($"using {enums[0].Namespace};");
+            }
             if (UseCache)
             {
                 codeContent.AppendLine($"using Materal.Utils.Cache;");
@@ -853,11 +858,15 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 创建仓储接口文件
         /// </summary>
-        public void CreateIRepositoryFile(ProjectModel project)
+        public void CreateIRepositoryFile(ProjectModel project, List<EnumModel> enums)
         {
             if (!GeneratorCode) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.TTA.EFRepository;");
+            if(enums != null && enums.Count > 0)
+            {
+                codeContent.AppendLine($"using {enums[0].Namespace};");
+            }
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.Domain.Repositories");
             codeContent.AppendLine($"{{");

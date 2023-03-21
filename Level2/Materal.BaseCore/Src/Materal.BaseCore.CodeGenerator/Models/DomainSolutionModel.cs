@@ -24,8 +24,8 @@ namespace Materal.BaseCore.CodeGenerator.Models
         public void CreateCodeFiles()
         {
             if (Domains.Count <= 0) return;
-            DomainProject?.CreateDomainFiles(Domains);
-            EFRepositoryProject?.CreateEFRepositoryFiles(Domains);
+            DomainProject?.CreateDomainFiles(Domains, Enums);
+            EFRepositoryProject?.CreateEFRepositoryFiles(Domains, Enums);
             DataTransmitModelProject?.CreateDataTransmitModelFiles(Domains);
             ServicesProject?.CreateServicesFiles(Domains);
             ServiceImplProject?.CreateServiceImplFiles(Domains);

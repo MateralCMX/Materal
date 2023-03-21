@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Demo.WebAPI", "Demo\RC.Demo.WebAPI\RC.Demo.WebAPI.csproj", "{B293E5EC-C45A-450A-A074-78B394495018}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{EF4EA719-E311-437E-B608-E06F43D0530F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{5B572765-E56C-4476-98DC-5D467F567B32}"
@@ -27,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Demo.ServiceImpl", "Demo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Demo.PresentationModel", "Demo\RC.Demo.PresentationModel\RC.Demo.PresentationModel.csproj", "{4E774277-5069-45F0-AD54-AC43E9BCBD62}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Demo.WebAPI", "Demo\RC.Demo.WebAPI\RC.Demo.WebAPI.csproj", "{B293E5EC-C45A-450A-A074-78B394495018}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.WebAPI", "Src\RC.Core.WebAPI\RC.Core.WebAPI.csproj", "{AEB807A6-1CC0-458C-8131-A04B3CBF3339}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.HttpClient", "Src\RC.Core.HttpClient\RC.Core.HttpClient.csproj", "{4C3B997F-5E39-4973-B11E-B9FA04DD1EEE}"
@@ -43,6 +43,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B293E5EC-C45A-450A-A074-78B394495018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B293E5EC-C45A-450A-A074-78B394495018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B293E5EC-C45A-450A-A074-78B394495018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B293E5EC-C45A-450A-A074-78B394495018}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86BA6CC3-23E4-4131-9A99-C6AEA3A3FB88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{86BA6CC3-23E4-4131-9A99-C6AEA3A3FB88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86BA6CC3-23E4-4131-9A99-C6AEA3A3FB88}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -83,10 +87,6 @@ Global
 		{4E774277-5069-45F0-AD54-AC43E9BCBD62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E774277-5069-45F0-AD54-AC43E9BCBD62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E774277-5069-45F0-AD54-AC43E9BCBD62}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B293E5EC-C45A-450A-A074-78B394495018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B293E5EC-C45A-450A-A074-78B394495018}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B293E5EC-C45A-450A-A074-78B394495018}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B293E5EC-C45A-450A-A074-78B394495018}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AEB807A6-1CC0-458C-8131-A04B3CBF3339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEB807A6-1CC0-458C-8131-A04B3CBF3339}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEB807A6-1CC0-458C-8131-A04B3CBF3339}.Release|Any CPU.ActiveCfg = Release|Any CPU

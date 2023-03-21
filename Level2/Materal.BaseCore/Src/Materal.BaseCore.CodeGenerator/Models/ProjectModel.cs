@@ -151,7 +151,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// 创建EF仓储实现文件
         /// </summary>
         /// <param name="domains"></param>
-        public void CreateEFRepositoryFiles(List<DomainModel> domains)
+        public void CreateEFRepositoryFiles(List<DomainModel> domains, List<EnumModel> enums)
         {
             ClearMCGFiles();
             CreateDBContextFile(domains);
@@ -159,7 +159,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             {
                 domain.Init();
                 domain.CreateEntityConfigFile(this);
-                domain.CreateRepositoryImplFile(this);
+                domain.CreateRepositoryImplFile(this, enums);
             }
         }
         /// <summary>
@@ -195,13 +195,14 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// 创建Domain文件
         /// </summary>
         /// <param name="domains"></param>
-        public void CreateDomainFiles(List<DomainModel> domains)
+        /// <param name="enums"></param>
+        public void CreateDomainFiles(List<DomainModel> domains, List<EnumModel> enums)
         {
             ClearMCGFiles();
             foreach (DomainModel domain in domains)
             {
                 domain.Init();
-                domain.CreateIRepositoryFile(this);
+                domain.CreateIRepositoryFile(this, enums);
             }
         }
         /// <summary>

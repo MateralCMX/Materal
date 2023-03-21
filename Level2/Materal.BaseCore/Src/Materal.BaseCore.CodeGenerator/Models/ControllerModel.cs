@@ -13,11 +13,22 @@ namespace Materal.BaseCore.CodeGenerator.Models
         public bool IsServiceHttpClient { get; set; } = false;
         public string[] TModels { get; set; } = new string[5];
         public List<ActionModel> ActionModels { get; set; } = new();
+        /// <summary>
+        /// 引用
+        /// </summary>
+        public List<string> Usings { get; set; } = new();
         public ControllerModel() { }
         public ControllerModel(string[] codes, int classLineIndex)
         {
             Name = GetControllerName(codes[classLineIndex]);
             Append(codes, classLineIndex);
+            _httpClientUsingsBlackList = new[]
+            {
+                "using Microsoft.AspNetCore.Mvc;",
+                "using Materal.BaseCore.Services.Models;",
+                "using Materal.BaseCore.WebAPI.Controllers;",
+                "using XMJ.{}.Services.Models.Comment;"
+            };
         }
         /// <summary>
         /// 添加
@@ -44,6 +55,15 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     TModels[4] = tModels[7].Trim();
                 }
             }
+            #region 解析Using
+            for (int i = 0; i < codes.Length; i++)
+            {
+                if (codes[i].StartsWith("namespace")) break;
+                if (!codes[i].StartsWith("using")) continue;
+                Usings.Add(codes[i]);
+            }
+            Usings = Usings.Distinct().OrderBy(m => m).ToList();
+            #endregion
             #region 解析注释
             {
                 if (Annotations.Count == 0)
@@ -92,6 +112,13 @@ namespace Materal.BaseCore.CodeGenerator.Models
             }
             return null;
         }
+
+        private string[] _httpClientUsingsBlackList = new[]
+        {
+            "using Microsoft.AspNetCore.Mvc;",
+            "using Materal.BaseCore.Services.Models;",
+            "using Materal.BaseCore.WebAPI.Controllers;"
+        };
         /// <summary>
         /// 创建HttpClient文件
         /// </summary>
@@ -100,12 +127,13 @@ namespace Materal.BaseCore.CodeGenerator.Models
             if (!ActionModels.Any(m => m.GeneratorCode) && !IsServiceHttpClient) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"#nullable enable");
-            codeContent.AppendLine($"using {project.PrefixName}.Core.HttpClient;");
-            codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
-            codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.PresentationModel.{Name};");
-            codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
-            codeContent.AppendLine($"using Materal.BaseCore.PresentationModel;");
-            codeContent.AppendLine($"using Materal.Utils.Model;");
+            codeContent.AppendLine($"using XMJ.Core.HttpClient;");
+            foreach (string @using in Usings)
+            {
+                if (_httpClientUsingsBlackList.Contains(@using)) continue;
+                if (@using.IndexOf(".Services") > 0) continue;
+                codeContent.AppendLine(@using);
+            }
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.HttpClient");
             codeContent.AppendLine($"{{");
