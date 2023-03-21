@@ -32,10 +32,8 @@ namespace RC.EnvironmentServer.ServiceImpl
         }
         protected override async Task<Guid> AddAsync(ConfigurationItem domain, AddConfigurationItemModel model)
         {
-            ProjectListDTO? project = await _projectHttpClient.FirstDataAsync(model.ProjectID);
-            if (project == null) throw new RCException("项目不存在");
-            NamespaceListDTO? @namespace = await _namespaceHttpClient.FirstDataAsync(model.NamespaceID);
-            if (@namespace == null) throw new RCException("命名空间不存在");
+            ProjectListDTO project = await _projectHttpClient.FirstDataAsync(model.ProjectID) ?? throw new RCException("项目不存在");
+            NamespaceListDTO @namespace = await _namespaceHttpClient.FirstDataAsync(model.NamespaceID) ?? throw new RCException("命名空间不存在");
             domain.NamespaceName = @namespace.Name;
             domain.ProjectName = project.Name;
             return await base.AddAsync(domain, model);
@@ -45,12 +43,8 @@ namespace RC.EnvironmentServer.ServiceImpl
             if (await DefaultRepository.ExistedAsync(m => m.ID != model.ID && m.NamespaceID == domainFromDB.NamespaceID && m.ProjectID == domainFromDB.ProjectID && m.Key == model.Key)) throw new RCException("键重复");
             await base.EditAsync(domainFromDB, model);
         }
-        protected override async Task<(List<ConfigurationItemListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<ConfigurationItem, bool>> expression, QueryConfigurationItemModel model, Expression<Func<ConfigurationItem, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
-        {
-            sortOrder = SortOrder.Ascending;
-            orderExpression = m => m.Key;
-            return await base.GetListAsync(expression, model, orderExpression, sortOrder);
-        }
+        protected override async Task<(List<ConfigurationItemListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<ConfigurationItem, bool>> expression, QueryConfigurationItemModel model, Expression<Func<ConfigurationItem, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending) 
+            => await base.GetListAsync(expression, model, m => m.Key, SortOrder.Ascending);
         public async Task InitAsync()
         {
             List<ConfigurationItem> configurationItems = await DefaultRepository.FindAsync(m => true);
@@ -99,13 +93,7 @@ namespace RC.EnvironmentServer.ServiceImpl
                 UnitOfWork.RegisterDelete(item);
             }
             await UnitOfWork.CommitAsync();
-            await ClearCacheAsync();
         }
-        /// <summary>
-        /// 同步配置
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
         public async Task SyncConfigAsync(SyncConfigModel model)
         {
             if (model.TargetEnvironments.Length <= 0) throw new RCException("同步目标为0");

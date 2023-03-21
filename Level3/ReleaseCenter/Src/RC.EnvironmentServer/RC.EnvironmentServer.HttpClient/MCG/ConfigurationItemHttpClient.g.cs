@@ -2,7 +2,6 @@
 using RC.Core.HttpClient;
 using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Model;
-using Microsoft.AspNetCore.Authorization;
 using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
 using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
 
