@@ -3,6 +3,7 @@ import { DotEndpoint, RectangleEndpoint, EVENT_CONNECTION, EVENT_CONNECTION_DETA
 import { StepDataInfo, AllStepDataInfos } from "./StepDataInfo";
 import "../css/Steps.css";
 import { StepData } from "./StepDatas/Base/StepData";
+import { Endpoint } from "jsplumb";
 
 /**
  * 画布管理器
@@ -10,9 +11,11 @@ import { StepData } from "./StepDatas/Base/StepData";
 export class CanvasManager {
     private instance: BrowserJsPlumbInstance;
     private canvasElement: HTMLElement;
-    private selectedStep: (stepData: StepData, element: HTMLElement,stepInfo: StepDataInfo) => void;
+    private selectedStep: (stepData: StepData, element: HTMLElement, stepInfo: StepDataInfo) => void;
     private maxStepID: number = 0;
-    private stepDatas: any = {};
+    private stepDatas: { [key: string]: StepData } = {};
+    private targetPoints: { [key: string]: any } = {};
+    private sourcePoints: { [key: string]: any } = {};
     constructor(targetElement: HTMLElement, selectedStep: (stepData: StepData, element: HTMLElement, stepInfo: StepDataInfo) => void) {
         this.canvasElement = targetElement;
         this.selectedStep = selectedStep;
@@ -28,7 +31,7 @@ export class CanvasManager {
         });
         this.instance.bind(EVENT_CONNECTION, (params) => this.BindNext(params.sourceId, params.targetId));
         this.instance.bind(EVENT_CONNECTION_DETACHED, (params) => this.BindNext(params.sourceId, null));
-        this.CreateStartStep();
+        this.CreateStepElement(AllStepDataInfos.StartStep);
     }
     /**
      * 创建节点元素
@@ -44,6 +47,8 @@ export class CanvasManager {
         node.innerText = stepInfo.Name;
         node.addEventListener("click", e => {
             if (this.selectedStep == null) return;
+            console.log(this.stepDatas);
+            console.log(this.stepDatas[node.id]);
             this.selectedStep(this.stepDatas[node.id], e.target as HTMLElement, stepInfo);
         });
         this.canvasElement.appendChild(node);
@@ -55,39 +60,35 @@ export class CanvasManager {
             this.CreateSourceAnchor(node);
         }
         //绑定数据
-        this.stepDatas[node.id] = stepInfo.InitStepDataAction();
+        this.stepDatas[node.id] = stepInfo.InitStepDataAction(node.id);
     }
     /**
      * 创建目标锚点
      * @param node 
      */
     private CreateTargetAnchor(node: HTMLElement) {
-        this.instance.addEndpoint(node, {
+        const point = this.instance.addEndpoint(node, {
             target: true,
             anchor: "AutoDefault",
             endpoint: RectangleEndpoint.type
         });
+        this.targetPoints[node.id] = point;
     }
     /**
      * 创建源锚点
      * @param node 
      */
     private CreateSourceAnchor(node: HTMLElement) {
-        this.instance.addEndpoint(node, {
+        const point = this.instance.addEndpoint(node, {
             source: true,
             anchor: "AutoDefault",
             endpoint: DotEndpoint.type,
             connectorOverlays: [
                 { type: "Arrow", options: { location: [0.5, 0.5] } }
             ],
-            // connector: FlowchartConnector.type
+            // connector: FlowchartConnector.type//流程图线
         });
-    }
-    /**
-     * 创建开始节点
-     */
-    private CreateStartStep() {
-        this.CreateStepElement(AllStepDataInfos.StartStep);
+        this.sourcePoints[node.id] = point;
     }
     /**
      * 绑定下一步
@@ -105,5 +106,27 @@ export class CanvasManager {
                 this.stepDatas[sourceID]["Next"] = this.stepDatas[targetID];
             }
         }
+    }
+    /**
+     * 删除节点元素
+     * @param node 
+     */
+    public DeleteStepElement(id: string) {
+        const node = document.getElementById(id);
+        if (!node) return;
+        if (!Object.prototype.hasOwnProperty.call(this.stepDatas, node.id)) return;
+        if (Object.prototype.hasOwnProperty.call(this.targetPoints, node.id)){
+            this.instance.deleteEndpoint(this.targetPoints[node.id]);
+        }
+        if (Object.prototype.hasOwnProperty.call(this.sourcePoints, node.id)){
+            this.instance.deleteEndpoint(this.sourcePoints[node.id]);
+        }
+        delete this.stepDatas[node.id];
+        for (const key in this.stepDatas) {
+            if (!Object.prototype.hasOwnProperty.call(this.stepDatas, key)) continue;
+            const stepData = this.stepDatas[key];
+            stepData.RemoveChild(node.id);
+        }
+        node.parentElement?.removeChild(node);
     }
 }

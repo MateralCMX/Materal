@@ -1,10 +1,11 @@
+import { CanvasManager } from "../CanvasManager";
 import { ThenStepData } from "../StepDatas/ThenStepData";
 import { AllStepBodyInfos } from "../StepInfo";
 import { StepFrom } from "./StepForm";
 
 export class ThenStepForm extends StepFrom {
-    constructor(stepDataForm: HTMLFormElement) {
-        super(stepDataForm);
+    constructor(stepDataForm: HTMLFormElement, canvasManager: CanvasManager) {
+        super(stepDataForm, canvasManager);
         this.BindInputElement(stepDataForm);
         this.BindSelectElement(stepDataForm, element => {
             switch (element.id) {
@@ -13,6 +14,7 @@ export class ThenStepForm extends StepFrom {
                     break;
             }
         });
+        this.BindButtonElement(stepDataForm);
     }
     private BindSelectByStepTypeData(element: HTMLSelectElement) {
         for (const key in AllStepBodyInfos) {
@@ -29,6 +31,10 @@ export class ThenStepForm extends StepFrom {
      * @param stepData 
      */
     protected override InitData(stepData: ThenStepData): void {
+        if (!stepData.StepType) {
+            const element = this.selects["StepType"] as HTMLSelectElement;
+            stepData.StepType = element.value;
+        }
         this.stepDataForm.reset();
         this.nowStepData = stepData;
         for (const key in stepData) {

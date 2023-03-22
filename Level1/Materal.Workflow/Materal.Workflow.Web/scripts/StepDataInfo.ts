@@ -30,15 +30,15 @@ export class StepDataInfo {
     /**
      * 初始化数据
      */
-    public InitStepDataAction: () => StepData;
-    constructor(id: string, name: string, initStepDataAction: () => StepData, targetAnchor: boolean = true, canCreate: boolean = true) {
+    public InitStepDataAction: (id: string) => StepData;
+    constructor(id: string, name: string, initStepDataAction: (id: string) => StepData, targetAnchor: boolean = true, canCreate: boolean = true) {
         this.ID = id;
         this.FormID = `${id}Data`;
         this.Name = name;
         this.InitStepDataAction = initStepDataAction;
         this.TargetAnchor = targetAnchor;
         this.CanCreate = canCreate;
-        const temp = initStepDataAction();
+        const temp = initStepDataAction("tempStep");
         for (const key in temp) {
             if (key == "Next") {
                 this.SourceAnchor = true;
@@ -47,8 +47,8 @@ export class StepDataInfo {
     }
 }
 export const AllStepDataInfos = {
-    StartStep: new StepDataInfo("StartStep", "开始", () => new StartStepData(), false, false),
-    ThenStep: new StepDataInfo("ThenStep", "业务", () => new ThenStepData()),
+    StartStep: new StepDataInfo("StartStep", "开始", id => new StartStepData(id), false, false),
+    ThenStep: new StepDataInfo("ThenStep", "业务", id => new ThenStepData(id)),
     // ActivityStep: new StepInfo("ActivityStep", "活动"),
     // BranchStep: new StepInfo("BranchStep", "分支"),
     // DelayStep: new StepInfo("DelayStep", "延时"),

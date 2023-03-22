@@ -7,6 +7,10 @@ export abstract class StepData {
         return this.StepDataType;
     }
     /**
+     * 唯一标识
+     */
+    public ID: string;
+    /**
      * 名称
      */
     public Name: string;
@@ -18,7 +22,9 @@ export abstract class StepData {
      * 构建数据
      */
     public BuildData: any = {};
-    constructor(stepDataType: string) {
+    constructor(stepDataType: string, id: string) {
         this.StepDataType = stepDataType;
+        this.ID = id;
     }
+    public abstract RemoveChild(childID: string): void;
 }

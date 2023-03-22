@@ -53,5 +53,9 @@
     height: 30px;
     border: 2px solid rgb(118, 118, 118);
     border-radius: 4px;
-    padding: 1px;
+    padding: 1px 6px;
+}
+.deleteButton{
+    color: white;
+    background-color: #eb4848;
 }

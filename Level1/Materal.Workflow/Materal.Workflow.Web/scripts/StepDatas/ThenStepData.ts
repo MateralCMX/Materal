@@ -30,7 +30,11 @@ export class ThenStepData extends StepData {
      * 下一步
      */
     public Next?: StepData;
-    constructor() {
-        super(ThenStepData.name);
+    constructor(id: string) {
+        super(ThenStepData.name, id);
+    }
+    public RemoveChild(childID: string): void {
+        if(!this.Next || this.Next.ID !== childID) return;
+        this.Next = undefined;
     }
 }
