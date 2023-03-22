@@ -1,5 +1,5 @@
 import { CanvasManager } from "../CanvasManager";
-import { AllRuntimeDataTypes, RuntimeDataType } from "../RuntimeDataType";
+import { AllWorkflowDataTypes, WorkflowDataType } from "../WorkflowDataType";
 import { ThenStepData } from "../StepDatas/ThenStepData";
 import { StepFrom } from "./StepForm";
 
@@ -37,31 +37,13 @@ export class StartStepForm extends StepFrom {
      * 添加运行时数据属性
      */
     private AddBtnAddRuntimeDataPropertyClick() {
-        const inlineFormItem = document.createElement("div");
-        inlineFormItem.classList.add("inlineFormItem");
-        inlineFormItem.classList.add("inlineFormItem-2");
-        const propertyNameInput = document.createElement("input");
-        propertyNameInput.classList.add("input");
-        propertyNameInput.type = "text";
-        const runtimeDataTypeSelect = document.createElement("select");
-        runtimeDataTypeSelect.classList.add("input");
-        for (let i = 0; i < AllRuntimeDataTypes.length; i++) {
-            const element = AllRuntimeDataTypes[i];
-            const runtimeDataTypeOption = document.createElement("option");
-            runtimeDataTypeOption.value = element.Value;
-            runtimeDataTypeOption.innerText = element.Name;
-            runtimeDataTypeSelect.appendChild(runtimeDataTypeOption);
-        }
-        const deleteButton = document.createElement("button");
-        deleteButton.type = "button";
-        deleteButton.classList.add("deleteButton");
-        deleteButton.innerText = "X";
-        inlineFormItem.appendChild(propertyNameInput);
-        inlineFormItem.appendChild(runtimeDataTypeSelect);
-        inlineFormItem.appendChild(deleteButton);
-        this.runtimeDataPropertys.appendChild(inlineFormItem);
-
-
+        const propertyNameInput = this.CreateInputElement();
+        const runtimeDataTypeSelect = this.CreateSelectElementByArray(AllWorkflowDataTypes, (element: HTMLOptionElement, data: WorkflowDataType) => {
+            element.value = data.Value;
+            element.innerText = data.Name;
+        })
+        const deleteButton = this.CreateDeleteButtonElement();
+        const inlineFormItem = this.AppendNewInlineFormItemElement(this.runtimeDataPropertys, [propertyNameInput, runtimeDataTypeSelect], deleteButton);
         let oldValue = "";
         propertyNameInput.addEventListener("focusin", e => {
             oldValue = propertyNameInput.value;

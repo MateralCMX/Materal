@@ -12,6 +12,5 @@ export class StepBodyInfo {
 }
 
 export const AllStepBodyInfos = [
-    new StepBodyInfo("ConsoleMessageStep", "控制台输出", new ConsoleMessageStep()),
-    new StepBodyInfo("ConsoleMessageStep2", "控制台输出2", new ConsoleMessageStep())
+    new StepBodyInfo("ConsoleMessageStep", "控制台输出", new ConsoleMessageStep())
 ];

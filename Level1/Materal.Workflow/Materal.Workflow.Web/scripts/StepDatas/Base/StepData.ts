@@ -21,7 +21,7 @@ export abstract class StepData {
     /**
      * 构建数据
      */
-    public BuildData: any = {};
+    public BuildData: { [key: string]: string } = {};
     constructor(stepDataType: string, id: string) {
         this.StepDataType = stepDataType;
         this.ID = id;

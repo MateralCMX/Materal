@@ -3,7 +3,7 @@ import { DotEndpoint, RectangleEndpoint, EVENT_CONNECTION, EVENT_CONNECTION_DETA
 import { StepDataInfo, AllStepDataInfos } from "./StepDataInfo";
 import "../css/Steps.css";
 import { StepData } from "./StepDatas/Base/StepData";
-import { RuntimeDataType } from "./RuntimeDataType";
+import { WorkflowDataType } from "./WorkflowDataType";
 
 /**
  * 画布管理器
@@ -48,7 +48,6 @@ export class CanvasManager {
         node.innerText = stepInfo.Name;
         node.addEventListener("click", e => {
             if (this.selectedStep == null) return;
-            console.log(this.stepDatas[node.id]);
             this.selectedStep(this.stepDatas[node.id], e.target as HTMLElement, stepInfo);
         });
         this.canvasElement.appendChild(node);
