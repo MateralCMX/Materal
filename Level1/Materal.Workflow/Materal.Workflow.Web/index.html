@@ -13,14 +13,75 @@
   <div id="Settings" class="Settings">
     <form id="ThenStepData" class="form">
       <div class="formItem">
-        <label class="inputLabel">名称：</label><input id="Name" class="input" type="text" />
+        <label class="inputLabel">名称：</label>
+        <input id="Name" class="input" type="text" />
       </div>
       <div class="formItem">
-        <label class="inputLabel">描述：</label><input id="Description" class="input" type="text" />
+        <label class="inputLabel">描述：</label>
+        <input id="Description" class="input" type="text" />
       </div>
       <div class="formItem">
         <label class="inputLabel">节点类型：</label>
         <select id="StepType" class="input"></select>
+      </div>
+      <div id="InputsConfig" class="formItem">
+        <label class="inputLabel">输入配置：<button id="BtnAddInput" type="button">+</button></label>
+        <div>
+          <div class="inlineFormItem">
+            <select class="input-3">
+              <option value="string">string</option>
+              <option value="number">number</option>
+              <option value="boolean">boolean</option>
+            </select>
+            <select class="input-3">
+              <option value="string">string</option>
+              <option value="number">number</option>
+              <option value="boolean">boolean</option>
+            </select>
+            <select class="input-3">
+              <option value="string">string</option>
+              <option value="number">number</option>
+              <option value="boolean">boolean</option>
+            </select>
+            <button type="button" class="deleteButton">X</button>
+          </div>
+          <div class="inlineFormItem">
+            <select class="input-3">
+              <option value="string">string</option>
+              <option value="number">number</option>
+              <option value="boolean">boolean</option>
+            </select>
+            <select class="input-3">
+              <option value="string">string</option>
+              <option value="number">number</option>
+              <option value="boolean">boolean</option>
+            </select>
+            <select class="input-3">
+              <option value="string">string</option>
+              <option value="number">number</option>
+              <option value="boolean">boolean</option>
+            </select>
+            <button type="button" class="deleteButton">X</button>
+          </div>
+          <div class="inlineFormItem">
+            <select class="input-3">
+              <option value="string">string</option>
+              <option value="number">number</option>
+              <option value="boolean">boolean</option>
+            </select>
+            <select class="input-3">
+              <option value="string">string</option>
+              <option value="number">number</option>
+              <option value="boolean">boolean</option>
+            </select>
+            <select class="input-3">
+              <option value="string">string</option>
+              <option value="number">number</option>
+              <option value="boolean">boolean</option>
+            </select>
+            <button type="button" class="deleteButton">X</button>
+          </div>
+        </div>
       </div>
       <div class="formItem">
         <button id="BtnDelete" class="deleteButton" type="button">移除</button>
