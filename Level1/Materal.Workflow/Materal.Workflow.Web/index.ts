@@ -15,7 +15,7 @@ class IndexPage {
         this.InitStpes();
         this.InitCanvas();
         this.InitSettings();
-        this.canvasManager.CreateStepElement(AllStepDataInfos.ThenStep);
+        // this.canvasManager.CreateStepElement(AllStepDataInfos.ThenStep);
     }
     /**
      * 初始化节点组

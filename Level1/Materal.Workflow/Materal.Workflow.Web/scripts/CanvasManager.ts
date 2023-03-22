@@ -3,7 +3,7 @@ import { DotEndpoint, RectangleEndpoint, EVENT_CONNECTION, EVENT_CONNECTION_DETA
 import { StepDataInfo, AllStepDataInfos } from "./StepDataInfo";
 import "../css/Steps.css";
 import { StepData } from "./StepDatas/Base/StepData";
-import { Endpoint } from "jsplumb";
+import { RuntimeDataType } from "./RuntimeDataType";
 
 /**
  * 画布管理器
@@ -12,10 +12,11 @@ export class CanvasManager {
     private instance: BrowserJsPlumbInstance;
     private canvasElement: HTMLElement;
     private selectedStep: (stepData: StepData, element: HTMLElement, stepInfo: StepDataInfo) => void;
-    private maxStepID: number = 0;
-    private stepDatas: { [key: string]: StepData } = {};
-    private targetPoints: { [key: string]: any } = {};
-    private sourcePoints: { [key: string]: any } = {};
+    private maxStepID: number = 0;//当前最大的节点ID
+    private stepDatas: { [key: string]: StepData } = {};//所有界面上的节点数据
+    private targetPoints: { [key: string]: any } = {};//所有界面上的目标锚点
+    private sourcePoints: { [key: string]: any } = {};//界面上的源锚点
+    public runTimeDataTypes: { [key: string]: string } = {};//运行时数据类型
     constructor(targetElement: HTMLElement, selectedStep: (stepData: StepData, element: HTMLElement, stepInfo: StepDataInfo) => void) {
         this.canvasElement = targetElement;
         this.selectedStep = selectedStep;
@@ -114,10 +115,10 @@ export class CanvasManager {
         const node = document.getElementById(id);
         if (!node) return;
         if (!Object.prototype.hasOwnProperty.call(this.stepDatas, node.id)) return;
-        if (Object.prototype.hasOwnProperty.call(this.targetPoints, node.id)){
+        if (Object.prototype.hasOwnProperty.call(this.targetPoints, node.id)) {
             this.instance.deleteEndpoint(this.targetPoints[node.id]);
         }
-        if (Object.prototype.hasOwnProperty.call(this.sourcePoints, node.id)){
+        if (Object.prototype.hasOwnProperty.call(this.sourcePoints, node.id)) {
             this.instance.deleteEndpoint(this.sourcePoints[node.id]);
         }
         delete this.stepDatas[node.id];

@@ -46,42 +46,53 @@
     position: relative;
 }
 
+.form .inlineFormItem {
+    padding: 5px 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 10px;
+}
+
 .form .formItem .inputLabel {
     display: block;
     width: 100%;
     box-sizing: border-box
 }
-
-.form .formItem .input {
-    display: block;
-    width: 100%;
+.form .input {
     box-sizing: border-box;
     height: 30px;
     border: 2px solid rgb(118, 118, 118);
     border-radius: 4px;
     padding: 1px 6px;
 }
-
-.form .inlineFormItem .input-3 {
-    display: inline-flex;
-    width: 30%;
-    box-sizing: border-box;
-    height: 30px;
-    border: 2px solid rgb(118, 118, 118);
-    border-radius: 4px;
-    padding: 1px 6px;
+.form .formItem .input {
+    display: block;
+    width: 100%;
+}
+.form .inlineFormItem .input {
+    /* display: inline-flex; */
+    display: inline-block;
+}
+.form .inlineFormItem-2 .input {
+    /* width: 45%; */
+    flex-basis: 45%;
+}
+.form .inlineFormItem-3 .input {
+    flex-basis: 30%;
 }
 
 .form .inlineFormItem .deleteButton {
     display: block;
-    box-sizing: border-box;
     padding: 1px 6px;
-    position: absolute;
-    top: 8px;
-    right: 0;
+    /* position: absolute; */
+    /* top: 8px; */
+    /* right: 0; */
 }
 
 .deleteButton {
+    box-sizing: border-box;
     color: white;
     background-color: #eb4848;
 }

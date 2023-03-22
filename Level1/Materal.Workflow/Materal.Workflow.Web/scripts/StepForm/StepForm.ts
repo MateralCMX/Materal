@@ -39,6 +39,11 @@ export abstract class StepFrom {
             });
         }, handlerElement);
     }
+    /**
+     * 绑定按钮
+     * @param formElement 
+     * @param handlerElement 
+     */
     protected BindButtonElement(formElement: HTMLFormElement, handlerElement?: (input: HTMLButtonElement) => void) {
         this.BindElement(formElement, "button", this.buttons, element => {
             switch (element.id) {
