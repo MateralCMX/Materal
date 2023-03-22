@@ -47,7 +47,6 @@ export class CanvasManager {
         node.innerText = stepInfo.Name;
         node.addEventListener("click", e => {
             if (this.selectedStep == null) return;
-            console.log(this.stepDatas);
             console.log(this.stepDatas[node.id]);
             this.selectedStep(this.stepDatas[node.id], e.target as HTMLElement, stepInfo);
         });

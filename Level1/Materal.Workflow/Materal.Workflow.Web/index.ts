@@ -64,7 +64,7 @@ class IndexPage {
             this.settingsElement.innerHTML = "";
             return;
         }
-        this.stepDataForms[stepData.StepDataTypeName].Show(this.settingsElement, stepData);
+        this.stepDataForms[stepData.StepDataTypeName].Show(stepData);
     }
     /**
      * 初始化设置
@@ -77,7 +77,7 @@ class IndexPage {
             if (!Object.prototype.hasOwnProperty.call(this.settingsElement.childNodes, key)) continue;
             const element = this.settingsElement.childNodes[key] as HTMLFormElement;
             if (element.id === undefined || element.id === null) continue;
-            this.stepDataForms[element.id] = StepFormFactory.CreateStepFormModel(element, this.canvasManager);
+            this.stepDataForms[element.id] = StepFormFactory.CreateStepFormModel(this.settingsElement, element, this.canvasManager);
         }
         this.settingsElement.innerHTML = "";
     }

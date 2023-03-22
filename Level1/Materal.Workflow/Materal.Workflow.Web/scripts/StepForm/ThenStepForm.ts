@@ -4,8 +4,8 @@ import { AllStepBodyInfos } from "../StepInfo";
 import { StepFrom } from "./StepForm";
 
 export class ThenStepForm extends StepFrom {
-    constructor(stepDataForm: HTMLFormElement, canvasManager: CanvasManager) {
-        super(stepDataForm, canvasManager);
+    constructor(settingsElement: HTMLElement, stepDataForm: HTMLFormElement, canvasManager: CanvasManager) {
+        super(settingsElement, stepDataForm, canvasManager);
         this.BindInputElement(stepDataForm);
         this.BindSelectElement(stepDataForm, element => {
             switch (element.id) {

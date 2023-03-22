@@ -2,13 +2,15 @@ import { CanvasManager } from "../CanvasManager";
 import { StepData } from "../StepDatas/Base/StepData";
 
 export abstract class StepFrom {
+    protected settingsElement: HTMLElement;
     protected inputs: { [key: string]: HTMLInputElement } = {};
     protected selects: { [key: string]: HTMLSelectElement } = {};
     protected buttons: { [key: string]: HTMLButtonElement } = {};
     protected stepDataForm: HTMLFormElement;
     protected nowStepData: StepData | null = null;
     protected canvasManager: CanvasManager;
-    constructor(stepDataForm: HTMLFormElement, canvasManager: CanvasManager) {
+    constructor(settingsElement: HTMLElement, stepDataForm: HTMLFormElement, canvasManager: CanvasManager) {
+        this.settingsElement = settingsElement;
         this.stepDataForm = stepDataForm;
         this.canvasManager = canvasManager;
     }
@@ -33,6 +35,7 @@ export abstract class StepFrom {
             element.addEventListener("change", (e: { target: HTMLSelectElement; }) => {
                 if (this.nowStepData === null) return;
                 this.nowStepData[e.target.id] = e.target.value;
+                this.settingsElement.innerHTML = "";
             });
         }, handlerElement);
     }
@@ -43,6 +46,7 @@ export abstract class StepFrom {
                     element.addEventListener("click", (e: { target: HTMLSelectElement; }) => {
                         if (this.nowStepData === null) return;
                         this.canvasManager.DeleteStepElement(this.nowStepData.ID);
+                        this.settingsElement.innerHTML = "";
                     });
                     break;
             }
@@ -66,10 +70,10 @@ export abstract class StepFrom {
      * 显示
      * @param settingsElement 
      */
-    public Show(settingsElement: HTMLElement, stepData: StepData) {
-        settingsElement.innerHTML = "";
+    public Show(stepData: StepData) {
+        this.settingsElement.innerHTML = "";
         this.InitData(stepData);
-        settingsElement.appendChild(this.stepDataForm);
+        this.settingsElement.appendChild(this.stepDataForm);
     }
     /**
      * 初始化数据
