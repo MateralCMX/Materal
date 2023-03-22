@@ -72,11 +72,9 @@
     width: 100%;
 }
 .form .inlineFormItem .input {
-    /* display: inline-flex; */
     display: inline-block;
 }
 .form .inlineFormItem-2 .input {
-    /* width: 45%; */
     flex-basis: 45%;
 }
 .form .inlineFormItem-3 .input {
@@ -86,9 +84,6 @@
 .form .inlineFormItem .deleteButton {
     display: block;
     padding: 1px 6px;
-    /* position: absolute; */
-    /* top: 8px; */
-    /* right: 0; */
 }
 
 .deleteButton {

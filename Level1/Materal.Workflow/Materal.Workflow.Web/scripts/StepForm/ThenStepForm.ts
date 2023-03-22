@@ -1,8 +1,9 @@
 import { CanvasManager } from "../CanvasManager";
-import { AllWorkflowDataTypes, WorkflowDataType } from "../WorkflowDataType";
 import { ThenStepData } from "../StepDatas/ThenStepData";
 import { AllStepBodyInfos, StepBodyInfo } from "../StepInfo";
 import { StepFrom } from "./StepForm";
+import { ValueSourceEnum } from "../ValueSourceEnum";
+import { KeyValueModel } from "../KeyValueModel";
 
 export class ThenStepForm extends StepFrom {
     private buildDataPropertys: HTMLDivElement;
@@ -67,6 +68,13 @@ export class ThenStepForm extends StepFrom {
     * 添加输入组
     */
     private AddBtnAddInputClick() {
+        const valueSources: Array<KeyValueModel<number>> = [];
+        for (const key in ValueSourceEnum) {
+            if (!Object.prototype.hasOwnProperty.call(ValueSourceEnum, key)) continue;
+            if (typeof ValueSourceEnum[key] !== "number") continue;
+            const enumValue: any = ValueSourceEnum[key];
+            valueSources.push(new KeyValueModel<ValueSourceEnum>(key, enumValue));
+        }
         let stepBody: StepBodyInfo | null = null;
         for (let i = 0; i < AllStepBodyInfos.length; i++) {
             const stepBodyInfo = AllStepBodyInfos[i];
@@ -76,12 +84,50 @@ export class ThenStepForm extends StepFrom {
         }
         if (stepBody === null) return;
         const stepDataSelect = this.CreateSelectElementByObject(stepBody.Step);
-        const valueSourceSelect = this.CreateSelectElementByArray(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"], (element, data) => {
-            element.value = data;
-            element.innerText = data;
+        const valueSourceSelect = this.CreateSelectElementByArray(valueSources, (element, data) => {
+            element.value = data.Value.toString();
+            element.innerText = data.Key;
         });
+        const valueDiv = document.createElement("div");
+        const createRunTimeData = () => {
+            const temp = this.CreateSelectElementByObject(this.canvasManager.runTimeDataTypes, (element, data) => {
+                element.value = data;
+                element.innerText = data;
+            });
+            return temp;
+        };
+        const createBuildData = () => {
+            if(!this.nowStepData) return document.createElement("div");
+            const temp = this.CreateSelectElementByObject(this.nowStepData.BuildData, (element, data) => {
+                element.value = data;
+                element.innerText = data;
+            });
+            return temp;
+        };
+        const createConstantData = () => {
+            const temp = this.CreateInputElement();
+            return temp;
+        };
+        valueDiv.appendChild(createRunTimeData());
         const deleteButton = this.CreateDeleteButtonElement();
-        this.AppendNewInlineFormItemElement(this.thenInputs, [stepDataSelect, valueSourceSelect], deleteButton);
+        const inlineFormItem = this.AppendNewInlineFormItemElement(this.thenInputs, [stepDataSelect, valueSourceSelect, valueDiv], deleteButton);
+        valueSourceSelect.addEventListener("change", e => {
+            valueDiv.innerHTML = "";
+            switch (valueSourceSelect.value) {
+                case "0":
+                    valueDiv.appendChild(createRunTimeData());
+                    break;
+                case "1":
+                    valueDiv.appendChild(createBuildData());
+                    break;
+                case "2":
+                    valueDiv.appendChild(createConstantData());
+                    break;
+            }
+        });
+        deleteButton.addEventListener("click", e => {
+            this.thenInputs.removeChild(inlineFormItem);
+        });
     }
     /**
      * 初始化数据
