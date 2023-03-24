@@ -1,9 +1,9 @@
 import { IStepData } from "./StepDatas/Base/IStepData";
 import { StepModel } from "./StepModels/Base/StepModel";
 
-export interface IStep<T extends IStepData> {
-    GetStepModel: () => StepModel<T>,
+export interface IStep<T extends StepModel<T2>, T2 extends IStepData> {
+    GetStepModel: () => T | undefined,
     GetStepID: () => string,
-    BindNext: (next?: StepModel<T>) => void,
-    BindUp: (next?: StepModel<T>) => void,
+    BindNext: (next?: T) => void,
+    BindUp: (next?: T) => void,
 }

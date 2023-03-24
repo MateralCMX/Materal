@@ -4,6 +4,10 @@
     height: 80px;
     line-height: 80px;
     border-radius: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 15px;
 }
 
 .StartStep {

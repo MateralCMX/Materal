@@ -30,7 +30,7 @@
     </div>
     <div ref="workflowCanvas" class="Canvas">
         <component v-for="item in stepNodes" :is="item.component" :key="item.stepId" :instance="instance"
-            :stepID="item.stepId" :ref="(ref: IStep<IStepData>) => stepNodesInstanceList.push(ref)"
+            :stepID="item.stepId" :ref="(ref: IStep<StepModel<IStepData>, IStepData>) => stepNodesInstanceList.push(ref)"
             @deleteStep="removeStepToCanvas($event)" />
     </div>
 </template>
@@ -52,7 +52,7 @@ const stepList: StepInfoModel[] = [
     new StepInfoModel("业务节点", "Step ThenStep", ThenStep)
 ];
 const stepNodes = shallowReactive<{ component: VNode, stepId: string }[]>([]);
-const stepNodesInstanceList = shallowRef<IStep<IStepData>[]>([]);
+const stepNodesInstanceList = shallowRef<IStep<StepModel<IStepData>, IStepData>[]>([]);
 let stepIndex = 0;
 
 onMounted(() => {
@@ -113,8 +113,8 @@ const removeStepToCanvas = (StepModel: StepModel<IStepData>) => {
  * @param targetId
  */
 const BindNext = (sourceId: string, targetId: string) => {
-    let sourceStep: IStep<IStepData> | null = null;
-    let targetStep: IStep<IStepData> | null = null;
+    let sourceStep: IStep<StepModel<IStepData>, IStepData> | null = null;
+    let targetStep: IStep<StepModel<IStepData>, IStepData> | null = null;
     const count = stepNodesInstanceList.value.length;
     for (let i = 0; i < count; i++) {
         const stepNode = stepNodesInstanceList.value[i];
@@ -136,8 +136,8 @@ const BindNext = (sourceId: string, targetId: string) => {
  * @param targetId
  */
 const UnbindNext = (sourceId: string, targetId: string) => {
-    let sourceStep: IStep<IStepData> | null = null;
-    let targetStep: IStep<IStepData> | null = null;
+    let sourceStep: IStep<StepModel<IStepData>, IStepData> | null = null;
+    let targetStep: IStep<StepModel<IStepData>, IStepData> | null = null;
     const count = stepNodesInstanceList.value.length;
     for (let i = 0; i < count; i++) {
         const stepNode = stepNodesInstanceList.value[i];
