@@ -12,7 +12,7 @@ namespace Materal.Workflow.StepDatas
         /// <summary>
         /// 节点类型名称
         /// </summary>
-        public virtual string StepType { get; set; } = string.Empty;
+        public virtual string StepBodyType { get; set; } = string.Empty;
         /// <summary>
         /// 输入
         /// </summary>
@@ -53,10 +53,10 @@ namespace Materal.Workflow.StepDatas
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override string StepType
+        public override string StepBodyType
         {
             get => typeof(TStepBody).Name;
-            set => base.StepType = value;
+            set => base.StepBodyType = value;
         }
     }
 }

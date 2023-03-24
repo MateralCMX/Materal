@@ -1,4 +1,4 @@
-﻿using Materal.Workflow.Steps;
+﻿using Materal.Workflow.StepBodys;
 using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
@@ -18,8 +18,8 @@ namespace Materal.Workflow.StepDatas
         /// <returns></returns>
         public override object BuildStep(object stepBuilder, ThenStepData stepData, IStepHandlerBus stepHandlerBus)
         {
-            Type? stepType = stepData.StepType.GetTypeByTypeName(Array.Empty<object>());
-            if (stepType == null) throw new WorkflowException($"找不到节点类型{stepData.StepType}");
+            Type? stepType = stepData.StepBodyType.GetTypeByTypeName(Array.Empty<object>());
+            if (stepType == null) throw new WorkflowException($"找不到节点类型{stepData.StepBodyType}");
             stepBuilder = Then(stepBuilder, stepType);
             stepBuilder = Error(stepBuilder, stepData, stepHandlerBus);
             if (stepData.CompensateStep != null)
@@ -66,7 +66,7 @@ namespace Materal.Workflow.StepDatas
             stepBuilder = InvokeMethodByMethodName(stepBuilder, "OnError", new object?[] { workflowErrorHandling, stepData.Error.RetryInterval }, new Type[] { typeof(WorkflowErrorHandling), typeof(TimeSpan?) });
             if (workflowErrorHandling == WorkflowErrorHandling.Compensate)
             {
-                stepData.CompensateStep ??= new ThenStepData<EmptyStep>();
+                stepData.CompensateStep ??= new ThenStepData<EmptyStepBody>();
             }
             return stepBuilder;
         }

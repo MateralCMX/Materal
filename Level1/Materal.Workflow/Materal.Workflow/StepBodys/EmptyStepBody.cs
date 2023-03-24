@@ -1,12 +1,12 @@
 ﻿using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
-namespace Materal.Workflow.Steps
+namespace Materal.Workflow.StepBodys
 {
     /// <summary>
     /// 空节点
     /// </summary>
-    public class EmptyStep : StepBody
+    public class EmptyStepBody : StepBody
     {
         /// <summary>
         /// 启动

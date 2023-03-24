@@ -1,12 +1,12 @@
 ﻿using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
-namespace Materal.Workflow.Steps
+namespace Materal.Workflow.StepBodys
 {
     /// <summary>
-    /// 乘法
+    /// 减法
     /// </summary>
-    public class MultiplicationStep : StepBody
+    public class SubtractionStepBody : StepBody
     {
         /// <summary>
         /// 左边的数字
@@ -27,7 +27,7 @@ namespace Materal.Workflow.Steps
         /// <returns></returns>
         public override ExecutionResult Run(IStepExecutionContext context)
         {
-            Result = LeftNumber * RightNumber;
+            Result = LeftNumber - RightNumber;
             return ExecutionResult.Next();
         }
     }

@@ -1,4 +1,4 @@
-﻿using Materal.Workflow.Steps;
+﻿using Materal.Workflow.StepBodys;
 using WorkflowCore.Interface;
 
 namespace Materal.Workflow.StepDatas
@@ -20,7 +20,7 @@ namespace Materal.Workflow.StepDatas
         {
             Action<IWorkflowBuilder<Dictionary<string, object?>>> innerBuilder = m =>
             {
-                object newStepBuilder = m.StartWith<EmptyStep>();
+                object newStepBuilder = m.StartWith<EmptyStepBody>();
                 stepHandlerBus.BuildStep(newStepBuilder, stepData.StepData);
             };
             stepBuilder = InvokeMethodByMethodName(stepBuilder, "Saga", new object?[] { innerBuilder });

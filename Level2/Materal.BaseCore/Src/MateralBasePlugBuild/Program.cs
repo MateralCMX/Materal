@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.CodeGenerator;
-using Materal.BaseCore.CodeGenerator.Extensions;
 using Materal.BaseCore.CodeGenerator.Models;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;

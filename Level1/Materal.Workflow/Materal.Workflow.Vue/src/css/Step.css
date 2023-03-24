@@ -1,0 +1,15 @@
+.Step {
+    text-align: center;
+    width: 140px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 5px;
+}
+
+.StartStep {
+    background-color: #C5E99B;
+}
+
+.ThenStep {
+    background-color: #87CC9B;
+}

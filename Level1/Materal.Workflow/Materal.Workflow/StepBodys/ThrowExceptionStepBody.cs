@@ -1,12 +1,12 @@
 ﻿using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
-namespace Materal.Workflow.Steps
+namespace Materal.Workflow.StepBodys
 {
     /// <summary>
     /// 抛错节点
     /// </summary>
-    public class ThrowExceptionStep : StepBody
+    public class ThrowExceptionStepBody : StepBody
     {
         /// <summary>
         /// 异常

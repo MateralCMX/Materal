@@ -1,4 +1,4 @@
-﻿using Materal.Workflow.Steps;
+﻿using Materal.Workflow.StepBodys;
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
@@ -12,7 +12,7 @@ namespace Materal.Workflow.StepDatas
         /// <summary>
         /// 处理节点
         /// </summary>
-        public IStepData StepData { get; set; } = new ThenStepData<EmptyStep>();
+        public IStepData StepData { get; set; } = new ThenStepData<EmptyStepBody>();
         /// <summary>
         /// 补偿处理节点
         /// </summary>

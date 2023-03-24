@@ -1,12 +1,12 @@
 ﻿using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
-namespace Materal.Workflow.Steps
+namespace Materal.Workflow.StepBodys
 {
     /// <summary>
     /// 控制台消息节点
     /// </summary>
-    public class ConsoleMessageStep : StepBody
+    public class ConsoleMessageStepBody : StepBody
     {
         /// <summary>
         /// 消息

@@ -1,25 +1,25 @@
 ﻿using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
-namespace Materal.Workflow.Steps
+namespace Materal.Workflow.StepBodys
 {
     /// <summary>
-    /// 字符串连接
+    /// 乘法
     /// </summary>
-    public class StringConnectStep : StepBody
+    public class MultiplicationStepBody : StepBody
     {
         /// <summary>
-        /// 左边的字符串
+        /// 左边的数字
         /// </summary>
-        public string LeftString { get; set; } = string.Empty;
+        public decimal LeftNumber { get; set; } = 0;
         /// <summary>
-        /// 右边的字符串
+        /// 右边的数字
         /// </summary>
-        public string RightString { get; set; } = string.Empty;
+        public decimal RightNumber { get; set; } = 0;
         /// <summary>
         /// 结果
         /// </summary>
-        public string Result { get; set; } = string.Empty;
+        public decimal Result { get; set; } = 0;
         /// <summary>
         /// 运行
         /// </summary>
@@ -27,7 +27,7 @@ namespace Materal.Workflow.Steps
         /// <returns></returns>
         public override ExecutionResult Run(IStepExecutionContext context)
         {
-            Result = LeftString + RightString;
+            Result = LeftNumber * RightNumber;
             return ExecutionResult.Next();
         }
     }

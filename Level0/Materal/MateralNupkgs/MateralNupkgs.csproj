@@ -7,15 +7,15 @@
 	<ItemGroup>
 		<PackageReference Include="Materal.Abstractions" Version="0.0.7" />
 		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="0.2.24" />
-		<PackageReference Include="Materal.BaseCore.Common" Version="0.2.24" />
-		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="0.2.24" />
-		<PackageReference Include="Materal.BaseCore.Domain" Version="0.2.24" />
-		<PackageReference Include="Materal.BaseCore.EFRepository" Version="0.2.24" />
-		<PackageReference Include="Materal.BaseCore.HttpClient" Version="0.2.24" />
-		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="0.2.24" />
-		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="0.2.24" />
-		<PackageReference Include="Materal.BaseCore.Services" Version="0.2.24" />
-		<PackageReference Include="Materal.BaseCore.WebAPI" Version="0.2.24" />
+		<PackageReference Include="Materal.BaseCore.Common" Version="0.2.25" />
+		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="0.2.25" />
+		<PackageReference Include="Materal.BaseCore.Domain" Version="0.2.25" />
+		<PackageReference Include="Materal.BaseCore.EFRepository" Version="0.2.25" />
+		<PackageReference Include="Materal.BaseCore.HttpClient" Version="0.2.25" />
+		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="0.2.25" />
+		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="0.2.25" />
+		<PackageReference Include="Materal.BaseCore.Services" Version="0.2.25" />
+		<PackageReference Include="Materal.BaseCore.WebAPI" Version="0.2.25" />
 		<PackageReference Include="Materal.Extensions" Version="0.0.7" />
 		<PackageReference Include="Materal.Logger" Version="0.0.15" />
 		<PackageReference Include="Materal.Logger.Message" Version="0.0.15" />

@@ -221,8 +221,8 @@ namespace Materal.Workflow.StepDatas
         /// <exception cref="WorkflowException"></exception>
         protected object CompensateWith(object stepBuilder, ThenStepData stepData, IStepHandlerBus stepHandlerBus)
         {
-            Type? stepType = stepData.StepType.GetTypeByTypeName(Array.Empty<object>());
-            if (stepType == null) throw new WorkflowException($"找不到节点类型{stepData.StepType}");
+            Type? stepType = stepData.StepBodyType.GetTypeByTypeName(Array.Empty<object>());
+            if (stepType == null) throw new WorkflowException($"找不到节点类型{stepData.StepBodyType}");
             MethodInfo[] methodInfos = stepBuilder.GetType().GetMethods().Where(m => m.Name == "CompensateWith" && m.IsGenericMethod && m.GetParameters().Length == 1).ToArray();
             MethodInfo? methodInfo = methodInfos.FirstOrDefault();
             if (methodInfo == null) throw new WorkflowException($"获取方法失败");

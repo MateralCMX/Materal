@@ -59,7 +59,7 @@ export class CanvasManager {
             this.CreateSourceAnchor(node);
         }
         //绑定数据
-        this.stepDatas[node.id] = stepInfo.InitStepDataAction(node.id);
+        // this.stepDatas[node.id] = stepInfo.InitStepDataAction(node.id);
     }
     /**
      * 创建目标锚点

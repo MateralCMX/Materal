@@ -1,6 +1,6 @@
 ﻿using Materal.Logger;
+using Materal.Workflow.StepBodys;
 using Materal.Workflow.StepDatas;
-using Materal.Workflow.Steps;
 using Materal.Workflow.WorkflowCoreExtension;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -40,18 +40,18 @@ namespace Materal.Workflow.Demo
                 Next = new IfStepData("Name", ValueSourceEnum.RuntimeDataProperty, ComparisonTypeEnum.Equal, "Message", ValueSourceEnum.RuntimeDataProperty)
                 {
                     BuildData = buildData,
-                    StepData = new ThenStepData<ConsoleMessageStep>
+                    StepData = new ThenStepData<ConsoleMessageStepBody>
                     {
                         Inputs = new()
                         {
-                            new InputData(nameof(ConsoleMessageStep.Message), "工作流运行[0]")
+                            new InputData(nameof(ConsoleMessageStepBody.Message), "工作流运行[0]")
                         }
                     },
-                    Next = new ThenStepData<ConsoleMessageStep>
+                    Next = new ThenStepData<ConsoleMessageStepBody>
                     {
                         Inputs = new()
                         {
-                            new InputData(nameof(ConsoleMessageStep.Message), "工作流运行[1]")
+                            new InputData(nameof(ConsoleMessageStepBody.Message), "工作流运行[1]")
                         }
                     }
                 }

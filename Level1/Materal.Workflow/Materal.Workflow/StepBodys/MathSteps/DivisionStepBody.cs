@@ -1,12 +1,12 @@
 ﻿using WorkflowCore.Interface;
 using WorkflowCore.Models;
 
-namespace Materal.Workflow.Steps
+namespace Materal.Workflow.StepBodys
 {
     /// <summary>
     /// 除法
     /// </summary>
-    public class DivisionStep : StepBody
+    public class DivisionStepBody : StepBody
     {
         /// <summary>
         /// 左边的数字
