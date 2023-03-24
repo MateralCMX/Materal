@@ -11,7 +11,6 @@
 .Steps {
     position: absolute;
     width: 175px;
-    height: 100%;
     overflow: auto;
     top: 0;
     bottom: 0;
@@ -24,6 +23,7 @@
 </style>
 <template>
     <div class="Steps">
+        <a-button type="primary" @click="ShowRuntimeDataEditModal">运行时数据结构</a-button>
         <div v-for="item in stepList" :key="item.Name" :class="item.Style" @click="AddStepToCanvas(item)">
             {{ item.Name }}
         </div>
@@ -39,9 +39,16 @@
         </template>
         <component :is="editComponent" :step-data="editStepData" />
     </a-modal>
+    <a-modal v-model:visible="runtimeDataEditModalVisible" title="运行时数据结构编辑">
+        <template #footer>
+            <a-button type="primary" @click="CloseRuntimeDataEditModal">确定</a-button>
+        </template>
+        <RunTimeDataEdit :run-time-data-type="runTimeDataType" />
+    </a-modal>
 </template>
 <script setup lang="ts">
 import "../css/Step.css";
+import RunTimeDataEdit from "./RunTimeDataEdit.vue";
 import { defineAsyncComponent, onMounted, reactive, Ref, ref, shallowReactive, ShallowRef, shallowRef, UnwrapNestedRefs, VNode } from 'vue';
 import { BrowserJsPlumbInstance, newInstance, ContainmentType } from "@jsplumb/browser-ui";
 import { StepInfoModel as StepInfoModel } from "../scripts/StepInfoModel";
@@ -52,6 +59,7 @@ import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
 import { IStepData } from "../scripts/StepDatas/Base/IStepData";
 import { IStep } from "../scripts/IStep";
 import { StepData } from "../scripts/StepDatas/Base/StepData";
+import { RunTimeDataType } from "../scripts/RunTimeDataType";
 
 const StartStep = defineAsyncComponent(() => import("./steps/StartStep.vue"));
 const StartStepEdit = defineAsyncComponent(() => import("./steps/StartStepEdit.vue"));
@@ -65,11 +73,13 @@ const stepList: StepInfoModel[] = [
 const stepNodes = shallowReactive<{ component: VNode, stepId: string }[]>([]);
 const stepNodesInstanceList = shallowRef<IStep<StepModel<IStepData>, IStepData>[]>([]);
 let stepIndex = 0;
+let runtimeDataEditModalVisible = ref<boolean>(false);
 let editModalVisible = ref<boolean>(false);
 let stepCanDelete = ref<boolean>(false);
 let editStepData: UnwrapNestedRefs<StepData> | undefined;
 let editStepModel: StepModel<IStepData> | undefined;
 let editComponent: VNode | undefined;
+const runTimeDataType = ref(new RunTimeDataType());//运行时数据类型
 
 onMounted(() => {
     InitCanvas();
@@ -208,6 +218,19 @@ const DeleteStep = () => {
     RemoveStepToCanvas(editStepModel);
     editStepModel = undefined;
     editStepData = undefined;
+    editComponent = undefined;
     CloseStepEditModal();
+}
+/**
+ * 显示运行时数据编辑弹窗
+ */
+const ShowRuntimeDataEditModal = () => {
+    runtimeDataEditModalVisible.value = true;
+}
+/**
+ * 关闭运行时数据编辑弹窗
+ */
+const CloseRuntimeDataEditModal = () => {
+    runtimeDataEditModalVisible.value = false;
 }
 </script>
