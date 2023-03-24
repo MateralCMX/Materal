@@ -21,7 +21,7 @@ export class ThenStepModel extends StepModel<ThenStepData> {
      */
     public SourcePoint: Endpoint<any>;
     constructor(id: string, instance: any, element: HTMLElement) {
-        super(id, instance, element, new ThenStepData());
+        super(`${ThenStepModel.name}` ,id, instance, element, new ThenStepData());
         this.TargetPoint = this.CreateTrgetEndpoint();
         this.SourcePoint = this.CreateSourceEndpoint();
     }

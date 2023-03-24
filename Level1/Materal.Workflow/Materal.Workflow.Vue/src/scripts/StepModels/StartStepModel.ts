@@ -13,7 +13,7 @@ export class StartStepModel extends StepModel<StartStepData> {
      */
     public SourcePoint: Endpoint<any>;
     constructor(id: string, instance: any, element: HTMLElement) {
-        super(id, instance, element, new StartStepData());
+        super(`${StartStepModel.name}`, id, instance, element, new StartStepData());
         this.SourcePoint = this.CreateSourceEndpoint();
     }
     public BindNext(next?: StepModel<IStepData>) {

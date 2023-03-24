@@ -24,28 +24,39 @@
 </style>
 <template>
     <div class="Steps">
-        <div v-for="item in stepList" :key="item.Name" :class="item.Style" @click="addStepToCanvas(item)">
+        <div v-for="item in stepList" :key="item.Name" :class="item.Style" @click="AddStepToCanvas(item)">
             {{ item.Name }}
         </div>
     </div>
     <div ref="workflowCanvas" class="Canvas">
         <component v-for="item in stepNodes" :is="item.component" :key="item.stepId" :instance="instance"
-            :stepID="item.stepId" :ref="(ref: IStep<StepModel<IStepData>, IStepData>) => stepNodesInstanceList.push(ref)"
-            @deleteStep="removeStepToCanvas($event)" />
+            :stepID="item.stepId" :ref="PushStepNodesInstanceList" @showStepEditModal="ShowStepEditModal($event)" />
     </div>
+    <a-modal v-model:visible="editModalVisible" width="1000px" title="编辑节点">
+        <template #footer>
+            <a-button v-if="stepCanDelete" type="primary" @click="DeleteStep" danger>删除</a-button>
+            <a-button type="primary" @click="CloseStepEditModal">确定</a-button>
+        </template>
+        <component :is="editComponent" :step-data="editStepData" />
+    </a-modal>
 </template>
 <script setup lang="ts">
 import "../css/Step.css";
-import { defineAsyncComponent, onMounted, ref, shallowReactive, shallowRef, VNode } from 'vue';
+import { defineAsyncComponent, onMounted, reactive, Ref, ref, shallowReactive, ShallowRef, shallowRef, UnwrapNestedRefs, VNode } from 'vue';
 import { BrowserJsPlumbInstance, newInstance, ContainmentType } from "@jsplumb/browser-ui";
 import { StepInfoModel as StepInfoModel } from "../scripts/StepInfoModel";
 import { EVENT_CONNECTION, EVENT_CONNECTION_DETACHED } from "@jsplumb/core";
 import { StepModel } from "../scripts/StepModels/Base/StepModel";
+import { StartStepModel } from "../scripts/StepModels/StartStepModel";
+import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
 import { IStepData } from "../scripts/StepDatas/Base/IStepData";
 import { IStep } from "../scripts/IStep";
+import { StepData } from "../scripts/StepDatas/Base/StepData";
 
-const ThenStep = defineAsyncComponent(() => import("./steps/ThenStep.vue"));
 const StartStep = defineAsyncComponent(() => import("./steps/StartStep.vue"));
+const StartStepEdit = defineAsyncComponent(() => import("./steps/StartStepEdit.vue"));
+const ThenStep = defineAsyncComponent(() => import("./steps/ThenStep.vue"));
+const ThenStepEdit = defineAsyncComponent(() => import("./steps/ThenStepEdit.vue"));
 let instance = shallowRef<BrowserJsPlumbInstance>();
 const workflowCanvas = ref<HTMLElement>();
 const stepList: StepInfoModel[] = [
@@ -54,14 +65,19 @@ const stepList: StepInfoModel[] = [
 const stepNodes = shallowReactive<{ component: VNode, stepId: string }[]>([]);
 const stepNodesInstanceList = shallowRef<IStep<StepModel<IStepData>, IStepData>[]>([]);
 let stepIndex = 0;
+let editModalVisible = ref<boolean>(false);
+let stepCanDelete = ref<boolean>(false);
+let editStepData: UnwrapNestedRefs<StepData> | undefined;
+let editStepModel: StepModel<IStepData> | undefined;
+let editComponent: VNode | undefined;
 
 onMounted(() => {
-    initCanvas();
+    InitCanvas();
 });
 /**
  * 初始化画布
  */
-const initCanvas = () => {
+const InitCanvas = () => {
     if (!workflowCanvas || !workflowCanvas.value) return;
     instance.value = newInstance({
         container: workflowCanvas.value,
@@ -72,37 +88,45 @@ const initCanvas = () => {
     });
     instance.value.bind(EVENT_CONNECTION, (params) => BindNext(params.sourceId, params.targetId));
     instance.value.bind(EVENT_CONNECTION_DETACHED, (params) => UnbindNext(params.sourceId, params.targetId));
-    addStepToCanvas(new StepInfoModel("开始节点", "Step StartStep", StartStep));
+    AddStepToCanvas(new StepInfoModel("开始节点", "Step StartStep", StartStep));
 }
 /**
  * 添加节点到画布
  * @param item 
  */
-const addStepToCanvas = (item: StepInfoModel) => {
+const AddStepToCanvas = (item: StepInfoModel) => {
     stepNodes.push({
         component: item.Component as any,
         stepId: `step${stepIndex++}`
     });
 }
 /**
- * 从画布移除节点
- * @param StepModel 
+ * 添加节点实例到列表
+ * @param item 
  */
-const removeStepToCanvas = (StepModel: StepModel<IStepData>) => {
-    StepModel.Destroy();//节点模型销毁会移除端点、连接线
+const PushStepNodesInstanceList = (item: IStep<StepModel<IStepData>, IStepData> | null) => {
+    if (!item) return;
+    stepNodesInstanceList.value.push(item);
+}
+/**
+ * 从画布移除节点
+ * @param stepModel 
+ */
+const RemoveStepToCanvas = (stepModel: StepModel<IStepData>) => {
+    stepModel.Destroy();//节点模型销毁会移除端点、连接线
     let count = stepNodesInstanceList.value.length;
     for (let i = 0; i < count; i++) {
         const stepNode = stepNodesInstanceList.value[i];
+        if (!stepNode) continue;
         const stepID = stepNode.GetStepID();
-        if (StepModel.ID === stepID){
+        if (stepModel.ID === stepID) {
             stepNodesInstanceList.value.splice(i, 1);//移除节点实例
             break;
         }
     }
-    count = stepNodes.length;
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < stepNodes.length; i++) {
         const element = stepNodes[i];
-        if (element.stepId !== StepModel.ID) continue;
+        if (element.stepId !== stepModel.ID) continue;
         stepNodes.splice(i, 1);//从画布上移除节点
         break;
     }
@@ -118,7 +142,7 @@ const BindNext = (sourceId: string, targetId: string) => {
     const count = stepNodesInstanceList.value.length;
     for (let i = 0; i < count; i++) {
         const stepNode = stepNodesInstanceList.value[i];
-        if(!stepNode) continue;
+        if (!stepNode) continue;
         const stepID = stepNode.GetStepID();
         if (sourceId === stepID) sourceStep = stepNode;
         if (targetId === stepID) targetStep = stepNode;
@@ -141,6 +165,7 @@ const UnbindNext = (sourceId: string, targetId: string) => {
     const count = stepNodesInstanceList.value.length;
     for (let i = 0; i < count; i++) {
         const stepNode = stepNodesInstanceList.value[i];
+        if (!stepNode) continue;
         const stepID = stepNode.GetStepID();
         if (sourceId === stepID) sourceStep = stepNode;
         if (targetId === stepID) targetStep = stepNode;
@@ -149,5 +174,40 @@ const UnbindNext = (sourceId: string, targetId: string) => {
     if (!sourceStep || !targetStep) throw new Error("解绑下一步失败");
     sourceStep.BindNext(undefined);
     targetStep.BindUp(undefined);
+}
+/**
+ * 显示节点编辑弹窗
+ * @param stepModel 
+ */
+const ShowStepEditModal = (stepModel: StepModel<IStepData>) => {
+    editStepModel = stepModel;
+    editStepData = reactive<StepData>(stepModel.StepData);
+    switch (stepModel.StepModelTypeName) {
+        case `${StartStepModel.name}`:
+            editComponent = StartStepEdit as any;
+            stepCanDelete.value = false;
+            break;
+        case `${ThenStepModel.name}`:
+            editComponent = ThenStepEdit as any;
+            stepCanDelete.value = true;
+            break;
+    }
+    editModalVisible.value = true;
+}
+/**
+ * 关闭节点编辑弹窗
+ */
+const CloseStepEditModal = () => {
+    editModalVisible.value = false;
+}
+/**
+ * 删除节点
+ */
+const DeleteStep = () => {
+    if (!editStepModel) return;
+    RemoveStepToCanvas(editStepModel);
+    editStepModel = undefined;
+    editStepData = undefined;
+    CloseStepEditModal();
 }
 </script>
