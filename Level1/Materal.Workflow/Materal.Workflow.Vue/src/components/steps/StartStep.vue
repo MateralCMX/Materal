@@ -34,10 +34,10 @@ const emits = defineEmits<{
 }>();
 const props = defineProps<{ stepID: string, instance?: BrowserJsPlumbInstance }>();
 defineExpose({
-    GetStepModel: () => toRaw(stepModel.value),
-    GetStepID: () => toRaw(id.value),
-    BindNext: (next?: StepModel<IStepData>) => BindNext(next),
-    BindUp: (up?: StepModel<IStepData>) => BindUp(up)
+    GetStepModel: (): StartStepModel | undefined => toRaw(stepModel.value),
+    GetStepID: (): string => toRaw(id.value),
+    BindNext: (next?: StepModel<IStepData>): void => stepModel.value?.BindNext(next),
+    BindUp: (up?: StepModel<IStepData>): void => { }
 });
 const instance = toRef(props, "instance");
 const id = toRef(props, "stepID");
@@ -62,26 +62,6 @@ const InitPage = (canvas: BrowserJsPlumbInstance) => {
     stepModel.value = new StartStepModel(id.value, canvas, stepElement.value);
     stepData = reactive<StartStepData>(stepModel.value.StepData)
 };
-/**
- * 绑定下一步
- * @param next 
- */
-const BindNext = (next?: StepModel<IStepData>) => {
-    if (!stepModel || !stepModel.value) return;
-    if (next) {
-        stepModel.value.NextStep = next;
-        stepModel.value.StepData.Next = next.StepData;
-    }
-    else {
-        stepModel.value.NextStep = undefined;
-        stepModel.value.StepData.Next = undefined;
-    }
-};
-/**
- * 绑定上一步
- * @param up 
- */
-const BindUp = (up?: StepModel<IStepData>) => { };
 const OpenEditModal = () => {
     editModalVisible.value = true;
     console.log(stepModel.value);

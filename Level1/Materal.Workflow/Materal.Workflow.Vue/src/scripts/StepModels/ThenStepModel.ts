@@ -1,8 +1,17 @@
 import { StepModel } from "./Base/StepModel";
 import { Endpoint } from '@jsplumb/core';
 import { ThenStepData } from "../StepDatas/ThenStepData";
+import { IStepData } from "../StepDatas/Base/IStepData";
 
 export class ThenStepModel extends StepModel<ThenStepData> {
+    /**
+     * 上一个节点
+     */
+    public UpStep?: StepModel<IStepData>;
+    /**
+     * 下一个节点
+     */
+    public NextStep?: StepModel<IStepData>;
     /**
      * 源端点
      */
@@ -16,12 +25,26 @@ export class ThenStepModel extends StepModel<ThenStepData> {
         this.TargetPoint = this.CreateTrgetEndpoint();
         this.SourcePoint = this.CreateSourceEndpoint();
     }
-    public Destroy(): void {
-        if (this.UpStep &&
-            Object.prototype.hasOwnProperty.call(this.UpStep.StepData, "Next")) {
-            (this.UpStep.StepData as any).Next = undefined;
+    public BindNext(next?: StepModel<IStepData>) {
+        if (next) {
+            this.NextStep = next;
+            this.StepData.Next = next.StepData;
         }
-        this.Instance.deleteEndpoint(this.SourcePoint);
-        this.Instance.deleteEndpoint(this.TargetPoint);
+        else {
+            this.NextStep = undefined;
+            this.StepData.Next = undefined;
+        }
+    }
+    public BindUp(up?: StepModel<IStepData>) {
+        if (up) {
+            this.UpStep = up;
+        }
+        else {
+            this.UpStep = undefined;
+        }
+    }
+    public Destroy(): void {
+        this.Instance.deleteEndpoint(this.SourcePoint);//从画布上移除源端点
+        this.Instance.deleteEndpoint(this.TargetPoint);//从画布上移除目标端点
     }
 }

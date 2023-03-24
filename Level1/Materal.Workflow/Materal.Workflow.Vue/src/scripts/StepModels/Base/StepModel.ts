@@ -19,14 +19,6 @@ export abstract class StepModel<T extends IStepData> {
      * 节点数据
      */
     public StepData: T;
-    /**
-     * 上一个节点
-     */
-    public UpStep?: StepModel<IStepData>;
-    /**
-     * 下一个节点
-     */
-    public NextStep?: StepModel<IStepData>;
     constructor(id: string, instance: BrowserJsPlumbInstance, element: HTMLElement, stepData: T) {
         this.ID = id;
         this.Instance = instance;

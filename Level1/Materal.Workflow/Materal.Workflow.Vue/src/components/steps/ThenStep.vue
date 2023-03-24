@@ -29,16 +29,17 @@ import { ThenStepModel } from '../../scripts/StepModels/ThenStepModel';
 import { IStepData } from '../../scripts/StepDatas/Base/IStepData';
 import { ThenStepData } from '../../scripts/StepDatas/ThenStepData';
 import { StepModel } from '../../scripts/StepModels/Base/StepModel';
+import { IStep } from '../../scripts/IStep';
 
 const emits = defineEmits<{
     (event: "deleteStep", stepID: ThenStepModel): void
 }>();
 const props = defineProps<{ stepID: string, instance?: BrowserJsPlumbInstance }>();
 defineExpose({
-    GetStepModel: () => toRaw(stepModel.value),
-    GetStepID: () => toRaw(id.value),
-    BindNext: (next?: StepModel<IStepData>) => BindNext(next),
-    BindUp: (up?: StepModel<IStepData>) => BindUp(up)
+    GetStepModel: (): ThenStepModel | undefined => toRaw(stepModel.value),
+    GetStepID: (): string => toRaw(id.value),
+    BindNext: (next?: StepModel<IStepData>): void => stepModel.value?.BindNext(next),
+    BindUp: (up?: StepModel<IStepData>): void => stepModel.value?.BindUp(up)
 });
 const instance = toRef(props, "instance");
 const id = toRef(props, "stepID");
@@ -63,34 +64,6 @@ const InitPage = (canvas: BrowserJsPlumbInstance) => {
     stepModel.value = new ThenStepModel(id.value, canvas, stepElement.value);
     stepData = reactive<ThenStepData>(stepModel.value.StepData)
 }
-/**
- * 绑定下一步
- * @param next 
- */
-const BindNext = (next?: StepModel<IStepData>) => {
-    if (!stepModel || !stepModel.value) return;
-    if (next) {
-        stepModel.value.NextStep = next;
-        stepModel.value.StepData.Next = next.StepData;
-    }
-    else {
-        stepModel.value.NextStep = undefined;
-        stepModel.value.StepData.Next = undefined;
-    }
-}
-/**
- * 绑定上一步
- * @param up 
- */
-const BindUp = (up?: StepModel<IStepData>) => { 
-    if (!stepModel || !stepModel.value) return;
-    if (up) {
-        stepModel.value.UpStep = up;
-    }
-    else {
-        stepModel.value.UpStep = undefined;
-    }
-};
 const OpenEditModal = () => {
     editModalVisible.value = true;
 }

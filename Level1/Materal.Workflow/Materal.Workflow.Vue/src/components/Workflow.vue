@@ -30,7 +30,7 @@
     </div>
     <div ref="workflowCanvas" class="Canvas">
         <component v-for="item in stepNodes" :is="item.component" :key="item.stepId" :instance="instance"
-            :stepID="item.stepId" :ref="(ref: IStep) => stepNodesInstanceList.push(ref)"
+            :stepID="item.stepId" :ref="(ref: IStep<IStepData>) => stepNodesInstanceList.push(ref)"
             @deleteStep="removeStepToCanvas($event)" />
     </div>
 </template>
@@ -42,6 +42,7 @@ import { StepInfoModel as StepInfoModel } from "../scripts/StepInfoModel";
 import { EVENT_CONNECTION, EVENT_CONNECTION_DETACHED } from "@jsplumb/core";
 import { StepModel } from "../scripts/StepModels/Base/StepModel";
 import { IStepData } from "../scripts/StepDatas/Base/IStepData";
+import { IStep } from "../scripts/IStep";
 
 const ThenStep = defineAsyncComponent(() => import("./steps/ThenStep.vue"));
 const StartStep = defineAsyncComponent(() => import("./steps/StartStep.vue"));
@@ -51,7 +52,7 @@ const stepList: StepInfoModel[] = [
     new StepInfoModel("业务节点", "Step ThenStep", ThenStep)
 ];
 const stepNodes = shallowReactive<{ component: VNode, stepId: string }[]>([]);
-const stepNodesInstanceList = shallowRef<IStep[]>([]);
+const stepNodesInstanceList = shallowRef<IStep<IStepData>[]>([]);
 let stepIndex = 0;
 
 onMounted(() => {
@@ -83,23 +84,28 @@ const addStepToCanvas = (item: StepInfoModel) => {
         stepId: `step${stepIndex++}`
     });
 }
+/**
+ * 从画布移除节点
+ * @param StepModel 
+ */
 const removeStepToCanvas = (StepModel: StepModel<IStepData>) => {
-    for (let i = 0; i < stepNodes.length; i++) {
-        const element = stepNodes[i];
-        if (element.stepId !== StepModel.ID) continue;
-        stepNodes.splice(i, 1);
-        break;
-    }
-    const count = stepNodesInstanceList.value.length;
+    StepModel.Destroy();//节点模型销毁会移除端点、连接线
+    let count = stepNodesInstanceList.value.length;
     for (let i = 0; i < count; i++) {
         const stepNode = stepNodesInstanceList.value[i];
         const stepID = stepNode.GetStepID();
         if (StepModel.ID === stepID){
-            stepNodesInstanceList.value.splice(i, 1);
+            stepNodesInstanceList.value.splice(i, 1);//移除节点实例
             break;
         }
     }
-    StepModel.Destroy();
+    count = stepNodes.length;
+    for (let i = 0; i < count; i++) {
+        const element = stepNodes[i];
+        if (element.stepId !== StepModel.ID) continue;
+        stepNodes.splice(i, 1);//从画布上移除节点
+        break;
+    }
 }
 /**
  * 绑定下一步
@@ -107,8 +113,8 @@ const removeStepToCanvas = (StepModel: StepModel<IStepData>) => {
  * @param targetId
  */
 const BindNext = (sourceId: string, targetId: string) => {
-    let sourceStep: IStep | null = null;
-    let targetStep: IStep | null = null;
+    let sourceStep: IStep<IStepData> | null = null;
+    let targetStep: IStep<IStepData> | null = null;
     const count = stepNodesInstanceList.value.length;
     for (let i = 0; i < count; i++) {
         const stepNode = stepNodesInstanceList.value[i];
@@ -130,8 +136,8 @@ const BindNext = (sourceId: string, targetId: string) => {
  * @param targetId
  */
 const UnbindNext = (sourceId: string, targetId: string) => {
-    let sourceStep: IStep | null = null;
-    let targetStep: IStep | null = null;
+    let sourceStep: IStep<IStepData> | null = null;
+    let targetStep: IStep<IStepData> | null = null;
     const count = stepNodesInstanceList.value.length;
     for (let i = 0; i < count; i++) {
         const stepNode = stepNodesInstanceList.value[i];
@@ -140,14 +146,8 @@ const UnbindNext = (sourceId: string, targetId: string) => {
         if (targetId === stepID) targetStep = stepNode;
         if (sourceStep && targetStep) break;
     }
-    if (!sourceStep || !targetStep) throw new Error("绑定下一步失败");
+    if (!sourceStep || !targetStep) throw new Error("解绑下一步失败");
     sourceStep.BindNext(undefined);
     targetStep.BindUp(undefined);
-}
-interface IStep {
-    GetStepModel: () => StepModel<any>,
-    GetStepID: () => string,
-    BindNext: (next?: StepModel<any>) => void,
-    BindUp: (next?: StepModel<any>) => void,
 }
 </script>
