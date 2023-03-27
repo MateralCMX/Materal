@@ -80,7 +80,7 @@ let stepIndex = 0;
 let runtimeDataEditModalVisible = ref<boolean>(false);
 let editModalVisible = ref<boolean>(false);
 let stepCanDelete = ref<boolean>(false);
-let editStepData: UnwrapNestedRefs<StepData> | undefined;
+let editStepData = ref<IStepData>();
 let editStepModel: StepModel<IStepData> | undefined;
 let editComponent: VNode | undefined;
 const runTimeDataType = ref(NowRuntimeDataType);//运行时数据类型
@@ -209,7 +209,7 @@ const GetStepModel = (sourceId: string, targetId: string): { sourceStepModel: St
  */
 const ShowStepEditModal = (stepModel: StepModel<IStepData>) => {
     editStepModel = stepModel;
-    editStepData = reactive<IStepData>(stepModel.StepData);
+    editStepData.value = stepModel.StepData;
     switch (stepModel.StepModelTypeName) {
         case `${StartStepModel.name}`:
             editComponent = StartStepEdit as any;
@@ -228,7 +228,7 @@ const ShowStepEditModal = (stepModel: StepModel<IStepData>) => {
 const CloseStepEditModal = () => {
     editModalVisible.value = false;
     editStepModel = undefined;
-    editStepData = undefined;
+    editStepData.value = undefined;
     editComponent = undefined;
 }
 /**
@@ -237,9 +237,6 @@ const CloseStepEditModal = () => {
 const DeleteStep = () => {
     if (!editStepModel) return;
     RemoveStepToCanvas(editStepModel);
-    editStepModel = undefined;
-    editStepData = undefined;
-    editComponent = undefined;
     CloseStepEditModal();
 }
 /**

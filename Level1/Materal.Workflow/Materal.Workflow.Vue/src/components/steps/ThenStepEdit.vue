@@ -21,7 +21,7 @@
                     <a-input v-model:value="item.Name" @change="BuildDataChangeValue" />
                 </a-col>
                 <a-col :span="6">
-                    <a-select ref="select" v-model:value="item.Type">
+                    <a-select v-model:value="item.Type">
                         <a-select-option value="String">字符串</a-select-option>
                         <a-select-option value="Number">数字</a-select-option>
                     </a-select>
@@ -37,28 +37,28 @@
             </a-row>
         </a-form-item>
         <a-form-item label="节点体">
-            <a-select ref="select" v-model:value="stepData.StepBodyType" @change="StepBodyTypeChangeValue">
+            <a-select v-model:value="stepData.StepBodyType" @change="StepBodyTypeChangeValue">
                 <a-select-option v-for="item in AllStepBodys" :value="item.Name">{{ item.Name }}</a-select-option>
             </a-select>
         </a-form-item>
         <a-form-item label="输入">
             <a-button type="primary" @click="NewInputDataItem">+</a-button>
         </a-form-item>
-        <a-form-item v-if="stepData.Inputs" v-for="(item, index) in stepData.Inputs" :label="`输入${index}`">
+        <a-form-item v-for="(item, index) in stepData.Inputs" :label="`输入${index}`">
             <a-row :gutter="[16, 16]">
                 <a-col :span="6">
-                    <a-select ref="select" v-model:value="item.StepProperty">
+                    <a-select v-model:value="item.StepProperty">
                         <a-select-option v-for="arg in stepBodyArgs" :value="arg.Name">{{ arg.Name }}</a-select-option>
                     </a-select>
                 </a-col>
                 <a-col :span="6">
-                    <a-select ref="select" v-model:value="item.ValueSource">
+                    <a-select v-model:value="item.ValueSource">
                         <a-select-option :value="InputValueSourceEnum.Constant">常量</a-select-option>
                         <a-select-option :value="InputValueSourceEnum.BuildDataProperty">构建数据</a-select-option>
                         <a-select-option :value="InputValueSourceEnum.RuntimeDataProperty">运行时数据</a-select-option>
                     </a-select>
                 </a-col>
-                <a-col :span="6">
+                <a-col :span="10">
                     <a-select v-if="item.ValueSource === InputValueSourceEnum.BuildDataProperty" ref="select"
                         v-model:value="item.Value">
                         <a-select-option v-for="property in buildDatas.Properties" :value="property.Name">
@@ -80,9 +80,28 @@
                 </a-col>
             </a-row>
         </a-form-item>        
-        <!-- <a-form-item label="输出">
-            <a-button type="primary" @click="NewInputDataItem">+</a-button>
-        </a-form-item> -->
+        <a-form-item label="输出">
+            <a-button type="primary" @click="NewOutputDataItem">+</a-button>
+        </a-form-item>
+        <a-form-item v-for="(item, index) in stepData.Outputs" :label="`输出${index}`">
+            <a-row :gutter="[16, 16]">
+                <a-col :span="11">
+                    <a-select v-model:value="item.StepProperty">
+                        <a-select-option v-for="arg in stepBodyArgs" :value="arg.Name">{{ arg.Name }}</a-select-option>
+                    </a-select>
+                </a-col>
+                <a-col :span="11">
+                    <a-select v-model:value="item.RuntimeDataProperty">
+                        <a-select-option v-for="property in NowRuntimeDataType.Properties" :value="property.Name">
+                            {{ property.Name }}
+                        </a-select-option>
+                    </a-select>
+                </a-col>
+                <a-col :span="2">
+                    <a-button type="primary" danger @click="RemoveInputDataTime(index)">X</a-button>
+                </a-col>
+            </a-row>
+        </a-form-item>  
     </a-form>
 </template>
 <script setup lang="ts">
@@ -93,8 +112,9 @@ import { onMounted, ref } from 'vue';
 import { NowRuntimeDataType, RuntimeDataPropertyInfo } from "../../scripts/RuntimeDataType";
 
 const props = defineProps<{ stepData: ThenStepData }>();
-const buildDatas = props.stepData.BuildDatas;
+let buildDatas = props.stepData.BuildDatas;
 const Inputs = props.stepData.Inputs;
+const Outputs = props.stepData.Outputs;
 const stepBodyArgs = ref(AllStepBodys[0].Args);
 
 onMounted(() => {
@@ -132,5 +152,8 @@ const GetInputConstantType = (index: number) => {
         return element.Type;
     }
     return "String";
+}
+const NewOutputDataItem = () => {
+    Outputs.push({ StepProperty: "",  RuntimeDataProperty: ""});
 }
 </script>
