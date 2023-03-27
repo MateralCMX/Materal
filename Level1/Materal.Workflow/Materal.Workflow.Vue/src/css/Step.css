@@ -17,3 +17,8 @@
 .ThenStep {
     background-color: #87CC9B;
 }
+
+.CompensatePoint>circle, .CompensateConnector>path {
+    fill: #de2828;
+    stroke: #de2828;
+}

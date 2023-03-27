@@ -40,6 +40,7 @@ export abstract class StepModel<T extends IStepData> {
             anchor: "AutoDefault",
             endpoint: DotEndpoint.type,
             connectorOverlays: [
+                { type: "Label", options: { label:"下一步", id:"NextLabel", location:50 } },
                 { type: "Arrow", options: { location: [0.5, 0.5] } }
             ],
             // connector: FlowchartConnector.type//流程图线
