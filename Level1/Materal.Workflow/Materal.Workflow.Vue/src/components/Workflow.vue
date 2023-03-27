@@ -96,9 +96,14 @@ const InitCanvas = () => {
             grid: { w: 10, h: 10 }
         }
     });
-    instance.value.bind(EVENT_CONNECTION, (params) => BindNext(params.sourceId, params.targetId));
+    instance.value.bind(EVENT_CONNECTION, (params) => {
+        console.log(params);
+        BindNext(params.sourceId, params.targetId);
+    });
     instance.value.bind(EVENT_CONNECTION_DETACHED, (params) => UnbindNext(params.sourceId, params.targetId));
     AddStepToCanvas(new StepInfoModel("开始节点", "Step StartStep", StartStep));
+    AddStepToCanvas(new StepInfoModel("业务节点", "Step ThenStep", ThenStep));
+    AddStepToCanvas(new StepInfoModel("业务节点", "Step ThenStep", ThenStep));
     AddStepToCanvas(new StepInfoModel("业务节点", "Step ThenStep", ThenStep));
 }
 /**

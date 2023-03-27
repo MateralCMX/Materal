@@ -39,6 +39,7 @@ export abstract class StepModel<T extends IStepData> {
             target: false,
             anchor: "AutoDefault",
             endpoint: DotEndpoint.type,
+            data: { type: "SourcePoint" },
             connectorOverlays: [
                 { type: "Label", options: { label:"下一步", id:"NextLabel", location:50 } },
                 { type: "Arrow", options: { location: [0.5, 0.5] } }

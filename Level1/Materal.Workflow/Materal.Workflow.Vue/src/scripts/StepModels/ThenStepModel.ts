@@ -55,19 +55,20 @@ export class ThenStepModel extends StepModel<ThenStepData> {
     /**
      * 绘制源端点
      */
-        protected CreateCompensatePoint(): Endpoint<any> {
-            return this.Instance.addEndpoint(this.StepElement, {
-                source: true,
-                target: false,
-                anchor: "AutoDefault",
-                endpoint: DotEndpoint.type,
-                cssClass : "CompensatePoint",
-                connectorClass: "CompensateConnector",
-                connectorOverlays: [
-                    { type: "Label", options: { label:"异常处理", id:"CompensateLabel", location:50 } },
-                    { type: "Arrow", options: { location: [0.5, 0.5] } },
-                ],
-                // connector: FlowchartConnector.type//流程图线
-            });
-        }
+    protected CreateCompensatePoint(): Endpoint<any> {
+        return this.Instance.addEndpoint(this.StepElement, {
+            source: true,
+            target: false,
+            anchor: "AutoDefault",
+            endpoint: DotEndpoint.type,
+            cssClass: "CompensatePoint",
+            connectorClass: "CompensateConnector",
+            data: { type: "CompensatePoint" },
+            connectorOverlays: [
+                { type: "Label", options: { label: "异常处理", id: "CompensateLabel", location: 50 } },
+                { type: "Arrow", options: { location: [0.5, 0.5] } },
+            ],
+            // connector: FlowchartConnector.type//流程图线
+        });
+    }
 }
