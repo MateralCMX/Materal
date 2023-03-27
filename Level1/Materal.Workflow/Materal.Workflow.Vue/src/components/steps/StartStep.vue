@@ -5,17 +5,15 @@
 </style>
 <template>
     <div :id=stepID ref="stepElement" class="Step StartStep" @dblclick="OpenEditModal()" :title="stepModel?.StepData?.Name">
-        {{ stepModel?.StepData?.Name }}        
+        {{ stepModel?.StepData?.Name }}
         <div class="Point NextPoint" title="下一步"></div>
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, shallowRef, toRaw, toRef, UnwrapNestedRefs, watch } from 'vue';
+import { onMounted, ref, toRaw, toRef, watch } from 'vue';
 import { BrowserJsPlumbInstance } from "@jsplumb/browser-ui";
 import { StartStepModel } from '../../scripts/StepModels/StartStepModel';
-import { IStepData } from '../../scripts/StepDatas/Base/IStepData';
 import { StartStepData } from '../../scripts/StepDatas/StartStepData';
-import { StepModel } from '../../scripts/StepModels/Base/StepModel';
 import { IStep } from '../../scripts/IStep';
 
 const emits = defineEmits<{
@@ -24,15 +22,13 @@ const emits = defineEmits<{
 const props = defineProps<{ stepID: string, instance?: BrowserJsPlumbInstance }>();
 const exposeModel: IStep<StartStepModel, StartStepData> = {
     GetStepModel: (): StartStepModel | undefined => toRaw(stepModel.value),
-    GetStepID: (): string => toRaw(id.value),
-    BindNext: (next?: StepModel<IStepData>): void => stepModel.value?.BindNext(next),
-    BindUp: (up?: StepModel<IStepData>): void => { }
+    GetStepID: (): string => toRaw(id.value)
 };
 defineExpose(exposeModel);
 const instance = toRef(props, "instance");
 const id = toRef(props, "stepID");
 const stepElement = ref<HTMLElement>();
-let stepModel = shallowRef<StartStepModel>();
+let stepModel = ref<StartStepModel>();
 watch(instance, m => {
     if (!m) return;
     InitPage(m);

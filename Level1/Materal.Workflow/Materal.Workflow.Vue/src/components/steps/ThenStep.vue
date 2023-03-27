@@ -12,12 +12,10 @@
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, shallowRef, toRaw, toRef, watch } from 'vue';
+import { onMounted, ref, toRaw, toRef, watch } from 'vue';
 import { BrowserJsPlumbInstance } from "@jsplumb/browser-ui";
 import { ThenStepModel } from '../../scripts/StepModels/ThenStepModel';
-import { IStepData } from '../../scripts/StepDatas/Base/IStepData';
 import { ThenStepData } from '../../scripts/StepDatas/ThenStepData';
-import { StepModel } from '../../scripts/StepModels/Base/StepModel';
 import { IStep } from '../../scripts/IStep';
 
 const emits = defineEmits<{
@@ -26,15 +24,13 @@ const emits = defineEmits<{
 const props = defineProps<{ stepID: string, instance?: BrowserJsPlumbInstance }>();
 const exposeModel: IStep<ThenStepModel, ThenStepData> = {
     GetStepModel: (): ThenStepModel | undefined => toRaw(stepModel.value),
-    GetStepID: (): string => toRaw(id.value),
-    BindNext: (next?: StepModel<IStepData>): void => stepModel.value?.BindNext(next),
-    BindUp: (up?: StepModel<IStepData>): void => stepModel.value?.BindUp(up)
+    GetStepID: (): string => toRaw(id.value)
 };
 defineExpose(exposeModel);
 const instance = toRef(props, "instance");
 const id = toRef(props, "stepID");
 const stepElement = ref<HTMLElement>();
-let stepModel = shallowRef<ThenStepModel>();
+let stepModel = ref<ThenStepModel>();
 watch(instance, m => {
     if (!m) return;
     InitPage(m);
