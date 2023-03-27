@@ -192,7 +192,7 @@ const UnbindNext = (sourceId: string, targetId: string) => {
  */
 const ShowStepEditModal = (stepModel: StepModel<IStepData>) => {
     editStepModel = stepModel;
-    editStepData = reactive<StepData>(stepModel.StepData);
+    editStepData = reactive<IStepData>(stepModel.StepData);
     switch (stepModel.StepModelTypeName) {
         case `${StartStepModel.name}`:
             editComponent = StartStepEdit as any;
@@ -210,6 +210,9 @@ const ShowStepEditModal = (stepModel: StepModel<IStepData>) => {
  */
 const CloseStepEditModal = () => {
     editModalVisible.value = false;
+    editStepModel = undefined;
+    editStepData = undefined;
+    editComponent = undefined;
 }
 /**
  * 删除节点

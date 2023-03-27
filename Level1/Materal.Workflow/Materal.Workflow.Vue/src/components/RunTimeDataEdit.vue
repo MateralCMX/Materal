@@ -15,7 +15,7 @@
                             <a-select-option value="Number">数字</a-select-option>
                         </a-select>
                     </a-col>
-                    <a-col :span="4">
+                    <a-col :span="2">
                         <a-button type="primary" danger @click="removeItem(index)">X</a-button>
                     </a-col>
                 </a-row>
