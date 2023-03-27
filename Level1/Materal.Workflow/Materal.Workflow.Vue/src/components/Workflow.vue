@@ -56,7 +56,7 @@ import RunTimeDataEdit from "./RunTimeDataEdit.vue";
 import { defineAsyncComponent, onMounted, reactive, ref, shallowReactive, shallowRef, UnwrapNestedRefs, VNode } from 'vue';
 import { BrowserJsPlumbInstance, newInstance, ContainmentType } from "@jsplumb/browser-ui";
 import { StepInfoModel as StepInfoModel } from "../scripts/StepInfoModel";
-import { BeforeDropParams, Connection, DotEndpoint, INTERCEPT_BEFORE_DETACH, INTERCEPT_BEFORE_DROP, RectangleEndpoint } from "@jsplumb/core";
+import { BeforeDropParams, Connection, ConnectionDetachedParams, DotEndpoint, EVENT_CONNECTION_DETACHED, INTERCEPT_BEFORE_DROP, RectangleEndpoint } from "@jsplumb/core";
 import { StepModel } from "../scripts/StepModels/Base/StepModel";
 import { StartStepModel } from "../scripts/StepModels/StartStepModel";
 import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
@@ -121,7 +121,7 @@ const InitCanvas = () => {
         endpoint: RectangleEndpoint.type
     });
     instance.value.bind(INTERCEPT_BEFORE_DROP, (params: BeforeDropParams) => HandlerConnection(params));
-    instance.value.bind(INTERCEPT_BEFORE_DETACH, (params: Connection) => HandlerDisconnection(params));
+    instance.value.bind(EVENT_CONNECTION_DETACHED, (params: ConnectionDetachedParams) => HandlerDisconnectioned(params));
     AddStepToCanvas(new StepInfoModel("开始节点", "Step StartStep", StartStep));
     AddStepToCanvas(new StepInfoModel("业务节点", "Step ThenStep", ThenStep));
 }
@@ -176,13 +176,13 @@ const HandlerConnection = (params: BeforeDropParams): boolean => {
     return stepModel.sourceStepModel.HandlerConnection(params.connection, stepModel.targetStepModel);
 }
 /**
- * 解除连线
- * @param connection 
+ * 处理连线断开
+ * @param params
  */
-const HandlerDisconnection = (connection: Connection): boolean => {
-    if (connection.sourceId === connection.suspendedElementId) return false;
-    const stepModel = GetStepModel(connection.sourceId, connection.suspendedElementId);
-    return stepModel.sourceStepModel.HandlerDisconnection(connection, stepModel.targetStepModel);
+ const HandlerDisconnectioned = (params: ConnectionDetachedParams) => {
+    if (params.sourceId === params.targetId) return;
+    const stepModel = GetStepModel(params.sourceId, params.targetId);
+    stepModel.sourceStepModel.HandlerDisconnection(params.connection, stepModel.targetStepModel);
 }
 const GetStepModel = (sourceId: string, targetId: string): { sourceStepModel: StepModel<IStepData>, targetStepModel: StepModel<IStepData> } => {
     let sourceStep: IStep<StepModel<IStepData>, IStepData> | null = null;

@@ -11,13 +11,14 @@ export class StartStepModel extends StepModel<StartStepData> {
         if(connection.params.cssClass != "NextConnector") return false;
         if(this.StepData.Next) return false;
         this.StepData.Next = target.StepData;
+        target.AddOtherConnector(connection);
         return true;
     }
-    public HandlerDisconnection(connection: Connection, target: StepModel<IStepData>): boolean {
-        if(connection.params.cssClass != "NextConnector") return false;
-        if(!this.StepData.Next) return false;
+    public HandlerDisconnection(connection: Connection, target: StepModel<IStepData>) {
+        if(connection.params.cssClass != "NextConnector") return;
+        if(!this.StepData.Next) return;
         this.StepData.Next = undefined;
-        return true;
+        target.RemoveOtherConnector(connection);
     }
     public Destroy(): void {
         throw new Error("开始节点不能销毁");

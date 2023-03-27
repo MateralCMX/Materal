@@ -23,6 +23,7 @@ export abstract class StepModel<T extends IStepData> {
      * 节点数据
      */
     public StepData: T;
+    protected OtherConnector: Connection[] = [];
     constructor(stepModelTypeName: string, id: string, instance: BrowserJsPlumbInstance, element: HTMLElement, stepData: T) {
         this.StepModelTypeName = stepModelTypeName;
         this.ID = id;
@@ -30,6 +31,30 @@ export abstract class StepModel<T extends IStepData> {
         this.StepElement = element;
         this.StepData = stepData;
         this.Instance.manage(element, id);
+    }
+    /**
+     * 添加其他连接
+     * @param connection 
+     */
+    public AddOtherConnector(connection: Connection): void {
+        for (let i = 0; i < this.OtherConnector.length; i++) {
+            const element = this.OtherConnector[i];
+            if (element.id === connection.id) return;
+        }
+        this.OtherConnector.push(connection);
+    }
+    /**
+     * 移除其他连接
+     * @param connection 
+     */
+    public RemoveOtherConnector(connection: Connection): void {
+        for (let i = 0; i < this.OtherConnector.length; i++) {
+            const connector = this.OtherConnector[i];
+            if (connector.id === connection.id) {
+                this.OtherConnector = this.OtherConnector.slice(i, 1);
+                return;
+            }
+        }
     }
     /**
      * 处理连接
@@ -42,7 +67,7 @@ export abstract class StepModel<T extends IStepData> {
      * @param type 
      * @param target 
      */
-    public abstract HandlerDisconnection(connection: Connection, target: StepModel<IStepData>): boolean;
+    public abstract HandlerDisconnection(connection: Connection, target: StepModel<IStepData>): void;
     /**
      * 销毁
      */
