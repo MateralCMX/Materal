@@ -13,11 +13,11 @@ export class ThenStepData extends StepData {
     /**
      * 输入
      */
-    public Inputs?: Array<InputData>;
+    public Inputs: Array<InputData> = [];
     /**
      * 输出
      */
-    public Outputs?: Array<OutputData>;
+    public Outputs: Array<OutputData> = [];
     /**
      * 补偿节点
      */

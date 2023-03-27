@@ -56,14 +56,14 @@ import RunTimeDataEdit from "./RunTimeDataEdit.vue";
 import { defineAsyncComponent, onMounted, reactive, ref, shallowReactive, shallowRef, UnwrapNestedRefs, VNode } from 'vue';
 import { BrowserJsPlumbInstance, newInstance, ContainmentType } from "@jsplumb/browser-ui";
 import { StepInfoModel as StepInfoModel } from "../scripts/StepInfoModel";
-import { BeforeDropParams, Connection, ConnectionDetachedParams, DotEndpoint, EVENT_CONNECTION_DETACHED, INTERCEPT_BEFORE_DROP, RectangleEndpoint } from "@jsplumb/core";
+import { BeforeDropParams, ConnectionDetachedParams, DotEndpoint, EVENT_CONNECTION_DETACHED, INTERCEPT_BEFORE_DROP, RectangleEndpoint } from "@jsplumb/core";
 import { StepModel } from "../scripts/StepModels/Base/StepModel";
 import { StartStepModel } from "../scripts/StepModels/StartStepModel";
 import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
 import { IStepData } from "../scripts/StepDatas/Base/IStepData";
 import { IStep } from "../scripts/IStep";
 import { StepData } from "../scripts/StepDatas/Base/StepData";
-import { RuntimeDataType } from "../scripts/RuntimeDataType";
+import { NowRuntimeDataType } from "../scripts/RuntimeDataType";
 
 const StartStep = defineAsyncComponent(() => import("./steps/StartStep.vue"));
 const StartStepEdit = defineAsyncComponent(() => import("./steps/StartStepEdit.vue"));
@@ -83,7 +83,7 @@ let stepCanDelete = ref<boolean>(false);
 let editStepData: UnwrapNestedRefs<StepData> | undefined;
 let editStepModel: StepModel<IStepData> | undefined;
 let editComponent: VNode | undefined;
-const runTimeDataType = ref(new RuntimeDataType());//运行时数据类型
+const runTimeDataType = ref(NowRuntimeDataType);//运行时数据类型
 
 onMounted(() => {
     InitCanvas();

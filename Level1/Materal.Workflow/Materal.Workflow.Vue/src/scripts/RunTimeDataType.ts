@@ -8,3 +8,4 @@ export class RuntimeDataPropertyInfo {
     public Name: string = "";
     public Type: "String" | "Number" = "String";
 }
+export let NowRuntimeDataType: RuntimeDataType = new RuntimeDataType();
