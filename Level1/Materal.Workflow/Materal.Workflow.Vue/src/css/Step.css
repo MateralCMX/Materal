@@ -52,4 +52,5 @@
 .Step>.EndPoint {
     right: 20px;
     background-color: black;
+    cursor: default;
 }

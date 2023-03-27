@@ -1,5 +1,5 @@
 import { BrowserJsPlumbInstance } from '@jsplumb/browser-ui';
-import { Endpoint, DotEndpoint, RectangleEndpoint } from '@jsplumb/core';
+import { Connection } from "@jsplumb/core";
 import { IStepData } from '../../StepDatas/Base/IStepData';
 
 export abstract class StepModel<T extends IStepData> {
@@ -29,36 +29,20 @@ export abstract class StepModel<T extends IStepData> {
         this.Instance = instance;
         this.StepElement = element;
         this.StepData = stepData;
+        this.Instance.manage(element, id);
     }
     /**
-     * 绘制源端点
+     * 处理连接
+     * @param type 
+     * @param target 
      */
-    protected CreateSourceEndpoint(): Endpoint<any> {
-        return this.Instance.addEndpoint(this.StepElement, {
-            source: true,
-            target: false,
-            anchor: "AutoDefault",
-            endpoint: DotEndpoint.type,
-            data: { type: "SourcePoint" },
-            connectorOverlays: [
-                { type: "Label", options: { label:"下一步", id:"NextLabel", location:50 } },
-                { type: "Arrow", options: { location: [0.5, 0.5] } }
-            ],
-            // connector: FlowchartConnector.type//流程图线
-        });
-    }
+    public abstract HandlerConnection(connection: Connection, target: StepModel<IStepData>): boolean;
     /**
-     * 绘制目标端点
+     * 处理解除连接
+     * @param type 
+     * @param target 
      */
-    protected CreateTrgetEndpoint(): Endpoint<any> {
-        return this.Instance.addEndpoint(this.StepElement, {
-            source: false,
-            target: true,
-            anchor: "AutoDefault",
-            endpoint: RectangleEndpoint.type
-            // connector: FlowchartConnector.type//流程图线
-        });
-    }
+    public abstract HandlerDisconnection(connection: Connection, target: StepModel<IStepData>): boolean;
     /**
      * 销毁
      */

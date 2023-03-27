@@ -20,6 +20,10 @@
 .Steps>.Step {
     margin: 10px auto 0;
 }
+
+.Steps>.Step>.Point {
+    display: none;
+}
 </style>
 <template>
     <div class="Steps">
@@ -49,10 +53,10 @@
 <script setup lang="ts">
 import "../css/Step.css";
 import RunTimeDataEdit from "./RunTimeDataEdit.vue";
-import { defineAsyncComponent, onMounted, reactive, Ref, ref, shallowReactive, ShallowRef, shallowRef, UnwrapNestedRefs, VNode } from 'vue';
+import { defineAsyncComponent, onMounted, reactive, ref, shallowReactive, shallowRef, UnwrapNestedRefs, VNode } from 'vue';
 import { BrowserJsPlumbInstance, newInstance, ContainmentType } from "@jsplumb/browser-ui";
 import { StepInfoModel as StepInfoModel } from "../scripts/StepInfoModel";
-import { EVENT_CONNECTION, EVENT_CONNECTION_DETACHED } from "@jsplumb/core";
+import { BeforeDropParams, Connection, DotEndpoint, INTERCEPT_BEFORE_DETACH, INTERCEPT_BEFORE_DROP, RectangleEndpoint } from "@jsplumb/core";
 import { StepModel } from "../scripts/StepModels/Base/StepModel";
 import { StartStepModel } from "../scripts/StepModels/StartStepModel";
 import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
@@ -96,14 +100,29 @@ const InitCanvas = () => {
             grid: { w: 10, h: 10 }
         }
     });
-    instance.value.bind(EVENT_CONNECTION, (params) => {
-        console.log(params);
-        BindNext(params.sourceId, params.targetId);
+    instance.value.addSourceSelector(".NextPoint", {
+        source: true,
+        target: false,
+        anchor: "Continuous",
+        endpoint: DotEndpoint.type,
+        connectorClass: "NextConnector"
     });
-    instance.value.bind(EVENT_CONNECTION_DETACHED, (params) => UnbindNext(params.sourceId, params.targetId));
+    instance.value.addSourceSelector(".CompensatePoint", {
+        source: true,
+        target: false,
+        anchor: "Continuous",
+        endpoint: DotEndpoint.type,
+        connectorClass: "CompensateConnector"
+    });
+    instance.value.addTargetSelector(".EndPoint", {
+        source: false,
+        target: true,
+        anchor: "Continuous",
+        endpoint: RectangleEndpoint.type
+    });
+    instance.value.bind(INTERCEPT_BEFORE_DROP, (params: BeforeDropParams) => HandlerConnection(params));
+    instance.value.bind(INTERCEPT_BEFORE_DETACH, (params: Connection) => HandlerDisconnection(params));
     AddStepToCanvas(new StepInfoModel("开始节点", "Step StartStep", StartStep));
-    AddStepToCanvas(new StepInfoModel("业务节点", "Step ThenStep", ThenStep));
-    AddStepToCanvas(new StepInfoModel("业务节点", "Step ThenStep", ThenStep));
     AddStepToCanvas(new StepInfoModel("业务节点", "Step ThenStep", ThenStep));
 }
 /**
@@ -148,34 +167,24 @@ const RemoveStepToCanvas = (stepModel: StepModel<IStepData>) => {
     }
 }
 /**
- * 绑定下一步
- * @param sourceId
- * @param targetId
+ * 连线
+ * @param params
  */
-const BindNext = (sourceId: string, targetId: string) => {
-    let sourceStep: IStep<StepModel<IStepData>, IStepData> | null = null;
-    let targetStep: IStep<StepModel<IStepData>, IStepData> | null = null;
-    const count = stepNodesInstanceList.value.length;
-    for (let i = 0; i < count; i++) {
-        const stepNode = stepNodesInstanceList.value[i];
-        if (!stepNode) continue;
-        const stepID = stepNode.GetStepID();
-        if (sourceId === stepID) sourceStep = stepNode;
-        if (targetId === stepID) targetStep = stepNode;
-        if (sourceStep && targetStep) break;
-    }
-    if (!sourceStep || !targetStep) throw new Error("绑定下一步失败");
-    const targetStepData = targetStep.GetStepModel();
-    const sourceStepData = sourceStep.GetStepModel();
-    sourceStep.BindNext(targetStepData);
-    targetStep.BindUp(sourceStepData);
+const HandlerConnection = (params: BeforeDropParams): boolean => {
+    if (params.sourceId === params.targetId) return false;
+    const stepModel = GetStepModel(params.sourceId, params.targetId);
+    return stepModel.sourceStepModel.HandlerConnection(params.connection, stepModel.targetStepModel);
 }
 /**
- * 解绑下一步
- * @param sourceId 
- * @param targetId
+ * 解除连线
+ * @param connection 
  */
-const UnbindNext = (sourceId: string, targetId: string) => {
+const HandlerDisconnection = (connection: Connection): boolean => {
+    if (connection.sourceId === connection.suspendedElementId) return false;
+    const stepModel = GetStepModel(connection.sourceId, connection.suspendedElementId);
+    return stepModel.sourceStepModel.HandlerDisconnection(connection, stepModel.targetStepModel);
+}
+const GetStepModel = (sourceId: string, targetId: string): { sourceStepModel: StepModel<IStepData>, targetStepModel: StepModel<IStepData> } => {
     let sourceStep: IStep<StepModel<IStepData>, IStepData> | null = null;
     let targetStep: IStep<StepModel<IStepData>, IStepData> | null = null;
     const count = stepNodesInstanceList.value.length;
@@ -187,10 +196,13 @@ const UnbindNext = (sourceId: string, targetId: string) => {
         if (targetId === stepID) targetStep = stepNode;
         if (sourceStep && targetStep) break;
     }
-    if (!sourceStep || !targetStep) throw new Error("解绑下一步失败");
-    sourceStep.BindNext(undefined);
-    targetStep.BindUp(undefined);
+    if (!sourceStep || !targetStep) throw new Error("获取节点失败");
+    const targetStepModel = targetStep.GetStepModel();
+    const sourceStepModel = sourceStep.GetStepModel();
+    if (!targetStepModel || !sourceStepModel) throw new Error("获取节点模型失败");
+    return { sourceStepModel, targetStepModel };
 }
+
 /**
  * 显示节点编辑弹窗
  * @param stepModel 

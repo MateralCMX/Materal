@@ -5,7 +5,8 @@
 </style>
 <template>
     <div :id=stepID ref="stepElement" class="Step StartStep" @dblclick="OpenEditModal()" :title="stepModel?.StepData?.Name">
-        {{ stepModel?.StepData?.Name }}
+        {{ stepModel?.StepData?.Name }}        
+        <div class="Point NextPoint" title="下一步"></div>
     </div>
 </template>
 <script setup lang="ts">

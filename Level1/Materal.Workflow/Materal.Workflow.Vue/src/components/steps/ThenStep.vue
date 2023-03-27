@@ -6,6 +6,9 @@
 <template>
     <div :id=stepID ref="stepElement" class="Step ThenStep" @dblclick="OpenEditModal()" :title="stepModel?.StepData?.Name">
         {{ stepModel?.StepData?.Name }}
+        <div class="Point NextPoint" title="下一步"></div>
+        <div class="Point CompensatePoint" title="异常处理"></div>
+        <div class="Point EndPoint" title="上一步"></div>
     </div>
 </template>
 <script setup lang="ts">
