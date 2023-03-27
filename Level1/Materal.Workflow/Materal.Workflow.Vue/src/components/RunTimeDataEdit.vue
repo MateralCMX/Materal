@@ -10,7 +10,7 @@
                         <a-input v-model:value="item.Name" />
                     </a-col>
                     <a-col :span="8">
-                        <a-select ref="select" v-model:value="item.Value">
+                        <a-select ref="select" v-model:value="item.Type">
                             <a-select-option value="String">字符串</a-select-option>
                             <a-select-option value="Number">数字</a-select-option>
                         </a-select>
@@ -24,12 +24,12 @@
     </a-form>
 </template>
 <script setup lang="ts">
-import { RunTimeDataType } from '../scripts/RunTimeDataType';
+import { RuntimeDataType } from '../scripts/RuntimeDataType';
 
-const props = defineProps<{ runTimeDataType: RunTimeDataType }>();
-const items = props.runTimeDataType.Items;
+const props = defineProps<{ runTimeDataType: RuntimeDataType }>();
+const items = props.runTimeDataType.Properties;
 const pushNewItem = () => {
-    items.push({ Name: "", Value: "String" });
+    items.push({ Name: "", Type: "String" });
 }
 const removeItem = (index: number) => {
     items.splice(index, 1);

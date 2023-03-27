@@ -1,10 +1,10 @@
-export class RunTimeDataType {
-    public Items: RunTimeDataTypeItem[] = [];
+export class RuntimeDataType {
+    public Properties: RuntimeDataPropertyInfo[] = [];
     public GetJsonString(): string {
-        return JSON.stringify(this.Items);
+        return JSON.stringify(this.Properties);
     }
 }
-export class RunTimeDataTypeItem {
+export class RuntimeDataPropertyInfo {
     public Name: string = "";
-    public Value: "String" | "Number" = "String";
+    public Type: "String" | "Number" = "String";
 }

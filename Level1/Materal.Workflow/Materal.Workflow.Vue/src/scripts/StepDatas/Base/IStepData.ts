@@ -1,3 +1,5 @@
+import { RuntimeDataType } from "../../RuntimeDataType";
+
 export interface IStepData {
     /**
      * 节点数据类型
@@ -14,5 +16,5 @@ export interface IStepData {
     /**
      * 构建数据
      */
-    BuildData: { [key: string]: string | number };
+    BuildData: { [key: string]: string | number};
 }

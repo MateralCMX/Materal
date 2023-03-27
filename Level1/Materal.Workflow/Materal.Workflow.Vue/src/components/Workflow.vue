@@ -59,7 +59,7 @@ import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
 import { IStepData } from "../scripts/StepDatas/Base/IStepData";
 import { IStep } from "../scripts/IStep";
 import { StepData } from "../scripts/StepDatas/Base/StepData";
-import { RunTimeDataType } from "../scripts/RunTimeDataType";
+import { RuntimeDataType } from "../scripts/RuntimeDataType";
 
 const StartStep = defineAsyncComponent(() => import("./steps/StartStep.vue"));
 const StartStepEdit = defineAsyncComponent(() => import("./steps/StartStepEdit.vue"));
@@ -79,7 +79,7 @@ let stepCanDelete = ref<boolean>(false);
 let editStepData: UnwrapNestedRefs<StepData> | undefined;
 let editStepModel: StepModel<IStepData> | undefined;
 let editComponent: VNode | undefined;
-const runTimeDataType = ref(new RunTimeDataType());//运行时数据类型
+const runTimeDataType = ref(new RuntimeDataType());//运行时数据类型
 
 onMounted(() => {
     InitCanvas();
@@ -99,6 +99,7 @@ const InitCanvas = () => {
     instance.value.bind(EVENT_CONNECTION, (params) => BindNext(params.sourceId, params.targetId));
     instance.value.bind(EVENT_CONNECTION_DETACHED, (params) => UnbindNext(params.sourceId, params.targetId));
     AddStepToCanvas(new StepInfoModel("开始节点", "Step StartStep", StartStep));
+    AddStepToCanvas(new StepInfoModel("业务节点", "Step ThenStep", ThenStep));
 }
 /**
  * 添加节点到画布
