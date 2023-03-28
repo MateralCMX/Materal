@@ -11,4 +11,9 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Workflow\Materal.Workflow.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Update="WorkflowData.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>

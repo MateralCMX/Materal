@@ -1,0 +1,55 @@
+{
+  "StepDataType": "StartStepData",
+  "Name": "开始节点",
+  "BuildData": {},
+  "Next": {
+    "StepDataType": "ThenStepData",
+    "Name": "输出构建时Message",
+    "BuildData": { "BuildMessage": "Hello World!" },
+    "StepBodyType": "ConsoleMessageStepBody",
+    "Inputs": [
+      {
+        "StepProperty": "Message",
+        "Value": "BuildMessage",
+        "ValueSource": 1
+      }
+    ],
+    "Outputs": [
+      {
+        "StepProperty": "Message",
+        "RuntimeDataProperty": "RuntimeMessage"
+      }
+    ],
+    "Error": { "HandlerType": 2 },
+    "Next": {
+      "StepDataType": "ThenStepData",
+      "Name": "输出运行时Message",
+      "BuildData": {},
+      "StepBodyType": "ConsoleMessageStepBody",
+      "Inputs": [
+        {
+          "StepProperty": "Message",
+          "Value": "RuntimeMessage",
+          "ValueSource": 0
+        }
+      ],
+      "Outputs": [],
+      "Error": { "HandlerType": 0 },
+      "Next": {
+        "StepDataType": "ThenStepData",
+        "Name": "输出常量",
+        "BuildData": {},
+        "StepBodyType": "ConsoleMessageStepBody",
+        "Inputs": [
+          {
+            "StepProperty": "Message",
+            "Value": "如果看见这句话，就说明动态工作流运行成功了",
+            "ValueSource": 2
+          }
+        ],
+        "Outputs": [],
+        "Error": { "HandlerType": 0 }
+      }
+    }
+  }
+}

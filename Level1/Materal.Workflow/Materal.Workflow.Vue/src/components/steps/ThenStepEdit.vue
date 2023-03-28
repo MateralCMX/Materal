@@ -77,7 +77,7 @@
                     <a-input-number v-else v-model:value="item.Value" />
                 </a-col>
                 <a-col :span="2">
-                    <a-button type="primary" danger @click="RemoveInputDataTime(index)">X</a-button>
+                    <a-button type="primary" danger @click="RemoveInputDataItem(index)">X</a-button>
                 </a-col>
             </a-row>
         </a-form-item>
@@ -99,7 +99,7 @@
                     </a-select>
                 </a-col>
                 <a-col :span="2">
-                    <a-button type="primary" danger @click="RemoveInputDataTime(index)">X</a-button>
+                    <a-button type="primary" danger @click="RemoveOutputDataItem(index)">X</a-button>
                 </a-col>
             </a-row>
         </a-form-item>
@@ -131,8 +131,8 @@ import { NowRuntimeDataType } from "../../scripts/RuntimeDataType";
 
 const props = defineProps<{ stepData: ThenStepData }>();
 let buildDatas = props.stepData.BuildDatas;
-const Inputs = props.stepData.Inputs;
-const Outputs = props.stepData.Outputs;
+const inputs = props.stepData.Inputs;
+const outputs = props.stepData.Outputs;
 const stepBodyArgs = ref(AllStepBodys[0].Args);
 
 onMounted(() => {
@@ -158,20 +158,23 @@ const StepBodyTypeChangeValue = () => {
     }
 }
 const NewInputDataItem = () => {
-    Inputs.push({ StepProperty: "", Value: "", ValueSource: InputValueSourceEnum.Constant });
+    inputs.push({ StepProperty: "", Value: "", ValueSource: InputValueSourceEnum.Constant });
 }
-const RemoveInputDataTime = (index: number) => {
-    Inputs.splice(index, 1);
+const RemoveInputDataItem = (index: number) => {
+    inputs.splice(index, 1);
 }
 const GetInputConstantType = (index: number) => {
     for (let i = 0; i < stepBodyArgs.value.length; i++) {
         const element = stepBodyArgs.value[i];
-        if (element.Name !== Inputs[index].StepProperty) continue;
+        if (element.Name !== inputs[index].StepProperty) continue;
         return element.Type;
     }
     return "String";
 }
 const NewOutputDataItem = () => {
-    Outputs.push({ StepProperty: "", RuntimeDataProperty: "" });
+    outputs.push({ StepProperty: "", RuntimeDataProperty: "" });
+}
+const RemoveOutputDataItem = (index: number) => {
+    outputs.splice(index, 1);
 }
 </script>

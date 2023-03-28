@@ -81,6 +81,7 @@ namespace System
         /// <returns></returns>
         public static bool IsAssignableTo(this Type type, Type targetType)
         {
+            if (type == targetType) return true;
             if (targetType.IsInterface)
             {
                 List<Type> allInterfaces = type.GetAllInterfaces();
