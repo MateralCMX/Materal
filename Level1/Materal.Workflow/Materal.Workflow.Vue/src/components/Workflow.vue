@@ -63,15 +63,19 @@ import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
 import { IStepData } from "../scripts/StepDatas/Base/IStepData";
 import { IStep } from "../scripts/IStep";
 import { NowRuntimeDataType } from "../scripts/RuntimeDataType";
+import { DelayStepModel } from "../scripts/StepModels/DelayStepModel";
 
 const StartStep = defineAsyncComponent(() => import("./steps/StartStep.vue"));
 const StartStepEdit = defineAsyncComponent(() => import("./steps/StartStepEdit.vue"));
 const ThenStep = defineAsyncComponent(() => import("./steps/ThenStep.vue"));
 const ThenStepEdit = defineAsyncComponent(() => import("./steps/ThenStepEdit.vue"));
+const DelayStep = defineAsyncComponent(() => import("./steps/DelayStep.vue"));
+const DelayStepEdit = defineAsyncComponent(() => import("./steps/DelayStepEdit.vue"));
 let instance = shallowRef<BrowserJsPlumbInstance>();
 const workflowCanvas = ref<HTMLElement>();
 const stepList: StepInfoModel[] = [
-    new StepInfoModel("业务节点", "Step ThenStep", ThenStep)
+    new StepInfoModel("业务节点", "Step ThenStep", ThenStep),
+    new StepInfoModel("延时节点", "Step DelayStep", DelayStep),
 ];
 const stepNodes = shallowReactive<{ component: VNode, stepId: string }[]>([]);
 const stepNodesInstanceList = shallowRef<IStep<StepModel<IStepData>, IStepData>[]>([]);
@@ -216,6 +220,10 @@ const ShowStepEditModal = (stepModel: StepModel<IStepData>) => {
             break;
         case `${ThenStepModel.name}`:
             editComponent = ThenStepEdit as any;
+            stepCanDelete.value = true;
+            break;
+        case `${DelayStepModel.name}`:
+            editComponent = DelayStepEdit as any;
             stepCanDelete.value = true;
             break;
     }

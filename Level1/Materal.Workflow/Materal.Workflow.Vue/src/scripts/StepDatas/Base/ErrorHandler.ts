@@ -1,5 +1,6 @@
 import { ErrorHandlerTypeEnum } from "./ErrorHandlerTypeEnum";
 import TimeSpan from "@web-atoms/date-time/dist/TimeSpan";
+import { TimeSpanHelper } from "../../TimeSpanHelper";
 
 /**
  * 异常处理
@@ -14,11 +15,10 @@ export class ErrorHandler {
      */
     private RetryInterval?: string;
     public get RetryIntervalValue(): TimeSpan {
-        if (this.RetryInterval == null) return new TimeSpan(0, 0, 0);
-        return TimeSpan.parse(this.RetryInterval);
+        return TimeSpanHelper.StringToTimeSpan(this.RetryInterval);
     }
     public set RetryIntervalValue(value: TimeSpan) {
-        this.RetryInterval = `${value.hours}:${value.minutes}:${value.seconds}`;
+        this.RetryInterval = TimeSpanHelper.TimeSpanToString(value);
     }
     constructor(josnValue?: string) {
         if (!josnValue) return;

@@ -48,10 +48,6 @@ export class ThenStepModel extends StepModel<ThenStepData> {
     public Destroy(): void {
         if (this._nextConnector) this.Instance.deleteConnection(this._nextConnector);
         if (this._compensateConnector) this.Instance.deleteConnection(this._compensateConnector);
-        while (this.OtherConnector.length > 0) {
-            const connector = this.OtherConnector[0];
-            this.OtherConnector = this.OtherConnector.slice(1, 1);
-            this.Instance.deleteConnection(connector);
-        }
+        this.DestroyOtherConnector();
     }
 }

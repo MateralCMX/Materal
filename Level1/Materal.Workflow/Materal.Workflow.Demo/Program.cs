@@ -31,31 +31,6 @@ namespace Materal.Workflow.Demo
             host.Start();
             #endregion
             #region 流程定义
-            //const string buildDataJson = "{\"Name\":\"Materal\",\"Number\":1,\"Message\":\"个人介绍\"}";
-            //Dictionary<string, object?> buildData = buildDataJson.JsonToObject<Dictionary<string, object?>>();
-            //const string runtimJson = "{\"Name\":\"Materal\",\"Number\":1.2,\"Message\":\"动态工作流运行[RuntimeData]\",\"Result\":\"\"}";
-            //Dictionary<string, object?> runtimeData = runtimJson.JsonToObject<Dictionary<string, object?>>();
-            //StartStepData stepData = new()
-            //{
-            //    Next = new IfStepData("Name", ValueSourceEnum.RuntimeDataProperty, ComparisonTypeEnum.Equal, "Message", ValueSourceEnum.RuntimeDataProperty)
-            //    {
-            //        BuildData = buildData,
-            //        StepData = new ThenStepData<ConsoleMessageStepBody>
-            //        {
-            //            Inputs = new()
-            //            {
-            //                new InputData(nameof(ConsoleMessageStepBody.Message), "工作流运行[0]")
-            //            }
-            //        },
-            //        Next = new ThenStepData<ConsoleMessageStepBody>
-            //        {
-            //            Inputs = new()
-            //            {
-            //                new InputData(nameof(ConsoleMessageStepBody.Message), "工作流运行[1]")
-            //            }
-            //        }
-            //    }
-            //};
             const string runtimJson = "{\"RuntimeMessage\":\"动态工作流运行[RuntimeData]\"}";
             Dictionary<string, object?> runtimeData = runtimJson.JsonToObject<Dictionary<string, object?>>();
             string workflowDataJsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WorkflowData.json");

@@ -4,17 +4,38 @@
   "BuildData": {},
   "Next": {
     "StepDataType": "ThenStepData",
-    "Name": "业务节点",
+    "Name": "业务节点1",
     "BuildData": {},
     "StepBodyType": "ConsoleMessageStepBody",
     "Inputs": [
       {
         "StepProperty": "Message",
-        "Value": "123",
+        "Value": "1234",
         "ValueSource": 2
       }
     ],
     "Outputs": [],
-    "Error": { "HandlerType": 0 }
+    "Error": { "HandlerType": 0 },
+    "Next": {
+      "StepDataType": "DelayStepData",
+      "Name": "延时节点",
+      "BuildData": {},
+      "Delay": "0.00:00:05",
+      "Next": {
+        "StepDataType": "ThenStepData",
+        "Name": "业务节点2",
+        "BuildData": {},
+        "StepBodyType": "ConsoleMessageStepBody",
+        "Inputs": [
+          {
+            "StepProperty": "Message",
+            "Value": "qqqqq",
+            "ValueSource": 2
+          }
+        ],
+        "Outputs": [],
+        "Error": { "HandlerType": 0 }
+      }
+    }
   }
 }

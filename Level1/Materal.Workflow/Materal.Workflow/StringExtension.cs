@@ -1,7 +1,6 @@
 ﻿using Materal.Workflow.StepDatas;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections;
 using System.Reflection;
 
@@ -49,7 +48,7 @@ namespace Materal.Workflow
                     object? value = propertyNode.Value.Type switch
                     {
                         JTokenType.Null => null,
-                        JTokenType.String => propertyNode.Value.ToString(),
+                        JTokenType.String => StringNodeToObject(propertyNode, propertyInfo),
                         JTokenType.Boolean => Convert.ToBoolean(propertyNode.Value),
                         JTokenType.Integer => Convert.ToInt32(propertyNode.Value),
                         JTokenType.Float => Convert.ToDecimal(propertyNode.Value),
@@ -66,6 +65,15 @@ namespace Materal.Workflow
                 {
                     throw new WorkflowException($"设置属性值失败{propertyInfo.Name}->{propertyNode.Name}:{propertyNode.Value}", ex);
                 }
+            }
+            return result;
+        }
+        private static object StringNodeToObject(JProperty propertyNode, PropertyInfo propertyInfo)
+        {
+            string result = propertyNode.Value.ToString();
+            if (propertyInfo.PropertyType == typeof(TimeSpan))
+            {
+                return TimeSpan.Parse(result);
             }
             return result;
         }

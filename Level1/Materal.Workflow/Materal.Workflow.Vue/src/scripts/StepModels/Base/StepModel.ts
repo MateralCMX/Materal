@@ -72,4 +72,14 @@ export abstract class StepModel<T extends IStepData> {
      * 销毁
      */
     public abstract Destroy(): void;
+    /**
+     * 销毁其他连接
+     */
+    protected DestroyOtherConnector(): void {
+        while (this.OtherConnector.length > 0) {
+            const connector = this.OtherConnector[0];
+            this.OtherConnector = this.OtherConnector.slice(1, 1);
+            this.Instance.deleteConnection(connector);
+        }
+    }
 }

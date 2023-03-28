@@ -10,7 +10,7 @@ namespace Materal.Workflow.StepDatas
     public class DelayStepData : StepData, IStepData
     {
         /// <summary>
-        /// 时间
+        /// 延时时间
         /// </summary>
         [Required]
         public TimeSpan Delay { get; set; } = TimeSpan.Zero;
