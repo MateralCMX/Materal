@@ -15,7 +15,7 @@
         <a-form-item label="构建数据">
             <a-button type="primary" @click="NewBuildDataItem">+</a-button>
         </a-form-item>
-        <a-form-item v-for="(item, index) in buildDatas.Properties" :label="`构建数据${index}`">
+        <a-form-item v-for="(item, index) in properties" :label="`构建数据${index}`">
             <a-row :gutter="[16, 16]">
                 <a-col :span="6">
                     <a-input v-model:value="item.Name" @change="BuildDataChangeValue" />
@@ -128,22 +128,25 @@ import { InputValueSourceEnum } from '../../scripts/StepDatas/Base/InputValueSou
 import { ErrorHandlerTypeEnum } from '../../scripts/StepDatas/Base/ErrorHandlerTypeEnum';
 import { onMounted, ref } from 'vue';
 import { NowRuntimeDataType } from "../../scripts/RuntimeDataType";
+import { BuildDataPropertyInfo } from '../../scripts/BuildDataType';
 
 const props = defineProps<{ stepData: ThenStepData }>();
 let buildDatas = props.stepData.BuildDatas;
+const properties = ref<BuildDataPropertyInfo[]>([]);
 const inputs = props.stepData.Inputs;
 const outputs = props.stepData.Outputs;
 const stepBodyArgs = ref(AllStepBodys[0].Args);
 
 onMounted(() => {
     StepBodyTypeChangeValue();
+    properties.value = buildDatas.Properties;
 });
 
 const NewBuildDataItem = () => {
-    buildDatas.Properties.push({ Name: "", Type: "String", Value: "" });
+    properties.value.push({ Name: "", Type: "String", Value: "" });
 }
 const RemoveBuildDataItem = (index: number) => {
-    buildDatas.Properties.splice(index, 1);
+    properties.value.splice(index, 1);
     props.stepData.BuildDatas = buildDatas;
 }
 const BuildDataChangeValue = () => {

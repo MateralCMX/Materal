@@ -36,7 +36,7 @@
         <component v-for="item in stepNodes" :is="item.component" :key="item.stepId" :instance="instance"
             :stepID="item.stepId" :ref="PushStepNodesInstanceList" @showStepEditModal="ShowStepEditModal($event)" />
     </div>
-    <a-modal v-model:visible="editModalVisible" width="1000px" title="编辑节点">
+    <a-modal v-model:visible="editModalVisible" width="1000px" title="编辑节点" destroyOnClose>
         <template #footer>
             <a-button v-if="stepCanDelete" type="primary" @click="DeleteStep" danger>删除</a-button>
             <a-button type="primary" @click="CloseStepEditModal">确定</a-button>
@@ -220,16 +220,13 @@ const ShowStepEditModal = (stepModel: StepModel<IStepData>) => {
             break;
     }
     editModalVisible.value = true;
-    console.log(JSON.stringify(stepModel.StepData));
+    // console.log(JSON.stringify(stepModel.StepData));
 }
 /**
  * 关闭节点编辑弹窗
  */
 const CloseStepEditModal = () => {
     editModalVisible.value = false;
-    editStepModel = undefined;
-    editStepData.value = undefined;
-    editComponent = undefined;
 }
 /**
  * 删除节点
