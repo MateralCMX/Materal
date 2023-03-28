@@ -31,7 +31,7 @@ namespace Materal.Workflow.Demo
             host.Start();
             #endregion
             #region 流程定义
-            const string runtimJson = "{\"RuntimeMessage\":\"动态工作流运行[RuntimeData]\"}";
+            const string runtimJson = "{\"RuntimeMessage\":\"\"}";
             Dictionary<string, object?> runtimeData = runtimJson.JsonToObject<Dictionary<string, object?>>();
             string workflowDataJsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "WorkflowData.json");
             string workflowDataJson = File.ReadAllText(workflowDataJsonFilePath);

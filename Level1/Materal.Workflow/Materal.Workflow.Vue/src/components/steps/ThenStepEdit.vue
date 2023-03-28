@@ -48,7 +48,7 @@
             <a-row :gutter="[16, 16]">
                 <a-col :span="6">
                     <a-select v-model:value="item.StepProperty">
-                        <a-select-option v-for="arg in stepBodyArgs" :value="arg.Name">{{ arg.Name }}</a-select-option>
+                        <a-select-option v-for="arg in stepBodyArgs" :value="arg.Name">{{ arg.Description }}</a-select-option>
                     </a-select>
                 </a-col>
                 <a-col :span="6">
@@ -88,7 +88,7 @@
             <a-row :gutter="[16, 16]">
                 <a-col :span="11">
                     <a-select v-model:value="item.StepProperty">
-                        <a-select-option v-for="arg in stepBodyArgs" :value="arg.Name">{{ arg.Name }}</a-select-option>
+                        <a-select-option v-for="arg in stepBodyArgs" :value="arg.Name">{{ arg.Description }}</a-select-option>
                     </a-select>
                 </a-col>
                 <a-col :span="11">
@@ -105,14 +105,14 @@
         </a-form-item>
         <a-form-item label="异常处理">
             <a-row :gutter="[16, 16]">
-                <a-col :span="12">
+                <a-col :span="8">
                     <a-select v-model:value="stepData.Error.HandlerType">
                         <a-select-option :value="ErrorHandlerTypeEnum.Stop">停止</a-select-option>
                         <a-select-option :value="ErrorHandlerTypeEnum.Retry">重试</a-select-option>
                         <a-select-option :value="ErrorHandlerTypeEnum.Next">下一步</a-select-option>
                     </a-select>
                 </a-col>
-                <a-col :span="12">
+                <a-col :span="16">
                     <InputTimeSpan v-if="stepData.Error.HandlerType === ErrorHandlerTypeEnum.Retry"
                         v-model="stepData.Error.RetryIntervalValue" />
                 </a-col>

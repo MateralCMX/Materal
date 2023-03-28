@@ -11,5 +11,5 @@ export class StepBodyInfo {
 
 export const AllStepBodys: Array<StepBodyInfo> = [
     new StepBodyInfo("EmptyStepBody"),
-    new StepBodyInfo("ConsoleMessageStepBody", [{ Name: "Message", Type: "String" }])
+    new StepBodyInfo("ConsoleMessageStepBody", [{ Name: "Message", Type: "String", Description: "消息" }])
 ];

@@ -5,17 +5,22 @@
 </style>
 <template>
     <a-row :gutter="[16, 16]">
-        <a-col :span="8">
+        <a-col :span="6">
+            <a-input-number v-model:value="days" @change="updateValue" :min="0">
+                <template #addonAfter>天</template>
+            </a-input-number>
+        </a-col>
+        <a-col :span="6">
             <a-input-number v-model:value="hours" @change="updateValue" :min="0">
                 <template #addonAfter>小时</template>
             </a-input-number>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="6">
             <a-input-number v-model:value="minutes" @change="updateValue" :min="0">
                 <template #addonAfter>分钟</template>
             </a-input-number>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="6">
             <a-input-number v-model:value="seconds" @change="updateValue" :min="0">
                 <template #addonAfter>秒</template>
             </a-input-number>
@@ -29,10 +34,11 @@ import { ref } from 'vue';
 const props = defineProps(['modelValue'])
 const emits = defineEmits(['update:modelValue'])
 
+const days = ref((props.modelValue as TimeSpan).days);
 const hours = ref((props.modelValue as TimeSpan).hours);
 const minutes = ref((props.modelValue as TimeSpan).minutes);
 const seconds = ref((props.modelValue as TimeSpan).seconds);
 const updateValue = () => {
-    emits('update:modelValue', new TimeSpan(0, hours.value, minutes.value, seconds.value));
+    emits('update:modelValue', new TimeSpan(days.value, hours.value, minutes.value, seconds.value));
 }
 </script>
