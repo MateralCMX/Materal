@@ -53,6 +53,7 @@
 <script setup lang="ts">
 import "../css/Step.css";
 import RunTimeDataEdit from "./RunTimeDataEdit.vue";
+import StartStep from "./steps/StartStep.vue";
 import { defineAsyncComponent, onMounted, reactive, ref, shallowReactive, shallowRef, UnwrapNestedRefs, VNode } from 'vue';
 import { BrowserJsPlumbInstance, newInstance, ContainmentType } from "@jsplumb/browser-ui";
 import { StepInfoModel as StepInfoModel } from "../scripts/StepInfoModel";
@@ -62,28 +63,23 @@ import { IStepData } from "../scripts/StepDatas/Base/IStepData";
 import { IStep } from "../scripts/IStep";
 import { NowRuntimeDataType } from "../scripts/RuntimeDataType";
 import { StartStepModel } from "../scripts/StepModels/StartStepModel";
-import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
-import { DelayStepModel } from "../scripts/StepModels/DelayStepModel";
-import { ScheduleStepModel } from "../scripts/StepModels/ScheduleStepModel";
-import { EndStepModel } from "../scripts/StepModels/EndStepModel";
 
-const StartStep = defineAsyncComponent(() => import("./steps/StartStep.vue"));
-const StartStepEdit = defineAsyncComponent(() => import("./steps/StartStepEdit.vue"));
-const ThenStep = defineAsyncComponent(() => import("./steps/ThenStep.vue"));
-const ThenStepEdit = defineAsyncComponent(() => import("./steps/ThenStepEdit.vue"));
-const DelayStep = defineAsyncComponent(() => import("./steps/DelayStep.vue"));
-const DelayStepEdit = defineAsyncComponent(() => import("./steps/DelayStepEdit.vue"));
-const EndStep = defineAsyncComponent(() => import("./steps/EndStep.vue"));
-const EndStepEdit = defineAsyncComponent(() => import("./steps/EndStepEdit.vue"));
-const ScheduleStep = defineAsyncComponent(() => import("./steps/ScheduleStep.vue"));
-const ScheduleStepEdit = defineAsyncComponent(() => import("./steps/ScheduleStepEdit.vue"));
+const EditComponents: { [key: string]: any } = {};
 let instance = shallowRef<BrowserJsPlumbInstance>();
 const workflowCanvas = ref<HTMLElement>();
+const GetStepInfoModel = (stepName: string, description?: string): StepInfoModel => {
+    const commpnent = defineAsyncComponent(() => import(`./steps/${stepName}.vue`));
+    if (!description) {
+        description = stepName;
+    }
+    const result = new StepInfoModel(description, `Step ${stepName}`, commpnent);
+    return result;
+}
 const stepList: StepInfoModel[] = [
-    new StepInfoModel("业务节点", "Step ThenStep", ThenStep),
-    new StepInfoModel("延时节点", "Step DelayStep", DelayStep),
-    new StepInfoModel("计划节点", "Step ScheduleStep", ScheduleStep),
-    new StepInfoModel("结束节点", "Step EndStep", EndStep),
+    GetStepInfoModel("ThenStep", "业务节点"),
+    GetStepInfoModel("DelayStep", "延时节点"),
+    GetStepInfoModel("ScheduleStep", "计划节点"),
+    GetStepInfoModel("EndStep", "结束节点")
 ];
 const stepNodes = shallowReactive<{ component: VNode, stepId: string }[]>([]);
 const stepNodesInstanceList = shallowRef<IStep<StepModel<IStepData>, IStepData>[]>([]);
@@ -141,7 +137,6 @@ const InitCanvas = () => {
     instance.value.bind(INTERCEPT_BEFORE_DROP, (params: BeforeDropParams) => HandlerConnection(params));
     instance.value.bind(EVENT_CONNECTION_DETACHED, (params: ConnectionDetachedParams) => HandlerDisconnectioned(params));
     AddStepToCanvas(new StepInfoModel("开始节点", "Step StartStep", StartStep));
-    AddStepToCanvas(new StepInfoModel("业务节点", "Step ThenStep", ThenStep));
 }
 /**
  * 添加节点到画布
@@ -228,25 +223,15 @@ const GetStepModel = (sourceId: string, targetId: string): { sourceStepModel: St
 const ShowStepEditModal = (stepModel: StepModel<IStepData>) => {
     editStepModel = stepModel;
     editStepData.value = stepModel.StepData;
+    if (!Object.prototype.hasOwnProperty.call(EditComponents, stepModel.StepEditName)) {
+        EditComponents[stepModel.StepEditName] = defineAsyncComponent(() => import(`./steps/${stepModel.StepEditName}.vue`));
+    }
+    editComponent = EditComponents[stepModel.StepEditName];
     switch (stepModel.StepModelTypeName) {
         case `${StartStepModel.name}`:
-            editComponent = StartStepEdit as any;
             stepCanDelete.value = false;
             break;
-        case `${ThenStepModel.name}`:
-            editComponent = ThenStepEdit as any;
-            stepCanDelete.value = true;
-            break;
-        case `${DelayStepModel.name}`:
-            editComponent = DelayStepEdit as any;
-            stepCanDelete.value = true;
-            break;
-        case `${ScheduleStepModel.name}`:
-            editComponent = ScheduleStepEdit as any;
-            stepCanDelete.value = true;
-            break;
-        case `${EndStepModel.name}`:
-            editComponent = EndStepEdit as any;
+        default:
             stepCanDelete.value = true;
             break;
     }

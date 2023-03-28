@@ -17,8 +17,11 @@ namespace Materal.Workflow.StepDatas
         /// <exception cref="NotImplementedException"></exception>
         public override object BuildStep(object stepBuilder, DelayStepData stepData, IStepHandlerBus stepHandlerBus)
         {
-            Expression<Func<Dictionary<string, object?>, TimeSpan>> expression = m => stepData.Delay;
-            stepBuilder = InvokeMethodByMethodName(stepBuilder, "Delay", new object[] { expression });
+            if (stepData.Delay != TimeSpan.Zero)
+            {
+                Expression<Func<Dictionary<string, object?>, TimeSpan>> expression = m => stepData.Delay;
+                stepBuilder = InvokeMethodByMethodName(stepBuilder, "Delay", new object[] { expression });
+            }
             stepBuilder = Next(stepBuilder, stepData.Next, stepHandlerBus);
             return stepBuilder;
         }

@@ -12,6 +12,10 @@ export abstract class StepModel<T extends IStepData> {
      */
     public StepModelTypeName: string;
     /**
+     * 节点类型名称
+     */
+    public StepEditName: string;
+    /**
      * 绘图对象
      */
     public Instance: BrowserJsPlumbInstance;
@@ -26,6 +30,7 @@ export abstract class StepModel<T extends IStepData> {
     protected OtherConnector: Connection[] = [];
     constructor(stepModelTypeName: string, id: string, instance: BrowserJsPlumbInstance, element: HTMLElement, stepData: T) {
         this.StepModelTypeName = stepModelTypeName;
+        this.StepEditName = stepModelTypeName.substring(0, stepModelTypeName.length - 5) + "Edit";
         this.ID = id;
         this.Instance = instance;
         this.StepElement = element;
