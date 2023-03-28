@@ -6,6 +6,9 @@
         <a-form-item label="描述">
             <a-input v-model:value="stepData.Description" />
         </a-form-item>
+        <a-form-item label="Json数据">
+            {{ JSON.stringify(stepData) }}
+        </a-form-item>
     </a-form>
 </template>
 <script setup lang="ts">

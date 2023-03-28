@@ -220,7 +220,6 @@ const ShowStepEditModal = (stepModel: StepModel<IStepData>) => {
             break;
     }
     editModalVisible.value = true;
-    // console.log(JSON.stringify(stepModel.StepData));
 }
 /**
  * 关闭节点编辑弹窗
