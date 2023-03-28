@@ -17,7 +17,7 @@ namespace Materal.Workflow.StepDatas
         /// <summary>
         /// 计划节点
         /// </summary>
-        public IStepData StepData { get; set; } = new StartStepData();
+        public IStepData? StepData { get; set; }
         /// <summary>
         /// 下一步
         /// </summary>

@@ -10,16 +10,89 @@
     "Inputs": [
       {
         "StepProperty": "Message",
-        "Value": "11111111",
+        "Value": "工作流执行",
         "ValueSource": 2
       }
     ],
     "Outputs": [],
     "Error": { "HandlerType": 0 },
     "Next": {
-      "StepDataType": "EndStepData",
-      "Name": "结束节点",
-      "BuildData": {}
+      "StepDataType": "ScheduleStepData",
+      "Name": "计划节点-5秒",
+      "BuildData": {},
+      "Delay": "0.00:00:05",
+      "StepData": {
+        "StepDataType": "ThenStepData",
+        "Name": "业务节点",
+        "BuildData": {},
+        "StepBodyType": "ConsoleMessageStepBody",
+        "Inputs": [
+          {
+            "StepProperty": "Message",
+            "Value": "计划流程1",
+            "ValueSource": 2
+          }
+        ],
+        "Outputs": [],
+        "Error": { "HandlerType": 0 },
+        "Next": {
+          "StepDataType": "DelayStepData",
+          "Name": "延时5秒",
+          "BuildData": {},
+          "Delay": "0.00:00:05",
+          "Next": {
+            "StepDataType": "ThenStepData",
+            "Name": "业务节点",
+            "BuildData": {},
+            "StepBodyType": "ConsoleMessageStepBody",
+            "Inputs": [
+              {
+                "StepProperty": "Message",
+                "Value": "计划流程2",
+                "ValueSource": 2
+              }
+            ],
+            "Outputs": [],
+            "Error": { "HandlerType": 0 }
+          }
+        }
+      },
+      "Next": {
+        "StepDataType": "ThenStepData",
+        "Name": "业务节点",
+        "BuildData": {},
+        "StepBodyType": "ConsoleMessageStepBody",
+        "Inputs": [
+          {
+            "StepProperty": "Message",
+            "Value": "主流程1",
+            "ValueSource": 2
+          }
+        ],
+        "Outputs": [],
+        "Error": { "HandlerType": 0 },
+        "Next": {
+          "StepDataType": "DelayStepData",
+          "Name": "延时8秒",
+          "BuildData": {},
+          "Delay": "0.00:00:08",
+          "Next": {
+            "StepDataType": "ThenStepData",
+            "Name": "业务节点",
+            "BuildData": {},
+            "StepBodyType": "ConsoleMessageStepBody",
+            "Inputs": [
+              {
+                "StepProperty": "Message",
+                "Value": "主流程2",
+                "ValueSource": 2
+              }
+            ],
+            "Outputs": [],
+            "Error": { "HandlerType": 0 }
+          }
+        }
+      }
     }
   }
 }

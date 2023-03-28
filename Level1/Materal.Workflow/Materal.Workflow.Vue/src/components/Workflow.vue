@@ -58,12 +58,13 @@ import { BrowserJsPlumbInstance, newInstance, ContainmentType } from "@jsplumb/b
 import { StepInfoModel as StepInfoModel } from "../scripts/StepInfoModel";
 import { BeforeDropParams, ConnectionDetachedParams, DotEndpoint, EVENT_CONNECTION_DETACHED, INTERCEPT_BEFORE_DROP, RectangleEndpoint } from "@jsplumb/core";
 import { StepModel } from "../scripts/StepModels/Base/StepModel";
-import { StartStepModel } from "../scripts/StepModels/StartStepModel";
-import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
 import { IStepData } from "../scripts/StepDatas/Base/IStepData";
 import { IStep } from "../scripts/IStep";
 import { NowRuntimeDataType } from "../scripts/RuntimeDataType";
+import { StartStepModel } from "../scripts/StepModels/StartStepModel";
+import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
 import { DelayStepModel } from "../scripts/StepModels/DelayStepModel";
+import { ScheduleStepModel } from "../scripts/StepModels/ScheduleStepModel";
 import { EndStepModel } from "../scripts/StepModels/EndStepModel";
 
 const StartStep = defineAsyncComponent(() => import("./steps/StartStep.vue"));
@@ -74,11 +75,14 @@ const DelayStep = defineAsyncComponent(() => import("./steps/DelayStep.vue"));
 const DelayStepEdit = defineAsyncComponent(() => import("./steps/DelayStepEdit.vue"));
 const EndStep = defineAsyncComponent(() => import("./steps/EndStep.vue"));
 const EndStepEdit = defineAsyncComponent(() => import("./steps/EndStepEdit.vue"));
+const ScheduleStep = defineAsyncComponent(() => import("./steps/ScheduleStep.vue"));
+const ScheduleStepEdit = defineAsyncComponent(() => import("./steps/ScheduleStepEdit.vue"));
 let instance = shallowRef<BrowserJsPlumbInstance>();
 const workflowCanvas = ref<HTMLElement>();
 const stepList: StepInfoModel[] = [
     new StepInfoModel("业务节点", "Step ThenStep", ThenStep),
     new StepInfoModel("延时节点", "Step DelayStep", DelayStep),
+    new StepInfoModel("计划节点", "Step ScheduleStep", ScheduleStep),
     new StepInfoModel("结束节点", "Step EndStep", EndStep),
 ];
 const stepNodes = shallowReactive<{ component: VNode, stepId: string }[]>([]);
@@ -120,6 +124,13 @@ const InitCanvas = () => {
         anchor: "Continuous",
         endpoint: DotEndpoint.type,
         connectorClass: "CompensateConnector"
+    });
+    instance.value.addSourceSelector(".StepPoint", {
+        source: true,
+        target: false,
+        anchor: "Continuous",
+        endpoint: DotEndpoint.type,
+        connectorClass: "StepConnector"
     });
     instance.value.addTargetSelector(".EndPoint", {
         source: false,
@@ -228,6 +239,10 @@ const ShowStepEditModal = (stepModel: StepModel<IStepData>) => {
             break;
         case `${DelayStepModel.name}`:
             editComponent = DelayStepEdit as any;
+            stepCanDelete.value = true;
+            break;
+        case `${ScheduleStepModel.name}`:
+            editComponent = ScheduleStepEdit as any;
             stepCanDelete.value = true;
             break;
         case `${EndStepModel.name}`:

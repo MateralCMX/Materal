@@ -9,6 +9,7 @@
     text-overflow: ellipsis;
     padding: 0 15px;
     cursor: move;
+    color: white;
 }
 
 .StartStep {
@@ -99,6 +100,16 @@
 .CompensateConnector>path {
     fill: red;
     stroke: red;
+}
+
+.Step>.StepPoint {
+    left: 40px;
+    background-color: orange;
+}
+
+.StepConnector>path {
+    fill: orange;
+    stroke: orange;
 }
 
 .Step>.EndPoint {
