@@ -53,8 +53,8 @@ export class BranchStepModel extends StepModel<BranchStepData> {
     }
     public Destroy(): void {
         if (this._nextConnector) this.Instance.deleteConnection(this._nextConnector);
-        for (let i = 0; i < this._stepConnectors.length; i++) {
-            const stepConnector = this._stepConnectors[i];
+        while (this._stepConnectors.length > 0) {
+            const stepConnector = this._stepConnectors[0];
             this.Instance.deleteConnection(stepConnector);
         }
         this.DestroyOtherConnector();
