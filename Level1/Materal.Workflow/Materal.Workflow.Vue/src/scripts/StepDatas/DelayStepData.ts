@@ -15,8 +15,8 @@ export class DelayStepData extends StepData {
         this.Delay = TimeSpanHelper.TimeSpanToString(value);
     }
     public Next?: IStepData;
-    constructor() {
-        super(`${DelayStepData.name}`, "延时节点");
+    constructor(id: string) {
+        super(`${DelayStepData.name}`, "延时节点", id);
         this.Delay = "0:0:0";
     }
 }

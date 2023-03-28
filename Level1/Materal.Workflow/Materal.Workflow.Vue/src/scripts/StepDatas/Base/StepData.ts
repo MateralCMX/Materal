@@ -6,6 +6,7 @@ import { IStepData } from "./IStepData";
  */
 export abstract class StepData implements IStepData {
     public StepDataType: string;
+    public ID: string;
     public Name: string;
     public Description?: string | undefined;
     private BuildData: { [key: string]: string | number; };
@@ -17,9 +18,10 @@ export abstract class StepData implements IStepData {
     public set BuildDatas(value: BuildDataType) {
         this.BuildData = value.ToDictionary();
     }
-    constructor(stepDataType: string, name: string) {
+    constructor(stepDataType: string, name: string, id: string) {
         this.StepDataType = stepDataType;
         this.Name = name;
+        this.ID = id;
         this.BuildData = {};
     }
 }

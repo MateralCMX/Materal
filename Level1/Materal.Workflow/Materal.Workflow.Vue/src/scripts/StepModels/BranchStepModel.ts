@@ -1,13 +1,13 @@
 import { StepModel } from "./Base/StepModel";
 import { Connection } from "@jsplumb/core";
-import { ThenStepData } from "../StepDatas/ThenStepData";
+import { BranchStepData } from "../StepDatas/BranchStepData";
 import { IStepData } from "../StepDatas/Base/IStepData";
 
-export class ThenStepModel extends StepModel<ThenStepData> {
+export class BranchStepModel extends StepModel<BranchStepData> {
     private _nextConnector?: Connection;
-    private _compensateConnector?: Connection;
+    private _stepConnectors: Connection[] = [];
     constructor(id: string, instance: any, element: HTMLElement) {
-        super(`${ThenStepModel.name}`, id, instance, element, new ThenStepData(id));
+        super(`${BranchStepModel.name}`, id, instance, element, new BranchStepData(id));
     }
     public HandlerConnection(connection: Connection, target: StepModel<IStepData>): boolean {
         switch (connection.params.cssClass) {
@@ -17,11 +17,13 @@ export class ThenStepModel extends StepModel<ThenStepData> {
                 this._nextConnector = connection;
                 target.AddOtherConnector(connection);
                 break;
-            case "CompensateConnector":
-                if (this.StepData.CompensateStep) return false;
-                if (target.StepData.StepDataType !== `${ThenStepData.name}`) return false;
-                this.StepData.CompensateStep = target.StepData as ThenStepData;
-                this._compensateConnector = connection;
+            case "StepConnector":
+                for (let i = 0; i < this.StepData.StepDatas.length; i++) {
+                    const stepData = this.StepData.StepDatas[i];
+                    if (stepData.ID === target.ID) return false;
+                }
+                this.StepData.StepDatas.push(target.StepData);
+                this._stepConnectors.push(connection);
                 target.AddOtherConnector(connection);
                 break;
             default: return false;
@@ -36,10 +38,14 @@ export class ThenStepModel extends StepModel<ThenStepData> {
                 this._nextConnector = undefined;
                 target.RemoveOtherConnector(connection);
                 break;
-            case "CompensateConnector":
-                if (!this.StepData.CompensateStep) return;
-                this.StepData.CompensateStep = undefined;
-                this._compensateConnector = undefined;
+            case "StepConnector":
+                for (let i = 0; i < this._stepConnectors.length; i++) {
+                    const stepConnector = this._stepConnectors[i];
+                    if (stepConnector.id !== connection.id) continue;
+                    this._stepConnectors.splice(i, 1);
+                    this.StepData.StepDatas.splice(i, 1);
+                    break;
+                }
                 target.RemoveOtherConnector(connection);
                 break;
             default: return;
@@ -47,7 +53,10 @@ export class ThenStepModel extends StepModel<ThenStepData> {
     }
     public Destroy(): void {
         if (this._nextConnector) this.Instance.deleteConnection(this._nextConnector);
-        if (this._compensateConnector) this.Instance.deleteConnection(this._compensateConnector);
+        for (let i = 0; i < this._stepConnectors.length; i++) {
+            const stepConnector = this._stepConnectors[i];
+            this.Instance.deleteConnection(stepConnector);
+        }
         this.DestroyOtherConnector();
     }
 }

@@ -1,96 +1,122 @@
 {
   "StepDataType": "StartStepData",
+  "ID": "step0",
   "Name": "开始节点",
   "BuildData": {},
   "Next": {
     "StepDataType": "ThenStepData",
-    "Name": "业务节点",
+    "ID": "step5",
+    "Name": "业务节点1",
     "BuildData": {},
     "StepBodyType": "ConsoleMessageStepBody",
     "Inputs": [
       {
         "StepProperty": "Message",
-        "Value": "工作流执行",
+        "Value": "主业务节点1",
         "ValueSource": 2
       }
     ],
     "Outputs": [],
     "Error": { "HandlerType": 0 },
     "Next": {
-      "StepDataType": "ScheduleStepData",
-      "Name": "计划节点-5秒",
+      "StepDataType": "BranchStepData",
+      "ID": "step1",
+      "Name": "分支节点",
       "BuildData": {},
-      "Delay": "0.00:00:05",
-      "StepData": {
-        "StepDataType": "ThenStepData",
-        "Name": "业务节点",
-        "BuildData": {},
-        "StepBodyType": "ConsoleMessageStepBody",
-        "Inputs": [
-          {
-            "StepProperty": "Message",
-            "Value": "计划流程1",
-            "ValueSource": 2
-          }
-        ],
-        "Outputs": [],
-        "Error": { "HandlerType": 0 },
-        "Next": {
+      "StepDatas": [
+        {
+          "StepDataType": "ThenStepData",
+          "ID": "step2",
+          "Name": "分支业务节点1",
+          "BuildData": {},
+          "StepBodyType": "ConsoleMessageStepBody",
+          "Inputs": [
+            {
+              "StepProperty": "Message",
+              "Value": "分支业务节点1",
+              "ValueSource": 2
+            }
+          ],
+          "Outputs": [],
+          "Error": { "HandlerType": 0 }
+        },
+        {
+          "StepDataType": "ThenStepData",
+          "ID": "step4",
+          "Name": "分支业务节点3",
+          "BuildData": {},
+          "StepBodyType": "ConsoleMessageStepBody",
+          "Inputs": [
+            {
+              "StepProperty": "Message",
+              "Value": "分支业务节点3",
+              "ValueSource": 2
+            }
+          ],
+          "Outputs": [],
+          "Error": { "HandlerType": 0 }
+        },
+        {
           "StepDataType": "DelayStepData",
-          "Name": "延时5秒",
+          "ID": "step8",
+          "Name": "延时节点5s",
           "BuildData": {},
           "Delay": "0.00:00:05",
           "Next": {
             "StepDataType": "ThenStepData",
-            "Name": "业务节点",
+            "ID": "step3",
+            "Name": "分支业务节点2",
             "BuildData": {},
             "StepBodyType": "ConsoleMessageStepBody",
             "Inputs": [
               {
                 "StepProperty": "Message",
-                "Value": "计划流程2",
+                "Value": "分支业务节点2",
                 "ValueSource": 2
               }
             ],
             "Outputs": [],
             "Error": { "HandlerType": 0 }
           }
-        }
-      },
-      "Next": {
-        "StepDataType": "ThenStepData",
-        "Name": "业务节点",
-        "BuildData": {},
-        "StepBodyType": "ConsoleMessageStepBody",
-        "Inputs": [
-          {
-            "StepProperty": "Message",
-            "Value": "主流程1",
-            "ValueSource": 2
-          }
-        ],
-        "Outputs": [],
-        "Error": { "HandlerType": 0 },
-        "Next": {
-          "StepDataType": "DelayStepData",
-          "Name": "延时8秒",
+        },
+        {
+          "StepDataType": "ThenStepData",
+          "ID": "step9",
+          "Name": "分支业务节点4",
           "BuildData": {},
-          "Delay": "0.00:00:08",
-          "Next": {
-            "StepDataType": "ThenStepData",
-            "Name": "业务节点",
-            "BuildData": {},
-            "StepBodyType": "ConsoleMessageStepBody",
-            "Inputs": [
-              {
-                "StepProperty": "Message",
-                "Value": "主流程2",
-                "ValueSource": 2
-              }
-            ],
-            "Outputs": [],
-            "Error": { "HandlerType": 0 }
-          }
+          "StepBodyType": "ConsoleMessageStepBody",
+          "Inputs": [
+            {
+              "StepProperty": "Message",
+              "Value": "分支业务节点4",
+              "ValueSource": 2
+            }
+          ],
+          "Outputs": [],
+          "Error": { "HandlerType": 0 }
+        }
+      ],
+      "Next": {
+        "StepDataType": "DelayStepData",
+        "ID": "step7",
+        "Name": "延时节点1s",
+        "BuildData": {},
+        "Delay": "0.00:00:01",
+        "Next": {
+          "StepDataType": "ThenStepData",
+          "ID": "step6",
+          "Name": "业务节点2",
+          "BuildData": {},
+          "StepBodyType": "ConsoleMessageStepBody",
+          "Inputs": [
+            {
+              "StepProperty": "Message",
+              "Value": "主业务节点2",
+              "ValueSource": 2
+            }
+          ],
+          "Outputs": [],
+          "Error": { "HandlerType": 0 }
         }
       }
     }

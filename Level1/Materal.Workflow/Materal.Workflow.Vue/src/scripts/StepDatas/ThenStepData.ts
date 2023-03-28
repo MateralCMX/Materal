@@ -30,7 +30,7 @@ export class ThenStepData extends StepData {
      * 下一步
      */
     public Next?: IStepData;
-    constructor() {
-        super(`${ThenStepData.name}`, "业务节点");
+    constructor(id: string) {
+        super(`${ThenStepData.name}`, "业务节点", id);
     }
 }

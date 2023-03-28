@@ -14,6 +14,11 @@ namespace Materal.Workflow.StepDatas
         /// </summary>
         public string StepDataType => GetType().Name;
         /// <summary>
+        /// 唯一标识
+        /// </summary>
+        [Required]
+        public virtual string ID { get; set; } = string.Empty;
+        /// <summary>
         /// 名称
         /// </summary>
         [Required]

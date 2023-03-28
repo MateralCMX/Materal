@@ -101,7 +101,31 @@ namespace Materal.Workflow
         /// <exception cref="WorkflowException"></exception>
         private static IEnumerable NodeToArray(JProperty propertyNode, PropertyInfo propertyInfo)
         {
-            object? values = JsonConvert.DeserializeObject(propertyNode.Value.ToString(), propertyInfo.PropertyType);
+            object? values = null;
+            if (propertyInfo.PropertyType.IsGenericType)
+            {
+                if (propertyInfo.PropertyType.GenericTypeArguments.Length == 1)
+                {
+                    Type genericType = propertyInfo.PropertyType.GenericTypeArguments[0];
+                    if (genericType == typeof(IStepData) || genericType.IsAssignableTo(typeof(IStepData)))
+                    {
+                        object tempObject = propertyInfo.PropertyType.Instantiation();
+                        if(tempObject is IList list && propertyNode.Value.Type == JTokenType.Array)
+                        {
+                            foreach (JToken jToken in propertyNode.Value.Children())
+                            {
+                                IStepData tempStepData = ConvertToStepData(jToken);
+                                list.Add(tempStepData);
+                            }
+                            values = list;
+                        }
+                    }
+                }
+            }
+            if (values == null)
+            {
+                values = JsonConvert.DeserializeObject(propertyNode.Value.ToString(), propertyInfo.PropertyType);
+            }
             if (values == null || values is not IEnumerable result) throw new WorkflowException($"不能转换类型{propertyNode.Value.Type}");
             return result;
         }

@@ -7,7 +7,7 @@ export class ScheduleStepModel extends StepModel<ScheduleStepData> {
     private _nextConnector?: Connection;
     private _stepConnector?: Connection;
     constructor(id: string, instance: any, element: HTMLElement) {
-        super(`${ScheduleStepModel.name}`, id, instance, element, new ScheduleStepData());
+        super(`${ScheduleStepModel.name}`, id, instance, element, new ScheduleStepData(id));
     }
     public HandlerConnection(connection: Connection, target: StepModel<IStepData>): boolean {
         switch (connection.params.cssClass) {

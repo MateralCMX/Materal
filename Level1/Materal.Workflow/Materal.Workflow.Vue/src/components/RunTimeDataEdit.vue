@@ -30,7 +30,7 @@ import { RuntimeDataType } from '../scripts/RuntimeDataType';
 const props = defineProps<{ runTimeDataType: RuntimeDataType }>();
 const items = props.runTimeDataType.Properties;
 const pushNewItem = () => {
-    items.push({ Name: "", Type: "String" });
+    items.push({ Name: "", Type: "String", Description: "" });
 }
 const removeItem = (index: number) => {
     items.splice(index, 1);

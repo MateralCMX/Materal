@@ -22,8 +22,8 @@ export class ScheduleStepData extends StepData {
      * 下一步
      */
     public Next?: IStepData;
-    constructor() {
-        super(`${ScheduleStepData.name}`, "计划节点");
+    constructor(id: string) {
+        super(`${ScheduleStepData.name}`, "计划节点", id);
         this.Delay = "0:0:0";
     }
 }

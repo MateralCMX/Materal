@@ -6,6 +6,10 @@ export interface IStepData {
      */
     StepDataType: string;
     /**
+     * 节点唯一标识
+     */
+    ID: string;
+    /**
      * 名称
      */
     Name: string;

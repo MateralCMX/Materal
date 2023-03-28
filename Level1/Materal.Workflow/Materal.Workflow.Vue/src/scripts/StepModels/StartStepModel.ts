@@ -5,7 +5,7 @@ import { IStepData } from "../StepDatas/Base/IStepData";
 
 export class StartStepModel extends StepModel<StartStepData> {
     constructor(id: string, instance: any, element: HTMLElement) {
-        super(`${StartStepModel.name}`, id, instance, element, new StartStepData());
+        super(`${StartStepModel.name}`, id, instance, element, new StartStepData(id));
     }
     public HandlerConnection(connection: Connection, target: StepModel<IStepData>): boolean {
         if(connection.params.cssClass != "NextConnector") return false;

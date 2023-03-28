@@ -6,7 +6,7 @@ import { DelayStepData } from "../StepDatas/DelayStepData";
 export class DelayStepModel extends StepModel<DelayStepData> {
     private _nextConnector?: Connection;
     constructor(id: string, instance: any, element: HTMLElement) {
-        super(`${DelayStepModel.name}`, id, instance, element, new DelayStepData());
+        super(`${DelayStepModel.name}`, id, instance, element, new DelayStepData(id));
     }
     public HandlerConnection(connection: Connection, target: StepModel<IStepData>): boolean {
         if (connection.params.cssClass != "NextConnector") return false;
