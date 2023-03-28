@@ -79,6 +79,7 @@ const stepList: StepInfoModel[] = [
     GetStepInfoModel("ThenStep", "业务节点"),
     GetStepInfoModel("DelayStep", "延时节点"),
     GetStepInfoModel("ScheduleStep", "计划节点"),
+    GetStepInfoModel("ParallelStep", "并行节点"),
     GetStepInfoModel("BranchStep", "分支节点"),
     GetStepInfoModel("EndStep", "结束节点")
 ];
