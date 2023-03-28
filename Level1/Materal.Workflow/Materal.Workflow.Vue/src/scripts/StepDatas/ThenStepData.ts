@@ -25,7 +25,7 @@ export class ThenStepData extends StepData {
     /**
      * 错误处理
      */
-    public Error?: ErrorHandler;
+    public Error: ErrorHandler = new ErrorHandler();
     /**
      * 下一步
      */

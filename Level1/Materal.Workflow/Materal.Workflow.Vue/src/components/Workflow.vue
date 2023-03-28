@@ -62,7 +62,6 @@ import { StartStepModel } from "../scripts/StepModels/StartStepModel";
 import { ThenStepModel } from "../scripts/StepModels/ThenStepModel";
 import { IStepData } from "../scripts/StepDatas/Base/IStepData";
 import { IStep } from "../scripts/IStep";
-import { StepData } from "../scripts/StepDatas/Base/StepData";
 import { NowRuntimeDataType } from "../scripts/RuntimeDataType";
 
 const StartStep = defineAsyncComponent(() => import("./steps/StartStep.vue"));
@@ -77,10 +76,10 @@ const stepList: StepInfoModel[] = [
 const stepNodes = shallowReactive<{ component: VNode, stepId: string }[]>([]);
 const stepNodesInstanceList = shallowRef<IStep<StepModel<IStepData>, IStepData>[]>([]);
 let stepIndex = 0;
-let runtimeDataEditModalVisible = ref<boolean>(false);
-let editModalVisible = ref<boolean>(false);
-let stepCanDelete = ref<boolean>(false);
-let editStepData = ref<IStepData>();
+const runtimeDataEditModalVisible = ref<boolean>(false);
+const editModalVisible = ref<boolean>(false);
+const stepCanDelete = ref<boolean>(false);
+const editStepData = ref<IStepData>();
 let editStepModel: StepModel<IStepData> | undefined;
 let editComponent: VNode | undefined;
 const runTimeDataType = ref(NowRuntimeDataType);//运行时数据类型
@@ -179,7 +178,7 @@ const HandlerConnection = (params: BeforeDropParams): boolean => {
  * 处理连线断开
  * @param params
  */
- const HandlerDisconnectioned = (params: ConnectionDetachedParams) => {
+const HandlerDisconnectioned = (params: ConnectionDetachedParams) => {
     if (params.sourceId === params.targetId) return;
     const stepModel = GetStepModel(params.sourceId, params.targetId);
     stepModel.sourceStepModel.HandlerDisconnection(params.connection, stepModel.targetStepModel);

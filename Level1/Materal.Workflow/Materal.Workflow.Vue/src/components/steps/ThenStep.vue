@@ -30,7 +30,7 @@ defineExpose(exposeModel);
 const instance = toRef(props, "instance");
 const id = toRef(props, "stepID");
 const stepElement = ref<HTMLElement>();
-let stepModel = ref<ThenStepModel>();
+const stepModel = ref<ThenStepModel>();
 watch(instance, m => {
     if (!m) return;
     InitPage(m);

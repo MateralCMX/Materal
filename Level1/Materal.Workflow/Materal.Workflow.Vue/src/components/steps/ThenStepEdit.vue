@@ -71,7 +71,8 @@
                             {{ property.Name }}
                         </a-select-option>
                     </a-select>
-                    <a-input v-else-if="item.ValueSource === InputValueSourceEnum.Constant && GetInputConstantType(index) === 'String'"
+                    <a-input
+                        v-else-if="item.ValueSource === InputValueSourceEnum.Constant && GetInputConstantType(index) === 'String'"
                         v-model:value="item.Value" />
                     <a-input-number v-else v-model:value="item.Value" />
                 </a-col>
@@ -79,7 +80,7 @@
                     <a-button type="primary" danger @click="RemoveInputDataTime(index)">X</a-button>
                 </a-col>
             </a-row>
-        </a-form-item>        
+        </a-form-item>
         <a-form-item label="输出">
             <a-button type="primary" @click="NewOutputDataItem">+</a-button>
         </a-form-item>
@@ -101,15 +102,32 @@
                     <a-button type="primary" danger @click="RemoveInputDataTime(index)">X</a-button>
                 </a-col>
             </a-row>
-        </a-form-item>  
+        </a-form-item>
+        <a-form-item label="异常处理">
+            <a-row :gutter="[16, 16]">
+                <a-col :span="12">
+                    <a-select v-model:value="stepData.Error.HandlerType">
+                        <a-select-option :value="ErrorHandlerTypeEnum.Stop">停止</a-select-option>
+                        <a-select-option :value="ErrorHandlerTypeEnum.Retry">重试</a-select-option>
+                        <a-select-option :value="ErrorHandlerTypeEnum.Next">下一步</a-select-option>
+                    </a-select>
+                </a-col>
+                <a-col :span="12">
+                    <InputTimeSpan v-if="stepData.Error.HandlerType === ErrorHandlerTypeEnum.Retry"
+                        v-model="stepData.Error.RetryIntervalValue" />
+                </a-col>
+            </a-row>
+        </a-form-item>
     </a-form>
 </template>
 <script setup lang="ts">
+import InputTimeSpan from '../InputTimeSpan.vue';
 import { ThenStepData } from '../../scripts/StepDatas/ThenStepData';
 import { AllStepBodys } from '../../scripts/StepBodys/StepBodyInfo';
 import { InputValueSourceEnum } from '../../scripts/StepDatas/Base/InputValueSourceEnum';
+import { ErrorHandlerTypeEnum } from '../../scripts/StepDatas/Base/ErrorHandlerTypeEnum';
 import { onMounted, ref } from 'vue';
-import { NowRuntimeDataType, RuntimeDataPropertyInfo } from "../../scripts/RuntimeDataType";
+import { NowRuntimeDataType } from "../../scripts/RuntimeDataType";
 
 const props = defineProps<{ stepData: ThenStepData }>();
 let buildDatas = props.stepData.BuildDatas;
@@ -154,6 +172,6 @@ const GetInputConstantType = (index: number) => {
     return "String";
 }
 const NewOutputDataItem = () => {
-    Outputs.push({ StepProperty: "",  RuntimeDataProperty: ""});
+    Outputs.push({ StepProperty: "", RuntimeDataProperty: "" });
 }
 </script>

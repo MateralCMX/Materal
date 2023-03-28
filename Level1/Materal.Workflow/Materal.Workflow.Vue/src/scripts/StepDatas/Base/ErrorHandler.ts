@@ -13,17 +13,12 @@ export class ErrorHandler {
      * 重试间隔
      */
     private RetryInterval?: string;
-    public get RetryIntervalValue(): TimeSpan | null | undefined {
-        if (this.RetryInterval == null) return undefined;
+    public get RetryIntervalValue(): TimeSpan {
+        if (this.RetryInterval == null) return new TimeSpan(0, 0, 0);
         return TimeSpan.parse(this.RetryInterval);
     }
-    public set RetryIntervalValue(value: TimeSpan | null | undefined) {
-        if (value == null) {
-            this.RetryInterval = undefined;
-        }
-        else {
-            this.RetryInterval = `${value.hours}:${value.minutes}:${value.seconds}`;
-        }
+    public set RetryIntervalValue(value: TimeSpan) {
+        this.RetryInterval = `${value.hours}:${value.minutes}:${value.seconds}`;
     }
     constructor(josnValue?: string) {
         if (!josnValue) return;
