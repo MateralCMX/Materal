@@ -1,4 +1,4 @@
-import { StepModel } from "./Base/StepModel";
+import { ConnectorType, StepModel } from "./Base/StepModel";
 import { Connection } from "@jsplumb/core";
 import { ParallelStepData } from "../StepDatas/ParallelStepData";
 import { IStepData } from "../StepDatas/Base/IStepData";
@@ -11,13 +11,13 @@ export class ParallelStepModel extends StepModel<ParallelStepData> {
     }
     public HandlerConnection(connection: Connection, target: StepModel<IStepData>): boolean {
         switch (connection.params.cssClass) {
-            case "NextConnector":
+            case ConnectorType.NextConnector:
                 if (this.StepData.Next) return false;
                 this.StepData.Next = target.StepData;
                 this._nextConnector = connection;
                 target.AddOtherConnector(connection);
                 break;
-            case "StepConnector":
+            case ConnectorType.StepConnector:
                 for (let i = 0; i < this.StepData.StepDatas.length; i++) {
                     const stepData = this.StepData.StepDatas[i];
                     if (stepData.ID === target.ID) return false;
@@ -32,13 +32,13 @@ export class ParallelStepModel extends StepModel<ParallelStepData> {
     }
     public HandlerDisconnection(connection: Connection, target: StepModel<IStepData>) {
         switch (connection.params.cssClass) {
-            case "NextConnector":
+            case ConnectorType.NextConnector:
                 if (!this.StepData.Next) return;
                 this.StepData.Next = undefined;
                 this._nextConnector = undefined;
                 target.RemoveOtherConnector(connection);
                 break;
-            case "StepConnector":
+            case ConnectorType.StepConnector:
                 for (let i = 0; i < this._stepConnectors.length; i++) {
                     const stepConnector = this._stepConnectors[i];
                     if (stepConnector.id !== connection.id) continue;

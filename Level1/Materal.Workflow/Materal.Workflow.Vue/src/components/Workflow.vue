@@ -6,6 +6,7 @@
     left: 175px;
     right: 0;
     background-color: #F7F7F7;
+    background-image: linear-gradient(to right, black 10px, transparent 10px);
 }
 
 .Steps {
@@ -53,12 +54,11 @@
 <script setup lang="ts">
 import "../css/Step.css";
 import RunTimeDataEdit from "./RunTimeDataEdit.vue";
-import StartStep from "./steps/StartStep.vue";
 import { defineAsyncComponent, onMounted, reactive, ref, shallowReactive, shallowRef, UnwrapNestedRefs, VNode } from 'vue';
 import { BrowserJsPlumbInstance, newInstance, ContainmentType } from "@jsplumb/browser-ui";
 import { StepInfoModel as StepInfoModel } from "../scripts/StepInfoModel";
 import { BeforeDropParams, ConnectionDetachedParams, DotEndpoint, EVENT_CONNECTION_DETACHED, INTERCEPT_BEFORE_DROP, RectangleEndpoint } from "@jsplumb/core";
-import { StepModel } from "../scripts/StepModels/Base/StepModel";
+import { ConnectorType, StepModel } from "../scripts/StepModels/Base/StepModel";
 import { IStepData } from "../scripts/StepDatas/Base/IStepData";
 import { IStep } from "../scripts/IStep";
 import { NowRuntimeDataType } from "../scripts/RuntimeDataType";
@@ -114,21 +114,21 @@ const InitCanvas = () => {
         target: false,
         anchor: "Continuous",
         endpoint: DotEndpoint.type,
-        connectorClass: "NextConnector"
+        connectorClass: ConnectorType.NextConnector
     });
     instance.value.addSourceSelector(".CompensatePoint", {
         source: true,
         target: false,
         anchor: "Continuous",
         endpoint: DotEndpoint.type,
-        connectorClass: "CompensateConnector"
+        connectorClass: ConnectorType.CompensateConnector
     });
     instance.value.addSourceSelector(".StepPoint", {
         source: true,
         target: false,
         anchor: "Continuous",
         endpoint: DotEndpoint.type,
-        connectorClass: "StepConnector"
+        connectorClass: ConnectorType.StepConnector
     });
     instance.value.addTargetSelector(".EndPoint", {
         source: false,
@@ -138,7 +138,7 @@ const InitCanvas = () => {
     });
     instance.value.bind(INTERCEPT_BEFORE_DROP, (params: BeforeDropParams) => HandlerConnection(params));
     instance.value.bind(EVENT_CONNECTION_DETACHED, (params: ConnectionDetachedParams) => HandlerDisconnectioned(params));
-    AddStepToCanvas(new StepInfoModel("开始节点", "Step StartStep", StartStep));
+    AddStepToCanvas(GetStepInfoModel("StartStep", "开始节点"));
 }
 /**
  * 添加节点到画布

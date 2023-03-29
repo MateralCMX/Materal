@@ -1,6 +1,6 @@
 import { StartStepData } from "../StepDatas/StartStepData";
 import { Connection } from "@jsplumb/core";
-import { StepModel } from "./Base/StepModel";
+import { ConnectorType, StepModel } from "./Base/StepModel";
 import { IStepData } from "../StepDatas/Base/IStepData";
 
 export class StartStepModel extends StepModel<StartStepData> {
@@ -8,14 +8,14 @@ export class StartStepModel extends StepModel<StartStepData> {
         super(`${StartStepModel.name}`, id, instance, element, new StartStepData(id));
     }
     public HandlerConnection(connection: Connection, target: StepModel<IStepData>): boolean {
-        if(connection.params.cssClass != "NextConnector") return false;
+        if(connection.params.cssClass != ConnectorType.NextConnector) return false;
         if(this.StepData.Next) return false;
         this.StepData.Next = target.StepData;
         target.AddOtherConnector(connection);
         return true;
     }
     public HandlerDisconnection(connection: Connection, target: StepModel<IStepData>) {
-        if(connection.params.cssClass != "NextConnector") return;
+        if(connection.params.cssClass != ConnectorType.NextConnector) return;
         if(!this.StepData.Next) return;
         this.StepData.Next = undefined;
         target.RemoveOtherConnector(connection);

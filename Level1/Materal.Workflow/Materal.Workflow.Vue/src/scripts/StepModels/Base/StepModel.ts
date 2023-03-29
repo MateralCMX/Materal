@@ -88,3 +88,8 @@ export abstract class StepModel<T extends IStepData> {
         }
     }
 }
+export const ConnectorType = {
+    NextConnector: "NextConnector",
+    StepConnector: "StepConnector",
+    CompensateConnector: "CompensateConnector"
+}

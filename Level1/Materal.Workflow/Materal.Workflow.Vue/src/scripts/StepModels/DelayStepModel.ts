@@ -1,5 +1,5 @@
 import { Connection } from "@jsplumb/core";
-import { StepModel } from "./Base/StepModel";
+import { ConnectorType, StepModel } from "./Base/StepModel";
 import { IStepData } from "../StepDatas/Base/IStepData";
 import { DelayStepData } from "../StepDatas/DelayStepData";
 
@@ -9,7 +9,7 @@ export class DelayStepModel extends StepModel<DelayStepData> {
         super(`${DelayStepModel.name}`, id, instance, element, new DelayStepData(id));
     }
     public HandlerConnection(connection: Connection, target: StepModel<IStepData>): boolean {
-        if (connection.params.cssClass != "NextConnector") return false;
+        if (connection.params.cssClass != ConnectorType.NextConnector) return false;
         if (this.StepData.Next) return false;
         this._nextConnector = connection;
         this.StepData.Next = target.StepData;
@@ -17,7 +17,7 @@ export class DelayStepModel extends StepModel<DelayStepData> {
         return true;
     }
     public HandlerDisconnection(connection: Connection, target: StepModel<IStepData>) {
-        if (connection.params.cssClass != "NextConnector") return;
+        if (connection.params.cssClass != ConnectorType.NextConnector) return;
         if (!this.StepData.Next) return;
         this._nextConnector = undefined;
         this.StepData.Next = undefined;
