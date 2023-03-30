@@ -1,4 +1,5 @@
 ﻿using Materal.Abstractions;
+using Materal.TTA.Common;
 using Materal.TTA.Demo.Domain;
 using Materal.TTA.Demo.Sqlite;
 using Materal.TTA.EFRepository;
@@ -6,6 +7,7 @@ using Materal.TTA.SqliteRepository.Model;
 using Materal.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Materal.TTA.Demo
@@ -36,10 +38,24 @@ namespace Materal.TTA.Demo
             IServiceProvider services = serviceCollection.BuildServiceProvider();
             using(IServiceScope scope = services.CreateScope())
             {
-                MigrateHelper<TTADemoDBContext> migrateHelper = scope.ServiceProvider.GetService<MigrateHelper<TTADemoDBContext>>() ?? throw new MateralException("获取实例失败");
+                IServiceProvider serviceProvider = scope.ServiceProvider;
+                MigrateHelper<TTADemoDBContext> migrateHelper = serviceProvider.GetService<MigrateHelper<TTADemoDBContext>>() ?? throw new MateralException("获取实例失败");
                 await migrateHelper.MigrateAsync();
-                IDemoUnitOfWork _unitOfWork = scope.ServiceProvider.GetService<IDemoUnitOfWork>() ?? throw new MateralException("获取实例失败");
-                IUserRepository _userRepository = scope.ServiceProvider.GetService<IUserRepository>() ?? throw new MateralException("获取实例失败");
+
+                IDemoUnitOfWork _unitOfWork = serviceProvider.GetService<IDemoUnitOfWork>() ?? throw new MateralException("获取实例失败");
+                IUserRepository _userRepository = _unitOfWork.GetRepository<IUserRepository>() ?? throw new MateralException("获取实例失败");
+                var a = _unitOfWork.GetType().BaseType.GetField("_dbContext", BindingFlags.NonPublic | BindingFlags.Instance);
+                var aa = a.GetValue(_unitOfWork);
+                var b = _userRepository.GetType().GetProperty("DBContext", BindingFlags.NonPublic | BindingFlags.Instance);
+                var bb = b.GetValue(_userRepository);
+                if (aa == bb)
+                {
+
+                }
+                else
+                {
+
+                }
                 //IUserRepository _userRepository = _unitOfWork.GetRepository<IUserRepository>() ?? throw new MateralException("获取仓储失败");
                 //User? user = new()
                 //{

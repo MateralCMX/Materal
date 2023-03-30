@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
-using Materal.Abstractions;
+using Materal.BaseCore.Common;
 using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.PresentationModel;
 using Materal.BaseCore.Services;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
 
 namespace Materal.BaseCore.WebAPI.Controllers
@@ -40,13 +41,15 @@ namespace Materal.BaseCore.WebAPI.Controllers
         /// 服务对象
         /// </summary>
         protected readonly TService DefaultService;
+        protected readonly IServiceProvider ServiceProvider;
         /// <summary>
         /// 构造方法
         /// </summary>
-        protected MateralCoreWebAPIServiceControllerBase()
+        protected MateralCoreWebAPIServiceControllerBase(IServiceProvider serviceProvider)
         {
-            Mapper = MateralServices.GetService<IMapper>();
-            DefaultService = MateralServices.GetService<TService>(); ;
+            ServiceProvider = serviceProvider;
+            Mapper = serviceProvider.GetService<IMapper>() ?? throw new MateralCoreException("获取映射器失败");
+            DefaultService = serviceProvider.GetService<TService>() ?? throw new MateralCoreException("获取服务失败");
         }
         /// <summary>
         /// 添加
@@ -135,10 +138,6 @@ namespace Materal.BaseCore.WebAPI.Controllers
         {
             (List<TListDTO> data, PageModel pageInfo) = await DefaultService.GetListAsync(model);
             return PageResultModel<TListDTO>.Success(data, pageInfo, "获取成功");
-        }
-        public override void Dispose()
-        {
-            DefaultService.Dispose();
         }
     }
 }

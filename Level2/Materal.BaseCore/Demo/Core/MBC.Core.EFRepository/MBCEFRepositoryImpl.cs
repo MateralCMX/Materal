@@ -8,10 +8,13 @@ namespace MBC.Core.EFRepository
     /// MBC仓储
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TPrimaryKeyType"></typeparam>
-    public abstract class MBCEFRepositoryImpl<T, TPrimaryKeyType> : SqliteEFRepositoryImpl<T, TPrimaryKeyType>
-        where T : class, IEntity<TPrimaryKeyType>, new()
-        where TPrimaryKeyType : struct
+    /// <typeparam name="TDBContext"></typeparam>
+    public abstract class MBCEFRepositoryImpl<T, TDBContext> : SqliteEFRepositoryImpl<T, Guid, TDBContext>
+        where T : class, IEntity<Guid>, new()
+        where TDBContext : DbContext
     {
+        protected MBCEFRepositoryImpl(TDBContext dbContext) : base(dbContext)
+        {
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Materal.BaseCore.Common
 {
     /// <summary>
-    /// 发布中心异常
+    /// MateralCore异常
     /// </summary>
     public class MateralCoreException : Exception
     {

@@ -14,11 +14,17 @@ namespace MBC.Demo.ServiceImpl
     public partial class MenuAuthorityServiceImpl : BaseServiceImpl<AddMenuAuthorityModel, EditMenuAuthorityModel, QueryMenuAuthorityModel, MenuAuthorityDTO, MenuAuthorityListDTO, IMenuAuthorityRepository, MenuAuthority>, IMenuAuthorityService
     {
         /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public MenuAuthorityServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider) { }
+
+        /// <summary>
         /// 交换位序
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task ExchangeIndexAsync(ExchangeIndexModel model) 
+        public async Task ExchangeIndexAsync(ExchangeIndexModel model)
             => await ServiceImplHelper.ExchangeIndexAndExchangeParentByGroupPropertiesAsync<IMenuAuthorityRepository, MenuAuthority>(model, DefaultRepository, UnitOfWork, new[] { nameof(MenuAuthority.SubSystemID) }, new[] { nameof(MenuAuthority.SubSystemID) });
         /// <summary>
         /// 更改父级

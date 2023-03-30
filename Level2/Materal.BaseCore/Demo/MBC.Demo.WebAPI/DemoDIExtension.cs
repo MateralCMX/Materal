@@ -36,10 +36,10 @@ namespace MBC.Demo.WebAPI
             services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.EFRepository"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
-                .AsPublicImplementedInterfaces();
+                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.ServiceImpl"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("ServiceImpl"))
-                .AsPublicImplementedInterfaces();
+                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
             services.AddHttpClientService(WebAPIConfig.AppName, Assembly.Load("MBC.Demo.HttpClient"));
             return services;
         }

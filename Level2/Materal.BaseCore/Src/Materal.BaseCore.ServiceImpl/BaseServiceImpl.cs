@@ -8,6 +8,8 @@ using Materal.BaseCore.Services;
 using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
 using Materal.Utils.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
@@ -25,7 +27,7 @@ namespace Materal.BaseCore.ServiceImpl
     /// <typeparam name="TListDTO"></typeparam>
     /// <typeparam name="TRepository"></typeparam>
     /// <typeparam name="TDomain"></typeparam>
-    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain> : IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>, IDisposable
+    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain> : IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
         where TAddModel : class, IAddServiceModel, new()
         where TEditModel : class, IEditServiceModel, new()
         where TQueryModel : PageRequestModel, IQueryServiceModel, new()
@@ -46,14 +48,16 @@ namespace Materal.BaseCore.ServiceImpl
         /// 默认仓储
         /// </summary>
         protected readonly TRepository DefaultRepository;
+        protected readonly IServiceProvider ServiceProvider;
         /// <summary>
         /// 构造方法
         /// </summary>
-        public BaseServiceImpl()
+        protected BaseServiceImpl(IServiceProvider serviceProvider)
         {
-            UnitOfWork = MateralServices.GetService<IMateralCoreUnitOfWork>();
-            DefaultRepository = UnitOfWork.GetRepository<TRepository>();
-            Mapper = MateralServices.GetService<IMapper>();
+            ServiceProvider = serviceProvider;
+            UnitOfWork = serviceProvider.GetService<IMateralCoreUnitOfWork>() ?? throw new MateralCoreException("获取工作单元失败");
+            DefaultRepository = serviceProvider.GetService<TRepository>() ?? throw new MateralCoreException("获取仓储失败");
+            Mapper = serviceProvider.GetService<IMapper>() ?? throw new MateralCoreException("获取映射器失败");
         }
         /// <summary>
         /// 添加
@@ -259,12 +263,6 @@ namespace Materal.BaseCore.ServiceImpl
         {
             await ClearCacheAsync(DefaultRepository);
         }
-
-        public virtual void Dispose()
-        {
-            UnitOfWork.Dispose();
-            GC.SuppressFinalize(this);
-        }
     }
     /// <summary>
     /// 基础服务实现
@@ -296,7 +294,7 @@ namespace Materal.BaseCore.ServiceImpl
         /// <summary>
         /// 构造方法
         /// </summary>
-        public BaseServiceImpl() : base()
+        protected BaseServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             DefaultViewRepository = UnitOfWork.GetRepository<TViewRepository>();
         }

@@ -263,12 +263,18 @@ namespace Materal.BaseCore.CodeGenerator.Models
             if (GeneratorServiceWebAPI && GeneratorDefaultService)
             {
                 codeContent.AppendLine($"    public partial class {_controllerName} : MateralCoreWebAPIServiceControllerBase<{_addRequestModelName}, {_editRequestModelName}, {_queryRequestModelName}, {_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}, {_iServiceName}>");
+                codeContent.AppendLine($"    {{");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 构造方法");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"serviceProvider\"></param>");
+                codeContent.AppendLine($"        public {_controllerName}(IServiceProvider serviceProvider) : base(serviceProvider) {{ }}");
             }
             else
             {
                 codeContent.AppendLine($"    public partial class {_controllerName} : MateralCoreWebAPIControllerBase");
+                codeContent.AppendLine($"    {{");
             }
-            codeContent.AppendLine($"    {{");
             if (IsIndexDomain)
             {
                 codeContent.AppendLine($"        /// <summary>");
@@ -616,12 +622,18 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 {
                     codeContent.AppendLine($"    public partial class {_serviceImplName} : BaseServiceImpl<{_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}, {_iRepositoryName}, {Name}>, {_iServiceName}");
                 }
+                codeContent.AppendLine($"    {{");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 构造方法");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"serviceProvider\"></param>");
+                codeContent.AppendLine($"        public {_serviceImplName}(IServiceProvider serviceProvider) : base(serviceProvider) {{ }}");
             }
             else
             {
                 codeContent.AppendLine($"    public partial class {_serviceImplName} : {_iServiceName}");
+                codeContent.AppendLine($"    {{");
             }
-            codeContent.AppendLine($"    {{");
             if (IsIndexDomain)
             {
                 codeContent.AppendLine($"        /// <summary>");
@@ -714,7 +726,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 构造方法");
                 codeContent.AppendLine($"        /// </summary>");
-                codeContent.AppendLine($"        public {_repositoryImplName}(ICacheHelper cacheManager) : base(cacheManager) {{ }}");
+                codeContent.AppendLine($"        public {_repositoryImplName}({project.DBContextName} dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager) {{ }}");
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 获得所有缓存名称");
                 codeContent.AppendLine($"        /// </summary>");
@@ -724,6 +736,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
             {
                 codeContent.AppendLine($"    public partial class {_repositoryImplName}: {project.PrefixName}EFRepositoryImpl<{Name}, Guid>, I{Name}Repository");
                 codeContent.AppendLine($"    {{");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 构造方法");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        public {_repositoryImplName}({project.DBContextName} dbContext) : base(dbContext) {{ }}");
             }
             if (IsIndexDomain)
             {
