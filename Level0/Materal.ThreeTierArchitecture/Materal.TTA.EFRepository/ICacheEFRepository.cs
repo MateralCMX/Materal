@@ -1,12 +1,10 @@
 ﻿using Materal.TTA.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.EFRepository
 {
-    public interface ICacheEFRepository<T, in TPrimaryKeyType, TDBContext> : IEFRepository<T, TPrimaryKeyType, TDBContext>
+    public interface ICacheEFRepository<T, in TPrimaryKeyType> : IEFRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>
         where TPrimaryKeyType : struct
-        where TDBContext : DbContext
     {
         /// <summary>
         /// 通过缓存获得所有信息

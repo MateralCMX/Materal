@@ -336,10 +336,5 @@ namespace Materal.TTA.MongoDBRepository
             };
             return (result, pageModel);
         }
-
-        public void Dispose()
-        {
-            GC.SuppressFinalize(this);
-        }
     }
 }

@@ -6,15 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.TTA.EFRepository
 {
-    public abstract class EFUnitOfWorkImpl<T> : IEFUnitOfWork
-        where T : DbContext
+    public abstract class EFUnitOfWorkImpl<TDBContext> : IEFUnitOfWork
+        where TDBContext : DbContext
     {
         private readonly object entitiesLockObj = new();
-        protected readonly Queue<EntityEntry> changeEntities = new();
-        public readonly T _dbContext;
+        protected readonly Queue<EntityEntry> ChangeEntities = new();
+        private readonly TDBContext _dbContext;
         public IServiceProvider ServiceProvider { get; }
 
-        protected EFUnitOfWorkImpl(T context, IServiceProvider serviceProvider)
+        protected EFUnitOfWorkImpl(TDBContext context, IServiceProvider serviceProvider)
         {
             _dbContext = context;
             ServiceProvider = serviceProvider;
@@ -27,7 +27,7 @@ namespace Materal.TTA.EFRepository
             lock (entitiesLockObj)
             {
                 EntityEntry<TEntity> entity = _dbContext.Set<TEntity>().Add(obj);
-                changeEntities.Enqueue(entity);
+                ChangeEntities.Enqueue(entity);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Materal.TTA.EFRepository
             {
                 EntityEntry<TEntity> entity = _dbContext.Entry(obj);
                 entity.State = EntityState.Modified;
-                changeEntities.Enqueue(entity);
+                ChangeEntities.Enqueue(entity);
             }
         }
 
@@ -51,7 +51,7 @@ namespace Materal.TTA.EFRepository
             {
                 EntityEntry<TEntity> entity = _dbContext.Entry(obj);
                 entity.State = EntityState.Deleted;
-                changeEntities.Enqueue(entity);
+                ChangeEntities.Enqueue(entity);
             }
         }
         public void Commit()
@@ -85,9 +85,9 @@ namespace Materal.TTA.EFRepository
         {
             lock (entitiesLockObj)
             {
-                while (changeEntities.Count > 0)
+                while (ChangeEntities.Count > 0)
                 {
-                    if (!changeEntities.TryDequeue(out EntityEntry? entity)) continue;
+                    if (!ChangeEntities.TryDequeue(out EntityEntry? entity)) continue;
                     if (entity == null) continue;
                     entity.State = EntityState.Detached;
                 }

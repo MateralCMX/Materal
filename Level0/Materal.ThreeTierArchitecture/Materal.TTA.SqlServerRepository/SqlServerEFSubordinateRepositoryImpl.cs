@@ -14,7 +14,7 @@ namespace Materal.TTA.SqlServerRepository
         public static int ConnectionSeed { get; set; }
     }
 
-    public abstract class SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TDBContext> : SqlServerEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, IEFSubordinateRepository<T, TPrimaryKeyType, TDBContext>
+    public abstract class SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TDBContext> : SqlServerEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, IEFSubordinateRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>
         where TDBContext : DbContext
         where TPrimaryKeyType : struct

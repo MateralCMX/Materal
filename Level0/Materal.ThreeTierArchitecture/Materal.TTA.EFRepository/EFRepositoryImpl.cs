@@ -1,5 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.TTA.Common;
+﻿using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
@@ -7,24 +6,19 @@ using System.Linq.Expressions;
 
 namespace Materal.TTA.EFRepository
 {
-    public abstract class EFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : IEFRepository<T, TPrimaryKeyType, TDBContext>
+    public abstract class EFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : IEFRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
     {
-        private readonly TDBContext _dbContext;
-        /// <summary>
-        /// 数据库上下文
-        /// </summary>
-        public TDBContext DBContext => _dbContext ?? throw new MateralException("数据库上下文未设置");
+        protected TDBContext DBContext { get; private set; }
         /// <summary>
         /// 实体对象
         /// </summary>
         protected virtual DbSet<T> DBSet => DBContext.Set<T>();
-
         protected EFRepositoryImpl(TDBContext dbContext)
         {
-            _dbContext = dbContext;
+            DBContext = dbContext;
         }
         public virtual bool Existed(TPrimaryKeyType id) => DBSet.Any(m => m.ID.Equals(id));
         public virtual async Task<bool> ExistedAsync(TPrimaryKeyType id) => await DBSet.AnyAsync(m => m.ID.Equals(id));

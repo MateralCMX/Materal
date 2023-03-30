@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.EFRepository
 {
-    public abstract class CacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : EFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, ICacheEFRepository<T, TPrimaryKeyType, TDBContext>
+    public abstract class CacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : EFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, ICacheEFRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
         where TDBContext : DbContext

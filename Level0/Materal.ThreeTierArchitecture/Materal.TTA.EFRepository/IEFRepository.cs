@@ -1,15 +1,13 @@
 ﻿using Materal.TTA.Common;
 using Materal.Utils.Model;
-using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace Materal.TTA.EFRepository
 {
-    public interface IEFRepository<T, in TPrimaryKeyType, TDBContext> : IRepository<T, TPrimaryKeyType>
+    public interface IEFRepository<T, in TPrimaryKeyType> : IRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>
         where TPrimaryKeyType : struct
-        where TDBContext : DbContext
     {
         /// <summary>
         /// 是否存在
