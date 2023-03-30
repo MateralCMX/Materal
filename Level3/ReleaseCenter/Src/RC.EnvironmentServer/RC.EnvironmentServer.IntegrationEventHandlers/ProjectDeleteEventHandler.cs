@@ -13,10 +13,10 @@ namespace RC.EnvironmentServer.IntegrationEventHandlers
     {
         private readonly IConfigurationItemRepository _configurationItemRepository;
         private readonly IMateralCoreUnitOfWork _unitOfWork;
-        public ProjectDeleteEventHandler(IMateralCoreUnitOfWork unitOfWork, IConfigurationItemRepository configurationItemRepository)
+        public ProjectDeleteEventHandler(IMateralCoreUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _configurationItemRepository = configurationItemRepository;
+            _configurationItemRepository = unitOfWork.GetRepository<IConfigurationItemRepository>();
         }
         public async Task HandleAsync(ProjectDeleteEvent @event)
         {

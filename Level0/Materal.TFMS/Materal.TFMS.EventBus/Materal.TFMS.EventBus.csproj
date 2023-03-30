@@ -6,7 +6,7 @@
 		<LangVersion>11.0</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>../nupkgs</PackageOutputPath>
-		<Version>0.1.12</Version>
+		<Version>0.1.13</Version>
 		<Authors>Materal</Authors>
 		<Product>Materal.TFMS</Product>
 		<Description>Materal事件总线</Description>

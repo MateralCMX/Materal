@@ -4,7 +4,10 @@ using System.Linq.Expressions;
 
 namespace Materal.TTA.Common
 {
-    public interface IRepository<T, in TPrimaryKeyType>
+    public interface IRepository : IDisposable
+    {
+    }
+    public interface IRepository<T, in TPrimaryKeyType> : IRepository
         where T : class, IEntity<TPrimaryKeyType>
         where TPrimaryKeyType : struct
     {

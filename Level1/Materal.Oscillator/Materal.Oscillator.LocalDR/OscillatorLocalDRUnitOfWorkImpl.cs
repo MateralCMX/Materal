@@ -7,7 +7,7 @@ namespace Materal.Oscillator.SqliteRepositoryImpl
 {
     public class OscillatorLocalDRUnitOfWorkImpl : SqliteEFUnitOfWorkImpl<OscillatorLocalDRDBContext>, IOscillatorDRUnitOfWork
     {
-        public OscillatorLocalDRUnitOfWorkImpl(OscillatorLocalDRDBContext context) : base(context)
+        public OscillatorLocalDRUnitOfWorkImpl(OscillatorLocalDRDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
         }
 

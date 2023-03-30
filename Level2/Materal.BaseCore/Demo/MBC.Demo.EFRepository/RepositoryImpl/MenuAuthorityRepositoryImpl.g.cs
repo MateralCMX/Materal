@@ -11,10 +11,6 @@ namespace MBC.Demo.EFRepository.RepositoryImpl
     public partial class MenuAuthorityRepositoryImpl: MBCEFRepositoryImpl<MenuAuthority, Guid>, IMenuAuthorityRepository
     {
         /// <summary>
-        /// 构造方法
-        /// </summary>
-        public MenuAuthorityRepositoryImpl(DemoDBContext dbContext) : base(dbContext) { }
-        /// <summary>
         /// 获取最大位序
         /// </summary>
         /// <param name="subSystemID"></param>

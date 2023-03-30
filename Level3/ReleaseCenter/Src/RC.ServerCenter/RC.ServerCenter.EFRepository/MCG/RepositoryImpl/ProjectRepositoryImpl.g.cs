@@ -10,9 +10,5 @@ namespace RC.ServerCenter.EFRepository.RepositoryImpl
     /// </summary>
     public partial class ProjectRepositoryImpl: RCEFRepositoryImpl<Project, Guid>, IProjectRepository
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public ProjectRepositoryImpl(ServerCenterDBContext dbContext) : base(dbContext) { }
     }
 }

@@ -5,8 +5,5 @@ namespace Materal.Oscillator.LocalDR.Repositories
 {
     public class FlowRepositoryImpl : OscillatorLocalDREFRepositoryImpl<Flow>, IFlowRepository
     {
-        public FlowRepositoryImpl(OscillatorLocalDRDBContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

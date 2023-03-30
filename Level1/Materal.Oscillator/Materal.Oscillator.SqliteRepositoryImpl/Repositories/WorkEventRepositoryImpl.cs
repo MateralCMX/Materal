@@ -1,5 +1,4 @@
-﻿using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Domain;
+﻿using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Enums;
 using Materal.Oscillator.Abstractions.Models.WorkEvent;
 using Materal.Oscillator.Abstractions.Repositories;
@@ -9,10 +8,6 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.Repositories
 {
     public class WorkEventRepositoryImpl : OscillatorSqliteEFRepositoryImpl<WorkEvent>, IWorkEventRepository
     {
-        public WorkEventRepositoryImpl(OscillatorSqliteDBContext dbContext) : base(dbContext)
-        {
-        }
-
         public async Task<string[]> GetAllWorkEventValuesAsync(Guid scheduleID)
         {
             string[] defaultEventValues = GetDefaultWorkEventValues();

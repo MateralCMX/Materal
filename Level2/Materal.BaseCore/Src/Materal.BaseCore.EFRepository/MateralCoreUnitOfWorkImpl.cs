@@ -15,7 +15,7 @@ namespace Materal.BaseCore.EFRepository
         /// 构造方法
         /// </summary>
         /// <param name="context"></param>
-        public MateralCoreUnitOfWorkImpl(T context) : base(context)
+        public MateralCoreUnitOfWorkImpl(T context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
         }
         /// <summary>

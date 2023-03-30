@@ -34,6 +34,7 @@ namespace Materal.BaseCore.WebAPI
             {
                 mvcOptions.Filters.Add(new AuthorizeFilter());
                 mvcOptions.Filters.Add<ActionPageQueryFilterAttribute>();
+                mvcOptions.Filters.Add<DisposeControllerAttribute>();
                 mvcOptions.Filters.Add<ExceptionFilter>();
                 mvcOptions.SuppressAsyncSuffixInActionNames = true;
             })

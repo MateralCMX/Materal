@@ -18,7 +18,7 @@ using Quartz;
 
 namespace Materal.Oscillator
 {
-    public class OscillatorManager : ScheduleOperationModel, IOscillatorManager
+    public class OscillatorManager : ScheduleOperationModel, IOscillatorManager, IDisposable
     {
         private readonly IMapper _mapper;
         private readonly IOscillatorUnitOfWork _unitOfWork;
@@ -33,21 +33,21 @@ namespace Materal.Oscillator
         private readonly IScheduleWorkViewRepository _scheduleWorkViewRepository;
         private readonly IWorkEventViewRepository _workEventViewRepository;
         private readonly OscillatorService _oscillatorService;
-        public OscillatorManager(IMapper mapper, IAnswerRepository answerRepository, IPlanRepository planRepository, IScheduleRepository scheduleRepository, IScheduleWorkRepository scheduleWorkRepository, IWorkRepository workRepository, IWorkEventRepository workEventRepository, IAnswerViewRepository answerViewRepository, IPlanViewRepository planViewRepository, IScheduleWorkViewRepository scheduleWorkViewRepository, IWorkEventViewRepository workEventViewRepository, OscillatorService oscillatorService, IOscillatorUnitOfWork unitOfWork)
+        public OscillatorManager(IMapper mapper, OscillatorService oscillatorService, IOscillatorUnitOfWork unitOfWork)
         {
             _mapper = mapper;
-            _answerRepository = answerRepository;
-            _planRepository = planRepository;
-            _scheduleRepository = scheduleRepository;
-            _scheduleWorkRepository = scheduleWorkRepository;
-            _workRepository = workRepository;
-            _workEventRepository = workEventRepository;
-            _answerViewRepository = answerViewRepository;
-            _planViewRepository = planViewRepository;
-            _scheduleWorkViewRepository = scheduleWorkViewRepository;
-            _workEventViewRepository = workEventViewRepository;
             _oscillatorService = oscillatorService;
             _unitOfWork = unitOfWork;
+            _answerRepository = _unitOfWork.GetRepository<IAnswerRepository>();
+            _planRepository = _unitOfWork.GetRepository<IPlanRepository>();
+            _scheduleRepository = _unitOfWork.GetRepository<IScheduleRepository>();
+            _scheduleWorkRepository = _unitOfWork.GetRepository<IScheduleWorkRepository>();
+            _workRepository = _unitOfWork.GetRepository<IWorkRepository>();
+            _workEventRepository = _unitOfWork.GetRepository<IWorkEventRepository>();
+            _answerViewRepository = _unitOfWork.GetRepository<IAnswerViewRepository>();
+            _planViewRepository = _unitOfWork.GetRepository<IPlanViewRepository>();
+            _scheduleWorkViewRepository = _unitOfWork.GetRepository<IScheduleWorkViewRepository>();
+            _workEventViewRepository = _unitOfWork.GetRepository<IWorkEventViewRepository>();
         }
         public async Task<Guid> AddAnswerAsync(AddAnswerModel model) => await AddAsync<Answer>(model);
         public async Task<Guid> AddPlanAsync(AddPlanModel model) => await AddAsync<Plan>(model);
@@ -146,8 +146,7 @@ namespace Materal.Oscillator
             where T : BaseDomain
         {
             model.Validation();
-            T? domain = await repository.FirstOrDefaultAsync(model.ID);
-            if (domain == null) throw new OscillatorException("数据不存在");
+            T domain = await repository.FirstOrDefaultAsync(model.ID) ?? throw new OscillatorException("数据不存在");
             _mapper.Map(model, domain);
             SetTerritoryProperties(domain);
             domain.Validation();
@@ -164,8 +163,7 @@ namespace Materal.Oscillator
         private async Task DeleteAsync<T>(Guid id, IOscillatorRepository<T> repository)
             where T : BaseDomain
         {
-            T? domain = await repository.FirstOrDefaultAsync(id);
-            if (domain == null) throw new OscillatorException("数据不存在");
+            T domain = await repository.FirstOrDefaultAsync(id) ?? throw new OscillatorException("数据不存在");
             _unitOfWork.RegisterDelete(domain);
             await _unitOfWork.CommitAsync();
         }
@@ -243,5 +241,10 @@ namespace Materal.Oscillator
             return result;
         }
         #endregion
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+            GC.SuppressFinalize(this);
+        }
     }
 }

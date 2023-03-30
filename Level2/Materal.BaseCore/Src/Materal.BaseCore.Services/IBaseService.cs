@@ -12,7 +12,7 @@ namespace Materal.BaseCore.Services
     /// <typeparam name="TQueryModel"></typeparam>
     /// <typeparam name="TDTO"></typeparam>
     /// <typeparam name="TListDTO"></typeparam>
-    public interface IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
+    public interface IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO> : IDisposable
         where TAddModel : class, IAddServiceModel, new()
         where TEditModel : class, IEditServiceModel, new()
         where TQueryModel : IQueryServiceModel, new()

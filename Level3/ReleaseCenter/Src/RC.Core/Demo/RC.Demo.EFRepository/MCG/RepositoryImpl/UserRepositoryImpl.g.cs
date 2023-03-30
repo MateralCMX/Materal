@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RC.Core.EFRepository;
 using RC.Demo.Domain;
 using RC.Demo.Domain.Repositories;
+using RC.Demo.Enums;
 
 namespace RC.Demo.EFRepository.RepositoryImpl
 {
@@ -10,9 +11,5 @@ namespace RC.Demo.EFRepository.RepositoryImpl
     /// </summary>
     public partial class UserRepositoryImpl: RCEFRepositoryImpl<User, Guid>, IUserRepository
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public UserRepositoryImpl(DemoDBContext dbContext) : base(dbContext) { }
     }
 }

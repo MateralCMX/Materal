@@ -7,7 +7,7 @@ namespace Materal.Oscillator.SqlServerRepositoryImpl
 {
     public class OscillatorSqlServerUnitOfWorkImpl : SqlServerEFUnitOfWorkImpl<OscillatorSqlServerDBContext>, IOscillatorUnitOfWork
     {
-        public OscillatorSqlServerUnitOfWorkImpl(OscillatorSqlServerDBContext context) : base(context)
+        public OscillatorSqlServerUnitOfWorkImpl(OscillatorSqlServerDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
         }
 

@@ -1,6 +1,8 @@
-﻿namespace Materal.TTA.SqliteRepository.Model
+﻿using Materal.TTA.EFRepository;
+
+namespace Materal.TTA.SqliteRepository.Model
 {
-    public class SqliteConfigModel
+    public class SqliteConfigModel : IDBConfigModel
     {
         /// <summary>
         /// 源

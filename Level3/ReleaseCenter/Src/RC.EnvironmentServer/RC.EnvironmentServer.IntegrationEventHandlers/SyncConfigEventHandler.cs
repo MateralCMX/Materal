@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Consul;
 using Materal.BaseCore.EFRepository;
 using Materal.BaseCore.WebAPI.Common;
 using Materal.TFMS.EventBus;
@@ -16,11 +15,11 @@ namespace RC.EnvironmentServer.IntegrationEventHandlers
         private readonly IMateralCoreUnitOfWork _unitOfWork;
         private readonly IConfigurationItemRepository _configurationItemRepository;
         private static readonly object _syncLockObj = new();
-        public SyncConfigEventHandler(IMapper mapper, IMateralCoreUnitOfWork unitOfWork, IConfigurationItemRepository configurationItemRepository)
+        public SyncConfigEventHandler(IMapper mapper, IMateralCoreUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
-            _configurationItemRepository = configurationItemRepository;
+            _configurationItemRepository = unitOfWork.GetRepository<IConfigurationItemRepository>();
         }
         public Task HandleAsync(SyncConfigEvent @event)
         {

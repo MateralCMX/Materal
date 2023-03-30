@@ -18,7 +18,7 @@ namespace Materal.Oscillator.Answers
         public override async Task InitAsync()
         {
             _unitOfWork = MateralServices.GetService<IOscillatorUnitOfWork>();
-            _scheduleRepository = MateralServices.GetService<IScheduleRepository>();
+            _scheduleRepository = _unitOfWork.GetRepository<IScheduleRepository>();
             _oscillatorService = MateralServices.GetService<OscillatorService>();
             await base.InitAsync();
         }
@@ -32,6 +32,7 @@ namespace Materal.Oscillator.Answers
             if(scheduleFromDB == null || _unitOfWork == null) return true;
             _unitOfWork.RegisterDelete(scheduleFromDB);
             await _unitOfWork.CommitAsync();
+            await _unitOfWork.DisposeAsync();
             return false;
         }
     }

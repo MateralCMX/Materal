@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using RC.Core.EFRepository;
 using RC.Deploy.Domain;
 using RC.Deploy.Domain.Repositories;
+using RC.Deploy.Enums;
 
 namespace RC.Deploy.EFRepository.RepositoryImpl
 {
@@ -10,9 +11,5 @@ namespace RC.Deploy.EFRepository.RepositoryImpl
     /// </summary>
     public partial class ApplicationInfoRepositoryImpl: RCEFRepositoryImpl<ApplicationInfo, Guid>, IApplicationInfoRepository
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public ApplicationInfoRepositoryImpl(DeployDBContext dbContext) : base(dbContext) { }
     }
 }

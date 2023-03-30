@@ -1,9 +1,3 @@
-<style scoped>
-.ant-input-number {
-    width: 100%;
-}
-</style>
-
 <template>
     <a-form v-if="stepData" :model="stepData" :label-col="{ span: 4 }" :wrapper-col="{ span: 20 }" autocomplete="off">
         <a-form-item label="名称">

@@ -1,4 +1,5 @@
 ﻿using Materal.Abstractions;
+using Materal.BaseCore.EFRepository;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Http;
 using RC.Core.Common;
@@ -10,7 +11,6 @@ using RC.Deploy.ServiceImpl.Models;
 using RC.Deploy.Services.Models.ApplicationInfo;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace RC.Deploy.ServiceImpl
 {
@@ -18,7 +18,8 @@ namespace RC.Deploy.ServiceImpl
     {
         static ApplicationInfoServiceImpl()
         {
-            IApplicationInfoRepository applicationInfoRepository = MateralServices.GetService<IApplicationInfoRepository>();
+            using IMateralCoreUnitOfWork unitOfWork = MateralServices.GetService<IMateralCoreUnitOfWork>();
+            IApplicationInfoRepository applicationInfoRepository = unitOfWork.GetRepository<IApplicationInfoRepository>();
             List<ApplicationInfo> allApplicationInfos = applicationInfoRepository.Find(m => true, m => m.Name, SortOrder.Ascending);
             foreach (ApplicationInfo applicationInfo in allApplicationInfos)
             {

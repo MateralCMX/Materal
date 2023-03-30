@@ -9,12 +9,5 @@ namespace MBC.Demo.EFRepository.RepositoryImpl
     /// </summary>
     public class UserRepositoryImpl : MBCEFRepositoryImpl<User, Guid>, IUserRepository
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="dbContext"></param>
-        public UserRepositoryImpl(DemoDBContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

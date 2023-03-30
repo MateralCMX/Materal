@@ -21,7 +21,7 @@ namespace Materal.Oscillator.Answers
         {
             _mapper = MateralServices.GetService<IMapper>();
             _unitOfWork = MateralServices.GetService<IOscillatorUnitOfWork>();
-            _scheduleRepository = MateralServices.GetService<IScheduleRepository>();
+            _scheduleRepository = _unitOfWork.GetRepository<IScheduleRepository>();
             _oscillatorService = MateralServices.GetService<OscillatorService>();
             await base.InitAsync();
         }
@@ -37,6 +37,7 @@ namespace Materal.Oscillator.Answers
             _mapper.Map(schedule, scheduleFromDB);
             _unitOfWork.RegisterEdit(scheduleFromDB);
             await _unitOfWork.CommitAsync();
+            await _unitOfWork.DisposeAsync();
             return false;
         }
     }

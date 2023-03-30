@@ -11,7 +11,7 @@ namespace Materal.BaseCore.WebAPI.Controllers
     /// WebAPI控制器基类
     /// </summary>
     [Route("api/[controller]/[action]"), ApiController]
-    public abstract class MateralCoreWebAPIControllerBase : ControllerBase
+    public abstract class MateralCoreWebAPIControllerBase : ControllerBase, IDisposable
     {
         /// <summary>
         /// 获得登录用户唯一标识
@@ -63,5 +63,13 @@ namespace Materal.BaseCore.WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         protected string GetClientIP() => FilterHelper.GetIPAddress(HttpContext.Connection);
+        /// <summary>
+        /// 释放
+        /// </summary>
+        [NonAction]
+        public virtual void Dispose()
+        {
+
+        }
     }
 }

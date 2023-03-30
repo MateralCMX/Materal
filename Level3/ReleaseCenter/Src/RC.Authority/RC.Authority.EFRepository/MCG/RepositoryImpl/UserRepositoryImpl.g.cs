@@ -10,9 +10,5 @@ namespace RC.Authority.EFRepository.RepositoryImpl
     /// </summary>
     public partial class UserRepositoryImpl: RCEFRepositoryImpl<User, Guid>, IUserRepository
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public UserRepositoryImpl(AuthorityDBContext dbContext) : base(dbContext) { }
     }
 }

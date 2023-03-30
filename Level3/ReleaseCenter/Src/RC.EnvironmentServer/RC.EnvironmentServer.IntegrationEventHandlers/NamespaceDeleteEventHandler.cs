@@ -10,10 +10,10 @@ namespace RC.EnvironmentServer.IntegrationEventHandlers
     {
         private readonly IConfigurationItemRepository _configurationItemRepository;
         private readonly IMateralCoreUnitOfWork _unitOfWork;
-        public NamespaceDeleteEventHandler(IMateralCoreUnitOfWork unitOfWork, IConfigurationItemRepository configurationItemRepository)
+        public NamespaceDeleteEventHandler(IMateralCoreUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _configurationItemRepository = configurationItemRepository;
+            _configurationItemRepository = unitOfWork.GetRepository<IConfigurationItemRepository>();
         }
         public async Task HandleAsync(NamespaceDeleteEvent @event)
         {

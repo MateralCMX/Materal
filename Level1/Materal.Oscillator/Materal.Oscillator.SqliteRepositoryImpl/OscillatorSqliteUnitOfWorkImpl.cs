@@ -7,7 +7,7 @@ namespace Materal.Oscillator.SqliteRepositoryImpl
 {
     public class OscillatorSqliteUnitOfWorkImpl : SqliteEFUnitOfWorkImpl<OscillatorSqliteDBContext>, IOscillatorUnitOfWork
     {
-        public OscillatorSqliteUnitOfWorkImpl(OscillatorSqliteDBContext context) : base(context)
+        public OscillatorSqliteUnitOfWorkImpl(OscillatorSqliteDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
         }
 

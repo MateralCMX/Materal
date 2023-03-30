@@ -1,4 +1,5 @@
 using Materal.TTA.EFRepository;
+using RC.Deploy.Enums;
 
 namespace RC.Deploy.Domain.Repositories
 {

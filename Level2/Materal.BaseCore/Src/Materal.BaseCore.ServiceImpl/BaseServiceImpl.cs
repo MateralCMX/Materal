@@ -5,6 +5,7 @@ using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.Domain;
 using Materal.BaseCore.EFRepository;
 using Materal.BaseCore.Services;
+using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
 using Materal.Utils.Model;
 using System.ComponentModel.DataAnnotations;
@@ -24,13 +25,13 @@ namespace Materal.BaseCore.ServiceImpl
     /// <typeparam name="TListDTO"></typeparam>
     /// <typeparam name="TRepository"></typeparam>
     /// <typeparam name="TDomain"></typeparam>
-    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain> : IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
+    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain> : IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>, IDisposable
         where TAddModel : class, IAddServiceModel, new()
         where TEditModel : class, IEditServiceModel, new()
         where TQueryModel : PageRequestModel, IQueryServiceModel, new()
         where TDTO : class, IDTO
         where TListDTO : class, IListDTO
-        where TRepository : IEFRepository<TDomain, Guid>
+        where TRepository : class, IEFRepository<TDomain, Guid>, IRepository
         where TDomain : class, IDomain, new()
     {
         /// <summary>
@@ -51,7 +52,7 @@ namespace Materal.BaseCore.ServiceImpl
         public BaseServiceImpl()
         {
             UnitOfWork = MateralServices.GetService<IMateralCoreUnitOfWork>();
-            DefaultRepository = MateralServices.GetService<TRepository>();
+            DefaultRepository = UnitOfWork.GetRepository<TRepository>();
             Mapper = MateralServices.GetService<IMapper>();
         }
         /// <summary>
@@ -258,6 +259,12 @@ namespace Materal.BaseCore.ServiceImpl
         {
             await ClearCacheAsync(DefaultRepository);
         }
+
+        public virtual void Dispose()
+        {
+            UnitOfWork.Dispose();
+            GC.SuppressFinalize(this);
+        }
     }
     /// <summary>
     /// 基础服务实现
@@ -277,8 +284,8 @@ namespace Materal.BaseCore.ServiceImpl
         where TQueryModel : PageRequestModel, IQueryServiceModel, new()
         where TDTO : class, IDTO
         where TListDTO : class, IListDTO
-        where TRepository : IEFRepository<TDomain, Guid>
-        where TViewRepository : IEFRepository<TViewDomain, Guid>
+        where TRepository : class, IEFRepository<TDomain, Guid>, IRepository
+        where TViewRepository : class, IEFRepository<TViewDomain, Guid>, IRepository
         where TDomain : class, IDomain, new()
         where TViewDomain : class, IDomain, new()
     {
@@ -291,7 +298,7 @@ namespace Materal.BaseCore.ServiceImpl
         /// </summary>
         public BaseServiceImpl() : base()
         {
-            DefaultViewRepository = MateralServices.GetService<TViewRepository>();
+            DefaultViewRepository = UnitOfWork.GetRepository<TViewRepository>();
         }
         /// <summary>
         /// 获得信息

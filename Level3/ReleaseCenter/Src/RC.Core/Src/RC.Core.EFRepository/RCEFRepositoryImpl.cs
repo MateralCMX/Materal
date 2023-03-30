@@ -13,12 +13,5 @@ namespace RC.Core.EFRepository
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="dbContext"></param>
-        protected RCEFRepositoryImpl(DbContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

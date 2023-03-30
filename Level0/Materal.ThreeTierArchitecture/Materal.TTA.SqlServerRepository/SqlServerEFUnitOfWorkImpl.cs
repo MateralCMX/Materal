@@ -7,7 +7,7 @@ namespace Materal.TTA.SqlServerRepository
     public abstract class SqlServerEFUnitOfWorkImpl<T> : EFUnitOfWorkImpl<T>, IUnitOfWork
         where T : DbContext
     {
-        protected SqlServerEFUnitOfWorkImpl(T context) : base(context)
+        protected SqlServerEFUnitOfWorkImpl(T context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
         }
     }

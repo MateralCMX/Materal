@@ -1,11 +1,20 @@
 ﻿using Materal.TTA.Common;
 using Materal.Utils.Model;
+using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace Materal.TTA.EFRepository
 {
-    public interface IEFRepository<T, in TPrimaryKeyType> : IRepository<T, TPrimaryKeyType>
+    public interface IEFRepository : IRepository
+    {
+        /// <summary>
+        /// 设置数据库上下文
+        /// </summary>
+        /// <param name="dbContext"></param>
+        void SetDBContext(DbContext dbContext);
+    }
+    public interface IEFRepository<T, in TPrimaryKeyType> : IRepository<T, TPrimaryKeyType>, IEFRepository
         where T : class, IEntity<TPrimaryKeyType>
         where TPrimaryKeyType : struct
     {

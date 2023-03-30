@@ -136,5 +136,9 @@ namespace Materal.BaseCore.WebAPI.Controllers
             (List<TListDTO> data, PageModel pageInfo) = await DefaultService.GetListAsync(model);
             return PageResultModel<TListDTO>.Success(data, pageInfo, "获取成功");
         }
+        public override void Dispose()
+        {
+            DefaultService.Dispose();
+        }
     }
 }

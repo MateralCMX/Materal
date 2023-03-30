@@ -11,10 +11,10 @@ namespace RC.ServerCenter.ServiceImpl
     {
         private readonly IEventBus _eventBus;
         private readonly INamespaceRepository _namespaceRepository;
-        public ProjectServiceImpl(IEventBus eventBus, INamespaceRepository namespaceRepository)
+        public ProjectServiceImpl(IEventBus eventBus)
         {
             _eventBus = eventBus;
-            _namespaceRepository = namespaceRepository;
+            _namespaceRepository = UnitOfWork.GetRepository<INamespaceRepository>();
         }
         public override async Task<Guid> AddAsync(AddProjectModel model)
         {

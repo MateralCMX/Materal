@@ -6,7 +6,6 @@
     left: 175px;
     right: 0;
     background-color: #F7F7F7;
-    background-image: linear-gradient(to right, black 10px, transparent 10px);
 }
 
 .Steps {
@@ -77,6 +76,7 @@ const GetStepInfoModel = (stepName: string, description?: string): StepInfoModel
 }
 const stepList: StepInfoModel[] = [
     GetStepInfoModel("ThenStep", "业务节点"),
+    GetStepInfoModel("IfStep", "决策节点"),
     GetStepInfoModel("DelayStep", "延时节点"),
     GetStepInfoModel("ScheduleStep", "计划节点"),
     GetStepInfoModel("ParallelStep", "并行节点"),

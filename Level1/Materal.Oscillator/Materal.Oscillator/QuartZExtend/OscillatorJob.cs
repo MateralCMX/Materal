@@ -15,7 +15,7 @@ using Quartz;
 
 namespace Materal.Oscillator.QuartZExtend
 {
-    public class OscillatorJob : IOscillatorJob, IJob
+    public class OscillatorJob : IOscillatorJob, IJob, IDisposable
     {
         /// <summary>
         /// 调度器数据Key
@@ -33,6 +33,7 @@ namespace Materal.Oscillator.QuartZExtend
         private IOscillatorListener? _oscillatorListener;
         private IOscillatorDR? _oscillatorDR;
         private IWorkEventRepository? _workEventRepository;
+        private IOscillatorUnitOfWork? _unitOfWork;
         private IAnswerRepository? _answerRepository;
         /// <summary>
         /// 调度器
@@ -54,6 +55,7 @@ namespace Materal.Oscillator.QuartZExtend
         /// 容灾流程对象
         /// </summary>
         private Flow? _flow;
+
         /// <summary>
         /// 任务结果
         /// </summary>
@@ -64,8 +66,10 @@ namespace Materal.Oscillator.QuartZExtend
             {
                 #region 获取服务
                 _jobBus = MateralServices.GetService<IWorkEventBus>();
-                _workEventRepository = MateralServices.GetService<IWorkEventRepository>();
-                _answerRepository = MateralServices.GetService<IAnswerRepository>();
+                _unitOfWork = MateralServices.GetService<IOscillatorUnitOfWork>();
+                _workEventRepository = _unitOfWork.GetRepository<IWorkEventRepository>();
+                _workEventRepository = _unitOfWork.GetRepository<IWorkEventRepository>();
+                _answerRepository = _unitOfWork.GetRepository<IAnswerRepository>();
                 _oscillatorListener = MateralServices.GetServiceOrDefatult<IOscillatorListener>();
                 _oscillatorDR = MateralServices.GetServiceOrDefatult<IOscillatorDR>();
                 #endregion
@@ -351,6 +355,11 @@ namespace Materal.Oscillator.QuartZExtend
                 await _oscillatorListener.WorkEventTriggerAsync(_schedule, scheduleWork, eventValue);
             }
             await HandlerEventAsync(eventValue, scheduleWork);
+        }
+        public void Dispose()
+        {
+            _unitOfWork?.Dispose();
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

@@ -5,7 +5,7 @@ namespace Materal.TTA.Demo
 {
     public class DemoUnitOfWorkImpl : EFUnitOfWorkImpl<TTADemoDBContext>, IDemoUnitOfWork
     {
-        public DemoUnitOfWorkImpl(TTADemoDBContext context) : base(context)
+        public DemoUnitOfWorkImpl(TTADemoDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
         }
         public void RegisterAdd<TEntity>(TEntity obj)

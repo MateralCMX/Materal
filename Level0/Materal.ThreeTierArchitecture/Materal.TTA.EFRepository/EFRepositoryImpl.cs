@@ -1,4 +1,5 @@
-﻿using Materal.TTA.Common;
+﻿using Materal.Abstractions;
+using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
@@ -6,23 +7,25 @@ using System.Linq.Expressions;
 
 namespace Materal.TTA.EFRepository
 {
-    public abstract class EFRepositoryImpl<T, TPrimaryKeyType> : IEFRepository<T, TPrimaryKeyType> 
+    public abstract class EFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : IEFRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>
         where TPrimaryKeyType : struct
+        where TDBContext : DbContext
     {
+        private TDBContext? _dbContext;
         /// <summary>
         /// 数据库上下文
         /// </summary>
-        protected readonly DbContext DBContext;
+        public TDBContext DBContext => _dbContext ?? throw new MateralException("数据库上下文未设置");
         /// <summary>
         /// 实体对象
         /// </summary>
-        protected IQueryable<T> DBSet => MateralTTAConfig.EnableTracking ? DBContext.Set<T>() : DBContext.Set<T>().AsNoTracking();
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="dbContext"></param>
-        protected EFRepositoryImpl(DbContext dbContext) => DBContext = dbContext;
+        protected virtual DbSet<T> DBSet => DBContext.Set<T>();
+        public void SetDBContext(DbContext dbContext)
+        {
+            if(dbContext is not TDBContext context) throw new MateralException("数据库上下文类型错误");
+            _dbContext = context;
+        }
         public virtual bool Existed(TPrimaryKeyType id) => DBSet.Any(m => m.ID.Equals(id));
         public virtual async Task<bool> ExistedAsync(TPrimaryKeyType id) => await DBSet.AnyAsync(m => m.ID.Equals(id));
         public virtual bool Existed(Expression<Func<T, bool>> expression) => DBSet.Any(expression);
@@ -112,6 +115,16 @@ namespace Materal.TTA.EFRepository
                 _ => await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
             };
             return (result, pageModel);
+        }
+
+        public virtual void Dispose()
+        {
+            if (_dbContext != null)
+            {
+                _dbContext.Dispose();
+                _dbContext = null;
+            }
+            GC.SuppressFinalize(this);
         }
     }
 }

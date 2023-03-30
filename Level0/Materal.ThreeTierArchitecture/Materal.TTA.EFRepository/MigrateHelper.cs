@@ -34,6 +34,7 @@ namespace Materal.TTA.EFRepository
             {
                 _logger?.LogInformation("数据库无需迁移.");
             }
+            await dbContext.DisposeAsync();
         }
     }
 }

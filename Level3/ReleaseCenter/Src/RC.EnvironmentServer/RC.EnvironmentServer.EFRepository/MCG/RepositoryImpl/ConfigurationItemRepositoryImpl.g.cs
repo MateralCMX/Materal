@@ -11,9 +11,5 @@ namespace RC.EnvironmentServer.EFRepository.RepositoryImpl
     /// </summary>
     public partial class ConfigurationItemRepositoryImpl: RCEFRepositoryImpl<ConfigurationItem, Guid>, IConfigurationItemRepository
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public ConfigurationItemRepositoryImpl(EnvironmentServerDBContext dbContext) : base(dbContext) { }
     }
 }

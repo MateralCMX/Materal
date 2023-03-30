@@ -20,19 +20,21 @@ namespace Materal.Oscillator
     /// <summary>
     /// 调度器服务
     /// </summary>
-    public class OscillatorService
+    public class OscillatorService : IDisposable
     {
         private readonly IOscillatorListener? _oscillatorListener;
         private readonly IScheduleRepository _scheduleRepository;
         private readonly IPlanRepository _planRepository;
         private readonly IScheduleWorkViewRepository _scheduleWorkViewRepository;
         private readonly IMapper _mapper;
-        public OscillatorService(IMapper mapper, IScheduleRepository scheduleRepository, IPlanRepository planRepository, IScheduleWorkViewRepository scheduleWorkViewRepository, IOscillatorListener? oscillatorListener = null)
+        private readonly IOscillatorUnitOfWork _unitOfWork;
+        public OscillatorService(IMapper mapper, IOscillatorUnitOfWork unitOfWork, IOscillatorListener? oscillatorListener = null)
         {
             _mapper = mapper;
-            _scheduleRepository = scheduleRepository;
-            _planRepository = planRepository;
-            _scheduleWorkViewRepository = scheduleWorkViewRepository;
+            _unitOfWork = unitOfWork;
+            _scheduleRepository = _unitOfWork.GetRepository<IScheduleRepository>();
+            _planRepository = _unitOfWork.GetRepository<IPlanRepository>();
+            _scheduleWorkViewRepository = _unitOfWork.GetRepository<IScheduleWorkViewRepository>();
             _oscillatorListener = oscillatorListener;
         }
         #region 启动调度器
@@ -357,5 +359,10 @@ namespace Materal.Oscillator
             return trigger;
         }
         #endregion
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+            GC.SuppressFinalize(this);
+        }
     }
 }

@@ -13,12 +13,5 @@ namespace MBC.Core.EFRepository
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="dbContext"></param>
-        protected MBCEFRepositoryImpl(DbContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

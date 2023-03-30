@@ -9,18 +9,18 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Oscillator.LocalDR
 {
-    public class OscillatorLocalDR : IOscillatorDR
+    public class OscillatorLocalDR : IOscillatorDR, IDisposable
     {
         private readonly IOscillatorDRUnitOfWork _unitOfWork;
         private readonly IFlowRepository _flowRepository;
         private readonly OscillatorService _oscillatorService;
         private readonly ActionBlock<Func<Task>> _actionBlock;
-        public OscillatorLocalDR(IOscillatorDRUnitOfWork unitOfWork, IFlowRepository flowRepository, OscillatorService oscillatorService)
+        public OscillatorLocalDR(IOscillatorDRUnitOfWork unitOfWork, OscillatorService oscillatorService)
         {
-            _flowRepository = flowRepository;
             _oscillatorService = oscillatorService;
             _actionBlock = new(SaveChange);
             _unitOfWork = unitOfWork;
+            _flowRepository = _unitOfWork.GetRepository<IFlowRepository>();
         }
         public Task ScheduleExecuteAsync(Schedule schedule)
         {
@@ -178,6 +178,12 @@ namespace Materal.Oscillator.LocalDR
                 AuthenticationCode = scheduleFlow.AuthenticationCode
             });
             return flow;
+        }
+
+        public void Dispose()
+        {
+            _unitOfWork.Dispose();
+            GC.SuppressFinalize(this);
         }
         #endregion
     }

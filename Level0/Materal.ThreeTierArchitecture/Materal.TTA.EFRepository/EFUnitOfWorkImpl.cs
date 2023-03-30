@@ -1,6 +1,8 @@
-﻿using Materal.TTA.Common;
+﻿using Materal.Abstractions;
+using Materal.TTA.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.TTA.EFRepository
 {
@@ -9,8 +11,15 @@ namespace Materal.TTA.EFRepository
     {
         private readonly object entitiesLockObj = new();
         protected readonly Queue<EntityEntry> changeEntities = new();
-        private T _dbContext;
-        protected EFUnitOfWorkImpl(T context) => _dbContext = context;
+        public readonly T _dbContext;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly List<IRepository> _repositories = new();
+
+        protected EFUnitOfWorkImpl(T context, IServiceProvider serviceProvider)
+        {
+            _dbContext = context;
+            _serviceProvider = serviceProvider;
+        }
         public virtual void Dispose()
         {
             Dispose(true);
@@ -19,9 +28,27 @@ namespace Materal.TTA.EFRepository
         private void Dispose(bool disposing)
         {
             if (!disposing) return;
-            if (_dbContext == null) return;
+            foreach (IRepository repository in _repositories)
+            {
+                repository.Dispose();
+            }
             _dbContext.Dispose();
         }
+        public virtual async ValueTask DisposeAsync()
+        {
+            await DisposeAsync(true);
+            GC.SuppressFinalize(this);
+        }
+        private async ValueTask DisposeAsync(bool disposing)
+        {
+            if (!disposing) return;
+            foreach (IRepository repository in _repositories)
+            {
+                repository.Dispose();
+            }
+            await _dbContext.DisposeAsync();
+        }
+
         public virtual void RegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct
@@ -94,6 +121,25 @@ namespace Materal.TTA.EFRepository
                     entity.State = EntityState.Detached;
                 }
             }
+        }
+        /// <summary>
+        /// 获得仓储
+        /// </summary>
+        /// <typeparam name="TRepository"></typeparam>
+        /// <returns></returns>
+        public virtual TRepository GetRepository<TRepository>()
+            where TRepository : IRepository
+        {
+            Type repositoryType = typeof(TRepository);
+            IRepository? repository = _repositories.FirstOrDefault(m => m.GetType() == typeof(TRepository));
+            if (repository != null && repository is TRepository result) return result;
+            result = _serviceProvider.GetService<TRepository>() ?? throw new MateralException("获取仓储失败");
+            if (result is IEFRepository efRepository)
+            {
+                efRepository.SetDBContext(_dbContext);
+            }
+            _repositories.Add(result);
+            return result;
         }
     }
 }

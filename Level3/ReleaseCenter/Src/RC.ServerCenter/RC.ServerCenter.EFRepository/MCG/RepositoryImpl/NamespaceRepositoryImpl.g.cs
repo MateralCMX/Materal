@@ -10,9 +10,5 @@ namespace RC.ServerCenter.EFRepository.RepositoryImpl
     /// </summary>
     public partial class NamespaceRepositoryImpl: RCEFRepositoryImpl<Namespace, Guid>, INamespaceRepository
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public NamespaceRepositoryImpl(ServerCenterDBContext dbContext) : base(dbContext) { }
     }
 }

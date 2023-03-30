@@ -12,30 +12,7 @@
         <a-form-item label="描述">
             <a-input v-model:value="stepData.Description" />
         </a-form-item>
-        <a-form-item label="构建数据">
-            <a-button type="primary" @click="NewBuildDataItem">+</a-button>
-        </a-form-item>
-        <a-form-item v-for="(item, index) in properties" :label="`构建数据${index}`">
-            <a-row :gutter="[16, 16]">
-                <a-col :span="6">
-                    <a-input v-model:value="item.Name" @change="BuildDataChangeValue" />
-                </a-col>
-                <a-col :span="6">
-                    <a-select v-model:value="item.Type">
-                        <a-select-option value="String">字符串</a-select-option>
-                        <a-select-option value="Number">数字</a-select-option>
-                    </a-select>
-                </a-col>
-                <a-col :span="10">
-                    <a-input v-if="item.Type === 'String'" v-model:value="item.Value" @change="BuildDataChangeValue" />
-                    <a-input-number v-else-if="item.Type === 'Number'" v-model:value="item.Value"
-                        @change="BuildDataChangeValue" />
-                </a-col>
-                <a-col :span="2">
-                    <a-button type="primary" danger @click="RemoveBuildDataItem(index)">X</a-button>
-                </a-col>
-            </a-row>
-        </a-form-item>
+        <BuildDataEdit :stepData="stepData" />
         <a-form-item label="节点体">
             <a-select v-model:value="stepData.StepBodyType" @change="StepBodyTypeChangeValue">
                 <a-select-option v-for="item in AllStepBodys" :value="item.Name">{{ item.Name }}</a-select-option>
@@ -48,7 +25,8 @@
             <a-row :gutter="[16, 16]">
                 <a-col :span="6">
                     <a-select v-model:value="item.StepProperty">
-                        <a-select-option v-for="arg in stepBodyArgs" :value="arg.Name">{{ arg.Description }}</a-select-option>
+                        <a-select-option v-for="arg in stepBodyArgs" :value="arg.Name">{{ arg.Description
+                        }}</a-select-option>
                     </a-select>
                 </a-col>
                 <a-col :span="6">
@@ -59,13 +37,12 @@
                     </a-select>
                 </a-col>
                 <a-col :span="10">
-                    <a-select v-if="item.ValueSource === InputValueSourceEnum.BuildDataProperty" ref="select"
-                        v-model:value="item.Value">
-                        <a-select-option v-for="property in buildDatas.Properties" :value="property.Name">
+                    <a-select v-if="item.ValueSource === InputValueSourceEnum.BuildDataProperty" v-model:value="item.Value">
+                        <a-select-option v-for="property in stepData.BuildDatas.Properties" :value="property.Name">
                             {{ property.Name }}
                         </a-select-option>
                     </a-select>
-                    <a-select v-else-if="item.ValueSource === InputValueSourceEnum.RuntimeDataProperty" ref="select"
+                    <a-select v-else-if="item.ValueSource === InputValueSourceEnum.RuntimeDataProperty"
                         v-model:value="item.Value">
                         <a-select-option v-for="property in NowRuntimeDataType.Properties" :value="property.Name">
                             {{ property.Name }}
@@ -88,7 +65,8 @@
             <a-row :gutter="[16, 16]">
                 <a-col :span="11">
                     <a-select v-model:value="item.StepProperty">
-                        <a-select-option v-for="arg in stepBodyArgs" :value="arg.Name">{{ arg.Description }}</a-select-option>
+                        <a-select-option v-for="arg in stepBodyArgs" :value="arg.Name">{{ arg.Description
+                        }}</a-select-option>
                     </a-select>
                 </a-col>
                 <a-col :span="11">
@@ -122,36 +100,22 @@
 </template>
 <script setup lang="ts">
 import InputTimeSpan from '../InputTimeSpan.vue';
+import BuildDataEdit from './BuildDataEdit.vue';
 import { ThenStepData } from '../../scripts/StepDatas/ThenStepData';
 import { AllStepBodys } from '../../scripts/StepBodys/StepBodyInfo';
 import { InputValueSourceEnum } from '../../scripts/StepDatas/Base/InputValueSourceEnum';
 import { ErrorHandlerTypeEnum } from '../../scripts/StepDatas/Base/ErrorHandlerTypeEnum';
 import { onMounted, ref } from 'vue';
 import { NowRuntimeDataType } from "../../scripts/RuntimeDataType";
-import { BuildDataPropertyInfo } from '../../scripts/BuildDataType';
 
 const props = defineProps<{ stepData: ThenStepData }>();
-let buildDatas = props.stepData.BuildDatas;
-const properties = ref<BuildDataPropertyInfo[]>([]);
 const inputs = props.stepData.Inputs;
 const outputs = props.stepData.Outputs;
 const stepBodyArgs = ref(AllStepBodys[0].Args);
 
 onMounted(() => {
     StepBodyTypeChangeValue();
-    properties.value = buildDatas.Properties;
 });
-
-const NewBuildDataItem = () => {
-    properties.value.push({ Name: "", Type: "String", Value: "" });
-}
-const RemoveBuildDataItem = (index: number) => {
-    properties.value.splice(index, 1);
-    props.stepData.BuildDatas = buildDatas;
-}
-const BuildDataChangeValue = () => {
-    props.stepData.BuildDatas = buildDatas;
-}
 const StepBodyTypeChangeValue = () => {
     for (let i = 0; i < AllStepBodys.length; i++) {
         const stepBody = AllStepBodys[i];

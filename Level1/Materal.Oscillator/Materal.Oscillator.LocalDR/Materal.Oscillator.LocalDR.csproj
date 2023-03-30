@@ -8,7 +8,7 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>0.0.13</Version>
+		<Version>0.0.14</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.LocalDR</Description>
 	</PropertyGroup>

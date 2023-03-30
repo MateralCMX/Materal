@@ -1,6 +1,6 @@
 ﻿namespace Materal.TTA.Common
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable, IAsyncDisposable
     {
         /// <summary>
         /// 提交
@@ -35,5 +35,12 @@
         void RegisterDelete<T, TPrimaryKeyType>(T obj)
             where T : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct;
+        /// <summary>
+        /// 获得仓储
+        /// </summary>
+        /// <typeparam name="TRepository"></typeparam>
+        /// <returns></returns>
+        TRepository GetRepository<TRepository>()
+            where TRepository : IRepository;
     }
 }

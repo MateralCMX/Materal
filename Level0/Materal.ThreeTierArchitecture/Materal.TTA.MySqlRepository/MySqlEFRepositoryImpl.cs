@@ -4,12 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.MySqlRepository
 {
-    public abstract class MySqlEFRepositoryImpl<T, TPrimaryKeyType>: EFRepositoryImpl<T,TPrimaryKeyType>
+    public abstract class MySqlEFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : EFRepositoryImpl<T,TPrimaryKeyType, TDBContext>
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
+        where TDBContext : DbContext
     {
-        protected MySqlEFRepositoryImpl(DbContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

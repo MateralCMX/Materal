@@ -1,11 +1,12 @@
-﻿using System.Text;
+﻿using Materal.TTA.EFRepository;
+using System.Text;
 
 namespace Materal.TTA.SqlServerRepository.Model
 {
     /// <summary>
     /// SQLServer从属配置
     /// </summary>
-    public class SqlServerSubordinateConfigModel
+    public class SqlServerSubordinateConfigModel : IDBConfigModel
     {
         /// <summary>
         /// 地址

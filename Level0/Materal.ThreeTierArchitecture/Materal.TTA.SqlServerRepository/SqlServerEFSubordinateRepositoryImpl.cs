@@ -6,7 +6,6 @@ using Materal.Utils.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Materal.TTA.SqlServerRepository
 {
@@ -15,28 +14,24 @@ namespace Materal.TTA.SqlServerRepository
         public static int ConnectionSeed { get; set; }
     }
 
-    public abstract class SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TContext> : SqlServerEFRepositoryImpl<T, TPrimaryKeyType>, IEFSubordinateRepository<T, TPrimaryKeyType>
+    public abstract class SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TDBContext> : SqlServerEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, IEFSubordinateRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>
-        where TContext : DbContext
+        where TDBContext : DbContext
         where TPrimaryKeyType : struct
     {
-
         /// <summary>
         /// 从属数据库
         /// </summary>
-        protected readonly TContext SubordinateDB;
-        protected SqlServerEFSubordinateRepositoryImpl(TContext dbContext, IEnumerable<SqlServerSubordinateConfigModel> subordinateConfigs, Action<DbContextOptionsBuilder, string> optionAction) : base(dbContext)
+        protected readonly TDBContext SubordinateDB;
+        protected SqlServerEFSubordinateRepositoryImpl(IEnumerable<SqlServerSubordinateConfigModel> subordinateConfigs, Action<DbContextOptionsBuilder, string> optionAction) : base()
         {
-            Type type = typeof(TContext);
-            ConstructorInfo[] constructorInfos = type.GetConstructors();
-            ConstructorInfo? constructorInfo = constructorInfos.FirstOrDefault(m => m.GetParameters().Length == 1);
-            if (constructorInfo == null) throw new MateralException("不可用构造函数");
-            SqlServerSubordinateConfigModel config = SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TContext>.GetConfig(subordinateConfigs.ToList());
-            var contextOptions = new DbContextOptions<TContext>();
+            Type type = typeof(TDBContext);
+            SqlServerSubordinateConfigModel config = SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TDBContext>.GetConfig(subordinateConfigs.ToList());
+            var contextOptions = new DbContextOptions<TDBContext>();
             var optionsBuilder = new DbContextOptionsBuilder(contextOptions);
             optionAction(optionsBuilder, config.ConnectionString);
-            var arg = (DbContextOptions<TContext>)optionsBuilder.Options;
-            SubordinateDB = (TContext)constructorInfo.Invoke(new object[] { arg });
+            var arg = (DbContextOptions<TDBContext>)optionsBuilder.Options;
+            SubordinateDB = (TDBContext)type.Instantiation(new object[] { arg });
         }
         public virtual bool ExistedFromSubordinate(TPrimaryKeyType id) => GetSubordinateResult(queryable => queryable.Any(m => m.ID.Equals(id)));
         public virtual async Task<bool> ExistedFromSubordinateAsync(TPrimaryKeyType id) => await GetSubordinateResultAsync(async queryable => await queryable.AnyAsync(m => m.ID.Equals(id)));
@@ -190,7 +185,13 @@ namespace Materal.TTA.SqlServerRepository
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        private static IQueryable<T> GetSubordinateQueryable(TContext context) => MateralTTAConfig.EnableTracking ? context.Set<T>() : context.Set<T>().AsNoTracking();
+        private static IQueryable<T> GetSubordinateQueryable(TDBContext context) => MateralTTAConfig.EnableTracking ? context.Set<T>() : context.Set<T>().AsNoTracking();
         #endregion
+        public override void Dispose()
+        {
+            SubordinateDB.Dispose();
+            base.Dispose();
+            GC.SuppressFinalize(this);
+        }
     }
 }
