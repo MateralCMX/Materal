@@ -15,5 +15,10 @@ namespace RC.EnvironmentServer.WebAPI.Controllers
     /// </summary>
     public partial class ConfigurationItemController : MateralCoreWebAPIServiceControllerBase<AddConfigurationItemRequestModel, EditConfigurationItemRequestModel, QueryConfigurationItemRequestModel, AddConfigurationItemModel, EditConfigurationItemModel, QueryConfigurationItemModel, ConfigurationItemDTO, ConfigurationItemListDTO, IConfigurationItemService>
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public ConfigurationItemController(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

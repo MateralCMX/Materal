@@ -13,5 +13,10 @@ namespace RC.EnvironmentServer.ServiceImpl
     /// </summary>
     public partial class ConfigurationItemServiceImpl : BaseServiceImpl<AddConfigurationItemModel, EditConfigurationItemModel, QueryConfigurationItemModel, ConfigurationItemDTO, ConfigurationItemListDTO, IConfigurationItemRepository, ConfigurationItem>, IConfigurationItemService
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public ConfigurationItemServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

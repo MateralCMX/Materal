@@ -23,7 +23,7 @@ namespace RC.Core.EFRepository
                 {
                     m.CommandTimeout(300);
                 });
-            }, ServiceLifetime.Transient);
+            }, ServiceLifetime.Scoped);
             services.AddTransient<MigrateHelper<T>>();
             services.AddTransient<IMateralCoreUnitOfWork, MateralCoreUnitOfWorkImpl<T>>();
             return services;

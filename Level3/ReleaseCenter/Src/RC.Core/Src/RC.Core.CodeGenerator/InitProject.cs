@@ -150,10 +150,10 @@ namespace RC.Core.CodeGenerator
             codeContent.AppendLine($"            services.AddRCService<{model.WebAPIProject.ProjectName}DBContext>(ApplicationConfig.DBConfig, swaggerGenConfig, swaggerXmlPaths);");
             codeContent.AppendLine($"            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load(\"RC.{model.WebAPIProject.ProjectName}.EFRepository\"))");
             codeContent.AppendLine($"                .Where(m => !m.IsAbstract && m.Name.EndsWith(\"RepositoryImpl\"))");
-            codeContent.AppendLine($"                .AsPublicImplementedInterfaces();");
+            codeContent.AppendLine($"                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);");
             codeContent.AppendLine($"            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load(\"RC.{model.WebAPIProject.ProjectName}.ServiceImpl\"))");
             codeContent.AppendLine($"                .Where(m => !m.IsAbstract && m.Name.EndsWith(\"ServiceImpl\"))");
-            codeContent.AppendLine($"                .AsPublicImplementedInterfaces();");
+            codeContent.AppendLine($"                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);");
             codeContent.AppendLine($"            return services;");
             codeContent.AppendLine($"        }}");
             codeContent.AppendLine($"    }}");

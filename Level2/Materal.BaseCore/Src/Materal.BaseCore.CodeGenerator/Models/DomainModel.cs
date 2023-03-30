@@ -721,7 +721,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"    /// </summary>");
             if (UseCache)
             {
-                codeContent.AppendLine($"    public partial class {_repositoryImplName}: {project.PrefixName}CacheRepositoryImpl<{Name}, Guid>, I{Name}Repository");
+                codeContent.AppendLine($"    public partial class {_repositoryImplName}: {project.PrefixName}CacheRepositoryImpl<{Name}, Guid, {project.DBContextName}>, I{Name}Repository");
                 codeContent.AppendLine($"    {{");
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 构造方法");
@@ -734,7 +734,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             }
             else
             {
-                codeContent.AppendLine($"    public partial class {_repositoryImplName}: {project.PrefixName}EFRepositoryImpl<{Name}, Guid>, I{Name}Repository");
+                codeContent.AppendLine($"    public partial class {_repositoryImplName}: {project.PrefixName}EFRepositoryImpl<{Name}, Guid, {project.DBContextName}>, I{Name}Repository");
                 codeContent.AppendLine($"    {{");
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 构造方法");

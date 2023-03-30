@@ -19,7 +19,7 @@ namespace RC.EnvironmentServer.ServiceImpl
         private readonly ProjectHttpClient _projectHttpClient;
         private readonly NamespaceHttpClient _namespaceHttpClient;
         private readonly IEventBus _eventBus;
-        public ConfigurationItemServiceImpl(ProjectHttpClient projectHttpClient, NamespaceHttpClient namespaceHttpClient, IEventBus eventBus)
+        public ConfigurationItemServiceImpl(IServiceProvider serviceProvider, ProjectHttpClient projectHttpClient, NamespaceHttpClient namespaceHttpClient, IEventBus eventBus) : this(serviceProvider)
         {
             _projectHttpClient = projectHttpClient;
             _namespaceHttpClient = namespaceHttpClient;
@@ -43,7 +43,7 @@ namespace RC.EnvironmentServer.ServiceImpl
             if (await DefaultRepository.ExistedAsync(m => m.ID != model.ID && m.NamespaceID == domainFromDB.NamespaceID && m.ProjectID == domainFromDB.ProjectID && m.Key == model.Key)) throw new RCException("键重复");
             await base.EditAsync(domainFromDB, model);
         }
-        protected override async Task<(List<ConfigurationItemListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<ConfigurationItem, bool>> expression, QueryConfigurationItemModel model, Expression<Func<ConfigurationItem, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending) 
+        protected override async Task<(List<ConfigurationItemListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<ConfigurationItem, bool>> expression, QueryConfigurationItemModel model, Expression<Func<ConfigurationItem, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
             => await base.GetListAsync(expression, model, m => m.Key, SortOrder.Ascending);
         public async Task InitAsync()
         {
@@ -53,7 +53,7 @@ namespace RC.EnvironmentServer.ServiceImpl
             Guid[] removeIDs;
             #region 移除项目不存在的
             Guid[] allProjectIDs = configurationItems.Select(m => m.ProjectID).Distinct().ToArray();
-            (List<ProjectListDTO> ? allProjectInfo, _) = await _projectHttpClient.GetListAsync(new()
+            (List<ProjectListDTO>? allProjectInfo, _) = await _projectHttpClient.GetListAsync(new()
             {
                 PageIndex = 1,
                 PageSize = allProjectIDs.Length,
