@@ -6,10 +6,9 @@ namespace Materal.TTA.Demo.Sqlite
 {
     public class UserSqliteRepository : SqliteEFRepositoryImpl<User, Guid, TTADemoDBContext>, IUserRepository
     {
-        public UserSqliteRepository(TTADemoDBContext? dbContext) : base(dbContext)
+        public UserSqliteRepository(TTADemoDBContext dbContext) : base(dbContext)
         {
         }
-
-        protected override IQueryable<User> DBSet => DBContext.User.AsNoTracking();
+        protected override DbSet<User> DBSet => DBContext.User;
     }
 }

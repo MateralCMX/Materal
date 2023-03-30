@@ -7,12 +7,12 @@ using System.Linq.Expressions;
 
 namespace Materal.TTA.EFRepository
 {
-    public abstract class EFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : IEFRepository<T, TPrimaryKeyType>
+    public abstract class EFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : IEFRepository<T, TPrimaryKeyType, TDBContext>
         where T : class, IEntity<TPrimaryKeyType>
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
     {
-        private TDBContext? _dbContext;
+        private readonly TDBContext _dbContext;
         /// <summary>
         /// 数据库上下文
         /// </summary>
@@ -21,10 +21,10 @@ namespace Materal.TTA.EFRepository
         /// 实体对象
         /// </summary>
         protected virtual DbSet<T> DBSet => DBContext.Set<T>();
-        public void SetDBContext(DbContext dbContext)
+
+        protected EFRepositoryImpl(TDBContext dbContext)
         {
-            if(dbContext is not TDBContext context) throw new MateralException("数据库上下文类型错误");
-            _dbContext = context;
+            _dbContext = dbContext;
         }
         public virtual bool Existed(TPrimaryKeyType id) => DBSet.Any(m => m.ID.Equals(id));
         public virtual async Task<bool> ExistedAsync(TPrimaryKeyType id) => await DBSet.AnyAsync(m => m.ID.Equals(id));
@@ -115,16 +115,6 @@ namespace Materal.TTA.EFRepository
                 _ => await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
             };
             return (result, pageModel);
-        }
-
-        public virtual void Dispose()
-        {
-            if (_dbContext != null)
-            {
-                _dbContext.Dispose();
-                _dbContext = null;
-            }
-            GC.SuppressFinalize(this);
         }
     }
 }

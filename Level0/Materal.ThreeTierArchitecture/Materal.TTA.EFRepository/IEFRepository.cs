@@ -6,17 +6,10 @@ using System.Linq.Expressions;
 
 namespace Materal.TTA.EFRepository
 {
-    public interface IEFRepository : IRepository
-    {
-        /// <summary>
-        /// 设置数据库上下文
-        /// </summary>
-        /// <param name="dbContext"></param>
-        void SetDBContext(DbContext dbContext);
-    }
-    public interface IEFRepository<T, in TPrimaryKeyType> : IRepository<T, TPrimaryKeyType>, IEFRepository
+    public interface IEFRepository<T, in TPrimaryKeyType, TDBContext> : IRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>
         where TPrimaryKeyType : struct
+        where TDBContext : DbContext
     {
         /// <summary>
         /// 是否存在

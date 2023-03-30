@@ -11,7 +11,7 @@ namespace Materal.TTA.SqliteRepository
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
     {
-        protected SqliteCacheEFRepositoryImpl(ICacheHelper cacheManager, RedisManager? redisManager = null) : base(cacheManager, redisManager)
+        protected SqliteCacheEFRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager, RedisManager? redisManager = null) : base(dbContext, cacheManager, redisManager)
         {
         }
     }

@@ -14,7 +14,7 @@ namespace Materal.TTA.SqlServerRepository
         public static int ConnectionSeed { get; set; }
     }
 
-    public abstract class SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TDBContext> : SqlServerEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, IEFSubordinateRepository<T, TPrimaryKeyType>
+    public abstract class SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TDBContext> : SqlServerEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, IEFSubordinateRepository<T, TPrimaryKeyType, TDBContext>
         where T : class, IEntity<TPrimaryKeyType>
         where TDBContext : DbContext
         where TPrimaryKeyType : struct
@@ -23,7 +23,7 @@ namespace Materal.TTA.SqlServerRepository
         /// 从属数据库
         /// </summary>
         protected readonly TDBContext SubordinateDB;
-        protected SqlServerEFSubordinateRepositoryImpl(IEnumerable<SqlServerSubordinateConfigModel> subordinateConfigs, Action<DbContextOptionsBuilder, string> optionAction) : base()
+        protected SqlServerEFSubordinateRepositoryImpl(TDBContext dbContext, IEnumerable<SqlServerSubordinateConfigModel> subordinateConfigs, Action<DbContextOptionsBuilder, string> optionAction) : base(dbContext)
         {
             Type type = typeof(TDBContext);
             SqlServerSubordinateConfigModel config = SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TDBContext>.GetConfig(subordinateConfigs.ToList());
@@ -185,13 +185,7 @@ namespace Materal.TTA.SqlServerRepository
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        private static IQueryable<T> GetSubordinateQueryable(TDBContext context) => MateralTTAConfig.EnableTracking ? context.Set<T>() : context.Set<T>().AsNoTracking();
+        private static DbSet<T> GetSubordinateQueryable(TDBContext context) => context.Set<T>();
         #endregion
-        public override void Dispose()
-        {
-            SubordinateDB.Dispose();
-            base.Dispose();
-            GC.SuppressFinalize(this);
-        }
     }
 }

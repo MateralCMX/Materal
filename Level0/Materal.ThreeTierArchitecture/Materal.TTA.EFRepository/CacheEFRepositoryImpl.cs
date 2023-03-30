@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.EFRepository
 {
-    public abstract class CacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : EFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, ICacheEFRepository<T, TPrimaryKeyType>
+    public abstract class CacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : EFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, ICacheEFRepository<T, TPrimaryKeyType, TDBContext>
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
@@ -14,7 +14,7 @@ namespace Materal.TTA.EFRepository
         protected readonly RedisManager? _redisManager;
         protected readonly ICacheHelper _cacheManager;
         protected string AllInfoCacheName => GetAllCacheName();
-        protected CacheEFRepositoryImpl(ICacheHelper cacheManager, RedisManager? redisManager = null) : base()
+        protected CacheEFRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager, RedisManager? redisManager = null) : base(dbContext)
         {
             _redisManager = redisManager;
             _cacheManager = cacheManager;

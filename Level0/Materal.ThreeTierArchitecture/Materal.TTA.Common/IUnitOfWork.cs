@@ -1,7 +1,11 @@
 ﻿namespace Materal.TTA.Common
 {
-    public interface IUnitOfWork : IDisposable, IAsyncDisposable
+    public interface IUnitOfWork
     {
+        /// <summary>
+        /// DI服务
+        /// </summary>
+        IServiceProvider ServiceProvider { get; }
         /// <summary>
         /// 提交
         /// </summary>

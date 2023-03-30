@@ -3,26 +3,32 @@ using Microsoft.Extensions.Logging;
 
 namespace Materal.TTA.EFRepository
 {
-    public class MigrateHelper<T>
+    public class MigrateHelper<T>: IDisposable
         where T : DbContext
     {
-        private readonly T dbContext;
+        private readonly T _dbContext;
         private readonly ILogger<MigrateHelper<T>>? _logger;
         public MigrateHelper(T dbContext, ILogger<MigrateHelper<T>>? logger = null)
         {
-            this.dbContext = dbContext;
+            _dbContext = dbContext;
             _logger = logger;
+        }
+
+        public void Dispose()
+        {
+            _dbContext.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         public async Task MigrateAsync()
         {
-            IEnumerable<string> migrations = await dbContext.Database.GetPendingMigrationsAsync();
+            IEnumerable<string> migrations = await _dbContext.Database.GetPendingMigrationsAsync();
             if (migrations.Any())
             {
                 _logger?.LogInformation("正在迁移数据库...");
                 try
                 {
-                    await dbContext.Database.MigrateAsync();
+                    await _dbContext.Database.MigrateAsync();
                     _logger?.LogInformation("数据库迁移完毕");
                 }
                 catch (Exception exception)
@@ -34,7 +40,7 @@ namespace Materal.TTA.EFRepository
             {
                 _logger?.LogInformation("数据库无需迁移.");
             }
-            await dbContext.DisposeAsync();
         }
+
     }
 }

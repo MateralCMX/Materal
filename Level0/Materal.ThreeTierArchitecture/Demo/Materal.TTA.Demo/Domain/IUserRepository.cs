@@ -1,8 +1,6 @@
-﻿using Materal.TTA.EFRepository;
-
-namespace Materal.TTA.Demo.Domain
+﻿namespace Materal.TTA.Demo.Domain
 {
-    public interface IUserRepository : IEFRepository<User, Guid>
+    public interface IUserRepository : IDemoRepository<User, Guid>
     {
     }
 }

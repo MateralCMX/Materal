@@ -1,8 +1,9 @@
 ﻿using Materal.TTA.Common;
+using Materal.TTA.EFRepository;
 
 namespace Materal.TTA.Demo
 {
-    public interface IDemoUnitOfWork : IUnitOfWork
+    public interface IDemoUnitOfWork : IEFUnitOfWork
     {
         /// <summary>
         /// 注册添加

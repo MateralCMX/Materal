@@ -9,5 +9,8 @@ namespace Materal.TTA.SqliteRepository
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
     {
+        protected SqliteEFRepositoryImpl(TDBContext dbContext) : base(dbContext)
+        {
+        }
     }
 }
