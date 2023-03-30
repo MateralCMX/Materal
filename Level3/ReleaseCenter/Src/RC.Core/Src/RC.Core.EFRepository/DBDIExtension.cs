@@ -22,7 +22,7 @@ namespace RC.Core.EFRepository
                 options.UseSqlite(dbConfig.ConnectionString, m =>
                 {
                     m.CommandTimeout(300);
-                });
+                }).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }, ServiceLifetime.Scoped);
             services.AddTransient<MigrateHelper<T>>();
             services.AddTransient<IMateralCoreUnitOfWork, MateralCoreUnitOfWorkImpl<T>>();
