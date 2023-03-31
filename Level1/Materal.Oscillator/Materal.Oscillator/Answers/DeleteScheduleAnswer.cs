@@ -32,7 +32,6 @@ namespace Materal.Oscillator.Answers
             if(scheduleFromDB == null || _unitOfWork == null) return true;
             _unitOfWork.RegisterDelete(scheduleFromDB);
             await _unitOfWork.CommitAsync();
-            await _unitOfWork.DisposeAsync();
             return false;
         }
     }

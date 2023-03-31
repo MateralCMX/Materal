@@ -1,3 +1,4 @@
+using Materal.BaseCore.CodeGenerator;
 using Materal.BaseCore.WebAPI.Controllers;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,7 @@ namespace RC.Demo.WebAPI.Controllers
     /// <summary>
     /// 枚举控制器
     /// </summary>
-    [AllowAnonymous]
+    [AllowAnonymous, NoAutoDI]
     public partial class EnumsController : MateralCoreWebAPIControllerBase
     {
         /// <summary>

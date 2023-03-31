@@ -1,4 +1,5 @@
 ﻿using Materal.BaseCore.WebAPI.Controllers;
+using Materal.BaseCore.CodeGenerator;
 using Materal.Utils.Model;
 using MBC.Demo.DataTransmitModel.User;
 using MBC.Demo.HttpClient;
@@ -11,17 +12,10 @@ namespace MBC.Demo.WebAPI.Controllers
     /// <summary>
     /// 测试控制器
     /// </summary>
-    public class TestController : MateralCoreWebAPIControllerBase
+    [NoBaseAutoDI]
+    public partial class TestController : MateralCoreWebAPIControllerBase
     {
         private readonly UserHttpClient _userHttpClient;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="userHttpClient"></param>
-        public TestController(UserHttpClient userHttpClient)
-        {
-            _userHttpClient = userHttpClient;
-        }
         /// <summary>
         /// 测试
         /// </summary>

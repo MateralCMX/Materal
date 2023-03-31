@@ -15,5 +15,10 @@ namespace RC.Deploy.WebAPI.Controllers
     /// </summary>
     public partial class ApplicationInfoController : MateralCoreWebAPIServiceControllerBase<AddApplicationInfoRequestModel, EditApplicationInfoRequestModel, QueryApplicationInfoRequestModel, AddApplicationInfoModel, EditApplicationInfoModel, QueryApplicationInfoModel, ApplicationInfoDTO, ApplicationInfoListDTO, IApplicationInfoService>
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public ApplicationInfoController(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

@@ -13,5 +13,10 @@ namespace RC.ServerCenter.ServiceImpl
     /// </summary>
     public partial class NamespaceServiceImpl : BaseServiceImpl<AddNamespaceModel, EditNamespaceModel, QueryNamespaceModel, NamespaceDTO, NamespaceListDTO, INamespaceRepository, Namespace>, INamespaceService
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public NamespaceServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

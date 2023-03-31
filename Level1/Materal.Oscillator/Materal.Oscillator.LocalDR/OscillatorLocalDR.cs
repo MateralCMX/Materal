@@ -9,7 +9,7 @@ using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Oscillator.LocalDR
 {
-    public class OscillatorLocalDR : IOscillatorDR, IDisposable
+    public class OscillatorLocalDR : IOscillatorDR
     {
         private readonly IOscillatorDRUnitOfWork _unitOfWork;
         private readonly IFlowRepository _flowRepository;
@@ -178,12 +178,6 @@ namespace Materal.Oscillator.LocalDR
                 AuthenticationCode = scheduleFlow.AuthenticationCode
             });
             return flow;
-        }
-
-        public void Dispose()
-        {
-            _unitOfWork.Dispose();
-            GC.SuppressFinalize(this);
         }
         #endregion
     }

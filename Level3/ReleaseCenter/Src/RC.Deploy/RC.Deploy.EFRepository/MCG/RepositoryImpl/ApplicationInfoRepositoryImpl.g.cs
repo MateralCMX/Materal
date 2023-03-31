@@ -9,7 +9,11 @@ namespace RC.Deploy.EFRepository.RepositoryImpl
     /// <summary>
     /// 应用程序信息仓储实现
     /// </summary>
-    public partial class ApplicationInfoRepositoryImpl: RCEFRepositoryImpl<ApplicationInfo, Guid>, IApplicationInfoRepository
+    public partial class ApplicationInfoRepositoryImpl: RCEFRepositoryImpl<ApplicationInfo, Guid, DeployDBContext>, IApplicationInfoRepository
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public ApplicationInfoRepositoryImpl(DeployDBContext dbContext) : base(dbContext) { }
     }
 }

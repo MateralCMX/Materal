@@ -13,6 +13,8 @@
 		<PackageReference Include="SignalRSwaggerGen" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.AutoDI\Materal.BaseCore.AutoDI.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.CodeGenerator\Materal.BaseCore.CodeGenerator.csproj" />
 		<ProjectReference Include="..\Core\MBC.Core.WebAPI\MBC.Core.WebAPI.csproj" />
 		<ProjectReference Include="..\MBC.Demo.EFRepository\MBC.Demo.EFRepository.csproj" />
 		<ProjectReference Include="..\MBC.Demo.HttpClient\MBC.Demo.HttpClient.csproj" />

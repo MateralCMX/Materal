@@ -11,7 +11,7 @@ namespace RC.ServerCenter.ServiceImpl
     {
         private readonly IEventBus _eventBus;
         private readonly INamespaceRepository _namespaceRepository;
-        public ProjectServiceImpl(IEventBus eventBus)
+        public ProjectServiceImpl(IServiceProvider serviceProvider, IEventBus eventBus) : this(serviceProvider)
         {
             _eventBus = eventBus;
             _namespaceRepository = UnitOfWork.GetRepository<INamespaceRepository>();

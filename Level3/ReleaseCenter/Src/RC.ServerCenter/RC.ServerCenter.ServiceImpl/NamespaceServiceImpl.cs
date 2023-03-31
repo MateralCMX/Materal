@@ -9,7 +9,7 @@ namespace RC.ServerCenter.ServiceImpl
     public partial class NamespaceServiceImpl
     {
         private readonly IEventBus _eventBus;
-        public NamespaceServiceImpl(IEventBus eventBus)
+        public NamespaceServiceImpl(IServiceProvider serviceProvider, IEventBus eventBus) : this(serviceProvider)
         {
             _eventBus = eventBus;
         }

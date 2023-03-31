@@ -15,7 +15,7 @@ using Quartz;
 
 namespace Materal.Oscillator.QuartZExtend
 {
-    public class OscillatorJob : IOscillatorJob, IJob, IDisposable
+    public class OscillatorJob : IOscillatorJob, IJob
     {
         /// <summary>
         /// 调度器数据Key
@@ -176,8 +176,7 @@ namespace Materal.Oscillator.QuartZExtend
         public async Task<string> HandlerJobAsync(ScheduleWorkView scheduleWork)
         {
             if (_schedule == null) return scheduleWork.FailEvent;
-            IWork? workData = OscillatorConvertHelper.ConvertToInterface<IWork>(scheduleWork.WorkType, scheduleWork.WorkData);
-            if (workData == null) throw new OscillatorException("获取任务数据失败");
+            IWork workData = OscillatorConvertHelper.ConvertToInterface<IWork>(scheduleWork.WorkType, scheduleWork.WorkData) ?? throw new OscillatorException("获取任务数据失败");
             string eventValue = scheduleWork.FailEvent;
             string? workResult = null;
             if(_workResults.Count >= _nowWorkIndex)//当前任务是否已经执行完毕
@@ -355,11 +354,6 @@ namespace Materal.Oscillator.QuartZExtend
                 await _oscillatorListener.WorkEventTriggerAsync(_schedule, scheduleWork, eventValue);
             }
             await HandlerEventAsync(eventValue, scheduleWork);
-        }
-        public void Dispose()
-        {
-            _unitOfWork?.Dispose();
-            GC.SuppressFinalize(this);
         }
         #endregion
     }

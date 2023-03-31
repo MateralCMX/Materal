@@ -45,10 +45,10 @@ namespace RC.ServerCenter.WebAPI
             services.AddRCService<ServerCenterDBContext>(ApplicationConfig.DBConfig, swaggerGenConfig, swaggerXmlPaths);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.ServerCenter.EFRepository"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
-                .AsPublicImplementedInterfaces();
+                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.ServerCenter.ServiceImpl"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("ServiceImpl"))
-                .AsPublicImplementedInterfaces();
+                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
             return services;
         }
     }

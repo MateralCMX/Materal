@@ -13,5 +13,10 @@ namespace RC.ServerCenter.ServiceImpl
     /// </summary>
     public partial class ProjectServiceImpl : BaseServiceImpl<AddProjectModel, EditProjectModel, QueryProjectModel, ProjectDTO, ProjectListDTO, IProjectRepository, Project>, IProjectService
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public ProjectServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

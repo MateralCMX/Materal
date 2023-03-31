@@ -1,7 +1,5 @@
 ﻿using AspectCore.DynamicProxy;
 using Materal.BaseCore.Common;
-using Materal.BaseCore.PresentationModel;
-using Materal.BaseCore.Services.Models;
 using Materal.BaseCore.WebAPI.Controllers;
 using Materal.Utils.Model;
 using MBC.Core.Common;
@@ -18,16 +16,8 @@ namespace MBC.Demo.WebAPI.Controllers
     /// <summary>
     /// 用户控制器
     /// </summary>
-    public class UserController : MateralCoreWebAPIServiceControllerBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserService>
+    public partial class UserController : MateralCoreWebAPIServiceControllerBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserService>
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        public UserController(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-        }
-
         /// <summary>
         /// 获得登录用户信息
         /// </summary>

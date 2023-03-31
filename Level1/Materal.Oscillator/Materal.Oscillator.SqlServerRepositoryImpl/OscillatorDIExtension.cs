@@ -18,7 +18,7 @@ namespace Materal.Oscillator
         /// <param name="services"></param>
         /// <param name="useMemoryRepositories">使用内存仓储</param>
         /// <returns></returns>
-        public static IServiceCollection AddOscillatorSqlServerRepositoriesService(this IServiceCollection services, SqlServerConfigModel dbConfig, ServiceLifetime serviceLifetime = ServiceLifetime.Transient)
+        public static IServiceCollection AddOscillatorSqlServerRepositoriesService(this IServiceCollection services, SqlServerConfigModel dbConfig)
         {
             services.AddDbContext<OscillatorSqlServerDBContext>(options =>
             {
@@ -27,11 +27,11 @@ namespace Materal.Oscillator
                     m.EnableRetryOnFailure();
                     m.CommandTimeout(300);
                 });
-            }, serviceLifetime);
+            });
             services.AddTransient<MigrateHelper<OscillatorSqlServerDBContext>>();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.Oscillator.SqlServerRepositoryImpl"))
                 .Where(m => m.Name.EndsWith("RepositoryImpl") && m.IsClass && !m.IsAbstract)
-                .AsPublicImplementedInterfaces();
+                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
             services.AddTransient<IOscillatorUnitOfWork, OscillatorSqlServerUnitOfWorkImpl>();
             return services;
         }

@@ -58,6 +58,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         {
             const string controllerName = "EnumsController";
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"using Materal.BaseCore.CodeGenerator;");
             codeContent.AppendLine($"using Materal.BaseCore.WebAPI.Controllers;");
             codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"using Microsoft.AspNetCore.Authorization;");
@@ -73,7 +74,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// 枚举控制器");
             codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    [AllowAnonymous]");
+            codeContent.AppendLine($"    [AllowAnonymous, NoAutoDI]");
             codeContent.AppendLine($"    public partial class {controllerName} : MateralCoreWebAPIControllerBase");
             codeContent.AppendLine($"    {{");
             foreach (var @enum in enums)

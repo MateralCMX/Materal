@@ -18,7 +18,7 @@ using Quartz;
 
 namespace Materal.Oscillator
 {
-    public class OscillatorManager : ScheduleOperationModel, IOscillatorManager, IDisposable
+    public class OscillatorManager : ScheduleOperationModel, IOscillatorManager
     {
         private readonly IMapper _mapper;
         private readonly IOscillatorUnitOfWork _unitOfWork;
@@ -241,10 +241,5 @@ namespace Materal.Oscillator
             return result;
         }
         #endregion
-        public void Dispose()
-        {
-            _unitOfWork.Dispose();
-            GC.SuppressFinalize(this);
-        }
     }
 }

@@ -9,12 +9,9 @@ using MBC.Demo.Services.Models.User;
 
 namespace MBC.Demo.ServiceImpl
 {
-    public class UserServiceImpl : BaseServiceImpl<AddUserModel,EditUserModel,QueryUserModel,UserDTO,UserListDTO, IUserRepository, User>, IUserService
+    public partial class UserServiceImpl : BaseServiceImpl<AddUserModel,EditUserModel,QueryUserModel,UserDTO,UserListDTO, IUserRepository, User>, IUserService
     {
-        public UserServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-        }
-
+        private readonly IMenuAuthorityRepository _menuAuthorityRepository;
         public override async Task<Guid> AddAsync(AddUserModel model)
         {
             if (await DefaultRepository.ExistedAsync(m => m.Account == model.Account)) throw new MBCException("账号已存在");

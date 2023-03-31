@@ -4,7 +4,6 @@ using Materal.Oscillator.QuartZExtend;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
-using System.Reflection;
 
 namespace Materal.Oscillator
 {

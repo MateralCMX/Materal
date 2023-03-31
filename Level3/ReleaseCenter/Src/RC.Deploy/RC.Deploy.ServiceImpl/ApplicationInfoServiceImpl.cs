@@ -18,7 +18,7 @@ namespace RC.Deploy.ServiceImpl
     {
         static ApplicationInfoServiceImpl()
         {
-            using IMateralCoreUnitOfWork unitOfWork = MateralServices.GetService<IMateralCoreUnitOfWork>();
+            IMateralCoreUnitOfWork unitOfWork = MateralServices.GetService<IMateralCoreUnitOfWork>();
             IApplicationInfoRepository applicationInfoRepository = unitOfWork.GetRepository<IApplicationInfoRepository>();
             List<ApplicationInfo> allApplicationInfos = applicationInfoRepository.Find(m => true, m => m.Name, SortOrder.Ascending);
             foreach (ApplicationInfo applicationInfo in allApplicationInfos)
@@ -190,8 +190,7 @@ namespace RC.Deploy.ServiceImpl
         {
             if (!ApplicationRuntimeManage.ApplicationRuntimes.ContainsKey(id)) throw new RCException("应用程序信息不存在");
             ApplicationRuntimeModel applicationInfo = ApplicationRuntimeManage.ApplicationRuntimes[id];
-            FileInfo[]? fileInfos = applicationInfo.GetRarFileNames();
-            if (fileInfos == null) throw new RCException("文件不存在");
+            FileInfo[]? fileInfos = applicationInfo.GetRarFileNames() ?? throw new RCException("文件不存在");
             FileInfo? fileInfo = fileInfos.FirstOrDefault(m => m.Name == fileName);
             if (fileInfo == null || !fileInfo.Exists) throw new RCException("文件不存在");
             try

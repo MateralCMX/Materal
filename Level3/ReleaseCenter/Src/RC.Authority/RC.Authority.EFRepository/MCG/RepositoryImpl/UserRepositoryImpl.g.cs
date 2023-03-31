@@ -8,7 +8,11 @@ namespace RC.Authority.EFRepository.RepositoryImpl
     /// <summary>
     /// 用户仓储实现
     /// </summary>
-    public partial class UserRepositoryImpl: RCEFRepositoryImpl<User, Guid>, IUserRepository
+    public partial class UserRepositoryImpl: RCEFRepositoryImpl<User, Guid, AuthorityDBContext>, IUserRepository
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public UserRepositoryImpl(AuthorityDBContext dbContext) : base(dbContext) { }
     }
 }

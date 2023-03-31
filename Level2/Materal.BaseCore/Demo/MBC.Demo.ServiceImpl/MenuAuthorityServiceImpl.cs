@@ -1,3 +1,4 @@
+using Materal.BaseCore.CodeGenerator;
 using Materal.BaseCore.ServiceImpl;
 using Materal.BaseCore.Services.Models;
 using MBC.Demo.DataTransmitModel.MenuAuthority;
@@ -11,13 +12,15 @@ namespace MBC.Demo.ServiceImpl
     /// <summary>
     /// 服务实现
     /// </summary>
+    [NoAutoDI]
     public partial class MenuAuthorityServiceImpl : BaseServiceImpl<AddMenuAuthorityModel, EditMenuAuthorityModel, QueryMenuAuthorityModel, MenuAuthorityDTO, MenuAuthorityListDTO, IMenuAuthorityRepository, MenuAuthority>, IMenuAuthorityService
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        public MenuAuthorityServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider) { }
+        private readonly IUserRepository _userRepository;
+
+        public MenuAuthorityServiceImpl(IServiceProvider serviceProvider, IUserRepository userRepository) : base(serviceProvider)
+        {
+            _userRepository = userRepository;
+        }
 
         /// <summary>
         /// 交换位序

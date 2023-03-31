@@ -8,7 +8,11 @@ namespace RC.ServerCenter.EFRepository.RepositoryImpl
     /// <summary>
     /// 项目仓储实现
     /// </summary>
-    public partial class ProjectRepositoryImpl: RCEFRepositoryImpl<Project, Guid>, IProjectRepository
+    public partial class ProjectRepositoryImpl: RCEFRepositoryImpl<Project, Guid, ServerCenterDBContext>, IProjectRepository
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public ProjectRepositoryImpl(ServerCenterDBContext dbContext) : base(dbContext) { }
     }
 }

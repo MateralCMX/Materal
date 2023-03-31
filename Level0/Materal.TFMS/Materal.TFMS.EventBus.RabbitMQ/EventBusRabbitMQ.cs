@@ -1,4 +1,5 @@
 ﻿using Materal.TFMS.EventBus.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -263,9 +264,11 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 IEnumerable<SubscriptionInfo> subscriptions = _subsManager.GetHandlersForEvent(eventName);
                 foreach (SubscriptionInfo subscription in subscriptions)
                 {
+                    using IServiceScope serviceScope = _service.CreateScope();
+                    IServiceProvider service = serviceScope.ServiceProvider;
                     if (subscription.IsDynamic)
                     {
-                        if (_service.GetService(subscription.HandlerType) is not IDynamicIntegrationEventHandler handler) continue;
+                        if (service.GetService(subscription.HandlerType) is not IDynamicIntegrationEventHandler handler) continue;
                         dynamic eventData = JObject.Parse(message);
                         try
                         {
@@ -278,7 +281,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                     }
                     else
                     {
-                        object? handler = _service.GetService(subscription.HandlerType);
+                        object? handler = service.GetService(subscription.HandlerType);
                         if (handler == null) continue;
                         Type? eventType = _subsManager.GetEventTypeByName(eventName);
                         if (eventType == null) continue;
@@ -288,14 +291,11 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                         if (handlerMethodInfo == null || handlerMethodInfo.ReturnType != typeof(Task)) continue;
                         try
                         {
-                            await Task.Run(async () =>
+                            object? handlerObj = handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
+                            if (handlerObj is Task handlerTask)
                             {
-                                object? handlerObj = handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
-                                if(handlerObj is Task handlerTask)
-                                {
-                                    await handlerTask;
-                                }
-                            });
+                                await handlerTask;
+                            }
                         }
                         catch (Exception exception)
                         {

@@ -15,5 +15,10 @@ namespace RC.ServerCenter.WebAPI.Controllers
     /// </summary>
     public partial class NamespaceController : MateralCoreWebAPIServiceControllerBase<AddNamespaceRequestModel, EditNamespaceRequestModel, QueryNamespaceRequestModel, AddNamespaceModel, EditNamespaceModel, QueryNamespaceModel, NamespaceDTO, NamespaceListDTO, INamespaceService>
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public NamespaceController(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

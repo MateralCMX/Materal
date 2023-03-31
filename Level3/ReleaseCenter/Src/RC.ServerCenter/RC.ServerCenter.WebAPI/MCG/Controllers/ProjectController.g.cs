@@ -15,5 +15,10 @@ namespace RC.ServerCenter.WebAPI.Controllers
     /// </summary>
     public partial class ProjectController : MateralCoreWebAPIServiceControllerBase<AddProjectRequestModel, EditProjectRequestModel, QueryProjectRequestModel, AddProjectModel, EditProjectModel, QueryProjectModel, ProjectDTO, ProjectListDTO, IProjectService>
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public ProjectController(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

@@ -11,6 +11,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Materal.BaseCore.WebAPI" Version="*" />
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\RC.Core.WebAPI\RC.Core.WebAPI.csproj" />

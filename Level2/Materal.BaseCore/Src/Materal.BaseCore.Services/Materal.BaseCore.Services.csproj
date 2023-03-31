@@ -5,13 +5,13 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../nupkgs</PackageOutputPath>
-		<Version>0.2.27</Version>
+		<Version>0.2.28</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal.BaseCore.Services</Title>
-		<Description>请应用对应名称包</Description>
+		<Description>请引用对应名称包</Description>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.BaseCore.Common\Materal.BaseCore.Common.csproj" />

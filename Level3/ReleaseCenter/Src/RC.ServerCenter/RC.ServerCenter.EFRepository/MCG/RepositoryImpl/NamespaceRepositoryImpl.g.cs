@@ -8,7 +8,11 @@ namespace RC.ServerCenter.EFRepository.RepositoryImpl
     /// <summary>
     /// 命名空间仓储实现
     /// </summary>
-    public partial class NamespaceRepositoryImpl: RCEFRepositoryImpl<Namespace, Guid>, INamespaceRepository
+    public partial class NamespaceRepositoryImpl: RCEFRepositoryImpl<Namespace, Guid, ServerCenterDBContext>, INamespaceRepository
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public NamespaceRepositoryImpl(ServerCenterDBContext dbContext) : base(dbContext) { }
     }
 }

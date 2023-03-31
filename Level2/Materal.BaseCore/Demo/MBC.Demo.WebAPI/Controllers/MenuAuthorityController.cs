@@ -16,12 +16,6 @@ namespace MBC.Demo.WebAPI.Controllers
     public partial class MenuAuthorityController : MateralCoreWebAPIServiceControllerBase<AddMenuAuthorityRequestModel, EditMenuAuthorityRequestModel, QueryMenuAuthorityRequestModel, AddMenuAuthorityModel, EditMenuAuthorityModel, QueryMenuAuthorityModel, MenuAuthorityDTO, MenuAuthorityListDTO, IMenuAuthorityService>
     {
         /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        public MenuAuthorityController(IServiceProvider serviceProvider) : base(serviceProvider) { }
-
-        /// <summary>
         /// 交换位序
         /// </summary>
         /// <param name="requestModel"></param>

@@ -37,7 +37,6 @@ namespace Materal.Oscillator.Answers
             _mapper.Map(schedule, scheduleFromDB);
             _unitOfWork.RegisterEdit(scheduleFromDB);
             await _unitOfWork.CommitAsync();
-            await _unitOfWork.DisposeAsync();
             return false;
         }
     }

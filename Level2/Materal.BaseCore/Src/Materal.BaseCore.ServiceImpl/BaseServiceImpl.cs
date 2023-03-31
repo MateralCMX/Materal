@@ -56,7 +56,7 @@ namespace Materal.BaseCore.ServiceImpl
         {
             ServiceProvider = serviceProvider;
             UnitOfWork = serviceProvider.GetService<IMateralCoreUnitOfWork>() ?? throw new MateralCoreException("获取工作单元失败");
-            DefaultRepository = serviceProvider.GetService<TRepository>() ?? throw new MateralCoreException("获取仓储失败");
+            DefaultRepository = UnitOfWork.GetRepository<TRepository>() ?? throw new MateralCoreException("获取仓储失败");
             Mapper = serviceProvider.GetService<IMapper>() ?? throw new MateralCoreException("获取映射器失败");
         }
         /// <summary>

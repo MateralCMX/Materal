@@ -20,7 +20,7 @@ namespace Materal.Oscillator
     /// <summary>
     /// 调度器服务
     /// </summary>
-    public class OscillatorService : IDisposable
+    public class OscillatorService
     {
         private readonly IOscillatorListener? _oscillatorListener;
         private readonly IScheduleRepository _scheduleRepository;
@@ -359,10 +359,5 @@ namespace Materal.Oscillator
             return trigger;
         }
         #endregion
-        public void Dispose()
-        {
-            _unitOfWork.Dispose();
-            GC.SuppressFinalize(this);
-        }
     }
 }
