@@ -264,6 +264,11 @@ namespace Materal.BaseCore.CodeGenerator.Models
             {
                 codeContent.AppendLine($"    public partial class {_controllerName} : MateralCoreWebAPIServiceControllerBase<{_addRequestModelName}, {_editRequestModelName}, {_queryRequestModelName}, {_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}, {_iServiceName}>");
                 codeContent.AppendLine($"    {{");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 构造方法");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"serviceProvider\"></param>");
+                codeContent.AppendLine($"        public {_controllerName}(IServiceProvider serviceProvider) : base(serviceProvider) {{ }}");
             }
             else
             {
@@ -618,6 +623,11 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     codeContent.AppendLine($"    public partial class {_serviceImplName} : BaseServiceImpl<{_addModelName}, {_editModelName}, {_queryModelName}, {_dtoName}, {_listDTOName}, {_iRepositoryName}, {Name}>, {_iServiceName}");
                 }
                 codeContent.AppendLine($"    {{");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 构造方法");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"serviceProvider\"></param>");
+                codeContent.AppendLine($"        public {_serviceImplName}(IServiceProvider serviceProvider) : base(serviceProvider) {{ }}");
             }
             else
             {

@@ -13,10 +13,5 @@ namespace RC.Deploy.ServiceImpl
     /// </summary>
     public partial class DefaultDataServiceImpl : BaseServiceImpl<AddDefaultDataModel, EditDefaultDataModel, QueryDefaultDataModel, DefaultDataDTO, DefaultDataListDTO, IDefaultDataRepository, DefaultData>, IDefaultDataService
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        public DefaultDataServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

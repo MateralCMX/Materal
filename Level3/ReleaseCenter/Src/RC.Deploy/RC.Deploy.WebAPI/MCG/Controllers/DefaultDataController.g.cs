@@ -15,10 +15,5 @@ namespace RC.Deploy.WebAPI.Controllers
     /// </summary>
     public partial class DefaultDataController : MateralCoreWebAPIServiceControllerBase<AddDefaultDataRequestModel, EditDefaultDataRequestModel, QueryDefaultDataRequestModel, AddDefaultDataModel, EditDefaultDataModel, QueryDefaultDataModel, DefaultDataDTO, DefaultDataListDTO, IDefaultDataService>
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        public DefaultDataController(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

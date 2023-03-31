@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="*" />
 		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="*" />
 	</ItemGroup>
 	<ItemGroup>

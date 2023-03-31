@@ -12,7 +12,6 @@ namespace MBC.Demo.WebAPI.Controllers
     /// <summary>
     /// 测试控制器
     /// </summary>
-    [NoBaseAutoDI]
     public partial class TestController : MateralCoreWebAPIControllerBase
     {
         private readonly UserHttpClient _userHttpClient;

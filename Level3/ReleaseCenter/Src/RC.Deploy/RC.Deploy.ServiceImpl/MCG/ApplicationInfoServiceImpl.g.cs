@@ -13,10 +13,5 @@ namespace RC.Deploy.ServiceImpl
     /// </summary>
     public partial class ApplicationInfoServiceImpl : BaseServiceImpl<AddApplicationInfoModel, EditApplicationInfoModel, QueryApplicationInfoModel, ApplicationInfoDTO, ApplicationInfoListDTO, IApplicationInfoRepository, ApplicationInfo>, IApplicationInfoService
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="serviceProvider"></param>
-        public ApplicationInfoServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

@@ -19,7 +19,7 @@ namespace Materal.BaseCore.AutoDI
             IncrementalValueProvider<(Compilation, ImmutableArray<ClassDeclarationSyntax>)> compilationAndClass
                 = context.CompilationProvider.Combine(serviceImplDeclarations.Collect());
             context.RegisterSourceOutput(compilationAndClass,
-                static (spc, source) => Execute(source.Item1, source.Item2, spc));
+                static (spc, source) => Execute(source.Item2, spc));
         }
         public static bool IsSyntaxTargetForGeneration(SyntaxNode syntaxNode)
         {
@@ -37,12 +37,12 @@ namespace Materal.BaseCore.AutoDI
                     if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is not IMethodSymbol attributeSymbol) continue;
                     INamedTypeSymbol attributeContainingTypeSymbol = attributeSymbol.ContainingType;
                     string fullName = attributeContainingTypeSymbol.ToDisplayString();
-                    if (fullName == "Materal.BaseCore.CodeGenerator.NoAutoDIAttribute") return null;
+                    if (fullName == "Materal.BaseCore.CodeGenerator.AutoDIAttribute" || fullName == "Materal.BaseCore.CodeGenerator.AutoThisDIAttribute" || fullName == "Materal.BaseCore.CodeGenerator.AutoBaseDIAttribute") return classDeclarationSyntax;
                 }
             }
-            return classDeclarationSyntax;
+            return null;
         }
-        private static void Execute(Compilation compilation, ImmutableArray<ClassDeclarationSyntax> classList, SourceProductionContext context)
+        private static void Execute(ImmutableArray<ClassDeclarationSyntax> classList, SourceProductionContext context)
         {
             if (classList.IsDefaultOrEmpty) return;
             IEnumerable<ClassDeclarationSyntax> distinctClassList = classList.Distinct();
@@ -78,7 +78,8 @@ namespace Materal.BaseCore.AutoDI
             codeContent.AppendLine("{");
             #endregion
             string className = classDeclarationSyntax.Identifier.ValueText;
-            bool isBase = true;
+            bool canThis = false;
+            bool canBase = false;
             #region 拼装Class
             codeContent.AppendLine($"    public partial class {className}");
             codeContent.AppendLine("    {");
@@ -87,15 +88,15 @@ namespace Materal.BaseCore.AutoDI
                 foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
                 {
                     string attributeName = attributeSyntax.Name.ToString();
-                    if(attributeName == "NoBaseAutoDI" || attributeName == "NoBaseAutoDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.NoBaseAutoDIAttribute")
+                    if(attributeName == "AutoThisDI" || attributeName == "AutoThisDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.AutoThisDI" || attributeName == "Materal.BaseCore.CodeGenerator.AutoThisDIAttribute")
                     {
-                        isBase = false;
+                        canThis = true;
+                    }
+                    if (attributeName == "AutoBaseDI" || attributeName == "AutoBaseDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.AutoBaseDI" || attributeName == "Materal.BaseCore.CodeGenerator.AutoBaseDIAttribute")
+                    {
+                        canBase = true;
                         break;
                     }
-                }
-                if (!isBase)
-                {
-                    break;
                 }
             }
             #endregion
@@ -117,20 +118,34 @@ namespace Materal.BaseCore.AutoDI
             codeContent.AppendLine($"        /// </summary>");
             if (args.Count <= 0)
             {
-                if (!isBase) return;
-                codeContent.AppendLine($"        public {className}(IServiceProvider serviceProvider):base(serviceProvider)");
+                if (canThis)
+                {
+                    codeContent.AppendLine($"        public {className}(IServiceProvider serviceProvider) : this(serviceProvider)");
+                }
+                else if (canBase)
+                {
+                    codeContent.AppendLine($"        public {className}(IServiceProvider serviceProvider) : base(serviceProvider)");
+                }
+                else
+                {
+                    return;
+                }
                 codeContent.AppendLine("        {");
                 codeContent.AppendLine("        }");
             }
             else
             {
-                if (!isBase)
+                if (canThis)
                 {
-                    codeContent.AppendLine($"        public {className}({string.Join(", ", args)})");
+                    codeContent.AppendLine($"        public {className}(IServiceProvider serviceProvider, {string.Join(", ", args)}) : this(serviceProvider)");
+                }
+                else if(canBase)
+                {
+                    codeContent.AppendLine($"        public {className}(IServiceProvider serviceProvider, {string.Join(", ", args)}) : base(serviceProvider)");
                 }
                 else
                 {
-                    codeContent.AppendLine($"        public {className}(IServiceProvider serviceProvider, {string.Join(", ", args)}) : base(serviceProvider)");
+                    codeContent.AppendLine($"        public {className}({string.Join(", ", args)})");
                 }
                 codeContent.AppendLine("        {");
                 foreach (string value in values)

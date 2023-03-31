@@ -1,4 +1,5 @@
-﻿using Materal.BaseCore.ServiceImpl;
+﻿using Materal.BaseCore.CodeGenerator;
+using Materal.BaseCore.ServiceImpl;
 using MBC.Core.Common;
 using MBC.Demo.Common;
 using MBC.Demo.DataTransmitModel.User;
@@ -9,9 +10,11 @@ using MBC.Demo.Services.Models.User;
 
 namespace MBC.Demo.ServiceImpl
 {
+    [AutoBaseDI]
     public partial class UserServiceImpl : BaseServiceImpl<AddUserModel,EditUserModel,QueryUserModel,UserDTO,UserListDTO, IUserRepository, User>, IUserService
     {
         private readonly IMenuAuthorityRepository _menuAuthorityRepository;
+        private readonly IUserRepository _userRepository;
         public override async Task<Guid> AddAsync(AddUserModel model)
         {
             if (await DefaultRepository.ExistedAsync(m => m.Account == model.Account)) throw new MBCException("账号已存在");
