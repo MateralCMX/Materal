@@ -33,10 +33,13 @@ namespace Materal.BaseCore.AutoDI
             {
                 foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
                 {
-                    if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is not IMethodSymbol attributeSymbol) continue;
-                    INamedTypeSymbol attributeContainingTypeSymbol = attributeSymbol.ContainingType;
-                    string fullName = attributeContainingTypeSymbol.ToDisplayString();
-                    if (fullName == "Materal.BaseCore.CodeGenerator.AutoDIAttribute" || fullName == "Materal.BaseCore.CodeGenerator.AutoThisDIAttribute" || fullName == "Materal.BaseCore.CodeGenerator.AutoBaseDIAttribute") return classDeclarationSyntax;
+                    string fullName = attributeSyntax.Name.ToString();
+                    if (fullName == "AutoDI" || fullName == "AutoDIAttribute" || fullName == "Materal.BaseCore.CodeGenerator.AutoDI" || fullName == "Materal.BaseCore.CodeGenerator.AutoDIAttribute" ||
+                        fullName == "AutoThisDI" || fullName == "AutoThisDIAttribute" || fullName == "Materal.BaseCore.CodeGenerator.AutoThisDI" || fullName == "Materal.BaseCore.CodeGenerator.AutoThisDIAttribute" ||
+                        fullName == "AutoBaseDI" || fullName == "AutoBaseDIAttribute" || fullName == "Materal.BaseCore.CodeGenerator.AutoBaseDI" || fullName == "Materal.BaseCore.CodeGenerator.AutoBaseDIAttribute")
+                    {
+                        return classDeclarationSyntax;
+                    }
                 }
             }
             return null;
@@ -90,6 +93,7 @@ namespace Materal.BaseCore.AutoDI
                     if(attributeName == "AutoThisDI" || attributeName == "AutoThisDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.AutoThisDI" || attributeName == "Materal.BaseCore.CodeGenerator.AutoThisDIAttribute")
                     {
                         canThis = true;
+                        break;
                     }
                     if (attributeName == "AutoBaseDI" || attributeName == "AutoBaseDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.AutoBaseDI" || attributeName == "Materal.BaseCore.CodeGenerator.AutoBaseDIAttribute")
                     {
@@ -105,19 +109,22 @@ namespace Materal.BaseCore.AutoDI
             {
                 if (memberDeclarationSyntax is not FieldDeclarationSyntax fieldDeclarationSyntax) continue;
                 bool canAdd = true;
-                foreach (AttributeListSyntax attributeListSyntax in fieldDeclarationSyntax.AttributeLists)
+                if(fieldDeclarationSyntax.AttributeLists != null && fieldDeclarationSyntax.AttributeLists.Count > 0)
                 {
-                    foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
+                    foreach (AttributeListSyntax attributeListSyntax in fieldDeclarationSyntax.AttributeLists)
                     {
-                        string attributeName = attributeSyntax.Name.ToString();
-                        if (attributeName == "NoAutoDI" || attributeName == "NoAutoDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.NoAutoDI" || attributeName == "Materal.BaseCore.CodeGenerator.NoAutoDIAttribute")
+                        foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
                         {
-                            canThis = false;
-                            break;
+                            string attributeName = attributeSyntax.Name.ToString();
+                            if (attributeName == "NoAutoDI" || attributeName == "NoAutoDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.NoAutoDI" || attributeName == "Materal.BaseCore.CodeGenerator.NoAutoDIAttribute")
+                            {
+                                canThis = false;
+                                break;
+                            }
                         }
                     }
                 }
-                if (canAdd) return;
+                if (!canAdd) break;
                 string typeName = fieldDeclarationSyntax.Declaration.Type.ToString();
                 if (typeName == "IServiceProvider") continue;
                 string fieldName = fieldDeclarationSyntax.Declaration.Variables.First().Identifier.ValueText;

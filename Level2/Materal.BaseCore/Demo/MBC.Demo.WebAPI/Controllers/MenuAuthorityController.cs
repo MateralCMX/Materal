@@ -1,3 +1,4 @@
+using Materal.BaseCore.CodeGenerator;
 using Materal.BaseCore.PresentationModel;
 using Materal.BaseCore.Services.Models;
 using Materal.BaseCore.WebAPI.Controllers;
@@ -13,6 +14,7 @@ namespace MBC.Demo.WebAPI.Controllers
     /// <summary>
     /// 控制器
     /// </summary>
+    [AutoBaseDI]
     public partial class MenuAuthorityController : MateralCoreWebAPIServiceControllerBase<AddMenuAuthorityRequestModel, EditMenuAuthorityRequestModel, QueryMenuAuthorityRequestModel, AddMenuAuthorityModel, EditMenuAuthorityModel, QueryMenuAuthorityModel, MenuAuthorityDTO, MenuAuthorityListDTO, IMenuAuthorityService>
     {
         /// <summary>

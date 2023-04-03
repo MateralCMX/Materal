@@ -12,15 +12,10 @@ namespace MBC.Demo.ServiceImpl
     /// <summary>
     /// 服务实现
     /// </summary>
+    [AutoBaseDI]
     public partial class MenuAuthorityServiceImpl : BaseServiceImpl<AddMenuAuthorityModel, EditMenuAuthorityModel, QueryMenuAuthorityModel, MenuAuthorityDTO, MenuAuthorityListDTO, IMenuAuthorityRepository, MenuAuthority>, IMenuAuthorityService
     {
         private readonly IUserRepository _userRepository;
-
-        public MenuAuthorityServiceImpl(IServiceProvider serviceProvider, IUserRepository userRepository) : base(serviceProvider)
-        {
-            _userRepository = userRepository;
-        }
-
         /// <summary>
         /// 交换位序
         /// </summary>

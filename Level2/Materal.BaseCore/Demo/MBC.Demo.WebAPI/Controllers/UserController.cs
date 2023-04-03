@@ -1,4 +1,5 @@
 ﻿using AspectCore.DynamicProxy;
+using Materal.BaseCore.CodeGenerator;
 using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Controllers;
 using Materal.Utils.Model;
@@ -16,6 +17,7 @@ namespace MBC.Demo.WebAPI.Controllers
     /// <summary>
     /// 用户控制器
     /// </summary>
+    [AutoBaseDI]
     public partial class UserController : MateralCoreWebAPIServiceControllerBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserService>
     {
         /// <summary>
