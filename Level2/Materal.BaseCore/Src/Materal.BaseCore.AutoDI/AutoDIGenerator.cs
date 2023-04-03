@@ -124,7 +124,7 @@ namespace Materal.BaseCore.AutoDI
                         }
                     }
                 }
-                if (!canAdd) break;
+                if (!canAdd) continue;
                 string typeName = fieldDeclarationSyntax.Declaration.Type.ToString();
                 if (typeName == "IServiceProvider") continue;
                 string fieldName = fieldDeclarationSyntax.Declaration.Variables.First().Identifier.ValueText;
