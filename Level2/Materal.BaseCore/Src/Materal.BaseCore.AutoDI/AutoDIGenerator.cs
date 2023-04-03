@@ -118,7 +118,7 @@ namespace Materal.BaseCore.AutoDI
                             string attributeName = attributeSyntax.Name.ToString();
                             if (attributeName == "NoAutoDI" || attributeName == "NoAutoDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.NoAutoDI" || attributeName == "Materal.BaseCore.CodeGenerator.NoAutoDIAttribute")
                             {
-                                canThis = false;
+                                canAdd = false;
                                 break;
                             }
                         }
