@@ -104,10 +104,32 @@ namespace Materal.BaseCore.AutoDI
             foreach (MemberDeclarationSyntax memberDeclarationSyntax in classDeclarationSyntax.Members)
             {
                 if (memberDeclarationSyntax is not FieldDeclarationSyntax fieldDeclarationSyntax) continue;
+                bool canAdd = true;
+                foreach (AttributeListSyntax attributeListSyntax in fieldDeclarationSyntax.AttributeLists)
+                {
+                    foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
+                    {
+                        string attributeName = attributeSyntax.Name.ToString();
+                        if (attributeName == "NoAutoDI" || attributeName == "NoAutoDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.NoAutoDI" || attributeName == "Materal.BaseCore.CodeGenerator.NoAutoDIAttribute")
+                        {
+                            canThis = false;
+                            break;
+                        }
+                    }
+                }
+                if (canAdd) return;
                 string typeName = fieldDeclarationSyntax.Declaration.Type.ToString();
                 if (typeName == "IServiceProvider") continue;
                 string fieldName = fieldDeclarationSyntax.Declaration.Variables.First().Identifier.ValueText;
-                string argName = fieldName.StartsWith("_") ? fieldName.Substring(1) : $"this.{fieldName}";
+                string argName = fieldName;
+                if (fieldName.StartsWith("_"))
+                {
+                    argName = fieldName.Substring(1);
+                }
+                else
+                {
+                    fieldName = $"this.{fieldName}";
+                }
                 args.Add($"{typeName} {argName}");
                 values.Add($"            {fieldName} = {argName};");
             }
