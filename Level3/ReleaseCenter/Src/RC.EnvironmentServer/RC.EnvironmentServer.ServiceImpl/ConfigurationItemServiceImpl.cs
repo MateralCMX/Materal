@@ -1,4 +1,5 @@
-﻿using Materal.BaseCore.Common.Utils;
+﻿using Materal.BaseCore.CodeGenerator;
+using Materal.BaseCore.Common.Utils;
 using Materal.TFMS.EventBus;
 using Materal.Utils.Model;
 using RC.Core.Common;
@@ -14,17 +15,12 @@ using XMJ.Authority.IntegrationEvents;
 
 namespace RC.EnvironmentServer.ServiceImpl
 {
+    [AutoThisDI]
     public partial class ConfigurationItemServiceImpl
     {
         private readonly ProjectHttpClient _projectHttpClient;
         private readonly NamespaceHttpClient _namespaceHttpClient;
         private readonly IEventBus _eventBus;
-        public ConfigurationItemServiceImpl(IServiceProvider serviceProvider, ProjectHttpClient projectHttpClient, NamespaceHttpClient namespaceHttpClient, IEventBus eventBus) : this(serviceProvider)
-        {
-            _projectHttpClient = projectHttpClient;
-            _namespaceHttpClient = namespaceHttpClient;
-            _eventBus = eventBus;
-        }
         public override async Task<Guid> AddAsync(AddConfigurationItemModel model)
         {
             if (await DefaultRepository.ExistedAsync(m => m.NamespaceID == model.NamespaceID && m.ProjectID == model.ProjectID && m.Key == model.Key)) throw new RCException("键重复");

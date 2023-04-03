@@ -1,10 +1,10 @@
 #nullable enable
 using RC.Core.HttpClient;
+using Materal.BaseCore.PresentationModel;
+using Materal.Utils.Model;
 using RC.Deploy.DataTransmitModel.ApplicationInfo;
 using RC.Deploy.PresentationModel.ApplicationInfo;
 using System.ComponentModel.DataAnnotations;
-using Materal.BaseCore.PresentationModel;
-using Materal.Utils.Model;
 
 namespace RC.Deploy.HttpClient
 {

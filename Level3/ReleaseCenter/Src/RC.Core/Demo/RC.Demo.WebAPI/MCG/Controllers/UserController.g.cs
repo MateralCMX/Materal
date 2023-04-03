@@ -15,5 +15,10 @@ namespace RC.Demo.WebAPI.Controllers
     /// </summary>
     public partial class UserController : MateralCoreWebAPIServiceControllerBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserService>
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public UserController(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Materal.BaseCore.CodeGenerator;
 using Materal.BaseCore.WebAPI;
 using Materal.BaseCore.WebAPI.Controllers;
 using Materal.BaseCore.WebAPI.Models;
@@ -11,16 +12,10 @@ namespace RC.ServerCenter.WebAPI.Controllers
     /// <summary>
     /// 服务控制器
     /// </summary>
-    public class ServerController : MateralCoreWebAPIControllerBase
+    [AutoDI]
+    public partial class ServerController : MateralCoreWebAPIControllerBase
     {
         private readonly IMapper _mapper;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public ServerController(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
         /// <summary>
         /// 获得发布程序列表
         /// </summary>

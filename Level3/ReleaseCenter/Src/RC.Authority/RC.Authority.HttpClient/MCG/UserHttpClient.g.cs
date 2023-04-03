@@ -1,10 +1,13 @@
 #nullable enable
 using RC.Core.HttpClient;
-using RC.Authority.DataTransmitModel.User;
-using RC.Authority.PresentationModel.User;
-using System.ComponentModel.DataAnnotations;
+using AspectCore.DynamicProxy;
+using Materal.BaseCore.Common;
 using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Model;
+using RC.Authority.DataTransmitModel.User;
+using RC.Authority.PresentationModel.User;
+using RC.Core.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace RC.Authority.HttpClient
 {

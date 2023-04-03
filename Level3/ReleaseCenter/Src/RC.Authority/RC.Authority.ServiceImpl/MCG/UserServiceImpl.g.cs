@@ -13,5 +13,10 @@ namespace RC.Authority.ServiceImpl
     /// </summary>
     public partial class UserServiceImpl : BaseServiceImpl<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserRepository, User>, IUserService
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        public UserServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider) { }
     }
 }

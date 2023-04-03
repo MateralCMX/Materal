@@ -1,4 +1,5 @@
-﻿using Materal.TFMS.EventBus;
+﻿using Materal.BaseCore.CodeGenerator;
+using Materal.TFMS.EventBus;
 using RC.Core.Common;
 using RC.ServerCenter.Domain;
 using RC.ServerCenter.Services.Models.Namespace;
@@ -6,13 +7,10 @@ using XMJ.Authority.IntegrationEvents;
 
 namespace RC.ServerCenter.ServiceImpl
 {
+    [AutoThisDI]
     public partial class NamespaceServiceImpl
     {
         private readonly IEventBus _eventBus;
-        public NamespaceServiceImpl(IServiceProvider serviceProvider, IEventBus eventBus) : this(serviceProvider)
-        {
-            _eventBus = eventBus;
-        }
         public override async Task<Guid> AddAsync(AddNamespaceModel model)
         {
             if (await DefaultRepository.ExistedAsync(m => m.ProjectID == model.ProjectID && m.Name == model.Name)) throw new RCException("名称重复");

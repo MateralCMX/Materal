@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\..\RC.Core\Src\RC.Core.Common\RC.Core.Common.csproj" />
 	  <ProjectReference Include="..\..\RC.Core\Src\RC.Core.HttpClient\RC.Core.HttpClient.csproj" />
 	  <ProjectReference Include="..\RC.Authority.DataTransmitModel\RC.Authority.DataTransmitModel.csproj" />
 	  <ProjectReference Include="..\RC.Authority.PresentationModel\RC.Authority.PresentationModel.csproj" />

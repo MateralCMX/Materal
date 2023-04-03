@@ -1,10 +1,9 @@
 #nullable enable
 using RC.Core.HttpClient;
-using RC.Deploy.DataTransmitModel.DefaultData;
-using RC.Deploy.PresentationModel.DefaultData;
-using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Model;
+using RC.Deploy.DataTransmitModel.DefaultData;
+using RC.Deploy.PresentationModel.DefaultData;
 
 namespace RC.Deploy.HttpClient
 {

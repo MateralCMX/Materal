@@ -1,4 +1,5 @@
-﻿using Materal.TFMS.EventBus;
+﻿using Materal.BaseCore.CodeGenerator;
+using Materal.TFMS.EventBus;
 using RC.Core.Common;
 using RC.ServerCenter.Domain;
 using RC.ServerCenter.Domain.Repositories;
@@ -7,15 +8,11 @@ using XMJ.Authority.IntegrationEvents;
 
 namespace RC.ServerCenter.ServiceImpl
 {
+    [AutoThisDI]
     public partial class ProjectServiceImpl
     {
         private readonly IEventBus _eventBus;
         private readonly INamespaceRepository _namespaceRepository;
-        public ProjectServiceImpl(IServiceProvider serviceProvider, IEventBus eventBus) : this(serviceProvider)
-        {
-            _eventBus = eventBus;
-            _namespaceRepository = UnitOfWork.GetRepository<INamespaceRepository>();
-        }
         public override async Task<Guid> AddAsync(AddProjectModel model)
         {
             if (await DefaultRepository.ExistedAsync(m => m.Name == model.Name)) throw new RCException("名称重复");

@@ -26,16 +26,14 @@ namespace RC.Demo.ServiceImpl
         }
         public async Task<UserDTO> LoginAsync(LoginModel model)
         {
-            User? domain = await DefaultRepository.FirstOrDefaultAsync(m => m.Account.Equals(model.Account));
-            if (domain == null) throw new RCException("账号错误");
+            User domain = await DefaultRepository.FirstOrDefaultAsync(m => m.Account.Equals(model.Account)) ?? throw new RCException("账号错误");
             if (!domain.Password.Equals(ApplicationConfig.EncodePassword(model.Password))) throw new RCException("密码错误");
             UserDTO result = Mapper.Map<UserDTO>(domain);
             return result;
         }
         public async Task<string> ResetPasswordAsync(Guid id)
         {
-            User? domain = await DefaultRepository.FirstOrDefaultAsync(id);
-            if (domain == null) throw new RCException("用户不存在");
+            User domain = await DefaultRepository.FirstOrDefaultAsync(id) ?? throw new RCException("用户不存在");
             string password = ApplicationConfig.DefaultPassword;
             domain.Password = ApplicationConfig.EncodePassword(password);
             UnitOfWork.RegisterEdit(domain);
@@ -44,8 +42,7 @@ namespace RC.Demo.ServiceImpl
         }
         public async Task ChangePasswordAsync(ChangePasswordModel model)
         {
-            User? domain = await DefaultRepository.FirstOrDefaultAsync(model.ID);
-            if (domain == null) throw new RCException("用户不存在");
+            User domain = await DefaultRepository.FirstOrDefaultAsync(model.ID) ?? throw new RCException("用户不存在");
             if (!domain.Password.Equals(ApplicationConfig.EncodePassword(model.OldPassword))) throw new RCException("旧密码错误");
             domain.Password = ApplicationConfig.EncodePassword(model.NewPassword);
             UnitOfWork.RegisterEdit(domain);

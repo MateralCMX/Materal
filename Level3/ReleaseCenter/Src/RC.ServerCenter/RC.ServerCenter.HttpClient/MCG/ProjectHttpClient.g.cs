@@ -1,10 +1,9 @@
 #nullable enable
 using RC.Core.HttpClient;
-using RC.ServerCenter.DataTransmitModel.Project;
-using RC.ServerCenter.PresentationModel.Project;
-using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Model;
+using RC.ServerCenter.DataTransmitModel.Project;
+using RC.ServerCenter.PresentationModel.Project;
 
 namespace RC.ServerCenter.HttpClient
 {

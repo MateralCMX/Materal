@@ -23,8 +23,7 @@ namespace Materal.BaseCore.AutoDI
         }
         public static bool IsSyntaxTargetForGeneration(SyntaxNode syntaxNode)
         {
-            if (syntaxNode is not ClassDeclarationSyntax classDeclarationSyntax) return false;
-            if (!classDeclarationSyntax.Identifier.ValueText.EndsWith("ServiceImpl") && !classDeclarationSyntax.Identifier.ValueText.EndsWith("Controller")) return false;
+            if (syntaxNode is not ClassDeclarationSyntax) return false;
             return true;
         }
         private static ClassDeclarationSyntax? GetSemanticTargetForGeneration(GeneratorSyntaxContext context)
@@ -108,8 +107,7 @@ namespace Materal.BaseCore.AutoDI
                 string typeName = fieldDeclarationSyntax.Declaration.Type.ToString();
                 if (typeName == "IServiceProvider") continue;
                 string fieldName = fieldDeclarationSyntax.Declaration.Variables.First().Identifier.ValueText;
-                if (!fieldName.StartsWith("_")) continue;
-                string argName = fieldName.Substring(1);
+                string argName = fieldName.StartsWith("_") ? fieldName.Substring(1) : $"this.{fieldName}";
                 args.Add($"{typeName} {argName}");
                 values.Add($"            {fieldName} = {argName};");
             }
