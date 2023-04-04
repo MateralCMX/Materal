@@ -350,7 +350,7 @@ namespace Materal.Workflow.StepDatas
             {
                 ComparisonTypeEnum.Equal => Expression.Equal(leftValue, rightValue),
                 ComparisonTypeEnum.NotEqual => Expression.NotEqual(leftValue, rightValue),
-                ComparisonTypeEnum.GreaterThan => Expression.GreaterThanOrEqual(leftValue, rightValue),
+                ComparisonTypeEnum.GreaterThan => Expression.GreaterThan(leftValue, rightValue),
                 ComparisonTypeEnum.LessThan => Expression.LessThan(leftValue, rightValue),
                 ComparisonTypeEnum.GreaterThanOrEqual => Expression.GreaterThanOrEqual(leftValue, rightValue),
                 ComparisonTypeEnum.LessThanOrEqual => Expression.LessThanOrEqual(leftValue, rightValue),
