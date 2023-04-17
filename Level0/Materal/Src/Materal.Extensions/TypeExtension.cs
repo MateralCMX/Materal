@@ -77,6 +77,15 @@ namespace System
         /// 是否可作为类型使用
         /// </summary>
         /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsAssignableTo<T>(this Type type)
+        {
+            return type.IsAssignableTo(typeof(T));
+        }
+        /// <summary>
+        /// 是否可作为类型使用
+        /// </summary>
+        /// <param name="type"></param>
         /// <param name="targetType"></param>
         /// <returns></returns>
         public static bool IsAssignableTo(this Type type, Type targetType)

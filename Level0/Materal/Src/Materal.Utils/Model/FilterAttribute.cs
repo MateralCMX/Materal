@@ -110,8 +110,7 @@ namespace Materal.Utils.Model
         /// <returns></returns>
         protected static Expression GetRightExpression<T>(PropertyInfo propertyInfo, T value)
         {
-            dynamic? useValue = GetValue(propertyInfo, value);
-            if (useValue == null) throw new UtilException("不能转换为对应类型");
+            dynamic useValue = GetValue(propertyInfo, value) ?? throw new UtilException("不能转换为对应类型");
             ConstantExpression rightExpression = Expression.Constant(useValue);
             return rightExpression;
         }

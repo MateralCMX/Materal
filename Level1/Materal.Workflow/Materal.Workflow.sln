@@ -9,6 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{8BD92714-EAC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Workflow", "Materal.Workflow\Materal.Workflow.csproj", "{A8B14BC3-5576-4320-BD92-8C3522BBB1E1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{96C4B136-3D5B-4FD0-BA66-DBEA567019E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkflowWebAPI", "Demo\WorkflowWebAPI\WorkflowWebAPI.csproj", "{747C2813-7352-41AB-A00A-5B78C94E3D5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +27,17 @@ Global
 		{A8B14BC3-5576-4320-BD92-8C3522BBB1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8B14BC3-5576-4320-BD92-8C3522BBB1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8B14BC3-5576-4320-BD92-8C3522BBB1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{747C2813-7352-41AB-A00A-5B78C94E3D5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{747C2813-7352-41AB-A00A-5B78C94E3D5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{747C2813-7352-41AB-A00A-5B78C94E3D5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{747C2813-7352-41AB-A00A-5B78C94E3D5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A8B14BC3-5576-4320-BD92-8C3522BBB1E1} = {8BD92714-EAC0-44B7-86FA-0FA8CB0DBCDE}
+		{747C2813-7352-41AB-A00A-5B78C94E3D5D} = {96C4B136-3D5B-4FD0-BA66-DBEA567019E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BBA694D0-59BA-4344-9221-8144CEA8662A}

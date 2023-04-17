@@ -283,15 +283,12 @@ namespace System
         /// <returns></returns>
         public static bool IsNullOrEmptyString(this object inputObj)
         {
-            switch (inputObj)
+            return inputObj switch
             {
-                case null:
-                    return true;
-                case string inputStr:
-                    return string.IsNullOrEmpty(inputStr);
-                default:
-                    return false;
-            }
+                null => true,
+                string inputStr => string.IsNullOrEmpty(inputStr),
+                _ => false,
+            };
         }
         /// <summary>
         /// 对象是否为空或者空或者空格字符串
@@ -300,15 +297,12 @@ namespace System
         /// <returns></returns>
         public static bool IsNullOrWhiteSpaceString(this object inputObj)
         {
-            switch (inputObj)
+            return inputObj switch
             {
-                case null:
-                    return true;
-                case string inputStr:
-                    return string.IsNullOrWhiteSpace(inputStr);
-                default:
-                    return false;
-            }
+                null => true,
+                string inputStr => string.IsNullOrWhiteSpace(inputStr),
+                _ => false,
+            };
         }
         /// <summary>
         /// 属性是否包含
