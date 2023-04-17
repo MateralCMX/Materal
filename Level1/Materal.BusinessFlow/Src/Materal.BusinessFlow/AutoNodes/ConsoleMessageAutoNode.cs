@@ -1,13 +1,16 @@
 ﻿using Materal.BusinessFlow.Abstractions.AutoNodes;
 using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.AutoNodes.Base;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.BusinessFlow.AutoNodes
 {
     public class ConsoleMessageAutoNode : BaseAutoNode, IAutoNode
     {
-        public ConsoleMessageAutoNode(IServiceProvider serviceProvider) : base(serviceProvider)
+        private readonly ILogger<ConsoleMessageAutoNode>? _logger;
+        public ConsoleMessageAutoNode(IServiceProvider serviceProvider, ILogger<ConsoleMessageAutoNode>? logger) : base(serviceProvider)
         {
+            _logger = logger;
         }
         public override void Excute(AutoNodeModel autoNodeModel)
         {
@@ -17,7 +20,7 @@ namespace Materal.BusinessFlow.AutoNodes
             object? value = autoNodeModel.FlowData[autoNodeModel.Node.Data];
             if (value == null) return;
             string message = value.ToString();
-            Console.WriteLine(message);
+            _logger?.LogInformation(message);
         }
     }
 }

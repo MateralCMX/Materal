@@ -10,7 +10,84 @@ using System.Text;
 
 namespace Materal.BusinessFlow.ADONETRepository.Repositories
 {
-    public abstract class BaseRepositoryHelper<T> : IRepositoryHelper<T>
+    public class BaseRepositoryHelper
+    {
+        public static T? DataReaderConvertToDomain<T>(IDataReader dataReader)
+        where T : class, new()
+        {
+            Type tType = typeof(T);
+            T domain = new();
+            PropertyInfo[] propertyInfos = tType.GetProperties();
+            for (int i = 0; i < dataReader.FieldCount; i++)
+            {
+                string name = dataReader.GetName(i);
+                PropertyInfo? propertyInfo = propertyInfos.FirstOrDefault(p => p.Name == name);
+                if (propertyInfo == null) continue;
+                if (dataReader.IsDBNull(i))
+                {
+                    propertyInfo.SetValue(domain, null);
+                }
+                else if (propertyInfo.PropertyType == typeof(string))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetString(i));
+                }
+                else if (propertyInfo.PropertyType == typeof(int) || propertyInfo.PropertyType == typeof(int?))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetInt32(i));
+                }
+                else if (propertyInfo.PropertyType == typeof(short) || propertyInfo.PropertyType == typeof(short?))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetInt16(i));
+                }
+                else if (propertyInfo.PropertyType == typeof(long) || propertyInfo.PropertyType == typeof(long?))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetInt64(i));
+                }
+                else if (propertyInfo.PropertyType == typeof(Guid) || propertyInfo.PropertyType == typeof(Guid?))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetGuid(i));
+                }
+                else if (propertyInfo.PropertyType == typeof(double) || propertyInfo.PropertyType == typeof(double?))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetDouble(i));
+                }
+                else if (propertyInfo.PropertyType == typeof(float) || propertyInfo.PropertyType == typeof(float?))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetFloat(i));
+                }
+                else if (propertyInfo.PropertyType == typeof(decimal) || propertyInfo.PropertyType == typeof(decimal?))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetDecimal(i));
+                }
+                else if (propertyInfo.PropertyType == typeof(DateTime) || propertyInfo.PropertyType == typeof(DateTime?))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetDateTime(i));
+                }
+                else if (propertyInfo.PropertyType == typeof(bool) || propertyInfo.PropertyType == typeof(bool?))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetBoolean(i));
+                }
+                else if (propertyInfo.PropertyType == typeof(byte) || propertyInfo.PropertyType == typeof(byte?))
+                {
+                    propertyInfo.SetValue(domain, dataReader.GetByte(i));
+                }
+                else if (propertyInfo.PropertyType.IsAssignableTo(typeof(Enum)))
+                {
+                    Type valueType = Enum.GetUnderlyingType(propertyInfo.PropertyType);
+                    if (valueType == typeof(byte))
+                    {
+                        propertyInfo.SetValue(domain, dataReader.GetByte(i));
+                    }
+                    else
+                    {
+                        propertyInfo.SetValue(domain, dataReader.GetInt32(i));
+                    }
+                }
+            }
+            return domain;
+        }
+    }
+    public abstract class BaseRepositoryHelper<T> : BaseRepositoryHelper, IRepositoryHelper<T>
         where T : class, new()
     {
         private int _paramsIndex = 0;
@@ -175,79 +252,8 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
                 _ => throw new BusinessFlowException("未识别的表达式"),
             };
         }
-        public T? DataReaderConvertToDomain(IDataReader dataReader)
-        {
-            Type tType = typeof(T);
-            T domain = new();
-            PropertyInfo[] propertyInfos = tType.GetProperties();
-            for (int i = 0; i < dataReader.FieldCount; i++)
-            {
-                string name = dataReader.GetName(i);
-                PropertyInfo? propertyInfo = propertyInfos.FirstOrDefault(p => p.Name == name);
-                if (propertyInfo == null) continue;
-                if (dataReader.IsDBNull(i))
-                {
-                    propertyInfo.SetValue(domain, null);
-                }
-                else if (propertyInfo.PropertyType == typeof(string))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetString(i));
-                }
-                else if (propertyInfo.PropertyType == typeof(int) || propertyInfo.PropertyType == typeof(int?))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetInt32(i));
-                }
-                else if (propertyInfo.PropertyType == typeof(short) || propertyInfo.PropertyType == typeof(short?))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetInt16(i));
-                }
-                else if (propertyInfo.PropertyType == typeof(long) || propertyInfo.PropertyType == typeof(long?))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetInt64(i));
-                }
-                else if (propertyInfo.PropertyType == typeof(Guid) || propertyInfo.PropertyType == typeof(Guid?))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetGuid(i));
-                }
-                else if (propertyInfo.PropertyType == typeof(double) || propertyInfo.PropertyType == typeof(double?))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetDouble(i));
-                }
-                else if (propertyInfo.PropertyType == typeof(float) || propertyInfo.PropertyType == typeof(float?))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetFloat(i));
-                }
-                else if (propertyInfo.PropertyType == typeof(decimal) || propertyInfo.PropertyType == typeof(decimal?))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetDecimal(i));
-                }
-                else if (propertyInfo.PropertyType == typeof(DateTime) || propertyInfo.PropertyType == typeof(DateTime?))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetDateTime(i));
-                }
-                else if (propertyInfo.PropertyType == typeof(bool) || propertyInfo.PropertyType == typeof(bool?))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetBoolean(i));
-                }
-                else if (propertyInfo.PropertyType == typeof(byte) || propertyInfo.PropertyType == typeof(byte?))
-                {
-                    propertyInfo.SetValue(domain, dataReader.GetByte(i));
-                }
-                else if (propertyInfo.PropertyType.IsAssignableTo(typeof(Enum)))
-                {
-                    Type valueType = Enum.GetUnderlyingType(propertyInfo.PropertyType);
-                    if (valueType == typeof(byte))
-                    {
-                        propertyInfo.SetValue(domain, dataReader.GetByte(i));
-                    }
-                    else
-                    {
-                        propertyInfo.SetValue(domain, dataReader.GetInt32(i));
-                    }
-                }
-            }
-            return domain;
-        }
+
+        public T? DataReaderConvertToDomain(IDataReader dataReader) => DataReaderConvertToDomain<T>(dataReader);
         public abstract string GetIsNullTSQL(string notNullValue, string nullValue);
         /// <summary>
         /// 获得查询语句

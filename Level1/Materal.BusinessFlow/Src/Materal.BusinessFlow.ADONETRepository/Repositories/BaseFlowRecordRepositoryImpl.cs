@@ -34,13 +34,13 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
             domain.ID = Guid.NewGuid();
             domain.State = FlowRecordStateEnum.Wait;
             string tableName = GetTableName(flowTemplateID);
-            UnitOfWork.RegisterCommand(connection => UnitOfWork.GetInsertDomainCommand(connection, domain, tableName));
+            UnitOfWork.RegisterCommand((connection, transaction) => UnitOfWork.GetInsertDomainCommand(connection, domain, tableName));
             return domain.ID;
         }
         public virtual void Edit(Guid flowTemplateID, FlowRecord domain)
         {
             string tableName = GetTableName(flowTemplateID);
-            UnitOfWork.RegisterCommand(connection => UnitOfWork.GetEditDomainCommand(connection, domain, tableName));
+            UnitOfWork.RegisterCommand((connection, transaction) => UnitOfWork.GetEditDomainCommand(connection, domain, tableName));
         }
         public virtual void Init(Guid flowTemplateID)
         {

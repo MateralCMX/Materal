@@ -41,6 +41,25 @@ namespace Materal.BusinessFlow.Abstractions.Repositories
         /// <returns></returns>
         void Init(FlowTemplate flowTemplate);
         /// <summary>
+        /// 添加表字段
+        /// </summary>
+        /// <param name="flowTemplate"></param>
+        /// <param name="dataModelField"></param>
+        void AddTableField(FlowTemplate flowTemplate, DataModelField dataModelField);
+        /// <summary>
+        /// 修改表字段
+        /// </summary>
+        /// <param name="flowTemplate"></param>
+        /// <param name="oldDataModelField"></param>
+        /// <param name="newDataModelField"></param>
+        void EditTableField(FlowTemplate flowTemplate, DataModelField oldDataModelField, DataModelField newDataModelField);
+        /// <summary>
+        /// 删除表字段
+        /// </summary>
+        /// <param name="flowTemplate"></param>
+        /// <param name="dataModelField"></param>
+        void DeleteTableField(FlowTemplate flowTemplate, DataModelField dataModelField);
+        /// <summary>
         /// 获得数据
         /// </summary>
         /// <param name="flowID"></param>
@@ -60,6 +79,28 @@ namespace Materal.BusinessFlow.Abstractions.Repositories
         /// <param name="flowTemplate"></param>
         /// <returns></returns>
         Task InitAsync(FlowTemplate flowTemplate);
+        /// <summary>
+        /// 添加表字段
+        /// </summary>
+        /// <param name="flowTemplate"></param>
+        /// <param name="dataModelField"></param>
+        /// <returns></returns>
+        Task AddTableFieldAsync(FlowTemplate flowTemplate, DataModelField dataModelField);
+        /// <summary>
+        /// 修改表字段
+        /// </summary>
+        /// <param name="flowTemplate"></param>
+        /// <param name="oldDataModelField"></param>
+        /// <param name="newDataModelField"></param>
+        /// <returns></returns>
+        Task EditTableFieldAsync(FlowTemplate flowTemplate, DataModelField oldDataModelField, DataModelField newDataModelField);
+        /// <summary>
+        /// 删除表字段
+        /// </summary>
+        /// <param name="flowTemplate"></param>
+        /// <param name="dataModelField"></param>
+        /// <returns></returns>
+        Task DeleteTableFieldAsync(FlowTemplate flowTemplate, DataModelField dataModelField);
         /// <summary>
         /// 获得数据
         /// </summary>

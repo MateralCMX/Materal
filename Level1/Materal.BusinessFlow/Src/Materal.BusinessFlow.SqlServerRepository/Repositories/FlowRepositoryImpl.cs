@@ -13,6 +13,15 @@ namespace Materal.BusinessFlow.SqlServerRepository.Repositories
         public FlowRepositoryImpl(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
+        protected override string GetAddTableFieldTSQL(FlowTemplate flowTemplate, DataModelField dataModelField)
+        {
+            string tableName = GetTableName(flowTemplate.ID);
+            StringBuilder tSqlBuilder = new();
+            string type = GetDataTypeByDataTypeEnum(dataModelField.DataType);
+            tSqlBuilder.AppendLine($"ALTER TABLE {UnitOfWork.GetTSQLField(tableName)} ADD {UnitOfWork.GetTSQLField(dataModelField.Name)} {type} NULL");
+            string result = tSqlBuilder.ToString();
+            return result;
+        }
         protected override string GetCreateTableTSQL(FlowTemplate flowTemplate, IDbCommand sqliteCommand)
         {
             string tableName = GetTableName(flowTemplate.ID);
@@ -34,15 +43,7 @@ WHERE {UnitOfWork.GetTSQLField(nameof(DataModelField.DataModelID))} = {UnitOfWor
             {
                 string dataName = dr.GetString(0);
                 DataTypeEnum dataType = (DataTypeEnum)dr.GetByte(1);
-                string type = dataType switch
-                {
-                    DataTypeEnum.Number => UnitOfWork.GetTSQLField("decimal") + "(18, 0)",
-                    DataTypeEnum.Date => UnitOfWork.GetTSQLField("date"),
-                    DataTypeEnum.Time => UnitOfWork.GetTSQLField("time"),
-                    DataTypeEnum.DateTime => UnitOfWork.GetTSQLField("datetime2"),
-                    DataTypeEnum.Boole => UnitOfWork.GetTSQLField("bit"),
-                    _ => UnitOfWork.GetTSQLField("varchar") + "(MAX)"
-                };
+                string type = GetDataTypeByDataTypeEnum(dataType);
                 tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField(dataName)} {type} NULL,");
             }
 
@@ -53,11 +54,46 @@ WHERE {UnitOfWork.GetTSQLField(nameof(DataModelField.DataModelID))} = {UnitOfWor
             string result = tSqlBuilder.ToString();
             return result;
         }
-
+        protected override string GetDeleteTableFieldTSQL(FlowTemplate flowTemplate, DataModelField dataModelField)
+        {
+            string tableName = GetTableName(flowTemplate.ID);
+            StringBuilder tSqlBuilder = new();
+            tSqlBuilder.AppendLine($"ALTER TABLE {UnitOfWork.GetTSQLField(tableName)} DROP COLUMN {UnitOfWork.GetTSQLField(dataModelField.Name)}");
+            string result = tSqlBuilder.ToString();
+            return result;
+        }
+        protected override string GetEditTableFieldTSQL(FlowTemplate flowTemplate, DataModelField oldDataModelField, DataModelField newDataModelField, IDbCommand sqliteCommand)
+        {
+            string tableName = GetTableName(flowTemplate.ID);
+            StringBuilder tSqlBuilder = new();
+            tSqlBuilder.AppendLine($"EXEC sp_rename '{tableName}.{oldDataModelField.Name}', '{newDataModelField.Name}', 'COLUMN'");
+            string type = GetDataTypeByDataTypeEnum(newDataModelField.DataType);
+            tSqlBuilder.AppendLine($"ALTER TABLE {UnitOfWork.GetTSQLField(tableName)} ALTER COLUMN {UnitOfWork.GetTSQLField(newDataModelField.Name)} {type} NULL");
+            string result = tSqlBuilder.ToString();
+            return result;
+        }
         protected override string GetTableExistsTSQL(Guid flowTemplateID)
         {
             string tableName = GetTableName(flowTemplateID);
             return SqlServerRepositoryHelper.GetTableExistsTSQL(UnitOfWork, tableName);
+        }
+        /// <summary>
+        /// 根据数据类型枚举获取数据类型
+        /// </summary>
+        /// <param name="dataType"></param>
+        /// <returns></returns>
+        private string GetDataTypeByDataTypeEnum(DataTypeEnum dataType)
+        {
+            string type = dataType switch
+            {
+                DataTypeEnum.Number => UnitOfWork.GetTSQLField("decimal") + "(18, 0)",
+                DataTypeEnum.Date => UnitOfWork.GetTSQLField("date"),
+                DataTypeEnum.Time => UnitOfWork.GetTSQLField("time"),
+                DataTypeEnum.DateTime => UnitOfWork.GetTSQLField("datetime2"),
+                DataTypeEnum.Boole => UnitOfWork.GetTSQLField("bit"),
+                _ => UnitOfWork.GetTSQLField("varchar") + "(MAX)"
+            };
+            return type;
         }
     }
 }

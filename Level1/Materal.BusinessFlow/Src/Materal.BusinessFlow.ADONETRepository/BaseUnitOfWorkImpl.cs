@@ -17,7 +17,7 @@ namespace Materal.BusinessFlow.ADONETRepository
         public readonly string FieldPrefix;
         public readonly string FieldSuffix;
         private readonly IDbConnection _connection;
-        private readonly List<Func<IDbCommand>> commands = new();
+        private readonly List<Func<IDbTransaction, IDbCommand?>> commands = new();
         private readonly ILogger<BaseUnitOfWorkImpl>? _logger;
         protected BaseUnitOfWorkImpl(IServiceProvider serviceProvider, IDbConnection connection, string paramsPrefix, string fieldPrefix, string fieldSuffix)
         {
@@ -34,9 +34,10 @@ namespace Materal.BusinessFlow.ADONETRepository
             IDbTransaction transaction = _connection.BeginTransaction();
             try
             {
-                foreach (Func<IDbCommand> command in commands)
+                foreach (Func<IDbTransaction, IDbCommand?> command in commands)
                 {
-                    IDbCommand sqliteCommand = command.Invoke();
+                    IDbCommand? sqliteCommand = command.Invoke(transaction);
+                    if (sqliteCommand == null) continue;
                     sqliteCommand.Transaction = transaction;
                     _logger?.LogDebugTSQL(sqliteCommand);
                     sqliteCommand.ExecuteNonQuery();
@@ -62,16 +63,16 @@ namespace Materal.BusinessFlow.ADONETRepository
         public virtual TRepository GetRepository<TRepository>()
             where TRepository : IBaseRepository => ServiceProvider.GetService<TRepository>() ?? throw new BusinessFlowException("获取仓储失败");
         public virtual void RegisterAdd<T>(T obj)
-            where T : class, IBaseDomain => commands.Add(() => GetInsertDomainCommand(_connection, obj));
+            where T : class, IBaseDomain => commands.Add(transaction => GetInsertDomainCommand(_connection, obj));
         public virtual void RegisterDelete<T>(T obj)
-            where T : class, IBaseDomain => commands.Add(() => GetDeleteDomainCommand(_connection, obj));
+            where T : class, IBaseDomain => commands.Add(transaction => GetDeleteDomainCommand(_connection, obj));
         public virtual void RegisterEdit<T>(T obj)
-            where T : class, IBaseDomain => commands.Add(() => GetEditDomainCommand(_connection, obj));
+            where T : class, IBaseDomain => commands.Add(transaction => GetEditDomainCommand(_connection, obj));
         /// <summary>
         /// 注册命令
         /// </summary>
         /// <param name="addFunc"></param>
-        public virtual void RegisterCommand(Func<IDbConnection, IDbCommand> addFunc) => commands.Add(() => addFunc(_connection));
+        public virtual void RegisterCommand(Func<IDbConnection, IDbTransaction, IDbCommand?> addFunc) => commands.Add(transaction => addFunc(_connection, transaction));
         public virtual void Dispose()
         {
             if (_connection.State != ConnectionState.Closed)

@@ -1,5 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.BusinessFlow.Abstractions;
+﻿using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Enums;
 using Materal.BusinessFlow.Abstractions.Repositories;
@@ -40,10 +39,67 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
                 createTableCommand.ExecuteNonQuery();
             });
         }
+        public virtual void AddTableField(FlowTemplate flowTemplate, DataModelField dataModelField)
+        {
+            UnitOfWork.RegisterCommand((connection, transaction) =>
+            {
+                IDbCommand command = connection.CreateCommand();
+                command.CommandText = GetTableExistsTSQL(flowTemplate.ID);
+                command.Transaction = transaction;
+                using (IDataReader dr = command.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        if (dr.GetInt32(0) <= 0) return null;
+                    }
+                }
+                IDbCommand createTableCommand = connection.CreateCommand();
+                createTableCommand.CommandText = GetAddTableFieldTSQL(flowTemplate, dataModelField);
+                return createTableCommand;
+            });
+        }
+        public virtual void EditTableField(FlowTemplate flowTemplate, DataModelField oldDataModelField, DataModelField newDataModelField)
+        {
+            UnitOfWork.RegisterCommand((connection, transaction) =>
+            {
+                IDbCommand command = connection.CreateCommand();
+                command.CommandText = GetTableExistsTSQL(flowTemplate.ID);
+                command.Transaction = transaction;
+                using (IDataReader dr = command.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        if (dr.GetInt32(0) <= 0) return null;
+                    }
+                }
+                IDbCommand createTableCommand = connection.CreateCommand();
+                createTableCommand.CommandText = GetEditTableFieldTSQL(flowTemplate, oldDataModelField, newDataModelField, connection.CreateCommand());
+                return createTableCommand;
+            });
+        }
+        public virtual void DeleteTableField(FlowTemplate flowTemplate, DataModelField dataModelField)
+        {
+            UnitOfWork.RegisterCommand((connection, transaction) =>
+            {
+                IDbCommand command = connection.CreateCommand();
+                command.CommandText = GetTableExistsTSQL(flowTemplate.ID);
+                command.Transaction = transaction;
+                using (IDataReader dr = command.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        if (dr.GetInt32(0) <= 0) return null;
+                    }
+                }
+                IDbCommand createTableCommand = connection.CreateCommand();
+                createTableCommand.CommandText = GetDeleteTableFieldTSQL(flowTemplate, dataModelField);
+                return createTableCommand;
+            });
+        }
         public virtual Guid Add(Guid flowTemplateID, Guid startStepID, Guid initiatorID)
         {
             Guid result = Guid.NewGuid();
-            UnitOfWork.RegisterCommand(connection =>
+            UnitOfWork.RegisterCommand((connection, transaction) =>
             {
                 IDbCommand command = connection.CreateCommand();
                 string tableName = GetTableName(flowTemplateID);
@@ -68,7 +124,7 @@ VALUES({string.Join(",", paramNames)})";
         }
         public virtual void ComplateFlow(Guid flowTemplateID, Guid flowID)
         {
-            UnitOfWork.RegisterCommand(connection =>
+            UnitOfWork.RegisterCommand((connection, transaction) =>
             {
                 IDbCommand command = connection.CreateCommand();
                 string tableName = GetTableName(flowTemplateID);
@@ -82,7 +138,7 @@ WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.ParamsPrefix}ID";
         }
         public virtual void SetStep(Guid flowTemplateID, Guid flowID, Guid stepID)
         {
-            UnitOfWork.RegisterCommand(connection =>
+            UnitOfWork.RegisterCommand((connection, transaction) =>
             {
                 IDbCommand command = connection.CreateCommand();
                 string tableName = GetTableName(flowTemplateID);
@@ -97,7 +153,7 @@ WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.ParamsPrefix}ID";
         public virtual void SaveData(Guid flowTemplateID, Guid flowID, Dictionary<string, object?> datas)
         {
             if (datas.Count <= 0) return;
-            UnitOfWork.RegisterCommand(connection =>
+            UnitOfWork.RegisterCommand((connection, transaction) =>
             {
                 IDbCommand command = connection.CreateCommand();
                 string tableName = GetTableName(flowTemplateID);
@@ -188,6 +244,21 @@ WHERE ID={UnitOfWork.ParamsPrefix}ID";
             Init(flowTemplate);
             return Task.CompletedTask;
         }
+        public virtual Task AddTableFieldAsync(FlowTemplate flowTemplate, DataModelField dataModelField)
+        {
+            AddTableField(flowTemplate, dataModelField);
+            return Task.CompletedTask;
+        }
+        public virtual Task EditTableFieldAsync(FlowTemplate flowTemplate, DataModelField oldDataModelField, DataModelField newDataModelField)
+        {
+            EditTableField(flowTemplate, oldDataModelField, newDataModelField);
+            return Task.CompletedTask;
+        }
+        public virtual Task DeleteTableFieldAsync(FlowTemplate flowTemplate, DataModelField dataModelField)
+        {
+            DeleteTableField(flowTemplate, dataModelField);
+            return Task.CompletedTask;
+        }
         public virtual Task<Dictionary<string, object?>> GetDataAsync(Guid flowTemplateID, Guid flowID, List<DataModelField> dataModelFields)
             => Task.FromResult(GetData(flowTemplateID, flowID, dataModelFields));
         public virtual Task<Guid> GetInitiatorIDAsync(Guid flowTemplateID, Guid flowID)
@@ -205,6 +276,29 @@ WHERE ID={UnitOfWork.ParamsPrefix}ID";
         /// <param name="sqliteCommand"></param>
         /// <returns></returns>
         protected abstract string GetCreateTableTSQL(FlowTemplate flowTemplate, IDbCommand sqliteCommand);
+        /// <summary>
+        /// 获得添加表字段TSQL
+        /// </summary>
+        /// <param name="flowTemplate"></param>
+        /// <param name="dataModelField"></param>
+        /// <returns></returns>
+        protected abstract string GetAddTableFieldTSQL(FlowTemplate flowTemplate, DataModelField dataModelField);
+        /// <summary>
+        /// 获得修改表字段TSQL
+        /// </summary>
+        /// <param name="flowTemplate"></param>
+        /// <param name="oldDataModelField"></param>
+        /// <param name="newDataModelField"></param>
+        /// <param name="sqliteCommand"></param>
+        /// <returns></returns>
+        protected abstract string GetEditTableFieldTSQL(FlowTemplate flowTemplate, DataModelField oldDataModelField, DataModelField newDataModelField, IDbCommand sqliteCommand);
+        /// <summary>
+        /// 获得删除表字段TSQL
+        /// </summary>
+        /// <param name="flowTemplate"></param>
+        /// <param name="dataModelField"></param>
+        /// <returns></returns>
+        protected abstract string GetDeleteTableFieldTSQL(FlowTemplate flowTemplate, DataModelField dataModelField);
         /// <summary>
         /// 获得表名
         /// </summary>

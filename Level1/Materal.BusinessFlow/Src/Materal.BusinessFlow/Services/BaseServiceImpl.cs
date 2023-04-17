@@ -26,31 +26,31 @@ namespace Materal.BusinessFlow.Services
             await UnitOfWork.CommitAsync();
             return model.ID;
         }
-        public async Task DeleteAsync(Guid id)
+        public virtual async Task DeleteAsync(Guid id)
         {
             TDomain domain = await DefaultRepository.FirstAsync(id);
             UnitOfWork.RegisterDelete(domain);
             await UnitOfWork.CommitAsync();
         }
-        public async Task EditAsync(TDomain model)
+        public virtual async Task EditAsync(TDomain model)
         {
             TDomain domain = await DefaultRepository.FirstAsync(model.ID);
             model.CopyProperties(domain);
             UnitOfWork.RegisterEdit(domain);
             await UnitOfWork.CommitAsync();
         }
-        public async Task<TDomain> GetInfoAsync(Guid id)
+        public virtual async Task<TDomain> GetInfoAsync(Guid id)
         {
             TDomain domain = await DefaultRepository.FirstAsync(id);
             return domain;
         }
-        public async Task<List<TDomain>> GetListAsync(TQueryModel? queryModel = null)
+        public virtual async Task<List<TDomain>> GetListAsync(TQueryModel? queryModel = null)
         {
             List<TDomain> domains = await DefaultRepository.GetListAsync(queryModel);
             return domains;
         }
 
-        public async Task<(List<TDomain> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null)
+        public virtual async Task<(List<TDomain> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null)
         {
             (List<TDomain> data, PageModel pageInfo) = await DefaultRepository.PagingAsync(queryModel);
             return (data, pageInfo);

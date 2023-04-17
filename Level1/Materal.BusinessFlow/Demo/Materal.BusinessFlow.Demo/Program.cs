@@ -5,9 +5,11 @@ using Materal.BusinessFlow.Abstractions.Models;
 using Materal.BusinessFlow.Abstractions.Services;
 using Materal.BusinessFlow.Extensions;
 using Materal.BusinessFlow.SqliteRepository.Models;
+using Materal.BusinessFlow.SqlServerRepository.Models;
 using Materal.Logger;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Runtime.InteropServices;
 
 namespace Materal.BusinessFlow.Demo
 {
@@ -55,16 +57,16 @@ namespace Materal.BusinessFlow.Demo
             IServiceCollection services = new ServiceCollection();
             services.AddMateralLogger();
             services.AddBusinessFlow();
-            services.AddBusinessFlowSqliteRepository(new SqliteConfigModel { Source = "BusinessFlow.db" });
-            //services.AddBusinessFlowRepository(new SqlServerConfigModel
-            //{
-            //    Address = "175.27.194.19",
-            //    Port = "1433",
-            //    Name = "BusinessFlowDB",
-            //    UserID = "sa",
-            //    Password = "XMJry@456",
-            //    TrustServerCertificate = true
-            //});
+            //services.AddBusinessFlowSqliteRepository(new SqliteConfigModel { Source = "BusinessFlow.db" });
+            services.AddBusinessFlowSqlServerRepository(new SqlServerConfigModel
+            {
+                Address = "175.27.194.19",
+                Port = "1433",
+                Name = "BusinessFlowDB",
+                UserID = "sa",
+                Password = "XMJry@456",
+                TrustServerCertificate = true
+            });
             _serviceProvider = services.BuildServiceProvider();
             LoggerManager.Init(option =>
             {
@@ -87,7 +89,7 @@ namespace Materal.BusinessFlow.Demo
             {
                 _logger?.LogError(ex, "业务流出错");
             }
-            Console.WriteLine("Over");
+            WriteTestInfo("测试程序执行完毕，按任意键退出...");
             Console.ReadKey();
         }
         /// <summary>
@@ -101,15 +103,18 @@ namespace Materal.BusinessFlow.Demo
             IBusinessFlowHost host = services.GetService<IBusinessFlowHost>() ?? throw new BusinessFlowException("获取服务失败");
             User initiatorUser = _userCMX2;
             #region 执行自动流程
-            await host.RunAutoNodeAsync(_testFlowTemplate.ID);
+            //WriteTestInfo("执行未完成的自动节点....");
+            //await host.RunAutoNodeAsync(_testFlowTemplate.ID);
             #endregion
             #region 启动一个流程
             {
+                WriteTestInfo("启动一个新流程....");
                 await host.StartNewFlowAsync(_testFlowTemplate.ID, initiatorUser.ID);
             }
             #endregion
             #region 保存数据
             {
+                //WriteTestInfo("保存节点数据....");
                 //List<FlowRecordDTO> flowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
                 //if (flowRecords.Count <= 0) return;
                 //string jsonData = "{\"Name\":\"测试数据\",\"Age\":0,\"Type\":\"病假\",\"StartDateTime\":\"2023-04-12 09:00:00\",\"EndDateTime\":\"2023-04-12 18:00:00\",\"Reason\":\"测试数据\"}";
@@ -118,66 +123,90 @@ namespace Materal.BusinessFlow.Demo
             #endregion
             #region 完成节点
             {
-                string jsonData;
-                Console.WriteLine("----------------------------------");
-                Console.ReadKey();
-                List<FlowRecordDTO> cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
-                List<FlowRecordDTO> wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
-                List<FlowRecordDTO> fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
-                Console.WriteLine($"{cmxflowRecords.Count}-{wrdflowRecords.Count}-{fbwflowRecords.Count}");
-                if (cmxflowRecords.Count > 0)
-                {
-                    jsonData = $"{{\"Name\":\"{initiatorUser.Name}\",\"Age\":29,\"Type\":\"病假\",\"StartDateTime\":\"2023-04-12 09:00:00\",\"EndDateTime\":\"2023-04-12 18:00:00\",\"Reason\":\"生病了\"}}";
-                    await host.ComplateNodeAsync(cmxflowRecords[0].FlowTemplateID, cmxflowRecords[0].ID, initiatorUser.ID, jsonData);
-                }
-                Console.WriteLine("----------------------------------");
-                Console.ReadKey();
-                cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
-                wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
-                fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
-                Console.WriteLine($"{cmxflowRecords.Count}-{wrdflowRecords.Count}-{fbwflowRecords.Count}");
-                if (wrdflowRecords.Count > 0)
-                {
-                    jsonData = "{\"Result1\":\"不同意\"}";
-                    await host.RepulseNodeAsync(wrdflowRecords[0].FlowTemplateID, wrdflowRecords[0].ID, _userWRD.ID, jsonData);//打回
-                }
-                Console.WriteLine("----------------------------------");
-                Console.ReadKey();
-                cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
-                wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
-                fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
-                Console.WriteLine($"{cmxflowRecords.Count}-{wrdflowRecords.Count}-{fbwflowRecords.Count}");
-                if (cmxflowRecords.Count > 0)
-                {
-                    jsonData = $"{{\"Name\":\"{initiatorUser.Name}\",\"Age\":29,\"Type\":\"病假\",\"Reason\":\"生病了,再次提交\"}}";
-                    await host.ComplateNodeAsync(cmxflowRecords[0].FlowTemplateID, cmxflowRecords[0].ID, initiatorUser.ID, jsonData);
-                }
-                Console.WriteLine("----------------------------------");
-                Console.ReadKey();
-                cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
-                wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
-                fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
-                Console.WriteLine($"{cmxflowRecords.Count}-{wrdflowRecords.Count}-{fbwflowRecords.Count}");
-                if (wrdflowRecords.Count > 0)
-                {
-                    jsonData = "{\"Result1\":\"不同意\"}";
-                    await host.ComplateNodeAsync(wrdflowRecords[0].FlowTemplateID, wrdflowRecords[0].ID, _userWRD.ID, jsonData);
-                }
-                Console.WriteLine("----------------------------------");
-                Console.ReadKey();
-                cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
-                wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
-                fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
-                Console.WriteLine($"{cmxflowRecords.Count}-{wrdflowRecords.Count}-{fbwflowRecords.Count}");
-                if (fbwflowRecords.Count > 0)
-                {
-                    jsonData = "{\"Result2\":\"同意\"}";
-                    await host.ComplateNodeAsync(fbwflowRecords[0].FlowTemplateID, fbwflowRecords[0].ID, _userFBW.ID, jsonData);
-                }
-                cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
-                wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
-                fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
-                Console.WriteLine($"{cmxflowRecords.Count}-{wrdflowRecords.Count}-{fbwflowRecords.Count}");
+                //string jsonData;
+                //List<FlowRecordDTO> cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
+                //List<FlowRecordDTO> wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
+                //List<FlowRecordDTO> fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
+                //if (cmxflowRecords.Count > 0 && cmxflowRecords[0].StepID == _steps[0].ID)
+                //{
+                //    WriteTestInfo("----------------------------------");
+                //    WriteTestInfo($"待办事项：{initiatorUser.Name}->{cmxflowRecords.Count},{_userWRD.Name}->{wrdflowRecords.Count},{_userFBW.Name}->{fbwflowRecords.Count}");
+                //    WriteTestInfo("回车执行流程:提交请假信息");
+                //    Console.ReadKey();
+                //    jsonData = $"{{\"Name\":\"{initiatorUser.Name}\",\"Age\":29,\"Type\":\"病假\",\"StartDateTime\":\"2023-04-12 09:00:00\",\"EndDateTime\":\"2023-04-12 18:00:00\",\"Reason\":\"生病了\"}}";
+                //    await host.ComplateNodeAsync(cmxflowRecords[0].FlowTemplateID, cmxflowRecords[0].ID, initiatorUser.ID, jsonData);
+                //    cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
+                //    wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
+                //    fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
+                //}
+                //if (wrdflowRecords.Count > 0 && wrdflowRecords[0].StepID == _steps[1].ID)
+                //{
+                //    WriteTestInfo("----------------------------------");
+                //    WriteTestInfo($"待办事项：{initiatorUser.Name}->{cmxflowRecords.Count},{_userWRD.Name}->{wrdflowRecords.Count},{_userFBW.Name}->{fbwflowRecords.Count}");
+                //    WriteTestInfo("回车执行流程:打回请假");
+                //    Console.ReadKey();
+                //    jsonData = "{\"Result1\":\"不同意\"}";
+                //    await host.RepulseNodeAsync(wrdflowRecords[0].FlowTemplateID, wrdflowRecords[0].ID, _userWRD.ID, jsonData);//打回
+                //    cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
+                //    wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
+                //    fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
+                //}
+                //if (cmxflowRecords.Count > 0 && cmxflowRecords[0].StepID == _steps[0].ID)
+                //{
+                //    WriteTestInfo("----------------------------------");
+                //    WriteTestInfo($"待办事项：{initiatorUser.Name}->{cmxflowRecords.Count},{_userWRD.Name}->{wrdflowRecords.Count},{_userFBW.Name}->{fbwflowRecords.Count}");
+                //    WriteTestInfo("回车执行流程:重新提交请假信息");
+                //    Console.ReadKey();
+                //    jsonData = $"{{\"Name\":\"{initiatorUser.Name}\",\"Age\":29,\"Type\":\"病假\",\"Reason\":\"生病了,再次提交\"}}";
+                //    await host.ComplateNodeAsync(cmxflowRecords[0].FlowTemplateID, cmxflowRecords[0].ID, initiatorUser.ID, jsonData);
+                //    cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
+                //    wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
+                //    fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
+                //}
+                //if (wrdflowRecords.Count > 0 && wrdflowRecords[0].StepID == _steps[1].ID)
+                //{
+                //    WriteTestInfo("----------------------------------");
+                //    WriteTestInfo($"待办事项：{initiatorUser.Name}->{cmxflowRecords.Count},{_userWRD.Name}->{wrdflowRecords.Count},{_userFBW.Name}->{fbwflowRecords.Count}");
+                //    WriteTestInfo("回车执行流程:同意请假");
+                //    Console.ReadKey();
+                //    jsonData = "{\"Result1\":\"同意\"}";
+                //    await host.ComplateNodeAsync(wrdflowRecords[0].FlowTemplateID, wrdflowRecords[0].ID, _userWRD.ID, jsonData);
+                //    cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
+                //    wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
+                //    fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
+                //}
+                //if (fbwflowRecords.Count > 0 && fbwflowRecords[0].StepID == _steps[2].ID)
+                //{
+                //    WriteTestInfo("----------------------------------");
+                //    WriteTestInfo($"待办事项：{initiatorUser.Name}->{cmxflowRecords.Count},{_userWRD.Name}->{wrdflowRecords.Count},{_userFBW.Name}->{fbwflowRecords.Count}");
+                //    WriteTestInfo("回车执行流程:上级同意请假");
+                //    Console.ReadKey();
+                //    jsonData = "{\"Result2\":\"同意\"}";
+                //    await host.ComplateNodeAsync(fbwflowRecords[0].FlowTemplateID, fbwflowRecords[0].ID, _userFBW.ID, jsonData);
+                //    cmxflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, initiatorUser.ID);
+                //    wrdflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userWRD.ID);
+                //    fbwflowRecords = await host.GetBacklogByUserIDAsync(_testFlowTemplate.ID, _userFBW.ID);
+                //}
+                //WriteTestInfo("----------------------------------");
+                //WriteTestInfo($"待办事项：{initiatorUser.Name}->{cmxflowRecords.Count},{_userWRD.Name}->{wrdflowRecords.Count},{_userFBW.Name}->{fbwflowRecords.Count}");
+            }
+            #endregion
+            #region 修改数据模型
+            {
+                WriteTestInfo("新增字段....");
+                DataModelField fieldResult3 = new() { Name = "Result3", Description = "审批结果3", DataType = DataTypeEnum.Enum, DataModelID = _testDataModel.ID, Data = "[\"同意\",\"不同意\"]", ID = Guid.Parse("62BBEF3F-89FB-47ED-B875-04F74C852694") };
+                await InitDomainAsync<DataModelField, IDataModelFieldService>(services, fieldResult3);
+                _testDataModelFields.Add(fieldResult3);
+                //修改字段
+                WriteTestInfo("修改字段....");
+                DataModelField fieldResult4 = new() { Name = "Result4", Description = "审批结果4", DataType = DataTypeEnum.Enum, DataModelID = _testDataModel.ID, Data = "[\"同意\",\"不同意\"]", ID = Guid.Parse("62BBEF3F-89FB-47ED-B875-04F74C852695") };
+                await InitDomainAsync<DataModelField, IDataModelFieldService>(services, fieldResult4);
+                fieldResult4.Name = "Result5";
+                fieldResult4.Description = "审批结果5";
+                await InitDomainAsync<DataModelField, IDataModelFieldService>(services, fieldResult4, true);
+                //删除字段
+                WriteTestInfo("删除字段....");
+                await services.GetRequiredService<IDataModelFieldService>().DeleteAsync(fieldResult4.ID);
             }
             #endregion
         }
@@ -189,11 +218,13 @@ namespace Materal.BusinessFlow.Demo
         {
             using IServiceScope serviceScope = _serviceProvider.CreateScope();
             IServiceProvider services = serviceScope.ServiceProvider;
+            WriteTestInfo("初始化用户信息....");
             await InitDomainAsync<User, IUserService>(services, _userCMX);
             await InitDomainAsync<User, IUserService>(services, _userCMX2);
             await InitDomainAsync<User, IUserService>(services, _userFBW);
             await InitDomainAsync<User, IUserService>(services, _userWRD);
             #region 数据模型
+            WriteTestInfo("初始化数据模型....");
             await InitDomainAsync<DataModel, IDataModelService>(services, _testDataModel);
             DataModelField fieldName = new() { Name = "Name", Description = "姓名", DataType = DataTypeEnum.String, DataModelID = _testDataModel.ID, ID = Guid.Parse("48F31453-8D6C-4D53-9EA0-5C343FD37ADC") };
             await InitDomainAsync<DataModelField, IDataModelFieldService>(services, fieldName);
@@ -222,6 +253,7 @@ namespace Materal.BusinessFlow.Demo
             #endregion
             await InitDomainAsync<FlowTemplate, IFlowTemplateService>(services, _testFlowTemplate);
             #region 步骤
+            WriteTestInfo("初始化流程模版....");
             #region 步骤0
             Step step0 = new()
             {
@@ -323,19 +355,32 @@ namespace Materal.BusinessFlow.Demo
         /// <param name="domain"></param>
         /// <returns></returns>
         /// <exception cref="BusinessFlowException"></exception>
-        private static async Task InitDomainAsync<TDomain, TService>(IServiceProvider services, TDomain domain)
+        private static async Task InitDomainAsync<TDomain, TService>(IServiceProvider services, TDomain domain, bool isEdit = false)
             where TDomain : class, IBaseDomain
             where TService : IBaseService<TDomain>
         {
             TService service = services.GetService<TService>() ?? throw new BusinessFlowException("获取服务失败");
             try
             {
-                await service.GetInfoAsync(domain.ID);
+                TDomain dbDomain = await service.GetInfoAsync(domain.ID);
+                if(dbDomain != null && isEdit)
+                {
+                    await service.EditAsync(domain);
+                }
             }
             catch
             {
                 await service.AddAsync(domain);
             }
+        }
+        /// <summary>
+        /// 写测试信息
+        /// </summary>
+        /// <param name="message"></param>
+        private static void WriteTestInfo(string message)
+        {
+            //_logger?.LogInformation(message);
+            Console.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss}->{message}");
         }
     }
 }
