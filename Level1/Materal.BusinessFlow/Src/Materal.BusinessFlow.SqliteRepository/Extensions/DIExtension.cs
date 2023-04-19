@@ -24,6 +24,7 @@ namespace Materal.BusinessFlow
             services.TryAddScoped<IUserRepository, UserRepositoryImpl>();
             services.TryAddScoped<IFlowRepository, FlowRepositoryImpl>();
             services.TryAddScoped<IFlowRecordRepository, FlowRecordRepositoryImpl>();
+            services.TryAddScoped<IFlowUserRepository, FlowUserRepositoryImpl>();
             services.TryAddScoped(typeof(IRepositoryHelper<>), typeof(SqliteRepositoryHelper<>));
             services.TryAddSingleton(dbConfigModel);
             services.TryAddScoped<IUnitOfWork, UnitOfWorkImpl>();

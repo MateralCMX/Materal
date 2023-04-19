@@ -1,4 +1,5 @@
-﻿using Materal.BusinessFlow.Abstractions.Models;
+﻿using Materal.BusinessFlow.Abstractions.Domain;
+using Materal.BusinessFlow.Abstractions.Models;
 
 namespace Materal.BusinessFlow.Abstractions
 {
@@ -10,7 +11,7 @@ namespace Materal.BusinessFlow.Abstractions
         /// <param name="flowTemplateID"></param>
         /// <param name="initiatorID"></param>
         /// <returns></returns>
-        Task StartNewFlowAsync(Guid flowTemplateID, Guid initiatorID);
+        Task<Guid> StartNewFlowAsync(Guid flowTemplateID, Guid initiatorID);
         /// <summary>
         /// 根据用户唯一标识获得待办事项
         /// </summary>
@@ -19,6 +20,18 @@ namespace Materal.BusinessFlow.Abstractions
         /// <returns></returns>
         Task<List<FlowRecordDTO>> GetBacklogByUserIDAsync(Guid flowTemplateID, Guid userID);
         /// <summary>
+        /// 根据用户唯一标识获得待办事项
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        Task<List<FlowRecordDTO>> GetBacklogByUserIDAsync(Guid userID);
+        /// <summary>
+        /// 根据用户唯一标识获得待办事项模版唯一标识组
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        Task<List<FlowTemplate>> GetBacklogFlowTemplatesByUserIDAsync(Guid userID);
+        /// <summary>
         /// 完成节点
         /// </summary>
         /// <param name="flowTemplateID"></param>
@@ -26,7 +39,7 @@ namespace Materal.BusinessFlow.Abstractions
         /// <param name="userID"></param>
         /// <param name="jsonData"></param>
         /// <returns></returns>
-        Task ComplateNodeAsync(Guid flowTemplateID, Guid flowRecordID, Guid userID, string jsonData);
+        Task ComplateFlowNodeAsync(Guid flowTemplateID, Guid flowRecordID, Guid userID, string jsonData);
         /// <summary>
         /// 打回节点
         /// </summary>
@@ -35,7 +48,7 @@ namespace Materal.BusinessFlow.Abstractions
         /// <param name="userID"></param>
         /// <param name="jsonData"></param>
         /// <returns></returns>
-        Task RepulseNodeAsync(Guid flowTemplateID, Guid flowRecordID, Guid userID, string jsonData);
+        Task RepulseFlowNodeAsync(Guid flowTemplateID, Guid flowRecordID, Guid userID, string jsonData);
         /// <summary>
         /// 保存流程数据
         /// </summary>

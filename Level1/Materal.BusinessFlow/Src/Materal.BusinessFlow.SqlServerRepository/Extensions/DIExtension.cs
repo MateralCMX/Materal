@@ -1,6 +1,7 @@
 ﻿using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.Abstractions.Repositories;
 using Materal.BusinessFlow.ADONETRepository.Repositories;
+using Materal.BusinessFlow.SqliteRepository.Repositories;
 using Materal.BusinessFlow.SqlServerRepository;
 using Materal.BusinessFlow.SqlServerRepository.Models;
 using Materal.BusinessFlow.SqlServerRepository.Repositories;
@@ -25,6 +26,7 @@ namespace Materal.BusinessFlow
             services.TryAddScoped<IFlowRepository, FlowRepositoryImpl>();
             services.TryAddScoped<IFlowRecordRepository, FlowRecordRepositoryImpl>();
             services.TryAddScoped<IFlowRecordRepository, FlowRecordRepositoryImpl>();
+            services.TryAddScoped<IFlowUserRepository, FlowUserRepositoryImpl>();
             services.TryAddScoped(typeof(IRepositoryHelper<>), typeof(SqlServerRepositoryHelper<>));
             services.TryAddSingleton(dbConfigModel);
             services.TryAddScoped<IUnitOfWork, UnitOfWorkImpl>();

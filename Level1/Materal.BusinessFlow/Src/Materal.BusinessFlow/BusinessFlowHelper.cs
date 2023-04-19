@@ -11,20 +11,24 @@ namespace Materal.BusinessFlow
 {
     public class BusinessFlowHelper
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IDataModelFieldRepository _dataFieldRepository;
         private readonly IFlowTemplateRepository _flowTemplateRepository;
         private readonly IStepRepository _stepRepository;
         private readonly INodeRepository _nodeRepository;
         private readonly IFlowRepository _flowRepository;
         private readonly IFlowRecordRepository _flowRecordRepository;
-        public BusinessFlowHelper(IDataModelFieldRepository dataFieldRepository, IFlowTemplateRepository flowTemplateRepository, IStepRepository stepRepository, INodeRepository nodeRepository, IFlowRepository flowRepository, IFlowRecordRepository flowRecordRepository)
+        private readonly IFlowUserRepository _flowUserRepository;
+        public BusinessFlowHelper(IUnitOfWork unitOfWork)
         {
-            _dataFieldRepository = dataFieldRepository;
-            _flowTemplateRepository = flowTemplateRepository;
-            _stepRepository = stepRepository;
-            _nodeRepository = nodeRepository;
-            _flowRepository = flowRepository;
-            _flowRecordRepository = flowRecordRepository;
+            _unitOfWork = unitOfWork;
+            _dataFieldRepository = unitOfWork.GetRepository<IDataModelFieldRepository>();
+            _flowTemplateRepository = unitOfWork.GetRepository<IFlowTemplateRepository>();
+            _stepRepository = unitOfWork.GetRepository<IStepRepository>();
+            _nodeRepository = unitOfWork.GetRepository<INodeRepository>();
+            _flowRepository = unitOfWork.GetRepository<IFlowRepository>();
+            _flowRecordRepository = unitOfWork.GetRepository<IFlowRecordRepository>();
+            _flowUserRepository = unitOfWork.GetRepository<IFlowUserRepository>();
         }
         /// <summary>
         /// 完成节点
@@ -118,6 +122,10 @@ namespace Materal.BusinessFlow
                     item.ResultMessage = resultMessage;
                 }
                 _flowRecordRepository.Edit(flowTemplateID, item);
+                if(item.UserID != null)
+                {
+                    await EditFlowUserAsync(flowTemplateID, flowRecord.FlowID, item.ID, item.UserID.Value, item.State);
+                }
             }
             return (flowRecords, flowRecord, changeDatas);
         }
@@ -155,7 +163,7 @@ namespace Materal.BusinessFlow
             foreach (Node node in allNodes)
             {
                 if (!NodeCanAdd(node, datas)) continue;
-                Guid id = AddFlowRecordsByNodeAsync(flowTemplateID, flowID, node, index, initiatorID);
+                Guid id = await AddFlowRecordsByNodeAsync(flowTemplateID, flowID, node, index, initiatorID);
                 addNodeCount++;
                 if (node.HandleType == NodeHandleTypeEnum.Auto)
                 {
@@ -182,7 +190,7 @@ namespace Materal.BusinessFlow
             List<Guid> autoNodeIDs = new();
             foreach (Node node in allNodes)
             {
-                Guid id = AddFlowRecordsByNodeAsync(flowTemplateID, flowID, node, index, initiatorID);
+                Guid id = await AddFlowRecordsByNodeAsync(flowTemplateID, flowID, node, index, initiatorID);
                 if (node.HandleType == NodeHandleTypeEnum.Auto)
                 {
                     autoNodeIDs.Add(id);
@@ -239,7 +247,7 @@ namespace Materal.BusinessFlow
         /// <param name="node"></param>
         /// <param name="index"></param>
         /// <exception cref="BusinessFlowException"></exception>
-        private Guid AddFlowRecordsByNodeAsync(Guid flowTemplateID, Guid flowID, Node node, int index, Guid initiatorID)
+        private async Task<Guid> AddFlowRecordsByNodeAsync(Guid flowTemplateID, Guid flowID, Node node, int index, Guid initiatorID)
         {
             FlowRecord flowRecord = new()
             {
@@ -258,12 +266,42 @@ namespace Materal.BusinessFlow
                     if (node.HandleData == null || string.IsNullOrWhiteSpace(node.HandleData)) throw new BusinessFlowException("未指定处理用户");
                     if (!node.HandleData.IsGuid()) throw new BusinessFlowException("处理数据格式错误");
                     flowRecord.UserID = Guid.Parse(node.HandleData);
+                    await EditFlowUserAsync(flowTemplateID, flowRecord.FlowID, flowRecord.ID, flowRecord.UserID.Value, flowRecord.State);
                     return _flowRecordRepository.Add(flowTemplateID, flowRecord);
                 case NodeHandleTypeEnum.Initiator:
                     flowRecord.UserID = initiatorID;
+                    await EditFlowUserAsync(flowTemplateID, flowRecord.FlowID, flowRecord.ID, flowRecord.UserID.Value, flowRecord.State);
                     return _flowRecordRepository.Add(flowTemplateID, flowRecord);
                 default:
                     throw new BusinessFlowException("未知处理类型");
+            }
+        }
+        /// <summary>
+        /// 修改流程用户映射
+        /// </summary>
+        /// <param name="flowTemplateID"></param>
+        /// <param name="flowID"></param>
+        /// <param name="flowRecordID"></param>
+        /// <param name="userID"></param>
+        /// <param name="flowRecordState"></param>
+        private async Task EditFlowUserAsync(Guid flowTemplateID, Guid flowID, Guid flowRecordID, Guid userID, FlowRecordStateEnum flowRecordState)
+        {
+            switch (flowRecordState)
+            {
+                case FlowRecordStateEnum.Wait://新增
+                    _unitOfWork.RegisterAdd(new FlowUser
+                    {
+                        FlowTemplateID = flowTemplateID,
+                        FlowID = flowID, 
+                        FlowRecordID = flowRecordID, 
+                        UserID = userID
+                    });
+                    break;
+                default://移除
+                    FlowUser? flowuser = await _flowUserRepository.FirstOrDefaultAsync(m => m.FlowTemplateID == flowTemplateID && m.FlowID == flowID && m.FlowRecordID == flowRecordID && m.UserID == userID);
+                    if (flowuser == null) break;
+                    _unitOfWork.RegisterDelete(flowuser);
+                    break;
             }
         }
         /// <summary>

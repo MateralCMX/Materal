@@ -2,6 +2,8 @@
 using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.ADONETRepository.Extensions;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
@@ -161,24 +163,63 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
         }
         public string MethodCallExpressionToTSQL(IDbCommand command, MethodCallExpression expression, BaseUnitOfWorkImpl unitOfWork)
         {
-            if (expression.Method.Name == "Contains")
+            if (expression.Method.Name == "Contains" && expression.Object is MemberExpression memberExpression)
             {
-                if (expression.Object is MemberExpression memberExpression)
+                if (memberExpression.Type == typeof(string))
                 {
-                    if (memberExpression.Type == typeof(string))
+                    string leftTSQL = ExpressionToTSQL(command, memberExpression, expression, unitOfWork);
+                    if (expression.Arguments.Count == 1 && expression.Arguments[0] is ConstantExpression constantExpression)
                     {
-                        string leftTSQL = ExpressionToTSQL(command, memberExpression, expression, unitOfWork);
-                        if (expression.Arguments.Count == 1 && expression.Arguments[0] is ConstantExpression constantExpression)
+                        string vaue = $"%{constantExpression.Value}%";
+                        string parameterName = $"@P{_paramsIndex++}";
+                        command.AddParameter(parameterName, vaue);
+                        return $"{leftTSQL} like {parameterName}";
+                    }
+                    else
+                    {
+                        throw new BusinessFlowException($"不支持方法{expression.Method.Name}转换为TSQL");
+                    }
+                }
+                else if (memberExpression.Type.IsAssignableTo(typeof(System.Collections.ICollection)))
+                {
+                    if (expression.Arguments.Count == 1)
+                    {
+                        string leftTSQL = ExpressionToTSQL(command, expression.Arguments[0], memberExpression, unitOfWork);
+                        string parameterName = $"@{memberExpression.Member.Name}";
+                        if (memberExpression.Expression is ConstantExpression constantExpression)
                         {
-                            string vaue = $"%{constantExpression.Value}%";
-                            string parameterName = $"@P{_paramsIndex++}";
-                            command.AddParameter(parameterName, vaue);
-                            return $"{leftTSQL} like {parameterName}";
+                            object? value = null;
+                            Type valueType = constantExpression.Value.GetType();
+                            FieldInfo? fieldInfo = valueType.GetRuntimeField(memberExpression.Member.Name) ?? valueType.GetField(memberExpression.Member.Name);
+                            if (fieldInfo != null)
+                            {
+                                value = fieldInfo.GetValue(constantExpression.Value);
+                            }
+                            else
+                            {
+                                PropertyInfo? propertyInfo = valueType.GetProperty(memberExpression.Member.Name);
+                                if (propertyInfo != null)
+                                {
+                                    value = propertyInfo.GetValue(constantExpression.Value);
+                                }
+                            }
+                            if(value == null || value is not IEnumerable values) throw new BusinessFlowException($"不支持方法{expression.Method.Name}转换为TSQL");
+                            int index = 0;
+                            List<string> parameterNames = new();
+                            foreach (object? item in values)
+                            {
+                                if (item == null) continue;
+                                string name = $"{parameterName}{index}";
+                                command.AddParameter(name, item);
+                                parameterNames.Add(name);
+                            }
+                            string result = $"{leftTSQL} in ({string.Join(",", parameterNames)})";
+                            return result;
                         }
-                        else
-                        {
-                            throw new BusinessFlowException($"不支持方法{expression.Method.Name}转换为TSQL");
-                        }
+                    }
+                    else
+                    {
+                        throw new BusinessFlowException($"不支持方法{expression.Method.Name}转换为TSQL");
                     }
                 }
             }
