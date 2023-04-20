@@ -57,19 +57,6 @@ namespace RC.Authority.WebAPI.Controllers
                 return ResultModel<LoginResultDTO>.Fail("账号或者密码错误");
             }
         }
-
-        /// <summary>
-        /// 重置密码
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpPut]
-        public async Task<ResultModel<string>> ResetPasswordAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id)
-        {
-            string result = await DefaultService.ResetPasswordAsync(id);
-            return ResultModel<string>.Success(result, "重置成功");
-        }
-
         /// <summary>
         /// 修改密码
         /// </summary>

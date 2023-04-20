@@ -6,6 +6,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.BaseCore.Services" Version="*" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="*" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="*" />
 	</ItemGroup>
 	<ItemGroup>

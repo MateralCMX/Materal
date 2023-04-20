@@ -1,4 +1,5 @@
-﻿using Materal.Utils.Model;
+﻿using Materal.BaseCore.CodeGenerator;
+using Materal.Utils.Model;
 using RC.Demo.DataTransmitModel.User;
 using RC.Demo.Services.Models.User;
 
@@ -20,7 +21,7 @@ namespace RC.Demo.Services
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="RCException"></exception>
-        [DataValidation]
+        [DataValidation, MapperController(MapperType.Put)]
         Task<string> ResetPasswordAsync(Guid id);
         /// <summary>
         /// 修改密码

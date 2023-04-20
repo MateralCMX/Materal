@@ -4,6 +4,7 @@ using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Model;
 using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
 using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
+using System.ComponentModel.DataAnnotations;
 
 namespace RC.EnvironmentServer.HttpClient
 {

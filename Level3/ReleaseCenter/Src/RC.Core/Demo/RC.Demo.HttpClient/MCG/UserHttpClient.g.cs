@@ -26,12 +26,6 @@ namespace RC.Demo.HttpClient
         /// <returns></returns>
         public async Task<LoginResultDTO?> LoginAsync(LoginRequestModel requestModel) => await GetResultModelByPostAsync<LoginResultDTO>("User/Login", null, requestModel);
         /// <summary>
-        /// 重置密码
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<string?> ResetPasswordAsync([Required(ErrorMessage = "唯一标识不能为空")] Guid id) => await GetResultModelByPutAsync<string>("User/ResetPassword", new Dictionary<string, string> { [nameof(id)] = id.ToString()});
-        /// <summary>
         /// 修改密码
         /// </summary>
         /// <param name="requestModel"></param>
@@ -43,5 +37,11 @@ namespace RC.Demo.HttpClient
         /// <param name="requestModel"></param>
         /// <returns></returns>
         public async Task<List<UserDTO>?> TestAsync(ChangePasswordRequestModel requestModel) => await GetResultModelByPutAsync<List<UserDTO>>("User/Test", null, requestModel);
+        /// <summary>
+        /// 重置密码
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<string?> ResetPasswordAsync([Required(ErrorMessage = "id不能为空")] Guid id) => await GetResultModelByPutAsync<string>("User/ResetPassword", new Dictionary<string, string> { [nameof(id)] = id.ToString()});
     }
 }

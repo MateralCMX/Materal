@@ -93,9 +93,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 {
                     codeContent.Append($"        public {model.ResultModelType} {model.Name}(");
                 }
-                List<string> inputArgs = new();
+                List<string> inputArgNames = new();
                 List<string> modelNames = new();
                 StringBuilder mapperCode = new();
+                List<string> inputArgs = new();
                 for (int i = 0; i < model.Params.Count; i++)
                 {
                     ParamModel item = model.Params[i];
@@ -113,10 +114,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
                         modelNames.Add(modelName);
                         mapperCode.AppendLine($"            var {modelName} = Mapper.Map<{item.Type}>({name});");
                     }
-                    codeContent.Append($"{prefix}{type} {name}");
-                    inputArgs.Add(name);
+                    inputArgs.Add($"{prefix}{type} {name}");
+                    inputArgNames.Add(name);
                 }
-                codeContent.AppendLine($")");
+                codeContent.AppendLine($"{string.Join(",", inputArgs)})");
                 codeContent.AppendLine($"        {{");
                 string mapperCodeStr = mapperCode.ToString();
                 if (!string.IsNullOrWhiteSpace(mapperCodeStr))
@@ -125,12 +126,26 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 }
                 if (model.HasResultDataModel)
                 {
-                    codeContent.AppendLine($"            var result = await DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                    if (model.IsTask)
+                    {
+                        codeContent.AppendLine($"            var result = await DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"            var result = DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                    }
                     codeContent.AppendLine($"            return {model.ResultModelType}.Success(result);");
                 }
                 else
                 {
-                    codeContent.AppendLine($"            await DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                    if (model.IsTask)
+                    {
+                        codeContent.AppendLine($"            await DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"            DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                    }
                     codeContent.AppendLine($"            return {model.ResultModelType}.Success();");
                 }
                 codeContent.AppendLine($"        }}");
