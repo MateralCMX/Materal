@@ -1,5 +1,6 @@
 ﻿using EnvDTE;
 using EnvDTE80;
+using Materal.BaseCore.CodeGenerator.Models;
 using MateralBaseCoreVSIX.Models;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -89,7 +90,7 @@ namespace MateralBaseCoreVSIX
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            string message = "代码生成成功";
+            string message = "未生成任何代码";
             try
             {
 #pragma warning disable VSTHRD002 // Avoid problematic synchronous waits
@@ -97,20 +98,29 @@ namespace MateralBaseCoreVSIX
 #pragma warning restore VSTHRD002 // Avoid problematic synchronous waits
                 if (temp is DTE dte && dte.ActiveSolutionProjects != null && dte.ActiveSolutionProjects is object[] activeObjects)
                 {
-                    bool isGenerator = false;
                     foreach (object activeItem in activeObjects)
                     {
-                        if (activeItem is Project project && project.Name.EndsWith(".Domain"))
+                        if (activeItem is Project project)
                         {
                             DTE2 dte2 = Package.GetGlobalService(typeof(DTE)) as DTE2;
-                            var solution = new VSIXDomainSolutionModel(dte2.Solution, project);
-                            solution.CreateCodeFiles();
-                            isGenerator = true;
+                            ISolutionModel projectModel = null;
+                            if (project.Name.EndsWith(".Domain"))
+                            {
+                                projectModel = new VSIXDomainSolutionModel(dte2.Solution, project);
+                            }
+                            else if (project.Name.EndsWith(".WebAPI"))
+                            {
+                                projectModel = new VSIXWebAPISolutionModel(dte2.Solution, project);
+                            }
+                            else if (project.Name.EndsWith(".Services"))
+                            {
+                                projectModel = new VSIXServicesSolutionModel(dte2.Solution, project);
+                            }
+                            if (projectModel != null)
+                            {
+                                message = projectModel.CreateCodeFiles();
+                            }
                         }
-                    }
-                    if (!isGenerator)
-                    {
-                        throw new VSIXException("激活项目不是Domain");
                     }
                 }
                 else

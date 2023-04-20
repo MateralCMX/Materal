@@ -1,7 +1,7 @@
 {
   "Projects": [
     {
-      "Name": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Src\\XMJ.Core.CodeGenerator",
+      "Name": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Src\\MBC.Core.CodeGenerator",
       "Plugs": [
         {
           "Name": "InitProject",
@@ -11,458 +11,92 @@
     }
   ],
   "CommonProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
-    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Common",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Common\\MCG",
+    "DiskDirectoryPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo",
+    "RootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.Common",
+    "GeneratorRootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.Common\\MCG",
     "ProjectName": "Demo",
-    "PrefixName": "XMJ",
-    "Namespace": "XMJ.Demo.Common",
+    "PrefixName": "MBC",
+    "Namespace": "MBC.Demo.Common",
     "DBContextName": "DemoDBContext"
   },
   "DomainProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
-    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Domain",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Domain\\MCG",
+    "DiskDirectoryPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo",
+    "RootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.Domain",
+    "GeneratorRootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.Domain\\MCG",
     "ProjectName": "Demo",
-    "PrefixName": "XMJ",
-    "Namespace": "XMJ.Demo.Domain",
+    "PrefixName": "MBC",
+    "Namespace": "MBC.Demo.Domain",
     "DBContextName": "DemoDBContext"
   },
   "WebAPIProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
-    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.WebAPI",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.WebAPI\\MCG",
+    "DiskDirectoryPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo",
+    "RootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.WebAPI",
+    "GeneratorRootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.WebAPI\\MCG",
     "ProjectName": "Demo",
-    "PrefixName": "XMJ",
-    "Namespace": "XMJ.Demo.WebAPI",
+    "PrefixName": "MBC",
+    "Namespace": "MBC.Demo.WebAPI",
     "DBContextName": "DemoDBContext"
   },
   "ServicesProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
-    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Services",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Services\\MCG",
+    "DiskDirectoryPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo",
+    "RootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.Services",
+    "GeneratorRootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.Services\\MCG",
     "ProjectName": "Demo",
-    "PrefixName": "XMJ",
-    "Namespace": "XMJ.Demo.Services",
+    "PrefixName": "MBC",
+    "Namespace": "MBC.Demo.Services",
     "DBContextName": "DemoDBContext"
   },
   "ServiceImplProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
-    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.ServiceImpl",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.ServiceImpl\\MCG",
+    "DiskDirectoryPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo",
+    "RootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.ServiceImpl",
+    "GeneratorRootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.ServiceImpl\\MCG",
     "ProjectName": "Demo",
-    "PrefixName": "XMJ",
-    "Namespace": "XMJ.Demo.ServiceImpl",
+    "PrefixName": "MBC",
+    "Namespace": "MBC.Demo.ServiceImpl",
     "DBContextName": "DemoDBContext"
   },
   "EFRepositoryProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
-    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.EFRepository",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.EFRepository\\MCG",
+    "DiskDirectoryPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo",
+    "RootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.EFRepository",
+    "GeneratorRootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.EFRepository\\MCG",
     "ProjectName": "Demo",
-    "PrefixName": "XMJ",
-    "Namespace": "XMJ.Demo.EFRepository",
+    "PrefixName": "MBC",
+    "Namespace": "MBC.Demo.EFRepository",
     "DBContextName": "DemoDBContext"
   },
   "DataTransmitModelProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
-    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.DataTransmitModel",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.DataTransmitModel\\MCG",
+    "DiskDirectoryPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo",
+    "RootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.DataTransmitModel",
+    "GeneratorRootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.DataTransmitModel\\MCG",
     "ProjectName": "Demo",
-    "PrefixName": "XMJ",
-    "Namespace": "XMJ.Demo.DataTransmitModel",
+    "PrefixName": "MBC",
+    "Namespace": "MBC.Demo.DataTransmitModel",
     "DBContextName": "DemoDBContext"
   },
   "PresentationModelProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
-    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.PresentationModel",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.PresentationModel\\MCG",
+    "DiskDirectoryPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo",
+    "RootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.PresentationModel",
+    "GeneratorRootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.PresentationModel\\MCG",
     "ProjectName": "Demo",
-    "PrefixName": "XMJ",
-    "Namespace": "XMJ.Demo.PresentationModel",
+    "PrefixName": "MBC",
+    "Namespace": "MBC.Demo.PresentationModel",
     "DBContextName": "DemoDBContext"
   },
   "EnumsProject": {
-    "DiskDirectoryPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo",
-    "RootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Enums",
-    "GeneratorRootPath": "D:\\Project\\古典部\\新明解\\XMJ\\XMJ.Core\\Demo\\XMJ.Demo.Enums\\MCG",
+    "DiskDirectoryPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo",
+    "RootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.Enums",
+    "GeneratorRootPath": "D:\\Project\\Materal\\Project\\Materal\\Level2\\Materal.BaseCore.Demo\\Demo\\MBC.Demo.Enums\\MCG",
     "ProjectName": "Demo",
-    "PrefixName": "XMJ",
-    "Namespace": "XMJ.Demo.Enums",
+    "PrefixName": "MBC",
+    "Namespace": "MBC.Demo.Enums",
     "DBContextName": "DemoDBContext"
   },
   "Domains": [
     {
-      "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Domain;", "using Materal.Utils.Model;", "using System.ComponentModel.DataAnnotations;" ],
-      "OtherUsings": [],
-      "Annotation": null,
-      "Namespace": "XMJ.Demo.Domain",
-      "Name": "MenuAuthority",
-      "Attributes": [],
-      "Properties": [
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Name",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "名称",
-          "Attributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "100"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称最多100个字符\""
-                }
-              ]
-            },
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "100"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"名称最多100个字符\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Contains",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true,
-          "IsIndexGourpProperty": false
-        },
-        {
-          "Initializer": " = string.Empty;",
-          "Name": "Code",
-          "PredefinedType": "string",
-          "NullPredefinedType": "string?",
-          "CanNull": false,
-          "Annotation": "代码",
-          "Attributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"代码为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "100"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"代码最多100个字符\""
-                }
-              ]
-            },
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"代码为空\""
-                }
-              ]
-            },
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "100"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"代码最多100个字符\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true,
-          "IsIndexGourpProperty": false
-        },
-        {
-          "Initializer": null,
-          "Name": "Path",
-          "PredefinedType": "string?",
-          "NullPredefinedType": "string?",
-          "CanNull": true,
-          "Annotation": "地址",
-          "Attributes": [
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "100"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"地址最多100个字符\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "StringLength",
-              "AttributeArguments": [
-                {
-                  "Target": null,
-                  "Value": "100"
-                },
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"地址最多100个字符\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": true,
-          "IsIndexGourpProperty": false
-        },
-        {
-          "Initializer": null,
-          "Name": "Index",
-          "PredefinedType": "int",
-          "NullPredefinedType": "int?",
-          "CanNull": false,
-          "Annotation": "位序",
-          "Attributes": [
-            {
-              "Name": "NotAddGenerator",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "NotEditGenerator",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "NotDTOGenerator",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "NotListDTOGenerator",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"位序为空\""
-                }
-              ]
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"位序为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": false,
-          "QueryAttributes": [],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": false,
-          "GeneratorListDTO": false,
-          "GeneratorAddModel": false,
-          "GeneratorEditModel": false,
-          "IsIndexGourpProperty": false
-        },
-        {
-          "Initializer": null,
-          "Name": "ParentID",
-          "PredefinedType": "Guid?",
-          "NullPredefinedType": "Guid?",
-          "CanNull": true,
-          "Annotation": "父级",
-          "Attributes": [
-            {
-              "Name": "NotEditGenerator",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "HasValidationAttribute": false,
-          "ValidationAttributes": [],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": false,
-          "IsIndexGourpProperty": false
-        },
-        {
-          "Initializer": null,
-          "Name": "SubSystemID",
-          "PredefinedType": "Guid",
-          "NullPredefinedType": "Guid?",
-          "CanNull": false,
-          "Annotation": "所属子系统唯一标识",
-          "Attributes": [
-            {
-              "Name": "NotEditGenerator",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"子系统唯一标识为空\""
-                }
-              ]
-            },
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            },
-            {
-              "Name": "IndexGroup",
-              "AttributeArguments": []
-            }
-          ],
-          "HasValidationAttribute": true,
-          "ValidationAttributes": [
-            {
-              "Name": "Required",
-              "AttributeArguments": [
-                {
-                  "Target": "ErrorMessage",
-                  "Value": "\"子系统唯一标识为空\""
-                }
-              ]
-            }
-          ],
-          "HasQueryAttribute": true,
-          "QueryAttributes": [
-            {
-              "Name": "Equal",
-              "AttributeArguments": []
-            }
-          ],
-          "IsBetween": false,
-          "GeneratorEntityConfig": true,
-          "GeneratorDTO": true,
-          "GeneratorListDTO": true,
-          "GeneratorAddModel": true,
-          "GeneratorEditModel": false,
-          "IsIndexGourpProperty": true
-        }
-      ],
-      "UseCache": false,
-      "GeneratorCode": true,
-      "GeneratorQueryTargetService": false,
-      "GeneratorService": true,
-      "GeneratorQueryModel": true,
-      "GeneratorWebAPI": true,
-      "GeneratorServiceWebAPI": true,
-      "GeneratorDefaultService": true,
-      "GeneratorExtendQuery": true,
-      "IsTable": true,
-      "IsIndexDomain": false
-    },
-    {
-      "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Domain;", "using Materal.Utils.Model;", "using System.ComponentModel.DataAnnotations;", "using XMJ.Demo.Enums;" ],
-      "OtherUsings": [ "using XMJ.Demo.Enums;" ],
+      "Usings": [ "using Materal.BaseCore.CodeGenerator;", "using Materal.BaseCore.Domain;", "using Materal.Utils.Model;", "using MBC.Demo.Enums;", "using System.ComponentModel.DataAnnotations;" ],
+      "OtherUsings": [ "using MBC.Demo.Enums;" ],
       "Annotation": "用户",
-      "Namespace": "XMJ.Demo.Domain",
+      "Namespace": "MBC.Demo.Domain",
       "Name": "User",
       "Attributes": [
         {
@@ -470,7 +104,7 @@
           "AttributeArguments": [
             {
               "Target": null,
-              "Value": "\"XMJ.Core.CodeGenerator\""
+              "Value": "\"MBC.Core.CodeGenerator\""
             },
             {
               "Target": null,
@@ -553,7 +187,8 @@
           "GeneratorListDTO": true,
           "GeneratorAddModel": true,
           "GeneratorEditModel": true,
-          "IsIndexGourpProperty": false
+          "IsIndexGourpProperty": false,
+          "IsTreeGourpProperty": false
         },
         {
           "Initializer": null,
@@ -602,7 +237,8 @@
           "GeneratorListDTO": true,
           "GeneratorAddModel": true,
           "GeneratorEditModel": true,
-          "IsIndexGourpProperty": false
+          "IsIndexGourpProperty": false,
+          "IsTreeGourpProperty": false
         },
         {
           "Initializer": " = string.Empty;",
@@ -677,7 +313,8 @@
           "GeneratorListDTO": true,
           "GeneratorAddModel": true,
           "GeneratorEditModel": true,
-          "IsIndexGourpProperty": false
+          "IsIndexGourpProperty": false,
+          "IsTreeGourpProperty": false
         },
         {
           "Initializer": " = string.Empty;",
@@ -759,7 +396,8 @@
           "GeneratorListDTO": false,
           "GeneratorAddModel": false,
           "GeneratorEditModel": false,
-          "IsIndexGourpProperty": false
+          "IsIndexGourpProperty": false,
+          "IsTreeGourpProperty": false
         }
       ],
       "UseCache": false,
@@ -772,14 +410,47 @@
       "GeneratorDefaultService": true,
       "GeneratorExtendQuery": true,
       "IsTable": true,
-      "IsIndexDomain": false
+      "IsIndexDomain": false,
+      "IsTreeDomain": false
     }
   ],
   "Enums": [
     {
-      "Namespace": "XMJ.Demo.Enums",
+      "Namespace": "MBC.Demo.Enums",
       "Annotation": "性别",
       "Name": "SexEnum",
+      "Values": [
+        {
+          "Name": "Man",
+          "Attributes": [
+            {
+              "Name": "Description",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "\"男性\""
+                }
+              ]
+            }
+          ],
+          "Annotation": "男性"
+        },
+        {
+          "Name": "Woman",
+          "Attributes": [
+            {
+              "Name": "Description",
+              "AttributeArguments": [
+                {
+                  "Target": null,
+                  "Value": "\"女性\""
+                }
+              ]
+            }
+          ],
+          "Annotation": "女性"
+        }
+      ],
       "GeneratorCode": true,
       "Attributes": []
     }

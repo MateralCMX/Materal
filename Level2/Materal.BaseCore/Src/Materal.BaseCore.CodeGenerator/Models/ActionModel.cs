@@ -40,6 +40,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// 特性组
         /// </summary>
         public List<AttributeModel> Attributes { get; set; } = new();
+
+        public ActionModel()
+        {
+        }
         public ActionModel(string[] codes, int startIndex)
         {
             string actionCode = codes[startIndex--].Trim();
@@ -185,10 +189,6 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 actionCode = codes[startIndex--].Trim();
             }
             #endregion
-        }
-
-        public ActionModel()
-        {
         }
 
         /// <summary>

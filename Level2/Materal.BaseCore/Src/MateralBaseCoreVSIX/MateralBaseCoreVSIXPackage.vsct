@@ -19,13 +19,6 @@
           <ButtonText>生成代码</ButtonText>
         </Strings>
       </Button>
-      <Button guid="guidMateralBaseCoreVSIXPackageCmdSet1" id="cmdidHttpClientGeneratorCommand" priority="0x0100" type="Button">
-        <Parent guid="guidMateralBaseCoreVSIXPackageCmdSet1" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="codeGeneratorPic" />
-        <Strings>
-          <ButtonText>生成HttpClient</ButtonText>
-        </Strings>
-      </Button>
     </Buttons>
     <Bitmaps>
       <Bitmap guid="guidImages" href="Resources\CodeGeneratorCommand.png" usedList="codeGeneratorPic" />
@@ -42,7 +35,6 @@
     </GuidSymbol>  
     <GuidSymbol value="{fba24dd1-d084-4ce7-8e7d-c74d72d9792f}" name="guidMateralBaseCoreVSIXPackageCmdSet1">
       <IDSymbol value="4128" name="MyMenuGroup" />
-      <IDSymbol value="256" name="cmdidHttpClientGeneratorCommand" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

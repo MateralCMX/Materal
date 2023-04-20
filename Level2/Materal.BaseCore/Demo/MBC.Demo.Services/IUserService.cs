@@ -1,5 +1,5 @@
-﻿using Materal.BaseCore.Services;
-using Materal.BaseCore.Services.Models;
+﻿using Materal.BaseCore.CodeGenerator;
+using Materal.BaseCore.Services;
 using Materal.Utils.Model;
 using MBC.Core.Common;
 using MBC.Demo.DataTransmitModel.User;
@@ -15,7 +15,7 @@ namespace MBC.Demo.Services
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="MBCException"></exception>
-        [DataValidation]
+        [DataValidation, MapperController(MapperType.Post)]
         Task<UserDTO> LoginAsync(LoginModel model);
         /// <summary>
         /// 重置密码

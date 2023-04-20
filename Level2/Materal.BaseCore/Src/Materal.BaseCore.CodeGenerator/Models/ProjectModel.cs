@@ -51,6 +51,17 @@ namespace Materal.BaseCore.CodeGenerator.Models
             }
         }
         /// <summary>
+        /// 清空生成文件
+        /// </summary>
+        public void ClearMCGFile(string filePath)
+        {
+            string path = Path.Combine(GeneratorRootPath, filePath);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+        /// <summary>
         /// 创建枚举控制器
         /// </summary>
         /// <param name="enums"></param>
@@ -215,6 +226,17 @@ namespace Materal.BaseCore.CodeGenerator.Models
             foreach (ControllerModel controller in controllers)
             {
                 controller.CreateHttpClientFile(this);
+            }
+        }
+        /// <summary>
+        /// 根据服务创建控制器文件
+        /// </summary>
+        /// <param name="services"></param>
+        public void CreateWebAPIControllerFileByServices(List<ServiceModel> services)
+        {
+            foreach (ServiceModel service in services)
+            {
+                service.CreateWebAPIControllerFile(this);
             }
         }
         /// <summary>

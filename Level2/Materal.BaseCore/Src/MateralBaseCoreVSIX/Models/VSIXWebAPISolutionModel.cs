@@ -63,11 +63,11 @@ namespace MateralBaseCoreVSIX.Models
         /// <summary>
         /// 填充Controller
         /// </summary>
-        /// <param name="domainProject"></param>
-        private void FillControllers(Project domainProject)
+        /// <param name="webAPIProject"></param>
+        private void FillControllers(Project webAPIProject)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            FillControllers(domainProject.ProjectItems, WebAPIProject.RootPath);
+            FillControllers(webAPIProject.ProjectItems, WebAPIProject.RootPath);
         }
         /// <summary>
         /// 填充Controller
@@ -88,7 +88,7 @@ namespace MateralBaseCoreVSIX.Models
                 {
                     var controllerModel = GetControllerModelOrNull(item, path);
                     if (controllerModel == null) continue;
-                    _controllers.Add(controllerModel);
+                    Controllers.Add(controllerModel);
                 }
             }
         }        
@@ -120,7 +120,7 @@ namespace MateralBaseCoreVSIX.Models
                 string controllerName = ControllerModel.GetControllerName(classCode);
                 if (!string.IsNullOrWhiteSpace(controllerName))
                 {
-                    result = _controllers.FirstOrDefault(m => m.Name == controllerName);
+                    result = Controllers.FirstOrDefault(m => m.Name == controllerName);
                 }
                 if(result == null)
                 {

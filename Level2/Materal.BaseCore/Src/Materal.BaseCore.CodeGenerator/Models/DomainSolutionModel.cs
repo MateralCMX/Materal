@@ -2,7 +2,10 @@
 
 namespace Materal.BaseCore.CodeGenerator.Models
 {
-    public abstract class DomainSolutionModel
+    /// <summary>
+    /// Domain项目模型
+    /// </summary>
+    public abstract class DomainSolutionModel : ISolutionModel
     {
         protected ProjectModel? CommonProject;
         protected ProjectModel? DomainProject;
@@ -21,9 +24,9 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 创建代码文件
         /// </summary>
-        public void CreateCodeFiles()
+        public string CreateCodeFiles()
         {
-            if (Domains.Count <= 0) return;
+            if (Domains.Count <= 0) throw new CodeGeneratorException("未找到任何Domain");
             DomainProject?.CreateDomainFiles(Domains, Enums);
             EFRepositoryProject?.CreateEFRepositoryFiles(Domains, Enums);
             DataTransmitModelProject?.CreateDataTransmitModelFiles(Domains);
@@ -37,6 +40,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 WebAPIProject?.CreateEnumsControllers(Enums);
             }
             RuningPlug();
+            return "已根据Domain文件生成代码";
         }
         /// <summary>
         /// 运行插件

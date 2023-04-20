@@ -101,8 +101,7 @@ namespace Materal.BusinessFlow.Demo
             #region 启动一个流程
             {
                 //WriteTestInfo("启动一个新流程....");
-                //flowID = await host.StartNewFlowAsync(_flowTemplateID, initiatorUser.ID);
-                //await host.StartNewFlowAsync(_flowTemplateID, initiatorUser.ID);
+                flowID = await host.StartNewFlowAsync(_flowTemplateID, initiatorUser.ID);
             }
             #endregion
             #region 保存数据

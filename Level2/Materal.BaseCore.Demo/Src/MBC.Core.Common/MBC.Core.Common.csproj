@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<Content Include="MBCConfig.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.TTA.SqliteRepository" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Materal.BaseCore\Src\Materal.BaseCore.Common\Materal.BaseCore.Common.csproj" />
+	</ItemGroup>
+</Project>

@@ -46,9 +46,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CodeGeneratorCommand.cs" />
-    <Compile Include="HttpClientGeneratorCommand.cs" />
     <Compile Include="Models\VSIXDomainSolutionModel.cs" />
     <Compile Include="Models\VSIXProjectModel.cs" />
+    <Compile Include="Models\VSIXServicesSolutionModel.cs" />
     <Compile Include="Models\VSIXWebAPISolutionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MateralBaseCoreVSIXPackage.cs" />
@@ -97,7 +97,6 @@
     </VSCTCompile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\HttpClientGeneratorCommand.png" />
     <Content Include="Resources\CodeGeneratorCommand.png" />
     <EmbeddedResource Include="Tools\Materal.BaseCore.CodeGenerator.dll" />
     <EmbeddedResource Include="Tools\MateralBasePlugBuild.dll" />
