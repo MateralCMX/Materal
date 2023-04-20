@@ -136,7 +136,8 @@ namespace Materal.BaseCore.CodeGenerator.Models
             "using Microsoft.AspNetCore",
             "using Materal.BaseCore.Services",
             "using Materal.BaseCore.CodeGenerator",
-            "using Materal.BaseCore.WebAPI.Controllers;",
+            "using Materal.BaseCore.WebAPI",
+            "using Materal.Utils"
         };
         /// <summary>
         /// 创建HttpClient文件
@@ -147,11 +148,13 @@ namespace Materal.BaseCore.CodeGenerator.Models
             if (!ActionModels.Any(m => m.GeneratorCode) && !IsServiceHttpClient) return;
             string[] _httpClientUsingBlackList = new[]
             {
+                $"using {project.PrefixName}.Core",
                 $"using {project.PrefixName}.{project.ProjectName}.Services"
             };
             StringBuilder codeContent = new();
             codeContent.AppendLine($"#nullable enable");
             codeContent.AppendLine($"using {project.PrefixName}.Core.HttpClient;");
+            codeContent.AppendLine($"using Materal.Utils.Model;");
             foreach (string @using in Usings)
             {
                 if (_httpClientUsingStaticBlackList.Any(m => @using.StartsWith(m))) continue;

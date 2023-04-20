@@ -1,9 +1,12 @@
+#nullable enable
 using Materal.Utils.Model;
 using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
 using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
 using RC.EnvironmentServer.Services.Models.ConfigurationItem;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Materal.BaseCore.PresentationModel;
+using Materal.BaseCore.Services.Models;
 
 namespace RC.EnvironmentServer.WebAPI.Controllers
 {

@@ -7,7 +7,7 @@
         protected readonly List<ServiceModel> Services = new();
         public string CreateCodeFiles()
         {
-            if (Services.Count <= 0) throw new CodeGeneratorException("未找到任何Controler");
+            if (Services.Count <= 0) throw new CodeGeneratorException("未找到任何Service");
             WebAPIProject?.CreateWebAPIControllerFileByServices(Services);
             return "已生成代码";
         }

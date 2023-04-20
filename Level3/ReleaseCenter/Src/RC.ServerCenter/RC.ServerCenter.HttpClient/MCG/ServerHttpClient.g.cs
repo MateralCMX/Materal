@@ -1,5 +1,7 @@
 #nullable enable
 using RC.Core.HttpClient;
+using AutoMapper;
+using Materal.Utils.Model;
 using RC.ServerCenter.DataTransmitModel.Server;
 
 namespace RC.ServerCenter.HttpClient
