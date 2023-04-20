@@ -60,12 +60,15 @@ namespace Materal.BaseCore.CodeGenerator.Models
             List<InterfaceMethodModel> models = InterfaceMethodModels.Where(m => m.GeneratorCode).ToList();
             if (models.Count <= 0) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"#nullable enable");
             codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.PresentationModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Services.Models.{Name};");
             codeContent.AppendLine($"using Microsoft.AspNetCore.Mvc;");
             codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
+            codeContent.AppendLine($"using Materal.BaseCore.PresentationModel;");
+            codeContent.AppendLine($"using Materal.BaseCore.Services.Models;");
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.WebAPI.Controllers");
             codeContent.AppendLine($"{{");

@@ -1,6 +1,4 @@
 ﻿using Materal.BaseCore.CodeGenerator.Extensions;
-using System.Reflection;
-using System.Text;
 
 namespace Materal.BaseCore.CodeGenerator.Models
 {
@@ -74,7 +72,9 @@ namespace Materal.BaseCore.CodeGenerator.Models
             code = code[(index + 1)..];
             index = code.IndexOf("(");
             Name = code[..index];
-            code = code[(index + 1)..^2];
+            code = code[(index + 1)..];
+            index = code.IndexOf(')');
+            code = code[..index];
             if (!string.IsNullOrWhiteSpace(code))
             {
                 Params = code.Split(',').Select(m => new ParamModel(m.Trim())).ToList();
