@@ -13,6 +13,7 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Materal.TTA.SqlServerRepository" Version="2.1.3" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="*" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="*" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="*" />

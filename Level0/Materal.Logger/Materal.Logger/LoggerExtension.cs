@@ -80,7 +80,7 @@ namespace Materal.Logger
             LoggerTargetConfigModel model = new()
             {
                 Enable = true,
-                Type = TargetTypeEnum.Sqlite,
+                Type = TargetTypeEnum.SqlServer,
                 Name = name,
                 ConnectionString = connectionString
             };

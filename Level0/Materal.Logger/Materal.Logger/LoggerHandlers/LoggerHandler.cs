@@ -76,7 +76,7 @@ namespace Materal.Logger.LoggerHandlers
         {
             if(exception is MateralHttpException httpException)
             {
-                return httpException.GetHttpErrorMessage();
+                return httpException.GetExceptionMessage();
             }
             else
             {
