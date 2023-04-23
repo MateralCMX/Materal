@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Title>Materal工具包</Title>
+		<Company>Materal</Company>
+		<Product>Materal</Product>
+		<Authors>Materal</Authors>
+		<Version>0.0.9</Version>
+		<Description>Materal工具包</Description>
+		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+		<PackageOutputPath>../../nupkgs</PackageOutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="AspectCore.Core" Version="*" />
+		<PackageReference Include="System.Threading.Tasks.Dataflow" Version="*" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
+	</ItemGroup>
+</Project>

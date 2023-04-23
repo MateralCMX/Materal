@@ -1,5 +1,4 @@
 ﻿using System.CommandLine;
-using System.Reflection;
 
 namespace ProjectClear
 {

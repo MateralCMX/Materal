@@ -13,7 +13,7 @@
 		<Version>0.0.9</Version>
 		<Description>Materal Windows工具包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
-		<PackageOutputPath>../../nupkgs</PackageOutputPath>
+		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
