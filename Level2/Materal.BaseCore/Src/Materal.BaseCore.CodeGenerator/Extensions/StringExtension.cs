@@ -105,7 +105,7 @@ namespace Materal.BaseCore.CodeGenerator.Extensions
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public static bool IsFullCode(this string code)
+        public static bool IsFullCodeBlock(this string code)
         {
             if (code.Count(m => m == '"') % 2 != 0) return false;
             int left = code.Count(m => m == '(');
@@ -139,7 +139,7 @@ namespace Materal.BaseCore.CodeGenerator.Extensions
                 {
                     tempArg += $"{linkString}{arg}";
                 }
-                if (!tempArg.IsFullCode()) continue;
+                if (!tempArg.IsFullCodeBlock()) continue;
                 trueCodes.Add(tempArg);
                 tempArg = null;
             }

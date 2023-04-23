@@ -1,14 +1,16 @@
-﻿namespace Materal.BaseCore.Common.Utils
+﻿using Materal.Extensions.Models;
+
+namespace System
 {
     /// <summary>
-    /// 数字帮助扩展
+    /// 整数扩展
     /// </summary>
-    public static class NumberHelperExtensions
+    public static class IntExtension
     {
         /// <summary>
         /// 简体中文
         /// </summary>
-        public static NumberHelperModel SimplifiedChineseModel = new()
+        public readonly static IntConvertModel SimplifiedChineseModel = new()
         {
             Numbers = new()
             {
@@ -39,7 +41,7 @@
         /// <summary>
         /// 大写中文
         /// </summary>
-        public static NumberHelperModel CapitalChineseModel = new()
+        public readonly static IntConvertModel CapitalChineseModel = new()
         {
             Numbers = new()
             {
@@ -67,12 +69,25 @@
                 [2] = "拾"
             }
         };
-        public static string ConvertToChinese(this uint inputNumber, NumberHelperModel? model = null)
+        /// <summary>
+        /// 转换为中文大写
+        /// </summary>
+        /// <param name="inputNumber"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static string ConvertToChinese(this int inputNumber, IntConvertModel? model = null)
         {
+            int number = inputNumber;
+            string result = string.Empty;
+            if (number < 0)
+            {
+                result = "负";
+                number *= -1;
+            }
+            else if (number == 0) return "零";
             model ??= SimplifiedChineseModel;
-            Dictionary<uint, string> chineseNumberDictionary = model.Numbers;
-            uint number = inputNumber;
-            List<uint> numbers = new();
+            Dictionary<int, string> chineseNumberDictionary = model.Numbers;
+            List<int> numbers = new();
             while (number > 0)
             {
                 numbers.Add(number % 10);
@@ -101,14 +116,21 @@
                 var chineseNumber = chineseNumbers[i];
                 Handler(chineseNumber, temp++, model);
             }
-            var result = string.Join("", chineseNumbers);
+            result += string.Join("", chineseNumbers);
             if (result.EndsWith("零"))
             {
                 result = result[..^1];
             }
             return result;
         }
-        private static string Handler(string inputString, int dicIndex, NumberHelperModel model)
+        /// <summary>
+        /// 处理
+        /// </summary>
+        /// <param name="inputString"></param>
+        /// <param name="dicIndex"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private static string Handler(string inputString, int dicIndex, IntConvertModel model)
         {
             Dictionary<int, string> extend = new()
             {

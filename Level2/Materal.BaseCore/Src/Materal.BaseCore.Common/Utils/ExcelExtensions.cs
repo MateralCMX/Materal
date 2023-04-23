@@ -1,6 +1,6 @@
 ﻿namespace Materal.BaseCore.Common.Utils
 {
-    public static class ExcelHelperExtensions
+    public static class ExcelExtensions
     {
         /// <summary>
         /// Excel文本转换为时间

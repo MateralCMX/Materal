@@ -86,17 +86,28 @@ namespace System.Data
             }
         }
         /// <summary>
-        /// 数据行转换为目标对象
+        /// 获得值
         /// </summary>
         /// <typeparam name="T">目标类型</typeparam>
         /// <param name="dataRow">数据行</param>
         /// <param name="exceptions"></param>
         /// <returns>目标对象</returns>
-        public static T ToObject<T>(this DataRow dataRow, ref List<Exception> exceptions)
+        public static T GetValue<T>(this DataRow dataRow, ref List<Exception> exceptions)
         {
-            T result = TypeHelper.Instantiation<T>();
-            if (result == null) throw new ExtensionException("转换失败");
+            T result = TypeHelper.Instantiation<T>() ?? throw new ExtensionException("转换失败");
             result.SetValueByDataRow(dataRow, ref exceptions);
+            return result;
+        }
+        /// <summary>
+        /// 获得字符串值
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static string? GetStringValue(this DataRow row, int index)
+        {
+            if (row.ItemArray == null || row.ItemArray.Length <= index) return null;
+            string? result = row[index].ToString();
             return result;
         }
         /// <summary>
@@ -111,7 +122,7 @@ namespace System.Data
             List<T> result = new();
             foreach (DataRow dr in dataTable.Rows)
             {
-                var value = dr.ToObject<T>(ref exceptions);
+                var value = dr.GetValue<T>(ref exceptions);
                 if (value == null) continue;
                 result.Add(value);
             }
@@ -130,7 +141,7 @@ namespace System.Data
             var result = new T?[count];
             for (var i = 0; i < count; i++)
             {
-                result[i] = dataTable.Rows[i].ToObject<T>(ref exceptions);
+                result[i] = dataTable.Rows[i].GetValue<T>(ref exceptions);
             }
             return result;
         }
@@ -173,7 +184,7 @@ namespace System.Data
                 for (var j = 0; j < rowCounts[i]; j++)
                 {
                     DataRow row = tables[i].Rows[j];
-                    result[i, j] = row.ToObject<T>(ref exceptions);
+                    result[i, j] = row.GetValue<T>(ref exceptions);
                 }
             }
             return result;

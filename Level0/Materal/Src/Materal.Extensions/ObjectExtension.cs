@@ -9,7 +9,7 @@ namespace System
     /// <summary>
     /// Object扩展
     /// </summary>
-    public static class ObjectExtension
+    public static partial class ObjectExtension
     {
         /// <summary>
         /// 可转换类型字典
@@ -332,46 +332,6 @@ namespace System
                 }
             }
             return true;
-        }
-
-        /// <summary>
-        /// 验证
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="errorMessage"></param>
-        /// <returns></returns>
-        public static bool Validation(this object model, out string errorMessage)
-        {
-            try
-            {
-                model.Validation();
-                errorMessage = string.Empty;
-                return true;
-            }
-            catch (ExtensionException ex)
-            {
-                errorMessage = ex.Message;
-                return false;
-            }
-        }
-        /// <summary>
-        /// 验证
-        /// </summary>
-        /// <param name="model"></param>
-        public static void Validation(this object model)
-        {
-            Type thisType = model.GetType();
-            foreach (PropertyInfo propertyInfo in thisType.GetProperties())
-            {
-                foreach (ValidationAttribute validationAttribute in propertyInfo.GetCustomAttributes<ValidationAttribute>())
-                {
-                    object? propertyValue = propertyInfo.GetValue(model, null);
-                    if (!validationAttribute.IsValid(propertyValue))
-                    {
-                        throw new ValidationException(validationAttribute.ErrorMessage, validationAttribute, propertyValue);
-                    }
-                }
-            }
         }
     }
 }

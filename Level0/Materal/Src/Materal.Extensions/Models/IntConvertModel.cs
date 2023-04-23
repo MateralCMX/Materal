@@ -1,14 +1,14 @@
-﻿namespace Materal.BaseCore.Common.Utils
+﻿namespace Materal.Extensions.Models
 {
     /// <summary>
-    /// 数字帮助模型
+    /// 整数转换模型
     /// </summary>
-    public class NumberHelperModel
+    public class IntConvertModel
     {
         /// <summary>
         /// 数字
         /// </summary>
-        public Dictionary<uint, string> Numbers { get; set; } = new();
+        public Dictionary<int, string> Numbers { get; set; } = new();
         /// <summary>
         /// 单位
         /// </summary>

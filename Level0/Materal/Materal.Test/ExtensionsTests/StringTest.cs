@@ -1,6 +1,6 @@
 ﻿using Materal.Test.Models;
 
-namespace Materal.Test.ExtensionsTest
+namespace Materal.Test.ExtensionsTests
 {
     [TestClass]
     public class StringTest : BaseTest
