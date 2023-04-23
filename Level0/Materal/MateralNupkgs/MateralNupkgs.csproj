@@ -18,8 +18,8 @@
 		<PackageReference Include="Materal.BaseCore.Services" Version="0.2.36" />
 		<PackageReference Include="Materal.BaseCore.WebAPI" Version="0.2.36" />
 		<PackageReference Include="Materal.Extensions" Version="0.0.8" />
-		<PackageReference Include="Materal.Logger" Version="0.0.16" />
-		<PackageReference Include="Materal.Logger.Message" Version="0.0.16" />
+		<PackageReference Include="Materal.Logger" Version="0.0.17" />
+		<PackageReference Include="Materal.Logger.Message" Version="0.0.17" />
 		<PackageReference Include="Materal.Oscillator" Version="0.0.15" />
 		<PackageReference Include="Materal.Oscillator.Abstractions" Version="0.0.15" />
 		<PackageReference Include="Materal.Oscillator.DR" Version="0.0.15" />
