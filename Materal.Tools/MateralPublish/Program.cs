@@ -13,17 +13,17 @@ namespace MateralPublish
             canAllOption.SetDefaultValue(null);
             RootCommand rootCommand = new("发布Materal项目");
             rootCommand.AddOption(canAllOption);
-            rootCommand.SetHandler(Publish, canAllOption);
+            rootCommand.SetHandler(PublishAsync, canAllOption);
             return await rootCommand.InvokeAsync(args);
         }
         /// <summary>
         /// 发布
         /// </summary>
         /// <param name="canAll"></param>
-        private static void Publish(string? newVersion)
+        private static async Task PublishAsync(string? newVersion)
         {
             MateralProjectModel materalProject = new(AppDomain.CurrentDomain.BaseDirectory);
-            materalProject.Publish(newVersion);
+            await materalProject.PublishAsync(newVersion);
         }
     }
 }

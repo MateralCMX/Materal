@@ -6,7 +6,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="AntDesign" Version="*" />
-		<PackageReference Include="Materal.Logger" Version="*" />
+		<PackageReference Include="Materal.Logger" Version="3.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Gateway.OcelotExtension\Materal.Gateway.OcelotExtension.csproj" />

@@ -4,8 +4,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<PackageOutputPath>../../nupkgs</PackageOutputPath>
-		<Version>0.2.36</Version>
+		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<Version>3.0.0</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -14,7 +14,7 @@
 		<Description>请引用对应名称包</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="*" />
+		<PackageReference Include="Materal.Utils" Version="3.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.BaseCore.Common\Materal.BaseCore.Common.csproj" />

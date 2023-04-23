@@ -1,12 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.Services" Version="*" />
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="*" />
+		<PackageReference Include="Materal.BaseCore.Services" Version="3.0.0" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="3.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.ServerCenter.Common\RC.ServerCenter.Common.csproj" />

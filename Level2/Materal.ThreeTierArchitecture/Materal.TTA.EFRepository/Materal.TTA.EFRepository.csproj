@@ -5,16 +5,16 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>11.0</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../nupkgs</PackageOutputPath>
+		<PackageOutputPath>../../../nupkgs</PackageOutputPath>
 		<Product>Materal.ThreeTierArchitecture</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>2.1.3</Version>
+		<Version>3.0.0</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.TTA.EFRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils.Redis" Version="*" />
+		<PackageReference Include="Materal.Utils.Redis" Version="3.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="*" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="*" />
 	</ItemGroup>

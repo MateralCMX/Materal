@@ -1,4 +1,6 @@
-﻿namespace MateralPublish.Models
+﻿using MateralPublish.Extensions;
+
+namespace MateralPublish.Models
 {
     public class MateralProjectModel
     {
@@ -57,8 +59,8 @@
         public MateralProjectModel(string path)
         {
             ProjectDirectoryInfo = GetProjectDirectoryInfo(path);
-            NugetDirectoryInfo = GetNewDirectoryInfo(Path.Combine(ProjectDirectoryInfo.FullName, "nupkgs"));
-            PublishDirectoryInfo = GetNewDirectoryInfo(Path.Combine(ProjectDirectoryInfo.FullName, "publish"));
+            NugetDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "nupkgs").GetNewDirectoryInfo();
+            PublishDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "publish").GetNewDirectoryInfo();
             Project = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level0", "Materal"));
             LoggerProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level1", "Materal.Logger"));
             BusinessFlowProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.BusinessFlow"));
@@ -74,7 +76,7 @@
         /// 发布
         /// </summary>
         /// <param name="newVersion"></param>
-        public void Publish(string? newVersion)
+        public async Task PublishAsync(string? newVersion)
         {
             string version;
             if (string.IsNullOrWhiteSpace(newVersion))
@@ -85,23 +87,16 @@
             {
                 version = newVersion;
             }
-            Project.Publish(PublishDirectoryInfo, version);
-        }
-        /// <summary>
-        /// 获得新文件夹信息
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        private static DirectoryInfo GetNewDirectoryInfo(string path)
-        {
-            DirectoryInfo result = new(path);
-            if (result.Exists)
-            {
-                result.Delete(true);
-            }
-            result.Create();
-            result.Refresh();
-            return result;
+            await Project.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await LoggerProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await BusinessFlowProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await GatewayProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await TFMSProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await ThreeTierArchitectureProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await WorkflowProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await OscillatorProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await BaseCoreProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await ReleaseCenterProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
         }
         /// <summary>
         /// 获得项目文件夹信息

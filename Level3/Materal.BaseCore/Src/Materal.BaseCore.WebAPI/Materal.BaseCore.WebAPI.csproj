@@ -4,8 +4,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<PackageOutputPath>../../nupkgs</PackageOutputPath>
-		<Version>0.2.36</Version>
+		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<Version>3.0.0</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -23,6 +23,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 		<PackageReference Include="Consul" Version="*" />
 		<PackageReference Include="Polly" Version="*" />
-		<PackageReference Include="Materal.Logger" Version="*" />
+		<PackageReference Include="Materal.Logger" Version="3.0.0" />
 	</ItemGroup>
 </Project>
