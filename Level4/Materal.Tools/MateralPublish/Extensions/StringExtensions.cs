@@ -12,7 +12,9 @@
             DirectoryInfo result = new(path);
             if (result.Exists)
             {
-                result.Delete(true);
+                string newPath = $"{path}_{DateTime.Now:yyyyMMddHHmmss}";
+                result.MoveTo(newPath);
+                result = new(path);
             }
             result.Create();
             result.Refresh();

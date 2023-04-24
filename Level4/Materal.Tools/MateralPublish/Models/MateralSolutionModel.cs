@@ -3,7 +3,7 @@ using MateralPublish.Helper;
 
 namespace MateralPublish.Models
 {
-    public class MateralProjectModel
+    public class MateralSolutionModel
     {
         /// <summary>
         /// 项目文件夹信息
@@ -45,7 +45,7 @@ namespace MateralPublish.Models
         /// 调度器项目
         /// </summary>
         public OscillatorProjectModel OscillatorProject { get; }
-        public MateralProjectModel(string path)
+        public MateralSolutionModel(string path)
         {
             ProjectDirectoryInfo = GetProjectDirectoryInfo(path);
             UploadNugetPackageHelper.NugetDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "nupkgs").GetNewDirectoryInfo();
@@ -60,7 +60,7 @@ namespace MateralPublish.Models
             BaseCoreProject = new BaseCoreProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level3", "Materal.BaseCore"));
         }
         /// <summary>
-        /// 获得下一步版本号
+        /// 获得下一个版本号
         /// </summary>
         /// <returns></returns>
         public async Task<string> GetNextVersionAsync()
@@ -73,10 +73,20 @@ namespace MateralPublish.Models
             return nextVersion;
         }
         /// <summary>
+        /// 获得版本号
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> GetVersionAsync()
+        {
+            string nowVersion = await MainProject.GetNowVersionAsync();
+            return nowVersion;
+        }
+        /// <summary>
         /// 发布
         /// </summary>
-        /// <param name="options"></param>
-        public async Task PublishAsync(string version)
+        /// <param name="version"></param>
+        /// <param name="uploadNuget"></param>
+        public async Task PublishAsync(string version, bool uploadNuget)
         {
             await MainProject.PublishAsync(PublishDirectoryInfo, version);
             await LoggerProject.PublishAsync(PublishDirectoryInfo, version);
@@ -86,7 +96,10 @@ namespace MateralPublish.Models
             await WorkflowProject.PublishAsync(PublishDirectoryInfo, version);
             await OscillatorProject.PublishAsync(PublishDirectoryInfo, version);
             await BaseCoreProject.PublishAsync(PublishDirectoryInfo, version);
-            UploadNugetPackageHelper.Recover();
+            if (uploadNuget)
+            {
+                await UploadNugetPackageHelper.UploadNugetPackagesAsync();
+            }
             ConsoleHelper.WriteLine("正在清理临时文件...");
             ConsoleHelper.WriteLine($"删除文件夹{PublishDirectoryInfo.FullName}");
             PublishDirectoryInfo.Delete(true);

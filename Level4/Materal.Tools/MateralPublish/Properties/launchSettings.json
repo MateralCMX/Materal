@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "MateralPublish": {
-      "commandName": "Project",
-      "commandLineArgs": "-v 0.0.1"
-    }
-  }
-}

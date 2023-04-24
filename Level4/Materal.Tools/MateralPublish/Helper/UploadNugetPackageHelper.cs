@@ -5,53 +5,15 @@ namespace MateralPublish.Helper
 {
     public static class UploadNugetPackageHelper
     {
-        public static DirectoryInfo? NugetDirectoryInfo
-        {
-            get => _nugetDirectoryInfo; set
-            {
-                _nugetDirectoryInfo = value;
-                if(_nugetDirectoryInfo == null)
-                {
-                    _successNugetDirectoryInfo = null;
-                }
-                else
-                {
-                    _successNugetDirectoryInfo = new(Path.Combine(_nugetDirectoryInfo.FullName, "Success"));
-                    if (!_successNugetDirectoryInfo.Exists)
-                    {
-                        _successNugetDirectoryInfo.Create();
-                        _successNugetDirectoryInfo.Refresh();
-                    }
-                }
-            }
-        }
-        private static DirectoryInfo? _successNugetDirectoryInfo;
-        private static DirectoryInfo? _nugetDirectoryInfo;
+        public static DirectoryInfo? NugetDirectoryInfo { get; set; }
         private static readonly HttpClient _httpClient = new();
-        /// <summary>
-        /// 复原
-        /// </summary>
-        public static void Recover()
-        {
-            if (NugetDirectoryInfo == null || _successNugetDirectoryInfo == null) return;
-            ConsoleHelper.WriteLine("正在复原Nuget文件...");
-            if (_successNugetDirectoryInfo.Exists)
-            {
-                foreach (FileInfo fileInfo in _successNugetDirectoryInfo.GetFiles())
-                {
-                    ConsoleHelper.WriteLine($"移动{fileInfo.Name}");
-                    fileInfo.MoveTo(Path.Combine(NugetDirectoryInfo.FullName, fileInfo.Name));
-                }
-                _successNugetDirectoryInfo.Delete(true);
-            }
-        }
         /// <summary>
         /// 上传Nuget包
         /// </summary>
         /// <returns></returns>
         public static async Task UploadNugetPackagesAsync()
         {
-            if (NugetDirectoryInfo == null || _successNugetDirectoryInfo == null) return;
+            if (NugetDirectoryInfo == null) return;
             FileInfo[] fileInfos = NugetDirectoryInfo.GetFiles();
             foreach (FileInfo nugetFileInfo in fileInfos)
             {
@@ -65,8 +27,6 @@ namespace MateralPublish.Helper
                     await Task.Delay(1000);
                 }
                 ConsoleHelper.WriteLine($"Nuget服务器已检测到包{nugetFileInfo.Name}");
-                string newFilePath = Path.Combine(_successNugetDirectoryInfo.FullName, nugetFileInfo.Name);
-                nugetFileInfo.MoveTo(newFilePath, true);
             }
         }
         /// <summary>

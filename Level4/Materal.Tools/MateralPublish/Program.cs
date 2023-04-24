@@ -8,12 +8,26 @@ namespace MateralPublish
         public static async Task<int> Main(string[] args)
         {
             RootCommand rootCommand = new("发布Materal项目");
+
             Option<string?> verionOption = new("--Version", "指定版本号");
             verionOption.AddAlias("-v");
             verionOption.IsRequired = false;
             verionOption.SetDefaultValue(null);
             rootCommand.AddOption(verionOption);
-            rootCommand.SetHandler(PublishAsync, verionOption);
+
+            Option<bool> uploadNugetOption = new("--UploadNuget", "上传Nuget包");
+            uploadNugetOption.AddAlias("-u");
+            uploadNugetOption.IsRequired = false;
+            uploadNugetOption.SetDefaultValue(false);
+            rootCommand.AddOption(uploadNugetOption);
+
+            Option<bool> nextVerionOption = new("--NextVersion", "版本号+1");
+            nextVerionOption.AddAlias("-n");
+            nextVerionOption.IsRequired = false;
+            nextVerionOption.SetDefaultValue(false);
+            rootCommand.AddOption(nextVerionOption);
+
+            rootCommand.SetHandler(PublishAsync, verionOption, nextVerionOption, uploadNugetOption);
             int result = await rootCommand.InvokeAsync(args);
             ConsoleHelper.Wait();
             return result;
@@ -21,12 +35,13 @@ namespace MateralPublish
         /// <summary>
         /// 发布
         /// </summary>
-        /// <param name="canAll"></param>
-        private static async Task PublishAsync(string? newVersion)
+        /// <param name="version"></param>
+        /// <param name="uploadNuget"></param>
+        private static async Task PublishAsync(string? version, bool nextVersion, bool uploadNuget)
         {
-            MateralProjectModel materalProject = new(Environment.CurrentDirectory);
-            string version = newVersion ?? await materalProject.GetNextVersionAsync();
-            await materalProject.PublishAsync(version);
+            MateralSolutionModel materalProject = new(Environment.CurrentDirectory);
+            version ??= nextVersion ? await materalProject.GetNextVersionAsync() : await materalProject.GetVersionAsync();
+            await materalProject.PublishAsync(version, uploadNuget);
         }
     }
 }

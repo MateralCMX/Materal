@@ -29,7 +29,6 @@ namespace MateralPublish.Models
         {
             await UpdateVersionAsync(version, ProjectDirectoryInfo);
             await PublishAsync(publishDirectoryInfo, ProjectDirectoryInfo);
-            await UploadNugetPackageHelper.UploadNugetPackagesAsync();
         }
         /// <summary>
         /// 更新版本号

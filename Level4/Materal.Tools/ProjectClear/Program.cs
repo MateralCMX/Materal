@@ -8,7 +8,7 @@ namespace ProjectClear
         private static List<string> _filesWhiteList = new();
         private static List<string> _dictionaryBlackList = new()
         {
-            ".git","node_modules"
+            ".git"
         };
         public static async Task<int> Main(string[] args)
         {
@@ -31,12 +31,13 @@ namespace ProjectClear
             _dictionaryWhiteList.Add(".vs");
             if (canAll)
             {
-                Console.Write("、obj文件夹、bin文件夹");
+                Console.Write("、obj文件夹、bin、node_modules文件夹");
                 _dictionaryWhiteList.Add("obj");
                 _dictionaryWhiteList.Add("bin");
+                _dictionaryWhiteList.Add("node_modules");
             }
-            Console.WriteLine("、*.nupkg文件");
-            _filesWhiteList.Add(".nupkg");
+            //Console.WriteLine("、*.nupkg文件");
+            //_filesWhiteList.Add(".nupkg");
             Console.WriteLine("开始清理....");
             ClearByNameList();
             Console.WriteLine("清理完毕");
@@ -66,13 +67,11 @@ namespace ProjectClear
             }
             foreach (FileInfo item in directoryInfo.GetFiles())
             {
-                if (_filesWhiteList.Contains(item.Extension))
-                {
-                    Console.WriteLine($"移除文件:{item.FullName}");
-                    item.Delete();
-                }
+                if (!_filesWhiteList.Contains(item.Extension)) continue;
+                Console.WriteLine($"移除文件:{item.FullName}");
+                item.Delete();
             }
-            if(directoryInfo.GetFiles().Length <= 0 && directoryInfo.GetDirectories().Length <= 0)//空文件夹
+            if (directoryInfo.GetFiles().Length <= 0 && directoryInfo.GetDirectories().Length <= 0)//空文件夹
             {
                 Console.WriteLine($"移除文件夹:{directoryInfo.FullName}");
                 directoryInfo.Delete(true);

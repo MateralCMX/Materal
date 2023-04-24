@@ -5,7 +5,7 @@
 		<Product>Materal.ThreeTierArchitecture</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.0.0</Version>
+		<Version>1.1.0</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.TTA.RedisRepository</Description>
 	</PropertyGroup>
