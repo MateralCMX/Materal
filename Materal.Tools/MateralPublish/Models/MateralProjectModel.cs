@@ -19,31 +19,31 @@ namespace MateralPublish.Models
         /// <summary>
         /// 主项目
         /// </summary>
-        public MainProjectModel Project { get; }
+        public MainProjectModel MainProject { get; }
         /// <summary>
         /// 日志项目
         /// </summary>
-        public ProjectModel LoggerProject { get; }
+        public LoggerProjectModel LoggerProject { get; }
         /// <summary>
         /// 业务流项目
         /// </summary>
-        public ProjectModel BusinessFlowProject { get; }
+        public BusinessFlowProjectModel BusinessFlowProject { get; }
         /// <summary>
         /// 网关项目
         /// </summary>
-        public ProjectModel GatewayProject { get; }
+        public GatewayProjectModel GatewayProject { get; }
         /// <summary>
         /// TFMS项目
         /// </summary>
-        public ProjectModel TFMSProject { get; }
+        public TFMSProjectModel TFMSProject { get; }
         /// <summary>
         /// TTA项目
         /// </summary>
-        public ProjectModel ThreeTierArchitectureProject { get; }
+        public TTAProjectModel TTAProject { get; }
         /// <summary>
         /// 工作流项目
         /// </summary>
-        public ProjectModel WorkflowProject { get; }
+        public WorkflowProjectModel WorkflowProject { get; }
         /// <summary>
         /// 基础核心项目
         /// </summary>
@@ -51,30 +51,30 @@ namespace MateralPublish.Models
         /// <summary>
         /// 调度器项目
         /// </summary>
-        public ProjectModel OscillatorProject { get; }
+        public OscillatorProjectModel OscillatorProject { get; }
         /// <summary>
         /// 发布中心项目
         /// </summary>
-        public ProjectModel ReleaseCenterProject { get; }
+        public ReleaseCenterProjectModel ReleaseCenterProject { get; }
         public MateralProjectModel(string path)
         {
             ProjectDirectoryInfo = GetProjectDirectoryInfo(path);
             NugetDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "nupkgs").GetNewDirectoryInfo();
             PublishDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "publish").GetNewDirectoryInfo();
-            Project = new MainProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level0", "Materal"));
-            LoggerProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level1", "Materal.Logger"));
-            BusinessFlowProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.BusinessFlow"));
-            GatewayProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.Gateway"));
-            TFMSProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.TFMS"));
-            ThreeTierArchitectureProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.ThreeTierArchitecture"));
-            WorkflowProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.Workflow"));
+            MainProject = new MainProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level0", "Materal"));
+            LoggerProject = new LoggerProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level1", "Materal.Logger"));
+            BusinessFlowProject = new BusinessFlowProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.BusinessFlow"));
+            GatewayProject = new GatewayProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.Gateway"));
+            TFMSProject = new TFMSProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.TFMS"));
+            TTAProject = new TTAProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.ThreeTierArchitecture"));
+            WorkflowProject = new WorkflowProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.Workflow"));
             BaseCoreProject = new BaseCoreProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level3", "Materal.BaseCore"));
-            OscillatorProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level3", "Materal.Oscillator"));
-            ReleaseCenterProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level4", "ReleaseCenter"));
+            OscillatorProject = new OscillatorProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level3", "Materal.Oscillator"));
+            ReleaseCenterProject = new ReleaseCenterProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level4", "ReleaseCenter"));
         }
         public async Task<string> GetNextVersionAsync()
         {
-            string nowVersion = await Project.GetNowVersionAsync();
+            string nowVersion = await MainProject.GetNowVersionAsync();
             string[] versions = nowVersion.Split('.');
             int lastVersionNumber = Convert.ToInt32(versions.Last());
             versions[versions.Length - 1] = (lastVersionNumber + 1).ToString();
@@ -87,12 +87,12 @@ namespace MateralPublish.Models
         /// <param name="options"></param>
         public async Task PublishAsync(string version)
         {
-            await Project.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await MainProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await LoggerProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await BusinessFlowProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await GatewayProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await TFMSProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
-            await ThreeTierArchitectureProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            await TTAProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await WorkflowProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await OscillatorProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await BaseCoreProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);

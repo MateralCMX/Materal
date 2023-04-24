@@ -1,11 +1,22 @@
-﻿using System;
-
-namespace MateralPublish.Models
+﻿namespace MateralPublish.Models
 {
-    public class MainProjectModel : ProjectModel
+    public class MainProjectModel : BaseProjectModel
     {
         public MainProjectModel(string directoryPath) : base(directoryPath)
         {
+        }
+        protected override bool IsPublishProject(string name)
+        {
+            string[] whiteList = new[]
+            {
+                "Materal.Abstractions",
+                "Materal.Extensions",
+                "Materal.Utils",
+                "Materal.Utils.Redis",
+                "Materal.Utils.Wechat",
+                "Materal.Utils.Windows"
+            };
+            return whiteList.Contains(name);
         }
         public async Task<string> GetNowVersionAsync()
         {

@@ -2,12 +2,32 @@
 
 namespace MateralPublish.Models
 {
-    public class BaseCoreProjectModel : ProjectModel
+    public class BaseCoreProjectModel : BaseProjectModel
     {
         private DirectoryInfo vsixDirectoryInfo;
         public BaseCoreProjectModel(string directoryPath) : base(directoryPath)
         {
             vsixDirectoryInfo = new(Path.Combine(ProjectDirectoryInfo.FullName, "Src", "MateralBaseCoreVSIX"));
+        }
+        protected override bool IsPublishProject(string name)
+        {
+            string[] whiteList = new[]
+            {
+                "Materal.BaseCore.AutoDI",
+                "Materal.BaseCore.CodeGenerator",
+                "Materal.BaseCore.Common",
+                "Materal.BaseCore.DataTransmitModel",
+                "Materal.BaseCore.Domain",
+                "Materal.BaseCore.EFRepository",
+                "Materal.BaseCore.HttpClient",
+                "Materal.BaseCore.PresentationModel",
+                "Materal.BaseCore.ServiceImpl",
+                "Materal.BaseCore.Services",
+                "Materal.BaseCore.WebAPI",
+                "MateralBaseCoreVSIX",
+                "MateralBasePlugBuild"
+            };
+            return whiteList.Contains(name);
         }
         protected override async Task UpdateVersionAsync(string version, FileInfo csprojFileInfo)
         {
