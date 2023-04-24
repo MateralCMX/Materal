@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsPackable>false</IsPackable>
+		<IsTestProject>true</IsTestProject>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
+		<PackageReference Include="MSTest.TestAdapter" Version="*" />
+		<PackageReference Include="MSTest.TestFramework" Version="*" />
+		<PackageReference Include="coverlet.collector" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.TTA.Common\Materal.TTA.Common.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.MongoDBRepository\Materal.TTA.MongoDBRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.MySqlRepository\Materal.TTA.MySqlRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.RedisRepository\Materal.TTA.RedisRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.SqliteRepository\Materal.TTA.SqliteRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.SqlServerRepository\Materal.TTA.SqlServerRepository.csproj" />
+	</ItemGroup>
+</Project>

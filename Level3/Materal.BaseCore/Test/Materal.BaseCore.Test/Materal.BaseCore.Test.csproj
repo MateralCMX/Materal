@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -15,6 +15,16 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Demo\MBC.Demo.HttpClient\MBC.Demo.HttpClient.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.AutoDI\Materal.BaseCore.AutoDI.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.CodeGenerator\Materal.BaseCore.CodeGenerator.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.Common\Materal.BaseCore.Common.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.DataTransmitModel\Materal.BaseCore.DataTransmitModel.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.Domain\Materal.BaseCore.Domain.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.EFRepository\Materal.BaseCore.EFRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.HttpClient\Materal.BaseCore.HttpClient.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.PresentationModel\Materal.BaseCore.PresentationModel.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.ServiceImpl\Materal.BaseCore.ServiceImpl.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.Services\Materal.BaseCore.Services.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.WebAPI\Materal.BaseCore.WebAPI.csproj" />
 	</ItemGroup>
 </Project>

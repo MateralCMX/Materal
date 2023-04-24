@@ -13,6 +13,6 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Materal.Logger\Materal.Logger.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.Logger\Materal.Logger.csproj" />
 	</ItemGroup>
 </Project>

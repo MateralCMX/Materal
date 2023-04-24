@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IsPackable>false</IsPackable>
+		<IsTestProject>true</IsTestProject>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="*" />
+		<PackageReference Include="MSTest.TestAdapter" Version="*" />
+		<PackageReference Include="MSTest.TestFramework" Version="*" />
+		<PackageReference Include="coverlet.collector" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.BusinessFlow.Abstractions\Materal.BusinessFlow.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BusinessFlow.ADONETRepository\Materal.BusinessFlow.ADONETRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BusinessFlow.SqliteRepository\Materal.BusinessFlow.SqliteRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BusinessFlow.SqlServerRepository\Materal.BusinessFlow.SqlServerRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BusinessFlow\Materal.BusinessFlow.csproj" />
+	</ItemGroup>
+</Project>

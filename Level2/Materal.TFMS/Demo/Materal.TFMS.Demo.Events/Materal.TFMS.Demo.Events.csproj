@@ -6,6 +6,6 @@
 		<LangVersion>11.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Materal.TFMS.EventBus\Materal.TFMS.EventBus.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.TFMS.EventBus\Materal.TFMS.EventBus.csproj" />
 	</ItemGroup>
 </Project>
