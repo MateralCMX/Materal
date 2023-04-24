@@ -19,7 +19,7 @@ namespace MateralPublish.Models
         /// <summary>
         /// 主项目
         /// </summary>
-        public ProjectModel Project { get; }
+        public MainProjectModel Project { get; }
         /// <summary>
         /// 日志项目
         /// </summary>
@@ -47,7 +47,7 @@ namespace MateralPublish.Models
         /// <summary>
         /// 基础核心项目
         /// </summary>
-        public ProjectModel BaseCoreProject { get; }
+        public BaseCoreProjectModel BaseCoreProject { get; }
         /// <summary>
         /// 调度器项目
         /// </summary>
@@ -61,32 +61,32 @@ namespace MateralPublish.Models
             ProjectDirectoryInfo = GetProjectDirectoryInfo(path);
             NugetDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "nupkgs").GetNewDirectoryInfo();
             PublishDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "publish").GetNewDirectoryInfo();
-            Project = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level0", "Materal"));
+            Project = new MainProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level0", "Materal"));
             LoggerProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level1", "Materal.Logger"));
             BusinessFlowProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.BusinessFlow"));
             GatewayProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.Gateway"));
             TFMSProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.TFMS"));
             ThreeTierArchitectureProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.ThreeTierArchitecture"));
             WorkflowProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.Workflow"));
-            BaseCoreProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level3", "Materal.BaseCore"));
+            BaseCoreProject = new BaseCoreProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level3", "Materal.BaseCore"));
             OscillatorProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level3", "Materal.Oscillator"));
             ReleaseCenterProject = new ProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level4", "ReleaseCenter"));
+        }
+        public async Task<string> GetNextVersionAsync()
+        {
+            string nowVersion = await Project.GetNowVersionAsync();
+            string[] versions = nowVersion.Split('.');
+            int lastVersionNumber = Convert.ToInt32(versions.Last());
+            versions[versions.Length - 1] = (lastVersionNumber + 1).ToString();
+            string nextVersion = string.Join('.', versions);
+            return nextVersion;
         }
         /// <summary>
         /// 发布
         /// </summary>
-        /// <param name="newVersion"></param>
-        public async Task PublishAsync(string? newVersion)
+        /// <param name="options"></param>
+        public async Task PublishAsync(string version)
         {
-            string version;
-            if (string.IsNullOrWhiteSpace(newVersion))
-            {
-                version = "3.0.0";
-            }
-            else
-            {
-                version = newVersion;
-            }
             await Project.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await LoggerProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await BusinessFlowProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
@@ -96,7 +96,7 @@ namespace MateralPublish.Models
             await WorkflowProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await OscillatorProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
             await BaseCoreProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
-            await ReleaseCenterProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
+            //await ReleaseCenterProject.PublishAsync(PublishDirectoryInfo, NugetDirectoryInfo, version);
         }
         /// <summary>
         /// 获得项目文件夹信息

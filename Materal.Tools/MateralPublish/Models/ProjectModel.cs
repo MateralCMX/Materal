@@ -1,5 +1,5 @@
 ﻿using MateralPublish.Extensions;
-using System.Diagnostics;
+using MateralPublish.Helper;
 using System.Net;
 using System.Text;
 
@@ -28,7 +28,7 @@ namespace MateralPublish.Models
         /// <param name="version"></param>
         public virtual async Task PublishAsync(DirectoryInfo publishDirectoryInfo, DirectoryInfo nugetDirectoryInfo, string version)
         {
-            await UpdateVersion(version, ProjectDirectoryInfo);
+            await UpdateVersionAsync(version, ProjectDirectoryInfo);
             await PublishAsync(publishDirectoryInfo, nugetDirectoryInfo, version, ProjectDirectoryInfo);
         }
         /// <summary>
@@ -37,19 +37,19 @@ namespace MateralPublish.Models
         /// <param name="version"></param>
         /// <param name="csprojFileInfo"></param>
         /// <returns></returns>
-        private async Task UpdateVersion(string version, DirectoryInfo rootDirectoryInfo)
+        protected virtual async Task UpdateVersionAsync(string version, DirectoryInfo rootDirectoryInfo)
         {
             FileInfo? csprojFileInfo = rootDirectoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
             if (csprojFileInfo != null)
             {
-                await UpdateVersion(version, csprojFileInfo);
+                await UpdateVersionAsync(version, csprojFileInfo);
             }
             else
             {
                 IEnumerable<DirectoryInfo> subDirectoryInfos = rootDirectoryInfo.GetDirectories().Where(m => IsPublishProject(m.Name));
                 foreach (DirectoryInfo directoryInfo in subDirectoryInfos)
                 {
-                    await UpdateVersion(version, directoryInfo);
+                    await UpdateVersionAsync(version, directoryInfo);
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace MateralPublish.Models
         /// <param name="version"></param>
         /// <param name="csprojFileInfo"></param>
         /// <returns></returns>
-        private static async Task UpdateVersion(string version, FileInfo csprojFileInfo)
+        protected virtual async Task UpdateVersionAsync(string version, FileInfo csprojFileInfo)
         {
             const string versionStartCode = "<Version>";
             const string materalPackageStartCode = "<PackageReference Include=\"Materal.";
@@ -90,7 +90,7 @@ namespace MateralPublish.Models
         /// <param name="publishDirectoryInfo"></param>
         /// <param name="version"></param>
         /// <param name="rootDirectoryInfo"></param>
-        private async Task PublishAsync(DirectoryInfo publishDirectoryInfo, DirectoryInfo nugetDirectoryInfo, string version, DirectoryInfo rootDirectoryInfo)
+        protected virtual async Task PublishAsync(DirectoryInfo publishDirectoryInfo, DirectoryInfo nugetDirectoryInfo, string version, DirectoryInfo rootDirectoryInfo)
         {
             FileInfo? csprojFileInfo = rootDirectoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
             if (csprojFileInfo != null)
@@ -112,7 +112,7 @@ namespace MateralPublish.Models
         /// <param name="publishDirectoryInfo"></param>
         /// <param name="version"></param>
         /// <param name="csprojFileInfo"></param>
-        private static async Task PublishAsync(DirectoryInfo publishDirectoryInfo, DirectoryInfo nugetDirectoryInfo, string version, FileInfo csprojFileInfo)
+        protected virtual async Task<DirectoryInfo?> PublishAsync(DirectoryInfo publishDirectoryInfo, DirectoryInfo nugetDirectoryInfo, string version, FileInfo csprojFileInfo)
         {
             string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
             CmdHelper cmdHelper = new();
@@ -122,7 +122,7 @@ namespace MateralPublish.Models
             await cmdHelper.RunCmdCommandsAsync(cmd);
             ConsoleHelper.WriteLine($"{projectName}代码发布完毕");
             FileInfo? nugetFileInfo = nugetDirectoryInfo.GetFiles().FirstOrDefault(m => m.Name == $"{projectName}.{version}.nupkg");
-            if (nugetFileInfo == null) return;
+            if (nugetFileInfo == null) return truePublishDirectoryInfo;
             await UploadNugetPackages(nugetFileInfo);
             while (!await CheckUploadSuccess(projectName, version))
             {
@@ -130,22 +130,22 @@ namespace MateralPublish.Models
                 await Task.Delay(1000);
             }
             ConsoleHelper.WriteLine($"Nuget服务器已检测到包{nugetFileInfo.Name}");
-
+            return truePublishDirectoryInfo;
         }
         /// <summary>
         /// 是要发布的项目
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        private static bool IsPublishProject(string name)
+        protected virtual bool IsPublishProject(string name)
         {
-            return name != ".vs" && name != "bin" && name != "obj" && !name.EndsWith("Test") && !name.EndsWith("Demo") && !name.EndsWith("VSIX");
+            return name != ".vs" && name != "bin" && name != "obj" && !name.EndsWith("Test") && !name.EndsWith("Demo");
         }
         /// <summary>
         /// 上传Nuget包
         /// </summary>
         /// <returns></returns>
-        private static async Task UploadNugetPackages(FileInfo nugetFileInfo)
+        protected virtual async Task UploadNugetPackages(FileInfo nugetFileInfo)
         {
             ConsoleHelper.WriteLine($"开始上传{nugetFileInfo.Name}到服务器...");
             const string baseUrl = "ftp://82.156.11.176:21/NugetPackages/";
@@ -179,7 +179,7 @@ namespace MateralPublish.Models
         /// <param name="fileName"></param>
         /// <param name="version"></param>
         /// <returns></returns>
-        private static async Task<bool> CheckUploadSuccess(string fileName, string version)
+        protected virtual async Task<bool> CheckUploadSuccess(string fileName, string version)
         {
             string url = $"https://nuget.gudianbustu.com/nuget/Packages(Id='{fileName}',Version='{version}')";
             HttpRequestMessage httpRequestMessage = new()
@@ -190,124 +190,6 @@ namespace MateralPublish.Models
             HttpResponseMessage httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
             bool result = httpResponseMessage.StatusCode == HttpStatusCode.OK;
             return result;
-        }
-    }
-    /// <summary>
-    /// Cmd管理器
-    /// </summary>
-    public class CmdHelper
-    {
-        /// <summary>
-        /// 输出数据
-        /// </summary>
-        public event DataReceivedEventHandler? OutputDataReceived;
-        /// <summary>
-        /// 错误数据
-        /// </summary>
-        public event DataReceivedEventHandler? ErrorDataReceived;
-        /// <summary>
-        /// 运行CMD命令
-        /// </summary>
-        /// <param name="commands"></param>
-        /// <returns></returns>
-        public async Task RunCmdCommandsAsync(params string[] commands)
-        {
-            ProcessStartInfo processStartInfo = ProcessHelper.GetProcessStartInfo("cmd.exe", string.Empty);
-            using var process = new Process { StartInfo = processStartInfo };
-            if (OutputDataReceived != null)
-            {
-                process.OutputDataReceived += OutputDataReceived;
-            }
-            if (ErrorDataReceived != null)
-            {
-                process.ErrorDataReceived += ErrorDataReceived;
-            }
-            if (process.Start())
-            {
-                if (OutputDataReceived != null)
-                {
-                    process.BeginOutputReadLine();
-                }
-                if (ErrorDataReceived != null)
-                {
-                    process.BeginErrorReadLine();
-                }
-                foreach (string command in commands)
-                {
-                    await process.StandardInput.WriteLineAsync(command);
-                }
-            }
-            await process.StandardInput.WriteLineAsync("exit");
-            process.StandardInput.AutoFlush = true;
-            process.WaitForExit();
-            process.Close();
-        }
-    }
-    /// <summary>
-    /// 进程管理器
-    /// </summary>
-    public class ProcessHelper
-    {
-        /// <summary>
-        /// 输出数据
-        /// </summary>
-        public event DataReceivedEventHandler? OutputDataReceived;
-        /// <summary>
-        /// 错误数据
-        /// </summary>
-        public event DataReceivedEventHandler? ErrorDataReceived;
-        /// <summary>
-        /// 获得进程开始信息
-        /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="arg"></param>
-        /// <returns></returns>
-        public static ProcessStartInfo GetProcessStartInfo(string cmd, string arg)
-        {
-            ProcessStartInfo processStartInfo = new()
-            {
-                FileName = cmd,
-                CreateNoWindow = true,
-                RedirectStandardInput = true,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                Verb = "RunAs",
-                Arguments = arg
-            };
-            return processStartInfo;
-        }
-        /// <summary>
-        /// 启动一个进程
-        /// </summary>
-        /// <param name="cmd"></param>
-        /// <param name="arg"></param>
-        public void ProcessStart(string cmd, string arg)
-        {
-            ProcessStartInfo processStartInfo = GetProcessStartInfo(cmd, arg);
-            using var process = new Process { StartInfo = processStartInfo };
-            if (OutputDataReceived != null)
-            {
-                process.OutputDataReceived += OutputDataReceived;
-            }
-            if (ErrorDataReceived != null)
-            {
-                process.ErrorDataReceived += ErrorDataReceived;
-            }
-            if (process.Start())
-            {
-                if (OutputDataReceived != null)
-                {
-                    process.BeginOutputReadLine();
-                }
-                if (ErrorDataReceived != null)
-                {
-                    process.BeginErrorReadLine();
-                }
-            }
-            process.StandardInput.AutoFlush = true;
-            process.WaitForExit();
-            process.Close();
         }
     }
 }
