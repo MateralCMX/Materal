@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectClear", "ProjectClea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRClientWeb", "SignalRClientWeb\SignalRClientWeb.csproj", "{7B043DBC-736A-4557-A6F9-1A0B7D063A12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MateralPublish", "MateralPublish\MateralPublish.csproj", "{1306A3D7-5D86-4FCC-8C3B-6F345F43E772}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MateralPublish", "MateralPublish\MateralPublish.csproj", "{1306A3D7-5D86-4FCC-8C3B-6F345F43E772}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MateralVersion", "MateralVersion\MateralVersion.csproj", "{5DBECE49-57A8-41B7-B8D3-6FCF3A1E90F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{1306A3D7-5D86-4FCC-8C3B-6F345F43E772}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1306A3D7-5D86-4FCC-8C3B-6F345F43E772}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1306A3D7-5D86-4FCC-8C3B-6F345F43E772}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DBECE49-57A8-41B7-B8D3-6FCF3A1E90F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DBECE49-57A8-41B7-B8D3-6FCF3A1E90F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DBECE49-57A8-41B7-B8D3-6FCF3A1E90F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DBECE49-57A8-41B7-B8D3-6FCF3A1E90F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

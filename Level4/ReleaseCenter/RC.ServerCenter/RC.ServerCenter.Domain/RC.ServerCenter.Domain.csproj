@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.0" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.0" />
+		<PackageReference Include="Materal.BaseCore.Domain" Version="1.1.0" />
 	</ItemGroup>
 </Project>

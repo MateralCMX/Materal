@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.0" />
+	    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="*">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	    </PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\RC.Core\Src\RC.Core.WebAPI\RC.Core.WebAPI.csproj" />
+		<ProjectReference Include="..\RC.Deploy.EFRepository\RC.Deploy.EFRepository.csproj" />
+		<ProjectReference Include="..\RC.Deploy.PresentationModel\RC.Deploy.PresentationModel.csproj" />
+		<ProjectReference Include="..\RC.Deploy.ServiceImpl\RC.Deploy.ServiceImpl.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+</Project>

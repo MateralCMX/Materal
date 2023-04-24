@@ -5,6 +5,10 @@ namespace MateralPublish.Helper
 {
     public static class UploadNugetPackageHelper
     {
+        private const string _ftpUrl = "ftp://82.156.11.176:21/NugetPackages/";
+        private const string _ftpUser = "GDB_FTP";
+        private const string _ftpPassword = "GDB2022";
+        private const string _nugetUrl = "https://nuget.gudianbustu.com/nuget/";
         public static DirectoryInfo? NugetDirectoryInfo { get; set; }
         private static readonly HttpClient _httpClient = new();
         /// <summary>
@@ -36,13 +40,12 @@ namespace MateralPublish.Helper
         private static async Task UploadNugetPackageAsync(FileInfo nugetFileInfo)
         {
             ConsoleHelper.WriteLine($"开始上传{nugetFileInfo.Name}到服务器...");
-            const string baseUrl = "ftp://82.156.11.176:21/NugetPackages/";
-            string url = baseUrl + nugetFileInfo.Name;
+            string url = _ftpUrl + nugetFileInfo.Name;
 #pragma warning disable SYSLIB0014 // 类型或成员已过时
             FtpWebRequest reqFTP = (FtpWebRequest)WebRequest.Create(new Uri(url));
 #pragma warning restore SYSLIB0014 // 类型或成员已过时
             reqFTP.UseBinary = true;
-            reqFTP.Credentials = new NetworkCredential("GDB_FTP", "GDB2022");
+            reqFTP.Credentials = new NetworkCredential(_ftpUser, _ftpPassword);
             reqFTP.KeepAlive = false;
             reqFTP.Method = WebRequestMethods.Ftp.UploadFile;
             reqFTP.ContentLength = nugetFileInfo.Length;
@@ -97,7 +100,7 @@ namespace MateralPublish.Helper
         /// <returns></returns>
         private static async Task<bool> CheckUploadSuccessAsync(string id, string version)
         {
-            string url = $"https://nuget.gudianbustu.com/nuget/Packages(Id='{id}',Version='{version}')";
+            string url = $"{_nugetUrl}Packages(Id='{id}',Version='{version}')";
             HttpRequestMessage httpRequestMessage = new()
             {
                 RequestUri = new Uri(url),

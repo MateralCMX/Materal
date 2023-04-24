@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.BaseCore.Services" Version="1.1.0" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\RC.EnvironmentServer.Common\RC.EnvironmentServer.Common.csproj" />
+		<ProjectReference Include="..\RC.EnvironmentServer.DataTransmitModel\RC.EnvironmentServer.DataTransmitModel.csproj" />
+		<ProjectReference Include="..\RC.EnvironmentServer.IntegrationEvents\RC.EnvironmentServer.IntegrationEvents.csproj" />
+	</ItemGroup>
+</Project>
