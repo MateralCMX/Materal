@@ -2,7 +2,7 @@
 using Materal.Utils.Http;
 using Materal.Utils.Wechat;
 
-namespace Materal.Test.UtilsTest
+namespace Materal.Test.UtilsTests.WechatTests
 {
     //wx5752ec798fd5fe95
     [TestClass]
