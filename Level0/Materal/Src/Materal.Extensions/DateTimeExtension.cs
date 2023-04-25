@@ -182,5 +182,29 @@ namespace System
             TimeSpan timeSpan = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return timeSpan.Ticks;
         }
+        /// <summary>
+        /// 获得第一秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetFirstSecond(this DateTime dateTime) => dateTime.Date;
+        /// <summary>
+        /// 获得第一毫秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetFirstMillisecond(this DateTime dateTime) => dateTime.Date;
+        /// <summary>
+        /// 获得最后一毫秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetLastMillisecond(this DateTime dateTime) => dateTime.Date.AddDays(1).AddMinutes(-1);
+        /// <summary>
+        /// 获得最后一毫秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetLastSecond(this DateTime dateTime) => dateTime.Date.AddDays(1).AddSeconds(-1);
     }
 }

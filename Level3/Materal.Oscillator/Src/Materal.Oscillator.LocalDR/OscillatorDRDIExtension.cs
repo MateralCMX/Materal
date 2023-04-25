@@ -25,12 +25,12 @@ namespace Materal.Oscillator.LocalDR
                 {
                     m.CommandTimeout(300);
                 });
-            }, ServiceLifetime.Transient);
-            services.AddTransient<MigrateHelper<OscillatorLocalDRDBContext>>();
+            });
+            services.AddScoped<MigrateHelper<OscillatorLocalDRDBContext>>();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.Oscillator.LocalDR"))
                 .Where(m => m.Name.EndsWith("RepositoryImpl") && m.IsClass && !m.IsAbstract)
-                .AsPublicImplementedInterfaces();
-            services.AddTransient<IOscillatorDRUnitOfWork, OscillatorLocalDRUnitOfWorkImpl>();
+                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
+            services.AddScoped<IOscillatorDRUnitOfWork, OscillatorLocalDRUnitOfWorkImpl>();
             services.AddSingleton<IOscillatorDR, OscillatorLocalDR>();
             return services;
         }

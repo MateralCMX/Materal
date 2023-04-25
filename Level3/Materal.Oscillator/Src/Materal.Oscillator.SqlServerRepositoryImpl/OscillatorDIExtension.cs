@@ -28,11 +28,11 @@ namespace Materal.Oscillator
                     m.CommandTimeout(300);
                 });
             });
-            services.AddTransient<MigrateHelper<OscillatorSqlServerDBContext>>();
+            services.AddScoped<MigrateHelper<OscillatorSqlServerDBContext>>();
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("Materal.Oscillator.SqlServerRepositoryImpl"))
                 .Where(m => m.Name.EndsWith("RepositoryImpl") && m.IsClass && !m.IsAbstract)
                 .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
-            services.AddTransient<IOscillatorUnitOfWork, OscillatorSqlServerUnitOfWorkImpl>();
+            services.AddScoped<IOscillatorUnitOfWork, OscillatorSqlServerUnitOfWorkImpl>();
             return services;
         }
     }
