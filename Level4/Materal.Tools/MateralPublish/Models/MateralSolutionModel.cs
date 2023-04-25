@@ -1,5 +1,5 @@
-﻿using MateralPublish.Extensions;
-using MateralPublish.Helper;
+﻿using Materal.Tools.Helper;
+using MateralPublish.Extensions;
 
 namespace MateralPublish.Models
 {
@@ -48,7 +48,7 @@ namespace MateralPublish.Models
         public MateralSolutionModel(string path)
         {
             ProjectDirectoryInfo = GetProjectDirectoryInfo(path);
-            UploadNugetPackageHelper.NugetDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "nupkgs").GetNewDirectoryInfo();
+            NugetServerHelper.NugetDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "nupkgs").GetNewDirectoryInfo();
             PublishDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "publish").GetNewDirectoryInfo();
             MainProject = new MainProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level0", "Materal"));
             LoggerProject = new LoggerProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level1", "Materal.Logger"));
@@ -68,7 +68,7 @@ namespace MateralPublish.Models
             string nowVersion = await MainProject.GetNowVersionAsync();
             string[] versions = nowVersion.Split('.');
             int lastVersionNumber = Convert.ToInt32(versions.Last());
-            versions[versions.Length - 1] = (lastVersionNumber + 1).ToString();
+            versions[^1] = (lastVersionNumber + 1).ToString();
             string nextVersion = string.Join('.', versions);
             return nextVersion;
         }
@@ -98,7 +98,7 @@ namespace MateralPublish.Models
             await BaseCoreProject.PublishAsync(PublishDirectoryInfo, version);
             if (uploadNuget)
             {
-                await UploadNugetPackageHelper.UploadNugetPackagesAsync();
+                await NugetServerHelper.UploadNugetPackagesAsync();
             }
             ConsoleHelper.WriteLine("正在清理临时文件...");
             ConsoleHelper.WriteLine($"删除文件夹{PublishDirectoryInfo.FullName}");

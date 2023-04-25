@@ -1,5 +1,4 @@
-﻿using MateralPublish;
-using MateralVersion.Helper;
+﻿using Materal.Tools.Helper;
 using System.CommandLine;
 using System.Text;
 
@@ -23,7 +22,11 @@ namespace MateralVersion
         private static async Task ChangeVersionAsync(string? version)
         {
             version ??= await NugetServerHelper.GetLastMateralVersionAsync();
+#if DEBUG
+            DirectoryInfo directoryInfo = new(@"D:\Project\Materal\Project\Materal");
+#else
             DirectoryInfo directoryInfo = new(Environment.CurrentDirectory);
+#endif
             await ChangeVersionAsync(version, directoryInfo);
         }
         private static async Task ChangeVersionAsync(string version, DirectoryInfo rootDirectoryInfo)
@@ -50,6 +53,7 @@ namespace MateralVersion
         /// <returns></returns>
         private static async Task ChangeVersionAsync(string version, FileInfo csprojFileInfo)
         {
+            const string versionStartCode = "<Version>";
             const string materalPackageStartCode = "<PackageReference Include=\"Materal.";
             const string materalPackageVersionStartCode = "\" Version=\"";
             string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
@@ -58,11 +62,30 @@ namespace MateralVersion
             for (int i = 0; i < csprojFileContents.Length; i++)
             {
                 string tempCode = csprojFileContents[i].Trim();
-                if (tempCode.StartsWith(materalPackageStartCode))
+                if (!tempCode.StartsWith(materalPackageStartCode)) continue;
+                int versionLength = tempCode.IndexOf(materalPackageVersionStartCode);
+                if (versionLength > 0)
                 {
-                    int versionLength = tempCode.IndexOf(materalPackageVersionStartCode);
                     string packageName = tempCode[materalPackageStartCode.Length..versionLength];
-                    csprojFileContents[i] = $"\t\t<PackageReference Include=\"Materal.{packageName}\" Version=\"{version}\" />";
+                    csprojFileContents[i] = $"\t\t<PackageReference Include=\"Materal.{packageName}\" Version=\"{version}\"";
+                    if (tempCode.EndsWith("/>"))
+                    {
+                        csprojFileContents[i] += $" />";
+                    }
+                    else
+                    {
+                        csprojFileContents[i] += $">";
+                    }
+                }
+                else
+                {
+                    if (i + 1 >= csprojFileContents.Length) continue;
+                    string nextTempCode = csprojFileContents[i + 1].Trim();
+                    if (nextTempCode.StartsWith(versionStartCode))
+                    {
+                        csprojFileContents[i + 1] = $"\t\t\t<Version>{version}</Version>";
+                        i++;
+                    }
                 }
             }
             await File.WriteAllLinesAsync(csprojFileInfo.FullName, csprojFileContents, Encoding.UTF8);

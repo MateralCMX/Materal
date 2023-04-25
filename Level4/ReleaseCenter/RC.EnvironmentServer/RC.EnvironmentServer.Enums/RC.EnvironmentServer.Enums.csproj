@@ -4,7 +4,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<PackageOutputPath>../../nupkgs</PackageOutputPath>
+		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
 		<Version>3.0.0</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.ReleaseCenter</Product>

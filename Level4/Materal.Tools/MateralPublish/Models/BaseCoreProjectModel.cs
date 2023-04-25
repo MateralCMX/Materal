@@ -1,10 +1,11 @@
-﻿using System.Text;
+﻿using Materal.Tools.Helper;
+using System.Text;
 
 namespace MateralPublish.Models
 {
     public class BaseCoreProjectModel : BaseProjectModel
     {
-        private DirectoryInfo vsixDirectoryInfo;
+        private readonly DirectoryInfo vsixDirectoryInfo;
         public BaseCoreProjectModel(string directoryPath) : base(directoryPath)
         {
             vsixDirectoryInfo = new(Path.Combine(ProjectDirectoryInfo.FullName, "Src", "MateralBaseCoreVSIX"));

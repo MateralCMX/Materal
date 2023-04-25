@@ -1,4 +1,5 @@
-﻿using MateralPublish.Models;
+﻿using Materal.Tools.Helper;
+using MateralPublish.Models;
 using System.CommandLine;
 
 namespace MateralPublish

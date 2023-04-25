@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>0.0.1</Version>
+		<Version>0.0.2</Version>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>MateralVersion</ToolCommandName>
 		<PackageOutputPath>../../../nupkgs</PackageOutputPath>

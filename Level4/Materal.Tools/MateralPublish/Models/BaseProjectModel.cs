@@ -1,4 +1,5 @@
-﻿using MateralPublish.Extensions;
+﻿using Materal.Tools.Helper;
+using MateralPublish.Extensions;
 using MateralPublish.Helper;
 using System.Diagnostics;
 using System.Text;
@@ -69,15 +70,36 @@ namespace MateralPublish.Models
             for (int i = 0; i < csprojFileContents.Length; i++)
             {
                 string tempCode = csprojFileContents[i].Trim();
-                if (tempCode.StartsWith(versionStartCode))
-                {
-                    csprojFileContents[i] = $"\t\t<Version>{version}</Version>";
-                }
-                else if (tempCode.StartsWith(materalPackageStartCode))
+                if (tempCode.StartsWith(materalPackageStartCode))
                 {
                     int versionLength = tempCode.IndexOf(materalPackageVersionStartCode);
-                    string packageName = tempCode[materalPackageStartCode.Length..versionLength];
-                    csprojFileContents[i] = $"\t\t<PackageReference Include=\"Materal.{packageName}\" Version=\"{version}\" />";
+                    if (versionLength > 0)
+                    {
+                        string packageName = tempCode[materalPackageStartCode.Length..versionLength];
+                        csprojFileContents[i] = $"\t\t<PackageReference Include=\"Materal.{packageName}\" Version=\"{version}\"";
+                        if (tempCode.EndsWith("/>"))
+                        {
+                            csprojFileContents[i] += $" />";
+                        }
+                        else
+                        {
+                            csprojFileContents[i] += $">";
+                        }
+                    }
+                    else
+                    {
+                        if (i + 1 >= csprojFileContents.Length) continue;
+                        string nextTempCode = csprojFileContents[i + 1].Trim();
+                        if (nextTempCode.StartsWith(versionStartCode))
+                        {
+                            csprojFileContents[i + 1] = $"\t\t\t<Version>{version}</Version>";
+                            i++;
+                        }
+                    }
+                }
+                else if (tempCode.StartsWith(versionStartCode))
+                {
+                    csprojFileContents[i] = $"\t\t<Version>{version}</Version>";
                 }
             }
             await File.WriteAllLinesAsync(csprojFileInfo.FullName, csprojFileContents, Encoding.UTF8);
