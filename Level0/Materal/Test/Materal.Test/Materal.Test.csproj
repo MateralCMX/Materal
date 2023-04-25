@@ -16,6 +16,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\Materal.Abstractions\Materal.Abstractions.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Extensions\Materal.Extensions.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.Utils.Excel\Materal.Utils.Excel.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Utils.Redis\Materal.Utils.Redis.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Utils.Wechat\Materal.Utils.Wechat.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Utils\Materal.Utils.csproj" />

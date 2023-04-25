@@ -24,5 +24,17 @@ namespace System.Reflection
             };
             return memberValue;
         }
+        /// <summary>
+        /// 是否有特性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="propertyInfo"></param>
+        /// <returns></returns>
+        public static bool HasCustomAttribute<T>(this MemberInfo propertyInfo)
+            where T : Attribute
+        {
+            Attribute? attr = propertyInfo.GetCustomAttribute<T>();
+            return attr != null;
+        }
     }
 }

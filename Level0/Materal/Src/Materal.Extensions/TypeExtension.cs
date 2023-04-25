@@ -195,5 +195,17 @@ namespace System
             if (!type.IsEnum) throw new ExtensionException("该类型不是枚举类型");
             return Enum.GetValues(type).Length;
         }
+        /// <summary>
+        /// 是否有特性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool HasCustomAttribute<T>(this Type type)
+            where T : Attribute
+        {
+            Attribute? attr = type.GetCustomAttribute<T>();
+            return attr != null;
+        }
     }
 }

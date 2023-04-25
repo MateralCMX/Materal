@@ -13,7 +13,7 @@ namespace System.Collections.Generic
         /// <typeparam name="T">模型</typeparam>
         /// <param name="listM">列表</param>
         /// <returns>动态数据集</returns>
-        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> listM) => new ObservableCollection<T>(listM);
+        public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> listM) => new(listM);
         /// <summary>
         /// 获得需要新增数组与需要删除的数组
         /// </summary>

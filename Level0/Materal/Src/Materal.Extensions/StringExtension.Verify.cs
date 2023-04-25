@@ -8,79 +8,6 @@ namespace System
     /// </summary>
     public static partial class StringExtension
     {
-        ///// <summary>
-        ///// 获得中文拼音
-        ///// </summary>
-        ///// <param name="inputString"></param>
-        ///// <param name="mode"></param>
-        ///// <returns></returns>
-        //public static IEnumerable<string> GetChinesePinYin(this string inputString, PinYinMode mode = PinYinMode.NoTone)
-        //{
-        //    var chineseChars = new object[inputString.Length];
-        //    for (var i = 0; i < inputString.Length; i++)
-        //    {
-        //        char inputChar = inputString[i];
-        //        if (!inputChar.ToString().IsChinese())
-        //        {
-        //            chineseChars[i] = inputChar;
-        //            continue;
-        //        }
-        //        chineseChars[i] = new ChineseChar(inputChar);
-        //    }
-        //    IEnumerable<string> result = GetPinYin("", 0, chineseChars.ToList(), mode);
-        //    return result.Distinct();
-        //}
-
-        ///// <summary>
-        ///// 获得拼音
-        ///// </summary>
-        ///// <param name="nowPinyin"></param>
-        ///// <param name="index"></param>
-        ///// <param name="chineseChars"></param>
-        ///// <param name="mode"></param>
-        ///// <returns></returns>
-        //private static IEnumerable<string> GetPinYin(string nowPinyin, int index, IReadOnlyList<object> chineseChars, PinYinMode mode)
-        //{
-        //    var inputPinYin = new List<string>();
-        //    if (chineseChars.Count <= index)
-        //    {
-        //        inputPinYin.Add(nowPinyin);
-        //    }
-        //    else
-        //    {
-        //        switch (chineseChars[index])
-        //        {
-        //            case char charString:
-        //                inputPinYin.AddRange(GetPinYin(nowPinyin + charString, index + 1, chineseChars, mode));
-        //                break;
-        //            case ChineseChar chinese:
-        //                for (var i = 0; i < chinese.PinyinCount; i++)
-        //                {
-        //                    string pinyin = chinese.Pinyins[i];
-        //                    switch (mode)
-        //                    {
-        //                        case PinYinMode.Full:
-        //                            pinyin = pinyin.ToLower().FirstUpper();
-        //                            break;
-        //                        case PinYinMode.NoTone:
-        //                            pinyin = pinyin.ToLower().FirstUpper().Substring(0, pinyin.Length - 1);
-        //                            break;
-        //                        case PinYinMode.Abbreviation:
-        //                            pinyin = pinyin[0].ToString();
-        //                            break;
-        //                    }
-        //                    string str = pinyin;
-        //                    if (!string.IsNullOrEmpty(nowPinyin))
-        //                    {
-        //                        str = nowPinyin + str;
-        //                    }
-        //                    inputPinYin.AddRange(GetPinYin(str, index + 1, chineseChars, mode));
-        //                }
-        //                break;
-        //        }
-        //    }
-        //    return inputPinYin;
-        //}
         /// <summary>
         /// 验证字符串
         /// </summary>
@@ -145,7 +72,7 @@ namespace System
             {
                 resStr = first + resStr;
             }
-            if (resStr[resStr.Length - 1] != last)
+            if (resStr[^1] != last)
             {
                 resStr += last;
             }
@@ -164,11 +91,11 @@ namespace System
             const char last = '$';
             if (resStr[0] == first)
             {
-                resStr = resStr.Substring(1);
+                resStr = resStr[1..];
             }
-            if (resStr[resStr.Length - 1] == last)
+            if (resStr[^1] == last)
             {
-                resStr = resStr.Substring(0, resStr.Length - 1);
+                resStr = resStr[..^1];
             }
             return resStr;
         }
@@ -526,7 +453,7 @@ namespace System
             int index = obj.IndexOf(' ');
             if (index < 0) index = obj.IndexOf('T');
             if (index < 0) return false;
-            string dataStr = obj.Substring(0, index);
+            string dataStr = obj[..index];
             return dataStr.IsDate(delimiter);
         }
         /// <summary>
@@ -756,19 +683,14 @@ namespace System
         public static bool IsIDCardForChina(this string obj, bool accurate = false)
         {
             if (string.IsNullOrEmpty(obj)) return false;
-            switch (obj.Length)
+            return obj.Length switch
             {
-                case 18 when accurate:
-                    return MCheckIDCard18(obj);
-                case 18:
-                    return IsIDCard18ForChina(obj);
-                case 15 when accurate:
-                    return MCheckIDCard15(obj);
-                case 15:
-                    return IsIDCard15ForChina(obj);
-                default:
-                    return false;
-            }
+                18 when accurate => MCheckIDCard18(obj),
+                18 => IsIDCard18ForChina(obj),
+                15 when accurate => MCheckIDCard15(obj),
+                15 => IsIDCard15ForChina(obj),
+                _ => false,
+            };
         }
         /// <summary>
         /// 验证输入字符串是否为(中国)身份证18位
@@ -827,7 +749,7 @@ namespace System
         private static bool MCheckIDCard18(this string obj)
         {
             if (long.TryParse(obj.Remove(17), out long n) == false
-                || n < Math.Pow(10, 16) || long.TryParse(obj.Replace('x', '0').Replace('X', '0'), out n) == false)
+                || n < Math.Pow(10, 16) || long.TryParse(obj.Replace('x', '0').Replace('X', '0'), out _) == false)
             {
                 return false;//数字验证  
             }
@@ -837,7 +759,7 @@ namespace System
                 return false;//省份验证  
             }
             string birth = obj.Substring(6, 8).Insert(6, "-").Insert(4, "-");
-            if (DateTime.TryParse(birth, out DateTime _) == false)
+            if (DateTime.TryParse(birth, out _) == false)
             {
                 return false;//生日验证  
             }
@@ -896,7 +818,7 @@ namespace System
                 }
                 else if (obj.Last() != '\\')
                 {
-                    obj = obj.Substring(0, 2) + "\\";
+                    obj = obj[..2] + "\\";
                 }
                 DriveInfo[] allDrives = DriveInfo.GetDrives();
                 if (allDrives.Any(disk => disk.Name == obj))
@@ -930,7 +852,7 @@ namespace System
         public static bool IsAbsolutePath(this string obj, bool isReal = false)
         {
             if (!obj.VerifyRegex(Regexes.AbsolutePath, true)) return false;
-            string diskPath = obj.Length >= 3 ? obj.Substring(0, 3) : obj;
+            string diskPath = obj.Length >= 3 ? obj[..3] : obj;
             return IsDiskPath(diskPath, isReal);
         }
         /// <summary>

@@ -198,8 +198,7 @@ namespace System
             where T : notnull
         {
             Type tType = inputObj.GetType();
-            Attribute? attr = tType.GetCustomAttribute(typeof(SerializableAttribute));
-            if (attr == null) throw new ExtensionException("未标识为可序列化");
+            if (!tType.HasCustomAttribute<SerializableAttribute>()) throw new ExtensionException("未标识为可序列化");
             object? resM;
             using (var ms = new MemoryStream())
             {
@@ -269,9 +268,8 @@ namespace System
         public static string GetDescription(this object inputObj, string propertyName)
         {
             Type objType = inputObj.GetType();
-            PropertyInfo? propertyInfo = objType.GetProperty(propertyName);
-            if (propertyInfo == null) throw new ExtensionException($"未找到名称是{propertyName}的属性");
-            var attribute = propertyInfo.GetCustomAttribute<DescriptionAttribute>();
+            PropertyInfo propertyInfo = objType.GetProperty(propertyName) ?? throw new ExtensionException($"未找到名称是{propertyName}的属性");
+            DescriptionAttribute? attribute = propertyInfo.GetCustomAttribute<DescriptionAttribute>();
             return attribute != null ?
                 attribute.Description :
                 throw new ExtensionException("需要特性DescriptionAttribute");
