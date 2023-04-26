@@ -27,7 +27,7 @@ namespace Materal.Oscillator.Abstractions.Models.Answer
         /// <summary>
         /// 调度器唯一标识组
         /// </summary>
-        [Contains]
-        public Guid[]? ScheduleIDs { get; set; }
+        [Contains(nameof(Domain.Answer.ScheduleID))]
+        public List<Guid>? ScheduleIDs { get; set; }
     }
 }

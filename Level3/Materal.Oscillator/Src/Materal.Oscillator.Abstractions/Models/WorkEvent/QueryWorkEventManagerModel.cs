@@ -22,7 +22,7 @@ namespace Materal.Oscillator.Abstractions.Models.WorkEvent
         /// <summary>
         /// 调度唯一标识
         /// </summary>
-        [Contains]
-        public Guid[]? ScheduleIDs { get; set; }
+        [Contains(nameof(Domain.WorkEvent.ScheduleID))]
+        public List<Guid>? ScheduleIDs { get; set; }
     }
 }

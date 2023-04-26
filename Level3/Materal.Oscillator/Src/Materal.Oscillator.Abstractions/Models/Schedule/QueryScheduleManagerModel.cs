@@ -17,7 +17,7 @@ namespace Materal.Oscillator.Abstractions.Models.Schedule
         /// <summary>
         /// 唯一标识组
         /// </summary>
-        [Contains]
-        public Guid[]? IDs { get; set; }
+        [Contains(nameof(Domain.Schedule.ID))]
+        public List<Guid>? IDs { get; set; }
     }
 }

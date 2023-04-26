@@ -167,7 +167,7 @@ namespace Materal.Oscillator
             if (scheduleIDs == null || scheduleIDs.Length <= 0) return;
             QueryScheduleModel queryModel = new()
             {
-                IDs = scheduleIDs
+                IDs = scheduleIDs.ToList()
             };
             model?.SetTerritoryProperties(queryModel);
             IList<Schedule> schedules = await _scheduleRepository.FindAsync(queryModel);
@@ -206,7 +206,7 @@ namespace Materal.Oscillator
             if (scheduleIDs == null || scheduleIDs.Length <= 0) return null;
             QueryScheduleModel queryModel = new()
             {
-                IDs = scheduleIDs
+                IDs = scheduleIDs.ToList()
             };
             model?.SetTerritoryProperties(queryModel);
             IList<Schedule> schedules = await _scheduleRepository.FindAsync(queryModel);
@@ -225,11 +225,11 @@ namespace Materal.Oscillator
             IList<Plan> plans = await _planRepository.FindAsync(new QueryPlanManagerModel
             {
                 Enable = true,
-                ScheduleIDs = scheduleIDs
+                ScheduleIDs = scheduleIDs.ToList()
             });
             IList<ScheduleWorkView> scheduleWorks = await _scheduleWorkViewRepository.FindAsync(new QueryScheduleWorkModel
             {
-                ScheduleIDs = scheduleIDs
+                ScheduleIDs = scheduleIDs.ToList()
             });
             foreach (Schedule schedule in schedules)
             {
@@ -251,7 +251,7 @@ namespace Materal.Oscillator
             Guid[] scheduleIDs = schedules.Select(m => m.ID).ToArray();
             IList<ScheduleWorkView> scheduleWorks = await _scheduleWorkViewRepository.FindAsync(new QueryScheduleWorkModel
             {
-                ScheduleIDs = scheduleIDs
+                ScheduleIDs = scheduleIDs.ToList()
             });
             foreach (Schedule schedule in schedules)
             {

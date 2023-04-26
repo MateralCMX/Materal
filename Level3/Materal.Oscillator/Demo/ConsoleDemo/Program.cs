@@ -3,6 +3,7 @@ using Materal.Oscillator;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Common;
 using Materal.Oscillator.Abstractions.DataTransmitModel;
+using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Models.Plan;
 using Materal.Oscillator.Abstractions.Models.Work;
 using Materal.Oscillator.Abstractions.Services.Trigger;
@@ -43,10 +44,10 @@ namespace ConsoleDemo
             #endregion
             serviceCollection.AddSingleton<IRetryAnswerListener, RetryAnswerListenerImpl>();
             serviceCollection.AddSingleton<IOscillatorListener, OscillatorListenerImpl>();
-            serviceCollection.AddOscillatorLocalDRService(new SqliteConfigModel
-            {
-                Source = "OscillatorDR.db"
-            });
+            //serviceCollection.AddOscillatorLocalDRService(new SqliteConfigModel
+            //{
+            //    Source = "OscillatorDR.db"
+            //});
             MateralServices.Services = serviceCollection.BuildServiceProvider();
             #region SqlServer
             //var sqlServerMigrateHelper = MateralServices.Services.GetService<MigrateHelper<OscillatorSqlServerDBContext>>() ?? throw new OscillatorException("获取服务失败");
@@ -56,36 +57,15 @@ namespace ConsoleDemo
             var sqliteMigrateHelper = MateralServices.Services.GetService<MigrateHelper<OscillatorSqliteDBContext>>() ?? throw new OscillatorException("获取服务失败");
             await sqliteMigrateHelper.MigrateAsync();
             #endregion
-            var drMigrateHelper = MateralServices.Services.GetService<MigrateHelper<OscillatorLocalDRDBContext>>() ?? throw new OscillatorException("获取服务失败");
-            await drMigrateHelper.MigrateAsync();
+            //var drMigrateHelper = MateralServices.Services.GetService<MigrateHelper<OscillatorLocalDRDBContext>>() ?? throw new OscillatorException("获取服务失败");
+            //await drMigrateHelper.MigrateAsync();
             IOscillatorManager oscillatorManager = MateralServices.Services.GetService<IOscillatorManager>() ?? throw new OscillatorException("获取管理器失败");
             #region 测试调度器
-            //IOscillatorBuild build = oscillatorManager.CreateOscillatorBuild("测试调度器");
-            //await build.AddPlan(new PlanModel
-            //{
-            //    Name = "测试计划",
-            //    PlanTriggerData = new RepeatPlanTrigger
-            //    {
-            //        DateTrigger = new DateDayTrigger
-            //        {
-            //            Interval = 1,
-            //            StartDate = DateTime.Now.ToDate().AddDay(-1)
-            //        },
-            //        EveryDayTrigger = new EveryDayRepeatTrigger
-            //        {
-            //            Interval = 1,
-            //            IntervalType = EveryDayIntervalType.Second,
-            //            StartTime = new Time(0, 0, 0)
-            //        }
-            //    }
-            //}).AddWork(new WorkModel
-            //{
-            //    Name = "测试任务",
-            //    WorkData = new ConsoleWork("喵喵喵喵喵")
-            //}).BuildAsync();
             List<ScheduleDTO> allSchedules = await oscillatorManager.GetAllScheduleListAsync();
+            Guid scheduleID;
             if (allSchedules.Any())
             {
+                scheduleID = allSchedules.First().ID;
                 List<PlanDTO> allPlans = await oscillatorManager.GetAllPlanListAsync(allSchedules[0].ID);
                 if (allPlans.Any())
                 {
@@ -135,12 +115,12 @@ namespace ConsoleDemo
                     Name = "测试任务2",
                     WorkData = new ConsoleWork("汪汪汪汪汪")
                 });
-                await build.BuildAsync();
+                scheduleID = await build.BuildAsync();
             }
             #endregion
             #region 测试启动
             await oscillatorManager.StartAllAsync();
-            await oscillatorManager.RunNowAsync(Guid.Parse("E7E0001F-0618-44EC-9CF6-7532510DDD5C"));
+            await oscillatorManager.RunNowAsync(scheduleID);
             #endregion
             Console.ReadLine();
         }
