@@ -24,6 +24,14 @@
             where T : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct;
         /// <summary>
+        /// 注册添加
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        bool TryRegisterAdd<T, TPrimaryKeyType>(T obj)
+            where T : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct;
+        /// <summary>
         /// 注册修改
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -32,11 +40,27 @@
             where T : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct;
         /// <summary>
+        /// 注册修改
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        bool TryRegisterEdit<T, TPrimaryKeyType>(T obj)
+            where T : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct;
+        /// <summary>
         /// 注册删除
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         void RegisterDelete<T, TPrimaryKeyType>(T obj)
+            where T : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct;
+        /// <summary>
+        /// 注册删除
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        bool TryRegisterDelete<T, TPrimaryKeyType>(T obj)
             where T : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct;
         /// <summary>

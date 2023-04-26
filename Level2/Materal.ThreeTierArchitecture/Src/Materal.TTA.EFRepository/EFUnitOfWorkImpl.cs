@@ -13,24 +13,37 @@ namespace Materal.TTA.EFRepository
         protected readonly Queue<EntityEntry> ChangeEntities = new();
         private readonly TDBContext _dbContext;
         public IServiceProvider ServiceProvider { get; }
-
         protected EFUnitOfWorkImpl(TDBContext context, IServiceProvider serviceProvider)
         {
             _dbContext = context;
             ServiceProvider = serviceProvider;
         }
-
         public virtual void RegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct
         {
             lock (entitiesLockObj)
             {
-                EntityEntry<TEntity> entity = _dbContext.Set<TEntity>().Add(obj);
+                EntityEntry<TEntity> entity = _dbContext.Entry(obj);
+                if(entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能添加");
+                entity.State = EntityState.Added;
                 ChangeEntities.Enqueue(entity);
             }
         }
-
+        public virtual bool TryRegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct
+        {
+            try
+            {
+                RegisterAdd<TEntity, TPrimaryKeyType>(obj);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public virtual void RegisterEdit<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct
@@ -38,11 +51,25 @@ namespace Materal.TTA.EFRepository
             lock (entitiesLockObj)
             {
                 EntityEntry<TEntity> entity = _dbContext.Entry(obj);
+                if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能修改");
                 entity.State = EntityState.Modified;
                 ChangeEntities.Enqueue(entity);
             }
         }
-
+        public virtual bool TryRegisterEdit<TEntity, TPrimaryKeyType>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct
+        {
+            try
+            {
+                TryRegisterEdit<TEntity, TPrimaryKeyType>(obj);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public virtual void RegisterDelete<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct
@@ -50,8 +77,23 @@ namespace Materal.TTA.EFRepository
             lock (entitiesLockObj)
             {
                 EntityEntry<TEntity> entity = _dbContext.Entry(obj);
+                if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能删除");
                 entity.State = EntityState.Deleted;
                 ChangeEntities.Enqueue(entity);
+            }
+        }
+        public virtual bool TryRegisterDelete<TEntity, TPrimaryKeyType>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct
+        {
+            try
+            {
+                TryRegisterDelete<TEntity, TPrimaryKeyType>(obj);
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
         public void Commit()

@@ -29,14 +29,14 @@ namespace Materal.BaseCore.EFRepository
             RegisterAdd<TEntity, Guid>(obj);
         }
         /// <summary>
-        /// 注册删除
+        /// 注册添加
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
-        public void RegisterDelete<TEntity>(TEntity obj)
+        public bool TryRegisterAdd<TEntity>(TEntity obj)
             where TEntity : class, IEntity<Guid>
         {
-            RegisterDelete<TEntity, Guid>(obj);
+            return TryRegisterAdd<TEntity, Guid>(obj);
         }
         /// <summary>
         /// 注册修改
@@ -47,6 +47,36 @@ namespace Materal.BaseCore.EFRepository
             where TEntity : class, IEntity<Guid>
         {
             RegisterEdit<TEntity, Guid>(obj);
+        }
+        /// <summary>
+        /// 注册修改
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="obj"></param>
+        public bool TryRegisterEdit<TEntity>(TEntity obj)
+            where TEntity : class, IEntity<Guid>
+        {
+            return TryRegisterEdit<TEntity, Guid>(obj);
+        }
+        /// <summary>
+        /// 注册删除
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="obj"></param>
+        public void RegisterDelete<TEntity>(TEntity obj)
+            where TEntity : class, IEntity<Guid>
+        {
+            RegisterDelete<TEntity, Guid>(obj);
+        }
+        /// <summary>
+        /// 注册删除
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="obj"></param>
+        public bool TryRegisterDelete<TEntity>(TEntity obj)
+            where TEntity : class, IEntity<Guid>
+        {
+            return TryRegisterDelete<TEntity, Guid>(obj);
         }
     }
 }
