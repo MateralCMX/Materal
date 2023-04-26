@@ -9,13 +9,13 @@
 		<Product>Materal.ThreeTierArchitecture</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.8</Version>
+		<Version>1.1.9</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.TTA.Common</Description>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="System.Data.SqlClient" Version="*" />
-		<PackageReference Include="Materal.Utils" Version="1.1.8" />
+		<PackageReference Include="Materal.Utils" Version="1.1.9" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="*" />
 	</ItemGroup>
 </Project>

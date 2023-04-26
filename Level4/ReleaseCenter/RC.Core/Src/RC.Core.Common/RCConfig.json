@@ -12,7 +12,9 @@
     "UserName": "GDB",
     "Password": "GDB2022",
     "ExchangeName": "RCExchange_DEV",
-    "RetryCount": 5
+    "RetryNumber": 5,
+    "RetryIntervalSecond": 5,
+    "DiscardErrorMessage": false
   },
   "Exception": {
     "ShowException": true,

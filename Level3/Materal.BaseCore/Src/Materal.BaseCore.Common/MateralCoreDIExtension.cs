@@ -51,9 +51,10 @@ namespace Materal.BaseCore.Common
                 UserName = MateralCoreConfig.EventBusConfig.UserName,
                 Password = MateralCoreConfig.EventBusConfig.Password
             });
-            MateralTFMSRabbitMQConfig.EventErrorConfig.Discard = true;//消息处理失败后是否丢弃消息
-            MateralTFMSRabbitMQConfig.EventErrorConfig.IsRetry = false;//消息处理失败后是否重试
-            MateralTFMSRabbitMQConfig.EventErrorConfig.RetryNumber = 5;//消息处理失败后重试次数
+            MateralTFMSRabbitMQConfig.EventErrorConfig.Discard = MateralCoreConfig.EventBusConfig.DiscardErrorMessage;//消息处理失败后是否丢弃消息
+            MateralTFMSRabbitMQConfig.EventErrorConfig.IsRetry = MateralCoreConfig.EventBusConfig.RetryNumber > 0;//消息处理失败后是否重试
+            MateralTFMSRabbitMQConfig.EventErrorConfig.RetryNumber = MateralCoreConfig.EventBusConfig.RetryNumber;//消息处理失败后重试次数
+            MateralTFMSRabbitMQConfig.EventErrorConfig.RetryInterval = TimeSpan.FromSeconds(MateralCoreConfig.EventBusConfig.RetryIntervalSecond);//消息处理失败后重试次数
             services.AddEventBusSubscriptionsManager().AddRabbitMQPersistentConnection();
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(serviceProvider =>
             {

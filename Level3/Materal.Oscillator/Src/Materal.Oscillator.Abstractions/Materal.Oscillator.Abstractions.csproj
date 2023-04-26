@@ -9,12 +9,12 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.8</Version>
+		<Version>1.1.9</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.Abstractions</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.8" />
+		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.9" />
 		<PackageReference Include="Quartz" Version="*" />
 	</ItemGroup>
 </Project>

@@ -28,6 +28,14 @@
         /// <summary>
         /// 重试次数
         /// </summary>
-        public int RetryCount { get; set; } = 5;
+        public int RetryNumber { get; set; } = 5;
+        /// <summary>
+        /// 重试间隔
+        /// </summary>
+        public int RetryIntervalSecond { get; set; } = 5;
+        /// <summary>
+        /// 丢弃错误消息
+        /// </summary>
+        public bool DiscardErrorMessage { get; set; } = false;
     }
 }
