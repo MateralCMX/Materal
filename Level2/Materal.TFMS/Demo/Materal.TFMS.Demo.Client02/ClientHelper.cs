@@ -2,7 +2,6 @@
 using Materal.TFMS.Demo.Client02.EventHandlers;
 using Materal.TFMS.Demo.Core;
 using Materal.TFMS.Demo.Core.Extensions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.TFMS.Demo.Client02
@@ -10,15 +9,16 @@ namespace Materal.TFMS.Demo.Client02
     public static class ClientHelper
     {
         private static readonly IServiceCollection _serviceCollection = new ServiceCollection();
-        private static IServiceProvider _serviceProvider;
+        private static readonly IServiceProvider _serviceProvider;
         public static string AppName { get; private set; } = "Client02";
         static ClientHelper()
         {
-            IConfiguration configuration = new ConfigurationBuilder()
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .Build();
             _serviceCollection.AddMateralLogger();
-            LoggerManager.Init(null, configuration);
+            LoggerManager.Init(option =>
+            {
+                option.AddConsoleTarget("LifeConsole");
+                option.AddAllTargetRule();
+            });
             LoggerManager.CustomConfig.Add("ApplicationName", AppName);
             RegisterServices();
             _serviceProvider = _serviceCollection.BuildServiceProvider();

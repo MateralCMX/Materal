@@ -6,15 +6,10 @@
 		<LangVersion>11.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Logger" Version="1.1.7" />
+		<PackageReference Include="Materal.Logger" Version="1.1.8" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\Materal.TFMS.EventBus.RabbitMQ\Materal.TFMS.EventBus.RabbitMQ.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.TFMS.EventBus\Materal.TFMS.EventBus.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Update="appsettings.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 </Project>

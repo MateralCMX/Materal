@@ -12,11 +12,15 @@ namespace Materal.TFMS.Demo.Client01
         public ClientImpl(IEventBus eventBus)
         {
             _eventBus = eventBus;
-            eventBus.SubscribeAsync<Event02, Client01Event02Handler>();
-            eventBus.SubscribeAsync<Event02, Client01Event02Handler2>();
-            eventBus.SubscribeAsync<Event03, Client01Event03Handler>();
-            eventBus.SubscribeAsync<Event03, Client01Event03Handler2>();
+            SubscribeAsync(_eventBus).Wait();
             _eventBus.StartListening();
+        }
+        private async Task SubscribeAsync(IEventBus eventBus)
+        {
+            await eventBus.SubscribeAsync<Event02, Client01Event02Handler>();
+            await eventBus.SubscribeAsync<Event02, Client01Event02Handler2>();
+            await eventBus.SubscribeAsync<Event03, Client01Event03Handler>();
+            await eventBus.SubscribeAsync<Event03, Client01Event03Handler2>();
         }
 
         public async Task SendEventAsync()

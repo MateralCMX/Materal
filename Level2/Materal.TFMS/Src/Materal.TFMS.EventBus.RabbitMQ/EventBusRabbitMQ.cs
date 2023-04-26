@@ -8,6 +8,7 @@ using Polly.Retry;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
+using System;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
@@ -137,7 +138,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         }
         public void Dispose()
         {
-            if(_consumerChannel != null)
+            if (_consumerChannel != null)
             {
                 _consumerChannel.Dispose();
                 GC.SuppressFinalize(this);
@@ -198,54 +199,14 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             string message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
             try
             {
-                if (message.ToLowerInvariant().Contains("throw-fake-exception"))
-                {
-                    throw new InvalidOperationException($"异常请求: \"{message}\"");
-                }
-                if (await TryProcessEvent(eventName, message))
-                {
-                    _consumerChannel?.BasicAck(eventArgs.DeliveryTag, false);
-                }
-                else
-                {
-                    _logger?.LogError(new MateralTFMSException("消息处理失败"), "错误消息: \"{Message}\"", message);
-                    _consumerChannel?.BasicReject(eventArgs.DeliveryTag, !MateralTFMSRabbitMQConfig.EventErrorConfig.Discard);
-                }
+                if (message.ToLowerInvariant().Contains("throw-fake-exception")) throw new MateralTFMSException($"异常请求: \"{message}\"");
+                if (!await TryProcessEvent(eventName, message)) throw new MateralTFMSException("消息处理失败");
+                _consumerChannel?.BasicAck(eventArgs.DeliveryTag, false);
             }
             catch (Exception exception)
             {
                 _logger?.LogError(exception, "错误消息: \"{Message}\"", message);
                 _consumerChannel?.BasicReject(eventArgs.DeliveryTag, !MateralTFMSRabbitMQConfig.EventErrorConfig.Discard);
-            }
-        }
-        /// <summary>
-        /// 处理错误消息
-        /// </summary>
-        /// <param name="exception"></param>
-        /// <param name="handler"></param>
-        /// <returns></returns>
-        private static async Task HandlerErrorMessageAsync(Exception exception, Func<Task> handler)
-        {
-            var isOK = false;
-            if (MateralTFMSRabbitMQConfig.EventErrorConfig.IsRetry)
-            {
-                for (var i = 0; i < MateralTFMSRabbitMQConfig.EventErrorConfig.RetryNumber; i++)
-                {
-                    try
-                    {
-                        await handler();
-                        isOK = true;
-                        break;
-                    }
-                    catch (Exception)
-                    {
-                        isOK = false;
-                    }
-                }
-            }
-            if (!isOK)
-            {
-                throw new MateralTFMSException("消息处理失败", exception);
             }
         }
         /// <summary>
@@ -258,66 +219,129 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         {
             using IDisposable? scope = _logger?.BeginScope("ProcessEvent");
             _logger?.LogInformation("处理事件: {eventName}", eventName);
-            var result = false;
-            if (_subsManager.HasSubscriptionsForEvent(eventName))
+            if (!_subsManager.HasSubscriptionsForEvent(eventName))
             {
-                IEnumerable<SubscriptionInfo> subscriptions = _subsManager.GetHandlersForEvent(eventName);
-                foreach (SubscriptionInfo subscription in subscriptions)
+                _logger?.LogError("未找到订阅事件: {eventName}", eventName);
+                return false;
+            }
+            IEnumerable<SubscriptionInfo> subscriptions = _subsManager.GetHandlersForEvent(eventName);
+            bool result = await HandlerSubscriptionsAsync(subscriptions, eventName, message);
+            return result;
+        }
+        /// <summary>
+        /// 处理订阅组
+        /// </summary>
+        /// <param name="subscriptions"></param>
+        /// <param name="eventName"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private async Task<bool> HandlerSubscriptionsAsync(IEnumerable<SubscriptionInfo> subscriptions, string eventName, string message)
+        {
+            var result = true;
+            foreach (SubscriptionInfo subscription in subscriptions)
+            {
+                bool handlerResult = await HandlerSubscriptionAsync(subscription, eventName, message);
+                if (result && !handlerResult)
                 {
-                    using IServiceScope serviceScope = _service.CreateScope();
-                    IServiceProvider service = serviceScope.ServiceProvider;
-                    if (subscription.IsDynamic)
-                    {
-                        if (service.GetService(subscription.HandlerType) is not IDynamicIntegrationEventHandler handler) continue;
-                        dynamic eventData = JObject.Parse(message);
-                        try
-                        {
-                            await handler.HandleAsync(eventData);
-                        }
-                        catch (Exception exception)
-                        {
-                            await HandlerErrorMessageAsync(exception, async () => await handler.HandleAsync(eventData));
-                        }
-                    }
-                    else
-                    {
-                        object? handler = service.GetService(subscription.HandlerType);
-                        if (handler == null) continue;
-                        Type? eventType = _subsManager.GetEventTypeByName(eventName);
-                        if (eventType == null) continue;
-                        object? integrationEvent = JsonConvert.DeserializeObject(message, eventType);
-                        Type concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
-                        MethodInfo? handlerMethodInfo = concreteType.GetMethod("HandleAsync");
-                        if (handlerMethodInfo == null || handlerMethodInfo.ReturnType != typeof(Task)) continue;
-                        try
-                        {
-                            object? handlerObj = handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
-                            if (handlerObj is Task handlerTask)
-                            {
-                                await handlerTask;
-                            }
-                        }
-                        catch (Exception exception)
-                        {
-                            await HandlerErrorMessageAsync(exception, async () =>
-                            {
-                                object? handlerObj = handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
-                                if (handlerObj is Task handlerTask)
-                                {
-                                    await handlerTask;
-                                }
-                            });
-                        }
-                    }
-                    _logger?.LogTrace("处理器{Name}执行完毕", subscription.HandlerType.Name);
+                    result = false;
                 }
-                result= true;
+            }
+            return result;
+        }
+        /// <summary>
+        /// 处理订阅
+        /// </summary>
+        /// <param name="subscription"></param>
+        /// <param name="eventName"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private async Task<bool> HandlerSubscriptionAsync(SubscriptionInfo subscription, string eventName, string message)
+        {
+            bool result;
+            if (subscription.IsDynamic)
+            {
+                result = await HandlerDynamicSubscription(subscription, eventName, message);
             }
             else
             {
-                _logger?.LogError("未找到订阅事件: {eventName}", eventName);
+                result = await HandlerNormalSubscriptionAsync(subscription, eventName, message);
             }
+            _logger?.LogDebug("处理器{Name}执行完毕", subscription.HandlerType.Name);
             return result;
+        }
+        /// <summary>
+        /// 处理订阅
+        /// </summary>
+        /// <param name="HandlerFunc"></param>
+        /// <param name="eventName"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private async Task<bool> HandlerSubscriptionAsync(Func<Task> HandlerFunc, string eventName, string message)
+        {
+            if (MateralTFMSRabbitMQConfig.EventErrorConfig.IsRetry)
+            {
+                await Policy.Handle<Exception>()
+                    .WaitAndRetryAsync(MateralTFMSRabbitMQConfig.EventErrorConfig.RetryNumber, i =>
+                    {
+                        _logger?.LogInformation($"[{i}/{MateralTFMSRabbitMQConfig.EventErrorConfig.RetryNumber}]将在{MateralTFMSRabbitMQConfig.EventErrorConfig.RetryInterval.TotalSeconds}秒后重新处理事件{eventName}\r\n{message}");
+                        return MateralTFMSRabbitMQConfig.EventErrorConfig.RetryInterval;
+                    })
+                    .ExecuteAsync(HandlerFunc);
+            }
+            else
+            {
+                await HandlerFunc();
+            }
+            return true;
+        }
+        /// <summary>
+        /// 处理正常订阅
+        /// </summary>
+        /// <param name="subscription"></param>
+        /// <param name="eventName"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private async Task<bool> HandlerNormalSubscriptionAsync(SubscriptionInfo subscription, string eventName, string message)
+        {
+            using IServiceScope serviceScope = _service.CreateScope();
+            IServiceProvider service = serviceScope.ServiceProvider;
+            object? handler = service.GetService(subscription.HandlerType);
+            if (handler == null) return false;
+            Type? eventType = _subsManager.GetEventTypeByName(eventName);
+            if (eventType == null) return false;
+            object? integrationEvent = JsonConvert.DeserializeObject(message, eventType);
+            Type concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
+            MethodInfo? handlerMethodInfo = concreteType.GetMethod("HandleAsync");
+            if (handlerMethodInfo == null || handlerMethodInfo.ReturnType != typeof(Task)) return false;
+            async Task HandlerFunc()
+            {
+                if (handlerMethodInfo == null || handlerMethodInfo.ReturnType != typeof(Task)) return;
+                object? handlerObj = handlerMethodInfo.Invoke(handler, new[] { integrationEvent });
+                if (handlerObj is Task handlerTask)
+                {
+                    await handlerTask;
+                }
+            }
+            return await HandlerSubscriptionAsync(HandlerFunc, eventName, message);
+        }
+        /// <summary>
+        /// 处理动态订阅
+        /// </summary>
+        /// <param name="subscription"></param>
+        /// <param name="eventName"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        private async Task<bool> HandlerDynamicSubscription(SubscriptionInfo subscription, string eventName, string message)
+        {
+            using IServiceScope serviceScope = _service.CreateScope();
+            IServiceProvider service = serviceScope.ServiceProvider;
+            if (service.GetService(subscription.HandlerType) is not IDynamicIntegrationEventHandler handler) return false;
+            dynamic eventData = JObject.Parse(message);
+            async Task HandlerFunc()
+            {
+                await handler.HandleAsync(eventData);
+            }
+            return await HandlerSubscriptionAsync(HandlerFunc, eventName, message);
         }
         /// <summary>
         /// 事件移除
