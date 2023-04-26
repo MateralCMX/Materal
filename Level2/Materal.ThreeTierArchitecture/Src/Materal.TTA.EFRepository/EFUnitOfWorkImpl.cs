@@ -62,7 +62,7 @@ namespace Materal.TTA.EFRepository
         {
             try
             {
-                TryRegisterEdit<TEntity, TPrimaryKeyType>(obj);
+                RegisterEdit<TEntity, TPrimaryKeyType>(obj);
                 return true;
             }
             catch
@@ -88,7 +88,7 @@ namespace Materal.TTA.EFRepository
         {
             try
             {
-                TryRegisterDelete<TEntity, TPrimaryKeyType>(obj);
+                RegisterDelete<TEntity, TPrimaryKeyType>(obj);
                 return true;
             }
             catch

@@ -60,6 +60,18 @@ namespace MateralPublish.Models
                 return await base.PublishAsync(publishDirectoryInfo, csprojFileInfo);
             }
         }
+        protected override string[] GetPublishCommand(DirectoryInfo publishDirectoryInfo, FileInfo csprojFileInfo)
+        {
+            if (csprojFileInfo.Name == "MateralBasePlugBuild.csproj")
+            {
+                string cmd = $"dotnet pack {csprojFileInfo.FullName} -o {publishDirectoryInfo.FullName} -c Release";
+                return new[] { cmd };
+            }
+            else
+            {
+                return base.GetPublishCommand(publishDirectoryInfo, csprojFileInfo);
+            }
+        }
         private void CopyToolsFile(DirectoryInfo plugBuildDirectoryInfo, string prefix = "")
         {
             string[] blackList = new[]

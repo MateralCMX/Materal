@@ -7,7 +7,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.5" />
+		<PackageReference Include="Materal.Utils" Version="1.1.7" />
 		<PackageReference Include="WorkflowCore" Version="*" />
 	</ItemGroup>
 </Project>

@@ -43,29 +43,18 @@ namespace Materal.TTA.Demo
                 await migrateHelper.MigrateAsync();
 
                 IDemoUnitOfWork _unitOfWork = serviceProvider.GetService<IDemoUnitOfWork>() ?? throw new MateralException("获取实例失败");
-                IUserRepository _userRepository = _unitOfWork.GetRepository<IUserRepository>() ?? throw new MateralException("获取实例失败");
-                var a = _unitOfWork.GetType().BaseType.GetField("_dbContext", BindingFlags.NonPublic | BindingFlags.Instance);
-                var aa = a.GetValue(_unitOfWork);
-                var b = _userRepository.GetType().GetProperty("DBContext", BindingFlags.NonPublic | BindingFlags.Instance);
-                var bb = b.GetValue(_userRepository);
-                if (aa == bb)
+                IUserRepository _userRepository = _unitOfWork.GetRepository<IUserRepository>();
+                User? user = new()
                 {
-
-                }
-                else
-                {
-
-                }
-                //IUserRepository _userRepository = _unitOfWork.GetRepository<IUserRepository>() ?? throw new MateralException("获取仓储失败");
-                //User? user = new()
-                //{
-                //    Name = "Materal"
-                //};
-                //_unitOfWork.RegisterAdd(user);
-                //await _unitOfWork.CommitAsync();
-                //user = _userRepository.FirstOrDefault(user.ID);
-                //if (user == null) throw new MateralException("数据获取失败");
-                //Console.WriteLine(user.ToJson());
+                    Name = "Materal"
+                };
+                _unitOfWork.RegisterAdd(user);
+                user.Name = "Materal2";
+                _unitOfWork.TryRegisterEdit(user);
+                await _unitOfWork.CommitAsync();
+                user = _userRepository.FirstOrDefault(user.ID);
+                if (user == null) throw new MateralException("数据获取失败");
+                Console.WriteLine(user.ToJson());
                 List<User> users = await _userRepository.FindAsync(m => true);
                 Console.WriteLine(users.ToJson());
             }

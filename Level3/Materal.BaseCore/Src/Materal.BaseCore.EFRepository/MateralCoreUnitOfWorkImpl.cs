@@ -1,4 +1,5 @@
-﻿using Materal.TTA.Common;
+﻿using Materal.BaseCore.Domain;
+using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,8 +25,9 @@ namespace Materal.BaseCore.EFRepository
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
         public void RegisterAdd<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<Guid>
+            where TEntity : class, IEntity<Guid>, IDomain
         {
+            obj.CreateTime = DateTime.Now;
             RegisterAdd<TEntity, Guid>(obj);
         }
         /// <summary>
@@ -34,8 +36,10 @@ namespace Materal.BaseCore.EFRepository
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
         public bool TryRegisterAdd<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<Guid>
+            where TEntity : class, IEntity<Guid>, IDomain
         {
+            DateTime temp = obj.CreateTime;
+            obj.CreateTime = DateTime.Now;
             return TryRegisterAdd<TEntity, Guid>(obj);
         }
         /// <summary>
@@ -44,8 +48,9 @@ namespace Materal.BaseCore.EFRepository
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
         public void RegisterEdit<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<Guid>
+            where TEntity : class, IEntity<Guid>, IDomain
         {
+            obj.UpdateTime = DateTime.Now;
             RegisterEdit<TEntity, Guid>(obj);
         }
         /// <summary>
@@ -54,8 +59,9 @@ namespace Materal.BaseCore.EFRepository
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
         public bool TryRegisterEdit<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<Guid>
+            where TEntity : class, IEntity<Guid>, IDomain
         {
+            obj.UpdateTime = DateTime.Now;
             return TryRegisterEdit<TEntity, Guid>(obj);
         }
         /// <summary>
@@ -64,7 +70,7 @@ namespace Materal.BaseCore.EFRepository
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
         public void RegisterDelete<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<Guid>
+            where TEntity : class, IEntity<Guid>, IDomain
         {
             RegisterDelete<TEntity, Guid>(obj);
         }
@@ -74,7 +80,7 @@ namespace Materal.BaseCore.EFRepository
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
         public bool TryRegisterDelete<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<Guid>
+            where TEntity : class, IEntity<Guid>, IDomain
         {
             return TryRegisterDelete<TEntity, Guid>(obj);
         }

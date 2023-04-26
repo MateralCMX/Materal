@@ -1,4 +1,6 @@
-﻿namespace MateralPublish.Models
+﻿using Materal.Tools.Helper;
+
+namespace MateralPublish.Models
 {
     public class MainProjectModel : BaseProjectModel
     {
@@ -33,6 +35,21 @@
                 }
             }
             throw new Exception("未找到版本号");
+        }
+        protected override string[] GetPublishCommand(DirectoryInfo publishDirectoryInfo, FileInfo csprojFileInfo)
+        {
+            if (csprojFileInfo.Name == "Materal.Utils.Windows.csproj")
+            {
+                string cmd1 = $"dotnet publish {csprojFileInfo.FullName} -c Release -f net6.0-windows";
+                string cmd2 = $"dotnet publish {csprojFileInfo.FullName} -c Release -f net472";
+                if (NugetServerHelper.NugetDirectoryInfo == null) return new[] { cmd1, cmd2 };
+                string cmd3 = $"dotnet pack {csprojFileInfo.FullName} -o {NugetServerHelper.NugetDirectoryInfo.FullName} -c Release";
+                return new[] { cmd1, cmd2, cmd3};
+            }
+            else
+            {
+                return base.GetPublishCommand(publishDirectoryInfo, csprojFileInfo);
+            }
         }
     }
 }

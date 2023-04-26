@@ -130,6 +130,17 @@ namespace MateralPublish.Models
             }
         }
         /// <summary>
+        /// 获得发布命令
+        /// </summary>
+        /// <param name="publishDirectoryInfo"></param>
+        /// <param name="csprojFileInfo"></param>
+        /// <returns></returns>
+        protected virtual string[] GetPublishCommand(DirectoryInfo publishDirectoryInfo, FileInfo csprojFileInfo)
+        {
+            string cmd1 = $"dotnet publish {csprojFileInfo.FullName} -c Release";
+            return new[] { cmd1 };
+        }
+        /// <summary>
         /// 发布
         /// </summary>
         /// <param name="publishDirectoryInfo"></param>
@@ -139,11 +150,11 @@ namespace MateralPublish.Models
             string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
             CmdHelper cmdHelper = new();
             DirectoryInfo truePublishDirectoryInfo = Path.Combine(publishDirectoryInfo.FullName, projectName).GetNewDirectoryInfo();
-            string cmd = $"dotnet publish {csprojFileInfo.FullName} -o {truePublishDirectoryInfo.FullName} -c Release";
+            string[] cmds = GetPublishCommand(truePublishDirectoryInfo, csprojFileInfo);
             ConsoleHelper.WriteLine($"正在发布{projectName}代码...");
             cmdHelper.OutputDataReceived += CmdHelper_OutputDataReceived;
             cmdHelper.ErrorDataReceived += CmdHelper_ErrorDataReceived;
-            await cmdHelper.RunCmdCommandsAsync(cmd);
+            await cmdHelper.RunCmdCommandsAsync(cmds);
             ConsoleHelper.WriteLine($"{projectName}代码发布完毕");
             return truePublishDirectoryInfo;
         }
