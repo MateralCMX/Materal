@@ -242,14 +242,14 @@ namespace Materal.TTA.ADONETRepository
             return result;
         }
         /// <summary>
-        /// 方法调用表达式转换为TSQL
+        /// 包含方法转换为TSQL
         /// </summary>
         /// <param name="command"></param>
         /// <param name="expression"></param>
         /// <param name="unitOfWork"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        public string MethodCallExpressionToTSQL(IDbCommand command, MethodCallExpression expression, IADONETUnitOfWork unitOfWork)
+        private string? ContainsMethodCallExpressionToSQL(IDbCommand command, MethodCallExpression expression, IADONETUnitOfWork unitOfWork)
         {
             if (expression.Method.Name == "Contains" && expression.Object is MemberExpression memberExpression)
             {
@@ -268,7 +268,7 @@ namespace Materal.TTA.ADONETRepository
                         throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
                     }
                 }
-                else if (memberExpression.Type.IsAssignableTo(typeof(System.Collections.ICollection)))
+                else if (memberExpression.Type.IsAssignableTo(typeof(ICollection)))
                 {
                     if (expression.Arguments.Count == 1)
                     {
@@ -311,7 +311,46 @@ namespace Materal.TTA.ADONETRepository
                     }
                 }
             }
-            throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
+            return null;
+        }
+        /// <summary>
+        /// 等于方法转换为TSQL
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="expression"></param>
+        /// <param name="unitOfWork"></param>
+        /// <returns></returns>
+        /// <exception cref="TTAException"></exception>
+        private string? EqualsMethodCallExpressionToSQL(IDbCommand command, MethodCallExpression expression, IADONETUnitOfWork unitOfWork)
+        {
+            if (expression.Method.Name == "Equals" && expression.Object is MemberExpression memberExpression)
+            {
+                string leftTSQL = ExpressionToTSQL(command, memberExpression, expression, unitOfWork);
+                if (expression.Arguments.Count == 1)
+                {
+                    string parameterName = ExpressionToTSQL(command, expression.Arguments[0], expression, unitOfWork);
+                    return $"{leftTSQL}={parameterName}";
+                }
+                else
+                {
+                    throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// 方法调用表达式转换为TSQL
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="expression"></param>
+        /// <param name="unitOfWork"></param>
+        /// <returns></returns>
+        /// <exception cref="TTAException"></exception>
+        public string MethodCallExpressionToTSQL(IDbCommand command, MethodCallExpression expression, IADONETUnitOfWork unitOfWork)
+        {
+            string? result = ContainsMethodCallExpressionToSQL(command, expression, unitOfWork);
+            result ??= EqualsMethodCallExpressionToSQL(command, expression, unitOfWork);
+            return result ?? throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
         }
         /// <summary>
         /// 常量表达式转换为TSQL
@@ -435,7 +474,7 @@ namespace Materal.TTA.ADONETRepository
             tSql.AppendLine($"SELECT {string.Join(", ", propertyNames)}");
             tSql.AppendLine($"FROM {unitOfWork.GetTSQLField(tableName)}");
             string whereTSQLs = ExpressionToTSQL(command, expression, null, unitOfWork);
-            if (!string.IsNullOrWhiteSpace(whereTSQLs))
+            if (!string.IsNullOrWhiteSpace(whereTSQLs) && !whereTSQLs.StartsWith("@"))
             {
                 tSql.AppendLine($"WHERE {whereTSQLs}");
             }

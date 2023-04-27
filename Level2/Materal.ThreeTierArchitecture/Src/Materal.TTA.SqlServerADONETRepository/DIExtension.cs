@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NetCore.AutoRegisterDi;
 using System.Reflection;
 
-namespace Materal.TTA.SqliteADONETRepository
+namespace Materal.TTA.SqlServerADONETRepository
 {
     /// <summary>
     /// DI扩展
@@ -12,17 +12,17 @@ namespace Materal.TTA.SqliteADONETRepository
     public static class DIExtension
     {
         /// <summary>
-        /// 添加TTASqliteADONET仓储服务
+        /// 添加TTASqlServerADONET仓储服务
         /// </summary>
         /// <param name="services"></param>
         /// <param name="dbConfig"></param>
         /// <param name="repositoryAssemblies"></param>
         /// <returns></returns>
-        public static IServiceCollection AddTTASqliteADONETRepository<T>(this IServiceCollection services, T dbConfig, params Assembly[] repositoryAssemblies)
+        public static IServiceCollection AddTTASqlServerADONETRepository<T>(this IServiceCollection services, T dbConfig, params Assembly[] repositoryAssemblies)
             where T : DbConfig
         {
             services.AddSingleton(dbConfig);
-            services.AddScoped(typeof(IRepositoryHelper<,>), typeof(SqliteRepositoryHelper<,>));
+            services.AddScoped(typeof(IRepositoryHelper<,>), typeof(SqlServerRepositoryHelper<,>));
             foreach (Assembly repositoryAssembly in repositoryAssemblies)
             {
                 services.RegisterAssemblyPublicNonGenericClasses(repositoryAssembly)

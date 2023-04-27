@@ -58,9 +58,13 @@ namespace Materal.TTA.SqliteADONETRepository
                 {
                     sqlType = "TEXT";
                 }
-                else if (propertyType.IsAssignableTo(typeof(int)) || propertyType.IsAssignableTo(typeof(Enum)))
+                else if (propertyType.IsAssignableTo(typeof(byte)) || propertyType.IsAssignableTo(typeof(int)) || propertyType.IsAssignableTo(typeof(decimal)) || propertyType.IsAssignableTo(typeof(Enum)))
                 {
                     sqlType = "INTEGER";
+                }
+                else if (propertyType.IsAssignableTo(typeof(DateTime)))
+                {
+                    sqlType = "DATETIME";
                 }
                 else throw new TTAException("未识别类型");
                 fildeTSQLBuilder.AppendLine($"\t{unitOfWork.GetTSQLField(propertyInfo.Name)} {sqlType} {isNull},");

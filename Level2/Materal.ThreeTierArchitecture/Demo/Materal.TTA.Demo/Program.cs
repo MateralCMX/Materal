@@ -16,16 +16,22 @@ namespace Materal.TTA.Demo
             //serviceCollection.AddSqliteEFTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
 
-            serviceCollection.AddSqlServerEFTTA();
-            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
+            //serviceCollection.AddSqlServerEFTTA();
+            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
+
+            serviceCollection.AddSqliteADONETTTA();
+            static Task MigrateAsync(IServiceProvider serviceProvider) => Task.CompletedTask;
+
+            //serviceCollection.AddSqlServerADONETTTA();
+            //static Task MigrateAsync(IServiceProvider serviceProvider) => Task.CompletedTask;
 
             IServiceProvider services = serviceCollection.BuildServiceProvider();
-            using(IServiceScope scope = services.CreateScope())
+            using (IServiceScope scope = services.CreateScope())
             {
                 IServiceProvider serviceProvider = scope.ServiceProvider;
                 await MigrateAsync(serviceProvider);
-                IDemoUnitOfWork _unitOfWork = serviceProvider.GetService<IDemoUnitOfWork>() ?? throw new MateralException("获取实例失败");
-                ITestDomainRepository _userRepository = _unitOfWork.GetRepository<ITestDomainRepository>();
+                IDemoUnitOfWork unitOfWork = serviceProvider.GetService<IDemoUnitOfWork>() ?? throw new MateralException("获取实例失败");
+                ITestDomainRepository testDomainRepository = unitOfWork.GetRepository<ITestDomainRepository>();
                 TestDomain? user = new()
                 {
                     StringType = "String",
@@ -36,12 +42,13 @@ namespace Materal.TTA.Demo
                     EnumType = TestEnum.Type2,
                     ID = Guid.NewGuid()
                 };
-                _unitOfWork.RegisterAdd(user);
-                await _unitOfWork.CommitAsync();
-                user = _userRepository.FirstOrDefault(user.ID);
+                unitOfWork.RegisterAdd(user);
+                await unitOfWork.CommitAsync();
+                user = testDomainRepository.FirstOrDefault(user.ID);
+                user = testDomainRepository.FirstOrDefault(m => m.StringType.Equals("String"));
                 if (user == null) throw new MateralException("数据获取失败");
                 Console.WriteLine(user.ToJson());
-                List<TestDomain> users = await _userRepository.FindAsync(m => true);
+                List<TestDomain> users = await testDomainRepository.FindAsync(m => true);
                 Console.WriteLine(users.ToJson());
             }
             Console.ReadKey();

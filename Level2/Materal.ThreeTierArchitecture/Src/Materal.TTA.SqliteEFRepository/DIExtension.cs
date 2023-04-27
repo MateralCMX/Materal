@@ -1,6 +1,4 @@
-﻿using AspectCore.Configuration;
-using Materal.TTA.Common;
-using Materal.TTA.Common.Model;
+﻿using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;

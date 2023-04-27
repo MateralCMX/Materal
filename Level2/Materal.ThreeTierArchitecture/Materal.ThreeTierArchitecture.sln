@@ -8,9 +8,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Demo", "Demo\Materal.TTA.Demo\Materal.TTA.Demo.csproj", "{24D24216-D548-49D5-83AB-3ED6ABD12D80}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{64FCFB2A-63F8-4203-9516-190E7035185C}"
-	ProjectSection(SolutionItems) = preProject
-		Demo\Materal.TTA.Demo.SqlServerEFRepository\UserSqliteEFRepository.cs = Demo\Materal.TTA.Demo.SqlServerEFRepository\UserSqliteEFRepository.cs
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{54440FDD-9CE9-4C6A-BD31-5F64D0DC2368}"
 EndProject
@@ -39,6 +36,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.Demo.Domain", "Demo\Materal.TTA.Demo.Domain\Materal.TTA.Demo.Domain.csproj", "{AC303665-A8F5-4814-BC8E-44325E240986}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.Demo.SqlServerEFRepository", "Demo\Materal.TTA.Demo.SqlServerEFRepository\Materal.TTA.Demo.SqlServerEFRepository.csproj", "{3691F455-8BAD-4E47-A91B-1285C9E91AA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.Demo.SqliteADONETRepository", "Demo\Materal.TTA.Demo.SqliteADONETRepository\Materal.TTA.Demo.SqliteADONETRepository.csproj", "{62E93C2E-92D5-47C3-8980-EC4740B66967}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.Demo.SqlServerADONETRepository", "Demo\Materal.TTA.Demo.SqlServerADONETRepository\Materal.TTA.Demo.SqlServerADONETRepository.csproj", "{54B79237-DF24-4A0C-9FED-C3D00D12C6DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +95,14 @@ Global
 		{3691F455-8BAD-4E47-A91B-1285C9E91AA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3691F455-8BAD-4E47-A91B-1285C9E91AA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3691F455-8BAD-4E47-A91B-1285C9E91AA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62E93C2E-92D5-47C3-8980-EC4740B66967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62E93C2E-92D5-47C3-8980-EC4740B66967}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62E93C2E-92D5-47C3-8980-EC4740B66967}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62E93C2E-92D5-47C3-8980-EC4740B66967}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54B79237-DF24-4A0C-9FED-C3D00D12C6DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B79237-DF24-4A0C-9FED-C3D00D12C6DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B79237-DF24-4A0C-9FED-C3D00D12C6DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B79237-DF24-4A0C-9FED-C3D00D12C6DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +122,8 @@ Global
 		{86DD1310-F9AF-406D-922E-7B5FB60FF18D} = {01B22CF7-7F4F-4817-9F62-961E7EF8C305}
 		{AC303665-A8F5-4814-BC8E-44325E240986} = {01B22CF7-7F4F-4817-9F62-961E7EF8C305}
 		{3691F455-8BAD-4E47-A91B-1285C9E91AA7} = {01B22CF7-7F4F-4817-9F62-961E7EF8C305}
+		{62E93C2E-92D5-47C3-8980-EC4740B66967} = {01B22CF7-7F4F-4817-9F62-961E7EF8C305}
+		{54B79237-DF24-4A0C-9FED-C3D00D12C6DF} = {01B22CF7-7F4F-4817-9F62-961E7EF8C305}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ACCFD0EA-CC61-442C-8D0A-E4FF8C626326}

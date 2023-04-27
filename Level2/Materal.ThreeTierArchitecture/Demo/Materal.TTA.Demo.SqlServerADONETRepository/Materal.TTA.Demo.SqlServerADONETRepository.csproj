@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.TTA.ADONETRepository\Materal.TTA.ADONETRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.SqlServerADONETRepository\Materal.TTA.SqlServerADONETRepository.csproj" />
+		<ProjectReference Include="..\Materal.TTA.Demo.Domain\Materal.TTA.Demo.Domain.csproj" />
+	</ItemGroup>
+</Project>

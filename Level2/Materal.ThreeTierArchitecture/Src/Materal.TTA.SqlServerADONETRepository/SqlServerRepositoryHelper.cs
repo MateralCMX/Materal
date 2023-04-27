@@ -82,9 +82,21 @@ namespace Materal.TTA.SqlServerADONETRepository
                         sqlType = unitOfWork.GetTSQLField("int");
                     }
                 }
+                else if (propertyType.IsAssignableTo(typeof(byte)))
+                {
+                    sqlType = unitOfWork.GetTSQLField("tinyint");
+                }
                 else if (propertyType.IsAssignableTo(typeof(int)))
                 {
                     sqlType = unitOfWork.GetTSQLField("int");
+                }
+                else if (propertyType.IsAssignableTo(typeof(decimal)))
+                {
+                    sqlType = unitOfWork.GetTSQLField("decimal") + "(18,2)";
+                }
+                else if (propertyType.IsAssignableTo(typeof(DateTime)))
+                {
+                    sqlType = unitOfWork.GetTSQLField("dateTime2");
                 }
                 else throw new TTAException("未识别类型");
                 fildeTSQLBuilder.AppendLine($"\t{unitOfWork.GetTSQLField(propertyInfo.Name)} {sqlType} {isNull},");
