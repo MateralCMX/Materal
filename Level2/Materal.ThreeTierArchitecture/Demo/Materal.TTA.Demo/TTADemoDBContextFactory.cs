@@ -1,4 +1,4 @@
-﻿using Materal.TTA.SqliteRepository.Model;
+﻿using Materal.TTA.Common.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -14,7 +14,7 @@ namespace Materal.TTA.Demo
         public TTADemoDBContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<TTADemoDBContext>();
-            SqliteConfigModel config = new SqliteConfigModel();
+            SqliteConfigModel config = new();
             optionsBuilder.UseSqlite(config.ConnectionString);
             return new TTADemoDBContext(optionsBuilder.Options);
 

@@ -209,42 +209,42 @@ namespace Materal.TTA.MongoDBRepository
 
 
         /// <summary>
-        /// 分页
+        /// 分页查询
         /// </summary>
-        /// <param name="filterDefinition">分页请求模型</param>
+        /// <param name="filterDefinition">分页查询请求模型</param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, PageRequestModel pageRequestModel);
+        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filterDefinition, PageRequestModel pageRequestModel);
         /// <summary>
-        /// 分页
+        /// 分页查询
         /// </summary>
-        /// <param name="filterDefinition">分页请求模型</param>
+        /// <param name="filterDefinition">分页查询请求模型</param>
         /// <param name="sortDefinition">排序表达式</param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, PageRequestModel pageRequestModel);
+        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, PageRequestModel pageRequestModel);
 
         /// <summary>
-        /// 分页
+        /// 分页查询
         /// </summary>
-        /// <param name="filterDefinition">分页请求模型</param>
+        /// <param name="filterDefinition">分页查询请求模型</param>
         /// <param name="pageSize"></param>
         /// <param name="skip"></param>
         /// <param name="take"></param>
         /// <param name="pageIndex"></param>
         /// <returns></returns>
-        (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, int pageIndex, int pageSize, int skip, int take);
+        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filterDefinition, int pageIndex, int pageSize, int skip, int take);
 
         /// <summary>
-        /// 分页
+        /// 分页查询
         /// </summary>
-        /// <param name="filterDefinition">分页请求模型</param>
+        /// <param name="filterDefinition">分页查询请求模型</param>
         /// <param name="sortDefinition">排序表达式</param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="skip"></param>
         /// <param name="take"></param>
         /// <returns></returns>
-        (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, int pageIndex, int pageSize, int skip, int take);
+        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, int pageIndex, int pageSize, int skip, int take);
     }
 }

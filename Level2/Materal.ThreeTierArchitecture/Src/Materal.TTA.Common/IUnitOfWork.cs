@@ -1,5 +1,8 @@
 ﻿namespace Materal.TTA.Common
 {
+    /// <summary>
+    /// 工作单元
+    /// </summary>
     public interface IUnitOfWork
     {
         /// <summary>
@@ -18,50 +21,56 @@
         /// <summary>
         /// 注册添加
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
         /// <param name="obj"></param>
-        void RegisterAdd<T, TPrimaryKeyType>(T obj)
-            where T : class, IEntity<TPrimaryKeyType>
+        void RegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct;
         /// <summary>
         /// 注册添加
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
         /// <param name="obj"></param>
-        bool TryRegisterAdd<T, TPrimaryKeyType>(T obj)
-            where T : class, IEntity<TPrimaryKeyType>
+        bool TryRegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct;
         /// <summary>
         /// 注册修改
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
         /// <param name="obj"></param>
-        void RegisterEdit<T, TPrimaryKeyType>(T obj)
-            where T : class, IEntity<TPrimaryKeyType>
+        void RegisterEdit<TEntity, TPrimaryKeyType>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct;
         /// <summary>
         /// 注册修改
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
         /// <param name="obj"></param>
-        bool TryRegisterEdit<T, TPrimaryKeyType>(T obj)
-            where T : class, IEntity<TPrimaryKeyType>
+        bool TryRegisterEdit<TEntity, TPrimaryKeyType>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct;
         /// <summary>
         /// 注册删除
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
         /// <param name="obj"></param>
-        void RegisterDelete<T, TPrimaryKeyType>(T obj)
-            where T : class, IEntity<TPrimaryKeyType>
+        void RegisterDelete<TEntity, TPrimaryKeyType>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct;
         /// <summary>
         /// 注册删除
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
         /// <param name="obj"></param>
-        bool TryRegisterDelete<T, TPrimaryKeyType>(T obj)
-            where T : class, IEntity<TPrimaryKeyType>
+        bool TryRegisterDelete<TEntity, TPrimaryKeyType>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct;
         /// <summary>
         /// 获得仓储

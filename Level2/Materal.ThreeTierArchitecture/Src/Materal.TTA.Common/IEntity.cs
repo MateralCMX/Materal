@@ -3,8 +3,14 @@
     /// <summary>
     /// 实体接口
     /// </summary>
+    public interface IEntity
+    {
+    }
+    /// <summary>
+    /// 实体接口
+    /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IEntity<out T>
+    public interface IEntity<out T> : IEntity
         where T : struct
     {
         /// <summary>

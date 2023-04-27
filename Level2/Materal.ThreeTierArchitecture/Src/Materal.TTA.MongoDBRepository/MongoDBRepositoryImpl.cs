@@ -235,10 +235,10 @@ namespace Materal.TTA.MongoDBRepository
         }
         public IFindFluent<T, T> FindDocument(FilterModel filterModel) => FindDocument(filterModel.GetSearchExpression<T>());
         public Task<IAsyncCursor<T>> FindDocumentAsync(FilterModel filterModel) => FindDocumentAsync(filterModel.GetSearchExpression<T>());
-        public (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, PageRequestModel pageRequestModel) => Paging(filterDefinition, pageRequestModel.PageIndex, pageRequestModel.PageSize, pageRequestModel.Skip, pageRequestModel.Take);
-        public (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, PageRequestModel pageRequestModel) => Paging(filterDefinition, sortDefinition, pageRequestModel.PageIndex, pageRequestModel.PageSize, pageRequestModel.Skip, pageRequestModel.Take);
-        public (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, int pageIndex, int pageSize, int skip, int take) => Paging(filterDefinition, null, pageIndex, pageSize, skip, take);
-        public (List<T> result, PageModel pageModel) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T>? sortDefinition, int pageIndex, int pageSize, int skip, int take)
+        public (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filterDefinition, PageRequestModel pageRequestModel) => Paging(filterDefinition, pageRequestModel.PageIndex, pageRequestModel.PageSize, pageRequestModel.Skip, pageRequestModel.Take);
+        public (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T> sortDefinition, PageRequestModel pageRequestModel) => Paging(filterDefinition, sortDefinition, pageRequestModel.PageIndex, pageRequestModel.PageSize, pageRequestModel.Skip, pageRequestModel.Take);
+        public (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filterDefinition, int pageIndex, int pageSize, int skip, int take) => Paging(filterDefinition, null, pageIndex, pageSize, skip, take);
+        public (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filterDefinition, SortDefinition<T>? sortDefinition, int pageIndex, int pageSize, int skip, int take)
         {
             IFindFluent<T, T> find = Collection.Find(filterDefinition);
             if (sortDefinition != null)
@@ -299,32 +299,32 @@ namespace Materal.TTA.MongoDBRepository
             if (Collection == null) throw new MateralException("未选择集合");
             return Collection.Find(m => m.ID.Equals(id)).FirstOrDefault();
         }
-        public virtual async Task<T> FirstOrDefaultAsync(FilterModel filterModel) => await FirstOrDefaultAsync(filterModel.GetSearchExpression<T>());
+        public virtual async Task<T?> FirstOrDefaultAsync(FilterModel filterModel) => await FirstOrDefaultAsync(filterModel.GetSearchExpression<T>());
         public virtual T FirstOrDefault(Expression<Func<T, bool>> expression)
         {
             if (Collection == null) throw new MateralException("未选择集合");
             return Collection.Find(expression).FirstOrDefault();
         }
-        public virtual async Task<T> FirstOrDefaultAsync(TPrimaryKeyType id)
+        public virtual async Task<T?> FirstOrDefaultAsync(TPrimaryKeyType id)
         {
             if (Collection == null) throw new MateralException("未选择集合");
             return (await Collection.FindAsync(m => m.ID.Equals(id))).FirstOrDefault();
         }
         public virtual T FirstOrDefault(FilterModel filterModel) => FirstOrDefault(filterModel.GetSearchExpression<T>());
-        public virtual async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
         {
             if (Collection == null) throw new MateralException("未选择集合");
             return (await Collection.FindAsync(expression)).FirstOrDefault();
         }
-        public virtual (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel) => Paging(pageRequestModel.GetSearchExpression<T>(), pageRequestModel);
-        public virtual (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression) => Paging(pageRequestModel.GetSearchExpression<T>(), orderExpression, pageRequestModel);
-        public virtual (List<T> result, PageModel pageModel) Paging(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder) => Paging(pageRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, pageRequestModel);
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel) => Paging(filterExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize) => Paging(filterExpression, m => m.ID, pagingIndex, pagingSize);
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel) => Paging(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel) => Paging(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
-        public virtual (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize) => Paging(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
-        public virtual  (List<T> result, PageModel pageModel) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
+        public virtual (List<T> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel) => Paging(pageRequestModel.GetSearchExpression<T>(), pageRequestModel);
+        public virtual (List<T> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression) => Paging(pageRequestModel.GetSearchExpression<T>(), orderExpression, pageRequestModel);
+        public virtual (List<T> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder) => Paging(pageRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, pageRequestModel);
+        public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel) => Paging(filterExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize) => Paging(filterExpression, m => m.ID, pagingIndex, pagingSize);
+        public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel) => Paging(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel) => Paging(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize) => Paging(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
+        public virtual  (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
         {
             IQueryable<T> queryable = Where(filterExpression);
             var pageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
@@ -335,6 +335,91 @@ namespace Materal.TTA.MongoDBRepository
                 _ => queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
             };
             return (result, pageModel);
+        }
+
+        public Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<T>> FindAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<T>> FindAsync(FilterModel filterModel, Expression<Func<T, object>> orderExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<T>> FindAsync(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T First(FilterModel filterModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> FirstAsync(FilterModel filterModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T First(Expression<Func<T, bool>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> FirstAsync(Expression<Func<T, bool>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,23 +1,36 @@
 ﻿using Materal.TTA.Common;
 using Materal.Utils.Cache;
-using Materal.Utils.Redis;
 using Microsoft.EntityFrameworkCore;
 
 namespace Materal.TTA.EFRepository
 {
+    /// <summary>
+    /// 缓存仓储
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TPrimaryKeyType"></typeparam>
+    /// <typeparam name="TDBContext"></typeparam>
     public abstract class CacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : EFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, ICacheEFRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
     {
-        protected static readonly List<string> SubscriberChannelNames = new();
-        protected readonly RedisManager? _redisManager;
-        protected readonly ICacheHelper _cacheManager;
+        /// <summary>
+        /// 缓存帮助类
+        /// </summary>
+        protected readonly ICacheHelper CacheHelper;
+        /// <summary>
+        /// 保存所有信息的缓存名称
+        /// </summary>
         protected string AllInfoCacheName => GetAllCacheName();
-        protected CacheEFRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager, RedisManager? redisManager = null) : base(dbContext)
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="dbContext"></param>
+        /// <param name="cacheManager"></param>
+        protected CacheEFRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager) : base(dbContext)
         {
-            _redisManager = redisManager;
-            _cacheManager = cacheManager;
+            CacheHelper = cacheManager;
         }
         /// <summary>
         /// 获得所有缓存名称
@@ -30,40 +43,23 @@ namespace Materal.TTA.EFRepository
         /// <returns></returns>
         public virtual async Task<List<T>> GetAllInfoFromCacheAsync() => await GetInfoFromCacheAsync(AllInfoCacheName);
         /// <summary>
+        /// 从缓存获得所有信息
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public List<T> GetAllInfoFromCache()
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
         /// 清理缓存
         /// </summary>
         /// <returns></returns>
         public virtual async Task ClearAllCacheAsync() => await ClearCacheAsync(AllInfoCacheName);
         /// <summary>
-        /// 订阅清理缓存事件
+        /// 清理缓存
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        protected virtual async Task SubscriberAsync(string key)
-        {
-            if (_redisManager == null) return;
-            await _redisManager.SubscriberAsync(key, async (channelName, value) =>
-            {
-                if (string.IsNullOrWhiteSpace(channelName)) return;
-                await ClearCacheHandlerAsync(channelName);
-            });
-        }
-        /// <summary>
-        /// 清理缓存处理器
-        /// </summary>
-        /// <param name="channelName"></param>
-        /// <returns></returns>
-        protected virtual async Task ClearCacheHandlerAsync(string channelName)
-        {
-            if (_redisManager != null && await _redisManager.StringExistsAsync(channelName))
-            {
-                await _redisManager.StringDeleteAsync(channelName);
-            }
-            if (_cacheManager.KeyAny(channelName))
-            {
-                _cacheManager.Remove(channelName);
-            }
-        }
+        public void ClearAllCache() => ClearCache(AllInfoCacheName);
         /// <summary>
         /// 通过缓存获得信息
         /// </summary>
@@ -71,26 +67,23 @@ namespace Materal.TTA.EFRepository
         /// <returns></returns>
         public virtual async Task<List<T>> GetInfoFromCacheAsync(string key)
         {
-            List<T>? result = _cacheManager.GetOrDefault<List<T>>(key);
+            List<T>? result = CacheHelper.GetOrDefault<List<T>>(key);
             if (result != null) return result;
-            if (_redisManager != null && await _redisManager.StringExistsAsync(key))
-            {
-                result = await _redisManager.StringGetAsync<List<T>>(key);
-                if (result == null) return new List<T>();
-                _cacheManager.SetBySliding(key, result, 1);
-                return result;
-            }
-            result = await DBSet.Where(m => true).ToListAsync();
-            _cacheManager.SetBySliding(key, result, 1);
-            if (_redisManager != null)
-            {
-                if (!SubscriberChannelNames.Contains(key))
-                {
-                    SubscriberChannelNames.Add(key);
-                    await SubscriberAsync(key);
-                }
-                await _redisManager.StringSetAsync(key, result);
-            }
+            result = await FindAsync(m => true);
+            CacheHelper.SetBySliding(key, result, 1);
+            return result;
+        }
+        /// <summary>
+        /// 通过缓存获得信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public List<T> GetInfoFromCache(string key)
+        {
+            List<T>? result = CacheHelper.GetOrDefault<List<T>>(key);
+            if (result != null) return result;
+            result = Find(m => true);
+            CacheHelper.SetBySliding(key, result, 1);
             return result;
         }
         /// <summary>
@@ -98,15 +91,20 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public virtual async Task ClearCacheAsync(string key)
+        public virtual Task ClearCacheAsync(string key)
         {
-            if (_redisManager != null)
+            ClearCache(key);
+            return Task.CompletedTask;
+        }
+        /// <summary>
+        /// 清理缓存
+        /// </summary>
+        /// <param name="key"></param>
+        public virtual void ClearCache(string key)
+        {
+            if (CacheHelper.KeyAny(key))
             {
-                await _redisManager.PublishAsync(key, null);
-            }
-            else if (_cacheManager.KeyAny(key))
-            {
-                _cacheManager.Remove(key);
+                CacheHelper.Remove(key);
             }
         }
     }

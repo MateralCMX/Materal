@@ -15,10 +15,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.TTA.Common\Materal.TTA.Common.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.TTA.MongoDBRepository\Materal.TTA.MongoDBRepository.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.TTA.MySqlRepository\Materal.TTA.MySqlRepository.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.TTA.RedisRepository\Materal.TTA.RedisRepository.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.TTA.SqliteRepository\Materal.TTA.SqliteRepository.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.TTA.SqlServerRepository\Materal.TTA.SqlServerRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.SqliteEFRepository\Materal.TTA.SqliteEFRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.SqlServerEFRepository\Materal.TTA.SqlServerEFRepository.csproj" />
 	</ItemGroup>
 </Project>

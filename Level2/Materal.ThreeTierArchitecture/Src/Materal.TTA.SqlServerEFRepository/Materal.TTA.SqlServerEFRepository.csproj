@@ -12,13 +12,12 @@
 		<Authors>Materal</Authors>
 		<Version>1.1.9</Version>
 		<Copyright>Materal</Copyright>
-		<Description>Materal.TTA.EFRepository</Description>
+		<Description>Materal.TTA.SqlServerRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="*" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="*" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />
+		<ProjectReference Include="..\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,14 +1,11 @@
 ﻿using Materal.Abstractions;
-using Materal.TTA.Common;
+using Materal.TTA.Common.Model;
 using Materal.TTA.Demo.Domain;
 using Materal.TTA.Demo.Sqlite;
 using Materal.TTA.EFRepository;
-using Materal.TTA.SqliteRepository.Model;
 using Materal.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using System.Runtime.InteropServices;
 
 namespace Materal.TTA.Demo
 {
@@ -41,7 +38,6 @@ namespace Materal.TTA.Demo
                 IServiceProvider serviceProvider = scope.ServiceProvider;
                 MigrateHelper<TTADemoDBContext> migrateHelper = serviceProvider.GetService<MigrateHelper<TTADemoDBContext>>() ?? throw new MateralException("获取实例失败");
                 await migrateHelper.MigrateAsync();
-
                 IDemoUnitOfWork _unitOfWork = serviceProvider.GetService<IDemoUnitOfWork>() ?? throw new MateralException("获取实例失败");
                 IUserRepository _userRepository = _unitOfWork.GetRepository<IUserRepository>();
                 User? user = new()
@@ -49,8 +45,6 @@ namespace Materal.TTA.Demo
                     Name = "Materal"
                 };
                 _unitOfWork.RegisterAdd(user);
-                user.Name = "Materal2";
-                _unitOfWork.TryRegisterEdit(user);
                 await _unitOfWork.CommitAsync();
                 user = _userRepository.FirstOrDefault(user.ID);
                 if (user == null) throw new MateralException("数据获取失败");

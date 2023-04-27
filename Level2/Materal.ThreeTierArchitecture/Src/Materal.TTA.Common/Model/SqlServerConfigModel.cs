@@ -1,7 +1,7 @@
-﻿namespace Materal.TTA.SqlServerRepository.Model
+﻿namespace Materal.TTA.Common.Model
 {
     /// <summary>
-    /// 数据库配置模型
+    /// SqlServer数据库配置模型
     /// </summary>
     public class SqlServerConfigModel : SqlServerSubordinateConfigModel
     {

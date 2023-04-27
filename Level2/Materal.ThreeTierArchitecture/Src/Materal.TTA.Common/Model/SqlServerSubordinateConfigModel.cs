@@ -1,7 +1,6 @@
-﻿using Materal.TTA.EFRepository;
-using System.Text;
+﻿using System.Text;
 
-namespace Materal.TTA.SqlServerRepository.Model
+namespace Materal.TTA.Common.Model
 {
     /// <summary>
     /// SQLServer从属配置

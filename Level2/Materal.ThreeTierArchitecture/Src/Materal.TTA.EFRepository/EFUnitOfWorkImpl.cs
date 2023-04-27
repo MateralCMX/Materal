@@ -6,18 +6,36 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.TTA.EFRepository
 {
+    /// <summary>
+    /// EF工作单元
+    /// </summary>
+    /// <typeparam name="TDBContext"></typeparam>
     public abstract class EFUnitOfWorkImpl<TDBContext> : IEFUnitOfWork
         where TDBContext : DbContext
     {
         private readonly object entitiesLockObj = new();
-        protected readonly Queue<EntityEntry> ChangeEntities = new();
         private readonly TDBContext _dbContext;
+        /// <summary>
+        /// 服务容器
+        /// </summary>
         public IServiceProvider ServiceProvider { get; }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="serviceProvider"></param>
         protected EFUnitOfWorkImpl(TDBContext context, IServiceProvider serviceProvider)
         {
             _dbContext = context;
             ServiceProvider = serviceProvider;
         }
+        /// <summary>
+        /// 注册添加
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="obj"></param>
+        /// <exception cref="MateralException"></exception>
         public virtual void RegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct
@@ -27,9 +45,15 @@ namespace Materal.TTA.EFRepository
                 EntityEntry<TEntity> entity = _dbContext.Entry(obj);
                 if(entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能添加");
                 entity.State = EntityState.Added;
-                ChangeEntities.Enqueue(entity);
             }
         }
+        /// <summary>
+        /// 注册添加
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public virtual bool TryRegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct
@@ -44,6 +68,13 @@ namespace Materal.TTA.EFRepository
                 return false;
             }
         }
+        /// <summary>
+        /// 注册修改
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="obj"></param>
+        /// <exception cref="MateralException"></exception>
         public virtual void RegisterEdit<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct
@@ -53,9 +84,15 @@ namespace Materal.TTA.EFRepository
                 EntityEntry<TEntity> entity = _dbContext.Entry(obj);
                 if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能修改");
                 entity.State = EntityState.Modified;
-                ChangeEntities.Enqueue(entity);
             }
         }
+        /// <summary>
+        /// 注册修改
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public virtual bool TryRegisterEdit<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct
@@ -70,6 +107,13 @@ namespace Materal.TTA.EFRepository
                 return false;
             }
         }
+        /// <summary>
+        /// 注册删除
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="obj"></param>
+        /// <exception cref="MateralException"></exception>
         public virtual void RegisterDelete<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct
@@ -79,9 +123,15 @@ namespace Materal.TTA.EFRepository
                 EntityEntry<TEntity> entity = _dbContext.Entry(obj);
                 if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能删除");
                 entity.State = EntityState.Deleted;
-                ChangeEntities.Enqueue(entity);
             }
         }
+        /// <summary>
+        /// 注册删除
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public virtual bool TryRegisterDelete<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
             where TPrimaryKeyType : struct
@@ -96,42 +146,38 @@ namespace Materal.TTA.EFRepository
                 return false;
             }
         }
+        /// <summary>
+        /// 提交
+        /// </summary>
         public void Commit()
         {
             try
             {
                 _dbContext.SaveChanges();
-                ClearChangeEntities();
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                ex.Entries.Single().Reload();
+                foreach (EntityEntry entry in ex.Entries)
+                {
+                    entry.Reload();
+                }
             }
         }
+        /// <summary>
+        /// 提交
+        /// </summary>
+        /// <returns></returns>
         public virtual async Task CommitAsync()
         {
             try
             {
                 await _dbContext.SaveChangesAsync();
-                ClearChangeEntities();
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                ex.Entries.Single().Reload();
-            }
-        }
-        /// <summary>
-        /// 清空更改的实体
-        /// </summary>
-        private void ClearChangeEntities()
-        {
-            lock (entitiesLockObj)
-            {
-                while (ChangeEntities.Count > 0)
+                foreach (EntityEntry entry in ex.Entries)
                 {
-                    if (!ChangeEntities.TryDequeue(out EntityEntry? entity)) continue;
-                    if (entity == null) continue;
-                    entity.State = EntityState.Detached;
+                    await entry.ReloadAsync();
                 }
             }
         }
@@ -140,7 +186,86 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <typeparam name="TRepository"></typeparam>
         /// <returns></returns>
+        /// <exception cref="MateralException"></exception>
         public virtual TRepository GetRepository<TRepository>()
             where TRepository : IRepository => ServiceProvider.GetService<TRepository>() ?? throw new MateralException("获取仓储失败");
+    }
+    /// <summary>
+    /// EF工作单元
+    /// </summary>
+    /// <typeparam name="TDBContext"></typeparam>
+    /// <typeparam name="TPrimaryKeyType"></typeparam>
+    public abstract class EFUnitOfWorkImpl<TDBContext, TPrimaryKeyType> : EFUnitOfWorkImpl<TDBContext>, IEFUnitOfWork<TPrimaryKeyType>
+        where TPrimaryKeyType : struct
+        where TDBContext : DbContext
+    {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="serviceProvider"></param>
+        protected EFUnitOfWorkImpl(TDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
+        {
+        }
+        /// <summary>
+        /// 注册添加
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="obj"></param>
+        public void RegisterAdd<TEntity>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+        {
+            RegisterAdd<TEntity, TPrimaryKeyType>(obj);
+        }
+        /// <summary>
+        /// 注册添加
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="obj"></param>
+        public bool TryRegisterAdd<TEntity>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+        {
+            return TryRegisterAdd<TEntity, TPrimaryKeyType>(obj);
+        }
+        /// <summary>
+        /// 注册修改
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="obj"></param>
+        public void RegisterEdit<TEntity>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+        {
+            RegisterEdit<TEntity, TPrimaryKeyType>(obj);
+        }
+        /// <summary>
+        /// 注册修改
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="obj"></param>
+        public bool TryRegisterEdit<TEntity>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+        {
+            return TryRegisterEdit<TEntity, TPrimaryKeyType>(obj);
+        }
+        /// <summary>
+        /// 注册删除
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="obj"></param>
+        public void RegisterDelete<TEntity>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+        {
+            RegisterDelete<TEntity, TPrimaryKeyType>(obj);
+        }
+        /// <summary>
+        /// 注册删除
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="obj"></param>
+        public bool TryRegisterDelete<TEntity>(TEntity obj)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+        {
+            return TryRegisterDelete<TEntity, TPrimaryKeyType>(obj);
+        }
     }
 }

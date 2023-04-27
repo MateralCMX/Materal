@@ -1,104 +1,91 @@
-﻿using Materal.Utils.Model;
+﻿using Materal.TTA.Common;
+using Materal.Utils.Model;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
 
-namespace Materal.TTA.Common
+namespace Materal.TTA.EFRepository
 {
     /// <summary>
-    /// 仓储
+    /// 读写分离仓储
     /// </summary>
-    public interface IRepository
-    {
-    }
-    /// <summary>
-    /// 仓储
-    /// </summary>
-    /// <typeparam name="TEntity">实体对象</typeparam>
-    public interface IRepository<TEntity> : IRepository
-        where TEntity : class, IEntity
+    /// <typeparam name="T"></typeparam>
+    public interface ISubordinateRepository<T> : IRepository<T>
+        where T : class, IEntity
     {
         /// <summary>
         /// 是否存在
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <returns></returns>
-        bool Existed(Expression<Func<TEntity, bool>> expression);
+        bool ExistedFromSubordinate(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 是否存在
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <returns></returns>
-        Task<bool> ExistedAsync(Expression<Func<TEntity, bool>> expression);
+        Task<bool> ExistedFromSubordinateAsync(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 是否存在
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        bool Existed(FilterModel filterModel);
+        bool ExistedFromSubordinate(FilterModel filterModel);
         /// <summary>
         /// 是否存在
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        Task<bool> ExistedAsync(FilterModel filterModel);
+        Task<bool> ExistedFromSubordinateAsync(FilterModel filterModel);
         /// <summary>
         /// 总数
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <returns></returns>
-        int Count(Expression<Func<TEntity, bool>> expression);
+        int CountFromSubordinate(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 总数
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <returns></returns>
-        Task<int> CountAsync(Expression<Func<TEntity, bool>> expression);
+        Task<int> CountFromSubordinateAsync(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 总数
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        int Count(FilterModel filterModel);
+        int CountFromSubordinate(FilterModel filterModel);
         /// <summary>
         /// 总数
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        Task<int> CountAsync(FilterModel filterModel);
+        Task<int> CountFromSubordinateAsync(FilterModel filterModel);
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <returns></returns>
-        List<TEntity> Find(Expression<Func<TEntity, bool>> expression);
+        List<T> FindFromSubordinate(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <returns></returns>
-        Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression);
-        /// <summary>
-        /// 查找
-        /// </summary>
-        /// <param name="expression">表达式</param>
-        /// <param name="orderExpression">排序表达式</param>
-        /// <returns></returns>
-        List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression);
+        Task<List<T>> FindFromSubordinateAsync(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <param name="orderExpression">排序表达式</param>
         /// <returns></returns>
-        Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression);
+        List<T> FindFromSubordinate(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression);
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="expression">表达式</param>
         /// <param name="orderExpression">排序表达式</param>
-        /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        Task<List<T>> FindFromSubordinateAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression);
         /// <summary>
         /// 查找
         /// </summary>
@@ -106,33 +93,41 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        List<T> FindFromSubordinate(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder);
+        /// <summary>
+        /// 查找
+        /// </summary>
+        /// <param name="expression">表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="sortOrder">排序方式</param>
+        /// <returns></returns>
+        Task<List<T>> FindFromSubordinateAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder);
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        List<TEntity> Find(FilterModel filterModel);
+        List<T> FindFromSubordinate(FilterModel filterModel);
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        Task<List<TEntity>> FindAsync(FilterModel filterModel);
+        Task<List<T>> FindFromSubordinateAsync(FilterModel filterModel);
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <param name="orderExpression">排序表达式</param>
         /// <returns></returns>
-        List<TEntity> Find(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression);
+        List<T> FindFromSubordinate(FilterModel filterModel, Expression<Func<T, object>> orderExpression);
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <param name="orderExpression">排序表达式</param>
         /// <returns></returns>
-        Task<List<TEntity>> FindAsync(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression);
+        Task<List<T>> FindFromSubordinateAsync(FilterModel filterModel, Expression<Func<T, object>> orderExpression);
         /// <summary>
         /// 查找
         /// </summary>
@@ -140,7 +135,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        List<TEntity> Find(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        List<T> FindFromSubordinate(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder);
         /// <summary>
         /// 查找
         /// </summary>
@@ -148,89 +143,81 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        Task<List<TEntity>> FindAsync(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        Task<List<T>> FindFromSubordinateAsync(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder);
         /// <summary>
         /// 获取第一条
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        TEntity First(FilterModel filterModel);
+        T FirstFromSubordinate(FilterModel filterModel);
         /// <summary>
         /// 获取第一条
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        Task<TEntity> FirstAsync(FilterModel filterModel);
+        Task<T> FirstFromSubordinateAsync(FilterModel filterModel);
         /// <summary>
         /// 获取第一条
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        TEntity First(Expression<Func<TEntity, bool>> expression);
+        T FirstFromSubordinate(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 获取第一条
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> expression);
+        Task<T> FirstFromSubordinateAsync(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 获取第一条
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        TEntity? FirstOrDefault(FilterModel filterModel);
+        T? FirstOrDefaultFromSubordinate(FilterModel filterModel);
         /// <summary>
         /// 获取第一条
         /// </summary>
         /// <param name="filterModel">过滤器模型</param>
         /// <returns></returns>
-        Task<TEntity?> FirstOrDefaultAsync(FilterModel filterModel);
+        Task<T?> FirstOrDefaultFromSubordinateAsync(FilterModel filterModel);
         /// <summary>
         /// 获取第一条
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        TEntity? FirstOrDefault(Expression<Func<TEntity, bool>> expression);
+        T? FirstOrDefaultFromSubordinate(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 获取第一条
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> expression);
+        Task<T?> FirstOrDefaultFromSubordinateAsync(Expression<Func<T, bool>> expression);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel);
+        (List<T> data, PageModel pageInfo) PagingFromSubordinate(PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel);
-        /// <summary>
-        /// 分页查询
-        /// </summary>
-        /// <param name="pageRequestModel">分页查询请求模型</param>
-        /// <param name="orderExpression">排序表达式</param>
-        /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression);
+        Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <param name="orderExpression">排序表达式</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression);
+        (List<T> data, PageModel pageInfo) PagingFromSubordinate(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <param name="orderExpression">排序表达式</param>
-        /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -238,21 +225,29 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        (List<T> data, PageModel pageInfo) PagingFromSubordinate(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder);
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="pageRequestModel">分页查询请求模型</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="sortOrder">排序方式</param>
+        /// <returns></returns>
+        Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, PageRequestModel pageRequestModel);
+        (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, PageRequestModel pageRequestModel);
+        Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -260,7 +255,7 @@ namespace Materal.TTA.Common
         /// <param name="pagingIndex">页数</param>
         /// <param name="pagingSize">每页显示数量</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, int pagingIndex, int pagingSize);
+        (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -268,7 +263,7 @@ namespace Materal.TTA.Common
         /// <param name="pagingIndex">页数</param>
         /// <param name="pagingSize">每页显示数量</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, int pagingIndex, int pagingSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -276,7 +271,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, PageRequestModel pageRequestModel);
+        (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -284,16 +279,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, PageRequestModel pageRequestModel);
-        /// <summary>
-        /// 分页查询
-        /// </summary>
-        /// <param name="filterExpression">过滤表达式</param>
-        /// <param name="orderExpression">排序表达式</param>
-        /// <param name="sortOrder">排序方式</param>
-        /// <param name="pageRequestModel">分页查询请求模型</param>
-        /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel);
+        Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -302,35 +288,34 @@ namespace Materal.TTA.Common
         /// <param name="sortOrder">排序方式</param>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel);
-        /// <summary>
-        /// 分页查询
-        /// </summary>
-        /// <param name="filterExpression">过滤表达式</param>
-        /// <param name="orderExpression">排序表达式</param>
-        /// <param name="pagingIndex">页数</param>
-        /// <param name="pagingSize">每页显示数量</param>
-        /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pagingIndex, int pagingSize);
-        /// <summary>
-        /// 分页查询
-        /// </summary>
-        /// <param name="filterExpression">过滤表达式</param>
-        /// <param name="orderExpression">排序表达式</param>
-        /// <param name="pagingIndex">页数</param>
-        /// <param name="pagingSize">每页显示数量</param>
-        /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pagingIndex, int pagingSize);
+        (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
+        /// <param name="pageRequestModel">分页查询请求模型</param>
+        /// <returns></returns>
+        Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel);
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
         /// <param name="pagingIndex">页数</param>
         /// <param name="pagingSize">每页显示数量</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize);
+        (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize);
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="pagingIndex">页数</param>
+        /// <param name="pagingSize">每页显示数量</param>
+        /// <returns></returns>
+        Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -340,15 +325,25 @@ namespace Materal.TTA.Common
         /// <param name="pagingIndex">页数</param>
         /// <param name="pagingSize">每页显示数量</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize);
+        (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize);
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="sortOrder">排序方式</param>
+        /// <param name="pagingIndex">页数</param>
+        /// <param name="pagingSize">每页显示数量</param>
+        /// <returns></returns>
+        Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize);
     }
     /// <summary>
-    /// 仓储
+    /// 读写分离仓储
     /// </summary>
-    /// <typeparam name="TEntity">实体对象</typeparam>
-    /// <typeparam name="TPrimaryKeyType">主键类型</typeparam>
-    public interface IRepository<TEntity, in TPrimaryKeyType> : IRepository<TEntity>
-        where TEntity : class, IEntity<TPrimaryKeyType>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TPrimaryKeyType"></typeparam>
+    public interface ISubordinateRepository<T, in TPrimaryKeyType> : ISubordinateRepository<T>, IRepository<T, TPrimaryKeyType>
+        where T : class, IEntity<TPrimaryKeyType>
         where TPrimaryKeyType : struct
     {
         /// <summary>
@@ -356,24 +351,24 @@ namespace Materal.TTA.Common
         /// </summary>
         /// <param name="id">唯一标识</param>
         /// <returns></returns>
-        bool Existed(TPrimaryKeyType id);
+        bool ExistedFromSubordinate(TPrimaryKeyType id);
         /// <summary>
         /// 是否存在
         /// </summary>
         /// <param name="id">唯一标识</param>
         /// <returns></returns>
-        Task<bool> ExistedAsync(TPrimaryKeyType id);
+        Task<bool> ExistedFromSubordinateAsync(TPrimaryKeyType id);
         /// <summary>
         /// 获取第一条
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        TEntity? FirstOrDefault(TPrimaryKeyType id);
+        T? FirstOrDefaultFromSubordinate(TPrimaryKeyType id);
         /// <summary>
         /// 获取第一条
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<TEntity?> FirstOrDefaultAsync(TPrimaryKeyType id);
+        Task<T?> FirstOrDefaultFromSubordinateAsync(TPrimaryKeyType id);
     }
 }
