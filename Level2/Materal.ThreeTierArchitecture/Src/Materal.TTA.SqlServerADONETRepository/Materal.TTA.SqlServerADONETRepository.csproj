@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>11.0</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<Product>Materal.ThreeTierArchitecture</Product>
+		<Company>Materal</Company>
+		<Authors>Materal</Authors>
+		<Version>1.1.10</Version>
+		<Copyright>Materal</Copyright>
+		<Description>Materal.TTA.SqlServerADONETRepository</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.TTA.ADONETRepository\Materal.TTA.ADONETRepository.csproj" />
+	</ItemGroup>
+</Project>

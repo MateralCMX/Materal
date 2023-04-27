@@ -7,11 +7,11 @@ namespace Materal.TTA.EFRepository
     /// <summary>
     /// 缓存仓储
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TPrimaryKeyType"></typeparam>
     /// <typeparam name="TDBContext"></typeparam>
-    public abstract class CacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : EFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, ICacheEFRepository<T, TPrimaryKeyType>
-        where T : class, IEntity<TPrimaryKeyType>, new()
+    public abstract class CacheEFRepositoryImpl<TEntity, TPrimaryKeyType, TDBContext> : EFRepositoryImpl<TEntity, TPrimaryKeyType, TDBContext>, ICacheEFRepository<TEntity, TPrimaryKeyType>
+        where TEntity : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
     {
@@ -41,13 +41,13 @@ namespace Materal.TTA.EFRepository
         /// 从缓存获得所有信息
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<List<T>> GetAllInfoFromCacheAsync() => await GetInfoFromCacheAsync(AllInfoCacheName);
+        public virtual async Task<List<TEntity>> GetAllInfoFromCacheAsync() => await GetInfoFromCacheAsync(AllInfoCacheName);
         /// <summary>
         /// 从缓存获得所有信息
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public List<T> GetAllInfoFromCache()
+        public List<TEntity> GetAllInfoFromCache()
         {
             throw new NotImplementedException();
         }
@@ -65,9 +65,9 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public virtual async Task<List<T>> GetInfoFromCacheAsync(string key)
+        public virtual async Task<List<TEntity>> GetInfoFromCacheAsync(string key)
         {
-            List<T>? result = CacheHelper.GetOrDefault<List<T>>(key);
+            List<TEntity>? result = CacheHelper.GetOrDefault<List<TEntity>>(key);
             if (result != null) return result;
             result = await FindAsync(m => true);
             CacheHelper.SetBySliding(key, result, 1);
@@ -78,9 +78,9 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public List<T> GetInfoFromCache(string key)
+        public List<TEntity> GetInfoFromCache(string key)
         {
-            List<T>? result = CacheHelper.GetOrDefault<List<T>>(key);
+            List<TEntity>? result = CacheHelper.GetOrDefault<List<TEntity>>(key);
             if (result != null) return result;
             result = Find(m => true);
             CacheHelper.SetBySliding(key, result, 1);

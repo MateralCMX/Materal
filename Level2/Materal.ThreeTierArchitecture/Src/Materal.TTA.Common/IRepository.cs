@@ -257,18 +257,18 @@ namespace Materal.TTA.Common
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
-        /// <param name="pagingIndex">页数</param>
-        /// <param name="pagingSize">每页显示数量</param>
+        /// <param name="pageIndex">页数</param>
+        /// <param name="pageSize">每页显示数量</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, int pagingIndex, int pagingSize);
+        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, int pageIndex, int pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
-        /// <param name="pagingIndex">页数</param>
-        /// <param name="pagingSize">每页显示数量</param>
+        /// <param name="pageIndex">页数</param>
+        /// <param name="pageSize">每页显示数量</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, int pagingIndex, int pagingSize);
+        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, int pageIndex, int pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -308,39 +308,39 @@ namespace Materal.TTA.Common
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
         /// <param name="orderExpression">排序表达式</param>
-        /// <param name="pagingIndex">页数</param>
-        /// <param name="pagingSize">每页显示数量</param>
+        /// <param name="pageIndex">页数</param>
+        /// <param name="pageSize">每页显示数量</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pagingIndex, int pagingSize);
+        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pageIndex, int pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
         /// <param name="orderExpression">排序表达式</param>
-        /// <param name="pagingIndex">页数</param>
-        /// <param name="pagingSize">每页显示数量</param>
+        /// <param name="pageIndex">页数</param>
+        /// <param name="pageSize">每页显示数量</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pagingIndex, int pagingSize);
-        /// <summary>
-        /// 分页查询
-        /// </summary>
-        /// <param name="filterExpression">过滤表达式</param>
-        /// <param name="orderExpression">排序表达式</param>
-        /// <param name="sortOrder">排序方式</param>
-        /// <param name="pagingIndex">页数</param>
-        /// <param name="pagingSize">每页显示数量</param>
-        /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize);
+        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pageIndex, int pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression">过滤表达式</param>
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
-        /// <param name="pagingIndex">页数</param>
-        /// <param name="pagingSize">每页显示数量</param>
+        /// <param name="pageIndex">页数</param>
+        /// <param name="pageSize">每页显示数量</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize);
+        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize);
+        /// <summary>
+        /// 分页查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="sortOrder">排序方式</param>
+        /// <param name="pageIndex">页数</param>
+        /// <param name="pageSize">每页显示数量</param>
+        /// <returns></returns>
+        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize);
     }
     /// <summary>
     /// 仓储

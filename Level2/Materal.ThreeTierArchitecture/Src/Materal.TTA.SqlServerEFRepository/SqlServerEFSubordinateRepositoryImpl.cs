@@ -307,10 +307,10 @@ namespace Materal.TTA.SqlServerEFRepository
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression"></param>
-        /// <param name="pagingIndex"></param>
-        /// <param name="pagingSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize) => PagingFromSubordinate(filterExpression, m => m.ID, pagingIndex, pagingSize);
+        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, int pageIndex, int pageSize) => PagingFromSubordinate(filterExpression, m => m.ID, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -333,25 +333,25 @@ namespace Materal.TTA.SqlServerEFRepository
         /// </summary>
         /// <param name="filterExpression"></param>
         /// <param name="orderExpression"></param>
-        /// <param name="pagingIndex"></param>
-        /// <param name="pagingSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize) => PagingFromSubordinate(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
+        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pageIndex, int pageSize) => PagingFromSubordinate(filterExpression, orderExpression, SortOrder.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression"></param>
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
-        /// <param name="pagingIndex"></param>
-        /// <param name="pagingSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
+        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize)
         {
             return GetSubordinateResult(queryable =>
             {
                 queryable = queryable.Where(filterExpression);
-                var pageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
+                var pageModel = new PageModel(pageIndex, pageSize, queryable.Count());
                 List<T> result = sortOrder switch
                 {
                     SortOrder.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
@@ -393,10 +393,10 @@ namespace Materal.TTA.SqlServerEFRepository
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression"></param>
-        /// <param name="pagingIndex"></param>
-        /// <param name="pagingSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize) => await PagingFromSubordinateAsync(filterExpression, m => m.ID, pagingIndex, pagingSize);
+        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, int pageIndex, int pageSize) => await PagingFromSubordinateAsync(filterExpression, m => m.ID, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -419,25 +419,25 @@ namespace Materal.TTA.SqlServerEFRepository
         /// </summary>
         /// <param name="filterExpression"></param>
         /// <param name="orderExpression"></param>
-        /// <param name="pagingIndex"></param>
-        /// <param name="pagingSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize) => await PagingFromSubordinateAsync(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
+        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pageIndex, int pageSize) => await PagingFromSubordinateAsync(filterExpression, orderExpression, SortOrder.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
         /// <param name="filterExpression"></param>
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
-        /// <param name="pagingIndex"></param>
-        /// <param name="pagingSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
+        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize)
         {
             return await GetSubordinateResultAsync(async queryable =>
             {
                 queryable = queryable.Where(filterExpression);
-                var pageModel = new PageModel(pagingIndex, pagingSize, await queryable.CountAsync());
+                var pageModel = new PageModel(pageIndex, pageSize, await queryable.CountAsync());
                 List<T> result = sortOrder switch
                 {
                     SortOrder.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take)

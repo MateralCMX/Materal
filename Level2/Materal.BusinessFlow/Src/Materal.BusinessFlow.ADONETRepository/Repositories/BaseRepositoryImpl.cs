@@ -22,10 +22,10 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
         protected readonly ILogger? Logger;
         private static bool _isFirst = true;
         private static readonly object _initLockObject = new();
-        public BaseRepositoryImpl(IUnitOfWork unitOfWork)
+        public BaseRepositoryImpl(IUnitOfWork UnitOfWork)
         {
-            if (unitOfWork is not BaseUnitOfWorkImpl unitOfWorkImpl) throw new BusinessFlowException("工作单元类型错误");
-            UnitOfWork = unitOfWorkImpl;
+            if (UnitOfWork is not BaseUnitOfWorkImpl unitOfWorkImpl) throw new BusinessFlowException("工作单元类型错误");
+            this.UnitOfWork = unitOfWorkImpl;
             RepositoryHelper = unitOfWorkImpl.ServiceProvider.GetService<IRepositoryHelper<T>>() ?? throw new BusinessFlowException("未找到仓储帮助类");
             ILoggerFactory? loggerFactory = unitOfWorkImpl.ServiceProvider.GetService<ILoggerFactory>();
             Logger = loggerFactory?.CreateLogger(GetType());

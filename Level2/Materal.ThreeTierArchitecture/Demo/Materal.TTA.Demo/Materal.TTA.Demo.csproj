@@ -12,6 +12,7 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Src\Materal.TTA.SqliteEFRepository\Materal.TTA.SqliteEFRepository.csproj" />
+	  <ProjectReference Include="..\Materal.TTA.Demo.SqliteEFRepository\Materal.TTA.Demo.SqliteEFRepository.csproj" />
+	  <ProjectReference Include="..\Materal.TTA.Demo.SqlServerEFRepository\Materal.TTA.Demo.SqlServerEFRepository.csproj" />
 	</ItemGroup>
 </Project>

@@ -320,14 +320,14 @@ namespace Materal.TTA.MongoDBRepository
         public virtual (List<T> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression) => Paging(pageRequestModel.GetSearchExpression<T>(), orderExpression, pageRequestModel);
         public virtual (List<T> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder) => Paging(pageRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, pageRequestModel);
         public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, PageRequestModel pageRequestModel) => Paging(filterExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
-        public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize) => Paging(filterExpression, m => m.ID, pagingIndex, pagingSize);
+        public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, int pageIndex, int pageSize) => Paging(filterExpression, m => m.ID, pageIndex, pageSize);
         public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, PageRequestModel pageRequestModel) => Paging(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel) => Paging(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
-        public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize) => Paging(filterExpression, orderExpression, SortOrder.Ascending, pagingIndex, pagingSize);
-        public virtual  (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
+        public virtual (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pageIndex, int pageSize) => Paging(filterExpression, orderExpression, SortOrder.Ascending, pageIndex, pageSize);
+        public virtual  (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize)
         {
             IQueryable<T> queryable = Where(filterExpression);
-            var pageModel = new PageModel(pagingIndex, pagingSize, queryable.Count());
+            var pageModel = new PageModel(pageIndex, pageSize, queryable.Count());
             List<T> result = sortOrder switch
             {
                 SortOrder.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
@@ -397,7 +397,7 @@ namespace Materal.TTA.MongoDBRepository
             throw new NotImplementedException();
         }
 
-        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, int pagingIndex, int pagingSize)
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
@@ -412,12 +412,12 @@ namespace Materal.TTA.MongoDBRepository
             throw new NotImplementedException();
         }
 
-        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pagingIndex, int pagingSize)
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }
 
-        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pagingIndex, int pagingSize)
+        public Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize)
         {
             throw new NotImplementedException();
         }

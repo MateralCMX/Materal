@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+	  <LangVersion>11.0</LangVersion>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+	  <Product>Materal.ThreeTierArchitecture</Product>
+	  <Company>Materal</Company>
+	  <Authors>Materal</Authors>
+	  <Version>1.1.10</Version>
+	  <Copyright>Materal</Copyright>
+	  <Description>Materal.TTA.ADONETRepository</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />
+  </ItemGroup>
+</Project>
