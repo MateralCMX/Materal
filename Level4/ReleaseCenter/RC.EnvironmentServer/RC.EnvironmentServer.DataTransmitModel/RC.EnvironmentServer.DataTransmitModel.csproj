@@ -15,6 +15,6 @@
 		<Description>发布中心环境数据传输模型</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="1.1.9" />
+		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="1.1.10" />
 	</ItemGroup>
 </Project>
