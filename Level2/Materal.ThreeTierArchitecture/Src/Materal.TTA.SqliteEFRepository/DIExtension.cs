@@ -51,7 +51,7 @@ namespace Materal.TTA.SqliteEFRepository
                 options.UseSqlite(dbConnectionString, option)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
-            services.TryAddScoped<MigrateHelper<TDbConntext>>();
+            services.TryAddScoped<IMigrateHelper<TDbConntext>, MigrateHelper<TDbConntext>>();
             foreach (Assembly repositoryAssembly in repositoryAssemblies)
             {
                 services.RegisterAssemblyPublicNonGenericClasses(repositoryAssembly)

@@ -21,25 +21,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqliteEFReposit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqlServerEFRepository", "Src\Materal.TTA.SqlServerEFRepository\Materal.TTA.SqlServerEFRepository.csproj", "{F4213321-68AF-4A96-92F9-277B57F7B001}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.ADONETRepository", "Src\Materal.TTA.ADONETRepository\Materal.TTA.ADONETRepository.csproj", "{9348BCDF-2EE0-4CDC-982E-24FD60251455}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.ADONETRepository", "Src\Materal.TTA.ADONETRepository\Materal.TTA.ADONETRepository.csproj", "{9348BCDF-2EE0-4CDC-982E-24FD60251455}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ADONET", "ADONET", "{FC6A2202-C439-4C4D-8318-14E7247A4C7D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EF", "EF", "{EE259747-AA44-4CC3-9146-C972AA11DC30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.SqliteADONETRepository", "Src\Materal.TTA.SqliteADONETRepository\Materal.TTA.SqliteADONETRepository.csproj", "{D02DB88B-FBB8-42DE-98C0-0BBEF5537F88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqliteADONETRepository", "Src\Materal.TTA.SqliteADONETRepository\Materal.TTA.SqliteADONETRepository.csproj", "{D02DB88B-FBB8-42DE-98C0-0BBEF5537F88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.SqlServerADONETRepository", "Src\Materal.TTA.SqlServerADONETRepository\Materal.TTA.SqlServerADONETRepository.csproj", "{B26A644B-EDF1-41FE-ABFE-F2DE9C5CFF3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqlServerADONETRepository", "Src\Materal.TTA.SqlServerADONETRepository\Materal.TTA.SqlServerADONETRepository.csproj", "{B26A644B-EDF1-41FE-ABFE-F2DE9C5CFF3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.Demo.SqliteEFRepository", "Demo\Materal.TTA.Demo.SqliteEFRepository\Materal.TTA.Demo.SqliteEFRepository.csproj", "{86DD1310-F9AF-406D-922E-7B5FB60FF18D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Demo.SqliteEFRepository", "Demo\Materal.TTA.Demo.SqliteEFRepository\Materal.TTA.Demo.SqliteEFRepository.csproj", "{86DD1310-F9AF-406D-922E-7B5FB60FF18D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.Demo.Domain", "Demo\Materal.TTA.Demo.Domain\Materal.TTA.Demo.Domain.csproj", "{AC303665-A8F5-4814-BC8E-44325E240986}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Demo.Domain", "Demo\Materal.TTA.Demo.Domain\Materal.TTA.Demo.Domain.csproj", "{AC303665-A8F5-4814-BC8E-44325E240986}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.Demo.SqlServerEFRepository", "Demo\Materal.TTA.Demo.SqlServerEFRepository\Materal.TTA.Demo.SqlServerEFRepository.csproj", "{3691F455-8BAD-4E47-A91B-1285C9E91AA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Demo.SqlServerEFRepository", "Demo\Materal.TTA.Demo.SqlServerEFRepository\Materal.TTA.Demo.SqlServerEFRepository.csproj", "{3691F455-8BAD-4E47-A91B-1285C9E91AA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.Demo.SqliteADONETRepository", "Demo\Materal.TTA.Demo.SqliteADONETRepository\Materal.TTA.Demo.SqliteADONETRepository.csproj", "{62E93C2E-92D5-47C3-8980-EC4740B66967}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Demo.SqliteADONETRepository", "Demo\Materal.TTA.Demo.SqliteADONETRepository\Materal.TTA.Demo.SqliteADONETRepository.csproj", "{62E93C2E-92D5-47C3-8980-EC4740B66967}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TTA.Demo.SqlServerADONETRepository", "Demo\Materal.TTA.Demo.SqlServerADONETRepository\Materal.TTA.Demo.SqlServerADONETRepository.csproj", "{54B79237-DF24-4A0C-9FED-C3D00D12C6DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Demo.SqlServerADONETRepository", "Demo\Materal.TTA.Demo.SqlServerADONETRepository\Materal.TTA.Demo.SqlServerADONETRepository.csproj", "{54B79237-DF24-4A0C-9FED-C3D00D12C6DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

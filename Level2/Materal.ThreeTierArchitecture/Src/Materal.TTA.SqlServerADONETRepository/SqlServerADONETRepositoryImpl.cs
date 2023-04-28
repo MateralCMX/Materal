@@ -1,6 +1,5 @@
 ﻿using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
-using Materal.TTA.SqlServerADONETRepository;
 
 namespace Materal.BusinessFlow.SqlServerRepository.Repositories
 {
@@ -20,16 +19,5 @@ namespace Materal.BusinessFlow.SqlServerRepository.Repositories
         public SqlServerADONETRepositoryImpl(IADONETUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
-        /// <summary>
-        /// 获得创建表SQL
-        /// </summary>
-        /// <returns></returns>
-        protected override string GetCreateTableTSQL() => SqlServerRepositoryHelper<T, TPrimaryKeyType>.GetCreateTableTSQL(UnitOfWork, TableName);
-        /// <summary>
-        /// 获得表是否存在TSQL
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        protected override string GetTableExistsTSQL(string tableName) => SqlServerRepositoryHelper.GetTableExistsTSQL(UnitOfWork, tableName);
     }
 }

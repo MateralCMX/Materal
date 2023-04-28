@@ -1,6 +1,7 @@
 ﻿using Materal.Abstractions;
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
+using Materal.TTA.Common.Model;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
@@ -13,12 +14,22 @@ namespace Materal.TTA.SqliteADONETRepository
     public static class SqliteRepositoryHelper
     {
         /// <summary>
+        /// 获得参数前缀
+        /// </summary>
+        /// <returns></returns>
+        public static string GetParamsPrefix() => SqliteConfigModel.ParamsPrefix;
+        /// <summary>
+        /// 获得TSQL字段
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        public static string GetTSQLField(string field) => $"{SqliteConfigModel.FieldPrefix}{field}{SqliteConfigModel.FieldSuffix}";
+        /// <summary>
         /// 获得表是否存在的TSQL
         /// </summary>
-        /// <param name="unitOfWork"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public static string GetTableExistsTSQL(IADONETUnitOfWork unitOfWork, string tableName) => $"SELECT COUNT({unitOfWork.GetTSQLField("name")}) FROM {unitOfWork.GetTSQLField("sqlite_master")} WHERE {unitOfWork.GetTSQLField("type")}='table' AND {unitOfWork.GetTSQLField("name")}='{tableName}'";
+        public static string GetTableExistsTSQL(string tableName) => $"SELECT COUNT({GetTSQLField("name")}) FROM {GetTSQLField("sqlite_master")} WHERE {GetTSQLField("type")}='table' AND {GetTSQLField("name")}='{tableName}'";
     }
     /// <summary>
     /// Sqlite仓储帮助类
@@ -29,67 +40,6 @@ namespace Materal.TTA.SqliteADONETRepository
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
     {
-        /// <summary>
-        /// 获得创建表字段TSQL
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="TTAException"></exception>
-        private static string GetCreateTableFildeTSQL(IADONETUnitOfWork unitOfWork)
-        {
-            Type tType = typeof(T);
-            PropertyInfo[] propertyInfos = tType.GetProperties();
-            StringBuilder fildeTSQLBuilder = new();
-            foreach (PropertyInfo propertyInfo in propertyInfos)
-            {
-                if (propertyInfo.Name == nameof(IEntity<TPrimaryKeyType>.ID)) continue;
-                string isNull;
-                string sqlType;
-                Type propertyType = propertyInfo.PropertyType;
-                if (propertyType.FullName.StartsWith("System.Nullable`1"))
-                {
-                    isNull = "NULL";
-                    propertyType = propertyType.GenericTypeArguments.First();
-                }
-                else
-                {
-                    isNull = propertyInfo.GetCustomAttribute<RequiredAttribute>() == null ? "NULL" : "NOT NULL";
-                }
-                if (propertyType.IsAssignableTo(typeof(string)) || propertyType.IsAssignableTo(typeof(Guid)))
-                {
-                    sqlType = "TEXT";
-                }
-                else if (propertyType.IsAssignableTo(typeof(byte)) || propertyType.IsAssignableTo(typeof(int)) || propertyType.IsAssignableTo(typeof(decimal)) || propertyType.IsAssignableTo(typeof(Enum)))
-                {
-                    sqlType = "INTEGER";
-                }
-                else if (propertyType.IsAssignableTo(typeof(DateTime)))
-                {
-                    sqlType = "DATETIME";
-                }
-                else throw new TTAException("未识别类型");
-                fildeTSQLBuilder.AppendLine($"\t{unitOfWork.GetTSQLField(propertyInfo.Name)} {sqlType} {isNull},");
-            }
-            return fildeTSQLBuilder.ToString();
-        }
-        /// <summary>
-        /// 获得创建表TSQL
-        /// </summary>
-        /// <returns></returns>
-        public static string GetCreateTableTSQL(IADONETUnitOfWork unitOfWork, string tableName)
-        {
-            StringBuilder tSqlBuilder = new();
-            tSqlBuilder.AppendLine($"CREATE TABLE {unitOfWork.GetTSQLField(tableName)}(");
-            tSqlBuilder.AppendLine($"\t{unitOfWork.GetTSQLField(nameof(IEntity<TPrimaryKeyType>.ID))} TEXT NOT NULL,");
-            string fildeTSQL = GetCreateTableFildeTSQL(unitOfWork);
-            if (!string.IsNullOrWhiteSpace(fildeTSQL))
-            {
-                tSqlBuilder.Append(fildeTSQL);
-            }
-            tSqlBuilder.AppendLine($"\tPRIMARY KEY ({unitOfWork.GetTSQLField(nameof(IEntity<TPrimaryKeyType>.ID))})");
-            tSqlBuilder.AppendLine($")");
-            string result = tSqlBuilder.ToString();
-            return result;
-        }
         /// <summary>
         /// 获得分页TSQL
         /// </summary>
@@ -110,5 +60,16 @@ namespace Materal.TTA.SqliteADONETRepository
         {
             return $"IFNULL({notNullValue}, {nullValue})";
         }
+        /// <summary>
+        /// 获得参数前缀
+        /// </summary>
+        /// <returns></returns>
+        public override string GetParamsPrefix() => SqliteConfigModel.ParamsPrefix;
+        /// <summary>
+        /// 获得TSQL字段
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        public override string GetTSQLField(string field) => SqliteRepositoryHelper.GetTSQLField(field);
     }
 }

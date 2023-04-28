@@ -1,6 +1,7 @@
 ﻿using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using NetCore.AutoRegisterDi;
 using System.Reflection;
 
@@ -23,6 +24,7 @@ namespace Materal.TTA.SqliteADONETRepository
         {
             services.AddSingleton(dbOption);
             services.AddScoped(typeof(IRepositoryHelper<,>), typeof(SqliteRepositoryHelper<,>));
+            services.TryAddScoped<IMigrateHelper<TDBOption>, MigrateHelper<TDBOption>>();
             foreach (Assembly repositoryAssembly in repositoryAssemblies)
             {
                 services.RegisterAssemblyPublicNonGenericClasses(repositoryAssembly)

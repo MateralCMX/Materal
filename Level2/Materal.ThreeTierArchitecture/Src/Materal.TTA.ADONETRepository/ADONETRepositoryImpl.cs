@@ -34,8 +34,6 @@ namespace Materal.TTA.ADONETRepository
         /// 表名
         /// </summary>
         protected virtual string TableName => typeof(TEntity).Name;
-        private static bool _isFirst = true;
-        private static readonly object _initLockObject = new();
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -46,36 +44,6 @@ namespace Materal.TTA.ADONETRepository
             ILoggerFactory? loggerFactory = UnitOfWork.ServiceProvider.GetService<ILoggerFactory>();
             RepositoryHelper = UnitOfWork.ServiceProvider.GetService<IRepositoryHelper<TEntity, TPrimaryKeyType>>() ?? throw new TTAException("未找到仓储帮助类");
             Logger = loggerFactory?.CreateLogger(GetType());
-            InitDB();
-        }
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public virtual void InitDB()
-        {
-            if (!_isFirst) return;
-            lock (_initLockObject)
-            {
-                if (!_isFirst) return;
-                UnitOfWork.OperationDB(connection =>
-                {
-                    IDbCommand command = connection.CreateCommand();
-                    command.CommandText = GetTableExistsTSQL(TableName);
-                    Logger?.LogDebugTSQL(command);
-                    using (IDataReader dr = command.ExecuteReader())
-                    {
-                        while (dr.Read())
-                        {
-                            if (dr.GetInt32(0) > 0) return;
-                        }
-                    }
-                    IDbCommand createTableCommand = connection.CreateCommand();
-                    createTableCommand.CommandText = GetCreateTableTSQL();
-                    Logger?.LogDebugTSQL(createTableCommand);
-                    createTableCommand.ExecuteNonQuery();
-                });
-                _isFirst = false;
-            }
         }
         /// <summary>
         /// 总数
@@ -88,7 +56,7 @@ namespace Materal.TTA.ADONETRepository
             UnitOfWork.OperationDB(connection =>
             {
                 IDbCommand command = connection.CreateCommand();
-                RepositoryHelper.SetQueryCountCommand(command, expression, TableName, UnitOfWork);
+                RepositoryHelper.SetQueryCountCommand(command, expression, TableName);
                 Logger?.LogDebugTSQL(command);
                 Type tType = typeof(TEntity);
                 using IDataReader dr = command.ExecuteReader();
@@ -112,7 +80,7 @@ namespace Materal.TTA.ADONETRepository
             UnitOfWork.OperationDB(connection =>
             {
                 IDbCommand command = connection.CreateCommand();
-                RepositoryHelper.SetQueryCommand(command, expression, orderExpression, sortOrder, TableName, UnitOfWork);
+                RepositoryHelper.SetQueryCommand(command, expression, orderExpression, sortOrder, TableName);
                 Logger?.LogDebugTSQL(command);
                 Type tType = typeof(TEntity);
                 using IDataReader dr = command.ExecuteReader();
@@ -136,7 +104,7 @@ namespace Materal.TTA.ADONETRepository
             UnitOfWork.OperationDB(connection =>
             {
                 IDbCommand command = connection.CreateCommand();
-                RepositoryHelper.SetQueryOneRowCommand(command, expression, m => m.ID, SortOrder.Descending, TableName, UnitOfWork);
+                RepositoryHelper.SetQueryOneRowCommand(command, expression, m => m.ID, SortOrder.Descending, TableName);
                 Logger?.LogDebugTSQL(command);
                 Type tType = typeof(TEntity);
                 using IDataReader dr = command.ExecuteReader();
@@ -163,7 +131,7 @@ namespace Materal.TTA.ADONETRepository
             UnitOfWork.OperationDB(connection =>
             {
                 IDbCommand command = connection.CreateCommand();
-                RepositoryHelper.SetQueryCountCommand(command, filterExpression, TableName, UnitOfWork);
+                RepositoryHelper.SetQueryCountCommand(command, filterExpression, TableName);
                 Logger?.LogDebugTSQL(command);
                 Type tType = typeof(TEntity);
                 using (IDataReader dr = command.ExecuteReader())
@@ -176,7 +144,7 @@ namespace Materal.TTA.ADONETRepository
                 if (dataCount > 0)
                 {
                     IDbCommand queryCommand = connection.CreateCommand();
-                    RepositoryHelper.SetPagingCommand(queryCommand, filterExpression, orderExpression, sortOrder, pageIndex, pageSize, TableName, UnitOfWork);
+                    RepositoryHelper.SetPagingCommand(queryCommand, filterExpression, orderExpression, sortOrder, pageIndex, pageSize, TableName);
                     Logger?.LogDebugTSQL(command);
                     using IDataReader queryDr = queryCommand.ExecuteReader();
                     while (queryDr.Read())
@@ -189,16 +157,5 @@ namespace Materal.TTA.ADONETRepository
             });
             return (result, new PageModel(pageIndex, pageSize, dataCount));
         }
-        /// <summary>
-        /// 获得创建表TSQL
-        /// </summary>
-        /// <returns></returns>
-        protected abstract string GetCreateTableTSQL();
-        /// <summary>
-        /// 获取检查表是否存在的TSQL
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        protected abstract string GetTableExistsTSQL(string tableName);
     }
 }

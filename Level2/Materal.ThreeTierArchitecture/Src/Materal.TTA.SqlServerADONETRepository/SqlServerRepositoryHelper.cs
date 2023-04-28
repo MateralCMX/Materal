@@ -1,6 +1,7 @@
 ﻿using Materal.Abstractions;
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
+using Materal.TTA.Common.Model;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Text;
@@ -12,6 +13,17 @@ namespace Materal.TTA.SqlServerADONETRepository
     /// </summary>
     public class SqlServerRepositoryHelper
     {
+        /// <summary>
+        /// 获得参数前缀
+        /// </summary>
+        /// <returns></returns>
+        public static string GetParamsPrefix() => SqlServerConfigModel.ParamsPrefix;
+        /// <summary>
+        /// 获得TSQL字段
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        public static string GetTSQLField(string field) => $"{SqlServerConfigModel.FieldPrefix}{field}{SqlServerConfigModel.FieldSuffix}";
         /// <summary>
         /// 获得表是否存在的TSQL
         /// </summary>
@@ -30,100 +42,6 @@ namespace Materal.TTA.SqlServerADONETRepository
         where TPrimaryKeyType : struct
     {
         /// <summary>
-        /// 获得创建表字段TSQL
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="TTAException"></exception>
-        private static string GetCreateTableFildeTSQL(IADONETUnitOfWork unitOfWork)
-        {
-            Type tType = typeof(T);
-            PropertyInfo[] propertyInfos = tType.GetProperties();
-            StringBuilder fildeTSQLBuilder = new();
-            foreach (PropertyInfo propertyInfo in propertyInfos)
-            {
-                if (propertyInfo.Name == nameof(IEntity<TPrimaryKeyType>.ID)) continue;
-                string isNull;
-                string sqlType;
-                Type propertyType = propertyInfo.PropertyType;
-                if (propertyType.FullName.StartsWith("System.Nullable`1"))
-                {
-                    isNull = "NULL";
-                    propertyType = propertyType.GenericTypeArguments.First();
-                }
-                else
-                {
-                    isNull = propertyInfo.GetCustomAttribute<RequiredAttribute>() == null ? "NULL" : "NOT NULL";
-                }
-                if (propertyType.IsAssignableTo(typeof(string)))
-                {
-                    StringLengthAttribute? stringLengthAttribute = propertyInfo.GetCustomAttribute<StringLengthAttribute>();
-                    if (stringLengthAttribute == null)
-                    {
-                        sqlType = unitOfWork.GetTSQLField("varchar") + "(MAX)";
-                    }
-                    else
-                    {
-                        sqlType = unitOfWork.GetTSQLField("varchar") + $"({stringLengthAttribute.MaximumLength})";
-                    }
-                }
-                else if (propertyType.IsAssignableTo(typeof(Guid)))
-                {
-                    sqlType = unitOfWork.GetTSQLField("uniqueidentifier");
-                }
-                else if (propertyType.IsAssignableTo(typeof(Enum)))
-                {
-                    Type enumValueType = Enum.GetUnderlyingType(propertyType);
-                    if (enumValueType.IsAssignableTo(typeof(byte)))
-                    {
-                        sqlType = unitOfWork.GetTSQLField("tinyint");
-                    }
-                    else
-                    {
-                        sqlType = unitOfWork.GetTSQLField("int");
-                    }
-                }
-                else if (propertyType.IsAssignableTo(typeof(byte)))
-                {
-                    sqlType = unitOfWork.GetTSQLField("tinyint");
-                }
-                else if (propertyType.IsAssignableTo(typeof(int)))
-                {
-                    sqlType = unitOfWork.GetTSQLField("int");
-                }
-                else if (propertyType.IsAssignableTo(typeof(decimal)))
-                {
-                    sqlType = unitOfWork.GetTSQLField("decimal") + "(18,2)";
-                }
-                else if (propertyType.IsAssignableTo(typeof(DateTime)))
-                {
-                    sqlType = unitOfWork.GetTSQLField("dateTime2");
-                }
-                else throw new TTAException("未识别类型");
-                fildeTSQLBuilder.AppendLine($"\t{unitOfWork.GetTSQLField(propertyInfo.Name)} {sqlType} {isNull},");
-            }
-            return fildeTSQLBuilder.ToString();
-        }
-        /// <summary>
-        /// 获得创建表TSQL
-        /// </summary>
-        /// <returns></returns>
-        public static string GetCreateTableTSQL(IADONETUnitOfWork unitOfWork, string tableName)
-        {
-            StringBuilder tSqlBuilder = new();
-            tSqlBuilder.AppendLine($"CREATE TABLE {unitOfWork.GetTSQLField(tableName)}(");
-            tSqlBuilder.AppendLine($"\t{unitOfWork.GetTSQLField(nameof(IEntity<TPrimaryKeyType>.ID))} {unitOfWork.GetTSQLField("uniqueidentifier")} NOT NULL,");
-            string fildeTSQL = GetCreateTableFildeTSQL(unitOfWork);
-            if (!string.IsNullOrWhiteSpace(fildeTSQL))
-            {
-                tSqlBuilder.Append(fildeTSQL);
-            }
-            tSqlBuilder.AppendLine($"\tCONSTRAINT {unitOfWork.GetTSQLField($"PK_{tableName}")} PRIMARY KEY CLUSTERED({unitOfWork.GetTSQLField(nameof(IEntity<TPrimaryKeyType>.ID))} ASC)");
-            tSqlBuilder.AppendLine($"\tWITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON {unitOfWork.GetTSQLField("PRIMARY")}");
-            tSqlBuilder.AppendLine($") ON {unitOfWork.GetTSQLField("PRIMARY")}");
-            string result = tSqlBuilder.ToString();
-            return result;
-        }
-        /// <summary>
         /// 获得分页TSQL
         /// </summary>
         /// <param name="pageIndex"></param>
@@ -140,5 +58,16 @@ namespace Materal.TTA.SqlServerADONETRepository
         {
             return $"ISNULL({notNullValue}, {nullValue})";
         }
+        /// <summary>
+        /// 获得参数前缀
+        /// </summary>
+        /// <returns></returns>
+        public override string GetParamsPrefix() => SqlServerConfigModel.ParamsPrefix;
+        /// <summary>
+        /// 获得TSQL字段
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        public override string GetTSQLField(string field) => SqlServerRepositoryHelper.GetTSQLField(field);
     }
 }

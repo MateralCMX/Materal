@@ -1,4 +1,5 @@
 ﻿using Materal.Abstractions;
+using Materal.Logger;
 using Materal.TTA.Demo.Domain;
 using Materal.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace Materal.TTA.Demo
         {
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralUtils();
-
+            serviceCollection.AddMateralLogger();
             //serviceCollection.AddSqliteEFTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
 
@@ -20,12 +21,17 @@ namespace Materal.TTA.Demo
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
 
             serviceCollection.AddSqliteADONETTTA();
-            static Task MigrateAsync(IServiceProvider serviceProvider) => Task.CompletedTask;
+            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteADONETHelper.MigrateAsync(serviceProvider);
 
             //serviceCollection.AddSqlServerADONETTTA();
-            //static Task MigrateAsync(IServiceProvider serviceProvider) => Task.CompletedTask;
+            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerADONETHelper.MigrateAsync(serviceProvider);
 
             IServiceProvider services = serviceCollection.BuildServiceProvider();
+            LoggerManager.Init(option =>
+            {
+                option.AddConsoleTarget("LifeConsole");
+                option.AddAllTargetRule();
+            });
             using (IServiceScope scope = services.CreateScope())
             {
                 IServiceProvider serviceProvider = scope.ServiceProvider;

@@ -1,5 +1,4 @@
 ﻿using Materal.TTA.ADONETRepository;
-using Materal.TTA.Common.Model;
 using Microsoft.Data.Sqlite;
 
 namespace Materal.TTA.SqliteADONETRepository
@@ -7,7 +6,7 @@ namespace Materal.TTA.SqliteADONETRepository
     /// <summary>
     /// SqliteADONET工作单元
     /// </summary>
-    public class SqliteADONETUnitOfWorkImpl<TDBOption> : ADONETUnitOfWorkImpl<TDBOption>, IADONETUnitOfWork
+    public abstract class SqliteADONETUnitOfWorkImpl<TDBOption> : ADONETUnitOfWorkImpl<TDBOption>, IADONETUnitOfWork
         where TDBOption : DBOption
     {
         /// <summary>
@@ -15,7 +14,7 @@ namespace Materal.TTA.SqliteADONETRepository
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <param name="connectionString"></param>
-        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, string connectionString) : base(serviceProvider, new SqliteConnection(connectionString), SqliteConfigModel.ParamsPrefix, SqliteConfigModel.FieldPrefix, SqliteConfigModel.FieldSuffix)
+        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, string connectionString) : base(serviceProvider, new SqliteConnection(connectionString))
         {
         }
         /// <summary>
@@ -23,15 +22,21 @@ namespace Materal.TTA.SqliteADONETRepository
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <param name="dbOption"></param>
-        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, TDBOption dbOption) : this(serviceProvider, dbOption.ConnectionString)
+        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, TDBOption dbOption) : base(serviceProvider, dbOption.GetConnection())
         {
         }
+        /// <summary>
+        /// 获得TSQL字段
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        public override string GetTSQLField(string field) => SqliteRepositoryHelper.GetTSQLField(field);
     }
     /// <summary>
     /// SqliteADONET工作单元
     /// </summary>
-    public class SqliteADONETUnitOfWorkImpl<TDbConfig, TPrimaryKeyType> : ADONETUnitOfWorkImpl<TDbConfig, TPrimaryKeyType>, IADONETUnitOfWork<TPrimaryKeyType>
-        where TDbConfig : DBOption
+    public abstract class SqliteADONETUnitOfWorkImpl<TDBOption, TPrimaryKeyType> : ADONETUnitOfWorkImpl<TDBOption, TPrimaryKeyType>, IADONETUnitOfWork<TPrimaryKeyType>
+        where TDBOption : DBOption
         where TPrimaryKeyType : struct
     {
         /// <summary>
@@ -39,16 +44,22 @@ namespace Materal.TTA.SqliteADONETRepository
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <param name="connectionString"></param>
-        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, string connectionString) : base(serviceProvider, new SqliteConnection(connectionString), SqliteConfigModel.ParamsPrefix, SqliteConfigModel.FieldPrefix, SqliteConfigModel.FieldSuffix)
+        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, string connectionString) : base(serviceProvider, new SqliteConnection(connectionString))
         {
         }
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="serviceProvider"></param>
-        /// <param name="dbConfig"></param>
-        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, TDbConfig dbConfig) : this(serviceProvider, dbConfig.ConnectionString)
+        /// <param name="dbOption"></param>
+        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, TDBOption dbOption) : base(serviceProvider, dbOption.GetConnection())
         {
         }
+        /// <summary>
+        /// 获得TSQL字段
+        /// </summary>
+        /// <param name="field"></param>
+        /// <returns></returns>
+        public override string GetTSQLField(string field) => SqliteRepositoryHelper.GetTSQLField(field);
     }
 }

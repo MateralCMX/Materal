@@ -1,5 +1,6 @@
 ﻿using Materal.TTA.Common;
 using Materal.TTA.Common.Model;
+using System.Data;
 
 namespace Materal.TTA.ADONETRepository
 {
@@ -8,7 +9,7 @@ namespace Materal.TTA.ADONETRepository
     /// </summary>
     public abstract class DBOption
     {
-        private string? _connectionString;
+        private readonly string? _connectionString;
         /// <summary>
         /// 数据库配置
         /// </summary>
@@ -25,6 +26,11 @@ namespace Materal.TTA.ADONETRepository
                 throw new TTAException("未设置链接字符串");
             }
         }
+        /// <summary>
+        /// 获得数据库连接
+        /// </summary>
+        /// <returns></returns>
+        public abstract IDbConnection GetConnection();
         /// <summary>
         /// 数据库选项
         /// </summary>

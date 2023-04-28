@@ -18,31 +18,16 @@ namespace Materal.TTA.ADONETRepository
         /// 服务容器
         /// </summary>
         public IServiceProvider ServiceProvider { get; set; }
-        /// <summary>
-        /// 参数前缀
-        /// </summary>
-        public readonly string ParamsPrefix;
-        /// <summary>
-        /// 字段前缀
-        /// </summary>
-        public readonly string FieldPrefix;
-        /// <summary>
-        /// 字段后缀
-        /// </summary>
-        public readonly string FieldSuffix;
         private readonly IDbConnection _connection;
         private readonly List<Func<IDbTransaction, IDbCommand?>> _commands = new();
         private readonly ILogger<ADONETUnitOfWorkImpl<TDBOption>>? _logger;
         /// <summary>
         /// 构造方法
         /// </summary>
-        protected ADONETUnitOfWorkImpl(IServiceProvider serviceProvider, IDbConnection connection, string paramsPrefix, string fieldPrefix, string fieldSuffix)
+        protected ADONETUnitOfWorkImpl(IServiceProvider serviceProvider, IDbConnection connection)
         {
             ServiceProvider = serviceProvider;
             _connection = connection;
-            ParamsPrefix = paramsPrefix;
-            FieldPrefix = fieldPrefix;
-            FieldSuffix = fieldSuffix;
             _logger = serviceProvider.GetService<ILogger<ADONETUnitOfWorkImpl<TDBOption>>>();
         }
         /// <summary>
@@ -306,7 +291,7 @@ namespace Materal.TTA.ADONETRepository
         /// </summary>
         /// <param name="field"></param>
         /// <returns></returns>
-        public virtual string GetTSQLField(string field) => $"{FieldPrefix}{field}{FieldSuffix}";
+        public abstract string GetTSQLField(string field);
         /// <summary>
         /// 释放
         /// </summary>
@@ -330,7 +315,7 @@ namespace Materal.TTA.ADONETRepository
         /// <summary>
         /// 构造方法
         /// </summary>
-        protected ADONETUnitOfWorkImpl(IServiceProvider serviceProvider, IDbConnection connection, string paramsPrefix, string fieldPrefix, string fieldSuffix) : base(serviceProvider, connection, paramsPrefix, fieldPrefix, fieldSuffix)
+        protected ADONETUnitOfWorkImpl(IServiceProvider serviceProvider, IDbConnection connection) : base(serviceProvider, connection)
         {
         }
         /// <summary>

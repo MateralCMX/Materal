@@ -114,10 +114,9 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <param name="tableName"></param>
-        /// <param name="unitOfWork"></param>
-        public void SetQueryCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName, IADONETUnitOfWork unitOfWork)
+        public void SetQueryCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName)
         {
-            StringBuilder tSql = GetQueryTSQL(command, expression, orderExpression, sortOrder, tableName, unitOfWork);
+            StringBuilder tSql = GetQueryTSQL(command, expression, orderExpression, sortOrder, tableName);
             command.CommandText = tSql.ToString();
         }
         /// <summary>
@@ -126,12 +125,11 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="command"></param>
         /// <param name="expression"></param>
         /// <param name="tableName"></param>
-        /// <param name="unitOfWork"></param>
-        public void SetQueryCountCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, string tableName, IADONETUnitOfWork unitOfWork)
+        public void SetQueryCountCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, string tableName)
         {
             Type tType = typeof(TEntity);
             List<string> propertyNames = tType.GetProperties().Select(propertyInfo => propertyInfo.Name).ToList();
-            string whereTSQLs = ExpressionToTSQL(command, expression, null, unitOfWork);
+            string whereTSQLs = ExpressionToTSQL(command, expression, null);
             StringBuilder tSql = new();
             tSql.AppendLine($"SELECT Count({nameof(IEntity<TPrimaryKeyType>.ID)})");
             tSql.AppendLine($"FROM {tableName}");
@@ -149,10 +147,9 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <param name="tableName"></param>
-        /// <param name="unitOfWork"></param>
-        public void SetQueryOneRowCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName, IADONETUnitOfWork unitOfWork)
+        public void SetQueryOneRowCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName)
         {
-            SetPagingCommand(command, expression, orderExpression, sortOrder, MateralConfig.PageStartNumber, 1, tableName, unitOfWork);
+            SetPagingCommand(command, expression, orderExpression, sortOrder, MateralConfig.PageStartNumber, 1, tableName);
         }
         /// <summary>
         /// 设置分页查询命令
@@ -164,12 +161,11 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="tableName"></param>
-        /// <param name="unitOfWork"></param>
-        public void SetPagingCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize, string tableName, IADONETUnitOfWork unitOfWork)
+        public void SetPagingCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize, string tableName)
         {
             if (pageIndex < MateralConfig.PageStartNumber) pageIndex = MateralConfig.PageStartNumber;
             if (pageSize < 1) pageSize = 10;
-            StringBuilder tSql = GetQueryTSQL(command, expression, orderExpression, sortOrder, tableName, unitOfWork);
+            StringBuilder tSql = GetQueryTSQL(command, expression, orderExpression, sortOrder, tableName);
             tSql.AppendLine(GetPagingTSQL(pageIndex, pageSize));
             command.CommandText = tSql.ToString();
         }
@@ -185,10 +181,9 @@ namespace Materal.TTA.ADONETRepository
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="sortOrder"></param>
-        /// <param name="unitOfWork"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        public string OrderExpressionToTSQL(Expression<Func<TEntity, object>> expression, SortOrder sortOrder, IADONETUnitOfWork unitOfWork)
+        public string OrderExpressionToTSQL(Expression<Func<TEntity, object>> expression, SortOrder sortOrder)
         {
             if (expression is not LambdaExpression orderExpression ||
                 orderExpression.Body is not UnaryExpression unaryExpression ||
@@ -202,7 +197,7 @@ namespace Materal.TTA.ADONETRepository
                 SortOrder.Ascending => "ASC",
                 _ => "DESC"
             };
-            string result = $"ORDER BY {unitOfWork.GetTSQLField(orderName)} {sortOrderString}";
+            string result = $"ORDER BY {GetTSQLField(orderName)} {sortOrderString}";
             return result;
         }
         /// <summary>
@@ -211,19 +206,18 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="command"></param>
         /// <param name="expression"></param>
         /// <param name="parentExpression"></param>
-        /// <param name="unitOfWork"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        public string ExpressionToTSQL(IDbCommand command, Expression expression, Expression? parentExpression, IADONETUnitOfWork unitOfWork)
+        public string ExpressionToTSQL(IDbCommand command, Expression expression, Expression? parentExpression)
         {
             return expression switch
             {
-                LambdaExpression lambdaExpression => ExpressionToTSQL(command, lambdaExpression.Body, lambdaExpression, unitOfWork),
-                BinaryExpression binaryExpression => BinaryExpressionToTSQL(command, binaryExpression, unitOfWork),
-                MemberExpression memberExpression => MemberExpressionToTSQL(command, memberExpression, unitOfWork),
+                LambdaExpression lambdaExpression => ExpressionToTSQL(command, lambdaExpression.Body, lambdaExpression),
+                BinaryExpression binaryExpression => BinaryExpressionToTSQL(command, binaryExpression),
+                MemberExpression memberExpression => MemberExpressionToTSQL(command, memberExpression),
                 ConstantExpression constantExpression => ConstantExpressionToTSQL(command, constantExpression, parentExpression),
-                MethodCallExpression methodCallExpression => MethodCallExpressionToTSQL(command, methodCallExpression, unitOfWork),
-                UnaryExpression unaryExpression => UnaryExpressionToTSQL(command, unaryExpression, unitOfWork),
+                MethodCallExpression methodCallExpression => MethodCallExpressionToTSQL(command, methodCallExpression),
+                UnaryExpression unaryExpression => UnaryExpressionToTSQL(command, unaryExpression),
                 _ => throw new TTAException("未识别的表达式")
             };
         }
@@ -232,13 +226,12 @@ namespace Materal.TTA.ADONETRepository
         /// </summary>
         /// <param name="command"></param>
         /// <param name="expression"></param>
-        /// <param name="unitOfWork"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        public string UnaryExpressionToTSQL(IDbCommand command, UnaryExpression expression, IADONETUnitOfWork unitOfWork)
+        public string UnaryExpressionToTSQL(IDbCommand command, UnaryExpression expression)
         {
             if (expression.Operand is not MemberExpression memberExpresstion) throw new TTAException("未识别的表达式");
-            string result = MemberExpressionToTSQL(command, memberExpresstion, unitOfWork);
+            string result = MemberExpressionToTSQL(command, memberExpresstion);
             return result;
         }
         /// <summary>
@@ -246,20 +239,19 @@ namespace Materal.TTA.ADONETRepository
         /// </summary>
         /// <param name="command"></param>
         /// <param name="expression"></param>
-        /// <param name="unitOfWork"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        private string? ContainsMethodCallExpressionToSQL(IDbCommand command, MethodCallExpression expression, IADONETUnitOfWork unitOfWork)
+        private string? ContainsMethodCallExpressionToSQL(IDbCommand command, MethodCallExpression expression)
         {
             if (expression.Method.Name == "Contains" && expression.Object is MemberExpression memberExpression)
             {
                 if (memberExpression.Type == typeof(string))
                 {
-                    string leftTSQL = ExpressionToTSQL(command, memberExpression, expression, unitOfWork);
+                    string leftTSQL = ExpressionToTSQL(command, memberExpression, expression);
                     if (expression.Arguments.Count == 1 && expression.Arguments[0] is ConstantExpression constantExpression)
                     {
                         string vaue = $"%{constantExpression.Value}%";
-                        string parameterName = $"@P{_paramsIndex++}";
+                        string parameterName = GetParamsName($"P{_paramsIndex++}");
                         command.AddParameter(parameterName, vaue);
                         return $"{leftTSQL} like {parameterName}";
                     }
@@ -272,8 +264,8 @@ namespace Materal.TTA.ADONETRepository
                 {
                     if (expression.Arguments.Count == 1)
                     {
-                        string leftTSQL = ExpressionToTSQL(command, expression.Arguments[0], memberExpression, unitOfWork);
-                        string parameterName = $"@{memberExpression.Member.Name}";
+                        string leftTSQL = ExpressionToTSQL(command, expression.Arguments[0], memberExpression);
+                        string parameterName = GetParamsName(memberExpression.Member.Name);
                         if (memberExpression.Expression is ConstantExpression constantExpression)
                         {
                             object? value = null;
@@ -318,17 +310,16 @@ namespace Materal.TTA.ADONETRepository
         /// </summary>
         /// <param name="command"></param>
         /// <param name="expression"></param>
-        /// <param name="unitOfWork"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        private string? EqualsMethodCallExpressionToSQL(IDbCommand command, MethodCallExpression expression, IADONETUnitOfWork unitOfWork)
+        private string? EqualsMethodCallExpressionToSQL(IDbCommand command, MethodCallExpression expression)
         {
             if (expression.Method.Name == "Equals" && expression.Object is MemberExpression memberExpression)
             {
-                string leftTSQL = ExpressionToTSQL(command, memberExpression, expression, unitOfWork);
+                string leftTSQL = ExpressionToTSQL(command, memberExpression, expression);
                 if (expression.Arguments.Count == 1)
                 {
-                    string parameterName = ExpressionToTSQL(command, expression.Arguments[0], expression, unitOfWork);
+                    string parameterName = ExpressionToTSQL(command, expression.Arguments[0], expression);
                     return $"{leftTSQL}={parameterName}";
                 }
                 else
@@ -343,13 +334,12 @@ namespace Materal.TTA.ADONETRepository
         /// </summary>
         /// <param name="command"></param>
         /// <param name="expression"></param>
-        /// <param name="unitOfWork"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        public string MethodCallExpressionToTSQL(IDbCommand command, MethodCallExpression expression, IADONETUnitOfWork unitOfWork)
+        public string MethodCallExpressionToTSQL(IDbCommand command, MethodCallExpression expression)
         {
-            string? result = ContainsMethodCallExpressionToSQL(command, expression, unitOfWork);
-            result ??= EqualsMethodCallExpressionToSQL(command, expression, unitOfWork);
+            string? result = ContainsMethodCallExpressionToSQL(command, expression);
+            result ??= EqualsMethodCallExpressionToSQL(command, expression);
             return result ?? throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
         }
         /// <summary>
@@ -368,7 +358,7 @@ namespace Materal.TTA.ADONETRepository
                 if (fieldInfo != null)
                 {
                     object? value = fieldInfo.GetValue(expression.Value);
-                    string parameterName = $"@{fieldInfo.Name}";
+                    string parameterName = GetParamsName(fieldInfo.Name);
                     command.AddParameter(parameterName, value);
                     return parameterName;
                 }
@@ -376,7 +366,7 @@ namespace Materal.TTA.ADONETRepository
             }
             else
             {
-                string parameterName = $"@P{_paramsIndex++}";
+                string parameterName = GetParamsName($"P{_paramsIndex++}");
                 command.AddParameter(parameterName, expression.Value);
                 return parameterName;
             }
@@ -386,16 +376,15 @@ namespace Materal.TTA.ADONETRepository
         /// </summary>
         /// <param name="command"></param>
         /// <param name="expression"></param>
-        /// <param name="unitOfWork"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        public string MemberExpressionToTSQL(IDbCommand command, MemberExpression expression, IADONETUnitOfWork unitOfWork)
+        public string MemberExpressionToTSQL(IDbCommand command, MemberExpression expression)
         {
             switch (expression.Member.MemberType)
             {
                 case MemberTypes.Field:
                     if (expression.Expression == null) return "IS NULL";
-                    return ExpressionToTSQL(command, expression.Expression, expression, unitOfWork);
+                    return ExpressionToTSQL(command, expression.Expression, expression);
                 case MemberTypes.Property:
                     if (expression.Member.DeclaringType != null &&
                         expression.Member.DeclaringType.FullName != null &&
@@ -404,14 +393,14 @@ namespace Materal.TTA.ADONETRepository
                     {
                         if (expression.Type == typeof(bool) && expression.Member.Name == "HasValue")
                         {
-                            return $"{unitOfWork.GetTSQLField(trueMemberExpression.Member.Name)} IS NOT NULL";
+                            return $"{GetTSQLField(trueMemberExpression.Member.Name)} IS NOT NULL";
                         }
                         else if (expression.Member.Name == "Value")
                         {
-                            return unitOfWork.GetTSQLField(trueMemberExpression.Member.Name);
+                            return GetTSQLField(trueMemberExpression.Member.Name);
                         }
                     }
-                    return unitOfWork.GetTSQLField(expression.Member.Name);
+                    return GetTSQLField(expression.Member.Name);
                 default:
                     throw new TTAException("未识别的表达式");
             }
@@ -421,15 +410,14 @@ namespace Materal.TTA.ADONETRepository
         /// </summary>
         /// <param name="command"></param>
         /// <param name="expression"></param>
-        /// <param name="unitOfWork"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        public string BinaryExpressionToTSQL(IDbCommand command, BinaryExpression expression, IADONETUnitOfWork unitOfWork)
+        public string BinaryExpressionToTSQL(IDbCommand command, BinaryExpression expression)
         {
             Expression left = expression.Left;
             Expression right = expression.Right;
-            string leftTSQL = ExpressionToTSQL(command, left, expression, unitOfWork);
-            string rightTSQL = ExpressionToTSQL(command, right, expression, unitOfWork);
+            string leftTSQL = ExpressionToTSQL(command, left, expression);
+            string rightTSQL = ExpressionToTSQL(command, right, expression);
             return expression.NodeType switch
             {
                 ExpressionType.Equal => rightTSQL != "IS NULL" ? $"{leftTSQL} = {rightTSQL}" : $"{leftTSQL} {rightTSQL}",
@@ -464,23 +452,37 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <param name="tableName"></param>
-        /// <param name="unitOfWork"></param>
         /// <returns></returns>
-        private StringBuilder GetQueryTSQL(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName, IADONETUnitOfWork unitOfWork)
+        private StringBuilder GetQueryTSQL(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName)
         {
             Type tType = typeof(TEntity);
-            List<string> propertyNames = tType.GetProperties().Select(propertyInfo => unitOfWork.GetTSQLField(propertyInfo.Name)).ToList();
+            List<string> propertyNames = tType.GetProperties().Select(propertyInfo => GetTSQLField(propertyInfo.Name)).ToList();
             StringBuilder tSql = new();
             tSql.AppendLine($"SELECT {string.Join(", ", propertyNames)}");
-            tSql.AppendLine($"FROM {unitOfWork.GetTSQLField(tableName)}");
-            string whereTSQLs = ExpressionToTSQL(command, expression, null, unitOfWork);
-            if (!string.IsNullOrWhiteSpace(whereTSQLs) && !whereTSQLs.StartsWith("@"))
+            tSql.AppendLine($"FROM {GetTSQLField(tableName)}");
+            string whereTSQLs = ExpressionToTSQL(command, expression, null);
+            if (!string.IsNullOrWhiteSpace(whereTSQLs) && !whereTSQLs.StartsWith(GetParamsPrefix()))
             {
                 tSql.AppendLine($"WHERE {whereTSQLs}");
             }
-            string orderTSQL = OrderExpressionToTSQL(orderExpression, sortOrder, unitOfWork);
+            string orderTSQL = OrderExpressionToTSQL(orderExpression, sortOrder);
             tSql.AppendLine(orderTSQL);
             return tSql;
         }
+        /// <summary>
+        /// 获得参数名称
+        /// </summary>
+        /// <returns></returns>
+        public abstract string GetTSQLField(string field);
+        /// <summary>
+        /// 获得参数名称
+        /// </summary>
+        /// <returns></returns>
+        public abstract string GetParamsPrefix();
+        /// <summary>
+        /// 获得参数名称
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetParamsName(string paramsName) => $"{GetParamsPrefix()}{paramsName}";
     }
 }

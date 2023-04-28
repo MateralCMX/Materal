@@ -1,6 +1,5 @@
 ﻿using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
-using Materal.TTA.SqliteADONETRepository;
 
 namespace Materal.BusinessFlow.SqliteRepository.Repositories
 {
@@ -20,16 +19,5 @@ namespace Materal.BusinessFlow.SqliteRepository.Repositories
         public SqliteADONETRepositoryImpl(IADONETUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
-        /// <summary>
-        /// 获得创建表SQL
-        /// </summary>
-        /// <returns></returns>
-        protected override string GetCreateTableTSQL() => SqliteRepositoryHelper<T, TPrimaryKeyType>.GetCreateTableTSQL(UnitOfWork, TableName);
-        /// <summary>
-        /// 获得表是否存在TSQL
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        protected override string GetTableExistsTSQL(string tableName) => SqliteRepositoryHelper.GetTableExistsTSQL(UnitOfWork, tableName);
     }
 }

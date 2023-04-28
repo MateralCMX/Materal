@@ -16,7 +16,7 @@ namespace Materal.TTA.Demo
         }
         public static async Task MigrateAsync(IServiceProvider serviceProvider)
         {
-            MigrateHelper<TTADemoDBContext> migrateHelper = serviceProvider.GetService<MigrateHelper<TTADemoDBContext>>() ?? throw new MateralException("获取实例失败");
+            IMigrateHelper<TTADemoDBContext> migrateHelper = serviceProvider.GetService<IMigrateHelper<TTADemoDBContext>>() ?? throw new MateralException("获取实例失败");
             await migrateHelper.MigrateAsync();
         }
     }
