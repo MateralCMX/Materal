@@ -13,9 +13,12 @@
 		<PackageReference Include="coverlet.collector" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.TTA.ADONETRepository\Materal.TTA.ADONETRepository.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.TTA.Common\Materal.TTA.Common.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.SqliteADONETRepository\Materal.TTA.SqliteADONETRepository.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.TTA.SqliteEFRepository\Materal.TTA.SqliteEFRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.SqlServerADONETRepository\Materal.TTA.SqlServerADONETRepository.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.TTA.SqlServerEFRepository\Materal.TTA.SqlServerEFRepository.csproj" />
 	</ItemGroup>
 </Project>

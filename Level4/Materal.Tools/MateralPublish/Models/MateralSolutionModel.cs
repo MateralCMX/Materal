@@ -52,10 +52,10 @@ namespace MateralPublish.Models
             PublishDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "publish").GetNewDirectoryInfo();
             MainProject = new MainProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level0", "Materal"));
             LoggerProject = new LoggerProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level1", "Materal.Logger"));
-            BusinessFlowProject = new BusinessFlowProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.BusinessFlow"));
             TFMSProject = new TFMSProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.TFMS"));
             TTAProject = new TTAProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.ThreeTierArchitecture"));
             WorkflowProject = new WorkflowProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level2", "Materal.Workflow"));
+            BusinessFlowProject = new BusinessFlowProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level3", "Materal.BusinessFlow"));
             OscillatorProject = new OscillatorProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level3", "Materal.Oscillator"));
             BaseCoreProject = new BaseCoreProjectModel(Path.Combine(ProjectDirectoryInfo.FullName, "Level3", "Materal.BaseCore"));
         }
