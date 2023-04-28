@@ -23,6 +23,7 @@ namespace Materal.TTA.SqliteADONETRepository
             where TDBOption : DBOption
         {
             services.AddSingleton(dbOption);
+            services.TryAddScoped<IMaigrateRepository, SqliteMaigrateRepositoryImpl>();
             services.AddScoped(typeof(IRepositoryHelper<,>), typeof(SqliteRepositoryHelper<,>));
             services.TryAddScoped<IMigrateHelper<TDBOption>, MigrateHelper<TDBOption>>();
             foreach (Assembly repositoryAssembly in repositoryAssemblies)

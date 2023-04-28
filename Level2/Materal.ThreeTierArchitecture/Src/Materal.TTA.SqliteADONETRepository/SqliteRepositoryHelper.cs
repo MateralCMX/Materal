@@ -2,9 +2,6 @@
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 using Materal.TTA.Common.Model;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using System.Text;
 
 namespace Materal.TTA.SqliteADONETRepository
 {

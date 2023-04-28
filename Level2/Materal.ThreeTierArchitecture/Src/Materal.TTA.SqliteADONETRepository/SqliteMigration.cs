@@ -21,30 +21,5 @@ VALUES(@ID,@MigrationID,@CreateTime)";
             dbCommand.AddParameter("@MigrationID", MigrationID);
             dbCommand.AddParameter("@CreateTime", DateTime.Now);
         }
-        /// <summary>
-        /// 设置检查是否迁移命令
-        /// </summary>
-        /// <param name="dbCommand"></param>
-        protected override void SetMigrateExistsCommand(IDbCommand dbCommand)
-        {
-            dbCommand.CommandText = $@"SELECT COUNT(""MigrationID"") FROM ""{MigrateTableName}"" WHERE ""MigrationID"" = @MigrationID";
-            dbCommand.AddParameter("@MigrationID", MigrationID);
-        }
-        /// <summary>
-        /// 获得创建迁移表TSQL
-        /// </summary>
-        /// <returns></returns>
-        protected override string GetCreateMigrateTableTSQL() => $@"CREATE TABLE ""{MigrateTableName}"" (
-  ""ID"" TEXT NOT NULL,
-  ""MigrationID"" TEXT NOT NULL,
-  ""CreateTime"" DATETIME NOT NULL,
-  PRIMARY KEY (""ID"")
-);";
-        /// <summary>
-        /// 获得表是否存在的TSQL
-        /// </summary>
-        /// <param name="tableName"></param>
-        /// <returns></returns>
-        protected override string GetTableExistsTSQL(string tableName) => SqliteRepositoryHelper.GetTableExistsTSQL(tableName);
     }
 }

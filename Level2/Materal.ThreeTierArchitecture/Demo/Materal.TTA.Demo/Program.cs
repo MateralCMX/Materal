@@ -20,11 +20,11 @@ namespace Materal.TTA.Demo
             //serviceCollection.AddSqlServerEFTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
 
-            serviceCollection.AddSqliteADONETTTA();
-            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteADONETHelper.MigrateAsync(serviceProvider);
+            //serviceCollection.AddSqliteADONETTTA();
+            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteADONETHelper.MigrateAsync(serviceProvider);
 
-            //serviceCollection.AddSqlServerADONETTTA();
-            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerADONETHelper.MigrateAsync(serviceProvider);
+            serviceCollection.AddSqlServerADONETTTA();
+            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerADONETHelper.MigrateAsync(serviceProvider);
 
             IServiceProvider services = serviceCollection.BuildServiceProvider();
             LoggerManager.Init(option =>

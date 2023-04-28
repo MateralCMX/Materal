@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Data;
 
 namespace Materal.TTA.ADONETRepository
 {
@@ -11,15 +12,17 @@ namespace Materal.TTA.ADONETRepository
     {
         private readonly TDBOption _dbOption;
         private readonly ILogger<MigrateHelper<TDBOption>>? _logger;
+        private readonly IMaigrateRepository _maigrateRepository;
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="dbOption"></param>
         /// <param name="logger"></param>
-        public MigrateHelper(TDBOption dbOption, ILogger<MigrateHelper<TDBOption>>? logger = null)
+        public MigrateHelper(TDBOption dbOption, ILogger<MigrateHelper<TDBOption>>? logger = null, IMaigrateRepository maigrateRepository = null)
         {
             _dbOption = dbOption;
             _logger = logger;
+            _maigrateRepository = maigrateRepository;
         }
         /// <summary>
         /// 迁移
@@ -43,10 +46,13 @@ namespace Materal.TTA.ADONETRepository
                 try
                 {
                     migrations = migrations.OrderBy(m => m.Index).ToList();
+                    using IDbConnection dbConnection = _dbOption.GetConnection();
+                    dbConnection.Open();
                     foreach (Migration migration in migrations)
                     {
-                        migration.Migrate(_dbOption);
+                        migration.Migrate(dbConnection);
                     }
+                    dbConnection.Close();
                     _logger?.LogInformation("数据库迁移完毕");
                 }
                 catch (Exception exception)
@@ -60,18 +66,22 @@ namespace Materal.TTA.ADONETRepository
             }
         }
         /// <summary>
-        /// 
+        /// 获得未迁移的迁移类
         /// </summary>
         /// <returns></returns>
-        public List<Migration> GetPendingMigrations()
+        private List<Migration> GetPendingMigrations()
         {
+            List<string> existingData = _maigrateRepository.GetExistingData(_dbOption);
             List<Migration> result = new();
             foreach (Type? migrationType in typeof(TDBOption).Assembly.GetTypes().Where(m => m.IsAssignableTo<Migration>() && !m.IsAbstract))
             {
                 object migrationObj = Activator.CreateInstance(migrationType);
                 if(migrationObj is Migration migration)
                 {
-                    result.Add(migration);
+                    if (!existingData.Contains(migration.MigrationID))
+                    {
+                        result.Add(migration);
+                    }
                 }
             }
             return result.OrderBy(m=>m.Index).ToList();
