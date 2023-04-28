@@ -2,9 +2,6 @@
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 using Materal.TTA.Common.Model;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-using System.Text;
 
 namespace Materal.TTA.SqlServerADONETRepository
 {
@@ -27,10 +24,9 @@ namespace Materal.TTA.SqlServerADONETRepository
         /// <summary>
         /// 获得表是否存在的TSQL
         /// </summary>
-        /// <param name="unitOfWork"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public static string GetTableExistsTSQL(IADONETUnitOfWork unitOfWork, string tableName) => $"SELECT COUNT({unitOfWork.GetTSQLField("name")}) FROM {unitOfWork.GetTSQLField("SysObjects")} WHERE {unitOfWork.GetTSQLField("name")}='{tableName}'";
+        public static string GetTableExistsTSQL(string tableName) => $"SELECT COUNT({GetTSQLField("name")}) FROM {GetTSQLField("SysObjects")} WHERE {GetTSQLField("name")}='{tableName}'";
     }
     /// <summary>
     /// SqlServer仓储帮助类

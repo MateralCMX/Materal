@@ -1,4 +1,6 @@
 ﻿using Materal.TTA.ADONETRepository;
+using Materal.TTA.ADONETRepository.Extensions;
+using System.Data;
 
 namespace Materal.TTA.SqliteADONETRepository
 {
@@ -7,6 +9,37 @@ namespace Materal.TTA.SqliteADONETRepository
     /// </summary>
     public abstract class SqliteMigration : Migration
     {
+        /// <summary>
+        /// 设置添加记录命令
+        /// </summary>
+        /// <param name="dbCommand"></param>
+        protected override void SetInsertHistoryCommand(IDbCommand dbCommand)
+        {
+            dbCommand.CommandText = $@"INSERT INTO ""{MigrateTableName}""(""ID"",""MigrationID"",""CreateTime"")
+VALUES(@ID,@MigrationID,@CreateTime)";
+            dbCommand.AddParameter("@ID", Guid.NewGuid());
+            dbCommand.AddParameter("@MigrationID", MigrationID);
+            dbCommand.AddParameter("@CreateTime", DateTime.Now);
+        }
+        /// <summary>
+        /// 设置检查是否迁移命令
+        /// </summary>
+        /// <param name="dbCommand"></param>
+        protected override void SetMigrateExistsCommand(IDbCommand dbCommand)
+        {
+            dbCommand.CommandText = $@"SELECT COUNT(""MigrationID"") FROM ""{MigrateTableName}"" WHERE ""MigrationID"" = @MigrationID";
+            dbCommand.AddParameter("@MigrationID", MigrationID);
+        }
+        /// <summary>
+        /// 获得创建迁移表TSQL
+        /// </summary>
+        /// <returns></returns>
+        protected override string GetCreateMigrateTableTSQL() => $@"CREATE TABLE ""{MigrateTableName}"" (
+  ""ID"" TEXT NOT NULL,
+  ""MigrationID"" TEXT NOT NULL,
+  ""CreateTime"" DATETIME NOT NULL,
+  PRIMARY KEY (""ID"")
+);";
         /// <summary>
         /// 获得表是否存在的TSQL
         /// </summary>

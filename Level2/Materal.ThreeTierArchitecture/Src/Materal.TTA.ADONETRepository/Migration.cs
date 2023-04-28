@@ -1,6 +1,4 @@
-﻿using Materal.TTA.ADONETRepository.Extensions;
-using System.Data;
-using System.Data.Common;
+﻿using System.Data;
 
 namespace Materal.TTA.ADONETRepository
 {
@@ -9,7 +7,10 @@ namespace Materal.TTA.ADONETRepository
     /// </summary>
     public abstract class Migration
     {
-        private const string _migrateTableName = "__TTAMigrationsHistory";
+        /// <summary>
+        /// 迁移表名称
+        /// </summary>
+        protected const string MigrateTableName = "__TTAMigrationsHistory";
         /// <summary>
         /// 迁移唯一标识
         /// </summary>
@@ -44,7 +45,18 @@ namespace Materal.TTA.ADONETRepository
             foreach (string upTSQL in upTSQLs)
             {
                 ExcuteUp(dbConnection, upTSQL);
+                AddHistory(dbConnection);
             }
+        }
+        /// <summary>
+        /// 添加记录
+        /// </summary>
+        /// <param name="dbConnection"></param>
+        private void AddHistory(IDbConnection dbConnection)
+        {
+            IDbCommand dbCommand = dbConnection.CreateCommand();
+            SetInsertHistoryCommand(dbCommand);
+            dbCommand.ExecuteNonQuery();
         }
         /// <summary>
         /// 执行升级
@@ -101,7 +113,7 @@ namespace Materal.TTA.ADONETRepository
         private bool ExistsMigrateTable(IDbConnection dbConnection)
         {
             IDbCommand command = dbConnection.CreateCommand();
-            command.CommandText = GetTableExistsTSQL(_migrateTableName);
+            command.CommandText = GetTableExistsTSQL(MigrateTableName);
             using IDataReader dataReader = command.ExecuteReader();
             while (dataReader.Read())
             {
@@ -111,22 +123,20 @@ namespace Materal.TTA.ADONETRepository
         }
         #region 获取TSQL相关
         /// <summary>
+        /// 设置添加记录命令
+        /// </summary>
+        /// <param name="dbCommand"></param>
+        protected abstract void SetInsertHistoryCommand(IDbCommand dbCommand);
+        /// <summary>
         /// 设置检查是否迁移命令
         /// </summary>
         /// <param name="dbCommand"></param>
-        private void SetMigrateExistsCommand(IDbCommand dbCommand)
-        {
-            dbCommand.CommandText = $@"SELECT COUNT(""MigrationID"") FROM ""__TTAMigrationsHistory"" WHERE ""MigrationID"" = @MigrationID";
-            dbCommand.AddParameter("@MigrationID", MigrationID);
-        }
+        protected abstract void SetMigrateExistsCommand(IDbCommand dbCommand);
         /// <summary>
         /// 获得创建迁移表TSQL
         /// </summary>
         /// <returns></returns>
-        private string GetCreateMigrateTableTSQL() => $@"CREATE TABLE ""{_migrateTableName}"" (
-  ""MigrationID"" text NOT NULL,
-  PRIMARY KEY (""MigrationID"")
-);";
+        protected abstract string GetCreateMigrateTableTSQL();
         /// <summary>
         /// 获得表是否存在的TSQL
         /// </summary>
