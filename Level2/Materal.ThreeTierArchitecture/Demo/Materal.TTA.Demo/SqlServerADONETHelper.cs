@@ -19,10 +19,7 @@ namespace Materal.TTA.Demo
                 Password = "XMJry@456",
                 TrustServerCertificate = true
             };
-            DemoDBConfig config = new()
-            {
-                ConnectionString = dbConfig.ConnectionString
-            };
+            DemoDBOption config = new(dbConfig);
             services.AddTTASqlServerADONETRepository(config, Assembly.Load("Materal.TTA.Demo.SqlServerADONETRepository"));
             return services;
         }

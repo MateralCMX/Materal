@@ -14,10 +14,7 @@ namespace Materal.TTA.Demo
             {
                 Source = "TTATestDB.db"
             };
-            DemoDBConfig config = new()
-            {
-                ConnectionString = dbConfig.ConnectionString
-            };
+            DemoDBOption config = new(dbConfig); ;
             services.AddTTASqliteADONETRepository(config, Assembly.Load("Materal.TTA.Demo.SqliteADONETRepository"));
             return services;
         }

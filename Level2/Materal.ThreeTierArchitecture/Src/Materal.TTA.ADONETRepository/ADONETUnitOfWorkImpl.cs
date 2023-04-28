@@ -11,8 +11,8 @@ namespace Materal.TTA.ADONETRepository
     /// <summary>
     /// ADONET工作单元
     /// </summary>
-    public abstract class ADONETUnitOfWorkImpl<TDbConfig> : IADONETUnitOfWork, IDisposable
-        where TDbConfig : DbConfig
+    public abstract class ADONETUnitOfWorkImpl<TDBOption> : IADONETUnitOfWork, IDisposable
+        where TDBOption : DBOption
     {
         /// <summary>
         /// 服务容器
@@ -32,7 +32,7 @@ namespace Materal.TTA.ADONETRepository
         public readonly string FieldSuffix;
         private readonly IDbConnection _connection;
         private readonly List<Func<IDbTransaction, IDbCommand?>> _commands = new();
-        private readonly ILogger<ADONETUnitOfWorkImpl<TDbConfig>>? _logger;
+        private readonly ILogger<ADONETUnitOfWorkImpl<TDBOption>>? _logger;
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -43,7 +43,7 @@ namespace Materal.TTA.ADONETRepository
             ParamsPrefix = paramsPrefix;
             FieldPrefix = fieldPrefix;
             FieldSuffix = fieldSuffix;
-            _logger = serviceProvider.GetService<ILogger<ADONETUnitOfWorkImpl<TDbConfig>>>();
+            _logger = serviceProvider.GetService<ILogger<ADONETUnitOfWorkImpl<TDBOption>>>();
         }
         /// <summary>
         /// 提交
@@ -323,8 +323,8 @@ namespace Materal.TTA.ADONETRepository
     /// <summary>
     /// ADONET工作单元
     /// </summary>
-    public abstract class ADONETUnitOfWorkImpl<TDbConfig, TPrimaryKeyType> : ADONETUnitOfWorkImpl<DbConfig>, IADONETUnitOfWork<TPrimaryKeyType>
-        where TDbConfig : DbConfig
+    public abstract class ADONETUnitOfWorkImpl<TDbConfig, TPrimaryKeyType> : ADONETUnitOfWorkImpl<DBOption>, IADONETUnitOfWork<TPrimaryKeyType>
+        where TDbConfig : DBOption
         where TPrimaryKeyType : struct
     {
         /// <summary>

@@ -7,8 +7,8 @@ namespace Materal.TTA.SqliteADONETRepository
     /// <summary>
     /// SqliteADONET工作单元
     /// </summary>
-    public class SqliteADONETUnitOfWorkImpl<TDbConfig> : ADONETUnitOfWorkImpl<TDbConfig>, IADONETUnitOfWork
-        where TDbConfig : DbConfig
+    public class SqliteADONETUnitOfWorkImpl<TDBOption> : ADONETUnitOfWorkImpl<TDBOption>, IADONETUnitOfWork
+        where TDBOption : DBOption
     {
         /// <summary>
         /// 构造方法
@@ -22,8 +22,8 @@ namespace Materal.TTA.SqliteADONETRepository
         /// 构造方法
         /// </summary>
         /// <param name="serviceProvider"></param>
-        /// <param name="dbConfig"></param>
-        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, TDbConfig dbConfig) : this(serviceProvider, dbConfig.ConnectionString)
+        /// <param name="dbOption"></param>
+        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, TDBOption dbOption) : this(serviceProvider, dbOption.ConnectionString)
         {
         }
     }
@@ -31,7 +31,7 @@ namespace Materal.TTA.SqliteADONETRepository
     /// SqliteADONET工作单元
     /// </summary>
     public class SqliteADONETUnitOfWorkImpl<TDbConfig, TPrimaryKeyType> : ADONETUnitOfWorkImpl<TDbConfig, TPrimaryKeyType>, IADONETUnitOfWork<TPrimaryKeyType>
-        where TDbConfig : DbConfig
+        where TDbConfig : DBOption
         where TPrimaryKeyType : struct
     {
         /// <summary>

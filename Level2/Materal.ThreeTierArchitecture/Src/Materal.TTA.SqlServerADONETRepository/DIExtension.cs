@@ -15,13 +15,13 @@ namespace Materal.TTA.SqlServerADONETRepository
         /// 添加TTASqlServerADONET仓储服务
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="dbConfig"></param>
+        /// <param name="dbOption"></param>
         /// <param name="repositoryAssemblies"></param>
         /// <returns></returns>
-        public static IServiceCollection AddTTASqlServerADONETRepository<T>(this IServiceCollection services, T dbConfig, params Assembly[] repositoryAssemblies)
-            where T : DbConfig
+        public static IServiceCollection AddTTASqlServerADONETRepository<TDBOption>(this IServiceCollection services, TDBOption dbOption, params Assembly[] repositoryAssemblies)
+            where TDBOption : DBOption
         {
-            services.AddSingleton(dbConfig);
+            services.AddSingleton(dbOption);
             services.AddScoped(typeof(IRepositoryHelper<,>), typeof(SqlServerRepositoryHelper<,>));
             foreach (Assembly repositoryAssembly in repositoryAssemblies)
             {
