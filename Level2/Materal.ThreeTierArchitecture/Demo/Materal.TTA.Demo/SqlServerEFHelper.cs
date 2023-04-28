@@ -1,5 +1,4 @@
 ﻿using Materal.Abstractions;
-using Materal.TTA.Common.Model;
 using Materal.TTA.Demo.SqlServerEFRepository;
 using Materal.TTA.EFRepository;
 using Materal.TTA.SqlServerEFRepository;
@@ -12,16 +11,7 @@ namespace Materal.TTA.Demo
     {
         public static IServiceCollection AddSqlServerEFTTA(this IServiceCollection services)
         {
-            SqlServerConfigModel dbConfig = new()
-            {
-                Address = "175.27.194.19",
-                Port = "1433",
-                Name = "TTATestDB",
-                UserID = "sa",
-                Password = "XMJry@456",
-                TrustServerCertificate = true
-            };
-            services.AddTTASqlServerEFRepository<TTADemoDBContext>(dbConfig.ConnectionString, Assembly.Load("Materal.TTA.Demo.SqlServerEFRepository"));
+            services.AddTTASqlServerEFRepository<TTADemoDBContext>(DBConfig.SqlServerConfig.ConnectionString, Assembly.Load("Materal.TTA.Demo.SqlServerEFRepository"));
             return services;
         }
         public static async Task MigrateAsync(IServiceProvider serviceProvider)

@@ -1,5 +1,4 @@
 ﻿using Materal.Abstractions;
-using Materal.TTA.Common.Model;
 using Materal.TTA.Demo.SqliteEFRepository;
 using Materal.TTA.EFRepository;
 using Materal.TTA.SqliteEFRepository;
@@ -12,11 +11,7 @@ namespace Materal.TTA.Demo
     {
         public static IServiceCollection AddSqliteEFTTA(this IServiceCollection services)
         {
-            SqliteConfigModel dbConfig = new()
-            {
-                Source = "TTATestDB.db"
-            };
-            services.AddTTASqliteEFRepository<TTADemoDBContext>(dbConfig.ConnectionString, Assembly.Load("Materal.TTA.Demo.SqliteEFRepository"));
+            services.AddTTASqliteEFRepository<TTADemoDBContext>(DBConfig.SqliteConfig.ConnectionString, Assembly.Load("Materal.TTA.Demo.SqliteEFRepository"));
             return services;
         }
         public static async Task MigrateAsync(IServiceProvider serviceProvider)
