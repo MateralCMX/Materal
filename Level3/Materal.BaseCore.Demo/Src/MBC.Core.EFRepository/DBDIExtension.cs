@@ -1,6 +1,6 @@
 ﻿using Materal.BaseCore.EFRepository;
 using Materal.TTA.EFRepository;
-using Materal.TTA.SqliteRepository.Model;
+using Materal.TTA.Common.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

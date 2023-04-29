@@ -19,7 +19,7 @@ namespace MBC.Core.EFRepository
         /// 构造方法
         /// </summary>
         /// <param name="cacheManager"></param>
-        public MBCCacheRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager, null)
+        public MBCCacheRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager)
         {
         }
     }

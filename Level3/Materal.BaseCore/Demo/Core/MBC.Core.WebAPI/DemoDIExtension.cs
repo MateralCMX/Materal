@@ -1,5 +1,5 @@
 ﻿using Materal.BaseCore.WebAPI;
-using Materal.TTA.SqliteRepository.Model;
+using Materal.TTA.Common.Model;
 using MBC.Core.EFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

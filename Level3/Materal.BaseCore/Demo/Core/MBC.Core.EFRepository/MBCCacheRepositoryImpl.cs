@@ -21,7 +21,7 @@ namespace MBC.Core.EFRepository
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="cacheManager"></param>
-        protected MBCCacheRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager, null)
+        protected MBCCacheRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager)
         {
         }
     }
