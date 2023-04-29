@@ -135,7 +135,7 @@ namespace MateralBaseCoreVSIX.Models
             processHelper.ProcessStart("dotnet", $"{plugExe}");
             _plugTempDirectoryInfo?.Delete(true);
             if (_plugErrorMessages == null || _plugErrorMessages.Length == 0) return;
-            throw new VSIXException(_plugErrorMessages.ToString());
+            throw new VSIXException("插件生成失败\r\n" + _plugErrorMessages.ToString());
         }
         private void ProcessManager_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
