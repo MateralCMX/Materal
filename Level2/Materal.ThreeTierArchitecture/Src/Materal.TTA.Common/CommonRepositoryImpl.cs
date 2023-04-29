@@ -368,6 +368,18 @@ namespace Materal.TTA.Common
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        public virtual TEntity First(TPrimaryKeyType id) => First(m => m.ID.Equals(id));
+        /// <summary>
+        /// 获得第一条
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public virtual Task<TEntity> FirstAsync(TPrimaryKeyType id) => Task.FromResult(First(id));
+        /// <summary>
+        /// 获得第一条
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public virtual TEntity? FirstOrDefault(TPrimaryKeyType id) => FirstOrDefault(m => m.ID.Equals(id));
         /// <summary>
         /// 获得第一条

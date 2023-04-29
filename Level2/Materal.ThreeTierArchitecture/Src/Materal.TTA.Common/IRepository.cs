@@ -368,6 +368,18 @@ namespace Materal.TTA.Common
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        TEntity First(TPrimaryKeyType id);
+        /// <summary>
+        /// 获取第一条
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<TEntity> FirstAsync(TPrimaryKeyType id);
+        /// <summary>
+        /// 获取第一条
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         TEntity? FirstOrDefault(TPrimaryKeyType id);
         /// <summary>
         /// 获取第一条

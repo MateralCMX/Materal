@@ -212,7 +212,7 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
-        public void RegisterAdd<TEntity>(TEntity obj)
+        public virtual void RegisterAdd<TEntity>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
         {
             RegisterAdd<TEntity, TPrimaryKeyType>(obj);
@@ -222,7 +222,7 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
-        public bool TryRegisterAdd<TEntity>(TEntity obj)
+        public virtual bool TryRegisterAdd<TEntity>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
         {
             return TryRegisterAdd<TEntity, TPrimaryKeyType>(obj);
@@ -232,7 +232,7 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
-        public void RegisterEdit<TEntity>(TEntity obj)
+        public virtual void RegisterEdit<TEntity>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
         {
             RegisterEdit<TEntity, TPrimaryKeyType>(obj);
@@ -242,7 +242,7 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
-        public bool TryRegisterEdit<TEntity>(TEntity obj)
+        public virtual bool TryRegisterEdit<TEntity>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
         {
             return TryRegisterEdit<TEntity, TPrimaryKeyType>(obj);
@@ -252,7 +252,7 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
-        public void RegisterDelete<TEntity>(TEntity obj)
+        public virtual void RegisterDelete<TEntity>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
         {
             RegisterDelete<TEntity, TPrimaryKeyType>(obj);
@@ -262,7 +262,7 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <param name="obj"></param>
-        public bool TryRegisterDelete<TEntity>(TEntity obj)
+        public virtual bool TryRegisterDelete<TEntity>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
         {
             return TryRegisterDelete<TEntity, TPrimaryKeyType>(obj);

@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{590354CB-89FF-418F-956F-34B707B0BAE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{034AEDFE-B1BD-4AB3-B45B-FC05F32CD20C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDemo", "Demo\ConsoleDemo\ConsoleDemo.csproj", "{0E1DB14A-8A00-4642-A2B1-A2986CA7F7D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.Test", "Test\Materal.Oscillator.Test\Materal.Oscillator.Test.csproj", "{B02C546C-4643-4DF6-8263-16AB9A30E3E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator", "Src\Materal.Oscillator\Materal.Oscillator.csproj", "{310F0661-0267-4A91-A1F2-747AC5B14D2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.Abstractions", "Src\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj", "{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.SqliteRepository", "Src\Materal.Oscillator.SqliteRepository\Materal.Oscillator.SqliteRepository.csproj", "{2CB09537-D6BE-4D82-8146-5476062AAC1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0E1DB14A-8A00-4642-A2B1-A2986CA7F7D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E1DB14A-8A00-4642-A2B1-A2986CA7F7D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E1DB14A-8A00-4642-A2B1-A2986CA7F7D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E1DB14A-8A00-4642-A2B1-A2986CA7F7D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B02C546C-4643-4DF6-8263-16AB9A30E3E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B02C546C-4643-4DF6-8263-16AB9A30E3E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B02C546C-4643-4DF6-8263-16AB9A30E3E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B02C546C-4643-4DF6-8263-16AB9A30E3E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{310F0661-0267-4A91-A1F2-747AC5B14D2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{310F0661-0267-4A91-A1F2-747AC5B14D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{310F0661-0267-4A91-A1F2-747AC5B14D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{310F0661-0267-4A91-A1F2-747AC5B14D2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CB09537-D6BE-4D82-8146-5476062AAC1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CB09537-D6BE-4D82-8146-5476062AAC1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CB09537-D6BE-4D82-8146-5476062AAC1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CB09537-D6BE-4D82-8146-5476062AAC1F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0E1DB14A-8A00-4642-A2B1-A2986CA7F7D6} = {590354CB-89FF-418F-956F-34B707B0BAE3}
+		{B02C546C-4643-4DF6-8263-16AB9A30E3E0} = {034AEDFE-B1BD-4AB3-B45B-FC05F32CD20C}
+		{310F0661-0267-4A91-A1F2-747AC5B14D2E} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
+		{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
+		{2CB09537-D6BE-4D82-8146-5476062AAC1F} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68FD9C02-63AC-4CAE-A2FA-B43F52FC01AA}
+	EndGlobalSection
+EndGlobal
