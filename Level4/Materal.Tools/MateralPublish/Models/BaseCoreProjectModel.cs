@@ -64,7 +64,7 @@ namespace MateralPublish.Models
         {
             if (csprojFileInfo.Name == "MateralBasePlugBuild.csproj")
             {
-                string cmd = $"dotnet pack {csprojFileInfo.FullName} -o {publishDirectoryInfo.FullName} -c Release";
+                string cmd = $"dotnet publish {csprojFileInfo.FullName} -o {publishDirectoryInfo.FullName} -c Release";
                 return new[] { cmd };
             }
             else
