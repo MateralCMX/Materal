@@ -3,7 +3,6 @@ using Materal.TTA.Demo.SqlServerEFRepository;
 using Materal.TTA.EFRepository;
 using Materal.TTA.SqlServerEFRepository;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Materal.TTA.Demo
 {
@@ -11,7 +10,7 @@ namespace Materal.TTA.Demo
     {
         public static IServiceCollection AddSqlServerEFTTA(this IServiceCollection services)
         {
-            services.AddTTASqlServerEFRepository<TTADemoDBContext>(DBConfig.SqlServerConfig.ConnectionString, Assembly.Load("Materal.TTA.Demo.SqlServerEFRepository"));
+            services.AddTTASqlServerEFRepository<TTADemoDBContext>(DBConfig.SqlServerConfig.ConnectionString);
             return services;
         }
         public static async Task MigrateAsync(IServiceProvider serviceProvider)

@@ -3,7 +3,6 @@ using Materal.TTA.Demo.SqliteEFRepository;
 using Materal.TTA.EFRepository;
 using Materal.TTA.SqliteEFRepository;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Materal.TTA.Demo
 {
@@ -11,7 +10,7 @@ namespace Materal.TTA.Demo
     {
         public static IServiceCollection AddSqliteEFTTA(this IServiceCollection services)
         {
-            services.AddTTASqliteEFRepository<TTADemoDBContext>(DBConfig.SqliteConfig.ConnectionString, Assembly.Load("Materal.TTA.Demo.SqliteEFRepository"));
+            services.AddTTASqliteEFRepository<TTADemoDBContext>(DBConfig.SqliteConfig.ConnectionString);
             return services;
         }
         public static async Task MigrateAsync(IServiceProvider serviceProvider)

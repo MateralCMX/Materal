@@ -18,10 +18,10 @@ namespace MBC.Core.WebAPI
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMBCService<T>(this IServiceCollection services, SqliteConfigModel sqliteConfig, Action<SwaggerGenOptions> swaggerGenConfig, params string[] swaggerXmlPaths)
+        public static IServiceCollection AddMBCService<T>(this IServiceCollection services, SqliteConfigModel sqliteConfig, Action<SwaggerGenOptions> swaggerGenConfig, string[] swaggerXmlPaths, params Assembly[] repositories)
             where T : DbContext
         {
-            services.AddDBService<T>(sqliteConfig);
+            services.AddDBService<T>(sqliteConfig, repositories);
             services.AddWebAPIService(config =>
             {
                 swaggerGenConfig?.Invoke(config); 

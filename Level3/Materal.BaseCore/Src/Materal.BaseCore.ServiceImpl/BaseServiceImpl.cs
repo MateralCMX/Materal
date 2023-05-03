@@ -103,7 +103,7 @@ namespace Materal.BaseCore.ServiceImpl
                     }
                 }
             }
-            UnitOfWork.RegisterAdd(domain);
+            UnitOfWork.TryRegisterAdd(domain);
             await UnitOfWork.CommitAsync();
             await ClearCacheAsync();
             return domain.ID;
@@ -127,7 +127,7 @@ namespace Materal.BaseCore.ServiceImpl
         /// <exception cref="MateralCoreException"></exception>
         protected virtual async Task DeleteAsync(TDomain domain)
         {
-            UnitOfWork.RegisterDelete(domain);
+            UnitOfWork.TryRegisterDelete(domain);
             await UnitOfWork.CommitAsync();
             await ClearCacheAsync();
         }
@@ -153,7 +153,7 @@ namespace Materal.BaseCore.ServiceImpl
         protected virtual async Task EditAsync(TDomain domainFromDB, TEditModel model)
         {
             domainFromDB.UpdateTime = DateTime.Now;
-            UnitOfWork.RegisterEdit(domainFromDB);
+            UnitOfWork.TryRegisterEdit(domainFromDB);
             await UnitOfWork.CommitAsync();
             await ClearCacheAsync();
         }

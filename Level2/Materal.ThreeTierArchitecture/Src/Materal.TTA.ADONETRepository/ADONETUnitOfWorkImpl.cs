@@ -45,7 +45,7 @@ namespace Materal.TTA.ADONETRepository
                     IDbCommand? sqliteCommand = command.Invoke(transaction);
                     if (sqliteCommand == null) continue;
                     sqliteCommand.Transaction = transaction;
-                    _logger?.LogDebugTSQL(sqliteCommand);
+                    _logger?.LogTSQL(sqliteCommand);
                     sqliteCommand.ExecuteNonQuery();
                 }
                 transaction.Commit();

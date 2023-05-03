@@ -1,4 +1,3 @@
-using Materal.Abstractions;
 using Materal.TTA.EFRepository;
 using MBC.Core.WebAPI;
 using MBC.Demo.EFRepository;
@@ -24,11 +23,14 @@ namespace MBC.Demo.WebAPI
                 services.AddDemoService();
             }, "MBC.Demo");
             app.MapHub<SomeHub>("/hubs/Some");
-            MigrateHelper<DemoDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<DemoDBContext>>();
-            await migrateHelper.MigrateAsync();
             #region 添加默认用户
-            IUserService? userService = MateralServices.GetService<IUserService>();
-            await userService.AddDefaultUserAsync();
+            using (IServiceScope scope = app.Services.CreateScope())
+            {
+                IMigrateHelper<DemoDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<DemoDBContext>>();
+                await migrateHelper.MigrateAsync();
+                IUserService userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+                await userService.AddDefaultUserAsync();
+            }
             #endregion
             await app.RunAsync();
         }

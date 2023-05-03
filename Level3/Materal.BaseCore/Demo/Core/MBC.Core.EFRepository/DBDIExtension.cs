@@ -1,8 +1,8 @@
-﻿using Materal.BaseCore.EFRepository;
-using Materal.TTA.Common.Model;
-using Materal.TTA.EFRepository;
+﻿using Materal.TTA.Common.Model;
+using Materal.TTA.SqliteEFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace MBC.Core.EFRepository
 {
@@ -14,18 +14,10 @@ namespace MBC.Core.EFRepository
         /// <param name="services"></param>
         /// <param name="sqliteConfig"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDBService<T>(this IServiceCollection services, SqliteConfigModel dbConfig)
+        public static IServiceCollection AddDBService<T>(this IServiceCollection services, SqliteConfigModel dbConfig, params Assembly[] repositories)
             where T : DbContext
         {
-            services.AddDbContext<T>(options =>
-            {
-                options.UseSqlite(dbConfig.ConnectionString, m =>
-                {
-                    m.CommandTimeout(300);
-                });
-            }, ServiceLifetime.Scoped);
-            services.AddTransient<MigrateHelper<T>>();
-            services.AddTransient<IMateralCoreUnitOfWork, MateralCoreUnitOfWorkImpl<T>>();
+            services.AddTTASqliteEFRepository<T>(dbConfig.ConnectionString, repositories);
             return services;
         }
     }

@@ -2,7 +2,6 @@
 using Materal.TTA.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using NetCore.AutoRegisterDi;
 using System.Reflection;
 
 namespace Materal.TTA.SqlServerADONETRepository
@@ -26,12 +25,7 @@ namespace Materal.TTA.SqlServerADONETRepository
             services.TryAddScoped<IMaigrateRepository, SqlServerMaigrateRepositoryImpl>();
             services.AddScoped(typeof(IRepositoryHelper<,>), typeof(SqlServerRepositoryHelper<,>));
             services.TryAddScoped<IMigrateHelper<TDBOption>, MigrateHelper<TDBOption>>();
-            foreach (Assembly repositoryAssembly in repositoryAssemblies)
-            {
-                services.RegisterAssemblyPublicNonGenericClasses(repositoryAssembly)
-                    .Where(m => (m.IsAssignableTo<IRepository>() || m.IsAssignableTo<IUnitOfWork>()) && !m.IsAbstract)
-                    .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
-            }
+            services.AddTTARepository<TDBOption>(repositoryAssemblies);
             return services;
         }
     }

@@ -3,7 +3,6 @@ using Materal.TTA.ADONETRepository;
 using Materal.TTA.Demo.SqlServerADONETRepository;
 using Materal.TTA.SqlServerADONETRepository;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Materal.TTA.Demo
 {
@@ -12,7 +11,7 @@ namespace Materal.TTA.Demo
         public static IServiceCollection AddSqlServerADONETTTA(this IServiceCollection services)
         {
             DemoDBOption option = new(DBConfig.SqlServerConfig);
-            services.AddTTASqlServerADONETRepository(option, Assembly.Load("Materal.TTA.Demo.SqlServerADONETRepository"));
+            services.AddTTASqlServerADONETRepository(option);
             return services;
         }
         public static async Task MigrateAsync(IServiceProvider serviceProvider)

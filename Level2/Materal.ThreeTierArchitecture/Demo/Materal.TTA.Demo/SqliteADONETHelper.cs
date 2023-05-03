@@ -3,7 +3,6 @@ using Materal.TTA.ADONETRepository;
 using Materal.TTA.Demo.SqliteADONETRepository;
 using Materal.TTA.SqliteADONETRepository;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Materal.TTA.Demo
 {
@@ -12,7 +11,7 @@ namespace Materal.TTA.Demo
         public static IServiceCollection AddSqliteADONETTTA(this IServiceCollection services)
         {
             DemoDBOption option = new(DBConfig.SqliteConfig);
-            services.AddTTASqliteADONETRepository(option, Assembly.Load("Materal.TTA.Demo.SqliteADONETRepository"));
+            services.AddTTASqliteADONETRepository(option);
             return services;
         }
         public static async Task MigrateAsync(IServiceProvider serviceProvider)

@@ -1,10 +1,11 @@
-﻿using Materal.TTA.Common;
+﻿using Materal.Abstractions;
+using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using NetCore.AutoRegisterDi;
+using Microsoft.Extensions.Logging;
 using System.Reflection;
 
 namespace Materal.TTA.SqlServerEFRepository
@@ -52,12 +53,7 @@ namespace Materal.TTA.SqlServerEFRepository
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
             services.TryAddScoped<IMigrateHelper<TDbConntext>, MigrateHelper<TDbConntext>>();
-            foreach (Assembly repositoryAssembly in repositoryAssemblies)
-            {
-                services.RegisterAssemblyPublicNonGenericClasses(repositoryAssembly)
-                    .Where(m => (m.IsAssignableTo<IRepository>() || m.IsAssignableTo<IUnitOfWork>()) && !m.IsAbstract)
-                    .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
-            }
+            services.AddTTARepository<TDbConntext>(repositoryAssemblies);
             return services;
         }
     }

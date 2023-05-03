@@ -1,5 +1,4 @@
-﻿using Materal.TTA.ADONETRepository.Extensions;
-using Materal.TTA.Common;
+﻿using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -57,7 +56,7 @@ namespace Materal.TTA.ADONETRepository
             {
                 IDbCommand command = connection.CreateCommand();
                 RepositoryHelper.SetQueryCountCommand(command, expression, TableName);
-                Logger?.LogDebugTSQL(command);
+                Logger?.LogTSQL(command);
                 Type tType = typeof(TEntity);
                 using IDataReader dr = command.ExecuteReader();
                 while (dr.Read())
@@ -81,7 +80,7 @@ namespace Materal.TTA.ADONETRepository
             {
                 IDbCommand command = connection.CreateCommand();
                 RepositoryHelper.SetQueryCommand(command, expression, orderExpression, sortOrder, TableName);
-                Logger?.LogDebugTSQL(command);
+                Logger?.LogTSQL(command);
                 Type tType = typeof(TEntity);
                 using IDataReader dr = command.ExecuteReader();
                 while (dr.Read())
@@ -105,7 +104,7 @@ namespace Materal.TTA.ADONETRepository
             {
                 IDbCommand command = connection.CreateCommand();
                 RepositoryHelper.SetQueryOneRowCommand(command, expression, m => m.ID, SortOrder.Descending, TableName);
-                Logger?.LogDebugTSQL(command);
+                Logger?.LogTSQL(command);
                 Type tType = typeof(TEntity);
                 using IDataReader dr = command.ExecuteReader();
                 while (dr.Read())
@@ -132,7 +131,7 @@ namespace Materal.TTA.ADONETRepository
             {
                 IDbCommand command = connection.CreateCommand();
                 RepositoryHelper.SetQueryCountCommand(command, filterExpression, TableName);
-                Logger?.LogDebugTSQL(command);
+                Logger?.LogTSQL(command);
                 Type tType = typeof(TEntity);
                 using (IDataReader dr = command.ExecuteReader())
                 {
@@ -145,7 +144,7 @@ namespace Materal.TTA.ADONETRepository
                 {
                     IDbCommand queryCommand = connection.CreateCommand();
                     RepositoryHelper.SetPagingCommand(queryCommand, filterExpression, orderExpression, sortOrder, pageIndex, pageSize, TableName);
-                    Logger?.LogDebugTSQL(command);
+                    Logger?.LogTSQL(command);
                     using IDataReader queryDr = queryCommand.ExecuteReader();
                     while (queryDr.Read())
                     {

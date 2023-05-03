@@ -1,9 +1,11 @@
 ﻿using Materal.Abstractions;
 using Materal.Logger;
+using Materal.TTA.Common;
 using Materal.TTA.Demo.Domain;
 using Materal.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.TTA.Demo
 {
@@ -14,24 +16,26 @@ namespace Materal.TTA.Demo
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralUtils();
             serviceCollection.AddMateralLogger();
+
             //serviceCollection.AddSqliteEFTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
 
-            //serviceCollection.AddSqlServerEFTTA();
-            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
+            serviceCollection.AddSqlServerEFTTA();
+            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
 
             //serviceCollection.AddSqliteADONETTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteADONETHelper.MigrateAsync(serviceProvider);
 
-            serviceCollection.AddSqlServerADONETTTA();
-            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerADONETHelper.MigrateAsync(serviceProvider);
+            //serviceCollection.AddSqlServerADONETTTA();
+            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerADONETHelper.MigrateAsync(serviceProvider);
 
             IServiceProvider services = serviceCollection.BuildServiceProvider();
             LoggerManager.Init(option =>
             {
                 option.AddConsoleTarget("LifeConsole");
-                option.AddAllTargetRule();
+                option.AddAllTargetRule(LogLevel.Information, null, new[] { "Microsoft.EntityFrameworkCore.*" });
             });
+            ILoggerExtension.TSQLLogLevel = LogLevel.Information;
             using (IServiceScope scope = services.CreateScope())
             {
                 IServiceProvider serviceProvider = scope.ServiceProvider;
