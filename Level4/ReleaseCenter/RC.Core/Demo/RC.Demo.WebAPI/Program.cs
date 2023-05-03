@@ -18,7 +18,7 @@ namespace RC.Demo.WebAPI
         public override async Task InitAsync(string[] args, IServiceProvider services, WebApplication app)
         {
             #region 添加默认用户
-            IUserService? userService = MateralServices.GetService<IUserService>();
+            IUserService userService = services.GetRequiredService<IUserService>();
             await userService.AddDefaultUserAsync();
             #endregion
             await base.InitAsync(args, services, app);

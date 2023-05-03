@@ -19,7 +19,7 @@ namespace RC.Core.EFRepository
         /// 构造方法
         /// </summary>
         /// <param name="cacheManager"></param>
-        public RCCacheRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager, null)
+        public RCCacheRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager)
         {
         }
     }

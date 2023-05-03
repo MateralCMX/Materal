@@ -22,11 +22,11 @@ namespace RC.EnvironmentServer.WebAPI
         public override async Task InitAsync(string[] args, IServiceProvider services, WebApplication app)
         {
             #region 初始化数据
-            IConfigurationItemService configurationItemService = MateralServices.GetService<IConfigurationItemService>();
+            IConfigurationItemService configurationItemService = services.GetRequiredService<IConfigurationItemService>();
             await configurationItemService.InitAsync();
             #endregion
             #region 订阅事件
-            IEventBus eventBus = MateralServices.GetService<IEventBus>();
+            IEventBus eventBus = services.GetRequiredService<IEventBus>();
             await eventBus.SubscribeAsync<ProjectDeleteEvent, ProjectDeleteEventHandler>();
             await eventBus.SubscribeAsync<NamespaceDeleteEvent, NamespaceDeleteEventHandler>();
             await eventBus.SubscribeAsync<SyncConfigEvent, SyncConfigEventHandler>();

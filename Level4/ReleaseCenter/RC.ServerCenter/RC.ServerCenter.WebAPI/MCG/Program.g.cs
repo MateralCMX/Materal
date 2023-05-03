@@ -1,4 +1,3 @@
-using Materal.Abstractions;
 using Materal.TTA.EFRepository;
 using RC.Core.WebAPI;
 using RC.ServerCenter.EFRepository;
@@ -23,10 +22,12 @@ namespace RC.ServerCenter.WebAPI
                 new ServerCenterDIManager().AddServerCenterService(services);
                 program.ConfigService(services);
             }, program.ConfigApp, "RC.ServerCenter");
-            MateralServices.Services ??= app.Services;
-            MigrateHelper<ServerCenterDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<ServerCenterDBContext>>();
-            await migrateHelper.MigrateAsync();
-            await program.InitAsync(args, app.Services, app);
+            using (IServiceScope scope = app.Services.CreateScope())
+            {
+                IMigrateHelper<ServerCenterDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<ServerCenterDBContext>>();
+                await migrateHelper.MigrateAsync();
+                await program.InitAsync(args, scope.ServiceProvider, app);
+            }
             await app.RunAsync();
         }
     }

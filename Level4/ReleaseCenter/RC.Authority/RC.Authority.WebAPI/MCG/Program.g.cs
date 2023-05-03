@@ -1,4 +1,3 @@
-using Materal.Abstractions;
 using Materal.TTA.EFRepository;
 using RC.Core.WebAPI;
 using RC.Authority.EFRepository;
@@ -23,10 +22,12 @@ namespace RC.Authority.WebAPI
                 new AuthorityDIManager().AddAuthorityService(services);
                 program.ConfigService(services);
             }, program.ConfigApp, "RC.Authority");
-            MateralServices.Services ??= app.Services;
-            MigrateHelper<AuthorityDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<AuthorityDBContext>>();
-            await migrateHelper.MigrateAsync();
-            await program.InitAsync(args, app.Services, app);
+            using (IServiceScope scope = app.Services.CreateScope())
+            {
+                IMigrateHelper<AuthorityDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<AuthorityDBContext>>();
+                await migrateHelper.MigrateAsync();
+                await program.InitAsync(args, scope.ServiceProvider, app);
+            }
             await app.RunAsync();
         }
     }

@@ -43,9 +43,6 @@ namespace RC.EnvironmentServer.WebAPI
             };
             services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
             services.AddRCService<EnvironmentServerDBContext>(ApplicationConfig.DBConfig, swaggerGenConfig, swaggerXmlPaths);
-            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.EnvironmentServer.EFRepository"))
-                .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
-                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.EnvironmentServer.ServiceImpl"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("ServiceImpl"))
                 .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);

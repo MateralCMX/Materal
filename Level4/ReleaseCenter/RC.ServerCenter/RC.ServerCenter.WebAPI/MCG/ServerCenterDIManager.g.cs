@@ -43,9 +43,6 @@ namespace RC.ServerCenter.WebAPI
             };
             services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
             services.AddRCService<ServerCenterDBContext>(ApplicationConfig.DBConfig, swaggerGenConfig, swaggerXmlPaths);
-            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.ServerCenter.EFRepository"))
-                .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
-                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.ServerCenter.ServiceImpl"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("ServiceImpl"))
                 .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);

@@ -43,9 +43,6 @@ namespace RC.Authority.WebAPI
             };
             services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
             services.AddRCService<AuthorityDBContext>(ApplicationConfig.DBConfig, swaggerGenConfig, swaggerXmlPaths);
-            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.Authority.EFRepository"))
-                .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
-                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("RC.Authority.ServiceImpl"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("ServiceImpl"))
                 .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);

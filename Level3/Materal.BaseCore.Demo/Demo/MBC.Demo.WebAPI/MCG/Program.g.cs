@@ -26,8 +26,8 @@ namespace MBC.Demo.WebAPI
             {
                 IMigrateHelper<DemoDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<DemoDBContext>>();
                 await migrateHelper.MigrateAsync();
+                await program.InitAsync(args, scope.ServiceProvider, app);
             }
-            await program.InitAsync(args, app.Services, app);
             await app.RunAsync();
         }
     }

@@ -2,6 +2,7 @@
 using Materal.BaseCore.EFRepository;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using RC.Core.Common;
 using RC.Deploy.DataTransmitModel.ApplicationInfo;
 using RC.Deploy.Domain;
@@ -18,8 +19,10 @@ namespace RC.Deploy.ServiceImpl
     {
         static ApplicationInfoServiceImpl()
         {
-            IMateralCoreUnitOfWork unitOfWork = MateralServices.GetService<IMateralCoreUnitOfWork>();
-            IApplicationInfoRepository applicationInfoRepository = unitOfWork.GetRepository<IApplicationInfoRepository>();
+            if (MateralServices.Services == null) throw new RCException("获取DI容器失败");
+            using IServiceScope scope = MateralServices.Services.CreateScope();
+            IServiceProvider services = scope.ServiceProvider;
+            IApplicationInfoRepository applicationInfoRepository = services.GetRequiredService<IApplicationInfoRepository>();
             List<ApplicationInfo> allApplicationInfos = applicationInfoRepository.Find(m => true, m => m.Name, SortOrder.Ascending);
             foreach (ApplicationInfo applicationInfo in allApplicationInfos)
             {

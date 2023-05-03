@@ -1,4 +1,3 @@
-using Materal.Abstractions;
 using Materal.TTA.EFRepository;
 using RC.Core.WebAPI;
 using RC.EnvironmentServer.EFRepository;
@@ -23,10 +22,12 @@ namespace RC.EnvironmentServer.WebAPI
                 new EnvironmentServerDIManager().AddEnvironmentServerService(services);
                 program.ConfigService(services);
             }, program.ConfigApp, "RC.EnvironmentServer");
-            MateralServices.Services ??= app.Services;
-            MigrateHelper<EnvironmentServerDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<EnvironmentServerDBContext>>();
-            await migrateHelper.MigrateAsync();
-            await program.InitAsync(args, app.Services, app);
+            using (IServiceScope scope = app.Services.CreateScope())
+            {
+                IMigrateHelper<EnvironmentServerDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<EnvironmentServerDBContext>>();
+                await migrateHelper.MigrateAsync();
+                await program.InitAsync(args, scope.ServiceProvider, app);
+            }
             await app.RunAsync();
         }
     }

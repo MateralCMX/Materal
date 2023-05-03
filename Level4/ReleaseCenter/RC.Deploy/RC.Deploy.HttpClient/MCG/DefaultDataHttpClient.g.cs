@@ -1,7 +1,7 @@
 #nullable enable
 using RC.Core.HttpClient;
-using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Model;
+using Materal.BaseCore.PresentationModel;
 using RC.Deploy.DataTransmitModel.DefaultData;
 using RC.Deploy.PresentationModel.DefaultData;
 

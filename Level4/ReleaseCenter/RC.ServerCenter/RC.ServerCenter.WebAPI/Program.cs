@@ -17,8 +17,8 @@ namespace RC.ServerCenter.WebAPI
         /// <returns></returns>
         public override async Task InitAsync(string[] args, IServiceProvider services, WebApplication app)
         {
-            IEventBus? eventBus = MateralServices.GetServiceOrDefatult<IEventBus>();
-            eventBus?.StartListening();
+            IEventBus eventBus = services.GetRequiredService<IEventBus>();
+            eventBus.StartListening();
             await base.InitAsync(args, services, app);
         }
     }

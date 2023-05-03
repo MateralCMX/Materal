@@ -1,4 +1,3 @@
-using Materal.Abstractions;
 using Materal.TTA.EFRepository;
 using RC.Core.WebAPI;
 using RC.Deploy.EFRepository;
@@ -23,10 +22,12 @@ namespace RC.Deploy.WebAPI
                 new DeployDIManager().AddDeployService(services);
                 program.ConfigService(services);
             }, program.ConfigApp, "RC.Deploy");
-            MateralServices.Services ??= app.Services;
-            MigrateHelper<DeployDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<DeployDBContext>>();
-            await migrateHelper.MigrateAsync();
-            await program.InitAsync(args, app.Services, app);
+            using (IServiceScope scope = app.Services.CreateScope())
+            {
+                IMigrateHelper<DeployDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<DeployDBContext>>();
+                await migrateHelper.MigrateAsync();
+                await program.InitAsync(args, scope.ServiceProvider, app);
+            }
             await app.RunAsync();
         }
     }
