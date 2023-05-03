@@ -12,6 +12,7 @@ namespace MBC.Core.CodeGenerator
         {
             CreateApplicationConfig(model);
             CreateDBContextFactory(model);
+            CreateUnitOfWork(model);
             CreateProgram(model);
             CreateDIManager(model);
         }
@@ -93,6 +94,28 @@ namespace MBC.Core.CodeGenerator
             codeContent.SaveFile(model.EFRepositoryProject.GeneratorRootPath, configFileInfo.Name);
         }
         /// <summary>
+        /// 创建UnitOfWork
+        /// </summary>
+        /// <param name="model"></param>
+        private static void CreateUnitOfWork(DomainPlugModel model)
+        {
+            if (model.EFRepositoryProject == null) return;
+            string configFilePath = Path.Combine(model.EFRepositoryProject.GeneratorRootPath, $"{model.EFRepositoryProject.ProjectName}UnitOfWorkImpl.g.cs");
+            FileInfo configFileInfo = new(configFilePath);
+            if (configFileInfo.Exists) return;
+            StringBuilder codeContent = new();
+            codeContent.AppendLine($"using Materal.BaseCore.EFRepository;");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace MBC.Demo.EFRepository");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    public class DemoUnitOfWorkImpl : MateralCoreUnitOfWorkImpl<DemoDBContext>");
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"        public DemoUnitOfWorkImpl(DemoDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider) {{ }}");
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveFile(model.EFRepositoryProject.GeneratorRootPath, configFileInfo.Name);
+        }
+        /// <summary>
         /// 生成DIManager
         /// </summary>
         /// <param name="model"></param>
@@ -148,9 +171,6 @@ namespace MBC.Core.CodeGenerator
             codeContent.AppendLine($"            }};");
             codeContent.AppendLine($"            services.AddMateralCoreServices(Assembly.GetExecutingAssembly());");
             codeContent.AppendLine($"            services.AddMBCService<{model.WebAPIProject.ProjectName}DBContext>(ApplicationConfig.DBConfig, swaggerGenConfig, swaggerXmlPaths);");
-            codeContent.AppendLine($"            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load(\"MBC.{model.WebAPIProject.ProjectName}.EFRepository\"))");
-            codeContent.AppendLine($"                .Where(m => !m.IsAbstract && m.Name.EndsWith(\"RepositoryImpl\"))");
-            codeContent.AppendLine($"                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);");
             codeContent.AppendLine($"            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load(\"MBC.{model.WebAPIProject.ProjectName}.ServiceImpl\"))");
             codeContent.AppendLine($"                .Where(m => !m.IsAbstract && m.Name.EndsWith(\"ServiceImpl\"))");
             codeContent.AppendLine($"                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);");
@@ -171,7 +191,6 @@ namespace MBC.Core.CodeGenerator
             FileInfo configFileInfo = new(configFilePath);
             if (configFileInfo.Exists) return;
             StringBuilder codeContent = new();
-            codeContent.AppendLine($"using Materal.Abstractions;");
             codeContent.AppendLine($"using Materal.TTA.EFRepository;");
             codeContent.AppendLine($"using MBC.Core.WebAPI;");
             codeContent.AppendLine($"using MBC.{model.WebAPIProject.ProjectName}.EFRepository;");
@@ -196,9 +215,11 @@ namespace MBC.Core.CodeGenerator
             codeContent.AppendLine($"                new {model.WebAPIProject.ProjectName}DIManager().Add{model.WebAPIProject.ProjectName}Service(services);");
             codeContent.AppendLine($"                program.ConfigService(services);");
             codeContent.AppendLine($"            }}, program.ConfigApp, \"MBC.{model.WebAPIProject.ProjectName}\");");
-            codeContent.AppendLine($"            MateralServices.Services ??= app.Services;");
-            codeContent.AppendLine($"            MigrateHelper<{model.WebAPIProject.ProjectName}DBContext> migrateHelper = MateralServices.GetService<MigrateHelper<{model.WebAPIProject.ProjectName}DBContext>>();");
-            codeContent.AppendLine($"            await migrateHelper.MigrateAsync();");
+            codeContent.AppendLine($"            using (IServiceScope scope = app.Services.CreateScope())");
+            codeContent.AppendLine($"            {{");
+            codeContent.AppendLine($"                IMigrateHelper<DemoDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<DemoDBContext>>();");
+            codeContent.AppendLine($"                await migrateHelper.MigrateAsync();");
+            codeContent.AppendLine($"            }}");
             codeContent.AppendLine($"            await program.InitAsync(args, app.Services, app);");
             codeContent.AppendLine($"            await app.RunAsync();");
             codeContent.AppendLine($"        }}");

@@ -23,7 +23,6 @@ namespace Materal.BaseCore.ServiceImpl
                 for (int i = startIndex; i > count; i--)
                 {
                     domains[i].Index = domains[i - 1].Index;
-                    domains[i].UpdateTime = DateTime.Now;
                 }
             }
             else
@@ -34,11 +33,9 @@ namespace Materal.BaseCore.ServiceImpl
                 for (int i = startIndex; i < count; i++)
                 {
                     domains[i].Index = domains[i + 1].Index;
-                    domains[i].UpdateTime = DateTime.Now;
                 }
             }
             domains[count].Index = indexTemp;
-            domains[count].UpdateTime = DateTime.Now;
         }
     }
 }

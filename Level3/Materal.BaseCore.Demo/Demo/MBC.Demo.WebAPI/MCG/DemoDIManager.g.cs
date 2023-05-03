@@ -43,9 +43,6 @@ namespace MBC.Demo.WebAPI
             };
             services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
             services.AddMBCService<DemoDBContext>(ApplicationConfig.DBConfig, swaggerGenConfig, swaggerXmlPaths);
-            services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.EFRepository"))
-                .Where(m => !m.IsAbstract && m.Name.EndsWith("RepositoryImpl"))
-                .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.ServiceImpl"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("ServiceImpl"))
                 .AsPublicImplementedInterfaces(ServiceLifetime.Scoped);

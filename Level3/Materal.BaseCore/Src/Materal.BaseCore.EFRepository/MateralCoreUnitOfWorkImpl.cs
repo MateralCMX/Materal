@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 namespace Materal.BaseCore.EFRepository
 {
     /// <summary>
-    /// 发布中心工作单元
+    /// 工作单元
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class MateralCoreUnitOfWorkImpl<T> : EFUnitOfWorkImpl<T, Guid>, IMateralCoreUnitOfWork
+    public abstract class MateralCoreUnitOfWorkImpl<T> : EFUnitOfWorkImpl<T, Guid>, IMateralCoreUnitOfWork
         where T : DbContext
     {
         /// <summary>

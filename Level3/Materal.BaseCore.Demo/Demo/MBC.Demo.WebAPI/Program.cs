@@ -1,6 +1,3 @@
-using Materal.Abstractions;
-using Materal.TTA.EFRepository;
-using MBC.Demo.EFRepository;
 using MBC.Demo.Services;
 
 namespace MBC.Demo.WebAPI
@@ -19,13 +16,12 @@ namespace MBC.Demo.WebAPI
         /// <returns></returns>
         public override async Task InitAsync(string[] args, IServiceProvider services, WebApplication app)
         {
-            #region 迁移数据库
-            IMigrateHelper<DemoDBContext> migrateHelper = services.GetRequiredService<IMigrateHelper<DemoDBContext>>();
-            await migrateHelper.MigrateAsync();
-            #endregion
             #region 添加默认用户
-            IUserService? userService = services.GetRequiredService<IUserService>();
-            await userService.AddDefaultUserAsync();
+            using (IServiceScope scope = services.CreateScope())
+            {
+                IUserService? userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+                await userService.AddDefaultUserAsync();
+            }
             #endregion
             await base.InitAsync(args, services, app);
         }

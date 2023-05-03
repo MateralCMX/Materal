@@ -1,4 +1,3 @@
-using Materal.Abstractions;
 using Materal.TTA.EFRepository;
 using MBC.Core.WebAPI;
 using MBC.Demo.EFRepository;
@@ -23,9 +22,11 @@ namespace MBC.Demo.WebAPI
                 new DemoDIManager().AddDemoService(services);
                 program.ConfigService(services);
             }, program.ConfigApp, "MBC.Demo");
-            MateralServices.Services ??= app.Services;
-            MigrateHelper<DemoDBContext> migrateHelper = MateralServices.GetService<MigrateHelper<DemoDBContext>>();
-            await migrateHelper.MigrateAsync();
+            using (IServiceScope scope = app.Services.CreateScope())
+            {
+                IMigrateHelper<DemoDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<DemoDBContext>>();
+                await migrateHelper.MigrateAsync();
+            }
             await program.InitAsync(args, app.Services, app);
             await app.RunAsync();
         }

@@ -32,7 +32,7 @@ namespace MBC.Core.WebAPI
         {
             WebApplication app = Start(args, config =>
             {
-                config.AddJsonFile("MBCConfig.json", false, true);
+                config.AddJsonFile("MBCConfig.json", false, true);//此处读取配置,可以更换为配置中心
             }, configService, configApp =>
             {
                 LoggerManager.CustomConfig.Add("ApplicationName", WebAPIConfig.AppName);

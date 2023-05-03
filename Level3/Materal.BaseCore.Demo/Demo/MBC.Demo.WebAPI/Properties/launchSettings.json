@@ -3,10 +3,11 @@
     "MBC.Demo.WebAPI": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:51802;http://localhost:51803"
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

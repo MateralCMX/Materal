@@ -6,7 +6,7 @@ namespace MBC.Core.HttpClient
 {
     public class HttpClientBase : MateralCoreHttpClientBase
     {
-        private string _appName;
+        private readonly string _appName;
         public HttpClientBase(string projectName)
         {
             string[] temp = projectName.Split('.');
@@ -33,7 +33,7 @@ namespace MBC.Core.HttpClient
     where TDTO : class, IDTO, new()
     where TListDTO : class, IListDTO, new()
     {
-        private string _appName;
+        private readonly string _appName;
         public HttpClientBase(string projectName)
         {
             string[] temp = projectName.Split('.');

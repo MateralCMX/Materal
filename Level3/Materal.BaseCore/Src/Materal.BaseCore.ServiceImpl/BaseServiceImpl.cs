@@ -152,7 +152,6 @@ namespace Materal.BaseCore.ServiceImpl
         /// <exception cref="MateralCoreException"></exception>
         protected virtual async Task EditAsync(TDomain domainFromDB, TEditModel model)
         {
-            domainFromDB.UpdateTime = DateTime.Now;
             UnitOfWork.RegisterEdit(domainFromDB);
             await UnitOfWork.CommitAsync();
             await ClearCacheAsync();
