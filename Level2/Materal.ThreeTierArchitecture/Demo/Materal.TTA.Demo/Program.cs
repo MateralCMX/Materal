@@ -42,7 +42,7 @@ namespace Materal.TTA.Demo
                 await MigrateAsync(serviceProvider);
                 IDemoUnitOfWork unitOfWork = serviceProvider.GetService<IDemoUnitOfWork>() ?? throw new MateralException("获取实例失败");
                 ITestDomainRepository testDomainRepository = unitOfWork.GetRepository<ITestDomainRepository>();
-                TestDomain? user = new()
+                TestDomain? domain = new()
                 {
                     StringType = "String",
                     ByteType = 1,
@@ -52,12 +52,15 @@ namespace Materal.TTA.Demo
                     EnumType = TestEnum.Type2,
                     ID = Guid.NewGuid()
                 };
-                unitOfWork.RegisterAdd(user);
+                unitOfWork.RegisterAdd(domain);
                 await unitOfWork.CommitAsync();
-                user = testDomainRepository.FirstOrDefault(user.ID);
-                user = testDomainRepository.FirstOrDefault(m => m.StringType.Equals("String"));
-                if (user == null) throw new MateralException("数据获取失败");
-                Console.WriteLine(user.ToJson());
+                domain = testDomainRepository.FirstOrDefault(domain.ID);
+                domain = testDomainRepository.FirstOrDefault(m => m.StringType.Equals("String"));
+                if (domain == null) throw new MateralException("数据获取失败");
+                domain.StringType = "String123";
+                unitOfWork.RegisterEdit(domain);
+                await unitOfWork.CommitAsync();
+                Console.WriteLine(domain.ToJson());
                 List<TestDomain> users = await testDomainRepository.FindAsync(m => true);
                 Console.WriteLine(users.ToJson());
             }

@@ -154,6 +154,7 @@ namespace Materal.TTA.EFRepository
             try
             {
                 _dbContext.SaveChanges();
+                DetachedAll();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -172,6 +173,7 @@ namespace Materal.TTA.EFRepository
             try
             {
                 await _dbContext.SaveChangesAsync();
+                DetachedAll();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -189,6 +191,24 @@ namespace Materal.TTA.EFRepository
         /// <exception cref="MateralException"></exception>
         public virtual TRepository GetRepository<TRepository>()
             where TRepository : IRepository => ServiceProvider.GetService<TRepository>() ?? throw new MateralException("获取仓储失败");
+        /// <summary>
+        /// 取消所有跟踪的实例
+        /// </summary>
+        private void DetachedAll()
+        {
+            while (true)
+            {
+                EntityEntry? entity = _dbContext.ChangeTracker.Entries().FirstOrDefault();
+                if (entity != null)
+                {
+                    entity.State = EntityState.Detached;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
     }
     /// <summary>
     /// EF工作单元
