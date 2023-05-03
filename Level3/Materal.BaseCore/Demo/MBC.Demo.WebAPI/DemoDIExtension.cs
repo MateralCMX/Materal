@@ -32,7 +32,7 @@ namespace MBC.Demo.WebAPI
             services.AddMBCService<DemoDBContext>(DemoConfig.DBConfig, config =>
             {
                 config.AddSignalRSwaggerGen();
-            }, swaggerXmlPaths, Assembly.Load("MBC.Demo.EFRepository"));
+            }, swaggerXmlPaths);
             services.AddMateralCoreServices(Assembly.GetExecutingAssembly());
             services.RegisterAssemblyPublicNonGenericClasses(Assembly.Load("MBC.Demo.ServiceImpl"))
                 .Where(m => !m.IsAbstract && m.Name.EndsWith("ServiceImpl"))

@@ -1,7 +1,9 @@
-﻿using Materal.TTA.Common.Model;
+﻿using Materal.TTA.Common;
+using Materal.TTA.Common.Model;
 using Materal.TTA.SqliteEFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using NetCore.AutoRegisterDi;
 using System.Reflection;
 
 namespace MBC.Core.EFRepository
@@ -14,10 +16,10 @@ namespace MBC.Core.EFRepository
         /// <param name="services"></param>
         /// <param name="sqliteConfig"></param>
         /// <returns></returns>
-        public static IServiceCollection AddDBService<T>(this IServiceCollection services, SqliteConfigModel dbConfig, params Assembly[] repositories)
+        public static IServiceCollection AddDBService<T>(this IServiceCollection services, SqliteConfigModel dbConfig)
             where T : DbContext
         {
-            services.AddTTASqliteEFRepository<T>(dbConfig.ConnectionString, repositories);
+            services.AddTTASqliteEFRepository<T>(dbConfig.ConnectionString);
             return services;
         }
     }

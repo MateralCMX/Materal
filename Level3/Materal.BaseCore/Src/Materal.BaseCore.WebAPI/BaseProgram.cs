@@ -48,10 +48,6 @@ namespace Materal.BaseCore.WebAPI
             MateralCoreConfig.Configuration = builder.Configuration;
             _titleChangeTtimer.Change(TimeSpan.Zero, TimeSpan.FromMinutes(1));//立即启动，间隔1分钟
             configService?.Invoke(builder.Services);
-            builder.Host.UseDefaultServiceProvider(configure =>
-            {
-                configure.ValidateScopes = false;
-            });
             WebApplication app = builder.Build();
             configApp?.Invoke(app);
             app.WebApplicationConfig(consulTag);
