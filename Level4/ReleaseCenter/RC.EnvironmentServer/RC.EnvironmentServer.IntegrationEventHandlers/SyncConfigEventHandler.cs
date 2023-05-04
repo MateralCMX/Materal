@@ -35,7 +35,9 @@ namespace RC.EnvironmentServer.IntegrationEventHandlers
                         ReplaceItems(@event.ConfigurationItems);
                         break;
                     case Enums.SyncModeEnum.Cover:
-                        ClearItems();
+                        List<Guid> projectIDs = @event.ConfigurationItems.Select(m => m.ProjectID).Distinct().ToList();
+                        if (projectIDs.Count > 0) break;
+                        ClearItemsByProjectID(projectIDs.First());
                         AddItems(@event.ConfigurationItems);
                         break;
                 }
@@ -77,12 +79,13 @@ namespace RC.EnvironmentServer.IntegrationEventHandlers
             _unitOfWork.Commit();
         }
         /// <summary>
-        /// 清空项
+        /// 根据项目唯一标识清空项
         /// </summary>
+        /// <param name="projectID"></param>
         /// <returns></returns>
-        private void ClearItems()
+        private void ClearItemsByProjectID(Guid projectID)
         {
-            List<ConfigurationItem> allConfigurationItems = _configurationItemRepository.Find(m => true);
+            List<ConfigurationItem> allConfigurationItems = _configurationItemRepository.Find(m => m.ProjectID == projectID);
             foreach (ConfigurationItem item in allConfigurationItems)
             {
                 _unitOfWork.RegisterDelete(item);
