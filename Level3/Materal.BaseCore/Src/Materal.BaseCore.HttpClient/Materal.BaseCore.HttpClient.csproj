@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.12</Version>
+		<Version>1.1.13</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -14,7 +14,7 @@
 		<Description>请引用对应名称包</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.12" />
+		<PackageReference Include="Materal.Utils" Version="1.1.13" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.BaseCore.Common\Materal.BaseCore.Common.csproj" />

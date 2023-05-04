@@ -5,8 +5,8 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.12" />
-		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="1.1.12" />
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.13" />
+		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="1.1.13" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.ServerCenter.Domain\RC.ServerCenter.Domain.csproj" />

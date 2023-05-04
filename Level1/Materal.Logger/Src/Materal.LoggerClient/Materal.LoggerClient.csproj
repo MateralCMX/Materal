@@ -7,7 +7,7 @@
 		<LangVersion>10.0</LangVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.12</Version>
+		<Version>1.1.13</Version>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>Materal.Logger</ToolCommandName>
 		<Company>Materal</Company>
@@ -21,6 +21,6 @@
 	  <ProjectReference Include="..\Materal.Logger.Message\Materal.Logger.Message.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.12" />
+		<PackageReference Include="Materal.Utils" Version="1.1.13" />
 	</ItemGroup>
 </Project>

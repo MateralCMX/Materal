@@ -15,7 +15,7 @@
 		<Description>Materal.Oscillator.Abstractions</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.Common" Version="1.1.12" />
+		<PackageReference Include="Materal.TTA.Common" Version="1.1.13" />
 		<PackageReference Include="Quartz" Version="*" />
 	</ItemGroup>
 </Project>

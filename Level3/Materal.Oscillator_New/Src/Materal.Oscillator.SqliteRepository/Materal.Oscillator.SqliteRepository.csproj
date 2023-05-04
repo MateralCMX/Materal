@@ -15,7 +15,7 @@
 		<Description>Materal.Oscillator.SqliteRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.12" />
+		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.13" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />

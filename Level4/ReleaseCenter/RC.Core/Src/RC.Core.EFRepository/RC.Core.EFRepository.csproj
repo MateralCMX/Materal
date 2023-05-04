@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.EFRepository" Version="1.1.12" />
+		<PackageReference Include="Materal.BaseCore.EFRepository" Version="1.1.13" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\RC.Core.Common\RC.Core.Common.csproj" />

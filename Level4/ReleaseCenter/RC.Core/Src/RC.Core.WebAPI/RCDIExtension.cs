@@ -53,7 +53,7 @@ namespace RC.Core.WebAPI
                         config.IncludeXmlComments(path);
                     }
                 }
-            }, Assembly.Load("RC.Core.WebAPI"));
+            }, null, Assembly.Load("RC.Core.WebAPI"));
             return services;
         }
     }

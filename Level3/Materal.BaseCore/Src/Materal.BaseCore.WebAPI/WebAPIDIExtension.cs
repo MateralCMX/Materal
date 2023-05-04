@@ -5,6 +5,7 @@ using Materal.BaseCore.WebAPI.Filters;
 using Materal.Logger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -25,13 +26,16 @@ namespace Materal.BaseCore.WebAPI
         /// 添加WebAPI服务
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="swaggerXmlPaths"></param>
-        public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, params Assembly[] otherControlesAssemblys)
+        /// <param name="swaggerGenConfig"></param>
+        /// <param name="mvcAction"></param>
+        /// <param name="otherControlesAssemblys"></param>
+        public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, Action<MvcOptions>? mvcAction, params Assembly[] otherControlesAssemblys)
         {
             services.AddMateralLogger();
             #region MVC
             IMvcBuilder mvcBuild = services.AddControllers(mvcOptions =>
             {
+                mvcAction?.Invoke(mvcOptions);
                 mvcOptions.Filters.Add(new AuthorizeFilter());
                 mvcOptions.Filters.Add<ActionPageQueryFilterAttribute>();
                 mvcOptions.Filters.Add<ExceptionFilter>();
