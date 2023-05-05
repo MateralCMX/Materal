@@ -165,7 +165,6 @@ namespace Materal.Oscillator.Test.RepositoryTest.SqliteEF
             GetServiceTest<IPlanRepository>();
             GetServiceTest<IScheduleRepository>();
             GetServiceTest<IScheduleWorkRepository>();
-            GetServiceTest<IWorkEventRepository>();
             GetServiceTest<IWorkRepository>();
         }
     }

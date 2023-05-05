@@ -37,10 +37,6 @@ namespace Materal.Oscillator.Abstractions.DTO
         /// </summary>
         public List<PlanDTO> Plans { get; set; } = new();
         /// <summary>
-        /// 任务事件组
-        /// </summary>
-        public List<WorkEventDTO> WorkEvents { get; set; } = new();
-        /// <summary>
         /// 任务
         /// </summary>
         public List<WorkDTO> Works { get; set; } = new();

@@ -260,7 +260,6 @@ namespace Materal.Oscillator
             AddPlans(unitOfWork, model.Plans, schedule.ID);
             AddAnswers(unitOfWork, model.Answers, schedule.ID);
             AddScheduleWorks(unitOfWork, model.Works, schedule.ID);
-            AddWorkEvents(unitOfWork, model.WorkEvents, schedule.ID);
             await unitOfWork.CommitAsync();
             return schedule.ID;
         }
@@ -283,7 +282,6 @@ namespace Materal.Oscillator
             await EditPlansAsync(unitOfWork, model.Plans, schedule.ID);
             await EditAnswersAsync(unitOfWork, model.Answers, schedule.ID);
             await EditScheduleWorksAsync(unitOfWork, model.Works, schedule.ID);
-            await EditWorkEventsAsync(unitOfWork, model.WorkEvents, schedule.ID);
             await unitOfWork.CommitAsync();
         }
         /// <summary>
@@ -303,7 +301,6 @@ namespace Materal.Oscillator
 
             result.Answers = await GetAnswerListByScheduleIDAsync(unitOfWork, result.ID);
             result.Works = await GetWorkListByScheduleIDAsync(unitOfWork, result.ID);
-            result.WorkEvents = await GetWorkEventListByScheduleIDAsync(unitOfWork, result.ID);
             result.Plans = await GetPlanListByScheduleIDAsync(unitOfWork, result.ID);
 
             return result;
@@ -326,13 +323,11 @@ namespace Materal.Oscillator
             Guid[] scheduleIDs = result.Select(m => m.ID).ToArray();
             Dictionary<Guid, List<AnswerDTO>> answers = await GetAnswerListByScheduleIDAsync(unitOfWork, scheduleIDs);
             Dictionary<Guid, List<WorkDTO>> works = await GetWorkListByScheduleIDAsync(unitOfWork, scheduleIDs);
-            Dictionary<Guid, List<WorkEventDTO>> workEvents = await GetWorkEventListByScheduleIDAsync(unitOfWork, scheduleIDs);
             Dictionary<Guid, List<PlanDTO>> plans = await GetPlanListByScheduleIDAsync(unitOfWork, scheduleIDs);
             foreach (ScheduleDTO schedule in result)
             {
                 schedule.Answers = answers.ContainsKey(schedule.ID) ? answers[schedule.ID] : new();
                 schedule.Works = works.ContainsKey(schedule.ID) ? works[schedule.ID] : new();
-                schedule.WorkEvents = workEvents.ContainsKey(schedule.ID) ? workEvents[schedule.ID] : new();
                 schedule.Plans = plans.ContainsKey(schedule.ID) ? plans[schedule.ID] : new();
             }
 
@@ -726,81 +721,6 @@ namespace Materal.Oscillator
             foreach (IGrouping<Guid, Answer> item in domains.GroupBy(m => m.ScheduleID))
             {
                 result.Add(item.Key, item.OrderBy(m => m.Index).Select(m => new AnswerDTO(m)).ToList());
-            }
-            return result;
-        }
-        /// <summary>
-        /// 添加任务事件组
-        /// </summary>
-        /// <param name="unitOfWork"></param>
-        /// <param name="models"></param>
-        /// <param name="scheduleID"></param>
-        private void AddWorkEvents(IOscillatorUnitOfWork unitOfWork, List<AddWorkEventModel> models, Guid scheduleID)
-        {
-            foreach (AddWorkEventModel model in models)
-            {
-                AddWorkEvent(unitOfWork, model, scheduleID);
-            }
-        }
-        /// <summary>
-        /// 添加任务事件
-        /// </summary>
-        /// <param name="unitOfWork"></param>
-        /// <param name="model"></param>
-        /// <param name="scheduleID"></param>
-        private void AddWorkEvent(IOscillatorUnitOfWork unitOfWork, AddWorkEventModel model, Guid scheduleID)
-        {
-            WorkEvent domain = model.CopyProperties<WorkEvent>();
-            domain.ScheduleID = scheduleID;
-            domain.Validation();
-            unitOfWork.RegisterAdd(domain);
-        }
-        /// <summary>
-        /// 修改任务事件组
-        /// </summary>
-        /// <param name="unitOfWork"></param>
-        /// <param name="models"></param>
-        /// <param name="scheduleID"></param>
-        private async Task EditWorkEventsAsync(IOscillatorUnitOfWork unitOfWork, List<AddWorkEventModel> models, Guid scheduleID)
-        {
-            IWorkEventRepository repository = unitOfWork.GetRepository<IWorkEventRepository>();
-            List<WorkEvent> allDomains = await repository.FindAsync(m => m.ScheduleID == scheduleID);
-            foreach (WorkEvent domain in allDomains)
-            {
-                unitOfWork.RegisterDelete(domain);
-            }
-            foreach (AddWorkEventModel model in models)
-            {
-                AddWorkEvent(unitOfWork, model, scheduleID);
-            }
-        }
-        /// <summary>
-        /// 根据调度器唯一标识获取任务事件列表
-        /// </summary>
-        /// <param name="unitOfWork"></param>
-        /// <param name="scheduleID"></param>
-        /// <returns></returns>
-        private async Task<List<WorkEventDTO>> GetWorkEventListByScheduleIDAsync(IOscillatorUnitOfWork unitOfWork, Guid scheduleID)
-        {
-            IWorkEventRepository repository = unitOfWork.GetRepository<IWorkEventRepository>();
-            List<WorkEvent> domains = await repository.FindAsync(m => m.ScheduleID == scheduleID);
-            List<WorkEventDTO> result = domains.Select(m => new WorkEventDTO(m)).ToList();
-            return result;
-        }
-        /// <summary>
-        /// 根据调度器唯一标识获取任务事件列表
-        /// </summary>
-        /// <param name="unitOfWork"></param>
-        /// <param name="scheduleIDs"></param>
-        /// <returns></returns>
-        private async Task<Dictionary<Guid, List<WorkEventDTO>>> GetWorkEventListByScheduleIDAsync(IOscillatorUnitOfWork unitOfWork, params Guid[] scheduleIDs)
-        {
-            IWorkEventRepository repository = unitOfWork.GetRepository<IWorkEventRepository>();
-            Dictionary<Guid, List<WorkEventDTO>> result = new();
-            List<WorkEvent> domains = await repository.FindAsync(m => scheduleIDs.Contains(m.ScheduleID));
-            foreach (IGrouping<Guid, WorkEvent> item in domains.GroupBy(m => m.ScheduleID))
-            {
-                result.Add(item.Key, item.Select(m => new WorkEventDTO(m)).ToList());
             }
             return result;
         }

@@ -35,10 +35,6 @@ namespace Materal.Oscillator.SqliteRepository
         /// </summary>
         public DbSet<Work> Work { get; set; }
         /// <summary>
-        /// 任务事件
-        /// </summary>
-        public DbSet<WorkEvent> WorkEvent { get; set; }
-        /// <summary>
         /// 模型创建配置
         /// </summary>
         /// <param name="modelBuilder"></param>
