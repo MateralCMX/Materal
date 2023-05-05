@@ -1,12 +1,15 @@
-﻿using Materal.Abstractions;
+﻿using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Answers;
-using Materal.Oscillator.Abstractions.Common;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.QuartZExtend;
+using Microsoft.Extensions.DependencyInjection;
 using Polly;
 
 namespace Materal.Oscillator.Answers
 {
+    /// <summary>
+    /// 重试响应
+    /// </summary>
     public class RetryAnswer : AnswerBase, IAnswer
     {
         /// <summary>
@@ -17,19 +20,31 @@ namespace Materal.Oscillator.Answers
         /// 重试间隔(秒)
         /// </summary>
         public int RetryInterval { get; set; }
-        private IRetryAnswerListener? _listener;
-        public override async Task InitAsync()
+        private readonly IRetryAnswerListener? _listener;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public RetryAnswer():base()
         {
-            _listener = MateralServices.GetServiceOrDefatult<IRetryAnswerListener>();
-            await base.InitAsync();
+            _listener = ServiceProvider.GetService<IRetryAnswerListener>();
         }
-        public override async Task<bool> ExcuteAsync(string eventValue, Schedule schedule, ScheduleWorkView scheduleWork, Answer answer, IOscillatorJob job)
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="eventValue"></param>
+        /// <param name="schedule"></param>
+        /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
+        /// <param name="answer"></param>
+        /// <param name="job"></param>
+        /// <returns></returns>
+        public override async Task<bool> ExcuteAsync(string eventValue, Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer, IOscillatorJob job)
         {
             int repetition = RetryCount - 1;
             int repetitionInterval = RetryInterval;
             if (repetition < 0 || repetitionInterval <= 0) return true;
             string newEventValue = eventValue;
-            _listener?.RetryTrigger(schedule, scheduleWork, 1, RetryCount, RetryInterval);
+            _listener?.RetryTrigger(schedule, scheduleWork, work, 1, RetryCount, RetryInterval);
             await Task.Delay(repetitionInterval * 1000);
             try
             {
@@ -40,27 +55,27 @@ namespace Materal.Oscillator.Answers
                         .WaitAndRetryAsync(repetition, i =>
                         {
                             index = i + 1;
-                            _listener?.RetryTrigger(schedule, scheduleWork, index, RetryCount, RetryInterval);
+                            _listener?.RetryTrigger(schedule, scheduleWork, work, index, RetryCount, RetryInterval);
                             return TimeSpan.FromSeconds(repetitionInterval);
                         })
                         .ExecuteAsync(async () =>
                         {
-                            newEventValue = await HandlerRetryJobAsync(eventValue, schedule, scheduleWork, job, index);
+                            newEventValue = await HandlerRetryJobAsync(eventValue, schedule, scheduleWork, work, job, index);
                         });
                 }
                 else
                 {
-                    newEventValue = await HandlerRetryJobAsync(eventValue, schedule, scheduleWork, job, index);
+                    newEventValue = await HandlerRetryJobAsync(eventValue, schedule, scheduleWork, work, job, index);
                 }
             }
             catch (Exception)
             {
-                _listener?.RetryFail(schedule, scheduleWork, RetryCount, RetryCount, RetryInterval);
+                _listener?.RetryFail(schedule, scheduleWork, work, RetryCount, RetryCount, RetryInterval);
                 return true;
             }
             if (newEventValue != eventValue)
             {
-                _listener?.RetrySuccess(schedule, scheduleWork, RetryCount, RetryCount, RetryInterval);
+                _listener?.RetrySuccess(schedule, scheduleWork, work, RetryCount, RetryCount, RetryInterval);
                 await job.SendEventAsync(newEventValue, scheduleWork);
                 return false;
             }
@@ -69,12 +84,16 @@ namespace Materal.Oscillator.Answers
         /// <summary>
         /// 处理重试任务
         /// </summary>
+        /// <param name="upEventValue"></param>
+        /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
-        /// <param name="jobIndex"></param>
+        /// <param name="work"></param>
+        /// <param name="job"></param>
+        /// <param name="nowIndex"></param>
         /// <returns></returns>
-        private async Task<string> HandlerRetryJobAsync(string upEventValue, Schedule schedule, ScheduleWorkView scheduleWork, IOscillatorJob job, int nowIndex)
+        private async Task<string> HandlerRetryJobAsync(string upEventValue, Schedule schedule, ScheduleWork scheduleWork, Work work, IOscillatorJob job, int nowIndex)
         {
-            _listener?.RetryExcute(schedule, scheduleWork, nowIndex, RetryCount, RetryInterval);
+            _listener?.RetryExcute(schedule, scheduleWork, work, nowIndex, RetryCount, RetryInterval);
             string eventValue = await job.HandlerJobAsync(scheduleWork);
             if (upEventValue == eventValue)
             {

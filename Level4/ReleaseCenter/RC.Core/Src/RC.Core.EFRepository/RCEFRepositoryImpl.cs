@@ -1,5 +1,5 @@
 ﻿using Materal.TTA.Common;
-using Materal.TTA.SqliteRepository;
+using Materal.TTA.SqliteEFRepository;
 using Microsoft.EntityFrameworkCore;
 
 namespace RC.Core.EFRepository

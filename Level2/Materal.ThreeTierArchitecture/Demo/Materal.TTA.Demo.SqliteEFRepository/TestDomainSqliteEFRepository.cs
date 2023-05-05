@@ -1,5 +1,5 @@
 ﻿using Materal.TTA.Demo.Domain;
-using Materal.TTA.SqliteRepository;
+using Materal.TTA.SqliteEFRepository;
 
 namespace Materal.TTA.Demo.SqliteEFRepository
 {

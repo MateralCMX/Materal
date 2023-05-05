@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Materal.Oscillator.PlanTriggers
 {
+    /// <summary>
+    /// 月度触发器
+    /// </summary>
     public class DateMonthTrigger : DateTriggerBase, IDateTrigger
     {
         /// <summary>
@@ -21,6 +24,11 @@ namespace Materal.Oscillator.PlanTriggers
         /// 星期数据
         /// </summary>
         public List<DayOfWeek> Weeks { get; set; } = new();
+        /// <summary>
+        /// 获得说明文本
+        /// </summary>
+        /// <param name="everyDayTrigger"></param>
+        /// <returns></returns>
         public override string GetDescriptionText(IEveryDayTrigger everyDayTrigger)
         {
             StringBuilder description = GetFrontDescriptionText();
@@ -44,21 +52,43 @@ namespace Materal.Oscillator.PlanTriggers
             }
             return description.ToString() + everyDayTrigger.GetDescriptionText();
         }
+        /// <summary>
+        /// 获得结束时间
+        /// </summary>
+        /// <param name="everyDayTrigger"></param>
+        /// <returns></returns>
         public override DateTimeOffset? GetDateEndTime(IEveryDayTrigger everyDayTrigger)
         {
             if (Index <= 0) return null;
             return base.GetDateEndTime(everyDayTrigger);
         }
+        /// <summary>
+        /// 获得开始时间
+        /// </summary>
+        /// <param name="everyDayTrigger"></param>
+        /// <returns></returns>
         public override DateTimeOffset? GetDateStartTime(IEveryDayTrigger everyDayTrigger)
         {
             if (Index <= 0) return null;
             return base.GetDateStartTime(everyDayTrigger);
         }
+        /// <summary>
+        /// 获得下次运行时间
+        /// </summary>
+        /// <param name="upRunTime"></param>
+        /// <param name="everyDayTrigger"></param>
+        /// <returns></returns>
         public override DateTimeOffset? GetNextRunTime(DateTimeOffset upRunTime, IEveryDayTrigger everyDayTrigger)
         {
             if (Index <= 0) return null;
             return base.GetNextRunTime(upRunTime, everyDayTrigger);
         }
+        /// <summary>
+        /// 获得下次运行日期
+        /// </summary>
+        /// <param name="upRunTime"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         protected override Date? GetNextRunDate(DateTimeOffset upRunTime)
         {
             DayOfWeek ToDayOfWeek()

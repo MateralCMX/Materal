@@ -5,6 +5,9 @@ using Quartz.Spi;
 
 namespace Materal.Oscillator.Abstractions.QuartZExtend
 {
+    /// <summary>
+    /// Oscillator调度器构建
+    /// </summary>
     public class OscillatorScheduleBuilder : ScheduleBuilder<IOscillatorTrigger>
     {
         /// <summary>
@@ -23,6 +26,9 @@ namespace Materal.Oscillator.Abstractions.QuartZExtend
         /// 策略
         /// </summary>
         private int misfireInstruction = MisfireInstruction.SmartPolicy;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         protected OscillatorScheduleBuilder()
         {
         }
@@ -62,7 +68,7 @@ namespace Materal.Oscillator.Abstractions.QuartZExtend
         /// <summary>
         /// 指定以毫秒为单位的重复间隔
         /// </summary>
-        /// <param name="minutes"></param>
+        /// <param name="timeSpan"></param>
         /// <returns></returns>
         public OscillatorScheduleBuilder WithInterval(TimeSpan timeSpan)
         {
@@ -72,7 +78,7 @@ namespace Materal.Oscillator.Abstractions.QuartZExtend
         /// <summary>
         /// 指定以秒为单位的重复间隔
         /// </summary>
-        /// <param name="minutes"></param>
+        /// <param name="seconds"></param>
         /// <returns></returns>
         public OscillatorScheduleBuilder WithIntervalInSeconds(int seconds)
         {
@@ -90,7 +96,7 @@ namespace Materal.Oscillator.Abstractions.QuartZExtend
         /// <summary>
         /// 指定以小时为单位的重复间隔
         /// </summary>
-        /// <param name="minutes"></param>
+        /// <param name="hours"></param>
         /// <returns></returns>
         public OscillatorScheduleBuilder WithIntervalInHours(int hours)
         {
@@ -115,31 +121,55 @@ namespace Materal.Oscillator.Abstractions.QuartZExtend
             repeatCount = OscillatorTriggerImpl.RepeatIndefinitely;
             return this;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public OscillatorScheduleBuilder WithMisfireHandlingInstructionIgnoreMisfires()
         {
             misfireInstruction = MisfireInstruction.IgnoreMisfirePolicy;
             return this;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public OscillatorScheduleBuilder WithMisfireHandlingInstructionFireNow()
         {
             misfireInstruction = MisfireInstruction.SimpleTrigger.FireNow;
             return this;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public OscillatorScheduleBuilder WithMisfireHandlingInstructionNextWithExistingCount()
         {
             misfireInstruction = MisfireInstruction.SimpleTrigger.RescheduleNextWithExistingCount;
             return this;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public OscillatorScheduleBuilder WithMisfireHandlingInstructionNextWithRemainingCount()
         {
             misfireInstruction = MisfireInstruction.SimpleTrigger.RescheduleNextWithRemainingCount;
             return this;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public OscillatorScheduleBuilder WithMisfireHandlingInstructionNowWithExistingCount()
         {
             misfireInstruction = MisfireInstruction.SimpleTrigger.RescheduleNowWithExistingRepeatCount;
             return this;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public OscillatorScheduleBuilder WithMisfireHandlingInstructionNowWithRemainingCount()
         {
             misfireInstruction = MisfireInstruction.SimpleTrigger.RescheduleNowWithRemainingRepeatCount;

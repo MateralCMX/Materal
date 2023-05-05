@@ -1,32 +1,49 @@
-﻿using Materal.Oscillator.DR.Repositories;
-using Materal.Oscillator.LocalDR;
-using Materal.TTA.Common;
-using Materal.TTA.SqliteRepository;
+﻿using Materal.Oscillator.Abstractions.Domain;
+using Materal.Oscillator.DR;
+using Materal.TTA.SqliteEFRepository;
 
-namespace Materal.Oscillator.SqliteRepositoryImpl
+namespace Materal.Oscillator.LocalDR
 {
-    public class OscillatorLocalDRUnitOfWorkImpl : SqliteEFUnitOfWorkImpl<OscillatorLocalDRDBContext>, IOscillatorDRUnitOfWork
+    /// <summary>
+    /// 本地容灾工作单元
+    /// </summary>
+    public class OscillatorLocalDRUnitOfWorkImpl : SqliteEFUnitOfWorkImpl<OscillatorLocalDRDBContext, Guid>, IOscillatorDRUnitOfWork
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="serviceProvider"></param>
         public OscillatorLocalDRUnitOfWorkImpl(OscillatorLocalDRDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
         }
-
-        public void RegisterAdd<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<Guid>
+        /// <summary>
+        /// 注册添加
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="obj"></param>
+        public override void RegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
         {
-            RegisterAdd<TEntity, Guid>(obj);
+            if (obj is IDomain domain)
+            {
+                domain.CreateTime = DateTime.Now;
+            }
+            base.RegisterAdd<TEntity, TPrimaryKeyType>(obj);
         }
-
-        public void RegisterDelete<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<Guid>
+        /// <summary>
+        /// 注册修改 
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="obj"></param>
+        public override void RegisterEdit<TEntity, TPrimaryKeyType>(TEntity obj)
         {
-            RegisterDelete<TEntity, Guid>(obj);
-        }
-
-        public void RegisterEdit<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<Guid>
-        {
-            RegisterEdit<TEntity, Guid>(obj);
+            if (obj is IDomain domain)
+            {
+                domain.UpdateTime = DateTime.Now;
+            }
+            base.RegisterEdit<TEntity, TPrimaryKeyType>(obj);
         }
     }
 }

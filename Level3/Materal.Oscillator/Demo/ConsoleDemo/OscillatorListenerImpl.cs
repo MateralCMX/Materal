@@ -7,33 +7,33 @@ namespace ConsoleDemo
 {
     public class OscillatorListenerImpl : IOscillatorListener
     {
-        public async Task AnswerExecuteAsync(Schedule schedule, ScheduleWorkView scheduleWork, Answer answer)
+        public async Task AnswerExecuteAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer)
         {
-            string message = await GetMessageTempleteAsync(schedule, scheduleWork, answer);
+            string message = await GetMessageTempleteAsync(schedule, scheduleWork, work, answer);
             message += $"响应开始执行。";
             ShowMessage(message);
         }
-        public async Task AnswerExecutedAsync(Schedule schedule, ScheduleWorkView scheduleWork, Answer answer)
+        public async Task AnswerExecutedAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer)
         {
-            string message = await GetMessageTempleteAsync(schedule, scheduleWork, answer);
+            string message = await GetMessageTempleteAsync(schedule, scheduleWork, work, answer);
             message += $"响应执行完毕";
             ShowMessage(message);
         }
-        public async Task AnswerFailAsync(Schedule schedule, ScheduleWorkView scheduleWork, Answer answer, Exception exception)
+        public async Task AnswerFailAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer, Exception exception)
         {
-            string message = await GetMessageTempleteAsync(schedule, scheduleWork, answer);
+            string message = await GetMessageTempleteAsync(schedule, scheduleWork, work, answer);
             message += $"响应执行错误：{exception.Message}";
             ShowMessage(message);
         }
-        public async Task WorkEventTriggerAsync(Schedule schedule, ScheduleWorkView scheduleWork, string eventValue)
+        public async Task WorkEventTriggerAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, string eventValue)
         {
-            string message = await GetMessageTempleteAsync(schedule, scheduleWork);
+            string message = await GetMessageTempleteAsync(schedule, scheduleWork, work);
             message += $"任务事件触发[{eventValue}]";
             ShowMessage(message);
         }
-        public async Task AnswerSuccessAsync(Schedule schedule, ScheduleWorkView scheduleWork, Answer answer, bool canNext)
+        public async Task AnswerSuccessAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer, bool canNext)
         {
-            string message = await GetMessageTempleteAsync(schedule, scheduleWork, answer);
+            string message = await GetMessageTempleteAsync(schedule, scheduleWork, work, answer);
             message += $"响应执行成功,{(canNext ? "执行" : "不执行")}下一个响应。";
             ShowMessage(message);
         }
@@ -80,35 +80,35 @@ namespace ConsoleDemo
             message += $"调度器被阻止执行。";
             ShowMessage(message);
         }
-        public async Task WorkErrorAsync(Schedule schedule, ScheduleWorkView scheduleWork, Exception exception)
+        public async Task WorkErrorAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Exception exception)
         {
-            string message = await GetMessageTempleteAsync(schedule, scheduleWork);
+            string message = await GetMessageTempleteAsync(schedule, scheduleWork, work);
             message += $"任务错误：{exception.Message}";
             ShowMessage(message);
         }
-        public async Task WorkExecuteAsync(Schedule schedule, ScheduleWorkView scheduleWork)
+        public async Task WorkExecuteAsync(Schedule schedule, ScheduleWork scheduleWork, Work work)
         {
-            string message = await GetMessageTempleteAsync(schedule, scheduleWork);
+            string message = await GetMessageTempleteAsync(schedule, scheduleWork, work);
             message += $"任务开始执行。";
             ShowMessage(message);
         }
-        public async Task WorkExecutedAsync(Schedule schedule, ScheduleWorkView scheduleWork, string workEvent, string? workResult)
+        public async Task WorkExecutedAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, string workEvent, string? workResult)
         {
-            string message = await GetMessageTempleteAsync(schedule, scheduleWork);
+            string message = await GetMessageTempleteAsync(schedule, scheduleWork, work);
             message += $"任务执行完毕，返回事件[{workEvent}],";
             message += $"返回结果[{workResult}],";
             ShowMessage(message);
         }
-        public async Task WorkFailAsync(Schedule schedule, ScheduleWorkView scheduleWork, string workEvent, string? workResult)
+        public async Task WorkFailAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, string workEvent, string? workResult)
         {
-            string message = await GetMessageTempleteAsync(schedule, scheduleWork);
+            string message = await GetMessageTempleteAsync(schedule, scheduleWork, work);
             message += $"任务执行失败，返回事件[{workEvent}],";
             message += $"返回结果[{workResult}],";
             ShowMessage(message);
         }
-        public async Task WorkSuccessAsync(Schedule schedule, ScheduleWorkView scheduleWork, string workEvent, string? workResult)
+        public async Task WorkSuccessAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, string workEvent, string? workResult)
         {
-            string message = await GetMessageTempleteAsync(schedule, scheduleWork);
+            string message = await GetMessageTempleteAsync(schedule, scheduleWork, work);
             message += $"任务执行成功，返回事件[{workEvent}],";
             message += $"返回结果[{workResult}],";
             ShowMessage(message);
@@ -123,9 +123,10 @@ namespace ConsoleDemo
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="answer"></param>
         /// <returns></returns>
-        private static Task<string> GetMessageTempleteAsync(Schedule? schedule, ScheduleWorkView? scheduleWork = null, Answer? answer = null)
+        private static Task<string> GetMessageTempleteAsync(Schedule? schedule, ScheduleWork? scheduleWork = null, Work? work = null, Answer? answer = null)
         {
             StringBuilder message = new();
             message.AppendLine();
@@ -133,9 +134,9 @@ namespace ConsoleDemo
             {
                 message.AppendLine($"调度器[{schedule.Name}_{schedule.ID}]");
             }
-            if (scheduleWork != null)
+            if (scheduleWork != null && work != null)
             {
-                message.AppendLine($"任务[{scheduleWork.WorkName}_{scheduleWork.ID}]");
+                message.AppendLine($"任务[{work.Name}_{scheduleWork.ID}]");
             }
             if (answer != null)
             {

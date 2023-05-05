@@ -2,8 +2,14 @@
 
 namespace Materal.Oscillator.Abstractions.Domain
 {
+    /// <summary>
+    /// 基础Domain
+    /// </summary>
     public abstract class BaseDomain : IDomain, IEntity<Guid>
     {
+        /// <summary>
+        /// 基础Domain
+        /// </summary>
         protected BaseDomain()
         {
             ID = Guid.NewGuid();

@@ -1,22 +1,25 @@
 ﻿using Materal.Abstractions;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Answers;
-using Materal.Oscillator.Abstractions.Common;
 using Materal.Oscillator.Abstractions.Domain;
+using Materal.Oscillator.Abstractions.DR.Domain;
 using Materal.Oscillator.Abstractions.Enums;
-using Materal.Oscillator.Abstractions.Models.Answer;
+using Materal.Oscillator.Abstractions.Helper;
 using Materal.Oscillator.Abstractions.QuartZExtend;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Abstractions.Works;
-using Materal.Oscillator.AutoMapperProfile;
 using Materal.Oscillator.DR;
-using Materal.Oscillator.DR.Domain;
+using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
 namespace Materal.Oscillator.QuartZExtend
 {
-    public class OscillatorJob : IOscillatorJob, IJob
+    /// <summary>
+    /// 调度器作业
+    /// </summary>
+    public class OscillatorJob : IOscillatorJob, IJob, IDisposable
     {
+
         /// <summary>
         /// 调度器数据Key
         /// </summary>
@@ -29,157 +32,89 @@ namespace Materal.Oscillator.QuartZExtend
         /// 流程数据Key
         /// </summary>
         public const string FlowMapKey = "Flow";
-        private IWorkEventBus? _jobBus;
-        private IOscillatorListener? _oscillatorListener;
-        private IOscillatorDR? _oscillatorDR;
-        private IWorkEventRepository? _workEventRepository;
-        private IOscillatorUnitOfWork? _unitOfWork;
-        private IAnswerRepository? _answerRepository;
+        private readonly IServiceScope _serviceScope;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IOscillatorListener? _oscillatorListener;
+        private readonly IOscillatorDR? _oscillatorDR;
+        private readonly IOscillatorUnitOfWork _unitOfWork;
+        private readonly IWorkRepository _workRepository;
+        private readonly IAnswerRepository _answerRepository;
         /// <summary>
         /// 调度器
         /// </summary>
         private Schedule? _schedule;
         /// <summary>
+        /// 调度器任务组
+        /// </summary>
+        private ScheduleWork[]? _scheduleWorks;
+        /// <summary>
         /// 任务组
         /// </summary>
-        private ScheduleWorkView[]? _scheduleWorks;
+        private Work[]? _works;
         /// <summary>
         /// 任务链位序
         /// </summary>
         private int _nowWorkIndex = 0;
         /// <summary>
-        /// 任务链结束标志
-        /// </summary>
-        private bool _isOver = false;
-        /// <summary>
         /// 容灾流程对象
         /// </summary>
         private Flow? _flow;
-
         /// <summary>
         /// 任务结果
         /// </summary>
         private readonly List<WorkResultModel> _workResults = new();
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public OscillatorJob()
+        {
+            if (MateralServices.Services == null) throw new OscillatorException("获取DI容器失败");
+            _serviceScope = MateralServices.Services.CreateScope();
+            _serviceProvider = _serviceScope.ServiceProvider;
+            _oscillatorListener = _serviceProvider.GetService<IOscillatorListener>();
+            _oscillatorDR = _serviceProvider.GetService<IOscillatorDR>();
+            _unitOfWork = _serviceProvider.GetRequiredService<IOscillatorUnitOfWork>();
+            _workRepository = _unitOfWork.GetRepository<IWorkRepository>();
+            _answerRepository = _unitOfWork.GetRepository<IAnswerRepository>();
+        }
+        /// <summary>
+        /// 释放
+        /// </summary>
+        public void Dispose()
+        {
+            _serviceScope.Dispose();
+        }
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task Execute(IJobExecutionContext context)
         {
             try
             {
-                #region 获取服务
-                _jobBus = MateralServices.GetService<IWorkEventBus>();
-                _unitOfWork = MateralServices.GetService<IOscillatorUnitOfWork>();
-                _workEventRepository = _unitOfWork.GetRepository<IWorkEventRepository>();
-                _workEventRepository = _unitOfWork.GetRepository<IWorkEventRepository>();
-                _answerRepository = _unitOfWork.GetRepository<IAnswerRepository>();
-                _oscillatorListener = MateralServices.GetServiceOrDefatult<IOscillatorListener>();
-                _oscillatorDR = MateralServices.GetServiceOrDefatult<IOscillatorDR>();
-                #endregion
-                #region 设置数据
-                JobDataMap dataMap = context.JobDetail.JobDataMap;
-                if (dataMap[ScheduleDataMapKey] is not Schedule schedule) return;
-                _schedule = schedule;
-                if (dataMap[WorksDataMapKey] is not ScheduleWorkView[] scheduleWorks || scheduleWorks.Length <= 0) return;
-                if (scheduleWorks.Any(m => m.ScheduleID != _schedule.ID)) return;
-                _scheduleWorks = scheduleWorks.OrderBy(m => m.OrderIndex).ToArray();
-                if (dataMap.ContainsKey(FlowMapKey) && dataMap[FlowMapKey] is Flow flow)
-                {
-                    _flow = flow;
-                    if(_flow.WorkResults != null)
-                    {
-                        List<string?> workResults = _flow.WorkResults.JsonToObject<List<string?>>();
-                        for (; _nowWorkIndex < workResults.Count && _nowWorkIndex < scheduleWorks.Length; _nowWorkIndex++)
-                        {
-                            ScheduleWorkView scheduleWork = scheduleWorks[_nowWorkIndex];
-                            _workResults.Add(new WorkResultModel
-                            {
-                                Result = workResults[_nowWorkIndex],
-                                ScheduleWork = scheduleWork
-                            });
-                        }
-                    }
-                }
-                #endregion
-                #region 订阅事件
-                string[] eventValues = await _workEventRepository.GetAllWorkEventValuesAsync(_schedule.ID);
-                foreach (string item in eventValues)
-                {
-                    if (item == DefaultWorkEventEnum.Next.ToString())
-                    {
-                        _jobBus?.Subscribe(DefaultWorkEventEnum.Next.ToString(), (_, work) => HandlerNextAsync(work));
-                    }
-                    else if (item == DefaultWorkEventEnum.Success.ToString())
-                    {
-                        _jobBus?.Subscribe(DefaultWorkEventEnum.Success.ToString(), (_, work) => HandlerSuccessEventAsync(work));
-                    }
-                    else if (item == DefaultWorkEventEnum.Fail.ToString())
-                    {
-                        _jobBus?.Subscribe(DefaultWorkEventEnum.Fail.ToString(), (_, work) => HandlerFailEventAsync(work));
-                    }
-                    else
-                    {
-                        _jobBus?.Subscribe(item, DefaultHandlerEventAsync);
-                    }
-                }
-                #endregion
+                await InitAsync(context.JobDetail.JobDataMap);
                 await HandlerJobAsync();
             }
             catch (Exception ex)
             {
-                if (_oscillatorListener != null && _schedule != null)
-                {
-                    await _oscillatorListener.ScheduleErrorAsync(_schedule, ex);
-                }
+                if (_oscillatorListener == null || _schedule == null) return;
+                await _oscillatorListener.ScheduleErrorAsync(_schedule, ex);
             }
         }
         /// <summary>
-        /// 处理任务
-        /// </summary>
-        /// <returns></returns>
-        private async Task HandlerJobAsync()
-        {
-            if (_scheduleWorks == null || _scheduleWorks.Length <= 0) return;
-            if (_nowWorkIndex >= _scheduleWorks.Length)
-            {
-                await SendEventAsync(DefaultWorkEventEnum.Success.ToString(), _scheduleWorks.Last());
-                return;
-            }
-            ScheduleWorkView scheduleWork = _scheduleWorks[_nowWorkIndex];
-            if(_schedule != null)
-            {
-                if (_oscillatorDR != null)
-                {
-                    if(_flow == null)
-                    {
-                        await _oscillatorDR.WorkExecuteAsync(_schedule, scheduleWork);
-                    }
-                    else
-                    {
-                        await _oscillatorDR.WorkExecuteAsync(_flow, scheduleWork);
-                    }
-                }
-                if (_oscillatorListener != null)
-                {
-                    await _oscillatorListener.WorkExecuteAsync(_schedule, scheduleWork);
-                }
-            }
-            string? eventValue = await HandlerJobAsync(scheduleWork);
-            if (!string.IsNullOrWhiteSpace(eventValue))
-            {
-                await SendEventAsync(eventValue, scheduleWork);
-                return;
-            }
-        }
-        /// <summary>
-        /// 处理任务
+        /// 处理作业
         /// </summary>
         /// <param name="scheduleWork"></param>
         /// <returns></returns>
-        public async Task<string> HandlerJobAsync(ScheduleWorkView scheduleWork)
+        public async Task<string> HandlerJobAsync(ScheduleWork scheduleWork)
         {
             if (_schedule == null) return scheduleWork.FailEvent;
-            IWork workData = OscillatorConvertHelper.ConvertToInterface<IWork>(scheduleWork.WorkType, scheduleWork.WorkData) ?? throw new OscillatorException("获取任务数据失败");
+            Work work = _works.First(m => m.ID == scheduleWork.WorkID);
+            IWork workData = OscillatorConvertHelper.ConvertToInterface<IWork>(work.WorkType, work.WorkData) ?? throw new OscillatorException("获取任务数据失败");
             string eventValue = scheduleWork.FailEvent;
             string? workResult = null;
-            if(_workResults.Count >= _nowWorkIndex)//当前任务是否已经执行完毕
+            if (_workResults.Count >= _nowWorkIndex)//当前任务是否已经执行完毕
             {
                 try
                 {
@@ -196,7 +131,7 @@ namespace Materal.Oscillator.QuartZExtend
                 {
                     if (_oscillatorListener != null && _schedule != null)
                     {
-                        await _oscillatorListener.WorkErrorAsync(_schedule, scheduleWork, ex);
+                        await _oscillatorListener.WorkErrorAsync(_schedule, scheduleWork, work, ex);
                     }
                     return eventValue;
                 }
@@ -217,13 +152,13 @@ namespace Materal.Oscillator.QuartZExtend
                     {
                         if (eventValue == scheduleWork.SuccessEvent)
                         {
-                            await _oscillatorListener.WorkSuccessAsync(_schedule, scheduleWork, eventValue, workResult);
+                            await _oscillatorListener.WorkSuccessAsync(_schedule, scheduleWork, work, eventValue, workResult);
                         }
                         else if (eventValue == scheduleWork.FailEvent)
                         {
-                            await _oscillatorListener.WorkFailAsync(_schedule, scheduleWork, eventValue, workResult);
+                            await _oscillatorListener.WorkFailAsync(_schedule, scheduleWork, work, eventValue, workResult);
                         }
-                        await _oscillatorListener.WorkExecutedAsync(_schedule, scheduleWork, eventValue, workResult);
+                        await _oscillatorListener.WorkExecutedAsync(_schedule, scheduleWork, work, eventValue, workResult);
                     }
                 }
             }
@@ -238,27 +173,109 @@ namespace Materal.Oscillator.QuartZExtend
         /// </summary>
         /// <param name="eventValue"></param>
         /// <param name="scheduleWork"></param>
-        public async Task SendEventAsync(string eventValue, ScheduleWorkView scheduleWork)
+        /// <returns></returns>
+        public async Task SendEventAsync(string eventValue, ScheduleWork scheduleWork)
         {
-            if (_jobBus == null) return;
-            if (_isOver && eventValue == DefaultWorkEventEnum.Complete.ToString()) return;
-            await _jobBus.SendEventAsync(eventValue, scheduleWork);
-            if (eventValue == DefaultWorkEventEnum.Complete.ToString())
+            if (eventValue == DefaultWorkEventEnum.Next.ToString())
             {
-                _isOver = true;
+                await HandlerNextEventAsync(scheduleWork);
+            }
+            else if (eventValue == DefaultWorkEventEnum.Success.ToString())
+            {
+                await HandlerSuccessEventAsync(scheduleWork);
+            }
+            else if (eventValue == DefaultWorkEventEnum.Fail.ToString())
+            {
+                await HandlerFailEventAsync(scheduleWork);
+            }
+            else
+            {
+                await DefaultHandlerEventAsync(eventValue, scheduleWork);
+            }
+        }
+        #region 私有方法
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="dataMap"></param>
+        private async Task InitAsync(JobDataMap dataMap)
+        {
+            if (dataMap[ScheduleDataMapKey] is not Schedule schedule) return;
+            _schedule = schedule;
+            if (dataMap[WorksDataMapKey] is not ScheduleWork[] scheduleWorks || scheduleWorks.Length <= 0) return;
+            if (scheduleWorks.Any(m => m.ScheduleID != _schedule.ID)) return;
+            _scheduleWorks = scheduleWorks.OrderBy(m => m.Index).ToArray();
+            Guid[] workIDs = _scheduleWorks.Select(m => m.WorkID).Distinct().ToArray();
+            _works = (await _workRepository.FindAsync(m => workIDs.Contains(m.ID))).ToArray();
+            if (dataMap.ContainsKey(FlowMapKey) && dataMap[FlowMapKey] is Flow flow)
+            {
+                _flow = flow;
+                if (_flow.WorkResults != null)
+                {
+                    List<string?> workResults = _flow.WorkResults.JsonToObject<List<string?>>();
+                    for (; _nowWorkIndex < workResults.Count && _nowWorkIndex < scheduleWorks.Length; _nowWorkIndex++)
+                    {
+                        ScheduleWork scheduleWork = scheduleWorks[_nowWorkIndex];
+                        _workResults.Add(new WorkResultModel
+                        {
+                            Result = workResults[_nowWorkIndex],
+                            ScheduleWork = scheduleWork
+                        });
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 处理作业
+        /// </summary>
+        /// <returns></returns>
+        private async Task HandlerJobAsync()
+        {
+            if (_scheduleWorks == null || _scheduleWorks.Length <= 0) return;
+            if (_nowWorkIndex >= _scheduleWorks.Length)
+            {
+                await SendEventAsync(DefaultWorkEventEnum.Success.ToString(), _scheduleWorks.Last());
+                return;
+            }
+            ScheduleWork scheduleWork = _scheduleWorks[_nowWorkIndex];
+            if (_schedule != null)
+            {
+                if (_oscillatorDR != null)
+                {
+                    if (_flow == null)
+                    {
+                        await _oscillatorDR.WorkExecuteAsync(_schedule, scheduleWork);
+                    }
+                    else
+                    {
+                        await _oscillatorDR.WorkExecuteAsync(_flow, scheduleWork);
+                    }
+                }
+                if (_oscillatorListener != null)
+                {
+                    Work work = _works.First(m => m.ID == scheduleWork.WorkID);
+                    await _oscillatorListener.WorkExecuteAsync(_schedule, scheduleWork, work);
+                }
+            }
+            string? eventValue = await HandlerJobAsync(scheduleWork);
+            if (!string.IsNullOrWhiteSpace(eventValue))
+            {
+                await SendEventAsync(eventValue, scheduleWork);
+                return;
             }
         }
         #region 事件处理
         /// <summary>
-        /// 处理下一个
+        /// 处理下一个事件
         /// </summary>
         /// <param name="scheduleWork"></param>
         /// <returns></returns>
-        private async Task HandlerNextAsync(ScheduleWorkView scheduleWork)
+        private async Task HandlerNextEventAsync(ScheduleWork scheduleWork)
         {
+            Work work = _works.First(m => m.ID == scheduleWork.WorkID);
             if (_oscillatorListener != null && _schedule != null)
             {
-                await _oscillatorListener.WorkEventTriggerAsync(_schedule, scheduleWork, DefaultWorkEventEnum.Next.ToString());
+                await _oscillatorListener.WorkEventTriggerAsync(_schedule, scheduleWork, work, DefaultWorkEventEnum.Next.ToString());
             }
             _nowWorkIndex++;
             await HandlerJobAsync();
@@ -268,13 +285,14 @@ namespace Materal.Oscillator.QuartZExtend
         /// </summary>
         /// <param name="scheduleWork"></param>
         /// <returns></returns>
-        private async Task HandlerSuccessEventAsync(ScheduleWorkView scheduleWork)
+        private async Task HandlerSuccessEventAsync(ScheduleWork scheduleWork)
         {
+            Work work = _works.First(m => m.ID == scheduleWork.WorkID);
             if (_oscillatorListener != null && _schedule != null)
             {
-                await _oscillatorListener.WorkEventTriggerAsync(_schedule, scheduleWork, DefaultWorkEventEnum.Success.ToString());
+                await _oscillatorListener.WorkEventTriggerAsync(_schedule, scheduleWork, work, DefaultWorkEventEnum.Success.ToString());
             }
-            await HandlerEventAsync(DefaultWorkEventEnum.Success.ToString(), scheduleWork);
+            await HandlerEventAsync(DefaultWorkEventEnum.Success.ToString(), scheduleWork, work);
             await SendEventAsync(DefaultWorkEventEnum.Complete.ToString(), scheduleWork);
         }
         /// <summary>
@@ -282,46 +300,56 @@ namespace Materal.Oscillator.QuartZExtend
         /// </summary>
         /// <param name="scheduleWork"></param>
         /// <returns></returns>
-        private async Task HandlerFailEventAsync(ScheduleWorkView scheduleWork)
+        private async Task HandlerFailEventAsync(ScheduleWork scheduleWork)
         {
+            Work work = _works.First(m => m.ID == scheduleWork.WorkID);
             if (_oscillatorListener != null && _schedule != null)
             {
-                await _oscillatorListener.WorkEventTriggerAsync(_schedule, scheduleWork, DefaultWorkEventEnum.Fail.ToString());
+                await _oscillatorListener.WorkEventTriggerAsync(_schedule, scheduleWork, work, DefaultWorkEventEnum.Fail.ToString());
             }
-            await HandlerEventAsync(DefaultWorkEventEnum.Fail.ToString(), scheduleWork);
+            await HandlerEventAsync(DefaultWorkEventEnum.Fail.ToString(), scheduleWork, work);
             await SendEventAsync(DefaultWorkEventEnum.Complete.ToString(), scheduleWork);
+        }
+        /// <summary>
+        /// 默认处理事件
+        /// </summary>
+        /// <param name="eventValue"></param>
+        /// <param name="scheduleWork"></param>
+        private async Task DefaultHandlerEventAsync(string eventValue, ScheduleWork scheduleWork)
+        {
+            Work work = _works.First(m => m.ID == scheduleWork.WorkID);
+            if (_oscillatorListener != null && _schedule != null)
+            {
+                await _oscillatorListener.WorkEventTriggerAsync(_schedule, scheduleWork, work, eventValue);
+            }
+            await HandlerEventAsync(eventValue, scheduleWork, work);
         }
         /// <summary>
         /// 处理事件
         /// </summary>
         /// <param name="eventValue"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <returns></returns>
-        private async Task HandlerEventAsync(string eventValue, ScheduleWorkView scheduleWork)
+        private async Task HandlerEventAsync(string eventValue, ScheduleWork scheduleWork, Work work)
         {
-            if (_answerRepository == null) return;
             if (_schedule == null) return;
-            List<Answer> answers = (await _answerRepository.FindAsync(new QueryAnswerManagerModel
-            {
-                WorkEvent = eventValue,
-                ScheduleID = _schedule.ID,
-                Enable = true
-            })).OrderBy(m => m.OrderIndex).ToList();
+            List<Answer> answers = (await _answerRepository.FindAsync(m=>m.WorkEvent == eventValue && m.ScheduleID == _schedule.ID)).OrderBy(m => m.Index).ToList();
             foreach (Answer answer in answers)
             {
                 if (_oscillatorListener != null)
                 {
-                    await _oscillatorListener.AnswerExecuteAsync(_schedule, scheduleWork, answer);
+                    await _oscillatorListener.AnswerExecuteAsync(_schedule, scheduleWork, work, answer);
                 }
-                IAnswer? answerHandle = OscillatorConvertHelper.ConvertToInterface<IAnswer>(answer.AnswerType, answer.AnswerData);
+                using IAnswer? answerHandle = OscillatorConvertHelper.ConvertToInterface<IAnswer>(answer.AnswerType, answer.AnswerData);
                 if (answerHandle == null) continue;
                 try
                 {
                     await answerHandle.InitAsync();
-                    bool answerResult = await answerHandle.ExcuteAsync(eventValue, _schedule, scheduleWork, answer, this);
+                    bool answerResult = await answerHandle.ExcuteAsync(eventValue, _schedule, scheduleWork, work, answer, this);
                     if (_oscillatorListener != null)
                     {
-                        await _oscillatorListener.AnswerSuccessAsync(_schedule, scheduleWork, answer, answerResult);
+                        await _oscillatorListener.AnswerSuccessAsync(_schedule, scheduleWork, work, answer, answerResult);
                     }
                     if (!answerResult) return;
                 }
@@ -329,7 +357,7 @@ namespace Materal.Oscillator.QuartZExtend
                 {
                     if (_oscillatorListener != null)
                     {
-                        await _oscillatorListener.AnswerFailAsync(_schedule, scheduleWork, answer, ex);
+                        await _oscillatorListener.AnswerFailAsync(_schedule, scheduleWork, work, answer, ex);
                     }
                     return;
                 }
@@ -337,24 +365,12 @@ namespace Materal.Oscillator.QuartZExtend
                 {
                     if (_oscillatorListener != null)
                     {
-                        await _oscillatorListener.AnswerExecutedAsync(_schedule, scheduleWork, answer);
+                        await _oscillatorListener.AnswerExecutedAsync(_schedule, scheduleWork, work, answer);
                     }
                 }
             }
         }
-        /// <summary>
-        /// 默认处理事件
-        /// </summary>
-        /// <param name="eventValue"></param>
-        /// <param name="scheduleWork"></param>
-        private async Task DefaultHandlerEventAsync(string eventValue, ScheduleWorkView scheduleWork)
-        {
-            if (_oscillatorListener != null && _schedule != null)
-            {
-                await _oscillatorListener.WorkEventTriggerAsync(_schedule, scheduleWork, eventValue);
-            }
-            await HandlerEventAsync(eventValue, scheduleWork);
-        }
+        #endregion
         #endregion
     }
 }

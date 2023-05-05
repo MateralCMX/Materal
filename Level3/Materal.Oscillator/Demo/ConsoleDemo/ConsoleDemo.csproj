@@ -12,8 +12,10 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\..\Src\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Oscillator.LocalDR\Materal.Oscillator.LocalDR.csproj" />
-	  <ProjectReference Include="..\..\Src\Materal.Oscillator.SqliteRepositoryImpl\Materal.Oscillator.SqliteRepositoryImpl.csproj" />
-	  <ProjectReference Include="..\..\Src\Materal.Oscillator.SqlServerRepositoryImpl\Materal.Oscillator.SqlServerRepositoryImpl.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.Oscillator.SqliteRepository\Materal.Oscillator.SqliteRepository.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.Oscillator.SqlServerRepository\Materal.Oscillator.SqlServerRepository.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.Oscillator\Materal.Oscillator.csproj" />
 	</ItemGroup>
 </Project>

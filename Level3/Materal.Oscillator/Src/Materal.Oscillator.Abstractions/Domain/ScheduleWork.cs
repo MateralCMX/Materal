@@ -3,7 +3,7 @@
 namespace Materal.Oscillator.Abstractions.Domain
 {
     /// <summary>
-    /// 调度器
+    /// 调度器任务映射
     /// </summary>
     [Serializable]
     public class ScheduleWork : BaseDomain, IDomain
@@ -22,7 +22,7 @@ namespace Materal.Oscillator.Abstractions.Domain
         /// 位序
         /// </summary>
         [Required(ErrorMessage = "位序为空")]
-        public int OrderIndex { get; set; }
+        public int Index { get; set; }
         /// <summary>
         /// 成功事件
         /// </summary>

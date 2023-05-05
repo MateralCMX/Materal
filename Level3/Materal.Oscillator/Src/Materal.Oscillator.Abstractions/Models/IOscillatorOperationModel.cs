@@ -1,5 +1,9 @@
 ﻿namespace Materal.Oscillator.Abstractions.Models
 {
+    /// <summary>
+    /// 操作模型
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public interface IOscillatorOperationModel<T>
     {
         /// <summary>

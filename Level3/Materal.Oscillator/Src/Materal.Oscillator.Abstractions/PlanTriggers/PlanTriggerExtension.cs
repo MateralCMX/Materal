@@ -1,5 +1,8 @@
 ﻿namespace Materal.Oscillator.Abstractions.PlanTriggers
 {
+    /// <summary>
+    /// 计划触发器扩展
+    /// </summary>
     public static class PlanTriggerExtension
     {
         /// <summary>

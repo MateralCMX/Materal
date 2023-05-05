@@ -35,7 +35,7 @@ namespace Materal.Oscillator.DR
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
         /// <returns></returns>
-        public Task WorkExecuteAsync(Schedule schedule, ScheduleWorkView scheduleWork);
+        public Task WorkExecuteAsync(Schedule schedule, ScheduleWork scheduleWork);
         /// <summary>
         /// 任务执行完毕
         /// </summary>
@@ -43,14 +43,14 @@ namespace Materal.Oscillator.DR
         /// <param name="scheduleWork"></param>
         /// <param name="workResult"></param>
         /// <returns></returns>
-        public Task WorkExecutedAsync(Schedule schedule, ScheduleWorkView scheduleWork, string? workResult);
+        public Task WorkExecutedAsync(Schedule schedule, ScheduleWork scheduleWork, string? workResult);
         /// <summary>
         /// 任务执行
         /// </summary>
         /// <param name="flow"></param>
         /// <param name="scheduleWork"></param>
         /// <returns></returns>
-        public Task WorkExecuteAsync(Flow flow, ScheduleWorkView scheduleWork);
+        public Task WorkExecuteAsync(Flow flow, ScheduleWork scheduleWork);
         /// <summary>
         /// 任务执行完毕
         /// </summary>
@@ -58,7 +58,7 @@ namespace Materal.Oscillator.DR
         /// <param name="scheduleWork"></param>
         /// <param name="workResult"></param>
         /// <returns></returns>
-        public Task WorkExecutedAsync(Flow flow, ScheduleWorkView scheduleWork, string? workResult);
+        public Task WorkExecutedAsync(Flow flow, ScheduleWork scheduleWork, string? workResult);
         /// <summary>
         /// 调度器启动
         /// </summary>

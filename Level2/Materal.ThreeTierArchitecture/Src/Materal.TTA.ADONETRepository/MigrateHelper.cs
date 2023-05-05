@@ -17,8 +17,9 @@ namespace Materal.TTA.ADONETRepository
         /// 构造方法
         /// </summary>
         /// <param name="dbOption"></param>
+        /// <param name="maigrateRepository"></param>
         /// <param name="logger"></param>
-        public MigrateHelper(TDBOption dbOption, ILogger<MigrateHelper<TDBOption>>? logger = null, IMaigrateRepository maigrateRepository = null)
+        public MigrateHelper(TDBOption dbOption, IMaigrateRepository maigrateRepository, ILogger<MigrateHelper<TDBOption>>? logger = null)
         {
             _dbOption = dbOption;
             _logger = logger;

@@ -1,8 +1,8 @@
-﻿using Materal.Abstractions;
+﻿using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.QuartZExtend;
-using Materal.Oscillator.Abstractions.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.Oscillator.Answers
 {
@@ -11,27 +11,28 @@ namespace Materal.Oscillator.Answers
     /// </summary>
     public class DeleteScheduleAnswer : AnswerBase, IAnswer
     {
-        private IOscillatorUnitOfWork? _unitOfWork;
-        private IScheduleRepository? _scheduleRepository;
-        private OscillatorService? _oscillatorService;
-
-        public override async Task InitAsync()
+        private readonly IOscillatorHost _host;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public DeleteScheduleAnswer() : base()
         {
-            _unitOfWork = MateralServices.GetService<IOscillatorUnitOfWork>();
-            _scheduleRepository = _unitOfWork.GetRepository<IScheduleRepository>();
-            _oscillatorService = MateralServices.GetService<OscillatorService>();
-            await base.InitAsync();
+            _host = ServiceProvider.GetRequiredService<IOscillatorHost>();
         }
-
-        public override async Task<bool> ExcuteAsync(string eventValue, Schedule schedule, ScheduleWorkView scheduleWork, Answer answer, IOscillatorJob job)
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="eventValue"></param>
+        /// <param name="schedule"></param>
+        /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
+        /// <param name="answer"></param>
+        /// <param name="job"></param>
+        /// <returns></returns>
+        public override async Task<bool> ExcuteAsync(string eventValue, Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer, IOscillatorJob job)
         {
-            if (_oscillatorService == null) return true;
-            await _oscillatorService.StopAsync(null, schedule.ID);
-            if (_scheduleRepository == null) return true;
-            Schedule? scheduleFromDB = await _scheduleRepository.FirstOrDefaultAsync(schedule.ID);
-            if(scheduleFromDB == null || _unitOfWork == null) return true;
-            _unitOfWork.RegisterDelete(scheduleFromDB);
-            await _unitOfWork.CommitAsync();
+            if (_host == null) return true;
+            await _host.DeleteScheduleAsync(schedule.ID);
             return false;
         }
     }

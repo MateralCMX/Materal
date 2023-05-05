@@ -5,6 +5,9 @@ using Quartz.Impl.Triggers;
 
 namespace Materal.Oscillator.QuartZExtension
 {
+    /// <summary>
+    /// 触发器实现
+    /// </summary>
     [Serializable]
     public class OscillatorTriggerImpl : AbstractTrigger, IOscillatorTrigger
     {
@@ -72,7 +75,14 @@ namespace Materal.Oscillator.QuartZExtension
         /// 时间触发
         /// </summary>
         public virtual int TimesTriggered { get; set; }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         public OscillatorTriggerImpl() { }
+        /// <summary>
+        /// 获得调度器构建
+        /// </summary>
+        /// <returns></returns>
         public override IScheduleBuilder GetScheduleBuilder()
         {
             OscillatorScheduleBuilder sb = OscillatorScheduleBuilder.Create()

@@ -3,6 +3,9 @@ using Quartz;
 
 namespace Materal.Oscillator.Abstractions.QuartZExtend
 {
+    /// <summary>
+    /// Oscillator触发器
+    /// </summary>
     public interface IOscillatorTrigger : ITrigger, IComparable<ITrigger>
     {
         /// <summary>

@@ -1,7 +1,8 @@
-﻿using Materal.Abstractions;
+﻿using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.QuartZExtend;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.Oscillator.Answers
 {
@@ -14,16 +15,28 @@ namespace Materal.Oscillator.Answers
         /// 目标调度器唯一标识
         /// </summary>
         public Guid ScheduleID { get; set; }
-        private OscillatorService? _oscillatorService;
-        public override async Task InitAsync()
+        private IOscillatorHost? _host;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public RunScheduleAnswer() : base()
         {
-            _oscillatorService = MateralServices.GetService<OscillatorService>();
-            await base.InitAsync();
+            _host = ServiceProvider.GetRequiredService<IOscillatorHost>();
         }
-        public override async Task<bool> ExcuteAsync(string eventValue, Schedule schedule, ScheduleWorkView scheduleWork, Answer answer, IOscillatorJob job)
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="eventValue"></param>
+        /// <param name="schedule"></param>
+        /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
+        /// <param name="answer"></param>
+        /// <param name="job"></param>
+        /// <returns></returns>
+        public override async Task<bool> ExcuteAsync(string eventValue, Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer, IOscillatorJob job)
         {
-            if (_oscillatorService == null) return true;
-            await _oscillatorService.RunNowAsync(null, ScheduleID);
+            if (_host == null) return true;
+            await _host.RunNowAsync(ScheduleID);
             return true;
         }
     }

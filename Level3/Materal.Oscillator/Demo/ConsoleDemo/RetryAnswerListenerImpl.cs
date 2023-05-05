@@ -9,27 +9,27 @@ namespace ConsoleDemo
     /// </summary>
     public class RetryAnswerListenerImpl : IRetryAnswerListener
     {
-        public void RetryTrigger(Schedule? schedule, ScheduleWorkView scheduleWork, int nowIndex, int retryCount, int retryInterval)
+        public void RetryTrigger(Schedule? schedule, ScheduleWork scheduleWork, Work work, int nowIndex, int retryCount, int retryInterval)
         {
-            string message = GetMessageTemplete(schedule, scheduleWork);
+            string message = GetMessageTemplete(schedule, scheduleWork, work);
             message += $"[{nowIndex}/{retryCount}]将在 {retryInterval} 秒后进行重试。";
             ShowMessage(message);
         }
-        public void RetryExcute(Schedule? schedule, ScheduleWorkView scheduleWork, int nowIndex, int retryCount, int retryInterval)
+        public void RetryExcute(Schedule? schedule, ScheduleWork scheduleWork, Work work, int nowIndex, int retryCount, int retryInterval)
         {
-            string message = GetMessageTemplete(schedule, scheduleWork);
+            string message = GetMessageTemplete(schedule, scheduleWork, work);
             message += $"[{nowIndex}/{retryCount}]任务重试执行";
             ShowMessage(message);
         }
-        public void RetryFail(Schedule? schedule, ScheduleWorkView scheduleWork, int nowIndex, int retryCount, int retryInterval)
+        public void RetryFail(Schedule? schedule, ScheduleWork scheduleWork, Work work, int nowIndex, int retryCount, int retryInterval)
         {
-            string message = GetMessageTemplete(schedule, scheduleWork);
+            string message = GetMessageTemplete(schedule, scheduleWork, work);
             message += $"[{nowIndex}/{retryCount}]任务重试失败";
             ShowMessage(message);
         }
-        public void RetrySuccess(Schedule? schedule, ScheduleWorkView scheduleWork, int nowIndex, int retryCount, int retryInterval)
+        public void RetrySuccess(Schedule? schedule, ScheduleWork scheduleWork, Work work, int nowIndex, int retryCount, int retryInterval)
         {
-            string message = GetMessageTemplete(schedule, scheduleWork);
+            string message = GetMessageTemplete(schedule, scheduleWork, work);
             message += $"[{nowIndex}/{retryCount}]任务重试成功";
             ShowMessage(message);
         }
@@ -44,7 +44,7 @@ namespace ConsoleDemo
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
         /// <returns></returns>
-        private static string GetMessageTemplete(Schedule? schedule, ScheduleWorkView? scheduleWork = null)
+        private static string GetMessageTemplete(Schedule? schedule, ScheduleWork? scheduleWork = null, Work? work = null)
         {
             StringBuilder message = new();
             message.AppendLine();
@@ -52,9 +52,9 @@ namespace ConsoleDemo
             {
                 message.AppendLine($"调度器[{schedule.Name}_{schedule.ID}]");
             }
-            if (scheduleWork != null)
+            if (scheduleWork != null && work != null)
             {
-                message.AppendLine($"任务[{scheduleWork.WorkName}_{scheduleWork.ID}]");
+                message.AppendLine($"任务[{work.Name}_{scheduleWork.ID}]");
             }
             return message.ToString();
         }

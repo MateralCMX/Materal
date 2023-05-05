@@ -3,6 +3,9 @@ using Materal.Oscillator.Abstractions.PlanTriggers;
 
 namespace Materal.Oscillator.Abstractions
 {
+    /// <summary>
+    /// 调度器监听
+    /// </summary>
     public interface IOscillatorListener
     {
         #region 调度器
@@ -42,7 +45,7 @@ namespace Materal.Oscillator.Abstractions
         /// 调度器报错
         /// </summary>
         /// <param name="schedule"></param>
-        /// <param name="ex"></param>
+        /// <param name="exception"></param>
         public Task ScheduleErrorAsync(Schedule schedule, Exception exception);
         #endregion
         #region 任务
@@ -51,36 +54,43 @@ namespace Materal.Oscillator.Abstractions
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
-        public Task WorkExecuteAsync(Schedule schedule, ScheduleWorkView scheduleWork);
+        /// <param name="work"></param>
+        public Task WorkExecuteAsync(Schedule schedule, ScheduleWork scheduleWork, Work work);
         /// <summary>
         /// 任务执行完毕
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="workEvent"></param>
         /// <param name="workResult"></param>
-        public Task WorkExecutedAsync(Schedule schedule, ScheduleWorkView scheduleWork, string workEvent, string? workResult);
+        public Task WorkExecutedAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, string workEvent, string? workResult);
         /// <summary>
         /// 任务成功
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="workEvent"></param>
-        public Task WorkSuccessAsync(Schedule schedule, ScheduleWorkView scheduleWork, string workEvent, string? workResult);
+        /// <param name="workResult"></param>
+        public Task WorkSuccessAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, string workEvent, string? workResult);
         /// <summary>
         /// 任务失败
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="workEvent"></param>
-        public Task WorkFailAsync(Schedule schedule, ScheduleWorkView scheduleWork, string workEvent, string? workResult);
+        /// <param name="workResult"></param>
+        public Task WorkFailAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, string workEvent, string? workResult);
         /// <summary>
         /// 任务出错
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="exception"></param>
-        public Task WorkErrorAsync(Schedule schedule, ScheduleWorkView scheduleWork, Exception exception);
+        public Task WorkErrorAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Exception exception);
         #endregion
         #region 事件
         /// <summary>
@@ -88,8 +98,9 @@ namespace Materal.Oscillator.Abstractions
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="eventValue"></param>
-        public Task WorkEventTriggerAsync(Schedule schedule, ScheduleWorkView scheduleWork, string eventValue);
+        public Task WorkEventTriggerAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, string eventValue);
         #endregion
         #region 响应
         /// <summary>
@@ -97,31 +108,35 @@ namespace Materal.Oscillator.Abstractions
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="answer"></param>
-        public Task AnswerExecuteAsync(Schedule schedule, ScheduleWorkView scheduleWork, Answer answer);
+        public Task AnswerExecuteAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer);
         /// <summary>
         /// 响应执行完毕
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="answer"></param>
-        public Task AnswerExecutedAsync(Schedule schedule, ScheduleWorkView scheduleWork, Answer answer);
+        public Task AnswerExecutedAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer);
         /// <summary>
         /// 响应成功
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="answer"></param>
         /// <param name="canNext">是否执行下一个响应</param>
-        public Task AnswerSuccessAsync(Schedule schedule, ScheduleWorkView scheduleWork, Answer answer, bool canNext);
+        public Task AnswerSuccessAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer, bool canNext);
         /// <summary>
         /// 响应失败
         /// </summary>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="answer"></param>
         /// <param name="exception"></param>
-        public Task AnswerFailAsync(Schedule schedule, ScheduleWorkView scheduleWork, Answer answer, Exception exception);
+        public Task AnswerFailAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer, Exception exception);
         #endregion
     }
 }

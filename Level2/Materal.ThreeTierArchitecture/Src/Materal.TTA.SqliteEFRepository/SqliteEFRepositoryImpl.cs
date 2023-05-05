@@ -2,7 +2,7 @@
 using Materal.TTA.EFRepository;
 using Microsoft.EntityFrameworkCore;
 
-namespace Materal.TTA.SqliteRepository
+namespace Materal.TTA.SqliteEFRepository
 {
     /// <summary>
     /// SqliteEF仓储

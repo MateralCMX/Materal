@@ -1,9 +1,13 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
-using Materal.TTA.EFRepository;
+using Materal.TTA.Common;
 
 namespace Materal.Oscillator.Abstractions.Repositories
 {
-    public interface IOscillatorRepository<T> : IEFRepository<T, Guid>
+    /// <summary>
+    /// Oscillator仓储
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public interface IOscillatorRepository<T> : IRepository<T, Guid>
         where T : BaseDomain, IDomain
     {
     }

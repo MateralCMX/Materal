@@ -2,12 +2,15 @@
 
 namespace Materal.Oscillator.Abstractions.Works
 {
+    /// <summary>
+    /// 任务返回模型
+    /// </summary>
     public class WorkResultModel
     {
         /// <summary>
         /// 任务
         /// </summary>
-        public ScheduleWorkView ScheduleWork { get; set; } = new ScheduleWorkView();
+        public ScheduleWork ScheduleWork { get; set; } = new ScheduleWork();
         /// <summary>
         /// 结果
         /// </summary>

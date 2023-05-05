@@ -2,9 +2,20 @@
 
 namespace Materal.Oscillator.Abstractions.Works
 {
+    /// <summary>
+    /// 无任务
+    /// </summary>
     public class NoneWork : WorkBase, IWork
     {
-        public override Task<string?> ExcuteAsync(List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWorkView scheduleWork)
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="jobResults"></param>
+        /// <param name="nowIndex"></param>
+        /// <param name="schedule"></param>
+        /// <param name="scheduleWork"></param>
+        /// <returns></returns>
+        public override Task<string?> ExcuteAsync(List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork)
         {
             return Task.FromResult((string?)null);
         }

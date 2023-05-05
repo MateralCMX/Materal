@@ -3,6 +3,9 @@ using Materal.Oscillator.Abstractions.Models;
 
 namespace Materal.Oscillator.Abstractions.Works
 {
+    /// <summary>
+    /// 任务
+    /// </summary>
     public interface IWork : IOscillatorOperationModel<IWork>
     {
         /// <summary>
@@ -18,6 +21,6 @@ namespace Materal.Oscillator.Abstractions.Works
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
         /// <returns></returns>
-        public Task<string?> ExcuteAsync(List<WorkResultModel> workResult, int nowIndex, Schedule schedule, ScheduleWorkView scheduleWork);
+        public Task<string?> ExcuteAsync(List<WorkResultModel> workResult, int nowIndex, Schedule schedule, ScheduleWork scheduleWork);
     }
 }

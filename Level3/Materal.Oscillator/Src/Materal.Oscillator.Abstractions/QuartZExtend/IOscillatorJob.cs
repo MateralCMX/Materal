@@ -3,6 +3,9 @@ using Quartz;
 
 namespace Materal.Oscillator.Abstractions.QuartZExtend
 {
+    /// <summary>
+    /// 调度器作业
+    /// </summary>
     public interface IOscillatorJob : IJob
     {
         /// <summary>
@@ -11,12 +14,12 @@ namespace Materal.Oscillator.Abstractions.QuartZExtend
         /// <param name="eventValue"></param>
         /// <param name="scheduleWork"></param>
         /// <returns></returns>
-        public Task SendEventAsync(string eventValue, ScheduleWorkView scheduleWork);
+        public Task SendEventAsync(string eventValue, ScheduleWork scheduleWork);
         /// <summary>
         /// 处理任务
         /// </summary>
         /// <param name="scheduleWork"></param>
         /// <returns></returns>
-        public Task<string> HandlerJobAsync(ScheduleWorkView scheduleWork);
+        public Task<string> HandlerJobAsync(ScheduleWork scheduleWork);
     }
 }

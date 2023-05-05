@@ -1,20 +1,20 @@
 ﻿using Materal.TTA.Common;
 using Materal.TTA.SqliteEFRepository;
 
-namespace Materal.Oscillator.LocalDR.Repositories
+namespace Materal.Oscillator.SqliteRepository.Repositories
 {
     /// <summary>
-    /// 本地容灾仓储
+    /// Oscillator仓储
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class OscillatorLocalDREFRepositoryImpl<T> : SqliteEFRepositoryImpl<T, Guid, OscillatorLocalDRDBContext>
+    public abstract class OscillatorRepositoryImpl<T> : SqliteEFRepositoryImpl<T, Guid, OscillatorSqliteDBContext>
         where T : class, IEntity<Guid>, new()
     {
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="dbContext"></param>
-        protected OscillatorLocalDREFRepositoryImpl(OscillatorLocalDRDBContext dbContext) : base(dbContext)
+        protected OscillatorRepositoryImpl(OscillatorSqliteDBContext dbContext) : base(dbContext)
         {
         }
     }

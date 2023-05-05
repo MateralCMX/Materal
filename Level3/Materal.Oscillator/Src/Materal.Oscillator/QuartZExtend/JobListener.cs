@@ -1,27 +1,41 @@
 ﻿using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Common;
+using Materal.Oscillator.Abstractions.DR.Domain;
+using Materal.Oscillator.Abstractions.DR.Models;
 using Materal.Oscillator.DR;
-using Materal.Oscillator.DR.Domain;
-using Materal.Oscillator.DR.Models;
 using Quartz;
 
 namespace Materal.Oscillator.QuartZExtend
 {
+    /// <summary>
+    /// 作业监听
+    /// </summary>
     public class JobListener : IJobListener
     {
+        private readonly IOscillatorHost _host;
         private readonly IOscillatorListener? _oscillatorListener;
         private readonly IOscillatorDR? _oscillatorDR;
-        private readonly OscillatorService _oscillatorService;
-
-        public JobListener(OscillatorService oscillatorService, IOscillatorListener? oscillatorListener = null, IOscillatorDR? oscillatorDR = null)
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="oscillatorListener"></param>
+        /// <param name="oscillatorDR"></param>
+        public JobListener(IOscillatorHost host, IOscillatorListener ? oscillatorListener = null, IOscillatorDR? oscillatorDR = null)
         {
+            _host = host;
             _oscillatorListener = oscillatorListener;
-            _oscillatorService = oscillatorService;
             _oscillatorDR = oscillatorDR;
         }
-
+        /// <summary>
+        /// 名称
+        /// </summary>
         public string Name => nameof(JobListener);
-
+        /// <summary>
+        /// 调度器被否决
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task JobExecutionVetoed(IJobExecutionContext context, CancellationToken cancellationToken = default)
         {
             if (context.MergedJobDataMap.ContainsKey(OscillatorJob.ScheduleDataMapKey) && context.MergedJobDataMap[OscillatorJob.ScheduleDataMapKey] is ScheduleFlowModel schedule)
@@ -32,7 +46,12 @@ namespace Materal.Oscillator.QuartZExtend
                 }
             }
         }
-
+        /// <summary>
+        /// 调度器执行
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task JobToBeExecuted(IJobExecutionContext context, CancellationToken cancellationToken = default)
         {
             if (context.MergedJobDataMap.ContainsKey(OscillatorJob.ScheduleDataMapKey) && context.MergedJobDataMap[OscillatorJob.ScheduleDataMapKey] is ScheduleFlowModel schedule)
@@ -64,14 +83,20 @@ namespace Materal.Oscillator.QuartZExtend
                 }
             }
         }
-
+        /// <summary>
+        /// 调度器执行完毕
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="jobException"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException, CancellationToken cancellationToken = default)
         {
             if (context.MergedJobDataMap.ContainsKey(OscillatorJob.ScheduleDataMapKey) && context.MergedJobDataMap[OscillatorJob.ScheduleDataMapKey] is ScheduleFlowModel schedule)
             {
                 if (context.NextFireTimeUtc == null)
                 {
-                    await _oscillatorService.StopAsync(schedule);
+                    await _host.StopAsync(schedule);
                 }
                 if (_oscillatorDR != null)
                 {

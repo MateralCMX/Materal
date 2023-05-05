@@ -3,7 +3,7 @@ using Materal.TTA.EFRepository;
 using Materal.Utils.Cache;
 using Microsoft.EntityFrameworkCore;
 
-namespace Materal.TTA.SqliteRepository
+namespace Materal.TTA.SqliteEFRepository
 {
     /// <summary>
     /// Sqlite缓存EF仓储

@@ -1,5 +1,8 @@
 ﻿namespace Materal.Oscillator.Abstractions.Answers
 {
+    /// <summary>
+    /// 响应扩展
+    /// </summary>
     public static class AnswersExtension
     {
         /// <summary>

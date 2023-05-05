@@ -1,5 +1,5 @@
 ﻿using Materal.TTA.Common;
-using Materal.TTA.SqliteRepository;
+using Materal.TTA.SqliteEFRepository;
 using Materal.Utils.Cache;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,10 +1,12 @@
-﻿using Materal.Oscillator.LocalDR;
-using Materal.TTA.SqliteRepository.Model;
+﻿using Materal.TTA.Common.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Materal.TTA.Demo
+namespace Materal.Oscillator.LocalDR
 {
+    /// <summary>
+    /// 本地容灾数据库上下文工厂
+    /// </summary>
     public class OscillatorLocalDRDBContextFactory : IDesignTimeDbContextFactory<OscillatorLocalDRDBContext>
     {
         /// <summary>

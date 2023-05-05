@@ -1,5 +1,8 @@
 ﻿namespace Materal.Oscillator.Abstractions.Works
 {
+    /// <summary>
+    /// 任务扩展
+    /// </summary>
     public static class WorksExtension
     {
         /// <summary>

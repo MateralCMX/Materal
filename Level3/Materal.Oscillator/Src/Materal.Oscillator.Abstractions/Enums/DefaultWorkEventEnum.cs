@@ -2,6 +2,9 @@
 
 namespace Materal.Oscillator.Abstractions.Enums
 {
+    /// <summary>
+    /// 默认任务事件枚举
+    /// </summary>
     public enum DefaultWorkEventEnum
     {
         /// <summary>

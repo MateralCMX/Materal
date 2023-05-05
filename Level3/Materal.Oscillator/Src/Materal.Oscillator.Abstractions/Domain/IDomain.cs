@@ -2,6 +2,9 @@
 
 namespace Materal.Oscillator.Abstractions.Domain
 {
+    /// <summary>
+    /// Domain
+    /// </summary>
     public interface IDomain : IEntity<Guid>
     {
         /// <summary>

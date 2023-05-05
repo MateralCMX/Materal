@@ -1,10 +1,17 @@
-﻿using Materal.Oscillator.DR.Domain;
+﻿using Materal.Oscillator.Abstractions.DR.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Materal.Oscillator.LocalDR.ModelConfig
 {
+    /// <summary>
+    /// 流程配置
+    /// </summary>
     public sealed class FlowConfig : BaseEntityConfig<Flow>
     {
+        /// <summary>
+        /// 配置
+        /// </summary>
+        /// <param name="builder"></param>
         public override void Configure(EntityTypeBuilder<Flow> builder)
         {
             base.Configure(builder);
