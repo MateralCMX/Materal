@@ -131,5 +131,17 @@ namespace Materal.Oscillator.Abstractions
         /// <param name="scheduleID"></param>
         /// <returns></returns>
         Task DeleteScheduleAsync(Guid scheduleID);
+        /// <summary>
+        /// 禁用调度器
+        /// </summary>
+        /// <param name="scheduleID"></param>
+        /// <returns></returns>
+        Task DisableScheduleAsync(Guid scheduleID);
+        /// <summary>
+        /// 启用调度器
+        /// </summary>
+        /// <param name="scheduleID"></param>
+        /// <returns></returns>
+        Task EnableScheduleAsync(Guid scheduleID);
     }
 }

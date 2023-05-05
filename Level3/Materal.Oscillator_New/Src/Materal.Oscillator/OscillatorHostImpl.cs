@@ -345,7 +345,6 @@ namespace Materal.Oscillator
             IOscillatorUnitOfWork unitOfWork = serviceProvider.GetRequiredService<IOscillatorUnitOfWork>();
             IScheduleRepository scheduleRepository = unitOfWork.GetRepository<IScheduleRepository>();
             Schedule schedule = await scheduleRepository.FirstAsync(scheduleID);
-            if (await OscillatorQuartZManager.IsRuningAsync(schedule)) throw new OscillatorException("调度器运行中");
             IOscillatorListener? oscillatorListener = serviceProvider.GetService<IOscillatorListener>();
             await StopAsync(oscillatorListener, schedule);
             IPlanRepository planRepository = unitOfWork.GetRepository<IPlanRepository>();
@@ -354,6 +353,40 @@ namespace Materal.Oscillator
             List<Answer> answers = await answerRepository.FindAsync(m => m.ScheduleID == scheduleID);
             IScheduleWorkRepository scheduleWorkRepository = unitOfWork.GetRepository<IScheduleWorkRepository>();
             List<ScheduleWork> scheduleWorks = await scheduleWorkRepository.FindAsync(m => m.ScheduleID == scheduleID);
+        }
+        /// <summary>
+        /// 禁用调度器
+        /// </summary>
+        /// <param name="scheduleID"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task DisableScheduleAsync(Guid scheduleID)
+        {
+            using IServiceScope serviceScope = _serviceProvider.CreateScope();
+            IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+            IOscillatorUnitOfWork unitOfWork = serviceProvider.GetRequiredService<IOscillatorUnitOfWork>();
+            IScheduleRepository scheduleRepository = unitOfWork.GetRepository<IScheduleRepository>();
+            Schedule schedule = await scheduleRepository.FirstAsync(scheduleID);
+            schedule.Enable = false;
+            unitOfWork.RegisterEdit(schedule);
+            await unitOfWork.CommitAsync();
+        }
+        /// <summary>
+        /// 启用调度器
+        /// </summary>
+        /// <param name="scheduleID"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task EnableScheduleAsync(Guid scheduleID)
+        {
+            using IServiceScope serviceScope = _serviceProvider.CreateScope();
+            IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+            IOscillatorUnitOfWork unitOfWork = serviceProvider.GetRequiredService<IOscillatorUnitOfWork>();
+            IScheduleRepository scheduleRepository = unitOfWork.GetRepository<IScheduleRepository>();
+            Schedule schedule = await scheduleRepository.FirstAsync(scheduleID);
+            schedule.Enable = true;
+            unitOfWork.RegisterEdit(schedule);
+            await unitOfWork.CommitAsync();
         }
         #region 私有方法
         /// <summary>
@@ -394,7 +427,6 @@ namespace Materal.Oscillator
                 if (tempScheduleWorks.Length <= 0) continue;
                 Plan tempPlan = new()
                 {
-                    Enable = true,
                     Name = "立即执行计划",
                     Description = "该计划是立即执行的内置计划",
                     ID = Guid.Empty,
@@ -417,7 +449,7 @@ namespace Materal.Oscillator
             if (schedules == null || schedules.Length <= 0) return;
             Guid[] scheduleIDs = schedules.Select(m => m.ID).ToArray();
             IPlanRepository planRepository = serviceProvider.GetRequiredService<IPlanRepository>();
-            List<Plan> plans = await planRepository.FindAsync(m => m.Enable && scheduleIDs.Contains(m.ScheduleID));
+            List<Plan> plans = await planRepository.FindAsync(m => scheduleIDs.Contains(m.ScheduleID));
             IScheduleWorkRepository scheduleWorkRepository = serviceProvider.GetRequiredService<IScheduleWorkRepository>();
             List<ScheduleWork> scheduleWorks = await scheduleWorkRepository.FindAsync(m => scheduleIDs.Contains(m.ScheduleID));
             foreach (Schedule schedule in schedules)
@@ -480,7 +512,6 @@ namespace Materal.Oscillator
         /// <returns></returns>
         private async Task<ITrigger?> PlanToTriggerAsync(IOscillatorListener? oscillatorListener, Schedule schedule, Plan plan)
         {
-            if (!plan.Enable) return null;
             if (string.IsNullOrEmpty(plan.PlanTriggerData)) return null;
             IPlanTrigger? planTrigger = OscillatorConvertHelper.ConvertToInterface<IPlanTrigger>(plan.PlanTriggerType, plan.PlanTriggerData);
             if (planTrigger == null) return null;

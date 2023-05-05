@@ -16,14 +16,14 @@ namespace Materal.Oscillator.Answers
         /// <summary>
         /// 构造方法
         /// </summary>
-        public ConsoleAnswer()
+        public ConsoleAnswer() : base()
         {
         }
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="message"></param>
-        public ConsoleAnswer(string message)
+        public ConsoleAnswer(string message) : base()
         {
             Message = message;
         }

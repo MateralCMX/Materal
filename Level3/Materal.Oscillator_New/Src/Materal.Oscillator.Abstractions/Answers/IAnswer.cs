@@ -7,7 +7,7 @@ namespace Materal.Oscillator.Abstractions.Answers
     /// <summary>
     /// 响应
     /// </summary>
-    public interface IAnswer : IOscillatorOperationModel<IAnswer>
+    public interface IAnswer : IOscillatorOperationModel<IAnswer>, IDisposable
     {
         /// <summary>
         /// 初始化

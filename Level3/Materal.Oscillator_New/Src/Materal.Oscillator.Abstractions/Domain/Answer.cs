@@ -24,11 +24,6 @@ namespace Materal.Oscillator.Abstractions.Domain
         [Required(ErrorMessage = "任务事件为空"), StringLength(40, ErrorMessage = "任务事件长度大于40")]
         public string WorkEvent { get; set; } = string.Empty;
         /// <summary>
-        /// 启用标识
-        /// </summary>
-        [Required(ErrorMessage = "启用标识为空")]
-        public bool Enable { get; set; } = true;
-        /// <summary>
         /// 位序
         /// </summary>
         [Required(ErrorMessage = "位序为空")]

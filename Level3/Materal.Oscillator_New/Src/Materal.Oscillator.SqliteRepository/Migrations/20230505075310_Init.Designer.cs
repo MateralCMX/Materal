@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Materal.Oscillator.SqliteRepository.Migrations
 {
     [DbContext(typeof(OscillatorDBContext))]
-    [Migration("20230428070255_Init")]
+    [Migration("20230505075310_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -42,9 +42,6 @@ namespace Materal.Oscillator.SqliteRepository.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(400)
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("Enable")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Index")
                         .HasColumnType("INTEGER");
@@ -82,9 +79,6 @@ namespace Materal.Oscillator.SqliteRepository.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(400)
                         .HasColumnType("TEXT");
-
-                    b.Property<bool>("Enable")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -216,40 +210,6 @@ namespace Materal.Oscillator.SqliteRepository.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Work");
-                });
-
-            modelBuilder.Entity("Materal.Oscillator.Abstractions.Domain.WorkEvent", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreateTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(400)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ScheduleID")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("UpdateTime")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("WorkEvent");
                 });
 #pragma warning restore 612, 618
         }

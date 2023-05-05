@@ -334,14 +334,14 @@ namespace Materal.Oscillator.QuartZExtend
         private async Task HandlerEventAsync(string eventValue, ScheduleWork scheduleWork, Work work)
         {
             if (_schedule == null) return;
-            List<Answer> answers = (await _answerRepository.FindAsync(m=>m.WorkEvent == eventValue && m.ScheduleID == _schedule.ID && m.Enable)).OrderBy(m => m.Index).ToList();
+            List<Answer> answers = (await _answerRepository.FindAsync(m=>m.WorkEvent == eventValue && m.ScheduleID == _schedule.ID)).OrderBy(m => m.Index).ToList();
             foreach (Answer answer in answers)
             {
                 if (_oscillatorListener != null)
                 {
                     await _oscillatorListener.AnswerExecuteAsync(_schedule, scheduleWork, work, answer);
                 }
-                IAnswer? answerHandle = OscillatorConvertHelper.ConvertToInterface<IAnswer>(answer.AnswerType, answer.AnswerData);
+                using IAnswer? answerHandle = OscillatorConvertHelper.ConvertToInterface<IAnswer>(answer.AnswerType, answer.AnswerData);
                 if (answerHandle == null) continue;
                 try
                 {

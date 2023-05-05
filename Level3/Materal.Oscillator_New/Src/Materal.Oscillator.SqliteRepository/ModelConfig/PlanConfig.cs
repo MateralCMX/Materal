@@ -20,8 +20,6 @@ namespace Materal.Oscillator.SqliteRepositoryImpl.ModelConfig
                 .HasMaxLength(100);
             builder.Property(m => m.ScheduleID)
                 .IsRequired();
-            builder.Property(m => m.Enable)
-                .IsRequired();
             builder.Property(m => m.Description)
                 .IsRequired(false)
                 .HasMaxLength(400);

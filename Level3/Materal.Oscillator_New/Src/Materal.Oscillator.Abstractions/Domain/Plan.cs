@@ -19,11 +19,6 @@ namespace Materal.Oscillator.Abstractions.Domain
         [Required(ErrorMessage = "调度器唯一标识为空")]
         public Guid ScheduleID { get; set; }
         /// <summary>
-        /// 启用标识
-        /// </summary>
-        [Required(ErrorMessage = "启用标识为空")]
-        public bool Enable { get; set; } = true;
-        /// <summary>
         /// 描述
         /// </summary>
         [StringLength(400, ErrorMessage = "描述长度大于400")]

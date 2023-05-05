@@ -1,8 +1,8 @@
-﻿using Materal.Abstractions;
-using Materal.Oscillator.Abstractions;
+﻿using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.QuartZExtend;
+using Microsoft.Extensions.DependencyInjection;
 using Polly;
 
 namespace Materal.Oscillator.Answers
@@ -20,15 +20,13 @@ namespace Materal.Oscillator.Answers
         /// 重试间隔(秒)
         /// </summary>
         public int RetryInterval { get; set; }
-        private IRetryAnswerListener? _listener;
+        private readonly IRetryAnswerListener? _listener;
         /// <summary>
-        /// 初始化
+        /// 构造方法
         /// </summary>
-        /// <returns></returns>
-        public override async Task InitAsync()
+        public RetryAnswer():base()
         {
-            _listener = MateralServices.GetServiceOrDefatult<IRetryAnswerListener>();
-            await base.InitAsync();
+            _listener = ServiceProvider.GetService<IRetryAnswerListener>();
         }
         /// <summary>
         /// 执行

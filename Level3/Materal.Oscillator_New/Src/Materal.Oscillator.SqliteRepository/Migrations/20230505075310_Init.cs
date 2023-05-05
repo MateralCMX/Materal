@@ -19,7 +19,6 @@ namespace Materal.Oscillator.SqliteRepository.Migrations
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     ScheduleID = table.Column<Guid>(type: "TEXT", nullable: false),
                     WorkEvent = table.Column<string>(type: "TEXT", maxLength: 40, nullable: false),
-                    Enable = table.Column<bool>(type: "INTEGER", nullable: false),
                     Index = table.Column<int>(type: "INTEGER", nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 400, nullable: true),
                     AnswerType = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
@@ -39,7 +38,6 @@ namespace Materal.Oscillator.SqliteRepository.Migrations
                     ID = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     ScheduleID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Enable = table.Column<bool>(type: "INTEGER", nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 400, nullable: true),
                     PlanTriggerType = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     PlanTriggerData = table.Column<string>(type: "TEXT", maxLength: 4000, nullable: false),
@@ -102,23 +100,6 @@ namespace Materal.Oscillator.SqliteRepository.Migrations
                 {
                     table.PrimaryKey("PK_Work", x => x.ID);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "WorkEvent",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Value = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    ScheduleID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", maxLength: 400, nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WorkEvent", x => x.ID);
-                });
         }
 
         /// <inheritdoc />
@@ -138,9 +119,6 @@ namespace Materal.Oscillator.SqliteRepository.Migrations
 
             migrationBuilder.DropTable(
                 name: "Work");
-
-            migrationBuilder.DropTable(
-                name: "WorkEvent");
         }
     }
 }
