@@ -18,7 +18,7 @@ namespace Materal.Oscillator
         /// <returns></returns>
         public static IServiceCollection AddOscillatorSqliteRepository(this IServiceCollection services, SqliteConfigModel dbConfig)
         {
-            services.AddTTASqliteEFRepository<OscillatorDBContext>(dbConfig.ConnectionString);
+            services.AddTTASqliteEFRepository<OscillatorSqliteDBContext>(dbConfig.ConnectionString);
             return services;
         }
     }

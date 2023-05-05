@@ -12,7 +12,7 @@ namespace Materal.Oscillator.SqliteRepository.Repositories
         /// 构造方法
         /// </summary>
         /// <param name="dbContext"></param>
-        public PlanRepositoryImpl(OscillatorDBContext dbContext) : base(dbContext)
+        public PlanRepositoryImpl(OscillatorSqliteDBContext dbContext) : base(dbContext)
         {
         }
     }

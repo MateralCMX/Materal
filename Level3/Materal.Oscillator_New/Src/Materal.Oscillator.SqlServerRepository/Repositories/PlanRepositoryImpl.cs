@@ -1,18 +1,18 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Repositories;
 
-namespace Materal.Oscillator.SqliteRepository.Repositories
+namespace Materal.Oscillator.SqlServerRepository.Repositories
 {
     /// <summary>
-    /// 任务仓储
+    /// 计划仓储
     /// </summary>
-    public class WorkRepositoryImpl : OscillatorRepositoryImpl<Work>, IWorkRepository
+    public class PlanRepositoryImpl : OscillatorRepositoryImpl<Plan>, IPlanRepository
     {
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="dbContext"></param>
-        public WorkRepositoryImpl(OscillatorSqliteDBContext dbContext) : base(dbContext)
+        public PlanRepositoryImpl(OscillatorSqlServerDBContext dbContext) : base(dbContext)
         {
         }
     }

@@ -1,11 +1,13 @@
-﻿using Materal.Oscillator.Abstractions;
-using Materal.TTA.Common.Model;
+﻿using Materal.TTA.Common.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Materal.TTA.Demo
+namespace Materal.Oscillator.SqlServerRepository
 {
-    public class OscillatorSqlServerDBContextFactory : IDesignTimeDbContextFactory<OscillatorSqlServerDBContext>
+    /// <summary>
+    /// 数据库上下文工厂
+    /// </summary>
+    public class OscillatorDBContextFactory : IDesignTimeDbContextFactory<OscillatorSqlServerDBContext>
     {
         /// <summary>
         /// 创建数据库连接
@@ -17,11 +19,11 @@ namespace Materal.TTA.Demo
             var optionsBuilder = new DbContextOptionsBuilder<OscillatorSqlServerDBContext>();
             SqlServerConfigModel config = new()
             {
-                Address = "175.27.194.19",
+                Address = "82.156.11.176",
                 Port = "1433",
                 Name = "OscillatorTestDB",
                 UserID = "sa",
-                Password = "XMJry@456",
+                Password = "gdb@admin678",
                 TrustServerCertificate = true
             };
             optionsBuilder.UseSqlServer(config.ConnectionString);

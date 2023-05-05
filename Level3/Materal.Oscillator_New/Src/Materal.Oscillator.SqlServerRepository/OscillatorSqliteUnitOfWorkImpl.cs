@@ -1,21 +1,21 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.TTA.Common;
-using Materal.TTA.SqliteEFRepository;
+using Materal.TTA.SqlServerEFRepository;
 
-namespace Materal.Oscillator.SqliteRepository
+namespace Materal.Oscillator.SqlServerRepository
 {
     /// <summary>
     /// Oscillator工作单元
     /// </summary>
-    public class OscillatorUnitOfWorkImpl : SqliteEFUnitOfWorkImpl<OscillatorSqliteDBContext, Guid>, IOscillatorUnitOfWork
+    public class OscillatorUnitOfWorkImpl : SqlServerEFUnitOfWorkImpl<OscillatorSqlServerDBContext, Guid>, IOscillatorUnitOfWork
     {
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="context"></param>
         /// <param name="serviceProvider"></param>
-        public OscillatorUnitOfWorkImpl(OscillatorSqliteDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
+        public OscillatorUnitOfWorkImpl(OscillatorSqlServerDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
         }
         /// <summary>

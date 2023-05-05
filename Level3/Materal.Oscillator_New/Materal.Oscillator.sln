@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.SqliteRe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.LocalDR", "Src\Materal.Oscillator.LocalDR\Materal.Oscillator.LocalDR.csproj", "{50737E4F-05A7-46AB-ACCB-2C19C7369DEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.SqlServerRepository", "Src\Materal.Oscillator.SqlServerRepository\Materal.Oscillator.SqlServerRepository.csproj", "{2EC5F714-19D8-4DED-BAC2-44022DEB968B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{50737E4F-05A7-46AB-ACCB-2C19C7369DEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50737E4F-05A7-46AB-ACCB-2C19C7369DEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50737E4F-05A7-46AB-ACCB-2C19C7369DEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EC5F714-19D8-4DED-BAC2-44022DEB968B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EC5F714-19D8-4DED-BAC2-44022DEB968B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EC5F714-19D8-4DED-BAC2-44022DEB968B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EC5F714-19D8-4DED-BAC2-44022DEB968B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
 		{2CB09537-D6BE-4D82-8146-5476062AAC1F} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
 		{50737E4F-05A7-46AB-ACCB-2C19C7369DEB} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
+		{2EC5F714-19D8-4DED-BAC2-44022DEB968B} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68FD9C02-63AC-4CAE-A2FA-B43F52FC01AA}

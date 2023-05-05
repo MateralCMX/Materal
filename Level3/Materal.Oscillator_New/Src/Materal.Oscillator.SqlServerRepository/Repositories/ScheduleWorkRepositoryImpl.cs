@@ -1,7 +1,7 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Repositories;
 
-namespace Materal.Oscillator.SqliteRepository.Repositories
+namespace Materal.Oscillator.SqlServerRepository.Repositories
 {
     /// <summary>
     /// 调度器任务仓储
@@ -12,7 +12,7 @@ namespace Materal.Oscillator.SqliteRepository.Repositories
         /// 构造方法
         /// </summary>
         /// <param name="dbContext"></param>
-        public ScheduleWorkRepositoryImpl(OscillatorSqliteDBContext dbContext) : base(dbContext)
+        public ScheduleWorkRepositoryImpl(OscillatorSqlServerDBContext dbContext) : base(dbContext)
         {
         }
     }

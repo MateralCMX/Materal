@@ -1,7 +1,7 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Repositories;
 
-namespace Materal.Oscillator.SqliteRepository.Repositories
+namespace Materal.Oscillator.SqlServerRepository.Repositories
 {
     /// <summary>
     /// 响应仓储
@@ -12,7 +12,7 @@ namespace Materal.Oscillator.SqliteRepository.Repositories
         /// 响应仓储
         /// </summary>
         /// <param name="dbContext"></param>
-        public AnswerRepositoryImpl(OscillatorSqliteDBContext dbContext) : base(dbContext)
+        public AnswerRepositoryImpl(OscillatorSqlServerDBContext dbContext) : base(dbContext)
         {
         }
     }

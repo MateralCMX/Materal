@@ -1,5 +1,6 @@
 ﻿using Materal.Abstractions;
 using Materal.Oscillator.SqliteRepository;
+using Materal.Oscillator.SqlServerRepository;
 using Materal.TTA.Common.Model;
 using Materal.TTA.EFRepository;
 using Materal.Utils;
@@ -23,7 +24,10 @@ namespace Materal.Oscillator.Test
             AddServices(serviceCollection);
             MateralServices.Services = serviceCollection.BuildServiceProvider();
             Services = MateralServices.Services;
-            IMigrateHelper<OscillatorDBContext> migrateHelper = GetServiceTest<IMigrateHelper<OscillatorDBContext>>();
+
+            //IMigrateHelper<OscillatorSqliteDBContext> migrateHelper = GetServiceTest<IMigrateHelper<OscillatorSqliteDBContext>>();
+            IMigrateHelper<OscillatorSqlServerDBContext> migrateHelper = GetServiceTest<IMigrateHelper<OscillatorSqlServerDBContext>>();
+
             migrateHelper.Migrate();
         }
         /// <summary>
@@ -32,11 +36,22 @@ namespace Materal.Oscillator.Test
         /// <param name="services"></param>
         protected virtual void AddSqliteRepository(IServiceCollection services)
         {
-            SqliteConfigModel dbConfig = new()
+            //SqliteConfigModel dbConfig = new()
+            //{
+            //    Source = "Oscillator.db"
+            //};
+            //services.AddOscillatorSqliteRepository(dbConfig);
+
+            SqlServerConfigModel dbConfig = new()
             {
-                Source = "Oscillator.db"
+                Address = "82.156.11.176",
+                Port = "1433",
+                Name = "OscillatorTestDB",
+                UserID = "sa",
+                Password = "gdb@admin678",
+                TrustServerCertificate = true
             };
-            services.AddOscillatorSqliteRepository(dbConfig);
+            services.AddOscillatorSqlServerRepository(dbConfig);
         }
         /// <summary>
         /// 获得服务

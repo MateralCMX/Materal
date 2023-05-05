@@ -7,13 +7,13 @@ namespace Materal.Oscillator.SqliteRepository
     /// <summary>
     /// Oscillator数据库上下文
     /// </summary>
-    public class OscillatorDBContext : DbContext
+    public class OscillatorSqliteDBContext : DbContext
     {
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="options"></param>
-        public OscillatorDBContext(DbContextOptions<OscillatorDBContext> options) : base(options) { }
+        public OscillatorSqliteDBContext(DbContextOptions<OscillatorSqliteDBContext> options) : base(options) { }
         /// <summary>
         /// 响应
         /// </summary>
