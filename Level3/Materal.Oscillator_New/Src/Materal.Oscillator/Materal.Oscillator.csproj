@@ -19,6 +19,5 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />
-		<ProjectReference Include="..\Materal.Oscillator.DR\Materal.Oscillator.DR.csproj" />
 	</ItemGroup>
 </Project>

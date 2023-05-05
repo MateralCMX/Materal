@@ -2,7 +2,6 @@
 using Materal.TTA.Common.Model;
 using Materal.TTA.SqliteEFRepository;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace Materal.Oscillator
 {
@@ -19,7 +18,7 @@ namespace Materal.Oscillator
         /// <returns></returns>
         public static IServiceCollection AddOscillatorSqliteRepository(this IServiceCollection services, SqliteConfigModel dbConfig)
         {
-            services.AddTTASqliteEFRepository<OscillatorDBContext>(dbConfig.ConnectionString, Assembly.Load("Materal.Oscillator.SqliteRepository"));
+            services.AddTTASqliteEFRepository<OscillatorDBContext>(dbConfig.ConnectionString);
             return services;
         }
     }

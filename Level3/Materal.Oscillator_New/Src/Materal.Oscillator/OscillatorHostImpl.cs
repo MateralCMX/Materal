@@ -1,14 +1,14 @@
 ﻿using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
+using Materal.Oscillator.Abstractions.DR.Domain;
+using Materal.Oscillator.Abstractions.DR.Models;
 using Materal.Oscillator.Abstractions.DTO;
 using Materal.Oscillator.Abstractions.Helper;
 using Materal.Oscillator.Abstractions.Models;
 using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Abstractions.Works;
-using Materal.Oscillator.DR.Domain;
-using Materal.Oscillator.DR.Models;
 using Materal.Oscillator.PlanTriggers;
 using Materal.Oscillator.QuartZExtend;
 using Materal.Utils.Model;
@@ -30,6 +30,50 @@ namespace Materal.Oscillator
         public OscillatorHostImpl(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+        }
+        /// <summary>
+        /// 容灾启动
+        /// </summary>
+        /// <param name="flow"></param>
+        /// <returns></returns>
+        public async Task DRRunAsync(Flow flow)
+        {
+            try
+            {
+                using IServiceScope serviceScope = _serviceProvider.CreateScope();
+                IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+                IScheduleRepository scheduleRepository = serviceProvider.GetRequiredService<IScheduleRepository>();
+                IScheduleWorkRepository scheduleWorkViewRepository = serviceProvider.GetRequiredService<IScheduleWorkRepository>();
+                IOscillatorListener? oscillatorListener = serviceProvider.GetService<IOscillatorListener>();
+                Schedule schedule = flow.ScheduleData.JsonToObject<ScheduleFlowModel>();
+                List<ScheduleWork> scheduleWorks = await scheduleWorkViewRepository.FindAsync(m => m.ScheduleID == schedule.ID);
+                if (scheduleWorks.Count <= 0) return;
+                IPlanTrigger planTrigger = new NowPlanTrigger();
+                Plan tempPlan = new()
+                {
+                    Name = "容灾启动计划",
+                    Description = "该计划是容灾重启的计划",
+                    ID = Guid.Empty,
+                    PlanTriggerData = planTrigger.Serialize(),
+                    PlanTriggerType = nameof(NowPlanTrigger),
+                    ScheduleID = schedule.ID
+                };
+                tempPlan.ID = Guid.Empty;
+                schedule.Name += $"_容灾自起{DateTime.Now:yyyyMMddHHmmssffff}";
+                IJobDetail? job = GetJobDetail(schedule, scheduleWorks.ToArray(), flow);
+                if (job == null) return;
+                ITrigger? trigger = await PlanToTriggerAsync(oscillatorListener, schedule, tempPlan);
+                if (trigger != null && oscillatorListener != null)
+                {
+                    await oscillatorListener.ScheduleReadyAsync(schedule, planTrigger);
+                }
+                if (trigger == null) return;
+                await StartAsync(oscillatorListener, schedule, job, trigger);
+            }
+            finally
+            {
+                await OscillatorQuartZManager.StartAsync();
+            }
         }
         /// <summary>
         /// 启动调度器

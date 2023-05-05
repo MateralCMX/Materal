@@ -2,13 +2,13 @@
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
+using Materal.Oscillator.Abstractions.DR.Domain;
 using Materal.Oscillator.Abstractions.Enums;
 using Materal.Oscillator.Abstractions.Helper;
 using Materal.Oscillator.Abstractions.QuartZExtend;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.DR;
-using Materal.Oscillator.DR.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 

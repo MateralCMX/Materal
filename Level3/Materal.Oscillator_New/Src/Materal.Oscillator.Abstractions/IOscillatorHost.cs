@@ -1,4 +1,5 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
+using Materal.Oscillator.Abstractions.DR.Domain;
 using Materal.Oscillator.Abstractions.DTO;
 using Materal.Oscillator.Abstractions.Models;
 using Materal.Utils.Model;
@@ -11,6 +12,12 @@ namespace Materal.Oscillator.Abstractions
     /// </summary>
     public interface IOscillatorHost
     {
+        /// <summary>
+        /// 容灾启动
+        /// </summary>
+        /// <param name="flow"></param>
+        /// <returns></returns>
+        Task DRRunAsync(Flow flow);
         /// <summary>
         /// 启动调度器
         /// </summary>
