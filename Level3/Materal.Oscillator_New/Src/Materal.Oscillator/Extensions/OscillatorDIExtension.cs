@@ -1,7 +1,9 @@
 ﻿using Materal.Oscillator.Abstractions;
+using Materal.Oscillator.QuartZExtend;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Quartz;
 
 namespace Materal.Oscillator
 {
@@ -23,11 +25,7 @@ namespace Materal.Oscillator
                 OscillatorConfig.Init(configuration);
             }
             services.TryAddSingleton<IOscillatorHost, OscillatorHostImpl>();
-
-            //services.AddTransient<IOscillatorManager, OscillatorManager>();
-            //services.AddTransient<IWorkEventBus, WorkEventBusImpl>();
-            //services.AddSingleton<OscillatorService>();
-            //services.AddTransient<IJobListener, JobListener>();
+            services.TryAddTransient<IJobListener, JobListener>();
             return services;
         }
     }
