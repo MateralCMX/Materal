@@ -2,6 +2,7 @@
 using Materal.Oscillator.Abstractions.DTO;
 using Materal.Oscillator.Abstractions.Models;
 using Materal.Utils.Model;
+using System.Linq.Expressions;
 
 namespace Materal.Oscillator.Abstractions
 {
@@ -11,29 +12,61 @@ namespace Materal.Oscillator.Abstractions
     public interface IOscillatorHost
     {
         /// <summary>
-        /// 启动所有调度器
+        /// 启动调度器
         /// </summary>
+        /// <param name="expression"></param>
         /// <returns></returns>
-        Task StartAllAsync();
+        Task StartAsync(Expression<Func<Schedule, bool>> expression);
         /// <summary>
-        /// 停止所有调度器
+        /// 启动调度器
         /// </summary>
+        /// <param name="territory"></param>
         /// <returns></returns>
-        Task StopAllAsync();
+        Task StartAsync(string? territory = null);
         /// <summary>
-        /// 根据调度器唯一标识启动调度器
+        /// 启动调度器
         /// </summary>
         /// <param name="scheduleIDs"></param>
         /// <returns></returns>
         Task StartAsync(params Guid[] scheduleIDs);
         /// <summary>
-        /// 根据调度器唯一标识停止调度器
+        /// 启动调度器
+        /// </summary>
+        /// <param name="schedules"></param>
+        /// <returns></returns>
+        Task StartAsync(params Schedule[] schedules);
+        /// <summary>
+        /// 停止调度器
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        Task StopAsync(Expression<Func<Schedule, bool>> expression);
+        /// <summary>
+        /// 停止调度器
+        /// </summary>
+        /// <param name="territory"></param>
+        /// <returns></returns>
+        Task StopAsync(string? territory = null);
+        /// <summary>
+        /// 停止调度器
         /// </summary>
         /// <param name="scheduleIDs"></param>
         /// <returns></returns>
         Task StopAsync(params Guid[] scheduleIDs);
         /// <summary>
-        /// 立刻执行一个调度器
+        /// 停止调度器
+        /// </summary>
+        /// <param name="schedules"></param>
+        /// <returns></returns>
+        Task StopAsync(params Schedule[] schedules);
+        /// <summary>
+        /// 立刻执行调度器
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        Task RunNowAsync(Expression<Func<Schedule, bool>> expression);
+        /// <summary>
+        /// 立刻执行调度器
         /// </summary>
         /// <param name="scheduleIDs"></param>
         /// <returns></returns>
@@ -50,6 +83,12 @@ namespace Materal.Oscillator.Abstractions
         /// <param name="model"></param>
         /// <returns></returns>
         Task EditWorkAsync(EditWorkModel model);
+        /// <summary>
+        /// 删除任务
+        /// </summary>
+        /// <param name="workID"></param>
+        /// <returns></returns>
+        Task DeleteWorkAsync(Guid workID);
         /// <summary>
         /// 获得任务信息
         /// </summary>

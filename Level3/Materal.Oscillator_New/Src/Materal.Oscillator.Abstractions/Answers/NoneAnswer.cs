@@ -14,9 +14,10 @@ namespace Materal.Oscillator.Abstractions.Answers
         /// <param name="eventValue"></param>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="answer"></param>
         /// <param name="job"></param>
         /// <returns></returns>
-        public override Task<bool> ExcuteAsync(string eventValue, Schedule schedule, ScheduleWork scheduleWork, Answer answer, IOscillatorJob job) => Task.FromResult(false);
+        public override Task<bool> ExcuteAsync(string eventValue, Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer, IOscillatorJob job) => Task.FromResult(false);
     }
 }

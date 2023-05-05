@@ -2,17 +2,19 @@
 using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.DTO;
+using Materal.Oscillator.Abstractions.Helper;
 using Materal.Oscillator.Abstractions.Models;
 using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Abstractions.Works;
-using Materal.TTA.Common;
+using Materal.Oscillator.DR.Domain;
+using Materal.Oscillator.DR.Models;
+using Materal.Oscillator.PlanTriggers;
+using Materal.Oscillator.QuartZExtend;
 using Materal.Utils.Model;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using Quartz;
+using System.Linq.Expressions;
 
 namespace Materal.Oscillator
 {
@@ -30,47 +32,134 @@ namespace Materal.Oscillator
             _serviceProvider = serviceProvider;
         }
         /// <summary>
-        /// 启动所有调度器
+        /// 启动调度器
         /// </summary>
+        /// <param name="expression"></param>
         /// <returns></returns>
-        public Task StartAllAsync()
+        public async Task StartAsync(Expression<Func<Schedule, bool>> expression)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using IServiceScope serviceScope = _serviceProvider.CreateScope();
+                IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+                IScheduleRepository scheduleRepository = serviceProvider.GetRequiredService<IScheduleRepository>();
+                List<Schedule> schedules = await scheduleRepository.FindAsync(expression);
+                if (schedules == null || schedules.Count <= 0) return;
+                await StartAsync(serviceProvider, schedules.ToArray());
+            }
+            finally
+            {
+                await OscillatorQuartZManager.StartAsync();
+            }
         }
         /// <summary>
-        /// 停止所有调度器
+        /// 启动调度器
         /// </summary>
+        /// <param name="territory"></param>
         /// <returns></returns>
-        public Task StopAllAsync()
+        public async Task StartAsync(string? territory = null)
         {
-            throw new NotImplementedException();
+            Expression<Func<Schedule, bool>> expression = territory == null ? m => true : m => m.Territory == territory;
+            await StartAsync(expression);
         }
         /// <summary>
-        /// 根据调度器唯一标识启动调度器
+        /// 启动调度器
         /// </summary>
         /// <param name="scheduleIDs"></param>
         /// <returns></returns>
-        public Task StartAsync(params Guid[] scheduleIDs)
+        public async Task StartAsync(params Guid[] scheduleIDs)
         {
-            throw new NotImplementedException();
+            Expression<Func<Schedule, bool>> expression = m => scheduleIDs.Contains(m.ID);
+            await StartAsync(expression);
         }
         /// <summary>
-        /// 根据调度器唯一标识停止调度器
+        /// 启动调度器
+        /// </summary>
+        /// <param name="schedules"></param>
+        /// <returns></returns>
+        public async Task StartAsync(params Schedule[] schedules)
+        {
+            using IServiceScope serviceScope = _serviceProvider.CreateScope();
+            IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+            await StartAsync(serviceProvider, schedules);
+        }
+        /// <summary>
+        /// 停止调度器
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public async Task StopAsync(Expression<Func<Schedule, bool>> expression)
+        {
+            using IServiceScope serviceScope = _serviceProvider.CreateScope();
+            IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+            IScheduleRepository scheduleRepository = serviceProvider.GetRequiredService<IScheduleRepository>();
+            List<Schedule> schedules = await scheduleRepository.FindAsync(expression);
+            if (schedules == null || schedules.Count <= 0) return;
+            IOscillatorListener? oscillatorListener = serviceProvider.GetService<IOscillatorListener>();
+            await StopAsync(oscillatorListener, schedules.ToArray());
+        }
+        /// <summary>
+        /// 停止调度器
+        /// </summary>
+        /// <param name="territory"></param>
+        /// <returns></returns>
+        public async Task StopAsync(string? territory = null)
+        {
+            Expression<Func<Schedule, bool>> expression = territory == null ? m => true : m => m.Territory == territory;
+            await StopAsync(expression);
+        }
+        /// <summary>
+        /// 停止调度器
         /// </summary>
         /// <param name="scheduleIDs"></param>
         /// <returns></returns>
-        public Task StopAsync(params Guid[] scheduleIDs)
+        public async Task StopAsync(params Guid[] scheduleIDs)
         {
-            throw new NotImplementedException();
+            Expression<Func<Schedule, bool>> expression = m => scheduleIDs.Contains(m.ID);
+            await StopAsync(expression);
         }
         /// <summary>
-        /// 立刻执行一个调度器
+        /// 停止调度器
+        /// </summary>
+        /// <param name="schedules"></param>
+        /// <returns></returns>
+        public async Task StopAsync(params Schedule[] schedules)
+        {
+            using IServiceScope serviceScope = _serviceProvider.CreateScope();
+            IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+            IOscillatorListener? oscillatorListener = serviceProvider.GetService<IOscillatorListener>();
+            await StopAsync(oscillatorListener, schedules);
+        }
+        /// <summary>
+        /// 立刻执行调度器
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        public async Task RunNowAsync(Expression<Func<Schedule, bool>> expression)
+        {
+            try
+            {
+                using IServiceScope serviceScope = _serviceProvider.CreateScope();
+                IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+                IScheduleRepository scheduleRepository = serviceProvider.GetRequiredService<IScheduleRepository>();
+                List<Schedule> schedules = await scheduleRepository.FindAsync(expression);
+                if (schedules == null || schedules.Count <= 0) return;
+                await RunNowAsync(serviceProvider, schedules.ToArray());
+            }
+            finally
+            {
+                await OscillatorQuartZManager.StartAsync();
+            }
+        }
+        /// <summary>
+        /// 立刻执行调度器
         /// </summary>
         /// <param name="scheduleIDs"></param>
         /// <returns></returns>
-        public Task RunNowAsync(params Guid[] scheduleIDs)
+        public async Task RunNowAsync(params Guid[] scheduleIDs)
         {
-            throw new NotImplementedException();
+            Expression<Func<Schedule, bool>> expression = m => scheduleIDs.Contains(m.ID);
+            await RunNowAsync(expression);
         }
         /// <summary>
         /// 添加任务
@@ -103,12 +192,27 @@ namespace Materal.Oscillator
             IOscillatorUnitOfWork unitOfWork = serviceProvider.GetRequiredService<IOscillatorUnitOfWork>();
             IWorkRepository workRepository = unitOfWork.GetRepository<IWorkRepository>();
             Work work = await workRepository.FirstAsync(m => m.ID == model.ID);
-            work.Name = model.Name;
-            work.WorkType = model.WorkType;
+            model.CopyProperties(work, nameof(Work.WorkData));
             work.WorkData = model.WorkData.Serialize();
-            work.Description = model.Description;
             work.Validation();
             unitOfWork.RegisterEdit(work);
+            await unitOfWork.CommitAsync();
+        }
+        /// <summary>
+        /// 删除任务
+        /// </summary>
+        /// <param name="workID"></param>
+        /// <returns></returns>
+        public async Task DeleteWorkAsync(Guid workID)
+        {
+            using IServiceScope serviceScope = _serviceProvider.CreateScope();
+            IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+            IOscillatorUnitOfWork unitOfWork = serviceProvider.GetRequiredService<IOscillatorUnitOfWork>();
+            IScheduleWorkRepository scheduleWorkRepository = unitOfWork.GetRepository<IScheduleWorkRepository>();
+            if (await scheduleWorkRepository.ExistedAsync(m => m.WorkID == workID)) throw new OscillatorException("任务已被使用");
+            IWorkRepository workRepository = unitOfWork.GetRepository<IWorkRepository>();
+            Work work = await workRepository.FirstAsync(m => m.ID == workID);
+            unitOfWork.RegisterDelete(work);
             await unitOfWork.CommitAsync();
         }
         /// <summary>
@@ -239,11 +343,187 @@ namespace Materal.Oscillator
         /// </summary>
         /// <param name="scheduleID"></param>
         /// <returns></returns>
-        public Task DeleteScheduleAsync(Guid scheduleID)
+        public async Task DeleteScheduleAsync(Guid scheduleID)
         {
-            throw new NotImplementedException();
+            using IServiceScope serviceScope = _serviceProvider.CreateScope();
+            IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+            IOscillatorUnitOfWork unitOfWork = serviceProvider.GetRequiredService<IOscillatorUnitOfWork>();
+            IScheduleRepository scheduleRepository = unitOfWork.GetRepository<IScheduleRepository>();
+            Schedule schedule = await scheduleRepository.FirstAsync(scheduleID);
+            if (await OscillatorQuartZManager.IsRuningAsync(schedule)) throw new OscillatorException("调度器运行中");
+            IOscillatorListener? oscillatorListener = serviceProvider.GetService<IOscillatorListener>();
+            await StopAsync(oscillatorListener, schedule);
+            IPlanRepository planRepository = unitOfWork.GetRepository<IPlanRepository>();
+            List<Plan> plans = await planRepository.FindAsync(m => m.ScheduleID == scheduleID);
+            IAnswerRepository answerRepository = unitOfWork.GetRepository<IAnswerRepository>();
+            List<Answer> answers = await answerRepository.FindAsync(m => m.ScheduleID == scheduleID);
+            IScheduleWorkRepository scheduleWorkRepository = unitOfWork.GetRepository<IScheduleWorkRepository>();
+            List<ScheduleWork> scheduleWorks = await scheduleWorkRepository.FindAsync(m => m.ScheduleID == scheduleID);
         }
         #region 私有方法
+        /// <summary>
+        /// 停止调度器
+        /// </summary>
+        /// <param name="oscillatorListener"></param>
+        /// <param name="schedules"></param>
+        /// <returns></returns>
+        private async Task StopAsync(IOscillatorListener? oscillatorListener, params Schedule[] schedules)
+        {
+            if (schedules == null || schedules.Length <= 0) return;
+            foreach (Schedule schedule in schedules)
+            {
+                JobKey jobKey = OscillatorQuartZManager.GetJobKey(schedule);
+                if (!await OscillatorQuartZManager.IsRuningAsync(jobKey)) continue;
+                await OscillatorQuartZManager.RemoveJobAsync(jobKey);
+                if (oscillatorListener != null)
+                {
+                    await oscillatorListener.ScheduleStopAsync(schedule);
+                }
+            }
+        }
+        /// <summary>
+        /// 立即启动调度器
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="schedules"></param>
+        /// <returns></returns>
+        private async Task RunNowAsync(IServiceProvider serviceProvider, params Schedule[] schedules)
+        {
+            if (schedules == null || schedules.Length <= 0) return;
+            Guid[] scheduleIDs = schedules.Select(m => m.ID).ToArray();
+            IScheduleWorkRepository scheduleWorkRepository = serviceProvider.GetRequiredService<IScheduleWorkRepository>();
+            List<ScheduleWork> scheduleWorks = await scheduleWorkRepository.FindAsync(m => scheduleIDs.Contains(m.ScheduleID));
+            foreach (Schedule schedule in schedules)
+            {
+                ScheduleWork[] tempScheduleWorks = scheduleWorks.Where(m => m.ScheduleID == schedule.ID).ToArray();
+                if (tempScheduleWorks.Length <= 0) continue;
+                Plan tempPlan = new()
+                {
+                    Enable = true,
+                    Name = "立即执行计划",
+                    Description = "该计划是立即执行的内置计划",
+                    ID = Guid.Empty,
+                    PlanTriggerData = new NowPlanTrigger().Serialize(),
+                    PlanTriggerType = nameof(NowPlanTrigger),
+                    ScheduleID = schedule.ID
+                };
+                schedule.Name += $"_{DateTime.Now:yyyyMMddHHmmssffff}";
+                await StartAsync(serviceProvider, schedule, tempScheduleWorks, tempPlan);
+            }
+        }
+        /// <summary>
+        /// 启动调度器
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="schedules"></param>
+        /// <returns></returns>
+        private async Task StartAsync(IServiceProvider serviceProvider, params Schedule[] schedules)
+        {
+            if (schedules == null || schedules.Length <= 0) return;
+            Guid[] scheduleIDs = schedules.Select(m => m.ID).ToArray();
+            IPlanRepository planRepository = serviceProvider.GetRequiredService<IPlanRepository>();
+            List<Plan> plans = await planRepository.FindAsync(m => m.Enable && scheduleIDs.Contains(m.ScheduleID));
+            IScheduleWorkRepository scheduleWorkRepository = serviceProvider.GetRequiredService<IScheduleWorkRepository>();
+            List<ScheduleWork> scheduleWorks = await scheduleWorkRepository.FindAsync(m => scheduleIDs.Contains(m.ScheduleID));
+            foreach (Schedule schedule in schedules)
+            {
+                ScheduleWork[] tempScheduleWorks = scheduleWorks.Where(m => m.ScheduleID == schedule.ID).ToArray();
+                if (tempScheduleWorks.Length <= 0) continue;
+                Plan[] tempPlans = plans.Where(m => m.ScheduleID == schedule.ID).ToArray();
+                if (tempPlans.Length <= 0) continue;
+                await StartAsync(serviceProvider, schedule, tempScheduleWorks, tempPlans);
+            }
+        }
+        /// <summary>
+        /// 启动调度器
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="schedule"></param>
+        /// <param name="scheduleWorks"></param>
+        /// <param name="plans"></param>
+        /// <returns></returns>
+        private async Task StartAsync(IServiceProvider serviceProvider, Schedule schedule, ScheduleWork[] scheduleWorks, params Plan[] plans)
+        {
+            IOscillatorListener? oscillatorListener = serviceProvider.GetService<IOscillatorListener>();
+            IJobDetail? job = GetJobDetail(schedule, scheduleWorks);
+            if (job == null) return;
+            List<ITrigger> triggers = new();
+            foreach (Plan plan in plans)
+            {
+                ITrigger? trigger = await PlanToTriggerAsync(oscillatorListener, schedule, plan);
+                if (trigger == null) continue;
+                triggers.Add(trigger);
+            }
+            if (triggers.Count <= 0) return;
+            if (await OscillatorQuartZManager.IsRuningAsync(job.Key)) return;
+            await StartAsync(oscillatorListener, schedule, job, triggers.ToArray());
+        }
+        /// <summary>
+        /// 启动任务
+        /// </summary>
+        /// <param name="oscillatorListener"></param>
+        /// <param name="schedule"></param>
+        /// <param name="job"></param>
+        /// <param name="triggers"></param>
+        /// <returns></returns>
+        private async Task StartAsync(IOscillatorListener? oscillatorListener, Schedule schedule, IJobDetail job, params ITrigger[] triggers)
+        {
+            if (!schedule.Enable) throw new OscillatorException("调度器未启用");
+            if (triggers.Length <= 0) throw new OscillatorException("至少需要一个计划");
+            await OscillatorQuartZManager.AddNewJobAsync(job, triggers);
+            if (oscillatorListener != null)
+            {
+                await oscillatorListener.ScheduleStartAsync(schedule);
+            }
+        }
+        /// <summary>
+        /// 计划转换为触发器
+        /// </summary>
+        /// <param name="oscillatorListener"></param>
+        /// <param name="schedule"></param>
+        /// <param name="plan"></param>
+        /// <returns></returns>
+        private async Task<ITrigger?> PlanToTriggerAsync(IOscillatorListener? oscillatorListener, Schedule schedule, Plan plan)
+        {
+            if (!plan.Enable) return null;
+            if (string.IsNullOrEmpty(plan.PlanTriggerData)) return null;
+            IPlanTrigger? planTrigger = OscillatorConvertHelper.ConvertToInterface<IPlanTrigger>(plan.PlanTriggerType, plan.PlanTriggerData);
+            if (planTrigger == null) return null;
+            TriggerKey triggerKey = OscillatorQuartZManager.GetTriggerKey(schedule, plan);
+            ITrigger? trigger = planTrigger.CreateTrigger(triggerKey);
+            if (trigger != null && oscillatorListener != null)
+            {
+                await oscillatorListener.ScheduleReadyAsync(schedule, planTrigger);
+            }
+            return trigger;
+        }
+        /// <summary>
+        /// 获得作业明细
+        /// </summary>
+        /// <param name="schedule"></param>
+        /// <param name="scheduleWorks"></param>
+        /// <param name="flow"></param>
+        /// <returns></returns>
+        private IJobDetail? GetJobDetail(Schedule schedule, ScheduleWork[] scheduleWorks, Flow? flow = null)
+        {
+            if (scheduleWorks.Length <= 0) return null;
+            JobKey jobKey = OscillatorQuartZManager.GetJobKey(schedule);
+            ScheduleFlowModel scheduleFlow = schedule.CopyProperties<ScheduleFlowModel>();
+            JobDataMap dataMap = new()
+            {
+                [OscillatorJob.ScheduleDataMapKey] = scheduleFlow,
+                [OscillatorJob.WorksDataMapKey] = scheduleWorks
+            };
+            if (flow != null)
+            {
+                dataMap.Add(OscillatorJob.FlowMapKey, flow);
+            }
+            IJobDetail quartZJobDetail = JobBuilder.Create<OscillatorJob>()
+                .WithIdentity(jobKey)
+                .UsingJobData(dataMap)
+                .Build();
+            return quartZJobDetail;
+        }
         /// <summary>
         /// 添加调度器任务
         /// </summary>

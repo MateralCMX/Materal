@@ -36,16 +36,17 @@ namespace Materal.Oscillator.Answers
         /// <param name="eventValue"></param>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="answer"></param>
         /// <param name="job"></param>
         /// <returns></returns>
-        public override async Task<bool> ExcuteAsync(string eventValue, Schedule schedule, ScheduleWork scheduleWork, Answer answer, IOscillatorJob job)
+        public override async Task<bool> ExcuteAsync(string eventValue, Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer, IOscillatorJob job)
         {
             int repetition = RetryCount - 1;
             int repetitionInterval = RetryInterval;
             if (repetition < 0 || repetitionInterval <= 0) return true;
             string newEventValue = eventValue;
-            _listener?.RetryTrigger(schedule, scheduleWork, 1, RetryCount, RetryInterval);
+            _listener?.RetryTrigger(schedule, scheduleWork, work, 1, RetryCount, RetryInterval);
             await Task.Delay(repetitionInterval * 1000);
             try
             {
@@ -56,27 +57,27 @@ namespace Materal.Oscillator.Answers
                         .WaitAndRetryAsync(repetition, i =>
                         {
                             index = i + 1;
-                            _listener?.RetryTrigger(schedule, scheduleWork, index, RetryCount, RetryInterval);
+                            _listener?.RetryTrigger(schedule, scheduleWork, work, index, RetryCount, RetryInterval);
                             return TimeSpan.FromSeconds(repetitionInterval);
                         })
                         .ExecuteAsync(async () =>
                         {
-                            newEventValue = await HandlerRetryJobAsync(eventValue, schedule, scheduleWork, job, index);
+                            newEventValue = await HandlerRetryJobAsync(eventValue, schedule, scheduleWork, work, job, index);
                         });
                 }
                 else
                 {
-                    newEventValue = await HandlerRetryJobAsync(eventValue, schedule, scheduleWork, job, index);
+                    newEventValue = await HandlerRetryJobAsync(eventValue, schedule, scheduleWork, work, job, index);
                 }
             }
             catch (Exception)
             {
-                _listener?.RetryFail(schedule, scheduleWork, RetryCount, RetryCount, RetryInterval);
+                _listener?.RetryFail(schedule, scheduleWork, work, RetryCount, RetryCount, RetryInterval);
                 return true;
             }
             if (newEventValue != eventValue)
             {
-                _listener?.RetrySuccess(schedule, scheduleWork, RetryCount, RetryCount, RetryInterval);
+                _listener?.RetrySuccess(schedule, scheduleWork, work, RetryCount, RetryCount, RetryInterval);
                 await job.SendEventAsync(newEventValue, scheduleWork);
                 return false;
             }
@@ -88,12 +89,13 @@ namespace Materal.Oscillator.Answers
         /// <param name="upEventValue"></param>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <param name="job"></param>
         /// <param name="nowIndex"></param>
         /// <returns></returns>
-        private async Task<string> HandlerRetryJobAsync(string upEventValue, Schedule schedule, ScheduleWork scheduleWork, IOscillatorJob job, int nowIndex)
+        private async Task<string> HandlerRetryJobAsync(string upEventValue, Schedule schedule, ScheduleWork scheduleWork, Work work, IOscillatorJob job, int nowIndex)
         {
-            _listener?.RetryExcute(schedule, scheduleWork, nowIndex, RetryCount, RetryInterval);
+            _listener?.RetryExcute(schedule, scheduleWork, work, nowIndex, RetryCount, RetryInterval);
             string eventValue = await job.HandlerJobAsync(scheduleWork);
             if (upEventValue == eventValue)
             {
