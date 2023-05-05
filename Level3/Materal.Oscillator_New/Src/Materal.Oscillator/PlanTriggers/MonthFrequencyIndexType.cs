@@ -2,6 +2,9 @@
 
 namespace Materal.Oscillator.PlanTriggers
 {
+    /// <summary>
+    /// 月度
+    /// </summary>
     public enum MonthFrequencyIndexType
     {
         /// <summary>

@@ -2,6 +2,7 @@
 using Materal.Oscillator.Extensions;
 using Materal.Oscillator.SqliteRepository;
 using Materal.TTA.Common.Model;
+using Materal.TTA.EFRepository;
 using Materal.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,8 @@ namespace Materal.Oscillator.Test
             AddServices(serviceCollection);
             MateralServices.Services = serviceCollection.BuildServiceProvider();
             Services = MateralServices.Services;
+            IMigrateHelper<OscillatorDBContext> migrateHelper = GetServiceTest<IMigrateHelper<OscillatorDBContext>>();
+            migrateHelper.Migrate();
         }
         /// <summary>
         /// 添加Sqlite仓储

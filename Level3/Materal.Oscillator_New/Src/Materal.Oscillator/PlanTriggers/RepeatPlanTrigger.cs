@@ -11,6 +11,9 @@ namespace Materal.Oscillator.Abstractions.Services.Trigger
     /// </summary>
     public class RepeatPlanTrigger : PlanTriggerBase, IPlanTrigger
     {
+        /// <summary>
+        /// 重复标识
+        /// </summary>
         public override bool CanRepeated => true;
         /// <summary>
         /// 日期触发器类型名称
@@ -28,6 +31,12 @@ namespace Materal.Oscillator.Abstractions.Services.Trigger
         /// 每日触发器
         /// </summary>
         public IEveryDayTrigger EveryDayTrigger { get; set; } = new EveryDayNotRunTrigger();
+        /// <summary>
+        /// 创建触发器
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="group"></param>
+        /// <returns></returns>
         public override ITrigger? CreateTrigger(string name, string group)
         {
             DateTimeOffset? startTime = DateTrigger.GetDateStartTime(EveryDayTrigger);
@@ -36,8 +45,22 @@ namespace Materal.Oscillator.Abstractions.Services.Trigger
             ITrigger? trigger = CreateTrigger(name, group, startTime.Value.DateTime, endTime?.DateTime);
             return trigger;
         }
+        /// <summary>
+        /// 获得描述文本
+        /// </summary>
+        /// <returns></returns>
         public override string GetDescriptionText() => DateTrigger.GetDescriptionText(EveryDayTrigger);
+        /// <summary>
+        /// 获得下一次执行时间
+        /// </summary>
+        /// <param name="upRunTime"></param>
+        /// <returns></returns>
         public override DateTimeOffset? GetNextRunTime(DateTimeOffset upRunTime) => DateTrigger.GetNextRunTime(upRunTime, EveryDayTrigger);
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="triggerData"></param>
+        /// <returns></returns>
         public override IPlanTrigger Deserialization(string triggerData)
         {
             RepeatPlanTrigger result = new();

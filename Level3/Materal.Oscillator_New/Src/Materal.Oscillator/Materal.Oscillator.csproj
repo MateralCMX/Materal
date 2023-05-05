@@ -15,6 +15,9 @@
 		<Description>Materal.Oscillator</Description>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />
+		<PackageReference Include="Polly" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

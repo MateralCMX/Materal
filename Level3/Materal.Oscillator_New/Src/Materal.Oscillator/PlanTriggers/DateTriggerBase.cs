@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Materal.Oscillator.PlanTriggers
 {
+    /// <summary>
+    /// 日期触发器
+    /// </summary>
     public abstract class DateTriggerBase : IDateTrigger
     {
         /// <summary>
@@ -17,7 +20,11 @@ namespace Materal.Oscillator.PlanTriggers
         /// 间隔
         /// </summary>
         public uint Interval { get; set; } = 1;
-
+        /// <summary>
+        /// 获得结束时间
+        /// </summary>
+        /// <param name="everyDayTrigger"></param>
+        /// <returns></returns>
         public virtual DateTimeOffset? GetDateEndTime(IEveryDayTrigger everyDayTrigger)
         {
             if (Interval <= 0) return null;
@@ -25,12 +32,22 @@ namespace Materal.Oscillator.PlanTriggers
             DateTimeOffset? result = everyDayTrigger.GetTriggerEndTime(EndDate);
             return result;
         }
+        /// <summary>
+        /// 获得开始时间
+        /// </summary>
+        /// <param name="everyDayTrigger"></param>
+        /// <returns></returns>
         public virtual DateTimeOffset? GetDateStartTime(IEveryDayTrigger everyDayTrigger)
         {
             if (Interval <= 0) return null;
             DateTimeOffset? result = everyDayTrigger.GetTriggerStartTime(StartDate);
             return result;
         }
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="dateTriggerData"></param>
+        /// <returns></returns>
         public virtual IDateTrigger Deserialization(string dateTriggerData) => (IDateTrigger)dateTriggerData.JsonToObject(GetType());
         /// <summary>
         /// 获得前半段说明文本
@@ -50,7 +67,18 @@ namespace Materal.Oscillator.PlanTriggers
             }
             return description;
         }
+        /// <summary>
+        /// 获得说明文本
+        /// </summary>
+        /// <param name="everyDayTrigger"></param>
+        /// <returns></returns>
         public abstract string GetDescriptionText(IEveryDayTrigger everyDayTrigger);
+        /// <summary>
+        /// 获得下次运行时间
+        /// </summary>
+        /// <param name="upRunTime"></param>
+        /// <param name="everyDayTrigger"></param>
+        /// <returns></returns>
         public virtual DateTimeOffset? GetNextRunTime(DateTimeOffset upRunTime, IEveryDayTrigger everyDayTrigger)
         {
             if (Interval <= 0) return null;

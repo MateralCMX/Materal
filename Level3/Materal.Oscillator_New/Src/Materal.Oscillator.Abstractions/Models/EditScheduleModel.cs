@@ -36,19 +36,19 @@ namespace Materal.Oscillator.Abstractions.Models
         /// 计划组
         /// </summary>
         [Required(ErrorMessage = "计划组为空"), MinLength(1, ErrorMessage = "至少需要一个计划")]
-        public List<EditPlanModel> Plans { get; set; } = new();
+        public List<AddPlanModel> Plans { get; set; } = new();
         /// <summary>
         /// 任务组
         /// </summary>
         [Required(ErrorMessage = "任务组为空"), MinLength(1, ErrorMessage = "至少需要一个作业")]
-        public List<EditScheduleWorkModel> Wokrs { get; set; } = new();
+        public List<AddScheduleWorkModel> Works { get; set; } = new();
         /// <summary>
         /// 响应组
         /// </summary>
-        public List<EditAnswerModel> Answers { get; set; } = new();
+        public List<AddAnswerModel> Answers { get; set; } = new();
         /// <summary>
         /// 任务事件组
         /// </summary>
-        public List<EditWorkEventModel> WorkEvents { get; set; } = new();
+        public List<AddWorkEventModel> WorkEvents { get; set; } = new();
     }
 }

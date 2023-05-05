@@ -24,11 +24,6 @@ namespace Materal.Oscillator.Abstractions.Models
         [Required(ErrorMessage = "启用标识为空")]
         public bool Enable { get; set; } = true;
         /// <summary>
-        /// 位序
-        /// </summary>
-        [Required(ErrorMessage = "位序为空")]
-        public int Index { get; set; }
-        /// <summary>
         /// 描述
         /// </summary>
         [StringLength(400, ErrorMessage = "描述长度大于400")]

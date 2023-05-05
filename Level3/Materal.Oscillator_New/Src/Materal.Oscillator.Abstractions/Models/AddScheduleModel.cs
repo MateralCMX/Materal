@@ -36,7 +36,7 @@ namespace Materal.Oscillator.Abstractions.Models
         /// 任务组
         /// </summary>
         [Required(ErrorMessage = "任务组为空"), MinLength(1, ErrorMessage = "至少需要一个任务")]
-        public List<AddScheduleWorkModel> Wokrs { get; set; } = new();
+        public List<AddScheduleWorkModel> Works { get; set; } = new();
         /// <summary>
         /// 响应组
         /// </summary>

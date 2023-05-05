@@ -23,6 +23,11 @@ namespace Materal.Oscillator.PlanTriggers
         /// 间隔类型
         /// </summary>
         public EveryDayIntervalType IntervalType { get; set; } = EveryDayIntervalType.Hour;
+        /// <summary>
+        /// 获得下一次运行时间
+        /// </summary>
+        /// <param name="upRunTime"></param>
+        /// <returns></returns>
 
         public override DateTimeOffset? GetNextRunTime(DateTimeOffset upRunTime)
         {
@@ -58,11 +63,22 @@ namespace Materal.Oscillator.PlanTriggers
             }
             return result;
         }
-
+        /// <summary>
+        /// 获得说明文本
+        /// </summary>
+        /// <returns></returns>
         public override string GetDescriptionText() => $"{StartTime} 至 {EndTime} 之间、每 {Interval} {IntervalType.GetDescription()} 执行一次。";
-
+        /// <summary>
+        /// 获得开始时间
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public override DateTimeOffset? GetTriggerStartTime(Date date) => date.MergeDateTimeOffset(StartTime);
-
+        /// <summary>
+        /// 获得结束时间
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public override DateTimeOffset? GetTriggerEndTime(Date date) => date.MergeDateTimeOffset(EndTime);
 
         #region 私有方法

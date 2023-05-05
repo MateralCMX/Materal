@@ -21,7 +21,6 @@ namespace Materal.Oscillator.Abstractions.DTO
         /// <summary>
         /// 修改时间
         /// </summary>
-        [Required(ErrorMessage = "修改时间为空")]
         public DateTime UpdateTime { get; set; }
         /// <summary>
         /// 构造方法
