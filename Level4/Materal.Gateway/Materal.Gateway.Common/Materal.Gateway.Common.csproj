@@ -5,6 +5,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.16" />
+		<PackageReference Include="Materal.Utils" Version="1.1.17" />
 	</ItemGroup>
 </Project>

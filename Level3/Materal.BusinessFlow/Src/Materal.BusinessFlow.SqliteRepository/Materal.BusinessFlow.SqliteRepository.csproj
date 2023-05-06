@@ -7,7 +7,9 @@
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.SqliteADONETRepository\Materal.TTA.SqliteADONETRepository.csproj" />
+	  <PackageReference Include="Materal.TTA.SqliteADONETRepository" Version="1.1.17" />
+	</ItemGroup>
+	<ItemGroup>
 	  <ProjectReference Include="..\Materal.BusinessFlow.Abstractions\Materal.BusinessFlow.Abstractions.csproj" />
 	</ItemGroup>
 </Project>
