@@ -43,6 +43,10 @@ namespace Materal.BaseCore.WebAPI
                 mvcOptions.SuppressAsyncSuffixInActionNames = true;
             })
             .AddApplicationPart(typeof(HealthController).Assembly)
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            })
             .AddNewtonsoftJson(jsonOptions =>
             {
                 jsonOptions.SerializerSettings.ContractResolver = new DefaultContractResolver();
