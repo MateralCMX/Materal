@@ -11,7 +11,7 @@ namespace Materal.BusinessFlow
 {
     public class BusinessFlowHelper
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IBusinessFlowUnitOfWork _unitOfWork;
         private readonly IDataModelFieldRepository _dataFieldRepository;
         private readonly IFlowTemplateRepository _flowTemplateRepository;
         private readonly IStepRepository _stepRepository;
@@ -19,7 +19,7 @@ namespace Materal.BusinessFlow
         private readonly IFlowRepository _flowRepository;
         private readonly IFlowRecordRepository _flowRecordRepository;
         private readonly IFlowUserRepository _flowUserRepository;
-        public BusinessFlowHelper(IUnitOfWork unitOfWork)
+        public BusinessFlowHelper(IBusinessFlowUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _dataFieldRepository = unitOfWork.GetRepository<IDataModelFieldRepository>();
@@ -139,7 +139,7 @@ namespace Materal.BusinessFlow
         public async Task<(List<Guid> autoNodeIDs, bool hasNode)> StartStepAsync(Guid flowTemplateID, Guid flowID, Guid stepID, Guid initiatorID, Dictionary<string, object?> changeDatas)
         {
             _flowRepository.SetStep(flowTemplateID, flowID, stepID);
-            List<Node> allNodes = await _nodeRepository.GetListAsync(new QueryNodeModel
+            List<Node> allNodes = await _nodeRepository.FindAsync(new QueryNodeModel
             {
                 StepID = stepID
             });
@@ -147,7 +147,7 @@ namespace Materal.BusinessFlow
             List<Guid> autoNodeIDs = new();
             int addNodeCount = 0;
             FlowTemplate flowTemplate = await _flowTemplateRepository.FirstAsync(flowTemplateID);
-            List<DataModelField> dataModelFields = await _dataFieldRepository.GetListAsync(m => m.DataModelID == flowTemplate.DataModelID);
+            List<DataModelField> dataModelFields = await _dataFieldRepository.FindAsync(m => m.DataModelID == flowTemplate.DataModelID);
             Dictionary<string, object?> datas = await _flowRepository.GetDataAsync(flowTemplateID, flowID, dataModelFields);
             foreach (KeyValuePair<string, object?> item in changeDatas)
             {
@@ -182,7 +182,7 @@ namespace Materal.BusinessFlow
         public async Task<List<Guid>> DisregardConditionsStartStepAsync(Guid flowTemplateID, Guid flowID, Guid stepID, Guid initiatorID)
         {
             _flowRepository.SetStep(flowTemplateID, flowID, stepID);
-            List<Node> allNodes = await _nodeRepository.GetListAsync(new QueryNodeModel
+            List<Node> allNodes = await _nodeRepository.FindAsync(new QueryNodeModel
             {
                 StepID = stepID
             });
@@ -208,7 +208,7 @@ namespace Materal.BusinessFlow
         public async Task<Dictionary<string, object?>> SaveFlowDataAsync(Guid flowTemplateID, FlowRecord flowRecord, string jsonData)
         {
             FlowTemplate flowTemplate = await _flowTemplateRepository.FirstAsync(flowTemplateID);
-            List<DataModelField> dataModelFields = await _dataFieldRepository.GetListAsync(m => m.DataModelID == flowTemplate.DataModelID);
+            List<DataModelField> dataModelFields = await _dataFieldRepository.FindAsync(m => m.DataModelID == flowTemplate.DataModelID);
             JObject jsonObj = JsonConvert.DeserializeObject<JObject>(jsonData) ?? throw new BusinessFlowException("Json反序列化失败");
             Dictionary<string, object?> changeDatas = new();
             foreach (KeyValuePair<string, JToken?> item in jsonObj)

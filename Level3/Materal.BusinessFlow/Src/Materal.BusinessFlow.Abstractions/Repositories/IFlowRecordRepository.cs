@@ -1,11 +1,12 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Models;
 using Materal.BusinessFlow.Abstractions.Services.Models;
+using Materal.TTA.Common;
 using System.Linq.Expressions;
 
 namespace Materal.BusinessFlow.Abstractions.Repositories
 {
-    public interface IFlowRecordRepository : IBaseRepository
+    public interface IFlowRecordRepository : IRepository
     {
         /// <summary>
         /// 添加

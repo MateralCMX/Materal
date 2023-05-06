@@ -2,7 +2,7 @@
 
 namespace Materal.BusinessFlow.Abstractions.Services.Models
 {
-    public class QueryStepModel : BaseQueryModel, IQueryModel
+    public class QueryStepModel : BaseQueryModel
     {
         /// <summary>
         /// 名称

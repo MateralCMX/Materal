@@ -1,8 +1,9 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
+using Materal.TTA.Common;
 
 namespace Materal.BusinessFlow.Abstractions.Repositories
 {
-    public interface IFlowRepository : IBaseRepository
+    public interface IFlowRepository : IRepository
     {
         /// <summary>
         /// 添加

@@ -18,7 +18,7 @@ namespace Materal.BusinessFlow.Services
         public override async Task<Guid> AddAsync(DataModelField model)
         {
             UnitOfWork.RegisterAdd(model);
-            List<FlowTemplate> flowTemplates = await _flowTemplateRepository.GetListAsync(m => m.DataModelID == model.DataModelID);
+            List<FlowTemplate> flowTemplates = await _flowTemplateRepository.FindAsync(m => m.DataModelID == model.DataModelID);
             foreach (FlowTemplate flowTemplate in flowTemplates)
             {
                 await _flowRepository.AddTableFieldAsync(flowTemplate, model);
@@ -32,7 +32,7 @@ namespace Materal.BusinessFlow.Services
             if (domain.DataType != model.DataType) throw new BusinessFlowException("不能修改数据类型");
             DataModelField oldDomain = domain.ToJson().JsonToObject<DataModelField>();
             model.CopyProperties(domain);
-            List<FlowTemplate> flowTemplates = await _flowTemplateRepository.GetListAsync(m => m.DataModelID == model.DataModelID);
+            List<FlowTemplate> flowTemplates = await _flowTemplateRepository.FindAsync(m => m.DataModelID == model.DataModelID);
             foreach (FlowTemplate flowTemplate in flowTemplates)
             {
                 await _flowRepository.EditTableFieldAsync(flowTemplate, oldDomain, model);
@@ -44,7 +44,7 @@ namespace Materal.BusinessFlow.Services
         {
             DataModelField domain = await DefaultRepository.FirstAsync(id);
             UnitOfWork.RegisterDelete(domain);
-            List<FlowTemplate> flowTemplates = await _flowTemplateRepository.GetListAsync(m => m.DataModelID == domain.DataModelID);
+            List<FlowTemplate> flowTemplates = await _flowTemplateRepository.FindAsync(m => m.DataModelID == domain.DataModelID);
             foreach (FlowTemplate flowTemplate in flowTemplates)
             {
                 await _flowRepository.DeleteTableFieldAsync(flowTemplate, domain);

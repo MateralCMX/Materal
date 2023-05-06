@@ -9,7 +9,7 @@ namespace Materal.BusinessFlow.AutoNodes.Base
     public abstract class BaseAutoNode : IAutoNode
     {
         protected readonly IServiceProvider ServiceProvider;
-        protected readonly IUnitOfWork UnitOfWork;
+        protected readonly IBusinessFlowUnitOfWork UnitOfWork;
         protected readonly IDataModelRepository DataModelRepository;
         protected readonly IDataModelFieldRepository DataModelFieldRepository;
         protected readonly IFlowTemplateRepository FlowTemplateRepository;
@@ -20,7 +20,7 @@ namespace Materal.BusinessFlow.AutoNodes.Base
         protected BaseAutoNode(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
-            UnitOfWork = ServiceProvider.GetService<IUnitOfWork>() ?? throw new BusinessFlowException("获取工作单元失败");
+            UnitOfWork = ServiceProvider.GetService<IBusinessFlowUnitOfWork>() ?? throw new BusinessFlowException("获取工作单元失败");
             DataModelRepository = UnitOfWork.GetRepository<IDataModelRepository>();
             DataModelFieldRepository = UnitOfWork.GetRepository<IDataModelFieldRepository>();
             FlowTemplateRepository = UnitOfWork.GetRepository<IFlowTemplateRepository>();
@@ -36,7 +36,7 @@ namespace Materal.BusinessFlow.AutoNodes.Base
             Step step = await StepRepository.FirstAsync(node.StepID);
             FlowTemplate flowTemplate = await FlowTemplateRepository.FirstAsync(flowTemplateID);
             DataModel dataModel = await DataModelRepository.FirstAsync(flowTemplate.DataModelID);
-            List<DataModelField> dataModelFields = await DataModelFieldRepository.GetListAsync(m => m.DataModelID == flowTemplate.DataModelID);
+            List<DataModelField> dataModelFields = await DataModelFieldRepository.FindAsync(m => m.DataModelID == flowTemplate.DataModelID);
             Dictionary<string, object?> flowData = await FlowRepository.GetDataAsync(flowTemplateID, flowRecord.FlowID, dataModelFields);
             AutoNodeModel autoNodeModel = new(flowTemplate, step, node, flowRecord, dataModel, dataModelFields, flowData);
             await ExcuteAsync(autoNodeModel);

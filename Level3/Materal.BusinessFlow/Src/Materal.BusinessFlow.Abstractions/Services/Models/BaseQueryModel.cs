@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Materal.BusinessFlow.Abstractions.Services.Models
 {
-    public class BaseQueryModel : PageRequestModel, IQueryModel
+    public class BaseQueryModel : PageRequestModel
     {
         /// <summary>
         /// 唯一标识

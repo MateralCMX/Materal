@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Src\Materal.BusinessFlow.SqliteRepository\Materal.BusinessFlow.SqliteRepository.csproj" />
-    <ProjectReference Include="..\..\Src\Materal.BusinessFlow.SqlServerRepository\Materal.BusinessFlow.SqlServerRepository.csproj" />
     <ProjectReference Include="..\..\Src\Materal.BusinessFlow\Materal.BusinessFlow.csproj" />
   </ItemGroup>
 

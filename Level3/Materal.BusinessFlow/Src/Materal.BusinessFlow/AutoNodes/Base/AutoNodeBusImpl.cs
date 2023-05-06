@@ -69,7 +69,7 @@ namespace Materal.BusinessFlow.AutoNodes.Base
         /// <returns></returns>
         private async Task ExcuteAutoNodeAsync(Guid flowTemplateID, Guid flowRecordID, IServiceProvider service)
         {
-            IUnitOfWork? unitOfWork = service.GetService<IUnitOfWork>();
+            IBusinessFlowUnitOfWork? unitOfWork = service.GetService<IBusinessFlowUnitOfWork>();
             if (unitOfWork == null) return;
             try
             {
@@ -102,7 +102,7 @@ namespace Materal.BusinessFlow.AutoNodes.Base
         /// <param name="jsonData"></param>
         /// <param name="unitOfWork"></param>
         /// <returns></returns>
-        private async Task SuccessNodeAsync(IServiceProvider service, Guid flowTemplateID, Guid flowRecordID, string jsonData, IUnitOfWork unitOfWork)
+        private async Task SuccessNodeAsync(IServiceProvider service, Guid flowTemplateID, Guid flowRecordID, string jsonData, IBusinessFlowUnitOfWork unitOfWork)
         {
             BusinessFlowHelper businessFlowHelper = service.GetService<BusinessFlowHelper>() ?? throw new BusinessFlowException("获取服务失败");
             List<Guid> autoNodeIDs = await businessFlowHelper.ComplateAutoNodeAsync(flowTemplateID, flowRecordID, jsonData);
@@ -128,7 +128,7 @@ namespace Materal.BusinessFlow.AutoNodes.Base
         /// <param name="flowRecordID"></param>
         /// <param name="exception"></param>
         /// <returns></returns>
-        private async Task ErrorNodeAsync(IServiceProvider service, Guid flowTemplateID, Guid flowRecordID, string jsonData, Exception exception, IUnitOfWork unitOfWork)
+        private async Task ErrorNodeAsync(IServiceProvider service, Guid flowTemplateID, Guid flowRecordID, string jsonData, Exception exception, IBusinessFlowUnitOfWork unitOfWork)
         {
             BusinessFlowHelper businessFlowHelper = service.GetService<BusinessFlowHelper>() ?? throw new BusinessFlowException("获取服务失败");
             await businessFlowHelper.EditSameBatchFlowRecordAsync(flowTemplateID, flowRecordID, null, jsonData, FlowRecordStateEnum.Fail, exception.GetErrorMessage());

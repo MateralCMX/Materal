@@ -1,11 +1,6 @@
-﻿using Materal.BusinessFlow.Abstractions;
-using Materal.BusinessFlow.Abstractions.Repositories;
-using Materal.BusinessFlow.ADONETRepository.Repositories;
-using Materal.BusinessFlow.SqliteRepository;
-using Materal.BusinessFlow.SqliteRepository.Models;
-using Materal.BusinessFlow.SqliteRepository.Repositories;
+﻿using Materal.BusinessFlow.SqliteRepository;
+using Materal.TTA.SqliteADONETRepository;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Materal.BusinessFlow
 {
@@ -14,20 +9,9 @@ namespace Materal.BusinessFlow
     /// </summary>
     public static class DIExtension
     {
-        public static IServiceCollection AddBusinessFlowSqliteRepository(this IServiceCollection services, SqliteConfigModel dbConfigModel)
+        public static IServiceCollection AddBusinessFlowSqliteRepository(this IServiceCollection services, SqliteDBOption dbOption)
         {
-            services.TryAddScoped<IDataModelRepository, DataModelRepositoryImpl>();
-            services.TryAddScoped<IDataModelFieldRepository, DataModelFieldRepositoryImpl>();
-            services.TryAddScoped<IFlowTemplateRepository, FlowTemplateRepositoryImpl>();
-            services.TryAddScoped<INodeRepository, NodeRepositoryImpl>();
-            services.TryAddScoped<IStepRepository, StepRepositoryImpl>();
-            services.TryAddScoped<IUserRepository, UserRepositoryImpl>();
-            services.TryAddScoped<IFlowRepository, FlowRepositoryImpl>();
-            services.TryAddScoped<IFlowRecordRepository, FlowRecordRepositoryImpl>();
-            services.TryAddScoped<IFlowUserRepository, FlowUserRepositoryImpl>();
-            services.TryAddScoped(typeof(IRepositoryHelper<>), typeof(SqliteRepositoryHelper<>));
-            services.TryAddSingleton(dbConfigModel);
-            services.TryAddScoped<IUnitOfWork, UnitOfWorkImpl>();
+            services.AddTTASqliteADONETRepository(dbOption);
             return services;
         }
     }

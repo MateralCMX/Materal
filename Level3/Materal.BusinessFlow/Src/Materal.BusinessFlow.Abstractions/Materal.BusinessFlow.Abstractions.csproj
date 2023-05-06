@@ -7,7 +7,10 @@
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.16" />
 		<PackageReference Include="System.Data.SqlClient" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.ADONETRepository\Materal.TTA.ADONETRepository.csproj" />
+	  <ProjectReference Include="..\..\..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.Common\Materal.TTA.Common.csproj" />
 	</ItemGroup>
 </Project>

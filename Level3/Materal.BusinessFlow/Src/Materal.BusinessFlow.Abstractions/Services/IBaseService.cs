@@ -1,5 +1,5 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
-using Materal.BusinessFlow.Abstractions.Repositories;
+using Materal.TTA.Common;
 using Materal.Utils.Model;
 
 namespace Materal.BusinessFlow.Abstractions.Services
@@ -50,7 +50,7 @@ namespace Materal.BusinessFlow.Abstractions.Services
     }
     public interface IBaseService<TDomain, TRepository, TQueryModel> : IBaseService<TDomain, TQueryModel>
         where TDomain : class, IBaseDomain
-        where TRepository : IBaseRepository<TDomain>
+        where TRepository : IRepository<TDomain>
         where TQueryModel : class, new()
     {
     }

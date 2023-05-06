@@ -14,9 +14,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.BusinessFlow.Abstractions\Materal.BusinessFlow.Abstractions.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.BusinessFlow.ADONETRepository\Materal.BusinessFlow.ADONETRepository.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.BusinessFlow.SqliteRepository\Materal.BusinessFlow.SqliteRepository.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.BusinessFlow.SqlServerRepository\Materal.BusinessFlow.SqlServerRepository.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.BusinessFlow\Materal.BusinessFlow.csproj" />
 	</ItemGroup>
 </Project>

@@ -10,6 +10,7 @@
 		<PackageReference Include="Microsoft.Data.Sqlite" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.BusinessFlow.ADONETRepository\Materal.BusinessFlow.ADONETRepository.csproj" />
+	  <ProjectReference Include="..\..\..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.SqliteADONETRepository\Materal.TTA.SqliteADONETRepository.csproj" />
+	  <ProjectReference Include="..\Materal.BusinessFlow.Abstractions\Materal.BusinessFlow.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

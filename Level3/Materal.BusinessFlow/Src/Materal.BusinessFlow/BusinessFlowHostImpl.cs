@@ -12,7 +12,7 @@ namespace Materal.BusinessFlow
     public class BusinessFlowHostImpl : IBusinessFlowHost
     {
         private readonly IAutoNodeBus _autoNodeBus;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IBusinessFlowUnitOfWork _unitOfWork;
         private readonly IFlowTemplateRepository _flowTemplateRepository;
         private readonly IStepRepository _stepRepository;
         private readonly IUserRepository _userRepository;
@@ -20,7 +20,7 @@ namespace Materal.BusinessFlow
         private readonly IFlowRecordRepository _flowRecordRepository;
         private readonly IFlowUserRepository _flowUserRepository;
         private readonly BusinessFlowHelper _businessFlowHelper;
-        public BusinessFlowHostImpl(IAutoNodeBus autoNodeBus, IUnitOfWork unitOfWork, BusinessFlowHelper businessFlowHelper)
+        public BusinessFlowHostImpl(IAutoNodeBus autoNodeBus, IBusinessFlowUnitOfWork unitOfWork, BusinessFlowHelper businessFlowHelper)
         {
             _autoNodeBus = autoNodeBus;
             _unitOfWork = unitOfWork;
@@ -47,7 +47,7 @@ namespace Materal.BusinessFlow
         public async Task<List<FlowTemplate>> GetBacklogFlowTemplatesByUserIDAsync(Guid userID)
         {
             List<Guid> allFlowTemplateIDs = await GetBacklogFlowTemplateIDsByUserIDAsync(userID);
-            List<FlowTemplate> result = await _flowTemplateRepository.GetListAsync(m => allFlowTemplateIDs.Contains(m.ID));
+            List<FlowTemplate> result = await _flowTemplateRepository.FindAsync(m => allFlowTemplateIDs.Contains(m.ID));
             return result;
         }
         public async Task<List<FlowRecordDTO>> GetBacklogByUserIDAsync(Guid userID)
@@ -63,8 +63,8 @@ namespace Materal.BusinessFlow
         }
         public async Task<List<FlowRecordDTO>> GetBacklogByUserIDAsync(Guid flowTemplateID, Guid userID)
         {
-            if (!await _userRepository.ExistingAsync(userID)) throw new BusinessFlowException("用户不存在");
-            if (!await _flowTemplateRepository.ExistingAsync(flowTemplateID)) throw new BusinessFlowException("流程模版不存在");
+            if (!await _userRepository.ExistedAsync(userID)) throw new BusinessFlowException("用户不存在");
+            if (!await _flowTemplateRepository.ExistedAsync(flowTemplateID)) throw new BusinessFlowException("流程模版不存在");
             List<FlowRecordDTO> result = await _flowRecordRepository.GetDTOListAsync(new QueryFlowRecordDTOModel
             {
                 FlowTemplateID = flowTemplateID,
@@ -113,7 +113,7 @@ namespace Materal.BusinessFlow
         }
         private async Task<List<Guid>> GetBacklogFlowTemplateIDsByUserIDAsync(Guid userID)
         {
-            List<FlowUser> flowUsers = await _flowUserRepository.GetListAsync(m => m.UserID == userID);
+            List<FlowUser> flowUsers = await _flowUserRepository.FindAsync(m => m.UserID == userID);
             List<Guid> result = flowUsers.Select(m => m.FlowTemplateID).Distinct().ToList();
             return result;
         }

@@ -9,7 +9,4 @@
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.Data.SqlClient" Version="*" />
 	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\Materal.BusinessFlow.ADONETRepository\Materal.BusinessFlow.ADONETRepository.csproj" />
-	</ItemGroup>
 </Project>

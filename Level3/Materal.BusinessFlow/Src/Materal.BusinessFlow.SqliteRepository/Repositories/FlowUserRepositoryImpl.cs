@@ -1,12 +1,12 @@
-﻿using Materal.BusinessFlow.Abstractions;
-using Materal.BusinessFlow.Abstractions.Domain;
+﻿using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Repositories;
+using Materal.TTA.ADONETRepository;
 
 namespace Materal.BusinessFlow.SqliteRepository.Repositories
 {
-    public class FlowUserRepositoryImpl : SqliteBaseRepositoryImpl<FlowUser>, IFlowUserRepository
+    public class FlowUserRepositoryImpl : BusinessFlowRepositoryImpl<FlowUser>, IFlowUserRepository
     {
-        public FlowUserRepositoryImpl(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public FlowUserRepositoryImpl(IADONETUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
     }

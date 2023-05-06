@@ -1,11 +1,9 @@
-﻿namespace Materal.BusinessFlow.Abstractions.Domain
+﻿using Materal.TTA.Common;
+
+namespace Materal.BusinessFlow.Abstractions.Domain
 {
-    public interface IBaseDomain
+    public interface IBaseDomain : IEntity<Guid>
     {
-        /// <summary>
-        /// 唯一标识
-        /// </summary>
-        Guid ID { get; set; }
         /// <summary>
         /// 创建时间
         /// </summary>
