@@ -131,8 +131,8 @@ namespace Materal.TTA.ADONETRepository
             List<string> propertyNames = tType.GetProperties().Select(propertyInfo => propertyInfo.Name).ToList();
             string whereTSQLs = ExpressionToTSQL(command, expression, null);
             StringBuilder tSql = new();
-            tSql.AppendLine($"SELECT Count({nameof(IEntity<TPrimaryKeyType>.ID)})");
-            tSql.AppendLine($"FROM {tableName}");
+            tSql.AppendLine($"SELECT Count({GetTSQLField(nameof(IEntity<TPrimaryKeyType>.ID))})");
+            tSql.AppendLine($"FROM {GetTSQLField(tableName)}");
             if (!string.IsNullOrWhiteSpace(whereTSQLs))
             {
                 tSql.AppendLine($"WHERE {whereTSQLs}");

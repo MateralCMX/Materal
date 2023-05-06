@@ -2,7 +2,8 @@
 using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Enums;
 using Materal.BusinessFlow.Abstractions.Repositories;
-using Materal.BusinessFlow.ADONETRepository.Extensions;
+using Materal.TTA.ADONETRepository.Extensions;
+using Materal.TTA.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Data;
@@ -12,13 +13,12 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
 {
     public abstract class BaseFlowRepositoryImpl : IFlowRepository
     {
-        protected readonly BaseUnitOfWorkImpl UnitOfWork;
+        protected readonly IBusinessFlowUnitOfWork UnitOfWork;
         protected readonly ILogger? Logger;
-        protected BaseFlowRepositoryImpl(IUnitOfWork unitOfWork)
+        protected BaseFlowRepositoryImpl(IBusinessFlowUnitOfWork unitOfWork)
         {
-            if (unitOfWork is not BaseUnitOfWorkImpl unitOfWorkImpl) throw new BusinessFlowException("工作单元类型错误");
-            UnitOfWork = unitOfWorkImpl;
-            ILoggerFactory? loggerFactory = unitOfWorkImpl.ServiceProvider.GetService<ILoggerFactory>();
+            UnitOfWork = unitOfWork;
+            ILoggerFactory? loggerFactory = unitOfWork.ServiceProvider.GetService<ILoggerFactory>();
             Logger = loggerFactory?.CreateLogger(GetType());
         }
         public virtual void Init(FlowTemplate flowTemplate)
@@ -107,17 +107,17 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
                 {
                     "ID", "FlowTemplateID", "StartStepID", "StepID", "State", "InitiatorID", "CreateTime"
                 };
-                List<string> paramNames = fields.Select(m => $"{UnitOfWork.ParamsPrefix}{m}").ToList();
+                List<string> paramNames = fields.Select(m => UnitOfWork.GetParams(m)).ToList();
                 fields = fields.Select(m => UnitOfWork.GetTSQLField(m)).ToList();
                 command.CommandText = @$"INSERT INTO {UnitOfWork.GetTSQLField(tableName)}({string.Join(",", fields)})
 VALUES({string.Join(",", paramNames)})";
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}ID", result);
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}FlowTemplateID", flowTemplateID);
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}StartStepID", startStepID);
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}StepID", startStepID);
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}State", FlowStateEnum.Running);
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}InitiatorID", initiatorID);
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}CreateTime", DateTime.Now);
+                command.AddParameter(UnitOfWork.GetParams("ID"), result);
+                command.AddParameter(UnitOfWork.GetParams("FlowTemplateID"), flowTemplateID);
+                command.AddParameter(UnitOfWork.GetParams("StartStepID"), startStepID);
+                command.AddParameter(UnitOfWork.GetParams("StepID"), startStepID);
+                command.AddParameter(UnitOfWork.GetParams("State"), FlowStateEnum.Running);
+                command.AddParameter(UnitOfWork.GetParams("InitiatorID"), initiatorID);
+                command.AddParameter(UnitOfWork.GetParams("CreateTime"), DateTime.Now);
                 return command;
             });
             return result;
@@ -129,10 +129,10 @@ VALUES({string.Join(",", paramNames)})";
                 IDbCommand command = connection.CreateCommand();
                 string tableName = GetTableName(flowTemplateID);
                 command.CommandText = @$"UPDATE {UnitOfWork.GetTSQLField(tableName)}
-SET {UnitOfWork.GetTSQLField("State")}={UnitOfWork.ParamsPrefix}State
-WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.ParamsPrefix}ID";
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}ID", flowID);
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}State", FlowStateEnum.End);
+SET {UnitOfWork.GetTSQLField("State")}={UnitOfWork.GetParams("State")}
+WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.GetParams("ID")}";
+                command.AddParameter(UnitOfWork.GetParams("ID"), flowID);
+                command.AddParameter(UnitOfWork.GetParams("State"), FlowStateEnum.End);
                 return command;
             });
         }
@@ -143,10 +143,10 @@ WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.ParamsPrefix}ID";
                 IDbCommand command = connection.CreateCommand();
                 string tableName = GetTableName(flowTemplateID);
                 command.CommandText = @$"UPDATE {UnitOfWork.GetTSQLField(tableName)}
-SET {UnitOfWork.GetTSQLField("StepID")}={UnitOfWork.ParamsPrefix}StepID
-WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.ParamsPrefix}ID";
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}ID", flowID);
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}StepID", stepID);
+SET {UnitOfWork.GetTSQLField("StepID")}={UnitOfWork.GetParams("StepID")}
+WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.GetParams("ID")}";
+                command.AddParameter(UnitOfWork.GetParams("ID"), flowID);
+                command.AddParameter(UnitOfWork.GetParams("StepID"), stepID);
                 return command;
             });
         }
@@ -160,15 +160,15 @@ WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.ParamsPrefix}ID";
                 StringBuilder tsql = new();
                 tsql.AppendLine($"UPDATE {UnitOfWork.GetTSQLField(tableName)}");
                 List<string> paramsNames = new();
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}ID", flowID);
+                command.AddParameter(UnitOfWork.GetParams("ID"), flowID);
                 foreach (KeyValuePair<string, object?> data in datas)
                 {
-                    string paraName = $"{UnitOfWork.ParamsPrefix}{data.Key}";
+                    string paraName = UnitOfWork.GetParams(data.Key);
                     paramsNames.Add($"{UnitOfWork.GetTSQLField(data.Key)}={paraName}");
                     command.AddParameter($"{paraName}", data.Value);
                 }
                 tsql.AppendLine($"SET {string.Join(",", paramsNames)}");
-                tsql.AppendLine($"WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.ParamsPrefix}ID");
+                tsql.AppendLine($"WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.GetParams("ID")}");
                 command.CommandText = tsql.ToString();
                 return command;
             });
@@ -182,10 +182,10 @@ WHERE {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.ParamsPrefix}ID";
                 string tableName = GetTableName(flowTemplateID);
                 command.CommandText = @$"SELECT {UnitOfWork.GetTSQLField("InitiatorID")}
 FROM {UnitOfWork.GetTSQLField(tableName)}
-WHERE {UnitOfWork.GetTSQLField("FlowTemplateID")}={UnitOfWork.ParamsPrefix}FlowTemplateID AND {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.ParamsPrefix}ID";
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}ID", flowID);
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}FlowTemplateID", flowTemplateID);
-                Logger?.LogDebugTSQL(command);
+WHERE {UnitOfWork.GetTSQLField("FlowTemplateID")}={UnitOfWork.GetParams("FlowTemplateID")} AND {UnitOfWork.GetTSQLField("ID")}={UnitOfWork.GetParams("ID")}";
+                command.AddParameter(UnitOfWork.GetParams("ID"), flowID);
+                command.AddParameter(UnitOfWork.GetParams("FlowTemplateID"), flowTemplateID);
+                Logger?.LogTSQL(command);
                 using IDataReader dr = command.ExecuteReader();
                 while (dr.Read())
                 {
@@ -205,9 +205,9 @@ WHERE {UnitOfWork.GetTSQLField("FlowTemplateID")}={UnitOfWork.ParamsPrefix}FlowT
                 string fields = string.Join(",", dataModelFields.Select(m => UnitOfWork.GetTSQLField(m.Name)));
                 command.CommandText = @$"SELECT {fields}
 FROM {UnitOfWork.GetTSQLField(tableName)}
-WHERE ID={UnitOfWork.ParamsPrefix}ID";
-                command.AddParameter($"{UnitOfWork.ParamsPrefix}ID", flowID);
-                Logger?.LogDebugTSQL(command);
+WHERE ID={UnitOfWork.GetParams("ID")}";
+                command.AddParameter(UnitOfWork.GetParams("ID"), flowID);
+                Logger?.LogTSQL(command);
                 using IDataReader dr = command.ExecuteReader();
                 while (dr.Read())
                 {

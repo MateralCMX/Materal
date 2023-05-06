@@ -1,8 +1,9 @@
 ﻿using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Repositories;
-using Materal.BusinessFlow.ADONETRepository.Extensions;
 using Materal.BusinessFlow.ADONETRepository.Repositories;
+using Materal.TTA.ADONETRepository.Extensions;
+using Materal.TTA.SqlServerADONETRepository;
 using System.Data;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace Materal.BusinessFlow.SqlServerRepository.Repositories
 {
     public class FlowRepositoryImpl : BaseFlowRepositoryImpl, IFlowRepository
     {
-        public FlowRepositoryImpl(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public FlowRepositoryImpl(IBusinessFlowUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
         protected override string GetAddTableFieldTSQL(FlowTemplate flowTemplate, DataModelField dataModelField)
@@ -34,10 +35,10 @@ namespace Materal.BusinessFlow.SqlServerRepository.Repositories
             tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField("State")} {UnitOfWork.GetTSQLField("tinyint")} NOT NULL,");
             tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField("InitiatorID")} {UnitOfWork.GetTSQLField("uniqueidentifier")} NOT NULL,");
 
-            sqliteCommand.AddParameter($"{UnitOfWork.ParamsPrefix}{nameof(DataModelField.DataModelID)}", flowTemplate.DataModelID);
+            sqliteCommand.AddParameter(UnitOfWork.GetParams(nameof(DataModelField.DataModelID)), flowTemplate.DataModelID);
             sqliteCommand.CommandText = @$"SELECT {UnitOfWork.GetTSQLField(nameof(DataModelField.Name))},{UnitOfWork.GetTSQLField(nameof(DataModelField.DataType))}
 FROM {UnitOfWork.GetTSQLField(nameof(DataModelField))}
-WHERE {UnitOfWork.GetTSQLField(nameof(DataModelField.DataModelID))} = {UnitOfWork.ParamsPrefix}{nameof(DataModelField.DataModelID)}";
+WHERE {UnitOfWork.GetTSQLField(nameof(DataModelField.DataModelID))} = {UnitOfWork.GetParams(nameof(DataModelField.DataModelID))}";
             using IDataReader dr = sqliteCommand.ExecuteReader();
             while (dr.Read())
             {
@@ -75,7 +76,7 @@ WHERE {UnitOfWork.GetTSQLField(nameof(DataModelField.DataModelID))} = {UnitOfWor
         protected override string GetTableExistsTSQL(Guid flowTemplateID)
         {
             string tableName = GetTableName(flowTemplateID);
-            return SqlServerRepositoryHelper.GetTableExistsTSQL(UnitOfWork, tableName);
+            return SqlServerRepositoryHelper.GetTableExistsTSQL(tableName);
         }
         /// <summary>
         /// 根据数据类型枚举获取数据类型

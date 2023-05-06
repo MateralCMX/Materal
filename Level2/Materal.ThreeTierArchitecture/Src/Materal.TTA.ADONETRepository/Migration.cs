@@ -33,8 +33,8 @@ namespace Materal.TTA.ADONETRepository
             foreach (string upTSQL in upTSQLs)
             {
                 ExcuteUp(dbConnection, upTSQL);
-                AddHistory(dbConnection);
             }
+            AddHistory(dbConnection);
         }
         /// <summary>
         /// 添加记录

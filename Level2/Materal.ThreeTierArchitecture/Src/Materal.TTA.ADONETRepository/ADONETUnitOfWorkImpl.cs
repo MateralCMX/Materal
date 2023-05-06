@@ -46,7 +46,14 @@ namespace Materal.TTA.ADONETRepository
                     if (sqliteCommand == null) continue;
                     sqliteCommand.Transaction = transaction;
                     _logger?.LogTSQL(sqliteCommand);
-                    sqliteCommand.ExecuteNonQuery();
+                    try
+                    {
+                        sqliteCommand.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new TTAADONETException("执行SQL命令失败", ex, sqliteCommand);
+                    }
                 }
                 transaction.Commit();
                 _commands.Clear();

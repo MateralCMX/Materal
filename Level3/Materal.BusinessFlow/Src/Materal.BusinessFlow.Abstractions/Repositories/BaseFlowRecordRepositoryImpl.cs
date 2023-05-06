@@ -1,10 +1,9 @@
-﻿using Materal.BusinessFlow.Abstractions;
-using Materal.BusinessFlow.Abstractions.Domain;
+﻿using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Enums;
 using Materal.BusinessFlow.Abstractions.Models;
-using Materal.BusinessFlow.Abstractions.Repositories;
 using Materal.BusinessFlow.Abstractions.Services.Models;
-using Materal.BusinessFlow.ADONETRepository.Extensions;
+using Materal.TTA.ADONETRepository;
+using Materal.TTA.ADONETRepository.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Data;
@@ -12,21 +11,20 @@ using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Text;
 
-namespace Materal.BusinessFlow.ADONETRepository.Repositories
+namespace Materal.BusinessFlow.Abstractions.Repositories
 {
     public abstract class BaseFlowRecordRepositoryImpl : IFlowRecordRepository
     {
-        protected readonly IRepositoryHelper<FlowRecordDTO> ViewRepositoryHelper;
-        protected readonly IRepositoryHelper<FlowRecord> RepositoryHelper;
-        protected readonly BaseUnitOfWorkImpl UnitOfWork;
+        protected readonly IRepositoryHelper<FlowRecordDTO, Guid> ViewRepositoryHelper;
+        protected readonly IRepositoryHelper<FlowRecord, Guid> RepositoryHelper;
+        protected readonly IBusinessFlowUnitOfWork UnitOfWork;
         protected readonly ILogger? Logger;
-        protected BaseFlowRecordRepositoryImpl(IUnitOfWork unitOfWork)
+        protected BaseFlowRecordRepositoryImpl(IBusinessFlowUnitOfWork unitOfWork)
         {
-            if (unitOfWork is not BaseUnitOfWorkImpl unitOfWorkImpl) throw new BusinessFlowException("工作单元类型错误");
-            UnitOfWork = unitOfWorkImpl;
-            ViewRepositoryHelper = unitOfWorkImpl.ServiceProvider.GetService<IRepositoryHelper<FlowRecordDTO>>() ?? throw new BusinessFlowException("获取仓储帮助失败");
-            RepositoryHelper = unitOfWorkImpl.ServiceProvider.GetService<IRepositoryHelper<FlowRecord>>() ?? throw new BusinessFlowException("获取仓储帮助失败");
-            ILoggerFactory? loggerFactory = unitOfWorkImpl.ServiceProvider.GetService<ILoggerFactory>();
+            UnitOfWork = unitOfWork;
+            ViewRepositoryHelper = UnitOfWork.ServiceProvider.GetRequiredService<IRepositoryHelper<FlowRecordDTO, Guid>>();
+            RepositoryHelper = UnitOfWork.ServiceProvider.GetRequiredService<IRepositoryHelper<FlowRecord, Guid>>();
+            ILoggerFactory? loggerFactory = UnitOfWork.ServiceProvider.GetService<ILoggerFactory>();
             Logger = loggerFactory?.CreateLogger(GetType());
         }
         public virtual Guid Add(Guid flowTemplateID, FlowRecord domain)
@@ -34,13 +32,13 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
             domain.ID = Guid.NewGuid();
             domain.State = FlowRecordStateEnum.Wait;
             string tableName = GetTableName(flowTemplateID);
-            UnitOfWork.RegisterCommand((connection, transaction) => UnitOfWork.GetInsertDomainCommand(connection, domain, tableName));
+            UnitOfWork.RegisterCommand((connection, transaction) => UnitOfWork.GetInsertDomainCommand<FlowRecord, Guid>(connection, domain, tableName));
             return domain.ID;
         }
         public virtual void Edit(Guid flowTemplateID, FlowRecord domain)
         {
             string tableName = GetTableName(flowTemplateID);
-            UnitOfWork.RegisterCommand((connection, transaction) => UnitOfWork.GetEditDomainCommand(connection, domain, tableName));
+            UnitOfWork.RegisterCommand((connection, transaction) => UnitOfWork.GetEditDomainCommand<FlowRecord, Guid>(connection, domain, tableName));
         }
         public virtual void Init(Guid flowTemplateID)
         {
@@ -75,8 +73,8 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
             UnitOfWork.OperationDB(connection =>
             {
                 IDbCommand sqliteCommand = connection.CreateCommand();
-                sqliteCommand.CommandText = $"SELECT {RepositoryHelper.GetIsNullTSQL("MAX(SortIndex)", "-1")} From {tableName} where FlowID={UnitOfWork.ParamsPrefix}FlowID";
-                sqliteCommand.AddParameter($"{UnitOfWork.ParamsPrefix}FlowID", flowID);
+                sqliteCommand.CommandText = $"SELECT {RepositoryHelper.GetIsNullTSQL("MAX(SortIndex)", "-1")} From {tableName} where FlowID={UnitOfWork.GetParams("FlowID")}";
+                sqliteCommand.AddParameter(UnitOfWork.GetParams("FlowID"), flowID);
                 using IDataReader dr = sqliteCommand.ExecuteReader();
                 while (dr.Read())
                 {
@@ -193,7 +191,7 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
         private void SetQueryCommand(IDbCommand command, Guid flowTemplateID, Expression<Func<FlowRecord, bool>> expression, Expression<Func<FlowRecord, object>> orderExpression, SortOrder sortOrder)
         {
             string tableName = GetTableName(flowTemplateID);
-            RepositoryHelper.SetQueryCommand(command, expression, orderExpression, sortOrder, tableName, UnitOfWork);
+            RepositoryHelper.SetQueryCommand(command, expression, orderExpression, sortOrder, tableName);
         }
         /// <summary>
         /// 设置查询视图命令
@@ -225,7 +223,7 @@ FROM {UnitOfWork.GetTSQLField(tableName)}
 	INNER JOIN {UnitOfWork.GetTSQLField(nameof(Step))} ON {UnitOfWork.GetTSQLField(tableName)}.{UnitOfWork.GetTSQLField(nameof(FlowRecordDTO.StepID))} = {UnitOfWork.GetTSQLField(nameof(Step))}.{UnitOfWork.GetTSQLField(nameof(Step.ID))} 
 	INNER JOIN {UnitOfWork.GetTSQLField(nameof(FlowTemplate))} ON {UnitOfWork.GetTSQLField(nameof(FlowTemplate))}.{UnitOfWork.GetTSQLField(nameof(FlowTemplate.ID))} = {UnitOfWork.GetTSQLField(nameof(Step))}.{UnitOfWork.GetTSQLField(nameof(Step.FlowTemplateID))}
 	INNER JOIN {UnitOfWork.GetTSQLField(nameof(Node))} ON {UnitOfWork.GetTSQLField(tableName)}.{UnitOfWork.GetTSQLField(nameof(FlowRecordDTO.NodeID))} = {UnitOfWork.GetTSQLField(nameof(Node))}.{UnitOfWork.GetTSQLField(nameof(Node.ID))}");
-            string whereTSQLs = ViewRepositoryHelper.ExpressionToTSQL(command, filterExpression, null, UnitOfWork);
+            string whereTSQLs = ViewRepositoryHelper.ExpressionToTSQL(command, filterExpression, null);
             if (!string.IsNullOrWhiteSpace(whereTSQLs))
             {
                 tSql.AppendLine($"WHERE {whereTSQLs}");

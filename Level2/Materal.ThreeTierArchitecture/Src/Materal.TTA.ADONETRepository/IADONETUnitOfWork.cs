@@ -31,6 +31,42 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="field"></param>
         /// <returns></returns>
         string GetTSQLField(string field);
+        /// <summary>
+        /// 获得新增实体命令
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="connection"></param>
+        /// <param name="obj"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        IDbCommand GetInsertDomainCommand<TEntity, TPrimaryKeyType>(IDbConnection connection, TEntity obj, string? tableName = null)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct;
+        /// <summary>
+        /// 获得修改实体命令
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="connection"></param>
+        /// <param name="obj"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        IDbCommand GetEditDomainCommand<TEntity, TPrimaryKeyType>(IDbConnection connection, TEntity obj, string? tableName = null)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct;
+        /// <summary>
+        /// 获得删除实体命令
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="connection"></param>
+        /// <param name="obj"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        IDbCommand GetDeleteDomainCommand<TEntity, TPrimaryKeyType>(IDbConnection connection, TEntity obj, string? tableName = null)
+            where TEntity : class, IEntity<TPrimaryKeyType>
+            where TPrimaryKeyType : struct;
     }
     /// <summary>
     /// ADONET工作单元

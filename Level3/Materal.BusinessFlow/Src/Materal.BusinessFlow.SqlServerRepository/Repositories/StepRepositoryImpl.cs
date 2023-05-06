@@ -1,12 +1,12 @@
-﻿using Materal.BusinessFlow.Abstractions;
-using Materal.BusinessFlow.Abstractions.Domain;
+﻿using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Repositories;
+using Materal.TTA.ADONETRepository;
 
 namespace Materal.BusinessFlow.SqlServerRepository.Repositories
 {
-    public class StepRepositoryImpl : SqlServerBaseRepositoryImpl<Step>, IStepRepository
+    public class StepRepositoryImpl : BusinessFlowRepositoryImpl<Step>, IStepRepository
     {
-        public StepRepositoryImpl(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public StepRepositoryImpl(IADONETUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
     }

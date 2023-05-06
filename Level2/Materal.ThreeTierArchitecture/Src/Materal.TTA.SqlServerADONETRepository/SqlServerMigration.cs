@@ -8,10 +8,11 @@ namespace Materal.TTA.SqlServerADONETRepository
     /// Sqlite迁移类
     /// </summary>
     public abstract class SqlServerMigration : Migration
-    {        /// <summary>
-             /// 设置添加记录命令
-             /// </summary>
-             /// <param name="dbCommand"></param>
+    {
+        /// <summary>
+        /// 设置添加记录命令
+        /// </summary>
+        /// <param name="dbCommand"></param>
         protected override void SetInsertHistoryCommand(IDbCommand dbCommand)
         {
             dbCommand.CommandText = $@"INSERT INTO [{MigrateTableName}]([ID],[MigrationID],[CreateTime])

@@ -11,10 +11,11 @@ namespace Materal.TTA.SqliteADONETRepository
     public static class SqliteRepositoryHelper
     {
         /// <summary>
-        /// 获得参数前缀
+        /// 获得参数
         /// </summary>
+        /// <param name="paramName"></param>
         /// <returns></returns>
-        public static string GetParamsPrefix() => SqliteConfigModel.ParamsPrefix;
+        public static string GetParams(string paramName) => $"{SqliteConfigModel.ParamsPrefix}{paramName}";
         /// <summary>
         /// 获得TSQL字段
         /// </summary>

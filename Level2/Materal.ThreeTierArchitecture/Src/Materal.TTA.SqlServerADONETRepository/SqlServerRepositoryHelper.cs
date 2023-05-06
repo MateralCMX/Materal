@@ -11,10 +11,11 @@ namespace Materal.TTA.SqlServerADONETRepository
     public class SqlServerRepositoryHelper
     {
         /// <summary>
-        /// 获得参数前缀
+        /// 获得参数
         /// </summary>
+        /// <param name="paramName"></param>
         /// <returns></returns>
-        public static string GetParamsPrefix() => SqlServerConfigModel.ParamsPrefix;
+        public static string GetParams(string paramName) => $"{SqlServerConfigModel.ParamsPrefix}{paramName}";
         /// <summary>
         /// 获得TSQL字段
         /// </summary>
