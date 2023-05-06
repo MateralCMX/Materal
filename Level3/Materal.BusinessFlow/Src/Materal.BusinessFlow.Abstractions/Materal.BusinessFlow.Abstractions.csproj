@@ -7,7 +7,7 @@
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.14" />
+		<PackageReference Include="Materal.Utils" Version="1.1.15" />
 		<PackageReference Include="System.Data.SqlClient" Version="*" />
 	</ItemGroup>
 </Project>

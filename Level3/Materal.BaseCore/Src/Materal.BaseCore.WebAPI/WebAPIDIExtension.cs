@@ -5,15 +5,16 @@ using Materal.BaseCore.WebAPI.Filters;
 using Materal.Logger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
-using System.Text.Encodings.Web;
-using System.Text.Unicode;
 
 namespace Materal.BaseCore.WebAPI
 {
@@ -42,11 +43,9 @@ namespace Materal.BaseCore.WebAPI
                 mvcOptions.SuppressAsyncSuffixInActionNames = true;
             })
             .AddApplicationPart(typeof(HealthController).Assembly)
-            .AddJsonOptions(jsonOptions =>
+            .AddNewtonsoftJson(jsonOptions =>
             {
-                jsonOptions.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All, UnicodeRanges.All);
-                jsonOptions.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = new FirstUpperNamingPolicy();
+                jsonOptions.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
             foreach (Assembly assembly in otherControlesAssemblys)
             {

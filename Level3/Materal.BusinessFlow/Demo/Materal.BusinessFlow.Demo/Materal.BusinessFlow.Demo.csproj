@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-		<PackageReference Include="Materal.Logger" Version="1.1.14" />
+		<PackageReference Include="Materal.Logger" Version="1.1.15" />
   </ItemGroup>
 
   <ItemGroup>

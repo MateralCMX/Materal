@@ -5,8 +5,8 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.14" />
-		<PackageReference Include="Materal.BaseCore.Domain" Version="1.1.14" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.15" />
+		<PackageReference Include="Materal.BaseCore.Domain" Version="1.1.15" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\RC.Demo.Enums\RC.Demo.Enums.csproj" />

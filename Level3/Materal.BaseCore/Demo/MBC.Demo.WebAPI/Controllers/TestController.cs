@@ -1,9 +1,6 @@
-﻿using Materal.BaseCore.WebAPI.Controllers;
-using Materal.BaseCore.CodeGenerator;
+﻿using Materal.BaseCore.CodeGenerator;
+using Materal.BaseCore.WebAPI.Controllers;
 using Materal.Utils.Model;
-using MBC.Demo.DataTransmitModel.User;
-using MBC.Demo.HttpClient;
-using MBC.Demo.PresentationModel.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,27 +12,42 @@ namespace MBC.Demo.WebAPI.Controllers
     [AutoDI]
     public partial class TestController : MateralCoreWebAPIControllerBase
     {
-        private readonly UserHttpClient _userHttpClient;
         /// <summary>
         /// 测试
         /// </summary>
         /// <returns></returns>
         [HttpGet, AllowAnonymous]
-        public async Task<ResultModel> Test()
+        public ResultModel<ITestModel> Test()
         {
-            List<UserListDTO>? userInfos = await _userHttpClient.GetDataAsync(new QueryUserRequestModel()
+            return ResultModel<ITestModel>.Success(new TestModel1()
             {
-                PageIndex = 1,
-                PageSize = 10,
-            });
-            if(userInfos != null)
-            {
-                return ResultModel<List<UserListDTO>>.Success(userInfos, "测试成功");
-            }
-            else
-            {
-                return ResultModel.Fail("测试失败");
-            }
+                Name = "Name",
+                Name2 = "Name2"
+            }, "Success");
         }
+    }
+    /// <summary>
+    /// 测试模型
+    /// </summary>
+    public interface ITestModel
+    {
+        /// <summary>
+        /// 名称
+        /// </summary>
+        string Name { get; set; }
+    }
+    /// <summary>
+    /// 测试模型1
+    /// </summary>
+    public class TestModel1 : ITestModel
+    {
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
+        /// <summary>
+        /// 名称2
+        /// </summary>
+        public string Name2 { get; set; } = string.Empty;
     }
 }

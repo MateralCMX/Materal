@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.14</Version>
+		<Version>1.1.15</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -19,10 +19,10 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.*" />
-		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="*" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.16" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 		<PackageReference Include="Consul" Version="*" />
 		<PackageReference Include="Polly" Version="*" />
-		<PackageReference Include="Materal.Logger" Version="1.1.14" />
+		<PackageReference Include="Materal.Logger" Version="1.1.15" />
 	</ItemGroup>
 </Project>

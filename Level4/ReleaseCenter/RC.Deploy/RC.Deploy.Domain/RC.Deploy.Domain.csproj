@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.14" />
-		<PackageReference Include="Materal.BaseCore.Domain" Version="1.1.14" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.15" />
+		<PackageReference Include="Materal.BaseCore.Domain" Version="1.1.15" />
   </ItemGroup>
 
   <ItemGroup>
