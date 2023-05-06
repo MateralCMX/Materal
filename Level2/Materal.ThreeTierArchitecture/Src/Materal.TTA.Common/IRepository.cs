@@ -1,5 +1,4 @@
 ﻿using Materal.Utils.Model;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace Materal.TTA.Common
@@ -98,7 +97,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder);
         /// <summary>
         /// 查找
         /// </summary>
@@ -106,7 +105,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder);
         /// <summary>
         /// 查找
         /// </summary>
@@ -140,7 +139,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        List<TEntity> Find(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        List<TEntity> Find(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder);
         /// <summary>
         /// 查找
         /// </summary>
@@ -148,7 +147,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        Task<List<TEntity>> FindAsync(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        Task<List<TEntity>> FindAsync(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder);
         /// <summary>
         /// 获取第一条
         /// </summary>
@@ -230,7 +229,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -238,7 +237,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression">排序表达式</param>
         /// <param name="sortOrder">排序方式</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -293,7 +292,7 @@ namespace Materal.TTA.Common
         /// <param name="sortOrder">排序方式</param>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel);
+        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -302,7 +301,7 @@ namespace Materal.TTA.Common
         /// <param name="sortOrder">排序方式</param>
         /// <param name="pageRequestModel">分页查询请求模型</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel);
+        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, PageRequestModel pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -330,7 +329,7 @@ namespace Materal.TTA.Common
         /// <param name="pageIndex">页数</param>
         /// <param name="pageSize">每页显示数量</param>
         /// <returns></returns>
-        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize);
+        (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -340,7 +339,7 @@ namespace Materal.TTA.Common
         /// <param name="pageIndex">页数</param>
         /// <param name="pageSize">每页显示数量</param>
         /// <returns></returns>
-        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize);
+        Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize);
     }
     /// <summary>
     /// 仓储

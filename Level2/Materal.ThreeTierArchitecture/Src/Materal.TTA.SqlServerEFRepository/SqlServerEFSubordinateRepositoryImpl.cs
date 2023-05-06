@@ -106,14 +106,14 @@ namespace Materal.TTA.SqlServerEFRepository
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public virtual List<T> FindFromSubordinate(Expression<Func<T, bool>> expression) => FindFromSubordinate(expression, null, SortOrder.Unspecified).ToList();
+        public virtual List<T> FindFromSubordinate(Expression<Func<T, bool>> expression) => FindFromSubordinate(expression, null, SortOrderEnum.Unspecified).ToList();
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="orderExpression"></param>
         /// <returns></returns>
-        public List<T> FindFromSubordinate(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression) => FindFromSubordinate(expression, orderExpression, SortOrder.Ascending);
+        public List<T> FindFromSubordinate(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression) => FindFromSubordinate(expression, orderExpression, SortOrderEnum.Ascending);
         /// <summary>
         /// 查找
         /// </summary>
@@ -121,15 +121,15 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public List<T> FindFromSubordinate(Expression<Func<T, bool>> expression, Expression<Func<T, object>>? orderExpression, SortOrder sortOrder)
+        public List<T> FindFromSubordinate(Expression<Func<T, bool>> expression, Expression<Func<T, object>>? orderExpression, SortOrderEnum sortOrder)
         {
             orderExpression ??= m => m.ID;
             return GetSubordinateResult(queryable =>
             {
                 List<T> result = sortOrder switch
                 {
-                    SortOrder.Ascending => queryable.OrderBy(orderExpression).Where(expression).ToList(),
-                    SortOrder.Descending => queryable.OrderByDescending(orderExpression).Where(expression).ToList(),
+                    SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Where(expression).ToList(),
+                    SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Where(expression).ToList(),
                     _ => queryable.Where(expression).ToList(),
                 };
                 return result;
@@ -140,14 +140,14 @@ namespace Materal.TTA.SqlServerEFRepository
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public virtual async Task<List<T>> FindFromSubordinateAsync(Expression<Func<T, bool>> expression) => await FindFromSubordinateAsync(expression, null, SortOrder.Unspecified);
+        public virtual async Task<List<T>> FindFromSubordinateAsync(Expression<Func<T, bool>> expression) => await FindFromSubordinateAsync(expression, null, SortOrderEnum.Unspecified);
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="expression"></param>
         /// <param name="orderExpression"></param>
         /// <returns></returns>
-        public async Task<List<T>> FindFromSubordinateAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression) => await FindFromSubordinateAsync(expression, orderExpression, SortOrder.Ascending);
+        public async Task<List<T>> FindFromSubordinateAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>> orderExpression) => await FindFromSubordinateAsync(expression, orderExpression, SortOrderEnum.Ascending);
         /// <summary>
         /// 查找
         /// </summary>
@@ -155,15 +155,15 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public async Task<List<T>> FindFromSubordinateAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>>? orderExpression, SortOrder sortOrder)
+        public async Task<List<T>> FindFromSubordinateAsync(Expression<Func<T, bool>> expression, Expression<Func<T, object>>? orderExpression, SortOrderEnum sortOrder)
         {
             orderExpression ??= m => m.ID;
             return await GetSubordinateResultAsync(async queryable =>
             {
                 List<T> result = sortOrder switch
                 {
-                    SortOrder.Ascending => await queryable.OrderBy(orderExpression).Where(expression).ToListAsync(),
-                    SortOrder.Descending => await queryable.OrderByDescending(orderExpression).Where(expression).ToListAsync(),
+                    SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Where(expression).ToListAsync(),
+                    SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Where(expression).ToListAsync(),
                     _ => await queryable.Where(expression).ToListAsync(),
                 };
                 return result;
@@ -189,7 +189,7 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public List<T> FindFromSubordinate(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder) => FindFromSubordinate(filterModel.GetSearchExpression<T>(), orderExpression, sortOrder);
+        public List<T> FindFromSubordinate(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder) => FindFromSubordinate(filterModel.GetSearchExpression<T>(), orderExpression, sortOrder);
         /// <summary>
         /// 查找
         /// </summary>
@@ -210,7 +210,7 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public async Task<List<T>> FindFromSubordinateAsync(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder) => await FindFromSubordinateAsync(filterModel.GetSearchExpression<T>(), orderExpression, sortOrder);
+        public async Task<List<T>> FindFromSubordinateAsync(FilterModel filterModel, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder) => await FindFromSubordinateAsync(filterModel.GetSearchExpression<T>(), orderExpression, sortOrder);
         /// <summary>
         /// 获取第一条
         /// </summary>
@@ -295,7 +295,7 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public (List<T> data, PageModel pageInfo) PagingFromSubordinate(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder) => PagingFromSubordinate(pageRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, pageRequestModel);
+        public (List<T> data, PageModel pageInfo) PagingFromSubordinate(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder) => PagingFromSubordinate(pageRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -327,7 +327,7 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="sortOrder"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel) => PagingFromSubordinate(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, PageRequestModel pageRequestModel) => PagingFromSubordinate(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -336,7 +336,7 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pageIndex, int pageSize) => PagingFromSubordinate(filterExpression, orderExpression, SortOrder.Ascending, pageIndex, pageSize);
+        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pageIndex, int pageSize) => PagingFromSubordinate(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -346,7 +346,7 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize)
+        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
         {
             return GetSubordinateResult(queryable =>
             {
@@ -354,8 +354,8 @@ namespace Materal.TTA.SqlServerEFRepository
                 var pageModel = new PageModel(pageIndex, pageSize, queryable.Count());
                 List<T> result = sortOrder switch
                 {
-                    SortOrder.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
-                    SortOrder.Descending => queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
+                    SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
+                    SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
                     _ => queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
                 };
                 return (result, pageModel);
@@ -381,7 +381,7 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrder sortOrder) => await PagingFromSubordinateAsync(pageRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, pageRequestModel);
+        public async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(PageRequestModel pageRequestModel, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder) => await PagingFromSubordinateAsync(pageRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -413,7 +413,7 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="sortOrder"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel) => await PagingFromSubordinateAsync(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, PageRequestModel pageRequestModel) => await PagingFromSubordinateAsync(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -422,7 +422,7 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pageIndex, int pageSize) => await PagingFromSubordinateAsync(filterExpression, orderExpression, SortOrder.Ascending, pageIndex, pageSize);
+        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pageIndex, int pageSize) => await PagingFromSubordinateAsync(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -432,7 +432,7 @@ namespace Materal.TTA.SqlServerEFRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize)
+        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
         {
             return await GetSubordinateResultAsync(async queryable =>
             {
@@ -440,9 +440,9 @@ namespace Materal.TTA.SqlServerEFRepository
                 var pageModel = new PageModel(pageIndex, pageSize, await queryable.CountAsync());
                 List<T> result = sortOrder switch
                 {
-                    SortOrder.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take)
+                    SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take)
                                                 .ToListAsync(),
-                    SortOrder.Descending => await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip)
+                    SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip)
                                                 .Take(pageModel.Take).ToListAsync(),
                     _ => await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
                 };

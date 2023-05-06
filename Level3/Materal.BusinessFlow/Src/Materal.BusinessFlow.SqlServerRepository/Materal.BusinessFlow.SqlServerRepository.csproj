@@ -7,7 +7,7 @@
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Materal.TTA.SqlServerADONETRepository" Version="1.1.17" />
+		<PackageReference Include="Materal.TTA.SqlServerADONETRepository" Version="1.1.18" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.BusinessFlow.Abstractions\Materal.BusinessFlow.Abstractions.csproj" />

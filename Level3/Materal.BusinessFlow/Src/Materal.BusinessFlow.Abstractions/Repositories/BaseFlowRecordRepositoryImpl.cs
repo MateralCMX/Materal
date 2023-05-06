@@ -4,10 +4,10 @@ using Materal.BusinessFlow.Abstractions.Models;
 using Materal.BusinessFlow.Abstractions.Services.Models;
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.ADONETRepository.Extensions;
+using Materal.TTA.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -134,7 +134,7 @@ namespace Materal.BusinessFlow.Abstractions.Repositories
                 {
                     string tableName = GetTableName(flowTemplateID);
                     IDbCommand command = connection.CreateCommand();
-                    SetQueryCommand(command, flowTemplateID, filterExpression, m => m.CreateTime, SortOrder.Descending);
+                    SetQueryCommand(command, flowTemplateID, filterExpression, m => m.CreateTime, SortOrderEnum.Descending);
                     using IDataReader dr = command.ExecuteReader();
                     while (dr.Read())
                     {
@@ -188,7 +188,7 @@ namespace Materal.BusinessFlow.Abstractions.Repositories
         /// <param name="command"></param>
         /// <param name="flowTemplateID"></param>
         /// <param name="expression"></param>
-        private void SetQueryCommand(IDbCommand command, Guid flowTemplateID, Expression<Func<FlowRecord, bool>> expression, Expression<Func<FlowRecord, object>> orderExpression, SortOrder sortOrder)
+        private void SetQueryCommand(IDbCommand command, Guid flowTemplateID, Expression<Func<FlowRecord, bool>> expression, Expression<Func<FlowRecord, object>> orderExpression, SortOrderEnum sortOrder)
         {
             string tableName = GetTableName(flowTemplateID);
             RepositoryHelper.SetQueryCommand(command, expression, orderExpression, sortOrder, tableName);

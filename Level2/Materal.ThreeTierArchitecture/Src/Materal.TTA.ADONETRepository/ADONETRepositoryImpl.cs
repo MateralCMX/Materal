@@ -3,7 +3,6 @@ using Materal.Utils.Model;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace Materal.TTA.ADONETRepository
@@ -73,7 +72,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public override List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder)
+        public override List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder)
         {
             List<TEntity> result = new();
             UnitOfWork.OperationDB(connection =>
@@ -103,7 +102,7 @@ namespace Materal.TTA.ADONETRepository
             UnitOfWork.OperationDB(connection =>
             {
                 IDbCommand command = connection.CreateCommand();
-                RepositoryHelper.SetQueryOneRowCommand(command, expression, m => m.ID, SortOrder.Descending, TableName);
+                RepositoryHelper.SetQueryOneRowCommand(command, expression, m => m.ID, SortOrderEnum.Descending, TableName);
                 Logger?.LogTSQL(command);
                 Type tType = typeof(TEntity);
                 using IDataReader dr = command.ExecuteReader();
@@ -123,7 +122,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public override (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize)
+        public override (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
         {
             List<TEntity> result = new();
             int dataCount = 0;

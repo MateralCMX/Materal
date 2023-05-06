@@ -1,6 +1,6 @@
 ﻿using Materal.BaseCore.CodeGenerator;
-using Materal.BaseCore.Common.Utils;
 using Materal.TFMS.EventBus;
+using Materal.TTA.Common;
 using Materal.Utils.Model;
 using RC.Core.Common;
 using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
@@ -9,7 +9,6 @@ using RC.EnvironmentServer.Services.Models.ConfigurationItem;
 using RC.ServerCenter.DataTransmitModel.Namespace;
 using RC.ServerCenter.DataTransmitModel.Project;
 using RC.ServerCenter.HttpClient;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 using XMJ.Authority.IntegrationEvents;
 
@@ -39,8 +38,8 @@ namespace RC.EnvironmentServer.ServiceImpl
             if (await DefaultRepository.ExistedAsync(m => m.ID != model.ID && m.NamespaceID == domainFromDB.NamespaceID && m.ProjectID == domainFromDB.ProjectID && m.Key == model.Key)) throw new RCException("键重复");
             await base.EditAsync(domainFromDB, model);
         }
-        protected override async Task<(List<ConfigurationItemListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<ConfigurationItem, bool>> expression, QueryConfigurationItemModel model, Expression<Func<ConfigurationItem, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
-            => await base.GetListAsync(expression, model, m => m.Key, SortOrder.Ascending);
+        protected override async Task<(List<ConfigurationItemListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<ConfigurationItem, bool>> expression, QueryConfigurationItemModel model, Expression<Func<ConfigurationItem, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
+            => await base.GetListAsync(expression, model, m => m.Key, SortOrderEnum.Ascending);
         public async Task InitAsync()
         {
             List<ConfigurationItem> configurationItems = await DefaultRepository.FindAsync(m => true);

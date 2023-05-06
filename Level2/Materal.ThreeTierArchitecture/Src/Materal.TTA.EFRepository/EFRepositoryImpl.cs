@@ -64,13 +64,13 @@ namespace Materal.TTA.EFRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public override List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder)
+        public override List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder)
         {
             IQueryable<TEntity> queryable = DBSet.Where(expression);
             List<TEntity> result = sortOrder switch
             {
-                SortOrder.Ascending => queryable.OrderBy(orderExpression).ToList(),
-                SortOrder.Descending => queryable.OrderByDescending(orderExpression).ToList(),
+                SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).ToList(),
+                SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).ToList(),
                 _ => queryable.ToList(),
             };
             return result;
@@ -82,13 +82,13 @@ namespace Materal.TTA.EFRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public override async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder)
+        public override async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder)
         {
             IQueryable<TEntity> queryable = DBSet.Where(expression);
             List<TEntity> result = sortOrder switch
             {
-                SortOrder.Ascending => await queryable.OrderBy(orderExpression).ToListAsync(),
-                SortOrder.Descending => await queryable.OrderByDescending(orderExpression).ToListAsync(),
+                SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).ToListAsync(),
+                SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).ToListAsync(),
                 _ => await queryable.ToListAsync(),
             };
             return result;
@@ -114,14 +114,14 @@ namespace Materal.TTA.EFRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public override (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize)
+        public override (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
         {
             IQueryable<TEntity> queryable = DBSet.Where(filterExpression);
             var pageModel = new PageModel(pageIndex, pageSize, queryable.Count());
             List<TEntity> result = sortOrder switch
             {
-                SortOrder.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
-                SortOrder.Descending => queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
+                SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
+                SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
                 _ => queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
             };
             return (result, pageModel);
@@ -135,14 +135,14 @@ namespace Materal.TTA.EFRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public override async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize)
+        public override async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
         {
             IQueryable<TEntity> queryable = DBSet.Where(filterExpression);
             var pageModel = new PageModel(pageIndex, pageSize, queryable.Count());
             List<TEntity> result = sortOrder switch
             {
-                SortOrder.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
-                SortOrder.Descending => await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
+                SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
+                SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
                 _ => await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
             };
             return (result, pageModel);

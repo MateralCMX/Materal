@@ -1,5 +1,5 @@
 ﻿using Materal.Abstractions;
-using Materal.BaseCore.EFRepository;
+using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +11,6 @@ using RC.Deploy.Enums;
 using RC.Deploy.ServiceImpl.Models;
 using RC.Deploy.Services.Models.ApplicationInfo;
 using System.ComponentModel.DataAnnotations;
-using System.Data.SqlClient;
 
 namespace RC.Deploy.ServiceImpl
 {
@@ -23,7 +22,7 @@ namespace RC.Deploy.ServiceImpl
             using IServiceScope scope = MateralServices.Services.CreateScope();
             IServiceProvider services = scope.ServiceProvider;
             IApplicationInfoRepository applicationInfoRepository = services.GetRequiredService<IApplicationInfoRepository>();
-            List<ApplicationInfo> allApplicationInfos = applicationInfoRepository.Find(m => true, m => m.Name, SortOrder.Ascending);
+            List<ApplicationInfo> allApplicationInfos = applicationInfoRepository.Find(m => true, m => m.Name, SortOrderEnum.Ascending);
             foreach (ApplicationInfo applicationInfo in allApplicationInfos)
             {
                 ApplicationRuntimeModel model = new(applicationInfo);

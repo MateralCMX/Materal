@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Materal.Abstractions;
 using Materal.BaseCore.Common;
 using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.Domain;
@@ -8,10 +7,8 @@ using Materal.BaseCore.Services;
 using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
 using Materal.Utils.Model;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -206,7 +203,7 @@ namespace Materal.BaseCore.ServiceImpl
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        protected virtual async Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<TDomain, bool>> expression, TQueryModel model, Expression<Func<TDomain, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
+        protected virtual async Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<TDomain, bool>> expression, TQueryModel model, Expression<Func<TDomain, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
         {
             if (orderExpression == null)
             {
@@ -220,14 +217,14 @@ namespace Materal.BaseCore.ServiceImpl
         /// 获得默认排序信息
         /// </summary>
         /// <returns></returns>
-        protected (Expression<Func<T, object>> orderExpression, SortOrder sortOrder) GetDefaultOrderInfo<T>()
+        protected (Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder) GetDefaultOrderInfo<T>()
             where T : class, IDomain, new()
         {
             if (typeof(T).GetInterfaces().Contains(typeof(IIndexDomain)))
             {
-                return (m => ((IIndexDomain)m).Index, SortOrder.Ascending);
+                return (m => ((IIndexDomain)m).Index, SortOrderEnum.Ascending);
             }
-            return (m => m.CreateTime, SortOrder.Descending);
+            return (m => m.CreateTime, SortOrderEnum.Descending);
         }
         /// <summary>
         /// 获得列表
@@ -337,7 +334,7 @@ namespace Materal.BaseCore.ServiceImpl
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        protected virtual async Task<(List<TListDTO> data, PageModel pageInfo)> GetViewListAsync(Expression<Func<TViewDomain, bool>> expression, TQueryModel model, Expression<Func<TViewDomain, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
+        protected virtual async Task<(List<TListDTO> data, PageModel pageInfo)> GetViewListAsync(Expression<Func<TViewDomain, bool>> expression, TQueryModel model, Expression<Func<TViewDomain, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
         {
             if (orderExpression == null)
             {

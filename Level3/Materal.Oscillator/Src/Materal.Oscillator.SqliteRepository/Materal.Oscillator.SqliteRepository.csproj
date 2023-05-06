@@ -10,12 +10,12 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.17</Version>
+		<Version>1.1.18</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.SqliteRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.17" />
+		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.18" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />

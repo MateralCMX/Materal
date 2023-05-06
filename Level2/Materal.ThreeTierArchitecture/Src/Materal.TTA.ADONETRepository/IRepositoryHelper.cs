@@ -1,6 +1,5 @@
 ﻿using Materal.TTA.Common;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace Materal.TTA.ADONETRepository
@@ -22,7 +21,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <param name="tableName"></param>
-        void SetQueryCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName);
+        void SetQueryCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, string tableName);
         /// <summary>
         /// 设置查询总数命令
         /// </summary>
@@ -38,7 +37,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <param name="tableName"></param>
-        void SetQueryOneRowCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName);
+        void SetQueryOneRowCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, string tableName);
         /// <summary>
         /// 设置分页命令
         /// </summary>
@@ -49,7 +48,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="tableName"></param>
-        void SetPagingCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize, string tableName);
+        void SetPagingCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize, string tableName);
         /// <summary>
         /// 获得分页SQL
         /// </summary>
@@ -63,7 +62,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="expression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        string OrderExpressionToTSQL(Expression<Func<TEntity, object>> expression, SortOrder sortOrder);
+        string OrderExpressionToTSQL(Expression<Func<TEntity, object>> expression, SortOrderEnum sortOrder);
         /// <summary>
         /// 表达式转换为T-SQL
         /// </summary>

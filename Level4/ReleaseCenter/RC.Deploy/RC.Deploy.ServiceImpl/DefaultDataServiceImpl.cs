@@ -1,9 +1,9 @@
-﻿using Materal.Utils.Model;
+﻿using Materal.TTA.Common;
+using Materal.Utils.Model;
 using RC.Core.Common;
 using RC.Deploy.DataTransmitModel.DefaultData;
 using RC.Deploy.Domain;
 using RC.Deploy.Services.Models.DefaultData;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace RC.Deploy.ServiceImpl
@@ -32,11 +32,11 @@ namespace RC.Deploy.ServiceImpl
             if (await DefaultRepository.ExistedAsync(m => m.ID != model.ID && m.ApplicationType == model.ApplicationType && m.Key == model.Key)) throw new RCException("键重复");
             await base.EditAsync(model);
         }
-        protected override async Task<(List<DefaultDataListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<DefaultData, bool>> expression, QueryDefaultDataModel model, Expression<Func<DefaultData, object>>? orderExpression = null, SortOrder sortOrder = SortOrder.Descending)
+        protected override async Task<(List<DefaultDataListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<DefaultData, bool>> expression, QueryDefaultDataModel model, Expression<Func<DefaultData, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
         {
             if (orderExpression == null)
             {
-                sortOrder = SortOrder.Ascending;
+                sortOrder = SortOrderEnum.Ascending;
                 orderExpression = m => m.Key;
             }
             return await base.GetListAsync(expression, model, orderExpression, sortOrder);

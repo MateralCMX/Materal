@@ -1,5 +1,4 @@
 ﻿using Materal.Utils.Model;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace Materal.TTA.Common
@@ -71,7 +70,7 @@ namespace Materal.TTA.Common
         /// <param name="expression"></param>
         /// <param name="orderExpression"></param>
         /// <returns></returns>
-        public virtual List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression) => Find(expression, orderExpression, SortOrder.Ascending);
+        public virtual List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression) => Find(expression, orderExpression, SortOrderEnum.Ascending);
         /// <summary>
         /// 查找
         /// </summary>
@@ -79,7 +78,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public abstract List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder);
+        public abstract List<TEntity> Find(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder);
         /// <summary>
         /// 查找
         /// </summary>
@@ -92,7 +91,7 @@ namespace Materal.TTA.Common
         /// <param name="expression"></param>
         /// <param name="orderExpression"></param>
         /// <returns></returns>
-        public virtual async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression) => await FindAsync(expression, orderExpression, SortOrder.Ascending);
+        public virtual async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression) => await FindAsync(expression, orderExpression, SortOrderEnum.Ascending);
         /// <summary>
         /// 查找
         /// </summary>
@@ -100,7 +99,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public virtual Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder)
+        public virtual Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder)
             => Task.FromResult(Find(expression, orderExpression, sortOrder));
         /// <summary>
         /// 查找
@@ -122,7 +121,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public virtual List<TEntity> Find(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder) => Find(filterModel.GetSearchExpression<TEntity>(), orderExpression, sortOrder);
+        public virtual List<TEntity> Find(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder) => Find(filterModel.GetSearchExpression<TEntity>(), orderExpression, sortOrder);
         /// <summary>
         /// 查找
         /// </summary>
@@ -143,7 +142,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public virtual async Task<List<TEntity>> FindAsync(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder) => await FindAsync(filterModel.GetSearchExpression<TEntity>(), orderExpression, sortOrder);
+        public virtual async Task<List<TEntity>> FindAsync(FilterModel filterModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder) => await FindAsync(filterModel.GetSearchExpression<TEntity>(), orderExpression, sortOrder);
         /// <summary>
         /// 获取第一条
         /// </summary>
@@ -216,7 +215,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public virtual (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder) => Paging(pageRequestModel.GetSearchExpression<TEntity>(), orderExpression, sortOrder, pageRequestModel);
+        public virtual (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder) => Paging(pageRequestModel.GetSearchExpression<TEntity>(), orderExpression, sortOrder, pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -248,7 +247,7 @@ namespace Materal.TTA.Common
         /// <param name="sortOrder"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel) => Paging(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, PageRequestModel pageRequestModel) => Paging(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -257,7 +256,7 @@ namespace Materal.TTA.Common
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pageIndex, int pageSize) => Paging(filterExpression, orderExpression, SortOrder.Ascending, pageIndex, pageSize);
+        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pageIndex, int pageSize) => Paging(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -267,7 +266,7 @@ namespace Materal.TTA.Common
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public abstract (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize);
+        public abstract (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -288,7 +287,7 @@ namespace Materal.TTA.Common
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder) => await PagingAsync(pageRequestModel.GetSearchExpression<TEntity>(), orderExpression, sortOrder, pageRequestModel);
+        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder) => await PagingAsync(pageRequestModel.GetSearchExpression<TEntity>(), orderExpression, sortOrder, pageRequestModel);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -320,7 +319,7 @@ namespace Materal.TTA.Common
         /// <param name="sortOrder"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, PageRequestModel pageRequestModel) => await PagingAsync(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, PageRequestModel pageRequestModel) => await PagingAsync(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -329,7 +328,7 @@ namespace Materal.TTA.Common
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pageIndex, int pageSize) => await PagingAsync(filterExpression, orderExpression, SortOrder.Ascending, pageIndex, pageSize);
+        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pageIndex, int pageSize) => await PagingAsync(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -339,7 +338,7 @@ namespace Materal.TTA.Common
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize)
+        public virtual Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
             => Task.FromResult(Paging(filterExpression, orderExpression, sortOrder, pageIndex, pageSize));
     }
     /// <summary>
@@ -392,13 +391,13 @@ namespace Materal.TTA.Common
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public override List<TEntity> Find(Expression<Func<TEntity, bool>> expression) => Find(expression, m => m.ID, SortOrder.Ascending);
+        public override List<TEntity> Find(Expression<Func<TEntity, bool>> expression) => Find(expression, m => m.ID, SortOrderEnum.Ascending);
         /// <summary>
         /// 查找
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public override async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression) => await FindAsync(expression, m => m.ID, SortOrder.Ascending);
+        public override async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>> expression) => await FindAsync(expression, m => m.ID, SortOrderEnum.Ascending);
         /// <summary>
         /// 分页查询
         /// </summary>

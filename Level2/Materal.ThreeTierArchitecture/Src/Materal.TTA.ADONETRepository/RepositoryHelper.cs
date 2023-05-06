@@ -3,7 +3,6 @@ using Materal.TTA.ADONETRepository.Extensions;
 using Materal.TTA.Common;
 using System.Collections;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
@@ -114,7 +113,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <param name="tableName"></param>
-        public void SetQueryCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName)
+        public void SetQueryCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, string tableName)
         {
             StringBuilder tSql = GetQueryTSQL(command, expression, orderExpression, sortOrder, tableName);
             command.CommandText = tSql.ToString();
@@ -147,7 +146,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <param name="tableName"></param>
-        public void SetQueryOneRowCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName)
+        public void SetQueryOneRowCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, string tableName)
         {
             SetPagingCommand(command, expression, orderExpression, sortOrder, MateralConfig.PageStartNumber, 1, tableName);
         }
@@ -161,7 +160,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <param name="tableName"></param>
-        public void SetPagingCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, int pageIndex, int pageSize, string tableName)
+        public void SetPagingCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize, string tableName)
         {
             if (pageIndex < MateralConfig.PageStartNumber) pageIndex = MateralConfig.PageStartNumber;
             if (pageSize < 1) pageSize = 10;
@@ -183,7 +182,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        public string OrderExpressionToTSQL(Expression<Func<TEntity, object>> expression, SortOrder sortOrder)
+        public string OrderExpressionToTSQL(Expression<Func<TEntity, object>> expression, SortOrderEnum sortOrder)
         {
             if (expression is not LambdaExpression orderExpression ||
                 orderExpression.Body is not UnaryExpression unaryExpression ||
@@ -194,7 +193,7 @@ namespace Materal.TTA.ADONETRepository
             string orderName = memberExpression.Member.Name;
             string sortOrderString = sortOrder switch
             {
-                SortOrder.Ascending => "ASC",
+                SortOrderEnum.Ascending => "ASC",
                 _ => "DESC"
             };
             string result = $"ORDER BY {GetTSQLField(orderName)} {sortOrderString}";
@@ -453,7 +452,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="sortOrder"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        private StringBuilder GetQueryTSQL(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrder sortOrder, string tableName)
+        private StringBuilder GetQueryTSQL(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, string tableName)
         {
             Type tType = typeof(TEntity);
             List<string> propertyNames = tType.GetProperties().Select(propertyInfo => GetTSQLField(propertyInfo.Name)).ToList();
