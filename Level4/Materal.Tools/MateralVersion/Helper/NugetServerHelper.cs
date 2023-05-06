@@ -44,13 +44,31 @@ namespace Materal.Tools.Helper
                 string? value = item.FirstChild?.FirstChild?.Value;
                 if (string.IsNullOrWhiteSpace(value)) continue;
                 value = value[$"{_nugetUrl}Packages(Id='".Length..];
-                int tempIndex = value.IndexOf("'");
-                string id = value[..^(tempIndex - 2)];
+                string id = value[.._materalID.Length];
                 if (id != _materalID) continue;
-                reslut = value[(id.Length + 11)..^2];
+                reslut = GetMaxVersion(value[(id.Length + 11)..^2], reslut);
             }
             if (string.IsNullOrWhiteSpace(reslut)) throw new Exception($"未在Nuget服务器上找到包{_materalID}");
             return reslut;
+        }
+        /// <summary>
+        /// 获得最大版本号
+        /// </summary>
+        /// <param name="version1"></param>
+        /// <param name="version2"></param>
+        /// <returns></returns>
+        public static string GetMaxVersion(string version1, string? version2)
+        {
+            if (string.IsNullOrEmpty(version2)) return version1;
+            int[] version1s = version1.Split(".").Select(m => Convert.ToInt32(m)).ToArray();
+            int[] version2s = version2.Split(".").Select(m => Convert.ToInt32(m)).ToArray();
+            int length = version1s.Length > version2s.Length ? version2s.Length : version1s.Length;
+            for (int i = 0; i < length; i++)
+            {
+                if (version1s[i] > version2s[i]) return version1;
+                if (version2s[i] > version1s[i]) return version2;
+            }
+            return version1s.Length >= version2s.Length ? version1 : version2;
         }
         /// <summary>
         /// 上传Nuget包
