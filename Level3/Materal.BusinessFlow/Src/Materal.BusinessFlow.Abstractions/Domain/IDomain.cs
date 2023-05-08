@@ -2,7 +2,7 @@
 
 namespace Materal.BusinessFlow.Abstractions.Domain
 {
-    public interface IBaseDomain : IEntity<Guid>
+    public interface IDomain : IEntity<Guid>
     {
         /// <summary>
         /// 创建时间

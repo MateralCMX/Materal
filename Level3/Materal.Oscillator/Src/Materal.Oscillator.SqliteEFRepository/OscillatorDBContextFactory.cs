@@ -7,22 +7,22 @@ namespace Materal.Oscillator.SqliteEFRepository
     /// <summary>
     /// 数据库上下文工厂
     /// </summary>
-    public class OscillatorDBContextFactory : IDesignTimeDbContextFactory<OscillatorSqliteDBContext>
+    public class OscillatorDBContextFactory : IDesignTimeDbContextFactory<OscillatorDBContext>
     {
         /// <summary>
         /// 创建数据库连接
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public OscillatorSqliteDBContext CreateDbContext(string[] args)
+        public OscillatorDBContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OscillatorSqliteDBContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<OscillatorDBContext>();
             SqliteConfigModel config = new()
             {
                 Source = "Oscillator.db"
             };
             optionsBuilder.UseSqlite(config.ConnectionString);
-            return new OscillatorSqliteDBContext(optionsBuilder.Options);
+            return new OscillatorDBContext(optionsBuilder.Options);
 
         }
     }

@@ -7,16 +7,16 @@ namespace Materal.Oscillator.SqlServerEFRepository
     /// <summary>
     /// 数据库上下文工厂
     /// </summary>
-    public class OscillatorDBContextFactory : IDesignTimeDbContextFactory<OscillatorSqlServerDBContext>
+    public class OscillatorDBContextFactory : IDesignTimeDbContextFactory<OscillatorDBContext>
     {
         /// <summary>
         /// 创建数据库连接
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public OscillatorSqlServerDBContext CreateDbContext(string[] args)
+        public OscillatorDBContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<OscillatorSqlServerDBContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<OscillatorDBContext>();
             SqlServerConfigModel config = new()
             {
                 Address = "82.156.11.176",
@@ -27,7 +27,7 @@ namespace Materal.Oscillator.SqlServerEFRepository
                 TrustServerCertificate = true
             };
             optionsBuilder.UseSqlServer(config.ConnectionString);
-            return new OscillatorSqlServerDBContext(optionsBuilder.Options);
+            return new OscillatorDBContext(optionsBuilder.Options);
 
         }
     }

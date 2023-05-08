@@ -5,7 +5,7 @@ using Materal.Utils.Model;
 namespace Materal.BusinessFlow.Abstractions.Services
 {
     public interface IBaseService<TDomain>
-        where TDomain : class, IBaseDomain
+        where TDomain : class, IDomain
     {
         /// <summary>
         /// 添加
@@ -33,7 +33,7 @@ namespace Materal.BusinessFlow.Abstractions.Services
         Task<TDomain> GetInfoAsync(Guid id);
     }
     public interface IBaseService<TDomain, TQueryModel> : IBaseService<TDomain>
-        where TDomain : class, IBaseDomain
+        where TDomain : class, IDomain
         where TQueryModel : class, new()
     {
         /// <summary>
@@ -49,7 +49,7 @@ namespace Materal.BusinessFlow.Abstractions.Services
         Task<(List<TDomain> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null);
     }
     public interface IBaseService<TDomain, TRepository, TQueryModel> : IBaseService<TDomain, TQueryModel>
-        where TDomain : class, IBaseDomain
+        where TDomain : class, IDomain
         where TRepository : IRepository<TDomain>
         where TQueryModel : class, new()
     {

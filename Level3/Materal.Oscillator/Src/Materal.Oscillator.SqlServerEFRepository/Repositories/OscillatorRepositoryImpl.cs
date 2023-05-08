@@ -1,20 +1,20 @@
 ﻿using Materal.TTA.Common;
 using Materal.TTA.SqlServerEFRepository;
 
-namespace Materal.Oscillator.DRSqlServerEFRepository.Repositories
+namespace Materal.Oscillator.SqlServerEFRepository.Repositories
 {
     /// <summary>
-    /// 容灾仓储
+    /// Oscillator仓储
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class OscillatorDREFRepositoryImpl<T> : SqlServerEFRepositoryImpl<T, Guid, OscillatorDRDBContext>
+    public abstract class OscillatorRepositoryImpl<T> : SqlServerEFRepositoryImpl<T, Guid, OscillatorDBContext>
         where T : class, IEntity<Guid>, new()
     {
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="dbContext"></param>
-        protected OscillatorDREFRepositoryImpl(OscillatorDRDBContext dbContext) : base(dbContext)
+        protected OscillatorRepositoryImpl(OscillatorDBContext dbContext) : base(dbContext)
         {
         }
     }

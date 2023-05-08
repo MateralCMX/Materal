@@ -25,7 +25,7 @@ namespace Materal.Oscillator.Test
             MateralServices.Services = serviceCollection.BuildServiceProvider();
             Services = MateralServices.Services;
 
-            IMigrateHelper<OscillatorSqliteDBContext> migrateHelper = GetServiceTest<IMigrateHelper<OscillatorSqliteDBContext>>();
+            IMigrateHelper<SqliteEFRepository.OscillatorDBContext> migrateHelper = GetServiceTest<IMigrateHelper<SqliteEFRepository.OscillatorDBContext>>();
             //IMigrateHelper<OscillatorSqlServerDBContext> migrateHelper = GetServiceTest<IMigrateHelper<OscillatorSqlServerDBContext>>();
 
             migrateHelper.Migrate();
@@ -40,7 +40,7 @@ namespace Materal.Oscillator.Test
             {
                 Source = "Oscillator.db"
             };
-            services.AddOscillatorSqliteRepository(dbConfig);
+            services.AddOscillatorSqliteEFRepository(dbConfig);
 
             //SqlServerConfigModel dbConfig = new()
             //{

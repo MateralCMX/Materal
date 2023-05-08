@@ -22,7 +22,7 @@ namespace Materal.BusinessFlow.SqliteRepository.Repositories
             StringBuilder fildeTSQLBuilder = new();
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
-                if (propertyInfo.Name == nameof(IBaseDomain.ID) || propertyInfo.Name == nameof(IBaseDomain.CreateTime)) continue;
+                if (propertyInfo.Name == nameof(IDomain.ID) || propertyInfo.Name == nameof(IDomain.CreateTime)) continue;
                 string isNull;
                 string sqlType;
                 Type propertyType = propertyInfo.PropertyType;
@@ -56,14 +56,14 @@ namespace Materal.BusinessFlow.SqliteRepository.Repositories
         {
             StringBuilder tSqlBuilder = new();
             tSqlBuilder.AppendLine($"CREATE TABLE {SqliteRepositoryHelper.GetTSQLField(tableName)}(");
-            tSqlBuilder.AppendLine($"\t{SqliteRepositoryHelper.GetTSQLField(nameof(IBaseDomain.ID))} TEXT NOT NULL,");
+            tSqlBuilder.AppendLine($"\t{SqliteRepositoryHelper.GetTSQLField(nameof(IDomain.ID))} TEXT NOT NULL,");
             string fildeTSQL = GetCreateTableFildeTSQL();
             if (!string.IsNullOrWhiteSpace(fildeTSQL))
             {
                 tSqlBuilder.Append(fildeTSQL);
             }
-            tSqlBuilder.AppendLine($"\t{SqliteRepositoryHelper.GetTSQLField(nameof(IBaseDomain.CreateTime))} DATETIME NOT NULL,");
-            tSqlBuilder.AppendLine($"\tPRIMARY KEY ({SqliteRepositoryHelper.GetTSQLField(nameof(IBaseDomain.ID))})");
+            tSqlBuilder.AppendLine($"\t{SqliteRepositoryHelper.GetTSQLField(nameof(IDomain.CreateTime))} DATETIME NOT NULL,");
+            tSqlBuilder.AppendLine($"\tPRIMARY KEY ({SqliteRepositoryHelper.GetTSQLField(nameof(IDomain.ID))})");
             tSqlBuilder.AppendLine($")");
             string result = tSqlBuilder.ToString();
             return result;

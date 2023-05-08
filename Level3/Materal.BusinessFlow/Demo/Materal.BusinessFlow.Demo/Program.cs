@@ -368,7 +368,7 @@ namespace Materal.BusinessFlow.Demo
         /// <returns></returns>
         /// <exception cref="BusinessFlowException"></exception>
         private static async Task<(Guid id, bool isAdd)> InitDomainAsync<TDomain, TService>(IServiceProvider services, TDomain domain, bool isEdit = false)
-            where TDomain : class, IBaseDomain
+            where TDomain : class, IDomain
             where TService : IBaseService<TDomain>
         {
             TService service = services.GetService<TService>() ?? throw new BusinessFlowException("获取服务失败");

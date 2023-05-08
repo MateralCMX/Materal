@@ -7,13 +7,13 @@ namespace Materal.Oscillator.SqlServerEFRepository
     /// <summary>
     /// Oscillator数据库上下文
     /// </summary>
-    public class OscillatorSqlServerDBContext : DbContext
+    public class OscillatorDBContext : DbContext
     {
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="options"></param>
-        public OscillatorSqlServerDBContext(DbContextOptions<OscillatorSqlServerDBContext> options) : base(options) { }
+        public OscillatorDBContext(DbContextOptions<OscillatorDBContext> options) : base(options) { }
         /// <summary>
         /// 响应
         /// </summary>

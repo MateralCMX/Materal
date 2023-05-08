@@ -9,6 +9,7 @@ using Materal.Oscillator.Abstractions.QuartZExtend;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.DR;
+using Materal.TTA.Common;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
@@ -334,7 +335,7 @@ namespace Materal.Oscillator.QuartZExtend
         private async Task HandlerEventAsync(string eventValue, ScheduleWork scheduleWork, Work work)
         {
             if (_schedule == null) return;
-            List<Answer> answers = (await _answerRepository.FindAsync(m=>m.WorkEvent == eventValue && m.ScheduleID == _schedule.ID)).OrderBy(m => m.Index).ToList();
+            List<Answer> answers = await _answerRepository.FindAsync(m => m.WorkEvent == eventValue && m.ScheduleID == _schedule.ID, m => m.Index, SortOrderEnum.Ascending);
             foreach (Answer answer in answers)
             {
                 if (_oscillatorListener != null)

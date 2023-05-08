@@ -13,8 +13,10 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.Oscillator.DRSqliteADONETRepository\Materal.Oscillator.DRSqliteADONETRepository.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Oscillator.DRSqliteEFRepository\Materal.Oscillator.DRSqliteEFRepository.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Oscillator.DRSqlServerEFRepository\Materal.Oscillator.DRSqlServerEFRepository.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.Oscillator.SqliteADONETRepository\Materal.Oscillator.SqliteADONETRepository.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Oscillator.SqliteEFRepository\Materal.Oscillator.SqliteEFRepository.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Oscillator.SqlServerEFRepository\Materal.Oscillator.SqlServerEFRepository.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Oscillator\Materal.Oscillator.csproj" />

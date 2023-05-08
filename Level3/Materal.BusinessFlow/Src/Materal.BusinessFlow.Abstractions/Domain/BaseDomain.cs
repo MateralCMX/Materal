@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Materal.BusinessFlow.Abstractions.Domain
 {
-    public abstract class BaseDomain : IBaseDomain, IEntity<Guid>
+    public abstract class BaseDomain : IDomain, IEntity<Guid>
     {
         [Required]
         public Guid ID { get; set; } = Guid.NewGuid();

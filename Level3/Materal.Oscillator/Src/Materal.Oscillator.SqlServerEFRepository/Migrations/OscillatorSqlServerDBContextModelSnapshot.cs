@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Materal.Oscillator.SqlServerEFRepository.Migrations
 {
-    [DbContext(typeof(OscillatorSqlServerDBContext))]
+    [DbContext(typeof(OscillatorDBContext))]
     partial class OscillatorSqlServerDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

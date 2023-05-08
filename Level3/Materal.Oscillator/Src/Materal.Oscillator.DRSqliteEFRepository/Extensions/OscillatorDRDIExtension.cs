@@ -17,7 +17,7 @@ namespace Materal.Oscillator.DRSqliteEFRepository
         /// <param name="services"></param>
         /// <param name="dbConfig"></param>
         /// <returns></returns>
-        public static IServiceCollection AddOscillatorDRSqliteRepository(this IServiceCollection services, SqliteConfigModel dbConfig)
+        public static IServiceCollection AddOscillatorDRSqliteEFRepository(this IServiceCollection services, SqliteConfigModel dbConfig)
         {
             services.AddTTASqliteEFRepository<OscillatorDRDBContext>(dbConfig.ConnectionString);
             services.TryAddSingleton<IOscillatorDR, OscillatorDRImpl>();

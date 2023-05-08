@@ -1,6 +1,5 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Repositories;
-using Materal.TTA.Common;
 using Materal.TTA.SqliteEFRepository;
 
 namespace Materal.Oscillator.SqliteEFRepository
@@ -8,14 +7,14 @@ namespace Materal.Oscillator.SqliteEFRepository
     /// <summary>
     /// Oscillator工作单元
     /// </summary>
-    public class OscillatorUnitOfWorkImpl : SqliteEFUnitOfWorkImpl<OscillatorSqliteDBContext, Guid>, IOscillatorUnitOfWork
+    public class OscillatorUnitOfWorkImpl : SqliteEFUnitOfWorkImpl<OscillatorDBContext, Guid>, IOscillatorUnitOfWork
     {
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="context"></param>
         /// <param name="serviceProvider"></param>
-        public OscillatorUnitOfWorkImpl(OscillatorSqliteDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
+        public OscillatorUnitOfWorkImpl(OscillatorDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
         }
         /// <summary>

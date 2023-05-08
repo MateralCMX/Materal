@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Materal.Oscillator.SqliteEFRepository.Migrations
 {
-    [DbContext(typeof(OscillatorSqliteDBContext))]
+    [DbContext(typeof(OscillatorDBContext))]
     [Migration("20230505090235_Init")]
     partial class Init
     {

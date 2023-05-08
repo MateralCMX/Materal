@@ -12,7 +12,7 @@ namespace Materal.Oscillator.SqliteEFRepository.Repositories
         /// 响应仓储
         /// </summary>
         /// <param name="dbContext"></param>
-        public AnswerRepositoryImpl(OscillatorSqliteDBContext dbContext) : base(dbContext)
+        public AnswerRepositoryImpl(OscillatorDBContext dbContext) : base(dbContext)
         {
         }
     }

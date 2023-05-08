@@ -8,14 +8,14 @@ namespace Materal.Oscillator.SqlServerEFRepository
     /// <summary>
     /// Oscillator工作单元
     /// </summary>
-    public class OscillatorUnitOfWorkImpl : SqlServerEFUnitOfWorkImpl<OscillatorSqlServerDBContext, Guid>, IOscillatorUnitOfWork
+    public class OscillatorUnitOfWorkImpl : SqlServerEFUnitOfWorkImpl<OscillatorDBContext, Guid>, IOscillatorUnitOfWork
     {
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="context"></param>
         /// <param name="serviceProvider"></param>
-        public OscillatorUnitOfWorkImpl(OscillatorSqlServerDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
+        public OscillatorUnitOfWorkImpl(OscillatorDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {
         }
         /// <summary>

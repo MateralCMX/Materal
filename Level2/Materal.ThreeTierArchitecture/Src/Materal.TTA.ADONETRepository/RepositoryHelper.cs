@@ -240,10 +240,13 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="expression"></param>
         /// <returns></returns>
         /// <exception cref="TTAException"></exception>
-        private string? ContainsMethodCallExpressionToSQL(IDbCommand command, MethodCallExpression expression)
+        private string? ContainsMethodCallExpressionToTSQL(IDbCommand command, MethodCallExpression expression)
         {
-            if (expression.Method.Name == "Contains" && expression.Object is MemberExpression memberExpression)
+            if (expression.Method.Name != "Contains") return null;
+            MemberExpression memberExpression;
+            if (expression.Object is MemberExpression)
             {
+                memberExpression = (MemberExpression)expression.Object;
                 if (memberExpression.Type == typeof(string))
                 {
                     string leftTSQL = ExpressionToTSQL(command, memberExpression, expression);
@@ -259,48 +262,61 @@ namespace Materal.TTA.ADONETRepository
                         throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
                     }
                 }
-                else if (memberExpression.Type.IsAssignableTo(typeof(ICollection)))
+                else
                 {
-                    if (expression.Arguments.Count == 1)
+                    string leftTSQL = ExpressionToTSQL(command, expression.Arguments[0], memberExpression);
+                    return ContainsMethodCallMemberExpressionToTSQL(command, leftTSQL, memberExpression);
+                }
+            }
+            else if(expression.Method.ReturnType == typeof(bool) && expression.Arguments.Count == 2 && expression.Arguments[0] is MemberExpression)
+            {
+                memberExpression = (MemberExpression)expression.Arguments[0];
+                string leftTSQL = ExpressionToTSQL(command, expression.Arguments[1], memberExpression);
+                return ContainsMethodCallMemberExpressionToTSQL(command, leftTSQL, memberExpression);
+            }
+            return null;
+        }
+        /// <summary>
+        /// 包含方法转换为TSQL
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="leftTSQL"></param>
+        /// <param name="memberExpression"></param>
+        /// <returns></returns>
+        /// <exception cref="TTAException"></exception>
+        private string? ContainsMethodCallMemberExpressionToTSQL(IDbCommand command, string leftTSQL, MemberExpression memberExpression)
+        {
+            if (!memberExpression.Type.IsAssignableTo(typeof(ICollection))) return null;
+            string parameterName = GetParamsName(memberExpression.Member.Name);
+            if (memberExpression.Expression is ConstantExpression constantExpression)
+            {
+                object? value = null;
+                Type valueType = constantExpression.Value.GetType();
+                FieldInfo? fieldInfo = valueType.GetRuntimeField(memberExpression.Member.Name) ?? valueType.GetField(memberExpression.Member.Name);
+                if (fieldInfo != null)
+                {
+                    value = fieldInfo.GetValue(constantExpression.Value);
+                }
+                else
+                {
+                    PropertyInfo? propertyInfo = valueType.GetProperty(memberExpression.Member.Name);
+                    if (propertyInfo != null)
                     {
-                        string leftTSQL = ExpressionToTSQL(command, expression.Arguments[0], memberExpression);
-                        string parameterName = GetParamsName(memberExpression.Member.Name);
-                        if (memberExpression.Expression is ConstantExpression constantExpression)
-                        {
-                            object? value = null;
-                            Type valueType = constantExpression.Value.GetType();
-                            FieldInfo? fieldInfo = valueType.GetRuntimeField(memberExpression.Member.Name) ?? valueType.GetField(memberExpression.Member.Name);
-                            if (fieldInfo != null)
-                            {
-                                value = fieldInfo.GetValue(constantExpression.Value);
-                            }
-                            else
-                            {
-                                PropertyInfo? propertyInfo = valueType.GetProperty(memberExpression.Member.Name);
-                                if (propertyInfo != null)
-                                {
-                                    value = propertyInfo.GetValue(constantExpression.Value);
-                                }
-                            }
-                            if (value == null || value is not IEnumerable values) throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
-                            int index = 0;
-                            List<string> parameterNames = new();
-                            foreach (object? item in values)
-                            {
-                                if (item == null) continue;
-                                string name = $"{parameterName}{index}";
-                                command.AddParameter(name, item);
-                                parameterNames.Add(name);
-                            }
-                            string result = $"{leftTSQL} in ({string.Join(",", parameterNames)})";
-                            return result;
-                        }
-                    }
-                    else
-                    {
-                        throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
+                        value = propertyInfo.GetValue(constantExpression.Value);
                     }
                 }
+                if (value == null || value is not IEnumerable values) throw new TTAException($"不支持方法Contains转换为TSQL");
+                int index = 0;
+                List<string> parameterNames = new();
+                foreach (object? item in values)
+                {
+                    if (item == null) continue;
+                    string name = $"{parameterName}{index++}";
+                    command.AddParameter(name, item);
+                    parameterNames.Add(name);
+                }
+                string result = $"{leftTSQL} in ({string.Join(",", parameterNames)})";
+                return result;
             }
             return null;
         }
@@ -337,7 +353,7 @@ namespace Materal.TTA.ADONETRepository
         /// <exception cref="TTAException"></exception>
         public string MethodCallExpressionToTSQL(IDbCommand command, MethodCallExpression expression)
         {
-            string? result = ContainsMethodCallExpressionToSQL(command, expression);
+            string? result = ContainsMethodCallExpressionToTSQL(command, expression);
             result ??= EqualsMethodCallExpressionToSQL(command, expression);
             return result ?? throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
         }
@@ -379,16 +395,22 @@ namespace Materal.TTA.ADONETRepository
         /// <exception cref="TTAException"></exception>
         public string MemberExpressionToTSQL(IDbCommand command, MemberExpression expression)
         {
-            switch (expression.Member.MemberType)
+            if (expression.Expression == null) return "IS NULL";
+            if (expression.Member.MemberType == MemberTypes.Field)
             {
-                case MemberTypes.Field:
-                    if (expression.Expression == null) return "IS NULL";
-                    return ExpressionToTSQL(command, expression.Expression, expression);
-                case MemberTypes.Property:
+                return ExpressionToTSQL(command, expression.Expression, expression);
+            }
+            if(expression.Member.MemberType == MemberTypes.Property)
+            {
+                if (expression.Expression is ParameterExpression)
+                {
+                    return GetTSQLField(expression.Member.Name);
+                }
+                else if (expression.Expression is MemberExpression trueMemberExpression)
+                {
                     if (expression.Member.DeclaringType != null &&
                         expression.Member.DeclaringType.FullName != null &&
-                        expression.Member.DeclaringType.FullName.StartsWith("System.Nullable`1") &&
-                        expression.Expression is MemberExpression trueMemberExpression)
+                        expression.Member.DeclaringType.FullName.StartsWith("System.Nullable`1"))
                     {
                         if (expression.Type == typeof(bool) && expression.Member.Name == "HasValue")
                         {
@@ -399,10 +421,47 @@ namespace Materal.TTA.ADONETRepository
                             return GetTSQLField(trueMemberExpression.Member.Name);
                         }
                     }
-                    return GetTSQLField(expression.Member.Name);
-                default:
-                    throw new TTAException("未识别的表达式");
+                    else
+                    {
+                        string parameterName = GetParamsName(expression.Member.Name);
+                        object? value = GetMemberValue(trueMemberExpression, expression.Member.Name);
+                        if (value == null) return "IS NULL";
+                        command.AddParameter(parameterName, value);
+                        return parameterName;
+                    }
+                }
+                else
+                {
+                    string result = ExpressionToTSQL(command, expression.Expression, expression);
+                    return result;
+                }
             }
+            throw new TTAException("未识别的表达式");
+        }
+        /// <summary>
+        /// 获得最终值
+        /// </summary>
+        /// <param name="memberExpression"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private object? GetMemberValue(MemberExpression memberExpression, string name)
+        {
+            while (memberExpression.Expression is MemberExpression upMemberExpression)
+            {
+                memberExpression = upMemberExpression;
+            }
+            if(memberExpression.Expression is ConstantExpression constantExpression)
+            {
+                object? trueValue = constantExpression.Value;
+                if(trueValue == null) throw new TTAException("获取Member值失败");
+                trueValue = memberExpression.Member.GetValue(trueValue);
+                if (trueValue == null) throw new TTAException("获取Member值失败");
+                PropertyInfo? propertyInfo = trueValue.GetType().GetProperty(name);
+                if (propertyInfo == null) throw new TTAException("获取Member值失败");
+                trueValue = propertyInfo.GetValue(trueValue);
+                return trueValue;
+            }
+            throw new TTAException("获取Member值失败");
         }
         /// <summary>
         /// 二元表达式转换为TSQL

@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Materal.BusinessFlow.Services
 {
     public abstract class BaseServiceImpl<TDomain, TRepository, TQueryModel> : IBaseService<TDomain, TRepository, TQueryModel>
-        where TDomain : class, IBaseDomain
+        where TDomain : class, IDomain
         where TRepository : IRepository<TDomain, Guid>
         where TQueryModel : PageRequestModel, new()
     {

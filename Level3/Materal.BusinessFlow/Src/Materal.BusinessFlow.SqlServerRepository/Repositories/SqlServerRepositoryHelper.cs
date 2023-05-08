@@ -22,7 +22,7 @@ namespace Materal.BusinessFlow.SqlServerRepository.Repositories
             StringBuilder fildeTSQLBuilder = new();
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
-                if (propertyInfo.Name == nameof(IBaseDomain.ID) || propertyInfo.Name == nameof(IBaseDomain.CreateTime)) continue;
+                if (propertyInfo.Name == nameof(IDomain.ID) || propertyInfo.Name == nameof(IDomain.CreateTime)) continue;
                 string isNull;
                 string sqlType;
                 Type propertyType = propertyInfo.PropertyType;
@@ -80,14 +80,14 @@ namespace Materal.BusinessFlow.SqlServerRepository.Repositories
         {
             StringBuilder tSqlBuilder = new();
             tSqlBuilder.AppendLine($"CREATE TABLE {SqlServerRepositoryHelper.GetTSQLField(tableName)}(");
-            tSqlBuilder.AppendLine($"\t{SqlServerRepositoryHelper.GetTSQLField(nameof(IBaseDomain.ID))} {SqlServerRepositoryHelper.GetTSQLField("uniqueidentifier")} NOT NULL,");
+            tSqlBuilder.AppendLine($"\t{SqlServerRepositoryHelper.GetTSQLField(nameof(IDomain.ID))} {SqlServerRepositoryHelper.GetTSQLField("uniqueidentifier")} NOT NULL,");
             string fildeTSQL = GetCreateTableFildeTSQL();
             if (!string.IsNullOrWhiteSpace(fildeTSQL))
             {
                 tSqlBuilder.Append(fildeTSQL);
             }
-            tSqlBuilder.AppendLine($"\t{SqlServerRepositoryHelper.GetTSQLField(nameof(IBaseDomain.CreateTime))} {SqlServerRepositoryHelper.GetTSQLField("datetime2")} NOT NULL,");
-            tSqlBuilder.AppendLine($"\tCONSTRAINT {SqlServerRepositoryHelper.GetTSQLField($"PK_{tableName}")} PRIMARY KEY CLUSTERED({SqlServerRepositoryHelper.GetTSQLField(nameof(IBaseDomain.ID))} ASC)");
+            tSqlBuilder.AppendLine($"\t{SqlServerRepositoryHelper.GetTSQLField(nameof(IDomain.CreateTime))} {SqlServerRepositoryHelper.GetTSQLField("datetime2")} NOT NULL,");
+            tSqlBuilder.AppendLine($"\tCONSTRAINT {SqlServerRepositoryHelper.GetTSQLField($"PK_{tableName}")} PRIMARY KEY CLUSTERED({SqlServerRepositoryHelper.GetTSQLField(nameof(IDomain.ID))} ASC)");
             tSqlBuilder.AppendLine($"\tWITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON {SqlServerRepositoryHelper.GetTSQLField("PRIMARY")}");
             tSqlBuilder.AppendLine($") ON {SqlServerRepositoryHelper.GetTSQLField("PRIMARY")}");
             string result = tSqlBuilder.ToString();

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Materal.Oscillator.SqliteEFRepository.Migrations
 {
-    [DbContext(typeof(OscillatorSqliteDBContext))]
+    [DbContext(typeof(OscillatorDBContext))]
     partial class OscillatorSqliteDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

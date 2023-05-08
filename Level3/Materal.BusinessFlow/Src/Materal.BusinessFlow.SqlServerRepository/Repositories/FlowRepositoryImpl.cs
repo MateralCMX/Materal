@@ -28,7 +28,7 @@ namespace Materal.BusinessFlow.SqlServerRepository.Repositories
             string tableName = GetTableName(flowTemplate.ID);
             StringBuilder tSqlBuilder = new();
             tSqlBuilder.AppendLine($"CREATE TABLE {UnitOfWork.GetTSQLField(tableName)}(");
-            tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField(nameof(IBaseDomain.ID))} {UnitOfWork.GetTSQLField("uniqueidentifier")} NOT NULL,");
+            tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField(nameof(IDomain.ID))} {UnitOfWork.GetTSQLField("uniqueidentifier")} NOT NULL,");
             tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField("FlowTemplateID")} {UnitOfWork.GetTSQLField("uniqueidentifier")} NOT NULL,");
             tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField("StartStepID")} {UnitOfWork.GetTSQLField("uniqueidentifier")} NOT NULL,");
             tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField("StepID")} {UnitOfWork.GetTSQLField("uniqueidentifier")} NOT NULL,");
@@ -48,8 +48,8 @@ WHERE {UnitOfWork.GetTSQLField(nameof(DataModelField.DataModelID))} = {UnitOfWor
                 tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField(dataName)} {type} NULL,");
             }
 
-            tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField(nameof(IBaseDomain.CreateTime))} {UnitOfWork.GetTSQLField("datetime2")} NOT NULL,");
-            tSqlBuilder.AppendLine($"\tCONSTRAINT {UnitOfWork.GetTSQLField($"PK_{tableName}")} PRIMARY KEY CLUSTERED({UnitOfWork.GetTSQLField(nameof(IBaseDomain.ID))} ASC)");
+            tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField(nameof(IDomain.CreateTime))} {UnitOfWork.GetTSQLField("datetime2")} NOT NULL,");
+            tSqlBuilder.AppendLine($"\tCONSTRAINT {UnitOfWork.GetTSQLField($"PK_{tableName}")} PRIMARY KEY CLUSTERED({UnitOfWork.GetTSQLField(nameof(IDomain.ID))} ASC)");
             tSqlBuilder.AppendLine($"\tWITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON {UnitOfWork.GetTSQLField("PRIMARY")}");
             tSqlBuilder.AppendLine($") ON {UnitOfWork.GetTSQLField("PRIMARY")}");
             string result = tSqlBuilder.ToString();

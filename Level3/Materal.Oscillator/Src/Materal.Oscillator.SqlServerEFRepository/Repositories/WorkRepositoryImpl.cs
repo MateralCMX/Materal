@@ -12,7 +12,7 @@ namespace Materal.Oscillator.SqlServerEFRepository.Repositories
         /// 构造方法
         /// </summary>
         /// <param name="dbContext"></param>
-        public WorkRepositoryImpl(OscillatorSqlServerDBContext dbContext) : base(dbContext)
+        public WorkRepositoryImpl(OscillatorDBContext dbContext) : base(dbContext)
         {
         }
     }

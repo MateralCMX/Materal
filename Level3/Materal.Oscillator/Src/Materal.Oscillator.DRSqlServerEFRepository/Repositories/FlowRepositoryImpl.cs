@@ -6,7 +6,7 @@ namespace Materal.Oscillator.DRSqlServerEFRepository.Repositories
     /// <summary>
     /// 流程仓储
     /// </summary>
-    public class FlowRepositoryImpl : OscillatorDREFRepositoryImpl<Flow>, IFlowRepository
+    public class FlowRepositoryImpl : OscillatorDRRepositoryImpl<Flow>, IFlowRepository
     {
         /// <summary>
         /// 构造方法

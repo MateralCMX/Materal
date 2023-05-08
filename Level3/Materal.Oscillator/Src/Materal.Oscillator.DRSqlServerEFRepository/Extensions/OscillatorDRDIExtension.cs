@@ -17,7 +17,7 @@ namespace Materal.Oscillator.DRSqlServerEFRepository
         /// <param name="services"></param>
         /// <param name="dbConfig"></param>
         /// <returns></returns>
-        public static IServiceCollection AddOscillatorDRSqlServerRepository(this IServiceCollection services, SqlServerConfigModel dbConfig)
+        public static IServiceCollection AddOscillatorDRSqlServerEFRepository(this IServiceCollection services, SqlServerConfigModel dbConfig)
         {
             services.AddTTASqlServerEFRepository<OscillatorDRDBContext>(dbConfig.ConnectionString);
             services.TryAddSingleton<IOscillatorDR, OscillatorDRImpl>();

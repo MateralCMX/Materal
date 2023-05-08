@@ -108,7 +108,7 @@ WHERE {UnitOfWork.GetTSQLField(nameof(DataModelField.DataModelID))} = {UnitOfWor
             string tableName = GetTableName(flowTemplate.ID);
             StringBuilder tSqlBuilder = new();
             tSqlBuilder.AppendLine($"CREATE TABLE {tableName}(");
-            tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField(nameof(IBaseDomain.ID))} TEXT NOT NULL,");
+            tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField(nameof(IDomain.ID))} TEXT NOT NULL,");
             tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField("FlowTemplateID")} TEXT NOT NULL,");
             tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField("StartStepID")} TEXT NOT NULL,");
             tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField("StepID")} TEXT NOT NULL,");
@@ -119,8 +119,8 @@ WHERE {UnitOfWork.GetTSQLField(nameof(DataModelField.DataModelID))} = {UnitOfWor
                 string type = GetDataTypeByDataTypeEnum(item.DataType);
                 tSqlBuilder.AppendLine($"\t{UnitOfWork.GetTSQLField(item.Name)} {UnitOfWork.GetTSQLField(type)} NULL,");
             }
-            tSqlBuilder.AppendLine($"\t{nameof(IBaseDomain.CreateTime)} DATETIME NOT NULL,");
-            tSqlBuilder.AppendLine($"\tPRIMARY KEY (\"{nameof(IBaseDomain.ID)}\")");
+            tSqlBuilder.AppendLine($"\t{nameof(IDomain.CreateTime)} DATETIME NOT NULL,");
+            tSqlBuilder.AppendLine($"\tPRIMARY KEY (\"{nameof(IDomain.ID)}\")");
             tSqlBuilder.AppendLine($");");
             string result = tSqlBuilder.ToString();
             return result;
@@ -137,8 +137,8 @@ WHERE {UnitOfWork.GetTSQLField(nameof(DataModelField.DataModelID))} = {UnitOfWor
                 insertArgs.Add(UnitOfWork.GetTSQLField(newField.Name));
                 selectArgs.Add(UnitOfWork.GetTSQLField(oldField.Name));
             }
-            tSqlBuilder.AppendLine($"INSERT INTO {UnitOfWork.GetTSQLField(newTableName)} ({UnitOfWork.GetTSQLField(nameof(IBaseDomain.ID))},{UnitOfWork.GetTSQLField("FlowTemplateID")},{UnitOfWork.GetTSQLField("StartStepID")},{UnitOfWork.GetTSQLField("StepID")},{UnitOfWork.GetTSQLField("State")},{UnitOfWork.GetTSQLField("InitiatorID")},{UnitOfWork.GetTSQLField(nameof(IBaseDomain.CreateTime))},{string.Join(",", insertArgs)})");
-            tSqlBuilder.AppendLine($"SELECT {UnitOfWork.GetTSQLField(nameof(IBaseDomain.ID))},{UnitOfWork.GetTSQLField("FlowTemplateID")},{UnitOfWork.GetTSQLField("StartStepID")},{UnitOfWork.GetTSQLField("StepID")},{UnitOfWork.GetTSQLField("State")},{UnitOfWork.GetTSQLField("InitiatorID")},{UnitOfWork.GetTSQLField(nameof(IBaseDomain.CreateTime))},{string.Join(",", selectArgs)} FROM {UnitOfWork.GetTSQLField(oldTableName)};");
+            tSqlBuilder.AppendLine($"INSERT INTO {UnitOfWork.GetTSQLField(newTableName)} ({UnitOfWork.GetTSQLField(nameof(IDomain.ID))},{UnitOfWork.GetTSQLField("FlowTemplateID")},{UnitOfWork.GetTSQLField("StartStepID")},{UnitOfWork.GetTSQLField("StepID")},{UnitOfWork.GetTSQLField("State")},{UnitOfWork.GetTSQLField("InitiatorID")},{UnitOfWork.GetTSQLField(nameof(IDomain.CreateTime))},{string.Join(",", insertArgs)})");
+            tSqlBuilder.AppendLine($"SELECT {UnitOfWork.GetTSQLField(nameof(IDomain.ID))},{UnitOfWork.GetTSQLField("FlowTemplateID")},{UnitOfWork.GetTSQLField("StartStepID")},{UnitOfWork.GetTSQLField("StepID")},{UnitOfWork.GetTSQLField("State")},{UnitOfWork.GetTSQLField("InitiatorID")},{UnitOfWork.GetTSQLField(nameof(IDomain.CreateTime))},{string.Join(",", selectArgs)} FROM {UnitOfWork.GetTSQLField(oldTableName)};");
             string result = tSqlBuilder.ToString();
             return result;
         }

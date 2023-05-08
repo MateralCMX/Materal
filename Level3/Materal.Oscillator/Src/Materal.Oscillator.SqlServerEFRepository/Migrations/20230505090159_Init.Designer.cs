@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Materal.Oscillator.SqlServerEFRepository.Migrations
 {
-    [DbContext(typeof(OscillatorSqlServerDBContext))]
+    [DbContext(typeof(OscillatorDBContext))]
     [Migration("20230505090159_Init")]
     partial class Init
     {

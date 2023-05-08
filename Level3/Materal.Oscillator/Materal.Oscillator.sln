@@ -17,15 +17,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator", "Src\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.Abstractions", "Src\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj", "{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.SqliteEFRepository", "Src\Materal.Oscillator.SqliteEFRepository\Materal.Oscillator.SqliteEFRepository.csproj", "{DE9CE5DF-5457-4945-9C80-FD366AD23F80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.SqliteEFRepository", "Src\Materal.Oscillator.SqliteEFRepository\Materal.Oscillator.SqliteEFRepository.csproj", "{DE9CE5DF-5457-4945-9C80-FD366AD23F80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.SqlServerEFRepository", "Src\Materal.Oscillator.SqlServerEFRepository\Materal.Oscillator.SqlServerEFRepository.csproj", "{FE01FAF5-5924-4912-A664-C521493E9763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.SqlServerEFRepository", "Src\Materal.Oscillator.SqlServerEFRepository\Materal.Oscillator.SqlServerEFRepository.csproj", "{FE01FAF5-5924-4912-A664-C521493E9763}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.DRSqliteEFRepository", "Src\Materal.Oscillator.DRSqliteEFRepository\Materal.Oscillator.DRSqliteEFRepository.csproj", "{45F8EBF3-41DA-44AA-B582-1502CC6882E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.DRSqliteEFRepository", "Src\Materal.Oscillator.DRSqliteEFRepository\Materal.Oscillator.DRSqliteEFRepository.csproj", "{45F8EBF3-41DA-44AA-B582-1502CC6882E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.DRSqlServerEFRepository", "Src\Materal.Oscillator.DRSqlServerEFRepository\Materal.Oscillator.DRSqlServerEFRepository.csproj", "{E8E2895E-0596-4B23-9CD8-80CDC459A60D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.DRSqlServerEFRepository", "Src\Materal.Oscillator.DRSqlServerEFRepository\Materal.Oscillator.DRSqlServerEFRepository.csproj", "{E8E2895E-0596-4B23-9CD8-80CDC459A60D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EFRepository", "EFRepository", "{1DCE0B72-F86F-499C-82AF-15CA439F2189}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ADONETRepository", "ADONETRepository", "{C2FEC44A-4AB7-4095-A72B-59039E59D2A9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.SqliteADONETRepository", "Src\Materal.Oscillator.SqliteADONETRepository\Materal.Oscillator.SqliteADONETRepository.csproj", "{147EC530-5E8F-4B11-AF6F-806C4220654E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TTA", "TTA", "{9056380F-4BDB-4C29-A9E4-8CA16232799F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Common", "..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.Common\Materal.TTA.Common.csproj", "{D8473C58-D8FA-4126-AC94-A8FF06C0169C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.ADONETRepository", "..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.ADONETRepository\Materal.TTA.ADONETRepository.csproj", "{BF948D98-2D23-4550-9F21-4A952CB933CC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqliteADONETRepository", "..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.SqliteADONETRepository\Materal.TTA.SqliteADONETRepository.csproj", "{66159438-3F9F-4982-B5E6-381272020914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.DRSqliteADONETRepository", "Src\Materal.Oscillator.DRSqliteADONETRepository\Materal.Oscillator.DRSqliteADONETRepository.csproj", "{4BC0B73A-0DB5-41AA-B468-AD5836DD5D5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +79,26 @@ Global
 		{E8E2895E-0596-4B23-9CD8-80CDC459A60D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8E2895E-0596-4B23-9CD8-80CDC459A60D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8E2895E-0596-4B23-9CD8-80CDC459A60D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{147EC530-5E8F-4B11-AF6F-806C4220654E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{147EC530-5E8F-4B11-AF6F-806C4220654E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{147EC530-5E8F-4B11-AF6F-806C4220654E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{147EC530-5E8F-4B11-AF6F-806C4220654E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8473C58-D8FA-4126-AC94-A8FF06C0169C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8473C58-D8FA-4126-AC94-A8FF06C0169C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8473C58-D8FA-4126-AC94-A8FF06C0169C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8473C58-D8FA-4126-AC94-A8FF06C0169C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF948D98-2D23-4550-9F21-4A952CB933CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF948D98-2D23-4550-9F21-4A952CB933CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF948D98-2D23-4550-9F21-4A952CB933CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF948D98-2D23-4550-9F21-4A952CB933CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66159438-3F9F-4982-B5E6-381272020914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66159438-3F9F-4982-B5E6-381272020914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66159438-3F9F-4982-B5E6-381272020914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66159438-3F9F-4982-B5E6-381272020914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BC0B73A-0DB5-41AA-B468-AD5836DD5D5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BC0B73A-0DB5-41AA-B468-AD5836DD5D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BC0B73A-0DB5-41AA-B468-AD5836DD5D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BC0B73A-0DB5-41AA-B468-AD5836DD5D5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +113,12 @@ Global
 		{45F8EBF3-41DA-44AA-B582-1502CC6882E8} = {1DCE0B72-F86F-499C-82AF-15CA439F2189}
 		{E8E2895E-0596-4B23-9CD8-80CDC459A60D} = {1DCE0B72-F86F-499C-82AF-15CA439F2189}
 		{1DCE0B72-F86F-499C-82AF-15CA439F2189} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
+		{C2FEC44A-4AB7-4095-A72B-59039E59D2A9} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
+		{147EC530-5E8F-4B11-AF6F-806C4220654E} = {C2FEC44A-4AB7-4095-A72B-59039E59D2A9}
+		{D8473C58-D8FA-4126-AC94-A8FF06C0169C} = {9056380F-4BDB-4C29-A9E4-8CA16232799F}
+		{BF948D98-2D23-4550-9F21-4A952CB933CC} = {9056380F-4BDB-4C29-A9E4-8CA16232799F}
+		{66159438-3F9F-4982-B5E6-381272020914} = {9056380F-4BDB-4C29-A9E4-8CA16232799F}
+		{4BC0B73A-0DB5-41AA-B468-AD5836DD5D5F} = {C2FEC44A-4AB7-4095-A72B-59039E59D2A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68FD9C02-63AC-4CAE-A2FA-B43F52FC01AA}
