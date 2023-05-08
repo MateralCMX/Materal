@@ -26,7 +26,8 @@ namespace ConsoleDemo
 
             //IRepositoryHelper useRepositoryHelper = new SqliteEFRepositoryHelper();
             //IRepositoryHelper useRepositoryHelper = new SqlServerEFRepositoryHelper();
-            IRepositoryHelper useRepositoryHelper = new SqliteADONETRepositoryHelper();
+            //IRepositoryHelper useRepositoryHelper = new SqliteADONETRepositoryHelper();
+            IRepositoryHelper useRepositoryHelper = new SqlServerADONETRepositoryHelper();
 
             useRepositoryHelper.AddDRRepository(serviceCollection);
             useRepositoryHelper.AddRepository(serviceCollection);
@@ -39,8 +40,8 @@ namespace ConsoleDemo
         }
         public static async Task Main()
         {
-            //await ClearAllDataAsync();
-            //await InitHostTestAsync();
+            await ClearAllDataAsync();
+            await InitHostTestAsync();
             await _host.StartAsync();
             //(List<ScheduleDTO> dataList, _) = await _host.GetScheduleListAsync(new QueryScheduleModel { PageIndex = 1, PageSize = 1 });
             //if (dataList.Count <= 0) return;

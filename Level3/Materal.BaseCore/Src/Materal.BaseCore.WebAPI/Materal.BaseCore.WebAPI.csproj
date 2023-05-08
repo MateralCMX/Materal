@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.19</Version>
+		<Version>1.1.20</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -23,6 +23,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 		<PackageReference Include="Consul" Version="*" />
 		<PackageReference Include="Polly" Version="*" />
-		<PackageReference Include="Materal.Logger" Version="1.1.19" />
+		<PackageReference Include="Materal.Logger" Version="1.1.20" />
 	</ItemGroup>
 </Project>

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>10.0</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<Product>Materal.Oscillator</Product>
+		<Company>Materal</Company>
+		<Authors>Materal</Authors>
+		<Version>1.1.20</Version>
+		<Copyright>Materal</Copyright>
+		<Description>Materal.Oscillator.SqlServerADONETRepository</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.TTA.SqlServerADONETRepository" Version="1.1.20" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Oscillator\Materal.Oscillator.csproj" />
+	</ItemGroup>
+</Project>

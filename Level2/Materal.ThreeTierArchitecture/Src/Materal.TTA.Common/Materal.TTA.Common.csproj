@@ -10,12 +10,12 @@
 		<Product>Materal.ThreeTierArchitecture</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.19</Version>
+		<Version>1.1.20</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.TTA.Common</Description>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
-		<PackageReference Include="Materal.Utils" Version="1.1.19" />
+		<PackageReference Include="Materal.Utils" Version="1.1.20" />
 	</ItemGroup>
 </Project>
