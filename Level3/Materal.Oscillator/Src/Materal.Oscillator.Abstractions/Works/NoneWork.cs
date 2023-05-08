@@ -14,8 +14,9 @@ namespace Materal.Oscillator.Abstractions.Works
         /// <param name="nowIndex"></param>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <returns></returns>
-        public override Task<string?> ExcuteAsync(List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork)
+        public override Task<string?> ExcuteAsync(List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork, Work work)
         {
             return Task.FromResult((string?)null);
         }

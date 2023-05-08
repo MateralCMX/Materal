@@ -1,6 +1,6 @@
 ﻿using Materal.Abstractions;
-using Materal.Oscillator.SqliteRepository;
-using Materal.Oscillator.SqlServerRepository;
+using Materal.Oscillator.SqliteEFRepository;
+using Materal.Oscillator.SqlServerEFRepository;
 using Materal.TTA.Common.Model;
 using Materal.TTA.EFRepository;
 using Materal.Utils;

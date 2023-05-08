@@ -17,11 +17,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator", "Src\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.Abstractions", "Src\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj", "{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Oscillator.SqliteRepository", "Src\Materal.Oscillator.SqliteRepository\Materal.Oscillator.SqliteRepository.csproj", "{2CB09537-D6BE-4D82-8146-5476062AAC1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.SqliteEFRepository", "Src\Materal.Oscillator.SqliteEFRepository\Materal.Oscillator.SqliteEFRepository.csproj", "{DE9CE5DF-5457-4945-9C80-FD366AD23F80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.LocalDR", "Src\Materal.Oscillator.LocalDR\Materal.Oscillator.LocalDR.csproj", "{50737E4F-05A7-46AB-ACCB-2C19C7369DEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.SqlServerEFRepository", "Src\Materal.Oscillator.SqlServerEFRepository\Materal.Oscillator.SqlServerEFRepository.csproj", "{FE01FAF5-5924-4912-A664-C521493E9763}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.SqlServerRepository", "Src\Materal.Oscillator.SqlServerRepository\Materal.Oscillator.SqlServerRepository.csproj", "{2EC5F714-19D8-4DED-BAC2-44022DEB968B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.DRSqliteEFRepository", "Src\Materal.Oscillator.DRSqliteEFRepository\Materal.Oscillator.DRSqliteEFRepository.csproj", "{45F8EBF3-41DA-44AA-B582-1502CC6882E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Oscillator.DRSqlServerEFRepository", "Src\Materal.Oscillator.DRSqlServerEFRepository\Materal.Oscillator.DRSqlServerEFRepository.csproj", "{E8E2895E-0596-4B23-9CD8-80CDC459A60D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EFRepository", "EFRepository", "{1DCE0B72-F86F-499C-82AF-15CA439F2189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,18 +49,22 @@ Global
 		{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2CB09537-D6BE-4D82-8146-5476062AAC1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2CB09537-D6BE-4D82-8146-5476062AAC1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2CB09537-D6BE-4D82-8146-5476062AAC1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2CB09537-D6BE-4D82-8146-5476062AAC1F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50737E4F-05A7-46AB-ACCB-2C19C7369DEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50737E4F-05A7-46AB-ACCB-2C19C7369DEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50737E4F-05A7-46AB-ACCB-2C19C7369DEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50737E4F-05A7-46AB-ACCB-2C19C7369DEB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2EC5F714-19D8-4DED-BAC2-44022DEB968B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EC5F714-19D8-4DED-BAC2-44022DEB968B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EC5F714-19D8-4DED-BAC2-44022DEB968B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EC5F714-19D8-4DED-BAC2-44022DEB968B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE9CE5DF-5457-4945-9C80-FD366AD23F80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE9CE5DF-5457-4945-9C80-FD366AD23F80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE9CE5DF-5457-4945-9C80-FD366AD23F80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE9CE5DF-5457-4945-9C80-FD366AD23F80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE01FAF5-5924-4912-A664-C521493E9763}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE01FAF5-5924-4912-A664-C521493E9763}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE01FAF5-5924-4912-A664-C521493E9763}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE01FAF5-5924-4912-A664-C521493E9763}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45F8EBF3-41DA-44AA-B582-1502CC6882E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45F8EBF3-41DA-44AA-B582-1502CC6882E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45F8EBF3-41DA-44AA-B582-1502CC6882E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45F8EBF3-41DA-44AA-B582-1502CC6882E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8E2895E-0596-4B23-9CD8-80CDC459A60D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E2895E-0596-4B23-9CD8-80CDC459A60D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E2895E-0596-4B23-9CD8-80CDC459A60D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E2895E-0596-4B23-9CD8-80CDC459A60D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,9 +74,11 @@ Global
 		{B02C546C-4643-4DF6-8263-16AB9A30E3E0} = {034AEDFE-B1BD-4AB3-B45B-FC05F32CD20C}
 		{310F0661-0267-4A91-A1F2-747AC5B14D2E} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
 		{1609B9DD-4CA1-44D6-A760-AB6EEA59C12F} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
-		{2CB09537-D6BE-4D82-8146-5476062AAC1F} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
-		{50737E4F-05A7-46AB-ACCB-2C19C7369DEB} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
-		{2EC5F714-19D8-4DED-BAC2-44022DEB968B} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
+		{DE9CE5DF-5457-4945-9C80-FD366AD23F80} = {1DCE0B72-F86F-499C-82AF-15CA439F2189}
+		{FE01FAF5-5924-4912-A664-C521493E9763} = {1DCE0B72-F86F-499C-82AF-15CA439F2189}
+		{45F8EBF3-41DA-44AA-B582-1502CC6882E8} = {1DCE0B72-F86F-499C-82AF-15CA439F2189}
+		{E8E2895E-0596-4B23-9CD8-80CDC459A60D} = {1DCE0B72-F86F-499C-82AF-15CA439F2189}
+		{1DCE0B72-F86F-499C-82AF-15CA439F2189} = {F5DC06C1-10BF-4139-82E1-53C00E5A2DEE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68FD9C02-63AC-4CAE-A2FA-B43F52FC01AA}

@@ -11,7 +11,7 @@
 		<Authors>Materal</Authors>
 		<Version>1.1.18</Version>
 		<Copyright>Materal</Copyright>
-		<Description>Materal.Oscillator.LocalDR</Description>
+		<Description>Materal.Oscillator.DRSqliteEFRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.18" />

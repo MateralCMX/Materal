@@ -31,8 +31,9 @@ namespace Materal.Oscillator.Works
         /// <param name="nowIndex"></param>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <returns></returns>
-        public override async Task<string?> ExcuteAsync(List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork)
+        public override async Task<string?> ExcuteAsync(List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork, Work work)
         {
             await Task.Delay(MillisecondsDelay);
             return null;

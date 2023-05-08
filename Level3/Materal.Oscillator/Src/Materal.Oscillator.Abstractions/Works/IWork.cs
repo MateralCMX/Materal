@@ -20,7 +20,8 @@ namespace Materal.Oscillator.Abstractions.Works
         /// <param name="nowIndex">当前任务步骤数</param>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <returns></returns>
-        public Task<string?> ExcuteAsync(List<WorkResultModel> workResult, int nowIndex, Schedule schedule, ScheduleWork scheduleWork);
+        public Task<string?> ExcuteAsync(List<WorkResultModel> workResult, int nowIndex, Schedule schedule, ScheduleWork scheduleWork, Work work);
     }
 }

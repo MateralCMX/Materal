@@ -119,7 +119,7 @@ namespace Materal.Oscillator.QuartZExtend
                 try
                 {
                     await workData.InitAsync();
-                    workResult = await workData.ExcuteAsync(_workResults, _nowWorkIndex, _schedule, scheduleWork);
+                    workResult = await workData.ExcuteAsync(_workResults, _nowWorkIndex, _schedule, scheduleWork, work);
                     _workResults.Add(new WorkResultModel
                     {
                         ScheduleWork = scheduleWork,

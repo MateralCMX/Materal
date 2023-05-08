@@ -1,6 +1,7 @@
 ﻿using Materal.Oscillator.Abstractions.Helper;
 using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.PlanTriggers;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Quartz;
 
@@ -64,7 +65,7 @@ namespace Materal.Oscillator.Abstractions.Services.Trigger
         public override IPlanTrigger Deserialization(string triggerData)
         {
             RepeatPlanTrigger result = new();
-            JObject? jObj = triggerData.JsonToDeserializeObject<JObject>();
+            JObject? jObj = JsonConvert.DeserializeObject<JObject>(triggerData);
             if (jObj == null) return result;
             string? dateFrequencyTypeName = jObj[nameof(DateTriggerTypeName)]?.ToString();
             string? dateFrequencyDataJson = jObj[nameof(DateTrigger)]?.ToJson();

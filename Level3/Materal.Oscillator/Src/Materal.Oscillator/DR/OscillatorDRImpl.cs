@@ -10,7 +10,7 @@ using Quartz;
 namespace Materal.Oscillator.DR
 {
     /// <summary>
-    /// 调度器本地容灾
+    /// 调度器容灾
     /// </summary>
     public class OscillatorDRImpl : IOscillatorDR
     {

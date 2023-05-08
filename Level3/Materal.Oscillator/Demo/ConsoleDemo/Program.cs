@@ -1,12 +1,12 @@
 ﻿using Materal.Abstractions;
 using Materal.Oscillator;
-using Materal.Oscillator.LocalDR;
+using Materal.Oscillator.DRSqliteEFRepository;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.DTO;
 using Materal.Oscillator.Abstractions.Models;
 using Materal.Oscillator.Answers;
-using Materal.Oscillator.SqliteRepository;
-using Materal.Oscillator.SqlServerRepository;
+using Materal.Oscillator.SqliteEFRepository;
+using Materal.Oscillator.SqlServerEFRepository;
 using Materal.TTA.Common.Model;
 using Materal.TTA.EFRepository;
 using Materal.Utils;
@@ -29,7 +29,7 @@ namespace ConsoleDemo
             {
                 Source = "./DROscillator.db"
             };
-            serviceCollection.AddOscillatorLocalDR(drDBConfig);
+            serviceCollection.AddOscillatorDRSqliteRepository(drDBConfig);
 
             SqliteConfigModel dbConfig = new()
             {
@@ -58,7 +58,7 @@ namespace ConsoleDemo
             //IMigrateHelper<OscillatorSqlServerDBContext> migrateHelper = _services.GetRequiredService<IMigrateHelper<OscillatorSqlServerDBContext>>();
             //migrateHelper.Migrate();
 
-            IMigrateHelper<OscillatorLocalDRDBContext> drMigrateHelper = _services.GetRequiredService<IMigrateHelper<OscillatorLocalDRDBContext>>();
+            IMigrateHelper<OscillatorDRDBContext> drMigrateHelper = _services.GetRequiredService<IMigrateHelper<OscillatorDRDBContext>>();
             drMigrateHelper.Migrate();
             _host = _services.GetRequiredService<IOscillatorHost>();
         }

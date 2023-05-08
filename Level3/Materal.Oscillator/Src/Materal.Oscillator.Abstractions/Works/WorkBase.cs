@@ -26,8 +26,9 @@ namespace Materal.Oscillator.Abstractions.Works
         /// <param name="nowIndex"></param>
         /// <param name="schedule"></param>
         /// <param name="scheduleWork"></param>
+        /// <param name="work"></param>
         /// <returns></returns>
-        public abstract Task<string?> ExcuteAsync(List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork);
+        public abstract Task<string?> ExcuteAsync(List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork, Work work);
         /// <summary>
         /// 初始化
         /// </summary>
