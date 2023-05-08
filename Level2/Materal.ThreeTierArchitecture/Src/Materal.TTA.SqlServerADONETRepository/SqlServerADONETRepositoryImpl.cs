@@ -1,7 +1,7 @@
 ﻿using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 
-namespace Materal.BusinessFlow.SqlServerRepository.Repositories
+namespace Materal.TTA.SqlServerADONETRepository
 {
     /// <summary>
     /// SqlServer仓储

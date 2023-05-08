@@ -8,6 +8,30 @@ namespace Materal.TTA.Common
     /// </summary>
     public interface IRepository
     {
+        /// <summary>
+        /// 是否存在
+        /// </summary>
+        /// <param name="filterModel">过滤器模型</param>
+        /// <returns></returns>
+        bool Existed(FilterModel filterModel);
+        /// <summary>
+        /// 是否存在
+        /// </summary>
+        /// <param name="filterModel">过滤器模型</param>
+        /// <returns></returns>
+        Task<bool> ExistedAsync(FilterModel filterModel);
+        /// <summary>
+        /// 总数
+        /// </summary>
+        /// <param name="filterModel">过滤器模型</param>
+        /// <returns></returns>
+        int Count(FilterModel filterModel);
+        /// <summary>
+        /// 总数
+        /// </summary>
+        /// <param name="filterModel">过滤器模型</param>
+        /// <returns></returns>
+        Task<int> CountAsync(FilterModel filterModel);
     }
     /// <summary>
     /// 仓储
@@ -29,18 +53,6 @@ namespace Materal.TTA.Common
         /// <returns></returns>
         Task<bool> ExistedAsync(Expression<Func<TEntity, bool>> expression);
         /// <summary>
-        /// 是否存在
-        /// </summary>
-        /// <param name="filterModel">过滤器模型</param>
-        /// <returns></returns>
-        bool Existed(FilterModel filterModel);
-        /// <summary>
-        /// 是否存在
-        /// </summary>
-        /// <param name="filterModel">过滤器模型</param>
-        /// <returns></returns>
-        Task<bool> ExistedAsync(FilterModel filterModel);
-        /// <summary>
         /// 总数
         /// </summary>
         /// <param name="expression">表达式</param>
@@ -52,18 +64,6 @@ namespace Materal.TTA.Common
         /// <param name="expression">表达式</param>
         /// <returns></returns>
         Task<int> CountAsync(Expression<Func<TEntity, bool>> expression);
-        /// <summary>
-        /// 总数
-        /// </summary>
-        /// <param name="filterModel">过滤器模型</param>
-        /// <returns></returns>
-        int Count(FilterModel filterModel);
-        /// <summary>
-        /// 总数
-        /// </summary>
-        /// <param name="filterModel">过滤器模型</param>
-        /// <returns></returns>
-        Task<int> CountAsync(FilterModel filterModel);
         /// <summary>
         /// 查找
         /// </summary>

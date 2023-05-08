@@ -1,7 +1,7 @@
 ﻿using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 
-namespace Materal.BusinessFlow.SqliteRepository.Repositories
+namespace Materal.TTA.SqliteADONETRepository
 {
     /// <summary>
     /// Sqlite仓储

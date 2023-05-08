@@ -1,6 +1,6 @@
-﻿using Materal.BusinessFlow.SqlServerRepository.Repositories;
-using Materal.TTA.ADONETRepository;
+﻿using Materal.TTA.ADONETRepository;
 using Materal.TTA.Demo.Domain;
+using Materal.TTA.SqlServerADONETRepository;
 
 namespace Materal.TTA.Demo.SqlServerADONETRepository
 {
