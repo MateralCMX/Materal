@@ -8,7 +8,6 @@ namespace Materal.Logger.Models
     /// </summary>
     public class LoggerColorsConfigModel
     {
-
         /// <summary>
         /// 默认颜色
         /// </summary>
