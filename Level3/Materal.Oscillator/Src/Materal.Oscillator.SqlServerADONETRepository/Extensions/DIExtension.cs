@@ -1,7 +1,7 @@
 ﻿using Materal.TTA.SqlServerADONETRepository;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Materal.Oscillator.SqlServerADONETRepository
+namespace Materal.Oscillator.SqlServerADONETRepository.Extensions
 {
     /// <summary>
     /// 依赖注入扩展

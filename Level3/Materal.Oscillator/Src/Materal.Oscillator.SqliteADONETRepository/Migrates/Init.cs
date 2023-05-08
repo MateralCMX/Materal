@@ -1,6 +1,6 @@
 ﻿using Materal.TTA.SqliteADONETRepository;
 
-namespace Materal.Oscillator.SqliteRepository.Migrates
+namespace Materal.Oscillator.SqliteADONETRepository.Migrates
 {
     /// <summary>
     /// 初始化数据库

@@ -1,5 +1,6 @@
 ﻿using Materal.Oscillator.DRSqlServerADONETRepository;
 using Materal.Oscillator.SqlServerADONETRepository;
+using Materal.Oscillator.SqlServerADONETRepository.Extensions;
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 using Materal.TTA.Common.Model;

@@ -74,7 +74,8 @@ namespace Materal.TTA.ADONETRepository
         {
             List<string> existingData = _maigrateRepository.GetExistingData(_dbOption);
             List<Migration> result = new();
-            foreach (Type? migrationType in typeof(TDBOption).Assembly.GetTypes().Where(m => m.IsAssignableTo<Migration>() && !m.IsAbstract))
+            Type dbOptionType = typeof(TDBOption);
+            foreach (Type? migrationType in dbOptionType.Assembly.GetTypes().Where(m => m.IsAssignableTo<Migration>() && !m.IsAbstract && m.Namespace.StartsWith($"{dbOptionType.Namespace}")))
             {
                 object migrationObj = Activator.CreateInstance(migrationType);
                 if(migrationObj is Migration migration)
