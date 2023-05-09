@@ -9,7 +9,7 @@ namespace Materal.BusinessFlow
     /// </summary>
     public static class DIExtension
     {
-        public static IServiceCollection AddBusinessFlowSqliteRepository(this IServiceCollection services, BusinessFlowSqliteDBOption dbOption)
+        public static IServiceCollection AddBusinessFlowSqliteRepository(this IServiceCollection services, BusinessFlowDBOption dbOption)
         {
             services.AddTTASqliteADONETRepository(dbOption);
             return services;

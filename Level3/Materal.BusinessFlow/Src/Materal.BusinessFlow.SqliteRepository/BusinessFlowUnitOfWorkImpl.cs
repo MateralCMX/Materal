@@ -3,9 +3,9 @@ using Materal.TTA.SqliteADONETRepository;
 
 namespace Materal.BusinessFlow.SqliteRepository
 {
-    public class BusinessFlowUnitOfWorkImpl : SqliteADONETUnitOfWorkImpl<BusinessFlowSqliteDBOption, Guid>, IBusinessFlowUnitOfWork
+    public class BusinessFlowUnitOfWorkImpl : SqliteADONETUnitOfWorkImpl<BusinessFlowDBOption, Guid>, IBusinessFlowUnitOfWork
     {
-        public BusinessFlowUnitOfWorkImpl(IServiceProvider serviceProvider, BusinessFlowSqliteDBOption dbOption) : base(serviceProvider, dbOption)
+        public BusinessFlowUnitOfWorkImpl(IServiceProvider serviceProvider, BusinessFlowDBOption dbOption) : base(serviceProvider, dbOption)
         {
         }
         /// <summary>

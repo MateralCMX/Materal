@@ -3,9 +3,9 @@ using Materal.TTA.SqlServerADONETRepository;
 
 namespace Materal.BusinessFlow.SqlServerRepository
 {
-    public class BusinessFlowUnitOfWorkImpl : SqlServerADONETUnitOfWorkImpl<BusinessFlowSqlServerDBOption, Guid>, IBusinessFlowUnitOfWork
+    public class BusinessFlowUnitOfWorkImpl : SqlServerADONETUnitOfWorkImpl<BusinessFlowDBOption, Guid>, IBusinessFlowUnitOfWork
     {
-        public BusinessFlowUnitOfWorkImpl(IServiceProvider serviceProvider, BusinessFlowSqlServerDBOption dbOption) : base(serviceProvider, dbOption)
+        public BusinessFlowUnitOfWorkImpl(IServiceProvider serviceProvider, BusinessFlowDBOption dbOption) : base(serviceProvider, dbOption)
         {
         }
         /// <summary>

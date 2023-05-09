@@ -4,12 +4,7 @@ using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Models;
 using Materal.BusinessFlow.Abstractions.Services;
 using Materal.BusinessFlow.Extensions;
-using Materal.BusinessFlow.SqliteRepository;
-using Materal.BusinessFlow.SqlServerRepository;
 using Materal.Logger;
-using Materal.TTA.ADONETRepository;
-using Materal.TTA.Common;
-using Materal.TTA.Common.Model;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -52,22 +47,8 @@ namespace Materal.BusinessFlow.Demo
             IServiceCollection services = new ServiceCollection();
             services.AddMateralLogger();
             services.AddBusinessFlow();
-
-            //SqliteConfigModel dbconfig = new() { Source = "BusinessFlow.db" };
-            //BusinessFlowSqliteDBOption dbOption = new(dbconfig);
-            //services.AddBusinessFlowSqliteRepository(dbOption);
-
-            SqlServerConfigModel dbconfig = new()
-            {
-                Address = "82.156.11.176",
-                Port = "1433",
-                Name = "BusinessFlowTestDB",
-                UserID = "sa",
-                Password = "gdb@admin678",
-                TrustServerCertificate = true
-            };
-            BusinessFlowSqlServerDBOption dbOption = new(dbconfig);
-            services.AddBusinessFlowSqlServerRepository(dbOption);
+            IRepositoryHelper repositoryHelper = new SqliteRepositoryHelper();
+            //IRepositoryHelper repositoryHelper = new SqlServerRepositoryHelper();
 
             _serviceProvider = services.BuildServiceProvider();
             LoggerManager.Init(option =>
@@ -79,11 +60,7 @@ namespace Materal.BusinessFlow.Demo
                 option.AddAllTargetRule(LogLevel.Information);
             });
             _logger = _serviceProvider.GetService<ILogger<Program>>();
-
-            //IMigrateHelper migrateHelper = _serviceProvider.GetRequiredService<IMigrateHelper<BusinessFlowSqliteDBOption>>();
-            IMigrateHelper migrateHelper = _serviceProvider.GetRequiredService<IMigrateHelper<BusinessFlowSqlServerDBOption>>();
-
-            migrateHelper.Migrate();
+            repositoryHelper.Init(_serviceProvider);
         }
         public static async Task Main()
         {

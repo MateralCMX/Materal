@@ -5,12 +5,12 @@ using System.Data;
 
 namespace Materal.BusinessFlow.SqliteRepository
 {
-    public class BusinessFlowSqliteDBOption : DBOption
+    public class BusinessFlowDBOption : DBOption
     {
-        public BusinessFlowSqliteDBOption(SqliteConfigModel dbConfig) : base(dbConfig.ConnectionString)
+        public BusinessFlowDBOption(SqliteConfigModel dbConfig) : base(dbConfig.ConnectionString)
         {
         }
-        public BusinessFlowSqliteDBOption(string connectionString) : base(connectionString)
+        public BusinessFlowDBOption(string connectionString) : base(connectionString)
         {
         }
         public override IDbConnection GetConnection() => new SqliteConnection(ConnectionString);

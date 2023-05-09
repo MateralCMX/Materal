@@ -5,12 +5,12 @@ using System.Data;
 
 namespace Materal.BusinessFlow.SqlServerRepository
 {
-    public class BusinessFlowSqlServerDBOption : DBOption
+    public class BusinessFlowDBOption : DBOption
     {
-        public BusinessFlowSqlServerDBOption(SqlServerConfigModel dbConfig) : base(dbConfig.ConnectionString)
+        public BusinessFlowDBOption(SqlServerConfigModel dbConfig) : base(dbConfig.ConnectionString)
         {
         }
-        public BusinessFlowSqlServerDBOption(string connectionString) : base(connectionString)
+        public BusinessFlowDBOption(string connectionString) : base(connectionString)
         {
         }
         public override IDbConnection GetConnection() => new SqlConnection(ConnectionString);

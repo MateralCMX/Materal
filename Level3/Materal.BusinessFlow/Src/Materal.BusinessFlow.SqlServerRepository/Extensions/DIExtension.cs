@@ -9,7 +9,7 @@ namespace Materal.BusinessFlow
     /// </summary>
     public static class DIExtension
     {
-        public static IServiceCollection AddBusinessFlowSqlServerRepository(this IServiceCollection services, BusinessFlowSqlServerDBOption dbOption)
+        public static IServiceCollection AddBusinessFlowSqlServerRepository(this IServiceCollection services, BusinessFlowDBOption dbOption)
         {
             services.AddTTASqlServerADONETRepository(dbOption);
             return services;
