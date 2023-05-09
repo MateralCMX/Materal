@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Materal.BaseCore.Common;
+using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -54,7 +55,7 @@ namespace Materal.BaseCore.WebAPI.Filters
         /// <returns></returns>
         private static ResultModel? HandlerException(Exception exception)
         {
-            if (exception is MateralCoreException || exception is AutoMapperMappingException aex && aex.InnerException != null && aex.InnerException is MateralCoreException)
+            if (exception is TTAException || exception is MateralCoreException || exception is AutoMapperMappingException aex && aex.InnerException != null && aex.InnerException is MateralCoreException)
             {
                 return ResultModel.Fail(exception.Message);
             }

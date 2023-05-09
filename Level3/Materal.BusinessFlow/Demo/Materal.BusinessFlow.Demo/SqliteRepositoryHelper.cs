@@ -13,7 +13,7 @@ namespace Materal.BusinessFlow.Demo
         {
             SqliteConfigModel dbConfig = new()
             {
-                Source = "./Oscillator.db"
+                Source = "./BusinessFlow.db"
             };
             BusinessFlowDBOption oscillatorDB = new(dbConfig);
             services.AddBusinessFlowSqliteRepository(oscillatorDB);

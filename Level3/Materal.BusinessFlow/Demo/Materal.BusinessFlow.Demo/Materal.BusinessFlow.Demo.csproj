@@ -1,20 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <ItemGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
 		<PackageReference Include="Materal.Logger" Version="1.1.20" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Src\Materal.BusinessFlow.SqliteRepository\Materal.BusinessFlow.SqliteRepository.csproj" />
-    <ProjectReference Include="..\..\Src\Materal.BusinessFlow.SqlServerRepository\Materal.BusinessFlow.SqlServerRepository.csproj" />
-    <ProjectReference Include="..\..\Src\Materal.BusinessFlow\Materal.BusinessFlow.csproj" />
-  </ItemGroup>
-
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.BusinessFlow.SqliteRepository\Materal.BusinessFlow.SqliteRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BusinessFlow.SqlServerRepository\Materal.BusinessFlow.SqlServerRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BusinessFlow\Materal.BusinessFlow.csproj" />
+	</ItemGroup>
 </Project>

@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
-namespace Materal.BusinessFlow.Extensions
+namespace Materal.BusinessFlow
 {
     /// <summary>
     /// 依赖注入扩展

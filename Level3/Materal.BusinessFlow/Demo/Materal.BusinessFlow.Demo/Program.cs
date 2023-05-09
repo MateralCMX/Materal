@@ -3,7 +3,6 @@ using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Models;
 using Materal.BusinessFlow.Abstractions.Services;
-using Materal.BusinessFlow.Extensions;
 using Materal.Logger;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -49,7 +48,7 @@ namespace Materal.BusinessFlow.Demo
             services.AddBusinessFlow();
             IRepositoryHelper repositoryHelper = new SqliteRepositoryHelper();
             //IRepositoryHelper repositoryHelper = new SqlServerRepositoryHelper();
-
+            repositoryHelper.AddRepository(services);
             _serviceProvider = services.BuildServiceProvider();
             LoggerManager.Init(option =>
             {
