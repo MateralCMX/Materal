@@ -2,9 +2,14 @@
 using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.AutoNodes.Base;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel;
 
 namespace Materal.BusinessFlow.AutoNodes
 {
+    /// <summary>
+    /// 控制台消息自动节点
+    /// </summary>
+    [Description("控制台消息")]
     public class ConsoleMessageAutoNode : BaseAutoNode, IAutoNode
     {
         private readonly ILogger<ConsoleMessageAutoNode>? _logger;
