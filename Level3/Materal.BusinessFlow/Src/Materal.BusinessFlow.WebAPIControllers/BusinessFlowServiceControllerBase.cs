@@ -91,7 +91,7 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<ResultModel> EditAsync([Required]Guid id)
+        public async Task<ResultModel> DeleteAsync([Required]Guid id)
         {
             await DefaultService.DeleteAsync(id);
             return ResultModel.Success("删除成功");

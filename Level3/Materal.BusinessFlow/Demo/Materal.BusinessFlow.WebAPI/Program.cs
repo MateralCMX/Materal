@@ -30,12 +30,22 @@ namespace Materal.BusinessFlow.WebAPI
             SqliteConfigModel dbConfig = new() { Source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BusinessFlow.db") };
             BusinessFlowDBOption oscillatorDB = new(dbConfig);
             builder.Services.AddBusinessFlowSqliteRepository(oscillatorDB);
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(m =>
+                {
+                    m.AllowAnyHeader();
+                    m.AllowAnyMethod();
+                    m.AllowAnyOrigin();
+                });
+            });
             var app = builder.Build();
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseCors();
             app.UseAuthorization();
             app.MapControllers();
             LoggerManager.Init(option =>
