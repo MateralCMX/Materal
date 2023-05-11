@@ -1,5 +1,5 @@
 using Materal.BusinessFlow.Abstractions.Domain;
-using Materal.BusinessFlow.Abstractions.Models;
+using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.BusinessFlow.Abstractions.Services;
 using Materal.BusinessFlow.Abstractions.Services.Models;
 using Materal.BusinessFlow.WebAPIControllers.Models.Node;
@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Materal.BusinessFlow.WebAPIControllers.Controllers
 {
-    public class NodeController : BusinessFlowServiceControllerBase<Node, INodeService, QueryNodeModel, AddNodeModel, EditNodeModel>
+    public class NodeController : BusinessFlowServiceControllerBase<Node, Node, INodeService, QueryNodeModel, AddNodeModel, EditNodeModel>
     {
         public NodeController(IServiceProvider service) : base(service)
         {

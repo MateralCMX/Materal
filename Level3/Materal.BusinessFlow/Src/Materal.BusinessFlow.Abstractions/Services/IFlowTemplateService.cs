@@ -4,7 +4,7 @@ using Materal.BusinessFlow.Abstractions.Services.Models;
 
 namespace Materal.BusinessFlow.Abstractions.Services
 {
-    public interface IFlowTemplateService : IBaseService<FlowTemplate, IFlowTemplateRepository, QueryFlowTemplateModel>
+    public interface IFlowTemplateService : IBaseService<FlowTemplate, FlowTemplate, IFlowTemplateRepository, QueryFlowTemplateModel>
     {
 
     }

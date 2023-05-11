@@ -5,7 +5,7 @@ using Materal.BusinessFlow.WebAPIControllers.Models.DataModel;
 
 namespace Materal.BusinessFlow.WebAPIControllers.Controllers
 {
-    public class DataModelController : BusinessFlowServiceControllerBase<DataModel, IDataModelService, QueryDataModelModel, AddDataModelModel, EditDataModelModel>
+    public class DataModelController : BusinessFlowServiceControllerBase<DataModel, DataModel, IDataModelService, QueryDataModelModel, AddDataModelModel, EditDataModelModel>
     {
         public DataModelController(IServiceProvider service) : base(service)
         {

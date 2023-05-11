@@ -1,7 +1,7 @@
 ﻿using Materal.Abstractions;
 using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.Abstractions.Domain;
-using Materal.BusinessFlow.Abstractions.Models;
+using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.BusinessFlow.Abstractions.Services;
 using Materal.Logger;
 using Microsoft.Extensions.DependencyInjection;

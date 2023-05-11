@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 
-namespace Materal.BusinessFlow.Abstractions.Models
+namespace Materal.BusinessFlow.Abstractions.DTO
 {
     /// <summary>
     /// 自动节点数据传输模型

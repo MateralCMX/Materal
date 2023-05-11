@@ -1,5 +1,5 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
-using Materal.BusinessFlow.Abstractions.Models;
+using Materal.BusinessFlow.Abstractions.DTO;
 
 namespace Materal.BusinessFlow.Abstractions
 {

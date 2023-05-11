@@ -1,14 +1,14 @@
-﻿using Materal.BusinessFlow.Abstractions;
-using Materal.BusinessFlow.Abstractions.Domain;
-using Materal.BusinessFlow.Abstractions.Services;
+﻿using Materal.BusinessFlow.Abstractions.Domain;
+using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Materal.BusinessFlow.Services
+namespace Materal.BusinessFlow.Abstractions.Services
 {
-    public abstract class BaseServiceImpl<TDomain, TRepository, TQueryModel> : IBaseService<TDomain, TRepository, TQueryModel>
+    public class BaseServiceImpl<TDomain, TDTO, TRepository, TQueryModel> : IBaseService<TDomain, TDTO, TRepository, TQueryModel>
         where TDomain : class, IDomain
+        where TDTO : class, IDTO
         where TRepository : IRepository<TDomain, Guid>
         where TQueryModel : PageRequestModel, new()
     {
@@ -38,22 +38,34 @@ namespace Materal.BusinessFlow.Services
             UnitOfWork.RegisterEdit(domain);
             await UnitOfWork.CommitAsync();
         }
-        public virtual async Task<TDomain> GetInfoAsync(Guid id)
+        public virtual async Task<TDTO> GetInfoAsync(Guid id)
         {
             TDomain domain = await DefaultRepository.FirstAsync(id);
-            return domain;
+            if (domain is not TDTO result)
+            {
+                result = domain.CopyProperties<TDTO>();
+            }
+            return result;
         }
-        public virtual async Task<List<TDomain>> GetListAsync(TQueryModel? queryModel = null)
+        public virtual async Task<List<TDTO>> GetListAsync(TQueryModel? queryModel = null)
         {
             queryModel ??= new TQueryModel();
             List<TDomain> domains = await DefaultRepository.FindAsync(queryModel, m => m.CreateTime, SortOrderEnum.Descending);
-            return domains;
+            if (domains is not List<TDTO> result)
+            {
+                result = domains.Select(m => m.CopyProperties<TDTO>()).ToList();
+            }
+            return result;
         }
-        public virtual async Task<(List<TDomain> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null)
+        public virtual async Task<(List<TDTO> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null)
         {
             queryModel ??= new TQueryModel();
-            (List<TDomain> data, PageModel pageInfo) = await DefaultRepository.PagingAsync(queryModel, m=> m.CreateTime, SortOrderEnum.Descending);
-            return (data, pageInfo);
+            (List<TDomain> domains, PageModel pageInfo) = await DefaultRepository.PagingAsync(queryModel, m => m.CreateTime, SortOrderEnum.Descending);
+            if (domains is not List<TDTO> result)
+            {
+                result = domains.Select(m => m.CopyProperties<TDTO>()).ToList();
+            }
+            return (result, pageInfo);
         }
     }
 }

@@ -5,7 +5,7 @@ using Materal.BusinessFlow.Abstractions.Services.Models;
 
 namespace Materal.BusinessFlow.Services
 {
-    public class DataModelServiceImpl : BaseServiceImpl<DataModel, IDataModelRepository, QueryDataModelModel>, IDataModelService
+    public class DataModelServiceImpl : BaseServiceImpl<DataModel, DataModel, IDataModelRepository, QueryDataModelModel>, IDataModelService
     {
         public DataModelServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
         {

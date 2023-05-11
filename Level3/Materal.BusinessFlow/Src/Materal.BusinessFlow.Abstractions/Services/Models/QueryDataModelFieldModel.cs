@@ -18,6 +18,11 @@ namespace Materal.BusinessFlow.Abstractions.Services.Models
         /// 数据类型
         /// </summary>
         [Equal]
-        public DataTypeEnum? DataType { get; set; } = DataTypeEnum.String;
+        public DataTypeEnum? DataType { get; set; }
+        /// <summary>
+        /// 描述
+        /// </summary>
+        [Contains]
+        public string? Description { get; set; }
     }
 }

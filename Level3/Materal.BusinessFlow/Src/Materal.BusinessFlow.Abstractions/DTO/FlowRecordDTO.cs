@@ -1,6 +1,6 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
 
-namespace Materal.BusinessFlow.Abstractions.Models
+namespace Materal.BusinessFlow.Abstractions.DTO
 {
     public class FlowRecordDTO : FlowRecord
     {

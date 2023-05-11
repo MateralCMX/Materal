@@ -5,7 +5,7 @@ using Materal.BusinessFlow.Abstractions.Services.Models;
 
 namespace Materal.BusinessFlow.Services
 {
-    public class UserServiceImpl : BaseServiceImpl<User, IUserRepository, QueryUserModel>, IUserService
+    public class UserServiceImpl : BaseServiceImpl<User, User, IUserRepository, QueryUserModel>, IUserService
     {
         public UserServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
         {

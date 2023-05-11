@@ -1,11 +1,13 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
+using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.TTA.Common;
 using Materal.Utils.Model;
 
 namespace Materal.BusinessFlow.Abstractions.Services
 {
-    public interface IBaseService<TDomain>
+    public interface IBaseService<TDomain, TDTO>
         where TDomain : class, IDomain
+        where TDTO : class, IDTO
     {
         /// <summary>
         /// 添加
@@ -30,26 +32,28 @@ namespace Materal.BusinessFlow.Abstractions.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<TDomain> GetInfoAsync(Guid id);
+        Task<TDTO> GetInfoAsync(Guid id);
     }
-    public interface IBaseService<TDomain, TQueryModel> : IBaseService<TDomain>
+    public interface IBaseService<TDomain, TDTO, TQueryModel> : IBaseService<TDomain, TDTO>
         where TDomain : class, IDomain
+        where TDTO : class, IDTO
         where TQueryModel : class, new()
     {
         /// <summary>
         /// 获得列表
         /// </summary>
         /// <returns></returns>
-        Task<List<TDomain>> GetListAsync(TQueryModel? queryModel = null);
+        Task<List<TDTO>> GetListAsync(TQueryModel? queryModel = null);
         /// <summary>
         /// 分页
         /// </summary>
         /// <param name="queryModel"></param>
         /// <returns></returns>
-        Task<(List<TDomain> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null);
+        Task<(List<TDTO> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null);
     }
-    public interface IBaseService<TDomain, TRepository, TQueryModel> : IBaseService<TDomain, TQueryModel>
+    public interface IBaseService<TDomain, TDTO, TRepository, TQueryModel> : IBaseService<TDomain, TDTO, TQueryModel>
         where TDomain : class, IDomain
+        where TDTO : class, IDTO
         where TRepository : IRepository<TDomain>
         where TQueryModel : class, new()
     {

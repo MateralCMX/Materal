@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Materal.BusinessFlow.Abstractions.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace Materal.BusinessFlow.Abstractions.Domain
 {
     /// <summary>
     /// 节点
     /// </summary>
-    public class Node : BaseDomain
+    public class Node : BaseDomain, IDTO
     {
         /// <summary>
         /// 名称

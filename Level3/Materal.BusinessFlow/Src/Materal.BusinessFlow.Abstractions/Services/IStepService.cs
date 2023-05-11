@@ -4,7 +4,7 @@ using Materal.BusinessFlow.Abstractions.Services.Models;
 
 namespace Materal.BusinessFlow.Abstractions.Services
 {
-    public interface IStepService : IBaseService<Step, IStepRepository, QueryStepModel>
+    public interface IStepService : IBaseService<Step, Step, IStepRepository, QueryStepModel>
     {
 
     }

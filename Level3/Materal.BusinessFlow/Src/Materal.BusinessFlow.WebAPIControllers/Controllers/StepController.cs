@@ -5,7 +5,7 @@ using Materal.BusinessFlow.WebAPIControllers.Models.Step;
 
 namespace Materal.BusinessFlow.WebAPIControllers.Controllers
 {
-    public class StepController : BusinessFlowServiceControllerBase<Step, IStepService, QueryStepModel, AddStepModel, EditStepModel>
+    public class StepController : BusinessFlowServiceControllerBase<Step, Step, IStepService, QueryStepModel, AddStepModel, EditStepModel>
     {
         public StepController(IServiceProvider service) : base(service)
         {

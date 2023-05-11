@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Materal.BusinessFlow.Abstractions.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace Materal.BusinessFlow.Abstractions.Domain
 {
     /// <summary>
     /// 步骤
     /// </summary>
-    public class Step : BaseDomain
+    public class Step : BaseDomain, IDTO
     {
         /// <summary>
         /// 名称

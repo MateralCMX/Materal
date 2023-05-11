@@ -1,4 +1,5 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
+using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.BusinessFlow.Abstractions.Services;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,10 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
     /// <typeparam name="TDomain"></typeparam>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TQueryModel"></typeparam>
-    public class BusinessFlowServiceControllerBase<TDomain, TService, TQueryModel, TAddModel, TEditModel> : BusinessFlowControllerBase
+    public class BusinessFlowServiceControllerBase<TDomain, TDTO, TService, TQueryModel, TAddModel, TEditModel> : BusinessFlowControllerBase
         where TDomain : class, IDomain
-        where TService : IBaseService<TDomain, TQueryModel>
+        where TDTO : class, IDTO
+        where TService : IBaseService<TDomain, TDTO, TQueryModel>
         where TQueryModel : class, new()
         where TAddModel : class
         where TEditModel : class
@@ -34,10 +36,10 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ResultModel<TDomain>> GetInfoAsync([Required] Guid id)
+        public async Task<ResultModel<TDTO>> GetInfoAsync([Required] Guid id)
         {
-            TDomain result = await DefaultService.GetInfoAsync(id);
-            return ResultModel<TDomain>.Success(result, "查询成功");
+            TDTO result = await DefaultService.GetInfoAsync(id);
+            return ResultModel<TDTO>.Success(result, "查询成功");
         }
         /// <summary>
         /// 获得所有列表
@@ -45,10 +47,10 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
         /// <param name="queryModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ResultModel<List<TDomain>>> GetAllListAsync(TQueryModel queryModel)
+        public async Task<ResultModel<List<TDTO>>> GetAllListAsync(TQueryModel queryModel)
         {
-            List<TDomain> result = await DefaultService.GetListAsync(queryModel);
-            return ResultModel<List<TDomain>>.Success(result, "查询成功");
+            List<TDTO> result = await DefaultService.GetListAsync(queryModel);
+            return ResultModel<List<TDTO>>.Success(result, "查询成功");
         }
         /// <summary>
         /// 获得分页列表
@@ -56,10 +58,10 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
         /// <param name="queryModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageResultModel<TDomain>> GetListAsync(TQueryModel queryModel)
+        public async Task<PageResultModel<TDTO>> GetListAsync(TQueryModel queryModel)
         {
-            (List<TDomain> result, PageModel pageInfo) = await DefaultService.PagingAsync(queryModel);
-            return PageResultModel<TDomain>.Success(result, pageInfo, "查询成功");
+            (List<TDTO> result, PageModel pageInfo) = await DefaultService.PagingAsync(queryModel);
+            return PageResultModel<TDTO>.Success(result, pageInfo, "查询成功");
         }
         /// <summary>
         /// 添加

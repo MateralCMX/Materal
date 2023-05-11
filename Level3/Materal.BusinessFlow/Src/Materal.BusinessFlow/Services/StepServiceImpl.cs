@@ -5,7 +5,7 @@ using Materal.BusinessFlow.Abstractions.Services.Models;
 
 namespace Materal.BusinessFlow.Services
 {
-    public class StepServiceImpl : BaseServiceImpl<Step, IStepRepository, QueryStepModel>, IStepService
+    public class StepServiceImpl : BaseServiceImpl<Step, Step, IStepRepository, QueryStepModel>, IStepService
     {
         public StepServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
         {

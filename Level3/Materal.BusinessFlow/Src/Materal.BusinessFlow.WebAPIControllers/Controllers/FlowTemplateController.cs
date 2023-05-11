@@ -5,7 +5,7 @@ using Materal.BusinessFlow.WebAPIControllers.Models.FlowTemplate;
 
 namespace Materal.BusinessFlow.WebAPIControllers.Controllers
 {
-    public class FlowTemplateController : BusinessFlowServiceControllerBase<FlowTemplate, IFlowTemplateService, QueryFlowTemplateModel, AddFlowTemplateModel, EditFlowTemplateModel>
+    public class FlowTemplateController : BusinessFlowServiceControllerBase<FlowTemplate, FlowTemplate, IFlowTemplateService, QueryFlowTemplateModel, AddFlowTemplateModel, EditFlowTemplateModel>
     {
         public FlowTemplateController(IServiceProvider service) : base(service)
         {
