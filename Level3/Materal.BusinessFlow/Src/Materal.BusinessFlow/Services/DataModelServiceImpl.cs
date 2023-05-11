@@ -7,8 +7,19 @@ namespace Materal.BusinessFlow.Services
 {
     public class DataModelServiceImpl : BaseServiceImpl<DataModel, DataModel, IDataModelRepository, QueryDataModelModel>, IDataModelService
     {
-        public DataModelServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
+        private readonly IDataModelFieldRepository _dataModelFieldRepository;
+        public DataModelServiceImpl(IServiceProvider serviceProvider, IDataModelFieldRepository dataModelFieldRepository) : base(serviceProvider)
         {
+            _dataModelFieldRepository = dataModelFieldRepository;
+        }
+        public override async Task DeleteAsync(Guid id)
+        {
+            List<DataModelField> domains = await _dataModelFieldRepository.FindAsync(m => m.DataModelID == id);
+            foreach (DataModelField domain in domains)
+            {
+                UnitOfWork.RegisterDelete(domain);
+            }
+            await base.DeleteAsync(id);
         }
     }
 }

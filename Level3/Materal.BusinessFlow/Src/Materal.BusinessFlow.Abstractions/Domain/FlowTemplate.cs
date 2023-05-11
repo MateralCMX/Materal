@@ -6,7 +6,7 @@ namespace Materal.BusinessFlow.Abstractions.Domain
     /// <summary>
     /// 流程模版
     /// </summary>
-    public class FlowTemplate : BaseDomain, IDTO
+    public class FlowTemplate : BaseDomain
     {
         /// <summary>
         /// 名称

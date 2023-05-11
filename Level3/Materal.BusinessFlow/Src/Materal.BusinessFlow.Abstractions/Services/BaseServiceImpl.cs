@@ -60,6 +60,12 @@ namespace Materal.BusinessFlow.Abstractions.Services
             }
             return result;
         }
+
+        public Task GetListAsync(object id)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual async Task<(List<TDTO> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null)
         {
             queryModel ??= new TQueryModel();

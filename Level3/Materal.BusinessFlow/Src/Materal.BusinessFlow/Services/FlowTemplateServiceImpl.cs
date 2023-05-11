@@ -1,15 +1,19 @@
 ﻿using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.Abstractions.Domain;
+using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.BusinessFlow.Abstractions.Repositories;
 using Materal.BusinessFlow.Abstractions.Services;
 using Materal.BusinessFlow.Abstractions.Services.Models;
+using Materal.Utils.Model;
 
 namespace Materal.BusinessFlow.Services
 {
-    public class FlowTemplateServiceImpl : BaseServiceImpl<FlowTemplate, FlowTemplate, IFlowTemplateRepository, QueryFlowTemplateModel>, IFlowTemplateService
+    public class FlowTemplateServiceImpl : BaseServiceImpl<FlowTemplate, FlowTemplateDTO, IFlowTemplateRepository, QueryFlowTemplateModel>, IFlowTemplateService
     {
-        public FlowTemplateServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
+        private readonly IDataModelRepository _dataModelRepository;
+        public FlowTemplateServiceImpl(IServiceProvider serviceProvider, IDataModelRepository dataModelRepository) : base(serviceProvider)
         {
+            _dataModelRepository = dataModelRepository;
         }
         public override async Task EditAsync(FlowTemplate model)
         {
@@ -20,6 +24,39 @@ namespace Materal.BusinessFlow.Services
             domain.Validation();
             UnitOfWork.RegisterEdit(domain);
             await UnitOfWork.CommitAsync();
+        }
+        public override async Task<FlowTemplateDTO> GetInfoAsync(Guid id)
+        {
+            FlowTemplateDTO result = await base.GetInfoAsync(id);
+            DataModel dataModel = await _dataModelRepository.FirstAsync(m => m.ID == result.DataModelID);
+            result.DataModelName = dataModel.Name;
+            return result;
+        }
+        public override async Task<List<FlowTemplateDTO>> GetListAsync(QueryFlowTemplateModel? queryModel = null)
+        {
+            List<FlowTemplateDTO> result = await base.GetListAsync(queryModel);
+            await BindDTOInfoAsync(result);
+            return result;
+        }
+        public override async Task<(List<FlowTemplateDTO> data, PageModel pageInfo)> PagingAsync(QueryFlowTemplateModel? queryModel = null)
+        {
+            (List<FlowTemplateDTO> result, PageModel pageInfo) = await base.PagingAsync(queryModel);
+            await BindDTOInfoAsync(result);
+            return (result, pageInfo);
+        }
+        /// <summary>
+        /// 绑定DTO信息
+        /// </summary>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        private async Task BindDTOInfoAsync(List<FlowTemplateDTO> result)
+        {
+            List<Guid> allDataModelIDs = result.Select(m => m.DataModelID).ToList();
+            List<DataModel> dataModels = await _dataModelRepository.FindAsync(m => allDataModelIDs.Contains(m.ID));
+            foreach (FlowTemplateDTO item in result)
+            {
+                item.DataModelName = dataModels.First(m => m.ID == item.DataModelID).Name;
+            }
         }
     }
 }
