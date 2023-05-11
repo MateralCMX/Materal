@@ -9,25 +9,39 @@
             </a-form-item>
         </a-form>
         <div>
-            <a-button type="primary" :loading="_searching" @click="OpenOptionDrawer">添加</a-button>
+            <a-button type="primary" :loading="_searching" @click="OpenOptionDrawer()">添加</a-button>
         </div>
         <a-table :columns="_tableColumns" :data-source="_tableData" :loading="_searching" :pagination="TablePagination"
-            @change="TableChange"></a-table>
+            @change="TableChange">
+            <template #bodyCell="{ column, record }">
+                <template v-if="column.key === 'Action'">
+                    <a-space>
+                        <a-button type="primary" :loading="_searching" @click="OpenOptionDrawer(record.ID)">编辑</a-button>
+                        <a-popconfirm title="确定删除该项?" ok-text="确定" cancel-text="取消" @confirm="DeleateAsync(record.ID)">
+                            <a-button type="primary" :loading="_searching" danger>删除</a-button>
+                        </a-popconfirm>
+                    </a-space>
+                </template>
+            </template>
+        </a-table>
     </a-space>
-    <a-drawer v-model:visible="_optionDrawerVisible" title="用户操作">
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+    <a-drawer v-model:visible="_optionDrawerVisible" :maskClosable="false" :title="'用户操作'">
+        <UserOption @complate="OptionComplate" ref="_userOption" />
     </a-drawer>
 </template>
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, nextTick } from 'vue';
 import { TablePaginationConfig } from 'ant-design-vue';
 import { QueryUserModel } from '../models/User/QueryUserModel';
 import { User } from '../models/User/User';
 import { PageModel } from '../models/PageModel';
 import UserService from '../services/UserService';
+import UserOption from "./UserOption.vue";
 
+/**
+ * 用户操作组件
+ */
+const _userOption = ref<any>();
 /**
  * 查询数据
  */
@@ -51,7 +65,7 @@ const _tableColumns = [
     },
     {
         title: '操作',
-        key: 'action',
+        key: 'Action',
     },
 ];
 /**
@@ -65,8 +79,18 @@ const _searching = ref(false);
 /**
  * 打开操作抽屉
  */
-const OpenOptionDrawer = () => {
+const OpenOptionDrawer = (selectID?: string) => {
     _optionDrawerVisible.value = true;
+    nextTick(async () => {
+        await _userOption.value.InitAsync(selectID);
+    });
+};
+/**
+ * 操作完毕
+ */
+const OptionComplate = () => {
+    _optionDrawerVisible.value = false;
+    SearchData();
 };
 /**
  * 检索数据
@@ -96,6 +120,16 @@ const TableChange = (pagination: TablePaginationConfig) => {
     _queryData.PageIndex = pagination.current ?? 1;
     _queryData.PageSize = pagination.pageSize ?? 10;
     SearchData();
+};
+/**
+ * 删除数据
+ * @param id ID
+ */
+const DeleateAsync = async (id: string) => {
+    _searching.value = true;
+    await UserService.DeleteAsync(id);
+    SearchData();
+    _searching.value = false;
 };
 /**
  * 页面加载完毕事件

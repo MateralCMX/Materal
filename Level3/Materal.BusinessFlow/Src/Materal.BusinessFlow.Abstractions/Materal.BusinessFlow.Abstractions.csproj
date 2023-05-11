@@ -7,6 +7,6 @@
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.ADONETRepository" Version="1.1.20" />
+	  <ProjectReference Include="..\..\..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.ADONETRepository\Materal.TTA.ADONETRepository.csproj" />
 	</ItemGroup>
 </Project>

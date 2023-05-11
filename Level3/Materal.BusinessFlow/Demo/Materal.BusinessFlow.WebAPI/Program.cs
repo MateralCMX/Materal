@@ -1,3 +1,4 @@
+using Materal.Abstractions;
 using Materal.BusinessFlow.SqliteRepository;
 using Materal.Logger;
 using Materal.TTA.ADONETRepository;
@@ -12,6 +13,7 @@ namespace Materal.BusinessFlow.WebAPI
     {
         public static async Task Main(string[] args)
         {
+            MateralConfig.PageStartNumber = 1;
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddControllers()
                 .AddApplicationPart(Assembly.Load("Materal.BusinessFlow.WebAPIControllers"))

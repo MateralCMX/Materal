@@ -46,13 +46,13 @@ namespace Materal.BusinessFlow.Services
         public virtual async Task<List<TDomain>> GetListAsync(TQueryModel? queryModel = null)
         {
             queryModel ??= new TQueryModel();
-            List<TDomain> domains = await DefaultRepository.FindAsync(queryModel);
+            List<TDomain> domains = await DefaultRepository.FindAsync(queryModel, m => m.CreateTime, SortOrderEnum.Descending);
             return domains;
         }
         public virtual async Task<(List<TDomain> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null)
         {
             queryModel ??= new TQueryModel();
-            (List<TDomain> data, PageModel pageInfo) = await DefaultRepository.PagingAsync(queryModel);
+            (List<TDomain> data, PageModel pageInfo) = await DefaultRepository.PagingAsync(queryModel, m=> m.CreateTime, SortOrderEnum.Descending);
             return (data, pageInfo);
         }
     }

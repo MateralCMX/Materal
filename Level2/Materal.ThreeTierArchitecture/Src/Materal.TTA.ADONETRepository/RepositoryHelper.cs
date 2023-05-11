@@ -126,13 +126,11 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="tableName"></param>
         public void SetQueryCountCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, string tableName)
         {
-            Type tType = typeof(TEntity);
-            List<string> propertyNames = tType.GetProperties().Select(propertyInfo => propertyInfo.Name).ToList();
             string whereTSQLs = ExpressionToTSQL(command, expression, null);
             StringBuilder tSql = new();
             tSql.AppendLine($"SELECT Count({GetTSQLField(nameof(IEntity<TPrimaryKeyType>.ID))})");
             tSql.AppendLine($"FROM {GetTSQLField(tableName)}");
-            if (!string.IsNullOrWhiteSpace(whereTSQLs))
+            if (!string.IsNullOrWhiteSpace(whereTSQLs) && !whereTSQLs.StartsWith(GetParamsPrefix()))
             {
                 tSql.AppendLine($"WHERE {whereTSQLs}");
             }
@@ -243,13 +241,11 @@ namespace Materal.TTA.ADONETRepository
         private string? ContainsMethodCallExpressionToTSQL(IDbCommand command, MethodCallExpression expression)
         {
             if (expression.Method.Name != "Contains") return null;
-            MemberExpression memberExpression;
-            if (expression.Object is MemberExpression)
+            if (expression.Object is MemberExpression objMemberExpression)
             {
-                memberExpression = (MemberExpression)expression.Object;
-                if (memberExpression.Type == typeof(string))
+                if (objMemberExpression.Type == typeof(string))
                 {
-                    string leftTSQL = ExpressionToTSQL(command, memberExpression, expression);
+                    string leftTSQL = ExpressionToTSQL(command, objMemberExpression, expression);
                     if (expression.Arguments.Count == 1 && expression.Arguments[0] is ConstantExpression constantExpression)
                     {
                         string vaue = $"%{constantExpression.Value}%";
@@ -264,15 +260,14 @@ namespace Materal.TTA.ADONETRepository
                 }
                 else
                 {
-                    string leftTSQL = ExpressionToTSQL(command, expression.Arguments[0], memberExpression);
-                    return ContainsMethodCallMemberExpressionToTSQL(command, leftTSQL, memberExpression);
+                    string leftTSQL = ExpressionToTSQL(command, expression.Arguments[0], objMemberExpression);
+                    return ContainsMethodCallMemberExpressionToTSQL(command, leftTSQL, objMemberExpression);
                 }
             }
-            else if(expression.Method.ReturnType == typeof(bool) && expression.Arguments.Count == 2 && expression.Arguments[0] is MemberExpression)
+            else if (expression.Method.ReturnType == typeof(bool) && expression.Arguments.Count == 2 && expression.Arguments[0] is MemberExpression argMemberExpression)
             {
-                memberExpression = (MemberExpression)expression.Arguments[0];
-                string leftTSQL = ExpressionToTSQL(command, expression.Arguments[1], memberExpression);
-                return ContainsMethodCallMemberExpressionToTSQL(command, leftTSQL, memberExpression);
+                string leftTSQL = ExpressionToTSQL(command, expression.Arguments[1], argMemberExpression);
+                return ContainsMethodCallMemberExpressionToTSQL(command, leftTSQL, argMemberExpression);
             }
             return null;
         }
@@ -452,12 +447,10 @@ namespace Materal.TTA.ADONETRepository
             }
             if(memberExpression.Expression is ConstantExpression constantExpression)
             {
-                object? trueValue = constantExpression.Value;
-                if(trueValue == null) throw new TTAException("获取Member值失败");
+                object? trueValue = constantExpression.Value ?? throw new TTAException("获取Member值失败");
                 trueValue = memberExpression.Member.GetValue(trueValue);
                 if (trueValue == null) throw new TTAException("获取Member值失败");
-                PropertyInfo? propertyInfo = trueValue.GetType().GetProperty(name);
-                if (propertyInfo == null) throw new TTAException("获取Member值失败");
+                PropertyInfo propertyInfo = trueValue.GetType().GetProperty(name) ?? throw new TTAException("获取Member值失败");
                 trueValue = propertyInfo.GetValue(trueValue);
                 return trueValue;
             }

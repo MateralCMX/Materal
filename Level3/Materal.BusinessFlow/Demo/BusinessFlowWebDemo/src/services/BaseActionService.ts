@@ -22,7 +22,7 @@ export abstract class BaseActionService<TDomain extends BaseDomain, TQueryModel 
      * 修改
      */
     public async EditAsync(model: TEditModel): Promise<ResultModel | undefined> {
-        const result = await this.SendPostAsync<ResultModel>(`/${this.controllerName}/Add`, undefined, model);
+        const result = await this.SendPostAsync<ResultModel>(`/${this.controllerName}/Edit`, undefined, model);
         return result;
     }
     /**

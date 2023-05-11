@@ -23,9 +23,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BusinessFlow.Test",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BusinessFlow.SqlServerRepository", "Src\Materal.BusinessFlow.SqlServerRepository\Materal.BusinessFlow.SqlServerRepository.csproj", "{A3027B8C-DC42-4AD7-A7EF-5B8B9B73FB92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.BusinessFlow.WebAPIControllers", "Src\Materal.BusinessFlow.WebAPIControllers\Materal.BusinessFlow.WebAPIControllers.csproj", "{A7CAB806-D369-4C96-8C11-9AE108F92858}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BusinessFlow.WebAPIControllers", "Src\Materal.BusinessFlow.WebAPIControllers\Materal.BusinessFlow.WebAPIControllers.csproj", "{A7CAB806-D369-4C96-8C11-9AE108F92858}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.BusinessFlow.WebAPI", "Demo\Materal.BusinessFlow.WebAPI\Materal.BusinessFlow.WebAPI.csproj", "{2B9F35F0-A252-407D-BAC1-B40E8EF17AE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BusinessFlow.WebAPI", "Demo\Materal.BusinessFlow.WebAPI\Materal.BusinessFlow.WebAPI.csproj", "{2B9F35F0-A252-407D-BAC1-B40E8EF17AE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TTA", "TTA", "{3AFE4ACB-093F-4B57-8352-43589DDBFA9B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.Common", "..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.Common\Materal.TTA.Common.csproj", "{66AE1B18-CB37-40B4-BB60-188A8F78C14B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.ADONETRepository", "..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.ADONETRepository\Materal.TTA.ADONETRepository.csproj", "{BBDF50B8-15AF-425F-8C37-5C54CFDF8E0C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqliteADONETRepository", "..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.SqliteADONETRepository\Materal.TTA.SqliteADONETRepository.csproj", "{3423E191-D2D3-4C19-8C85-CAF65B8179FE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TTA.SqlServerADONETRepository", "..\..\Level2\Materal.ThreeTierArchitecture\Src\Materal.TTA.SqlServerADONETRepository\Materal.TTA.SqlServerADONETRepository.csproj", "{D156DDD8-64DB-4B07-BADF-7A7FED393CE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +79,22 @@ Global
 		{2B9F35F0-A252-407D-BAC1-B40E8EF17AE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B9F35F0-A252-407D-BAC1-B40E8EF17AE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B9F35F0-A252-407D-BAC1-B40E8EF17AE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66AE1B18-CB37-40B4-BB60-188A8F78C14B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66AE1B18-CB37-40B4-BB60-188A8F78C14B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66AE1B18-CB37-40B4-BB60-188A8F78C14B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66AE1B18-CB37-40B4-BB60-188A8F78C14B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBDF50B8-15AF-425F-8C37-5C54CFDF8E0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBDF50B8-15AF-425F-8C37-5C54CFDF8E0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBDF50B8-15AF-425F-8C37-5C54CFDF8E0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBDF50B8-15AF-425F-8C37-5C54CFDF8E0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3423E191-D2D3-4C19-8C85-CAF65B8179FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3423E191-D2D3-4C19-8C85-CAF65B8179FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3423E191-D2D3-4C19-8C85-CAF65B8179FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3423E191-D2D3-4C19-8C85-CAF65B8179FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D156DDD8-64DB-4B07-BADF-7A7FED393CE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D156DDD8-64DB-4B07-BADF-7A7FED393CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D156DDD8-64DB-4B07-BADF-7A7FED393CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D156DDD8-64DB-4B07-BADF-7A7FED393CE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +109,10 @@ Global
 		{A3027B8C-DC42-4AD7-A7EF-5B8B9B73FB92} = {77AF7095-4C01-40C1-A2E3-7F93CA93B31F}
 		{A7CAB806-D369-4C96-8C11-9AE108F92858} = {77AF7095-4C01-40C1-A2E3-7F93CA93B31F}
 		{2B9F35F0-A252-407D-BAC1-B40E8EF17AE3} = {D9B1D14C-C7C0-427F-90FB-4BB7B9CD243D}
+		{66AE1B18-CB37-40B4-BB60-188A8F78C14B} = {3AFE4ACB-093F-4B57-8352-43589DDBFA9B}
+		{BBDF50B8-15AF-425F-8C37-5C54CFDF8E0C} = {3AFE4ACB-093F-4B57-8352-43589DDBFA9B}
+		{3423E191-D2D3-4C19-8C85-CAF65B8179FE} = {3AFE4ACB-093F-4B57-8352-43589DDBFA9B}
+		{D156DDD8-64DB-4B07-BADF-7A7FED393CE5} = {3AFE4ACB-093F-4B57-8352-43589DDBFA9B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F177782A-D0DB-4E90-B266-94CD26073F51}
