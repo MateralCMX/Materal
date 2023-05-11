@@ -21,4 +21,23 @@ export class AddDataModelFieldModel {
      * 描述
      */
     public Description?: string;
+    /**
+     * 获得枚举数据
+     */
+    public GetEnumData(): string[] {
+        if (!this.Data) return [];
+        else return JSON.parse(this.Data) as string[];
+    }
+    /**
+     * 设置枚举数据
+     * @param datas 
+     */
+    public SetEnumData(datas: string[]) {
+        for (let i = 0; i < datas.length; i++) {
+            if (!datas[i]) {
+                datas.splice(i, 1);
+            }
+        }
+        this.Data = JSON.stringify(datas);
+    }
 }

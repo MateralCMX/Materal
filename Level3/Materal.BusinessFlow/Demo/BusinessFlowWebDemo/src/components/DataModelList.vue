@@ -46,7 +46,7 @@ import DataModelService from '../services/DataModelService';
  */
 const _dataModelOption = ref<any>();
 /**
- * 操作组件
+ * 操作字段组件
  */
 const _dataModelFieldList = ref<any>();
 /**

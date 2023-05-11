@@ -21,6 +21,7 @@ namespace Materal.BusinessFlow.Abstractions.Services
         }
         public virtual async Task<Guid> AddAsync(TDomain model)
         {
+            model.Validation();
             UnitOfWork.RegisterAdd(model);
             await UnitOfWork.CommitAsync();
             return model.ID;
@@ -33,8 +34,10 @@ namespace Materal.BusinessFlow.Abstractions.Services
         }
         public virtual async Task EditAsync(TDomain model)
         {
+            model.Validation();
             TDomain domain = await DefaultRepository.FirstAsync(model.ID);
             model.CopyProperties(domain);
+            domain.Validation();
             UnitOfWork.RegisterEdit(domain);
             await UnitOfWork.CommitAsync();
         }
