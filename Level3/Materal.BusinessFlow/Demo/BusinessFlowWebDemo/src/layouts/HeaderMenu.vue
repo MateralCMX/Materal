@@ -20,7 +20,7 @@
     <a-menu theme="dark" mode="horizontal" class="menu" :selected-keys="[route.path]">
         <a-menu-item key="/"><router-link to="/">主页</router-link></a-menu-item>
         <a-menu-item key="/DataModelList"><router-link to="/DataModelList">数据管理</router-link></a-menu-item>
-        <a-menu-item key="3"><router-link to="/">模版管理</router-link></a-menu-item>
+        <a-menu-item key="/FlowTemplateList"><router-link to="/FlowTemplateList">模版管理</router-link></a-menu-item>
         <a-menu-item key="/UserList"><router-link to="/UserList">用户管理</router-link></a-menu-item>
         <a-menu-item key="5"><router-link to="/">流程管理</router-link></a-menu-item>
     </a-menu>

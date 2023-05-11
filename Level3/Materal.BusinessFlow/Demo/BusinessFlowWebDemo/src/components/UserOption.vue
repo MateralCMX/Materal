@@ -27,7 +27,6 @@ const _formData = reactive<EditUserModel>(new EditUserModel());
  * 提交数据
  */
 const SubmitData = async () => {
-    debugger;
     _loading.value = true;
     if (_formData.ID) {
         await UserService.EditAsync(_formData);

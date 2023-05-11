@@ -10,9 +10,9 @@ namespace Materal.BusinessFlow.Abstractions.Services.Models
         [Contains]
         public string? Name { get; set; }
         /// <summary>
-        /// 流程模版唯一标识
+        /// 数据模型唯一标识
         /// </summary>
         [Equal]
-        public Guid? FlowTemplateID { get; set; }
+        public Guid? DataModelID { get; set; }
     }
 }
