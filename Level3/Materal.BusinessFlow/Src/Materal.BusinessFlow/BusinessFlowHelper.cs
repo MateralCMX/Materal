@@ -4,6 +4,7 @@ using Materal.BusinessFlow.Abstractions.Enums;
 using Materal.BusinessFlow.Abstractions.Expressions;
 using Materal.BusinessFlow.Abstractions.Repositories;
 using Materal.BusinessFlow.Abstractions.Services.Models;
+using Materal.BusinessFlow.Abstractions.Services.Models.Node;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

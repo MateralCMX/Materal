@@ -1,7 +1,7 @@
 ﻿using Materal.BusinessFlow.Abstractions;
 using System.ComponentModel.DataAnnotations;
 
-namespace Materal.BusinessFlow.WebAPIControllers.Models.User
+namespace Materal.BusinessFlow.Abstractions.Services.Models.User
 {
     public class AddUserModel
     {

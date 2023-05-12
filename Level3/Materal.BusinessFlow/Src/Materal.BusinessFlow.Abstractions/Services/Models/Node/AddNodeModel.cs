@@ -1,9 +1,9 @@
 ﻿using Materal.BusinessFlow.Abstractions;
 using System.ComponentModel.DataAnnotations;
 
-namespace Materal.BusinessFlow.WebAPIControllers.Models.DataModelField
+namespace Materal.BusinessFlow.Abstractions.Services.Models.Node
 {
-    public class AddDataModelFieldModel
+    public class AddNodeModel
     {
         /// <summary>
         /// 名称

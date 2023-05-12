@@ -52,4 +52,11 @@ export abstract class BaseActionService<TDomain extends BaseDomain, TQueryModel 
         const result = await this.SendPostAsync<PageResultModel<TDomain>>(`/${this.controllerName}/GetList`, undefined, queryModel);
         return result;
     }
+    /**
+     * 获得列表
+     */
+    public async GetAllListAsync(queryModel: TQueryModel): Promise<ResultDataModel<TDomain[]> | undefined> {
+        const result = await this.SendPostAsync<ResultDataModel<TDomain[]>>(`/${this.controllerName}/GetAllList`, undefined, queryModel);
+        return result;
+    }
 }

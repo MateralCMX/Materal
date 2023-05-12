@@ -3,19 +3,19 @@ using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.BusinessFlow.Abstractions.Repositories;
 using Materal.BusinessFlow.Abstractions.Services;
-using Materal.BusinessFlow.Abstractions.Services.Models;
+using Materal.BusinessFlow.Abstractions.Services.Models.FlowTemplate;
 using Materal.Utils.Model;
 
 namespace Materal.BusinessFlow.Services
 {
-    public class FlowTemplateServiceImpl : BaseServiceImpl<FlowTemplate, FlowTemplateDTO, IFlowTemplateRepository, QueryFlowTemplateModel>, IFlowTemplateService
+    public class FlowTemplateServiceImpl : BaseServiceImpl<FlowTemplate, FlowTemplateDTO, IFlowTemplateRepository, AddFlowTemplateModel, EditFlowTemplateModel, QueryFlowTemplateModel>, IFlowTemplateService
     {
         private readonly IDataModelRepository _dataModelRepository;
         public FlowTemplateServiceImpl(IServiceProvider serviceProvider, IDataModelRepository dataModelRepository) : base(serviceProvider)
         {
             _dataModelRepository = dataModelRepository;
         }
-        public override async Task EditAsync(FlowTemplate model)
+        public override async Task EditAsync(EditFlowTemplateModel model)
         {
             model.Validation();
             FlowTemplate domain = await DefaultRepository.FirstAsync(model.ID);

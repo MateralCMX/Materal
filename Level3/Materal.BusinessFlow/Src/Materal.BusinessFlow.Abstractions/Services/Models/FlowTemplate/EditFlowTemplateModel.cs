@@ -1,10 +1,14 @@
-﻿using Materal.BusinessFlow.Abstractions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.BusinessFlow.WebAPIControllers.Models.FlowTemplate
+namespace Materal.BusinessFlow.Abstractions.Services.Models.FlowTemplate
 {
-    public class AddFlowTemplateModel
+    public class EditFlowTemplateModel : IEditModel
     {
+        /// <summary>
+        /// 唯一标识
+        /// </summary>
+        [Required]
+        public Guid ID { get; set; }
         /// <summary>
         /// 名称
         /// </summary>

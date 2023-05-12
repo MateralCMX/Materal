@@ -3,6 +3,13 @@ using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.BusinessFlow.Abstractions.Services;
+using Materal.BusinessFlow.Abstractions.Services.Models;
+using Materal.BusinessFlow.Abstractions.Services.Models.DataModel;
+using Materal.BusinessFlow.Abstractions.Services.Models.DataModelField;
+using Materal.BusinessFlow.Abstractions.Services.Models.FlowTemplate;
+using Materal.BusinessFlow.Abstractions.Services.Models.Node;
+using Materal.BusinessFlow.Abstractions.Services.Models.Step;
+using Materal.BusinessFlow.Abstractions.Services.Models.User;
 using Materal.Logger;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -212,35 +219,35 @@ namespace Materal.BusinessFlow.Demo
             using IServiceScope serviceScope = _serviceProvider.CreateScope();
             IServiceProvider services = serviceScope.ServiceProvider;
             WriteTestInfo("初始化用户信息....");
-            await InitDomainAsync<User, User, IUserService>(services, _userCMX);
-            await InitDomainAsync<User, User, IUserService>(services, _userCMX2);
-            await InitDomainAsync<User, User, IUserService>(services, _userFBW);
-            await InitDomainAsync<User, User, IUserService>(services, _userWRD);
+            await InitDomainAsync<User, User, AddUserModel, EditUserModel, IUserService>(services, _userCMX);
+            await InitDomainAsync<User, User, AddUserModel, EditUserModel, IUserService>(services, _userCMX2);
+            await InitDomainAsync<User, User, AddUserModel, EditUserModel, IUserService>(services, _userFBW);
+            await InitDomainAsync<User, User, AddUserModel, EditUserModel, IUserService>(services, _userWRD);
             #region 数据模型
             WriteTestInfo("初始化数据模型....");
-            (Guid dataModelID, isAdd) = await InitDomainAsync<DataModel, DataModel, IDataModelService>(services, new() { ID = Guid.Parse("1A731CA3-43AA-4F93-A409-B60DACA58DAA"), Name = "测试数据模型" });
+            (Guid dataModelID, isAdd) = await InitDomainAsync<DataModel, DataModel, AddDataModelModel, EditDataModelModel, IDataModelService>(services, new() { ID = Guid.Parse("1A731CA3-43AA-4F93-A409-B60DACA58DAA"), Name = "测试数据模型" });
             if (isAdd)
             {
                 DataModelField fieldName = new() { Name = "Name", Description = "姓名", DataType = DataTypeEnum.String, DataModelID = dataModelID };
-                await InitDomainAsync<DataModelField, DataModelFieldDTO, IDataModelFieldService>(services, fieldName);
+                await InitDomainAsync<DataModelField, DataModelFieldDTO, AddDataModelFieldModel, EditDataModelFieldModel, IDataModelFieldService>(services, fieldName);
                 DataModelField fieldAge = new() { Name = "Age", Description = "年龄", DataType = DataTypeEnum.Number, DataModelID = dataModelID };
-                await InitDomainAsync<DataModelField, DataModelFieldDTO, IDataModelFieldService>(services, fieldAge);
+                await InitDomainAsync<DataModelField, DataModelFieldDTO, AddDataModelFieldModel, EditDataModelFieldModel, IDataModelFieldService>(services, fieldAge);
                 DataModelField fieldType = new() { Name = "Type", Description = "请假类型", DataType = DataTypeEnum.Enum, DataModelID = dataModelID, Data = "[\"事假\",\"病假\",\"调休\"]" };
-                await InitDomainAsync<DataModelField, DataModelFieldDTO, IDataModelFieldService>(services, fieldType);
+                await InitDomainAsync<DataModelField, DataModelFieldDTO, AddDataModelFieldModel, EditDataModelFieldModel, IDataModelFieldService>(services, fieldType);
                 DataModelField fieldStartDateTime = new() { Name = "StartDateTime", Description = "开始时间", DataType = DataTypeEnum.DateTime, DataModelID = dataModelID };
-                await InitDomainAsync<DataModelField, DataModelFieldDTO, IDataModelFieldService>(services, fieldStartDateTime);
+                await InitDomainAsync<DataModelField, DataModelFieldDTO, AddDataModelFieldModel, EditDataModelFieldModel, IDataModelFieldService>(services, fieldStartDateTime);
                 DataModelField fieldEndDateTime = new() { Name = "EndDateTime", Description = "结束时间", DataType = DataTypeEnum.DateTime, DataModelID = dataModelID };
-                await InitDomainAsync<DataModelField, DataModelFieldDTO, IDataModelFieldService>(services, fieldEndDateTime);
+                await InitDomainAsync<DataModelField, DataModelFieldDTO, AddDataModelFieldModel, EditDataModelFieldModel, IDataModelFieldService>(services, fieldEndDateTime);
                 DataModelField fieldReason = new() { Name = "Reason", Description = "请假原因", DataType = DataTypeEnum.String, DataModelID = dataModelID };
-                await InitDomainAsync<DataModelField, DataModelFieldDTO, IDataModelFieldService>(services, fieldReason);
+                await InitDomainAsync<DataModelField, DataModelFieldDTO, AddDataModelFieldModel, EditDataModelFieldModel, IDataModelFieldService>(services, fieldReason);
                 DataModelField fieldResult = new() { Name = "Result1", Description = "审批结果1", DataType = DataTypeEnum.Enum, DataModelID = dataModelID, Data = "[\"同意\",\"不同意\"]" };
-                await InitDomainAsync<DataModelField, DataModelFieldDTO, IDataModelFieldService>(services, fieldResult);
+                await InitDomainAsync<DataModelField, DataModelFieldDTO, AddDataModelFieldModel, EditDataModelFieldModel, IDataModelFieldService>(services, fieldResult);
                 DataModelField fieldResult2 = new() { Name = "Result2", Description = "审批结果2", DataType = DataTypeEnum.Enum, DataModelID = dataModelID, Data = "[\"同意\",\"不同意\"]" };
-                await InitDomainAsync<DataModelField, DataModelFieldDTO, IDataModelFieldService>(services, fieldResult2);
+                await InitDomainAsync<DataModelField, DataModelFieldDTO, AddDataModelFieldModel, EditDataModelFieldModel, IDataModelFieldService>(services, fieldResult2);
             }
             #endregion
             WriteTestInfo("初始化流程模版....");
-            (_flowTemplateID, isAdd) = await InitDomainAsync<FlowTemplate, FlowTemplateDTO, IFlowTemplateService>(services, new()
+            (_flowTemplateID, isAdd) = await InitDomainAsync<FlowTemplate, FlowTemplateDTO, AddFlowTemplateModel, EditFlowTemplateModel, IFlowTemplateService>(services, new()
             {
                 ID = Guid.Parse("1542FEAA-C5DA-4FD2-B05A-4705730EFED1"),
                 Name = "请假流程模版",
@@ -317,20 +324,20 @@ namespace Materal.BusinessFlow.Demo
                 #endregion
                 step0.UpID = null;
                 step0.NextID = step1.ID;
-                (Guid stepID, isAdd) = await InitDomainAsync<Step, Step, IStepService>(services, step0);
+                (Guid stepID, isAdd) = await InitDomainAsync<Step, Step, AddStepModel, EditStepModel, IStepService>(services, step0);
                 _stepIDs.Add(stepID);
-                await InitDomainAsync<Node, Node, INodeService>(services, node00);
+                await InitDomainAsync<Node, Node, AddNodeModel, EditNodeModel, INodeService>(services, node00);
                 step1.UpID = step0.ID;
                 step1.NextID = step2.ID;
-                (stepID, isAdd) = await InitDomainAsync<Step, Step, IStepService>(services, step1);
+                (stepID, isAdd) = await InitDomainAsync<Step, Step, AddStepModel, EditStepModel, IStepService>(services, step1);
                 _stepIDs.Add(stepID);
-                await InitDomainAsync<Node, Node, INodeService>(services, node10);
-                await InitDomainAsync<Node, Node, INodeService>(services, node11);
+                await InitDomainAsync<Node, Node, AddNodeModel, EditNodeModel, INodeService>(services, node10);
+                await InitDomainAsync<Node, Node, AddNodeModel, EditNodeModel, INodeService>(services, node11);
                 step2.UpID = step1.ID;
                 step2.NextID = null;
-                (stepID, isAdd) = await InitDomainAsync<Step, Step, IStepService>(services, step2);
+                (stepID, isAdd) = await InitDomainAsync<Step, Step, AddStepModel, EditStepModel, IStepService>(services, step2);
                 _stepIDs.Add(stepID);
-                await InitDomainAsync<Node, Node, INodeService>(services, node20);
+                await InitDomainAsync<Node, Node, AddNodeModel, EditNodeModel, INodeService>(services, node20);
             }
             #endregion
         }
@@ -343,10 +350,12 @@ namespace Materal.BusinessFlow.Demo
         /// <param name="domain"></param>
         /// <returns></returns>
         /// <exception cref="BusinessFlowException"></exception>
-        private static async Task<(Guid id, bool isAdd)> InitDomainAsync<TDomain, TDTO, TService>(IServiceProvider services, TDomain domain, bool isEdit = false)
+        private static async Task<(Guid id, bool isAdd)> InitDomainAsync<TDomain, TDTO, TAddModel, TEditModel, TService>(IServiceProvider services, TDomain domain, bool isEdit = false)
             where TDomain : class, IDomain
             where TDTO : class, IDTO
-            where TService : IBaseService<TDomain, TDTO>
+            where TAddModel : class, new()
+            where TEditModel : class, IEditModel, new()
+            where TService : IBaseService<TDomain, TDTO, TAddModel, TEditModel>
         {
             TService service = services.GetService<TService>() ?? throw new BusinessFlowException("获取服务失败");
             try
@@ -354,13 +363,15 @@ namespace Materal.BusinessFlow.Demo
                 TDTO dbDomain = await service.GetInfoAsync(domain.ID);
                 if (isEdit)
                 {
-                    await service.EditAsync(domain);
+                    TEditModel editModel = domain.CopyProperties<TEditModel>();
+                    await service.EditAsync(editModel);
                 }
                 return (dbDomain.ID, false);
             }
             catch
             {
-                return (await service.AddAsync(domain), true);
+                TAddModel addModel = domain.CopyProperties<TAddModel>();
+                return (await service.AddAsync(addModel), true);
             }
         }
         /// <summary>

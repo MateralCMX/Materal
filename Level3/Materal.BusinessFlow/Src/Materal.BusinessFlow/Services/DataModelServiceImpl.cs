@@ -1,11 +1,11 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Repositories;
 using Materal.BusinessFlow.Abstractions.Services;
-using Materal.BusinessFlow.Abstractions.Services.Models;
+using Materal.BusinessFlow.Abstractions.Services.Models.DataModel;
 
 namespace Materal.BusinessFlow.Services
 {
-    public class DataModelServiceImpl : BaseServiceImpl<DataModel, DataModel, IDataModelRepository, QueryDataModelModel>, IDataModelService
+    public class DataModelServiceImpl : BaseServiceImpl<DataModel, DataModel, IDataModelRepository, AddDataModelModel, EditDataModelModel, QueryDataModelModel>, IDataModelService
     {
         private readonly IDataModelFieldRepository _dataModelFieldRepository;
         public DataModelServiceImpl(IServiceProvider serviceProvider, IDataModelFieldRepository dataModelFieldRepository) : base(serviceProvider)

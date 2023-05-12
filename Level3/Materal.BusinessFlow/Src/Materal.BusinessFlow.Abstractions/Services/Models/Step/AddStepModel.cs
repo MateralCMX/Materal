@@ -1,28 +1,26 @@
-﻿using Materal.Utils.Model;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.BusinessFlow.Abstractions.Services.Models
+namespace Materal.BusinessFlow.Abstractions.Services.Models.Step
 {
-    public class QueryStepModel : BaseQueryModel
+    public class AddStepModel
     {
         /// <summary>
         /// 名称
         /// </summary>
-        [Contains]
-        public string? Name { get; set; }
+        [Required, StringLength(40)]
+        public string Name { get; set; } = string.Empty;
         /// <summary>
         /// 流程模版唯一标识
         /// </summary>
-        [Equal]
-        public Guid? FlowTemplateID { get; set; }
+        [Required]
+        public Guid FlowTemplateID { get; set; }
         /// <summary>
         /// 下一步唯一标识
         /// </summary>
-        [Equal]
         public Guid? NextID { get; set; }
         /// <summary>
         /// 上一步唯一标识
         /// </summary>
-        [Equal]
         public Guid? UpID { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.BusinessFlow.WebAPIControllers.Models.DataModel
+namespace Materal.BusinessFlow.Abstractions.Services.Models.DataModel
 {
     public class AddDataModelModel
     {

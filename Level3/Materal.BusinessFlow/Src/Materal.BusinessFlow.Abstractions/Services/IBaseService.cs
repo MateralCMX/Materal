@@ -1,26 +1,29 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.DTO;
+using Materal.BusinessFlow.Abstractions.Services.Models;
 using Materal.TTA.Common;
 using Materal.Utils.Model;
 
 namespace Materal.BusinessFlow.Abstractions.Services
 {
-    public interface IBaseService<TDomain, TDTO>
+    public interface IBaseService<TDomain, TDTO, TAddModel, TEditModel>
         where TDomain : class, IDomain
         where TDTO : class, IDTO
+        where TAddModel : class, new()
+        where TEditModel : class, IEditModel, new()
     {
         /// <summary>
         /// 添加
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<Guid> AddAsync(TDomain model);
+        Task<Guid> AddAsync(TAddModel model);
         /// <summary>
         /// 修改
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task EditAsync(TDomain model);
+        Task EditAsync(TEditModel model);
         /// <summary>
         /// 删除
         /// </summary>
@@ -34,9 +37,11 @@ namespace Materal.BusinessFlow.Abstractions.Services
         /// <returns></returns>
         Task<TDTO> GetInfoAsync(Guid id);
     }
-    public interface IBaseService<TDomain, TDTO, TQueryModel> : IBaseService<TDomain, TDTO>
+    public interface IBaseService<TDomain, TDTO, TAddModel, TEditModel, TQueryModel> : IBaseService<TDomain, TDTO, TAddModel, TEditModel>
         where TDomain : class, IDomain
         where TDTO : class, IDTO
+        where TAddModel : class, new()
+        where TEditModel : class, IEditModel, new()
         where TQueryModel : class, new()
     {
         /// <summary>
@@ -51,10 +56,12 @@ namespace Materal.BusinessFlow.Abstractions.Services
         /// <returns></returns>
         Task<(List<TDTO> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null);
     }
-    public interface IBaseService<TDomain, TDTO, TRepository, TQueryModel> : IBaseService<TDomain, TDTO, TQueryModel>
+    public interface IBaseService<TDomain, TDTO, TRepository, TAddModel, TEditModel, TQueryModel> : IBaseService<TDomain, TDTO, TAddModel, TEditModel, TQueryModel>
         where TDomain : class, IDomain
         where TDTO : class, IDTO
         where TRepository : IRepository<TDomain>
+        where TAddModel : class, new()
+        where TEditModel : class, IEditModel, new()
         where TQueryModel : class, new()
     {
     }

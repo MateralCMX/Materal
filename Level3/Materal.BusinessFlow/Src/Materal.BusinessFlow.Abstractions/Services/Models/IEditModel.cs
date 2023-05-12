@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.BusinessFlow.WebAPIControllers.Models.Step
+namespace Materal.BusinessFlow.Abstractions.Services.Models
 {
-    public class EditStepModel : AddStepModel
+    public interface IEditModel
     {
         /// <summary>
         /// 唯一标识
         /// </summary>
         [Required]
-        public Guid ID { get; set; }
+        Guid ID { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.BusinessFlow.Abstractions.Services;
+using Materal.BusinessFlow.Abstractions.Services.Models;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,13 +15,13 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
     /// <typeparam name="TDomain"></typeparam>
     /// <typeparam name="TService"></typeparam>
     /// <typeparam name="TQueryModel"></typeparam>
-    public class BusinessFlowServiceControllerBase<TDomain, TDTO, TService, TQueryModel, TAddModel, TEditModel> : BusinessFlowControllerBase
+    public class BusinessFlowServiceControllerBase<TDomain, TDTO, TService, TAddModel, TEditModel, TQueryModel> : BusinessFlowControllerBase
         where TDomain : class, IDomain
         where TDTO : class, IDTO
-        where TService : IBaseService<TDomain, TDTO, TQueryModel>
+        where TService : IBaseService<TDomain, TDTO, TAddModel, TEditModel, TQueryModel>
         where TQueryModel : class, new()
-        where TAddModel : class
-        where TEditModel : class
+        where TAddModel : class, new()
+        where TEditModel : class, IEditModel, new()
     {
         protected readonly TService DefaultService;
         /// <summary>
@@ -71,8 +72,7 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
         [HttpPut]
         public async Task<ResultModel<Guid>> AddAsync(TAddModel model)
         {
-            TDomain domain = model.CopyProperties<TDomain>();
-            Guid result = await DefaultService.AddAsync(domain);
+            Guid result = await DefaultService.AddAsync(model);
             return ResultModel<Guid>.Success(result, "添加成功");
         }
         /// <summary>
@@ -83,8 +83,7 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
         [HttpPost]
         public async Task<ResultModel> EditAsync(TEditModel model)
         {
-            TDomain domain = model.CopyProperties<TDomain>();
-            await DefaultService.EditAsync(domain);
+            await DefaultService.EditAsync(model);
             return ResultModel.Success("修改成功");
         }
         /// <summary>

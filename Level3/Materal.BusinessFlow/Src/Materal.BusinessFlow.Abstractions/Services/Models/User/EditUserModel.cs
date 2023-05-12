@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.BusinessFlow.WebAPIControllers.Models.DataModelField
+namespace Materal.BusinessFlow.Abstractions.Services.Models.User
 {
-    public class EditDataModelFieldModel : AddDataModelFieldModel
+    public class EditUserModel : AddUserModel, IEditModel
     {
         /// <summary>
         /// 唯一标识

@@ -1,6 +1,6 @@
 ﻿using Materal.Utils.Model;
 
-namespace Materal.BusinessFlow.Abstractions.Services.Models
+namespace Materal.BusinessFlow.Abstractions.Services.Models.FlowTemplate
 {
     public class QueryFlowTemplateModel : BaseQueryModel
     {

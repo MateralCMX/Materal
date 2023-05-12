@@ -15,8 +15,10 @@
             </a-form-item>
             <a-form-item v-for="(_, index) in _enumData" name="Data">
                 <div>
-                    <a-input v-model:value="_enumData[index]" style="width: 88%;" />
-                    <a-button @click="RemoveEnumItem(index)" :loading="_loading" style="width: 11%;">移除</a-button>
+                    <a-input v-model:value="_enumData[index]" style="width: 90%;" />
+                    <a-button @click="RemoveEnumItem(index)" type="primary" danger :loading="_loading" style="width: 7%;">
+                        {{ _loading ? "" : "X" }}
+                    </a-button>
                 </div>
             </a-form-item>
         </div>

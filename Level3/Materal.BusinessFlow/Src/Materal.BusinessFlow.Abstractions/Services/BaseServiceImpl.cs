@@ -1,15 +1,18 @@
 ﻿using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.DTO;
+using Materal.BusinessFlow.Abstractions.Services.Models;
 using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.BusinessFlow.Abstractions.Services
 {
-    public class BaseServiceImpl<TDomain, TDTO, TRepository, TQueryModel> : IBaseService<TDomain, TDTO, TRepository, TQueryModel>
+    public class BaseServiceImpl<TDomain, TDTO, TRepository, TAddModel, TEditModel, TQueryModel> : IBaseService<TDomain, TDTO, TRepository, TAddModel, TEditModel, TQueryModel>
         where TDomain : class, IDomain
         where TDTO : class, IDTO
         where TRepository : IRepository<TDomain, Guid>
+        where TAddModel : class, new()
+        where TEditModel : class, IEditModel, new()
         where TQueryModel : PageRequestModel, new()
     {
         protected readonly IBusinessFlowUnitOfWork UnitOfWork;
@@ -19,12 +22,13 @@ namespace Materal.BusinessFlow.Abstractions.Services
             UnitOfWork = serviceProvider.GetRequiredService<IBusinessFlowUnitOfWork>();
             DefaultRepository = UnitOfWork.GetRepository<TRepository>();
         }
-        public virtual async Task<Guid> AddAsync(TDomain model)
+        public virtual async Task<Guid> AddAsync(TAddModel model)
         {
             model.Validation();
-            UnitOfWork.RegisterAdd(model);
+            TDomain domain = model.CopyProperties<TDomain>();
+            UnitOfWork.RegisterAdd(domain);
             await UnitOfWork.CommitAsync();
-            return model.ID;
+            return domain.ID;
         }
         public virtual async Task DeleteAsync(Guid id)
         {
@@ -32,7 +36,7 @@ namespace Materal.BusinessFlow.Abstractions.Services
             UnitOfWork.RegisterDelete(domain);
             await UnitOfWork.CommitAsync();
         }
-        public virtual async Task EditAsync(TDomain model)
+        public virtual async Task EditAsync(TEditModel model)
         {
             model.Validation();
             TDomain domain = await DefaultRepository.FirstAsync(model.ID);
@@ -60,12 +64,6 @@ namespace Materal.BusinessFlow.Abstractions.Services
             }
             return result;
         }
-
-        public Task GetListAsync(object id)
-        {
-            throw new NotImplementedException();
-        }
-
         public virtual async Task<(List<TDTO> data, PageModel pageInfo)> PagingAsync(TQueryModel? queryModel = null)
         {
             queryModel ??= new TQueryModel();

@@ -17,7 +17,7 @@
                 <template v-if="column.key === 'Action'">
                     <a-space>
                         <a-button type="primary" :loading="_searching" @click="OpenOptionDrawer(record.ID)">编辑</a-button>
-                        <a-button :loading="_searching" @click="OpenOptionDrawer(record.ID)">编辑流程</a-button>
+                        <a-button :loading="_searching"><router-link :to="`/FlowTemplateCanvas/${record.ID}`">编辑流程</router-link></a-button>
                         <a-popconfirm title="确定删除该项?" ok-text="确定" cancel-text="取消" @confirm="DeleateAsync(record.ID)">
                             <a-button type="primary" :loading="_searching" danger>删除</a-button>
                         </a-popconfirm>
