@@ -10,12 +10,12 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.20</Version>
+		<Version>1.1.21</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.DRSqlServerADONETRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqlServerADONETRepository" Version="1.1.20" />
+		<PackageReference Include="Materal.TTA.SqlServerADONETRepository" Version="1.1.21" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Oscillator\Materal.Oscillator.csproj" />

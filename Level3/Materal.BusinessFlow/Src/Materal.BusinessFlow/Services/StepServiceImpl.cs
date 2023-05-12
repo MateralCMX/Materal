@@ -1,4 +1,5 @@
-﻿using Materal.BusinessFlow.Abstractions.Domain;
+﻿using Materal.BusinessFlow.Abstractions;
+using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.Repositories;
 using Materal.BusinessFlow.Abstractions.Services;
 using Materal.BusinessFlow.Abstractions.Services.Models.Step;
@@ -19,13 +20,13 @@ namespace Materal.BusinessFlow.Services
             domain.Validation();
             if (domain.UpID != null)
             {
-                Step upStep = DefaultRepository.First(domain.UpID.Value);
+                Step upStep = await DefaultRepository.FirstAsync(domain.UpID.Value);
                 upStep.NextID = domain.ID;
                 UnitOfWork.RegisterEdit(upStep);
             }
             if (domain.NextID != null)
             {
-                Step nextStep = DefaultRepository.First(domain.NextID.Value);
+                Step nextStep = await DefaultRepository.FirstAsync(domain.NextID.Value);
                 nextStep.UpID = domain.ID;
                 UnitOfWork.RegisterEdit(nextStep);
             }
@@ -40,22 +41,50 @@ namespace Materal.BusinessFlow.Services
             {
                 UnitOfWork.RegisterDelete(node);
             }
-            Step domain = DefaultRepository.First(id);
+            Step domain = await DefaultRepository.FirstAsync(id);
             if (domain.UpID != null)
             {
-                Step upStep = DefaultRepository.First(domain.UpID.Value);
+                Step upStep = await DefaultRepository.FirstAsync(domain.UpID.Value);
                 upStep.NextID = domain.NextID;
                 UnitOfWork.RegisterEdit(upStep);
             }
             if (domain.NextID != null)
             {
-                Step nextStep = DefaultRepository.First(domain.NextID.Value);
+                Step nextStep = await DefaultRepository.FirstAsync(domain.NextID.Value);
                 nextStep.UpID = domain.UpID;
                 UnitOfWork.RegisterEdit(nextStep);
             }
             UnitOfWork.RegisterDelete(domain);
             await UnitOfWork.CommitAsync();
 
+        }
+        public async Task<List<Step>> GetListByFlowTemplateIDAsync(Guid flowTemplateID)
+        {
+            List<Step> result = new();
+            List<Step> allSteps = await DefaultRepository.FindAsync(m => m.FlowTemplateID == flowTemplateID);
+            if (allSteps.Count == 0) return result;
+            Guid? nextID = null;
+            Step step;
+            do
+            {
+                step = GetNextStep(allSteps, nextID);
+                nextID = step.ID;
+                result.Add(step);
+            } while (step.NextID != null);
+            return result;
+        }
+        /// <summary>
+        /// 获得下一个步骤
+        /// </summary>
+        /// <param name="steps"></param>
+        /// <param name="nowID"></param>
+        /// <returns></returns>
+        /// <exception cref="BusinessFlowException"></exception>
+        private Step GetNextStep(List<Step> steps, Guid? nowID)
+        {
+            Step? step = steps.FirstOrDefault(m => m.UpID == nowID);
+            if (step == null) throw new BusinessFlowException("未找到对应步骤");
+            return step;
         }
     }
 }

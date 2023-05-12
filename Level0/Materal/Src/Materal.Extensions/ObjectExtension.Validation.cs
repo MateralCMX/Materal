@@ -118,7 +118,8 @@ namespace System
         private static bool IsDefaultType(object value)
         {
             return value == null || value is int || value is uint || value is short || value is ushort || value is long || value is ulong || 
-                value is float || value is double || value is decimal || value is string || value is DateTime || value is TimeSpan || value is Guid;
+                value is float || value is double || value is decimal || value is string || value is DateTime || value is TimeSpan || value is Guid ||
+                value is Enum;
         }
         /// <summary>
         /// 获得验证失败消息

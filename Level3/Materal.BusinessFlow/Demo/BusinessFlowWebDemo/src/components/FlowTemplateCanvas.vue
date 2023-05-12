@@ -11,7 +11,8 @@
                 {{ _loading ? "" : "+" }}
             </a-button>
         </div>
-        <StepOption v-for="(item, index) in _allSteps" :Loading="_loading" :Index="index + 1" :StepData="item" @OnAddStep="AddStepAsync" />
+        <StepOption v-for="(item, index) in _allSteps" v-model:Loading="_loading" :Index="index + 1" :StepData="item"
+            @OnAddStep="AddStepAsync" @OnDeleteStep="DeleteStepAsync" />
     </div>
 </template>
 <script setup lang="ts">
@@ -26,11 +27,7 @@ const _allSteps = ref<Step[]>([]);
 const _loading = ref(false);
 
 const BindStepsAsync = async () => {
-    const result = await StepService.GetAllListAsync({
-        PageIndex: 1,
-        PageSize: 1000,
-        FlowTemplateID: _flowTemplateID
-    });
+    const result = await StepService.GetListByFlowTemplateIDAsync(_flowTemplateID);
     if (result) {
         _allSteps.value = result.Data;
     }
@@ -60,6 +57,10 @@ const AddStepAsync = async (index?: number) => {
         _allSteps.value.splice(index, 0, step);
     }
     _loading.value = false;
+}
+const DeleteStepAsync = async (index?: number) => {
+    if (!index && index != 0) return;
+    _allSteps.value.splice(index - 1, 1);
 }
 onMounted(async () => { await BindStepsAsync(); });
 </script>

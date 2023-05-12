@@ -56,7 +56,7 @@ namespace Materal.BusinessFlow.WebAPI
                 {
                     [LogLevel.Error] = ConsoleColor.DarkRed
                 });
-                option.AddAllTargetRule(LogLevel.Information);
+                option.AddAllTargetRule(LogLevel.Information, null, new[] { "Microsoft.AspNetCore.*" });
             });
             using IServiceScope scope = app.Services.CreateScope();
             IMigrateHelper migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<BusinessFlowDBOption>>();
