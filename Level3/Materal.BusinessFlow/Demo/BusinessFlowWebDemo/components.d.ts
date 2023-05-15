@@ -38,13 +38,16 @@ declare module '@vue/runtime-core' {
     FlowTemplateList: typeof import('./src/components/FlowTemplateList.vue')['default']
     FlowTemplateOption: typeof import('./src/components/FlowTemplateOption.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
+    InitiatorNodeHandleData: typeof import('./src/components/InitiatorNodeHandleData.vue')['default']
     NodeHandleTypeEnumSelect: typeof import('./src/components/NodeHandleTypeEnumSelect.vue')['default']
     NodeItem: typeof import('./src/components/NodeItem.vue')['default']
     NodeOption: typeof import('./src/components/NodeOption.vue')['default']
+    PageTemplateOption: typeof import('./src/components/PageTemplateOption.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     StepOption: typeof import('./src/components/StepOption.vue')['default']
     UserList: typeof import('./src/components/UserList.vue')['default']
+    UserNodeHandleData: typeof import('./src/components/UserNodeHandleData.vue')['default']
     UserOption: typeof import('./src/components/UserOption.vue')['default']
   }
 }

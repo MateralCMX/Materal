@@ -59,6 +59,10 @@ const allSteps = ref<Step[]>([]);
  */
 const loading = ref(false);
 /**
+ * 当前打开节点的步骤ID
+ */
+let nowStepID = "";
+/**
  * 绑定步骤
  */
 const bindStepsAsync = async () => {
@@ -117,7 +121,6 @@ const deleteStepAsync = async (index?: number) => {
     if (!index && index != 0) return;
     allSteps.value.splice(index - 1, 1);
 }
-let nowStepID = "";
 /**
  * 打开节点抽屉
  * @param id 

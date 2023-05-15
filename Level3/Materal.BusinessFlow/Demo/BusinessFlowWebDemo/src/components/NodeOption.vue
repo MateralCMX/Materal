@@ -11,6 +11,8 @@
         </a-form-item>
         <AutoNodeHandleData v-if="formData.HandleType == NodeHandleTypeEnum.Auto" v-model="formData"
             :data-model-fields="dataModelFields" />
+        <UserNodeHandleData v-else-if="formData.HandleType == NodeHandleTypeEnum.User" v-model="formData" :data-model-fields="dataModelFields" />
+        <InitiatorNodeHandleData v-else-if="formData.HandleType == NodeHandleTypeEnum.Initiator" v-model="formData" :data-model-fields="dataModelFields" />
         <a-form-item>
             <a-button type="primary" html-type="submit" block :loading="loading">
                 {{ formData.ID ? "保存" : "添加" }}

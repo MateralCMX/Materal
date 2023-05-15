@@ -15,5 +15,5 @@ const props = defineProps<{ modelValue?: NodeHandleTypeEnum, hasAll: boolean }>(
 /**
  * 绑定模型
  */
-const model = useVModel(props, 'modelValue')
+const model = useVModel(props, 'modelValue');
 </script>
