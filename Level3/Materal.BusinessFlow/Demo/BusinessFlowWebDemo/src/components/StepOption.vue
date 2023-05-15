@@ -34,7 +34,7 @@
                 <a-button shape="circle" :loading="loading" @click="() => openNodeEdit()">
                     {{ loading ? "" : "+" }}
                 </a-button>
-                <NodeItem v-for="node in nodes" :loading="loading" :node-data="node" @delete-node="searchNodes" @edit-node="searchNodes" />
+                <NodeItem v-for="node in nodes" :loading="loading" :node-data="node" @delete-node="searchNodes" @edit-node="openNodeEdit" />
             </a-space>
         </div>
         <div class="endpoint-plan">

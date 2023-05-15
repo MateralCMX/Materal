@@ -19,7 +19,7 @@
     <div class="node-item">
         <span>{{ nodeData.Name }}</span>
         <div class="node-item-button-group">
-            <a-button type="primary">编辑</a-button>
+            <a-button type="primary" @click="editNodeAsync">编辑</a-button>
             <a-popconfirm title="确定删除该项?" ok-text="确定" cancel-text="取消" @confirm="deleteNodeAsync">
                 <a-button type="primary" danger :loading="loading"> {{ loading ? "" : "删除" }} </a-button>
             </a-popconfirm>
@@ -38,12 +38,18 @@ const props = defineProps<{ nodeData: Node; loading: boolean }>();
  * 事件
  */
 const emits = defineEmits<{
-    (event: "editNode"): void;
+    (event: "editNode", id: string): void;
     (event: "deleteNode"): void;
     (event: "update:loading", value: boolean): void;
 }>();
 /**
- * 删除步骤
+ * 编辑节点
+ */
+const editNodeAsync = async () => {
+    emits('editNode', props.nodeData.ID);
+}
+/**
+ * 删除节点
  */
 const deleteNodeAsync = async () => {
     emits('update:loading', true);
