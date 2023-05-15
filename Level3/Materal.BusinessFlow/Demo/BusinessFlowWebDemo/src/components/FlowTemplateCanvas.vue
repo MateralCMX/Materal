@@ -12,20 +12,24 @@
             </a-button>
         </div>
         <StepOption v-for="(item, index) in allSteps" v-model:Loading="loading" :Index="index + 1" :StepData="item"
-            @add-step="addStepAsync" @delete-step="deleteStepAsync" @open-node-edit="openNodeDrawer" />
+            @add-step="addStepAsync" @delete-step="deleteStepAsync" @open-node-edit="openNodeDrawer"
+            :ref="stepOptions.set" />
     </div>
     <a-drawer v-model:visible="nodeDrawerVisible" title="节点编辑器">
         <NodeOption ref="nodeOption" @complate="nodeOptionComplate"></NodeOption>
     </a-drawer>
 </template>
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
 import StepService from "../services/StepService";
 import { Step } from '../models/Step/Step';
 import FlowTemplateService from '../services/FlowTemplateService';
 import DataModelFieldService from '../services/DataModelFieldService';
 import { DataModelField } from '../models/DataModelField/DataModelField';
 
+/**
+ * 步骤操作组件组
+ */
+const stepOptions = useTemplateRefsList();
 /**
  * 节点操作组件
  */
@@ -62,9 +66,14 @@ const bindStepsAsync = async () => {
     if (result) {
         allSteps.value = result.Data;
     }
-    const flowTemplateResult = await FlowTemplateService.GetInfoAsync(flowTemplateID);
-    if (flowTemplateResult) {
-        const dataModelFields = await DataModelFieldService.GetAllListAsync({ PageIndex: 1, PageSize: 10, DataModelID: flowTemplateResult.Data.DataModelID });
+}
+/**
+ * 绑定数据模型字段
+ */
+const bindDataModelFields = async () => {
+    const result = await FlowTemplateService.GetInfoAsync(flowTemplateID);
+    if (result) {
+        const dataModelFields = await DataModelFieldService.GetAllListAsync({ PageIndex: 1, PageSize: 10, DataModelID: result.Data.DataModelID });
         if (dataModelFields) {
             dataModels = dataModelFields.Data;
         }
@@ -108,11 +117,13 @@ const deleteStepAsync = async (index?: number) => {
     if (!index && index != 0) return;
     allSteps.value.splice(index - 1, 1);
 }
+let nowStepID = "";
 /**
  * 打开节点抽屉
  * @param id 
  */
 const openNodeDrawer = (stepID: string, id?: string) => {
+    nowStepID = stepID;
     nodeDrawerVisible.value = true;
     nextTick(async () => {
         await nodeOption.value.initAsync(dataModels, stepID, id);
@@ -123,10 +134,15 @@ const openNodeDrawer = (stepID: string, id?: string) => {
  */
 const nodeOptionComplate = () => {
     nodeDrawerVisible.value = false;
-    console.log("更新节点显示");
+    stepOptions.value.forEach((item: any) => {
+        item.refreshNodes(nowStepID);
+    });
 }
 /**
  * 组件挂载时
  */
-onMounted(async () => { await bindStepsAsync(); });
+onMounted(async () => {
+    await bindStepsAsync();
+    await bindDataModelFields();
+});
 </script>

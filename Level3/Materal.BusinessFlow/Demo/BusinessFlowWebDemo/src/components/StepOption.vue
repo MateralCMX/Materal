@@ -34,6 +34,9 @@
                 <a-button shape="circle" :loading="Loading" @click="() => openNodeEdit()">
                     {{ Loading ? "" : "+" }}
                 </a-button>
+                <div v-for="node in nodes">
+                    {{ node.Name }}
+                </div>
             </a-space>
         </div>
         <div class="endpoint-plan">
@@ -45,6 +48,8 @@
 </template>
 <script setup lang="ts">
 import { Step } from '../models/Step/Step';
+import { Node } from '../models/Node/Node';
+import NodeService from '../services/NodeService';
 import StepService from '../services/StepService';
 
 /**
@@ -60,6 +65,10 @@ const emits = defineEmits<{
     (event: "openNodeEdit", stepID: string, id: string | undefined): void;
     (event: "update:Loading", value: boolean): void;
 }>();
+/**
+ * 节点组
+ */
+const nodes = ref<Node[]>([]);
 /**
  * 添加步骤
  */
@@ -90,4 +99,31 @@ const saveStepAsync = async () => {
 const openNodeEdit = (id?: string) => {
     emits('openNodeEdit', props.StepData.ID, id);
 }
+/**
+ * 查询节点组
+ */
+const searchNodes = async () => {
+    const result = await NodeService.GetAllListAsync({ PageIndex: 1, PageSize: 10, StepID: props.StepData.ID });
+    if (result) {
+        nodes.value = result.Data;
+    }
+}
+/**
+ * 刷新节点组
+ * @param stepID 
+ */
+const refreshNodes = async (stepID: string) => {
+    if(props.StepData.ID !== stepID) return;
+    await searchNodes();
+}
+/**
+ * 组件挂载时
+ */
+onMounted(() => {
+    searchNodes();
+});
+/**
+ * 暴露成员
+ */
+defineExpose({ refreshNodes });
 </script>
