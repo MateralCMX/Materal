@@ -15,8 +15,8 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import DataModelService from '../services/DataModelService';
 import { EditDataModelModel } from '../models/DataModel/EditDataModelModel';
+
 
 /**
  * 加载标识
@@ -32,49 +32,18 @@ const formData = reactive<EditDataModelModel>(new EditDataModelModel());
 const submitData = async () => {
     loading.value = true;
     if (formData.ID) {
-        await DataModelService.EditAsync(formData);
     }
     else {
-        await DataModelService.AddAsync(formData);
     }
     loading.value = false;
     emits('complate');
 };
 /**
- * 初始化
- * @param id 唯一标识
- */
-const initAsync = async (id?: string) => {
-    loading.value = true;
-    formData.ID = id ?? '';
-    if (id && id !== '') {
-        await initEidtAsync();
-    }
-    else {
-        await initAddAsync();
-    }
-    loading.value = false;
-};
-/**
- * 初始化编辑
- */
-const initEidtAsync = async () => {
-    const result = await DataModelService.GetInfoAsync(formData.ID);
-    if (result) {
-        formData.Name = result.Data.Name;
-        formData.Description = result.Data.Description;
-    }
-    else {
-        await initAddAsync();
-    }
-}
-/**
  * 初始化添加
  */
-const initAddAsync = async () => {
-    formData.ID = '';
-    formData.Name = '';
-    formData.Description = undefined;
+const initAsync = async (stepID: string, id?: string) => {
+    console.log(stepID);
+    console.log(id);
 }
 /**
  * 事件

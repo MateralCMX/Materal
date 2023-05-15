@@ -39,6 +39,21 @@ namespace Materal.BusinessFlow.ADONETRepository.Repositories
                 createTableCommand.ExecuteNonQuery();
             });
         }
+        public bool CanUse(Guid flowTemplateID)
+        {
+            bool result = false;
+            UnitOfWork.OperationDB(connection =>
+            {
+                IDbCommand command = connection.CreateCommand();
+                command.CommandText = GetTableExistsTSQL(flowTemplateID);
+                using IDataReader dr = command.ExecuteReader();
+                while (dr.Read())
+                {
+                    result = dr.GetInt32(0) > 0;
+                }
+            });
+            return result;
+        }
         public virtual void AddTableField(FlowTemplate flowTemplate, DataModelField dataModelField)
         {
             UnitOfWork.RegisterCommand((connection, transaction) =>

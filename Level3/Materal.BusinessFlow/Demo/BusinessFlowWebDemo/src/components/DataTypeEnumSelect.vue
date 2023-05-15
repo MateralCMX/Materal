@@ -11,7 +11,12 @@
 </template>
 <script setup lang="ts">
 import { DataTypeEnum } from '../models/DataModelField/DataTypeEnum';
-
+/**
+ * 暴露
+ */
 defineProps<{ modelValue?: DataTypeEnum, hasAll: boolean }>();
+/**
+ * 事件
+ */
 defineEmits(['update:modelValue']);
 </script>

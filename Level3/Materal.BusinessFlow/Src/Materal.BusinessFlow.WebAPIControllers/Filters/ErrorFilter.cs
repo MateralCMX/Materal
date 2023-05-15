@@ -1,14 +1,14 @@
-﻿using AutoMapper;
-using Materal.BaseCore.Common;
+﻿using Materal.BusinessFlow.Abstractions;
 using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Materal.BaseCore.WebAPI.Filters
+namespace Materal.BusinessFlow.WebAPIControllers.Filters
 {
     /// <summary>
     /// 异常拦截器
@@ -55,7 +55,7 @@ namespace Materal.BaseCore.WebAPI.Filters
         /// <returns></returns>
         private static ResultModel? HandlerException(Exception exception)
         {
-            if (exception is TTAException || exception is MateralCoreException || exception is AutoMapperMappingException aex && aex.InnerException != null && aex.InnerException is MateralCoreException)
+            if (exception is TTAException || exception is BusinessFlowException || exception is ValidationException)
             {
                 return ResultModel.Fail(exception.Message);
             }
@@ -79,37 +79,22 @@ namespace Materal.BaseCore.WebAPI.Filters
         /// <returns></returns>
         private static ResultModel GetDefaultResult(string message)
         {
-            ResultModel result = MateralCoreConfig.ExceptionConfig.ShowException ? ResultModel.Fail(message) : ResultModel.Fail(MateralCoreConfig.ExceptionConfig.ErrorMessage);
+            ResultModel result = ResultModel.Fail(message);
             return result;
         }
         /// <summary>
         /// 写错误
         /// </summary>
         /// <param name="context"></param>
-        private async Task WriteError(ExceptionContext context)
+        private void WriteError(ExceptionContext context)
         {
             StringBuilder message = new();
             if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor)
             {
                 message.AppendLine($"Controller:{actionDescriptor.ControllerName}");
                 message.AppendLine($"Action:{actionDescriptor.ActionName}");
-                string? ipAddress = FilterHelper.GetIPAddress(context.HttpContext.Connection);
-                if (!string.IsNullOrEmpty(ipAddress))
-                {
-                    message.AppendLine($"ClientIP:{ipAddress}");
-                }
-                Guid? loginUserID = FilterHelper.GetOperatingUserID(context.HttpContext.User);
-                if (loginUserID.HasValue)
-                {
-                    message.AppendLine($"UserID:{loginUserID.Value}");
-                }
-                string? paramsValue = await FilterHelper.GetRequestContentAsync(context.HttpContext.Request);
-                if (!string.IsNullOrWhiteSpace(paramsValue))
-                {
-                    message.AppendLine(paramsValue);
-                }
             }
-            Exception exception = new MateralCoreException(message.ToString(), context.Exception);
+            Exception exception = new BusinessFlowException(message.ToString(), context.Exception);
             _logger.LogError(exception, "服务器发生错误");
         }
     }

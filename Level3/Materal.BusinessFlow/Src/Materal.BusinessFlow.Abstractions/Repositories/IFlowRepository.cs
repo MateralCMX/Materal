@@ -6,6 +6,12 @@ namespace Materal.BusinessFlow.Abstractions.Repositories
     public interface IFlowRepository : IRepository
     {
         /// <summary>
+        /// 是否已经使用
+        /// </summary>
+        /// <param name="flowTemplateID"></param>
+        /// <returns></returns>
+        bool CanUse(Guid flowTemplateID);
+        /// <summary>
         /// 添加
         /// </summary>
         /// <param name="flowTemplateID"></param>

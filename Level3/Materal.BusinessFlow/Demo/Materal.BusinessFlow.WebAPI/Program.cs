@@ -1,5 +1,6 @@
 using Materal.Abstractions;
 using Materal.BusinessFlow.SqliteRepository;
+using Materal.BusinessFlow.WebAPIControllers.Filters;
 using Materal.Logger;
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
@@ -15,7 +16,11 @@ namespace Materal.BusinessFlow.WebAPI
         {
             MateralConfig.PageStartNumber = 1;
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddControllers()
+            builder.Services
+                .AddControllers(options =>
+                {
+                    options.Filters.Add<ExceptionFilter>();
+                })
                 .AddApplicationPart(Assembly.Load("Materal.BusinessFlow.WebAPIControllers"))
                 .AddJsonOptions(options =>
                 {

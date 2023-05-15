@@ -34,6 +34,7 @@ declare module '@vue/runtime-core' {
     FlowTemplateList: typeof import('./src/components/FlowTemplateList.vue')['default']
     FlowTemplateOption: typeof import('./src/components/FlowTemplateOption.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
+    NodeOption: typeof import('./src/components/NodeOption.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     StepOption: typeof import('./src/components/StepOption.vue')['default']
