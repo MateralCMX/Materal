@@ -20,7 +20,6 @@
 </template>
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { onMounted, ref, nextTick } from "vue";
 import StepService from "../services/StepService";
 import { Step } from '../models/Step/Step';
 

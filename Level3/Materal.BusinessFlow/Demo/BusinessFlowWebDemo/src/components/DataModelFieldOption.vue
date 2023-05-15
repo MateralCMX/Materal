@@ -7,7 +7,7 @@
             <a-input v-model:value="formData.Description" />
         </a-form-item>
         <a-form-item v-if="!formData.ID" label="数据类型" name="DataType" :rules="[{ required: true, message: '请选择数据类型名称' }]">
-            <DataTypeEnumSelect v-model:value="formData.DataType" :has-all="false" />
+            <DataTypeEnumSelect v-model="formData.DataType" :has-all="false" />
         </a-form-item>
         <div v-if="formData.DataType == DataTypeEnum.Enum">
             <a-form-item :label="`选项`" name="Data">
@@ -30,7 +30,6 @@
     </a-form>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
 import DataModelFieldService from '../services/DataModelFieldService';
 import { EditDataModelFieldModel } from '../models/DataModelField/EditDataModelFieldModel';
 import { DataTypeEnum } from '../models/DataModelField/DataTypeEnum';
@@ -129,7 +128,7 @@ const removeEnumItem = (index: number) => {
  */
 const emits = defineEmits<{ (event: 'complate'): void }>();
 /**
- * 暴露
+ * 暴露成员
  */
 defineExpose({ initAsync });
 </script>

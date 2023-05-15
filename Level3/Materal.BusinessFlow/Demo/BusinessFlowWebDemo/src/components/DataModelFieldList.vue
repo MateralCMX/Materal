@@ -36,7 +36,6 @@
     </a-drawer>
 </template>
 <script setup lang="ts">
-import { computed, nextTick, reactive, ref } from 'vue';
 import { PageModel } from '../models/PageModel';
 import { QueryDataModelFieldModel } from '../models/DataModelField/QueryDataModelFieldModel';
 import DataModelFieldService from '../services/DataModelFieldService';
@@ -157,7 +156,7 @@ const deleateAsync = async (id: string) => {
     await searchDataAsync();
 };
 /**
- * 暴露
+ * 暴露成员
  */
 defineExpose({ initAsync });
 </script>

@@ -1,5 +1,4 @@
-﻿using Materal.BusinessFlow.Abstractions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Materal.BusinessFlow.Abstractions.Services.Models.Node
 {
@@ -11,22 +10,26 @@ namespace Materal.BusinessFlow.Abstractions.Services.Models.Node
         [Required, StringLength(40)]
         public string Name { get; set; } = string.Empty;
         /// <summary>
-        /// 数据模型唯一标识
+        /// 步骤唯一标识
         /// </summary>
         [Required]
-        public Guid DataModelID { get; set; }
+        public Guid StepID { get; set; }
         /// <summary>
-        /// 数据类型
+        /// 处理类型
         /// </summary>
         [Required]
-        public DataTypeEnum DataType { get; set; } = DataTypeEnum.String;
+        public NodeHandleTypeEnum HandleType { get; set; }
+        /// <summary>
+        /// 执行条件
+        /// </summary>
+        public string? RunConditionExpression { get; set; }
         /// <summary>
         /// 数据
         /// </summary>
         public string? Data { get; set; }
         /// <summary>
-        /// 描述
+        /// 处理数据
         /// </summary>
-        public string? Description { get; set; }
+        public string? HandleData { get; set; }
     }
 }

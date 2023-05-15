@@ -16,7 +16,6 @@
     </a-form>
 </template>
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
 import FlowTemplateService from '../services/FlowTemplateService';
 import DataModelService from '../services/DataModelService';
 import { EditFlowTemplateModel } from '../models/FlowTemplate/EditFlowTemplateModel';
@@ -103,7 +102,7 @@ const InitDataModelAsync = async () => {
  */
 const emits = defineEmits<{ (event: 'complate'): void }>();
 /**
- * 暴露
+ * 暴露成员
  */
 defineExpose({ initAsync });
 /**

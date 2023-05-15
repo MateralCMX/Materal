@@ -14,7 +14,6 @@
     </a-form>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
 import DataModelService from '../services/DataModelService';
 import { EditDataModelModel } from '../models/DataModel/EditDataModelModel';
 
@@ -81,7 +80,7 @@ const initAddAsync = async () => {
  */
 const emits = defineEmits<{ (event: 'complate'): void }>();
 /**
- * 暴露
+ * 暴露成员
  */
 defineExpose({ initAsync });
 </script>

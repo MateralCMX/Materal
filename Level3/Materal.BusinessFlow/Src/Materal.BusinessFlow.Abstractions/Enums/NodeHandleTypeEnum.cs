@@ -26,6 +26,6 @@ namespace Materal.BusinessFlow.Abstractions
         /// 发起人
         /// </summary>
         [Description("发起人")]
-        Initiator
+        Initiator = 3
     }
 }

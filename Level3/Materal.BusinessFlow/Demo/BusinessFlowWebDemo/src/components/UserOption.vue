@@ -11,7 +11,6 @@
     </a-form>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
 import UserService from '../services/UserService';
 import { EditUserModel } from '../models/User/EditUserModel';
 
@@ -76,7 +75,7 @@ const initAddAsync = async () => {
  */
 const emits = defineEmits<{ (event: 'complate'): void }>();
 /**
- * 暴露
+ * 暴露成员
  */
 defineExpose({ initAsync });
 </script>

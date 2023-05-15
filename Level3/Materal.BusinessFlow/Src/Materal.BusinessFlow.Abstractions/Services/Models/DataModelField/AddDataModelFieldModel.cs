@@ -1,5 +1,4 @@
-﻿using Materal.BusinessFlow.Abstractions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Materal.BusinessFlow.Abstractions.Services.Models.DataModelField
 {

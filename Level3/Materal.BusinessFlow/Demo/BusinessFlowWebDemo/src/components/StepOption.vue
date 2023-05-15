@@ -48,7 +48,7 @@ import { Step } from '../models/Step/Step';
 import StepService from '../services/StepService';
 
 /**
- * 暴露
+ * 暴露成员
  */
 const props = defineProps<{ StepData: Step; Index: number; Loading: boolean }>();
 /**
