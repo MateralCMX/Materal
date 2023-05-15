@@ -1,6 +1,7 @@
+import { PageRequestModel } from "../PageRequestModel";
 import { NodeHandleTypeEnum } from "./NodeHandleTypeEnum";
 
-export class QueryNodeModel {
+export class QueryNodeModel extends PageRequestModel {
     /**
      * 名称
      */

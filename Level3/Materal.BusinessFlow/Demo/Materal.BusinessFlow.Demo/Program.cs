@@ -270,7 +270,6 @@ namespace Materal.BusinessFlow.Demo
                     Name = "填写原因",
                     Data = "",
                     HandleType = NodeHandleTypeEnum.Initiator,
-                    HandleData = _userCMX.ID.ToString(),
                     StepID = step0.ID
                 };
                 #endregion

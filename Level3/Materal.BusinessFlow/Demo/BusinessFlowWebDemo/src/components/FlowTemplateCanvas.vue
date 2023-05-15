@@ -22,6 +22,9 @@
 import { useRoute } from 'vue-router';
 import StepService from "../services/StepService";
 import { Step } from '../models/Step/Step';
+import FlowTemplateService from '../services/FlowTemplateService';
+import DataModelFieldService from '../services/DataModelFieldService';
+import { DataModelField } from '../models/DataModelField/DataModelField';
 
 /**
  * 节点操作组件
@@ -40,6 +43,10 @@ const route = useRoute();
  */
 const flowTemplateID = route.params.id.toString();
 /**
+ * 数据模型ID
+ */
+let dataModels: DataModelField[] = [];
+/**
  * 所有步骤
  */
 const allSteps = ref<Step[]>([]);
@@ -54,6 +61,13 @@ const bindStepsAsync = async () => {
     const result = await StepService.GetListByFlowTemplateIDAsync(flowTemplateID);
     if (result) {
         allSteps.value = result.Data;
+    }
+    const flowTemplateResult = await FlowTemplateService.GetInfoAsync(flowTemplateID);
+    if (flowTemplateResult) {
+        const dataModelFields = await DataModelFieldService.GetAllListAsync({ PageIndex: 1, PageSize: 10, DataModelID: flowTemplateResult.Data.DataModelID });
+        if (dataModelFields) {
+            dataModels = dataModelFields.Data;
+        }
     }
 }
 /**
@@ -101,14 +115,15 @@ const deleteStepAsync = async (index?: number) => {
 const openNodeDrawer = (stepID: string, id?: string) => {
     nodeDrawerVisible.value = true;
     nextTick(async () => {
-        await nodeOption.value.initAsync(stepID, id);
+        await nodeOption.value.initAsync(dataModels, stepID, id);
     });
 }
 /**
  * 节点操作完成
  */
 const nodeOptionComplate = () => {
-    console.log("节点处理完毕");
+    nodeDrawerVisible.value = false;
+    console.log("更新节点显示");
 }
 /**
  * 组件挂载时

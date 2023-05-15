@@ -25,6 +25,8 @@ declare module '@vue/runtime-core' {
     ASpace: typeof import('ant-design-vue/es')['Space']
     ATable: typeof import('ant-design-vue/es')['Table']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
+    AutoNodeHandleData: typeof import('./src/components/AutoNodeHandleData.vue')['default']
+    ConsoleMessageAutoNode: typeof import('./src/components/AutoNodes/ConsoleMessageAutoNode.vue')['default']
     copy: typeof import('./src/components/DataTypeEnumSelect copy.vue')['default']
     DataModelFieldList: typeof import('./src/components/DataModelFieldList.vue')['default']
     DataModelFieldOption: typeof import('./src/components/DataModelFieldOption.vue')['default']
