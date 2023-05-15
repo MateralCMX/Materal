@@ -24,24 +24,22 @@
     <div class="step">
         <div class="step-body">
             <div class="step-button-group">
-                <a-button :loading="Loading" @click="saveStepAsync"> {{ Loading ? "" : "保存" }}</a-button>
+                <a-button :loading="loading" @click="saveStepAsync"> {{ loading ? "" : "保存" }}</a-button>
                 <a-popconfirm title="确定删除该项?" ok-text="确定" cancel-text="取消" @confirm="deleteStepAsync">
-                    <a-button type="primary" danger :loading="Loading"> {{ Loading ? "" : "删除" }} </a-button>
+                    <a-button type="primary" danger :loading="loading"> {{ loading ? "" : "删除" }} </a-button>
                 </a-popconfirm>
             </div>
             <a-space direction="vertical" style="width: 100%; text-align: center;">
-                <a-input v-model:value="StepData.Name" placeholder="步骤名称" class="step-name" :disabled="Loading" />
-                <a-button shape="circle" :loading="Loading" @click="() => openNodeEdit()">
-                    {{ Loading ? "" : "+" }}
+                <a-input v-model:value="StepData.Name" placeholder="步骤名称" class="step-name" :disabled="loading" />
+                <a-button shape="circle" :loading="loading" @click="() => openNodeEdit()">
+                    {{ loading ? "" : "+" }}
                 </a-button>
-                <div v-for="node in nodes">
-                    {{ node.Name }}
-                </div>
+                <NodeItem v-for="node in nodes" :loading="loading" :node-data="node" @delete-node="searchNodes" @edit-node="searchNodes" />
             </a-space>
         </div>
         <div class="endpoint-plan">
-            <a-button shape="circle" :loading="Loading" @click="addStep">
-                {{ Loading ? "" : "+" }}
+            <a-button shape="circle" :loading="loading" @click="addStep">
+                {{ loading ? "" : "+" }}
             </a-button>
         </div>
     </div>
@@ -55,7 +53,7 @@ import StepService from '../services/StepService';
 /**
  * 暴露成员
  */
-const props = defineProps<{ StepData: Step; Index: number; Loading: boolean }>();
+const props = defineProps<{ StepData: Step; Index: number; loading: boolean }>();
 /**
  * 事件
  */
@@ -63,7 +61,7 @@ const emits = defineEmits<{
     (event: "addStep", index: number): void;
     (event: "deleteStep", index: number): void;
     (event: "openNodeEdit", stepID: string, id: string | undefined): void;
-    (event: "update:Loading", value: boolean): void;
+    (event: "update:loading", value: boolean): void;
 }>();
 /**
  * 节点组
@@ -79,18 +77,18 @@ const addStep = () => {
  * 删除步骤
  */
 const deleteStepAsync = async () => {
-    emits('update:Loading', true);
+    emits('update:loading', true);
     await StepService.DeleteAsync(props.StepData.ID);
     emits("deleteStep", props.Index);
-    emits('update:Loading', false);
+    emits('update:loading', false);
 }
 /**
  * 保存步骤
  */
 const saveStepAsync = async () => {
-    emits('update:Loading', true);
+    emits('update:loading', true);
     await StepService.EditAsync(props.StepData);
-    emits('update:Loading', false);
+    emits('update:loading', false);
 }
 /**
  * 打开节点编辑器

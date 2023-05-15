@@ -10,6 +10,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('ant-design-vue/es')['Button']
+    ACard: typeof import('ant-design-vue/es')['Card']
     ADivider: typeof import('ant-design-vue/es')['Divider']
     ADrawer: typeof import('ant-design-vue/es')['Drawer']
     AForm: typeof import('ant-design-vue/es')['Form']
@@ -38,6 +39,7 @@ declare module '@vue/runtime-core' {
     FlowTemplateOption: typeof import('./src/components/FlowTemplateOption.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
     NodeHandleTypeEnumSelect: typeof import('./src/components/NodeHandleTypeEnumSelect.vue')['default']
+    NodeItem: typeof import('./src/components/NodeItem.vue')['default']
     NodeOption: typeof import('./src/components/NodeOption.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

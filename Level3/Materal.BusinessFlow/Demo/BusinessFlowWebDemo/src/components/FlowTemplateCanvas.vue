@@ -11,7 +11,7 @@
                 {{ loading ? "" : "+" }}
             </a-button>
         </div>
-        <StepOption v-for="(item, index) in allSteps" v-model:Loading="loading" :Index="index + 1" :StepData="item"
+        <StepOption v-for="(item, index) in allSteps" v-model:loading="loading" :Index="index + 1" :StepData="item"
             @add-step="addStepAsync" @delete-step="deleteStepAsync" @open-node-edit="openNodeDrawer"
             :ref="stepOptions.set" />
     </div>
