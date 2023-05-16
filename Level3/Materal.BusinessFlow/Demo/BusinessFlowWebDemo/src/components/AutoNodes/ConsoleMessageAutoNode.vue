@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import { DataModelField } from '../../models/DataModelField/DataModelField';
 /**
- * 注入
+ * 注入-数据模型字段
  */
 const dataModelFields = inject<DataModelField[]>('dataModelFields');
 /**

@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('ant-design-vue/es')['Button']
     ACard: typeof import('ant-design-vue/es')['Card']
+    ACol: typeof import('ant-design-vue/es')['Col']
     ADivider: typeof import('ant-design-vue/es')['Divider']
     ADrawer: typeof import('ant-design-vue/es')['Drawer']
     AForm: typeof import('ant-design-vue/es')['Form']
@@ -21,6 +22,7 @@ declare module '@vue/runtime-core' {
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     APopconfirm: typeof import('ant-design-vue/es')['Popconfirm']
+    ARow: typeof import('ant-design-vue/es')['Row']
     ASelect: typeof import('ant-design-vue/es')['Select']
     ASelectOption: typeof import('ant-design-vue/es')['SelectOption']
     ASpace: typeof import('ant-design-vue/es')['Space']
@@ -46,6 +48,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     StepOption: typeof import('./src/components/StepOption.vue')['default']
+    StringDataTypeComponent: typeof import('./src/components/DataTypeComponents/StringDataTypeComponent.vue')['default']
     UserList: typeof import('./src/components/UserList.vue')['default']
     UserNodeHandleData: typeof import('./src/components/UserNodeHandleData.vue')['default']
     UserOption: typeof import('./src/components/UserOption.vue')['default']

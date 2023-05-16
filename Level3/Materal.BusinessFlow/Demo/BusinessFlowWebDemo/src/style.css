@@ -81,3 +81,18 @@ button:focus-visible {
   flex-direction: column;
   padding: 0 5px;
 }
+
+.data-type-component {
+  display: flex;
+  line-height: 32px;
+  margin-bottom: 5px;
+}
+
+.data-type-component .data-type-component-title {
+  display: block;
+  text-align: right;
+  width: 100px;
+  overflow: hidden;
+  height: 32px;
+  margin-right: 5px;
+}
