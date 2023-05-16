@@ -3,12 +3,16 @@
         <a-button @click="openPageTemplateDrawer">编辑模版</a-button>
     </a-form-item>
     <a-drawer v-model:visible="optionDrawerVisible" :maskClosable="false" :title="'页面模版编辑'" width="1600px">
-        <PageTemplateOption :data="model.Data" />
+        <PageTemplateOption ref="pageTemplateOption" />
     </a-drawer>
 </template>
 <script setup lang="ts">
 import { EditNodeModel } from '../models/Node/EditNodeModel';
 
+/**
+ * 页面模版配置
+ */
+const pageTemplateOption = ref<any>();
 /**
  * 操作抽屉是否显示
  */
@@ -18,13 +22,12 @@ import { EditNodeModel } from '../models/Node/EditNodeModel';
  */
 const props = defineProps<{ modelValue: EditNodeModel }>();
 /**
- * 绑定模型
- */
-const model = useVModel(props, 'modelValue');
-/**
  * 打开页面模版抽屉
  */
 const openPageTemplateDrawer = () => {
     optionDrawerVisible.value = true;
+    nextTick(() => {
+        pageTemplateOption.value.init(props.modelValue.Data);
+    });
 }
 </script>

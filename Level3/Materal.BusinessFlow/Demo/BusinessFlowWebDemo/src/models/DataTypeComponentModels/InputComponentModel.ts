@@ -1,10 +1,10 @@
 import { DataTypeComponentModel } from "./DataTypeComponentModel";
 
-export class StringDataTypeComponentModel extends DataTypeComponentModel {
+export class InputComponentModel extends DataTypeComponentModel {
     public Props = {
         Required: false
     };
     constructor(id: string) {
-        super(id, "a-input");
+        super(id, "input");
     }
 }
