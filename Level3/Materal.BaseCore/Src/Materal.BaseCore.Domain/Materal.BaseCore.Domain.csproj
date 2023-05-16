@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.22</Version>
+		<Version>1.1.23</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -14,6 +14,6 @@
 		<Description>请引用对应名称包</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.22" />
+		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.23" />
 	</ItemGroup>
 </Project>

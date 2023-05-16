@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" ?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-<Identity Id="MateralBaseCoreVSIX.42d6481d-f3e4-4d15-afe3-d0c3d6f5bcba" Version="1.1.22.1" Language="zh-Hans" Publisher="Materal" />
+<Identity Id="MateralBaseCoreVSIX.42d6481d-f3e4-4d15-afe3-d0c3d6f5bcba" Version="1.1.23.1" Language="zh-Hans" Publisher="Materal" />
         <DisplayName>MateralBaseCoreVSIX</DisplayName>
         <Description xml:space="preserve">MateralBaseCoreVS扩展工具</Description>
         <Icon>尘歌壶.jpg</Icon>
