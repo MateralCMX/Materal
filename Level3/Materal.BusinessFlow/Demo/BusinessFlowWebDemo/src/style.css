@@ -105,6 +105,7 @@ button:focus-visible {
 
 .option-panel>div {
   margin-bottom: 0;
+  width: 100%;
 }
 
 .opeion-panel-edit:hover {

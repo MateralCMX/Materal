@@ -4,6 +4,8 @@
             <div v-for="dataModelField in dataModelFields">
                 <StringDataTypeComponent v-if="dataModelField.DataType == DataTypeEnum.String"
                     :data-model-field="dataModelField" @new-data="pushData" />
+                <NumberDataTypeComponent v-if="dataModelField.DataType == DataTypeEnum.Number"
+                    :data-model-field="dataModelField" @new-data="pushData" />
             </div>
             <a-button type="primary" block @click="saveData" style="margin-top: 20px;">保存</a-button>
         </a-col>
@@ -14,6 +16,8 @@
                         :is-edit="true" @selected="ShowPropertyConfig" />
                     <TextareaFormOption v-if="formDataItem.Tag == 'textarea'" :is-edit="true"
                         :model-value="(formDataItem as TextareaComponentModel)" @selected="ShowPropertyConfig" />
+                    <InputNumberFormOption v-if="formDataItem.Tag == 'inputNumber'" :model-value="(formDataItem as InputNumberComponentModel)"
+                        :is-edit="true" @selected="ShowPropertyConfig" />
                 </div>
             </a-form>
         </a-col>
@@ -24,6 +28,9 @@
             <TextareaFormProperty v-if="nowSelectedFromDataItem && nowSelectedFromDataItem.Tag == 'textarea'"
                 :model-value="(nowSelectedFromDataItem as TextareaComponentModel)" @delete="deleteData"
                 @move-up="moveUpData" @move-down="moveDownData" />
+            <InputNumberFormProperty v-if="nowSelectedFromDataItem && nowSelectedFromDataItem.Tag == 'inputNumber'"
+                :model-value="(nowSelectedFromDataItem as InputNumberComponentModel)" @delete="deleteData" @move-up="moveUpData"
+                @move-down="moveDownData" />
         </a-col>
     </a-row>
 </template>
@@ -32,6 +39,7 @@ import { DataModelField } from '../models/DataModelField/DataModelField';
 import { DataTypeEnum } from '../models/DataModelField/DataTypeEnum';
 import { DataTypeComponentModel } from '../models/DataTypeComponentModels/DataTypeComponentModel';
 import { InputComponentModel } from '../models/DataTypeComponentModels/InputComponentModel';
+import { InputNumberComponentModel } from '../models/DataTypeComponentModels/InputNumberComponentModel';
 import { TextareaComponentModel } from '../models/DataTypeComponentModels/TextareaComponentModel';
 
 /**
