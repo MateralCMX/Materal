@@ -12,7 +12,7 @@ export class AddNodeModel {
     /**
      * 处理类型
      */
-    public HandleType: NodeHandleTypeEnum = NodeHandleTypeEnum.Auto;
+    public HandleType: NodeHandleTypeEnum = NodeHandleTypeEnum.User;
     /**
      * 执行条件
      */

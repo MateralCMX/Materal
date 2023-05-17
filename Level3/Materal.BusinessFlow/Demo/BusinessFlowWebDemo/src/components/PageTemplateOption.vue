@@ -5,19 +5,22 @@
                 <StringDataTypeComponent v-if="dataModelField.DataType == DataTypeEnum.String"
                     :data-model-field="dataModelField" @new-data="pushData" />
             </div>
+            <a-button type="primary" block @click="saveData" style="margin-top: 20px;">保存</a-button>
         </a-col>
         <a-col :span="12" style="padding: 0 20px;">
             <a-form>
                 <div v-for="formDataItem in formDataItems">
-                    <InputFormOptionComponents v-if="formDataItem.Tag == 'input'"
-                        :model-value="(formDataItem as InputComponentModel)" @selected="ShowPropertyConfig" />
-                    <TextareaFormOptionComponents v-if="formDataItem.Tag == 'textarea'"
+                    <InputFormOption v-if="formDataItem.Tag == 'input'" :model-value="(formDataItem as InputComponentModel)"
+                        :readonly="true" @selected="ShowPropertyConfig" />
+                    <TextareaFormOption v-if="formDataItem.Tag == 'textarea'"
                         :model-value="(formDataItem as TextareaComponentModel)" @selected="ShowPropertyConfig" />
                 </div>
             </a-form>
         </a-col>
         <a-col :span="6">
-            {{ (nowSelectedFromDataItem as any)["Props"] }}
+            <InputFormProperty v-if="nowSelectedFromDataItem && nowSelectedFromDataItem.Tag == 'input'"
+                :model-value="(nowSelectedFromDataItem as InputComponentModel)" @delete="deleteData" @move-up="moveUpData"
+                @move-down="moveDownData" />
         </a-col>
     </a-row>
 </template>
@@ -28,6 +31,10 @@ import { DataTypeComponentModel } from '../models/DataTypeComponentModels/DataTy
 import { InputComponentModel } from '../models/DataTypeComponentModels/InputComponentModel';
 import { TextareaComponentModel } from '../models/DataTypeComponentModels/TextareaComponentModel';
 
+/**
+ * 事件
+ */
+const emits = defineEmits<{ (event: "saveData", data: string): void }>();
 /**
  * 注入-数据模型字段
  */
@@ -47,6 +54,38 @@ const pushData = (data: DataTypeComponentModel) => {
     formDataItems.value.push(data);
 }
 /**
+ * 删除数据
+ */
+const deleteData = () => {
+    if (!nowSelectedFromDataItem.value) return;
+    const index = formDataItems.value.indexOf(nowSelectedFromDataItem.value);
+    if (index < 0) return;
+    formDataItems.value.splice(index, 1);
+    nowSelectedFromDataItem.value = undefined;
+}
+/**
+ * 向上移动数据
+ */
+const moveUpData = () => {
+    if (!nowSelectedFromDataItem.value) return;
+    const index = formDataItems.value.indexOf(nowSelectedFromDataItem.value);
+    if (index <= 0) return;
+    const temp = formDataItems.value[index - 1];
+    formDataItems.value[index - 1] = formDataItems.value[index];
+    formDataItems.value[index] = temp;
+}
+/**
+ * 向下移动数据
+ */
+const moveDownData = () => {
+    if (!nowSelectedFromDataItem.value) return;
+    const index = formDataItems.value.indexOf(nowSelectedFromDataItem.value);
+    if (index >= formDataItems.value.length - 1) return;
+    const temp = formDataItems.value[index + 1];
+    formDataItems.value[index + 1] = formDataItems.value[index];
+    formDataItems.value[index] = temp;
+}
+/**
  * 初始化
  */
 const init = (data: string | undefined) => {
@@ -58,8 +97,9 @@ const init = (data: string | undefined) => {
 /**
  * 获得数据
  */
-const getData = (): string => {
-    return JSON.stringify(formDataItems.value);
+const saveData = () => {
+    const dataJson = JSON.stringify(formDataItems.value);
+    emits('saveData', dataJson);
 }
 /**
  * 显示属性配置
@@ -71,5 +111,5 @@ const ShowPropertyConfig = (model: DataTypeComponentModel) => {
 /**
  * 暴露成员
  */
-defineExpose({ init, getData });
+defineExpose({ init });
 </script>

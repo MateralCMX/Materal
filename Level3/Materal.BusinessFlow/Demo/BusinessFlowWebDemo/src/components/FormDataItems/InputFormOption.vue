@@ -1,7 +1,7 @@
 <template>
     <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
-        :name="dataModelField?.Name" :rules="[{ required: modelValue.Props.Required, message: '请输入名称' }]">
-        <a-input readonly @focus="() => emits('selected', modelValue)" />
+        :name="dataModelField?.Name" :rules="[{ required: modelValue.Props.Required, message: `请输入${dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name}` }]">
+        <a-input :readonly="readonly || modelValue.Props.Readonly" @focus="() => emits('selected', modelValue)" />
     </a-form-item>
 </template>
 <script setup lang="ts">
@@ -12,7 +12,7 @@ import { InputComponentModel } from '../../models/DataTypeComponentModels/InputC
 /**
  * 暴露成员
  */
-const props = defineProps<{ modelValue: InputComponentModel }>();
+const props = defineProps<{ modelValue: InputComponentModel, readonly: boolean }>();
 /**
  * 事件
  */

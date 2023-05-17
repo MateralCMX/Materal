@@ -3,7 +3,7 @@
         <a-button @click="openPageTemplateDrawer">编辑模版</a-button>
     </a-form-item>
     <a-drawer v-model:visible="optionDrawerVisible" :maskClosable="false" :title="'页面模版编辑'" width="1600px">
-        <PageTemplateOption ref="pageTemplateOption" />
+        <PageTemplateOption ref="pageTemplateOption" @save-data="saveData" />
     </a-drawer>
 </template>
 <script setup lang="ts">
@@ -29,5 +29,13 @@ const openPageTemplateDrawer = () => {
     nextTick(() => {
         pageTemplateOption.value.init(props.modelValue.Data);
     });
+}
+/**
+ * 保存数据
+ * @param data 
+ */
+const saveData = (data: string) => {
+    props.modelValue.Data = data;
+    optionDrawerVisible.value = false;
 }
 </script>
