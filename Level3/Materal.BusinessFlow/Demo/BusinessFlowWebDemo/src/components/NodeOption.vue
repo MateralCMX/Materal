@@ -7,12 +7,14 @@
             <a-input v-model:value="formData.RunConditionExpression" />
         </a-form-item>
         <a-form-item label="节点处理方式" name="HandleType">
-            <NodeHandleTypeEnumSelect v-model="formData.HandleType" :has-all="false" />
+            <NodeHandleTypeEnumSelect v-model="formData.HandleType" @change="handleTypeChange" :has-all="false" />
         </a-form-item>
         <AutoNodeHandleData v-if="formData.HandleType == NodeHandleTypeEnum.Auto" v-model="formData"
             :data-model-fields="dataModelFields" />
-        <UserNodeHandleData v-else-if="formData.HandleType == NodeHandleTypeEnum.User" v-model="formData" :data-model-fields="dataModelFields" />
-        <InitiatorNodeHandleData v-else-if="formData.HandleType == NodeHandleTypeEnum.Initiator" v-model="formData" :data-model-fields="dataModelFields" />
+        <UserNodeHandleData v-else-if="formData.HandleType == NodeHandleTypeEnum.User" v-model="formData"
+            :data-model-fields="dataModelFields" />
+        <InitiatorNodeHandleData v-else-if="formData.HandleType == NodeHandleTypeEnum.Initiator" v-model="formData"
+            :data-model-fields="dataModelFields" />
         <a-form-item>
             <a-button type="primary" html-type="submit" block :loading="loading">
                 {{ formData.ID ? "保存" : "添加" }}
@@ -33,17 +35,17 @@ const loading = ref(false);
 /**
  * 表单数据
  */
-const formData = reactive<EditNodeModel>(new EditNodeModel());
+const formData = ref<EditNodeModel>(new EditNodeModel());
 /**
  * 提交数据
  */
 const submitData = async () => {
     loading.value = true;
-    if (formData.ID) {
-        await NodeService.EditAsync(formData);
+    if (formData.value.ID) {
+        await NodeService.EditAsync(formData.value);
     }
     else {
-        await NodeService.AddAsync(formData);
+        await NodeService.AddAsync(formData.value);
     }
     loading.value = false;
     emits('complate');
@@ -56,10 +58,10 @@ const dataModelFields = ref<DataModelField[]>([]);
  * 初始化
  */
 const initAsync = async (dataModels: DataModelField[], stepID: string, id?: string) => {
-    formData.StepID = stepID;
+    formData.value.StepID = stepID;
     dataModelFields.value = dataModels;
     if (id) {
-        formData.ID = id;
+        formData.value.ID = id;
         await initEidtAsync();
     }
     else {
@@ -70,13 +72,13 @@ const initAsync = async (dataModels: DataModelField[], stepID: string, id?: stri
  * 初始化编辑
  */
 const initEidtAsync = async () => {
-    const result = await NodeService.GetInfoAsync(formData.ID);
+    const result = await NodeService.GetInfoAsync(formData.value.ID);
     if (result) {
-        formData.Name = result.Data.Name;
-        formData.HandleType = result.Data.HandleType;
-        formData.Data = result.Data.Data;
-        formData.HandleData = result.Data.HandleData;
-        formData.RunConditionExpression = result.Data.RunConditionExpression;
+        formData.value.Name = result.Data.Name;
+        formData.value.HandleType = result.Data.HandleType;
+        formData.value.Data = result.Data.Data;
+        formData.value.HandleData = result.Data.HandleData;
+        formData.value.RunConditionExpression = result.Data.RunConditionExpression;
     }
     else {
         await initAddAsync();
@@ -86,12 +88,31 @@ const initEidtAsync = async () => {
  * 初始化添加
  */
 const initAddAsync = async () => {
-    formData.ID = '';
-    formData.Name = '';
-    formData.HandleType = NodeHandleTypeEnum.Auto;
-    formData.Data = '';
-    formData.HandleData = 'ConsoleMessageAutoNode';
-    formData.RunConditionExpression = '';
+    formData.value.ID = '';
+    formData.value.Name = '';
+    formData.value.HandleType = NodeHandleTypeEnum.Auto;
+    formData.value.Data = '';
+    formData.value.HandleData = 'ConsoleMessageAutoNode';
+    formData.value.RunConditionExpression = '';
+}
+/**
+ * 处理类型更改
+ * @param type 
+ */
+const handleTypeChange = (type: NodeHandleTypeEnum) => {
+    debugger;
+    switch (type) {
+        case NodeHandleTypeEnum.Auto:
+            formData.value.HandleData = 'ConsoleMessageAutoNode';
+            if (dataModelFields.value.length > 0) {
+                formData.value.Data = dataModelFields.value[0].Name;
+            }
+            break;
+        default:
+            formData.value.HandleData = '';
+            formData.value.Data = undefined;
+            break;
+    }
 }
 /**
  * 事件
