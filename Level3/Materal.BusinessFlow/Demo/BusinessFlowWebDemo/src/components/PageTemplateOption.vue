@@ -10,6 +10,12 @@
                     :data-model-field="dataModelField" @new-data="pushData" />
                 <EnumDataTypeComponent v-else-if="dataModelField.DataType == DataTypeEnum.Enum"
                     :data-model-field="dataModelField" @new-data="pushData" />
+                <DateDataTypeComponent v-else-if="dataModelField.DataType == DataTypeEnum.Date"
+                    :data-model-field="dataModelField" @new-data="pushData" />
+                <TimeDataTypeComponent v-else-if="dataModelField.DataType == DataTypeEnum.Time"
+                    :data-model-field="dataModelField" @new-data="pushData" />
+                <DateTimeDataTypeComponent v-else-if="dataModelField.DataType == DataTypeEnum.DateTime"
+                    :data-model-field="dataModelField" @new-data="pushData" />
             </div>
             <a-button type="primary" block @click="saveData" style="margin-top: 20px;">确定</a-button>
         </a-col>
@@ -30,6 +36,9 @@
                     <SelectFormOption v-else-if="formDataItem.Tag == 'select'"
                         :component-model="(formDataItem as SelectComponentModel)" :is-edit="true"
                         @selected="ShowPropertyConfig" />
+                    <DatePickerFromOption v-else-if="formDataItem.Tag == 'datePicker'"
+                        :component-model="(formDataItem as DatePickerComponentModel)" :is-edit="true"
+                        @selected="ShowPropertyConfig" />
                 </div>
             </a-form>
         </a-col>
@@ -49,6 +58,9 @@
             <SelectFormProperty v-else-if="nowSelectedFromDataItem && nowSelectedFromDataItem.Tag == 'select'"
                 :model-value="(nowSelectedFromDataItem as SelectComponentModel)" @delete="deleteData" @move-up="moveUpData"
                 @move-down="moveDownData" />
+            <DatePickerFromProperty v-else-if="nowSelectedFromDataItem && nowSelectedFromDataItem.Tag == 'datePicker'"
+                :model-value="(nowSelectedFromDataItem as DatePickerComponentModel)" @delete="deleteData"
+                @move-up="moveUpData" @move-down="moveDownData" />
         </a-col>
     </a-row>
 </template>
@@ -56,6 +68,7 @@
 import { DataModelField } from '../models/DataModelField/DataModelField';
 import { DataTypeEnum } from '../models/DataModelField/DataTypeEnum';
 import { DataTypeComponentModel } from '../models/DataTypeComponentModels/DataTypeComponentModel';
+import { DatePickerComponentModel } from '../models/DataTypeComponentModels/DatePickerComponentModel';
 import { InputComponentModel } from '../models/DataTypeComponentModels/InputComponentModel';
 import { InputNumberComponentModel } from '../models/DataTypeComponentModels/InputNumberComponentModel';
 import { SelectComponentModel } from '../models/DataTypeComponentModels/SelectComponentModel';

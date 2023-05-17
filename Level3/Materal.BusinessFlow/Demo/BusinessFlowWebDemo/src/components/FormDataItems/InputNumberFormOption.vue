@@ -1,9 +1,10 @@
 <template>
-    <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'" @click="() => emits('selected', componentModel)">
+    <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'"
+        @click="() => emits('selected', componentModel)">
         <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
             :name="dataModelField?.Name"
             :rules="[{ required: componentModel.Props.Required, message: `请输入${dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name}` }]">
-            <a-input-number :readonly="isEdit || componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled"
+            <a-input-number :readonly="componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled"
                 :min="componentModel.Props.Min" :max="componentModel.Props.Max" style="width: 100%;" />
         </a-form-item>
     </div>

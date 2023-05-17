@@ -2,20 +2,24 @@
     <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'"
         @click="() => emits('selected', componentModel)">
         <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
-            :name="dataModelField?.Name">
-            <a-switch :readonly="componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled" />
+            :name="dataModelField?.Name"
+            :rules="[{ required: componentModel.Props.Required, message: `请选择${dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name}` }]">
+            <a-time-picker v-if="componentModel.Props.Type == 'Time'" :readonly="componentModel.Props.Readonly"
+                :disabled="componentModel.Props.Disabled" style="width: 100%;" />
+            <a-date-picker v-else :show-time="componentModel.Props.Type == 'DateTime'"
+                :readonly="componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled" style="width: 100%;" />
         </a-form-item>
     </div>
 </template>
 <script setup lang="ts">
 import { DataModelField } from '../../models/DataModelField/DataModelField';
 import { DataTypeComponentModel } from '../../models/DataTypeComponentModels/DataTypeComponentModel';
-import { SwitchComponentModel } from '../../models/DataTypeComponentModels/SwitchComponentModel';
+import { DatePickerComponentModel } from '../../models/DataTypeComponentModels/DatePickerComponentModel';
 
 /**
  * 暴露成员
  */
-const props = defineProps<{ componentModel: SwitchComponentModel, isEdit: boolean }>();
+const props = defineProps<{ componentModel: DatePickerComponentModel, isEdit: boolean }>();
 /**
  * 事件
  */
