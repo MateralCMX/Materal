@@ -6,11 +6,9 @@
 
 ---
 
-Materal是一个逐步更新的工具库
+- 这是一个易用性增强工具库
 
-在该工具库中大部分是 .NET 编写,有部分JavaScript和TypeScript是编写。
-
-## 文档
+## 使用文档
 
 ---
-* [Github-Wiki(正在逐步更新)](https://github.com/MateralCMX/Materal/wiki)
+* [Github-Wiki](https://github.com/MateralCMX/Materal/wiki)

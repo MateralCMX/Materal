@@ -1,2 +1,0 @@
-# Materal.Abstractions
-这个包是Materal基础抽象包

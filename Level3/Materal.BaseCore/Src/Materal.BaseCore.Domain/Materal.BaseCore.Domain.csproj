@@ -12,7 +12,13 @@
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal.BaseCore.Domain</Title>
 		<Description>请引用对应名称包</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="\" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="\" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.23" />
 	</ItemGroup>

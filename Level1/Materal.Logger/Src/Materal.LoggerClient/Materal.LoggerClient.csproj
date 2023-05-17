@@ -16,7 +16,13 @@
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal-日志</Title>
 		<Description>日志监听工具</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="\" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="\" />
+	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Logger.Message\Materal.Logger.Message.csproj" />
 	</ItemGroup>

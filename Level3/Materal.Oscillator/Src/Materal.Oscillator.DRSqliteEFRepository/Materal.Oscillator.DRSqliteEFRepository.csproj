@@ -12,7 +12,13 @@
 		<Version>1.1.23</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.DRSqliteEFRepository</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="\" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="\" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.23" />
 	</ItemGroup>

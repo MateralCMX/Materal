@@ -12,7 +12,13 @@
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal.BaseCore.WebAPI</Title>
 		<Description>请引用对应名称包</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="\" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="\" />
+	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.BaseCore.PresentationModel\Materal.BaseCore.PresentationModel.csproj" />
 		<ProjectReference Include="..\Materal.BaseCore.ServiceImpl\Materal.BaseCore.ServiceImpl.csproj" />

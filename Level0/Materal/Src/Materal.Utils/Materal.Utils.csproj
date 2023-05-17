@@ -14,7 +14,13 @@
 		<Description>Materal工具包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="\" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="\"/>
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AspectCore.Core" Version="*" />
 		<PackageReference Include="System.Threading.Tasks.Dataflow" Version="*" />

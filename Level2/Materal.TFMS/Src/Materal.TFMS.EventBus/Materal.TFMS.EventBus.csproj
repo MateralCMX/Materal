@@ -10,7 +10,13 @@
 		<Authors>Materal</Authors>
 		<Product>Materal.TFMS</Product>
 		<Description>Materal事件总线</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="\" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="\" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.Utils" Version="1.1.23" />
 	</ItemGroup>

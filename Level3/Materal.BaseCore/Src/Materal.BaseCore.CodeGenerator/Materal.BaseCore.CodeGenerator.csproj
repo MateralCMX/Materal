@@ -14,7 +14,13 @@
 		<Title>Materal.BaseCore.CodeGenerator</Title>
 		<Description>代码生成器库</Description>
 		<UserSecretsId>bbb98a4b-6482-4285-a749-b45682f57b88</UserSecretsId>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="\" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="\" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.Extensions" Version="1.1.23" />
 	  <PackageReference Include="System.ComponentModel.Annotations" Version="*" />

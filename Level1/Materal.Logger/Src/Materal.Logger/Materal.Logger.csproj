@@ -14,7 +14,13 @@
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal-日志</Title>
 		<Description>包含日志所需的所有内容</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="\" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="\" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.Utils" Version="1.1.23" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="*" />
