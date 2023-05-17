@@ -1,23 +1,14 @@
 <template>
     <a-form :model="modelValue">
-        <a-form-item label="必填" name="Required">
-            <a-switch v-model:checked="modelValue.Props.Required" />
-        </a-form-item>
-        <a-form-item label="只读" name="Readonly">
-            <a-switch v-model:checked="modelValue.Props.Readonly" />
-        </a-form-item>
+        <RequiredProp v-model="modelValue.Props.Required" />
+        <ReadonlyProp v-model="modelValue.Props.Readonly" />
+        <DisabledProp v-model="modelValue.Props.Disabled" />
         <a-form-item label="行数" name="Rows">
             <a-input-number v-model:value="modelValue.Props.Rows" :min="2" />
         </a-form-item>
-        <a-form-item>
-            <a-button block @click="() => emits('moveUp')">上移</a-button>
-        </a-form-item>
-        <a-form-item>
-            <a-button block @click="() => emits('moveDown')">下移</a-button>
-        </a-form-item>
-        <a-form-item>
-            <a-button type="primary" block danger @click="() => emits('delete')">删除</a-button>
-        </a-form-item>
+        <MoveUpProp @move-up="() => emits('moveUp')" />
+        <MoveDownProp @move-down="() => emits('moveDown')" />
+        <DeleteProp @delete="() => emits('delete')" />
     </a-form>
 </template>
 <script setup lang="ts">

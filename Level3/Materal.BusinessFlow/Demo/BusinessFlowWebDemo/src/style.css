@@ -96,3 +96,17 @@ button:focus-visible {
   height: 32px;
   margin-right: 5px;
 }
+
+.option-panel {
+  border: transparent 1px solid;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.option-panel>div {
+  margin-bottom: 0;
+}
+
+.opeion-panel-edit:hover {
+  border: #1890ff 1px solid;
+}

@@ -11,8 +11,8 @@
             <a-form>
                 <div v-for="formDataItem in formDataItems">
                     <InputFormOption v-if="formDataItem.Tag == 'input'" :model-value="(formDataItem as InputComponentModel)"
-                        :readonly="true" @selected="ShowPropertyConfig" />
-                    <TextareaFormOption v-if="formDataItem.Tag == 'textarea'" :readonly="true"
+                        :is-edit="true" @selected="ShowPropertyConfig" />
+                    <TextareaFormOption v-if="formDataItem.Tag == 'textarea'" :is-edit="true"
                         :model-value="(formDataItem as TextareaComponentModel)" @selected="ShowPropertyConfig" />
                 </div>
             </a-form>

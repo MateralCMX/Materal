@@ -1,8 +1,11 @@
 <template>
-    <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
-        :name="dataModelField?.Name" :rules="[{ required: modelValue.Props.Required, message: '请输入名称' }]">
-        <a-textarea :readonly="readonly || modelValue.Props.Readonly" :rows="modelValue.Props.Rows" @focus="() => emits('selected', modelValue)" />
-    </a-form-item>
+    <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'" @click="() => emits('selected', modelValue)">
+        <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
+            :name="dataModelField?.Name" :rules="[{ required: modelValue.Props.Required, message: '请输入名称' }]">
+            <a-textarea :readonly="isEdit || modelValue.Props.Readonly" :disabled="modelValue.Props.Disabled"
+                :rows="modelValue.Props.Rows" />
+        </a-form-item>
+    </div>
 </template>
 <script setup lang="ts">
 import { DataModelField } from '../../models/DataModelField/DataModelField';
@@ -12,7 +15,7 @@ import { TextareaComponentModel } from '../../models/DataTypeComponentModels/Tex
 /**
  * 暴露成员
  */
-const props = defineProps<{ modelValue: TextareaComponentModel, readonly: boolean }>();
+const props = defineProps<{ modelValue: TextareaComponentModel, isEdit: boolean }>();
 /**
  * 事件
  */

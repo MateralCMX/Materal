@@ -1,8 +1,11 @@
 <template>
-    <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
-        :name="dataModelField?.Name" :rules="[{ required: modelValue.Props.Required, message: `请输入${dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name}` }]">
-        <a-input :readonly="readonly || modelValue.Props.Readonly" @focus="() => emits('selected', modelValue)" />
-    </a-form-item>
+    <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'" @click="() => emits('selected', modelValue)">
+        <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
+            :name="dataModelField?.Name"
+            :rules="[{ required: modelValue.Props.Required, message: `请输入${dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name}` }]">
+            <a-input :readonly="isEdit || modelValue.Props.Readonly" :disabled="modelValue.Props.Disabled" />
+        </a-form-item>
+    </div>
 </template>
 <script setup lang="ts">
 import { DataModelField } from '../../models/DataModelField/DataModelField';
@@ -12,7 +15,7 @@ import { InputComponentModel } from '../../models/DataTypeComponentModels/InputC
 /**
  * 暴露成员
  */
-const props = defineProps<{ modelValue: InputComponentModel, readonly: boolean }>();
+const props = defineProps<{ modelValue: InputComponentModel, isEdit: boolean }>();
 /**
  * 事件
  */
