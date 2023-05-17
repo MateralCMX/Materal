@@ -1,8 +1,8 @@
 <template>
-    <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'" @click="() => emits('selected', modelValue)">
+    <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'" @click="() => emits('selected', componentModel)">
         <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
             :name="dataModelField?.Name">
-            <a-switch :readonly="isEdit || modelValue.Props.Readonly" :disabled="modelValue.Props.Disabled" />
+            <a-switch :readonly="isEdit || componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled" />
         </a-form-item>
     </div>
 </template>
@@ -14,7 +14,7 @@ import { SwitchComponentModel } from '../../models/DataTypeComponentModels/Switc
 /**
  * 暴露成员
  */
-const props = defineProps<{ modelValue: SwitchComponentModel, isEdit: boolean }>();
+const props = defineProps<{ componentModel: SwitchComponentModel, isEdit: boolean }>();
 /**
  * 事件
  */
@@ -34,7 +34,7 @@ onMounted(() => {
     if (!dataModelFields) return;
     for (let i = 0; i < dataModelFields.value.length; i++) {
         const element = dataModelFields.value[i];
-        if (element.ID != props.modelValue.ID) continue;
+        if (element.ID != props.componentModel.ID) continue;
         dataModelField.value = element;
     }
 });

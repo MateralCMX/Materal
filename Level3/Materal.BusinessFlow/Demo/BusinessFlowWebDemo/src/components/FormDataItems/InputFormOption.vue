@@ -1,9 +1,9 @@
 <template>
-    <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'" @click="() => emits('selected', modelValue)">
+    <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'" @click="() => emits('selected', componentModel)">
         <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
             :name="dataModelField?.Name"
-            :rules="[{ required: modelValue.Props.Required, message: `请输入${dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name}` }]">
-            <a-input :readonly="isEdit || modelValue.Props.Readonly" :disabled="modelValue.Props.Disabled" />
+            :rules="[{ required: componentModel.Props.Required, message: `请输入${dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name}` }]">
+            <a-input :readonly="isEdit || componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled" />
         </a-form-item>
     </div>
 </template>
@@ -15,7 +15,7 @@ import { InputComponentModel } from '../../models/DataTypeComponentModels/InputC
 /**
  * 暴露成员
  */
-const props = defineProps<{ modelValue: InputComponentModel, isEdit: boolean }>();
+const props = defineProps<{ componentModel: InputComponentModel, isEdit: boolean }>();
 /**
  * 事件
  */
@@ -35,7 +35,7 @@ onMounted(() => {
     if (!dataModelFields) return;
     for (let i = 0; i < dataModelFields.value.length; i++) {
         const element = dataModelFields.value[i];
-        if (element.ID != props.modelValue.ID) continue;
+        if (element.ID != props.componentModel.ID) continue;
         dataModelField.value = element;
     }
 });
