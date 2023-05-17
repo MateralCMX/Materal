@@ -1,11 +1,13 @@
 ﻿using Materal.Abstractions;
 using Materal.TTA.ADONETRepository.Extensions;
 using Materal.TTA.Common;
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Data;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Materal.TTA.ADONETRepository
 {
@@ -390,13 +392,31 @@ namespace Materal.TTA.ADONETRepository
         /// <exception cref="TTAException"></exception>
         public string MemberExpressionToTSQL(IDbCommand command, MemberExpression expression)
         {
-            if (expression.Expression == null) return "IS NULL";
-            if (expression.Member.MemberType == MemberTypes.Field)
+            if (expression.Member.MemberType == MemberTypes.Field && expression.Member is FieldInfo fieldInfo)
             {
+                if (expression.Expression == null)
+                {
+                    string parameterName = GetParamsName(expression.Member.Name);
+                    object targetObj = fieldInfo.ReflectedType.Instantiation(Array.Empty<object>());
+                    object? trueValue = fieldInfo.GetValue(targetObj);
+                    if (trueValue == null) return "IS NULL";
+                    command.AddParameter(parameterName, trueValue);
+                    return parameterName;
+                }
                 return ExpressionToTSQL(command, expression.Expression, expression);
             }
-            if(expression.Member.MemberType == MemberTypes.Property)
+            if (expression.Member.MemberType == MemberTypes.Property && expression.Member is PropertyInfo propertyInfo)
             {
+                if (expression.Expression == null)
+                {
+                    string parameterName = GetParamsName(expression.Member.Name);
+                    object targetObj = propertyInfo.ReflectedType.Instantiation(Array.Empty<object>());
+                    object? trueValue = propertyInfo.GetValue(targetObj);
+                    if(trueValue == null)return "IS NULL";
+                    command.AddParameter(parameterName, trueValue);
+                    return parameterName;
+                    
+                }
                 if (expression.Expression is ParameterExpression)
                 {
                     return GetTSQLField(expression.Member.Name);
@@ -431,6 +451,7 @@ namespace Materal.TTA.ADONETRepository
                     return result;
                 }
             }
+            if (expression.Expression == null) return "IS NULL";
             throw new TTAException("未识别的表达式");
         }
         /// <summary>
