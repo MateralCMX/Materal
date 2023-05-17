@@ -21,6 +21,9 @@
             <InputFormProperty v-if="nowSelectedFromDataItem && nowSelectedFromDataItem.Tag == 'input'"
                 :model-value="(nowSelectedFromDataItem as InputComponentModel)" @delete="deleteData" @move-up="moveUpData"
                 @move-down="moveDownData" />
+            <TextareaFormProperty v-if="nowSelectedFromDataItem && nowSelectedFromDataItem.Tag == 'textarea'"
+                :model-value="(nowSelectedFromDataItem as TextareaComponentModel)" @delete="deleteData" @move-up="moveUpData"
+                @move-down="moveDownData" />
         </a-col>
     </a-row>
 </template>
