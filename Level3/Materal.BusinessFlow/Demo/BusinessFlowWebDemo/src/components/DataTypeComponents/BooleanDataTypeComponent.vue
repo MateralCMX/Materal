@@ -3,14 +3,14 @@
         <span class="data-type-component-title">{{ dataModelField.Description ? dataModelField.Description :
             dataModelField.Name }}</span>
         <div>
-            <a-button @click="addInputNumberData">数字框</a-button>
+            <a-button @click="addSwitchData">开关</a-button>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { DataModelField } from '../../models/DataModelField/DataModelField';
 import { DataTypeComponentModel } from '../../models/DataTypeComponentModels/DataTypeComponentModel';
-import { InputNumberComponentModel } from '../../models/DataTypeComponentModels/InputNumberComponentModel';
+import { SwitchComponentModel } from '../../models/DataTypeComponentModels/SwitchComponentModel';
 
 /**
  * 暴露成员
@@ -21,10 +21,11 @@ const props = defineProps<{ dataModelField: DataModelField }>();
  */
 const emits = defineEmits<{ (event: "newData", data: DataTypeComponentModel): void }>();
 /**
- * 添加数字框数据
+ * 添加开关数据
  */
-const addInputNumberData = () => {
-    const data = new InputNumberComponentModel(props.dataModelField.ID);
+const addSwitchData = () => {
+    const data = new SwitchComponentModel(props.dataModelField.ID);
+    console.log(data);
     emits("newData", data);
 }
 </script>

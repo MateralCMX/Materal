@@ -4,6 +4,6 @@ export enum DataTypeEnum {
     DateTime = 2,
     Date = 3,
     Time = 4,
-    Boole = 5,
+    Boolean = 5,
     Enum = 6
 }

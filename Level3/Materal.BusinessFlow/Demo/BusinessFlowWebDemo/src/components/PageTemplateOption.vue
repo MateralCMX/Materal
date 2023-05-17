@@ -6,18 +6,24 @@
                     :data-model-field="dataModelField" @new-data="pushData" />
                 <NumberDataTypeComponent v-if="dataModelField.DataType == DataTypeEnum.Number"
                     :data-model-field="dataModelField" @new-data="pushData" />
+                <BooleanDataTypeComponent v-if="dataModelField.DataType == DataTypeEnum.Boolean"
+                    :data-model-field="dataModelField" @new-data="pushData" />
             </div>
-            <a-button type="primary" block @click="saveData" style="margin-top: 20px;">保存</a-button>
+            <a-button type="primary" block @click="saveData" style="margin-top: 20px;">确定</a-button>
         </a-col>
         <a-col :span="12" style="padding: 0 20px;">
             <a-form>
                 <div v-for="formDataItem in formDataItems">
                     <InputFormOption v-if="formDataItem.Tag == 'input'" :model-value="(formDataItem as InputComponentModel)"
                         :is-edit="true" @selected="ShowPropertyConfig" />
-                    <TextareaFormOption v-if="formDataItem.Tag == 'textarea'" :is-edit="true"
+                    <TextareaFormOption v-else-if="formDataItem.Tag == 'textarea'" :is-edit="true"
                         :model-value="(formDataItem as TextareaComponentModel)" @selected="ShowPropertyConfig" />
-                    <InputNumberFormOption v-if="formDataItem.Tag == 'inputNumber'" :model-value="(formDataItem as InputNumberComponentModel)"
-                        :is-edit="true" @selected="ShowPropertyConfig" />
+                    <InputNumberFormOption v-else-if="formDataItem.Tag == 'inputNumber'"
+                        :model-value="(formDataItem as InputNumberComponentModel)" :is-edit="true"
+                        @selected="ShowPropertyConfig" />
+                    <SwitchFormOption v-else-if="formDataItem.Tag == 'switch'"
+                        :model-value="(formDataItem as SwitchComponentModel)" :is-edit="true"
+                        @selected="ShowPropertyConfig" />
                 </div>
             </a-form>
         </a-col>
@@ -29,7 +35,10 @@
                 :model-value="(nowSelectedFromDataItem as TextareaComponentModel)" @delete="deleteData"
                 @move-up="moveUpData" @move-down="moveDownData" />
             <InputNumberFormProperty v-if="nowSelectedFromDataItem && nowSelectedFromDataItem.Tag == 'inputNumber'"
-                :model-value="(nowSelectedFromDataItem as InputNumberComponentModel)" @delete="deleteData" @move-up="moveUpData"
+                :model-value="(nowSelectedFromDataItem as InputNumberComponentModel)" @delete="deleteData"
+                @move-up="moveUpData" @move-down="moveDownData" />
+            <SwitchFormProperty v-if="nowSelectedFromDataItem && nowSelectedFromDataItem.Tag == 'switch'"
+                :model-value="(nowSelectedFromDataItem as SwitchComponentModel)" @delete="deleteData" @move-up="moveUpData"
                 @move-down="moveDownData" />
         </a-col>
     </a-row>
@@ -40,6 +49,7 @@ import { DataTypeEnum } from '../models/DataModelField/DataTypeEnum';
 import { DataTypeComponentModel } from '../models/DataTypeComponentModels/DataTypeComponentModel';
 import { InputComponentModel } from '../models/DataTypeComponentModels/InputComponentModel';
 import { InputNumberComponentModel } from '../models/DataTypeComponentModels/InputNumberComponentModel';
+import { SwitchComponentModel } from '../models/DataTypeComponentModels/SwitchComponentModel';
 import { TextareaComponentModel } from '../models/DataTypeComponentModels/TextareaComponentModel';
 
 /**
