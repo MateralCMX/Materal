@@ -53,7 +53,6 @@ declare module '@vue/runtime-core' {
     StepOption: typeof import('./src/components/StepOption.vue')['default']
     StringDataTypeComponent: typeof import('./src/components/DataTypeComponents/StringDataTypeComponent.vue')['default']
     TextareaFormOption: typeof import('./src/components/FormDataItems/TextareaFormOption.vue')['default']
-    TextareaFormOptionProperty: typeof import('./src/components/FormDataItems/TextareaFormOptionProperty.vue')['default']
     TextareaFormProperty: typeof import('./src/components/FormDataItems/TextareaFormProperty.vue')['default']
     UserList: typeof import('./src/components/UserList.vue')['default']
     UserNodeHandleData: typeof import('./src/components/UserNodeHandleData.vue')['default']

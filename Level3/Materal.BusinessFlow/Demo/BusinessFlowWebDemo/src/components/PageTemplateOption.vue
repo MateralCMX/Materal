@@ -12,7 +12,7 @@
                 <div v-for="formDataItem in formDataItems">
                     <InputFormOption v-if="formDataItem.Tag == 'input'" :model-value="(formDataItem as InputComponentModel)"
                         :readonly="true" @selected="ShowPropertyConfig" />
-                    <TextareaFormOption v-if="formDataItem.Tag == 'textarea'"
+                    <TextareaFormOption v-if="formDataItem.Tag == 'textarea'" :readonly="true"
                         :model-value="(formDataItem as TextareaComponentModel)" @selected="ShowPropertyConfig" />
                 </div>
             </a-form>
@@ -22,8 +22,8 @@
                 :model-value="(nowSelectedFromDataItem as InputComponentModel)" @delete="deleteData" @move-up="moveUpData"
                 @move-down="moveDownData" />
             <TextareaFormProperty v-if="nowSelectedFromDataItem && nowSelectedFromDataItem.Tag == 'textarea'"
-                :model-value="(nowSelectedFromDataItem as TextareaComponentModel)" @delete="deleteData" @move-up="moveUpData"
-                @move-down="moveDownData" />
+                :model-value="(nowSelectedFromDataItem as TextareaComponentModel)" @delete="deleteData"
+                @move-up="moveUpData" @move-down="moveDownData" />
         </a-col>
     </a-row>
 </template>
