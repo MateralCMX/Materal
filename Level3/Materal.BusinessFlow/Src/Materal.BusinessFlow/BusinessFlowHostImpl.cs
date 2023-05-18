@@ -44,15 +44,15 @@ namespace Materal.BusinessFlow
             RunAutoNodes(flowTemplateID, autoNodeIDs);
             return flowID;
         }
-        public async Task<List<FlowTemplate>> GetBacklogFlowTemplatesByUserIDAsync(Guid userID)
+        public async Task<List<FlowTemplate>> GetUserFlowTemplatesAsync(Guid userID)
         {
-            List<Guid> allFlowTemplateIDs = await GetBacklogFlowTemplateIDsByUserIDAsync(userID);
+            List<Guid> allFlowTemplateIDs = _flowUserRepository.GetUserFlowTemplateIDs(userID);
             List<FlowTemplate> result = await _flowTemplateRepository.FindAsync(m => allFlowTemplateIDs.Contains(m.ID));
             return result;
         }
         public async Task<List<FlowRecordDTO>> GetBacklogByUserIDAsync(Guid userID)
         {
-            List<Guid> allFlowTemplateIDs = await GetBacklogFlowTemplateIDsByUserIDAsync(userID);
+            List<Guid> allFlowTemplateIDs = _flowUserRepository.GetUserFlowTemplateIDs(userID);
             List<FlowRecordDTO> result = new();
             foreach (Guid flowTemplateID in allFlowTemplateIDs)
             {
@@ -110,12 +110,6 @@ namespace Materal.BusinessFlow
             if (flowRecord.State != FlowRecordStateEnum.Wait) throw new BusinessFlowException("该节点已操作，不能修改数据");
             await _businessFlowHelper.SaveFlowDataAsync(flowTemplateID, flowRecord, jsonData);
             await _unitOfWork.CommitAsync();
-        }
-        private async Task<List<Guid>> GetBacklogFlowTemplateIDsByUserIDAsync(Guid userID)
-        {
-            List<FlowUser> flowUsers = await _flowUserRepository.FindAsync(m => m.UserID == userID);
-            List<Guid> result = flowUsers.Select(m => m.FlowTemplateID).Distinct().ToList();
-            return result;
         }
         /// <summary>
         /// 运行自动节点

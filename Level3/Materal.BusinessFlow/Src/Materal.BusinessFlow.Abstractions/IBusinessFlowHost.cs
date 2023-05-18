@@ -26,11 +26,11 @@ namespace Materal.BusinessFlow.Abstractions
         /// <returns></returns>
         Task<List<FlowRecordDTO>> GetBacklogByUserIDAsync(Guid userID);
         /// <summary>
-        /// 根据用户唯一标识获得待办事项模版唯一标识组
+        /// 获得用户参与流程模版列表
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        Task<List<FlowTemplate>> GetBacklogFlowTemplatesByUserIDAsync(Guid userID);
+        Task<List<FlowTemplate>> GetUserFlowTemplatesAsync(Guid userID);
         /// <summary>
         /// 完成节点
         /// </summary>
