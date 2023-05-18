@@ -64,5 +64,11 @@ namespace Materal.BusinessFlow.Abstractions
         /// <param name="runErrorNode"></param>
         /// <returns></returns>
         Task RunAutoNodeAsync(Guid flowTemplateID, bool runErrorNode = true);
+        /// <summary>
+        /// 运行所有自动节点
+        /// </summary>
+        /// <param name="runErrorNode"></param>
+        /// <returns></returns>
+        Task RunAllAutoNodeAsync(bool runErrorNode = true);
     }
 }

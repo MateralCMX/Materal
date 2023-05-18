@@ -88,17 +88,6 @@ namespace Materal.BusinessFlow.Abstractions.Repositories
             Expression<Func<FlowRecordDTO, bool>> expression = queryModel.GetSearchExpression<FlowRecordDTO>();
             return GetDTOList(queryModel.FlowTemplateID, expression);
         }
-        private void ExcuteCommand(Guid flowTemplateID, IDbConnection connection, Action action)
-        {
-            IDbCommand existCommand = connection.CreateCommand();
-            existCommand.CommandText = GetTableExistsTSQL(flowTemplateID);
-            using IDataReader existDr = existCommand.ExecuteReader();
-            while (existDr.Read())
-            {
-                if (existDr.GetInt32(0) <= 0) break;
-                action();
-            }
-        }
         public virtual List<FlowRecordDTO> GetDTOList(Guid flowTemplateID, Expression<Func<FlowRecordDTO, bool>> filterExpression)
         {
             List<FlowRecordDTO> result = new();
@@ -162,6 +151,21 @@ namespace Materal.BusinessFlow.Abstractions.Repositories
         public virtual Task<List<FlowRecordDTO>> GetDTOListAsync(QueryFlowRecordDTOModel queryModel) => Task.FromResult(GetDTOList(queryModel));
         public virtual Task<List<FlowRecordDTO>> GetDTOListAsync(Guid flowTemplateID, Expression<Func<FlowRecordDTO, bool>> filterExpression)
             => Task.FromResult(GetDTOList(flowTemplateID, filterExpression));
+        public virtual bool TableExists(Guid flowTemplateID)
+        {
+            bool result = false;
+            UnitOfWork.OperationDB(connection =>
+            {
+                IDbCommand existCommand = connection.CreateCommand();
+                existCommand.CommandText = GetTableExistsTSQL(flowTemplateID);
+                using IDataReader existDr = existCommand.ExecuteReader();
+                while (existDr.Read())
+                {
+                    result = existDr.GetInt32(0) > 0;
+                }
+            });
+            return result;
+        }
         /// <summary>
         /// 获取检查表是否存在的TSQL
         /// </summary>
@@ -181,6 +185,23 @@ namespace Materal.BusinessFlow.Abstractions.Repositories
         /// <param name="flowTemplateID"></param>
         /// <returns></returns>
         protected virtual string GetTableName(Guid flowTemplateID) => $"{nameof(FlowRecord)}_{flowTemplateID.ToString().Replace("-", "")}";
+        /// <summary>
+        /// 执行命令
+        /// </summary>
+        /// <param name="flowTemplateID"></param>
+        /// <param name="connection"></param>
+        /// <param name="action"></param>
+        private void ExcuteCommand(Guid flowTemplateID, IDbConnection connection, Action action)
+        {
+            IDbCommand existCommand = connection.CreateCommand();
+            existCommand.CommandText = GetTableExistsTSQL(flowTemplateID);
+            using IDataReader existDr = existCommand.ExecuteReader();
+            while (existDr.Read())
+            {
+                if (existDr.GetInt32(0) <= 0) break;
+                action();
+            }
+        }
         #region 私有方法
         /// <summary>
         /// 设置查询命令

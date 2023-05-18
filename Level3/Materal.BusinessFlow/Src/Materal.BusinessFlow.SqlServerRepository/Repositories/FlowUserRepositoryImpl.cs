@@ -12,6 +12,22 @@ namespace Materal.BusinessFlow.SqlServerRepository.Repositories
         {
         }
 
+        public List<Guid> GetAllFlowTemplateIDs()
+        {
+            List<Guid> result = new();
+            UnitOfWork.OperationDB(connection =>
+            {
+                IDbCommand command = connection.CreateCommand();
+                command.CommandText = "SELECT DISTINCT [FlowTemplateID] FROM [FlowUser]";
+                using IDataReader dr = command.ExecuteReader();
+                while (dr.Read())
+                {
+                    result.Add(dr.GetGuid(0));
+                }
+            });
+            return result;
+        }
+
         public List<Guid> GetUserFlowTemplateIDs(Guid userID)
         {
             List<Guid> result = new();

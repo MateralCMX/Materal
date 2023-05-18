@@ -1,10 +1,12 @@
 using Materal.Abstractions;
+using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.SqliteRepository;
 using Materal.BusinessFlow.WebAPIControllers.Filters;
 using Materal.Logger;
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 using Materal.TTA.Common.Model;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 
@@ -66,6 +68,8 @@ namespace Materal.BusinessFlow.WebAPI
             using IServiceScope scope = app.Services.CreateScope();
             IMigrateHelper migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<BusinessFlowDBOption>>();
             await migrateHelper.MigrateAsync();
+            IBusinessFlowHost host = scope.ServiceProvider.GetRequiredService<IBusinessFlowHost>();
+            await host.RunAllAutoNodeAsync();
             await app.RunAsync();
         }
     }

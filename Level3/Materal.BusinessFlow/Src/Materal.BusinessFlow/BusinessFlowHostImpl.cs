@@ -123,5 +123,14 @@ namespace Materal.BusinessFlow
                 _autoNodeBus.ExcuteAutoNode(flowTemplateID, flowRecordID);
             }
         }
+
+        public async Task RunAllAutoNodeAsync(bool runErrorNode = true)
+        {
+            List<Guid> allFlowTemplateIDs = _flowUserRepository.GetAllFlowTemplateIDs();
+            foreach (Guid flowTemplateID in allFlowTemplateIDs)
+            {
+                await RunAutoNodeAsync(flowTemplateID, runErrorNode);
+            }
+        }
     }
 }

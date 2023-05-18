@@ -160,5 +160,11 @@ namespace Materal.BusinessFlow.Abstractions.Repositories
         /// <param name="filterExpression"></param>
         /// <returns></returns>
         Task<List<FlowRecordDTO>> GetDTOListAsync(Guid flowTemplateID, Expression<Func<FlowRecordDTO, bool>> filterExpression);
+        /// <summary>
+        /// 表是否存在
+        /// </summary>
+        /// <param name="flowTemplateID"></param>
+        /// <returns></returns>
+        bool TableExists(Guid flowTemplateID);
     }
 }

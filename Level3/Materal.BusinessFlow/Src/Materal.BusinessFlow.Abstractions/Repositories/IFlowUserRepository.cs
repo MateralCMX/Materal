@@ -11,5 +11,10 @@ namespace Materal.BusinessFlow.Abstractions.Repositories
         /// <param name="userID"></param>
         /// <returns></returns>
         List<Guid> GetUserFlowTemplateIDs(Guid userID);
+        /// <summary>
+        /// 获得用户参与流程模版唯一标识
+        /// </summary>
+        /// <returns></returns>
+        List<Guid> GetAllFlowTemplateIDs();
     }
 }
