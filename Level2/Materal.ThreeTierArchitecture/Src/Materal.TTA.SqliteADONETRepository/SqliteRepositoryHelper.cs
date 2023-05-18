@@ -39,6 +39,13 @@ namespace Materal.TTA.SqliteADONETRepository
         where TPrimaryKeyType : struct
     {
         /// <summary>
+        /// 构造方法
+        /// </summary>
+        public SqliteRepositoryHelper(IServiceProvider serviceProvider) : base(serviceProvider)
+        {
+        }
+
+        /// <summary>
         /// 获得分页TSQL
         /// </summary>
         /// <param name="pageIndex"></param>

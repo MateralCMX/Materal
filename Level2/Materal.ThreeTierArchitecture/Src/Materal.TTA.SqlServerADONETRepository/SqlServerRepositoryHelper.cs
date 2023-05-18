@@ -39,6 +39,12 @@ namespace Materal.TTA.SqlServerADONETRepository
         where TPrimaryKeyType : struct
     {
         /// <summary>
+        /// 构造方法
+        /// </summary>
+        public SqlServerRepositoryHelper(IServiceProvider serviceProvider) : base(serviceProvider)
+        {
+        }
+        /// <summary>
         /// 获得分页TSQL
         /// </summary>
         /// <param name="pageIndex"></param>
