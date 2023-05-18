@@ -1,6 +1,7 @@
 ﻿using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.DTO;
+using Materal.BusinessFlow.WebAPIControllers.Models;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -38,7 +39,7 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
         /// <param name="userID">用户唯一标识</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ResultModel<List<FlowTemplate>>> GetUserFlowTemplatesAsync([Required]Guid userID)
+        public async Task<ResultModel<List<FlowTemplate>>> GetUserFlowTemplatesAsync([Required] Guid userID)
         {
             List<FlowTemplate> flowTemplates = await _host.GetUserFlowTemplatesAsync(userID);
             return ResultModel<List<FlowTemplate>>.Success(flowTemplates, "查询成功");
@@ -63,6 +64,63 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
             }
             List<FlowTemplate> flowTemplates = await _host.GetUserFlowTemplatesAsync(userID);
             return ResultModel<List<FlowRecordDTO>>.Success(flowRecords, "查询成功");
+        }
+        /// <summary>
+        /// 根据流程记录唯一标识获得流程数据
+        /// </summary>
+        /// <param name="flowTemplateID"></param>
+        /// <param name="flowRecordID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ResultModel<Dictionary<string, object?>>> GetFlowDatasByFlowRecordIDAsync(Guid flowTemplateID, Guid flowRecordID)
+        {
+            Dictionary<string, object?> result = await _host.GetFlowDatasByFlowRecordIDAsync(flowTemplateID, flowRecordID);
+            return ResultModel<Dictionary<string, object?>>.Success(result, "查询成功");
+        }
+        /// <summary>
+        /// 根据流程唯一标识获得流程数据
+        /// </summary>
+        /// <param name="flowTemplateID"></param>
+        /// <param name="flowID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ResultModel<Dictionary<string, object?>>> GetFlowDatasAsync(Guid flowTemplateID, Guid flowID)
+        {
+            Dictionary<string, object?> result = await _host.GetFlowDatasAsync(flowTemplateID, flowID);
+            return ResultModel<Dictionary<string, object?>>.Success(result, "查询成功");
+        }
+        /// <summary>
+        /// 完成节点
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ResultModel> ComplateFlowNodeAsync(OperationFlowRequestModel requestModel)
+        {
+            await _host.ComplateFlowNodeAsync(requestModel.FlowTemplateID, requestModel.FlowRecordID, requestModel.UserID, requestModel.JsonData);
+            return ResultModel.Success("提交成功");
+        }
+        /// <summary>
+        /// 打回节点
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ResultModel> RepulseFlowNodeAsync(OperationFlowRequestModel requestModel)
+        {
+            await _host.RepulseFlowNodeAsync(requestModel.FlowTemplateID, requestModel.FlowRecordID, requestModel.UserID, requestModel.JsonData);
+            return ResultModel.Success("打回成功");
+        }
+        /// <summary>
+        /// 保存流程数据
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ResultModel> SaveFlowDataAsync(SaveFlowDataRequestModel requestModel)
+        {
+            await _host.SaveFlowDataAsync(requestModel.FlowTemplateID, requestModel.FlowRecordID, requestModel.JsonData);
+            return ResultModel.Success("保存成功");
         }
     }
 }

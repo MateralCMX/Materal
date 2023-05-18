@@ -233,7 +233,7 @@ namespace Materal.BusinessFlow
             if (dataModelField == null) return null;
             if (dataModelField.DataType == DataTypeEnum.String && jToken.Type == JTokenType.String) return jToken.ToString();
             else if (dataModelField.DataType == DataTypeEnum.Number && jToken.Type == JTokenType.Integer || jToken.Type == JTokenType.Float) return Convert.ToDecimal(jToken);
-            else if (dataModelField.DataType == DataTypeEnum.DateTime && jToken.Type == JTokenType.String) return Convert.ToDateTime(jToken);
+            else if (dataModelField.DataType == DataTypeEnum.DateTime && jToken.Type == JTokenType.Date) return Convert.ToDateTime(jToken);
             else if (dataModelField.DataType == DataTypeEnum.Date && jToken.Type == JTokenType.Date) return Convert.ToDateTime(jToken);
             else if (dataModelField.DataType == DataTypeEnum.Time && jToken.Type == JTokenType.Date) return Convert.ToDateTime(jToken);
             else if (dataModelField.DataType == DataTypeEnum.Boole && jToken.Type == JTokenType.Boolean) return Convert.ToBoolean(jToken);

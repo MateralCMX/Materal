@@ -2,9 +2,9 @@
     <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'"
         @click="() => emits('selected', componentModel)">
         <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
-            :name="dataModelField?.Name"
+            :name="dataModelField?.ID"
             :rules="[{ required: componentModel.Props.Required, message: `请输入${dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name}` }]">
-            <a-input-number :readonly="componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled"
+            <a-input-number v-model:value="model" :readonly="componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled"
                 :min="componentModel.Props.Min" :max="componentModel.Props.Max" style="width: 100%;" />
         </a-form-item>
     </div>
@@ -17,7 +17,11 @@ import { InputNumberComponentModel } from '../../models/DataTypeComponentModels/
 /**
  * 暴露成员
  */
-const props = defineProps<{ componentModel: InputNumberComponentModel, isEdit: boolean }>();
+const props = defineProps<{ modelValue?: number, componentModel: InputNumberComponentModel, isEdit: boolean }>();
+/**
+ * 绑定模型
+ */
+const model = useVModel(props, 'modelValue');
 /**
  * 事件
  */

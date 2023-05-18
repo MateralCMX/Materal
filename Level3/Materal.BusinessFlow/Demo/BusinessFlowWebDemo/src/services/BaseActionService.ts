@@ -36,7 +36,7 @@ export abstract class BaseActionService<TDomain extends BaseDomain, TQueryModel 
         return result;
     }
     /**
-     * 获得列表
+     * 获得信息
      */
     public async GetInfoAsync(id: string): Promise<ResultDataModel<TDomain> | undefined> {
         const urlParams = {

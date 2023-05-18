@@ -1,6 +1,13 @@
 <template>
-  <Layout />
+  <a-config-provider :locale="zhCN">
+    <Layout />
+  </a-config-provider>
 </template>
 <script setup lang="ts">
 import Layout from './layouts/Layout.vue'
+import zhCN from 'ant-design-vue/es/locale/zh_CN';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
+
+dayjs.locale('zh-cn');
 </script>

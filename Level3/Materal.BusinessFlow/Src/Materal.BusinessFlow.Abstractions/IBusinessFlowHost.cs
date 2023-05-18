@@ -70,5 +70,19 @@ namespace Materal.BusinessFlow.Abstractions
         /// <param name="runErrorNode"></param>
         /// <returns></returns>
         Task RunAllAutoNodeAsync(bool runErrorNode = true);
+        /// <summary>
+        /// 根据流程记录唯一标识获得流程数据
+        /// </summary>
+        /// <param name="flowTemplateID"></param>
+        /// <param name="flowRecordID"></param>
+        /// <returns></returns>
+        Task<Dictionary<string, object?>> GetFlowDatasByFlowRecordIDAsync(Guid flowTemplateID, Guid flowRecordID);
+        /// <summary>
+        /// 根据流程唯一标识获得流程数据
+        /// </summary>
+        /// <param name="flowTemplateID"></param>
+        /// <param name="flowID"></param>
+        /// <returns></returns>
+        Task<Dictionary<string, object?>> GetFlowDatasAsync(Guid flowTemplateID, Guid flowID);
     }
 }

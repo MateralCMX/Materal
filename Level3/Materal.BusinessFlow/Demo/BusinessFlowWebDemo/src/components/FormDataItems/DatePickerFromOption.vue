@@ -2,12 +2,13 @@
     <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'"
         @click="() => emits('selected', componentModel)">
         <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
-            :name="dataModelField?.Name"
+            :name="dataModelField?.ID"
             :rules="[{ required: componentModel.Props.Required, message: `请选择${dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name}` }]">
-            <a-time-picker v-if="componentModel.Props.Type == 'Time'" :readonly="componentModel.Props.Readonly"
+            <a-time-picker v-if="componentModel.Props.Type == 'Time'" v-model:value="model" :readonly="componentModel.Props.Readonly"
                 :disabled="componentModel.Props.Disabled" style="width: 100%;" />
             <a-date-picker v-else :show-time="componentModel.Props.Type == 'DateTime'"
-                :readonly="componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled" style="width: 100%;" />
+                :readonly="componentModel.Props.Readonly" v-model:value="model" :disabled="componentModel.Props.Disabled" style="width: 100%;" 
+                valueFormat="YYYY-MM-DDTHH:mm:ss.SSSZ" />
         </a-form-item>
     </div>
 </template>
@@ -19,7 +20,11 @@ import { DatePickerComponentModel } from '../../models/DataTypeComponentModels/D
 /**
  * 暴露成员
  */
-const props = defineProps<{ componentModel: DatePickerComponentModel, isEdit: boolean }>();
+const props = defineProps<{ modelValue?: string, componentModel: DatePickerComponentModel, isEdit: boolean }>();
+/**
+ * 绑定模型
+ */
+const model = useVModel(props, 'modelValue');
 /**
  * 事件
  */

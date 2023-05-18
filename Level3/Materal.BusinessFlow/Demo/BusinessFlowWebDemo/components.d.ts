@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     AButton: typeof import('ant-design-vue/es')['Button']
     ACard: typeof import('ant-design-vue/es')['Card']
     ACol: typeof import('ant-design-vue/es')['Col']
+    AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
     ADatePicker: typeof import('ant-design-vue/es')['DatePicker']
     ADivider: typeof import('ant-design-vue/es')['Divider']
     ADrawer: typeof import('ant-design-vue/es')['Drawer']
@@ -47,6 +48,8 @@ declare module '@vue/runtime-core' {
     DeleteProp: typeof import('./src/components/FormDataItems/Properties/DeleteProp.vue')['default']
     DisabledProp: typeof import('./src/components/FormDataItems/Properties/DisabledProp.vue')['default']
     EnumDataTypeComponent: typeof import('./src/components/DataTypeComponents/EnumDataTypeComponent.vue')['default']
+    FlowList: typeof import('./src/components/FlowList.vue')['default']
+    FlowOption: typeof import('./src/components/FlowOption.vue')['default']
     FlowTemplateCanvas: typeof import('./src/components/FlowTemplateCanvas.vue')['default']
     FlowTemplateList: typeof import('./src/components/FlowTemplateList.vue')['default']
     FlowTemplateOption: typeof import('./src/components/FlowTemplateOption.vue')['default']
@@ -79,5 +82,6 @@ declare module '@vue/runtime-core' {
     UserList: typeof import('./src/components/UserList.vue')['default']
     UserNodeHandleData: typeof import('./src/components/UserNodeHandleData.vue')['default']
     UserOption: typeof import('./src/components/UserOption.vue')['default']
+    UserSelect: typeof import('./src/components/UserSelect.vue')['default']
   }
 }

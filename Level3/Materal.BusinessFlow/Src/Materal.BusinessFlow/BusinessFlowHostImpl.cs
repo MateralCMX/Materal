@@ -20,7 +20,8 @@ namespace Materal.BusinessFlow
         private readonly IFlowRecordRepository _flowRecordRepository;
         private readonly IFlowUserRepository _flowUserRepository;
         private readonly BusinessFlowHelper _businessFlowHelper;
-        public BusinessFlowHostImpl(IAutoNodeBus autoNodeBus, IBusinessFlowUnitOfWork unitOfWork, BusinessFlowHelper businessFlowHelper)
+        private readonly IDataModelFieldRepository _dataModelFieldRepository;
+        public BusinessFlowHostImpl(IAutoNodeBus autoNodeBus, IBusinessFlowUnitOfWork unitOfWork, BusinessFlowHelper businessFlowHelper, IDataModelFieldRepository dataModelFieldRepository)
         {
             _autoNodeBus = autoNodeBus;
             _unitOfWork = unitOfWork;
@@ -31,6 +32,7 @@ namespace Materal.BusinessFlow
             _flowRecordRepository = unitOfWork.GetRepository<IFlowRecordRepository>();
             _flowUserRepository = unitOfWork.GetRepository<IFlowUserRepository>();
             _businessFlowHelper = businessFlowHelper;
+            _dataModelFieldRepository = dataModelFieldRepository;
         }
         public async Task<Guid> StartNewFlowAsync(Guid flowTemplateID, Guid initiatorID)
         {
@@ -111,6 +113,25 @@ namespace Materal.BusinessFlow
             await _businessFlowHelper.SaveFlowDataAsync(flowTemplateID, flowRecord, jsonData);
             await _unitOfWork.CommitAsync();
         }
+        public async Task RunAllAutoNodeAsync(bool runErrorNode = true)
+        {
+            List<Guid> allFlowTemplateIDs = _flowUserRepository.GetAllFlowTemplateIDs();
+            foreach (Guid flowTemplateID in allFlowTemplateIDs)
+            {
+                await RunAutoNodeAsync(flowTemplateID, runErrorNode);
+            }
+        }
+        public async Task<Dictionary<string, object?>> GetFlowDatasByFlowRecordIDAsync(Guid flowTemplateID, Guid flowRecordID)
+        {
+            FlowRecord flowRecord = await _flowRecordRepository.FirstAsync(flowTemplateID, flowRecordID);
+            return await GetFlowDatasAsync(flowTemplateID, flowRecord.FlowID);
+        }
+        public async Task<Dictionary<string, object?>> GetFlowDatasAsync(Guid flowTemplateID, Guid flowID)
+        {
+            FlowTemplate flowTemplate = await _flowTemplateRepository.FirstAsync(flowTemplateID);
+            List<DataModelField> dataModelFields = await _dataModelFieldRepository.FindAsync(m => m.DataModelID == flowTemplate.DataModelID);
+            return await _flowRepository.GetDataAsync(flowTemplateID, flowID, dataModelFields);
+        }
         /// <summary>
         /// 运行自动节点
         /// </summary>
@@ -121,15 +142,6 @@ namespace Materal.BusinessFlow
             foreach (Guid flowRecordID in flowRecordIDs)
             {
                 _autoNodeBus.ExcuteAutoNode(flowTemplateID, flowRecordID);
-            }
-        }
-
-        public async Task RunAllAutoNodeAsync(bool runErrorNode = true)
-        {
-            List<Guid> allFlowTemplateIDs = _flowUserRepository.GetAllFlowTemplateIDs();
-            foreach (Guid flowTemplateID in allFlowTemplateIDs)
-            {
-                await RunAutoNodeAsync(flowTemplateID, runErrorNode);
             }
         }
     }

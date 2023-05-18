@@ -2,8 +2,8 @@
     <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'"
         @click="() => emits('selected', componentModel)">
         <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
-            :name="dataModelField?.Name">
-            <a-switch :readonly="componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled" />
+            :name="dataModelField?.ID">
+            <a-switch v-model:value="model" :readonly="componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled" />
         </a-form-item>
     </div>
 </template>
@@ -15,7 +15,11 @@ import { SwitchComponentModel } from '../../models/DataTypeComponentModels/Switc
 /**
  * 暴露成员
  */
-const props = defineProps<{ componentModel: SwitchComponentModel, isEdit: boolean }>();
+const props = defineProps<{ modelValue?: boolean, componentModel: SwitchComponentModel, isEdit: boolean }>();
+/**
+ * 绑定模型
+ */
+const model = useVModel(props, 'modelValue');
 /**
  * 事件
  */

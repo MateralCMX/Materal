@@ -2,9 +2,9 @@
     <div :class="isEdit ? 'option-panel opeion-panel-edit' : 'option-panel'"
         @click="() => emits('selected', componentModel)">
         <a-form-item :label="dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name"
-            :name="dataModelField?.Name"
+            :name="dataModelField?.ID"
             :rules="[{ required: componentModel.Props.Required, message: `请选择${dataModelField?.Description ? dataModelField?.Description : dataModelField?.Name}` }]">
-            <a-select :readonly="componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled"
+            <a-select v-model:value="model" :readonly="componentModel.Props.Readonly" :disabled="componentModel.Props.Disabled"
                 :allow-clear="componentModel.Props.CanNull">
                 <a-select-option v-for="option in options" :value="option">{{ option }}</a-select-option>
             </a-select>
@@ -19,7 +19,11 @@ import { SelectComponentModel } from '../../models/DataTypeComponentModels/Selec
 /**
  * 暴露成员
  */
-const props = defineProps<{ componentModel: SelectComponentModel, isEdit: boolean }>();
+const props = defineProps<{ modelValue?: string, componentModel: SelectComponentModel, isEdit: boolean }>();
+/**
+ * 绑定模型
+ */
+const model = useVModel(props, 'modelValue');
 /**
  * 事件
  */

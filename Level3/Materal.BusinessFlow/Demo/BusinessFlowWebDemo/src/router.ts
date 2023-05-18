@@ -6,6 +6,7 @@ const routes = [
     { path: '/DataModelList', component: () => import("./components/DataModelList.vue") },
     { path: '/FlowTemplateList', component: () => import("./components/FlowTemplateList.vue") },
     { path: '/FlowTemplateCanvas/:id', component: () => import("./components/FlowTemplateCanvas.vue") },
+    { path: '/FlowList/:id?', component: () => import("./components/FlowList.vue") },
 ];
 
 export const router = createRouter({

@@ -243,7 +243,7 @@ WHERE ID={UnitOfWork.GetParams("ID")}";
                                 DataTypeEnum.Boole => dr.GetBoolean(i),
                                 _ => throw new BusinessFlowException("未知类型"),
                             };
-                            result.Add(name, dr.GetValue(i));
+                            result.Add(name, value);
                         }
                         else
                         {
