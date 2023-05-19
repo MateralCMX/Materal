@@ -7,5 +7,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\Materal.BaseCore\Src\Materal.BaseCore.EFRepository\Materal.BaseCore.EFRepository.csproj" />
 		<ProjectReference Include="..\MBC.Core.Common\MBC.Core.Common.csproj" />
+		<ProjectReference Include="..\MBC.Core.Domain\MBC.Core.Domain.csproj" />
 	</ItemGroup>
 </Project>

@@ -31,9 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.Services",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.WebAPI", "..\Materal.BaseCore\Src\Materal.BaseCore.WebAPI\Materal.BaseCore.WebAPI.csproj", "{034E4915-9CCB-4FD0-BBB2-CB1AF259316A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBC.Demo.Domain", "Demo\MBC.Demo.Domain\MBC.Demo.Domain.csproj", "{35EA1FD5-8204-4CB4-A4D0-9786629719FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Demo.Domain", "Demo\MBC.Demo.Domain\MBC.Demo.Domain.csproj", "{35EA1FD5-8204-4CB4-A4D0-9786629719FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBC.Demo.Enums", "Demo\MBC.Demo.Enums\MBC.Demo.Enums.csproj", "{7D9F235A-C71F-4D81-A943-BA5A22B7A571}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Demo.Enums", "Demo\MBC.Demo.Enums\MBC.Demo.Enums.csproj", "{7D9F235A-C71F-4D81-A943-BA5A22B7A571}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Demo.Common", "Demo\MBC.Demo.Common\MBC.Demo.Common.csproj", "{D9CEBB67-F249-4690-A66B-B16A640DEF7B}"
 EndProject
@@ -51,15 +51,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Demo.WebAPI", "Demo\MBC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Demo.HttpClient", "Demo\MBC.Demo.HttpClient\MBC.Demo.HttpClient.csproj", "{0D21A53D-547E-4E8C-993C-41FA4EDB0FD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBC.Core.CodeGenerator", "Src\MBC.Core.CodeGenerator\MBC.Core.CodeGenerator.csproj", "{A92C14AA-EC0D-41E2-AC0D-AB62D91108AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Core.CodeGenerator", "Src\MBC.Core.CodeGenerator\MBC.Core.CodeGenerator.csproj", "{A92C14AA-EC0D-41E2-AC0D-AB62D91108AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBC.Core.Common", "Src\MBC.Core.Common\MBC.Core.Common.csproj", "{6624E6C2-FFFE-44FF-B8ED-9E834FC70214}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Core.Common", "Src\MBC.Core.Common\MBC.Core.Common.csproj", "{6624E6C2-FFFE-44FF-B8ED-9E834FC70214}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBC.Core.EFRepository", "Src\MBC.Core.EFRepository\MBC.Core.EFRepository.csproj", "{192FE15F-FB47-4ECF-8481-B27B7DB90C2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Core.EFRepository", "Src\MBC.Core.EFRepository\MBC.Core.EFRepository.csproj", "{192FE15F-FB47-4ECF-8481-B27B7DB90C2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBC.Core.HttpClient", "Src\MBC.Core.HttpClient\MBC.Core.HttpClient.csproj", "{C5A454FD-872B-4903-B27A-C33481330CD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Core.HttpClient", "Src\MBC.Core.HttpClient\MBC.Core.HttpClient.csproj", "{C5A454FD-872B-4903-B27A-C33481330CD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBC.Core.WebAPI", "Src\MBC.Core.WebAPI\MBC.Core.WebAPI.csproj", "{043018F8-0DD7-4A5E-9B54-2E2C4CCC2428}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Core.WebAPI", "Src\MBC.Core.WebAPI\MBC.Core.WebAPI.csproj", "{043018F8-0DD7-4A5E-9B54-2E2C4CCC2428}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBC.Core.Domain", "Src\MBC.Core.Domain\MBC.Core.Domain.csproj", "{16A979AF-1A70-4981-B9CE-06A17FA54576}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -171,6 +173,10 @@ Global
 		{043018F8-0DD7-4A5E-9B54-2E2C4CCC2428}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{043018F8-0DD7-4A5E-9B54-2E2C4CCC2428}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{043018F8-0DD7-4A5E-9B54-2E2C4CCC2428}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16A979AF-1A70-4981-B9CE-06A17FA54576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16A979AF-1A70-4981-B9CE-06A17FA54576}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16A979AF-1A70-4981-B9CE-06A17FA54576}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16A979AF-1A70-4981-B9CE-06A17FA54576}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -202,6 +208,7 @@ Global
 		{192FE15F-FB47-4ECF-8481-B27B7DB90C2D} = {D0D473A8-A530-4197-8741-7EBF420078B4}
 		{C5A454FD-872B-4903-B27A-C33481330CD2} = {D0D473A8-A530-4197-8741-7EBF420078B4}
 		{043018F8-0DD7-4A5E-9B54-2E2C4CCC2428} = {D0D473A8-A530-4197-8741-7EBF420078B4}
+		{16A979AF-1A70-4981-B9CE-06A17FA54576} = {D0D473A8-A530-4197-8741-7EBF420078B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A067275-251C-4973-B5D2-E7E94082E4A9}

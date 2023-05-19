@@ -875,7 +875,8 @@ namespace Materal.BaseCore.CodeGenerator.Models
             if (!GeneratorCode) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.TTA.EFRepository;");
-            if(enums != null && enums.Count > 0)
+            codeContent.AppendLine($"using {project.PrefixName}.Core.Domain.Repositories;");
+            if (enums != null && enums.Count > 0)
             {
                 codeContent.AppendLine($"using {enums[0].Namespace};");
             }
@@ -887,11 +888,11 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"    /// </summary>");
             if (!UseCache)
             {
-                codeContent.AppendLine($"    public partial interface {_iRepositoryName} : IEFRepository<{Name}, Guid>");
+                codeContent.AppendLine($"    public partial interface {_iRepositoryName} : I{project.PrefixName}Repository<{Name}, Guid>");
             }
             else
             {
-                codeContent.AppendLine($"    public partial interface {_iRepositoryName} : ICacheEFRepository<{Name}, Guid>");
+                codeContent.AppendLine($"    public partial interface {_iRepositoryName} : ICache{project.PrefixName}Repository<{Name}, Guid>");
             }
             codeContent.AppendLine($"    {{");
             if (IsIndexDomain)

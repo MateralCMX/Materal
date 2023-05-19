@@ -9,5 +9,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\RC.Core.Common\RC.Core.Common.csproj" />
+	  <ProjectReference Include="..\RC.Core.Domain\RC.Core.Domain.csproj" />
 	</ItemGroup>
 </Project>

@@ -69,7 +69,7 @@ namespace Materal.BaseCore.WebAPI.Filters
         private ResultModel HandlerDefaultException(ExceptionContext context)
         {
             ResultModel result = GetDefaultResult(context.Exception.GetErrorMessage());
-            WriteError(context);
+            _ = WriteErrorAsync(context);
             return result;
         }
         /// <summary>
@@ -86,7 +86,7 @@ namespace Materal.BaseCore.WebAPI.Filters
         /// 写错误
         /// </summary>
         /// <param name="context"></param>
-        private async Task WriteError(ExceptionContext context)
+        private async Task WriteErrorAsync(ExceptionContext context)
         {
             StringBuilder message = new();
             if (context.ActionDescriptor is ControllerActionDescriptor actionDescriptor)

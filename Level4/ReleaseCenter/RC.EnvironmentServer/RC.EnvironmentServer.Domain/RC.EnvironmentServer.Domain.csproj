@@ -5,10 +5,10 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.24" />
-		<PackageReference Include="Materal.BaseCore.Domain" Version="1.1.24" />
+		<ProjectReference Include="..\..\RC.Core\Src\RC.Core.Domain\RC.Core.Domain.csproj" />
+		<ProjectReference Include="..\RC.EnvironmentServer.Enums\RC.EnvironmentServer.Enums.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\RC.EnvironmentServer.Enums\RC.EnvironmentServer.Enums.csproj" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.24" />
 	</ItemGroup>
 </Project>

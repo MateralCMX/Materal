@@ -37,9 +37,14 @@ namespace MateralPublish.Models
                 string vsixVersion = $"{version}.1";
                 for (int i = 0; i < codeContent.Length; i++)
                 {
-                    if (codeContent[i].Trim().StartsWith(versionStartCode))
+                    string code = codeContent[i].Trim();
+                    if (code.StartsWith(versionStartCode))
                     {
-                        codeContent[i] = $"{versionStartCode}{vsixVersion}{versionEndCode}";
+                        bool isNewVersion = !code.Substring(versionStartCode.Length).StartsWith(version);
+                        if (isNewVersion)
+                        {
+                            codeContent[i] = $"{versionStartCode}{vsixVersion}{versionEndCode}";
+                        }
                     }
                 }
                 await File.WriteAllLinesAsync(sourceFile.FullName, codeContent, Encoding.UTF8);

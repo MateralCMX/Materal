@@ -65,6 +65,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.Presen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.DataTransmitModel", "..\RC.EnvironmentServer\RC.EnvironmentServer.DataTransmitModel\RC.EnvironmentServer.DataTransmitModel.csproj", "{DFE1332D-4440-4E13-A22B-4CEBE662D5D8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.Domain", "..\RC.Core\Src\RC.Core.Domain\RC.Core.Domain.csproj", "{A7558378-9354-4EA6-830F-AC98DCBDA5A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,6 +181,10 @@ Global
 		{DFE1332D-4440-4E13-A22B-4CEBE662D5D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFE1332D-4440-4E13-A22B-4CEBE662D5D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFE1332D-4440-4E13-A22B-4CEBE662D5D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7558378-9354-4EA6-830F-AC98DCBDA5A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7558378-9354-4EA6-830F-AC98DCBDA5A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7558378-9354-4EA6-830F-AC98DCBDA5A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7558378-9354-4EA6-830F-AC98DCBDA5A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -200,6 +206,7 @@ Global
 		{634232FB-4D50-485F-9228-44EE6007CB2C} = {2D75E9CD-B431-45C7-8A57-A55A4333E3F4}
 		{28A510C5-034D-487D-A72F-18BB83E8CCEB} = {2D75E9CD-B431-45C7-8A57-A55A4333E3F4}
 		{DFE1332D-4440-4E13-A22B-4CEBE662D5D8} = {2D75E9CD-B431-45C7-8A57-A55A4333E3F4}
+		{A7558378-9354-4EA6-830F-AC98DCBDA5A9} = {197F84FB-DB68-4F83-A7C3-B3F0D96D2677}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {79647095-217F-40E2-BAD2-1287B2F9989F}

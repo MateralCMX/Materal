@@ -8,8 +8,8 @@ namespace Materal.BaseCore.Test
 {
     public abstract class BaseTest
     {
-        private IServiceCollection _serviceCollection;
-        protected IServiceProvider Services;
+        private readonly IServiceCollection _serviceCollection;
+        protected readonly IServiceProvider Services;
         protected BaseTest()
         {
             _serviceCollection = new ServiceCollection();

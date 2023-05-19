@@ -20,8 +20,8 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="../../../../README.md" Pack="true" PackagePath="\" />
-		<None Include="../../../../LICENSE" Pack="true" PackagePath="\" />
+		<None Include="../../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Logger.Message\Materal.Logger.Message.csproj" />

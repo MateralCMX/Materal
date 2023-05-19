@@ -2,6 +2,7 @@
 using Materal.TTA.SqliteEFRepository;
 using Materal.Utils.Cache;
 using Microsoft.EntityFrameworkCore;
+using RC.Core.Domain.Repositories;
 
 namespace RC.Core.EFRepository
 {
@@ -10,7 +11,7 @@ namespace RC.Core.EFRepository
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TPrimaryKeyType"></typeparam>
-    public abstract class RCCacheRepositoryImpl<T, TPrimaryKeyType, TDBContext> : SqliteCacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>
+    public abstract class RCCacheRepositoryImpl<T, TPrimaryKeyType, TDBContext> : SqliteCacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, IRCCacheRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
         where TDBContext : DbContext

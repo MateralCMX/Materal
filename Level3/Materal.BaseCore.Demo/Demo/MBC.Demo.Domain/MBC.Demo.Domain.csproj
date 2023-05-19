@@ -6,7 +6,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\Materal.BaseCore\Src\Materal.BaseCore.CodeGenerator\Materal.BaseCore.CodeGenerator.csproj" />
-		<ProjectReference Include="..\..\..\Materal.BaseCore\Src\Materal.BaseCore.Domain\Materal.BaseCore.Domain.csproj" />
+		<ProjectReference Include="..\..\Src\MBC.Core.Domain\MBC.Core.Domain.csproj" />
 		<ProjectReference Include="..\MBC.Demo.Enums\MBC.Demo.Enums.csproj" />
 	</ItemGroup>
 </Project>
