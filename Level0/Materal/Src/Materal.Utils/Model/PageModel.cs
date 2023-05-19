@@ -36,7 +36,7 @@ namespace Materal.Utils.Model
         /// </summary>
         /// <param name="pageRequestModel"></param>
         /// <param name="dataCount">数据总数</param>
-        public PageModel(PageRequestModel pageRequestModel, int dataCount) : this(pageRequestModel.PageIndex, pageRequestModel.PageSize, 0)
+        public PageModel(PageRequestModel pageRequestModel, int dataCount) : this(pageRequestModel.PageIndex, pageRequestModel.PageSize, dataCount)
         {
         }
         /// <summary>
