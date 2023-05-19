@@ -7,7 +7,7 @@
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.23</Version>
+		<Version>1.1.24</Version>
 		<Company>Materal.BaseCore.AutoDI</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>

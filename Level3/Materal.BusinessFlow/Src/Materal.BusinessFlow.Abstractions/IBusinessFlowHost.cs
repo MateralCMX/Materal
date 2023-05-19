@@ -30,7 +30,7 @@ namespace Materal.BusinessFlow.Abstractions
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        Task<List<FlowTemplate>> GetUserFlowTemplatesAsync(Guid userID);
+        Task<List<FlowTemplateDTO>> GetUserFlowTemplatesAsync(Guid userID);
         /// <summary>
         /// 完成节点
         /// </summary>

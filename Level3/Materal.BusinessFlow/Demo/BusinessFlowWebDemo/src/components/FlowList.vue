@@ -8,25 +8,17 @@
                 <template v-if="column.key === 'Action'">
                     <a-space>
                         <a-button type="primary" :loading="searching"
-                            @click="openOptionDrawer(record.FlowTemplateID, record.ID, record.NodeID)">完成节点</a-button>
+                            @click="gotoDetail(record.ID)">查看明细</a-button>
                     </a-space>
                 </template>
             </template>
         </a-table>
     </a-space>
-    <a-drawer v-model:visible="optionDrawerVisible" :maskClosable="false" :title="'操作'" width="800px">
-        <FlowOption ref="flowOption" @complate="optionComplate" />
-    </a-drawer>
 </template>
 <script setup lang="ts">
-import { FlowRecord } from '../models/Flow/FlowRecord';
+import { FlowTemplate } from '../models/FlowTemplate/FlowTemplate';
 import FlowService from '../services/FlowService';
 
-const flowOption = ref<any>();
-/**
- * 操作抽屉是否显示
- */
-const optionDrawerVisible = ref(false);
 /**
  * 查询标识
  */
@@ -36,6 +28,10 @@ const searching = ref(false);
  */
 const route = useRoute();
 /**
+ * 路由
+ */
+const router = useRouter();
+/**
  * 流程模板ID
  */
 const selectUserID = ref<string>();
@@ -44,24 +40,14 @@ const selectUserID = ref<string>();
  */
 const tableColumns = [
     {
-        title: '流程名称',
-        dataIndex: 'FlowTemplateName',
-        key: 'FlowTemplateName',
+        title: '名称',
+        dataIndex: 'Name',
+        key: 'Name',
     },
     {
-        title: '步骤名称',
-        dataIndex: 'StepName',
-        key: 'StepName',
-    },
-    {
-        title: '节点名称',
-        dataIndex: 'NodeName',
-        key: 'NodeName',
-    },
-    {
-        title: '状态',
-        dataIndex: 'StateText',
-        key: 'StateText',
+        title: '数据模型',
+        dataIndex: 'DataModelName',
+        key: 'DataModelName',
     },
     {
         title: '操作',
@@ -71,40 +57,30 @@ const tableColumns = [
 /**
  * 表格数据
  */
-const tableData = ref<FlowRecord[]>([]);
+const tableData = ref<FlowTemplate[]>([]);
 /**
  * 获得待办事项
  */
-const GetBacklogAsync = async () => {
+const GetUserFlowTemplatesAsync = async () => {
     if (!selectUserID.value) return;
     searching.value = true;
-    const result = await FlowService.GetBacklogAsync(selectUserID.value);
+    const result = await FlowService.GetUserFlowTemplatesAsync(selectUserID.value);
     if (result) {
         tableData.value = result.Data;
     }
     searching.value = false;
 }
 /**
- * 打开操作抽屉
+ * 跳转到流程明细
  */
-const openOptionDrawer = (flowTemplateID: string, flowRecordID: string, nodeID: string) => {
-    optionDrawerVisible.value = true;
-    nextTick(async () => {
-        await flowOption.value.initAsync(flowTemplateID, flowRecordID, nodeID, selectUserID.value);
-    });
-};
-/**
- * 操作完毕
- */
-const optionComplate = async () => {
-    optionDrawerVisible.value = false;
-    await GetBacklogAsync();
-};
+const gotoDetail = (flowTemplateID: string) => {
+    router.push(`/FlowDetail/${flowTemplateID}/${selectUserID.value}`);
+}
 /**
  * 监视选中用户更改
  */
 watch(selectUserID, async () => {
-    await GetBacklogAsync();
+    await GetUserFlowTemplatesAsync();
 })
 /**
  * 组件挂载时

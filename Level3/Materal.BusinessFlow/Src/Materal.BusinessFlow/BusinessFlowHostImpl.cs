@@ -19,9 +19,10 @@ namespace Materal.BusinessFlow
         private readonly IFlowRepository _flowRepository;
         private readonly IFlowRecordRepository _flowRecordRepository;
         private readonly IFlowUserRepository _flowUserRepository;
+        private readonly IDataModelRepository _dataModelRepository;
         private readonly BusinessFlowHelper _businessFlowHelper;
         private readonly IDataModelFieldRepository _dataModelFieldRepository;
-        public BusinessFlowHostImpl(IAutoNodeBus autoNodeBus, IBusinessFlowUnitOfWork unitOfWork, BusinessFlowHelper businessFlowHelper, IDataModelFieldRepository dataModelFieldRepository)
+        public BusinessFlowHostImpl(IAutoNodeBus autoNodeBus, IBusinessFlowUnitOfWork unitOfWork, BusinessFlowHelper businessFlowHelper, IDataModelFieldRepository dataModelFieldRepository, IDataModelRepository dataModelRepository)
         {
             _autoNodeBus = autoNodeBus;
             _unitOfWork = unitOfWork;
@@ -33,6 +34,7 @@ namespace Materal.BusinessFlow
             _flowUserRepository = unitOfWork.GetRepository<IFlowUserRepository>();
             _businessFlowHelper = businessFlowHelper;
             _dataModelFieldRepository = dataModelFieldRepository;
+            _dataModelRepository = dataModelRepository;
         }
         public async Task<Guid> StartNewFlowAsync(Guid flowTemplateID, Guid initiatorID)
         {
@@ -46,10 +48,17 @@ namespace Materal.BusinessFlow
             RunAutoNodes(flowTemplateID, autoNodeIDs);
             return flowID;
         }
-        public async Task<List<FlowTemplate>> GetUserFlowTemplatesAsync(Guid userID)
+        public async Task<List<FlowTemplateDTO>> GetUserFlowTemplatesAsync(Guid userID)
         {
             List<Guid> allFlowTemplateIDs = _flowUserRepository.GetUserFlowTemplateIDs(userID);
-            List<FlowTemplate> result = await _flowTemplateRepository.FindAsync(m => allFlowTemplateIDs.Contains(m.ID));
+            List<FlowTemplate> flowTemplates = await _flowTemplateRepository.FindAsync(m => allFlowTemplateIDs.Contains(m.ID));
+            List<FlowTemplateDTO> result = flowTemplates.Select(m => m.CopyProperties<FlowTemplateDTO>()).ToList();
+            List<Guid> allDataModelIDs = result.Select(m => m.DataModelID).ToList();
+            List<DataModel> dataModels = await _dataModelRepository.FindAsync(m => allDataModelIDs.Contains(m.ID));
+            foreach (FlowTemplateDTO item in result)
+            {
+                item.DataModelName = dataModels.First(m => m.ID == item.DataModelID).Name;
+            }
             return result;
         }
         public async Task<List<FlowRecordDTO>> GetBacklogByUserIDAsync(Guid userID)

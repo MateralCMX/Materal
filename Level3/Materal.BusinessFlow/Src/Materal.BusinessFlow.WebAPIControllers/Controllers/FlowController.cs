@@ -1,5 +1,4 @@
 ﻿using Materal.BusinessFlow.Abstractions;
-using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.BusinessFlow.WebAPIControllers.Models;
 using Materal.Utils.Model;
@@ -39,10 +38,10 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
         /// <param name="userID">用户唯一标识</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ResultModel<List<FlowTemplate>>> GetUserFlowTemplatesAsync([Required] Guid userID)
+        public async Task<ResultModel<List<FlowTemplateDTO>>> GetUserFlowTemplatesAsync([Required] Guid userID)
         {
-            List<FlowTemplate> flowTemplates = await _host.GetUserFlowTemplatesAsync(userID);
-            return ResultModel<List<FlowTemplate>>.Success(flowTemplates, "查询成功");
+            List<FlowTemplateDTO> flowTemplates = await _host.GetUserFlowTemplatesAsync(userID);
+            return ResultModel<List<FlowTemplateDTO>>.Success(flowTemplates, "查询成功");
         }
         /// <summary>
         /// 获得待办事项
@@ -62,7 +61,6 @@ namespace Materal.BusinessFlow.WebAPIControllers.Controllers
             {
                 flowRecords = await _host.GetBacklogByUserIDAsync(userID);
             }
-            List<FlowTemplate> flowTemplates = await _host.GetUserFlowTemplatesAsync(userID);
             return ResultModel<List<FlowRecordDTO>>.Success(flowRecords, "查询成功");
         }
         /// <summary>

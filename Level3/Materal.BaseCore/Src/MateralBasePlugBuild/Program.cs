@@ -109,6 +109,7 @@ namespace MateralBasePlugBuild
                 Assembly.Load("System.Console").Location,
                 Assembly.Load("System.Collections").Location,
                 Assembly.Load("System.Linq").Location,
+                Assembly.Load("System.Collections.Immutable").Location,
                 getRootDllPath("Materal.BaseCore.CodeGenerator.dll"),
                 typeof(object).Assembly.Location
             };

@@ -7,6 +7,7 @@ const routes = [
     { path: '/FlowTemplateList', component: () => import("./components/FlowTemplateList.vue") },
     { path: '/FlowTemplateCanvas/:id', component: () => import("./components/FlowTemplateCanvas.vue") },
     { path: '/FlowList/:id?', component: () => import("./components/FlowList.vue") },
+    { path: '/FlowDetail/:id/:userid', component: () => import("./components/FlowDetail.vue") },
 ];
 
 export const router = createRouter({

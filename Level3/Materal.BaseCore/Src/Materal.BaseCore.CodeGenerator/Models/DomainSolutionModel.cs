@@ -35,7 +35,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             PresentationModelProject?.CreatePresentationModelFiles(Domains);
             CommonProject?.ClearMCGFiles();
             WebAPIProject?.CreateWebAPIFiles(Domains);
-            if (Enums != null && Enums.Count > 0)
+            if (Enums != null && Enums.Count > 0 && Enums.Any(m => m.GeneratorCode))
             {
                 WebAPIProject?.CreateEnumsControllers(Enums);
             }

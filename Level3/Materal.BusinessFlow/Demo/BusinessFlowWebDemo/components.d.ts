@@ -48,6 +48,7 @@ declare module '@vue/runtime-core' {
     DeleteProp: typeof import('./src/components/FormDataItems/Properties/DeleteProp.vue')['default']
     DisabledProp: typeof import('./src/components/FormDataItems/Properties/DisabledProp.vue')['default']
     EnumDataTypeComponent: typeof import('./src/components/DataTypeComponents/EnumDataTypeComponent.vue')['default']
+    FlowDetail: typeof import('./src/components/FlowDetail.vue')['default']
     FlowList: typeof import('./src/components/FlowList.vue')['default']
     FlowOption: typeof import('./src/components/FlowOption.vue')['default']
     FlowTemplateCanvas: typeof import('./src/components/FlowTemplateCanvas.vue')['default']
