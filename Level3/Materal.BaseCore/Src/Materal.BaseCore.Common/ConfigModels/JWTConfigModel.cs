@@ -37,19 +37,7 @@ namespace Materal.BaseCore.Common.ConfigModels
         /// <summary>
         /// 二进制密钥
         /// </summary>
-        public byte[] KeyBytes
-        {
-            get
-            {
-                string trueKey = Key;
-                while(trueKey.Length < 32)
-                {
-                    trueKey += trueKey;
-                }
-                byte[] result = Encoding.UTF8.GetBytes(trueKey);
-                return result;
-            }
-        }
+        public byte[] KeyBytes => Encoding.UTF8.GetBytes(Key.ToMd5_32Encode(true));
         /// <summary>
         /// 获得Token
         /// </summary>

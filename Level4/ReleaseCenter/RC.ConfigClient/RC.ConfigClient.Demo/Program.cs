@@ -21,7 +21,7 @@ namespace RC.ConfigClient.Demo
             });
             #endregion
             const string url = "https://gateway.xmjriyu.com/RCESDEVAPI";
-            const string projectName = "XMJProject";
+            const string projectName = "XMJ_Educational_WebAPI";
             string[] namespaces = new[]
             {
                 "WebAPI",

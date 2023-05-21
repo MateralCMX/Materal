@@ -9,7 +9,6 @@ namespace Materal.TFMS.Demo.Client02.EventHandlers
     {
         public async Task HandleAsync(Event01 @event)
         {
-            throw new NotImplementedException();
             await Task.Run(() => Console.WriteLine($"{GetType().Name}接收到事件{@event.GetType().Name}"));
         }
     }
