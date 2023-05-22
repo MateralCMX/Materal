@@ -6,6 +6,7 @@ using Materal.Logger;
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 using Materal.TTA.Common.Model;
+using Materal.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
@@ -34,6 +35,7 @@ namespace Materal.BusinessFlow.WebAPI
                 });
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddMateralUtils();
             builder.Services.AddMateralLogger();
             builder.Services.AddBusinessFlow();
             SqliteConfigModel dbConfig = new() { Source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BusinessFlow.db") };

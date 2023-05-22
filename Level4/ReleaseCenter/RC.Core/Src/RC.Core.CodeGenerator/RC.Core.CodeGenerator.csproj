@@ -4,6 +4,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.24" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.25" />
 	</ItemGroup>
 </Project>

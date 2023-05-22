@@ -12,7 +12,7 @@
 		</Content>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.24" />
-		<PackageReference Include="Materal.BaseCore.Common" Version="1.1.24" />
+		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.25" />
+		<PackageReference Include="Materal.BaseCore.Common" Version="1.1.25" />
 	</ItemGroup>
 </Project>

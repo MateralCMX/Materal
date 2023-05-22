@@ -468,6 +468,16 @@ namespace Materal.BaseCore.HttpClient
         /// <returns></returns>
         public virtual async Task<TDTO?> GetInfoAsync([Required(ErrorMessage = "唯一标识为空")] Guid id) => await GetResultModelByGetAsync<TDTO>($"{ControllerName}/GetInfo", new Dictionary<string, string> { [nameof(id)] = id.ToString() });
         /// <summary>
+        /// 是否存在
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public virtual async Task<bool> ExistedAsync([Required(ErrorMessage = "唯一标识为空")] Guid id)
+        {
+            TDTO? result = await GetResultModelByGetAsync<TDTO>($"{ControllerName}/GetInfo", new Dictionary<string, string> { [nameof(id)] = id.ToString() });
+            return result != null;
+        }
+        /// <summary>
         /// 获得列表
         /// </summary>
         /// <param name="requestModel"></param>

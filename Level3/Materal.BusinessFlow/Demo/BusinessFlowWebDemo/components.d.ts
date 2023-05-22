@@ -55,6 +55,7 @@ declare module '@vue/runtime-core' {
     FlowTemplateList: typeof import('./src/components/FlowTemplateList.vue')['default']
     FlowTemplateOption: typeof import('./src/components/FlowTemplateOption.vue')['default']
     Home: typeof import('./src/components/Home.vue')['default']
+    HttpAutoNode: typeof import('./src/components/AutoNodes/HttpAutoNode.vue')['default']
     InitiatorNodeHandleData: typeof import('./src/components/InitiatorNodeHandleData.vue')['default']
     InputFormOption: typeof import('./src/components/FormDataItems/InputFormOption.vue')['default']
     InputFormProperty: typeof import('./src/components/FormDataItems/InputFormProperty.vue')['default']
