@@ -35,6 +35,11 @@ namespace Materal.BaseCore.CodeGenerator.Models
                         actionCode == "using System.ComponentModel.DataAnnotations;" ||
                         Usings.Contains(actionCode)) continue;
                     Usings.Add(actionCode);
+                    if (actionCode.Contains(".Services.Models."))
+                    {
+                        string newUsing = actionCode.Replace(".Services.Models.", ".PresentationModel.");
+                        Usings.Add(newUsing);
+                    }
                     continue;
                 }
                 if (!actionCode.EndsWith(");")) continue;
