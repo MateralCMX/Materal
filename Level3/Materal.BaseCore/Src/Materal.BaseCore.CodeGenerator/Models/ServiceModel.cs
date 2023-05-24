@@ -10,22 +10,33 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public string? Name { get; set; }
         public List<InterfaceMethodModel> InterfaceMethodModels { get; set; } = new();
+        public readonly List<string> Usings = new();
         public ServiceModel() { }
         public ServiceModel(string[] codes, int classLineIndex)
         {
             Name = GetServiceName(codes[classLineIndex]);
-            Append(codes, classLineIndex);
+            Append(codes);
         }
         /// <summary>
         /// 添加
         /// </summary>
         /// <param name="codes"></param>
-        /// <param name="classLineIndex"></param>
-        public void Append(string[] codes, int classLineIndex)
+        public void Append(string[] codes)
         {
-            for (int i = classLineIndex; i < codes.Length; i++)
+            for (int i = 0; i < codes.Length; i++)
             {
                 string actionCode = codes[i].Trim();
+                if (actionCode.StartsWith("using"))
+                {
+                    if (actionCode == "using Materal.BaseCore.PresentationModel;" || 
+                        actionCode == "using Materal.BaseCore.Services.Models;" ||
+                        actionCode == "using Materal.Utils.Model;" ||
+                        actionCode == "using Microsoft.AspNetCore.Mvc;" || 
+                        actionCode == "using System.ComponentModel.DataAnnotations;" ||
+                        Usings.Contains(actionCode)) continue;
+                    Usings.Add(actionCode);
+                    continue;
+                }
                 if (!actionCode.EndsWith(");")) continue;
                 InterfaceMethodModels.Add(new InterfaceMethodModel(codes, i));
             }
@@ -61,14 +72,15 @@ namespace Materal.BaseCore.CodeGenerator.Models
             if (models.Count <= 0) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"#nullable enable");
-            codeContent.AppendLine($"using Materal.Utils.Model;");
-            codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
-            codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.PresentationModel.{Name};");
-            codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Services.Models.{Name};");
-            codeContent.AppendLine($"using Microsoft.AspNetCore.Mvc;");
-            codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
             codeContent.AppendLine($"using Materal.BaseCore.PresentationModel;");
             codeContent.AppendLine($"using Materal.BaseCore.Services.Models;");
+            codeContent.AppendLine($"using Materal.Utils.Model;");
+            codeContent.AppendLine($"using Microsoft.AspNetCore.Mvc;");
+            codeContent.AppendLine($"using System.ComponentModel.DataAnnotations;");
+            foreach (string @using in Usings)
+            {
+                codeContent.AppendLine(@using);
+            }
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.WebAPI.Controllers");
             codeContent.AppendLine($"{{");

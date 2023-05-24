@@ -119,7 +119,7 @@ namespace MateralBaseCoreVSIX.Models
                 }
                 else
                 {
-                    result.Append(codes, i);
+                    result.Append(codes);
                     return null;
                 }
             }
