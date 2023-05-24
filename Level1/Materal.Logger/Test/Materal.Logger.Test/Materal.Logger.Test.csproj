@@ -13,6 +13,7 @@
 		<PackageReference Include="coverlet.collector" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.Logger.AspNetCore\Materal.Logger.AspNetCore.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger.Message\Materal.Logger.Message.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.LoggerClient\Materal.LoggerClient.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger\Materal.Logger.csproj" />

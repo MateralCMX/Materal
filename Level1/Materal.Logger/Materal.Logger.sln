@@ -25,7 +25,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{D50FB148-416
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{AED144EE-59F4-498C-A127-566AA44DD8A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.Test", "Test\Materal.Logger.Test\Materal.Logger.Test.csproj", "{D4E2D2E5-D4BB-4C2B-8C9F-6FF3D95CEBFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.Test", "Test\Materal.Logger.Test\Materal.Logger.Test.csproj", "{D4E2D2E5-D4BB-4C2B-8C9F-6FF3D95CEBFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.AspNetCore", "Src\Materal.Logger.AspNetCore\Materal.Logger.AspNetCore.csproj", "{ABDC527B-95D7-4336-A900-1FFB0CB3C342}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,10 @@ Global
 		{D4E2D2E5-D4BB-4C2B-8C9F-6FF3D95CEBFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4E2D2E5-D4BB-4C2B-8C9F-6FF3D95CEBFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4E2D2E5-D4BB-4C2B-8C9F-6FF3D95CEBFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABDC527B-95D7-4336-A900-1FFB0CB3C342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABDC527B-95D7-4336-A900-1FFB0CB3C342}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABDC527B-95D7-4336-A900-1FFB0CB3C342}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABDC527B-95D7-4336-A900-1FFB0CB3C342}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -83,6 +89,7 @@ Global
 		{B8D598F7-7034-4202-AA59-A38B0AA13A5A} = {D50FB148-416F-44CA-A048-615560E26524}
 		{5FC3A053-D898-409E-AF6B-413D9F93A895} = {D50FB148-416F-44CA-A048-615560E26524}
 		{D4E2D2E5-D4BB-4C2B-8C9F-6FF3D95CEBFD} = {AED144EE-59F4-498C-A127-566AA44DD8A9}
+		{ABDC527B-95D7-4336-A900-1FFB0CB3C342} = {D50FB148-416F-44CA-A048-615560E26524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BDC3165-1789-4856-909F-812A91617D4C}

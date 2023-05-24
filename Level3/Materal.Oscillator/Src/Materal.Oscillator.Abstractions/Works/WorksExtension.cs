@@ -8,8 +8,8 @@
         /// <summary>
         /// 序列化响应
         /// </summary>
-        /// <param name="work">响应</param>
+        /// <param name="workData">响应</param>
         /// <returns></returns>
-        public static string Serialize(this IWork work) => work.ToJson();
+        public static string Serialize(this IWorkData workData) => workData.ToJson();
     }
 }

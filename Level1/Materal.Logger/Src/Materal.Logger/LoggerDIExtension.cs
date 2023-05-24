@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -27,17 +25,17 @@ namespace Materal.Logger
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
             return services;
         }
-        /// <summary>
-        /// 使用日志服务
-        /// </summary>
-        /// <param name="app"></param>
-        /// <param name="option"></param>
-        /// <param name="configuration"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseMateralLogger(this IApplicationBuilder app, Action<LoggerConfigOptions>? option = null, IConfiguration? configuration = null)
-        {
-            LoggerManager.Init(option, configuration);
-            return app;
-        }
+        ///// <summary>
+        ///// 使用日志服务
+        ///// </summary>
+        ///// <param name="app"></param>
+        ///// <param name="option"></param>
+        ///// <param name="configuration"></param>
+        ///// <returns></returns>
+        //public static IApplicationBuilder UseMateralLogger(this IApplicationBuilder app, Action<LoggerConfigOptions>? option = null, IConfiguration? configuration = null)
+        //{
+        //    LoggerManager.Init(option, configuration);
+        //    return app;
+        //}
     }
 }

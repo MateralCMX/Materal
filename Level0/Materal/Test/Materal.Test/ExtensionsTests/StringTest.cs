@@ -6,7 +6,7 @@ namespace Materal.Test.ExtensionsTests
     public class StringTest : BaseTest
     {
         [TestMethod]
-        public void GetTypeByTypeName()
+        public void GetTypeByTypeNameTest()
         {
             Type? studentType = nameof(Student).GetTypeByTypeName<User>("1234", 22);
             if(studentType != null)

@@ -5,8 +5,8 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.Services" Version="1.1.25" />
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.25" />
+		<PackageReference Include="Materal.BaseCore.Services" Version="1.1.26" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.26" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.ServerCenter.Common\RC.ServerCenter.Common.csproj" />

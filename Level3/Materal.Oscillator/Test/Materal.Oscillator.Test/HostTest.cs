@@ -33,7 +33,7 @@ namespace Materal.Oscillator.Test.RepositoryTest.SqliteEF
                 {
                     Name = "TestWork",
                     Description = "测试任务",
-                    WorkData = new ConsoleWork() { Message = "喵喵喵" }
+                    WorkData = new ConsoleWorkData() { Message = "喵喵喵" }
                 };
                 workID = await host.AddWorkAsync(model);
                 if (workID == Guid.Empty) Assert.Fail("添加任务失败");
@@ -41,7 +41,7 @@ namespace Materal.Oscillator.Test.RepositoryTest.SqliteEF
                 {
                     Name = "TestWork2",
                     Description = "测试任务2",
-                    WorkData = new ConsoleWork() { Message = "汪汪汪" }
+                    WorkData = new ConsoleWorkData() { Message = "汪汪汪" }
                 };
                 work2ID = await host.AddWorkAsync(model);
                 if (work2ID == Guid.Empty) Assert.Fail("添加任务2失败");

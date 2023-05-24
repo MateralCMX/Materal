@@ -24,7 +24,7 @@ namespace Materal.Oscillator.Abstractions.DTO
         /// 任务数据
         /// </summary>
         [Required(ErrorMessage = "任务数据为空")]
-        public IWork WorkData { get; set; } = new NoneWork();
+        public IWorkData WorkData { get; set; } = new NoneWorkData();
         /// <summary>
         /// 描述
         /// </summary>
@@ -40,7 +40,7 @@ namespace Materal.Oscillator.Abstractions.DTO
         public WorkDTO(Work domain) : base(domain)
         {
             domain.CopyProperties(this, nameof(WorkData));
-            WorkData = OscillatorConvertHelper.ConvertToInterface<IWork>(domain.WorkType, domain.WorkData);
+            WorkData = OscillatorConvertHelper.ConvertToInterface<IWorkData>(domain.WorkType, domain.WorkData);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using Materal.Abstractions;
+﻿using ConsoleDemo.Works;
+using Materal.Abstractions;
+using Materal.Logger;
 using Materal.Oscillator;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Domain;
@@ -10,6 +12,7 @@ using Materal.Oscillator.PlanTriggers;
 using Materal.Oscillator.Works;
 using Materal.Utils;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ConsoleDemo
 {
@@ -22,12 +25,13 @@ namespace ConsoleDemo
             IServiceCollection serviceCollection = new ServiceCollection();
             MateralConfig.PageStartNumber = 1;
             serviceCollection.AddMateralUtils();
+            serviceCollection.AddMateralLogger();
             serviceCollection.AddOscillator();
 
-            //IRepositoryHelper useRepositoryHelper = new SqliteEFRepositoryHelper();
+            IRepositoryHelper useRepositoryHelper = new SqliteEFRepositoryHelper();
             //IRepositoryHelper useRepositoryHelper = new SqlServerEFRepositoryHelper();
             //IRepositoryHelper useRepositoryHelper = new SqliteADONETRepositoryHelper();
-            IRepositoryHelper useRepositoryHelper = new SqlServerADONETRepositoryHelper();
+            //IRepositoryHelper useRepositoryHelper = new SqlServerADONETRepositoryHelper();
 
             useRepositoryHelper.AddDRRepository(serviceCollection);
             useRepositoryHelper.AddRepository(serviceCollection);
@@ -35,6 +39,11 @@ namespace ConsoleDemo
             serviceCollection.AddSingleton<IRetryAnswerListener, RetryAnswerListenerImpl>();
             MateralServices.Services = serviceCollection.BuildServiceProvider();
             _services = MateralServices.Services;
+            LoggerManager.Init(option =>
+            {
+                option.AddConsoleTarget("LifeConsole");
+                option.AddAllTargetRule(LogLevel.Information, null, new[] { "Microsoft.EntityFrameworkCore.*" } );
+            });
             useRepositoryHelper.Init(_services);
             _host = _services.GetRequiredService<IOscillatorHost>();
         }
@@ -62,7 +71,7 @@ namespace ConsoleDemo
                 {
                     Name = "TestWork",
                     Description = "测试任务",
-                    WorkData = new ConsoleWork() { Message = "喵喵喵" }
+                    WorkData = new DemoWorkData() { Message = "喵喵喵" }
                 };
                 workID = await _host.AddWorkAsync(model);
                 if (workID == Guid.Empty) throw new Exception("添加任务失败");
@@ -70,7 +79,7 @@ namespace ConsoleDemo
                 {
                     Name = "TestWork2",
                     Description = "测试任务2",
-                    WorkData = new ConsoleWork() { Message = "汪汪汪" }
+                    WorkData = new DemoWorkData() { Message = "汪汪汪" }
                 };
                 work2ID = await _host.AddWorkAsync(model);
                 if (work2ID == Guid.Empty) throw new Exception("添加任务2失败");

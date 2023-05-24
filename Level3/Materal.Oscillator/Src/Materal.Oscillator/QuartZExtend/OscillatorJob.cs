@@ -112,15 +112,19 @@ namespace Materal.Oscillator.QuartZExtend
         {
             if (_schedule == null) return scheduleWork.FailEvent;
             Work work = _works.First(m => m.ID == scheduleWork.WorkID);
-            IWork workData = OscillatorConvertHelper.ConvertToInterface<IWork>(work.WorkType, work.WorkData) ?? throw new OscillatorException("获取任务数据失败");
+            IWorkData workData = OscillatorConvertHelper.ConvertToInterface<IWorkData>(work.WorkType, work.WorkData) ?? throw new OscillatorException("获取任务数据失败");
             string eventValue = scheduleWork.FailEvent;
             string? workResult = null;
             if (_workResults.Count >= _nowWorkIndex)//当前任务是否已经执行完毕
             {
                 try
                 {
-                    await workData.InitAsync();
-                    workResult = await workData.ExcuteAsync(_workResults, _nowWorkIndex, _schedule, scheduleWork, work);
+                    Type workDataType = workData.GetType();
+                    Type workBaseType = typeof(IWork<>);
+                    workBaseType = workBaseType.MakeGenericType(workDataType);
+                    Type workType = workData.GetType().Assembly.GetTypes().Where(m => !m.IsAbstract && m.IsAssignableTo(workBaseType) && m.IsPublic).FirstOrDefault() ?? throw new OscillatorException("获取任务失败");
+                    IWork workExcute = workType.Instantiation<IWork>(_serviceProvider);
+                    workResult = await workExcute.ExcuteAsync(workData, _workResults, _nowWorkIndex, _schedule, scheduleWork, work);
                     _workResults.Add(new WorkResultModel
                     {
                         ScheduleWork = scheduleWork,

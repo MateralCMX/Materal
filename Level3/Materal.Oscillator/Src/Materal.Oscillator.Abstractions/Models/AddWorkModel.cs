@@ -22,7 +22,7 @@ namespace Materal.Oscillator.Abstractions.Models
         /// 任务数据
         /// </summary>
         [Required(ErrorMessage = "任务数据为空")]
-        public IWork WorkData { get; set; } = new NoneWork();
+        public IWorkData WorkData { get; set; } = new NoneWorkData();
         /// <summary>
         /// 描述
         /// </summary>

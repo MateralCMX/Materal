@@ -1,6 +1,7 @@
 ﻿using Materal.Extensions;
 using System.Data;
 using System.Reflection;
+using System.Xml.Xsl;
 
 namespace System
 {
@@ -39,15 +40,60 @@ namespace System
         /// 实例化对象
         /// </summary>
         /// <param name="type"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object Instantiation(this Type type, IServiceProvider serviceProvider, params object[] args) => InstantiationOrDefault(type, serviceProvider, args) ?? throw new ExtensionException("实例化失败");
+        /// <summary>
+        /// 实例化对象
+        /// </summary>
+        /// <param name="type"></param>
         /// <param name="args"></param>
         /// <returns></returns>
         public static object? InstantiationOrDefault(this Type type, params object[] args)
         {
             Type[] argTypes = args.Select(m => m.GetType()).ToArray();
             ConstructorInfo? constructorInfo = type.GetConstructor(argTypes);
-            if (constructorInfo == null) return default;
+            if (constructorInfo == null) return null;
             object result = constructorInfo.Invoke(args);
             return result;
+        }
+        /// <summary>
+        /// 实例化对象
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? InstantiationOrDefault(this Type type, IServiceProvider serviceProvider, params object[] args)
+        {
+            ConstructorInfo[] constructorInfos = type.GetConstructors().OrderByDescending(m => m.GetParameters().Length).ToArray();
+            List<object> argList = args.ToList();
+            foreach (ConstructorInfo constructorInfo in constructorInfos)
+            {
+                ParameterInfo[] argumentInfos = constructorInfo.GetParameters();
+                List<object> trueArguments = new();
+                foreach (ParameterInfo argumentInfo in argumentInfos)
+                {
+                    bool isOK = false;
+                    for (int i = 0; i < argList.Count; i++)
+                    {
+                        if (argList[i].GetType() != argumentInfo.ParameterType) continue;
+                        trueArguments.Add(argList[i]);
+                        argList.RemoveAt(i);
+                        isOK = true;
+                        break;
+                    }
+                    if (isOK) continue;
+                    object? argument = serviceProvider.GetService(argumentInfo.ParameterType);
+                    if(argument == null) break;
+                    trueArguments.Add(argument);
+                }
+                if (trueArguments.Count != argumentInfos.Length) continue;
+                object result = constructorInfo.Invoke(trueArguments.ToArray());
+                return result;
+            }
+            return null;
         }
         /// <summary>
         /// 实例化对象
@@ -65,11 +111,37 @@ namespace System
         /// 实例化对象
         /// </summary>
         /// <param name="type"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T Instantiation<T>(this Type type, IServiceProvider serviceProvider, params object[] args)
+        {
+            object? obj = InstantiationOrDefault(type, serviceProvider, args);
+            if (obj == null || obj is not T result) throw new ExtensionException("实例化失败");
+            return result;
+        }
+        /// <summary>
+        /// 实例化对象
+        /// </summary>
+        /// <param name="type"></param>
         /// <param name="args"></param>
         /// <returns></returns>
         public static T? InstantiationOrDefault<T>(this Type type, params object[] args)
         {
             object? obj = InstantiationOrDefault(type, args);
+            if (obj == null || obj is not T result) return default;
+            return result;
+        }
+        /// <summary>
+        /// 实例化对象
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T? InstantiationOrDefault<T>(this Type type, IServiceProvider serviceProvider, params object[] args)
+        {
+            object? obj = InstantiationOrDefault(type, serviceProvider, args);
             if (obj == null || obj is not T result) return default;
             return result;
         }
