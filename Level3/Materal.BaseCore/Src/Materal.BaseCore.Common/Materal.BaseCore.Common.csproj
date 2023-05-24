@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.26</Version>
+		<Version>1.1.27</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -21,8 +21,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="*" />
-		<PackageReference Include="Materal.Utils" Version="1.1.26" />
-		<PackageReference Include="Materal.TFMS.EventBus.RabbitMQ" Version="1.1.26" />
+		<PackageReference Include="Materal.Utils" Version="1.1.27" />
+		<PackageReference Include="Materal.TFMS.EventBus.RabbitMQ" Version="1.1.27" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="*" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="*" />
 		<PackageReference Include="NetCore.AutoRegisterDi" Version="*" />

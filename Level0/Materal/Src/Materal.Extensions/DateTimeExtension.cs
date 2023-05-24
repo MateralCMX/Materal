@@ -183,28 +183,76 @@ namespace System
             return timeSpan.Ticks;
         }
         /// <summary>
-        /// 获得第一秒
+        /// 获得当天第一秒
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetFirstSecond(this DateTime dateTime) => dateTime.Date;
+        public static DateTime GetDayFirstSecond(this DateTime dateTime) => dateTime.Date;
         /// <summary>
-        /// 获得第一毫秒
+        /// 获得当天第一毫秒
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetFirstMillisecond(this DateTime dateTime) => dateTime.Date;
+        public static DateTime GetDayFirstMillisecond(this DateTime dateTime) => dateTime.Date;
         /// <summary>
-        /// 获得最后一毫秒
+        /// 获得当天最后一毫秒
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetLastMillisecond(this DateTime dateTime) => dateTime.Date.AddDays(1).AddMinutes(-1);
+        public static DateTime GetDayLastMillisecond(this DateTime dateTime) => dateTime.Date.AddDays(1).AddMilliseconds(-1);
         /// <summary>
-        /// 获得最后一毫秒
+        /// 获得当天最后一毫秒
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetLastSecond(this DateTime dateTime) => dateTime.Date.AddDays(1).AddSeconds(-1);
+        public static DateTime GetDayLastSecond(this DateTime dateTime) => dateTime.Date.AddDays(1).AddSeconds(-1);
+        /// <summary>
+        /// 获得当月第一秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetMonthFirstSecond(this DateTime dateTime) => new(dateTime.Year, dateTime.Month, 1);
+        /// <summary>
+        /// 获得当月第一毫秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetMonthFirstMillisecond(this DateTime dateTime) => new(dateTime.Year, dateTime.Month, 1);
+        /// <summary>
+        /// 获得当月最后一毫秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetMonthLastMillisecond(this DateTime dateTime) => new DateTime(dateTime.Year, dateTime.Month, 1).AddMonths(1).AddMilliseconds(-1);
+        /// <summary>
+        /// 获得当月最后一毫秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetMonthLastSecond(this DateTime dateTime) => new DateTime(dateTime.Year, dateTime.Month, 1).AddDays(1).AddSeconds(-1);
+        /// <summary>
+        /// 获得当年第一秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetYearFirstSecond(this DateTime dateTime) => new(dateTime.Year, 1, 1);
+        /// <summary>
+        /// 获得当年第一毫秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetYearFirstMillisecond(this DateTime dateTime) => new(dateTime.Year, 1, 1);
+        /// <summary>
+        /// 获得当年最后一毫秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetYearLastMillisecond(this DateTime dateTime) => new DateTime(dateTime.Year, 12, 31).AddDays(1).AddMilliseconds(-1);
+        /// <summary>
+        /// 获得当年最后一毫秒
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetYearLastSecond(this DateTime dateTime) => new DateTime(dateTime.Year, 12, 31).AddDays(1).AddSeconds(-1);
     }
 }
