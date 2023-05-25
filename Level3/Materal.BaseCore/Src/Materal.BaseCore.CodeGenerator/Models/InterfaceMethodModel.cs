@@ -51,18 +51,39 @@ namespace Materal.BaseCore.CodeGenerator.Models
         public InterfaceMethodModel(string[] codes, int startIndex)
         {
             string code = codes[startIndex].Trim();
-            int index = code.IndexOf(" ");
-            if (index < 1) throw new Exception($"代码{code}解析错误:找不到返回类型");
-            ResultType = code[..index];
-            if(HasResultDataModel)
+            string[] codeLines = code.Split(' ');
+            int index = 0;
+            ResultType = codeLines[index++];
+            while (!ResultType.IsFullCodeBlock())
             {
-                if(ResultType.StartsWith("Task"))
+                ResultType += $" {codeLines[index++]}";
+            }
+            index = ResultType.Length;
+            if (HasResultDataModel)
+            {
+                if (ResultType.Contains(", PageModel "))
                 {
-                    ResultModelType = $"ResultModel<{ResultType[5..^1]}>";
+                    string temp = ResultType;
+                    if (temp.StartsWith("Task"))
+                    {
+                        temp = temp[5..^1];
+                    }
+                    int startAngleBracket = temp.IndexOf("<");
+                    temp = temp[(startAngleBracket + 1)..];
+                    int endAngleBracket = temp.IndexOf(">");
+                    temp = temp[..endAngleBracket];
+                    ResultModelType = $"PageResultModel<{temp}>";
                 }
                 else
                 {
-                    ResultModelType = $"ResultModel<{ResultType}>";
+                    if (ResultType.StartsWith("Task"))
+                    {
+                        ResultModelType = $"ResultModel<{ResultType[5..^1]}>";
+                    }
+                    else
+                    {
+                        ResultModelType = $"ResultModel<{ResultType}>";
+                    }
                 }
             }
             else

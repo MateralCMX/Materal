@@ -7,11 +7,24 @@ using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.CodeGenerator;
 using MBC.Demo.DataTransmitModel.User;
 using MBC.Demo.Services.Models.User;
+using MBC.Demo.PresentationModel.User;
 
 namespace MBC.Demo.WebAPI.Controllers
 {
     public partial class UserController
     {
+        /// <summary>
+        /// 获得用户列表
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<PageResultModel<UserListDTO>> GetUserListAsync(QueryUserRequestModel requestModel)
+        {
+            var model0 = Mapper.Map<QueryUserModel>(requestModel);
+            (var result, PageModel pageInfo) = await DefaultService.GetUserListAsync(model0);
+            return PageResultModel<UserListDTO>.Success(result, pageInfo);
+        }
         /// <summary>
         /// 重置密码
         /// </summary>

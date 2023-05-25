@@ -146,15 +146,30 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 }
                 if (model.HasResultDataModel)
                 {
-                    if (model.IsTask)
+                    if (model.ResultModelType.Contains("PageResultModel"))
                     {
-                        codeContent.AppendLine($"            var result = await DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                        if (model.IsTask)
+                        {
+                            codeContent.AppendLine($"            (var result, PageModel pageInfo) = await DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                        }
+                        else
+                        {
+                            codeContent.AppendLine($"            (var result, PageModel pageInfo) = DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                        }
+                        codeContent.AppendLine($"            return {model.ResultModelType}.Success(result, pageInfo);");
                     }
                     else
                     {
-                        codeContent.AppendLine($"            var result = DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                        if (model.IsTask)
+                        {
+                            codeContent.AppendLine($"            var result = await DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                        }
+                        else
+                        {
+                            codeContent.AppendLine($"            var result = DefaultService.{model.Name}({string.Join(",", modelNames)});");
+                        }
+                        codeContent.AppendLine($"            return {model.ResultModelType}.Success(result);");
                     }
-                    codeContent.AppendLine($"            return {model.ResultModelType}.Success(result);");
                 }
                 else
                 {

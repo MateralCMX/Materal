@@ -1,4 +1,5 @@
-﻿using MBC.Core.Common;
+﻿using Materal.Utils.Model;
+using MBC.Core.Common;
 using MBC.Demo.Common;
 using MBC.Demo.DataTransmitModel.User;
 using MBC.Demo.Domain;
@@ -8,6 +9,10 @@ namespace MBC.Demo.ServiceImpl
 {
     public partial class UserServiceImpl
     {
+        public async Task<(List<UserListDTO> data, PageModel pageInfo)> GetUserListAsync(QueryUserModel model)
+        {
+            return await GetListAsync(model);
+        }
         public override async Task<Guid> AddAsync(AddUserModel model)
         {
             if (await DefaultRepository.ExistedAsync(m => m.Account == model.Account)) throw new MBCException("账号已存在");

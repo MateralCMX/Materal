@@ -8,6 +8,13 @@ namespace MBC.Demo.Services
     public partial interface IUserService
     {
         /// <summary>
+        /// 获得用户列表
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [DataValidation, MapperController(MapperType.Post)]
+        Task<(List<UserListDTO> data, PageModel pageInfo)> GetUserListAsync(QueryUserModel model);
+        /// <summary>
         /// 登录
         /// </summary>
         /// <param name="model"></param>
