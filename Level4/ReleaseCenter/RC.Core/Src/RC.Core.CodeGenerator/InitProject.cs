@@ -214,7 +214,7 @@ namespace RC.Core.CodeGenerator
             codeContent.AppendLine($"            {{");
             codeContent.AppendLine($"                new {model.WebAPIProject.ProjectName}DIManager().Add{model.WebAPIProject.ProjectName}Service(services);");
             codeContent.AppendLine($"                program.ConfigService(services);");
-            codeContent.AppendLine($"            }}, program.ConfigApp, \"{model.WebAPIProject.PrefixName}.{model.WebAPIProject.ProjectName}\");");
+            codeContent.AppendLine($"            }}, program.ConfigApp, program.ConfigBuilder, \"{model.WebAPIProject.PrefixName}.{model.WebAPIProject.ProjectName}\");");
             codeContent.AppendLine($"            using (IServiceScope scope = app.Services.CreateScope())");
             codeContent.AppendLine($"            {{");
             codeContent.AppendLine($"                IMigrateHelper<{model.WebAPIProject.ProjectName}DBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<{model.WebAPIProject.ProjectName}DBContext>>();");

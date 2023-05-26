@@ -1,12 +1,14 @@
 #nullable enable
-using Materal.Utils.Model;
-using RC.Authority.DataTransmitModel.User;
-using RC.Authority.PresentationModel.User;
-using RC.Authority.Services.Models.User;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.PresentationModel;
 using Materal.BaseCore.Services.Models;
+using Materal.Utils.Model;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using Materal.BaseCore.CodeGenerator;
+using RC.Authority.DataTransmitModel.User;
+using RC.Authority.Services.Models.User;
+using RC.Authority.PresentationModel.User;
+using RC.Core.Common;
 
 namespace RC.Authority.WebAPI.Controllers
 {

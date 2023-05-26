@@ -18,7 +18,7 @@ namespace MBC.Core.WebAPI
         /// <returns></returns>
         public static WebApplication MBCStart(string[] args, Action<IServiceCollection>? configService, string consulTag)
         {
-            return MBCStart(args, configService, null, consulTag);
+            return MBCStart(args, configService, null, null, consulTag);
         }
         /// <summary>
         /// 开始
@@ -26,9 +26,10 @@ namespace MBC.Core.WebAPI
         /// <param name="args"></param>
         /// <param name="configService"></param>
         /// <param name="configAppAction"></param>
+        /// <param name="configBuilder"></param>
         /// <param name="consulTag"></param>
         /// <returns></returns>
-        public static WebApplication MBCStart(string[] args, Action<IServiceCollection>? configService, Action<WebApplication>? configAppAction, string consulTag)
+        public static WebApplication MBCStart(string[] args, Action<IServiceCollection>? configService, Action<WebApplication>? configAppAction, Action<WebApplicationBuilder>? configBuilder, string consulTag)
         {
             WebApplication app = Start(args, config =>
             {
@@ -37,7 +38,7 @@ namespace MBC.Core.WebAPI
             {
                 LoggerManager.CustomConfig.Add("ApplicationName", WebAPIConfig.AppName);
                 configAppAction?.Invoke(configApp);
-            }, consulTag);
+            }, configBuilder, consulTag);
             return app;
         }
         /// <summary>
@@ -50,6 +51,11 @@ namespace MBC.Core.WebAPI
         /// </summary>
         /// <param name="app"></param>
         public virtual void ConfigApp(WebApplication app) { }
+        /// <summary>
+        /// 配置构建器
+        /// </summary>
+        /// <param name="builder"></param>
+        public virtual void ConfigBuilder(WebApplicationBuilder builder) { }
         /// <summary>
         /// 初始化
         /// </summary>

@@ -1,6 +1,3 @@
-#$codeDir = "E:\Project\Materal\Project\Level3\ReleaseCenter\Src\"#源码文件夹路径
-#$publishDir = "E:\Project\Materal\Application\ReleaseCenter\"#发布文件夹路径
-
 $codeDir = "D:\Project\Materal\Materal\Level4\ReleaseCenter\"#源码文件夹路径
 $publishDir = "D:\Project\Materal\RCApplication\"#发布文件夹路径
 

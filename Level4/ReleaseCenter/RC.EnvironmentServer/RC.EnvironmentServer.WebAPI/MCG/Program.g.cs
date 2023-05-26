@@ -21,7 +21,7 @@ namespace RC.EnvironmentServer.WebAPI
             {
                 new EnvironmentServerDIManager().AddEnvironmentServerService(services);
                 program.ConfigService(services);
-            }, program.ConfigApp, "RC.EnvironmentServer");
+            }, program.ConfigApp, program.ConfigBuilder, "RC.EnvironmentServer");
             using (IServiceScope scope = app.Services.CreateScope())
             {
                 IMigrateHelper<EnvironmentServerDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<EnvironmentServerDBContext>>();

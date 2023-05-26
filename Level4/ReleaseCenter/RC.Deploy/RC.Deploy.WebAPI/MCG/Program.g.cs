@@ -21,7 +21,7 @@ namespace RC.Deploy.WebAPI
             {
                 new DeployDIManager().AddDeployService(services);
                 program.ConfigService(services);
-            }, program.ConfigApp, "RC.Deploy");
+            }, program.ConfigApp, program.ConfigBuilder, "RC.Deploy");
             using (IServiceScope scope = app.Services.CreateScope())
             {
                 IMigrateHelper<DeployDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<DeployDBContext>>();

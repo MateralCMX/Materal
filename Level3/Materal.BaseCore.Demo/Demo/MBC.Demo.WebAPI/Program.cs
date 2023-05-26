@@ -22,5 +22,17 @@ namespace MBC.Demo.WebAPI
             #endregion
             await base.InitAsync(args, services, app);
         }
+        /// <summary>
+        /// ≈‰÷√ππΩ®∆˜
+        /// </summary>
+        /// <param name="builder"></param>
+        public override void ConfigBuilder(WebApplicationBuilder builder)
+        {
+            base.ConfigBuilder(builder);
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.Limits.MaxRequestBodySize = 256 * 1024 * 1024;
+            });
+        }
     }
 }

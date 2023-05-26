@@ -21,7 +21,7 @@ namespace RC.Demo.WebAPI
             {
                 new DemoDIManager().AddDemoService(services);
                 program.ConfigService(services);
-            }, program.ConfigApp, "RC.Demo");
+            }, program.ConfigApp, program.ConfigBuilder, "RC.Demo");
             using (IServiceScope scope = app.Services.CreateScope())
             {
                 IMigrateHelper<DemoDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<DemoDBContext>>();

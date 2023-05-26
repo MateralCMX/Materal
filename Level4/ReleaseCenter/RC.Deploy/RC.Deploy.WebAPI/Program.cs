@@ -1,6 +1,7 @@
 using Materal.Abstractions;
 using Materal.BaseCore.WebAPI;
 using Materal.BaseCore.WebAPI.Common;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.FileProviders;
@@ -24,6 +25,10 @@ namespace RC.Deploy.WebAPI
         {
             base.ConfigService(services);
             services.AddSignalR();
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 256 * 1024 * 1024;
+            });
         }
         /// <summary>
         /// 初始化
@@ -129,6 +134,17 @@ namespace RC.Deploy.WebAPI
         protected static void Deploy_ProcessExit(object? sender, EventArgs e)
         {
             ApplicationRuntimeManage.ShutDownAsync().Wait();
+        }
+        /// <summary>
+        /// 配置构建器
+        /// </summary>
+        /// <param name="builder"></param>
+        public override void ConfigBuilder(WebApplicationBuilder builder)
+        {
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.Limits.MaxRequestBodySize = 256 * 1024 * 1024;
+            });
         }
     }
 }

@@ -1,12 +1,12 @@
 #nullable enable
-using Materal.Utils.Model;
-using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
-using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
-using RC.EnvironmentServer.Services.Models.ConfigurationItem;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 using Materal.BaseCore.PresentationModel;
 using Materal.BaseCore.Services.Models;
+using Materal.Utils.Model;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using Materal.BaseCore.CodeGenerator;
+using RC.EnvironmentServer.Services.Models.ConfigurationItem;
+using RC.EnvironmentServer.PresentationModel.ConfigurationItem;
 
 namespace RC.EnvironmentServer.WebAPI.Controllers
 {

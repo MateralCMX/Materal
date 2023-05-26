@@ -18,7 +18,7 @@ namespace RC.Core.WebAPI
         /// <returns></returns>
         public static WebApplication RCStart(string[] args, Action<IServiceCollection>? configService, string consulTag)
         {
-            return RCStart(args, configService, null, consulTag);
+            return RCStart(args, configService, null, null, consulTag);
         }
         /// <summary>
         /// 开始
@@ -28,7 +28,7 @@ namespace RC.Core.WebAPI
         /// <param name="configAppAction"></param>
         /// <param name="consulTag"></param>
         /// <returns></returns>
-        public static WebApplication RCStart(string[] args, Action<IServiceCollection>? configService, Action<WebApplication>? configAppAction, string consulTag)
+        public static WebApplication RCStart(string[] args, Action<IServiceCollection>? configService, Action<WebApplication>? configAppAction, Action<WebApplicationBuilder>? configBuilder, string consulTag)
         {
             WebApplication app = Start(args, config =>
             {
@@ -37,7 +37,7 @@ namespace RC.Core.WebAPI
             {
                 LoggerManager.CustomConfig.Add("ApplicationName", WebAPIConfig.AppName);
                 configAppAction?.Invoke(configApp);
-            }, consulTag);
+            }, configBuilder, consulTag);
             return app;
         }
         /// <summary>
@@ -50,6 +50,11 @@ namespace RC.Core.WebAPI
         /// </summary>
         /// <param name="app"></param>
         public virtual void ConfigApp(WebApplication app) { }
+        /// <summary>
+        /// 配置构建器
+        /// </summary>
+        /// <param name="builder"></param>
+        public virtual void ConfigBuilder(WebApplicationBuilder builder) { }
         /// <summary>
         /// 初始化
         /// </summary>

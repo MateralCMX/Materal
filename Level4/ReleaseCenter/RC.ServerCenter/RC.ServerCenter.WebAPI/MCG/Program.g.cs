@@ -21,7 +21,7 @@ namespace RC.ServerCenter.WebAPI
             {
                 new ServerCenterDIManager().AddServerCenterService(services);
                 program.ConfigService(services);
-            }, program.ConfigApp, "RC.ServerCenter");
+            }, program.ConfigApp, program.ConfigBuilder, "RC.ServerCenter");
             using (IServiceScope scope = app.Services.CreateScope())
             {
                 IMigrateHelper<ServerCenterDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<ServerCenterDBContext>>();

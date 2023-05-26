@@ -1,6 +1,7 @@
 ﻿using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Common;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -22,14 +23,14 @@ namespace Materal.BaseCore.WebAPI
         /// <param name="configApp"></param>
         /// <param name="consulTag"></param>
         /// <returns></returns>
-        protected static WebApplication Start(string[] args, Action<ConfigurationManager> initConfig, Action<IServiceCollection>? configService, Action<WebApplication>? configApp, string consulTag)
+        protected static WebApplication Start(string[] args, Action<ConfigurationManager> initConfig, Action<IServiceCollection>? configService, Action<WebApplication>? configApp, Action<WebApplicationBuilder>? configBuilder, string consulTag)
         {
             WebApplicationOptions applicationOptions = new()
             {
                 Args = args,
                 ContentRootPath = AppDomain.CurrentDomain.BaseDirectory
             };
-            return Start(applicationOptions, initConfig, configService, configApp, consulTag);
+            return Start(applicationOptions, initConfig, configService, configApp, configBuilder, consulTag);
         }
         /// <summary>
         /// 启动程序
@@ -38,12 +39,14 @@ namespace Materal.BaseCore.WebAPI
         /// <param name="initConfig">初始化配置</param>
         /// <param name="configService"></param>
         /// <param name="configApp"></param>
+        /// <param name="configBuilder"></param>
         /// <param name="consulTag"></param>
         /// <returns></returns>
-        protected static WebApplication Start(WebApplicationOptions applicationOptions, Action<ConfigurationManager> initConfig, Action<IServiceCollection>? configService, Action<WebApplication>? configApp, string consulTag)
+        protected static WebApplication Start(WebApplicationOptions applicationOptions, Action<ConfigurationManager> initConfig, Action<IServiceCollection>? configService, Action<WebApplication>? configApp, Action<WebApplicationBuilder>? configBuilder, string consulTag)
         {
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             WebApplicationBuilder builder = WebApplication.CreateBuilder(applicationOptions);
+            configBuilder?.Invoke(builder);
             initConfig?.Invoke(builder.Configuration);
             MateralCoreConfig.Configuration = builder.Configuration;
             _titleChangeTtimer.Change(TimeSpan.Zero, TimeSpan.FromMinutes(1));//立即启动，间隔1分钟

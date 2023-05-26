@@ -37,6 +37,12 @@ namespace MBC.Demo.HttpClient
         /// <returns></returns>
         public async Task<List<UserDTO>?> TestAsync(ChangePasswordRequestModel requestModel) => await GetResultModelByPutAsync<List<UserDTO>>("User/Test", null, requestModel);
         /// <summary>
+        /// 获得用户列表
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        public async Task<(List<UserListDTO>? data, PageModel pageInfo)> GetUserListAsync(QueryUserRequestModel requestModel) => await GetPageResultModelByPostAsync<UserListDTO>("User/GetUserList", null, requestModel);
+        /// <summary>
         /// 重置密码
         /// </summary>
         /// <param name="id"></param>

@@ -21,7 +21,7 @@ namespace MBC.Demo.WebAPI
             {
                 new DemoDIManager().AddDemoService(services);
                 program.ConfigService(services);
-            }, program.ConfigApp, "MBC.Demo");
+            }, program.ConfigApp, program.ConfigBuilder, "MBC.Demo");
             using (IServiceScope scope = app.Services.CreateScope())
             {
                 IMigrateHelper<DemoDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<DemoDBContext>>();

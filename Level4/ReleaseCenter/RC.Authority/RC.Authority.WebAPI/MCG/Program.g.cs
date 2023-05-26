@@ -21,7 +21,7 @@ namespace RC.Authority.WebAPI
             {
                 new AuthorityDIManager().AddAuthorityService(services);
                 program.ConfigService(services);
-            }, program.ConfigApp, "RC.Authority");
+            }, program.ConfigApp, program.ConfigBuilder, "RC.Authority");
             using (IServiceScope scope = app.Services.CreateScope())
             {
                 IMigrateHelper<AuthorityDBContext> migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<AuthorityDBContext>>();
