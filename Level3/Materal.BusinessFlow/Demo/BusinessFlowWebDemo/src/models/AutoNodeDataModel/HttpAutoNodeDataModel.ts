@@ -7,4 +7,8 @@ export class HttpAutoNodeDataModel {
      * 请求方式
      */
     public Method: string = "";
+    /**
+     * 请求体
+     */
+    public Body: string = "";
 }

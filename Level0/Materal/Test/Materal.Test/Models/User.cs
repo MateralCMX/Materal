@@ -4,8 +4,8 @@ namespace Materal.Test.Models
 {
     public class User : FilterModel
     {
-        [Equal]
         public string Name { get; set; } = string.Empty;
+        public DateTime CreateTime { get; set;} = DateTime.Now;
 
         public User()
         {
@@ -26,5 +26,14 @@ namespace Materal.Test.Models
         {
             Age = age;
         }
+    }
+    public class QueryUserModel : PageRequestModel
+    {
+        [Contains]
+        public string? Name { get; set; }
+        [GreaterThanOrEqual("CreateTime")]
+        public DateTime? MinCreateTime { get; set; }
+        [LessThanOrEqual("CreateTime")]
+        public DateTime? MaxCreateTime { get; set; }
     }
 }

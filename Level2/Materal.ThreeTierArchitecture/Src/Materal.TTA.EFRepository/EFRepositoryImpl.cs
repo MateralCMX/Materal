@@ -1,7 +1,6 @@
 ﻿using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.EntityFrameworkCore;
-using System.Data.SqlClient;
 using System.Linq.Expressions;
 
 namespace Materal.TTA.EFRepository
@@ -117,7 +116,11 @@ namespace Materal.TTA.EFRepository
         public override (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
         {
             IQueryable<TEntity> queryable = DBSet.Where(filterExpression);
-            var pageModel = new PageModel(pageIndex, pageSize, queryable.Count());
+            PageModel pageModel = new(pageIndex, pageSize, queryable.Count())
+            {
+                SortPropertyName = GetSortPropertyName(orderExpression),
+                IsAsc = sortOrder == SortOrderEnum.Ascending
+            };
             List<TEntity> result = sortOrder switch
             {
                 SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
@@ -138,7 +141,11 @@ namespace Materal.TTA.EFRepository
         public override async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
         {
             IQueryable<TEntity> queryable = DBSet.Where(filterExpression);
-            var pageModel = new PageModel(pageIndex, pageSize, queryable.Count());
+            PageModel pageModel = new(pageIndex, pageSize, await queryable.CountAsync())
+            {
+                SortPropertyName = GetSortPropertyName(orderExpression),
+                IsAsc = sortOrder == SortOrderEnum.Ascending
+            };
             List<TEntity> result = sortOrder switch
             {
                 SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),

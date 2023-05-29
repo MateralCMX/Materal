@@ -21,7 +21,7 @@
         /// <summary>
         /// 请求体
         /// </summary>
-        public object? Body { get; set; }
+        public string? Body { get; set; }
         /// <summary>
         /// 结果映射
         /// </summary>

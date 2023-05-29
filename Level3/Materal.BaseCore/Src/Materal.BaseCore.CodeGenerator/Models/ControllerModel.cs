@@ -149,7 +149,8 @@ namespace Materal.BaseCore.CodeGenerator.Models
             string[] _httpClientUsingBlackList = new[]
             {
                 $"using {project.PrefixName}.Core",
-                $"using {project.PrefixName}.{project.ProjectName}.Services"
+                $"using {project.PrefixName}.{project.ProjectName}.Services",
+                $"using {project.PrefixName}.{project.ProjectName}.Oscillator"
             };
             StringBuilder codeContent = new();
             codeContent.AppendLine($"#nullable enable");

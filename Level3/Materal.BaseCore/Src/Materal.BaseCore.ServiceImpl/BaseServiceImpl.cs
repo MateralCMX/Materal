@@ -207,7 +207,7 @@ namespace Materal.BaseCore.ServiceImpl
         {
             if (orderExpression == null)
             {
-                (orderExpression, sortOrder) = GetDefaultOrderInfo<TDomain>();
+                (orderExpression, sortOrder) = GetDefaultOrderInfo<TDomain>(model);
             }
             (List<TDomain> data, PageModel pageModel) = await DefaultRepository.PagingAsync(expression, orderExpression, sortOrder, model);
             List<TListDTO> result = Mapper.Map<List<TListDTO>>(data);
@@ -216,15 +216,31 @@ namespace Materal.BaseCore.ServiceImpl
         /// <summary>
         /// 获得默认排序信息
         /// </summary>
+        /// <param name="model"></param>
         /// <returns></returns>
-        protected (Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder) GetDefaultOrderInfo<T>()
-            where T : class, IDomain, new()
+        protected (Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder) GetDefaultOrderInfo<T>(TQueryModel model)
+            where T: class, IDomain
         {
-            if (typeof(T).GetInterfaces().Contains(typeof(IIndexDomain)))
+            Expression<Func<T, object>>? result = model.GetSortExpression<T>();
+            SortOrderEnum sortOrder;
+            if (result != null)
             {
-                return (m => ((IIndexDomain)m).Index, SortOrderEnum.Ascending);
+                sortOrder = model.IsAsc ? SortOrderEnum.Ascending : SortOrderEnum.Descending;
             }
-            return (m => m.CreateTime, SortOrderEnum.Descending);
+            else
+            {
+                if (typeof(T).GetInterfaces().Contains(typeof(IIndexDomain)))
+                {
+                    result = m => ((IIndexDomain)m).Index;
+                    sortOrder = SortOrderEnum.Ascending;
+                }
+                else
+                {
+                    result = m => m.CreateTime;
+                    sortOrder = SortOrderEnum.Descending;
+                }
+            }
+            return (result, sortOrder);
         }
         /// <summary>
         /// 获得列表
@@ -338,7 +354,7 @@ namespace Materal.BaseCore.ServiceImpl
         {
             if (orderExpression == null)
             {
-                (orderExpression, sortOrder) = GetDefaultOrderInfo<TViewDomain>();
+                (orderExpression, sortOrder) = GetDefaultOrderInfo<TViewDomain>(model);
             }
             (List<TViewDomain> data, PageModel pageModel) = await DefaultViewRepository.PagingAsync(expression, orderExpression, sortOrder, model);
             List<TListDTO> result = Mapper.Map<List<TListDTO>>(data);

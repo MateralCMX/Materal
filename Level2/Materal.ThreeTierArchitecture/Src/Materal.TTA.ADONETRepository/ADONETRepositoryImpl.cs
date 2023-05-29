@@ -153,7 +153,12 @@ namespace Materal.TTA.ADONETRepository
                     }
                 }
             });
-            return (result, new PageModel(pageIndex, pageSize, dataCount));
+            PageModel pageModel = new(pageIndex, pageSize, dataCount)
+            {
+                SortPropertyName = GetSortPropertyName(orderExpression),
+                IsAsc = sortOrder == SortOrderEnum.Ascending
+            };
+            return (result, pageModel);
         }
     }
 }

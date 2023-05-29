@@ -1,6 +1,5 @@
 ﻿using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.Abstractions.AutoNodes;
-using Materal.BusinessFlow.Abstractions.Repositories;
 using Materal.BusinessFlow.AutoNodes.Base;
 using Materal.Utils.Http;
 using Newtonsoft.Json.Linq;
@@ -10,11 +9,9 @@ namespace Materal.BusinessFlow.AutoNodes
     public class HttpAutoNode : BaseAutoNode, IAutoNode
     {
         private readonly IHttpHelper _httpHelper;
-        private readonly IFlowRepository _flowRepository;
-        public HttpAutoNode(IServiceProvider serviceProvider, IHttpHelper httpHelper, IFlowRepository flowRepository) : base(serviceProvider)
+        public HttpAutoNode(IServiceProvider serviceProvider, IHttpHelper httpHelper) : base(serviceProvider)
         {
             _httpHelper = httpHelper;
-            _flowRepository = flowRepository;
         }
         public override async Task ExcuteAsync(AutoNodeModel autoNodeModel)
         {
@@ -30,11 +27,12 @@ namespace Materal.BusinessFlow.AutoNodes
                 _ => throw new BusinessFlowException("未知的请求方法")
             };
             if (!httpResultMessage.IsJson()) throw new BusinessFlowException("返回结果不是Json");
-            JObject httpResultJson = httpResultMessage.JsonToObject<JObject>();
-            await SaveDataAsync(httpResultJson, nodeData.ResultMappers);
+            //JObject httpResultJson = httpResultMessage.JsonToObject<JObject>();
+            //await SaveDataAsync(httpResultJson, nodeData.ResultMappers);
         }
-        private async Task SaveDataAsync(JObject data, List<HttpAutoNodeMapperModel> mappers)
-        {
-        }
+        //private async Task SaveDataAsync(JObject data, List<HttpAutoNodeMapperModel> mappers)
+        //{
+        //    await Task.Delay(100);
+        //}
     }
 }

@@ -3,6 +3,7 @@ using Materal.Logger;
 using Materal.TTA.Common;
 using Materal.TTA.Demo.Domain;
 using Materal.Utils;
+using Materal.Utils.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,15 +14,16 @@ namespace Materal.TTA.Demo
     {
         public static async Task Main()
         {
+            MateralConfig.PageStartNumber = 1;
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralUtils();
             serviceCollection.AddMateralLogger();
 
-            //serviceCollection.AddSqliteEFTTA();
-            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
+            serviceCollection.AddSqliteEFTTA();
+            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
 
-            serviceCollection.AddSqlServerEFTTA();
-            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
+            //serviceCollection.AddSqlServerEFTTA();
+            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
 
             //serviceCollection.AddSqliteADONETTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteADONETHelper.MigrateAsync(serviceProvider);
@@ -61,7 +63,14 @@ namespace Materal.TTA.Demo
                 unitOfWork.RegisterEdit(domain);
                 await unitOfWork.CommitAsync();
                 Console.WriteLine(domain.ToJson());
-                List<TestDomain> users = await testDomainRepository.FindAsync(m => true);
+                QueryTestModel queryModel = new()
+                {
+                    PageIndex = 1,
+                    PageSize = 10,
+                    SortPropertyName = nameof(TestDomain.DateTimeType),
+                    IsAsc = false
+                };
+                (List<TestDomain> users, PageModel pageInfo) = await testDomainRepository.PagingAsync(queryModel);
                 Console.WriteLine(users.ToJson());
             }
             Console.ReadKey();

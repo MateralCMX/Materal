@@ -9,6 +9,6 @@
 		<ProjectReference Include="..\RC.Deploy.Enums\RC.Deploy.Enums.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.28" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.30" />
 	</ItemGroup>
 </Project>

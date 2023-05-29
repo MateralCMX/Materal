@@ -1,7 +1,4 @@
-using Materal.Abstractions;
 using Materal.Test.Models;
-using Materal.Utils.Http;
-using System.Text;
 
 namespace Materal.Test.UtilsTest
 {
@@ -9,13 +6,26 @@ namespace Materal.Test.UtilsTest
     public class FilterModel : BaseTest
     {
         [TestMethod]
-        public void TestSend()
+        public void SortTest()
         {
-            User user = new()
+            List<User> users = new()
             {
-                Name = "Materal",
+                new() { Name = "D" },
+                new() { Name = "C" },
+                new() { Name = "A" },
+                new() { Name = "B" },
+                new() { Name = "E" }
             };
-            Func<User, bool> a = user.GetSearchDelegate<User>();
+            QueryUserModel querModel = new() { SortPropertyName = nameof(User.CreateTime), IsAsc = false };
+            users = querModel.Sort(users);
+            if (querModel.IsAsc)
+            {
+                Assert.IsTrue(users.First().Name == "A", "≈≈–Ú¥ÌŒÛ");
+            }
+            else
+            {
+                Assert.IsTrue(users.First().Name == "E", "≈≈–Ú¥ÌŒÛ");
+            }            
         }
     }
 }

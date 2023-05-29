@@ -762,12 +762,12 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        {{");
                 if(indexGourpProperties.Count > 0)
                 {
-                    codeContent.AppendLine($"            if (!DBSet.Any(m => {lambda})) return -1;");
+                    codeContent.AppendLine($"            if (!await DBSet.AnyAsync(m => {lambda})) return -1;");
                     codeContent.AppendLine($"            int result = await DBSet.Where(m => {lambda}).MaxAsync(m => m.Index);");
                 }
                 else
                 {
-                    codeContent.AppendLine($"            if (!DBSet.Any()) return -1;");
+                    codeContent.AppendLine($"            if (!await DBSet.AnyAsync()) return -1;");
                     codeContent.AppendLine($"            int result = await DBSet.MaxAsync(m => m.Index);");
                 }
                 codeContent.AppendLine($"            return result;");

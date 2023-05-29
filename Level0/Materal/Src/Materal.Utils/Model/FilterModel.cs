@@ -9,6 +9,14 @@ namespace Materal.Utils.Model
     public class FilterModel
     {
         /// <summary>
+        /// 排序属性名称
+        /// </summary>
+        public string? SortPropertyName { get; set; }
+        /// <summary>
+        /// 正序
+        /// </summary>
+        public bool IsAsc { get; set; } = false;
+        /// <summary>
         /// 获得查询目录树表达式
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -49,6 +57,99 @@ namespace Materal.Utils.Model
         {
             Expression<Func<T, bool>> searchExpression = GetSearchExpression<T>();
             Func<T, bool> result = searchExpression.Compile();
+            return result;
+        }
+        /// <summary>
+        /// 获得排序目录树表达式
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Expression<Func<T, object>>? GetSortExpression<T>()
+        {
+            if (string.IsNullOrWhiteSpace(SortPropertyName)) return null;
+            Type tType = typeof(T);
+            PropertyInfo? propertyInfo = tType.GetProperty(SortPropertyName);
+            if (propertyInfo == null) return null;
+            ParameterExpression parameterExpression = Expression.Parameter(tType, "m");
+            MemberExpression memberExpression = Expression.Property(parameterExpression, propertyInfo);
+            Expression<Func<T, object>> result;
+            try
+            {
+                result = Expression.Lambda<Func<T, object>>(memberExpression, parameterExpression);
+            }
+            catch
+            {
+                result = Expression.Lambda<Func<T, object>>(Expression.Convert(memberExpression, typeof(object)), parameterExpression);
+            }
+            return result;
+        }
+        /// <summary>
+        /// 获得排序委托
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Func<T, object>? GetSortDlegate<T>()
+        {
+            Expression<Func<T, object>>? searchExpression = GetSortExpression<T>();
+            Func<T, object>? result = searchExpression?.Compile();
+            return result;
+        }
+        /// <summary>
+        /// 设置排序表达式
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="defaultOrderExpression"></param>
+        /// <param name="defaultIsAsc"></param>
+        /// <returns></returns>
+        public IQueryable<T> SetSortExpresssion<T>(IQueryable<T> values, Expression<Func<T, object>>? defaultOrderExpression = null, bool? defaultIsAsc = null)
+        {
+            IQueryable<T> result = values;
+            bool isAsc = IsAsc;
+            Expression<Func<T, object>>? sortExpression = GetSortExpression<T>();
+            if(sortExpression == null)
+            {
+                if (defaultOrderExpression == null) return result;
+                sortExpression = defaultOrderExpression;
+                isAsc = defaultIsAsc ?? IsAsc;
+            }
+            if (isAsc)
+            {
+                result = result.OrderBy(sortExpression);
+            }
+            else
+            {
+                result = result.OrderByDescending(sortExpression);
+            }
+            return result;
+        }
+        /// <summary>
+        /// 排序
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="values"></param>
+        /// <param name="defaultOrderExpression"></param>
+        /// <param name="defaultIsAsc"></param>
+        /// <returns></returns>
+        public List<T> Sort<T>(ICollection<T> values, Expression<Func<T, object>>? defaultOrderExpression = null, bool? defaultIsAsc = null)
+        {
+            List<T> result = values.ToList();
+            bool isAsc = IsAsc;
+            Func<T, object>? sortDlegate = GetSortDlegate<T>();
+            if (sortDlegate == null)
+            {
+                if (defaultOrderExpression == null) return result;
+                sortDlegate = defaultOrderExpression.Compile();
+                isAsc = defaultIsAsc ?? IsAsc;
+            }
+            if (isAsc)
+            {
+                result = result.OrderBy(sortDlegate).ToList();
+            }
+            else
+            {
+                result = result.OrderByDescending(sortDlegate).ToList();
+            }
             return result;
         }
     }
