@@ -7,7 +7,6 @@ using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 using Materal.TTA.Common.Model;
 using Materal.Utils;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 
@@ -17,6 +16,7 @@ namespace Materal.BusinessFlow.WebAPI
     {
         public static async Task Main(string[] args)
         {
+            Console.Title = "ÒµÎñÁ÷DemoAPI";
             MateralConfig.PageStartNumber = 1;
             var builder = WebApplication.CreateBuilder(args);
             builder.Services
@@ -59,6 +59,7 @@ namespace Materal.BusinessFlow.WebAPI
             app.UseCors();
             app.UseAuthorization();
             app.MapControllers();
+#if DEBUG
             LoggerManager.Init(option =>
             {
                 option.AddConsoleTarget("LifeConsole", null, new Dictionary<LogLevel, ConsoleColor>
@@ -67,6 +68,16 @@ namespace Materal.BusinessFlow.WebAPI
                 });
                 option.AddAllTargetRule(LogLevel.Information, null, new[] { "Microsoft.AspNetCore.*" });
             });
+#else
+            LoggerManager.Init(option =>
+            {
+                option.AddConsoleTarget("LifeConsole", "${DateTime}|${Level}:${Message}\r\n${Exception}", new Dictionary<LogLevel, ConsoleColor>
+                {
+                    [LogLevel.Error] = ConsoleColor.DarkRed
+                });
+                option.AddAllTargetRule(LogLevel.Information, null, new[] { "Microsoft.AspNetCore.*", "Microsoft.Hosting.Lifetime" });
+            });
+#endif
             using IServiceScope scope = app.Services.CreateScope();
             IMigrateHelper migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<BusinessFlowDBOption>>();
             await migrateHelper.MigrateAsync();
