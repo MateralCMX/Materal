@@ -9,6 +9,7 @@ namespace Materal.Logger.DBHelper
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class SqlServerBaseRepository<T> : BaseRepository<T>
+        where T : new()
     {
         private readonly static object _createTableLockObj = new();
         private static bool _canCreateTable = true;
