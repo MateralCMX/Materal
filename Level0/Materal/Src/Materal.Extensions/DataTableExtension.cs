@@ -15,6 +15,7 @@ namespace System.Data
         /// <param name="listM">要转换的List</param>
         /// <returns></returns>
         public static DataTable ToDataTable<T>(this IEnumerable<T> listM)
+            where T : new()
         {
             listM ??= new List<T>();
             Type type = typeof(T);
@@ -40,14 +41,7 @@ namespace System.Data
             foreach (var prop in props)
             {
                 var value = prop.GetValue(obj, null);
-                if (value == null)
-                {
-                    dr[prop.Name] = DBNull.Value;
-                }
-                else
-                {
-                    dr[prop.Name] = value;
-                }
+                dr[prop.Name] = value ?? DBNull.Value;
             }
             return dr;
         }
@@ -69,7 +63,7 @@ namespace System.Data
         /// <param name="obj">要设置的对象</param>
         /// <param name="dr">数据行</param>
         /// <param name="exceptions"></param>
-        public static void SetValueByDataRow(this object obj, DataRow dr, ref List<Exception> exceptions)
+        public static void SetValueByDataRow(this object obj, DataRow dr, List<Exception>? exceptions = null)
         {
             Type type = obj.GetType();
             PropertyInfo[] props = type.GetProperties();
@@ -81,7 +75,14 @@ namespace System.Data
                 }
                 catch (Exception exception)
                 {
-                    exceptions.Add(exception);
+                    if(exceptions == null)
+                    {
+                        throw exception;
+                    }
+                    else
+                    {
+                        exceptions.Add(exception);
+                    }
                 }
             }
         }
@@ -92,10 +93,11 @@ namespace System.Data
         /// <param name="dataRow">数据行</param>
         /// <param name="exceptions"></param>
         /// <returns>目标对象</returns>
-        public static T GetValue<T>(this DataRow dataRow, ref List<Exception> exceptions)
+        public static T GetValue<T>(this DataRow dataRow, List<Exception>? exceptions = null)
+            where T : new()
         {
             T result = TypeHelper.Instantiation<T>() ?? throw new ExtensionException("转换失败");
-            result.SetValueByDataRow(dataRow, ref exceptions);
+            result.SetValueByDataRow(dataRow, exceptions);
             return result;
         }
         /// <summary>
@@ -117,12 +119,13 @@ namespace System.Data
         /// <param name="dataTable">数据表</param>
         /// <param name="exceptions"></param>
         /// <returns>转换后的List</returns>
-        public static List<T> ToList<T>(this DataTable dataTable, ref List<Exception> exceptions)
+        public static List<T> ToList<T>(this DataTable dataTable, List<Exception>? exceptions = null)
+            where T : new()
         {
             List<T> result = new();
             foreach (DataRow dr in dataTable.Rows)
             {
-                var value = dr.GetValue<T>(ref exceptions);
+                var value = dr.GetValue<T>(exceptions);
                 if (value == null) continue;
                 result.Add(value);
             }
@@ -135,13 +138,14 @@ namespace System.Data
         /// <param name="dataTable">数据表</param>
         /// <param name="exceptions"></param>
         /// <returns>转换后的数组</returns>
-        public static T?[] ToArray<T>(this DataTable dataTable, ref List<Exception> exceptions)
+        public static T?[] ToArray<T>(this DataTable dataTable, List<Exception>? exceptions = null)
+            where T : new()
         {
             int count = dataTable.Rows.Count;
             var result = new T?[count];
             for (var i = 0; i < count; i++)
             {
-                result[i] = dataTable.Rows[i].GetValue<T>(ref exceptions);
+                result[i] = dataTable.Rows[i].GetValue<T>(exceptions);
             }
             return result;
         }
@@ -152,12 +156,13 @@ namespace System.Data
         /// <param name="dataSet">数据集</param>
         /// <param name="exceptions"></param>
         /// <returns>转换后的List</returns>
-        public static List<List<T>> ToList<T>(this DataSet dataSet, ref List<Exception> exceptions)
+        public static List<List<T>> ToList<T>(this DataSet dataSet, List<Exception>? exceptions = null)
+            where T : new()
         {
             List<List<T>> result = new();
             foreach (DataTable dt in dataSet.Tables)
             {
-                result.Add(dt.ToList<T>(ref exceptions));
+                result.Add(dt.ToList<T>(exceptions));
             }
             return result;
         }
@@ -168,7 +173,8 @@ namespace System.Data
         /// <param name="dataSet">数据集</param>
         /// <param name="exceptions"></param>
         /// <returns>转换后的数组</returns>
-        public static T?[,] ToArray<T>(this DataSet dataSet, ref List<Exception> exceptions)
+        public static T?[,] ToArray<T>(this DataSet dataSet, List<Exception>? exceptions = null)
+            where T : new()
         {
             int tableCount = dataSet.Tables.Count;
             DataTableCollection tables = dataSet.Tables;
@@ -178,13 +184,13 @@ namespace System.Data
                 rowCounts[i] = tables[i].Rows.Count;
             }
             int rowCount = rowCounts.Max();
-            var result = new T?[tableCount, rowCount];
+            T?[,] result = new T?[tableCount, rowCount];
             for (var i = 0; i < tableCount; i++)
             {
                 for (var j = 0; j < rowCounts[i]; j++)
                 {
                     DataRow row = tables[i].Rows[j];
-                    result[i, j] = row.GetValue<T>(ref exceptions);
+                    result[i, j] = row.GetValue<T>(exceptions);
                 }
             }
             return result;

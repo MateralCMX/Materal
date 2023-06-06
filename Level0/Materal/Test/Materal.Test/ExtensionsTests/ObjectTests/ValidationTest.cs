@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Materal.Test.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
 
 namespace Materal.Test.ExtensionsTests.ObjectTests
 {

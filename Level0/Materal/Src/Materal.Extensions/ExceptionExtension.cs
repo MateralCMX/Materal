@@ -1,5 +1,4 @@
 ﻿using Materal.Abstractions;
-using Microsoft.Extensions.Primitives;
 using System.Text;
 
 namespace System
