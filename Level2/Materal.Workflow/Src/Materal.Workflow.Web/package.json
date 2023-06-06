@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "typescript": "^4.9.3",
-    "vite": "^4.1.0"
+    "vite": "^4.1.5"
   },
   "dependencies": {
     "@jsplumb/browser-ui": "^5.13.4",
