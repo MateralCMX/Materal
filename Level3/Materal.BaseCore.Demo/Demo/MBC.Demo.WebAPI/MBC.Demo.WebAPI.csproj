@@ -12,6 +12,7 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\Materal.BaseCore\Src\Materal.BaseCore.EventBus\Materal.BaseCore.EventBus.csproj" />
 		<ProjectReference Include="..\..\Src\MBC.Core.WebAPI\MBC.Core.WebAPI.csproj" />
 		<ProjectReference Include="..\MBC.Demo.PresentationModel\MBC.Demo.PresentationModel.csproj" />
 		<ProjectReference Include="..\MBC.Demo.ServiceImpl\MBC.Demo.ServiceImpl.csproj" />

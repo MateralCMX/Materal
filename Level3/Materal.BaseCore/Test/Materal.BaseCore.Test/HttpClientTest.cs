@@ -1,5 +1,5 @@
-using Materal.Abstractions;
 using Materal.Utils.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 
 namespace Materal.BaseCore.Test
@@ -10,7 +10,7 @@ namespace Materal.BaseCore.Test
         private readonly IHttpHelper _httpHelper;
         public HttpClientTest() : base()
         {
-            _httpHelper = MateralServices.GetService<IHttpHelper>();
+            _httpHelper = Services.GetRequiredService<IHttpHelper>();
         }
 
         [TestMethod]

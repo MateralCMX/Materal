@@ -12,7 +12,7 @@ namespace MBC.Demo.HttpClient
 {
     public partial class UserHttpClient : HttpClientBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, UserDTO, UserListDTO>
     {
-        public UserHttpClient() : base("MBC.Demo") { }
+        public UserHttpClient(IServiceProvider serviceProvider) : base("MBC.Demo", serviceProvider) { }
         /// <summary>
         /// 获得登录用户信息
         /// </summary>

@@ -137,6 +137,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             "using Materal.BaseCore.Services",
             "using Materal.BaseCore.CodeGenerator",
             "using Materal.BaseCore.WebAPI",
+            "using Materal.BaseCore.Oscillator",
             "using Materal.Utils"
         };
         /// <summary>
@@ -178,7 +179,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"    public partial class {Name}HttpClient : HttpClientBase");
             }
             codeContent.AppendLine($"    {{");
-            codeContent.AppendLine($"        public {Name}HttpClient() : base(\"{project.PrefixName}.{project.ProjectName}\") {{ }}");
+            codeContent.AppendLine($"        public {Name}HttpClient(IServiceProvider serviceProvider) : base(\"{project.PrefixName}.{project.ProjectName}\", serviceProvider) {{ }}");
             foreach (ActionModel action in ActionModels)
             {
                 if (!action.GeneratorCode) continue;

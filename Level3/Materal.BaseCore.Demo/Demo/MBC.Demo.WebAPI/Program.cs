@@ -1,3 +1,5 @@
+using Materal.BaseCore.EventBus;
+using Materal.BaseCore.WebAPI.Common;
 using MBC.Demo.Services;
 
 namespace MBC.Demo.WebAPI
@@ -7,6 +9,15 @@ namespace MBC.Demo.WebAPI
     /// </summary>
     public partial class Program
     {
+        /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="services"></param>
+        public override void ConfigService(IServiceCollection services)
+        {
+            base.ConfigService(services);
+            services.AddEventBus($"{WebAPIConfig.AppName}Queue", true);
+        }
         /// <summary>
         /// 初始化
         /// </summary>

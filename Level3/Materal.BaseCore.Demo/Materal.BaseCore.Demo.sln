@@ -61,7 +61,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Core.HttpClient", "Src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Core.WebAPI", "Src\MBC.Core.WebAPI\MBC.Core.WebAPI.csproj", "{043018F8-0DD7-4A5E-9B54-2E2C4CCC2428}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBC.Core.Domain", "Src\MBC.Core.Domain\MBC.Core.Domain.csproj", "{16A979AF-1A70-4981-B9CE-06A17FA54576}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MBC.Core.Domain", "Src\MBC.Core.Domain\MBC.Core.Domain.csproj", "{16A979AF-1A70-4981-B9CE-06A17FA54576}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.EventBus", "..\Materal.BaseCore\Src\Materal.BaseCore.EventBus\Materal.BaseCore.EventBus.csproj", "{79D4E7DF-80BC-4BEE-8566-B838052B1A8E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.Oscillator", "..\Materal.BaseCore\Src\Materal.BaseCore.Oscillator\Materal.BaseCore.Oscillator.csproj", "{3A7A53F0-184E-4BAD-9332-7A7D7D3D7DF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -177,6 +181,14 @@ Global
 		{16A979AF-1A70-4981-B9CE-06A17FA54576}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16A979AF-1A70-4981-B9CE-06A17FA54576}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16A979AF-1A70-4981-B9CE-06A17FA54576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79D4E7DF-80BC-4BEE-8566-B838052B1A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79D4E7DF-80BC-4BEE-8566-B838052B1A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79D4E7DF-80BC-4BEE-8566-B838052B1A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79D4E7DF-80BC-4BEE-8566-B838052B1A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A7A53F0-184E-4BAD-9332-7A7D7D3D7DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A7A53F0-184E-4BAD-9332-7A7D7D3D7DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A7A53F0-184E-4BAD-9332-7A7D7D3D7DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A7A53F0-184E-4BAD-9332-7A7D7D3D7DF6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -209,6 +221,8 @@ Global
 		{C5A454FD-872B-4903-B27A-C33481330CD2} = {D0D473A8-A530-4197-8741-7EBF420078B4}
 		{043018F8-0DD7-4A5E-9B54-2E2C4CCC2428} = {D0D473A8-A530-4197-8741-7EBF420078B4}
 		{16A979AF-1A70-4981-B9CE-06A17FA54576} = {D0D473A8-A530-4197-8741-7EBF420078B4}
+		{79D4E7DF-80BC-4BEE-8566-B838052B1A8E} = {36AE84DD-CFD8-4D7C-88A5-03D01D17E99A}
+		{3A7A53F0-184E-4BAD-9332-7A7D7D3D7DF6} = {36AE84DD-CFD8-4D7C-88A5-03D01D17E99A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6A067275-251C-4973-B5D2-E7E94082E4A9}

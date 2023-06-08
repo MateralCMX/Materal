@@ -68,9 +68,9 @@ namespace Materal.BaseCore.EventBus
             services.AddEventBusSubscriptionsManager().AddRabbitMQPersistentConnection();
             services.AddSingleton<IEventBus, EventBusRabbitMQ>(serviceProvider =>
             {
-                IRabbitMQPersistentConnection rabbitMQPersistentConnection = MateralServices.GetService<IRabbitMQPersistentConnection>();
+                IRabbitMQPersistentConnection rabbitMQPersistentConnection = serviceProvider.GetRequiredService<IRabbitMQPersistentConnection>();
                 ILogger<EventBusRabbitMQ>? logger = serviceProvider.GetService<ILogger<EventBusRabbitMQ>>();
-                IEventBusSubscriptionsManager eventBusSubscriptionsManager = MateralServices.GetService<IEventBusSubscriptionsManager>();
+                IEventBusSubscriptionsManager eventBusSubscriptionsManager = serviceProvider.GetRequiredService<IEventBusSubscriptionsManager>();
                 EventBusRabbitMQ eventBus = new(rabbitMQPersistentConnection, serviceProvider, eventBusSubscriptionsManager, queueName, MateralCoreConfig.EventBusConfig.ExchangeName, false, logger);
                 if(subscribeHandlers != null)
                 {
@@ -85,7 +85,6 @@ namespace Materal.BaseCore.EventBus
                         subscribeHandlers.RemoveAt(0);
                     }
                     subscribeHandlers = null;
-                    eventBus.StartListening();
                 }
                 return eventBus;
             });

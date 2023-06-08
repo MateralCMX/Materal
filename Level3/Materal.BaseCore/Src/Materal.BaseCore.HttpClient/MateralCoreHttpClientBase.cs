@@ -4,6 +4,7 @@ using Materal.BaseCore.HttpClient.Extensions;
 using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Http;
 using Materal.Utils.Model;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -18,12 +19,17 @@ namespace Materal.BaseCore.HttpClient
         /// <summary>
         /// 日志
         /// </summary>
-        protected readonly ILogger? Logger = MateralServices.GetServiceOrDefatult<ILogger<MateralCoreHttpClientBase>>();
-        protected readonly IHttpHelper httpHelper = MateralServices.GetService<IHttpHelper>();
+        protected readonly ILogger? Logger;
+        protected readonly IHttpHelper httpHelper;
         /// <summary>
         /// 默认编码
         /// </summary>
         protected readonly Encoding DefaultEncoding = Encoding.UTF8;
+        protected MateralCoreHttpClientBase(IServiceProvider serviceProvider)
+        {
+            Logger = serviceProvider.GetService<ILogger<MateralCoreHttpClientBase>>();
+            httpHelper = serviceProvider.GetRequiredService<IHttpHelper>();
+        }
         /// <summary>
         /// 获得真实Url
         /// </summary>
@@ -439,7 +445,7 @@ namespace Materal.BaseCore.HttpClient
         where TListDTO : class, IListDTO, new()
     {
         protected readonly string ControllerName;
-        protected MateralCoreHttpClientBase()
+        protected MateralCoreHttpClientBase(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             ControllerName = typeof(TDTO).Name[0..^3];
         }
