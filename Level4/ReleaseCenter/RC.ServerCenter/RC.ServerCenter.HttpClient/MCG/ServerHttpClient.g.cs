@@ -8,7 +8,7 @@ namespace RC.ServerCenter.HttpClient
 {
     public partial class ServerHttpClient : HttpClientBase
     {
-        public ServerHttpClient() : base("RC.ServerCenter") { }
+        public ServerHttpClient(IServiceProvider serviceProvider) : base("RC.ServerCenter", serviceProvider) { }
         /// <summary>
         /// 获得发布程序列表
         /// </summary>

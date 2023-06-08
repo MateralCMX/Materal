@@ -10,7 +10,7 @@ namespace RC.Deploy.HttpClient
 {
     public partial class ApplicationInfoHttpClient : HttpClientBase<AddApplicationInfoRequestModel, EditApplicationInfoRequestModel, QueryApplicationInfoRequestModel, ApplicationInfoDTO, ApplicationInfoListDTO>
     {
-        public ApplicationInfoHttpClient() : base("RC.Deploy") { }
+        public ApplicationInfoHttpClient(IServiceProvider serviceProvider) : base("RC.Deploy", serviceProvider) { }
         /// <summary>
         /// 应用最后一个文件
         /// </summary>

@@ -9,6 +9,6 @@ namespace RC.ServerCenter.HttpClient
 {
     public partial class ProjectHttpClient : HttpClientBase<AddProjectRequestModel, EditProjectRequestModel, QueryProjectRequestModel, ProjectDTO, ProjectListDTO>
     {
-        public ProjectHttpClient() : base("RC.ServerCenter") { }
+        public ProjectHttpClient(IServiceProvider serviceProvider) : base("RC.ServerCenter", serviceProvider) { }
     }
 }

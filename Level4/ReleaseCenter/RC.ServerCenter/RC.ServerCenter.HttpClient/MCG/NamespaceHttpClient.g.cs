@@ -9,6 +9,6 @@ namespace RC.ServerCenter.HttpClient
 {
     public partial class NamespaceHttpClient : HttpClientBase<AddNamespaceRequestModel, EditNamespaceRequestModel, QueryNamespaceRequestModel, NamespaceDTO, NamespaceListDTO>
     {
-        public NamespaceHttpClient() : base("RC.ServerCenter") { }
+        public NamespaceHttpClient(IServiceProvider serviceProvider) : base("RC.ServerCenter", serviceProvider) { }
     }
 }

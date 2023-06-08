@@ -1,4 +1,4 @@
-﻿using Materal.BaseCore.Common;
+﻿using Materal.BaseCore.EventBus;
 using Materal.BaseCore.HttpClient.Extensions;
 using Materal.BaseCore.WebAPI.Common;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -18,8 +18,7 @@ namespace RC.EnvironmentServer.WebAPI
         {
             base.AddRCEnvironmentServerService(services, swaggerGenConfig);
             services.AddHttpClientService(WebAPIConfig.AppName, Assembly.Load("RC.ServerCenter.HttpClient"));
-            services.AddIntegrationEventBus($"{WebAPIConfig.AppName}Queue");
-            services.AddIntegrationEventHandlers(Assembly.Load("RC.EnvironmentServer.IntegrationEventHandlers"));
+            services.AddEventBus($"{WebAPIConfig.AppName}Queue", Assembly.Load("RC.EnvironmentServer.IntegrationEventHandlers"));
             return services;
         }
     }

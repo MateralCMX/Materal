@@ -6,8 +6,8 @@ namespace RC.Core.HttpClient
 {
     public class HttpClientBase : MateralCoreHttpClientBase
     {
-        private string _appName;
-        public HttpClientBase(string projectName)
+        private readonly string _appName;
+        public HttpClientBase(string projectName, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             string[] temp = projectName.Split('.');
             if (temp.Length > 1)
@@ -33,8 +33,8 @@ namespace RC.Core.HttpClient
     where TDTO : class, IDTO, new()
     where TListDTO : class, IListDTO, new()
     {
-        private string _appName;
-        public HttpClientBase(string projectName)
+        private readonly string _appName;
+        public HttpClientBase(string projectName, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             string[] temp = projectName.Split('.');
             if (temp.Length > 1)

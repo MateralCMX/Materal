@@ -12,7 +12,7 @@ namespace RC.Authority.HttpClient
 {
     public partial class UserHttpClient : HttpClientBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, UserDTO, UserListDTO>
     {
-        public UserHttpClient() : base("RC.Authority") { }
+        public UserHttpClient(IServiceProvider serviceProvider) : base("RC.Authority", serviceProvider) { }
         /// <summary>
         /// 获得登录用户信息
         /// </summary>

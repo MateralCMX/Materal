@@ -1,4 +1,4 @@
-﻿using Materal.BaseCore.Common;
+﻿using Materal.BaseCore.EventBus;
 using Materal.BaseCore.WebAPI.Common;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -15,7 +15,7 @@ namespace RC.ServerCenter.WebAPI
         public override IServiceCollection AddRCServerCenterService(IServiceCollection services, Action<SwaggerGenOptions>? swaggerGenConfig = null)
         {
             base.AddRCServerCenterService(services, swaggerGenConfig);
-            services.AddIntegrationEventBus($"{WebAPIConfig.AppName}Queue");
+            services.AddEventBus($"{WebAPIConfig.AppName}Queue");
             return services;
         }
     }

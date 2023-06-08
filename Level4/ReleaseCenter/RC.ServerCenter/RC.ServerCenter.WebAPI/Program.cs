@@ -1,4 +1,3 @@
-using Materal.Abstractions;
 using Materal.TFMS.EventBus;
 
 namespace RC.ServerCenter.WebAPI
@@ -17,8 +16,7 @@ namespace RC.ServerCenter.WebAPI
         /// <returns></returns>
         public override async Task InitAsync(string[] args, IServiceProvider services, WebApplication app)
         {
-            IEventBus eventBus = services.GetRequiredService<IEventBus>();
-            eventBus.StartListening();
+            services.GetRequiredService<IEventBus>().StartListening();
             await base.InitAsync(args, services, app);
         }
     }

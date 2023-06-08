@@ -9,6 +9,6 @@ namespace RC.Deploy.HttpClient
 {
     public partial class DefaultDataHttpClient : HttpClientBase<AddDefaultDataRequestModel, EditDefaultDataRequestModel, QueryDefaultDataRequestModel, DefaultDataDTO, DefaultDataListDTO>
     {
-        public DefaultDataHttpClient() : base("RC.Deploy") { }
+        public DefaultDataHttpClient(IServiceProvider serviceProvider) : base("RC.Deploy", serviceProvider) { }
     }
 }

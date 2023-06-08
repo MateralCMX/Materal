@@ -1,9 +1,5 @@
-using Materal.Abstractions;
 using Materal.TFMS.EventBus;
-using Materal.Utils.Http;
-using RC.EnvironmentServer.IntegrationEventHandlers;
 using RC.EnvironmentServer.Services;
-using XMJ.Authority.IntegrationEvents;
 
 namespace RC.EnvironmentServer.WebAPI
 {
@@ -25,13 +21,7 @@ namespace RC.EnvironmentServer.WebAPI
             IConfigurationItemService configurationItemService = services.GetRequiredService<IConfigurationItemService>();
             await configurationItemService.InitAsync();
             #endregion
-            #region ¶©ÔÄÊÂ¼þ
-            IEventBus eventBus = services.GetRequiredService<IEventBus>();
-            await eventBus.SubscribeAsync<ProjectDeleteEvent, ProjectDeleteEventHandler>();
-            await eventBus.SubscribeAsync<NamespaceDeleteEvent, NamespaceDeleteEventHandler>();
-            await eventBus.SubscribeAsync<SyncConfigEvent, SyncConfigEventHandler>();
-            eventBus.StartListening();
-            #endregion
+            services.GetRequiredService<IEventBus>().StartListening();
             await base.InitAsync(args, services, app);
         }
     }

@@ -10,7 +10,7 @@ namespace RC.EnvironmentServer.HttpClient
 {
     public partial class ConfigurationItemHttpClient : HttpClientBase<AddConfigurationItemRequestModel, EditConfigurationItemRequestModel, QueryConfigurationItemRequestModel, ConfigurationItemDTO, ConfigurationItemListDTO>
     {
-        public ConfigurationItemHttpClient() : base("RC.EnvironmentServer") { }
+        public ConfigurationItemHttpClient(IServiceProvider serviceProvider) : base("RC.EnvironmentServer", serviceProvider) { }
         /// <summary>
         /// 同步配置
         /// </summary>
