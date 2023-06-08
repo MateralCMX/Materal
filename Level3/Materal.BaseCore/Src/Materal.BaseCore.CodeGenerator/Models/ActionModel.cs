@@ -1,4 +1,5 @@
 ﻿using Materal.BaseCore.CodeGenerator.Extensions;
+using System;
 
 namespace Materal.BaseCore.CodeGenerator.Models
 {
@@ -134,13 +135,18 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     foreach (string code in backCodes)
                     {
                         if (string.IsNullOrWhiteSpace(code)) continue;
-                        var trueCode = code;
+                        string trueCode = code;
                         foreach (var item in removeList)
                         {
                             trueCode = trueCode.Replace(item, "");
                         }
                         string[] temps = trueCode.Split(' ');
                         string type = temps[^2];
+                        int tempIndex = type.IndexOf("]");
+                        if (tempIndex > 0)
+                        {
+                            type = type[(tempIndex + 1)..];
+                        }
                         if (blackList.Contains(type))
                         {
                             GeneratorCode = false;
