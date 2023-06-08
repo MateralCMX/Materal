@@ -1,4 +1,6 @@
-﻿namespace Materal.Utils.Text
+﻿using System.Text;
+
+namespace Materal.Utils.Text
 {
     /// <summary>
     /// 字符串帮助类
@@ -29,13 +31,13 @@
         public static string GetRandomStringByGuid(int length = 32)
         {
             if (length <= 0) throw new UtilException("长度必须大于0");
-            string resM = string.Empty;
+            StringBuilder result = new();
             int count = length % 32 == 0 ? length / 32 : length / 32 + 1;
             for (int i = 0; i < count; i++)
             {
-                resM += Guid.NewGuid().ToString().Replace("-", "");
+                result.Append(Guid.NewGuid().ToString("N"));
             }
-            return resM[..length];
+            return result.ToString(0, length);
         }
         /// <summary>
         /// 获取随机字符串(字典模式)
@@ -63,13 +65,13 @@
         public static string GetRandomStringByDictionary(int length = 32, string dictionary = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
         {
             if (length <= 0) throw new UtilException("长度必须大于0");
-            string resM = string.Empty;
             var rd = new Random();
+            var result = new StringBuilder(length);
             for (int i = 0; i < length; i++)
             {
-                resM += dictionary[rd.Next(0, dictionary.Length)];
+                result.Append(dictionary[rd.Next(0, dictionary.Length)]);
             }
-            return resM;
+            return result.ToString();
         }
         /// <summary>
         /// 生成随机字符串
