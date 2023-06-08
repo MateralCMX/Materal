@@ -24,6 +24,7 @@
 		<ProjectReference Include="..\..\Src\Materal.BaseCore.EFRepository\Materal.BaseCore.EFRepository.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.BaseCore.EventBus\Materal.BaseCore.EventBus.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.BaseCore.HttpClient\Materal.BaseCore.HttpClient.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.BaseCore.Oscillator\Materal.BaseCore.Oscillator.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.BaseCore.PresentationModel\Materal.BaseCore.PresentationModel.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.BaseCore.ServiceImpl\Materal.BaseCore.ServiceImpl.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.BaseCore.Services\Materal.BaseCore.Services.csproj" />
