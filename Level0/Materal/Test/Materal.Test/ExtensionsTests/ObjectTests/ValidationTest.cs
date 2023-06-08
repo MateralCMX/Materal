@@ -1,6 +1,4 @@
-﻿using Materal.Test.Models;
-using System.ComponentModel.DataAnnotations;
-using System.Data;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Materal.Test.ExtensionsTests.ObjectTests
 {
@@ -8,7 +6,7 @@ namespace Materal.Test.ExtensionsTests.ObjectTests
     public class ValidationTest : BaseTest
     {
         [TestMethod]
-        public void ValidationValue()
+        public void ValidationValueTest()
         {
             CustomModel model = new();
             model.DictionaryProperty.Add("Test", new());

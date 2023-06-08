@@ -1,7 +1,6 @@
 ﻿using Materal.Extensions;
 using System.Data;
 using System.Reflection;
-using System.Xml.Xsl;
 
 namespace System
 {
@@ -240,22 +239,6 @@ namespace System
             }
             dt.TableName = type.Name;
             return dt;
-        }
-        /// <summary>
-        /// 获取所有枚举
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static List<Enum> GetAllEnum(this Type type)
-        {
-            if (!type.IsEnum) throw new ExtensionException("该类型不是枚举类型");
-            var result = new List<Enum>();
-            Array allEnums = Enum.GetValues(type);
-            foreach (Enum item in allEnums)
-            {
-                result.Add(item);
-            }
-            return result;
         }
         /// <summary>
         /// 获取枚举总数
