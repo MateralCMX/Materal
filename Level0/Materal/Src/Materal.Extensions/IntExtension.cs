@@ -1,4 +1,5 @@
 ﻿using Materal.Extensions.Models;
+using System.Text;
 
 namespace System
 {
@@ -78,10 +79,10 @@ namespace System
         public static string ConvertToChinese(this int inputNumber, IntConvertModel? model = null)
         {
             int number = inputNumber;
-            string result = string.Empty;
+            StringBuilder result = new();
             if (number < 0)
             {
-                result = "负";
+                result.Append("负");
                 number *= -1;
             }
             else if (number == 0) return "零";
@@ -116,12 +117,12 @@ namespace System
                 var chineseNumber = chineseNumbers[i];
                 Handler(chineseNumber, temp++, model);
             }
-            result += string.Join("", chineseNumbers);
-            if (result.EndsWith("零"))
+            result.Append(string.Join("", chineseNumbers));
+            if (result[result.Length - 1] == '零')
             {
-                result = result[..^1];
+                result.Remove(result.Length - 1, 1);
             }
-            return result;
+            return result.ToString();
         }
         /// <summary>
         /// 处理
@@ -139,23 +140,24 @@ namespace System
                 [2] = model.Extend[2],
                 [3] = model.Units[dicIndex]
             };
-            string result = string.Empty;
+            StringBuilder result = new();
             for (int i = 0; i < inputString.Length; i++)
             {
                 string tempString = inputString[i] + extend[i];
-                if (tempString.StartsWith("零"))
+                if (tempString[0] == '零')
                 {
-                    if (result.EndsWith("零")) continue;
-                    if (string.IsNullOrWhiteSpace(result)) continue;
+                    if (result.Length > 0 && result[^1] == '零') continue;
+                    if (result.Length == 0) continue;
                     tempString = inputString[i].ToString();
                 }
-                result += tempString;
+                result.Append(tempString);
             }
-            if (result.EndsWith("零"))
+            if (result.Length > 0 && result[^1] == '零')
             {
-                result = result[..^1] + extend[inputString.Length - 1] + "零";
+                result.Remove(result.Length - 1, 1);
+                result.Append(extend[inputString.Length - 1] + "零");
             }
-            return result;
+            return result.ToString();
         }
     }
 }
