@@ -19,6 +19,13 @@
             where T : IntegrationEvent
             where THandler : IIntegrationEventHandler<T>;
         /// <summary>
+        /// 订阅事件
+        /// </summary>
+        /// <param name="eventType"></param>
+        /// <param name="eventHandlerType"></param>
+        /// <returns></returns>
+        Task SubscribeAsync(Type eventType, Type eventHandlerType);
+        /// <summary>
         /// 取消订阅事件
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -26,7 +33,13 @@
         void Unsubscribe<T, THandler>()
             where T : IntegrationEvent
             where THandler : IIntegrationEventHandler<T>;
-
+        /// <summary>
+        /// 取消订阅事件
+        /// </summary>
+        /// <param name="eventType"></param>
+        /// <param name="eventHandlerType"></param>
+        /// <returns></returns>
+        void Unsubscribe(Type eventType, Type eventHandlerType);
         /// <summary>
         /// 订阅动态事件
         /// </summary>

@@ -77,10 +77,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 StartListening();
             }
         }
-        public void StartListening()
-        {
-            StartBasicConsume();
-        }
+        public void StartListening() => StartBasicConsume();
         public async Task PublishAsync(IntegrationEvent @event)
         {
             using IDisposable? scope = _logger?.BeginScope("Publish");
@@ -108,20 +105,28 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 channel.Dispose();
             });
         }
-        public async Task SubscribeAsync<T, THandler>() where T : IntegrationEvent where THandler : IIntegrationEventHandler<T>
+        public async Task SubscribeAsync<T, THandler>() where T : IntegrationEvent where THandler : IIntegrationEventHandler<T> 
+            => await SubscribeAsync(typeof(T), typeof(THandler));
+        public async Task SubscribeAsync(Type eventType, Type eventHandlerType)
         {
+            if (!eventType.IsAssignableTo<IntegrationEvent>()) throw new MateralTFMSException($"事件类型必须继承类{nameof(IntegrationEvent)}");
+            if (!eventHandlerType.IsAssignableTo<IIntegrationEventHandler>()) throw new MateralTFMSException($"事件处理类型必须继承接口{nameof(IIntegrationEventHandler)}");
             using IDisposable? scope = _logger?.BeginScope("Subscribe");
-            string eventName = _subsManager.GetEventKey<T>();
+            string eventName = _subsManager.GetEventKey(eventType);
             await DoInternalSubscriptionAsync(eventName);
-            _logger?.LogInformation("订阅事件{EventName},处理器为{EventHandler}", eventName, typeof(THandler).GetGenericTypeName());
-            _subsManager.AddSubscription<T, THandler>();
+            _logger?.LogInformation("订阅事件{EventName},处理器为{EventHandler}", eventName, eventHandlerType.GetGenericTypeName());
+            _subsManager.AddSubscription(eventType, eventHandlerType);
         }
         public void Unsubscribe<T, THandler>() where T : IntegrationEvent where THandler : IIntegrationEventHandler<T>
+            => Unsubscribe(typeof(T), typeof(THandler));
+        public void Unsubscribe(Type eventType, Type eventHandlerType)
         {
+            if (!eventType.IsAssignableTo<IntegrationEvent>()) throw new MateralTFMSException($"事件类型必须继承类{nameof(IntegrationEvent)}");
+            if (!eventHandlerType.IsAssignableTo<IIntegrationEventHandler>()) throw new MateralTFMSException($"事件处理类型必须继承接口{nameof(IIntegrationEventHandler)}");
             using IDisposable? scope = _logger?.BeginScope("Unsubscribe");
-            string eventName = _subsManager.GetEventKey<T>();
+            string eventName = _subsManager.GetEventKey(eventType);
             _logger?.LogInformation("取消订阅事件{EventName}", eventName);
-            _subsManager.RemoveSubscription<T, THandler>();
+            _subsManager.RemoveSubscription(eventType, eventHandlerType);
         }
         public async Task SubscribeDynamicAsync<THandler>(string eventName) where THandler : IDynamicIntegrationEventHandler
         {

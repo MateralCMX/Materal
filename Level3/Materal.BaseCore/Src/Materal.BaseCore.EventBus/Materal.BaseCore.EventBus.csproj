@@ -1,18 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<LangVersion>11.0</LangVersion>
 		<Nullable>enable</Nullable>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Product>Materal.Oscillator</Product>
-		<Company>Materal</Company>
-		<Authors>Materal</Authors>
 		<Version>1.1.34</Version>
-		<Copyright>Materal</Copyright>
-		<Description>Materal.Oscillator</Description>
+		<Company>古典部工作室</Company>
+		<Product>Materal.BaseCore</Product>
+		<Authors>Materal</Authors>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
+		<Title>Materal.BaseCore.EventBus</Title>
+		<Description>事件总线包</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
@@ -21,9 +20,9 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Polly" Version="*" />
+		<PackageReference Include="Materal.TFMS.EventBus.RabbitMQ" Version="1.1.34" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />
+	  <ProjectReference Include="..\Materal.BaseCore.Common\Materal.BaseCore.Common.csproj" />
 	</ItemGroup>
 </Project>

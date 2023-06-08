@@ -24,73 +24,47 @@
             _handlers = new Dictionary<string, List<SubscriptionInfo>>();
             _eventTypes = new List<Type>();
         }
-
-        public void AddDynamicSubscription<TH>(string eventName) where TH : IDynamicIntegrationEventHandler
+        public void AddDynamicSubscription<TH>(string eventName) where TH : IDynamicIntegrationEventHandler => DoAddSubscription(typeof(TH), eventName, true);
+        public void AddSubscription(Type eventType, Type eventHandlerType)
         {
-            DoAddSubscription(typeof(TH), eventName, true);
-        }
-
-        public void AddSubscription<T, TH>() where T : IntegrationEvent where TH : IIntegrationEventHandler<T>
-        {
-            string eventName = GetEventKey<T>(out Type eventType);
-            DoAddSubscription(typeof(TH), eventName, false);
+            string eventName = GetEventKey(eventType);
+            DoAddSubscription(eventHandlerType, eventName, false);
             if (!_eventTypes.Contains(eventType))
             {
                 _eventTypes.Add(eventType);
             }
         }
-
-        public void RemoveSubscription<T, TH>() where T : IntegrationEvent where TH : IIntegrationEventHandler<T>
+        public void RemoveSubscription(Type eventType, Type eventHandlerType)
         {
-            SubscriptionInfo? handlerToRemove = FindSubscription<T, TH>();
-            string eventName = GetEventKey<T>();
+            SubscriptionInfo? handlerToRemove = FindSubscription(eventType, eventHandlerType);
+            string eventName = GetEventKey(eventType);
             DoRemoveSubscription(eventName, handlerToRemove);
         }
-
         public void RemoveDynamicSubscription<TH>(string eventName) where TH : IDynamicIntegrationEventHandler
         {
             SubscriptionInfo? handlerToRemove = FindDynamicSubscription<TH>(eventName);
             DoRemoveSubscription(eventName, handlerToRemove);
         }
-
         public bool HasSubscriptionsForEvent<T>() where T : IntegrationEvent
         {
             string eventName = GetEventKey<T>();
             return HasSubscriptionsForEvent(eventName);
         }
-
-        public bool HasSubscriptionsForEvent(string eventName)
-        {
-            return _handlers.ContainsKey(eventName);
-        }
-
-        public Type? GetEventTypeByName(string eventName)
-        {
-            return _eventTypes.SingleOrDefault(m => m.Name == eventName);
-        }
-
+        public bool HasSubscriptionsForEvent(string eventName) => _handlers.ContainsKey(eventName);
+        public Type? GetEventTypeByName(string eventName) => _eventTypes.SingleOrDefault(m => m.Name == eventName);
         public void Clear()
         {
             _handlers.Clear();
             _eventTypes.Clear();
         }
-
         public IEnumerable<SubscriptionInfo> GetHandlersForEvent<T>() where T : IntegrationEvent
         {
             string eventName = GetEventKey<T>();
             return GetHandlersForEvent(eventName);
         }
-
-        public IEnumerable<SubscriptionInfo> GetHandlersForEvent(string eventName)
-        {
-            return _handlers[eventName];
-        }
-
-        public string GetEventKey<T>()
-        {
-            return typeof(T).Name;
-        }
-
+        public IEnumerable<SubscriptionInfo> GetHandlersForEvent(string eventName) => _handlers[eventName];
+        public string GetEventKey<T>() => typeof(T).Name;
+        public string GetEventKey(Type eventType) => eventType.Name;
         #region 私有方法
         /// <summary>
         /// 添加订阅
@@ -147,15 +121,13 @@
         /// <summary>
         /// 寻找订阅
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TH"></typeparam>
+        /// <param name="eventType"></param>
+        /// <param name="eventHandlerType"></param>
         /// <returns></returns>
-        private SubscriptionInfo? FindSubscription<T, TH>()
-            where T : IntegrationEvent
-            where TH : IIntegrationEventHandler<T>
+        private SubscriptionInfo? FindSubscription(Type eventType, Type eventHandlerType)
         {
-            string eventName = GetEventKey<T>();
-            return DoFindSubscription(eventName, typeof(TH));
+            string eventName = GetEventKey(eventType);
+            return DoFindSubscription(eventName, eventHandlerType);
         }
         /// <summary>
         /// 寻找订阅
@@ -167,17 +139,6 @@
         {
             if (HasSubscriptionsForEvent(eventName)) throw new ArgumentException($"事件{eventName}没有订阅", nameof(eventName));
             return _handlers[eventName].SingleOrDefault(s => s.HandlerType == handlerType);
-        }
-        /// <summary>
-        /// 获得事件键
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        private static string GetEventKey<T>(out Type type)
-        {
-            type = typeof(T);
-            return type.Name;
         }
         #endregion
     }

@@ -42,6 +42,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.AutoDI", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.AutoDITest", "Test\Materal.BaseCore.AutoDITest\Materal.BaseCore.AutoDITest.csproj", "{4E0DF6E2-279D-488A-91D7-F520DCFF9910}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.EventBus", "Src\Materal.BaseCore.EventBus\Materal.BaseCore.EventBus.csproj", "{98852FE3-DE34-4A72-BA29-3E99A093E554}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -232,6 +234,18 @@ Global
 		{4E0DF6E2-279D-488A-91D7-F520DCFF9910}.Release|arm64.Build.0 = Release|Any CPU
 		{4E0DF6E2-279D-488A-91D7-F520DCFF9910}.Release|x86.ActiveCfg = Release|Any CPU
 		{4E0DF6E2-279D-488A-91D7-F520DCFF9910}.Release|x86.Build.0 = Release|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Debug|arm64.Build.0 = Debug|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Debug|x86.Build.0 = Debug|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Release|arm64.ActiveCfg = Release|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Release|arm64.Build.0 = Release|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Release|x86.ActiveCfg = Release|Any CPU
+		{98852FE3-DE34-4A72-BA29-3E99A093E554}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -253,6 +267,7 @@ Global
 		{A00067F2-E685-45F7-8508-B11C8DB55E42} = {1F6D4576-DF56-45AA-96F5-5E4C09F9D5A0}
 		{85BD67EC-AFA4-4728-83A8-D06222430C57} = {1F6D4576-DF56-45AA-96F5-5E4C09F9D5A0}
 		{4E0DF6E2-279D-488A-91D7-F520DCFF9910} = {A07158CA-D767-4879-97E3-99FA13AD14D2}
+		{98852FE3-DE34-4A72-BA29-3E99A093E554} = {1F6D4576-DF56-45AA-96F5-5E4C09F9D5A0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E509F56-A775-4C38-BFDE-6365113C43DF}

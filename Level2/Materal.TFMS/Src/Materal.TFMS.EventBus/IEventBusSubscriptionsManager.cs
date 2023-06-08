@@ -23,19 +23,15 @@
         /// <summary>
         /// 添加订阅
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TH"></typeparam>
-        void AddSubscription<T, TH>()
-            where T : IntegrationEvent
-            where TH : IIntegrationEventHandler<T>;
+        /// <param name="eventType"></param>
+        /// <param name="eventHandlerType"></param>
+        void AddSubscription(Type eventType, Type eventHandlerType);
         /// <summary>
         /// 移除订阅
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="TH"></typeparam>
-        void RemoveSubscription<T, TH>()
-            where TH : IIntegrationEventHandler<T>
-            where T : IntegrationEvent;
+        /// <param name="eventType"></param>
+        /// <param name="eventHandlerType"></param>
+        void RemoveSubscription(Type eventType, Type eventHandlerType);
         /// <summary>
         /// 移除动态订阅
         /// </summary>
@@ -83,5 +79,11 @@
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         string GetEventKey<T>();
+        /// <summary>
+        /// 获得事件名称
+        /// </summary>
+        /// <param name="eventType"></param>
+        /// <returns></returns>
+        string GetEventKey(Type eventType);
     }
 }

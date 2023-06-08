@@ -15,9 +15,9 @@ namespace Materal.TFMS.Demo.Client01
             SubscribeAsync(_eventBus).Wait();
             _eventBus.StartListening();
         }
-        private async Task SubscribeAsync(IEventBus eventBus)
+        private static async Task SubscribeAsync(IEventBus eventBus)
         {
-            await eventBus.SubscribeAsync<Event02, Client01Event02Handler>();
+            await eventBus.SubscribeAsync(typeof(Event02), typeof(Client01Event02Handler));
             await eventBus.SubscribeAsync<Event02, Client01Event02Handler2>();
             await eventBus.SubscribeAsync<Event03, Client01Event03Handler>();
             await eventBus.SubscribeAsync<Event03, Client01Event03Handler2>();
