@@ -1,4 +1,4 @@
-using Materal.Test.Models;
+using Materal.Utils.Model;
 
 namespace Materal.Test.UtilsTest
 {
@@ -26,6 +26,20 @@ namespace Materal.Test.UtilsTest
             {
                 Assert.IsTrue(users.First().Name == "E", "≈≈–Ú¥ÌŒÛ");
             }            
+        }
+        private class User
+        {
+            public string Name { get; set; } = string.Empty;
+            public DateTime CreateTime { get; set; } = DateTime.Now;
+        }
+        private class QueryUserModel : PageRequestModel
+        {
+            [Contains]
+            public string? Name { get; set; }
+            [GreaterThanOrEqual("CreateTime")]
+            public DateTime? MinCreateTime { get; set; }
+            [LessThanOrEqual("CreateTime")]
+            public DateTime? MaxCreateTime { get; set; }
         }
     }
 }

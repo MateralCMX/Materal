@@ -18,7 +18,7 @@ namespace Materal.Test.UtilsTest
         {
             try
             {
-                string url = "https://121.40.18.199:8700/RCServerCenterAPI/api/Namespace/GetList";
+                string url = "https://175.27.254.187:8700/RCServerCenterAPI/api/Namespace/GetList";
                 Dictionary<string, string> headers = new()
                 {
                     ["Authorization"] = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsiV2ViQVBJIiwiV2ViQVBJIl0sImlzcyI6Ik1hdGVyYWxSZWxlYXNlQ2VudGVyIiwiVXNlcklEIjoiNjBjNDMzODktODA4Ny00ZDRiLWI3ZmQtODllMDZkZGRiMWM3IiwibmJmIjoxNjc3NjUxODY0LCJleHAiOjE2Nzc2Njk4NjQsImlhdCI6MTY3NzY1MTg2NH0.jFVs4wkoZJ5_sNrnnHDm03axcC8zN5SHfp46c980hBY"

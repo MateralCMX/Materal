@@ -3,7 +3,7 @@
 namespace Materal.Test.ExtensionsTests.ObjectTests
 {
     [TestClass]
-    public class ValidationTest : BaseTest
+    public class ObjectValidationTest : BaseTest
     {
         [TestMethod]
         public void ValidationValueTest()

@@ -3,7 +3,7 @@
 namespace Materal.Test.ExtensionsTests.ObjectTests
 {
     [TestClass]
-    public class GetDescriptionTest
+    public class ObjectTest
     {
         [TestMethod]
         public void GetDescriptionTest1()

@@ -31,6 +31,7 @@ namespace Materal.Test.UtilsTests.ExcelTests
             for (int i = 0; i <= sheet.LastRowNum; i++)
             {
                 IRow row = sheet.GetRow(i);
+                Assert.IsTrue(row.Cells.Count == 3);
             }
         }
     }
