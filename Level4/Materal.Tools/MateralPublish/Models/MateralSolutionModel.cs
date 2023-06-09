@@ -90,10 +90,10 @@ namespace MateralPublish.Models
         {
             await MainProject.PublishAsync(PublishDirectoryInfo, version);
             await LoggerProject.PublishAsync(PublishDirectoryInfo, version);
-            await BusinessFlowProject.PublishAsync(PublishDirectoryInfo, version);
             await TFMSProject.PublishAsync(PublishDirectoryInfo, version);
             await TTAProject.PublishAsync(PublishDirectoryInfo, version);
             await WorkflowProject.PublishAsync(PublishDirectoryInfo, version);
+            await BusinessFlowProject.PublishAsync(PublishDirectoryInfo, version);
             await OscillatorProject.PublishAsync(PublishDirectoryInfo, version);
             await BaseCoreProject.PublishAsync(PublishDirectoryInfo, version);
             if (uploadNuget)

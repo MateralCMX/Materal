@@ -10,7 +10,7 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.35</Version>
+		<Version>1.1.36</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.SqlServerADONETRepository</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -21,7 +21,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqlServerADONETRepository" Version="1.1.35" />
+		<PackageReference Include="Materal.TTA.SqlServerADONETRepository" Version="1.1.36" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Oscillator\Materal.Oscillator.csproj" />

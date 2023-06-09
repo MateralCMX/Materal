@@ -6,8 +6,8 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.35" />
-		<PackageReference Include="Materal.BaseCore.EventBus" Version="1.1.35" />
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.36" />
+		<PackageReference Include="Materal.BaseCore.EventBus" Version="1.1.36" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
