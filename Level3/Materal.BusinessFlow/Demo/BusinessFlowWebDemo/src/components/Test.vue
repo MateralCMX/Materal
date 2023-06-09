@@ -1,6 +1,6 @@
 <template>
     {{ data }}
-    <KeyValueModelComponent :data="data" />
+    <KeyValueModelComponent :data="data" title="测试" />
 </template>
 <script lang="ts" setup>
 import { KeyValueModel } from '../models/KeyValueModel';

@@ -1,5 +1,5 @@
 <template>
-    <a-form-item>
+    <a-form-item :label="title">
         <a-button type="primary" @click="addItem">+</a-button>
     </a-form-item>
     <a-form-item v-for="(item, index) in data">
@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { KeyValueModel } from '../../models/KeyValueModel';
 
-const props = defineProps<{ data: KeyValueModel[] }>();
+const props = defineProps<{ data: KeyValueModel[], title: string }>();
 
 const addItem = () => props.data.push({ Key: '', Value: '' });
 const removeItem = (index: number) => props.data.splice(index, 1);
