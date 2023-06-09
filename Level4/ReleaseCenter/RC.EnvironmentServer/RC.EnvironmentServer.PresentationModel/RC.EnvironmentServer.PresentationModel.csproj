@@ -15,7 +15,7 @@
 		<Description>发布中心环境公开模型</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="1.1.37" />
+		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="1.1.38" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\RC.EnvironmentServer.Enums\RC.EnvironmentServer.Enums.csproj" />
