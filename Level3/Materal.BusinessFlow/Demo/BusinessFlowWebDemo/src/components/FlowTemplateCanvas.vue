@@ -16,7 +16,7 @@
             :ref="stepOptions.set" />
     </div>
     <a-drawer v-model:visible="nodeDrawerVisible" title="节点编辑器" :maskClosable="false" width="600px">
-        <NodeOption ref="nodeOption" @complate="nodeOptionComplate"></NodeOption>
+        <NodeOption v-if="nodeDrawerVisible" ref="nodeOption" @complate="nodeOptionComplate"></NodeOption>
     </a-drawer>
 </template>
 <script setup lang="ts">

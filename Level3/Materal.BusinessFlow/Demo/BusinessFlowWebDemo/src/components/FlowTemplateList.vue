@@ -10,7 +10,6 @@
         </a-form>
         <div>
             <a-button type="primary" :loading="searching" @click="openOptionDrawer()">添加</a-button>
-            <UserSelect v-model="selectUserID" style="margin-left: 20px;width: 200px;" />
         </div>
         <a-table :columns="tableColumns" :data-source="tableData" :loading="searching" :pagination="tablePagination"
             @change="tableChange">

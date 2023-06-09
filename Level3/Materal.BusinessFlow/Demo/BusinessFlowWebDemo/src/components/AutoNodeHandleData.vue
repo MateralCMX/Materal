@@ -1,6 +1,6 @@
 <template>
     <a-form-item label="自动节点" name="HandleData">
-        <a-select ref="select" v-model:value="model.HandleData" placeholder="处理类型" @change="handleDataChange">
+        <a-select ref="select" v-model:value="model.HandleData" placeholder="处理类型">
             <a-select-option value="ConsoleMessageAutoNode">控制台消息</a-select-option>
             <a-select-option value="HttpAutoNode">Http请求</a-select-option>
         </a-select>
@@ -9,7 +9,6 @@
     <HttpAutoNode v-if="model.HandleData == 'HttpAutoNode'" v-model="model.Data" />
 </template>
 <script setup lang="ts">
-import { SelectValue } from 'ant-design-vue/lib/select';
 import { EditNodeModel } from '../models/Node/EditNodeModel';
 
 /**
@@ -20,18 +19,4 @@ const props = defineProps<{ modelValue: EditNodeModel }>();
  * 绑定模型
  */
 const model = useVModel(props, 'modelValue');
-/**
- * 处理数据更改
- * @param value 
- */
-const handleDataChange = (value: SelectValue) => {
-    switch (value) {
-        case "HttpAutoNode":
-            model.value.Data = "{}";
-            break;
-        default:
-            model.value.Data = "";
-            break;
-    }
-}
 </script>

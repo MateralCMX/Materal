@@ -15,11 +15,11 @@ namespace Materal.BusinessFlow.AutoNodes
         /// <summary>
         /// 请求头
         /// </summary>
-        public List<KeyValueModel>? Headers { get; set; }
+        public List<KeyValueModel> Headers { get; set; } = new();
         /// <summary>
         /// 查询请求参数
         /// </summary>
-        public List<KeyValueModel>? QueryParams { get; set; }
+        public List<KeyValueModel> QueryParams { get; set; } = new();
         /// <summary>
         /// 请求体
         /// </summary>

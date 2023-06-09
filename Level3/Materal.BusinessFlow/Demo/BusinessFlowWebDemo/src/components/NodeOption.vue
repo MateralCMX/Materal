@@ -100,7 +100,6 @@ const initAddAsync = async () => {
  * @param type 
  */
 const handleTypeChange = (type: NodeHandleTypeEnum) => {
-    debugger;
     switch (type) {
         case NodeHandleTypeEnum.Auto:
             formData.value.HandleData = 'ConsoleMessageAutoNode';
