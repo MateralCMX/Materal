@@ -1,4 +1,6 @@
-﻿namespace Materal.BusinessFlow.AutoNodes
+﻿using Materal.Utils.Model;
+
+namespace Materal.BusinessFlow.AutoNodes
 {
     public class HttpAutoNodeDataModel
     {
@@ -13,11 +15,11 @@
         /// <summary>
         /// 请求头
         /// </summary>
-        public Dictionary<string, string>? Headers { get; set; }
+        public List<KeyValueModel>? Headers { get; set; }
         /// <summary>
         /// 查询请求参数
         /// </summary>
-        public Dictionary<string, string>? QueryParams { get; set; }
+        public List<KeyValueModel>? QueryParams { get; set; }
         /// <summary>
         /// 请求体
         /// </summary>

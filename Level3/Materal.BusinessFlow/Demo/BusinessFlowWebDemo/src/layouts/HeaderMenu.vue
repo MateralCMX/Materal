@@ -23,6 +23,7 @@
         <a-menu-item key="/FlowTemplateList"><router-link to="/FlowTemplateList">模版管理</router-link></a-menu-item>
         <a-menu-item key="/UserList"><router-link to="/UserList">用户管理</router-link></a-menu-item>
         <a-menu-item key="/FlowList"><router-link to="/FlowList">流程管理</router-link></a-menu-item>
+        <a-menu-item key="/Test"><router-link to="/Test">测试页面</router-link></a-menu-item>
     </a-menu>
 </template>
 <script setup lang="ts">
