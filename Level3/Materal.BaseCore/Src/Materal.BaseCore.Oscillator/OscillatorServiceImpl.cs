@@ -34,7 +34,9 @@ namespace Materal.BaseCore.Oscillator
                 if (allSchedules.Any(m => m.Name == schedule.ScheduleName)) continue;
                 Guid scheduleID = await schedule.AddSchedule(_host);
                 _logger.LogInformation($"已新增调度器{schedule}");
+                if (OscillatorDataHelper.IsIniting(schedule.WorkName)) continue;
                 OscillatorDataHelper.SetInitKey(schedule.WorkName);
+                OscillatorDataHelper.SetInitingKey(schedule.WorkName);
                 await _host.RunNowAsync(scheduleID);
             }
         }
@@ -48,7 +50,9 @@ namespace Materal.BaseCore.Oscillator
         public async Task RunNowAsync<T>() where T : IOscillatorSchedule, new() => await RunNowAsync(new T().Name);
         public async Task InitAsync(string name, string workName)
         {
+            if (OscillatorDataHelper.IsIniting(workName)) return;
             OscillatorDataHelper.SetInitKey(workName);
+            OscillatorDataHelper.SetInitingKey(workName);
             await RunNowAsync(name);
         }
         public async Task InitAsync<T>() where T : IOscillatorSchedule, new()
@@ -56,13 +60,11 @@ namespace Materal.BaseCore.Oscillator
             T schedule = new();
             await InitAsync(schedule.Name, schedule.WorkName);
         }
-
         public async Task RunNowAsync<T>(object data) where T : IOscillatorSchedule, new()
         {
             OscillatorDataHelper.SetData<T>(data);
             await RunNowAsync<T>();
         }
-
         public async Task RunNowAsync<TSchedule, TData>(TData data) where TSchedule : IOscillatorSchedule, new()
         {
             if(data == null)

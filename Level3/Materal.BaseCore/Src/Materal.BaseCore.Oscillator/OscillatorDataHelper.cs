@@ -6,6 +6,8 @@ namespace Materal.BaseCore.Oscillator
     {
         private readonly static List<string> _initKey = new();
         private readonly static object _initKeyLock = new();
+        private readonly static List<string> _initingKey = new();
+        private readonly static object _initingKeyLock = new();
         private readonly static ConcurrentDictionary<string, object> _datas = new();
         /// <summary>
         /// 是否初始化
@@ -44,6 +46,45 @@ namespace Materal.BaseCore.Oscillator
             {
                 if (_initKey.Contains(workName)) return;
                 _initKey.Add(workName);
+            }
+        }
+        /// <summary>
+        /// 是否初始化中
+        /// </summary>
+        /// <param name="workName"></param>
+        /// <param name="autoRemove"></param>
+        /// <returns></returns>
+        public static bool IsIniting(string workName, bool autoRemove = true)
+        {
+            bool result = _initingKey.Contains(workName);
+            if (result && autoRemove)
+            {
+                RemoveInitingKey(workName);
+            }
+            return result;
+        }
+        /// <summary>
+        /// 移除初始化中标识
+        /// </summary>
+        /// <param name="workName"></param>
+        public static void RemoveInitingKey(string workName)
+        {
+            lock (_initingKeyLock)
+            {
+                if (!_initingKey.Contains(workName)) return;
+                _initingKey.Remove(workName);
+            }
+        }
+        /// <summary>
+        /// 设置初始化中键
+        /// </summary>
+        /// <param name="workName"></param>
+        public static void SetInitingKey(string workName)
+        {
+            lock (_initingKeyLock)
+            {
+                if (_initingKey.Contains(workName)) return;
+                _initingKey.Add(workName);
             }
         }
         /// <summary>
