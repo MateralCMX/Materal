@@ -6,7 +6,7 @@
 		<LangVersion>11.0</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.36</Version>
+		<Version>1.1.37</Version>
 		<Authors>Materal</Authors>
 		<Product>Materal.TFMS</Product>
 		<Description>Materal事件总线RabbitMQ实现</Description>
