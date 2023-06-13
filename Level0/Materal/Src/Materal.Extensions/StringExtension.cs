@@ -8,8 +8,27 @@ namespace System
     /// </summary>
     public static partial class StringExtension
     {
-        private readonly static Dictionary<string, Type> _cacheTypes = new();
-        private readonly static object _operationCacheObjectLock = new();
+        /// <summary>
+        /// 获得类型
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="filter">过滤器</param>
+        /// <returns></returns>
+        public static Type? GetTypeByTypeName(this string typeName, Func<Type, bool> filter)
+        {
+            if (string.IsNullOrWhiteSpace(typeName)) return null;
+            Type? targetType = null;
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly assembly in assemblies)
+            {
+                Type? tempType = assembly.GetTypes().Where(m => filter(m)).FirstOrDefault();
+                if (tempType == null) continue;
+                targetType = tempType;
+                break;
+            }
+            if (targetType == null) return null;
+            return targetType;
+        }
         /// <summary>
         /// 获得类型
         /// </summary>
@@ -17,39 +36,21 @@ namespace System
         /// <param name="filter">过滤器</param>
         /// <param name="argTypes"></param>
         /// <returns></returns>
-        public static Type? GetTypeByTypeName(this string typeName, Func<Type, bool> filter, params Type[] argTypes)
+        public static Type? GetTypeByTypeName(this string typeName, Func<Type, bool> filter, Type[] argTypes)
         {
             if (string.IsNullOrWhiteSpace(typeName)) return null;
             Type? targetType = null;
-            if (_cacheTypes.ContainsKey(typeName))
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (Assembly assembly in assemblies)
             {
-                targetType = _cacheTypes[typeName];
-            }
-            else
-            {
-                Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-                foreach (Assembly assembly in assemblies)
-                {
-                    Type? tempType = assembly.GetTypes().Where(m => filter(m)).FirstOrDefault();
-                    if (tempType == null) continue;
-                    ConstructorInfo? constructorInfo = tempType.GetConstructor(argTypes);
-                    if (constructorInfo == null) continue;
-                    targetType = tempType;
-                    break;
-                }
+                Type? tempType = assembly.GetTypes().Where(m => filter(m)).FirstOrDefault();
+                if (tempType == null) continue;
+                ConstructorInfo? constructorInfo = tempType.GetConstructor(argTypes);
+                if (constructorInfo == null) continue;
+                targetType = tempType;
+                break;
             }
             if (targetType == null) return null;
-            if (!_cacheTypes.ContainsKey(typeName))
-            {
-                lock (_operationCacheObjectLock)
-                {
-
-                    if (!_cacheTypes.ContainsKey(typeName))
-                    {
-                        _cacheTypes.Add(typeName, targetType);
-                    }
-                }
-            }
             return targetType;
         }
         /// <summary>
@@ -58,7 +59,13 @@ namespace System
         /// <param name="typeName"></param>
         /// <param name="argTypes"></param>
         /// <returns></returns>
-        public static Type? GetTypeByTypeName(this string typeName, params Type[] argTypes) => typeName.GetTypeByTypeName(m => m.Name == typeName && m.IsClass && !m.IsAbstract, argTypes);
+        public static Type? GetTypeByTypeName(this string typeName, Type[] argTypes) => typeName.GetTypeByTypeName(m => m.Name == typeName && m.IsClass && !m.IsAbstract, argTypes);
+        /// <summary>
+        /// 获得类型
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <returns></returns>
+        public static Type? GetTypeByTypeName(this string typeName) => typeName.GetTypeByTypeName(m => m.Name == typeName && m.IsClass && !m.IsAbstract);
         /// <summary>
         /// 获得类型
         /// </summary>
@@ -66,7 +73,7 @@ namespace System
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="ExtensionException"></exception>
-        public static Type? GetTypeByTypeName(this string typeName, params object[] args)
+        public static Type? GetTypeByTypeName(this string typeName, object[] args)
         {
             Type[] argTypes = args.Select(m => m.GetType()).ToArray();
             return GetTypeByTypeName(typeName, m => m.Name == typeName && m.IsClass && !m.IsAbstract, argTypes);
@@ -79,7 +86,7 @@ namespace System
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="ExtensionException"></exception>
-        public static Type? GetTypeByTypeName(this string typeName, Type targetType, params object[] args)
+        public static Type? GetTypeByTypeName(this string typeName, Type targetType, object[] args)
         {
             if (string.IsNullOrWhiteSpace(typeName)) return null;
             Type? result = GetTypeByTypeName(typeName, args);
@@ -94,7 +101,15 @@ namespace System
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="ExtensionException"></exception>
-        public static Type? GetTypeByTypeName<T>(this string typeName, params object[] args) => GetTypeByTypeName(typeName, typeof(T), args);
+        public static Type? GetTypeByTypeName<T>(this string typeName, object[] args) => GetTypeByTypeName(typeName, typeof(T), args);
+        /// <summary>
+        /// 获得类型
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="typeName"></param>
+        /// <returns></returns>
+        /// <exception cref="ExtensionException"></exception>
+        public static Type? GetTypeByTypeName<T>(this string typeName) => GetTypeByParentType(typeName, typeof(T));
         /// <summary>
         /// 根据类型名称获得对象
         /// </summary>
@@ -102,7 +117,14 @@ namespace System
         /// <param name="parentType"></param>
         /// <param name="argTypes"></param>
         /// <returns></returns>
-        public static Type? GetTypeByParentType(this string typeName, Type parentType, params Type[] argTypes) => typeName.GetTypeByTypeName((m => m.Name == typeName && m.IsClass && !m.IsAbstract && TypeExtension.IsAssignableTo(m, parentType)), argTypes);
+        public static Type? GetTypeByParentType(this string typeName, Type parentType, Type[] argTypes) => typeName.GetTypeByTypeName((m => m.Name == typeName && m.IsClass && !m.IsAbstract && TypeExtension.IsAssignableTo(m, parentType)), argTypes);
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="parentType"></param>
+        /// <returns></returns>
+        public static Type? GetTypeByParentType(this string typeName, Type parentType) => typeName.GetTypeByTypeName((m => m.Name == typeName && m.IsClass && !m.IsAbstract && TypeExtension.IsAssignableTo(m, parentType)));
         /// <summary>
         /// 根据类型名称获得对象
         /// </summary>
@@ -110,6 +132,6 @@ namespace System
         /// <param name="typeName"></param>
         /// <param name="argTypes"></param>
         /// <returns></returns>
-        public static Type? GetTypeByParentType<T>(this string typeName, params Type[] argTypes) => typeName.GetTypeByParentType(parentType: typeof(T), argTypes);
+        public static Type? GetTypeByParentType<T>(this string typeName, Type[] argTypes) => typeName.GetTypeByParentType(parentType: typeof(T), argTypes);
     }
 }

@@ -87,7 +87,7 @@ namespace Materal.Utils.Http
         /// <returns></returns>
         public override string GetExceptionMessage(Func<Exception, string?>? beforFunc = null, Func<Exception, string?>? afterFunc = null)
         {
-            Func<Exception, string?> httpExceptionBefor = exception =>
+            static string? HttpExceptionBefor(Exception exception)
             {
                 if (exception is not MateralHttpException httpException) return null;
                 StringBuilder errorMessage = new();
@@ -175,17 +175,17 @@ namespace Materal.Utils.Http
                 }
                 string result = errorMessage.ToString();
                 return result;
-            };
-            if(beforFunc == null)
+            }
+            if (beforFunc == null)
             {
-                beforFunc = httpExceptionBefor;
+                beforFunc = HttpExceptionBefor;
             }
             else
             {
                 beforFunc = exception =>
                 {
                     string? message = beforFunc.Invoke(exception);
-                    string? httpMessage = httpExceptionBefor(exception);
+                    string? httpMessage = HttpExceptionBefor(exception);
                     if (message == null && httpMessage != null) return httpMessage;
                     if (message != null && httpMessage == null) return message;
                     if (message != null && httpMessage != null)
