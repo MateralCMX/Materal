@@ -63,7 +63,7 @@ namespace Materal.Utils.Wechat
         {
             string eventValue = GetEventValue(xmlDocument);
             string eventHandlerName = $"I{eventValue}EventHandler";
-            Type? eventHandlerType = eventHandlerName.GetTypeByTypeName(m => m.Name == eventHandlerName);
+            Type? eventHandlerType = eventHandlerName.GetTypeByTypeName(m => m.Name.Equals(eventHandlerName, StringComparison.OrdinalIgnoreCase));
             if (eventHandlerType == null) return null;
             object? eventHandler = _serviceProvider.GetService(eventHandlerType);
             if (eventHandler == null) return null;

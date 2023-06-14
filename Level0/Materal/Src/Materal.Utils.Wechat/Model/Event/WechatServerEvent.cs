@@ -8,6 +8,18 @@ namespace Materal.Utils.Wechat.Model.Event
     public abstract class WechatServerEvent
     {
         /// <summary>
+        /// 开发者微信号
+        /// </summary>
+        public string ToUserName { get; set; } = string.Empty;
+        /// <summary>
+        /// 订阅用户的OpenID
+        /// </summary>
+        public string FromUserName { get; set; } = string.Empty;
+        /// <summary>
+        /// 事件发生时间
+        /// </summary>
+        public DateTime CreateTime { get; set; }
+        /// <summary>
         /// 原始Xml
         /// </summary>
         public XmlDocument XmlDocument { get; }
@@ -18,6 +30,9 @@ namespace Materal.Utils.Wechat.Model.Event
         protected WechatServerEvent(XmlDocument xmlDocument)
         {
             XmlDocument = xmlDocument;
+            ToUserName = GetXmlValue(nameof(ToUserName));
+            FromUserName = GetXmlValue(nameof(FromUserName));
+            CreateTime = GetXmlValueForDateTime(nameof(CreateTime));
         }
         /// <summary>
         /// 获得Xml值
@@ -31,7 +46,7 @@ namespace Materal.Utils.Wechat.Model.Event
             XmlNodeList? nodes = XmlDocument.FirstChild.SelectNodes(name);
             if (nodes == null || nodes.Count <= 0 || nodes[0] == null) return string.Empty;
             XmlNode node = nodes[0];
-            return node.FirstChild.Value;
+            return node.FirstChild != null ? node.FirstChild.Value : node.Value;
         }
         /// <summary>
         /// 获得Xml值(时间格式)

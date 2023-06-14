@@ -10,7 +10,7 @@
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>1.1.40</Version>
+		<Version>1.1.41</Version>
 		<Description>Materal Redis工具包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>

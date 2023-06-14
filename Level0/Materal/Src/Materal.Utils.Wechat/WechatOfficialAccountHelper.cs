@@ -1,4 +1,5 @@
 ﻿using Materal.Utils.Http;
+using Materal.Utils.Model;
 using Materal.Utils.Wechat.Model;
 using Materal.Utils.Wechat.Model.OfficialAccount.Request;
 using System.Security.Cryptography;
@@ -38,14 +39,19 @@ namespace Materal.Utils.Wechat
                 touser = requestModel.UserOpenID,
                 template_id = requestModel.TemplateID,
                 url = requestModel.Url,
-                data = new Dictionary<string, object>()
+                data = new Dictionary<string, object>(),
+                miniprogram = requestModel.Miniprogram == null ? null : new
+                {
+                    appid = requestModel.Miniprogram.AppID,
+                    pagepath = requestModel.Miniprogram.PagePath
+                },
+                client_msg_id = requestModel.ClientMessageID
             };
-            foreach (TemplateDataModel templateData in requestModel.TemplateDatas)
+            foreach (KeyValueModel templateData in requestModel.TemplateDatas)
             {
                 data.data.Add(templateData.Key, new
                 {
-                    value = templateData.Value,
-                    color = templateData.Color
+                    value = templateData.Value
                 });
             }
             string httpResult = await HttpHelper.SendPostAsync($"{Config.WechatAPIUrl}cgi-bin/message/template/send", queryParams, data);

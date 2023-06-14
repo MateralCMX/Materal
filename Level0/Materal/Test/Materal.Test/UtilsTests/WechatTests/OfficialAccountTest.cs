@@ -30,14 +30,21 @@ namespace Materal.Test.UtilsTests.WechatTests
             SendTemplateMessageRequestModel requestModel = new()
             {
                 AccessToken = accessToken,
-                UserOpenID = OpenID2,
-                TemplateID = "Ij-dTjG85bdYvzJp9sXPwSAwUdD0xULAG2_XvhAnwoc",
+                UserOpenID = OpenID1,
+                TemplateID = "gF7v6mCv2X94vb6cLO7I3hc0IWYAr5DD9vDgSFHgjf8",
                 Url = "https://www.baidu.com",
+                ClientMessageID = Guid.NewGuid().ToString(),
+                Miniprogram = new GoToMiniprogramModel
+                {
+                    AppID = "wxc4823d71dcecbc56",
+                    PagePath = "pages/index/index"
+                },
                 TemplateDatas = new()
                 {
-                    new(){ Key = "keyword1", Value = "后台推送的消息"},
-                    new(){ Key = "keyword2", Value = "带连接的消息"},
-                    new(){ Key = "keyword3", Value = "点一下看能不能跳转到百度"}
+                    new("thing9", "测试上报人"),
+                    new("time10", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+                    new("number11", "测试的，没有进度"),
+                    new("thing8", "测试小程序跳转"),
                 }
             };
             await _wechatHelper.SendTemplateMessageAsync(requestModel);

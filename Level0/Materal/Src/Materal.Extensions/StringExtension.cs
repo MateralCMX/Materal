@@ -76,7 +76,7 @@ namespace System
         public static Type? GetTypeByTypeName(this string typeName, object[] args)
         {
             Type[] argTypes = args.Select(m => m.GetType()).ToArray();
-            return GetTypeByTypeName(typeName, m => m.Name == typeName && m.IsClass && !m.IsAbstract, argTypes);
+            return GetTypeByTypeName(typeName, m => m.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase) && m.IsClass && !m.IsAbstract, argTypes);
         }
         /// <summary>
         /// 获得类型
@@ -117,14 +117,14 @@ namespace System
         /// <param name="parentType"></param>
         /// <param name="argTypes"></param>
         /// <returns></returns>
-        public static Type? GetTypeByParentType(this string typeName, Type parentType, Type[] argTypes) => typeName.GetTypeByTypeName((m => m.Name == typeName && m.IsClass && !m.IsAbstract && TypeExtension.IsAssignableTo(m, parentType)), argTypes);
+        public static Type? GetTypeByParentType(this string typeName, Type parentType, Type[] argTypes) => typeName.GetTypeByTypeName((m => m.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase) && m.IsClass && !m.IsAbstract && TypeExtension.IsAssignableTo(m, parentType)), argTypes);
         /// <summary>
         /// 根据类型名称获得对象
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="parentType"></param>
         /// <returns></returns>
-        public static Type? GetTypeByParentType(this string typeName, Type parentType) => typeName.GetTypeByTypeName((m => m.Name == typeName && m.IsClass && !m.IsAbstract && TypeExtension.IsAssignableTo(m, parentType)));
+        public static Type? GetTypeByParentType(this string typeName, Type parentType) => typeName.GetTypeByTypeName((m => m.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase) && m.IsClass && !m.IsAbstract && TypeExtension.IsAssignableTo(m, parentType)));
         /// <summary>
         /// 根据类型名称获得对象
         /// </summary>

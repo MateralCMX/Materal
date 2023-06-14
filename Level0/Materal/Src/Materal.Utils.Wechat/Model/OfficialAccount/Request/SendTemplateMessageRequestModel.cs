@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Materal.Utils.Model;
+using System.ComponentModel.DataAnnotations;
 
 namespace Materal.Utils.Wechat.Model.OfficialAccount.Request
 {
@@ -26,14 +27,17 @@ namespace Materal.Utils.Wechat.Model.OfficialAccount.Request
         /// </summary>
         public string? Url { get; set; }
         /// <summary>
-        /// 标题颜色
+        /// 跳转小程序
         /// </summary>
-        [Required(ErrorMessage = "标题颜色必填")]
-        public string TitleColor { get; set; } = "#FF0000";
+        public GoToMiniprogramModel? Miniprogram { get; set; }
         /// <summary>
         /// 数据集
         /// </summary>
         [Required(ErrorMessage = "数据集必填")]
-        public List<TemplateDataModel> TemplateDatas { get; set; } = new();
+        public List<KeyValueModel> TemplateDatas { get; set; } = new();
+        /// <summary>
+        /// 防重复标识ID
+        /// </summary>
+        public string? ClientMessageID { get; set; }
     }
 }
