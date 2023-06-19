@@ -1,5 +1,6 @@
 ﻿using Materal.Abstractions;
 using Materal.Utils;
+using Materal.Utils.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -13,7 +14,7 @@ namespace Materal.Test
         protected BaseTest()
         {
             _serviceCollection = new ServiceCollection();
-            MateralConfig.PageStartNumber = 1;
+            PageRequestModel.PageStartNumber = 1;
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
             AddConfig(configurationBuilder);
             HttpMessageHandler handler = new HttpClientHandler()

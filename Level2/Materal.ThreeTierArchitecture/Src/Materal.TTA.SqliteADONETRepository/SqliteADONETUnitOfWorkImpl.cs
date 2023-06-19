@@ -44,7 +44,7 @@ namespace Materal.TTA.SqliteADONETRepository
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <param name="connectionString"></param>
-        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, string connectionString) : base(serviceProvider, new SqliteConnection(connectionString))
+        protected SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, string connectionString) : base(serviceProvider, new SqliteConnection(connectionString))
         {
         }
         /// <summary>
@@ -52,7 +52,7 @@ namespace Materal.TTA.SqliteADONETRepository
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <param name="dbOption"></param>
-        public SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, TDBOption dbOption) : base(serviceProvider, dbOption.GetConnection())
+        protected SqliteADONETUnitOfWorkImpl(IServiceProvider serviceProvider, TDBOption dbOption) : base(serviceProvider, dbOption.GetConnection())
         {
         }
         /// <summary>

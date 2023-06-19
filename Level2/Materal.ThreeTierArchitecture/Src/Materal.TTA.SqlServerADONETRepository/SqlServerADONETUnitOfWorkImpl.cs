@@ -14,7 +14,7 @@ namespace Materal.TTA.SqlServerADONETRepository
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <param name="connectionString"></param>
-        public SqlServerADONETUnitOfWorkImpl(IServiceProvider serviceProvider, string connectionString) : base(serviceProvider, new SqlConnection(connectionString))
+        protected SqlServerADONETUnitOfWorkImpl(IServiceProvider serviceProvider, string connectionString) : base(serviceProvider, new SqlConnection(connectionString))
         {
         }
         /// <summary>
@@ -22,7 +22,7 @@ namespace Materal.TTA.SqlServerADONETRepository
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <param name="dbOption"></param>
-        public SqlServerADONETUnitOfWorkImpl(IServiceProvider serviceProvider, TDBOption dbOption) : base(serviceProvider, dbOption.GetConnection())
+        protected SqlServerADONETUnitOfWorkImpl(IServiceProvider serviceProvider, TDBOption dbOption) : base(serviceProvider, dbOption.GetConnection())
         {
         }
         /// <summary>

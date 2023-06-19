@@ -96,7 +96,7 @@ namespace System.Data
         public static T GetValue<T>(this DataRow dataRow, List<Exception>? exceptions = null)
             where T : new()
         {
-            T result = TypeHelper.Instantiation<T>() ?? throw new ExtensionException("转换失败");
+            T result = typeof(T).Instantiation<T>() ?? throw new ExtensionException("转换失败");
             result.SetValueByDataRow(dataRow, exceptions);
             return result;
         }
@@ -125,7 +125,7 @@ namespace System.Data
             List<T> result = new();
             foreach (DataRow dr in dataTable.Rows)
             {
-                var value = dr.GetValue<T>(exceptions);
+                T? value = dr.GetValue<T>(exceptions);
                 if (value == null) continue;
                 result.Add(value);
             }

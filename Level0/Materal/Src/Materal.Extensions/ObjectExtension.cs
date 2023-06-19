@@ -1,6 +1,5 @@
 ﻿using Materal.Extensions;
 using System.ComponentModel;
-using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
 
@@ -51,6 +50,8 @@ namespace System
                 return Guid.Parse(inputString);
             });
             _convertDictionary.Add(typeof(string), Convert.ToString);
+            _convertDictionary.Add(typeof(decimal), WrapValueConvert(Convert.ToDecimal));
+            _convertDictionary.Add(typeof(decimal?), WrapValueConvert(Convert.ToDecimal));
             _convertDictionary.Add(typeof(DateTime), WrapValueConvert(Convert.ToDateTime));
             _convertDictionary.Add(typeof(DateTime?), WrapValueConvert(Convert.ToDateTime));
         }
@@ -59,14 +60,14 @@ namespace System
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="func"></param>
-        public static void AddConvertDictionary<T>(Func<object, T> func) where T : notnull => _convertDictionary.Add(typeof(T), WrapValueConvert(func));
+        public static void AddConvertDictionary<T>(Func<object, T> func) => _convertDictionary.Add(typeof(T), WrapValueConvert(func));
         /// <summary>
         /// 写入值转换类型
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="input"></param>
         /// <returns></returns>
-        private static Func<object, object> WrapValueConvert<T>(Func<object, T> input) where T : notnull => i => input(i);
+        private static Func<object, object?> WrapValueConvert<T>(Func<object, T?> input)  => i => input(i);
         /// <summary>
         /// 属性复制sourceM->targetM
         /// </summary>
@@ -102,7 +103,7 @@ namespace System
         /// <returns>复制的对象</returns>
         public static T CopyProperties<T>(this object source, Func<PropertyInfo, object?, bool> isCopy)
         {
-            T result = TypeHelper.Instantiation<T>();
+            T result = typeof(T).Instantiation<T>();
             source.CopyProperties(result, isCopy);
             return result;
         }
@@ -138,7 +139,7 @@ namespace System
         /// <returns>复制的对象</returns>
         public static T CopyProperties<T>(this object source, params string[] notCopyPropertyNames)
         {
-            T result = TypeHelper.Instantiation<T>();
+            T result = typeof(T).Instantiation<T>();
             source.CopyProperties(result, notCopyPropertyNames);
             return result;
         }

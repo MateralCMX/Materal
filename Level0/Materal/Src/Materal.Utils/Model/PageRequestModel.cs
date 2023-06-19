@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-
-namespace Materal.Utils.Model
+﻿namespace Materal.Utils.Model
 {
     /// <summary>
     /// 分页请求模型
@@ -8,9 +6,13 @@ namespace Materal.Utils.Model
     public abstract class PageRequestModel : FilterModel
     {
         /// <summary>
+        /// 起始页码
+        /// </summary>
+        public static int PageStartNumber { get; set; } = 1;
+        /// <summary>
         /// 页面位序
         /// </summary>
-        public int PageIndex { get; set; } = MateralConfig.PageStartNumber;
+        public int PageIndex { get; set; } = PageStartNumber;
         /// <summary>
         /// 显示数量
         /// </summary>
@@ -18,7 +20,7 @@ namespace Materal.Utils.Model
         /// <summary>
         /// 跳过数量
         /// </summary>
-        public int Skip => (PageIndex - MateralConfig.PageStartNumber) * PageSize;
+        public int Skip => (PageIndex - PageStartNumber) * PageSize;
         /// <summary>
         /// 获取数量
         /// </summary>
@@ -36,9 +38,9 @@ namespace Materal.Utils.Model
         {
             PageIndex = pageIndex;
             PageSize = pageSize;
-            if (PageIndex < MateralConfig.PageStartNumber)
+            if (PageIndex < PageStartNumber)
             {
-                PageIndex = MateralConfig.PageStartNumber;
+                PageIndex = PageStartNumber;
             }
             if (PageSize < 0)
             {

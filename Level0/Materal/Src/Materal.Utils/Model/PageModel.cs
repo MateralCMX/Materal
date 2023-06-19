@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-
-namespace Materal.Utils.Model
+﻿namespace Materal.Utils.Model
 {
     /// <summary>
     /// 分页模型
@@ -14,7 +12,7 @@ namespace Materal.Utils.Model
         /// <summary>
         /// 开始序号
         /// </summary>
-        public int StartIndex => (PageIndex - MateralConfig.PageStartNumber) * PageSize + 1;
+        public int StartIndex => (PageIndex - PageStartNumber) * PageSize + 1;
         /// <summary>
         /// 数据总数
         /// </summary>

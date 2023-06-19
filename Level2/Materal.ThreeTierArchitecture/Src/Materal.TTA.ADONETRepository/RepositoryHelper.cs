@@ -273,9 +273,9 @@ namespace Materal.TTA.ADONETRepository
                     string leftTSQL = ExpressionToTSQL(command, objMemberExpression, expression);
                     if (expression.Arguments.Count == 1 && expression.Arguments[0] is ConstantExpression constantExpression)
                     {
-                        string vaue = $"%{constantExpression.Value}%";
+                        string value = $"%{constantExpression.Value}%";
                         string parameterName = GetParamsName($"P{_paramsIndex++}");
-                        command.AddParameter(parameterName, vaue);
+                        command.AddParameter(parameterName, value);
                         return $"{leftTSQL} like {parameterName}";
                     }
                     else
@@ -289,10 +289,32 @@ namespace Materal.TTA.ADONETRepository
                     return ContainsMethodCallMemberExpressionToTSQL(command, leftTSQL, objMemberExpression);
                 }
             }
-            else if (expression.Method.ReturnType == typeof(bool) && expression.Arguments.Count == 2 && expression.Arguments[0] is MemberExpression argMemberExpression)
+            else if (expression.Method.ReturnType == typeof(bool) && expression.Arguments.Count > 0 && expression.Arguments[0] is MemberExpression argMemberExpression)
             {
-                string leftTSQL = ExpressionToTSQL(command, expression.Arguments[1], argMemberExpression);
-                return ContainsMethodCallMemberExpressionToTSQL(command, leftTSQL, argMemberExpression);
+                if (expression.Arguments.Count == 1 && expression.Object is ConstantExpression constantExpression)
+                {
+                    string leftTSQL = ExpressionToTSQL(command, expression.Arguments[0], argMemberExpression);
+                    if (constantExpression.Value is not IEnumerable objValue) throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
+                    List<string> parameterNames = new();
+                    foreach (var item in objValue)
+                    {
+                        if (item == null) continue;
+                        string parameterName = GetParamsName($"P{_paramsIndex++}");
+                        command.AddParameter(parameterName, item);
+                        parameterNames.Add(parameterName);
+                    }
+                    string result = $"{leftTSQL} in ({string.Join(",", parameterNames)})";
+                    return result;
+                }
+                else if (expression.Arguments.Count == 2)
+                {
+                    string leftTSQL = ExpressionToTSQL(command, expression.Arguments[1], argMemberExpression);
+                    return ContainsMethodCallMemberExpressionToTSQL(command, leftTSQL, argMemberExpression);
+                }
+                else
+                {
+                    throw new TTAException($"不支持方法{expression.Method.Name}转换为TSQL");
+                }
             }
             return null;
         }
