@@ -24,9 +24,9 @@ namespace Materal.BaseCore.WebAPI.Filters
                 foreach (PageRequestModel? item in pageRequestModels)
                 {
                     if (item is null) continue;
-                    if (item.PageIndex < MateralConfig.PageStartNumber)
+                    if (item.PageIndex < PageRequestModel.PageStartNumber)
                     {
-                        item.PageIndex = MateralConfig.PageStartNumber;
+                        item.PageIndex = PageRequestModel.PageStartNumber;
                     }
                     if (item.PageSize <= 0)
                     {

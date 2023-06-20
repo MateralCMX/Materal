@@ -1,5 +1,5 @@
-﻿using Materal.Abstractions;
-using Materal.Utils;
+﻿using Materal.Utils;
+using Materal.Utils.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -18,7 +18,7 @@ namespace Materal.BaseCore.Common
         /// <returns></returns>
         public static IServiceCollection AddMateralCoreServices(this IServiceCollection services, params Assembly[] autoMapperAssemblys)
         {
-            MateralConfig.PageStartNumber = 1;
+            PageRequestModel.PageStartNumber = 1;
             services.AddMemoryCache();
             services.AddMateralUtils();
             List<Assembly> autoMapperAssemblyList = autoMapperAssemblys.ToList();

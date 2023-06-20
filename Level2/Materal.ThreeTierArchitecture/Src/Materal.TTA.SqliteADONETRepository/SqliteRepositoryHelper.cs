@@ -2,6 +2,7 @@
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 using Materal.TTA.Common.Model;
+using Materal.Utils.Model;
 
 namespace Materal.TTA.SqliteADONETRepository
 {
@@ -53,7 +54,7 @@ namespace Materal.TTA.SqliteADONETRepository
         /// <returns></returns>
         public override string GetPagingTSQL(int pageIndex, int pageSize)
         {
-            return $"LIMIT {pageSize} OFFSET {(pageIndex - MateralConfig.PageStartNumber) * pageSize}";
+            return $"LIMIT {pageSize} OFFSET {(pageIndex - PageRequestModel.PageStartNumber) * pageSize}";
         }
         /// <summary>
         /// 获得判断空TSQL

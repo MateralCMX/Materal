@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{D9F82D42-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{5131380E-7D40-4109-8297-E7C7189431E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.Test", "Test\Materal.TFMS.Test\Materal.TFMS.Test.csproj", "{86E0C49C-BE09-40ED-8229-C0D4688C311B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TFMS.Test", "Test\Materal.TFMS.Test\Materal.TFMS.Test.csproj", "{86E0C49C-BE09-40ED-8229-C0D4688C311B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TFMS.EventBus", "Src\Materal.TFMS.EventBus\Materal.TFMS.EventBus.csproj", "{2D5EDF50-DD36-4C2C-B807-90E32FC89BE8}"
 EndProject
@@ -30,6 +30,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TFMS.Demo.Core", "Demo\Materal.TFMS.Demo.Core\Materal.TFMS.Demo.Core.csproj", "{9DE43CE1-1316-496E-888F-0966F4918566}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.TFMS.Demo.Events", "Demo\Materal.TFMS.Demo.Events\Materal.TFMS.Demo.Events.csproj", "{CB4502AB-2772-4243-956A-44ED28CA977A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.TFMS.TestClient", "Materal.TFMS.TestClient\Materal.TFMS.TestClient.csproj", "{EED25EC4-1091-4A06-82C9-0E3ADB15733E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{CB4502AB-2772-4243-956A-44ED28CA977A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB4502AB-2772-4243-956A-44ED28CA977A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB4502AB-2772-4243-956A-44ED28CA977A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EED25EC4-1091-4A06-82C9-0E3ADB15733E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EED25EC4-1091-4A06-82C9-0E3ADB15733E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EED25EC4-1091-4A06-82C9-0E3ADB15733E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EED25EC4-1091-4A06-82C9-0E3ADB15733E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{F22C3EF7-7A78-4280-BCBE-62D3CB45A2CF} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
 		{9DE43CE1-1316-496E-888F-0966F4918566} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
 		{CB4502AB-2772-4243-956A-44ED28CA977A} = {A70B1732-A21D-4626-AF9A-FCD0ED0A9F5E}
+		{EED25EC4-1091-4A06-82C9-0E3ADB15733E} = {D9F82D42-A93E-4CBD-A8A8-DD74913748B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42212227-D564-4F89-8A79-281668093517}

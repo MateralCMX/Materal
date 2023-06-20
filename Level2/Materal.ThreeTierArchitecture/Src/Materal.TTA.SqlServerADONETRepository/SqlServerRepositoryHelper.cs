@@ -2,6 +2,7 @@
 using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 using Materal.TTA.Common.Model;
+using Materal.Utils.Model;
 
 namespace Materal.TTA.SqlServerADONETRepository
 {
@@ -50,7 +51,7 @@ namespace Materal.TTA.SqlServerADONETRepository
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public override string GetPagingTSQL(int pageIndex, int pageSize) => $"OFFSET {(pageIndex - MateralConfig.PageStartNumber) * pageSize} ROWS FETCH NEXT {pageSize} ROWS ONLY";
+        public override string GetPagingTSQL(int pageIndex, int pageSize) => $"OFFSET {(pageIndex - PageRequestModel.PageStartNumber) * pageSize} ROWS FETCH NEXT {pageSize} ROWS ONLY";
         /// <summary>
         /// 获得判断空TSQL
         /// </summary>

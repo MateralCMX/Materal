@@ -46,9 +46,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.EventBus",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.Oscillator", "Src\Materal.BaseCore.Oscillator\Materal.BaseCore.Oscillator.csproj", "{E07EF9D2-2FBB-4AA2-809B-81854113D8B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.BaseCore.OscillatorGenerator", "Src\Materal.BaseCore.OscillatorGenerator\Materal.BaseCore.OscillatorGenerator.csproj", "{BE40E53A-238F-4A3C-85D0-F3D36D7A006F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.OscillatorGenerator", "Src\Materal.BaseCore.OscillatorGenerator\Materal.BaseCore.OscillatorGenerator.csproj", "{BE40E53A-238F-4A3C-85D0-F3D36D7A006F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.BaseCore.OscillatorGeneratorTest", "Test\Materal.BaseCore.OscillatorGeneratorTest\Materal.BaseCore.OscillatorGeneratorTest.csproj", "{71718096-0A76-40EB-ABA8-92E6DAFC99C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.BaseCore.OscillatorGeneratorTest", "Test\Materal.BaseCore.OscillatorGeneratorTest\Materal.BaseCore.OscillatorGeneratorTest.csproj", "{71718096-0A76-40EB-ABA8-92E6DAFC99C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.BaseCore.EventBus.TestClient", "Test\Materal.BaseCore.EventBus.TestClient\Materal.BaseCore.EventBus.TestClient.csproj", "{FF60D03F-610F-46A2-B48C-4E91CF880EFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -288,6 +290,18 @@ Global
 		{71718096-0A76-40EB-ABA8-92E6DAFC99C7}.Release|arm64.Build.0 = Release|Any CPU
 		{71718096-0A76-40EB-ABA8-92E6DAFC99C7}.Release|x86.ActiveCfg = Release|Any CPU
 		{71718096-0A76-40EB-ABA8-92E6DAFC99C7}.Release|x86.Build.0 = Release|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Debug|arm64.Build.0 = Debug|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Debug|x86.Build.0 = Debug|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Release|arm64.ActiveCfg = Release|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Release|arm64.Build.0 = Release|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Release|x86.ActiveCfg = Release|Any CPU
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -313,6 +327,7 @@ Global
 		{E07EF9D2-2FBB-4AA2-809B-81854113D8B2} = {1F6D4576-DF56-45AA-96F5-5E4C09F9D5A0}
 		{BE40E53A-238F-4A3C-85D0-F3D36D7A006F} = {1F6D4576-DF56-45AA-96F5-5E4C09F9D5A0}
 		{71718096-0A76-40EB-ABA8-92E6DAFC99C7} = {A07158CA-D767-4879-97E3-99FA13AD14D2}
+		{FF60D03F-610F-46A2-B48C-4E91CF880EFF} = {A07158CA-D767-4879-97E3-99FA13AD14D2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2E509F56-A775-4C38-BFDE-6365113C43DF}

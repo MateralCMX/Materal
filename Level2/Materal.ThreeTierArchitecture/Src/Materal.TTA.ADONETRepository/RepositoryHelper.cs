@@ -1,6 +1,7 @@
 ﻿using Materal.Abstractions;
 using Materal.TTA.ADONETRepository.Extensions;
 using Materal.TTA.Common;
+using Materal.Utils.Model;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections;
 using System.Data;
@@ -160,7 +161,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="tableName"></param>
         public void SetQueryOneRowCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, string tableName)
         {
-            SetPagingCommand(command, expression, orderExpression, sortOrder, MateralConfig.PageStartNumber, 1, tableName);
+            SetPagingCommand(command, expression, orderExpression, sortOrder, PageRequestModel.PageStartNumber, 1, tableName);
         }
         /// <summary>
         /// 设置分页查询命令
@@ -174,7 +175,7 @@ namespace Materal.TTA.ADONETRepository
         /// <param name="tableName"></param>
         public void SetPagingCommand(IDbCommand command, Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize, string tableName)
         {
-            if (pageIndex < MateralConfig.PageStartNumber) pageIndex = MateralConfig.PageStartNumber;
+            if (pageIndex < PageRequestModel.PageStartNumber) pageIndex = PageRequestModel.PageStartNumber;
             if (pageSize < 1) pageSize = 10;
             StringBuilder tSql = GetQueryTSQL(command, expression, orderExpression, sortOrder, tableName);
             tSql.AppendLine(GetPagingTSQL(pageIndex, pageSize));

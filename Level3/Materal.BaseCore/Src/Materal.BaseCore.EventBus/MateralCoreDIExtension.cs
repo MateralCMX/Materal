@@ -81,7 +81,7 @@ namespace Materal.BaseCore.EventBus
                         if (eventHanlerInterfaceType == null) continue;
                         Type eventType = eventHanlerInterfaceType.GenericTypeArguments.First();
                         if (!eventType.IsAssignableTo<IntegrationEvent>()) continue;
-                        eventBus.SubscribeAsync(eventType, eventHanlerInterfaceType);
+                        eventBus.SubscribeAsync(eventType, handler);
                         subscribeHandlers.RemoveAt(0);
                     }
                     subscribeHandlers = null;
