@@ -1,7 +1,11 @@
-﻿using Materal.Utils.Http;
+﻿using LitJson;
+using Materal.Utils.Http;
 using Materal.Utils.Model;
 using Materal.Utils.Wechat.Model;
 using Materal.Utils.Wechat.Model.OfficialAccount.Request;
+using Materal.Utils.Wechat.Model.OfficialAccount.Result;
+using Materal.Utils.Wechat.Model.Result;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -19,6 +23,32 @@ namespace Materal.Utils.Wechat
         /// <param name="httpHelper"></param>
         public WechatOfficialAccountHelper(WechatConfigModel config, IHttpHelper? httpHelper = null) : base(config, httpHelper)
         {
+        }
+        /// <summary>
+        /// 根据Code获得网页AccessToken
+        /// </summary>
+        /// <param name="code">Code</param>
+        /// <returns>OpenID</returns>
+        public async Task<WebAssessTokenResultModel> GetWebAssessTokenByCodeAsync([Required] string code)
+        {
+            Dictionary<string, string> queryParams = new()
+            {
+                {"appid", Config.APPID},
+                {"secret", Config.APPSECRET},
+                {"code", code},
+                {"grant_type", "authorization_code"},
+            };
+            string httpResult = await HttpHelper.SendGetAsync($"{Config.WechatAPIUrl}sns/oauth2/access_token", queryParams);
+            JsonData jsonData = HandlerHttpResult(httpResult);
+            WebAssessTokenResultModel result = new()
+            {
+                WebAssessToken = jsonData.GetString("access_token") ?? throw GetWechatException(jsonData),
+                OpenID = jsonData.GetString("openid") ?? throw GetWechatException(jsonData),
+                ExpiresIn = jsonData.GetInt("expires_in") ?? throw GetWechatException(jsonData),
+                RefreshToken = jsonData.GetString("refresh_token") ?? throw GetWechatException(jsonData),
+                Scope = jsonData.GetString("scope") ?? throw GetWechatException(jsonData),
+            };
+            return result;
         }
         /// <summary>
         /// 发送模版消息

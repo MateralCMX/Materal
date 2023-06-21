@@ -1,6 +1,7 @@
 ﻿using Materal.Utils.Http;
 using Materal.Utils.Wechat;
 using Materal.Utils.Wechat.Model.OfficialAccount.Request;
+using Materal.Utils.Wechat.Model.OfficialAccount.Result;
 using Materal.Utils.Wechat.Model.Result;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,13 +19,20 @@ namespace Materal.Test.UtilsTests.WechatTests
         protected override async Task<AccessTokenResultModel> GetAccessTokenByWechatAsync() => await _wechatHelper.GetAccessTokenAsync();
 
         [TestMethod]
-        public async Task GetAccessTokenTest()
+        public async Task GetAccessTokenTestAsync()
         {
             AccessTokenResultModel result = await GetAccessTokenByWechatAsync();
             Assert.IsNotNull(result.AccessToken);
         }
         [TestMethod]
-        public async Task SendTemplateMessageAsync()
+        public async Task GetWebAssessTokenByCodeTestAsync()
+        {
+            string code = "0415R8Ga1URgwF0zYEHa1CaIND05R8Ge";
+            WebAssessTokenResultModel result = await _wechatHelper.GetWebAssessTokenByCodeAsync(code);
+            Assert.IsNotNull(result.OpenID);
+        }
+        [TestMethod]
+        public async Task SendTemplateMessageTestAsync()
         {
             string accessToken = await GetAccessTokenAsync();
             SendTemplateMessageRequestModel requestModel = new()
