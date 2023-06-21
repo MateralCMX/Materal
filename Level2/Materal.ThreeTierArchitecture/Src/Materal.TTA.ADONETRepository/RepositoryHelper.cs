@@ -197,9 +197,17 @@ namespace Materal.TTA.ADONETRepository
         /// <exception cref="TTAException"></exception>
         public string OrderExpressionToTSQL(Expression<Func<TEntity, object>> expression, SortOrderEnum sortOrder)
         {
-            if (expression is not LambdaExpression orderExpression ||
-                orderExpression.Body is not UnaryExpression unaryExpression ||
-                unaryExpression.Operand is not MemberExpression memberExpression)
+            MemberExpression memberExpression;
+            if (expression is not LambdaExpression orderExpression) throw new TTAException("排序表达式错误");
+            else if (orderExpression.Body is UnaryExpression unaryExpression && unaryExpression.Operand is MemberExpression)
+            {
+                memberExpression = (MemberExpression)unaryExpression.Operand;
+            }
+            else if (orderExpression.Body is MemberExpression)
+            {
+                memberExpression = (MemberExpression)orderExpression.Body;
+            }
+            else
             {
                 throw new TTAException("排序表达式错误");
             }
