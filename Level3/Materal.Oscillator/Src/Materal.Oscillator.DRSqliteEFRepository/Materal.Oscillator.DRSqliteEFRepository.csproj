@@ -20,7 +20,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.43" />
+		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.44" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Oscillator\Materal.Oscillator.csproj" />

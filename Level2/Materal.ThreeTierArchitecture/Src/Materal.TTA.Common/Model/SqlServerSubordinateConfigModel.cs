@@ -51,8 +51,13 @@ namespace Materal.TTA.Common.Model
             get
             {
                 StringBuilder result = new();
-                result.Append($"Data Source={Address};");
-                if (string.IsNullOrEmpty(AttachDbFilename))
+                result.Append($"Data Source={Address}");
+                if (!string.IsNullOrWhiteSpace(Port))
+                {
+                    result.Append($",{Port}");
+                }
+                result.Append(";");
+                if (string.IsNullOrWhiteSpace(AttachDbFilename))
                 {
                     result.Append($"Database={Name}; User ID={UserID}; Password={Password};");
                 }

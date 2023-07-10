@@ -24,7 +24,7 @@
 		<ProjectReference Include="..\Materal.BaseCore.ServiceImpl\Materal.BaseCore.ServiceImpl.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Logger.AspNetCore" Version="1.1.43" />
+		<PackageReference Include="Materal.Logger.AspNetCore" Version="1.1.44" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.*" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.16" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />

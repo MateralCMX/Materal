@@ -22,7 +22,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Extensions" Version="1.1.43" />
+		<PackageReference Include="Materal.Extensions" Version="1.1.44" />
 	  <PackageReference Include="System.ComponentModel.Annotations" Version="*" />
 	</ItemGroup>
 </Project>
