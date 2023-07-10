@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "MateralBasePlugBuild/1.0.0": {
         "dependencies": {
-          "Materal.BaseCore.CodeGenerator": "1.1.43",
+          "Materal.BaseCore.CodeGenerator": "1.1.44",
           "Microsoft.CodeAnalysis.CSharp": "4.6.0",
           "System.Collections.Immutable": "7.0.0"
         },
@@ -24,7 +24,7 @@
           }
         }
       },
-      "Materal.Abstractions/1.1.43": {
+      "Materal.Abstractions/1.1.44": {
         "dependencies": {
           "IndexRange": "1.0.2",
           "Microsoft.Extensions.Configuration": "7.0.0",
@@ -32,14 +32,14 @@
         },
         "runtime": {
           "lib/netstandard2.0/Materal.Abstractions.dll": {
-            "assemblyVersion": "1.1.43.0",
-            "fileVersion": "1.1.43.0"
+            "assemblyVersion": "1.1.44.0",
+            "fileVersion": "1.1.44.0"
           }
         }
       },
-      "Materal.Extensions/1.1.43": {
+      "Materal.Extensions/1.1.44": {
         "dependencies": {
-          "Materal.Abstractions": "1.1.43",
+          "Materal.Abstractions": "1.1.44",
           "Microsoft.Extensions.Configuration.Json": "7.0.0",
           "Microsoft.Extensions.Options.DataAnnotations": "7.0.0",
           "Newtonsoft.Json": "13.0.3",
@@ -47,8 +47,8 @@
         },
         "runtime": {
           "lib/netstandard2.0/Materal.Extensions.dll": {
-            "assemblyVersion": "1.1.43.0",
-            "fileVersion": "1.1.43.0"
+            "assemblyVersion": "1.1.44.0",
+            "fileVersion": "1.1.44.0"
           }
         }
       },
@@ -335,9 +335,9 @@
           }
         }
       },
-      "Materal.BaseCore.CodeGenerator/1.1.43": {
+      "Materal.BaseCore.CodeGenerator/1.1.44": {
         "dependencies": {
-          "Materal.Extensions": "1.1.43",
+          "Materal.Extensions": "1.1.44",
           "System.ComponentModel.Annotations": "5.0.0"
         },
         "runtime": {
@@ -359,19 +359,19 @@
       "path": "indexrange/1.0.2",
       "hashPath": "indexrange.1.0.2.nupkg.sha512"
     },
-    "Materal.Abstractions/1.1.43": {
+    "Materal.Abstractions/1.1.44": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-/XQXF43/LcKeFcICuSneqTtTTFChK1oRmvI6HumdcXN5quIyEW2ssFwNAg5QETwL8a7W+ifitSOb4HE6U0pi4Q==",
-      "path": "materal.abstractions/1.1.43",
-      "hashPath": "materal.abstractions.1.1.43.nupkg.sha512"
+      "sha512": "sha512-LgLPk19h1RWt/+arPDIyzCgvBzewnbTnMiwC2IBWmPOtWbClKSBo5WJQbbHP/1Icudgd+exuEDqosiRY2MIXWA==",
+      "path": "materal.abstractions/1.1.44",
+      "hashPath": "materal.abstractions.1.1.44.nupkg.sha512"
     },
-    "Materal.Extensions/1.1.43": {
+    "Materal.Extensions/1.1.44": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-3BZTXVMLn6p3s3KrGqd3tIV8gQ+l5aaQeRkjVXM7JKcfMDJwKaEc4TIgp5vhE6dE2QXtV6uIiwbUw/hdiAO0yg==",
-      "path": "materal.extensions/1.1.43",
-      "hashPath": "materal.extensions.1.1.43.nupkg.sha512"
+      "sha512": "sha512-jNGNfRCyJB29q7bAL2vLqETUya95c/Y52FNmBp5X5A6Wpy4z+HRp0k6R3wq/t4cgxP9qXSkbxyjDFUL3jnxVBw==",
+      "path": "materal.extensions/1.1.44",
+      "hashPath": "materal.extensions.1.1.44.nupkg.sha512"
     },
     "Microsoft.CodeAnalysis.Analyzers/3.3.4": {
       "type": "package",
@@ -548,7 +548,7 @@
       "path": "system.text.json/7.0.0",
       "hashPath": "system.text.json.7.0.0.nupkg.sha512"
     },
-    "Materal.BaseCore.CodeGenerator/1.1.43": {
+    "Materal.BaseCore.CodeGenerator/1.1.44": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
