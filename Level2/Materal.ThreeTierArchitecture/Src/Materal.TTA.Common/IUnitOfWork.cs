@@ -12,12 +12,14 @@
         /// <summary>
         /// 提交
         /// </summary>
+        /// <param name="setDetached"></param>
         /// <returns></returns>
-        Task CommitAsync();
+        Task CommitAsync(bool setDetached = true);
         /// <summary>
         /// 提交
         /// </summary>
-        void Commit();
+        /// <param name="setDetached"></param>
+        void Commit(bool setDetached = true);
         /// <summary>
         /// 注册添加
         /// </summary>

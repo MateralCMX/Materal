@@ -149,11 +149,13 @@ namespace Materal.TTA.EFRepository
         /// <summary>
         /// 提交
         /// </summary>
-        public void Commit()
+        /// <param name="setDetached"></param>
+        public void Commit(bool setDetached = true)
         {
             try
             {
                 _dbContext.SaveChanges();
+                if (!setDetached) return;
                 DetachedAll();
             }
             catch (DbUpdateConcurrencyException ex)
@@ -167,12 +169,14 @@ namespace Materal.TTA.EFRepository
         /// <summary>
         /// 提交
         /// </summary>
+        /// <param name="setDetached"></param>
         /// <returns></returns>
-        public virtual async Task CommitAsync()
+        public virtual async Task CommitAsync(bool setDetached = true)
         {
             try
             {
                 await _dbContext.SaveChangesAsync();
+                if (!setDetached) return;
                 DetachedAll();
             }
             catch (DbUpdateConcurrencyException ex)
@@ -196,18 +200,12 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         private void DetachedAll()
         {
-            while (true)
+            IEnumerable<EntityEntry> entityEntries = _dbContext.ChangeTracker.Entries();
+            entityEntries.AsParallel().ForAll(entity =>
             {
-                EntityEntry? entity = _dbContext.ChangeTracker.Entries().FirstOrDefault();
-                if (entity != null)
-                {
-                    entity.State = EntityState.Detached;
-                }
-                else
-                {
-                    break;
-                }
-            }
+                if (entity == null) return;
+                entity.State = EntityState.Detached;
+            });
         }
     }
     /// <summary>

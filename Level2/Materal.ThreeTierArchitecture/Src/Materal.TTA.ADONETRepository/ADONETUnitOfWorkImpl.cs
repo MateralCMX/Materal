@@ -33,8 +33,9 @@ namespace Materal.TTA.ADONETRepository
         /// <summary>
         /// 提交
         /// </summary>
+        /// <param name="setDetached"></param>
         /// <exception cref="TTAException"></exception>
-        public virtual void Commit()
+        public virtual void Commit(bool setDetached = true)
         {
             _connection.Open();
             IDbTransaction transaction = _connection.BeginTransaction();
@@ -71,10 +72,11 @@ namespace Materal.TTA.ADONETRepository
         /// <summary>
         /// 提交
         /// </summary>
+        /// <param name="setDetached"></param>
         /// <returns></returns>
-        public virtual Task CommitAsync()
+        public virtual Task CommitAsync(bool setDetached = true)
         {
-            Commit();
+            Commit(setDetached);
             return Task.CompletedTask;
         }
         /// <summary>

@@ -14,7 +14,7 @@ namespace Materal.TTA.Demo
     {
         public static async Task Main()
         {
-            MateralConfig.PageStartNumber = 1;
+            PageRequestModel.PageStartNumber = 1;
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralUtils();
             serviceCollection.AddMateralLogger();
@@ -55,6 +55,20 @@ namespace Materal.TTA.Demo
                     ID = Guid.NewGuid()
                 };
                 unitOfWork.RegisterAdd(domain);
+                for (int i = 0; i < 40000; i++)
+                {
+                    domain = new()
+                    {
+                        StringType = $"String{i}",
+                        ByteType = 1,
+                        IntType = 2,
+                        DateTimeType = DateTime.Now,
+                        DecimalType = 5.56m,
+                        EnumType = TestEnum.Type2,
+                        ID = Guid.NewGuid()
+                    };
+                    unitOfWork.RegisterAdd(domain);
+                }
                 await unitOfWork.CommitAsync();
                 domain = testDomainRepository.FirstOrDefault(domain.ID);
                 domain = testDomainRepository.FirstOrDefault(m => m.StringType.Equals("String"));
