@@ -14,7 +14,10 @@ namespace Materal.TTA.EFRepository
         where TDBContext : DbContext
     {
         private readonly object entitiesLockObj = new();
-        private readonly TDBContext _dbContext;
+        /// <summary>
+        /// 数据库上下文
+        /// </summary>
+        protected readonly TDBContext DBContext;
         /// <summary>
         /// 服务容器
         /// </summary>
@@ -26,7 +29,7 @@ namespace Materal.TTA.EFRepository
         /// <param name="serviceProvider"></param>
         protected EFUnitOfWorkImpl(TDBContext context, IServiceProvider serviceProvider)
         {
-            _dbContext = context;
+            DBContext = context;
             ServiceProvider = serviceProvider;
         }
         /// <summary>
@@ -42,7 +45,7 @@ namespace Materal.TTA.EFRepository
         {
             lock (entitiesLockObj)
             {
-                EntityEntry<TEntity> entity = _dbContext.Entry(obj);
+                EntityEntry<TEntity> entity = DBContext.Entry(obj);
                 if(entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能添加");
                 entity.State = EntityState.Added;
             }
@@ -81,7 +84,7 @@ namespace Materal.TTA.EFRepository
         {
             lock (entitiesLockObj)
             {
-                EntityEntry<TEntity> entity = _dbContext.Entry(obj);
+                EntityEntry<TEntity> entity = DBContext.Entry(obj);
                 if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能修改");
                 entity.State = EntityState.Modified;
             }
@@ -120,7 +123,7 @@ namespace Materal.TTA.EFRepository
         {
             lock (entitiesLockObj)
             {
-                EntityEntry<TEntity> entity = _dbContext.Entry(obj);
+                EntityEntry<TEntity> entity = DBContext.Entry(obj);
                 if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能删除");
                 entity.State = EntityState.Deleted;
             }
@@ -154,7 +157,7 @@ namespace Materal.TTA.EFRepository
         {
             try
             {
-                _dbContext.SaveChanges();
+                DBContext.SaveChanges();
                 if (!setDetached) return;
                 DetachedAll();
             }
@@ -175,7 +178,7 @@ namespace Materal.TTA.EFRepository
         {
             try
             {
-                await _dbContext.SaveChangesAsync();
+                await DBContext.SaveChangesAsync();
                 if (!setDetached) return;
                 DetachedAll();
             }
@@ -200,7 +203,7 @@ namespace Materal.TTA.EFRepository
         /// </summary>
         private void DetachedAll()
         {
-            IEnumerable<EntityEntry> entityEntries = _dbContext.ChangeTracker.Entries();
+            IEnumerable<EntityEntry> entityEntries = DBContext.ChangeTracker.Entries();
             entityEntries.AsParallel().ForAll(entity =>
             {
                 if (entity == null) return;

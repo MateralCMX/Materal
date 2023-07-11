@@ -1,5 +1,6 @@
 ﻿using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.Domain;
+using System.Collections;
 
 namespace Materal.BaseCore.ServiceImpl
 {
@@ -10,14 +11,24 @@ namespace Materal.BaseCore.ServiceImpl
             where TDto : ITreeDTO<TDto>, new()
         {
             List<TDto> result = new();
-            List<TDomain> data = treeDomains.Where(m => m.ParentID == parentID).ToList();
-            foreach (TDomain domain in data)
+            Hashtable hashtable = new();
+            foreach (TDomain domain in treeDomains)
             {
                 TDto dto = new();
                 domain.CopyProperties(dto);
                 action?.Invoke(dto, domain);
-                dto.Children = ToTree(treeDomains, domain.ID, action);
-                result.Add(dto);
+                if (domain.ParentID is not null && hashtable.ContainsKey(domain.ParentID) && hashtable[domain.ParentID.Value] is TDto parentDto)
+                {
+                    parentDto.Children.Add(dto);
+                }
+                if (!hashtable.ContainsKey(domain.ID))
+                {
+                    hashtable.Add(domain.ID, dto);
+                }
+                if(domain.ParentID == parentID)
+                {
+                    result.Add(dto);
+                }
             }
             return result;
         }

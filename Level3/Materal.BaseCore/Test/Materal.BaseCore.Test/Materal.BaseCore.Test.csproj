@@ -6,6 +6,7 @@
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="Materal.Utils.Excel" Version="1.1.45" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.1" />
 		<PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
 		<PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
@@ -30,5 +31,10 @@
 		<ProjectReference Include="..\..\Src\Materal.BaseCore.ServiceImpl\Materal.BaseCore.ServiceImpl.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.BaseCore.Services\Materal.BaseCore.Services.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.BaseCore.WebAPI\Materal.BaseCore.WebAPI.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="TreeData.xlsx">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

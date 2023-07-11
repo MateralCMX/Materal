@@ -1,6 +1,8 @@
 ﻿using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
 
 namespace Materal.TTA.SqlServerEFRepository
 {
