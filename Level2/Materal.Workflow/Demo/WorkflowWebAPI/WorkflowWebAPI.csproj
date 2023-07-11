@@ -6,8 +6,8 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
-		<PackageReference Include="Materal.Utils" Version="1.1.45" />
-		<PackageReference Include="Materal.Logger" Version="1.1.45" />
+		<PackageReference Include="Materal.Utils" Version="1.1.46" />
+		<PackageReference Include="Materal.Logger" Version="1.1.46" />
 		<PackageReference Include="WorkflowCore" Version="*" />
 		<PackageReference Include="WorkflowCore.Persistence.Sqlite" Version="3.8.3" />
 		<PackageReference Include="WorkflowCore.WebAPI" Version="3.8.3" />
