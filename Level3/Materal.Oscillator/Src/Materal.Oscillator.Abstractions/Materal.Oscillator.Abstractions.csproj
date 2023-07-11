@@ -10,7 +10,7 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.44</Version>
+		<Version>1.1.45</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.Abstractions</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -21,7 +21,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.Common" Version="1.1.44" />
+		<PackageReference Include="Materal.TTA.Common" Version="1.1.45" />
 		<PackageReference Include="Quartz" Version="*" />
 	</ItemGroup>
 </Project>

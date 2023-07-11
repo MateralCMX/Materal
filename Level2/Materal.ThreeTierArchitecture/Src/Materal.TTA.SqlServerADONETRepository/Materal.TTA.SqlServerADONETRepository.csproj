@@ -10,7 +10,7 @@
 		<Product>Materal.ThreeTierArchitecture</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.44</Version>
+		<Version>1.1.45</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.TTA.SqlServerADONETRepository</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
