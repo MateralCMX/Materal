@@ -643,7 +643,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// <returns></returns>");
                 if (IsTreeDomain)
                 {
-                    codeContent.Append($"        public async Task ExchangeIndexAsync(ExchangeIndexModel model) => await ServiceImplHelper.ExchangeIndexAndExchangeParentByGroupPropertiesAsync<{_iRepositoryName}, {Name}>(model, DefaultRepository, UnitOfWork, new string[] {{ ");
+                    codeContent.AppendLine($"        public async Task ExchangeIndexAsync(ExchangeIndexModel model)");
+                    codeContent.AppendLine($"        {{");
+                    codeContent.AppendLine($"            OnExchangeIndexBefore(model);");
+                    codeContent.Append($"            await ServiceImplHelper.ExchangeIndexAndExchangeParentByGroupPropertiesAsync<{_iRepositoryName}, {Name}>(model, DefaultRepository, UnitOfWork, new string[] {{ ");
                     List<DomainPropertyModel> indexGourpProperties = Properties.Where(m => m.IsIndexGourpProperty).ToList();
                     List<string> indexGroupCode = new();
                     foreach (DomainPropertyModel indexGourpProperty in indexGourpProperties)
@@ -661,17 +664,36 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     codeContent.Append(string.Join(", ", treeGroupCode));
                     codeContent.Append($" }}");
                     codeContent.AppendLine($");");
+                    codeContent.AppendLine($"            OnExchangeIndexAfter(model);");
+                    codeContent.AppendLine($"        }}");
                 }
                 else
                 {
-                    codeContent.Append($"        public async Task ExchangeIndexAsync(ExchangeIndexModel model) => await ServiceImplHelper.ExchangeIndexByGroupPropertiesAsync<{_iRepositoryName}, {Name}>(model, DefaultRepository, UnitOfWork");
+                    codeContent.AppendLine($"        public async Task ExchangeIndexAsync(ExchangeIndexModel model)");
+                    codeContent.AppendLine($"        {{");
+                    codeContent.AppendLine($"            OnExchangeIndexBefore(model);");
+                    codeContent.Append($"            await ServiceImplHelper.ExchangeIndexByGroupPropertiesAsync<{_iRepositoryName}, {Name}>(model, DefaultRepository, UnitOfWork");
                     List<DomainPropertyModel> treeGourpProperties = Properties.Where(m => m.IsIndexGourpProperty).ToList();
                     foreach (DomainPropertyModel treeGourpProperty in treeGourpProperties)
                     {
                         codeContent.Append($", nameof({Name}.{treeGourpProperty.Name})");
                     }
                     codeContent.AppendLine($");");
+                    codeContent.AppendLine($"            OnExchangeIndexAfter(model);");
+                    codeContent.AppendLine($"        }}");
                 }
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 交换位序之前");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"model\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        partial void OnExchangeIndexBefore(ExchangeIndexModel model);");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 交换位序之后");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"model\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        partial void OnExchangeIndexAfter(ExchangeIndexModel model);");
             }
             if (IsTreeDomain)
             {
@@ -680,13 +702,30 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// </summary>");
                 codeContent.AppendLine($"        /// <param name=\"model\"></param>");
                 codeContent.AppendLine($"        /// <returns></returns>");
-                codeContent.Append($"        public async Task ExchangeParentAsync(ExchangeParentModel model) => await ServiceImplHelper.ExchangeParentByGroupPropertiesAsync<{_iRepositoryName}, {Name}>(model, DefaultRepository, UnitOfWork");
+                codeContent.AppendLine($"        public async Task ExchangeParentAsync(ExchangeParentModel model)");
+                codeContent.AppendLine($"        {{");
+                codeContent.AppendLine($"            OnExchangeParentBefore(model);");
+                codeContent.Append($"            await ServiceImplHelper.ExchangeParentByGroupPropertiesAsync<{_iRepositoryName}, {Name}>(model, DefaultRepository, UnitOfWork");
                 List<DomainPropertyModel> indexGourpProperties = Properties.Where(m => m.IsTreeGourpProperty).ToList();
                 foreach (DomainPropertyModel indexGourpProperty in indexGourpProperties)
                 {
                     codeContent.Append($", nameof({Name}.{indexGourpProperty.Name})");
                 }
                 codeContent.AppendLine($");");
+                codeContent.AppendLine($"            OnExchangeParentAfter(model);");
+                codeContent.AppendLine($"        }}");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 更改父级之前");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"model\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        partial void OnExchangeParentBefore(ExchangeParentModel model);");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 更改父级之后");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"model\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        partial void OnExchangeParentAfter(ExchangeParentModel model);");
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
