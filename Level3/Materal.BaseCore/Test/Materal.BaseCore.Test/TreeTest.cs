@@ -28,7 +28,15 @@ namespace Materal.BaseCore.Test
                     ParentID = (cell3 is null || cell3 == "NULL") ? null : Guid.Parse(cell3)
                 });
             }
-            List<DataTreeModel> result = dataModels.ToTree<DataModel, DataTreeModel>();
+            List<DataTreeModel> result = dataModels.ToTree<DataModel, DataTreeModel>(null, (dto, data) =>
+            {
+                dto.ID = data.ID;
+                dto.Code = data.Code;
+                dto.UpdateTime = data.UpdateTime;
+                dto.CreateTime = data.CreateTime;
+                dto.Name = data.Name;
+                dto.ParentID = data.ParentID;
+            }, false);
          }
         public class DataModel : ITreeDomain
         {

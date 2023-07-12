@@ -6,7 +6,7 @@ namespace Materal.BaseCore.ServiceImpl
 {
     public static class TreeExtensions
     {
-        public static List<TDto> ToTree<TDomain, TDto>(this List<TDomain> treeDomains, Guid? parentID = null, Action<TDto, TDomain>? action = null)
+        public static List<TDto> ToTree<TDomain, TDto>(this List<TDomain> treeDomains, Guid? parentID = null, Action<TDto, TDomain>? action = null, bool autorecode = true)
             where TDomain : ITreeDomain
             where TDto : ITreeDTO<TDto>, new()
         {
@@ -15,7 +15,10 @@ namespace Materal.BaseCore.ServiceImpl
             foreach (TDomain domain in treeDomains)
             {
                 TDto dto = new();
-                domain.CopyProperties(dto);
+                if (autorecode)
+                {
+                    domain.CopyProperties(dto);
+                }
                 action?.Invoke(dto, domain);
                 if (domain.ParentID is not null && hashtable.ContainsKey(domain.ParentID) && hashtable[domain.ParentID.Value] is TDto parentDto)
                 {
