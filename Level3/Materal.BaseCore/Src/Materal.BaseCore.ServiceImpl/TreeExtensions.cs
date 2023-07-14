@@ -4,14 +4,28 @@ using System.Collections;
 
 namespace Materal.BaseCore.ServiceImpl
 {
+    /// <summary>
+    /// 树扩展
+    /// </summary>
     public static class TreeExtensions
     {
+        /// <summary>
+        /// 转换为树形结构
+        /// </summary>
+        /// <typeparam name="TDomain"></typeparam>
+        /// <typeparam name="TDto"></typeparam>
+        /// <param name="treeDomains"></param>
+        /// <param name="parentID"></param>
+        /// <param name="action"></param>
+        /// <param name="autorecode"></param>
+        /// <returns></returns>
         public static List<TDto> ToTree<TDomain, TDto>(this List<TDomain> treeDomains, Guid? parentID = null, Action<TDto, TDomain>? action = null, bool autorecode = true)
             where TDomain : ITreeDomain
             where TDto : ITreeDTO<TDto>, new()
         {
             List<TDto> result = new();
-            Hashtable hashtable = new();
+            Hashtable data = new();
+            Hashtable noFindParentData = new();
             foreach (TDomain domain in treeDomains)
             {
                 TDto dto = new();
@@ -20,15 +34,45 @@ namespace Materal.BaseCore.ServiceImpl
                     domain.CopyProperties(dto);
                 }
                 action?.Invoke(dto, domain);
-                if (domain.ParentID is not null && hashtable.ContainsKey(domain.ParentID) && hashtable[domain.ParentID.Value] is TDto parentDto)
+                if (!data.ContainsKey(domain.ID))
                 {
-                    parentDto.Children.Add(dto);
+                    data.Add(domain.ID, dto);
                 }
-                if (!hashtable.ContainsKey(domain.ID))
+                #region 寻找父级
+                if (dto.ParentID is not null)
                 {
-                    hashtable.Add(domain.ID, dto);
+                    if (data.ContainsKey(dto.ParentID.Value))
+                    {
+                        if (data[dto.ParentID.Value] is TDto parentDto)
+                        {
+                            parentDto.Children.Add(dto);
+                        }
+                    }
+                    else
+                    {
+                        if (noFindParentData.ContainsKey(dto.ParentID.Value))
+                        {
+                            if (noFindParentData[dto.ParentID.Value] is List<TDto> parentDtos)
+                            {
+                                parentDtos.Add(dto);
+                            }
+                        }
+                        else
+                        {
+                            List<TDto> dtos = new() { dto };
+                            noFindParentData.Add(dto.ParentID.Value, dtos);
+                        }
+                    }
                 }
-                if(domain.ParentID == parentID)
+                #endregion
+                #region 寻找子级
+                if (noFindParentData.ContainsKey(dto.ID) && noFindParentData[dto.ID] is List<TDto> children)
+                {
+                    dto.Children = children;
+                    noFindParentData.Remove(dto.ID);
+                }
+                #endregion
+                if (domain.ParentID == parentID)
                 {
                     result.Add(dto);
                 }
