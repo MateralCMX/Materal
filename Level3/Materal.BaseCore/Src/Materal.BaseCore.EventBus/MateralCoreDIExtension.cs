@@ -78,10 +78,14 @@ namespace Materal.BaseCore.EventBus
                     {
                         Type handler = subscribeHandlers.First();
                         Type? eventHanlerInterfaceType = handler.GetAllInterfaces().FirstOrDefault(m => m.IsGenericType && m.GenericTypeArguments.Length == 1 && m.IsAssignableTo<IIntegrationEventHandler>());
-                        if (eventHanlerInterfaceType == null) continue;
-                        Type eventType = eventHanlerInterfaceType.GenericTypeArguments.First();
-                        if (!eventType.IsAssignableTo<IntegrationEvent>()) continue;
-                        eventBus.SubscribeAsync(eventType, handler);
+                        if (eventHanlerInterfaceType is not null)
+                        {
+                            Type eventType = eventHanlerInterfaceType.GenericTypeArguments.First();
+                            if (eventType.IsAssignableTo<IntegrationEvent>())
+                            {
+                                eventBus.SubscribeAsync(eventType, handler).Wait();
+                            }
+                         }
                         subscribeHandlers.RemoveAt(0);
                     }
                     subscribeHandlers = null;

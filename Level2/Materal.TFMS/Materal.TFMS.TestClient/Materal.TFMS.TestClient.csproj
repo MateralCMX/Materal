@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Logger" Version="1.1.46" />
+		<PackageReference Include="Materal.Logger" Version="1.1.47" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Src\Materal.TFMS.EventBus.RabbitMQ\Materal.TFMS.EventBus.RabbitMQ.csproj" />
