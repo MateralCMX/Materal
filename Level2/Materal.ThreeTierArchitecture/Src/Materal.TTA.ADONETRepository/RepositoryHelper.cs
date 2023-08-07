@@ -1,5 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.TTA.ADONETRepository.Extensions;
+﻿using Materal.TTA.ADONETRepository.Extensions;
 using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.Extensions.DependencyInjection;
@@ -490,7 +489,7 @@ namespace Materal.TTA.ADONETRepository
             MemberExpression memberExpression = expression;
             while (memberExpression.Expression is MemberExpression upMemberExpression)
             {
-                memberExpressionList.Push(expression);
+                memberExpressionList.Push(memberExpression);
                 memberExpression = upMemberExpression;
             }
             if (memberExpression.Expression is ConstantExpression constantExpression)
