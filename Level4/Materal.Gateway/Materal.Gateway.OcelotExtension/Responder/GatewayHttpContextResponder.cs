@@ -29,8 +29,9 @@ namespace Materal.Gateway.OcelotExtension.Responder
         /// <param name="context"></param>
         /// <param name="response"></param>
         /// <returns></returns>
-        public async Task SetResponseOnHttpContext(HttpContext context, DownstreamResponse response)
+        public async Task SetResponseOnHttpContext(HttpContext context, DownstreamResponse? response)
         {
+            if (response is null) return;
             _removeOutputHeaders.Remove(response.Headers);
             foreach (var httpResponseHeader in response.Headers)
             {
@@ -38,7 +39,7 @@ namespace Materal.Gateway.OcelotExtension.Responder
             }
             SetStatusCode(context, (int)response.StatusCode);
             IHttpResponseFeature? httpResponseFeature = context.Response.HttpContext.Features.Get<IHttpResponseFeature>();
-            if(httpResponseFeature != null)
+            if (httpResponseFeature != null)
             {
                 httpResponseFeature.ReasonPhrase = response.ReasonPhrase;
             }
@@ -55,9 +56,9 @@ namespace Materal.Gateway.OcelotExtension.Responder
             {
                 AddHeaderIfDoesntExist(context, new Header("Content-Length", new[] { response.Content.Headers.ContentLength.ToString() }));
             }
-            if(response is GatewayDownstreamResponse gatewayResponse)
+            if (response is GatewayDownstreamResponse gatewayResponse)
             {
-                if(gatewayResponse.TrailingHeaders != null)
+                if (gatewayResponse.TrailingHeaders != null)
                 {
                     foreach (KeyValuePair<string, IEnumerable<string>> header in gatewayResponse.TrailingHeaders)
                     {

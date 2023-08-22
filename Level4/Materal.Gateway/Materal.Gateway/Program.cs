@@ -37,7 +37,7 @@ namespace Materal.Gateway
             services.AddSwaggerForOcelot(builder.Configuration);
             #endregion
             #region อ๘นุ
-            services.AddOcelotGatewayAsync();
+            services.AddOcelotGateway();
             #endregion
             services.AddEndpointsApiExplorer();
             #endregion
@@ -65,7 +65,7 @@ namespace Materal.Gateway
             {
                 opt.PathToSwaggerGenerator = "/swagger/docs";
             });
-            await app.UseOcelotGateway();
+            await app.UseOcelotGatewayAsync();
             #endregion
             await app.RunAsync();
         }

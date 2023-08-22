@@ -17,6 +17,10 @@ namespace Materal.Gateway.Common
         /// </summary>
         public static List<UserConfigModel> Users => GetValueObject<List<UserConfigModel>>("Users");
         /// <summary>
+        /// 忽略无法找到下游路由错误
+        /// </summary>
+        public static bool IgnoreUnableToFindDownstreamRouteError { get; set; } = false;
+        /// <summary>
         /// 获取配置项
         /// </summary>
         /// <typeparam name="T"></typeparam>

@@ -1,5 +1,5 @@
 ﻿using Materal.Gateway.Common;
-using Materal.Gateway.OcelotExtension.Middleware;
+using Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware;
 using Materal.Gateway.OcelotExtension.WebSockets.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +15,6 @@ using Ocelot.Configuration.Creator;
 using Ocelot.Configuration.File;
 using Ocelot.Configuration.Repository;
 using Ocelot.DownstreamPathManipulation.Middleware;
-using Ocelot.DownstreamRouteFinder.Middleware;
 using Ocelot.DownstreamUrlCreator.Middleware;
 using Ocelot.Errors;
 using Ocelot.Headers.Middleware;
@@ -43,10 +42,12 @@ namespace Materal.Gateway.OcelotExtension
         /// 使用Ocelot网关
         /// </summary>
         /// <param name="builder"></param>
+        /// <param name="ignoreUnableToFindDownstreamRouteError"></param>
         /// <returns></returns>
-        public static async Task<IApplicationBuilder> UseOcelotGateway(this IApplicationBuilder builder)
+        public static async Task<IApplicationBuilder> UseOcelotGatewayAsync(this IApplicationBuilder builder, bool ignoreUnableToFindDownstreamRouteError = false)
         {
-            await CreateConfiguration(builder);
+            ApplicationConfig.IgnoreUnableToFindDownstreamRouteError = ignoreUnableToFindDownstreamRouteError;
+            await CreateConfigurationAsync(builder);
             ConfigureDiagnosticListener(builder);
             return CreateOcelotPipeline(builder);
         }
@@ -60,13 +61,13 @@ namespace Materal.Gateway.OcelotExtension
         {
             StringBuilder errorMessage = new();
             errorMessage.Append("Ocelot启动失败");
-            if(config != null && config.Errors.Count > 0)
+            if (config != null && config.Errors.Count > 0)
             {
                 errorMessage.Append($"错误组: {string.Join(",", config.Errors.Select((Error x) => x.ToString()))}");
             }
             return new GatewayException(errorMessage.ToString());
         }
-        private static async Task<IInternalConfiguration> CreateConfiguration(IApplicationBuilder builder)
+        private static async Task<IInternalConfiguration> CreateConfigurationAsync(IApplicationBuilder builder)
         {
             OcelotService.Service = builder.ApplicationServices;
             IOptionsMonitor<FileConfiguration> fileConfig = OcelotService.GetService<IOptionsMonitor<FileConfiguration>>();
@@ -113,14 +114,14 @@ namespace Materal.Gateway.OcelotExtension
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        private static RequestDelegate BuildOcelotGatewayPipeline(this IApplicationBuilder app)
+        private static IApplicationBuilder BuildOcelotGatewayPipeline(this IApplicationBuilder app)
         {
             app.UseWebSockets();
             app.UseGatewayExceptionInterceptorMiddleware();
             app.UseDownstreamContextMiddleware();
-            app.MapWhen((HttpContext httpContext) => httpContext.WebSockets.IsWebSocketRequest, delegate (IApplicationBuilder wenSocketsApp)
+            app.MapWhen((HttpContext httpContext) => httpContext.WebSockets.IsWebSocketRequest, wenSocketsApp =>
             {
-                wenSocketsApp.UseDownstreamRouteFinderMiddleware();
+                wenSocketsApp.UseGatewayDownstreamRouteFinderMiddleware();
                 wenSocketsApp.UseMultiplexingMiddleware();
                 wenSocketsApp.UseDownstreamRequestInitialiser();
                 wenSocketsApp.UseLoadBalancingMiddleware();
@@ -128,26 +129,36 @@ namespace Materal.Gateway.OcelotExtension
                 wenSocketsApp.UseGatewayWebSocketsProxyMiddleware();
             });
             app.UseGatewayResponderMiddleware();
-            app.UseDownstreamRouteFinderMiddleware();
-            app.UseMultiplexingMiddleware();
-            app.UseSecurityMiddleware();
-            app.UseHttpHeadersTransformationMiddleware();
-            app.UseDownstreamRequestInitialiser();
-            app.UseRateLimiting();
-            app.UseRequestIdMiddleware();
-            app.UseAuthenticationMiddleware();
-            app.UseClaimsToClaimsMiddleware();
-            app.UseAuthorizationMiddleware();
-            app.UseClaimsToHeadersMiddleware();
-            app.UseClaimsToQueryStringMiddleware();
-            app.UseClaimsToDownstreamPathMiddleware();
-            app.UseLoadBalancingMiddleware();
-            app.UseGatewayDownstreamUrlCreatorMiddleware();
-            app.UseGatewayRequestMonitorMiddleware();
-            app.UseOutputCacheMiddleware();
-            app.UseGatewayCustomMiddleware();
-            app.UseGatewayHttpRequesterMiddleware();
-            return app.Build();
+            app.UseGatewayDownstreamRouteFinderMiddleware();
+            app.MapWhen((HttpContext httpContext) =>
+            {
+                List<Error> erros = httpContext.Items.Errors();
+                if (OcelotService.CanGatewayHandler(erros)) return true;
+                httpContext.Items.Remove("Errors");
+                return false;
+
+            }, gatewayApp =>
+            {
+                gatewayApp.UseMultiplexingMiddleware();
+                gatewayApp.UseSecurityMiddleware();
+                gatewayApp.UseHttpHeadersTransformationMiddleware();
+                gatewayApp.UseDownstreamRequestInitialiser();
+                gatewayApp.UseRateLimiting();
+                gatewayApp.UseRequestIdMiddleware();
+                gatewayApp.UseAuthenticationMiddleware();
+                gatewayApp.UseClaimsToClaimsMiddleware();
+                gatewayApp.UseAuthorizationMiddleware();
+                gatewayApp.UseClaimsToHeadersMiddleware();
+                gatewayApp.UseClaimsToQueryStringMiddleware();
+                gatewayApp.UseClaimsToDownstreamPathMiddleware();
+                gatewayApp.UseLoadBalancingMiddleware();
+                gatewayApp.UseGatewayDownstreamUrlCreatorMiddleware();
+                gatewayApp.UseGatewayRequestMonitorMiddleware();
+                gatewayApp.UseOutputCacheMiddleware();
+                gatewayApp.UseGatewayCustomMiddleware();
+                gatewayApp.UseGatewayHttpRequesterMiddleware();
+            });
+            return app;
         }
     }
 }

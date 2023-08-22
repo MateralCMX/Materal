@@ -26,15 +26,19 @@ namespace Materal.Gateway.OcelotExtension
         /// 添加Ocelot网关
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="enableConsul"></param>
         /// <returns></returns>
-        public static IOcelotBuilder AddOcelotGatewayAsync(this IServiceCollection services)
+        public static IOcelotBuilder AddOcelotGateway(this IServiceCollection services, bool enableConsul = true)
         {
             IOcelotBuilder result = services.AddOcelot();
             result.AddCacheManager(setting =>
             {
                 setting.WithDictionaryHandle();
             });
-            result.AddConsul();
+            if (enableConsul)
+            {
+                result.AddConsul();
+            }
             result.AddPolly();
             services.TryAddSingleton<IRequestMonitorHandlers, DefatultRequestMonitorHandlers>();
             services.TryAddSingleton<ICustomHandlers, DefaultCustomHandlers>();

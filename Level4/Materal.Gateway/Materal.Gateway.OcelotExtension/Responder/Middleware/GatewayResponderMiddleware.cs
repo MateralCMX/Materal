@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Http;
+using Ocelot.DownstreamRouteFinder.Finder;
 using Ocelot.Errors;
 using Ocelot.Logging;
 using Ocelot.Middleware;
+using Ocelot.Request.Mapper;
 using Ocelot.Responder;
+using System.Net.Http;
 
 namespace Materal.Gateway.OcelotExtension.Responder.Middleware
 {
@@ -34,16 +37,27 @@ namespace Materal.Gateway.OcelotExtension.Responder.Middleware
         /// <returns></returns>
         public async Task Invoke(HttpContext httpContext)
         {
-            await _next.Invoke(httpContext);
-            List<Error> errors = httpContext.Items.Errors();
-            if (errors.Count > 0)
+            List<Error> errors = new();
+            try
             {
-                SetErrorResponse(httpContext, errors);
+                await _next(httpContext);
+                errors = httpContext.Items.Errors();
             }
-            else
+            catch (Exception ex)
             {
-                DownstreamResponse downstreamResponse = httpContext.Items.DownstreamResponse();
-                await _responder.SetResponseOnHttpContext(httpContext, downstreamResponse);
+                errors.Add(new UnmappableRequestError(ex));
+            }
+            finally
+            {
+                if (errors.Count > 0)
+                {
+                    SetErrorResponse(httpContext, errors);
+                }
+                else
+                {
+                    DownstreamResponse downstreamResponse = httpContext.Items.DownstreamResponse();
+                    await _responder.SetResponseOnHttpContext(httpContext, downstreamResponse);
+                }
             }
         }
         /// <summary>
