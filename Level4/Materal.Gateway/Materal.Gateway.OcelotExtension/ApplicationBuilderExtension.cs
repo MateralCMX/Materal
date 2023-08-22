@@ -132,8 +132,9 @@ namespace Materal.Gateway.OcelotExtension
             app.UseGatewayDownstreamRouteFinderMiddleware();
             app.MapWhen((HttpContext httpContext) =>
             {
-                List<Error> erros = httpContext.Items.Errors();
-                if (OcelotService.CanGatewayHandler(erros)) return true;
+                if (!ApplicationConfig.IgnoreUnableToFindDownstreamRouteError) return true;
+                List<Error> errors = httpContext.Items.Errors();
+                if (errors.Count != 1 || errors.First() is UnableToFindDownstreamRouteError) return true;
                 httpContext.Items.Remove("Errors");
                 return false;
 

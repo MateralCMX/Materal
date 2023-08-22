@@ -11,16 +11,6 @@ namespace Materal.Gateway.OcelotExtension
     public static class OcelotService
     {
         /// <summary>
-        /// 是否由网关处理
-        /// </summary>
-        /// <param name="errors"></param>
-        /// <returns></returns>
-        public static bool CanGatewayHandler(List<Error> errors)
-        {
-            if (!ApplicationConfig.IgnoreUnableToFindDownstreamRouteError) return true;
-            return errors.Count != 1 || errors.First() is not UnableToFindDownstreamRouteError;
-        }
-        /// <summary>
         /// 服务容器
         /// </summary>
         public static IServiceProvider? Service { get; set; }
