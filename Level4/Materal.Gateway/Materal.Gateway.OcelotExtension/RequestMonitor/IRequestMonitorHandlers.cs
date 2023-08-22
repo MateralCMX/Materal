@@ -2,6 +2,9 @@
 
 namespace Materal.Gateway.OcelotExtension.RequestMonitor
 {
+    /// <summary>
+    /// 请求监控处理器
+    /// </summary>
     public interface IRequestMonitorHandlers
     {
         /// <summary>

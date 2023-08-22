@@ -4,16 +4,37 @@ using Ocelot.Responses;
 
 namespace Materal.Gateway.OcelotExtension.Custom
 {
+    /// <summary>
+    /// 默认自定义处理器组
+    /// </summary>
     public class DefaultCustomHandlers : ICustomHandlers
     {
-        public readonly static List<Type> _handlerTypes = new();
+        private readonly static List<Type> _handlerTypes = new();
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         public void Add<T>() where T : class, ICustomHandler => AddHandler<T>();
+        /// <summary>
+        /// 添加处理器
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         public static void AddHandler<T>() where T : class, ICustomHandler => _handlerTypes.Add(typeof(T));
+        /// <summary>
+        /// 添加处理器
+        /// </summary>
+        /// <param name="handlerType"></param>
+        /// <exception cref="GatewayException"></exception>
         public static void AddHandler(Type handlerType)
         {
             if (handlerType.IsAssignableTo(typeof(ICustomHandler))) throw new GatewayException($"处理器必须实现{nameof(ICustomHandler)}");
             _handlerTypes.Add(handlerType);
         }
+        /// <summary>
+        /// 转发之后
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         public async Task<(Response<HttpResponseMessage?> response, string handlerName)> AfterTransmitAsync(HttpContext httpContext)
         {
             Response<HttpResponseMessage?> result = new OkResponse<HttpResponseMessage?>(null);
@@ -26,6 +47,11 @@ namespace Materal.Gateway.OcelotExtension.Custom
             }
             return (result, nameof(DefaultCustomHandlers));
         }
+        /// <summary>
+        /// 转发之前
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         public async Task<(Response<HttpResponseMessage?> response, string handlerName)> BeforeTransmitAsync(HttpContext httpContext)
         {
             Response<HttpResponseMessage?> result = new OkResponse<HttpResponseMessage?>(null);

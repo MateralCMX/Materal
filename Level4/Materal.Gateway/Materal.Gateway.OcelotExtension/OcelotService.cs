@@ -3,8 +3,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.Gateway.OcelotExtension
 {
+    /// <summary>
+    /// Ocelot服务
+    /// </summary>
     public static class OcelotService
     {
+        /// <summary>
+        /// 服务容器
+        /// </summary>
         public static IServiceProvider? Service { get; set; }
         /// <summary>
         /// 获得服务或默认值
@@ -26,8 +32,7 @@ namespace Materal.Gateway.OcelotExtension
         /// <exception cref="GatewayException"></exception>
         public static T GetService<T>()
         {
-            T? result = GetServiceOrDefault<T>();
-            if (result == null) throw new GatewayException("找不到对象");
+            T result = GetServiceOrDefault<T>() ?? throw new GatewayException("找不到对象");
             return result;
         }
         /// <summary>
@@ -50,9 +55,8 @@ namespace Materal.Gateway.OcelotExtension
         /// <exception cref="GatewayException"></exception>
         public static T GetService<T>(Type type)
         {
-            object? result = GetServiceOrDefault(type);
-            if (result == null) throw new GatewayException("找不到对象");
-            if(result is not T tResult) throw new GatewayException("对象类型错误");
+            object result = GetServiceOrDefault(type) ?? throw new GatewayException("找不到对象");
+            if (result is not T tResult) throw new GatewayException("对象类型错误");
             return tResult;
         }
         /// <summary>
@@ -62,8 +66,7 @@ namespace Materal.Gateway.OcelotExtension
         /// <exception cref="GatewayException"></exception>
         public static object GetService(Type type)
         {
-            object? result = GetServiceOrDefault(type);
-            if (result == null) throw new GatewayException("找不到对象");
+            object result = GetServiceOrDefault(type) ?? throw new GatewayException("找不到对象");
             return result;
         }
         /// <summary>

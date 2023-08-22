@@ -14,8 +14,13 @@ namespace Materal.Gateway.OcelotExtension.RequestMonitor.Middleware
     public class GatewayRequestMonitorMiddleware : OcelotMiddleware
     {
         private readonly RequestDelegate _next;
-        private static readonly ActionBlock<HandlerRequestModel> _requestActionBlock = new ActionBlock<HandlerRequestModel>(HandlerRequstAsync);
-        private static readonly ActionBlock<HandlerResponseModel> _responseActionBlock = new ActionBlock<HandlerResponseModel>(HandlerResponseAsync);
+        private static readonly ActionBlock<HandlerRequestModel> _requestActionBlock = new(HandlerRequstAsync);
+        private static readonly ActionBlock<HandlerResponseModel> _responseActionBlock = new(HandlerResponseAsync);
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="loggerFactory"></param>
+        /// <param name="next"></param>
         public GatewayRequestMonitorMiddleware(IOcelotLoggerFactory loggerFactory, RequestDelegate next) : base(loggerFactory.CreateLogger<GatewayRequestMonitorMiddleware>())
         {
             _next = next;

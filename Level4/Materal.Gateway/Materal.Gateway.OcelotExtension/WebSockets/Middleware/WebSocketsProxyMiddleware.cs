@@ -9,18 +9,32 @@ using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
 {
-
+    /// <summary>
+    /// 网关WebSockets代理中间件
+    /// </summary>
     public class GatewayWebSocketsProxyMiddleware : OcelotMiddleware
     {
         private static readonly string[] NotForwardedWebSocketHeaders = new[] { "Connection", "Host", "Upgrade", "Sec-WebSocket-Accept", "Sec-WebSocket-Protocol", "Sec-WebSocket-Key", "Sec-WebSocket-Version", "Sec-WebSocket-Extensions" };
         private const int DefaultWebSocketBufferSize = 4096;
         private readonly RequestDelegate _next;
-
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="next"></param>
+        /// <param name="loggerFactory"></param>
         public GatewayWebSocketsProxyMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory): base(loggerFactory.CreateLogger<WebSocketsProxyMiddleware>())
         {
             _next = next;
         }
-
+        /// <summary>
+        /// 从一个WebSocket复制到另一个WebSocket
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
+        /// <param name="bufferSize"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         private static async Task PumpWebSocket(WebSocket source, WebSocket destination, int bufferSize, CancellationToken cancellationToken)
         {
             if (bufferSize <= 0)
@@ -65,12 +79,24 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
                 await destination.SendAsync(new ArraySegment<byte>(buffer, 0, result.Count), result.MessageType, result.EndOfMessage, cancellationToken);
             }
         }
-
+        /// <summary>
+        /// 执行中间件
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         public async Task Invoke(HttpContext httpContext)
         {
             var uri = httpContext.Items.DownstreamRequest().ToUri();
             await Proxy(httpContext, uri);
         }
+        /// <summary>
+        /// 代理
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="serverEndpoint"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="InvalidOperationException"></exception>
         private async Task Proxy(HttpContext context, string serverEndpoint)
         {
             if (context == null)

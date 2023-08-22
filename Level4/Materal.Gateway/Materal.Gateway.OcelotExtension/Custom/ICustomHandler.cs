@@ -3,6 +3,9 @@ using Ocelot.Responses;
 
 namespace Materal.Gateway.OcelotExtension.Custom
 {
+    /// <summary>
+    /// 自定义处理器
+    /// </summary>
     public interface ICustomHandler
     {
         /// <summary>
@@ -15,7 +18,6 @@ namespace Materal.Gateway.OcelotExtension.Custom
         /// 转发之后
         /// </summary>
         /// <param name="httpContext"></param>
-        /// <param name="next"></param>
         /// <returns></returns>
         Task<Response<HttpResponseMessage?>> AfterTransmitAsync(HttpContext httpContext);
         /// <summary>
@@ -28,7 +30,6 @@ namespace Materal.Gateway.OcelotExtension.Custom
         /// 转发之后
         /// </summary>
         /// <param name="httpContext"></param>
-        /// <param name="next"></param>
         /// <returns></returns>
         Response<HttpResponseMessage?> AfterTransmit(HttpContext httpContext);
     }

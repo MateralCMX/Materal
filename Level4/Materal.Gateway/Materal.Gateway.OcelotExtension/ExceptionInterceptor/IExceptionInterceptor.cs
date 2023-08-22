@@ -2,6 +2,9 @@
 
 namespace Materal.Gateway.OcelotExtension.ExceptionInterceptor
 {
+    /// <summary>
+    /// 异常拦截器
+    /// </summary>
     public interface IExceptionInterceptor
     {
         /// <summary>

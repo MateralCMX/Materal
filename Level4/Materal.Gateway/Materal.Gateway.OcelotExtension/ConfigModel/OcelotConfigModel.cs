@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.ConfigModel
 {
+    /// <summary>
+    /// Ocelot配置模型
+    /// </summary>
     public class OcelotConfigModel
     {
         /// <summary>

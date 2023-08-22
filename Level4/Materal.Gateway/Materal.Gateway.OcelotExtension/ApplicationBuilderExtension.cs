@@ -34,8 +34,16 @@ using System.Text;
 
 namespace Materal.Gateway.OcelotExtension
 {
+    /// <summary>
+    /// 应用程序构建器扩展
+    /// </summary>
     public static partial class ApplicationBuilderExtension
     {
+        /// <summary>
+        /// 使用Ocelot网关
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <returns></returns>
         public static async Task<IApplicationBuilder> UseOcelotGateway(this IApplicationBuilder builder)
         {
             await CreateConfiguration(builder);
@@ -104,7 +112,6 @@ namespace Materal.Gateway.OcelotExtension
         /// 创建Ocelot网关管道
         /// </summary>
         /// <param name="app"></param>
-        /// <param name="pipelineConfiguration"></param>
         /// <returns></returns>
         private static RequestDelegate BuildOcelotGatewayPipeline(this IApplicationBuilder app)
         {

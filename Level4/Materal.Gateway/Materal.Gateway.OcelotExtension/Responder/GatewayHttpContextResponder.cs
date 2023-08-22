@@ -9,13 +9,26 @@ using System.Net;
 
 namespace Materal.Gateway.OcelotExtension.Responder
 {
+    /// <summary>
+    /// 网关HTTP上下文响应器
+    /// </summary>
     public class GatewayHttpContextResponder : IHttpResponder
     {
         private readonly IRemoveOutputHeaders _removeOutputHeaders;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="removeOutputHeaders"></param>
         public GatewayHttpContextResponder(IRemoveOutputHeaders removeOutputHeaders)
         {
             _removeOutputHeaders = removeOutputHeaders;
         }
+        /// <summary>
+        /// 设置响应
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
         public async Task SetResponseOnHttpContext(HttpContext context, DownstreamResponse response)
         {
             _removeOutputHeaders.Remove(response.Headers);
@@ -60,7 +73,18 @@ namespace Materal.Gateway.OcelotExtension.Responder
                 }
             }
         }
+        /// <summary>
+        /// 设置错误响应
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="statusCode"></param>
         public void SetErrorResponseOnContext(HttpContext context, int statusCode) => SetStatusCode(context, statusCode);
+        /// <summary>
+        /// 设置错误响应
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="response"></param>
+        /// <returns></returns>
         public async Task SetErrorResponseOnContext(HttpContext context, DownstreamResponse response)
         {
             Stream content = await response.Content.ReadAsStreamAsync();
@@ -74,11 +98,21 @@ namespace Materal.Gateway.OcelotExtension.Responder
                 await content.CopyToAsync(context.Response.Body);
             }
         }
+        /// <summary>
+        /// 设置状态码
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="statusCode"></param>
         private static void SetStatusCode(HttpContext context, int statusCode)
         {
             if (context.Response.HasStarted) return;
             context.Response.StatusCode = statusCode;
         }
+        /// <summary>
+        /// 添加头信息
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="httpResponseHeader"></param>
         private static void AddHeaderIfDoesntExist(HttpContext context, Header httpResponseHeader)
         {
             if (context.Response.Headers.ContainsKey(httpResponseHeader.Key)) return;

@@ -1,27 +1,37 @@
 using Microsoft.AspNetCore.Http;
 using Ocelot.Errors;
-using Ocelot.Infrastructure.Extensions;
 using Ocelot.Logging;
 using Ocelot.Middleware;
 using Ocelot.Responder;
 
 namespace Materal.Gateway.OcelotExtension.Responder.Middleware
 {
-
     /// <summary>
-    /// Completes and returns the request and request body, if any pipeline errors occured then sets the appropriate HTTP status code instead.
+    /// 网关响应中间件
     /// </summary>
     public class GatewayResponderMiddleware : OcelotMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly IHttpResponder _responder;
         private readonly IErrorsToHttpStatusCodeMapper _codeMapper;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="next"></param>
+        /// <param name="responder"></param>
+        /// <param name="loggerFactory"></param>
+        /// <param name="codeMapper"></param>
         public GatewayResponderMiddleware(RequestDelegate next, IHttpResponder responder, IOcelotLoggerFactory loggerFactory, IErrorsToHttpStatusCodeMapper codeMapper) : base(loggerFactory.CreateLogger<GatewayResponderMiddleware>())
         {
             _next = next;
             _responder = responder;
             _codeMapper = codeMapper;
         }
+        /// <summary>
+        /// 中间件执行
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         public async Task Invoke(HttpContext httpContext)
         {
             await _next.Invoke(httpContext);
@@ -36,6 +46,11 @@ namespace Materal.Gateway.OcelotExtension.Responder.Middleware
                 await _responder.SetResponseOnHttpContext(httpContext, downstreamResponse);
             }
         }
+        /// <summary>
+        /// 设置错误响应
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="errors"></param>
         private void SetErrorResponse(HttpContext context, List<Error> errors)
         {
             int statusCode = _codeMapper.Map(errors);

@@ -25,7 +25,13 @@ namespace Materal.Gateway.OcelotExtension.RequestMonitor.Model
         /// 响应
         /// </summary>
         public DownstreamResponse Response { get; set; }
-
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="route"></param>
+        /// <param name="request"></param>
+        /// <param name="response"></param>
         public HandlerResponseModel(Guid id, DownstreamRoute route, DownstreamRequest request, DownstreamResponse response)
         {
             ID = id;

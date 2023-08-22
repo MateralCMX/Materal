@@ -4,6 +4,9 @@ using System.Net;
 
 namespace Materal.Gateway.OcelotExtension.Requester
 {
+    /// <summary>
+    /// 网关HTTP客户端构造器
+    /// </summary>
     public class GatewayHttpClientBuilder : IHttpClientBuilder
     {
         private readonly IDelegatingHandlerHandlerFactory _factory;
@@ -12,13 +15,22 @@ namespace Materal.Gateway.OcelotExtension.Requester
         private HttpClient? _httpClient;
         private IHttpClient? _client;
         private readonly TimeSpan _defaultTimeout;
-
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <param name="cacheHandlers"></param>
         public GatewayHttpClientBuilder(IDelegatingHandlerHandlerFactory factory, IHttpClientCache cacheHandlers)
         {
             _factory = factory;
             _cacheHandlers = cacheHandlers;
             _defaultTimeout = TimeSpan.FromSeconds(90);
         }
+        /// <summary>
+        /// 创建
+        /// </summary>
+        /// <param name="downstreamRoute"></param>
+        /// <returns></returns>
         public IHttpClient Create(DownstreamRoute downstreamRoute)
         {
             _cacheKey = downstreamRoute;
@@ -43,19 +55,34 @@ namespace Materal.Gateway.OcelotExtension.Requester
             _client = new HttpClientWrapper(_httpClient);
             return _client;
         }
-        private HttpClientHandler CreateHandler(DownstreamRoute downstreamRoute)
+        /// <summary>
+        /// 创建处理器
+        /// </summary>
+        /// <param name="downstreamRoute"></param>
+        /// <returns></returns>
+        private static HttpClientHandler CreateHandler(DownstreamRoute downstreamRoute)
         {
             var useCookies = downstreamRoute.HttpHandlerOptions.UseCookieContainer;
             return useCookies ? UseCookiesHandler(downstreamRoute) : UseNonCookiesHandler(downstreamRoute);
         }
-        private HttpClientHandler UseNonCookiesHandler(DownstreamRoute downstreamRoute) => new HttpClientHandler
+        /// <summary>
+        /// 使用非Cookie处理器
+        /// </summary>
+        /// <param name="downstreamRoute"></param>
+        /// <returns></returns>
+        private static HttpClientHandler UseNonCookiesHandler(DownstreamRoute downstreamRoute) => new()
         {
             AllowAutoRedirect = downstreamRoute.HttpHandlerOptions.AllowAutoRedirect,
             UseCookies = downstreamRoute.HttpHandlerOptions.UseCookieContainer,
             UseProxy = downstreamRoute.HttpHandlerOptions.UseProxy,
             MaxConnectionsPerServer = downstreamRoute.HttpHandlerOptions.MaxConnectionsPerServer,
         };
-        private HttpClientHandler UseCookiesHandler(DownstreamRoute downstreamRoute) => new HttpClientHandler
+        /// <summary>
+        /// 使用Cookie处理器
+        /// </summary>
+        /// <param name="downstreamRoute"></param>
+        /// <returns></returns>
+        private static HttpClientHandler UseCookiesHandler(DownstreamRoute downstreamRoute) => new()
         {
             AllowAutoRedirect = downstreamRoute.HttpHandlerOptions.AllowAutoRedirect,
             UseCookies = downstreamRoute.HttpHandlerOptions.UseCookieContainer,
@@ -63,7 +90,16 @@ namespace Materal.Gateway.OcelotExtension.Requester
             MaxConnectionsPerServer = downstreamRoute.HttpHandlerOptions.MaxConnectionsPerServer,
             CookieContainer = new CookieContainer(),
         };
+        /// <summary>
+        /// 保存
+        /// </summary>
         public void Save() => _cacheHandlers.Set(_cacheKey, _client, TimeSpan.FromHours(24));
+        /// <summary>
+        /// 创建HTTP消息处理器
+        /// </summary>
+        /// <param name="httpMessageHandler"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
         private HttpMessageHandler CreateHttpMessageHandler(HttpMessageHandler httpMessageHandler, DownstreamRoute request)
         {
             var handlers = _factory.Get(request).Data;

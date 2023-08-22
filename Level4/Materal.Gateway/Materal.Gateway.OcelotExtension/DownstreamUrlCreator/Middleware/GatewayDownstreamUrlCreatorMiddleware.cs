@@ -12,15 +12,29 @@ using System.Text.RegularExpressions;
 
 namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
 {
+    /// <summary>
+    /// 网关下游URL创建中间件
+    /// </summary>
     public class GatewayDownstreamUrlCreatorMiddleware : OcelotMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly IDownstreamPathPlaceholderReplacer _replacer;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="next"></param>
+        /// <param name="loggerFactory"></param>
+        /// <param name="replacer"></param>
         public GatewayDownstreamUrlCreatorMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory, IDownstreamPathPlaceholderReplacer replacer) : base(loggerFactory.CreateLogger<GatewayDownstreamUrlCreatorMiddleware>())
         {
             _next = next;
             _replacer = replacer;
         }
+        /// <summary>
+        /// 中间件执行
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         public async Task Invoke(HttpContext httpContext)
         {
             DownstreamRoute downstreamRoute = httpContext.Items.DownstreamRoute();
@@ -68,6 +82,11 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
             }
             await _next.Invoke(httpContext);
         }
+        /// <summary>
+        /// 移除已经在模板中使用的查询字符串参数
+        /// </summary>
+        /// <param name="downstreamRequest"></param>
+        /// <param name="templatePlaceholderNameAndValues"></param>
         private static void RemoveQueryStringParametersThatHaveBeenUsedInTemplate(DownstreamRequest downstreamRequest, List<PlaceholderNameAndValue> templatePlaceholderNameAndValues)
         {
             foreach (var nAndV in templatePlaceholderNameAndValues)
@@ -86,9 +105,32 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
                 }
             }
         }
+        /// <summary>
+        /// 获取路径
+        /// </summary>
+        /// <param name="dsPath"></param>
+        /// <returns></returns>
         private static string GetPath(DownstreamPath dsPath) => dsPath.Value[..dsPath.Value.IndexOf("?", StringComparison.Ordinal)];
+        /// <summary>
+        /// 获取查询字符串
+        /// </summary>
+        /// <param name="dsPath"></param>
+        /// <returns></returns>
         private static string GetQueryString(DownstreamPath dsPath) => dsPath.Value[dsPath.Value.IndexOf("?", StringComparison.Ordinal)..];
+        /// <summary>
+        /// 是否包含查询字符串
+        /// </summary>
+        /// <param name="dsPath"></param>
+        /// <returns></returns>
         private static bool ContainsQueryString(DownstreamPath dsPath) => dsPath.Value.Contains('?');
+        /// <summary>
+        /// 创建ServiceFabricUri
+        /// </summary>
+        /// <param name="downstreamRequest"></param>
+        /// <param name="downstreamRoute"></param>
+        /// <param name="templatePlaceholderNameAndValues"></param>
+        /// <param name="dsPath"></param>
+        /// <returns></returns>
         private (string path, string query) CreateServiceFabricUri(DownstreamRequest downstreamRequest, DownstreamRoute downstreamRoute, List<PlaceholderNameAndValue> templatePlaceholderNameAndValues, Response<DownstreamPath> dsPath)
         {
             string query = downstreamRequest.Query;
@@ -96,6 +138,12 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
             string pathTemplate = $"/{serviceName.Data.Value}{dsPath.Data.Value}";
             return (pathTemplate, query);
         }
+        /// <summary>
+        /// 是否是ServiceFabric请求
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="downstreamRoute"></param>
+        /// <returns></returns>
         private static bool ServiceFabricRequest(IInternalConfiguration config, DownstreamRoute downstreamRoute) => config.ServiceProviderConfiguration.Type?.ToLower() == "servicefabric" && downstreamRoute.UseServiceDiscovery;
     }
 }

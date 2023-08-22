@@ -2,6 +2,9 @@
 
 namespace Materal.Gateway.Common.ConfigModel
 {
+    /// <summary>
+    /// 用户配置模型
+    /// </summary>
     public class UserConfigModel
     {
         /// <summary>

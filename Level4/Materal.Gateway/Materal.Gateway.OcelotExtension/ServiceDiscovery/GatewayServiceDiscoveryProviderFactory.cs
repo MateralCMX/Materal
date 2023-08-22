@@ -9,16 +9,29 @@ using Ocelot.Values;
 
 namespace Materal.Gateway.OcelotExtension.ServiceDiscovery
 {
+    /// <summary>
+    /// 网关服务发现提供者工厂
+    /// </summary>
     public class GatewayServiceDiscoveryProviderFactory : IServiceDiscoveryProviderFactory
     {
         private readonly ServiceDiscoveryFinderDelegate? _delegates;
         private readonly IServiceProvider _provider;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <exception cref="GatewayException"></exception>
         public GatewayServiceDiscoveryProviderFactory()
         {
             if (OcelotService.Service == null) throw new GatewayException("服务不存在");
             _provider = OcelotService.Service;
             _delegates = OcelotService.GetServiceOrDefault<ServiceDiscoveryFinderDelegate>();
         }
+        /// <summary>
+        /// 获取服务发现提供者
+        /// </summary>
+        /// <param name="serviceConfig"></param>
+        /// <param name="route"></param>
+        /// <returns></returns>
         public Response<IServiceDiscoveryProvider> Get(ServiceProviderConfiguration serviceConfig, DownstreamRoute route)
         {
             if (route.UseServiceDiscovery)
@@ -33,6 +46,13 @@ namespace Materal.Gateway.OcelotExtension.ServiceDiscovery
             }
             return new OkResponse<IServiceDiscoveryProvider>(new ConfigurationServiceProvider(services));
         }
+        /// <summary>
+        /// 获取服务发现提供者
+        /// </summary>
+        /// <param name="config"></param>
+        /// <param name="route"></param>
+        /// <returns></returns>
+        /// <exception cref="GatewayException"></exception>
         private Response<IServiceDiscoveryProvider> GetServiceDiscoveryProvider(ServiceProviderConfiguration config, DownstreamRoute route)
         {
             if (config.Type?.ToLower() == "servicefabric")

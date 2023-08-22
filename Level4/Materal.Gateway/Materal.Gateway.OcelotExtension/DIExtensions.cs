@@ -17,6 +17,9 @@ using Ocelot.ServiceDiscovery;
 
 namespace Materal.Gateway.OcelotExtension
 {
+    /// <summary>
+    /// 依赖注入扩展
+    /// </summary>
     public static class DIExtension
     {
         /// <summary>

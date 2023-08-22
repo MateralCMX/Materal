@@ -2,6 +2,9 @@
 
 namespace Materal.Gateway.OcelotExtension
 {
+    /// <summary>
+    /// Http响应消息帮助类
+    /// </summary>
     public static class HttpResponseMessageHelper
     {
         /// <summary>

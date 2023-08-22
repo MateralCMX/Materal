@@ -9,10 +9,19 @@ using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.Custom.Middleware
 {
+    /// <summary>
+    /// 网关自定义中间件
+    /// </summary>
     public class GatewayCustomMiddleware : OcelotMiddleware
     {
         private readonly RequestDelegate _next;
         private readonly ICustomHandlers _customHandlers;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="loggerFactory"></param>
+        /// <param name="next"></param>
+        /// <param name="customHandlers"></param>
         public GatewayCustomMiddleware(IOcelotLoggerFactory loggerFactory, RequestDelegate next, ICustomHandlers customHandlers) : base(loggerFactory.CreateLogger<GatewayCustomMiddleware>())
         {
             _next = next;

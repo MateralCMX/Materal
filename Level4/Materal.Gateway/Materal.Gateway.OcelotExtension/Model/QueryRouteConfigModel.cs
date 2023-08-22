@@ -1,5 +1,8 @@
 ﻿namespace Materal.Gateway.OcelotExtension.Model
 {
+    /// <summary>
+    /// Ocelot路由配置模型
+    /// </summary>
     public class QueryRouteConfigModel
     {
         /// <summary>

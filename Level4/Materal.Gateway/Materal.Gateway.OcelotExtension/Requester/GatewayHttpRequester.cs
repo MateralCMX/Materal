@@ -12,19 +12,32 @@ using System.Xml;
 
 namespace Materal.Gateway.OcelotExtension.Requester
 {
-
+    /// <summary>
+    /// 网关HTTP请求器
+    /// </summary>
     public class GatewayHttpRequester : IHttpRequester
     {
         private const string RsultTypeKey = "ResultType";
         private readonly IExceptionToErrorMapper _mapper;
         private readonly IDelegatingHandlerHandlerFactory _factory;
         private readonly IHttpClientCache _cacheHandlers;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="factory"></param>
+        /// <param name="cacheHandlers"></param>
         public GatewayHttpRequester(IExceptionToErrorMapper mapper, IDelegatingHandlerHandlerFactory factory, IHttpClientCache cacheHandlers)
         {
             _mapper = mapper;
             _factory = factory;
             _cacheHandlers = cacheHandlers;
         }
+        /// <summary>
+        /// 获得响应
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
         public async Task<Response<HttpResponseMessage>> GetResponse(HttpContext httpContext)
         {
             IHttpClientBuilder builder = new GatewayHttpClientBuilder(_factory, _cacheHandlers);
@@ -51,6 +64,7 @@ namespace Materal.Gateway.OcelotExtension.Requester
         /// 转换Response
         /// </summary>
         /// <param name="httpContext"></param>
+        /// <param name="response"></param>
         /// <returns></returns>
         private static async Task<HttpResponseMessage> ConvertResponseAsync(HttpContext httpContext, HttpResponseMessage response)
         {
