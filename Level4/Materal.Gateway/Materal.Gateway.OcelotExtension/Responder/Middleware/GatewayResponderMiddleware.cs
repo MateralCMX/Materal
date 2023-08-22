@@ -27,7 +27,8 @@ namespace Materal.Gateway.OcelotExtension.Responder.Middleware
             await _next.Invoke(httpContext);
             List<Error> errors = httpContext.Items.Errors();
             if (errors.Count > 0)
-            {SetErrorResponse(httpContext, errors);
+            {
+                SetErrorResponse(httpContext, errors);
             }
             else
             {

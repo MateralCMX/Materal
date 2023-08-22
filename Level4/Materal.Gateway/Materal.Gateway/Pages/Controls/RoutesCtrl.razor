@@ -6,6 +6,7 @@
 @using Materal.Gateway.OcelotExtension.Services;
 @using Materal.Gateway.OcelotExtension.Model;
 @using Materal.Gateway.Pages.Controls.Routes
+@using Materal.Utils.Model;
 
 <PageTitle>路由-Materal.Gateway</PageTitle>
 @inject IOcelotConfigService _ocelotConfigService;
@@ -72,11 +73,11 @@
     private RouteConfigModel? _dragging;
     private List<RouteConfigModel> _data = new();
     private QueryRouteConfigModel _searchModel = new();
-    private List<SelectKeyValueModel<bool>> _queryUseModel = new()
+    private List<KeyValueModel<string, bool?>> _queryUseModel = new()
     {
-        new SelectKeyValueModel<bool>("所有", null),
-        new SelectKeyValueModel<bool>("启用", true),
-        new SelectKeyValueModel<bool>("禁用", false)
+        new KeyValueModel<string, bool?>("所有", null),
+        new KeyValueModel<string, bool?>("启用", true),
+        new KeyValueModel<string, bool?>("禁用", false)
     };
     protected override void OnAfterRender(bool firstRender)
     {
