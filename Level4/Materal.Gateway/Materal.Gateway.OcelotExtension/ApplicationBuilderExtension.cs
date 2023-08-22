@@ -15,6 +15,7 @@ using Ocelot.Configuration.Creator;
 using Ocelot.Configuration.File;
 using Ocelot.Configuration.Repository;
 using Ocelot.DownstreamPathManipulation.Middleware;
+using Ocelot.DownstreamRouteFinder.Finder;
 using Ocelot.DownstreamUrlCreator.Middleware;
 using Ocelot.Errors;
 using Ocelot.Headers.Middleware;
