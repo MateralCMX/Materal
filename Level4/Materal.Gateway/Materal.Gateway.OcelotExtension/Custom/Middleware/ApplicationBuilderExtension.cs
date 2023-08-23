@@ -27,10 +27,11 @@ namespace Materal.Gateway.OcelotExtension
         public static IApplicationBuilder UseGatewayMiddleware(this IApplicationBuilder app)
         {
             app.UseMiddleware<GatewayMiddleware>();
-            List<IGatewayMiddleware> gatewayMiddlewares = app.ApplicationServices.GetServices<IGatewayMiddleware>().ToList();
+            using IServiceScope scope = app.ApplicationServices.CreateScope();
+            List<IGatewayMiddleware> gatewayMiddlewares = scope.ServiceProvider.GetServices<IGatewayMiddleware>().ToList();
             if (gatewayMiddlewares.Count > 0)
             {
-                IGatewayMiddlewareBus gatewayMiddlewareBus = app.ApplicationServices.GetRequiredService<IGatewayMiddlewareBus>();
+                IGatewayMiddlewareBus gatewayMiddlewareBus = scope.ServiceProvider.GetRequiredService<IGatewayMiddlewareBus>();
                 foreach (IGatewayMiddleware gatewayMiddleware in gatewayMiddlewares)
                 {
                     gatewayMiddlewareBus.Subscribe(gatewayMiddleware.GetType());
