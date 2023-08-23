@@ -1,3 +1,4 @@
+using Materal.Gateway.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Ocelot.Configuration;
@@ -51,6 +52,7 @@ namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
             {
                 Logger.LogWarning($"{MiddlewareName}管道配置错误. 下游路由查找器返回:{response.Errors.ToErrorString()}");
                 httpContext.Items.UpsertErrors(response.Errors);
+                if (!ApplicationConfig.IgnoreUnableToFindDownstreamRouteError) return;
                 await _next.Invoke(httpContext);
             }
             else

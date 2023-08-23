@@ -30,6 +30,7 @@ using Ocelot.RequestId.Middleware;
 using Ocelot.Responses;
 using Ocelot.Security.Middleware;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Text;
 
 namespace Materal.Gateway.OcelotExtension
@@ -117,29 +118,33 @@ namespace Materal.Gateway.OcelotExtension
         /// <returns></returns>
         private static IApplicationBuilder BuildOcelotGatewayPipeline(this IApplicationBuilder app)
         {
-            app.UseWebSockets();
-            app.UseGatewayExceptionInterceptorMiddleware();
-            app.UseDownstreamContextMiddleware();
-            app.MapWhen((HttpContext httpContext) => httpContext.WebSockets.IsWebSocketRequest, wenSocketsApp =>
-            {
-                wenSocketsApp.UseGatewayDownstreamRouteFinderMiddleware();
-                wenSocketsApp.UseMultiplexingMiddleware();
-                wenSocketsApp.UseDownstreamRequestInitialiser();
-                wenSocketsApp.UseLoadBalancingMiddleware();
-                wenSocketsApp.UseDownstreamUrlCreatorMiddleware();
-                wenSocketsApp.UseGatewayWebSocketsProxyMiddleware();
-            });
-            app.UseGatewayResponderMiddleware();
-            app.UseGatewayDownstreamRouteFinderMiddleware();
-            app.MapWhen((HttpContext httpContext) =>
+            //是否由网关处理
+            static bool CanGatewayHandler(HttpContext httpContext)
             {
                 if (!ApplicationConfig.IgnoreUnableToFindDownstreamRouteError) return true;
                 List<Error> errors = httpContext.Items.Errors();
-                if (errors.Count != 1 || errors.First() is UnableToFindDownstreamRouteError) return true;
+                if (errors.Count != 1 || errors.First() is not UnableToFindDownstreamRouteError) return true;
                 httpContext.Items.Remove("Errors");
                 return false;
-
-            }, gatewayApp =>
+            }
+            app.UseWebSockets();
+            app.UseGatewayExceptionInterceptorMiddleware();
+            app.UseDownstreamContextMiddleware();
+            app.MapWhen(httpContext => httpContext.WebSockets.IsWebSocketRequest, wenSocketsApp =>
+            {
+                wenSocketsApp.UseGatewayDownstreamRouteFinderMiddleware();
+                wenSocketsApp.MapWhen(CanGatewayHandler, gatewayApp =>
+                {
+                    gatewayApp.UseMultiplexingMiddleware();
+                    gatewayApp.UseDownstreamRequestInitialiser();
+                    gatewayApp.UseLoadBalancingMiddleware();
+                    gatewayApp.UseDownstreamUrlCreatorMiddleware();
+                    gatewayApp.UseGatewayWebSocketsProxyMiddleware();
+                });
+            });
+            app.UseGatewayResponderMiddleware();
+            app.UseGatewayDownstreamRouteFinderMiddleware();
+            app.MapWhen(CanGatewayHandler, gatewayApp =>
             {
                 gatewayApp.UseMultiplexingMiddleware();
                 gatewayApp.UseSecurityMiddleware();
