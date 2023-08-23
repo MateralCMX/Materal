@@ -30,7 +30,6 @@ using Ocelot.RequestId.Middleware;
 using Ocelot.Responses;
 using Ocelot.Security.Middleware;
 using System.Diagnostics;
-using System.Net.Http;
 using System.Text;
 
 namespace Materal.Gateway.OcelotExtension
@@ -129,6 +128,7 @@ namespace Materal.Gateway.OcelotExtension
             }
             app.UseWebSockets();
             app.UseGatewayExceptionInterceptorMiddleware();
+            app.UseGatewayMiddleware();
             app.UseDownstreamContextMiddleware();
             app.MapWhen(httpContext => httpContext.WebSockets.IsWebSocketRequest, wenSocketsApp =>
             {

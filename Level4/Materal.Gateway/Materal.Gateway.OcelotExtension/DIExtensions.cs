@@ -47,6 +47,7 @@ namespace Materal.Gateway.OcelotExtension
             services.Replace(new ServiceDescriptor(typeof(IServiceDiscoveryProviderFactory), typeof(GatewayServiceDiscoveryProviderFactory), ServiceLifetime.Singleton));
             services.Replace(new ServiceDescriptor(typeof(IHttpRequester), typeof(GatewayHttpRequester), ServiceLifetime.Singleton));
             services.Replace(new ServiceDescriptor(typeof(IHttpResponder), typeof(GatewayHttpContextResponder), ServiceLifetime.Singleton));
+            services.AddSingleton<IGatewayMiddlewareBus, GatewayMiddlewareBusImpl>();
             return result;
         }
     }

@@ -50,7 +50,7 @@ namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
             Response<DownstreamRouteHolder> response = provider.Get(upstreamUrlPath, upstreamQueryString, httpContext.Request.Method, internalConfiguration, upstreamHost);
             if (response.IsError)
             {
-                Logger.LogWarning($"{MiddlewareName}管道配置错误. 下游路由查找器返回:{response.Errors.ToErrorString()}");
+                Logger.LogDebug($"查找下游路由错误:{response.Errors.ToErrorString()}");
                 httpContext.Items.UpsertErrors(response.Errors);
                 if (!ApplicationConfig.IgnoreUnableToFindDownstreamRouteError) return;
                 await _next.Invoke(httpContext);
