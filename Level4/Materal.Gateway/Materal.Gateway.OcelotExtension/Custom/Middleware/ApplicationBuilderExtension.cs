@@ -28,7 +28,7 @@ namespace Materal.Gateway.OcelotExtension
         {
             app.UseMiddleware<GatewayMiddleware>();
             using IServiceScope scope = app.ApplicationServices.CreateScope();
-            List<IGatewayMiddleware> gatewayMiddlewares = scope.ServiceProvider.GetServices<IGatewayMiddleware>().ToList();
+            List<IGatewayMiddleware> gatewayMiddlewares = scope.ServiceProvider.GetServices<IGatewayMiddleware>().OrderBy(m => m.Index).ToList();
             if (gatewayMiddlewares.Count > 0)
             {
                 IGatewayMiddlewareBus gatewayMiddlewareBus = scope.ServiceProvider.GetRequiredService<IGatewayMiddlewareBus>();

@@ -8,6 +8,10 @@ namespace Materal.Gateway.Abstractions
     public interface IGatewayMiddleware
     {
         /// <summary>
+        /// 位序
+        /// </summary>
+        int Index { get; }
+        /// <summary>
         /// 执行中间件
         /// </summary>
         /// <param name="httpContext"></param>
