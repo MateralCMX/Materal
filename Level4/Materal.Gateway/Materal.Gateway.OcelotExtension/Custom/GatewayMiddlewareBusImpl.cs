@@ -1,5 +1,5 @@
 ﻿using CacheManager.Core.Logging;
-using Materal.Gateway.Common;
+using Materal.Gateway.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 

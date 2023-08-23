@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Materal.Gateway.Common
+namespace Materal.Gateway.Abstractions
 {
     /// <summary>
     /// 网关中间件

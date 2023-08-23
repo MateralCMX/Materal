@@ -1,4 +1,4 @@
-﻿using Materal.Gateway.Common;
+﻿using Materal.Gateway.Abstractions;
 using Materal.Gateway.OcelotExtension.Custom;
 using Materal.Gateway.OcelotExtension.Custom.Middleware;
 using Microsoft.AspNetCore.Builder;
