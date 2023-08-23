@@ -27,16 +27,13 @@ namespace Materal.Gateway.OcelotExtension
         public static IApplicationBuilder UseGatewayMiddleware(this IApplicationBuilder app)
         {
             app.UseMiddleware<GatewayMiddleware>();
-            if(OcelotService.Service is not null)
+            List<IGatewayMiddleware> gatewayMiddlewares = app.ApplicationServices.GetServices<IGatewayMiddleware>().ToList();
+            if (gatewayMiddlewares.Count > 0)
             {
-                List<IGatewayMiddleware> gatewayMiddlewares = OcelotService.Service.GetServices<IGatewayMiddleware>().ToList();
-                if (gatewayMiddlewares.Count > 0)
+                IGatewayMiddlewareBus gatewayMiddlewareBus = app.ApplicationServices.GetRequiredService<IGatewayMiddlewareBus>();
+                foreach (IGatewayMiddleware gatewayMiddleware in gatewayMiddlewares)
                 {
-                    IGatewayMiddlewareBus gatewayMiddlewareBus = OcelotService.Service.GetRequiredService<IGatewayMiddlewareBus>();
-                    foreach (IGatewayMiddleware gatewayMiddleware in gatewayMiddlewares)
-                    {
-                        gatewayMiddlewareBus.Subscribe(gatewayMiddleware.GetType());
-                    }
+                    gatewayMiddlewareBus.Subscribe(gatewayMiddleware.GetType());
                 }
             }
             return app;
