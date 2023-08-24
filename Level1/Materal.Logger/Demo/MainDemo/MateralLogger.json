@@ -1,0 +1,52 @@
+{
+  //LogLevel:Trace,Debug,Information,Warning,Error,Critical
+  //Format: DateTime,Date,Time,Year,Month,Day,Hour,Minute,Second,Level,Scope,Message,CategoryName,Exception,ProgressID,ThreadID,Application,MachineName
+  //Path: Date,Year,Month,Day,Hour,Minute,Second,Level,Scope,CategoryName,Exception,ProgressID,ThreadID,Application,MachineName
+  "MateralLogger": {
+    "Application": "MainDemo",
+    "LogLevel": {
+      "Default": "Trace",
+      "Materal0": "Debug",
+      "Materal1": "Information",
+      "Materal2": "Warning",
+      "Materal3": "Error",
+      "Materal4": "Critical",
+      "Materal5": "None"
+    },
+    "Targets": [
+      {
+        "Enable": true,
+        "Name": "LifeConsole",
+        "Type": "Console",
+        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}|[${MachineName},${ProgressID},${ThreadID}]\r\n${Message}\r\n${Exception}",
+        "Colors": {
+          "Trace": "DarkGray",
+          "Debug": "DarkGreen",
+          "Information": "Gray",
+          "Warning": "DarkYellow",
+          "Error": "DarkRed",
+          "Critical": "Red"
+        }
+      }
+    ],
+    "Rules": [
+      {
+        "Enable": true,
+        "MinLevel": "Trace",
+        "MaxLevel": "Critical",
+        "Targets": [
+          "LifeConsole"
+        ],
+        "LogLevel": {
+          "Default": "Trace",
+          "Materal0": "Debug",
+          "Materal1": "Information",
+          "Materal2": "Warning",
+          "Materal3": "Error",
+          "Materal4": "Critical",
+          "Materal5": "None"
+        }
+      }
+    ]
+  }
+}
