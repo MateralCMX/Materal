@@ -61,8 +61,8 @@ namespace Materal.Gateway.OcelotExtension.Custom
         {
             foreach (Type type in _types)
             {
-                IGatewayMiddleware? gatewayMiddleware = type.Instantiation<IGatewayMiddleware>(serviceProvider);
-                if (gatewayMiddleware is null) continue;
+                object? typeObj = serviceProvider.GetService(type);
+                if (typeObj is not IGatewayMiddleware gatewayMiddleware) continue;
                 _logger.LogDebug($"网关中间件[{type.FullName}]执行");
                 bool result = await gatewayMiddleware.InvokeAsync(httpContext);
                 if (result)
