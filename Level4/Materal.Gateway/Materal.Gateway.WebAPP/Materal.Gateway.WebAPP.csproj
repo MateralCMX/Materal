@@ -9,7 +9,7 @@
 	  <None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="AntDesign" Version="0.15.0" />
+		<PackageReference Include="AntDesign" Version="0.15.4" />
 		<PackageReference Include="Materal.Logger" Version="1.1.48" />
 		<PackageReference Include="Materal.Logger.AspNetCore" Version="1.1.48" />
 	</ItemGroup>
