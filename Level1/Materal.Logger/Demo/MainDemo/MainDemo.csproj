@@ -6,6 +6,9 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Include="..\..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.Logger\Materal.Logger.csproj" />
 	</ItemGroup>
 	<ItemGroup>

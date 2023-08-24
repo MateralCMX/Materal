@@ -58,6 +58,16 @@ namespace Materal.Logger
             return result;
         });
         /// <summary>
+        /// 自定义数据
+        /// </summary>
+
+        public static Dictionary<string, string> CustomData { get; private set; } = new();
+        /// <summary>
+        /// 自定义配置
+        /// </summary>
+
+        public static Dictionary<string, string> CustomConfig { get; private set; } = new();
+        /// <summary>
         /// 获取配置项
         /// </summary>
         /// <typeparam name="T"></typeparam>

@@ -13,12 +13,18 @@ namespace MainDemo
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .AddJsonFile("MateralLogger.json", optional: true, reloadOnChange: true)
                         .Build();
-            LoggerConfig.Init(configuration);
+            LoggerManager.Init(configuration);
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralLogger();
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             ILogger<Program> logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-            logger.LogInformation("Hello World!");
+            Console.WriteLine("初始化完毕，按任意键开始测试");
+            Console.ReadKey();
+            for (int i = 0; i < 10000; i++)
+            {
+                logger.LogInformation($"Hello World!{i}");
+            }
+            Console.ReadKey();
         }
     }
 }

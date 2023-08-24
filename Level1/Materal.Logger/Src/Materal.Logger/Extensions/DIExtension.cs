@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Materal.Logger.LoggerHandlers;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
@@ -23,6 +24,7 @@ namespace Materal.Logger
             });
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
+            services.AddSingleton<ILoggerHandler, ConsoleLoggerHandler>();
             return services;
         }
     }

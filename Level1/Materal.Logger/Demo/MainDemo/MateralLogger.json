@@ -39,12 +39,8 @@
         ],
         "LogLevel": {
           "Default": "Trace",
-          "Materal0": "Debug",
-          "Materal1": "Information",
-          "Materal2": "Warning",
-          "Materal3": "Error",
-          "Materal4": "Critical",
-          "Materal5": "None"
+          "MainDemo.Program": "Information",
+          "MainDemo": "Information"
         }
       }
     ]
