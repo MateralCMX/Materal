@@ -27,6 +27,13 @@
           "Error": "DarkRed",
           "Critical": "Red"
         }
+      },
+      {
+        "Enable": true,
+        "Name": "LevelFile",
+        "Type": "File",
+        "Path": "${RootPath}\\Logs\\${Date}\\${Level}.log",
+        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}|[${MachineName},${ProgressID},${ThreadID}]\r\n${Message}\r\n${Exception}"
       }
     ],
     "Rules": [
@@ -35,7 +42,8 @@
         "MinLevel": "Trace",
         "MaxLevel": "Critical",
         "Targets": [
-          "LifeConsole"
+          "LifeConsole",
+          "LevelFile"
         ],
         "LogLevel": {
           "Default": "Trace",

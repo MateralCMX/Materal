@@ -24,7 +24,14 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 目标类型
         /// </summary>
-        protected abstract TargetTypeEnum TargetType { get; }
+        protected virtual string TargetType {
+            get
+            {
+                string name = GetType().Name;
+                if (!name.EndsWith(nameof(LoggerHandler))) return string.Empty;
+                return name[..^nameof(LoggerHandler).Length];
+            } 
+        }
         /// <summary>
         /// 处理
         /// </summary>
@@ -38,7 +45,7 @@ namespace Materal.Logger.LoggerHandlers
                 if (!CanRun(rule, model.LogLevel, model.CategoryName)) continue;
                 foreach (string targetName in rule.Targets)
                 {
-                    LoggerTargetConfigModel? target = allTargets.FirstOrDefault(m => m.Name == targetName && m.Type == TargetTypeEnum.Console);
+                    LoggerTargetConfigModel? target = allTargets.FirstOrDefault(m => m.Name == targetName && m.Type == TargetType);
                     if (target is null) continue;
                     Handler(rule, target, model);
                 }

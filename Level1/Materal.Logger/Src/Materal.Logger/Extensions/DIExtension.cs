@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace Materal.Logger
 {
@@ -24,7 +25,16 @@ namespace Materal.Logger
             });
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
-            services.AddSingleton<ILoggerHandler, ConsoleLoggerHandler>();
+            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            Type loggerHandlerType = typeof(ILoggerHandler);
+            foreach (Assembly assembly in assemblies)
+            {
+                Type[] loggerHandlerTypes = assembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<ILoggerHandler>()).ToArray();
+                foreach (Type type in loggerHandlerTypes)
+                {
+                    services.AddSingleton(loggerHandlerType, type);
+                }
+            }
             return services;
         }
     }

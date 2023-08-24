@@ -25,7 +25,7 @@ namespace Materal.Logger.LoggerHandlers
         /// 清空定时器间隔
         /// </summary>
         private readonly int _clearTimerInterval;
-        private int _maxIntervalDataCount;
+        private readonly int _maxIntervalDataCount;
         /// <summary>
         /// 上次间隔数据量
         /// </summary>
@@ -102,7 +102,12 @@ namespace Materal.Logger.LoggerHandlers
         /// 保存数据
         /// </summary>
         /// <param name="datas"></param>
-        protected abstract void HandlerData(T[] datas);
+        protected void HandlerData(T[] datas) => HandlerOKData(datas.Where(m => m.IsOK).ToArray());
+        /// <summary>
+        /// 保存数据
+        /// </summary>
+        /// <param name="datas"></param>
+        protected abstract void HandlerOKData(T[] datas);
         /// <summary>
         /// 关闭
         /// </summary>
@@ -121,6 +126,10 @@ namespace Materal.Logger.LoggerHandlers
     /// </summary>
     public abstract class BufferLogerHandlerModel : LoggerHandlerModel
     {
+        /// <summary>
+        /// 是否可用
+        /// </summary>
+        public abstract bool IsOK { get; }
         /// <summary>
         /// 规则
         /// </summary>
