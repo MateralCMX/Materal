@@ -1,0 +1,14 @@
+﻿@inject CustomAuthenticationStateProvider authenticationState;
+
+<div class="logo">Materal.Gateway</div>
+<div class="btn_logout">
+    <a href="/Swagger" target="_blank" style="display:inline-block;margin-right:20px;">Swagger文档</a>
+    <Button class="btn_logout" style="height:100%;display:inline-block;" Type="@ButtonType.Link" OnClick="Logout">退出</Button>
+</div>
+
+@code {
+    private void Logout()
+    {
+        authenticationState?.LogoutAsync();
+    }
+}
