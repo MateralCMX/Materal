@@ -1,4 +1,5 @@
 ﻿using Materal.Logger.LoggerHandlers;
+using Materal.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -18,6 +19,7 @@ namespace Materal.Logger
         /// <returns></returns>
         public static IServiceCollection AddMateralLogger(this IServiceCollection services)
         {
+            services.AddMateralUtils();
             services.AddLogging(builder =>
             {
                 builder.ClearProviders();
@@ -26,7 +28,7 @@ namespace Materal.Logger
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
             DirectoryInfo directoryInfo = new(LoggerHandlerHelper.RootPath);
-            FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll");
+            FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll").Where(m => m.Name.StartsWith("Materal.Logger")).ToArray();
             Type loggerHandlerType = typeof(ILoggerHandler);
             foreach (FileInfo fileInfo in fileInfos)
             {

@@ -1,6 +1,5 @@
-﻿using System.Text;
-using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.Models;
+﻿using Materal.Logger.LoggerHandlers.Models;
+using System.Text;
 
 namespace Materal.Logger.LoggerHandlers
 {

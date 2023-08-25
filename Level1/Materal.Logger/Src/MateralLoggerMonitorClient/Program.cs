@@ -1,9 +1,7 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.WebSocketLog.LoggerHandlers.Models;
-using Materal.Utils;
+﻿using Materal.Utils;
+using MateralLoggerMonitorClient.Models;
 using Microsoft.Extensions.Logging;
 using System.Net.WebSockets;
-using System.Reflection;
 using System.Text;
 
 namespace MateralLoggerMonitorClient

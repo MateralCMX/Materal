@@ -1,4 +1,5 @@
 ﻿using Materal.Utils;
+using Materal.Utils.Http;
 using Microsoft.Extensions.Logging;
 using System.Text;
 
@@ -67,7 +68,14 @@ namespace Materal.Logger
             messageBuild.AppendLine($"LoggerLog|{message}");
             if(exception is not null)
             {
-                messageBuild.AppendLine(exception.GetErrorMessage());
+                if(exception is MateralHttpException httpException)
+                {
+                    messageBuild.AppendLine(httpException.GetExceptionMessage());
+                }
+                else
+                {
+                    messageBuild.AppendLine(exception.GetErrorMessage());
+                }
             }
             ConsoleQueue.WriteLine(messageBuild.ToString(), ConsoleColor.DarkRed);
         }

@@ -34,6 +34,14 @@
         /// </summary>
         public int? Port { get; set; }
         /// <summary>
+        /// 地址
+        /// </summary>
+        public string? Url { get; set; }
+        /// <summary>
+        /// Http方法
+        /// </summary>
+        public string? HttpMethod { get; set; }
+        /// <summary>
         /// 颜色组
         /// </summary>
         public LoggerColorsConfigModel Colors { get; set; } = new();

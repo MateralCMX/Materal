@@ -1,5 +1,5 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.LoggerHandlers;
+﻿using Materal.Logger.LoggerHandlers;
+using Materal.Logger.LoggerHandlers.Models;
 using Materal.Logger.Models;
 using Microsoft.Extensions.Logging;
 
@@ -13,7 +13,7 @@ namespace Materal.Logger.WebSocketLog.LoggerHandlers.Models
         /// <summary>
         /// 控制台显示颜色
         /// </summary>
-        public ConsoleColor Color { get; set; } = ConsoleColor.Gray;
+        public ConsoleColor Color { get; set; }
         /// <summary>
         /// 日志等级
         /// </summary>
@@ -21,11 +21,7 @@ namespace Materal.Logger.WebSocketLog.LoggerHandlers.Models
         /// <summary>
         /// 消息
         /// </summary>
-        public string Message { get; set; } = string.Empty;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public LogMessageModel() { }
+        public string Message { get; set; }
         /// <summary>
         /// 构造方法
         /// </summary>

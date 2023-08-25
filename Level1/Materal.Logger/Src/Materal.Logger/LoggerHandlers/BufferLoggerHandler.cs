@@ -27,14 +27,19 @@ namespace Materal.Logger.LoggerHandlers
         /// </summary>
         private bool _isClearTimerExecution = false;
         /// <summary>
+        /// 流缓冲区数量
+        /// </summary>
+        private readonly int? _bufferCount;
+        /// <summary>
         /// 构造方法
         /// </summary>
-        protected BufferLoggerHandler()
+        protected BufferLoggerHandler(int? bufferCount = null)
         {
             _handlerDataBuffer = new(HandlerData);
             _messageBuffer = GetNewBatchBlock();
             ClearTimer = new(ClearTimerElapsed);
             ClearTimer.Change(TimeSpan.FromMilliseconds(LoggerConfig.BufferPushInterval), Timeout.InfiniteTimeSpan);
+            _bufferCount = bufferCount;
         }
         /// <summary>
         /// 处理
@@ -76,7 +81,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <returns></returns>
         private BatchBlock<T> GetNewBatchBlock()
         {
-            BatchBlock<T> result = new(LoggerConfig.BufferCount);
+            BatchBlock<T> result = new((_bufferCount is null || _bufferCount.Value < 2) ? LoggerConfig.BufferCount : _bufferCount.Value);
             result.LinkTo(_handlerDataBuffer);
             return result;
         }
