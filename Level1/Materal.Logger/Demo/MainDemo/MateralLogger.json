@@ -42,12 +42,11 @@
         "MinLevel": "Trace",
         "MaxLevel": "Critical",
         "Targets": [
-          "LifeConsole",
           "LevelFile"
         ],
         "LogLevel": {
           "Default": "Trace",
-          "MainDemo.Program": "Information",
+          "MainDemo.Program": "Trace",
           "MainDemo": "Information"
         }
       }

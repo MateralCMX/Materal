@@ -1,6 +1,6 @@
-﻿using Materal.Logger.Models;
+﻿using Materal.Logger.LoggerHandlers.Models;
+using Materal.Logger.Models;
 using Microsoft.Extensions.Logging;
-using System.Text.Json.Serialization;
 
 namespace Materal.Logger.LoggerHandlers
 {
@@ -72,9 +72,10 @@ namespace Materal.Logger.LoggerHandlers
         /// <returns></returns>
         protected virtual bool CanRun(LoggerRuleConfigModel rule, LogLevel logLevel, string? categoryName)
         {
+            if (logLevel == LogLevel.None) return false;
             if (rule.MinLevel > logLevel || rule.MaxLevel < logLevel) return false;
+            LogLevel? configLogLevel = null;
             Dictionary<string, LogLevel> logLevels = rule.LogLevels ?? DefaultLogLevels;
-            bool? result = null;
             if (categoryName is not null && !string.IsNullOrWhiteSpace(categoryName))
             {
                 int index = 0;
@@ -82,57 +83,24 @@ namespace Materal.Logger.LoggerHandlers
                 {
                     if (categoryName == key)
                     {
-                        result = logLevels[key] <= logLevel;
+                        configLogLevel = logLevels[key];
                         break;
                     }
                     if (!categoryName.StartsWith(key)) continue;
                     int nowIndex = key.Split('.').Length;
                     if (index > nowIndex) continue;
                     index = nowIndex;
-                    result = logLevels[key] <= logLevel;
+                    configLogLevel = logLevels[key];
                 }
             }
-            if (result is null && logLevels.ContainsKey("Default"))
+            if (configLogLevel is null && logLevels.ContainsKey("Default"))
             {
-                result = logLevels["Default"] <= logLevel;
+                configLogLevel = logLevels["Default"];
             }
-            result ??= true;
-            return result.Value;
+            if (configLogLevel is null) return true;
+            if (configLogLevel == LogLevel.None) return false;
+            bool result = configLogLevel <= logLevel;
+            return result;
         }
-    }
-    /// <summary>
-    /// 日志处理器模型
-    /// </summary>
-    public class LoggerHandlerModel
-    {
-        /// <summary>
-        /// 日志等级
-        /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public LogLevel LogLevel { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreateTime { get; set; } = DateTime.Now;
-        /// <summary>
-        /// 异常
-        /// </summary>
-        public Exception? Exception { get; set; }
-        /// <summary>
-        /// 线程ID
-        /// </summary>
-        public string ThreadID { get; set; } = Environment.CurrentManagedThreadId.ToString();
-        /// <summary>
-        /// 消息
-        /// </summary>
-        public string Message { get; set; } = string.Empty;
-        /// <summary>
-        /// 类型名称
-        /// </summary>
-        public string? CategoryName { get; set; }
-        /// <summary>
-        /// 域
-        /// </summary>
-        public LoggerScope? Scope { get; set; }
     }
 }

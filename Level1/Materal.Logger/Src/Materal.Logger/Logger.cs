@@ -1,4 +1,5 @@
 ﻿using Materal.Logger.LoggerHandlers;
+using Materal.Logger.LoggerHandlers.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks.Dataflow;

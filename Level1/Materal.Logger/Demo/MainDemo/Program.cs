@@ -19,11 +19,23 @@ namespace MainDemo
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             ILogger<Program> logger = serviceProvider.GetRequiredService<ILogger<Program>>();
             Console.WriteLine("初始化完毕，按任意键开始测试");
+            Random random = new();
             Console.ReadKey();
-            for (int i = 0; i < 10000; i++)
+            for (int i = 1; i <= 10000; i++)
             {
-                logger.LogInformation($"Hello World!{i}");
+                LogLevel logLevel = random.Next(0, 6) switch
+                {
+                    0 => LogLevel.Trace,
+                    1 => LogLevel.Debug,
+                    2 => LogLevel.Information,
+                    3 => LogLevel.Warning,
+                    4 => LogLevel.Error,
+                    5 => LogLevel.Critical,
+                    _ => throw new NotImplementedException()
+                };
+                logger.Log(logLevel, $"Hello World!{i}");
             }
+            Console.WriteLine("输入完毕");
             Console.ReadKey();
         }
     }

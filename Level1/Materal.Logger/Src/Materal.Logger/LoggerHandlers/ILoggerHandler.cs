@@ -1,4 +1,4 @@
-﻿using Materal.Logger.Models;
+﻿using Materal.Logger.LoggerHandlers.Models;
 
 namespace Materal.Logger.LoggerHandlers
 {

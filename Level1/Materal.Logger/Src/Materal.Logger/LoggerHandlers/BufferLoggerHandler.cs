@@ -1,4 +1,5 @@
-﻿using Materal.Logger.Models;
+﻿using Materal.Logger.LoggerHandlers.Models;
+using Materal.Logger.Models;
 using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger.LoggerHandlers
@@ -67,8 +68,10 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="data"></param>
         protected virtual void PushData(T data)
         {
+            ClearTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             _messageBuffer.Post(data);
             _intervalDataCount++;
+            ClearTimer.Change(TimeSpan.FromMilliseconds(_clearTimerInterval), Timeout.InfiniteTimeSpan);
         }
         /// <summary>
         /// 清空定时器执行
@@ -119,36 +122,6 @@ namespace Materal.Logger.LoggerHandlers
             await _messageBuffer.Completion;
             _handlerDataBuffer.Complete();
             await _handlerDataBuffer.Completion;
-        }
-    }
-    /// <summary>
-    /// 流日志处理器模型
-    /// </summary>
-    public abstract class BufferLogerHandlerModel : LoggerHandlerModel
-    {
-        /// <summary>
-        /// 是否可用
-        /// </summary>
-        public abstract bool IsOK { get; }
-        /// <summary>
-        /// 规则
-        /// </summary>
-        public LoggerRuleConfigModel Rule { get; }
-        /// <summary>
-        /// 目标
-        /// </summary>
-        public LoggerTargetConfigModel Target { get; }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="rule"></param>
-        /// <param name="target"></param>
-        /// <param name="model"></param>
-        public BufferLogerHandlerModel(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model)
-        {
-            model.CopyProperties(this);
-            Rule = rule;
-            Target = target;
         }
     }
 }

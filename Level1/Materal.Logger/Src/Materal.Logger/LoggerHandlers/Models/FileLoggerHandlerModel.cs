@@ -8,10 +8,6 @@ namespace Materal.Logger.LoggerHandlers.Models
     public class FileLoggerHandlerModel : BufferLogerHandlerModel
     {
         /// <summary>
-        /// 是否可用
-        /// </summary>
-        public override bool IsOK { get; } = true;
-        /// <summary>
         /// 输出的消息
         /// </summary>
         public string FileContent { get; } = string.Empty;
