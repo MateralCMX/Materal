@@ -20,7 +20,7 @@
         /// <summary>
         /// 格式化
         /// </summary>
-        public string Format { get; set; } = "{DateTime}|${Application}|${Level}|${Scope}|${CategoryName}|[${MachineName},${ProgressID},${ThreadID}]\r\n${Message}\r\n${Exception}";
+        public string Format { get; set; } = "${DateTime}|${Level}|${CategoryName}|${Scope}\r\n${Message}\r\n${Exception}";
         /// <summary>
         /// 路径
         /// </summary>

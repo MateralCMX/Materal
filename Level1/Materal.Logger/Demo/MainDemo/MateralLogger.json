@@ -5,13 +5,7 @@
   "MateralLogger": {
     "Application": "${ApplicationName}",
     "LogLevel": {
-      "Default": "Trace",
-      "Materal0": "Debug",
-      "Materal1": "Information",
-      "Materal2": "Warning",
-      "Materal3": "Error",
-      "Materal4": "Critical",
-      "Materal5": "None"
+      "Default": "Trace"
     },
     "Targets": [
       {
@@ -40,7 +34,7 @@
         "Name": "LocalDB",
         "Type": "Sqlite",
         "Path": "${RootPath}\\Logs\\MateralLogger.db",
-        "ConnectionString": "Data Source=${RootPath}\\Logs\\MateralLogger2.db"
+        //"ConnectionString": "Data Source=${RootPath}\\Logs\\MateralLogger.db"
       },
       {
         "Enable": true,
@@ -55,16 +49,11 @@
         "MinLevel": "Trace",
         "MaxLevel": "Critical",
         "Targets": [
-          "LifeConsole",
-          //"LevelFile",
+          "LifeConsole"
+          //"LevelFile"
           //"LocalDB",
           //"ServerDB"
-        ],
-        "LogLevel": {
-          "Default": "Trace",
-          "MainDemo.Program": "Trace",
-          "MainDemo": "Information"
-        }
+        ]
       }
     ]
   }

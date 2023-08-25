@@ -34,11 +34,27 @@ namespace Materal.Logger
         /// <summary>
         /// 缓冲推入间隔(ms)
         /// </summary>
-        public static int BufferPushInterval => GetValueObject(nameof(BufferPushInterval), 1000);
+        public static int BufferPushInterval
+        {
+            get
+            {
+                int result = GetValueObject(nameof(BufferPushInterval), 1000);
+                if (result <= 500) return 1000;
+                return result;
+            }
+        }
         /// <summary>
         /// 缓冲区数量
         /// </summary>
-        public static int BufferCount => GetValueObject(nameof(BufferCount), 2000);
+        public static int BufferCount
+        {
+            get
+            {
+                int result = GetValueObject(nameof(BufferCount), 2000);
+                if (result <= 2) return 2000;
+                return result;
+            }
+        }
         /// <summary>
         /// 默认日志等级组
         /// </summary>
@@ -115,7 +131,7 @@ namespace Materal.Logger
             {
                 result = _config.GetValueObject<T>($"{_rootKey}:{name}");
             }
-            if (result is not null) return result;
+            if (result is not null && !result.Equals(default(T))) return result;
             if (defaultValue is null) return new T();
             return defaultValue(name);
         }

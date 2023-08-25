@@ -23,6 +23,9 @@
 	  <ProjectReference Include="..\..\Src\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Update="ExtensionsTests\ConfigurationTest.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="UtilsTests\ExcelTests\Data.xlsx">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
