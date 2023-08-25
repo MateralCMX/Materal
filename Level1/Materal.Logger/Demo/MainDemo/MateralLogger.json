@@ -55,10 +55,10 @@
         "MinLevel": "Trace",
         "MaxLevel": "Critical",
         "Targets": [
-          //"LifeConsole",
+          "LifeConsole",
           //"LevelFile",
           //"LocalDB",
-          "ServerDB"
+          //"ServerDB"
         ],
         "LogLevel": {
           "Default": "Trace",

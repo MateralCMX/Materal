@@ -23,30 +23,18 @@ namespace Materal.Logger.LoggerHandlers
         /// </summary>
         protected readonly Timer ClearTimer;
         /// <summary>
-        /// 清空定时器间隔
-        /// </summary>
-        private readonly int _clearTimerInterval;
-        /// <summary>
-        /// 最大间隔数据数量
-        /// </summary>
-        private readonly int _blockCount;
-        /// <summary>
         /// 清空定时器执行中
         /// </summary>
         private bool _isClearTimerExecution = false;
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="clearTimerInterval"></param>
-        /// <param name="maxIntervalDataCount"></param>
-        protected BufferLoggerHandler(int clearTimerInterval = 2000, int maxIntervalDataCount = 2000)
+        protected BufferLoggerHandler()
         {
-            _clearTimerInterval = clearTimerInterval;
             _handlerDataBuffer = new(HandlerData);
-            _blockCount = maxIntervalDataCount < 2 ? 2000 : maxIntervalDataCount;
             _messageBuffer = GetNewBatchBlock();
             ClearTimer = new(ClearTimerElapsed);
-            ClearTimer.Change(TimeSpan.FromMilliseconds(_clearTimerInterval), Timeout.InfiniteTimeSpan);
+            ClearTimer.Change(TimeSpan.FromMilliseconds(LoggerConfig.BufferPushInterval), Timeout.InfiniteTimeSpan);
         }
         /// <summary>
         /// 处理
@@ -79,7 +67,7 @@ namespace Materal.Logger.LoggerHandlers
             _isClearTimerExecution = false;
             if (!Logger.IsClose)
             {
-                ClearTimer.Change(TimeSpan.FromMilliseconds(_clearTimerInterval), Timeout.InfiniteTimeSpan);
+                ClearTimer.Change(TimeSpan.FromMilliseconds(LoggerConfig.BufferPushInterval), Timeout.InfiniteTimeSpan);
             }
         }
         /// <summary>
@@ -88,7 +76,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <returns></returns>
         private BatchBlock<T> GetNewBatchBlock()
         {
-            BatchBlock<T> result = new(_blockCount);
+            BatchBlock<T> result = new(LoggerConfig.BufferCount);
             result.LinkTo(_handlerDataBuffer);
             return result;
         }

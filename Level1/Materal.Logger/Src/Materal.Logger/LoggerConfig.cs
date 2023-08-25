@@ -32,6 +32,14 @@ namespace Materal.Logger
         /// </summary>
         public static string Application => GetValue(nameof(Application), Assembly.GetEntryAssembly().GetName().Name);
         /// <summary>
+        /// 缓冲推入间隔(ms)
+        /// </summary>
+        public static int BufferPushInterval => GetValueObject(nameof(BufferPushInterval), 1000);
+        /// <summary>
+        /// 缓冲区数量
+        /// </summary>
+        public static int BufferCount => GetValueObject(nameof(BufferCount), 2000);
+        /// <summary>
         /// 默认日志等级组
         /// </summary>
         public static Dictionary<string, LogLevel> DefaultLogLevels => GetValueObject("LogLevel", name =>
