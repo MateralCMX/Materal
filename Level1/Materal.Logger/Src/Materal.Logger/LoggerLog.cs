@@ -12,11 +12,11 @@ namespace Materal.Logger
         /// <summary>
         /// 最小等级
         /// </summary>
-        public static LogLevel MinLevel { get; set; } = LogLevel.Warning;
+        public static LogLevel MinLevel => LoggerConfig.LogLogLevel.MinLevel;
         /// <summary>
         /// 最大等级
         /// </summary>
-        public static LogLevel MaxLevel { get; set; } = LogLevel.Critical;
+        public static LogLevel MaxLevel => LoggerConfig.LogLogLevel.MaxLevel;
         /// <summary>
         /// 写Debug
         /// </summary>
@@ -24,7 +24,7 @@ namespace Materal.Logger
         public static void LogDebug(string message)
         {
             if (LogLevel.Debug < MinLevel || LogLevel.Debug > MaxLevel) return;
-            Console.WriteLine(message, ConsoleColor.DarkGray);
+            ConsoleQueue.WriteLine($"LoggerLog|{message}", ConsoleColor.DarkGray);
         }
         /// <summary>
         /// 写信息
@@ -33,7 +33,7 @@ namespace Materal.Logger
         public static void LogInfomation(string message)
         {
             if (LogLevel.Information < MinLevel || LogLevel.Information > MaxLevel) return;
-            Console.WriteLine(message, ConsoleColor.Gray);
+            ConsoleQueue.WriteLine($"LoggerLog|{message}", ConsoleColor.Gray);
         }
         /// <summary>
         /// 写警告
@@ -42,7 +42,7 @@ namespace Materal.Logger
         public static void LogWarning(string message)
         {
             if (LogLevel.Warning < MinLevel || LogLevel.Warning > MaxLevel) return;
-            Console.WriteLine(message, ConsoleColor.DarkYellow);
+            ConsoleQueue.WriteLine($"LoggerLog|{message}", ConsoleColor.DarkYellow);
         }
         /// <summary>
         /// 写错误
@@ -52,21 +52,24 @@ namespace Materal.Logger
         {
             if (LogLevel.Error < MinLevel || LogLevel.Error > MaxLevel) return;
             StringBuilder messageBuild = new();
-            messageBuild.AppendLine(message);
-            Console.WriteLine(messageBuild.ToString(), ConsoleColor.DarkRed);
+            messageBuild.AppendLine($"LoggerLog|{message}");
+            ConsoleQueue.WriteLine(messageBuild.ToString(), ConsoleColor.DarkRed);
         }
         /// <summary>
         /// 写错误
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public static void LogError(string message, Exception exception)
+        public static void LogError(string message, Exception? exception)
         {
             if (LogLevel.Error < MinLevel || LogLevel.Error > MaxLevel) return;
             StringBuilder messageBuild= new();
-            messageBuild.AppendLine(message);
-            messageBuild.AppendLine(exception.GetErrorMessage());
-            Console.WriteLine(messageBuild.ToString(), ConsoleColor.DarkRed);
+            messageBuild.AppendLine($"LoggerLog|{message}");
+            if(exception is not null)
+            {
+                messageBuild.AppendLine(exception.GetErrorMessage());
+            }
+            ConsoleQueue.WriteLine(messageBuild.ToString(), ConsoleColor.DarkRed);
         }
     }
 }

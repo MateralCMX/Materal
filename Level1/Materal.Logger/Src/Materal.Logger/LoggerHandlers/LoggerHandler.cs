@@ -43,10 +43,10 @@ namespace Materal.Logger.LoggerHandlers
             List<LoggerTargetConfigModel> allTargets = AllTargets;
             foreach (LoggerRuleConfigModel rule in AllRules)
             {
-                if (!CanRun(rule, model.LogLevel, model.CategoryName)) continue;
+                if (!rule.Enable || !CanRun(rule, model.LogLevel, model.CategoryName)) continue;
                 foreach (string targetName in rule.Targets)
                 {
-                    LoggerTargetConfigModel? target = allTargets.FirstOrDefault(m => m.Name == targetName && m.Type == TargetType);
+                    LoggerTargetConfigModel? target = allTargets.FirstOrDefault(m => m.Name == targetName && m.Type == TargetType && m.Enable);
                     if (target is null) continue;
                     try
                     {

@@ -18,9 +18,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.SqliteLog", "Src\Materal.Logger.SqliteLog\Materal.Logger.SqliteLog.csproj", "{5819201A-5EE2-46ED-A89F-2C9A93C6B507}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.SqliteLog", "Src\Materal.Logger.SqliteLog\Materal.Logger.SqliteLog.csproj", "{5819201A-5EE2-46ED-A89F-2C9A93C6B507}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.SqlServerLog", "Src\Materal.Logger.SqlServerLog\Materal.Logger.SqlServerLog.csproj", "{F9B1F8E2-CAA9-4136-BCC2-1F2F607E93D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.SqlServerLog", "Src\Materal.Logger.SqlServerLog\Materal.Logger.SqlServerLog.csproj", "{F9B1F8E2-CAA9-4136-BCC2-1F2F607E93D5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.WebSocketLog", "Src\Materal.Logger.WebSocketLog\Materal.Logger.WebSocketLog.csproj", "{00EFD0BB-115F-4AE0-8712-EDCC1BACE3D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MateralLoggerMonitorClient", "MateralLoggerMonitorClient\MateralLoggerMonitorClient.csproj", "{E57A8380-8820-4DF2-BD4D-BA04E72FC52D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +48,14 @@ Global
 		{F9B1F8E2-CAA9-4136-BCC2-1F2F607E93D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B1F8E2-CAA9-4136-BCC2-1F2F607E93D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9B1F8E2-CAA9-4136-BCC2-1F2F607E93D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00EFD0BB-115F-4AE0-8712-EDCC1BACE3D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00EFD0BB-115F-4AE0-8712-EDCC1BACE3D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00EFD0BB-115F-4AE0-8712-EDCC1BACE3D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00EFD0BB-115F-4AE0-8712-EDCC1BACE3D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E57A8380-8820-4DF2-BD4D-BA04E72FC52D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E57A8380-8820-4DF2-BD4D-BA04E72FC52D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E57A8380-8820-4DF2-BD4D-BA04E72FC52D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E57A8380-8820-4DF2-BD4D-BA04E72FC52D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +65,8 @@ Global
 		{BE948EF7-6509-436E-BACB-B7CDAC0DBCEA} = {D50FB148-416F-44CA-A048-615560E26524}
 		{5819201A-5EE2-46ED-A89F-2C9A93C6B507} = {D50FB148-416F-44CA-A048-615560E26524}
 		{F9B1F8E2-CAA9-4136-BCC2-1F2F607E93D5} = {D50FB148-416F-44CA-A048-615560E26524}
+		{00EFD0BB-115F-4AE0-8712-EDCC1BACE3D8} = {D50FB148-416F-44CA-A048-615560E26524}
+		{E57A8380-8820-4DF2-BD4D-BA04E72FC52D} = {D50FB148-416F-44CA-A048-615560E26524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BDC3165-1789-4856-909F-812A91617D4C}

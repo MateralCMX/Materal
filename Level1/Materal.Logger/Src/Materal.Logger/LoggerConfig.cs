@@ -83,6 +83,10 @@ namespace Materal.Logger
             return result;
         });
         /// <summary>
+        /// 日志日志等级配置
+        /// </summary>
+        public static LogLogLevelConfigModel LogLogLevel => GetValueObject(nameof(LogLogLevel), name => new LogLogLevelConfigModel());
+        /// <summary>
         /// 自定义数据
         /// </summary>
 

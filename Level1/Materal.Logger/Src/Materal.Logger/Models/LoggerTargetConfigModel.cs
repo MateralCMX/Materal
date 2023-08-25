@@ -30,6 +30,10 @@
         /// </summary>
         public string? ConnectionString { get; set; }
         /// <summary>
+        /// 端口号
+        /// </summary>
+        public int? Port { get; set; }
+        /// <summary>
         /// 颜色组
         /// </summary>
         public LoggerColorsConfigModel Colors { get; set; } = new();
