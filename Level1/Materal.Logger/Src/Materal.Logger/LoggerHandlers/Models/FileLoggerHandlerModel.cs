@@ -5,7 +5,7 @@ namespace Materal.Logger.LoggerHandlers.Models
     /// <summary>
     /// 控制台日志处理器模型
     /// </summary>
-    public class FileLoggerHandlerModel : BufferLogerHandlerModel
+    public class FileLoggerHandlerModel : BufferLoggerHandlerModel
     {
         /// <summary>
         /// 输出的消息

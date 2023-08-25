@@ -70,6 +70,10 @@ namespace Materal.Logger.LoggerHandlers
         public static string FormatMessage(string writeMessage, LogLevel logLevel, string message, string? categoryName, LoggerScope? scope, DateTime dateTime, Exception? exception, string threadID)
         {
             string result = writeMessage;
+            foreach (KeyValuePair<string, string> item in LoggerConfig.CustomConfig)
+            {
+                result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);
+            }
             foreach (KeyValuePair<string, string> item in LoggerConfig.CustomData)
             {
                 result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);
@@ -114,6 +118,10 @@ namespace Materal.Logger.LoggerHandlers
         public static string FormatPath(string path, LogLevel logLevel, string? categoryName, LoggerScope? scope, DateTime dateTime, string threadID)
         {
             string result = path;
+            foreach (KeyValuePair<string, string> item in LoggerConfig.CustomConfig)
+            {
+                result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);
+            }
             foreach (KeyValuePair<string, string> item in LoggerConfig.CustomData)
             {
                 result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);

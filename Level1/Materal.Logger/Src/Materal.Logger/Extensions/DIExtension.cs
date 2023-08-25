@@ -25,10 +25,12 @@ namespace Materal.Logger
             });
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            DirectoryInfo directoryInfo = new(LoggerHandlerHelper.RootPath);
+            FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll");
             Type loggerHandlerType = typeof(ILoggerHandler);
-            foreach (Assembly assembly in assemblies)
+            foreach (FileInfo fileInfo in fileInfos)
             {
+                Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
                 Type[] loggerHandlerTypes = assembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<ILoggerHandler>()).ToArray();
                 foreach (Type type in loggerHandlerTypes)
                 {

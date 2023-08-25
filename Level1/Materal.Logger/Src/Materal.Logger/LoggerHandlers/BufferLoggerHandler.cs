@@ -8,7 +8,7 @@ namespace Materal.Logger.LoggerHandlers
     /// 流日志处理器
     /// </summary>
     public abstract class BufferLoggerHandler<T> : LoggerHandler
-        where T : BufferLogerHandlerModel
+        where T : BufferLoggerHandlerModel
     {
         /// <summary>
         /// 消息缓冲区
@@ -26,29 +26,27 @@ namespace Materal.Logger.LoggerHandlers
         /// 清空定时器间隔
         /// </summary>
         private readonly int _clearTimerInterval;
-        private readonly int _maxIntervalDataCount;
         /// <summary>
-        /// 上次间隔数据量
+        /// 最大间隔数据数量
         /// </summary>
-        private int _upIntervalDataCount = 0;
+        private readonly int _blockCount;
         /// <summary>
-        /// 间隔数据量
+        /// 清空定时器执行中
         /// </summary>
-        private int _intervalDataCount = 0;
+        private bool _isClearTimerExecution = false;
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="clearTimerInterval"></param>
-        /// <param name="defaultDataCount"></param>
         /// <param name="maxIntervalDataCount"></param>
-        protected BufferLoggerHandler(int clearTimerInterval = 1000, int defaultDataCount = 10, int maxIntervalDataCount = 1000)
+        protected BufferLoggerHandler(int clearTimerInterval = 2000, int maxIntervalDataCount = 2000)
         {
             _clearTimerInterval = clearTimerInterval;
             _handlerDataBuffer = new(HandlerData);
-            _messageBuffer = GetNewBatchBlock(defaultDataCount);
+            _blockCount = maxIntervalDataCount < 2 ? 2000 : maxIntervalDataCount;
+            _messageBuffer = GetNewBatchBlock();
             ClearTimer = new(ClearTimerElapsed);
             ClearTimer.Change(TimeSpan.FromMilliseconds(_clearTimerInterval), Timeout.InfiniteTimeSpan);
-            _maxIntervalDataCount = maxIntervalDataCount <= 2 ? 1000 : maxIntervalDataCount;
         }
         /// <summary>
         /// 处理
@@ -66,38 +64,31 @@ namespace Materal.Logger.LoggerHandlers
         /// 添加数据
         /// </summary>
         /// <param name="data"></param>
-        protected virtual void PushData(T data)
-        {
-            ClearTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
-            _messageBuffer.Post(data);
-            _intervalDataCount++;
-            ClearTimer.Change(TimeSpan.FromMilliseconds(_clearTimerInterval), Timeout.InfiniteTimeSpan);
-        }
+        protected virtual void PushData(T data) => _messageBuffer.Post(data);
         /// <summary>
         /// 清空定时器执行
         /// </summary>
         /// <param name="stateInfo"></param>
         public void ClearTimerElapsed(object? stateInfo)
         {
-            ClearTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+            _isClearTimerExecution = true;
             BatchBlock<T> oldBlock = _messageBuffer;
-            _upIntervalDataCount = _intervalDataCount <= 0 ? 0 : _intervalDataCount;
-            _upIntervalDataCount = _upIntervalDataCount > _maxIntervalDataCount ? _maxIntervalDataCount : _upIntervalDataCount;
-            _intervalDataCount = 0;
-            _messageBuffer = GetNewBatchBlock(_upIntervalDataCount);
+            _messageBuffer = GetNewBatchBlock();
             oldBlock.Complete();
             oldBlock.Completion.Wait();
-            ClearTimer.Change(TimeSpan.FromMilliseconds(_clearTimerInterval), Timeout.InfiniteTimeSpan);
+            _isClearTimerExecution = false;
+            if (!Logger.IsClose)
+            {
+                ClearTimer.Change(TimeSpan.FromMilliseconds(_clearTimerInterval), Timeout.InfiniteTimeSpan);
+            }
         }
         /// <summary>
         /// 获得一个新的数据块
         /// </summary>
-        /// <param name="blockCount"></param>
         /// <returns></returns>
-        private BatchBlock<T> GetNewBatchBlock(int blockCount)
+        private BatchBlock<T> GetNewBatchBlock()
         {
-            blockCount = blockCount <= 1 ? 2 : blockCount;
-            BatchBlock<T> result = new(blockCount);
+            BatchBlock<T> result = new(_blockCount);
             result.LinkTo(_handlerDataBuffer);
             return result;
         }
@@ -107,7 +98,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="datas"></param>
         protected void HandlerData(T[] datas) => HandlerOKData(datas.Where(m => m.IsOK).ToArray());
         /// <summary>
-        /// 保存数据
+        /// 处理合格的数据
         /// </summary>
         /// <param name="datas"></param>
         protected abstract void HandlerOKData(T[] datas);
@@ -117,7 +108,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <returns></returns>
         public override async Task ShutdownAsync()
         {
-            ClearTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+            while (_isClearTimerExecution) { }
             _messageBuffer.Complete();
             await _messageBuffer.Completion;
             _handlerDataBuffer.Complete();

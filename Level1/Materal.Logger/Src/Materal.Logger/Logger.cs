@@ -20,6 +20,10 @@ namespace Materal.Logger
         /// </summary>
         private LoggerScope? _loggerScope;
         /// <summary>
+        /// 日志已关闭
+        /// </summary>
+        public static bool IsClose { get; private set; } = false;
+        /// <summary>
         /// 日志处理数据流块
         /// </summary>
         private static readonly ActionBlock<LoggerHandlerModel> _actionBlock = new(HandlerLog);
@@ -121,10 +125,14 @@ namespace Materal.Logger
         /// </summary>
         public static async Task ShutdownAsync()
         {
+            IsClose = true;
+            if (_handlers is null) return;
             _actionBlock.Complete();
             await _actionBlock.Completion;
-            if (_handlers is null) return;
-            Parallel.ForEach(_handlers, handler => handler.ShutdownAsync());
+            foreach (ILoggerHandler handler in _handlers)
+            {
+                await handler.ShutdownAsync();
+            }
         }
     }
 }

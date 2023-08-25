@@ -5,7 +5,7 @@ namespace Materal.Logger.LoggerHandlers.Models
     /// <summary>
     /// 流日志处理器模型
     /// </summary>
-    public abstract class BufferLogerHandlerModel : LoggerHandlerModel
+    public abstract class BufferLoggerHandlerModel : LoggerHandlerModel
     {
         /// <summary>
         /// 是否可用
@@ -25,7 +25,7 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <param name="rule"></param>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        public BufferLogerHandlerModel(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model)
+        public BufferLoggerHandlerModel(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model)
         {
             model.CopyProperties(this);
             Rule = rule;

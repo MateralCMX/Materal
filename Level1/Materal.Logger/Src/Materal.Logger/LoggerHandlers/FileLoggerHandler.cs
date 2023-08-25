@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Materal.Logger.LoggerHandlers.Models;
+using Materal.Logger.Models;
 
 namespace Materal.Logger.LoggerHandlers
 {
@@ -9,7 +10,7 @@ namespace Materal.Logger.LoggerHandlers
     public class FileLoggerHandler : BufferLoggerHandler<FileLoggerHandlerModel>
     {
         /// <summary>
-        /// 处理数据
+        /// 处理合格的数据
         /// </summary>
         /// <param name="datas"></param>
         protected override void HandlerOKData(FileLoggerHandlerModel[] datas)
@@ -17,17 +18,24 @@ namespace Materal.Logger.LoggerHandlers
             IGrouping<string, FileLoggerHandlerModel>[] fileModels = datas.GroupBy(m => m.Path).ToArray();
             Parallel.ForEach(fileModels, item =>
             {
-                string[] fileContents = item.ToArray().Select(m =>
+                try
                 {
-                    var result = m.FileContent;
-                    if (result.EndsWith("\r\n"))
+                    string[] fileContents = item.ToArray().Select(m =>
                     {
-                        result = result[1..^2];
-                    }
-                    return result;
-                }).ToArray();
-                string fileContent = string.Join("\r\n", fileContents);
-                SaveFile(fileContent, item.Key);
+                        var result = m.FileContent;
+                        if (result.EndsWith("\r\n"))
+                        {
+                            result = result[1..^2];
+                        }
+                        return result;
+                    }).ToArray();
+                    string fileContent = string.Join("\r\n", fileContents);
+                    SaveFile(fileContent, item.Key);
+                }
+                catch (Exception exception)
+                {
+                    LoggerLog.LogError($"日志记录到文件[{item.Key}]失败：", exception);
+                }
             });
         }
         /// <summary>

@@ -24,13 +24,14 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 目标类型
         /// </summary>
-        protected virtual string TargetType {
+        protected virtual string TargetType
+        {
             get
             {
                 string name = GetType().Name;
                 if (!name.EndsWith(nameof(LoggerHandler))) return string.Empty;
                 return name[..^nameof(LoggerHandler).Length];
-            } 
+            }
         }
         /// <summary>
         /// 处理
@@ -47,7 +48,14 @@ namespace Materal.Logger.LoggerHandlers
                 {
                     LoggerTargetConfigModel? target = allTargets.FirstOrDefault(m => m.Name == targetName && m.Type == TargetType);
                     if (target is null) continue;
-                    Handler(rule, target, model);
+                    try
+                    {
+                        Handler(rule, target, model);
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggerLog.LogError("日志记录出错", ex);
+                    }
                 }
             }
         }

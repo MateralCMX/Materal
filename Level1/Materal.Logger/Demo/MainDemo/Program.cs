@@ -7,20 +7,22 @@ namespace MainDemo
 {
     public class Program
     {
-        public static void Main()
+        public static async Task Main()
         {
+            LoggerLog.MinLevel = LogLevel.Trace;
+            LoggerLog.MaxLevel = LogLevel.Critical;
             IConfiguration configuration = new ConfigurationBuilder()
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .AddJsonFile("MateralLogger.json", optional: true, reloadOnChange: true)
                         .Build();
             LoggerManager.Init(configuration);
+            LoggerManager.CustomConfig.Add("LogDBConnectionString", "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
+            LoggerManager.CustomConfig.Add("ApplicationName", "MainDemo");
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralLogger();
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             ILogger<Program> logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-            Console.WriteLine("初始化完毕，按任意键开始测试");
             Random random = new();
-            Console.ReadKey();
             for (int i = 1; i <= 10000; i++)
             {
                 LogLevel logLevel = random.Next(0, 6) switch
@@ -34,9 +36,10 @@ namespace MainDemo
                     _ => throw new NotImplementedException()
                 };
                 logger.Log(logLevel, $"Hello World!{i}");
+                //await Task.Delay(1000);
+                //logger.LogInformation( $"Hello World!{i}");
             }
             Console.WriteLine("输入完毕");
-            Console.ReadKey();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Materal.Logger
 {
@@ -123,9 +124,20 @@ namespace Materal.Logger
             {
                 result = _config.GetValue($"{_rootKey}:{name}");
             }
-            if (result is not null && !string.IsNullOrWhiteSpace(result)) return result;
-            if (defaultValue is null) return string.Empty;
-            return defaultValue(name);
+            if (result is null || string.IsNullOrWhiteSpace(result))
+            {
+                if (defaultValue is null) return string.Empty;
+                result = defaultValue(name);
+            }
+            foreach (KeyValuePair<string, string> item in CustomConfig)
+            {
+                result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);
+            }
+            foreach (KeyValuePair<string, string> item in CustomData)
+            {
+                result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);
+            }
+            return result;
         }
     }
 }

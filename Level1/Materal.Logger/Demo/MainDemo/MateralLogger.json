@@ -3,7 +3,7 @@
   //Format: DateTime,Date,Time,Year,Month,Day,Hour,Minute,Second,Level,Scope,Message,CategoryName,Exception,ProgressID,ThreadID,Application,MachineName
   //Path: Date,Year,Month,Day,Hour,Minute,Second,Level,Scope,CategoryName,Exception,ProgressID,ThreadID,Application,MachineName
   "MateralLogger": {
-    "Application": "MainDemo",
+    "Application": "${ApplicationName}",
     "LogLevel": {
       "Default": "Trace",
       "Materal0": "Debug",
@@ -34,6 +34,19 @@
         "Type": "File",
         "Path": "${RootPath}\\Logs\\${Date}\\${Level}.log",
         "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}|[${MachineName},${ProgressID},${ThreadID}]\r\n${Message}\r\n${Exception}"
+      },
+      {
+        "Enable": true,
+        "Name": "LocalDB",
+        "Type": "Sqlite",
+        "Path": "${RootPath}\\Logs\\MateralLogger.db",
+        "ConnectionString": "Data Source=${RootPath}\\Logs\\MateralLogger2.db"
+      },
+      {
+        "Enable": true,
+        "Name": "ServerDB",
+        "Type": "SqlServer",
+        "ConnectionString": "${LogDBConnectionString}"
       }
     ],
     "Rules": [
@@ -42,7 +55,10 @@
         "MinLevel": "Trace",
         "MaxLevel": "Critical",
         "Targets": [
-          "LevelFile"
+          //"LifeConsole",
+          //"LevelFile",
+          //"LocalDB",
+          "ServerDB"
         ],
         "LogLevel": {
           "Default": "Trace",

@@ -9,7 +9,8 @@
 	  <None Include="..\..\.editorconfig" Link=".editorconfig" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Src\Materal.Logger\Materal.Logger.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.Logger.SqliteLog\Materal.Logger.SqliteLog.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.Logger.SqlServerLog\Materal.Logger.SqlServerLog.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Update="appsettings.json">
