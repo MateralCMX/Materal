@@ -24,9 +24,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.SqlServerLog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.WebSocketLog", "Src\Materal.Logger.WebSocketLog\Materal.Logger.WebSocketLog.csproj", "{00EFD0BB-115F-4AE0-8712-EDCC1BACE3D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpLoggerServer", "Test\HttpLoggerServer\HttpLoggerServer.csproj", "{1815012F-C9CA-4E92-AABE-5E91BB6D2CE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpLoggerServer", "Test\HttpLoggerServer\HttpLoggerServer.csproj", "{1815012F-C9CA-4E92-AABE-5E91BB6D2CE6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MateralLoggerMonitorClient", "Src\MateralLoggerMonitorClient\MateralLoggerMonitorClient.csproj", "{CBDD06CE-1AE1-4260-903A-CB470C44299B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.AspNetCore", "Src\Materal.Logger.AspNetCore\Materal.Logger.AspNetCore.csproj", "{F41A9F29-419F-4098-9278-9DAE17DF064B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +64,10 @@ Global
 		{CBDD06CE-1AE1-4260-903A-CB470C44299B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBDD06CE-1AE1-4260-903A-CB470C44299B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBDD06CE-1AE1-4260-903A-CB470C44299B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F41A9F29-419F-4098-9278-9DAE17DF064B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F41A9F29-419F-4098-9278-9DAE17DF064B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F41A9F29-419F-4098-9278-9DAE17DF064B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F41A9F29-419F-4098-9278-9DAE17DF064B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{00EFD0BB-115F-4AE0-8712-EDCC1BACE3D8} = {D50FB148-416F-44CA-A048-615560E26524}
 		{1815012F-C9CA-4E92-AABE-5E91BB6D2CE6} = {AED144EE-59F4-498C-A127-566AA44DD8A9}
 		{CBDD06CE-1AE1-4260-903A-CB470C44299B} = {D50FB148-416F-44CA-A048-615560E26524}
+		{F41A9F29-419F-4098-9278-9DAE17DF064B} = {D50FB148-416F-44CA-A048-615560E26524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BDC3165-1789-4856-909F-812A91617D4C}
