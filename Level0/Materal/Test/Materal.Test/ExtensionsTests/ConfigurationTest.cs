@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Materal.Test.TestData;
+using Microsoft.Extensions.Configuration;
 
 namespace Materal.Test.ExtensionsTests
 {
@@ -19,6 +20,8 @@ namespace Materal.Test.ExtensionsTests
             Assert.AreEqual("Materal", value);
             value = _configuration.GetValueObject<int>("IntValue");
             Assert.AreEqual(123, value);
+            value = _configuration.GetValueObject<TestEnum>("EnumValue");
+            Assert.AreEqual(TestEnum.Enum2, value);
         }
     }
 }

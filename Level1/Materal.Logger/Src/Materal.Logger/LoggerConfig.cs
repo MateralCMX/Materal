@@ -32,29 +32,17 @@ namespace Materal.Logger
         /// </summary>
         public static string Application => GetValue(nameof(Application), Assembly.GetEntryAssembly().GetName().Name);
         /// <summary>
+        /// 模式
+        /// </summary>
+        public static LoggerModeEnum Mode => GetValueObject(nameof(Mode), LoggerModeEnum.Strict);
+        /// <summary>
         /// 缓冲推入间隔(ms)
         /// </summary>
-        public static int BufferPushInterval
-        {
-            get
-            {
-                int result = GetValueObject(nameof(BufferPushInterval), 1000);
-                if (result <= 500) return 1000;
-                return result;
-            }
-        }
+        public static int BufferPushInterval => GetValueObject(nameof(BufferPushInterval), 1000, value => value >= 500);
         /// <summary>
         /// 缓冲区数量
         /// </summary>
-        public static int BufferCount
-        {
-            get
-            {
-                int result = GetValueObject(nameof(BufferCount), 2000);
-                if (result <= 2) return 2000;
-                return result;
-            }
-        }
+        public static int BufferCount => GetValueObject(nameof(BufferCount), 2000, value => value > 2);
         /// <summary>
         /// 默认日志等级组
         /// </summary>
@@ -102,23 +90,25 @@ namespace Materal.Logger
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <param name="defaultValue"></param>
+        /// <param name="validation"></param>
         /// <returns></returns>
-        public static T GetValueObject<T>(string name, T? defaultValue = default)
+        public static T GetValueObject<T>(string name, T? defaultValue = default, Func<T, bool>? validation = null)
             where T : new()
         {
-            if (defaultValue is null) return GetValueObject(name, (m) => new T());
-            return GetValueObject(name, (m) => defaultValue);
+            if (defaultValue is null) return GetValueObject(name, (m) => new T(), validation);
+            return GetValueObject(name, (m) => defaultValue, validation);
         }
         /// <summary>
         /// 获取配置值
         /// </summary>
         /// <param name="name"></param>
         /// <param name="defaultValue"></param>
+        /// <param name="validation"></param>
         /// <returns></returns>
-        public static string GetValue(string name, string? defaultValue = null)
+        public static string GetValue(string name, string? defaultValue = null, Func<string, bool>? validation = null)
         {
-            if (defaultValue is null) return GetValue(name, (m) => string.Empty);
-            return GetValue(name, (m) => defaultValue);
+            if (defaultValue is null) return GetValue(name, (m) => string.Empty, validation);
+            return GetValue(name, (m) => defaultValue, validation);
         }
         /// <summary>
         /// 获取配置项
@@ -126,8 +116,9 @@ namespace Materal.Logger
         /// <typeparam name="T"></typeparam>
         /// <param name="name"></param>
         /// <param name="defaultValue"></param>
+        /// <param name="validation"></param>
         /// <returns></returns>
-        public static T GetValueObject<T>(string name, Func<string, T>? defaultValue)
+        public static T GetValueObject<T>(string name, Func<string, T>? defaultValue, Func<T, bool>? validation = null)
             where T : new()
         {
             T? result = default;
@@ -135,7 +126,17 @@ namespace Materal.Logger
             {
                 result = _config.GetValueObject<T>($"{_rootKey}:{name}");
             }
-            if (result is not null && !result.Equals(default(T))) return result;
+            if (result is not null)
+            {
+                if(validation is null)
+                {
+                    return result;
+                }
+                else if(validation(result))
+                {
+                    return result;
+                }
+            }
             if (defaultValue is null) return new T();
             return defaultValue(name);
         }
@@ -144,13 +145,18 @@ namespace Materal.Logger
         /// </summary>
         /// <param name="name"></param>
         /// <param name="defaultValue"></param>
+        /// <param name="validation"></param>
         /// <returns></returns>
-        public static string GetValue(string name, Func<string, string>? defaultValue)
+        public static string GetValue(string name, Func<string, string>? defaultValue, Func<string, bool>? validation = null)
         {
             string? result = null;
             if (_config != null)
             {
                 result = _config.GetValue($"{_rootKey}:{name}");
+            }
+            if(result is not null && validation is not null && !validation(result))
+            {
+                result = null;
             }
             if (result is null || string.IsNullOrWhiteSpace(result))
             {

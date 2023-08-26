@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -7,7 +7,7 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.48</Version>
+		<Version>1.1.49</Version>
 		<Company>Materal</Company>
 		<Product>Materal日志模块</Product>
 		<Authors>Materal</Authors>
@@ -22,7 +22,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.48" />
+		<PackageReference Include="Materal.Utils" Version="1.1.49" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="*" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="*" />
 	</ItemGroup>

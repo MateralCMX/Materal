@@ -24,13 +24,21 @@ namespace Microsoft.Extensions.Configuration
             {
                 result = (T?)value.ConvertTo(tType);
             }
+            else if (tType.IsEnum)
+            {
+                result = (T?)Enum.Parse(tType, value);
+            }
             else if (tType.GetCustomAttribute<SerializableAttribute>() != null)
             {
                 result = value.JsonToDeserializeObject<T>();
             }
-            else
+            else if(value.IsJson())
             {
                 result = value.JsonToObject<T>();
+            }
+            else
+            {
+                result = default;
             }
             return result;
         }

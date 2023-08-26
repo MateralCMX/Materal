@@ -8,8 +8,8 @@
     ".NETCoreApp,Version=v6.0": {
       "MateralBasePlugBuild/1.0.0": {
         "dependencies": {
-          "Materal.BaseCore.CodeGenerator": "1.1.48",
-          "Microsoft.CodeAnalysis.CSharp": "4.6.0",
+          "Materal.BaseCore.CodeGenerator": "1.1.49",
+          "Microsoft.CodeAnalysis.CSharp": "4.7.0",
           "System.Collections.Immutable": "7.0.0"
         },
         "runtime": {
@@ -24,7 +24,7 @@
           }
         }
       },
-      "Materal.Abstractions/1.1.48": {
+      "Materal.Abstractions/1.1.49": {
         "dependencies": {
           "IndexRange": "1.0.2",
           "Microsoft.Extensions.Configuration": "7.0.0",
@@ -32,14 +32,14 @@
         },
         "runtime": {
           "lib/netstandard2.0/Materal.Abstractions.dll": {
-            "assemblyVersion": "1.1.48.0",
-            "fileVersion": "1.1.48.0"
+            "assemblyVersion": "1.1.49.0",
+            "fileVersion": "1.1.49.0"
           }
         }
       },
-      "Materal.Extensions/1.1.48": {
+      "Materal.Extensions/1.1.49": {
         "dependencies": {
-          "Materal.Abstractions": "1.1.48",
+          "Materal.Abstractions": "1.1.49",
           "Microsoft.Extensions.Configuration.Json": "7.0.0",
           "Microsoft.Extensions.Options.DataAnnotations": "7.0.0",
           "Newtonsoft.Json": "13.0.3",
@@ -47,35 +47,34 @@
         },
         "runtime": {
           "lib/netstandard2.0/Materal.Extensions.dll": {
-            "assemblyVersion": "1.1.48.0",
-            "fileVersion": "1.1.48.0"
+            "assemblyVersion": "1.1.49.0",
+            "fileVersion": "1.1.49.0"
           }
         }
       },
       "Microsoft.CodeAnalysis.Analyzers/3.3.4": {},
-      "Microsoft.CodeAnalysis.Common/4.6.0": {
+      "Microsoft.CodeAnalysis.Common/4.7.0": {
         "dependencies": {
           "Microsoft.CodeAnalysis.Analyzers": "3.3.4",
           "System.Collections.Immutable": "7.0.0",
           "System.Reflection.Metadata": "7.0.0",
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
-          "System.Text.Encoding.CodePages": "7.0.0"
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         },
         "runtime": {
           "lib/net6.0/Microsoft.CodeAnalysis.dll": {
-            "assemblyVersion": "4.6.0.0",
-            "fileVersion": "4.600.23.25908"
+            "assemblyVersion": "4.7.0.0",
+            "fileVersion": "4.700.23.41609"
           }
         }
       },
-      "Microsoft.CodeAnalysis.CSharp/4.6.0": {
+      "Microsoft.CodeAnalysis.CSharp/4.7.0": {
         "dependencies": {
-          "Microsoft.CodeAnalysis.Common": "4.6.0"
+          "Microsoft.CodeAnalysis.Common": "4.7.0"
         },
         "runtime": {
           "lib/net6.0/Microsoft.CodeAnalysis.CSharp.dll": {
-            "assemblyVersion": "4.6.0.0",
-            "fileVersion": "4.600.23.25908"
+            "assemblyVersion": "4.7.0.0",
+            "fileVersion": "4.700.23.41609"
           }
         }
       },
@@ -285,25 +284,6 @@
         }
       },
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
-      "System.Text.Encoding.CodePages/7.0.0": {
-        "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
-        },
-        "runtime": {
-          "lib/net6.0/System.Text.Encoding.CodePages.dll": {
-            "assemblyVersion": "7.0.0.0",
-            "fileVersion": "7.0.22.51805"
-          }
-        },
-        "runtimeTargets": {
-          "runtimes/win/lib/net6.0/System.Text.Encoding.CodePages.dll": {
-            "rid": "win",
-            "assetType": "runtime",
-            "assemblyVersion": "7.0.0.0",
-            "fileVersion": "7.0.22.51805"
-          }
-        }
-      },
       "System.Text.Encodings.Web/7.0.0": {
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
@@ -335,9 +315,9 @@
           }
         }
       },
-      "Materal.BaseCore.CodeGenerator/1.1.48": {
+      "Materal.BaseCore.CodeGenerator/1.1.49": {
         "dependencies": {
-          "Materal.Extensions": "1.1.48",
+          "Materal.Extensions": "1.1.49",
           "System.ComponentModel.Annotations": "5.0.0"
         },
         "runtime": {
@@ -359,19 +339,19 @@
       "path": "indexrange/1.0.2",
       "hashPath": "indexrange.1.0.2.nupkg.sha512"
     },
-    "Materal.Abstractions/1.1.48": {
+    "Materal.Abstractions/1.1.49": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-TTeXIau5B8q3Ls1EtMT9sjPtv4zFAqkMk2jU532FyuG4aP3890dEvnXEuKdHW1owpBQwpCVdsCKQy0/f+dvOcw==",
-      "path": "materal.abstractions/1.1.48",
-      "hashPath": "materal.abstractions.1.1.48.nupkg.sha512"
+      "sha512": "sha512-GPbcC/xoz8UzygQmTJJNDGbD/ubtJH/EQ5MQUhxZwPDj3XBUYNMUOcOHsdYUy5na3lpTwd2wSAt7OrcGvVfHBw==",
+      "path": "materal.abstractions/1.1.49",
+      "hashPath": "materal.abstractions.1.1.49.nupkg.sha512"
     },
-    "Materal.Extensions/1.1.48": {
+    "Materal.Extensions/1.1.49": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-n6W3DfWx2tR+0aZjof0OgaQ0vMjHM6IabqLXmdGoJgkma1Tl8m/94tFf8Y7haAwleYper3ngvLkrwtwdbD/3Ow==",
-      "path": "materal.extensions/1.1.48",
-      "hashPath": "materal.extensions.1.1.48.nupkg.sha512"
+      "sha512": "sha512-+ZQgJzPQQOMHQLVS3/fXiRuwWQJ3qx+AiaPhFo2hZDKOI3J3eBhVKBjQiujC1mxjoYHfhvj81v01kZqaPYf3lg==",
+      "path": "materal.extensions/1.1.49",
+      "hashPath": "materal.extensions.1.1.49.nupkg.sha512"
     },
     "Microsoft.CodeAnalysis.Analyzers/3.3.4": {
       "type": "package",
@@ -380,19 +360,19 @@
       "path": "microsoft.codeanalysis.analyzers/3.3.4",
       "hashPath": "microsoft.codeanalysis.analyzers.3.3.4.nupkg.sha512"
     },
-    "Microsoft.CodeAnalysis.Common/4.6.0": {
+    "Microsoft.CodeAnalysis.Common/4.7.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-N3uLvekc7DjvE1BX8YW7UH7ldjA4ps/Tun2YmOoSIItJrh1gnQIMKUbK1c3uQUx2NHbLibVZI4o/VB9xb4B7tA==",
-      "path": "microsoft.codeanalysis.common/4.6.0",
-      "hashPath": "microsoft.codeanalysis.common.4.6.0.nupkg.sha512"
+      "sha512": "sha512-pD5S14xMUebSGYe75kt0q/aaS/ftvktSo/pEv7aX7hNPHfdZS+SZeXvkvcffGxWkunYOyRF9m1oN7zzSdYj9dQ==",
+      "path": "microsoft.codeanalysis.common/4.7.0",
+      "hashPath": "microsoft.codeanalysis.common.4.7.0.nupkg.sha512"
     },
-    "Microsoft.CodeAnalysis.CSharp/4.6.0": {
+    "Microsoft.CodeAnalysis.CSharp/4.7.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-9pyFZUN2Lyu3C0Xfs49kezfH+CzQHMibGsQeQPu0P+GWyH2XXDwmyZ6jAaKQGNUXOJfC2OK01hWMJTJY315uDQ==",
-      "path": "microsoft.codeanalysis.csharp/4.6.0",
-      "hashPath": "microsoft.codeanalysis.csharp.4.6.0.nupkg.sha512"
+      "sha512": "sha512-JHCP2L6lB0oJ3tQoHkC67SFZxW+KbJVOnAo+6L01K5r/NlBlSUhTk5nUAldWhTVwGdzqNeHqGtnEqpsCmGSwQA==",
+      "path": "microsoft.codeanalysis.csharp/4.7.0",
+      "hashPath": "microsoft.codeanalysis.csharp.4.7.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/7.0.0": {
       "type": "package",
@@ -527,13 +507,6 @@
       "path": "system.runtime.compilerservices.unsafe/6.0.0",
       "hashPath": "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
     },
-    "System.Text.Encoding.CodePages/7.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-LSyCblMpvOe0N3E+8e0skHcrIhgV2huaNcjUUEa8hRtgEAm36aGkRoC8Jxlb6Ra6GSfF29ftduPNywin8XolzQ==",
-      "path": "system.text.encoding.codepages/7.0.0",
-      "hashPath": "system.text.encoding.codepages.7.0.0.nupkg.sha512"
-    },
     "System.Text.Encodings.Web/7.0.0": {
       "type": "package",
       "serviceable": true,
@@ -548,7 +521,7 @@
       "path": "system.text.json/7.0.0",
       "hashPath": "system.text.json.7.0.0.nupkg.sha512"
     },
-    "Materal.BaseCore.CodeGenerator/1.1.48": {
+    "Materal.BaseCore.CodeGenerator/1.1.49": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

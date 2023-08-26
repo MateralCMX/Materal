@@ -1,5 +1,6 @@
 ﻿using Materal.Logger.LoggerHandlers;
 using Materal.Logger.LoggerHandlers.Models;
+using Materal.Logger.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks.Dataflow;
@@ -126,6 +127,7 @@ namespace Materal.Logger
         public static async Task ShutdownAsync()
         {
             IsClose = true;
+            if (LoggerConfig.Mode == LoggerModeEnum.Normal) return;
             if (_handlers is null) return;
             _actionBlock.Complete();
             await _actionBlock.Completion;

@@ -4,6 +4,7 @@
   //Path: Date,Year,Month,Day,Hour,Minute,Second,Level,Scope,CategoryName,Exception,ProgressID,ThreadID,Application,MachineName
   "MateralLogger": {
     "Application": "${ApplicationName}",
+    "Mode": "Strict", //Normal,Strict
     "LogLogLevel": {
       "MinLevel": "Trace",
       "MaxLevel": "Critical"
@@ -76,9 +77,9 @@
         "MinLevel": "Trace",
         "MaxLevel": "Critical",
         "Targets": [
-          //"LifeConsole",
+          "LifeConsole"
           //"LevelFile",
-          "HttpLog"
+          //"HttpLog"
           //"LocalDB",
           //"ServerDB"
           //"LocalWebSocket"
