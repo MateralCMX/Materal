@@ -12,6 +12,8 @@ namespace Materal.Logger.LoggerHandlers
     {
         private static readonly Dictionary<string, WebSocketServer> _webSocketServers = new();
         private static readonly Dictionary<string, List<IWebSocketConnection>> _webSocketConnections = new();
+        private static Timer _verifyWebSocketServerTimer = new(VerifyWebSocketServerTimerElapsed);
+        private const int VerifyWebSocketServerInterval = 5000;
         /// <summary>
         /// 静态构造方法
         /// </summary>
@@ -24,6 +26,7 @@ namespace Materal.Logger.LoggerHandlers
                 WebSocketServer? webSocketServer = GetWebSocketServer(target);
                 if (webSocketServer is null) return;
             }
+            _verifyWebSocketServerTimer.Change(TimeSpan.FromMilliseconds(VerifyWebSocketServerInterval), Timeout.InfiniteTimeSpan);
         }
         /// <summary>
         /// 处理
@@ -63,6 +66,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <returns></returns>
         private static WebSocketServer? GetWebSocketServer(LoggerTargetConfigModel target)
         {
+            if (!target.Enable) return null;
             if (target.Port is null) return null;
             WebSocketServer result;
             if (_webSocketServers.ContainsKey(target.Name))
@@ -140,6 +144,43 @@ namespace Materal.Logger.LoggerHandlers
                 case LogLevel.Error:
                     LoggerLog.LogError(logMessage, ex);
                     break;
+            }
+        }
+        /// <summary>
+        /// 清空定时器执行
+        /// </summary>
+        /// <param name="stateInfo"></param>
+        public static void VerifyWebSocketServerTimerElapsed(object? stateInfo)
+        {
+            LoggerTargetConfigModel[] targets = AllTargets.Where(m => m.Enable && m.Type == "WebSocket").ToArray();
+            #region 关闭禁用或不存在的服务
+            string[] enableTargetNames = targets.Select(m => m.Name).ToArray();
+            string[] allKeys = _webSocketServers.Keys.ToArray();
+            foreach (string key in allKeys)
+            {
+                if (enableTargetNames.Contains(key)) continue;
+                if (!_webSocketServers.ContainsKey(key)) continue;
+                if (_webSocketConnections.ContainsKey(key))
+                {
+                    foreach (IWebSocketConnection connection in _webSocketConnections[key])
+                    {
+                        if (!connection.IsAvailable) continue;
+                        connection.Close();
+                    }
+                    _webSocketConnections.Remove(key);
+                }
+                _webSocketServers[key].Dispose();
+                _webSocketServers.Remove(key);
+            }
+            #endregion
+            foreach (LoggerTargetConfigModel target in targets)
+            {
+                WebSocketServer? webSocketServer = GetWebSocketServer(target);
+                if (webSocketServer is null) return;
+            }
+            if (!Logger.IsClose)
+            {
+                _verifyWebSocketServerTimer.Change(TimeSpan.FromMilliseconds(VerifyWebSocketServerInterval), Timeout.InfiniteTimeSpan);
             }
         }
     }

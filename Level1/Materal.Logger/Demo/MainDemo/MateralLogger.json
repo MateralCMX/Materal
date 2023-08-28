@@ -6,55 +6,55 @@
     "Application": "${ApplicationName}",
     "Mode": "Strict", //Normal,Strict
     "LogLogLevel": {
-      "MinLevel": "Warning",
+      "MinLevel": "Trace",
       "MaxLevel": "Critical"
     },
     "LogLevel": {
       "Default": "Trace"
     },
     "Targets": [
-      //{
-      //  "Enable": true,
-      //  "Name": "LifeConsole",
-      //  "Type": "Console",
-      //  "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}|[${MachineName},${ProgressID},${ThreadID}]\r\n${Message}\r\n${Exception}",
-      //  "Colors": {
-      //    "Trace": "DarkGray",
-      //    "Debug": "DarkGreen",
-      //    "Information": "Gray",
-      //    "Warning": "DarkYellow",
-      //    "Error": "DarkRed",
-      //    "Critical": "Red"
-      //  }
-      //},
-      //{
-      //  "Enable": true,
-      //  "Name": "LevelFile",
-      //  "Type": "File",
-      //  "Path": "${RootPath}\\Logs\\${Date}\\${Level}.log",
-      //  "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}|[${MachineName},${ProgressID},${ThreadID}]\r\n${Message}\r\n${Exception}"
-      //},
-      //{
-      //  "Enable": true,
-      //  "Name": "HttpLog",
-      //  "Type": "Http",
-      //  "Url": "http://localhost:5000/api/Log/WriteLog",
-      //  "HttpMethod": "POST",
-      //  "Format": "{\"CreateTime\":\"${DateTime}\",\"Application\":\"${Application}\",\"Level\":\"${Level}\",\"Scope\":\"${Scope}\",\"CategoryName\":\"${CategoryName}\",\"MachineName\":\"${MachineName}\",\"ProgressID\":\"${ProgressID}\",\"ThreadID\":\"${ThreadID}\",\"Message\":\"${Message}\",\"Exception\":\"${Exception}\"}"
-      //},
-      //{
-      //  "Enable": true,
-      //  "Name": "LocalDB",
-      //  "Type": "Sqlite",
-      //  "Path": "${RootPath}\\Logs\\MateralLogger.db"
-      //  //"ConnectionString": "Data Source=${RootPath}\\Logs\\MateralLogger.db"
-      //},
-      //{
-      //  "Enable": true,
-      //  "Name": "ServerDB",
-      //  "Type": "SqlServer",
-      //  "ConnectionString": "${LogDBConnectionString}"
-      //},
+      {
+        "Enable": true,
+        "Name": "LifeConsole",
+        "Type": "Console",
+        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}|[${MachineName},${ProgressID},${ThreadID}]\r\n${Message}\r\n${Exception}",
+        "Colors": {
+          "Trace": "DarkGray",
+          "Debug": "DarkGreen",
+          "Information": "Gray",
+          "Warning": "DarkYellow",
+          "Error": "DarkRed",
+          "Critical": "Red"
+        }
+      },
+      {
+        "Enable": true,
+        "Name": "LevelFile",
+        "Type": "File",
+        "Path": "${RootPath}\\Logs\\${Date}\\${Level}.log",
+        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}|[${MachineName},${ProgressID},${ThreadID}]\r\n${Message}\r\n${Exception}"
+      },
+      {
+        "Enable": true,
+        "Name": "HttpLog",
+        "Type": "Http",
+        "Url": "http://localhost:5000/api/Log/WriteLog",
+        "HttpMethod": "POST",
+        "Format": "{\"CreateTime\":\"${DateTime}\",\"Application\":\"${Application}\",\"Level\":\"${Level}\",\"Scope\":\"${Scope}\",\"CategoryName\":\"${CategoryName}\",\"MachineName\":\"${MachineName}\",\"ProgressID\":\"${ProgressID}\",\"ThreadID\":\"${ThreadID}\",\"Message\":\"${Message}\",\"Exception\":\"${Exception}\"}"
+      },
+      {
+        "Enable": true,
+        "Name": "LocalDB",
+        "Type": "Sqlite",
+        "Path": "${RootPath}\\Logs\\MateralLogger.db"
+        //"ConnectionString": "Data Source=${RootPath}\\Logs\\MateralLogger.db"
+      },
+      {
+        "Enable": true,
+        "Name": "ServerDB",
+        "Type": "SqlServer",
+        "ConnectionString": "${LogDBConnectionString}"
+      }
       //{
       //  "Enable": true,
       //  "Name": "LocalWebSocket",
@@ -72,19 +72,19 @@
       //}
     ],
     "Rules": [
-      //{
-      //  "Enable": true,
-      //  "MinLevel": "Trace",
-      //  "MaxLevel": "Critical",
-      //  "Targets": [
-      //    "LifeConsole"
-      //    //"LevelFile",
-      //    //"HttpLog"
-      //    //"LocalDB",
-      //    //"ServerDB"
-      //    //"LocalWebSocket"
-      //  ]
-      //}
+      {
+        "Enable": true,
+        "MinLevel": "Trace",
+        "MaxLevel": "Critical",
+        "Targets": [
+          "LifeConsole"
+          //"LevelFile",
+          //"HttpLog"
+          //"LocalDB",
+          //"ServerDB"
+          //"LocalWebSocket"
+        ]
+      }
     ]
   }
 }
