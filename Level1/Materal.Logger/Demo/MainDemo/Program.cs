@@ -10,7 +10,6 @@ namespace MainDemo
         public static void Main()
         {
             IConfiguration configuration = new ConfigurationBuilder()
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .AddJsonFile("MateralLogger.json", optional: true, reloadOnChange: true)
                         .Build();
             IServiceCollection serviceCollection = new ServiceCollection();
