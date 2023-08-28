@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace MateralLoggerMonitorClient.Models
+namespace Materal.Logger.WebSocketClient.Models
 {
     /// <summary>
     /// 日志消息模型

@@ -17,8 +17,8 @@ namespace MainDemo
             serviceCollection.AddMateralLogger(configuration, options =>
             {
                 options.AddCustomConfig("LogDBConnectionString", "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
-                options.AddCustomConfig("ApplicationName", "MainDemo");
-                const string textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}|[${MachineName},${ProgressID},${ThreadID}]\r\n${Message}\r\n${Exception}";
+                options.AddCustomConfig("ApplicationName", "MainDemo666");
+                const string textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}";
                 Dictionary<LogLevel, ConsoleColor> colors = new() { [LogLevel.Debug] = ConsoleColor.Blue };
                 options.AddConsoleTarget("LifeConsole", textFormat, colors);
                 //options.AddFileTarget("LevelFile", "${RootPath}\\Logs\\${Date}\\${Level}.log", textFormat);
@@ -26,7 +26,7 @@ namespace MainDemo
                 //options.AddSqliteTargetFromPath("LocalDB", "${RootPath}\\Logs\\MateralLogger.db");
                 //options.AddSqliteTargetFromConnectionString("LocalDB", "Data Source=${RootPath}\\Logs\\MateralLogger.db");
                 //options.AddSqlServerTarget("ServerDB", "${LogDBConnectionString}");
-                //options.AddWebSocketTarget("LocalWebSocket", 5002, textFormat, colors);
+                options.AddWebSocketTarget("LocalWebSocket", 5002, textFormat, colors);
                 options.AddAllTargetRule();
             });
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();

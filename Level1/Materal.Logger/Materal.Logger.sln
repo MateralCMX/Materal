@@ -26,7 +26,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.WebSocketLog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpLoggerServer", "Test\HttpLoggerServer\HttpLoggerServer.csproj", "{1815012F-C9CA-4E92-AABE-5E91BB6D2CE6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MateralLoggerMonitorClient", "Src\MateralLoggerMonitorClient\MateralLoggerMonitorClient.csproj", "{CBDD06CE-1AE1-4260-903A-CB470C44299B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.WebSocketClient", "Src\Materal.Logger.WebSocketClient\Materal.Logger.WebSocketClient.csproj", "{0EFD6BB7-7DB6-40BB-8F9C-524A3FD6EB51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,10 +58,10 @@ Global
 		{1815012F-C9CA-4E92-AABE-5E91BB6D2CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1815012F-C9CA-4E92-AABE-5E91BB6D2CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1815012F-C9CA-4E92-AABE-5E91BB6D2CE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CBDD06CE-1AE1-4260-903A-CB470C44299B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CBDD06CE-1AE1-4260-903A-CB470C44299B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CBDD06CE-1AE1-4260-903A-CB470C44299B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CBDD06CE-1AE1-4260-903A-CB470C44299B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EFD6BB7-7DB6-40BB-8F9C-524A3FD6EB51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EFD6BB7-7DB6-40BB-8F9C-524A3FD6EB51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EFD6BB7-7DB6-40BB-8F9C-524A3FD6EB51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EFD6BB7-7DB6-40BB-8F9C-524A3FD6EB51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,7 +73,7 @@ Global
 		{F9B1F8E2-CAA9-4136-BCC2-1F2F607E93D5} = {D50FB148-416F-44CA-A048-615560E26524}
 		{00EFD0BB-115F-4AE0-8712-EDCC1BACE3D8} = {D50FB148-416F-44CA-A048-615560E26524}
 		{1815012F-C9CA-4E92-AABE-5E91BB6D2CE6} = {AED144EE-59F4-498C-A127-566AA44DD8A9}
-		{CBDD06CE-1AE1-4260-903A-CB470C44299B} = {D50FB148-416F-44CA-A048-615560E26524}
+		{0EFD6BB7-7DB6-40BB-8F9C-524A3FD6EB51} = {D50FB148-416F-44CA-A048-615560E26524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BDC3165-1789-4856-909F-812A91617D4C}

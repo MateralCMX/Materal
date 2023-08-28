@@ -6,7 +6,7 @@
     "Application": "${ApplicationName}",
     "Mode": "Strict", //Normal,Strict
     "LogLogLevel": {
-      "MinLevel": "Trace",
+      "MinLevel": "Warning",
       "MaxLevel": "Critical"
     },
     "LogLevel": {
