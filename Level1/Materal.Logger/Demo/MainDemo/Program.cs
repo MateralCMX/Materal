@@ -13,37 +13,21 @@ namespace MainDemo
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .AddJsonFile("MateralLogger.json", optional: true, reloadOnChange: true)
                         .Build();
-            LoggerManager.Init(configuration);
-            LoggerManager.CustomConfig.Add("LogDBConnectionString", "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
-            LoggerManager.CustomConfig.Add("ApplicationName", "MainDemo");
             IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddMateralLogger();
+            serviceCollection.AddMateralLogger(configuration, options =>
+            {
+                options.AddCustomConfig("LogDBConnectionString", "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
+                options.AddCustomConfig("ApplicationName", "MainDemo");
+                options.AddConsoleTarget("TestConsole");
+                options.AddRule("TestConsole");
+            });
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             ILogger<Program> logger = serviceProvider.GetRequiredService<ILogger<Program>>();
             Random random = new();
             Console.WriteLine("按任意键开始测试");
             Console.ReadKey();
-            for (int i = 1; i <= 10000; i++)
-            {
-                LogLevel logLevel = random.Next(0, 6) switch
-                {
-                    0 => LogLevel.Trace,
-                    1 => LogLevel.Debug,
-                    2 => LogLevel.Information,
-                    3 => LogLevel.Warning,
-                    4 => LogLevel.Error,
-                    5 => LogLevel.Critical,
-                    _ => throw new NotImplementedException()
-                };
-                logger.Log(logLevel, $"Hello World!{i}");
-                //await Task.Delay(1000);
-                //logger.LogTrace( $"Hello World!{i}");
-            }
-            Console.WriteLine("输入完毕");
-            //while (true)
+            //for (int i = 1; i <= 10000; i++)
             //{
-            //    //logger.LogTrace($"Hello World!");
-            //    //logger.LogDebug($"Hello World!");
             //    LogLevel logLevel = random.Next(0, 6) switch
             //    {
             //        0 => LogLevel.Trace,
@@ -54,13 +38,32 @@ namespace MainDemo
             //        5 => LogLevel.Critical,
             //        _ => throw new NotImplementedException()
             //    };
-            //    logger.Log(logLevel, $"Hello World!");
-            //    //logger.LogInformation($"Hello World!");
-            //    //logger.LogWarning($"Hello World!");
-            //    //logger.LogError($"Hello World!");
-            //    //logger.LogCritical($"Hello World!");
-            //    Console.ReadKey();
+            //    logger.Log(logLevel, $"Hello World!{i}");
+            //    //await Task.Delay(1000);
+            //    //logger.LogTrace( $"Hello World!{i}");
             //}
+            //Console.WriteLine("输入完毕");
+            while (true)
+            {
+                //logger.LogTrace($"Hello World!");
+                //logger.LogDebug($"Hello World!");
+                LogLevel logLevel = random.Next(0, 6) switch
+                {
+                    0 => LogLevel.Trace,
+                    1 => LogLevel.Debug,
+                    2 => LogLevel.Information,
+                    3 => LogLevel.Warning,
+                    4 => LogLevel.Error,
+                    5 => LogLevel.Critical,
+                    _ => throw new NotImplementedException()
+                };
+                logger.Log(logLevel, $"Hello World!");
+                //logger.LogInformation($"Hello World!");
+                //logger.LogWarning($"Hello World!");
+                //logger.LogError($"Hello World!");
+                //logger.LogCritical($"Hello World!");
+                Console.ReadKey();
+            }
         }
     }
 }

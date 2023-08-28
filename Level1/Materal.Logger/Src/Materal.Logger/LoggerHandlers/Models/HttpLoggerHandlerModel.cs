@@ -1,9 +1,11 @@
 ﻿using Materal.Logger.Models;
 using System.Text.RegularExpressions;
-using System;
 
 namespace Materal.Logger.LoggerHandlers.Models
 {
+    /// <summary>
+    /// Http日志处理器模型
+    /// </summary>
     public class HttpLoggerHandlerModel : BufferLoggerHandlerModel
     {
         /// <summary>

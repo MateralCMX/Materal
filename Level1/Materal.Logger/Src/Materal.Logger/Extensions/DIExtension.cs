@@ -1,5 +1,6 @@
 ﻿using Materal.Logger.LoggerHandlers;
 using Materal.Utils;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -16,8 +17,10 @@ namespace Materal.Logger
         /// 添加日志服务
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="options"></param>
+        /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services)
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfigOptions>? options = null, IConfiguration? configuration = null)
         {
             services.AddMateralUtils();
             services.AddLogging(builder =>
@@ -39,7 +42,33 @@ namespace Materal.Logger
                     services.AddSingleton(loggerHandlerType, type);
                 }
             }
+            LoggerConfig.Init(options, configuration);
             return services;
         }
+        /// <summary>
+        /// 添加日志服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="options"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration configuration, Action<LoggerConfigOptions> options) 
+            => AddMateralLogger(services, options, configuration);
+        /// <summary>
+        /// 添加日志服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration configuration)
+            => AddMateralLogger(services, null, configuration);
+        /// <summary>
+        /// 添加日志服务
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfigOptions> options)
+            => AddMateralLogger(services, options, null);
     }
 }

@@ -15,6 +15,7 @@ namespace Materal.Logger
         /// 本地配置项
         /// </summary>
         private static IConfiguration? _config;
+        private static readonly LoggerConfigOptions _options = new();
         /// <summary>
         /// 根键
         /// </summary>
@@ -22,10 +23,12 @@ namespace Materal.Logger
         /// <summary>
         /// 初始化
         /// </summary>
+        /// <param name="options"></param>
         /// <param name="configuration"></param>
-        public static void Init(IConfiguration? configuration)
+        public static void Init(Action<LoggerConfigOptions>? options, IConfiguration? configuration)
         {
             _config = configuration;
+            options?.Invoke(_options);
         }
         /// <summary>
         /// 应用程序名称
@@ -55,21 +58,51 @@ namespace Materal.Logger
         /// <summary>
         /// 目标配置
         /// </summary>
-        public static List<LoggerTargetConfigModel> Targets => GetValueObject(nameof(Targets), name => new List<LoggerTargetConfigModel>() { new LoggerTargetConfigModel() { Name = "DefaultConsole" } });
+        public static List<LoggerTargetConfigModel> Targets
+        {
+            get
+            {
+                if (_options is null || _options.Targets.Count <= 0)
+                {
+                    return GetValueObject(nameof(Targets), name =>
+                        new List<LoggerTargetConfigModel>() {
+                            new LoggerTargetConfigModel() {
+                                Name = "DefaultConsole"
+                            }
+                        }
+                    );
+                }
+                List<LoggerTargetConfigModel> result = GetValueObject<List<LoggerTargetConfigModel>>(nameof(Targets));
+                result.AddRange(_options.Targets);
+                return result;
+            }
+        }
         /// <summary>
         /// 规则配置
         /// </summary>
-        public static List<LoggerRuleConfigModel> Rules => GetValueObject(nameof(Rules), name =>
+        public static List<LoggerRuleConfigModel> Rules
         {
-            List<LoggerRuleConfigModel> result = new();
-            LoggerRuleConfigModel loggerRuleConfig = new();
-            foreach (LoggerTargetConfigModel item in Targets)
+            get
             {
-                loggerRuleConfig.Targets.Add(item.Name);
+                if (_options is null || _options.Rules.Count <= 0)
+                {
+                    return GetValueObject(nameof(Rules), name =>
+                    {
+                        List<LoggerRuleConfigModel> rules = new();
+                        LoggerRuleConfigModel loggerRuleConfig = new();
+                        foreach (LoggerTargetConfigModel item in Targets)
+                        {
+                            loggerRuleConfig.Targets.Add(item.Name);
+                        }
+                        rules.Add(loggerRuleConfig);
+                        return rules;
+                    });
+                }
+                List<LoggerRuleConfigModel> result = GetValueObject<List<LoggerRuleConfigModel>>(nameof(Targets));
+                result.AddRange(_options.Rules);
+                return result;
             }
-            result.Add(loggerRuleConfig);
-            return result;
-        });
+        }
         /// <summary>
         /// 日志日志等级配置
         /// </summary>
