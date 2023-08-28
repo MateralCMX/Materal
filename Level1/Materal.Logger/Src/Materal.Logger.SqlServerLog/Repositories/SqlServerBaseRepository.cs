@@ -112,7 +112,6 @@ namespace Materal.Logger.Repositories
         /// </summary>
         /// <returns></returns>
         protected abstract string GetCreateTableTSQL();
-        private static int count;
         /// <summary>
         /// 插入多个
         /// </summary>
@@ -120,8 +119,6 @@ namespace Materal.Logger.Repositories
         /// <exception cref="LoggerException"></exception>
         public override void Inserts(T[] domains)
         {
-            count += domains.Length;
-            LoggerLog.LogDebug($"{count}");
             DBConnection ??= GetDBConnection();
             OpenDBConnection();
             try

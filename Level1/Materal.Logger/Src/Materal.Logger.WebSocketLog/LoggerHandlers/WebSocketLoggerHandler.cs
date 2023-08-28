@@ -50,9 +50,9 @@ namespace Materal.Logger.LoggerHandlers
                 {
                     connection.Send(new LogMessageModel(target, model).ToJson());
                 }
-                catch
+                catch (Exception ex)
                 {
-                    LoggerLog.LogWarning("WebSocket发送消息失败");
+                    LoggerLog.LogWarning("WebSocket发送消息失败", ex);
                 }
             }
         }
@@ -135,7 +135,7 @@ namespace Materal.Logger.LoggerHandlers
                     LoggerLog.LogInfomation(logMessage);
                     break;
                 case LogLevel.Warn:
-                    LoggerLog.LogWarning(logMessage);
+                    LoggerLog.LogWarning(logMessage, ex);
                     break;
                 case LogLevel.Error:
                     LoggerLog.LogError(logMessage, ex);

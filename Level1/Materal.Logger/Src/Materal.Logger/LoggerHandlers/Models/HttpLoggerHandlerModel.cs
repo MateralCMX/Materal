@@ -34,14 +34,21 @@ namespace Materal.Logger.LoggerHandlers.Models
                 return;
             }
             Url = target.Url;
-            HttpMethod = target.HttpMethod switch
+            if(target.HttpMethod is null || string.IsNullOrWhiteSpace(target.HttpMethod))
             {
-                "Get" => HttpMethod.Get,
-                "Post" => HttpMethod.Post,
-                "Put" => HttpMethod.Put,
-                "Delete" => HttpMethod.Delete,
-                _ => HttpMethod.Post
-            };
+                HttpMethod = HttpMethod.Post;
+            }
+            else
+            {
+                HttpMethod = target.HttpMethod.ToUpper().Trim() switch
+                {
+                    "Get" => HttpMethod.Get,
+                    "Post" => HttpMethod.Post,
+                    "Put" => HttpMethod.Put,
+                    "Delete" => HttpMethod.Delete,
+                    _ => HttpMethod.Post
+                };
+            }
             string createTimeText = model.CreateTime.ToString("yyyy-MM-ddTHH:mm:ss.ffffZ");
             Data = Regex.Replace(target.Format, @"\$\{DateTime\}", createTimeText);
             Data = LoggerHandlerHelper.FormatMessage(Data, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);

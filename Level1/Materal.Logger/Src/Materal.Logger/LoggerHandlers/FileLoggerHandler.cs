@@ -33,7 +33,7 @@ namespace Materal.Logger.LoggerHandlers
                 }
                 catch (Exception exception)
                 {
-                    LoggerLog.LogError($"日志记录到文件[{item.Key}]失败：", exception);
+                    LoggerLog.LogWarning($"日志记录到文件[{item.Key}]失败：", exception);
                 }
             });
         }
@@ -72,7 +72,7 @@ namespace Materal.Logger.LoggerHandlers
             }
             catch (Exception exception)
             {
-                LoggerLog.LogError("保存文件失败", exception);
+                LoggerLog.LogWarning($"保存文件[{path}]失败", exception);
             }
         }
     }

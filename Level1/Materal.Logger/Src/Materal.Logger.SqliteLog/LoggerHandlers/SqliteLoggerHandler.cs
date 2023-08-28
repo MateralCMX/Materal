@@ -27,7 +27,7 @@ namespace Materal.Logger.LoggerHandlers
                 }
                 catch (Exception exception)
                 {
-                    LoggerLog.LogError($"日志记录到Sqlite[{item.Key}]失败：", exception);
+                    LoggerLog.LogWarning($"日志记录到Sqlite[{item.Key}]失败：", exception);
                 }
             });
         }

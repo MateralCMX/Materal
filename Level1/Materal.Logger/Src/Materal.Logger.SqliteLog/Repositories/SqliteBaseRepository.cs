@@ -23,7 +23,14 @@ namespace Materal.Logger.Repositories
             return new SqliteConnection(builder.ConnectionString);
         })
         {
-            _dbPath = path;
+            if(path.StartsWith("Data Source="))
+            {
+                _dbPath = path[12..];
+            }
+            else
+            {
+                _dbPath = path;
+            }
         }
         /// <summary>
         /// 初始化

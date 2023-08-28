@@ -29,6 +29,7 @@ namespace Materal.Logger
         {
             _config = configuration;
             options?.Invoke(_options);
+            _options.Init();
         }
         /// <summary>
         /// 应用程序名称

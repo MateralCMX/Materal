@@ -46,6 +46,29 @@ namespace Materal.Logger
             ConsoleQueue.WriteLine($"LoggerLog|{message}", ConsoleColor.DarkYellow);
         }
         /// <summary>
+        /// 写警告
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        public static void LogWarning(string message, Exception? exception)
+        {
+            if (LogLevel.Warning < MinLevel || LogLevel.Warning > MaxLevel) return;
+            StringBuilder messageBuild = new();
+            messageBuild.AppendLine($"LoggerLog|{message}");
+            if (exception is not null)
+            {
+                if (exception is MateralHttpException httpException)
+                {
+                    messageBuild.AppendLine(httpException.GetExceptionMessage());
+                }
+                else
+                {
+                    messageBuild.AppendLine(exception.GetErrorMessage());
+                }
+            }
+            ConsoleQueue.WriteLine(messageBuild.ToString(), ConsoleColor.DarkYellow);
+        }
+        /// <summary>
         /// 写错误
         /// </summary>
         /// <param name="message"></param>

@@ -30,15 +30,24 @@ namespace Materal.Logger.LoggerHandlers
                 {
                     string data = $"[{string.Join(",", item.Select(m => m.Data))}]";
                     HttpLoggerHandlerModel model = item.First();
-                    _httpHelper.SendAsync(model.Url, model.HttpMethod, null, data).Wait();
+                    switch (model.HttpMethod.Method)
+                    {
+                        case "GET":
+                        case "DELETE":
+                            _httpHelper.SendAsync($"{model.Url}?{data}", model.HttpMethod).Wait();
+                            break;
+                        default:
+                            _httpHelper.SendAsync(model.Url, model.HttpMethod, null, data).Wait();
+                            break;
+                    }
                 }
                 catch (MateralHttpException exception)
                 {
-                    LoggerLog.LogWarning($"日志Http发送[{item.Key}]失败：{exception.GetExceptionMessage()}");
+                    LoggerLog.LogWarning($"日志Http发送[{item.Key}]失败", exception);
                 }
                 catch (Exception exception)
                 {
-                    LoggerLog.LogWarning($"日志Http发送[{item.Key}]失败：{exception.GetErrorMessage()}");
+                    LoggerLog.LogWarning($"日志Http发送[{item.Key}]失败", exception);
                 }
             });
         }
