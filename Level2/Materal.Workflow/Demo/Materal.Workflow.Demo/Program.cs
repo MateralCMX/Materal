@@ -12,9 +12,7 @@ namespace Materal.Workflow.Demo
             #region 初始化
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddDynamicWorkflowService();
-            serviceCollection.AddMateralLogger();
-            IServiceProvider service = serviceCollection.BuildServiceProvider();
-            LoggerManager.Init(option =>
+            serviceCollection.AddMateralLogger(option =>
             {
                 option.AddConsoleTarget("LifeConsole", "${DateTime}|${Level}|${CategoryName}:${Message}\r\n${Exception}", new()
                 {
@@ -23,7 +21,8 @@ namespace Materal.Workflow.Demo
                     [LogLevel.Error] = ConsoleColor.DarkRed
                 });
                 option.AddAllTargetRule(LogLevel.Warning);
-            }, null);
+            });
+            IServiceProvider service = serviceCollection.BuildServiceProvider();
             IDynamicWorkflowHost? host = service.GetService<IDynamicWorkflowHost>() ?? throw new Exception("获取服务失败");
             host.Start();
             #endregion

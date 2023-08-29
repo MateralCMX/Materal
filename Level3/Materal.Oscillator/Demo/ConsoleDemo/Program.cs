@@ -9,8 +9,8 @@ using Materal.Oscillator.Abstractions.Models;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Answers;
 using Materal.Oscillator.PlanTriggers;
-using Materal.Oscillator.Works;
 using Materal.Utils;
+using Materal.Utils.Model;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -23,9 +23,13 @@ namespace ConsoleDemo
         static Program()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
-            MateralConfig.PageStartNumber = 1;
+            PageRequestModel.PageStartNumber = 1;
             serviceCollection.AddMateralUtils();
-            serviceCollection.AddMateralLogger();
+            serviceCollection.AddMateralLogger(option =>
+            {
+                option.AddConsoleTarget("LifeConsole");
+                option.AddAllTargetRule(LogLevel.Information, null, new() { ["Microsoft.EntityFrameworkCore"] = LogLevel.Warning });
+            });
             serviceCollection.AddOscillator();
 
             IRepositoryHelper useRepositoryHelper = new SqliteEFRepositoryHelper();
@@ -39,11 +43,6 @@ namespace ConsoleDemo
             serviceCollection.AddSingleton<IRetryAnswerListener, RetryAnswerListenerImpl>();
             MateralServices.Services = serviceCollection.BuildServiceProvider();
             _services = MateralServices.Services;
-            LoggerManager.Init(option =>
-            {
-                option.AddConsoleTarget("LifeConsole");
-                option.AddAllTargetRule(LogLevel.Information, null, new[] { "Microsoft.EntityFrameworkCore.*" } );
-            });
             useRepositoryHelper.Init(_services);
             _host = _services.GetRequiredService<IOscillatorHost>();
         }

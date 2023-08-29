@@ -26,7 +26,6 @@ namespace Materal.Logger
             services.AddLogging(builder =>
             {
                 builder.ClearProviders();
-                builder.AddFilter<LoggerProvider>(null, LogLevel.Trace);
             });
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
@@ -39,7 +38,9 @@ namespace Materal.Logger
                 Type[] loggerHandlerTypes = assembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<ILoggerHandler>()).ToArray();
                 foreach (Type type in loggerHandlerTypes)
                 {
-                    services.AddSingleton(loggerHandlerType, type);
+                    object loggerHandlerObj = type.Instantiation();
+                    if(loggerHandlerObj is not ILoggerHandler loggerHandler) continue;
+                    Logger.Handlers.Add(loggerHandler);
                 }
             }
             LoggerConfig.Init(options, configuration);

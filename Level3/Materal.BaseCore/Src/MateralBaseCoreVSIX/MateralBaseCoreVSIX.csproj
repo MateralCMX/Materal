@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Materal.Utils.Windows">
-			<Version>1.1.48</Version>
+      <Version>1.1.50</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.6.36389" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -98,15 +98,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\CodeGeneratorCommand.png" />
+    <EmbeddedResource Include="Tools\IndexRange.dll" />
+    <EmbeddedResource Include="Tools\Materal.Abstractions.dll" />
     <EmbeddedResource Include="Tools\Materal.BaseCore.CodeGenerator.dll" />
+    <EmbeddedResource Include="Tools\Materal.Extensions.dll" />
     <EmbeddedResource Include="Tools\MateralBasePlugBuild.dll" />
     <EmbeddedResource Include="Tools\Microsoft.CodeAnalysis.CSharp.dll" />
     <EmbeddedResource Include="Tools\Microsoft.CodeAnalysis.dll" />
-    <EmbeddedResource Include="Tools\Newtonsoft.Json.dll" />
-    <EmbeddedResource Include="Tools\System.Reflection.Metadata.dll" />
-    <EmbeddedResource Include="Tools\IndexRange.dll" />
-    <EmbeddedResource Include="Tools\Materal.Abstractions.dll" />
-    <EmbeddedResource Include="Tools\Materal.Extensions.dll" />
     <EmbeddedResource Include="Tools\Microsoft.Extensions.Configuration.Abstractions.dll" />
     <EmbeddedResource Include="Tools\Microsoft.Extensions.Configuration.dll" />
     <EmbeddedResource Include="Tools\Microsoft.Extensions.Configuration.FileExtensions.dll" />
@@ -116,18 +114,15 @@
     <EmbeddedResource Include="Tools\Microsoft.Extensions.FileProviders.Abstractions.dll" />
     <EmbeddedResource Include="Tools\Microsoft.Extensions.FileProviders.Physical.dll" />
     <EmbeddedResource Include="Tools\Microsoft.Extensions.FileSystemGlobbing.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.Options.DataAnnotations.dll" />
+    <EmbeddedResource Include="Tools\Microsoft.Extensions.Options.dll" />
     <EmbeddedResource Include="Tools\Microsoft.Extensions.Primitives.dll" />
     <EmbeddedResource Include="Tools\Microsoft.Win32.SystemEvents.dll" />
-    <EmbeddedResource Include="Tools\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll" />
     <EmbeddedResource Include="Tools\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll" />
     <EmbeddedResource Include="Tools\runtimes\win\lib\net6.0\System.Drawing.Common.dll" />
     <EmbeddedResource Include="Tools\System.Drawing.Common.dll" />
-    <EmbeddedResource Include="Tools\System.Text.Encodings.Web.dll" />
-    <EmbeddedResource Include="Tools\System.Text.Json.dll" />
-    <EmbeddedResource Include="Tools\Microsoft.Extensions.Options.DataAnnotations.dll" />
-    <EmbeddedResource Include="Tools\Microsoft.Extensions.Options.dll" />
-    <EmbeddedResource Include="Tools\System.Collections.Immutable.dll" />
-    <EmbeddedResource Include="Tools\System.Text.Encoding.CodePages.dll" />
+    <EmbeddedResource Include="Tools\System.Reflection.Metadata.dll" />
+    <EmbeddedResource Include="Tools\Newtonsoft.Json.dll" />
     <Content Include="尘歌壶.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

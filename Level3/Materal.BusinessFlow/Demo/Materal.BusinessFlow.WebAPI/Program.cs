@@ -1,4 +1,3 @@
-using Materal.Abstractions;
 using Materal.BusinessFlow.Abstractions;
 using Materal.BusinessFlow.SqliteRepository;
 using Materal.BusinessFlow.WebAPIControllers.Filters;
@@ -7,6 +6,7 @@ using Materal.TTA.ADONETRepository;
 using Materal.TTA.Common;
 using Materal.TTA.Common.Model;
 using Materal.Utils;
+using Materal.Utils.Model;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 
@@ -17,7 +17,7 @@ namespace Materal.BusinessFlow.WebAPI
         public static async Task Main(string[] args)
         {
             Console.Title = "ÒµÎñÁ÷DemoAPI";
-            MateralConfig.PageStartNumber = 1;
+            PageRequestModel.PageStartNumber = 1;
             var builder = WebApplication.CreateBuilder(args);
             builder.Services
                 .AddControllers(options =>
@@ -36,7 +36,23 @@ namespace Materal.BusinessFlow.WebAPI
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddMateralUtils();
-            builder.Services.AddMateralLogger();
+            builder.Services.AddMateralLogger(option =>
+            {
+#if DEBUG
+                option.AddConsoleTarget("LifeConsole", null, new Dictionary<LogLevel, ConsoleColor>
+                {
+                    [LogLevel.Error] = ConsoleColor.DarkRed
+                });
+                option.AddAllTargetRule(LogLevel.Information, null, new() { ["Microsoft.AspNetCore"] = LogLevel.None });
+#else
+
+                option.AddConsoleTarget("LifeConsole", "${DateTime}|${Level}:${Message}\r\n${Exception}", new Dictionary<LogLevel, ConsoleColor>
+                {
+                    [LogLevel.Error] = ConsoleColor.DarkRed
+                });
+                option.AddAllTargetRule(LogLevel.Information, null, new() { ["Microsoft.AspNetCore"] = LogLevel.None });
+#endif
+            });
             builder.Services.AddBusinessFlow();
             SqliteConfigModel dbConfig = new() { Source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BusinessFlow.db") };
             BusinessFlowDBOption oscillatorDB = new(dbConfig);
@@ -59,25 +75,6 @@ namespace Materal.BusinessFlow.WebAPI
             app.UseCors();
             app.UseAuthorization();
             app.MapControllers();
-#if DEBUG
-            LoggerManager.Init(option =>
-            {
-                option.AddConsoleTarget("LifeConsole", null, new Dictionary<LogLevel, ConsoleColor>
-                {
-                    [LogLevel.Error] = ConsoleColor.DarkRed
-                });
-                option.AddAllTargetRule(LogLevel.Information, null, new[] { "Microsoft.AspNetCore.*" });
-            });
-#else
-            LoggerManager.Init(option =>
-            {
-                option.AddConsoleTarget("LifeConsole", "${DateTime}|${Level}:${Message}\r\n${Exception}", new Dictionary<LogLevel, ConsoleColor>
-                {
-                    [LogLevel.Error] = ConsoleColor.DarkRed
-                });
-                option.AddAllTargetRule(LogLevel.Information, null, new[] { "Microsoft.AspNetCore.*", "Microsoft.Hosting.Lifetime" });
-            });
-#endif
             using IServiceScope scope = app.Services.CreateScope();
             IMigrateHelper migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<BusinessFlowDBOption>>();
             await migrateHelper.MigrateAsync();

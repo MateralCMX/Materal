@@ -485,7 +485,8 @@ namespace Materal.Utils.Redis
         public async Task SubscriberAsync(string channelName, Action<string?, string?> action)
         {
             ISubscriber subscriber = GetSubscriber();
-            await subscriber.SubscribeAsync(channelName, (redisChannel, redisValue) =>
+            RedisChannel channel = new(channelName, RedisChannel.PatternMode.Literal);
+            await subscriber.SubscribeAsync(channel, (redisChannel, redisValue) =>
             {
                 action?.Invoke(redisChannel, redisValue);
             });
@@ -499,7 +500,8 @@ namespace Materal.Utils.Redis
         {
             ISubscriber subscriber = GetSubscriber();
             RedisValue redisValue = ObjectToRedisValue(value);
-            await subscriber.PublishAsync(channelName, redisValue);
+            RedisChannel channel = new(channelName, RedisChannel.PatternMode.Literal);
+            await subscriber.PublishAsync(channel, redisValue);
         }
         /// <summary>
         /// 取消订阅
@@ -508,7 +510,8 @@ namespace Materal.Utils.Redis
         public async Task UnsubscribeAsync(string channelName)
         {
             if (_subscriber == null) return;
-            await _subscriber.UnsubscribeAsync(channelName);
+            RedisChannel channel = new(channelName, RedisChannel.PatternMode.Literal);
+            await _subscriber.UnsubscribeAsync(channel);
         }
         /// <summary>
         /// 取消所有订阅

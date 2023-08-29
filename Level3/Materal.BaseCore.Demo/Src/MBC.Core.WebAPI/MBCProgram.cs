@@ -16,10 +16,8 @@ namespace MBC.Core.WebAPI
         /// <param name="configService"></param>
         /// <param name="consulTag"></param>
         /// <returns></returns>
-        public static WebApplication MBCStart(string[] args, Action<IServiceCollection>? configService, string consulTag)
-        {
-            return MBCStart(args, configService, null, null, consulTag);
-        }
+        public static WebApplication MBCStart(string[] args, Action<IServiceCollection>? configService, string consulTag) 
+            => MBCStart(args, configService, null, null, consulTag);
         /// <summary>
         /// 开始
         /// </summary>
@@ -36,7 +34,6 @@ namespace MBC.Core.WebAPI
                 config.AddJsonFile("MBCConfig.json", false, true);//此处读取配置,可以更换为配置中心
             }, configService, configApp =>
             {
-                LoggerManager.CustomConfig.Add("ApplicationName", WebAPIConfig.AppName);
                 configAppAction?.Invoke(configApp);
             }, configBuilder, consulTag);
             return app;

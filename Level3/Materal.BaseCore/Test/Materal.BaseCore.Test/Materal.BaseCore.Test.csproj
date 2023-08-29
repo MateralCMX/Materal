@@ -6,15 +6,15 @@
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils.Excel" Version="1.1.49" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.1" />
-		<PackageReference Include="MSTest.TestAdapter" Version="3.0.4" />
+		<PackageReference Include="Materal.Utils.Excel" Version="1.1.50" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
+		<PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
 		<PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
 		<PackageReference Include="coverlet.collector" Version="*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
+		<PackageReference Include="System.Collections.Immutable" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.BaseCore.AutoDI\Materal.BaseCore.AutoDI.csproj" />

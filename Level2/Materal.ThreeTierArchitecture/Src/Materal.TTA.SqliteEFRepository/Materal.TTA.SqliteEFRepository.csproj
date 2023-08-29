@@ -10,7 +10,7 @@
 		<Product>Materal.ThreeTierArchitecture</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.49</Version>
+		<Version>1.1.50</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.TTA.SqliteEFRepository</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -21,7 +21,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="*" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.21" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />

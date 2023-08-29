@@ -11,13 +11,12 @@ namespace RC.ConfigClient.Demo
         {
             #region 初始化DI
             IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddMateralLogger();
-            MateralServices.Services = serviceCollection.BuildServiceProvider();
-            LoggerManager.Init(option =>
+            serviceCollection.AddMateralLogger(option =>
             {
                 option.AddConsoleTarget("LifeConsole");
                 option.AddAllTargetRule();
             });
+            MateralServices.Services = serviceCollection.BuildServiceProvider();
             #endregion
             const string url = "https://gateway.xmjriyu.com/RCESDEVAPI";
             const string projectName = "XMJ_Educational_WebAPI";

@@ -8,14 +8,13 @@ namespace Materal.Logger.LoggerHandlers
     /// </summary>
     public class HttpLoggerHandler : BufferLoggerHandler<HttpLoggerHandlerModel>
     {
-        private readonly IHttpHelper _httpHelper;
+        private readonly static IHttpHelper _httpHelper;
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="httpHelper"></param>
-        public HttpLoggerHandler(IHttpHelper httpHelper) : base()
+        static HttpLoggerHandler()
         {
-            _httpHelper = httpHelper;
+            _httpHelper = new HttpHelper();
         }
         /// <summary>
         /// 处理合格的数据
@@ -28,15 +27,16 @@ namespace Materal.Logger.LoggerHandlers
             {
                 try
                 {
-                    string data = $"[{string.Join(",", item.Select(m => m.Data))}]";
                     HttpLoggerHandlerModel model = item.First();
                     switch (model.HttpMethod.Method)
                     {
                         case "GET":
                         case "DELETE":
-                            _httpHelper.SendAsync($"{model.Url}?{data}", model.HttpMethod).Wait();
+                            LoggerLog.LogWarning("Http日志处理器不支持GET和DELETE方法");
+                            //_httpHelper.SendAsync($"{model.Url}?{data}", model.HttpMethod).Wait();
                             break;
                         default:
+                            string data = $"[{string.Join(",", item.Select(m => m.Data))}]";
                             _httpHelper.SendAsync(model.Url, model.HttpMethod, null, data).Wait();
                             break;
                     }

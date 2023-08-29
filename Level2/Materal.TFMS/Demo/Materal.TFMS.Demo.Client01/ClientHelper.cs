@@ -13,13 +13,12 @@ namespace Materal.TFMS.Demo.Client01
         public static string AppName { get; private set; } = "Client01";
         static ClientHelper()
         {
-            _serviceCollection.AddMateralLogger();
-            LoggerManager.Init(option =>
+            _serviceCollection.AddMateralLogger(option =>
             {
+                option.AddCustomConfig("ApplicationName", AppName);
                 option.AddConsoleTarget("LifeConsole");
                 option.AddAllTargetRule();
             });
-            LoggerManager.CustomConfig.Add("ApplicationName", AppName);
             RegisterServices();
             _serviceProvider = _serviceCollection.BuildServiceProvider();
         }

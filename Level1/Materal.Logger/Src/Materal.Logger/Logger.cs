@@ -1,7 +1,6 @@
 ﻿using Materal.Logger.LoggerHandlers;
 using Materal.Logger.LoggerHandlers.Models;
 using Materal.Logger.Models;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks.Dataflow;
 
@@ -29,25 +28,13 @@ namespace Materal.Logger
         /// </summary>
         private static readonly ActionBlock<LoggerHandlerModel> _actionBlock = new(HandlerLog);
         /// <summary>
-        /// 服务容器
-        /// </summary>
-        private readonly IServiceProvider _serviceProvider;
-        /// <summary>
         /// 处理器集合
         /// </summary>
-        private static List<ILoggerHandler>? _handlers;
+        public static List<ILoggerHandler> Handlers { get; } = new();
         /// <summary>
         /// 构造方法
         /// </summary>
-        public Logger(IServiceProvider serviceProvider)
-        {
-            _serviceProvider = serviceProvider;
-            _handlers ??= _serviceProvider.GetServices<ILoggerHandler>().ToList();
-        }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public Logger(string categoryName, IServiceProvider serviceProvider) : this(serviceProvider)
+        public Logger(string categoryName)
         {
             if (string.IsNullOrWhiteSpace(categoryName)) return;
             _categoryName = categoryName;
@@ -58,10 +45,17 @@ namespace Materal.Logger
         /// <typeparam name="TState"></typeparam>
         /// <param name="state"></param>
         /// <returns></returns>
-        public IDisposable? BeginScope<TState>(TState state) where TState : notnull
+        public IDisposable BeginScope<TState>(TState state)
         {
-            string? scope = state.ToString();
-            if (scope is null || string.IsNullOrWhiteSpace(scope)) return null;
+            string scope;
+            if (state is not null)
+            {
+                scope = state.ToString();
+            }
+            else
+            {
+                scope = "PublicScope";
+            }
             return BeginScope(scope);
         }
         /// <summary>
@@ -118,8 +112,8 @@ namespace Materal.Logger
         /// <param name="model"></param>
         private static void HandlerLog(LoggerHandlerModel model)
         {
-            if (_handlers is null) return;
-            Parallel.ForEach(_handlers, handler => handler.Handler(model));
+            if (Handlers is null) return;
+            Parallel.ForEach(Handlers, handler => handler.Handler(model));
         }
         /// <summary>
         /// 关闭
@@ -128,10 +122,10 @@ namespace Materal.Logger
         {
             IsClose = true;
             if (LoggerConfig.Mode == LoggerModeEnum.Normal) return;
-            if (_handlers is null) return;
+            if (Handlers is null) return;
             _actionBlock.Complete();
             await _actionBlock.Completion;
-            foreach (ILoggerHandler handler in _handlers)
+            foreach (ILoggerHandler handler in Handlers)
             {
                 await handler.ShutdownAsync();
             }

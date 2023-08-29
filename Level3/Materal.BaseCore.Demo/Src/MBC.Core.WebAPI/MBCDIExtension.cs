@@ -1,8 +1,9 @@
 ﻿using Materal.BaseCore.WebAPI;
 using Materal.TTA.Common.Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using MBC.Core.EFRepository;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
@@ -21,10 +22,7 @@ namespace MBC.Core.WebAPI
         /// <param name="swaggerXmlPaths"></param>
         /// <returns></returns>
         public static IServiceCollection AddMBCService<T>(this IServiceCollection services, SqliteConfigModel sqliteConfig, params string[] swaggerXmlPaths)
-            where T : DbContext
-        {
-            return AddMBCService<T>(services, sqliteConfig, null, swaggerXmlPaths);
-        }
+            where T : DbContext => AddMBCService<T>(services, sqliteConfig, null, swaggerXmlPaths);
         /// <summary>
         /// 添加MBC服务
         /// </summary>

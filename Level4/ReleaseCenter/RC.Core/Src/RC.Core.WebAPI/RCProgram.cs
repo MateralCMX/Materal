@@ -1,6 +1,4 @@
 ﻿using Materal.BaseCore.WebAPI;
-using Materal.BaseCore.WebAPI.Common;
-using Materal.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,10 +14,7 @@ namespace RC.Core.WebAPI
         /// <param name="configService"></param>
         /// <param name="consulTag"></param>
         /// <returns></returns>
-        public static WebApplication RCStart(string[] args, Action<IServiceCollection>? configService, string consulTag)
-        {
-            return RCStart(args, configService, null, null, consulTag);
-        }
+        public static WebApplication RCStart(string[] args, Action<IServiceCollection>? configService, string consulTag) => RCStart(args, configService, null, null, consulTag);
         /// <summary>
         /// 开始
         /// </summary>
@@ -35,7 +30,6 @@ namespace RC.Core.WebAPI
                 config.AddJsonFile("RCConfig.json", false, true);
             }, configService, configApp =>
             {
-                LoggerManager.CustomConfig.Add("ApplicationName", WebAPIConfig.AppName);
                 configAppAction?.Invoke(configApp);
             }, configBuilder, consulTag);
             return app;

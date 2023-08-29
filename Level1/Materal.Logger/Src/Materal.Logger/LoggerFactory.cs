@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Materal.Logger.LoggerHandlers;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 
@@ -9,17 +10,14 @@ namespace Materal.Logger
     /// </summary>
     public class LoggerFactory : ILoggerFactory
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly Dictionary<string, ILogger> _loggers = new(); 
+        private readonly Dictionary<string, ILogger> _loggers = new();
         private ILoggerProvider? _provider;
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="services"></param>
-        public LoggerFactory(IServiceProvider services)
+        /// <param name="provider"></param>
+        public LoggerFactory(ILoggerProvider? provider = null)
         {
-            _serviceProvider = services;
-            ILoggerProvider? provider = services.GetService<ILoggerProvider>();
             if (provider is null) return;
             AddProvider(provider);
         }
@@ -37,8 +35,8 @@ namespace Materal.Logger
         {
             lock (_loggers)
             {
-                if(_loggers.ContainsKey(categoryName)) return _loggers[categoryName];
-                ILogger logger = _provider is null ? new Logger(categoryName, _serviceProvider) : _provider.CreateLogger(categoryName);
+                if (_loggers.ContainsKey(categoryName)) return _loggers[categoryName];
+                ILogger logger = _provider is null ? new Logger(categoryName) : _provider.CreateLogger(categoryName);
                 _loggers.Add(categoryName, logger);
                 return logger;
             }

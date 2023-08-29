@@ -17,7 +17,14 @@ namespace Materal.TTA.Demo
             PageRequestModel.PageStartNumber = 1;
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralUtils();
-            serviceCollection.AddMateralLogger();
+            serviceCollection.AddMateralLogger(option =>
+            {
+                option.AddConsoleTarget("LifeConsole");
+                option.AddAllTargetRule(LogLevel.Information, null, new Dictionary<string, LogLevel>
+                {
+                    ["Microsoft.EntityFrameworkCore"] = LogLevel.Warning
+                });
+            });
 
             serviceCollection.AddSqliteEFTTA();
             static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
@@ -32,11 +39,6 @@ namespace Materal.TTA.Demo
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerADONETHelper.MigrateAsync(serviceProvider);
 
             IServiceProvider services = serviceCollection.BuildServiceProvider();
-            LoggerManager.Init(option =>
-            {
-                option.AddConsoleTarget("LifeConsole");
-                option.AddAllTargetRule(LogLevel.Information, null, new[] { "Microsoft.EntityFrameworkCore.*" });
-            });
             ILoggerExtension.TSQLLogLevel = LogLevel.Information;
             using (IServiceScope scope = services.CreateScope())
             {

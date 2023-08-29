@@ -14,9 +14,9 @@
 	  <ProjectReference Include="..\..\Src\Materal.Logger.WebSocketLog\Materal.Logger.WebSocketLog.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="MateralLogger.json">
+	  <None Update="appsettings.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
-	<ProjectExtensions><VisualStudio><UserProperties materallogger_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 </Project>

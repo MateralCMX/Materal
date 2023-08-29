@@ -1,7 +1,6 @@
 ﻿using Materal.Abstractions;
 using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Common;
-using Materal.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
@@ -22,7 +21,6 @@ namespace Materal.BaseCore.WebAPI
         public static WebApplication WebApplicationConfig(this WebApplication app, string? consulTag = null)
         {
             MateralServices.Services = app.Services;
-            app.UseMateralLogger(null, MateralCoreConfig.Configuration);
             app.Use(async (context, next) =>
             {
                 context.Request.EnableBuffering();

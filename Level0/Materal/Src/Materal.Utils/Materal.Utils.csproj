@@ -10,7 +10,7 @@
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>1.1.49</Version>
+		<Version>1.1.50</Version>
 		<Description>Materal工具包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
@@ -19,12 +19,12 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="../../../../README.md" Pack="true" PackagePath="" />
-		<None Include="../../../../LICENSE"  Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AspectCore.Core" Version="*" />
-		<PackageReference Include="System.Threading.Tasks.Dataflow" Version="*" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="*" />
+		<PackageReference Include="System.Threading.Tasks.Dataflow" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />

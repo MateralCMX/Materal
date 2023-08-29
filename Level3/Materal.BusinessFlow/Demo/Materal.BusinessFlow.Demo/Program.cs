@@ -4,6 +4,7 @@ using Materal.BusinessFlow.Abstractions.Domain;
 using Materal.BusinessFlow.Abstractions.DTO;
 using Materal.BusinessFlow.Abstractions.Repositories;
 using Materal.Logger;
+using Materal.Utils.Model;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -20,15 +21,9 @@ namespace Materal.BusinessFlow.Demo
         private static readonly List<Guid> _stepIDs = new();
         static Program()
         {
-            MateralConfig.PageStartNumber = 1;
+            PageRequestModel.PageStartNumber = 1;
             IServiceCollection services = new ServiceCollection();
-            services.AddMateralLogger();
-            services.AddBusinessFlow();
-            IRepositoryHelper repositoryHelper = new SqliteRepositoryHelper();
-            //IRepositoryHelper repositoryHelper = new SqlServerRepositoryHelper();
-            repositoryHelper.AddRepository(services);
-            _serviceProvider = services.BuildServiceProvider();
-            LoggerManager.Init(option =>
+            services.AddMateralLogger(option =>
             {
                 option.AddConsoleTarget("LifeConsole", null, new Dictionary<LogLevel, ConsoleColor>
                 {
@@ -36,6 +31,11 @@ namespace Materal.BusinessFlow.Demo
                 });
                 option.AddAllTargetRule(LogLevel.Information);
             });
+            services.AddBusinessFlow();
+            IRepositoryHelper repositoryHelper = new SqliteRepositoryHelper();
+            //IRepositoryHelper repositoryHelper = new SqlServerRepositoryHelper();
+            repositoryHelper.AddRepository(services);
+            _serviceProvider = services.BuildServiceProvider();
             _logger = _serviceProvider.GetService<ILogger<Program>>();
             repositoryHelper.Init(_serviceProvider);
         }

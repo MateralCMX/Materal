@@ -24,16 +24,14 @@ namespace Materal.Gateway.WebAPP
                 ContentRootPath = AppDomain.CurrentDomain.BaseDirectory,
                 WebRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wwwroot")
             });
+            ApplicationConfig.Configuration = builder.Configuration;
             #region 加载配置文件
             builder.Configuration
-                .AddJsonFile("MateralLogger.json", false, true) //加载MateralLogger配置
                 .AddJsonFile("Ocelot.json", false, true); //加载Ocelot配置
             #endregion
             #region DI
             IServiceCollection services = builder.Services;
-            #region 日志
-            services.AddMateralLogger();
-            #endregion
+            services.AddMateralLogger(builder.Configuration);
             #region Blazor
             services.AddAntDesign();
             services.AddRazorPages();
@@ -41,24 +39,18 @@ namespace Materal.Gateway.WebAPP
             services.AddScoped<CustomAuthenticationStateProvider>();
             services.AddScoped<AuthenticationStateProvider>(factory => factory.GetRequiredService<CustomAuthenticationStateProvider>());
             #endregion
-            #region Swagger
             services.AddSwaggerForOcelot(builder.Configuration);
-            #endregion
-            #region 网关
             services.AddOcelotGateway();
-            #endregion
             services.AddEndpointsApiExplorer();
             #endregion
             WebApplication app = builder.Build();
+            MateralServices.Services = app.Services;
             #region WebApplication
             await app.UseOcelotGatewayAsync(true);
             builder.Host.UseDefaultServiceProvider(configure =>
             {
                 configure.ValidateScopes = false;
             });
-            MateralServices.Services = app.Services;
-            ApplicationConfig.Configuration = builder.Configuration;
-            app.UseMateralLogger(null, ApplicationConfig.Configuration);
             app.Map("/admin", application =>
             {
                 application.UseStaticFiles();

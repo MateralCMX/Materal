@@ -17,23 +17,23 @@ namespace Materal.Oscillator.SqlServerEFRepository
         /// <summary>
         /// 响应
         /// </summary>
-        public DbSet<Answer> Answer { get; set; }
+        public DbSet<Answer>? Answer { get; set; }
         /// <summary>
         /// 计划
         /// </summary>
-        public DbSet<Plan> Plan { get; set; }
+        public DbSet<Plan>? Plan { get; set; }
         /// <summary>
         /// 调度器
         /// </summary>
-        public DbSet<Schedule> Schedule { get; set; }
+        public DbSet<Schedule>? Schedule { get; set; }
         /// <summary>
         /// 调度器任务
         /// </summary>
-        public DbSet<ScheduleWork> ScheduleWork { get; set; }
+        public DbSet<ScheduleWork>? ScheduleWork { get; set; }
         /// <summary>
         /// 任务
         /// </summary>
-        public DbSet<Work> Work { get; set; }
+        public DbSet<Work>? Work { get; set; }
         /// <summary>
         /// 模型创建配置
         /// </summary>

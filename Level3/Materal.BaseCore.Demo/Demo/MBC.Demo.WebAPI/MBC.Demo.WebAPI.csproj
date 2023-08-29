@@ -6,7 +6,7 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="*">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.21">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
@@ -17,5 +17,10 @@
 		<ProjectReference Include="..\MBC.Demo.PresentationModel\MBC.Demo.PresentationModel.csproj" />
 		<ProjectReference Include="..\MBC.Demo.ServiceImpl\MBC.Demo.ServiceImpl.csproj" />
 		<ProjectReference Include="..\MBC.Demo.EFRepository\MBC.Demo.EFRepository.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Update="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 </Project>

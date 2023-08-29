@@ -30,7 +30,10 @@ namespace Materal.BaseCore.WebAPI
         /// <param name="otherControlesAssemblys"></param>
         public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, Action<MvcOptions>? mvcAction, params Assembly[] otherControlesAssemblys)
         {
-            services.AddMateralLogger();
+            services.AddMateralLogger(options =>
+            {
+                options.AddCustomConfig("ApplicationName", WebAPIConfig.AppName);
+            }, MateralCoreConfig.Configuration);
             #region MVC
             IMvcBuilder mvcBuild = services.AddControllers(mvcOptions =>
             {

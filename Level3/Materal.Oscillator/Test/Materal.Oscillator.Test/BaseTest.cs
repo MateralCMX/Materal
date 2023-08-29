@@ -1,9 +1,9 @@
 ﻿using Materal.Abstractions;
 using Materal.Oscillator.SqliteEFRepository;
-using Materal.Oscillator.SqlServerEFRepository;
 using Materal.TTA.Common.Model;
 using Materal.TTA.EFRepository;
 using Materal.Utils;
+using Materal.Utils.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,7 +15,7 @@ namespace Materal.Oscillator.Test
         protected BaseTest()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
-            MateralConfig.PageStartNumber = 1;
+            PageRequestModel.PageStartNumber = 1;
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
             AddConfig(configurationBuilder);
             serviceCollection.AddMateralUtils();

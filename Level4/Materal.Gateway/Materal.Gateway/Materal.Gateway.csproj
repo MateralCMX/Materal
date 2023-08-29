@@ -10,7 +10,7 @@
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>1.1.48</Version>
+		<Version>0.0.1</Version>
 		<Description>Materal网关</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageOutputPath>../../../nupkgs</PackageOutputPath>
@@ -18,8 +18,7 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.48" />
-		<PackageReference Include="MMLib.SwaggerForOcelot" Version="6.3.2" />
+		<PackageReference Include="Materal.Utils" Version="1.1.50" />
 		<PackageReference Include="Ocelot" Version="18.0.0" />
 		<PackageReference Include="Ocelot.Cache.CacheManager" Version="18.0.0" />
 		<PackageReference Include="Ocelot.Provider.Consul" Version="18.0.0" />

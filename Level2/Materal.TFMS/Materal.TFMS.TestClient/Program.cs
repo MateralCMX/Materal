@@ -14,13 +14,12 @@ namespace Materal.TFMS.TestClient
         public static async Task Main()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddMateralLogger();
-            LoggerManager.Init(option =>
+            services.AddMateralLogger(option =>
             {
+                option.AddCustomConfig("ApplicationName", "TestClient");
                 option.AddConsoleTarget("LifeConsole");
                 option.AddAllTargetRule();
             });
-            LoggerManager.CustomConfig.Add("ApplicationName", "TestClient");
             const string queueName = "Educational_FatQueue";
             const string exchangeName = "XMJEventBusExchange_Fat";
             MateralTFMSRabbitMQConfig.EventErrorConfig.Discard = false;

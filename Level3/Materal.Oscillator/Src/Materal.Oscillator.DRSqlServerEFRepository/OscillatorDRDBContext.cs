@@ -17,7 +17,7 @@ namespace Materal.Oscillator.DRSqlServerEFRepository
         /// <summary>
         /// 流程
         /// </summary>
-        public DbSet<Flow> Flow { get; set; }
+        public DbSet<Flow>? Flow { get; set; }
         /// <summary>
         /// 模型配置
         /// </summary>
