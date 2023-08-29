@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConsoleTools", "ConsoleTools", "{DDDE642D-5E45-4364-A149-630131C32913}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebTools", "WebTools", "{EDBA58A1-1975-4376-A1F0-51A4E2FE9A63}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{3E652272-21FE-4D21-98A3-5B642D9B649D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectClear", "ConsoleTools\ProjectClear\ProjectClear.csproj", "{BB1C0AAD-2CD5-4B4C-83FB-5F9B36D9D648}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MateralVersion", "ConsoleTools\MateralVersion\MateralVersion.csproj", "{DCEACBE6-89B9-4774-9A7C-E154E110AAB7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MateralPublish", "ConsoleTools\MateralPublish\MateralPublish.csproj", "{2A0F7489-9AD9-4628-8E05-35EE24FDDF8B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRClientWeb", "WebTools\SignalRClientWeb\SignalRClientWeb.csproj", "{43EA9547-AA8C-46D2-B8A5-F5542F909C9C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Tools.Test", "Test\Materal.Tools.Test\Materal.Tools.Test.csproj", "{70BF5BA8-5C7E-4C60-A577-F40540DFB540}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BB1C0AAD-2CD5-4B4C-83FB-5F9B36D9D648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB1C0AAD-2CD5-4B4C-83FB-5F9B36D9D648}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB1C0AAD-2CD5-4B4C-83FB-5F9B36D9D648}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB1C0AAD-2CD5-4B4C-83FB-5F9B36D9D648}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCEACBE6-89B9-4774-9A7C-E154E110AAB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCEACBE6-89B9-4774-9A7C-E154E110AAB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCEACBE6-89B9-4774-9A7C-E154E110AAB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCEACBE6-89B9-4774-9A7C-E154E110AAB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A0F7489-9AD9-4628-8E05-35EE24FDDF8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A0F7489-9AD9-4628-8E05-35EE24FDDF8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A0F7489-9AD9-4628-8E05-35EE24FDDF8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A0F7489-9AD9-4628-8E05-35EE24FDDF8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43EA9547-AA8C-46D2-B8A5-F5542F909C9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43EA9547-AA8C-46D2-B8A5-F5542F909C9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43EA9547-AA8C-46D2-B8A5-F5542F909C9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43EA9547-AA8C-46D2-B8A5-F5542F909C9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70BF5BA8-5C7E-4C60-A577-F40540DFB540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70BF5BA8-5C7E-4C60-A577-F40540DFB540}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70BF5BA8-5C7E-4C60-A577-F40540DFB540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70BF5BA8-5C7E-4C60-A577-F40540DFB540}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BB1C0AAD-2CD5-4B4C-83FB-5F9B36D9D648} = {DDDE642D-5E45-4364-A149-630131C32913}
+		{DCEACBE6-89B9-4774-9A7C-E154E110AAB7} = {DDDE642D-5E45-4364-A149-630131C32913}
+		{2A0F7489-9AD9-4628-8E05-35EE24FDDF8B} = {DDDE642D-5E45-4364-A149-630131C32913}
+		{43EA9547-AA8C-46D2-B8A5-F5542F909C9C} = {EDBA58A1-1975-4376-A1F0-51A4E2FE9A63}
+		{70BF5BA8-5C7E-4C60-A577-F40540DFB540} = {3E652272-21FE-4D21-98A3-5B642D9B649D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B52A5985-5FC4-48D7-99B5-5C91D41853C4}
+	EndGlobalSection
+EndGlobal

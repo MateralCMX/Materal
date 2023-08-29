@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>11.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Title>Materal网关</Title>
+		<Company>Materal</Company>
+		<Product>Materal</Product>
+		<Authors>Materal</Authors>
+		<Version>1.1.50</Version>
+		<Description>Materal网关</Description>
+		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.Utils" Version="1.1.50" />
+		<PackageReference Include="Ocelot" Version="18.0.0" />
+		<PackageReference Include="Ocelot.Cache.CacheManager" Version="18.0.0" />
+		<PackageReference Include="Ocelot.Provider.Consul" Version="18.0.0" />
+		<PackageReference Include="Ocelot.Provider.Polly" Version="18.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Gateway.Abstractions\Materal.Gateway.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
+</Project>

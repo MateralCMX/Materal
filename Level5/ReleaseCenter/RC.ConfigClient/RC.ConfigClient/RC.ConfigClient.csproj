@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Version>1.0.1</Version>
+		<Company>古典部工作室</Company>
+		<Product>Materal.ReleaseCenter</Product>
+		<Authors>Materal</Authors>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
+		<Title>RC.ConfigClient</Title>
+		<Description>配置中心客户端</Description>
+		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.DataTransmitModel\RC.EnvironmentServer.DataTransmitModel.csproj" />
+		<ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.Enums\RC.EnvironmentServer.Enums.csproj" />
+		<ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.PresentationModel\RC.EnvironmentServer.PresentationModel.csproj" />
+	</ItemGroup>
+</Project>
