@@ -159,7 +159,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="exception"></param>
         /// <param name="threadID"></param>
         /// <returns></returns>
-        public static LogModel GetMateralLogModel(LogLevel logLevel, string message, string? categoryName, LoggerScope? scope, DateTime dateTime, Exception? exception, string threadID)
+        public static LogModel GetLogModel(LogLevel logLevel, string message, string? categoryName, LoggerScope? scope, DateTime dateTime, Exception? exception, string threadID)
         {
             LogModel result = new()
             {

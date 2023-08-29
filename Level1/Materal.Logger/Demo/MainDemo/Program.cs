@@ -15,8 +15,7 @@ namespace MainDemo
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralLogger(configuration, options =>
             {
-                options.AddCustomConfig("LogDBConnectionString", "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
-                options.AddCustomConfig("ApplicationName", "MainDemo666");
+                options.AddCustomConfig("ApplicationName", "MainDemo");
                 //const string textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}";
                 //Dictionary<LogLevel, ConsoleColor> colors = new() { [LogLevel.Debug] = ConsoleColor.Blue };
                 //options.AddConsoleTarget("LifeConsole", textFormat, colors);
@@ -24,6 +23,7 @@ namespace MainDemo
                 //options.AddHttpTarget("HttpLog", "http://localhost:5000/api/Log/WriteLog", HttpMethod.Post, "{\"CreateTime\":\"${DateTime}\",\"Application\":\"${Application}\",\"Level\":\"${Level}\",\"Scope\":\"${Scope}\",\"CategoryName\":\"${CategoryName}\",\"MachineName\":\"${MachineName}\",\"ProgressID\":\"${ProgressID}\",\"ThreadID\":\"${ThreadID}\",\"Message\":\"${Message}\",\"Exception\":\"${Exception}\"}");
                 //options.AddSqliteTargetFromPath("LocalDB", "${RootPath}\\Logs\\MateralLogger.db");
                 //options.AddSqliteTargetFromConnectionString("LocalDB", "Data Source=${RootPath}\\Logs\\MateralLogger.db");
+                //options.AddCustomConfig("LogDBConnectionString", "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
                 //options.AddSqlServerTarget("ServerDB", "${LogDBConnectionString}");
                 //options.AddWebSocketTarget("LocalWebSocket", 5002, textFormat, colors);
                 //options.AddAllTargetRule();

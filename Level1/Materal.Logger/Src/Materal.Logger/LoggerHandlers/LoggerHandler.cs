@@ -38,7 +38,7 @@ namespace Materal.Logger.LoggerHandlers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public void Handler(LoggerHandlerModel model)
+        public virtual void Handler(LoggerHandlerModel model)
         {
             List<LoggerTargetConfigModel> allTargets = AllTargets;
             foreach (LoggerRuleConfigModel rule in AllRules)

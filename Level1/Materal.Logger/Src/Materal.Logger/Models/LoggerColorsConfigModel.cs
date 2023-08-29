@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Text.Json.Serialization;
 
 namespace Materal.Logger.Models
 {
@@ -15,32 +14,26 @@ namespace Materal.Logger.Models
         /// <summary>
         /// Trace颜色
         /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Trace { get; set; } = ConsoleColor.DarkGray;
         /// <summary>
         /// Debug颜色
         /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Debug { get; set; } = ConsoleColor.DarkGreen;
         /// <summary>
         /// Information颜色
         /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Information { get; set; } = ConsoleColor.Gray;
         /// <summary>
         /// Warning颜色
         /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Warning { get; set; } = ConsoleColor.DarkYellow;
         /// <summary>
         /// Error颜色
         /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Error { get; set; } = ConsoleColor.DarkRed;
         /// <summary>
         /// Critical颜色
         /// </summary>
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ConsoleColor Critical { get; set; } = ConsoleColor.Red;
         /// <summary>
         /// 构造方法

@@ -16,12 +16,10 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 最小等级
         /// </summary>
-        [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
         public LogLevel MinLevel { get; set; } = LogLevel.Trace;
         /// <summary>
         /// 最大等级
         /// </summary>
-        [System.Text.Json.Serialization.JsonConverter(typeof(JsonStringEnumConverter))]
         public LogLevel MaxLevel { get; set; } = LogLevel.Critical;
         /// <summary>
         /// 目标组

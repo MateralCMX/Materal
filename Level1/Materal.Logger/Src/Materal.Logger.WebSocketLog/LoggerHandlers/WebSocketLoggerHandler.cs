@@ -12,7 +12,7 @@ namespace Materal.Logger.LoggerHandlers
     {
         private static readonly Dictionary<string, WebSocketServer> _webSocketServers = new();
         private static readonly Dictionary<string, List<IWebSocketConnection>> _webSocketConnections = new();
-        private static Timer _verifyWebSocketServerTimer = new(VerifyWebSocketServerTimerElapsed);
+        private static readonly Timer _verifyWebSocketServerTimer = new(VerifyWebSocketServerTimerElapsed);
         private const int VerifyWebSocketServerInterval = 5000;
         /// <summary>
         /// 静态构造方法

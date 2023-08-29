@@ -1,5 +1,4 @@
 ﻿using Materal.Logger.LoggerHandlers;
-using Materal.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -22,7 +21,6 @@ namespace Materal.Logger
         /// <returns></returns>
         public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfigOptions>? options = null, IConfiguration? configuration = null)
         {
-            services.AddMateralUtils();
             services.AddLogging(builder =>
             {
                 builder.ClearProviders();

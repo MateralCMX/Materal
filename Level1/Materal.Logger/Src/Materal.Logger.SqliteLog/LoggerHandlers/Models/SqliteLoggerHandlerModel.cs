@@ -36,7 +36,7 @@ namespace Materal.Logger.LoggerHandlers.Models
                 IsOK = false;
                 return;
             }
-            LogModel = LoggerHandlerHelper.GetMateralLogModel(model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);
+            LogModel = LoggerHandlerHelper.GetLogModel(model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);
         }
     }
 }
