@@ -27,7 +27,8 @@ namespace Materal.Logger
             });
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
-            DirectoryInfo directoryInfo = new(LoggerHandlerHelper.RootPath);
+            FileInfo dllFileInfo = new(typeof(Logger).Assembly.Location);
+            DirectoryInfo directoryInfo = dllFileInfo.Directory;
             FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll").Where(m => m.Name.StartsWith("Materal.Logger")).ToArray();
             Type loggerHandlerType = typeof(ILoggerHandler);
             foreach (FileInfo fileInfo in fileInfos)

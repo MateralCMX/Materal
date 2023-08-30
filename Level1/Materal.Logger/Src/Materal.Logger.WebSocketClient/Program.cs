@@ -21,7 +21,7 @@ namespace Materal.Logger.WebSocketClient
         public static async Task<int> Main(string[] args)
         {
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
-            Option<string> urlOption = new("--Url", "指定Websocket服务地址");
+            Option<string> urlOption = new("--Url", "指定服务地址");
             urlOption.AddAlias("-u");
             urlOption.IsRequired = true;
             urlOption.SetDefaultValue("127.0.0.1:5002");
@@ -31,7 +31,7 @@ namespace Materal.Logger.WebSocketClient
             Option<string> ignoreOption = new("--Ignore", "指定忽略日志等级[Trace,Debug,Information,Warning,Error,Critical]");
             ignoreOption.AddAlias("-i");
             ignoreOption.IsRequired = false;
-            RootCommand rootCommand = new("MateralLogger Websocket监听客户端");
+            RootCommand rootCommand = new("MateralLogger远程追踪器");
             rootCommand.AddOption(urlOption);
             rootCommand.AddOption(targetOption);
             rootCommand.AddOption(ignoreOption);
