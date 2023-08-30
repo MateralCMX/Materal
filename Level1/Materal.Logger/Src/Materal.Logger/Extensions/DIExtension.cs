@@ -27,18 +27,25 @@ namespace Materal.Logger
             });
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
+            const string assembliyName = "Materal.Logger";
+            List<Assembly> assemblies = new();
+            assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName is not null && m.FullName.StartsWith(assembliyName)));
             FileInfo dllFileInfo = new(typeof(Logger).Assembly.Location);
             DirectoryInfo directoryInfo = dllFileInfo.Directory;
-            FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll").Where(m => m.Name.StartsWith("Materal.Logger")).ToArray();
-            Type loggerHandlerType = typeof(ILoggerHandler);
+            FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll").Where(m => m.Name.StartsWith(assembliyName)).ToArray();
             foreach (FileInfo fileInfo in fileInfos)
             {
+                if (assemblies.Any(m => m.Location == fileInfo.FullName)) continue;
                 Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
+                assemblies.Add(assembly);
+            }
+            foreach (Assembly assembly in assemblies)
+            {
                 Type[] loggerHandlerTypes = assembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<ILoggerHandler>()).ToArray();
                 foreach (Type type in loggerHandlerTypes)
                 {
                     object loggerHandlerObj = type.Instantiation();
-                    if(loggerHandlerObj is not ILoggerHandler loggerHandler) continue;
+                    if (loggerHandlerObj is not ILoggerHandler loggerHandler) continue;
                     Logger.Handlers.Add(loggerHandler);
                 }
             }
