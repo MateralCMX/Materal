@@ -10,7 +10,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="AntDesign" Version="0.15.4" />
-		<PackageReference Include="Materal.Logger" Version="1.1.50" />
+		<PackageReference Include="Materal.Logger" Version="1.1.51" />
 		<PackageReference Include="MMLib.SwaggerForOcelot" Version="6.3.2" />
 	</ItemGroup>
 	<ItemGroup>

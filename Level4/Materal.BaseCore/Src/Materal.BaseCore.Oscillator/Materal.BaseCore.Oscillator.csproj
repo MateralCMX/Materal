@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.50</Version>
+		<Version>1.1.51</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -20,9 +20,9 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Oscillator" Version="1.1.50" />
-		<PackageReference Include="Materal.Oscillator.SqliteEFRepository" Version="1.1.50" />
-		<PackageReference Include="Materal.Oscillator.SqlServerEFRepository" Version="1.1.50" />
+		<PackageReference Include="Materal.Oscillator" Version="1.1.51" />
+		<PackageReference Include="Materal.Oscillator.SqliteEFRepository" Version="1.1.51" />
+		<PackageReference Include="Materal.Oscillator.SqlServerEFRepository" Version="1.1.51" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.BaseCore.Common\Materal.BaseCore.Common.csproj" />

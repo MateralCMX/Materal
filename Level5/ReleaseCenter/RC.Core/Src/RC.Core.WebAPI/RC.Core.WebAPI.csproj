@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.WebAPI" Version="1.1.50" />
+		<PackageReference Include="Materal.BaseCore.WebAPI" Version="1.1.51" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\RC.Core.EFRepository\RC.Core.EFRepository.csproj" />
