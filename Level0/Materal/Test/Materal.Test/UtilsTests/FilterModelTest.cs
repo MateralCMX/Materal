@@ -1,9 +1,10 @@
 using Materal.Utils.Model;
+using System.Linq.Expressions;
 
 namespace Materal.Test.UtilsTest
 {
     [TestClass]
-    public class FilterModel : BaseTest
+    public class FilterModelTest : BaseTest
     {
         [TestMethod]
         public void SortTest()
@@ -16,21 +17,63 @@ namespace Materal.Test.UtilsTest
                 new() { Name = "B" },
                 new() { Name = "E" }
             };
-            QueryUserModel querModel = new() { SortPropertyName = nameof(User.CreateTime), IsAsc = false };
-            users = querModel.Sort(users);
-            if (querModel.IsAsc)
+            QueryUserModel queryModel = new()
+            {
+                SortPropertyName = nameof(User.CreateTime),
+                IsAsc = false,
+                SourceIDs = new List<Guid>() { Guid.NewGuid(), Guid.NewGuid() }
+            };
+            users = queryModel.Sort(users);
+            if (queryModel.IsAsc)
             {
                 Assert.IsTrue(users.First().Name == "A", "≈≈–Ú¥ÌŒÛ");
             }
             else
             {
                 Assert.IsTrue(users.First().Name == "E", "≈≈–Ú¥ÌŒÛ");
-            }            
+            }
+        }
+        [TestMethod]
+        public void ListContains()
+        {
+            List<User> users = new()
+            {
+                new() { Name = "D" },
+                new() { Name = "C" },
+                new() { Name = "A" },
+                new() { Name = "B" },
+                new() { Name = "E" }
+            };
+            QueryUserModel queryModel = new()
+            {
+                SourceIDs = new List<Guid>() { Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), Guid.NewGuid() }
+            };
+            Expression<Func<User, bool>> expression = queryModel.GetSearchExpression<User>();
+            Assert.IsTrue(users.Where(expression.Compile()).Count() == users.Count);
+        }
+        [TestMethod]
+        public void ArrayContains()
+        {
+            List<User> users = new()
+            {
+                new() { Name = "D" },
+                new() { Name = "C" },
+                new() { Name = "A" },
+                new() { Name = "B" },
+                new() { Name = "E" }
+            };
+            QueryUserModel queryModel = new()
+            {
+                SourceID2s = new[] { Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), Guid.NewGuid() }
+            };
+            Expression<Func<User, bool>> expression = queryModel.GetSearchExpression<User>();
+            Assert.IsTrue(users.Where(expression.Compile()).Count() == users.Count);
         }
         private class User
         {
             public string Name { get; set; } = string.Empty;
             public DateTime CreateTime { get; set; } = DateTime.Now;
+            public Guid? SourceID { get; set; } = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
         }
         private class QueryUserModel : PageRequestModel
         {
@@ -40,6 +83,10 @@ namespace Materal.Test.UtilsTest
             public DateTime? MinCreateTime { get; set; }
             [LessThanOrEqual("CreateTime")]
             public DateTime? MaxCreateTime { get; set; }
+            [Contains("SourceID")]
+            public List<Guid>? SourceIDs { get; set; }
+            [Contains("SourceID")]
+            public Guid[]? SourceID2s { get; set; }
         }
     }
 }

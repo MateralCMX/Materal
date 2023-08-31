@@ -146,7 +146,7 @@ namespace Materal.BaseCore.CodeGenerator.Extensions
             const string attributeSuffix = "Attribute";
             if (attributeName.EndsWith(attributeSuffix))
             {
-                return attributeName.Substring(0, attributeName.Length - attributeSuffix.Length);
+                return attributeName[..^attributeSuffix.Length];
             }
             return attributeName;
         }

@@ -1,4 +1,5 @@
 ﻿using Materal.BaseCore.CodeGenerator.Extensions;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Materal.BaseCore.CodeGenerator.Models
@@ -21,6 +22,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// 可空类型
         /// </summary>
         public string NullPredefinedType => CanNull ? PredefinedType : $"{PredefinedType}?";
+        /// <summary>
+        /// 不可空类型
+        /// </summary>
+        public string NotNullPredefinedType => CanNull ? PredefinedType[..^1] : PredefinedType;
         /// <summary>
         /// 是否可空
         /// </summary>
@@ -54,6 +59,14 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// </summary>
         public bool IsBetween { get; set; }
         /// <summary>
+        /// 是包含
+        /// </summary>
+        public bool IsContains { get; set; }
+        /// <summary>
+        /// 是字符串包含
+        /// </summary>
+        public bool IsStringContains { get; set; }
+        /// <summary>
         /// 生成实体配置
         /// </summary>
         public bool GeneratorEntityConfig { get; set; }
@@ -86,16 +99,16 @@ namespace Materal.BaseCore.CodeGenerator.Models
         {
             string propertyCode = codes[classLineIndex].Trim();
             #region 解析类型
-            propertyCode = propertyCode.Substring("public ".Length);
+            propertyCode = propertyCode["public ".Length..];
             int blankIndex = propertyCode.IndexOf(' ');
-            PredefinedType = propertyCode.Substring(0, blankIndex);
+            PredefinedType = propertyCode[..blankIndex];
             CanNull = PredefinedType.EndsWith("?");
-            propertyCode = propertyCode.Substring(blankIndex + 1);
+            propertyCode = propertyCode[(blankIndex + 1)..];
             #endregion
             #region 解析名称
             blankIndex = propertyCode.IndexOf(' ');
-            Name = propertyCode.Substring(0, blankIndex);
-            propertyCode = propertyCode.Substring(blankIndex + 1);
+            Name = propertyCode[..blankIndex];
+            propertyCode = propertyCode[(blankIndex + 1)..];
             #endregion
             #region 解析默认值
             if (propertyCode != "{ get; set ;}")
@@ -159,6 +172,8 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     QueryAttributes.Add(attribute);
                 }
             }
+            IsContains = QueryAttributes.Count == 1 && QueryAttributes[0].Name == "Contains";
+            IsStringContains = IsContains && NullPredefinedType == "string?";
             #endregion
             #region 解析注释
             Annotation = codes.GetAnnotation(ref startIndex);

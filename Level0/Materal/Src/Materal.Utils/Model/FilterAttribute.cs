@@ -152,8 +152,8 @@ namespace Materal.Utils.Model
         {
             Type propertyType = propertyInfo.PropertyType;
             MethodInfo? methodInfo = propertyType.GetMethod(methodName, new[] { propertyType });
-            Expression? otherExpression;
-            Expression result;
+            Expression? otherExpression = null;
+            Expression? result = null;
             if (methodInfo != null)
             {
                 (Expression leftExpression, Expression rightExpression, otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
@@ -161,11 +161,74 @@ namespace Materal.Utils.Model
             }
             else
             {
-                methodInfo = propertyType.GetMethod(methodName, new[] { targetPropertyInfo.PropertyType });
-                if (methodInfo == null) return null;
-                (Expression rightExpression, Expression leftExpression, otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
-                result = Expression.Call(leftExpression, methodInfo, rightExpression);
+                if (targetPropertyInfo.PropertyType.IsGenericType && targetPropertyInfo.PropertyType.GenericTypeArguments.Length == 1)
+                {
+                    Type genericType = targetPropertyInfo.PropertyType.GenericTypeArguments.First();
+                    Type nullType = typeof(Nullable<>).MakeGenericType(genericType);
+                    if (targetPropertyInfo.PropertyType == nullType)
+                    {
+                        methodInfo = propertyType.GetMethod(methodName, new[] { genericType });
+                        if (methodInfo != null)
+                        {
+                            (Expression rightExpression, Expression leftExpression, _) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
+                            result = Expression.Call(leftExpression, methodInfo, rightExpression);
+                            Expression temp = Expression.Property(parameterExpression, targetPropertyInfo.Name);
+                            temp = Expression.NotEqual(temp, Expression.Constant(null));
+                            result = Expression.AndAlso(temp, result);
+                        }
+                    }
+                }
+                else
+                {
+                    methodInfo = propertyType.GetMethod(methodName, new[] { targetPropertyInfo.PropertyType });
+                    if (methodInfo != null)
+                    {
+                        (Expression rightExpression, Expression leftExpression, otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
+                        result = Expression.Call(leftExpression, methodInfo, rightExpression);
+                    }
+                }
             }
+            if (result == null)
+            {
+                if(methodName == "Contains")
+                {
+                    result = GetContainsCallExpression<T>(parameterExpression, propertyInfo, value, targetPropertyInfo);
+                }
+            }
+            if (result == null) return null;
+            if (otherExpression != null)
+            {
+                result = Expression.Add(otherExpression, result);
+            }
+            return result;
+        }
+        private Expression? GetContainsCallExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
+        {
+            Expression? result = null;
+            Expression? otherExpression = null;
+            MethodInfo? methodInfo = typeof(Enumerable).GetMethods().FirstOrDefault(m => m.Name == "Contains" && m.GetParameters().Length == 2);
+            if (methodInfo == null) return null;
+            if (targetPropertyInfo.PropertyType.IsGenericType && targetPropertyInfo.PropertyType.GenericTypeArguments.Length == 1)
+            {
+                Type genericType = targetPropertyInfo.PropertyType.GenericTypeArguments.First();
+                methodInfo = methodInfo.MakeGenericMethod(genericType);
+                Type nullType = typeof(Nullable<>).MakeGenericType(genericType);
+                if (targetPropertyInfo.PropertyType == nullType)
+                {
+                    (Expression rightExpression, Expression leftExpression, _) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
+                    result = Expression.Call(null, methodInfo, leftExpression, rightExpression);
+                    Expression temp = Expression.Property(parameterExpression, targetPropertyInfo.Name);
+                    temp = Expression.NotEqual(temp, Expression.Constant(null));
+                    result = Expression.AndAlso(temp, result);
+                }
+            }
+            else
+            {
+                methodInfo = methodInfo.MakeGenericMethod(targetPropertyInfo.PropertyType);
+                (Expression rightExpression, Expression leftExpression, otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
+                result = Expression.Call(null, methodInfo, leftExpression, rightExpression);
+            }
+            if (result == null) return null;
             if (otherExpression != null)
             {
                 result = Expression.Add(otherExpression, result);

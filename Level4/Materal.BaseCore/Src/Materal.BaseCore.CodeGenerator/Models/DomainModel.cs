@@ -484,7 +484,14 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     codeContent.AppendLine($"        /// {property.Annotation}");
                     codeContent.AppendLine($"        /// </summary>");
                     AppendQueryAttributeCode(codeContent, property);
-                    codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
+                    if (property.IsContains && !property.IsStringContains)
+                    {
+                        codeContent.AppendLine($"        public List<{property.NotNullPredefinedType}>? {property.Name}Collections {{ get; set; }}");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
+                    }
                 }
                 if (property.IsBetween)
                 {
@@ -1121,7 +1128,15 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     codeContent.AppendLine($"        /// <summary>");
                     codeContent.AppendLine($"        /// {property.Annotation}");
                     codeContent.AppendLine($"        /// </summary>");
-                    codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
+
+                    if (property.IsContains && !property.IsStringContains)
+                    {
+                        codeContent.AppendLine($"        public List<{property.NotNullPredefinedType}>? {property.Name}Collections {{ get; set; }}");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
+                    }
                 }
                 if (property.IsBetween)
                 {
@@ -1264,7 +1279,12 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <param name="property"></param>
         private static void AppendQueryAttributeCode(StringBuilder codeContent, DomainPropertyModel property)
         {
-            if (property.HasQueryAttribute)
+            if (!property.HasQueryAttribute) return;
+            if (property.IsContains && !property.IsStringContains)
+            {
+                codeContent.AppendLine($"        [Contains(\"{property.Name}\")]");
+            }
+            else
             {
                 codeContent.Append($"        [");
                 List<string> attributesString = new();
