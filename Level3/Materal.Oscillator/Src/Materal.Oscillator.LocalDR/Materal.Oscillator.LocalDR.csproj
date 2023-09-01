@@ -9,12 +9,12 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.51</Version>
+		<Version>1.1.52</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.DRSqliteEFRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.51" />
+		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.52" />
 		<PackageReference Include="NetCore.AutoRegisterDi" Version="*" />
 		<PackageReference Include="System.Threading.Tasks.Dataflow" Version="*" />
 	</ItemGroup>
