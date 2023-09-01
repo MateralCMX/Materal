@@ -14,6 +14,10 @@ namespace MBC.Demo.EFRepository
         /// </summary>
         public DemoDBContext(DbContextOptions<DemoDBContext> options) : base(options) { }
         /// <summary>
+        /// 我的树
+        /// </summary>
+        public DbSet<MyTree> MyTree { get; set; }
+        /// <summary>
         /// 用户
         /// </summary>
         public DbSet<User> User { get; set; }

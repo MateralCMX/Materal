@@ -3,7 +3,7 @@
     /// <summary>
     /// 树数据传输模型
     /// </summary>
-    public interface ITreeDTO<T>
+    public interface ITreeDTO
     {
         /// <summary>
         /// 唯一标识
@@ -13,6 +13,12 @@
         /// 父级
         /// </summary>
         public Guid? ParentID { get; set; }
+    }
+    /// <summary>
+    /// 树数据传输模型
+    /// </summary>
+    public interface ITreeDTO<T> : ITreeDTO
+    {
         /// <summary>
         /// 子级
         /// </summary>

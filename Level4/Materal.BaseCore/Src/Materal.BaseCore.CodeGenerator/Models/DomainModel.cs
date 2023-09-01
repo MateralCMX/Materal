@@ -1,6 +1,4 @@
 ﻿using Materal.BaseCore.CodeGenerator.Extensions;
-using Microsoft.Extensions.Primitives;
-using System;
 using System.Text;
 
 namespace Materal.BaseCore.CodeGenerator.Models
@@ -88,16 +86,19 @@ namespace Materal.BaseCore.CodeGenerator.Models
         private readonly string _iRepositoryName = string.Empty;
         private readonly string _repositoryImplName = string.Empty;
         private readonly string _listDTOName = string.Empty;
+        private readonly string _treeListDTOName = string.Empty;
         private readonly string _dtoName = string.Empty;
         private readonly string _addModelName = string.Empty;
         private readonly string _editModelName = string.Empty;
         private readonly string _queryModelName = string.Empty;
+        private readonly string _queryTreeListModelName = string.Empty;
         private readonly string _iServiceName = string.Empty;
         private readonly string _serviceImplName = string.Empty;
         private readonly string _autoMapperProfileName = string.Empty;
         private readonly string _addRequestModelName = string.Empty;
         private readonly string _editRequestModelName = string.Empty;
         private readonly string _queryRequestModelName = string.Empty;
+        private readonly string _queryTreeListRequestModelName = string.Empty;
         private readonly string _controllerName = string.Empty;
         private readonly string? _queryTargetName;
         private readonly string? _iQueryTargetRepositoryName;
@@ -203,16 +204,19 @@ namespace Materal.BaseCore.CodeGenerator.Models
             _iRepositoryName = $"I{Name}Repository";
             _repositoryImplName = $"{Name}RepositoryImpl";
             _listDTOName = $"{Name}ListDTO";
+            _treeListDTOName = $"{Name}TreeListDTO";
             _dtoName = $"{Name}DTO";
             _addModelName = $"Add{Name}Model";
             _editModelName = $"Edit{Name}Model";
             _queryModelName = $"Query{Name}Model";
+            _queryTreeListModelName = $"Query{Name}TreeListModel";
             _iServiceName = $"I{Name}Service";
             _serviceImplName = $"{Name}ServiceImpl";
             _autoMapperProfileName = $"{Name}Profile";
             _addRequestModelName = $"Add{Name}RequestModel";
             _editRequestModelName = $"Edit{Name}RequestModel";
             _queryRequestModelName = $"Query{Name}RequestModel";
+            _queryTreeListRequestModelName = $"Query{Name}TreeListRequestModel";
             _controllerName = $"{Name}Controller";
             #endregion
         }
@@ -304,6 +308,18 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"            await DefaultService.ExchangeParentAsync(model);");
                 codeContent.AppendLine($"            return ResultModel.Success(\"更改父级成功\");");
                 codeContent.AppendLine($"        }}");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 查询树列表");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"requestModel\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [HttpPost]");
+                codeContent.AppendLine($"        public async Task<ResultModel<List<{_treeListDTOName}>>> GetTreeListAsync({_queryTreeListRequestModelName} requestModel)");
+                codeContent.AppendLine($"        {{");
+                codeContent.AppendLine($"            {_queryTreeListModelName} model = Mapper.Map<{_queryTreeListModelName}>(requestModel);");
+                codeContent.AppendLine($"            List<{_treeListDTOName}> result = await DefaultService.GetTreeListAsync(model);");
+                codeContent.AppendLine($"            return ResultModel<List<{_treeListDTOName}>>.Success(result, \"查询成功\");");
+                codeContent.AppendLine($"        }}");
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
@@ -356,12 +372,24 @@ namespace Materal.BaseCore.CodeGenerator.Models
             {
                 if (GeneratorQueryTargetService)
                 {
+                    if (IsTreeDomain)
+                    {
+                        codeContent.AppendLine($"            CreateMap<{_queryTargetName}, {_treeListDTOName}>();");
+                    }
                     codeContent.AppendLine($"            CreateMap<{_queryTargetName}, {_listDTOName}>();");
                     codeContent.AppendLine($"            CreateMap<{_queryTargetName}, {_dtoName}>();");
+                }
+                if (IsTreeDomain)
+                {
+                    codeContent.AppendLine($"            CreateMap<{Name}, {_treeListDTOName}>();");
                 }
                 codeContent.AppendLine($"            CreateMap<{Name}, {_listDTOName}>();");
                 codeContent.AppendLine($"            CreateMap<{Name}, {_dtoName}>();");
                 codeContent.AppendLine($"            CreateMap<{_queryRequestModelName}, {_queryModelName}>();");
+                if (IsTreeDomain)
+                {
+                    codeContent.AppendLine($"            CreateMap<{_queryTreeListRequestModelName}, {_queryTreeListModelName}>();");
+                }
             }
             codeContent.AppendLine($"        }}");
             codeContent.AppendLine($"    }}");
@@ -430,6 +458,11 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// <returns></returns>");
                 codeContent.AppendLine($"        [DataValidation]");
                 codeContent.AppendLine($"        Task ExchangeParentAsync(ExchangeParentModel model);");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 查询树列表");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"queryModel\"></param>");
+                codeContent.AppendLine($"        Task<List<{_treeListDTOName}>> GetTreeListAsync({_queryTreeListModelName} queryModel);");
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
@@ -468,6 +501,34 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"}}");
             string filePath = Path.Combine(project.GeneratorRootPath, "Models", Name);
             codeContent.SaveFile(filePath, $"{_queryModelName}.g.cs");
+        }
+        /// <summary>
+        /// 创建查询树模型文件
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="domains"></param>
+        public void CreateQueryTreeModelFile(ProjectModel project)
+        {
+            if (!GeneratorCode || !GeneratorQueryModel || !IsTreeDomain) return;
+            StringBuilder codeContent = new();
+            codeContent.AppendLine("#nullable enable");
+            codeContent.AppendLine($"using Materal.Utils.Model;");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.Services.Models.{Name}");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {Annotation}查询模型");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {_queryTreeListModelName} : FilterModel");
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"        /// <summary>");
+            codeContent.AppendLine($"        /// 父级唯一标识");
+            codeContent.AppendLine($"        /// </summary>");
+            codeContent.AppendLine($"        public Guid? ParentID {{ get; set; }}");
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            string filePath = Path.Combine(project.GeneratorRootPath, "Models", Name);
+            codeContent.SaveFile(filePath, $"{_queryTreeListModelName}.g.cs");
         }
         /// <summary>
         /// 填充查询请求模型属性
@@ -608,6 +669,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.BaseCore.ServiceImpl;");
             codeContent.AppendLine($"using Materal.BaseCore.Services.Models;");
+            codeContent.AppendLine($"using Materal.TTA.EFRepository;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain.Repositories;");
@@ -733,6 +795,22 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// <param name=\"model\"></param>");
                 codeContent.AppendLine($"        /// <returns></returns>");
                 codeContent.AppendLine($"        partial void OnExchangeParentAfter(ExchangeParentModel model);");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 查询树列表");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"queryModel\"></param>");
+                codeContent.AppendLine($"        public async Task<List<{_treeListDTOName}>> GetTreeListAsync({_queryTreeListModelName} queryModel)");
+                codeContent.AppendLine($"        {{");
+                codeContent.AppendLine($"            List<{Name}> allInfo = DefaultRepository is ICacheEFRepository<{Name}, Guid> cacheRepository ? await cacheRepository.GetAllInfoFromCacheAsync() : await DefaultRepository.FindAsync(m => true);");
+                codeContent.AppendLine($"            List<{_treeListDTOName}> result = allInfo.ToTree<{Name}, {_treeListDTOName}>(queryModel.ParentID, (dto, domain) => Mapper.Map(domain, dto));");
+                codeContent.AppendLine($"            HandlerTreeListDTO(result, queryModel);");
+                codeContent.AppendLine($"            return result;");
+                codeContent.AppendLine($"        }}");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 处理树列表DTO");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"dtos\"></param>");
+                codeContent.AppendLine($"        partial void HandlerTreeListDTO(List<{_treeListDTOName}> dtos, {_queryTreeListModelName} queryModel);");
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
@@ -1077,6 +1155,42 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }} {property.Initializer}");
             }
         }
+        /// <summary>
+        /// 创建树形列表DTO文件
+        /// </summary>
+        /// <param name="project"></param>
+        /// <param name="domains"></param>
+        public void CreateTreeListDTOFile(ProjectModel project, List<DomainModel> domains)
+        {
+            if (!GeneratorCode || !GeneratorQueryModel || !IsTreeDomain) return;
+            StringBuilder codeContent = new();
+            codeContent.AppendLine($"using Materal.BaseCore.DataTransmitModel;");
+            DomainModel targetDomain;
+            if (GeneratorQueryTargetService)
+            {
+                targetDomain = domains.FirstOrDefault((m) => m.Name == _queryTargetName) ?? this;
+            }
+            else
+            {
+                targetDomain = this;
+            }
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name}");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {Annotation}树列表数据传输模型");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {_treeListDTOName}: {_listDTOName}, ITreeDTO<{_treeListDTOName}>");
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"        /// <summary>");
+            codeContent.AppendLine($"        /// 子级");
+            codeContent.AppendLine($"        /// </summary>");
+            codeContent.AppendLine($"        public List<{_treeListDTOName}> Children {{ get; set; }} = new();");
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            string filePath = Path.Combine(project.GeneratorRootPath, Name);
+            codeContent.SaveFile(filePath, $"{_treeListDTOName}.g.cs");
+        }
         #endregion
         #region PresentationModel
         /// <summary>
@@ -1113,6 +1227,32 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"}}");
             string filePath = Path.Combine(project.GeneratorRootPath, Name);
             codeContent.SaveFile(filePath, $"{_queryRequestModelName}.g.cs");
+        }
+        /// <summary>
+        /// 创建查询树请求模型文件
+        /// </summary>
+        /// <param name="project"></param>
+        public void CreateQueryTreeRequestModelFile(ProjectModel project)
+        {
+            if (!GeneratorCode || !GeneratorQueryModel || !IsTreeDomain) return;
+            StringBuilder codeContent = new();
+            codeContent.AppendLine("#nullable enable");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.PresentationModel.{Name}");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {Annotation}查询模型");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {_queryTreeListRequestModelName}");
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"        /// <summary>");
+            codeContent.AppendLine($"        /// 父级唯一标识");
+            codeContent.AppendLine($"        /// </summary>");
+            codeContent.AppendLine($"        public Guid? ParentID {{ get; set; }}");
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            string filePath = Path.Combine(project.GeneratorRootPath, "Models", Name);
+            codeContent.SaveFile(filePath, $"{_queryTreeListRequestModelName}.g.cs");
         }
         /// <summary>
         /// 填充查询请求模型属性

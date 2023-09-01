@@ -11,7 +11,7 @@ namespace MBC.Core.EFRepository
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TPrimaryKeyType"></typeparam>
-    public abstract class MBCCacheRepositoryImpl<T, TPrimaryKeyType, TDBContext> : SqliteCacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, IMBCCacheRepository<T, TPrimaryKeyType>
+    public abstract class MBCCacheRepositoryImpl<T, TPrimaryKeyType, TDBContext> : SqliteCacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, ICacheMBCRepository<T, TPrimaryKeyType>
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
         where TDBContext : DbContext

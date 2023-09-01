@@ -149,38 +149,26 @@ namespace System
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static bool IsAssignableTo<T>(this Type type)
-        {
-            return type.IsAssignableTo(typeof(T));
-        }
+        public static bool IsAssignableTo<T>(this Type type) => type.IsAssignableTo(typeof(T));
         /// <summary>
         /// 是否可作为类型使用
         /// </summary>
         /// <param name="type"></param>
         /// <param name="targetType"></param>
         /// <returns></returns>
-        public static bool IsAssignableTo(this Type type, Type targetType)
-        {
-            if (type == targetType) return true;
-            if (targetType.IsInterface)
-            {
-                List<Type> allInterfaces = type.GetAllInterfaces();
-                return allInterfaces.Any(m => m.FullName == targetType.FullName);
-            }
-            else if (targetType.IsClass)
-            {
-                if (type == targetType) return true;
-                List<Type> allBaseTypes = type.GetAllBaseType();
-                return allBaseTypes.Any(m => m.FullName == targetType.FullName);
-            }
-            return false;
-        }
+        public static bool IsAssignableTo(this Type type, Type targetType) => type.IsAssignableFrom(targetType);
+        /// <summary>
+        /// 是否可作为类型使用
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsAssignableFrom<T>(this Type type) => type.IsAssignableFrom(typeof(T));
         /// <summary>
         /// 获得所有的基类
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        private static List<Type> GetAllBaseType(this Type type)
+        public static List<Type> GetAllBaseType(this Type type)
         {
             List<Type> allBaseTypes = new();
             Type? temp = type;

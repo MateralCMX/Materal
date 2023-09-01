@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.Common;
-using Materal.BaseCore.Common.Utils;
 using Materal.BaseCore.Domain;
 using Materal.BaseCore.EFRepository;
 using Materal.BaseCore.Services.Models;
@@ -206,6 +205,29 @@ namespace Materal.BaseCore.ServiceImpl
                 propertyInfo.SetValue(t, id);
                 unitOfWork.RegisterAdd(t);
             }
+        }
+        /// <summary>
+        /// 获得查询树结构领域表达式
+        /// </summary>
+        /// <typeparam name="TDomain"></typeparam>
+        /// <typeparam name="TQueryModel"></typeparam>
+        /// <param name="expression"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static Expression<Func<TDomain, bool>> GetSearchTreeDomainExpression<TDomain, TQueryModel>(Expression<Func<TDomain, bool>> expression, TQueryModel model)
+            where TQueryModel : notnull
+        {
+            if (!typeof(TDomain).IsAssignableTo<ITreeDomain>()) return expression;
+            PropertyInfo? modelParentIDPropertyInfo = model.GetType().GetProperty(nameof(ITreeDomain.ParentID));
+            if (modelParentIDPropertyInfo == null) return expression;
+            object? modelParentID = modelParentIDPropertyInfo.GetValue(model);
+            if (modelParentID != null) return expression;
+            ParameterExpression parameterExpression = expression.Parameters[0];
+            MemberExpression memberExpression = Expression.Property(parameterExpression, nameof(ITreeDomain.ParentID));
+            BinaryExpression binaryExpression = Expression.Equal(memberExpression, Expression.Constant(null));
+            Expression<Func<TDomain, bool>> newExpression = Expression.Lambda<Func<TDomain, bool>>(binaryExpression, parameterExpression);
+            expression = expression.Compose(newExpression, new Func<Expression, Expression, Expression>(Expression.AndAlso));
+            return expression;
         }
     }
 }

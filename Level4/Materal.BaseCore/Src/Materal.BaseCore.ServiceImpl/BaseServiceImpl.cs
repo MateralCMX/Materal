@@ -193,6 +193,7 @@ namespace Materal.BaseCore.ServiceImpl
         public virtual async Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(TQueryModel model)
         {
             Expression<Func<TDomain, bool>> expression = model.GetSearchExpression<TDomain>();
+            expression = ServiceImplHelper.GetSearchTreeDomainExpression(expression, model);
             return await GetListAsync(expression, model);
         }
         /// <summary>
@@ -340,6 +341,7 @@ namespace Materal.BaseCore.ServiceImpl
         public override async Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(TQueryModel model)
         {
             Expression<Func<TViewDomain, bool>> expression = model.GetSearchExpression<TViewDomain>();
+            expression = ServiceImplHelper.GetSearchTreeDomainExpression(expression, model);
             return await GetViewListAsync(expression, model);
         }
         /// <summary>

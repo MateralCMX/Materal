@@ -5,12 +5,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MBC.Demo.EFRepository.Migrations
 {
-    /// <inheritdoc />
     public partial class Init : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "MyTree",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false, comment: "名称"),
+                    ParentID = table.Column<Guid>(type: "TEXT", nullable: true, comment: "父级唯一标识"),
+                    Index = table.Column<int>(type: "INTEGER", nullable: false, comment: "位序"),
+                    CreateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MyTree", x => x.ID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "User",
                 columns: table => new
@@ -26,13 +40,14 @@ namespace MBC.Demo.EFRepository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.ID);
-                },
-                comment: "用户");
+                });
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "MyTree");
+
             migrationBuilder.DropTable(
                 name: "User");
         }

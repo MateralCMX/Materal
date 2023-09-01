@@ -143,6 +143,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 domain.CreateAddModelFile(this);
                 domain.CreateEditModelFile(this);
                 domain.CreateQueryModelFile(this, domains);
+                domain.CreateQueryTreeModelFile(this);
             }
         }
         /// <summary>
@@ -184,6 +185,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             {
                 domain.Init();
                 domain.CreateListDTOFile(this, domains);
+                domain.CreateTreeListDTOFile(this, domains);
                 domain.CreateDTOFile(this, domains);
             }
         }
@@ -200,6 +202,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 domain.CreateAddRequestModelFile(this);
                 domain.CreateEditRequestModelFile(this);
                 domain.CreateQueryRequestModelFile(this, domains);
+                domain.CreateQueryTreeRequestModelFile(this);
             }
         }
         /// <summary>

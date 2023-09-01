@@ -15,7 +15,38 @@ namespace MBC.Demo.EFRepository.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.21");
+
+            modelBuilder.Entity("MBC.Demo.Domain.MyTree", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("INTEGER")
+                        .HasComment("位序");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT")
+                        .HasComment("名称");
+
+                    b.Property<Guid?>("ParentID")
+                        .HasColumnType("TEXT")
+                        .HasComment("父级唯一标识");
+
+                    b.Property<DateTime>("UpdateTime")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("MyTree");
+                });
 
             modelBuilder.Entity("MBC.Demo.Domain.User", b =>
                 {
@@ -53,10 +84,7 @@ namespace MBC.Demo.EFRepository.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("User", t =>
-                        {
-                            t.HasComment("用户");
-                        });
+                    b.ToTable("User");
                 });
 #pragma warning restore 612, 618
         }
