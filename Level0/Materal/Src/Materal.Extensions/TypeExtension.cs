@@ -156,13 +156,13 @@ namespace System
         /// <param name="type"></param>
         /// <param name="targetType"></param>
         /// <returns></returns>
-        public static bool IsAssignableTo(this Type type, Type targetType) => type.IsAssignableFrom(targetType);
+        public static bool IsAssignableTo(this Type type, Type targetType) => targetType.IsAssignableFrom(type);
         /// <summary>
         /// 是否可作为类型使用
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static bool IsAssignableFrom<T>(this Type type) => type.IsAssignableFrom(typeof(T));
+        public static bool IsAssignableFrom<T>(this Type type) => typeof(T).IsAssignableFrom(type);
         /// <summary>
         /// 获得所有的基类
         /// </summary>
