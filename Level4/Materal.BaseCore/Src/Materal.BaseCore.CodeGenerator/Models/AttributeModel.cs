@@ -13,9 +13,9 @@ namespace Materal.BaseCore.CodeGenerator.Models
             int leftbracketIndex = attributeName.IndexOf("(");
             if (leftbracketIndex > 0 && attributeName.EndsWith(")"))
             {
-                Name = attributeName.Substring(0, leftbracketIndex);
-                string argumentString = attributeName.Substring(leftbracketIndex + 1);
-                argumentString = argumentString.Substring(0, argumentString.Length - 1);
+                Name = attributeName[..leftbracketIndex];
+                string argumentString = attributeName[(leftbracketIndex + 1)..];
+                argumentString = argumentString[..^1];
                 string[] arguments = argumentString.Trim().Split(',');
                 List<string> trueArguments = arguments.AssemblyFullCode(",");
                 AttributeArguments.AddRange(trueArguments.Select(item => new AttributeArgumentModel(item)));

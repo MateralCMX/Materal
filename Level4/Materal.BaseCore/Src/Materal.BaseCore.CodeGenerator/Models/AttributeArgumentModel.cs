@@ -28,8 +28,7 @@
         {
             if (value.StartsWith("nameof(") && value.EndsWith(")"))
             {
-                value = value.Substring("nameof(".Length);
-                value = value.Substring(0, value.Length - 1);
+                value = $"\"{value["nameof(".Length..^1]}\"";
             }
             return value;
         }
