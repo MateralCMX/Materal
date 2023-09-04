@@ -22,7 +22,7 @@ namespace Materal.BaseCore.CodeGenerator.Extensions
                 {
                     if (temp.Contains("("))
                     {
-                        if (temp.EndsWith(")"))
+                        if (temp.EndsWith(")") && temp.Count(m => m == '(') == temp.Count(m => m == ')'))
                         {
                             attributeCodes.Add(temp);
                         }

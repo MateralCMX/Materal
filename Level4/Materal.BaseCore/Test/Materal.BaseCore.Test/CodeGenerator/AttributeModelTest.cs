@@ -133,5 +133,14 @@ namespace Materal.BaseCore.Test.CodeGenerator
             Assert.AreEqual("Arg4", attributeModel.AttributeArguments[3].Target);
             Assert.AreEqual("\"arg4\"", attributeModel.AttributeArguments[3].Value);
         }
+        /// <summary>
+        /// 自定义测试
+        /// </summary>
+        [TestMethod]
+        public void CustomTest()
+        {
+            string code = "MultipleRecord(nameof(CoursewareFileID), UserIDName = nameof(CreateUserID))";
+            AttributeModel attributeModel = new(code);
+        }
     }
 }

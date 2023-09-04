@@ -141,7 +141,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 {
                     GeneratorQueryTargetService = true;
                     AttributeArgumentModel target = queryTargetGeneratorAttribute.AttributeArguments.First(m => string.IsNullOrWhiteSpace(m.Target));
-                    _queryTargetName = target.Value;
+                    _queryTargetName = target.Value[1..^1];
                     _iQueryTargetRepositoryName = $"I{_queryTargetName}Repository";
                 }
                 else
