@@ -1,5 +1,6 @@
 using Materal.BaseCore.ServiceImpl;
 using Materal.BaseCore.Services.Models;
+using Materal.TTA.EFRepository;
 using RC.ServerCenter.DataTransmitModel.Namespace;
 using RC.ServerCenter.Domain;
 using RC.ServerCenter.Domain.Repositories;
