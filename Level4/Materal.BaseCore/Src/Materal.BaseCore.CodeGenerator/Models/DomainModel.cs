@@ -802,6 +802,17 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        public async Task<List<{_treeListDTOName}>> GetTreeListAsync({_queryTreeListModelName} queryModel)");
                 codeContent.AppendLine($"        {{");
                 codeContent.AppendLine($"            List<{Name}> allInfo = DefaultRepository is ICacheEFRepository<{Name}, Guid> cacheRepository ? await cacheRepository.GetAllInfoFromCacheAsync() : await DefaultRepository.FindAsync(m => true);");
+                codeContent.AppendLine($"            if(queryModel.SortPropertyName is not null && string.IsNullOrWhiteSpace(queryModel.SortPropertyName) && typeof({Name}).GetProperty(queryModel.SortPropertyName) is not null)");
+                codeContent.AppendLine($"            {{");
+                codeContent.AppendLine($"                if (queryModel.IsAsc)");
+                codeContent.AppendLine($"                {{");
+                codeContent.AppendLine($"                    allInfo = allInfo.OrderBy(queryModel.GetSearchDelegate<{Name}>()).ToList();");
+                codeContent.AppendLine($"                }}");
+                codeContent.AppendLine($"                else");
+                codeContent.AppendLine($"                {{");
+                codeContent.AppendLine($"                    allInfo = allInfo.OrderByDescending(queryModel.GetSearchDelegate<{Name}>()).ToList();");
+                codeContent.AppendLine($"                }}");
+                codeContent.AppendLine($"            }}");
                 codeContent.AppendLine($"            List<{_treeListDTOName}> result = allInfo.ToTree<{Name}, {_treeListDTOName}>(queryModel.ParentID, (dto, domain) => Mapper.Map(domain, dto));");
                 codeContent.AppendLine($"            HandlerTreeListDTO(result, queryModel);");
                 codeContent.AppendLine($"            return result;");
@@ -884,7 +895,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// <returns></returns>");
                 codeContent.AppendLine($"        public async Task<int> GetMaxIndexAsync({string.Join(", ", args)})");
                 codeContent.AppendLine($"        {{");
-                if(indexGourpProperties.Count > 0)
+                if (indexGourpProperties.Count > 0)
                 {
                     codeContent.AppendLine($"            if (!await DBSet.AnyAsync(m => {lambda})) return -1;");
                     codeContent.AppendLine($"            int result = await DBSet.Where(m => {lambda}).MaxAsync(m => m.Index);");
