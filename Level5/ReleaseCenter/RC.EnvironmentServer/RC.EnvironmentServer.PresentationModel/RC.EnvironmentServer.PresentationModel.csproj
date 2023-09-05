@@ -21,7 +21,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="1.1.53" />
+		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="1.1.54" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\RC.EnvironmentServer.Enums\RC.EnvironmentServer.Enums.csproj" />

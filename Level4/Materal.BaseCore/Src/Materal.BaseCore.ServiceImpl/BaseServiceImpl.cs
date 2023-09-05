@@ -46,6 +46,21 @@ namespace Materal.BaseCore.ServiceImpl
         /// </summary>
         protected readonly TRepository DefaultRepository;
         protected readonly IServiceProvider ServiceProvider;
+        private Guid? _loginUserID;
+        private string? _loginServiceName;
+        private string? _clientIP;
+        /// <summary>
+        /// 登录用户唯一标识
+        /// </summary>
+        public Guid LoginUserID { get => _loginUserID is not null ? _loginUserID.Value : throw new MateralCoreException("获取登录用户失败"); set => _loginUserID = value; }
+        /// <summary>
+        /// 登录服务唯一标识
+        /// </summary>
+        public string LoginServiceName { get => (_loginServiceName is not null && !string.IsNullOrWhiteSpace(_loginServiceName)) ? _loginServiceName : throw new MateralCoreException("获取登录用户失败"); set => _loginServiceName = value; }
+        /// <summary>
+        /// 客户端IP地址
+        /// </summary>
+        public string ClientIP { get => (_clientIP is not null && !string.IsNullOrWhiteSpace(_clientIP)) ? _clientIP : throw new MateralCoreException("获取登录用户失败"); set => _clientIP = value; }
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -220,7 +235,7 @@ namespace Materal.BaseCore.ServiceImpl
         /// <param name="model"></param>
         /// <returns></returns>
         protected (Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder) GetDefaultOrderInfo<T>(TQueryModel model)
-            where T: class, IDomain
+            where T : class, IDomain
         {
             Expression<Func<T, object>>? result = model.GetSortExpression<T>();
             SortOrderEnum sortOrder;

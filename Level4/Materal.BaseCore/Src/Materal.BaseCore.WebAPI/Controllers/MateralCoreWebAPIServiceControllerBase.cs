@@ -50,6 +50,9 @@ namespace Materal.BaseCore.WebAPI.Controllers
             ServiceProvider = serviceProvider;
             Mapper = serviceProvider.GetService<IMapper>() ?? throw new MateralCoreException("获取映射器失败");
             DefaultService = serviceProvider.GetService<TService>() ?? throw new MateralCoreException("获取服务失败");
+            DefaultService.ClientIP = GetClientIP();
+            DefaultService.LoginUserID = IsUserLogin() ? GetLoginUserID() : null;
+            DefaultService.LoginServiceName = IsServerLogin() ? GetLoginServerName() : null;
         }
         /// <summary>
         /// 添加

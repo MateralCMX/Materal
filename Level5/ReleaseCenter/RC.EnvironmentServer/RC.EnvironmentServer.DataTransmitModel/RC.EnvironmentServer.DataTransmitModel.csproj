@@ -21,6 +21,6 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="1.1.53" />
+		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="1.1.54" />
 	</ItemGroup>
 </Project>

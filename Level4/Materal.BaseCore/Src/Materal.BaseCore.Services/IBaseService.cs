@@ -20,6 +20,18 @@ namespace Materal.BaseCore.Services
         where TListDTO : class, IListDTO
     {
         /// <summary>
+        /// 登录用户唯一标识
+        /// </summary>
+        Guid LoginUserID { get; set; }
+        /// <summary>
+        /// 服务名称
+        /// </summary>
+        string LoginServiceName { get; set; }
+        /// <summary>
+        /// 客户端IP地址
+        /// </summary>
+        string ClientIP { get; set; }
+        /// <summary>
         /// 添加
         /// </summary>
         /// <param name="model"></param>
