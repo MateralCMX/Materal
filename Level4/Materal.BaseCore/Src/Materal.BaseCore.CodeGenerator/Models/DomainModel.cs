@@ -525,6 +525,14 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"        /// 父级唯一标识");
             codeContent.AppendLine($"        /// </summary>");
             codeContent.AppendLine($"        public Guid? ParentID {{ get; set; }}");
+            foreach (DomainPropertyModel property in Properties.Where(m => m.IsTreeGourpProperty))
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {property.Annotation}");
+                codeContent.AppendLine($"        /// </summary>");
+                AppendQueryAttributeCode(codeContent, property);
+                codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
+            }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             string filePath = Path.Combine(project.GeneratorRootPath, "Models", Name);
@@ -801,17 +809,21 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// <param name=\"queryModel\"></param>");
                 codeContent.AppendLine($"        public async Task<List<{_treeListDTOName}>> GetTreeListAsync({_queryTreeListModelName} queryModel)");
                 codeContent.AppendLine($"        {{");
-                codeContent.AppendLine($"            List<{Name}> allInfo = DefaultRepository is ICacheEFRepository<{Name}, Guid> cacheRepository ? await cacheRepository.GetAllInfoFromCacheAsync() : await DefaultRepository.FindAsync(m => true);");
-                codeContent.AppendLine($"            if(queryModel.SortPropertyName is not null && string.IsNullOrWhiteSpace(queryModel.SortPropertyName) && typeof({Name}).GetProperty(queryModel.SortPropertyName) is not null)");
+                codeContent.AppendLine($"            List<{Name}> allInfo;");
+                codeContent.AppendLine($"            if (DefaultRepository is ICacheEFRepository<{Name}, Guid> cacheRepository)");
                 codeContent.AppendLine($"            {{");
-                codeContent.AppendLine($"                if (queryModel.IsAsc)");
+                codeContent.AppendLine($"                allInfo = await cacheRepository.GetAllInfoFromCacheAsync();");
+                codeContent.AppendLine($"                Func<{Name}, bool> searchDlegate = queryModel.GetSearchDelegate<{Name}>();");
+                codeContent.AppendLine($"                allInfo = allInfo.Where(searchDlegate).ToList();");
+                codeContent.AppendLine($"                if (queryModel.SortPropertyName is not null && string.IsNullOrWhiteSpace(queryModel.SortPropertyName) && typeof({Name}).GetProperty(queryModel.SortPropertyName) is not null)");
                 codeContent.AppendLine($"                {{");
-                codeContent.AppendLine($"                    allInfo = allInfo.OrderBy(queryModel.GetSearchDelegate<{Name}>()).ToList();");
+                codeContent.AppendLine($"                    Func<{Name}, object> sortDlegate = queryModel.GetSortDlegate<{Name}>();");
+                codeContent.AppendLine($"                    allInfo = (queryModel.IsAsc ? allInfo.OrderBy(sortDlegate) : allInfo.OrderByDescending(sortDlegate)).ToList();");
                 codeContent.AppendLine($"                }}");
-                codeContent.AppendLine($"                else");
-                codeContent.AppendLine($"                {{");
-                codeContent.AppendLine($"                    allInfo = allInfo.OrderByDescending(queryModel.GetSearchDelegate<{Name}>()).ToList();");
-                codeContent.AppendLine($"                }}");
+                codeContent.AppendLine($"            }}");
+                codeContent.AppendLine($"            else");
+                codeContent.AppendLine($"            {{");
+                codeContent.AppendLine($"                allInfo = await DefaultRepository.FindAsync(queryModel);");
                 codeContent.AppendLine($"            }}");
                 codeContent.AppendLine($"            OnToTreeBefore(allInfo, queryModel);");
                 codeContent.AppendLine($"            List<{_treeListDTOName}> result = allInfo.ToTree<{Name}, {_treeListDTOName}>(queryModel.ParentID, (dto, domain) =>");
@@ -1280,6 +1292,13 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"        /// 父级唯一标识");
             codeContent.AppendLine($"        /// </summary>");
             codeContent.AppendLine($"        public Guid? ParentID {{ get; set; }}");
+            foreach (DomainPropertyModel property in Properties.Where(m => m.IsTreeGourpProperty))
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {property.Annotation}");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
+            }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             string filePath = Path.Combine(project.GeneratorRootPath, "Models", Name);
