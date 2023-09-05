@@ -1327,7 +1327,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            string filePath = Path.Combine(project.GeneratorRootPath, "Models", Name);
+            string filePath = Path.Combine(project.GeneratorRootPath, Name);
             codeContent.SaveFile(filePath, $"{_queryTreeListRequestModelName}.g.cs");
         }
         /// <summary>
