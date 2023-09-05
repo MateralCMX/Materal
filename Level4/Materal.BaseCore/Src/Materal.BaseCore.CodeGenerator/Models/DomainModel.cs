@@ -1248,13 +1248,14 @@ namespace Materal.BaseCore.CodeGenerator.Models
             if (!GeneratorCode || !GeneratorQueryModel || !IsTreeDomain) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine("#nullable enable");
+            codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {project.PrefixName}.{project.ProjectName}.PresentationModel.{Name}");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {Annotation}查询模型");
             codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial class {_queryTreeListRequestModelName}");
+            codeContent.AppendLine($"    public partial class {_queryTreeListRequestModelName} : FilterModel");
             codeContent.AppendLine($"    {{");
             codeContent.AppendLine($"        /// <summary>");
             codeContent.AppendLine($"        /// 父级唯一标识");
