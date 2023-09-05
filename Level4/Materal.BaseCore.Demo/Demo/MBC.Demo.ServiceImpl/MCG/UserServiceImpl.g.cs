@@ -1,6 +1,9 @@
+using Materal.BaseCore.Domain;
 using Materal.BaseCore.ServiceImpl;
 using Materal.BaseCore.Services.Models;
+using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
+using System.Linq.Expressions;
 using MBC.Demo.DataTransmitModel.User;
 using MBC.Demo.Domain;
 using MBC.Demo.Domain.Repositories;

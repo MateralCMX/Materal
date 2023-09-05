@@ -10,7 +10,7 @@ namespace Materal.BaseCore.WebAPI.Controllers
     /// <summary>
     /// WebAPI控制器基类
     /// </summary>
-    [Route("api/[controller]/[action]"), ApiController]
+    [Route("api/[controller]/[action]"), ApiController, DefaultServiceFilter]
     public abstract class MateralCoreWebAPIControllerBase : ControllerBase
     {
         /// <summary>

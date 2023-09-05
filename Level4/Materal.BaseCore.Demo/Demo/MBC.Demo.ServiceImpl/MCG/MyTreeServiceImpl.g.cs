@@ -1,6 +1,9 @@
+using Materal.BaseCore.Domain;
 using Materal.BaseCore.ServiceImpl;
 using Materal.BaseCore.Services.Models;
+using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
+using System.Linq.Expressions;
 using MBC.Demo.DataTransmitModel.MyTree;
 using MBC.Demo.Domain;
 using MBC.Demo.Domain.Repositories;
@@ -71,15 +74,72 @@ namespace MBC.Demo.ServiceImpl
         /// <param name="queryModel"></param>
         public async Task<List<MyTreeTreeListDTO>> GetTreeListAsync(QueryMyTreeTreeListModel queryModel)
         {
-            List<MyTree> allInfo = DefaultRepository is ICacheEFRepository<MyTree, Guid> cacheRepository ? await cacheRepository.GetAllInfoFromCacheAsync() : await DefaultRepository.FindAsync(m => true);
-            List<MyTreeTreeListDTO> result = allInfo.ToTree<MyTree, MyTreeTreeListDTO>(queryModel.ParentID, (dto, domain) => Mapper.Map(domain, dto));
-            HandlerTreeListDTO(result, queryModel);
+            #region 排序表达式
+            Type domainType = typeof(MyTree);
+            Expression<Func<MyTree, object>> sortExpression = m => m.CreateTime;
+            SortOrderEnum sortOrder = SortOrderEnum.Descending;
+            if (queryModel.SortPropertyName is not null && !string.IsNullOrWhiteSpace(queryModel.SortPropertyName) && domainType.GetProperty(queryModel.SortPropertyName) is not null)
+            {
+                sortExpression = queryModel.GetSortExpression<MyTree>();
+                sortOrder = queryModel.IsAsc ? SortOrderEnum.Ascending : SortOrderEnum.Descending;
+            }
+            else if (domainType.IsAssignableTo<IIndexDomain>())
+            {
+                ParameterExpression parameterExpression = Expression.Parameter(domainType, "m");
+                MemberExpression memberExpression = Expression.Property(parameterExpression, nameof(IIndexDomain.Index));
+                UnaryExpression unaryExpression = Expression.Convert(memberExpression, typeof(object));
+                sortExpression = Expression.Lambda<Func<MyTree, object>>(unaryExpression, parameterExpression);
+                sortOrder = SortOrderEnum.Ascending;
+            }
+            #endregion
+            #region 查询数据源
+            List<MyTree> allInfo;
+            if (DefaultRepository is ICacheEFRepository<MyTree, Guid> cacheRepository)
+            {
+                allInfo = await cacheRepository.GetAllInfoFromCacheAsync();
+                Func<MyTree, bool> searchDlegate = queryModel.GetSearchDelegate<MyTree>();
+                Func<MyTree, object> sortDlegate = sortExpression.Compile();
+                if (sortOrder == SortOrderEnum.Ascending)
+                {
+                    allInfo = allInfo.Where(searchDlegate).OrderBy(sortDlegate).ToList();
+                }
+                else
+                {
+                    allInfo = allInfo.Where(searchDlegate).OrderByDescending(sortDlegate).ToList();
+                }
+            }
+            else
+            {
+                allInfo = await DefaultRepository.FindAsync(queryModel, sortExpression, sortOrder);
+            }
+            #endregion
+            OnToTreeBefore(allInfo, queryModel);
+            List<MyTreeTreeListDTO> result = allInfo.ToTree<MyTree, MyTreeTreeListDTO>(queryModel.ParentID, (dto, domain) =>
+            {
+                Mapper.Map(domain, dto);
+                OnConvertToTreeDTO(dto, domain, queryModel);
+            });
+            OnToTreeAfter(result, queryModel);
             return result;
         }
         /// <summary>
-        /// 处理树列表DTO
+        /// 转换树之前
+        /// </summary>
+        /// <param name="allInfo"></param>
+        /// <param name="queryModel"></param>
+        partial void OnToTreeBefore(List<MyTree> allInfo, QueryMyTreeTreeListModel queryModel);
+        /// <summary>
+        /// 转换树之后
         /// </summary>
         /// <param name="dtos"></param>
-        partial void HandlerTreeListDTO(List<MyTreeTreeListDTO> dtos, QueryMyTreeTreeListModel queryModel);
+        /// <param name="queryModel"></param>
+        partial void OnToTreeAfter(List<MyTreeTreeListDTO> dtos, QueryMyTreeTreeListModel queryModel);
+        /// <summary>
+        /// 转换为树DTO
+        /// </summary>
+        /// <param name="dtos"></param>
+        /// <param name="domain"></param>
+        /// <param name="queryModel"></param>
+        partial void OnConvertToTreeDTO(MyTreeTreeListDTO dto, MyTree domain, QueryMyTreeTreeListModel queryModel);
     }
 }

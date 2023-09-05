@@ -7,17 +7,7 @@ namespace Materal.BaseCore.Services
     /// <summary>
     /// 服务
     /// </summary>
-    /// <typeparam name="TAddModel"></typeparam>
-    /// <typeparam name="TEditModel"></typeparam>
-    /// <typeparam name="TQueryModel"></typeparam>
-    /// <typeparam name="TDTO"></typeparam>
-    /// <typeparam name="TListDTO"></typeparam>
-    public interface IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
-        where TAddModel : class, IAddServiceModel, new()
-        where TEditModel : class, IEditServiceModel, new()
-        where TQueryModel : IQueryServiceModel, new()
-        where TDTO : class, IDTO
-        where TListDTO : class, IListDTO
+    public interface IBaseService
     {
         /// <summary>
         /// 登录用户唯一标识
@@ -31,6 +21,22 @@ namespace Materal.BaseCore.Services
         /// 客户端IP地址
         /// </summary>
         string ClientIP { get; set; }
+    }
+    /// <summary>
+    /// 服务
+    /// </summary>
+    /// <typeparam name="TAddModel"></typeparam>
+    /// <typeparam name="TEditModel"></typeparam>
+    /// <typeparam name="TQueryModel"></typeparam>
+    /// <typeparam name="TDTO"></typeparam>
+    /// <typeparam name="TListDTO"></typeparam>
+    public interface IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO> : IBaseService
+        where TAddModel : class, IAddServiceModel, new()
+        where TEditModel : class, IEditServiceModel, new()
+        where TQueryModel : IQueryServiceModel, new()
+        where TDTO : class, IDTO
+        where TListDTO : class, IListDTO
+    {
         /// <summary>
         /// 添加
         /// </summary>
