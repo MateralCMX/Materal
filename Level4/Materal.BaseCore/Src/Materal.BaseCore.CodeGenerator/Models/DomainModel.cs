@@ -675,9 +675,12 @@ namespace Materal.BaseCore.CodeGenerator.Models
         {
             if (!GeneratorCode || !GeneratorService) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"using Materal.BaseCore.Domain;");
             codeContent.AppendLine($"using Materal.BaseCore.ServiceImpl;");
             codeContent.AppendLine($"using Materal.BaseCore.Services.Models;");
+            codeContent.AppendLine($"using Materal.TTA.Common;");
             codeContent.AppendLine($"using Materal.TTA.EFRepository;");
+            codeContent.AppendLine($"using System.Linq.Expressions;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Domain.Repositories;");
