@@ -2,6 +2,7 @@
 using Materal.Utils.Http;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Materal.Logger.LoggerHandlers
@@ -70,6 +71,10 @@ namespace Materal.Logger.LoggerHandlers
         public static string FormatMessage(string writeMessage, LogLevel logLevel, string message, string? categoryName, LoggerScope? scope, DateTime dateTime, Exception? exception, string threadID)
         {
             string result = writeMessage;
+            if (scope is not null)
+            {
+                result = scope.HandlerText(result);
+            }
             foreach (KeyValuePair<string, string> item in LoggerConfig.CustomConfig)
             {
                 result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);
@@ -89,7 +94,7 @@ namespace Materal.Logger.LoggerHandlers
             result = Regex.Replace(result, @"\$\{Minute\}", dateTime.Minute.ToString());
             result = Regex.Replace(result, @"\$\{Second\}", dateTime.Second.ToString());
             result = Regex.Replace(result, @"\$\{Level\}", logLevel.ToString());
-            result = Regex.Replace(result, @"\$\{Scope\}", scope == null ? "PublicScope" : scope.Scope);
+            result = Regex.Replace(result, @"\$\{Scope\}", scope == null ? "PublicScope" : scope.ScopeName);
             result = Regex.Replace(result, @"\$\{Message\}", message);
             if (!string.IsNullOrWhiteSpace(categoryName))
             {
@@ -118,6 +123,10 @@ namespace Materal.Logger.LoggerHandlers
         public static string FormatPath(string path, LogLevel logLevel, string? categoryName, LoggerScope? scope, DateTime dateTime, string threadID)
         {
             string result = path;
+            if (scope is not null)
+            {
+                result = scope.HandlerText(result);
+            }
             foreach (KeyValuePair<string, string> item in LoggerConfig.CustomConfig)
             {
                 result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);
@@ -135,7 +144,7 @@ namespace Materal.Logger.LoggerHandlers
             result = Regex.Replace(result, @"\$\{Minute\}", dateTime.Minute.ToString());
             result = Regex.Replace(result, @"\$\{Second\}", dateTime.Second.ToString());
             result = Regex.Replace(result, @"\$\{Level\}", logLevel.ToString());
-            result = Regex.Replace(result, @"\$\{Scope\}", scope == null ? "PublicScope" : scope.Scope);
+            result = Regex.Replace(result, @"\$\{Scope\}", scope == null ? "PublicScope" : scope.ScopeName);
             if (!string.IsNullOrWhiteSpace(categoryName))
             {
                 result = Regex.Replace(result, @"\$\{CategoryName\}", categoryName);
@@ -170,7 +179,7 @@ namespace Materal.Logger.LoggerHandlers
                 Message = message,
                 ProgressID = GetProgressID(),
                 ThreadID = threadID,
-                Scope = scope == null ? "PublicScope" : scope.Scope,
+                Scope = scope == null ? "PublicScope" : scope.ScopeName,
                 CategoryName = categoryName,
                 Error = exception == null ? null : GetErrorMessage(exception),
                 CustomInfo = LoggerConfig.CustomData.ToJson()

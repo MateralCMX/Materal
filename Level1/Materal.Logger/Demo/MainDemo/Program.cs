@@ -50,6 +50,11 @@ namespace MainDemo
             //    //logger.LogTrace( $"Hello World!{i}");
             //}
             //Console.WriteLine("输入完毕");
+            //using IDisposable scope = logger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
+            //{
+            //    ["Application"] = "一个应用程序",
+            //    ["Level"] = "NewLevel"
+            //}));
             while (true)
             {
                 //logger.LogTrace($"Hello World!");

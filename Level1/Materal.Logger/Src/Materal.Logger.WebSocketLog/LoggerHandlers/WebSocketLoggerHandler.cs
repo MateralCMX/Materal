@@ -154,9 +154,9 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="stateInfo"></param>
         public static void VerifyWebSocketServerTimerElapsed(object? stateInfo)
         {
-            WebSocketLoggerTargetConfigModel[] targets = AllTargets.ToArray();
+            List<WebSocketLoggerTargetConfigModel> targets = LoggerConfig.GetAllTargets<WebSocketLoggerTargetConfigModel>();
             #region 关闭禁用或不存在的服务
-            string[] enableTargetNames = AllTargets.Select(m => m.Name).ToArray();
+            string[] enableTargetNames = targets.Select(m => m.Name).ToArray();
             string[] allKeys = _webSocketServers.Keys.ToArray();
             foreach (string key in allKeys)
             {

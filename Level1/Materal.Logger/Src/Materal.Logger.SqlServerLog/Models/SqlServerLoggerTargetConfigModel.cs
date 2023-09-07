@@ -25,7 +25,6 @@ namespace Materal.Logger.Models
             set
             {
                 if (value is null || string.IsNullOrWhiteSpace(value)) throw new LoggerException("连接字符串不能为空");
-                if (!value.StartsWith("Data Source=") || !value.Contains("Initial Catalog=")) throw new LoggerException("链接字符串格式错误");
                 _connectionString = value;
             }
         }

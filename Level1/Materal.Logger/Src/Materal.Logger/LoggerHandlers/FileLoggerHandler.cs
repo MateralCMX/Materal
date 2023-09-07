@@ -13,7 +13,7 @@ namespace Materal.Logger.LoggerHandlers
         /// 处理合格的数据
         /// </summary>
         /// <param name="datas"></param>
-        protected override void HandlerOKData(FileLoggerHandlerModel[] datas)
+        protected override void HandlerData(FileLoggerHandlerModel[] datas)
         {
             IGrouping<string, FileLoggerHandlerModel>[] fileModels = datas.GroupBy(m => m.Path).ToArray();
             Parallel.ForEach(fileModels, item =>

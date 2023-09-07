@@ -50,7 +50,18 @@ namespace Materal.Logger
             string scope;
             if (state is not null)
             {
-                scope = state.ToString();
+                if(state is AdvancedScope advancedScope)
+                {
+                    return BeginScope(advancedScope);
+                }
+                if (state is string stateString)
+                {
+                    scope = stateString;
+                }
+                else
+                {
+                    scope = state.ToString();
+                }
             }
             else
             {
@@ -63,15 +74,33 @@ namespace Materal.Logger
         /// </summary>
         /// <param name="scope"></param>
         /// <returns></returns>
+        public LoggerScope BeginScope(AdvancedScope scope)
+        {
+            if (_loggerScope is null)
+            {
+                _loggerScope = new LoggerScope(scope, this);
+            }
+            else if (_loggerScope.ScopeName != scope.ScopeName)
+            {
+                _loggerScope.Dispose();
+                _loggerScope = new LoggerScope(scope, this);
+            }
+            return _loggerScope;
+        }
+        /// <summary>
+        /// 开始域
+        /// </summary>
+        /// <param name="scope"></param>
+        /// <returns></returns>
         public LoggerScope BeginScope(string scope)
         {
             if (_loggerScope is null)
             {
                 _loggerScope = new LoggerScope(scope, this);
             }
-            else if (_loggerScope.Scope != scope)
+            else if (_loggerScope.ScopeName != scope)
             {
-                _loggerScope.Scope = scope;
+                _loggerScope.ScopeName = scope;
             }
             return _loggerScope;
         }
@@ -113,7 +142,10 @@ namespace Materal.Logger
         private static void HandlerLog(LoggerHandlerModel model)
         {
             if (Handlers is null) return;
-            Parallel.ForEach(Handlers, handler => handler.Handler(model));
+            List<LoggerRuleConfigModel> rules = LoggerConfig.Rules;
+            List<LoggerTargetConfigModel> targets = LoggerConfig.Targets;
+            Dictionary<string, LogLevel> defaultLogLevels = LoggerConfig.DefaultLogLevels;
+            Parallel.ForEach(Handlers, handler => handler.Handler(model, rules, targets, defaultLogLevels));
         }
         /// <summary>
         /// 关闭

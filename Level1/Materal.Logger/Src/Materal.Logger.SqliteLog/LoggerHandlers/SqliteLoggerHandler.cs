@@ -13,7 +13,7 @@ namespace Materal.Logger.LoggerHandlers
         /// 处理合格的数据
         /// </summary>
         /// <param name="datas"></param>
-        protected override void HandlerOKData(SqliteLoggerHandlerModel[] datas)
+        protected override void HandlerData(SqliteLoggerHandlerModel[] datas)
         {
             IGrouping<string, SqliteLoggerHandlerModel>[] groupDatas = datas.GroupBy(m => m.Path).ToArray();
             Parallel.ForEach(groupDatas, item =>

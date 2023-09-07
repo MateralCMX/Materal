@@ -8,10 +8,6 @@ namespace Materal.Logger.LoggerHandlers.Models
     public abstract class BufferLoggerHandlerModel : LoggerHandlerModel
     {
         /// <summary>
-        /// 是否可用
-        /// </summary>
-        public bool IsOK { get; protected set; } = true;
-        /// <summary>
         /// 规则
         /// </summary>
         public LoggerRuleConfigModel Rule { get; }

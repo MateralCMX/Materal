@@ -10,19 +10,13 @@ namespace Materal.Logger.LoggerHandlers
     public abstract class LoggerHandler : ILoggerHandler
     {
         /// <summary>
-        /// 默认日志等级组
-        /// </summary>
-        protected static Dictionary<string, LogLevel> DefaultLogLevels => LoggerConfig.DefaultLogLevels;
-        /// <summary>
-        /// 所有规则
-        /// </summary>
-        protected static List<LoggerRuleConfigModel> AllRules => LoggerConfig.Rules;
-        /// <summary>
         /// 处理
         /// </summary>
         /// <param name="model"></param>
-        /// <returns></returns>
-        public abstract void Handler(LoggerHandlerModel model);
+        /// <param name="rules"></param>
+        /// <param name="targets"></param>
+        /// <param name="logLevelConfig"></param>
+        public abstract void Handler(LoggerHandlerModel model, List<LoggerRuleConfigModel> rules, List<LoggerTargetConfigModel> targets, Dictionary<string, LogLevel> logLevelConfig);
         /// <summary>
         /// 关闭
         /// </summary>
@@ -34,13 +28,14 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="rule"></param>
         /// <param name="logLevel"></param>
         /// <param name="categoryName"></param>
+        /// <param name="defaultLogLevels"></param>
         /// <returns></returns>
-        protected virtual bool CanRun(LoggerRuleConfigModel rule, LogLevel logLevel, string? categoryName)
+        protected virtual bool CanRun(LoggerRuleConfigModel rule, LogLevel logLevel, string? categoryName, Dictionary<string, LogLevel> defaultLogLevels)
         {
             if (logLevel == LogLevel.None) return false;
             if (rule.MinLevel > logLevel || rule.MaxLevel < logLevel) return false;
             LogLevel? configLogLevel = null;
-            Dictionary<string, LogLevel> logLevels = rule.LogLevels ?? DefaultLogLevels;
+            Dictionary<string, LogLevel> logLevels = rule.LogLevels ?? defaultLogLevels;
             if (categoryName is not null && !string.IsNullOrWhiteSpace(categoryName))
             {
                 int index = 0;
@@ -71,27 +66,43 @@ namespace Materal.Logger.LoggerHandlers
     /// <summary>
     /// 日志处理器
     /// </summary>
-    public abstract class LoggerHandler<T> : LoggerHandler, ILoggerHandler
+    public abstract class LoggerHandler<T> : LoggerHandler, ILoggerHandler, ILoggerHandler<T>
         where T : LoggerTargetConfigModel
     {
-        /// <summary>
-        /// 所有目标
-        /// </summary>
-        protected static List<T> AllTargets => LoggerConfig.GetAllTargets<T>();
         /// <summary>
         /// 处理
         /// </summary>
         /// <param name="model"></param>
+        /// <param name="rules"></param>
+        /// <param name="targets"></param>
+        /// <param name="defaultLogLevels"></param>
         /// <returns></returns>
-        public override void Handler(LoggerHandlerModel model)
+        public override void Handler(LoggerHandlerModel model, List<LoggerRuleConfigModel> rules, List<LoggerTargetConfigModel> targets, Dictionary<string, LogLevel> defaultLogLevels)
         {
-            List<T> allTargets = AllTargets;
-            foreach (LoggerRuleConfigModel rule in AllRules)
+            List<T> trueTargets = new();
+            foreach (LoggerTargetConfigModel targe in targets)
             {
-                if (!rule.Enable || !CanRun(rule, model.LogLevel, model.CategoryName)) continue;
+                if (targe is not T temp) continue;
+                trueTargets.Add(temp);
+            }
+            Handler(model, rules, trueTargets, defaultLogLevels);
+        }
+        /// <summary>
+        /// 处理
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="rules"></param>
+        /// <param name="targets"></param>
+        /// <param name="defaultLogLevels"></param>
+        /// <returns></returns>
+        public void Handler(LoggerHandlerModel model, List<LoggerRuleConfigModel> rules, List<T> targets, Dictionary<string, LogLevel> defaultLogLevels)
+        {
+            foreach (LoggerRuleConfigModel rule in rules)
+            {
+                if (!rule.Enable || !CanRun(rule, model.LogLevel, model.CategoryName, defaultLogLevels)) continue;
                 foreach (string targetName in rule.Targets)
                 {
-                    T? target = allTargets.FirstOrDefault(m => m.Name == targetName && m.Enable);
+                    T? target = targets.FirstOrDefault(m => m.Name == targetName && m.Enable);
                     if (target is null) continue;
                     try
                     {

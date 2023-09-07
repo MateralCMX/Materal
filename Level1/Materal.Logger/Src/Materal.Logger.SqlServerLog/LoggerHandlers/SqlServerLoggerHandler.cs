@@ -13,7 +13,7 @@ namespace Materal.Logger.LoggerHandlers
         /// 处理合格的数据
         /// </summary>
         /// <param name="datas"></param>
-        protected override void HandlerOKData(SqlServerLoggerHandlerModel[] datas)
+        protected override void HandlerData(SqlServerLoggerHandlerModel[] datas)
         {
             IGrouping<string, SqlServerLoggerHandlerModel>[] groupDatas = datas.GroupBy(m => m.ConnectionString).ToArray();
             Parallel.ForEach(groupDatas, item =>

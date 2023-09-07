@@ -19,7 +19,7 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <summary>
         /// 数据
         /// </summary>
-        public string? Data { get; set; }
+        public string Data { get; set; }
         /// <summary>
         /// Http日志处理器模型
         /// </summary>

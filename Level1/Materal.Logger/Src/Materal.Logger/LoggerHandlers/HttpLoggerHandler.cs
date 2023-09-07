@@ -21,7 +21,7 @@ namespace Materal.Logger.LoggerHandlers
         /// 处理合格的数据
         /// </summary>
         /// <param name="datas"></param>
-        protected override void HandlerOKData(HttpLoggerHandlerModel[] datas)
+        protected override void HandlerData(HttpLoggerHandlerModel[] datas)
         {
             IGrouping<string, HttpLoggerHandlerModel>[] models = datas.GroupBy(m => m.Url).ToArray();
             Parallel.ForEach(models, item =>

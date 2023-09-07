@@ -87,21 +87,10 @@ namespace Materal.Logger.LoggerHandlers
             return result;
         }
         /// <summary>
-        /// 保存数据
-        /// </summary>
-        /// <param name="datas"></param>
-        protected void HandlerData(T[] datas)
-        {
-            T[] okDatas = datas.Where(m => m.IsOK).ToArray();
-            if (okDatas.Length <= 0) return;
-            HandlerOKData(okDatas);
-        }
-
-        /// <summary>
         /// 处理合格的数据
         /// </summary>
         /// <param name="datas"></param>
-        protected abstract void HandlerOKData(T[] datas);
+        protected abstract void HandlerData(T[] datas);
         /// <summary>
         /// 关闭
         /// </summary>
