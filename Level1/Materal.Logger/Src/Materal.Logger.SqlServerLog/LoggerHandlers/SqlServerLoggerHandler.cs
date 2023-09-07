@@ -7,7 +7,7 @@ namespace Materal.Logger.LoggerHandlers
     /// <summary>
     /// SqlServer日志处理器
     /// </summary>
-    public class SqlServerLoggerHandler : BufferLoggerHandler<SqlServerLoggerHandlerModel>
+    public class SqlServerLoggerHandler : BufferLoggerHandler<SqlServerLoggerHandlerModel, SqlServerLoggerTargetConfigModel>
     {
         /// <summary>
         /// 处理合格的数据

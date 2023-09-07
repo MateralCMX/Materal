@@ -8,7 +8,7 @@ namespace Materal.Logger.LoggerHandlers
     /// <summary>
     /// 控制台日志处理器
     /// </summary>
-    public class ConsoleLoggerHandler : LoggerHandler
+    public class ConsoleLoggerHandler : LoggerHandler<ConsoleLoggerTargetConfigModel>
     {
         private static readonly ActionBlock<ConsoleMessageModel> _writeBuffer = new(WriteMessage);
         /// <summary>
@@ -17,7 +17,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="rule"></param>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        protected override void Handler(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model)
+        protected override void Handler(LoggerRuleConfigModel rule, ConsoleLoggerTargetConfigModel target, LoggerHandlerModel model)
         {
             string writeMessage = LoggerHandlerHelper.FormatMessage(target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);
             ConsoleColor color = target.Colors.GetConsoleColor(model.LogLevel);

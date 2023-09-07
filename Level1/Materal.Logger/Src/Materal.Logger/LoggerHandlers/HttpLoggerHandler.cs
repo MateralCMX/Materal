@@ -1,4 +1,5 @@
 ﻿using Materal.Logger.LoggerHandlers.Models;
+using Materal.Logger.Models;
 using Materal.Utils.Http;
 
 namespace Materal.Logger.LoggerHandlers
@@ -6,7 +7,7 @@ namespace Materal.Logger.LoggerHandlers
     /// <summary>
     /// Http日志处理器
     /// </summary>
-    public class HttpLoggerHandler : BufferLoggerHandler<HttpLoggerHandlerModel>
+    public class HttpLoggerHandler : BufferLoggerHandler<HttpLoggerHandlerModel, HttpLoggerTargetConfigModel>
     {
         private readonly static IHttpHelper _httpHelper;
         /// <summary>

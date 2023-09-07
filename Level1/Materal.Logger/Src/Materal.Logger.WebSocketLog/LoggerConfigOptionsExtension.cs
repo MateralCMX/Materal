@@ -18,12 +18,10 @@ namespace Materal.Logger
         /// <param name="colors"></param>
         public static LoggerConfigOptions AddWebSocketTarget(this LoggerConfigOptions loggerConfigOptions, string name, int port = 5002, string? format = null, Dictionary<LogLevel, ConsoleColor>? colors = null)
         {
-            LoggerTargetConfigModel target = new()
+            WebSocketLoggerTargetConfigModel target = new()
             {
                 Name = name,
-                Type = "WebSocket",
-                Port = port,
-                Format = "${DateTime}|${Level}|${CategoryName}|${Scope}\r\n${Message}\r\n${Exception}"
+                Port = port
             };
             if (format is not null && !string.IsNullOrWhiteSpace(format))
             {

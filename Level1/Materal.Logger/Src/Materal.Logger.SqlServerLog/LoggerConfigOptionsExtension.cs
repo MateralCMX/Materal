@@ -13,12 +13,11 @@ namespace Materal.Logger
         /// <param name="loggerConfigOptions"></param>
         /// <param name="name"></param>
         /// <param name="connectionString"></param>
-        public static LoggerConfigOptions AddSqlServerTarget(this LoggerConfigOptions loggerConfigOptions, string name, string? connectionString = null)
+        public static LoggerConfigOptions AddSqlServerTarget(this LoggerConfigOptions loggerConfigOptions, string name, string connectionString)
         {
-            LoggerTargetConfigModel target = new()
+            SqlServerLoggerTargetConfigModel target = new()
             {
                 Name = name,
-                Type = "SqlServer",
                 ConnectionString = connectionString
             };
             loggerConfigOptions.AddTarget(target);

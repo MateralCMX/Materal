@@ -1,6 +1,8 @@
-﻿using Materal.Logger.Models;
+﻿using Materal.Logger.LoggerHandlers;
+using Materal.Logger.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -21,12 +23,24 @@ namespace Materal.Logger
         /// </summary>
         private const string _rootKey = "MateralLogger";
         /// <summary>
+        /// 配置模型类型
+        /// </summary>
+        private static Dictionary<string, Type> ConfigModelTypes { get; set; } = new();
+        /// <summary>
         /// 初始化
         /// </summary>
+        /// <param name="configModels"></param>
         /// <param name="options"></param>
         /// <param name="configuration"></param>
-        public static void Init(Action<LoggerConfigOptions>? options, IConfiguration? configuration)
+        public static void Init(List<LoggerTargetConfigModel> configModels, Action<LoggerConfigOptions>? options, IConfiguration? configuration)
         {
+            foreach (LoggerTargetConfigModel item in configModels)
+            {
+                if (ConfigModelTypes.ContainsKey(item.Type)) continue;
+                ILoggerHandler loggerHandler = item.GetLoggerHandler();
+                Logger.Handlers.Add(loggerHandler);
+                ConfigModelTypes.Add(item.Type, item.GetType());
+            }
             _config = configuration;
             options?.Invoke(_options);
             _options.Init();
@@ -59,24 +73,55 @@ namespace Materal.Logger
         /// <summary>
         /// 目标配置
         /// </summary>
-        public static List<LoggerTargetConfigModel> Targets
+        public static List<LoggerTargetConfigModel> Targets => GetAllTargets<LoggerTargetConfigModel>();
+        /// <summary>
+        /// 获得所有目标
+        /// </summary>
+        /// <returns></returns>
+        public static List<T> GetAllTargets<T>(bool onlyEnable = true)
+            where T : LoggerTargetConfigModel
         {
-            get
+            List<T> result = new();
+            #region 读取配置对象中的配置
+            string value = GetValue(nameof(Targets));
+            Type? targetType = typeof(T);
+            if(targetType == typeof(LoggerTargetConfigModel))
             {
-                if (_options is null || _options.Targets.Count <= 0)
-                {
-                    return GetValueObject(nameof(Targets), name =>
-                        new List<LoggerTargetConfigModel>() {
-                            new LoggerTargetConfigModel() {
-                                Name = "DefaultConsole"
-                            }
-                        }
-                    );
-                }
-                List<LoggerTargetConfigModel> result = GetValueObject<List<LoggerTargetConfigModel>>(nameof(Targets));
-                result.AddRange(_options.Targets);
-                return result;
+                targetType = null;
             }
+            JObject[] jObjs = value.JsonToDeserializeObject<JObject[]>();
+            foreach (JObject jObj in jObjs)
+            {
+                string? targetName = jObj.GetValue("Name")?.ToString();
+                if (targetName is null || string.IsNullOrWhiteSpace(targetName)) continue;
+                try
+                {
+                    string? targetTypeName = jObj.GetValue("Type")?.ToString();
+                    if (targetTypeName is null || string.IsNullOrWhiteSpace(targetTypeName) || !ConfigModelTypes.ContainsKey(targetTypeName)) continue;
+                    Type configType = ConfigModelTypes[targetTypeName];
+                    if(targetType is not null && targetType != configType) continue;
+                    object?  config = jObj.ToObject(configType);
+                    if (config is null || config is not T targetConfig) continue;
+                    if (onlyEnable && !targetConfig.Enable) continue;
+                    result.Add(targetConfig);
+                }
+                catch (Exception ex)
+                {
+                    LoggerLog.LogWarning($"获取目标配置[{targetName}]失败：\r\n{ex.GetErrorMessage()}");
+                }
+            }
+            #endregion
+            #region 读取手动配置中的配置
+            if(_options.Targets.Count > 0)
+            {
+                foreach (LoggerTargetConfigModel item in _options.Targets)
+                {
+                    if (item is not T config) continue;
+                    result.Add(config);
+                }
+            }
+            #endregion
+            return result;
         }
         /// <summary>
         /// 规则配置
@@ -85,22 +130,11 @@ namespace Materal.Logger
         {
             get
             {
-                if (_options is null || _options.Rules.Count <= 0)
+                List<LoggerRuleConfigModel> result = GetValueObject<List<LoggerRuleConfigModel>>(nameof(Rules));
+                if (_options.Rules.Count > 0)
                 {
-                    return GetValueObject(nameof(Rules), name =>
-                    {
-                        List<LoggerRuleConfigModel> rules = new();
-                        LoggerRuleConfigModel loggerRuleConfig = new();
-                        foreach (LoggerTargetConfigModel item in Targets)
-                        {
-                            loggerRuleConfig.Targets.Add(item.Name);
-                        }
-                        rules.Add(loggerRuleConfig);
-                        return rules;
-                    });
+                    result.AddRange(_options.Rules);
                 }
-                List<LoggerRuleConfigModel> result = GetValueObject<List<LoggerRuleConfigModel>>(nameof(Targets));
-                result.AddRange(_options.Rules);
                 return result;
             }
         }

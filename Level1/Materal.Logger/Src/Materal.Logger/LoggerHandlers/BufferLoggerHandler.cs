@@ -7,8 +7,9 @@ namespace Materal.Logger.LoggerHandlers
     /// <summary>
     /// 流日志处理器
     /// </summary>
-    public abstract class BufferLoggerHandler<T> : LoggerHandler
+    public abstract class BufferLoggerHandler<T, T2> : LoggerHandler<T2>
         where T : BufferLoggerHandlerModel
+        where T2: LoggerTargetConfigModel
     {
         /// <summary>
         /// 消息缓冲区
@@ -47,7 +48,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="rule"></param>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        protected override void Handler(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model)
+        protected override void Handler(LoggerRuleConfigModel rule, T2 target, LoggerHandlerModel model)
         {
             object? dataObj = typeof(T).Instantiation(rule, target, model);
             if (dataObj is null || dataObj is not T data) return;

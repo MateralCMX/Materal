@@ -7,7 +7,7 @@ namespace Materal.Logger.LoggerHandlers
     /// <summary>
     /// Sqlite日志处理器
     /// </summary>
-    public class SqliteLoggerHandler : BufferLoggerHandler<SqliteLoggerHandlerModel>
+    public class SqliteLoggerHandler : BufferLoggerHandler<SqliteLoggerHandlerModel, SqliteLoggerTargetConfigModel>
     {
         /// <summary>
         /// 处理合格的数据

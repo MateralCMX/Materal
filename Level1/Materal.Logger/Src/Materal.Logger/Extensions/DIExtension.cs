@@ -1,4 +1,5 @@
 ﻿using Materal.Logger.LoggerHandlers;
+using Materal.Logger.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -18,8 +19,9 @@ namespace Materal.Logger
         /// <param name="services"></param>
         /// <param name="options"></param>
         /// <param name="configuration"></param>
+        /// <param name="assemblies"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfigOptions>? options = null, IConfiguration? configuration = null)
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfigOptions>? options = null, IConfiguration? configuration = null, params Assembly[] assemblies)
         {
             services.AddLogging(builder =>
             {
@@ -28,28 +30,32 @@ namespace Materal.Logger
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
             const string assembliyName = "Materal.Logger";
-            List<Assembly> assemblies = new();
-            assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName is not null && m.FullName.StartsWith(assembliyName)));
+            List<Assembly> targetAssemblies = assemblies.ToList();
+            targetAssemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName is not null && m.FullName.StartsWith(assembliyName)));
             FileInfo dllFileInfo = new(typeof(Logger).Assembly.Location);
             DirectoryInfo directoryInfo = dllFileInfo.Directory;
             FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll").Where(m => m.Name.StartsWith(assembliyName)).ToArray();
             foreach (FileInfo fileInfo in fileInfos)
             {
-                if (assemblies.Any(m => m.Location == fileInfo.FullName)) continue;
+                if (targetAssemblies.Any(m => m.Location == fileInfo.FullName)) continue;
                 Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
-                assemblies.Add(assembly);
+                targetAssemblies.Add(assembly);
             }
-            foreach (Assembly assembly in assemblies)
+            List<LoggerTargetConfigModel> configModels = new();
+            foreach (Assembly assembly in targetAssemblies)
             {
-                Type[] loggerHandlerTypes = assembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<ILoggerHandler>()).ToArray();
-                foreach (Type type in loggerHandlerTypes)
+                Type[] configTypes = assembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<LoggerTargetConfigModel>()).ToArray();
+                foreach (Type configType in configTypes)
                 {
-                    object loggerHandlerObj = type.Instantiation();
-                    if (loggerHandlerObj is not ILoggerHandler loggerHandler) continue;
-                    Logger.Handlers.Add(loggerHandler);
+                    LoggerTargetConfigModel config = configType.Instantiation<LoggerTargetConfigModel>();
+                    configModels.Add(config);
                 }
             }
-            LoggerConfig.Init(options, configuration);
+            LoggerConfig.Init(configModels, options, configuration);
+            foreach (LoggerTargetConfigModel configModel in configModels)
+            {
+                configModel.OnLoggerServiceReady();
+            }
             return services;
         }
         /// <summary>
@@ -57,25 +63,28 @@ namespace Materal.Logger
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
+        /// <param name="assemblies"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration configuration, Action<LoggerConfigOptions> options) 
-            => AddMateralLogger(services, options, configuration);
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration configuration, Action<LoggerConfigOptions> options, params Assembly[] assemblies)
+            => AddMateralLogger(services, options, configuration, assemblies);
         /// <summary>
         /// 添加日志服务
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
+        /// <param name="assemblies"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration configuration)
-            => AddMateralLogger(services, null, configuration);
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration configuration, params Assembly[] assemblies)
+            => AddMateralLogger(services, null, configuration, assemblies);
         /// <summary>
         /// 添加日志服务
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
+        /// <param name="assemblies"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfigOptions> options)
-            => AddMateralLogger(services, options, null);
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfigOptions> options, params Assembly[] assemblies)
+            => AddMateralLogger(services, options, null, assemblies);
     }
 }

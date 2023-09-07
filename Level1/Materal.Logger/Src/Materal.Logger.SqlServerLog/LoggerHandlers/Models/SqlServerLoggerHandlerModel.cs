@@ -21,13 +21,8 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <param name="rule"></param>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        public SqlServerLoggerHandlerModel(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model) : base(rule, target, model)
+        public SqlServerLoggerHandlerModel(LoggerRuleConfigModel rule, SqlServerLoggerTargetConfigModel target, LoggerHandlerModel model) : base(rule, target, model)
         {
-            if (target.ConnectionString is null || string.IsNullOrWhiteSpace(target.ConnectionString))
-            {
-                IsOK = false;
-                return;
-            }
             LogModel = LoggerHandlerHelper.GetLogModel(model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);
             ConnectionString = LoggerHandlerHelper.FormatPath(target.ConnectionString, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
         }

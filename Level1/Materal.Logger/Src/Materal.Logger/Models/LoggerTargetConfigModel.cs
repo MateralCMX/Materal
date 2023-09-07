@@ -1,9 +1,11 @@
-﻿namespace Materal.Logger.Models
+﻿using Materal.Logger.LoggerHandlers;
+
+namespace Materal.Logger.Models
 {
     /// <summary>
     /// 日志目标配置模型
     /// </summary>
-    public class LoggerTargetConfigModel
+    public abstract class LoggerTargetConfigModel
     {
         /// <summary>
         /// 启用标识
@@ -16,34 +18,14 @@
         /// <summary>
         /// 类型
         /// </summary>
-        public string Type { get; set; } = "Console";
+        public abstract string Type { get; }
         /// <summary>
-        /// 格式化
+        /// 获得日志处理器
         /// </summary>
-        public string Format { get; set; } = "${DateTime}|${Level}|${CategoryName}|${Scope}\r\n${Message}\r\n${Exception}";
+        public abstract ILoggerHandler GetLoggerHandler();
         /// <summary>
-        /// 路径
+        /// 日志服务准备就绪
         /// </summary>
-        public string? Path { get; set; }
-        /// <summary>
-        /// 连接字符串
-        /// </summary>
-        public string? ConnectionString { get; set; }
-        /// <summary>
-        /// 端口号
-        /// </summary>
-        public int? Port { get; set; }
-        /// <summary>
-        /// 地址
-        /// </summary>
-        public string? Url { get; set; }
-        /// <summary>
-        /// Http方法
-        /// </summary>
-        public string? HttpMethod { get; set; }
-        /// <summary>
-        /// 颜色组
-        /// </summary>
-        public LoggerColorsConfigModel Colors { get; set; } = new();
+        public virtual void OnLoggerServiceReady() { }
     }
 }

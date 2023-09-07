@@ -18,54 +18,11 @@ namespace Materal.Logger.LoggerHandlers
         /// </summary>
         protected static List<LoggerRuleConfigModel> AllRules => LoggerConfig.Rules;
         /// <summary>
-        /// 所有目标
-        /// </summary>
-        protected static List<LoggerTargetConfigModel> AllTargets => LoggerConfig.Targets;
-        /// <summary>
-        /// 目标类型
-        /// </summary>
-        protected virtual string TargetType
-        {
-            get
-            {
-                string name = GetType().Name;
-                if (!name.EndsWith(nameof(LoggerHandler))) return string.Empty;
-                return name[..^nameof(LoggerHandler).Length];
-            }
-        }
-        /// <summary>
         /// 处理
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public virtual void Handler(LoggerHandlerModel model)
-        {
-            List<LoggerTargetConfigModel> allTargets = AllTargets;
-            foreach (LoggerRuleConfigModel rule in AllRules)
-            {
-                if (!rule.Enable || !CanRun(rule, model.LogLevel, model.CategoryName)) continue;
-                foreach (string targetName in rule.Targets)
-                {
-                    LoggerTargetConfigModel? target = allTargets.FirstOrDefault(m => m.Name == targetName && m.Type == TargetType && m.Enable);
-                    if (target is null) continue;
-                    try
-                    {
-                        Handler(rule, target, model);
-                    }
-                    catch (Exception ex)
-                    {
-                        LoggerLog.LogError("日志记录出错", ex);
-                    }
-                }
-            }
-        }
-        /// <summary>
-        /// 处理
-        /// </summary>
-        /// <param name="rule"></param>
-        /// <param name="target"></param>
-        /// <param name="model"></param>
-        protected abstract void Handler(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model);
+        public abstract void Handler(LoggerHandlerModel model);
         /// <summary>
         /// 关闭
         /// </summary>
@@ -110,5 +67,49 @@ namespace Materal.Logger.LoggerHandlers
             bool result = configLogLevel <= logLevel;
             return result;
         }
+    }
+    /// <summary>
+    /// 日志处理器
+    /// </summary>
+    public abstract class LoggerHandler<T> : LoggerHandler, ILoggerHandler
+        where T : LoggerTargetConfigModel
+    {
+        /// <summary>
+        /// 所有目标
+        /// </summary>
+        protected static List<T> AllTargets => LoggerConfig.GetAllTargets<T>();
+        /// <summary>
+        /// 处理
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public override void Handler(LoggerHandlerModel model)
+        {
+            List<T> allTargets = AllTargets;
+            foreach (LoggerRuleConfigModel rule in AllRules)
+            {
+                if (!rule.Enable || !CanRun(rule, model.LogLevel, model.CategoryName)) continue;
+                foreach (string targetName in rule.Targets)
+                {
+                    T? target = allTargets.FirstOrDefault(m => m.Name == targetName && m.Enable);
+                    if (target is null) continue;
+                    try
+                    {
+                        Handler(rule, target, model);
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggerLog.LogError("日志记录出错", ex);
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// 处理
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <param name="target"></param>
+        /// <param name="model"></param>
+        protected abstract void Handler(LoggerRuleConfigModel rule, T target, LoggerHandlerModel model);
     }
 }

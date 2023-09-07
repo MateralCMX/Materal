@@ -1,4 +1,5 @@
 ﻿using Materal.Logger.LoggerHandlers.Models;
+using Materal.Logger.Models;
 using System.Text;
 
 namespace Materal.Logger.LoggerHandlers
@@ -6,7 +7,7 @@ namespace Materal.Logger.LoggerHandlers
     /// <summary>
     /// 文件日志处理器
     /// </summary>
-    public class FileLoggerHandler : BufferLoggerHandler<FileLoggerHandlerModel>
+    public class FileLoggerHandler : BufferLoggerHandler<FileLoggerHandlerModel, FileLoggerTargetConfigModel>
     {
         /// <summary>
         /// 处理合格的数据

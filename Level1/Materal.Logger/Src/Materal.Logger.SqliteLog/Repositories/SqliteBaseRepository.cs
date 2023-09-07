@@ -17,20 +17,9 @@ namespace Materal.Logger.Repositories
         /// 构造方法
         /// </summary>
         /// <param name="path"></param>
-        protected SqliteBaseRepository(string path) : base(() =>
+        protected SqliteBaseRepository(string path) : base(() => new SqliteConnection($"Data Source={path};"))
         {
-            SqliteConnectionStringBuilder builder = path.StartsWith("Data Source=") ? new(path) : new($"Data Source={path};");
-            return new SqliteConnection(builder.ConnectionString);
-        })
-        {
-            if(path.StartsWith("Data Source="))
-            {
-                _dbPath = path[12..];
-            }
-            else
-            {
-                _dbPath = path;
-            }
+            _dbPath = path;
         }
         /// <summary>
         /// 初始化

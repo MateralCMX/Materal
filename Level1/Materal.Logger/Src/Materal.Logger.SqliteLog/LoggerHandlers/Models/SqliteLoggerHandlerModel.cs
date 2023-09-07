@@ -21,21 +21,9 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <param name="rule"></param>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        public SqliteLoggerHandlerModel(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model) : base(rule, target, model)
+        public SqliteLoggerHandlerModel(LoggerRuleConfigModel rule, SqliteLoggerTargetConfigModel target, LoggerHandlerModel model) : base(rule, target, model)
         {
-            if (target.ConnectionString is not null && !string.IsNullOrWhiteSpace(target.ConnectionString))
-            {
-                Path = LoggerHandlerHelper.FormatPath(target.ConnectionString, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
-            }
-            else if (target.Path is not null && !string.IsNullOrWhiteSpace(target.Path))
-            {
-                Path = LoggerHandlerHelper.FormatPath(target.Path, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
-            }
-            else
-            {
-                IsOK = false;
-                return;
-            }
+            Path = LoggerHandlerHelper.FormatPath(target.Path, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
             LogModel = LoggerHandlerHelper.GetLogModel(model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);
         }
     }

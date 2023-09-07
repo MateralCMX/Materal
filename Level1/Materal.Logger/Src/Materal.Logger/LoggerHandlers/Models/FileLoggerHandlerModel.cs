@@ -25,13 +25,8 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <param name="rule"></param>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        public FileLoggerHandlerModel(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model) : base(rule, target, model)
+        public FileLoggerHandlerModel(LoggerRuleConfigModel rule, FileLoggerTargetConfigModel target, LoggerHandlerModel model) : base(rule, target, model)
         {
-            if (target.Path is null || string.IsNullOrWhiteSpace(target.Path))
-            {
-                IsOK = false;
-                return;
-            }
             Path = LoggerHandlerHelper.FormatPath(target.Path, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
             FileContent = LoggerHandlerHelper.FormatMessage(target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);
         }

@@ -26,29 +26,10 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <param name="rule"></param>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        public HttpLoggerHandlerModel(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model) : base(rule, target, model)
+        public HttpLoggerHandlerModel(LoggerRuleConfigModel rule, HttpLoggerTargetConfigModel target, LoggerHandlerModel model) : base(rule, target, model)
         {
-            if (target.Url is null || string.IsNullOrWhiteSpace(target.Url))
-            {
-                IsOK = false;
-                return;
-            }
             Url = target.Url;
-            if(target.HttpMethod is null || string.IsNullOrWhiteSpace(target.HttpMethod))
-            {
-                HttpMethod = HttpMethod.Post;
-            }
-            else
-            {
-                HttpMethod = target.HttpMethod.ToUpper().Trim() switch
-                {
-                    "Get" => HttpMethod.Get,
-                    "Post" => HttpMethod.Post,
-                    "Put" => HttpMethod.Put,
-                    "Delete" => HttpMethod.Delete,
-                    _ => HttpMethod.Post
-                };
-            }
+            HttpMethod = target.GetHttpMethod();
             string createTimeText = model.CreateTime.ToString("yyyy-MM-ddTHH:mm:ss.ffffZ");
             Data = Regex.Replace(target.Format, @"\$\{DateTime\}", createTimeText);
             Data = LoggerHandlerHelper.FormatMessage(Data, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);

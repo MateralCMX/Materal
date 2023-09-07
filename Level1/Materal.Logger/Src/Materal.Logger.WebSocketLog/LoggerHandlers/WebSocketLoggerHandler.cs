@@ -8,25 +8,26 @@ namespace Materal.Logger.LoggerHandlers
     /// <summary>
     /// WebSocket日志处理器
     /// </summary>
-    public class WebSocketLoggerHandler : LoggerHandler
+    public class WebSocketLoggerHandler : LoggerHandler<WebSocketLoggerTargetConfigModel>
     {
         private static readonly Dictionary<string, WebSocketServer> _webSocketServers = new();
         private static readonly Dictionary<string, List<IWebSocketConnection>> _webSocketConnections = new();
         private static readonly Timer _verifyWebSocketServerTimer = new(VerifyWebSocketServerTimerElapsed);
         private const int VerifyWebSocketServerInterval = 5000;
+        private static readonly object GetWebSocketServerLock = new();
         /// <summary>
         /// 静态构造方法
         /// </summary>
         static WebSocketLoggerHandler()
         {
             FleckLog.LogAction = WriteWebsocketMessage;
-            LoggerTargetConfigModel[] targets = AllTargets.Where(m => m.Enable && m.Type == "WebSocket").ToArray();
-            foreach (LoggerTargetConfigModel target in targets)
-            {
-                WebSocketServer? webSocketServer = GetWebSocketServer(target);
-                if (webSocketServer is null) return;
-            }
-            _verifyWebSocketServerTimer.Change(TimeSpan.FromMilliseconds(VerifyWebSocketServerInterval), Timeout.InfiniteTimeSpan);
+        }
+        /// <summary>
+        /// 运行WebSocket服务
+        /// </summary>
+        public static void RunWebSocketServer()
+        {
+            _verifyWebSocketServerTimer.Change(TimeSpan.Zero, Timeout.InfiniteTimeSpan);
         }
         /// <summary>
         /// 处理
@@ -34,7 +35,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="rule"></param>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        protected override void Handler(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model)
+        protected override void Handler(LoggerRuleConfigModel rule, WebSocketLoggerTargetConfigModel target, LoggerHandlerModel model)
         {
             WebSocketServer? webSocketServer = GetWebSocketServer(target);
             if (webSocketServer is null) return;
@@ -64,26 +65,27 @@ namespace Materal.Logger.LoggerHandlers
         /// </summary>
         /// <param name="target"></param>
         /// <returns></returns>
-        private static WebSocketServer? GetWebSocketServer(LoggerTargetConfigModel target)
+        private static WebSocketServer? GetWebSocketServer(WebSocketLoggerTargetConfigModel target)
         {
             if (!target.Enable) return null;
-            if (target.Port is null) return null;
             WebSocketServer result;
-            if (_webSocketServers.ContainsKey(target.Name))
+            lock (GetWebSocketServerLock)
             {
-                result = _webSocketServers[target.Name];
-                if (result.Port != target.Port.Value)
+                if (_webSocketServers.ContainsKey(target.Name))
                 {
-                    result.Dispose();
-                    result = InitNewWebSocketServer(target.Name, target.Port.Value);
-                    _webSocketServers[target.Name] = result;
+                    result = _webSocketServers[target.Name];
+                    if (result.Port != target.Port)
+                    {
+                        result.Dispose();
+                        result = InitNewWebSocketServer(target.Name, target.Port);
+                        _webSocketServers[target.Name] = result;
+                    }
                 }
-            }
-            else
-            {
-                if (target.Port is null) return null;
-                result = InitNewWebSocketServer(target.Name, target.Port.Value);
-                _webSocketServers.Add(target.Name, result);
+                else
+                {
+                    result = InitNewWebSocketServer(target.Name, target.Port);
+                    _webSocketServers.Add(target.Name, result);
+                }
             }
             return result;
         }
@@ -152,9 +154,9 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="stateInfo"></param>
         public static void VerifyWebSocketServerTimerElapsed(object? stateInfo)
         {
-            LoggerTargetConfigModel[] targets = AllTargets.Where(m => m.Enable && m.Type == "WebSocket").ToArray();
+            WebSocketLoggerTargetConfigModel[] targets = AllTargets.ToArray();
             #region 关闭禁用或不存在的服务
-            string[] enableTargetNames = targets.Select(m => m.Name).ToArray();
+            string[] enableTargetNames = AllTargets.Select(m => m.Name).ToArray();
             string[] allKeys = _webSocketServers.Keys.ToArray();
             foreach (string key in allKeys)
             {
@@ -173,11 +175,12 @@ namespace Materal.Logger.LoggerHandlers
                 _webSocketServers.Remove(key);
             }
             #endregion
-            foreach (LoggerTargetConfigModel target in targets)
+            #region 开启配置的服务
+            foreach (WebSocketLoggerTargetConfigModel target in targets)
             {
-                WebSocketServer? webSocketServer = GetWebSocketServer(target);
-                if (webSocketServer is null) return;
+                GetWebSocketServer(target);
             }
+            #endregion
             if (!Logger.IsClose)
             {
                 _verifyWebSocketServerTimer.Change(TimeSpan.FromMilliseconds(VerifyWebSocketServerInterval), Timeout.InfiniteTimeSpan);

@@ -17,10 +17,9 @@ namespace Materal.Logger
         public static LoggerConfigOptions AddSqliteTarget(this LoggerConfigOptions loggerConfigOptions, string name, string? path = null, string? connectionString = null)
         {
             if ((path is null || string.IsNullOrWhiteSpace(path)) && (connectionString is null || string.IsNullOrWhiteSpace(connectionString))) throw new LoggerException("path或connectionString必须包含一个");
-            LoggerTargetConfigModel target = new()
+            SqliteLoggerTargetConfigModel target = new()
             {
                 Name = name,
-                Type = "Sqlite",
                 Path = path,
                 ConnectionString = connectionString
             };

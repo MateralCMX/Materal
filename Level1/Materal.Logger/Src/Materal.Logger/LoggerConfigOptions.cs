@@ -109,11 +109,9 @@ namespace Materal.Logger
         /// <param name="colors"></param>
         public LoggerConfigOptions AddConsoleTarget(string name, string? format = null, Dictionary<LogLevel, ConsoleColor>? colors = null)
         {
-            LoggerTargetConfigModel target = new()
+            ConsoleLoggerTargetConfigModel target = new()
             {
-                Name = name,
-                Type = "Console",
-                Format = "${DateTime}|${Level}|${CategoryName}|${Scope}\r\n${Message}\r\n${Exception}"
+                Name = name
             };
             if(format is not null && !string.IsNullOrWhiteSpace(format))
             {
@@ -134,12 +132,10 @@ namespace Materal.Logger
         /// <param name="format"></param>
         public LoggerConfigOptions AddFileTarget(string name, string path, string? format = null)
         {
-            LoggerTargetConfigModel target = new()
+            FileLoggerTargetConfigModel target = new()
             {
                 Name = name,
-                Type = "File",
-                Path = path,
-                Format = "${DateTime}|${Level}|${CategoryName}|${Scope}\r\n${Message}\r\n${Exception}"
+                Path = path
             };
             if (format is not null && !string.IsNullOrWhiteSpace(format))
             {
@@ -157,14 +153,15 @@ namespace Materal.Logger
         /// <param name="format"></param>
         public LoggerConfigOptions AddHttpTarget(string name, string url, HttpMethod? httpMethod = null, string? format = null)
         {
-            LoggerTargetConfigModel target = new()
+            HttpLoggerTargetConfigModel target = new()
             {
                 Name = name,
-                Type = "Http",
-                Url = url,
-                HttpMethod = httpMethod is null? "POST" : httpMethod.Method,
-                Format = "{\"CreateTime\":\"${DateTime}\",\"Application\":\"${Application}\",\"Level\":\"${Level}\",\"Scope\":\"${Scope}\",\"CategoryName\":\"${CategoryName}\",\"MachineName\":\"${MachineName}\",\"ProgressID\":\"${ProgressID}\",\"ThreadID\":\"${ThreadID}\",\"Message\":\"${Message}\",\"Exception\":\"${Exception}\"}"
+                Url = url
             };
+            if(httpMethod is not null)
+            {
+                target.HttpMethod = httpMethod.Method;
+            }
             if (format is not null && !string.IsNullOrWhiteSpace(format))
             {
                 target.Format = format;

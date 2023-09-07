@@ -27,7 +27,7 @@ namespace Materal.Logger.WebSocketLog.LoggerHandlers.Models
         /// </summary>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        public LogMessageModel(LoggerTargetConfigModel target, LoggerHandlerModel model)
+        public LogMessageModel(WebSocketLoggerTargetConfigModel target, LoggerHandlerModel model)
         {
             Message = LoggerHandlerHelper.FormatMessage(target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);
             Color = target.Colors.GetConsoleColor(model.LogLevel);
