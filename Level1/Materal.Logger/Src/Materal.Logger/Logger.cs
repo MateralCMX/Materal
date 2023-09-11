@@ -132,9 +132,20 @@ namespace Materal.Logger
                 LogLevel = logLevel,
                 Exception = exception,
                 Message = formatter(state, exception),
-                CategoryName = _categoryName,
-                Scope = _loggerScope?.Clone()
+                CategoryName = _categoryName
             };
+            if (_loggerScope is not null)
+            {
+                if (_loggerScope.AdvancedScope is not null)
+                {
+                    AdvancedScope? advancedScope = _loggerScope.AdvancedScope.Clone();
+                    if(advancedScope is not null)
+                    {
+                        model.Scope = new LoggerScope(advancedScope);
+                    }
+                }
+                model.Scope ??= new LoggerScope(_loggerScope.ScopeName);
+            }
             _actionBlock.Post(model);
         }
         /// <summary>

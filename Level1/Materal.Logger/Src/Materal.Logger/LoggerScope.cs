@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
 
 namespace Materal.Logger
 {
@@ -8,7 +9,7 @@ namespace Materal.Logger
     [Serializable]
     public class LoggerScope : IDisposable
     {
-        private readonly Logger _logger;
+        private readonly Logger? _logger;
         /// <summary>
         /// 域
         /// </summary>
@@ -16,19 +17,34 @@ namespace Materal.Logger
         /// <summary>
         /// 是否为高级域
         /// </summary>
-        public bool IsAdvancedScope => _advancedScope != null;
+        public bool IsAdvancedScope => AdvancedScope != null;
         /// <summary>
         /// 高级域对象
         /// </summary>
-        private AdvancedScope? _advancedScope;
+        public AdvancedScope? AdvancedScope { get; set; }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="scopeName"></param>
+        public LoggerScope(string scopeName)
+        {
+            ScopeName = scopeName;
+        }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="scope"></param>
+        public LoggerScope(AdvancedScope scope) : this(scope.ScopeName)
+        {
+            AdvancedScope = scope;
+        }
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="scopeName"></param>
         /// <param name="logger"></param>
-        public LoggerScope(string scopeName, Logger logger)
+        public LoggerScope(string scopeName, Logger logger) : this(scopeName)
         {
-            ScopeName = scopeName;
             _logger = logger;
         }
         /// <summary>
@@ -38,7 +54,7 @@ namespace Materal.Logger
         /// <param name="logger"></param>
         public LoggerScope(AdvancedScope scope, Logger logger) : this(scope.ScopeName, logger)
         {
-            _advancedScope = scope;
+            AdvancedScope = scope;
         }
         /// <summary>
         /// 处理文本
@@ -47,9 +63,9 @@ namespace Materal.Logger
         /// <returns></returns>
         public string HandlerText(string value)
         {
-            if (_advancedScope is null || _advancedScope.ScopeData is null || string.IsNullOrWhiteSpace(value)) return value;
+            if (AdvancedScope is null || AdvancedScope.ScopeData is null || string.IsNullOrWhiteSpace(value)) return value;
             string result = value;
-            foreach (KeyValuePair<string, string> item in _advancedScope.ScopeData)
+            foreach (KeyValuePair<string, string> item in AdvancedScope.ScopeData)
             {
                 result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);
             }
@@ -60,8 +76,8 @@ namespace Materal.Logger
         /// </summary>
         public void Dispose()
         {
-            _advancedScope = null;
-            _logger.ExitScope();
+            AdvancedScope = null;
+            _logger?.ExitScope();
             GC.SuppressFinalize(this);
         }
     }
