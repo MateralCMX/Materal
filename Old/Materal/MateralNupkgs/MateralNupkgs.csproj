@@ -5,37 +5,37 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Abstractions" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.Common" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.Domain" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.EFRepository" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.HttpClient" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.Services" Version="1.1.55" />
-		<PackageReference Include="Materal.BaseCore.WebAPI" Version="1.1.55" />
-		<PackageReference Include="Materal.Extensions" Version="1.1.55" />
-		<PackageReference Include="Materal.Logger" Version="1.1.55" />
-		<PackageReference Include="Materal.Logger.Message" Version="1.1.55" />
-		<PackageReference Include="Materal.Oscillator" Version="1.1.55" />
-		<PackageReference Include="Materal.Oscillator.Abstractions" Version="1.1.55" />
-		<PackageReference Include="Materal.Oscillator.DR" Version="1.1.55" />
-		<PackageReference Include="Materal.Oscillator.LocalDR" Version="1.1.55" />
-		<PackageReference Include="Materal.Oscillator.SqliteRepositoryImpl" Version="1.1.55" />
-		<PackageReference Include="Materal.Oscillator.SqlServerRepositoryImpl" Version="1.1.55" />
-		<PackageReference Include="Materal.TFMS.EventBus" Version="1.1.55" />
-		<PackageReference Include="Materal.TFMS.EventBus.RabbitMQ" Version="1.1.55" />
-		<PackageReference Include="Materal.TTA.Common" Version="1.1.55" />
-		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.55" />
-		<PackageReference Include="Materal.TTA.SqliteRepository" Version="1.1.55" />
-		<PackageReference Include="Materal.TTA.SqlServerRepository" Version="1.1.55" />
-		<PackageReference Include="Materal.Utils" Version="1.1.55" />
-		<PackageReference Include="Materal.Utils.Redis" Version="1.1.55" />
-		<PackageReference Include="Materal.Utils.Wechat" Version="1.1.55" />
-		<PackageReference Include="Materal.Utils.Windows" Version="1.1.55" />
+		<PackageReference Include="Materal.Abstractions" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.Common" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.Domain" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.EFRepository" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.HttpClient" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.PresentationModel" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.Services" Version="1.1.56" />
+		<PackageReference Include="Materal.BaseCore.WebAPI" Version="1.1.56" />
+		<PackageReference Include="Materal.Extensions" Version="1.1.56" />
+		<PackageReference Include="Materal.Logger" Version="1.1.56" />
+		<PackageReference Include="Materal.Logger.Message" Version="1.1.56" />
+		<PackageReference Include="Materal.Oscillator" Version="1.1.56" />
+		<PackageReference Include="Materal.Oscillator.Abstractions" Version="1.1.56" />
+		<PackageReference Include="Materal.Oscillator.DR" Version="1.1.56" />
+		<PackageReference Include="Materal.Oscillator.LocalDR" Version="1.1.56" />
+		<PackageReference Include="Materal.Oscillator.SqliteRepositoryImpl" Version="1.1.56" />
+		<PackageReference Include="Materal.Oscillator.SqlServerRepositoryImpl" Version="1.1.56" />
+		<PackageReference Include="Materal.TFMS.EventBus" Version="1.1.56" />
+		<PackageReference Include="Materal.TFMS.EventBus.RabbitMQ" Version="1.1.56" />
+		<PackageReference Include="Materal.TTA.Common" Version="1.1.56" />
+		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.56" />
+		<PackageReference Include="Materal.TTA.SqliteRepository" Version="1.1.56" />
+		<PackageReference Include="Materal.TTA.SqlServerRepository" Version="1.1.56" />
+		<PackageReference Include="Materal.Utils" Version="1.1.56" />
+		<PackageReference Include="Materal.Utils.Redis" Version="1.1.56" />
+		<PackageReference Include="Materal.Utils.Wechat" Version="1.1.56" />
+		<PackageReference Include="Materal.Utils.Windows" Version="1.1.56" />
 		<PackageReference Include="RC.ConfigClient" Version="0.0.6" />
 		<PackageReference Include="RC.EnvironmentServer.DataTransmitModel" Version="0.0.6" />
 		<PackageReference Include="RC.EnvironmentServer.Enums" Version="0.0.6" />

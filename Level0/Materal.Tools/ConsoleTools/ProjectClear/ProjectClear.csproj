@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<Version>1.1.55</Version>
+		<Version>1.1.56</Version>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>ProjectClear</ToolCommandName>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
