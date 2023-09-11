@@ -5,6 +5,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.Domain" Version="1.1.54" />
+		<PackageReference Include="Materal.BaseCore.Domain" Version="1.1.55" />
 	</ItemGroup>
 </Project>

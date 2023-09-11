@@ -74,10 +74,10 @@ namespace Materal.Logger.LoggerHandlers
         public static string FormatMessage(string writeMessage, LogLevel logLevel, string message, string? categoryName, LoggerScope? scope, DateTime dateTime, Exception? exception, string threadID, Guid logID)
         {
             string result = writeMessage;
+            result = Regex.Replace(result, @"\$\{Message\}", message);
             result = FormatText(result, logLevel, categoryName, scope, dateTime, threadID);
             string errorMesage = exception == null ? string.Empty : GetErrorMessage(exception);
             result = Regex.Replace(result, @"\$\{LogID\}", logID.ToString());
-            result = Regex.Replace(result, @"\$\{Message\}", message);
             result = Regex.Replace(result, @"\$\{Exception\}", errorMesage);
             result = result.Trim();
             return result;

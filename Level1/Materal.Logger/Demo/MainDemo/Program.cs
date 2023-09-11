@@ -1,4 +1,5 @@
 ﻿using Materal.Logger;
+using Materal.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -30,7 +31,8 @@ namespace MainDemo
                 //options.AddAllTargetRule();
             });
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-            ILogger<Program> logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+            ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+            ILogger logger = serviceProvider.GetRequiredService<ILogger<Program>>();
             Random random = new();
             Console.WriteLine("按任意键开始测试");
             Console.ReadKey();
@@ -43,12 +45,12 @@ namespace MainDemo
             while (true)
             {
                 #region 直接写日志
-                //logger.LogTrace($"Hello World!");
-                //logger.LogDebug($"Hello World!");
-                //logger.LogInformation($"Hello World!");
-                //logger.LogWarning($"Hello World!");
-                //logger.LogError($"Hello World!");
-                //logger.LogCritical($"Hello World!");
+                logger.LogTrace($"Hello World!");
+                logger.LogDebug($"Hello World!");
+                logger.LogInformation($"Hello World!");
+                logger.LogWarning($"Hello World!");
+                logger.LogError($"Hello World!");
+                logger.LogCritical($"Hello World!");
                 #endregion
                 #region 随机写日志
                 //LogLevel logLevel = random.Next(0, 6) switch
@@ -83,18 +85,20 @@ namespace MainDemo
                 //Console.WriteLine("输入完毕");
                 #endregion
                 #region 多线程日志
-                for (int i = 0; i < 1; i++)
-                {
-                    Task task = Task.Run(() =>
-                    {
-                        ILogger<Program> subLogger = serviceProvider.GetRequiredService<ILogger<Program>>();
-                        using IDisposable scope2 = subLogger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
-                        {
-                            ["UserID"] = Guid.NewGuid().ToString()
-                        }));
-                        subLogger.LogDebug($"Hello World!");
-                    });
-                }
+                //for (int i = 0; i < 1000; i++)
+                //{
+                //    string index = i.ToString();
+                //    Task task = Task.Run(() =>
+                //    {
+                //        ILogger subLogger = loggerFactory.CreateLogger("NewThread");
+                //        using IDisposable scope2 = subLogger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
+                //        {
+                //            ["Index"] = index,
+                //            ["UserID"] = Guid.NewGuid().ToString()
+                //        }));
+                //        subLogger.LogDebug("Hello World![${Index}]");
+                //    });
+                //}
                 #endregion
                 Console.ReadKey();
             }
