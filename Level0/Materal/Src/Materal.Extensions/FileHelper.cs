@@ -15,7 +15,7 @@ namespace Materal.Extensions
         /// <returns></returns>
         public static string GetBase64Image(string filePath)
         {
-            using var fileStream = new FileStream(filePath, FileMode.Open);
+            using FileStream fileStream = new FileStream(filePath, FileMode.Open);
             return GetBase64Image(fileStream);
         }
         /// <summary>
@@ -25,7 +25,7 @@ namespace Materal.Extensions
         /// <returns></returns>
         public static string GetBase64Image(FileStream fileStream)
         {
-            var imageArray = new byte[fileStream.Length];
+            byte[] imageArray = new byte[fileStream.Length];
             fileStream.Position = 0;
             fileStream.Read(imageArray, 0, (int)fileStream.Length);
             return "data:image/png;base64," + Convert.ToBase64String(imageArray);
@@ -44,9 +44,9 @@ namespace Materal.Extensions
         /// <returns></returns>
         public static string GetBase64Image(this Image image, ImageFormat imageFormat)
         {
-            using var memoryStream = new MemoryStream();
+            using MemoryStream memoryStream = new();
             image.Save(memoryStream, imageFormat);
-            var imageArray = new byte[memoryStream.Length];
+            byte[] imageArray = new byte[memoryStream.Length];
             memoryStream.Position = 0;
             memoryStream.Read(imageArray, 0, (int)memoryStream.Length);
             return "data:image/png;base64," + Convert.ToBase64String(imageArray);
