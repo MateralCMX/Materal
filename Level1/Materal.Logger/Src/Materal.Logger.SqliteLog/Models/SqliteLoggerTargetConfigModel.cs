@@ -16,7 +16,6 @@ namespace Materal.Logger.Models
         /// </summary>
         public override ILoggerHandler GetLoggerHandler() => new SqliteLoggerHandler();
         private string _path = "C:\\MateralLogger\\SqliteLogger.db";
-        private const string connectionPrefix = "Data Source=";
         /// <summary>
         /// 路径
         /// </summary>
@@ -30,6 +29,7 @@ namespace Materal.Logger.Models
                 _path = value;
             }
         }
+        private const string connectionPrefix = "Data Source=";
         /// <summary>
         /// 连接字符串
         /// </summary>
@@ -43,5 +43,30 @@ namespace Materal.Logger.Models
                 Path = value[connectionPrefix.Length..];
             }
         }
+        /// <summary>
+        /// 表名
+        /// </summary>
+        public string TableName { get; set; } = "MateralLogger";
+        /// <summary>
+        /// 默认字段
+        /// </summary>
+        public static List<SqliteDBFiled> DefaultFileds { get; } = new()
+        {
+            new(){ Name="ID", Type="TEXT", Value="${LogID}", PK = true },
+            new(){ Name="CreateTime", Type="DATE", Value="${DateTime}", Index = true, IsNull = false },
+            new(){ Name="Level", Type="TEXT", Value="${Level}" },
+            new(){ Name="ProgressID", Type="TEXT", Value="${ProgressID}" },
+            new(){ Name="ThreadID", Type="TEXT", Value="${ThreadID}" },
+            new(){ Name="Scope", Type="TEXT", Value="${Scope}" },
+            new(){ Name="MachineName", Type="TEXT", Value="${MachineName}" },
+            new(){ Name="CategoryName", Type="TEXT", Value="${CategoryName}" },
+            new(){ Name="Application", Type="TEXT", Value="${Application}" },
+            new(){ Name="Message", Type="TEXT", Value="${Message}" },
+            new(){ Name="Exception", Type="TEXT", Value="${Exception}" }
+        };
+        /// <summary>
+        /// 字段
+        /// </summary>
+        public List<SqliteDBFiled> Fileds { get; set; } = new();
     }
 }

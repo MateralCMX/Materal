@@ -20,9 +20,7 @@ namespace Materal.Logger.LoggerHandlers
             {
                 try
                 {
-                    LoggerSqliteRepository repository = new(item.Key);
-                    repository.Init();
-                    LogModel[] datas = item.Select(m => m.LogModel).ToArray();
+                    SqliteRepository repository = new(item.Key);
                     repository.Inserts(datas);
                 }
                 catch (Exception exception)

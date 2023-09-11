@@ -1,7 +1,4 @@
-﻿using Materal.Logger.LoggerHandlers;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger
 {
@@ -10,7 +7,7 @@ namespace Materal.Logger
     /// </summary>
     public class LoggerFactory : ILoggerFactory
     {
-        private readonly Dictionary<string, ILogger> _loggers = new();
+        //private readonly Dictionary<string, ILogger> _loggers = new();
         private ILoggerProvider? _provider;
         /// <summary>
         /// 构造方法
@@ -33,13 +30,15 @@ namespace Materal.Logger
         /// <returns></returns>
         public ILogger CreateLogger(string categoryName)
         {
-            lock (_loggers)
-            {
-                if (_loggers.ContainsKey(categoryName)) return _loggers[categoryName];
-                ILogger logger = _provider is null ? new Logger(categoryName) : _provider.CreateLogger(categoryName);
-                _loggers.Add(categoryName, logger);
-                return logger;
-            }
+            ILogger logger = _provider is null ? new Logger(categoryName) : _provider.CreateLogger(categoryName);
+            return logger;
+            //lock (_loggers)
+            //{
+            //    if (_loggers.ContainsKey(categoryName)) return _loggers[categoryName];
+            //    ILogger logger = _provider is null ? new Logger(categoryName) : _provider.CreateLogger(categoryName);
+            //    _loggers.Add(categoryName, logger);
+            //    return logger;
+            //}
         }
         /// <summary>
         /// 释放

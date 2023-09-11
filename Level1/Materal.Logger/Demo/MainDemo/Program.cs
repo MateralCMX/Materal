@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace MainDemo
 {
@@ -33,47 +34,68 @@ namespace MainDemo
             Random random = new();
             Console.WriteLine("按任意键开始测试");
             Console.ReadKey();
-            //for (int i = 1; i <= 10000; i++)
-            //{
-            //    LogLevel logLevel = random.Next(0, 6) switch
-            //    {
-            //        0 => LogLevel.Trace,
-            //        1 => LogLevel.Debug,
-            //        2 => LogLevel.Information,
-            //        3 => LogLevel.Warning,
-            //        4 => LogLevel.Error,
-            //        5 => LogLevel.Critical,
-            //        _ => throw new NotImplementedException()
-            //    };
-            //    logger.Log(logLevel, $"Hello World!{i}");
-            //    //await Task.Delay(1000);
-            //    //logger.LogTrace( $"Hello World!{i}");
-            //}
-            //Console.WriteLine("输入完毕");
             //using IDisposable scope = logger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
             //{
-            //    ["Application"] = "一个应用程序",
-            //    ["Level"] = "NewLevel"
+            //    //["Application"] = "一个应用程序",
+            //    //["Level"] = "NewLevel",
+            //    ["UserID"] = Guid.NewGuid().ToString()
             //}));
             while (true)
             {
+                #region 直接写日志
                 //logger.LogTrace($"Hello World!");
                 //logger.LogDebug($"Hello World!");
-                LogLevel logLevel = random.Next(0, 6) switch
-                {
-                    0 => LogLevel.Trace,
-                    1 => LogLevel.Debug,
-                    2 => LogLevel.Information,
-                    3 => LogLevel.Warning,
-                    4 => LogLevel.Error,
-                    5 => LogLevel.Critical,
-                    _ => throw new NotImplementedException()
-                };
-                logger.Log(logLevel, $"Hello World!");
                 //logger.LogInformation($"Hello World!");
                 //logger.LogWarning($"Hello World!");
                 //logger.LogError($"Hello World!");
                 //logger.LogCritical($"Hello World!");
+                #endregion
+                #region 随机写日志
+                //LogLevel logLevel = random.Next(0, 6) switch
+                //{
+                //    0 => LogLevel.Trace,
+                //    1 => LogLevel.Debug,
+                //    2 => LogLevel.Information,
+                //    3 => LogLevel.Warning,
+                //    4 => LogLevel.Error,
+                //    5 => LogLevel.Critical,
+                //    _ => throw new NotImplementedException()
+                //};
+                //logger.Log(logLevel, $"Hello World!");
+                #endregion
+                #region 写大量日志
+                //for (int i = 1; i <= 10000; i++)
+                //{
+                //    LogLevel logLevel = random.Next(0, 6) switch
+                //    {
+                //        0 => LogLevel.Trace,
+                //        1 => LogLevel.Debug,
+                //        2 => LogLevel.Information,
+                //        3 => LogLevel.Warning,
+                //        4 => LogLevel.Error,
+                //        5 => LogLevel.Critical,
+                //        _ => throw new NotImplementedException()
+                //    };
+                //    logger.Log(logLevel, $"Hello World!{i}");
+                //    //await Task.Delay(1000);
+                //    //logger.LogTrace( $"Hello World!{i}");
+                //}
+                //Console.WriteLine("输入完毕");
+                #endregion
+                #region 多线程日志
+                for (int i = 0; i < 1; i++)
+                {
+                    Task task = Task.Run(() =>
+                    {
+                        ILogger<Program> subLogger = serviceProvider.GetRequiredService<ILogger<Program>>();
+                        using IDisposable scope2 = subLogger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
+                        {
+                            ["UserID"] = Guid.NewGuid().ToString()
+                        }));
+                        subLogger.LogDebug($"Hello World!");
+                    });
+                }
+                #endregion
                 Console.ReadKey();
             }
         }

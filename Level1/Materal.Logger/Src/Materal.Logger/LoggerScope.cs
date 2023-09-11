@@ -5,6 +5,7 @@ namespace Materal.Logger
     /// <summary>
     /// 日志域
     /// </summary>
+    [Serializable]
     public class LoggerScope : IDisposable
     {
         private readonly Logger _logger;

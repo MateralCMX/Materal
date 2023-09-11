@@ -3,6 +3,7 @@
     /// <summary>
     /// 高级域
     /// </summary>
+    [Serializable]
     public class AdvancedScope
     {
         /// <summary>

@@ -7,14 +7,22 @@ namespace Materal.Logger.LoggerHandlers.Models
     /// </summary>
     public class SqliteLoggerHandlerModel : BufferLoggerHandlerModel
     {
-        /// <summary>
-        /// 日志模型
-        /// </summary>
-        public LogModel LogModel { get; set; } = new();
+        ///// <summary>
+        ///// 日志模型
+        ///// </summary>
+        //public LogModel LogModel { get; set; } = new();
         /// <summary>
         /// 数据库路径
         /// </summary>
-        public string Path { get; set; } = string.Empty;
+        public string Path { get; set; }
+        /// <summary>
+        /// 表名
+        /// </summary>
+        public string TableName { get; set; }
+        /// <summary>
+        /// 字段
+        /// </summary>
+        public List<SqliteDBFiled> Fileds { get; set; }
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -24,7 +32,25 @@ namespace Materal.Logger.LoggerHandlers.Models
         public SqliteLoggerHandlerModel(LoggerRuleConfigModel rule, SqliteLoggerTargetConfigModel target, LoggerHandlerModel model) : base(rule, target, model)
         {
             Path = LoggerHandlerHelper.FormatPath(target.Path, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
-            LogModel = LoggerHandlerHelper.GetLogModel(model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);
+            TableName = LoggerHandlerHelper.FormatText(target.TableName, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
+            Fileds = target.Fileds.Count <= 0
+                ? SqliteLoggerTargetConfigModel.DefaultFileds.Select(m => GetNewSqliteDBFiled(m, model)).ToList()
+                : target.Fileds.Select(m => GetNewSqliteDBFiled(m, model)).ToList();
         }
+        /// <summary>
+        /// 获得新的Sqlite数据库字段
+        /// </summary>
+        /// <param name="filed"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        private SqliteDBFiled GetNewSqliteDBFiled(SqliteDBFiled filed, LoggerHandlerModel model) => new()
+        {
+            Name = filed.Name,
+            Type = filed.Type,
+            PK = filed.PK,
+            Index = filed.Index,
+            IsNull = filed.IsNull,
+            Value = LoggerHandlerHelper.FormatMessage(filed.Value, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID)
+        };
     }
 }

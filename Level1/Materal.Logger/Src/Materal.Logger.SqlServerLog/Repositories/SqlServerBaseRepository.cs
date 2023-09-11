@@ -27,10 +27,14 @@ namespace Materal.Logger.Repositories
             _connectionString = connectionString;
         }
         /// <summary>
+        /// 表名
+        /// </summary>
+        protected abstract string TableName { get; }
+        /// <summary>
         /// 初始化
         /// </summary>
         /// <exception cref="LoggerException"></exception>
-        public override void Init()
+        public virtual void Init()
         {
             if (string.IsNullOrEmpty(_connectionString)) throw new LoggerException("未指定数据库链接字符串");
             CreateTable();

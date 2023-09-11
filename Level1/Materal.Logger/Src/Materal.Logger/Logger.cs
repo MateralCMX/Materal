@@ -9,6 +9,7 @@ namespace Materal.Logger
     /// <summary>
     /// 日志
     /// </summary>
+    [Serializable]
     public class Logger : ILogger
     {
         /// <summary>
@@ -131,7 +132,7 @@ namespace Materal.Logger
                 Exception = exception,
                 Message = formatter(state, exception),
                 CategoryName = _categoryName,
-                Scope = _loggerScope
+                Scope = _loggerScope?.Clone()
             };
             _actionBlock.Post(model);
         }

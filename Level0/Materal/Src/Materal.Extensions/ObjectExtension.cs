@@ -1,6 +1,7 @@
 ﻿using Materal.Extensions;
 using System.ComponentModel;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 
 namespace System
@@ -198,8 +199,6 @@ namespace System
         public static T? CloneByXml<T>(this T inputObj)
             where T : notnull
         {
-            Type tType = inputObj.GetType();
-            if (!tType.HasCustomAttribute<SerializableAttribute>()) throw new ExtensionException("未标识为可序列化");
             object result;
             using (var ms = new MemoryStream())
             {
@@ -232,13 +231,35 @@ namespace System
             return resM;
         }
         /// <summary>
+        /// 克隆对象(字节流序列化)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputObj"></param>
+        /// <returns></returns>
+        public static T? CloneBySerializable<T>(this T inputObj)
+            where T : notnull
+        {
+            if (!inputObj.GetType().HasCustomAttribute<SerializableAttribute>()) throw new ExtensionException("未标识为可序列化");
+            MemoryStream stream = new();
+            BinaryFormatter formatter = new();
+            formatter.Serialize(stream, inputObj);
+            stream.Position = 0;
+            object obj = formatter.Deserialize(stream);
+            if (obj is T result) return result;
+            return default;
+        }
+        /// <summary>
         /// 克隆对象
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="inputObj">输入对象</param>
         /// <returns>克隆的对象</returns>
         public static T? Clone<T>(this T inputObj)
-            where T : notnull => CloneByJson(inputObj);
+            where T : notnull
+        {
+            SerializableAttribute? serializableAttribute = inputObj.GetType().GetCustomAttribute<SerializableAttribute>();
+            return serializableAttribute is not null ? CloneBySerializable(inputObj) : CloneByJson(inputObj);
+        }
         #region 获得描述
         /// <summary>
         /// 描述字段名称

@@ -19,7 +19,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="model"></param>
         protected override void Handler(LoggerRuleConfigModel rule, ConsoleLoggerTargetConfigModel target, LoggerHandlerModel model)
         {
-            string writeMessage = LoggerHandlerHelper.FormatMessage(target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);
+            string writeMessage = LoggerHandlerHelper.FormatMessage(target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, Guid.NewGuid());
             ConsoleColor color = target.Colors.GetConsoleColor(model.LogLevel);
             _writeBuffer.Post(new ConsoleMessageModel
             {

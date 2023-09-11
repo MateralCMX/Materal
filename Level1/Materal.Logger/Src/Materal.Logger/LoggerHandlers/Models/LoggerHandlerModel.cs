@@ -9,6 +9,10 @@ namespace Materal.Logger.LoggerHandlers.Models
     public class LoggerHandlerModel
     {
         /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public Guid ID { get; set; } = Guid.NewGuid();
+        /// <summary>
         /// 日志等级
         /// </summary>
         [JsonConverter(typeof(JsonStringEnumConverter))]

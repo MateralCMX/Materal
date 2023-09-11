@@ -28,21 +28,25 @@ namespace Materal.Test.ExtensionsTests.ObjectTests
             description = TestEnum.Value2.GetDescription();
             Assert.IsTrue(description == "Value2");
         }
+        //[Serializable]
         [Description("这是ClassA特性的描述")]
         public class ClassA
         {
             [Description("这是ClassA.Name特性的描述")]
             public string Name { get; set; } = string.Empty;
         }
+        [Serializable]
         public class ClassB
         {
             [Description("这是ClassB.Description特性的描述")]
             public string Description { get; set; } = "这是ClassB.Description属性的描述";
         }
+        [Serializable]
         public class ClassC
         {
             public string Description { get; set; } = "这是ClassC.Description属性的描述";
         }
+        [Serializable]
         public class ClassD
         {
             [Description("这是ClassD.Description特性的描述")]
@@ -53,6 +57,12 @@ namespace Materal.Test.ExtensionsTests.ObjectTests
             [Description("这是TestEnum.Value1特性的描述")]
             Value1,
             Value2
+        }
+        [TestMethod]
+        public void CloneTest()
+        {
+            ClassA @class = new();
+            ClassA? a = @class.CloneByXml();
         }
     }
 }

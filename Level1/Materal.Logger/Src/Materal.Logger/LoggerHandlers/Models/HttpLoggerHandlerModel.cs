@@ -32,7 +32,7 @@ namespace Materal.Logger.LoggerHandlers.Models
             HttpMethod = target.GetHttpMethod();
             string createTimeText = model.CreateTime.ToString("yyyy-MM-ddTHH:mm:ss.ffffZ");
             Data = Regex.Replace(target.Format, @"\$\{DateTime\}", createTimeText);
-            Data = LoggerHandlerHelper.FormatMessage(Data, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID);
+            Data = LoggerHandlerHelper.FormatMessage(Data, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
         }
     }
 }
