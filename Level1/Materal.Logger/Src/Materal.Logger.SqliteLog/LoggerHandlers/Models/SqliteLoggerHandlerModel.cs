@@ -7,10 +7,6 @@ namespace Materal.Logger.LoggerHandlers.Models
     /// </summary>
     public class SqliteLoggerHandlerModel : BufferLoggerHandlerModel
     {
-        ///// <summary>
-        ///// 日志模型
-        ///// </summary>
-        //public LogModel LogModel { get; set; } = new();
         /// <summary>
         /// 数据库路径
         /// </summary>
@@ -43,14 +39,21 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <param name="filed"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        private SqliteDBFiled GetNewSqliteDBFiled(SqliteDBFiled filed, LoggerHandlerModel model) => new()
+        private SqliteDBFiled GetNewSqliteDBFiled(SqliteDBFiled filed, LoggerHandlerModel model)
         {
-            Name = filed.Name,
-            Type = filed.Type,
-            PK = filed.PK,
-            Index = filed.Index,
-            IsNull = filed.IsNull,
-            Value = LoggerHandlerHelper.FormatMessage(filed.Value, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID)
-        };
+            SqliteDBFiled result = new()
+            {
+                Name = filed.Name,
+                Type = filed.Type,
+                PK = filed.PK,
+                Index = filed.Index,
+                IsNull = filed.IsNull
+            };
+            if(filed.Value is not null && string.IsNullOrWhiteSpace(filed.Value))
+            {
+                result.Value = LoggerHandlerHelper.FormatMessage(filed.Value, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
+            }
+            return result;
+        }
     }
 }

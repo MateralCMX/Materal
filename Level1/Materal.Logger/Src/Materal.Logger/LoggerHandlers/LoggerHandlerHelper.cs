@@ -148,34 +148,5 @@ namespace Materal.Logger.LoggerHandlers
             result = result.Trim();
             return result;
         }
-        /// <summary>
-        /// 获得Log模型
-        /// </summary>
-        /// <param name="logLevel"></param>
-        /// <param name="message"></param>
-        /// <param name="categoryName"></param>
-        /// <param name="scope"></param>
-        /// <param name="dateTime"></param>
-        /// <param name="exception"></param>
-        /// <param name="threadID"></param>
-        /// <returns></returns>
-        public static LogModel GetLogModel(LogLevel logLevel, string message, string? categoryName, LoggerScope? scope, DateTime dateTime, Exception? exception, string threadID)
-        {
-            LogModel result = new()
-            {
-                Application = LoggerConfig.Application,
-                Level = logLevel.ToString(),
-                MachineName = MachineName,
-                CreateTime = dateTime,
-                Message = message,
-                ProgressID = GetProgressID(),
-                ThreadID = threadID,
-                Scope = scope == null ? "PublicScope" : scope.ScopeName,
-                CategoryName = categoryName,
-                Error = exception == null ? null : GetErrorMessage(exception),
-                CustomInfo = LoggerConfig.CustomData.ToJson()
-            };
-            return result;
-        }
     }
 }

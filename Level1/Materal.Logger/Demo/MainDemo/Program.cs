@@ -1,9 +1,7 @@
 ﻿using Materal.Logger;
-using Materal.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace MainDemo
 {
@@ -25,7 +23,7 @@ namespace MainDemo
                 //options.AddHttpTarget("HttpLog", "http://localhost:5000/api/Log/WriteLog", HttpMethod.Post, "{\"CreateTime\":\"${DateTime}\",\"Application\":\"${Application}\",\"Level\":\"${Level}\",\"Scope\":\"${Scope}\",\"CategoryName\":\"${CategoryName}\",\"MachineName\":\"${MachineName}\",\"ProgressID\":\"${ProgressID}\",\"ThreadID\":\"${ThreadID}\",\"Message\":\"${Message}\",\"Exception\":\"${Exception}\"}");
                 //options.AddSqliteTargetFromPath("LocalDB", "${RootPath}\\Logs\\MateralLogger.db");
                 //options.AddSqliteTargetFromConnectionString("LocalDB", "Data Source=${RootPath}\\Logs\\MateralLogger.db");
-                //options.AddCustomConfig("LogDBConnectionString", "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
+                options.AddCustomConfig("LogDBConnectionString", "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
                 //options.AddSqlServerTarget("ServerDB", "${LogDBConnectionString}");
                 //options.AddWebSocketTarget("LocalWebSocket", 5002, textFormat, colors);
                 //options.AddAllTargetRule();
@@ -36,12 +34,12 @@ namespace MainDemo
             Random random = new();
             Console.WriteLine("按任意键开始测试");
             Console.ReadKey();
-            //using IDisposable scope = logger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
-            //{
-            //    //["Application"] = "一个应用程序",
-            //    //["Level"] = "NewLevel",
-            //    ["UserID"] = Guid.NewGuid().ToString()
-            //}));
+            using IDisposable scope = logger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
+            {
+                //["Application"] = "一个应用程序",
+                //["Level"] = "NewLevel",
+                ["UserID"] = Guid.NewGuid().ToString()
+            }));
             while (true)
             {
                 #region 直接写日志

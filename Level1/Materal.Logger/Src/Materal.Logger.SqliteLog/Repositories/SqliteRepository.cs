@@ -173,7 +173,7 @@ namespace Materal.Logger.Repositories
         private string GetCreateTableTSQL(string tableName, List<SqliteDBFiled> fileds)
         {
             string? setPrimaryKeyTSQL = null;
-            StringBuilder createIndexTSQL = new();
+            List<string> indexColumns = new();
             StringBuilder createTableTSQL = new();
             createTableTSQL.AppendLine("PRAGMA foreign_keys = false;");
             createTableTSQL.AppendLine($"CREATE TABLE \"{tableName}\" (");
@@ -187,10 +187,7 @@ namespace Materal.Logger.Repositories
                 }
                 if (filed.Index)
                 {
-                    createIndexTSQL.AppendLine($"CREATE INDEX \"{tableName}{filed.Name}Index\"");
-                    createIndexTSQL.AppendLine($"ON \"{tableName}\" (");
-                    createIndexTSQL.AppendLine($"\"{filed.Name}\" DESC");
-                    createIndexTSQL.AppendLine($");");
+                    indexColumns.Add($"\"{filed.Name}\"");
                 }
             }
             createTableTSQL.AppendLine(string.Join(",", columns));
@@ -198,10 +195,11 @@ namespace Materal.Logger.Repositories
             {
                 createTableTSQL.AppendLine(setPrimaryKeyTSQL);
             }
-            createTableTSQL.AppendLine(");");
-            if(createIndexTSQL.Length > 0)
+            if(indexColumns.Count > 0)
             {
-                createTableTSQL.Append(createIndexTSQL);
+                createTableTSQL.AppendLine($"CREATE INDEX \"{tableName}Index\" ON \"{tableName}\" (");
+                createTableTSQL.Append(string.Join(" DESC,", indexColumns));
+                createTableTSQL.AppendLine(");");
             }
             createTableTSQL.AppendLine("PRAGMA foreign_keys = true;");
             string result = createTableTSQL.ToString();
