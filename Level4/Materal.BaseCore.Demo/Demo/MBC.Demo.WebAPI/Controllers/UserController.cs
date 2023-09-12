@@ -23,7 +23,7 @@ namespace MBC.Demo.WebAPI.Controllers
         public async Task<ResultModel<UserDTO>> GetLoginUserInfoAsync()
         {
             Guid id = GetLoginUserID();
-            UserDTO result = await DefaultService.GetInfoAsync(id);
+            UserDTO result = await DefaultService.GetInfoAsync(Guid.Empty);
             return ResultModel<UserDTO>.Success(result, "查询成功");
         }
         /// <summary>

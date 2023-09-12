@@ -1,10 +1,11 @@
-﻿using Materal.Abstractions;
+﻿using AspectCore.DependencyInjection;
+using AspectCore.Extensions.DependencyInjection;
+using Materal.Abstractions;
 using Materal.Logger;
 using Materal.TTA.Common;
 using Materal.TTA.Demo.Domain;
 using Materal.Utils;
 using Materal.Utils.Model;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -25,8 +26,8 @@ namespace Materal.TTA.Demo
                     ["Microsoft.EntityFrameworkCore"] = LogLevel.Warning
                 });
             });
-
             serviceCollection.AddSqliteEFTTA();
+            serviceCollection.ConfigureDynamicProxy();
             static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
 
             //serviceCollection.AddSqlServerEFTTA();
@@ -37,8 +38,7 @@ namespace Materal.TTA.Demo
 
             //serviceCollection.AddSqlServerADONETTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerADONETHelper.MigrateAsync(serviceProvider);
-
-            IServiceProvider services = serviceCollection.BuildServiceProvider();
+            IServiceProvider services = serviceCollection.BuildDynamicProxyProvider();
             ILoggerExtension.TSQLLogLevel = LogLevel.Information;
             using (IServiceScope scope = services.CreateScope())
             {
@@ -57,7 +57,7 @@ namespace Materal.TTA.Demo
                     ID = Guid.NewGuid()
                 };
                 unitOfWork.RegisterAdd(domain);
-                for (int i = 0; i < 40000; i++)
+                for (int i = 0; i < 40; i++)
                 {
                     domain = new()
                     {

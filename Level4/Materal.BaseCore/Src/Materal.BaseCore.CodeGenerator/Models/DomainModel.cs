@@ -446,7 +446,6 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// </summary>");
                 codeContent.AppendLine($"        /// <param name=\"model\"></param>");
                 codeContent.AppendLine($"        /// <returns></returns>");
-                codeContent.AppendLine($"        [DataValidation]");
                 codeContent.AppendLine($"        Task ExchangeIndexAsync(ExchangeIndexModel model);");
             }
             if (IsTreeDomain)
@@ -456,7 +455,6 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// </summary>");
                 codeContent.AppendLine($"        /// <param name=\"model\"></param>");
                 codeContent.AppendLine($"        /// <returns></returns>");
-                codeContent.AppendLine($"        [DataValidation]");
                 codeContent.AppendLine($"        Task ExchangeParentAsync(ExchangeParentModel model);");
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 查询树列表");

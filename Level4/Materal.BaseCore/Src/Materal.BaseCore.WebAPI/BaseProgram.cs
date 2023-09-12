@@ -1,4 +1,5 @@
-﻿using Materal.BaseCore.Common;
+﻿using AspectCore.Extensions.DependencyInjection;
+using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,7 +14,6 @@ namespace Materal.BaseCore.WebAPI
     /// </summary>
     public class BaseProgram
     {
-        private readonly static Timer _titleChangeTtimer = new(TitleTimerRun);
         /// <summary>
         /// 启动程序
         /// </summary>
@@ -49,8 +49,8 @@ namespace Materal.BaseCore.WebAPI
             configBuilder?.Invoke(builder);
             initConfig?.Invoke(builder.Configuration);
             MateralCoreConfig.Configuration = builder.Configuration;
-            _titleChangeTtimer.Change(TimeSpan.Zero, TimeSpan.FromMinutes(1));//立即启动，间隔1分钟
             configService?.Invoke(builder.Services);
+            builder.Host.UseServiceProviderFactory(new DynamicProxyServiceProviderFactory());//使用AOP
             WebApplication app = builder.Build();
             configApp?.Invoke(app);
             app.WebApplicationConfig(consulTag);
@@ -67,14 +67,6 @@ namespace Materal.BaseCore.WebAPI
             {
                 ConsulManager.UnregisterConsul();
             }
-        }
-        /// <summary>
-        /// 标题计时器运行
-        /// </summary>
-        /// <param name="state"></param>
-        private static void TitleTimerRun(object? state)
-        {
-            Console.Title = WebAPIConfig.AppTitle;
         }
     }
 }

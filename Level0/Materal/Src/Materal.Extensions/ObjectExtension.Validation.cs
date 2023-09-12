@@ -1,6 +1,4 @@
-﻿using Materal.Extensions;
-using Newtonsoft.Json.Linq;
-using System.Collections;
+﻿using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
@@ -57,45 +55,117 @@ namespace System
             memberInfos.AddRange(modelType.GetFields());
             foreach (MemberInfo memberInfo in memberInfos)
             {
-                object? memberValue = memberInfo.GetValue(model);
-                foreach (ValidationAttribute validationAttribute in memberInfo.GetCustomAttributes<ValidationAttribute>())
+                Validation(model, memberInfo, prefix);
+            }
+        }
+        /// <summary>
+        /// 验证
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="memberInfo"></param>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
+        public static bool Validation(this object model, MemberInfo memberInfo, out string errorMessage)
+        {
+            try
+            {
+                model.Validation(memberInfo, string.Empty);
+                errorMessage = string.Empty;
+                return true;
+            }
+            catch (ValidationException ex)
+            {
+                errorMessage = ex.Message;
+                return false;
+            }
+        }
+        /// <summary>
+        /// 验证
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="memberInfo"></param>
+        /// <param name="prefix"></param>
+        public static void Validation(this object model, MemberInfo memberInfo, string prefix = "")
+        {
+            if (IsDefaultType(model)) return;
+            object? memberValue = memberInfo.GetValue(model);
+            Validation(memberValue, memberInfo.GetCustomAttributes<ValidationAttribute>(), validationAttribute => NewException(validationAttribute, prefix, memberInfo, memberValue));
+            if (memberValue == null || IsDefaultType(memberValue)) return;
+            string nextPrefix = memberInfo.Name;
+            if (!string.IsNullOrWhiteSpace(prefix))
+            {
+                nextPrefix = $"{prefix}.{nextPrefix}";
+            }
+            if (memberValue is ICollection collection)
+            {
+                int index = 0;
+                foreach (object? item in collection)
                 {
-                    if (!validationAttribute.IsValid(memberValue))
-                    {
-                        throw NewException(validationAttribute, prefix, memberInfo, memberValue);
-                    }
-                    else if(validationAttribute is RequiredAttribute requiredAttribute)
-                    {
-                        switch (memberValue)
-                        {
-                            case Guid guid when guid == Guid.Empty:
-                                throw NewException(validationAttribute, prefix, memberInfo, memberValue);
-                            case DateTime dateTime when dateTime == DateTime.MinValue:
-                                throw NewException(validationAttribute, prefix, memberInfo, memberValue);
-                        }
-                    }
+                    if (memberValue == null || IsDefaultType(item)) continue;
+                    item.Validation($"{nextPrefix}[{index}]");
                 }
-                if (memberValue == null || IsDefaultType(memberValue)) continue;
-                string nextPrefix = memberInfo.Name;
-                if (!string.IsNullOrWhiteSpace(prefix))
+            }
+            else
+            {
+                memberValue.Validation($"{nextPrefix}");
+            }
+        }
+        /// <summary>
+        /// 验证
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="validations"></param>
+        /// <param name="newException"></param>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
+        public static bool Validation(this object? value, IEnumerable<ValidationAttribute> validations, Func<ValidationAttribute, ValidationException>? newException, out string errorMessage)
+        {
+            try
+            {
+                value.Validation(validations, newException);
+                errorMessage = string.Empty;
+                return true;
+            }
+            catch (ValidationException ex)
+            {
+                errorMessage = ex.Message;
+                return false;
+            }
+        }
+        /// <summary>
+        /// 验证
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="validations"></param>
+        /// <param name="newException"></param>
+        public static void Validation(this object? value, IEnumerable<ValidationAttribute> validations, Func<ValidationAttribute, ValidationException>? newException = null)
+        {
+            newException ??= validationAttribute => new ValidationException($"[{validationAttribute.GetType().Name}]验证失败", validationAttribute, value);
+            foreach (ValidationAttribute validationAttribute in validations)
+            {
+                if (!validationAttribute.IsValid(value))
                 {
-                    nextPrefix = $"{prefix}.{nextPrefix}";
+                    throw newException(validationAttribute);
                 }
-                if (memberValue is ICollection collection)
+                else if (validationAttribute is RequiredAttribute requiredAttribute)
                 {
-                    int index = 0;
-                    foreach (object? item in collection)
+                    if (value == null) throw newException(validationAttribute);
+                    switch (value)
                     {
-                        if (memberValue == null || IsDefaultType(item)) continue;
-                        item.Validation($"{nextPrefix}[{index}]");
+                        case Guid guid when guid == Guid.Empty:
+                            throw newException(validationAttribute);
+                        case DateTime dateTime when dateTime == DateTime.MinValue:
+                            throw newException(validationAttribute);
                     }
-                }
-                else
-                {
-                    memberValue.Validation($"{nextPrefix}");
                 }
             }
         }
+        /// <summary>
+        /// 验证
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="validations"></param>
+        public static void Validation(this object? value, params ValidationAttribute[] validations) => Validation(value, validations, null);
         /// <summary>
         /// 新异常
         /// </summary>
@@ -108,19 +178,16 @@ namespace System
         private static ValidationException NewException(ValidationAttribute validationAttribute, string prefix, MemberInfo memberInfo, object? memberValue)
         {
             string errorMessage = GetValidationFailMesage(validationAttribute, prefix, memberInfo, memberValue);
-            throw new ValidationException(errorMessage, validationAttribute, memberValue);
+            return new ValidationException(errorMessage, validationAttribute, memberValue);
         }
         /// <summary>
         /// 是默认类型
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        private static bool IsDefaultType(object value)
-        {
-            return value == null || value is int || value is uint || value is short || value is ushort || value is long || value is ulong || 
+        private static bool IsDefaultType(object value) => value is int || value is uint || value is short || value is ushort || value is long || value is ulong ||
                 value is float || value is double || value is decimal || value is string || value is DateTime || value is TimeSpan || value is Guid ||
                 value is Enum;
-        }
         /// <summary>
         /// 获得验证失败消息
         /// </summary>

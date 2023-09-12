@@ -36,5 +36,11 @@ namespace Materal.Test.ExtensionsTests.ObjectTests
             [Required, Min(5), Max(10)]
             public int IntProperty { get; set; } = 4;
         }
+        [TestMethod]
+        public void ValidationBaseType()
+        {
+            123.Validation();
+            "123".Validation();   
+        }
     }
 }

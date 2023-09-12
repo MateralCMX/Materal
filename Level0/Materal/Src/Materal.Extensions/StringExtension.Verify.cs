@@ -105,15 +105,19 @@ namespace System
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static bool IsJson(this string obj)
-        {
-            if (obj.StartsWith("{") && obj.EndsWith("}") ||
-                obj.StartsWith("[") && obj.EndsWith("]"))
-            {
-                return true;
-            }
-            return false;
-        }
+        public static bool IsJson(this string obj) => IsObjectJson(obj) || IsArrayJson(obj);
+        /// <summary>
+        /// 验证输入字符串是否为Json
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool IsObjectJson(this string obj) => obj.StartsWith("{") && obj.EndsWith("}");
+        /// <summary>
+        /// 验证输入字符串是否为Json
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool IsArrayJson(this string obj) => obj.StartsWith("[") && obj.EndsWith("]");
         /// <summary>
         /// 验证输入字符串是否为16进制颜色
         /// </summary>

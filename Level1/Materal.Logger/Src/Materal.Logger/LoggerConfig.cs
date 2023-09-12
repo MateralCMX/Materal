@@ -3,6 +3,7 @@ using Materal.Logger.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -84,30 +85,33 @@ namespace Materal.Logger
             List<T> result = new();
             #region 读取配置对象中的配置
             string value = GetValue(nameof(Targets));
-            Type? targetType = typeof(T);
-            if(targetType == typeof(LoggerTargetConfigModel))
+            if(value is not null && !string.IsNullOrWhiteSpace(value) && value.IsArrayJson())
             {
-                targetType = null;
-            }
-            JObject[] jObjs = value.JsonToDeserializeObject<JObject[]>();
-            foreach (JObject jObj in jObjs)
-            {
-                string? targetName = jObj.GetValue("Name")?.ToString();
-                if (targetName is null || string.IsNullOrWhiteSpace(targetName)) continue;
-                try
+                Type? targetType = typeof(T);
+                if (targetType == typeof(LoggerTargetConfigModel))
                 {
-                    string? targetTypeName = jObj.GetValue("Type")?.ToString();
-                    if (targetTypeName is null || string.IsNullOrWhiteSpace(targetTypeName) || !ConfigModelTypes.ContainsKey(targetTypeName)) continue;
-                    Type configType = ConfigModelTypes[targetTypeName];
-                    if(targetType is not null && targetType != configType) continue;
-                    object?  config = jObj.ToObject(configType);
-                    if (config is null || config is not T targetConfig) continue;
-                    if (onlyEnable && !targetConfig.Enable) continue;
-                    result.Add(targetConfig);
+                    targetType = null;
                 }
-                catch (Exception ex)
+                JObject[] jObjs = value.JsonToDeserializeObject<JObject[]>();
+                foreach (JObject jObj in jObjs)
                 {
-                    LoggerLog.LogWarning($"获取目标配置[{targetName}]失败：\r\n{ex.GetErrorMessage()}");
+                    string? targetName = jObj.GetValue("Name")?.ToString();
+                    if (targetName is null || string.IsNullOrWhiteSpace(targetName)) continue;
+                    try
+                    {
+                        string? targetTypeName = jObj.GetValue("Type")?.ToString();
+                        if (targetTypeName is null || string.IsNullOrWhiteSpace(targetTypeName) || !ConfigModelTypes.ContainsKey(targetTypeName)) continue;
+                        Type configType = ConfigModelTypes[targetTypeName];
+                        if (targetType is not null && targetType != configType) continue;
+                        object? config = jObj.ToObject(configType);
+                        if (config is null || config is not T targetConfig) continue;
+                        if (onlyEnable && !targetConfig.Enable) continue;
+                        result.Add(targetConfig);
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggerLog.LogWarning($"获取目标配置[{targetName}]失败：\r\n{ex.GetErrorMessage()}");
+                    }
                 }
             }
             #endregion

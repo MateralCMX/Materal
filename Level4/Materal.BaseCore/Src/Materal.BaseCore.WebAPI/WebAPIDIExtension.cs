@@ -1,8 +1,12 @@
-﻿using Materal.BaseCore.Common;
+﻿using AspectCore.Configuration;
+using AspectCore.Extensions.DependencyInjection;
+using Materal.BaseCore.Common;
+using Materal.BaseCore.Services;
 using Materal.BaseCore.WebAPI.Common;
 using Materal.BaseCore.WebAPI.Controllers;
 using Materal.BaseCore.WebAPI.Filters;
 using Materal.Logger;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -27,8 +31,9 @@ namespace Materal.BaseCore.WebAPI
         /// <param name="services"></param>
         /// <param name="swaggerGenConfig"></param>
         /// <param name="mvcAction"></param>
+        /// <param name="aopAction"></param>
         /// <param name="otherControlesAssemblys"></param>
-        public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, Action<MvcOptions>? mvcAction, params Assembly[] otherControlesAssemblys)
+        public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, Action<MvcOptions>? mvcAction, Action<IAspectConfiguration>? aopAction, params Assembly[] otherControlesAssemblys)
         {
             services.AddMateralLogger(options =>
             {
@@ -131,6 +136,11 @@ namespace Materal.BaseCore.WebAPI
              });
             #endregion
             services.AddEndpointsApiExplorer();
+            services.ConfigureDynamicProxy(option =>
+            {
+                option.Interceptors.AddTyped<DataValidationAttribute>(Predicates.ForService("*Service"));
+                aopAction?.Invoke(option);
+            });//配置ServerAOP
             return services;
         }
     }

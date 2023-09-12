@@ -1,5 +1,4 @@
-﻿using AspectCore.Configuration;
-using EnvDTE;
+﻿using EnvDTE;
 using Materal.BaseCore.CodeGenerator.Models;
 using Microsoft.VisualStudio.Shell;
 using System.IO;

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Materal.BaseCore.WebAPI.Filters
@@ -55,7 +56,10 @@ namespace Materal.BaseCore.WebAPI.Filters
         /// <returns></returns>
         private static ResultModel? HandlerException(Exception exception)
         {
-            if (exception is TTAException || exception is MateralCoreException || exception is AutoMapperMappingException aex && aex.InnerException != null && aex.InnerException is MateralCoreException)
+            if (exception is TTAException || 
+                exception is MateralCoreException || 
+                exception is ValidationException ||
+                exception is AutoMapperMappingException aex && aex.InnerException != null && aex.InnerException is MateralCoreException)
             {
                 return ResultModel.Fail(exception.Message);
             }
