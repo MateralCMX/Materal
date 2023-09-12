@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.CodeGenerator;
-using Materal.Utils.Model;
 using RC.EnvironmentServer.Services.Models.ConfigurationItem;
 
 namespace RC.EnvironmentServer.Services
@@ -16,7 +15,7 @@ namespace RC.EnvironmentServer.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [DataValidation, MapperController(MapperType.Put)]
+        [MapperController(MapperType.Put)]
         Task SyncConfigAsync(SyncConfigModel model);
     }
 }

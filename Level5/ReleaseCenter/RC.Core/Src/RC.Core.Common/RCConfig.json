@@ -32,6 +32,10 @@
   },
   "MateralLogger": {
     "Application": "${ApplicationName}",
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning"
+    },
     "Targets": [
       {
         "Name": "LifeConsole",
@@ -57,24 +61,19 @@
     ],
     "Rules": [
       {
-        "MinLevel": "Information",
-        "MaxLevel": "Information",
         "Targets": [
-          "LifeConsole",
-          "LevelFile"
+          "LifeConsole"
         ],
-        "Ignores": [
-          "Microsoft.AspNetCore.*",
-          "Microsoft.EntityFrameworkCore.*"
-        ]
+        "MinLevel": "Information",
+        "MaxLevel": "Information"
       },
       {
-        "MinLevel": "Warning",
-        "MaxLevel": "Critical",
         "Targets": [
           "ErrorConsole",
           "LevelFile"
-        ]
+        ],
+        "MinLevel": "Warning",
+        "MaxLevel": "Critical"
       }
     ]
   },

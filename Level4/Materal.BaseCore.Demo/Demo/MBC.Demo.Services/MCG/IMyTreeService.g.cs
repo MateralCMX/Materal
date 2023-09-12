@@ -16,14 +16,12 @@ namespace MBC.Demo.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [DataValidation]
         Task ExchangeIndexAsync(ExchangeIndexModel model);
         /// <summary>
         /// 更改父级
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [DataValidation]
         Task ExchangeParentAsync(ExchangeParentModel model);
         /// <summary>
         /// 查询树列表

@@ -13,7 +13,7 @@ namespace MBC.Demo.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [DataValidation, MapperController(MapperType.Post)]
+        [MapperController(MapperType.Post)]
         Task<(List<UserListDTO> data, PageModel pageInfo)> GetUserListAsync(QueryUserModel model);
         /// <summary>
         /// 登录
@@ -21,7 +21,6 @@ namespace MBC.Demo.Services
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="RCException"></exception>
-        [DataValidation]
         Task<UserDTO> LoginAsync(LoginModel model);
         /// <summary>
         /// 重置密码
@@ -29,7 +28,7 @@ namespace MBC.Demo.Services
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="RCException"></exception>
-        [DataValidation, MapperController(MapperType.Put)]
+        [MapperController(MapperType.Put)]
         Task<string> ResetPasswordAsync(Guid id);
         /// <summary>
         /// 修改密码
@@ -37,7 +36,7 @@ namespace MBC.Demo.Services
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="RCException"></exception>
-        [DataValidation, MapperController(MapperType.Post)]
+        [MapperController(MapperType.Post)]
         Task TestChangePasswordAsync(ChangePasswordModel model);
         /// <summary>
         /// 修改密码
@@ -45,7 +44,6 @@ namespace MBC.Demo.Services
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="RCException"></exception>
-        [DataValidation]
         Task ChangePasswordAsync(ChangePasswordModel model);
         /// <summary>
         /// 添加默认用户

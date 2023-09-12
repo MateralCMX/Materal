@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.CodeGenerator;
-using Materal.Utils.Model;
 using RC.Demo.DataTransmitModel.User;
 using RC.Demo.Services.Models.User;
 
@@ -13,7 +12,6 @@ namespace RC.Demo.Services
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="RCException"></exception>
-        [DataValidation]
         Task<UserDTO> LoginAsync(LoginModel model);
         /// <summary>
         /// 重置密码
@@ -21,7 +19,7 @@ namespace RC.Demo.Services
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="RCException"></exception>
-        [DataValidation, MapperController(MapperType.Put)]
+        [MapperController(MapperType.Put)]
         Task<string> ResetPasswordAsync(Guid id);
         /// <summary>
         /// 修改密码
@@ -29,7 +27,6 @@ namespace RC.Demo.Services
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="RCException"></exception>
-        [DataValidation]
         Task ChangePasswordAsync(ChangePasswordModel model);
         /// <summary>
         /// 添加默认用户
