@@ -421,7 +421,6 @@ namespace Materal.BaseCore.CodeGenerator.Models
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.BaseCore.Services;");
             codeContent.AppendLine($"using Materal.BaseCore.Services.Models;");
-            codeContent.AppendLine($"using Materal.Utils.Model;");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.DataTransmitModel.{Name};");
             codeContent.AppendLine($"using {project.PrefixName}.{project.ProjectName}.Services.Models.{Name};");
             codeContent.AppendLine($"");
@@ -446,6 +445,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// </summary>");
                 codeContent.AppendLine($"        /// <param name=\"model\"></param>");
                 codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [DataValidation]");
                 codeContent.AppendLine($"        Task ExchangeIndexAsync(ExchangeIndexModel model);");
             }
             if (IsTreeDomain)
@@ -455,11 +455,13 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 codeContent.AppendLine($"        /// </summary>");
                 codeContent.AppendLine($"        /// <param name=\"model\"></param>");
                 codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [DataValidation]");
                 codeContent.AppendLine($"        Task ExchangeParentAsync(ExchangeParentModel model);");
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 查询树列表");
                 codeContent.AppendLine($"        /// </summary>");
                 codeContent.AppendLine($"        /// <param name=\"queryModel\"></param>");
+                codeContent.AppendLine($"        [DataValidation]");
                 codeContent.AppendLine($"        Task<List<{_treeListDTOName}>> GetTreeListAsync({_queryTreeListModelName} queryModel);");
             }
             codeContent.AppendLine($"    }}");

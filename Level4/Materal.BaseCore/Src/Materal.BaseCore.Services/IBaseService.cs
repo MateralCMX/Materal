@@ -43,6 +43,7 @@ namespace Materal.BaseCore.Services
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="MateralCoreException"></exception>
+        [DataValidation]
         Task<Guid> AddAsync(TAddModel model);
         /// <summary>
         /// 修改
@@ -50,6 +51,7 @@ namespace Materal.BaseCore.Services
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="MateralCoreException"></exception>
+        [DataValidation]
         Task EditAsync(TEditModel model);
         /// <summary>
         /// 删除
@@ -57,6 +59,7 @@ namespace Materal.BaseCore.Services
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="MateralCoreException"></exception>
+        [DataValidation]
         Task DeleteAsync(Guid id);
         /// <summary>
         /// 获得信息
@@ -64,12 +67,14 @@ namespace Materal.BaseCore.Services
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="MateralCoreException"></exception>
+        [DataValidation]
         Task<TDTO> GetInfoAsync(Guid id);
         /// <summary>
         /// 获得列表
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
+        [DataValidation]
         Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(TQueryModel model);
     }
 }

@@ -138,7 +138,9 @@ namespace Materal.BaseCore.WebAPI
             services.AddEndpointsApiExplorer();
             services.ConfigureDynamicProxy(option =>
             {
-                option.Interceptors.AddTyped<DataValidationAttribute>(Predicates.ForService("*Service"));
+                //等https://github.com/dotnetcore/AspectCore-Framework/issues/313解决后再使用
+                //option.Interceptors.AddTyped<DataValidationAttribute>(Predicates.ForService("*Service"));
+                //option.Interceptors.AddTyped<DataValidationAttribute>(method => method.DeclaringType is not null && method.DeclaringType.IsAssignableTo<IBaseService>());
                 aopAction?.Invoke(option);
             });//配置ServerAOP
             return services;

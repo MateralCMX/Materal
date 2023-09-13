@@ -3,12 +3,14 @@ using MBC.Core.Common;
 using MBC.Demo.Common;
 using MBC.Demo.DataTransmitModel.User;
 using MBC.Demo.Domain;
+using MBC.Demo.Domain.Repositories;
 using MBC.Demo.Services.Models.User;
 
 namespace MBC.Demo.ServiceImpl
 {
     public partial class UserServiceImpl
     {
+        private readonly IMyTreeRepository _myTreeRepository;
         public async Task<(List<UserListDTO> data, PageModel pageInfo)> GetUserListAsync(QueryUserModel model)
         {
             return await GetListAsync(model);

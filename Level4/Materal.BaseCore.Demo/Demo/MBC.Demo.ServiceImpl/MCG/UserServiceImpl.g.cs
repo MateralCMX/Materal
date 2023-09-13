@@ -20,7 +20,15 @@ namespace MBC.Demo.ServiceImpl
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="serviceProvider"></param>
-        public UserServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider) { }
+        public UserServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
+        {
+        }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public UserServiceImpl(IServiceProvider serviceProvider, IMyTreeRepository myTreeRepository) : this(serviceProvider)
+        {
+            _myTreeRepository = myTreeRepository;
+        }
     }
 }
