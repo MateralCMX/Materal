@@ -15,6 +15,7 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\Materal.Abstractions\Materal.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Extensions\Materal.Extensions.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Utils.BarCode\Materal.Utils.BarCode.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Utils.Excel\Materal.Utils.Excel.csproj" />
