@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>10.0</LangVersion>
@@ -24,5 +24,8 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
 		<PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Materal.Abstractions\Materal.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

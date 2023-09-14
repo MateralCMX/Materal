@@ -10,10 +10,10 @@
         /// 之前
         /// </summary>
         /// <returns></returns>
-        public abstract bool Befor();
+        public virtual void Befor(InterceptorContext context) { }
         /// <summary>
         /// 之后
         /// </summary>
-        public abstract void After();
+        public virtual void After(InterceptorContext context) { }
     }
 }

@@ -1,18 +1,18 @@
 ﻿using Materal.Extensions.DependencyInjection;
+using System.Diagnostics;
 
 namespace Materal.Test.ExtensionsTests.AOPDITests
 {
     [AttributeUsage(AttributeTargets.Method)]
     public class MyInterceptorAttribute : InterceptorAttribute
     {
-        public override void After()
+        public override void After(InterceptorContext context)
         {
-            Console.WriteLine("After Invoke");
+            Debug.WriteLine("After Invoke");
         }
-        public override bool Befor()
+        public override void Befor(InterceptorContext context)
         {
-            Console.WriteLine("Befor Invoke");
-            return true;
+            Debug.WriteLine("Befor Invoke");
         }
     }
 }
