@@ -11,11 +11,12 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
         public AOPDITest()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddTransient<IService>(m => new ServiceImpl());
-            //services.AddTransient<IService, ServiceImpl>();
+            //services.AddTransient<IService>(m => new ServiceImpl());
+            services.AddTransient<IService, ServiceImpl>();
             //services.AddScoped<IService, ServiceImpl>();
             //services.AddSingleton<IService, ServiceImpl>();
             //_serviceProvider = services.BuildServiceProvider();
+            services.AddInterceptor<GlobalInterceptorAttribute>((im, m) => im.DeclaringType == typeof(IService), -2);
             _serviceProvider = services.BuildMateralServiceProvider();
         }
         /// <summary>

@@ -9,6 +9,24 @@ namespace Materal.Extensions.DependencyInjection
     public static class InterceptorHelper
     {
         /// <summary>
+        /// 全局拦截器
+        /// </summary>
+        private static List<GolablInterceptorModel> _golablInterceptors = new();
+        /// <summary>
+        /// 添加全局拦截器
+        /// </summary>
+        /// <param name="interceptor"></param>
+        /// <param name="filter"></param>
+        public static void AddGolablInterceptors(InterceptorAttribute interceptor, Func<MethodInfo, MethodInfo, bool>? filter)
+        {
+            GolablInterceptorModel golablInterceptor = new(interceptor, filter);
+            _golablInterceptors.Add(golablInterceptor);
+        }
+        /// <summary>
+        /// 排序全局拦截器
+        /// </summary>
+        public static void SortGolablInterceptors() => _golablInterceptors = _golablInterceptors.OrderByDescending(m => m.Interceptor.Order).ToList();
+        /// <summary>
         /// 处理拦截器
         /// </summary>
         /// <typeparam name="TInterface"></typeparam>
@@ -85,10 +103,13 @@ namespace Materal.Extensions.DependencyInjection
             {
                 interceptors.AddRange(objMethodInfo.DeclaringType.GetCustomAttributes<InterceptorAttribute>());
             }
+            if(_golablInterceptors.Count > 0)
+            {
+                interceptors.AddRange(_golablInterceptors.Where(m => m.Filter(interfaceMethodInfo, objMethodInfo)).Select(m => m.Interceptor));
+            }
             interceptors = interceptors.OrderByDescending(m => m.Order).ToList();
             return interceptors;
         }
-
         /// <summary>
         /// 获得方法信息
         /// </summary>

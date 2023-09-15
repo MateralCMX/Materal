@@ -26,6 +26,6 @@
 		<PackageReference Include="System.Reflection.Emit" Version="4.7.0" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.Abstractions\Materal.Abstractions.csproj" />
+	  <ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
 	</ItemGroup>
 </Project>

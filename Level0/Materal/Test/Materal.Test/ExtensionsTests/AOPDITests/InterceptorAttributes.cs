@@ -36,4 +36,15 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
             Debug.WriteLine("Befor Invoke3");
         }
     }
+    public class GlobalInterceptorAttribute : InterceptorAttribute
+    {
+        public override void After(InterceptorContext context)
+        {
+            Debug.WriteLine("After Global");
+        }
+        public override void Befor(InterceptorContext context)
+        {
+            Debug.WriteLine("Befor Global");
+        }
+    }
 }

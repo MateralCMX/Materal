@@ -13,6 +13,7 @@
         public MateralServiceProvider(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
+            InterceptorHelper.SortGolablInterceptors();
         }
         /// <summary>
         /// 获得服务
