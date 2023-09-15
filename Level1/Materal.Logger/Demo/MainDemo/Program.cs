@@ -43,25 +43,25 @@ namespace MainDemo
             while (true)
             {
                 #region 直接写日志
-                logger.LogTrace($"Hello World!");
-                logger.LogDebug($"Hello World!");
-                logger.LogInformation($"Hello World!");
-                logger.LogWarning($"Hello World!");
-                logger.LogError($"Hello World!");
-                logger.LogCritical($"Hello World!");
+                //logger.LogTrace($"Hello World!");
+                //logger.LogDebug($"Hello World!");
+                //logger.LogInformation($"Hello World!");
+                //logger.LogWarning($"Hello World!");
+                //logger.LogError($"Hello World!");
+                //logger.LogCritical($"Hello World!");
                 #endregion
                 #region 随机写日志
-                //LogLevel logLevel = random.Next(0, 6) switch
-                //{
-                //    0 => LogLevel.Trace,
-                //    1 => LogLevel.Debug,
-                //    2 => LogLevel.Information,
-                //    3 => LogLevel.Warning,
-                //    4 => LogLevel.Error,
-                //    5 => LogLevel.Critical,
-                //    _ => throw new NotImplementedException()
-                //};
-                //logger.Log(logLevel, $"Hello World!");
+                LogLevel logLevel = random.Next(0, 6) switch
+                {
+                    0 => LogLevel.Trace,
+                    1 => LogLevel.Debug,
+                    2 => LogLevel.Information,
+                    3 => LogLevel.Warning,
+                    4 => LogLevel.Error,
+                    5 => LogLevel.Critical,
+                    _ => throw new NotImplementedException()
+                };
+                logger.Log(logLevel, $"Hello World!");
                 #endregion
                 #region 写大量日志
                 //for (int i = 1; i <= 10000; i++)

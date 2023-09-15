@@ -190,11 +190,12 @@ namespace Materal.Logger.Repositories
                     indexColumns.Add($"\"{filed.Name}\"");
                 }
             }
-            createTableTSQL.AppendLine(string.Join(",", columns));
+            createTableTSQL.Append(string.Join(",", columns));
             if (setPrimaryKeyTSQL is not null && !string.IsNullOrWhiteSpace(setPrimaryKeyTSQL))
             {
-                createTableTSQL.AppendLine(setPrimaryKeyTSQL);
+                createTableTSQL.Append(setPrimaryKeyTSQL);
             }
+            createTableTSQL.AppendLine(");");
             if(indexColumns.Count > 0)
             {
                 createTableTSQL.AppendLine($"CREATE INDEX \"{tableName}Index\" ON \"{tableName}\" (");

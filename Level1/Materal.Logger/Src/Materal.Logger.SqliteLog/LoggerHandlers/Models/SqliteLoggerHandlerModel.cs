@@ -49,7 +49,7 @@ namespace Materal.Logger.LoggerHandlers.Models
                 Index = filed.Index,
                 IsNull = filed.IsNull
             };
-            if(filed.Value is not null && string.IsNullOrWhiteSpace(filed.Value))
+            if(filed.Value is not null && !string.IsNullOrWhiteSpace(filed.Value))
             {
                 result.Value = LoggerHandlerHelper.FormatMessage(filed.Value, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
             }
