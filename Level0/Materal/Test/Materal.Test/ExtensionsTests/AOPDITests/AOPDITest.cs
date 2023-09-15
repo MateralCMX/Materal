@@ -11,10 +11,21 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
         public AOPDITest()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddTransient<IService, ServiceImpl>();
+            services.AddTransient<IService>(m => new ServiceImpl());
+            //services.AddTransient<IService, ServiceImpl>();
             //services.AddScoped<IService, ServiceImpl>();
             //services.AddSingleton<IService, ServiceImpl>();
+            //_serviceProvider = services.BuildServiceProvider();
             _serviceProvider = services.BuildMateralServiceProvider();
+        }
+        /// <summary>
+        /// SayHello测试
+        /// </summary>
+        [TestMethod]
+        public void SayHelloTest()
+        {
+            IService aopService = _serviceProvider.GetRequiredService<IService>();
+            aopService.SayHello();
         }
         /// <summary>
         /// 获得装饰器类型测试
@@ -36,7 +47,6 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
         public async Task InvokeTestAsync()
         {
             IService aopService = _serviceProvider.GetRequiredService<IService>();
-            //IService aopService = new TestServiceImpl(new ServiceImpl());
             const string name1 = "Materal";
             const string name2 = "Alice";
 

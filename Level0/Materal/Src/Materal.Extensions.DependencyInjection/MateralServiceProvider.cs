@@ -22,7 +22,7 @@
         public object? GetService(Type serviceType)
         {
             object? obj = _serviceProvider.GetService(serviceType);
-            if (obj is not null)
+            if (serviceType.IsInterface && obj is not null)
             {
                 obj = DecoratorBuilder.BuildDecoratorObject(obj);
             }

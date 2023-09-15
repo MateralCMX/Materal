@@ -3,9 +3,13 @@
     /// <summary>
     /// 拦截器特性
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method)]
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
     public abstract class InterceptorAttribute : Attribute
     {
+        /// <summary>
+        /// 位序
+        /// </summary>
+        public int Order { get; set; } = -1;
         /// <summary>
         /// 之前
         /// </summary>

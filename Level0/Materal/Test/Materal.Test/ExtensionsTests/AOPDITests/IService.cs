@@ -1,8 +1,10 @@
 ﻿namespace Materal.Test.ExtensionsTests.AOPDITests
 {
+    [MyInterceptor3(Order = 2)]
     public interface IService
     {
-        [MyInterceptor]
+        [MyInterceptor(Order = -1)]
+        [MyInterceptor2(Order = 1)]
         void SayHello();
         [MyInterceptor]
         void SayHello(string name);

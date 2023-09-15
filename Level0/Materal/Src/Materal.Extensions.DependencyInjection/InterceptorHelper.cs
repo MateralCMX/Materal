@@ -9,41 +9,6 @@ namespace Materal.Extensions.DependencyInjection
     public static class InterceptorHelper
     {
         /// <summary>
-        /// 获得拦截器
-        /// </summary>
-        /// <param name="service"></param>
-        /// <param name="methodName"></param>
-        /// <param name="args"></param>
-        /// <param name="argTypes"></param>
-        /// <returns></returns>
-        public static (List<InterceptorAttribute> interceptors, InterceptorContext context) GetInterceptorsAndInterceptorContext(object service, string methodName, object?[] args, Type[] argTypes)
-        {
-            Type objType = service.GetType();
-            MethodInfo objMethodInfo = objType.GetMethod(methodName, argTypes) ?? throw new MateralException("获取对象方法失败");
-            List<InterceptorAttribute> interceptors = GetInterceptors(objMethodInfo, argTypes);
-            InterceptorContext context = new(objMethodInfo, args);
-            return (interceptors, context);
-        }
-        /// <summary>
-        /// 获得拦截器
-        /// </summary>
-        /// <param name="objMethodInfo"></param>
-        /// <param name="argTypes"></param>
-        /// <returns></returns>
-        public static List<InterceptorAttribute> GetInterceptors(MethodInfo objMethodInfo, Type[] argTypes)
-        {
-            Type[] interfaceTypes = objMethodInfo.DeclaringType.GetInterfaces();
-            List<InterceptorAttribute> interceptors = new();
-            foreach (Type interfaceType in interfaceTypes)
-            {
-                MethodInfo? interceptorMethodInfo = interfaceType.GetMethod(objMethodInfo.Name, argTypes);
-                if (interceptorMethodInfo is null) continue;
-                interceptors.AddRange(interceptorMethodInfo.GetCustomAttributes<InterceptorAttribute>());
-            }
-            interceptors.AddRange(objMethodInfo.GetCustomAttributes<InterceptorAttribute>());
-            return interceptors;
-        }
-        /// <summary>
         /// 处理拦截器
         /// </summary>
         /// <typeparam name="TInterface"></typeparam>
@@ -73,8 +38,8 @@ namespace Materal.Extensions.DependencyInjection
             Type objType = obj.GetType();
             MethodInfo objMethodInfo = GetMethodInfo(objType, methodName, argTypes, genericTypes) ?? throw new MateralException("获取对象方法错误");
             MethodInfo interfaceMethodInfo = GetMethodInfo(interfaceType, methodName, argTypes, genericTypes) ?? throw new MateralException("获取接口方法错误");
-            IEnumerable<InterceptorAttribute> interceptors = interfaceMethodInfo.GetCustomAttributes<InterceptorAttribute>();
-            InterceptorContext context = new(objMethodInfo, args);
+            List<InterceptorAttribute> interceptors = GetInterceptors(objMethodInfo, interfaceMethodInfo);
+            InterceptorContext context = new(interfaceMethodInfo, objMethodInfo, args);
             object? objResult = null;
             foreach (InterceptorAttribute interceptor in interceptors)
             {
@@ -88,8 +53,9 @@ namespace Materal.Extensions.DependencyInjection
             if (!context.IsReturn)
             {
                 objResult = objMethodInfo.Invoke(obj, args);
-                foreach (InterceptorAttribute interceptor in interceptors)
+                for (int i = interceptors.Count - 1; i >= 0; i--)
                 {
+                    InterceptorAttribute interceptor = interceptors[i];
                     interceptor.After(context);
                     if (context.IsReturn)
                     {
@@ -101,6 +67,28 @@ namespace Materal.Extensions.DependencyInjection
             if (objResult is not TResult result) return default;
             return result;
         }
+        /// <summary>
+        /// 获得拦截器
+        /// </summary>
+        /// <param name="objMethodInfo"></param>
+        /// <param name="interfaceMethodInfo"></param>
+        /// <returns></returns>
+        private static List<InterceptorAttribute> GetInterceptors(MethodInfo objMethodInfo, MethodInfo interfaceMethodInfo)
+        {
+            List<InterceptorAttribute> interceptors = interfaceMethodInfo.GetCustomAttributes<InterceptorAttribute>().ToList();
+            interceptors.AddRange(objMethodInfo.GetCustomAttributes<InterceptorAttribute>());
+            if(interfaceMethodInfo.DeclaringType is not null)
+            {
+                interceptors.AddRange(interfaceMethodInfo.DeclaringType.GetCustomAttributes<InterceptorAttribute>());
+            }
+            if(objMethodInfo.DeclaringType is not null)
+            {
+                interceptors.AddRange(objMethodInfo.DeclaringType.GetCustomAttributes<InterceptorAttribute>());
+            }
+            interceptors = interceptors.OrderByDescending(m => m.Order).ToList();
+            return interceptors;
+        }
+
         /// <summary>
         /// 获得方法信息
         /// </summary>

@@ -8,6 +8,10 @@ namespace Materal.Extensions.DependencyInjection
     public class InterceptorContext
     {
         /// <summary>
+        /// 接口方法信息
+        /// </summary>
+        public MethodInfo InterfaceMethodInfo { get; }
+        /// <summary>
         /// 方法信息
         /// </summary>
         public MethodInfo MethodInfo { get; }
@@ -18,7 +22,7 @@ namespace Materal.Extensions.DependencyInjection
         /// <summary>
         /// 是否返回
         /// </summary>
-        public bool IsReturn { get; private set; } = false;
+        public bool IsReturn { get; set; } = false;
         private object? _returnValue;
         /// <summary>
         /// 返回值
@@ -28,16 +32,19 @@ namespace Materal.Extensions.DependencyInjection
             get => _returnValue;
             set
             {
-                IsReturn = true; _returnValue = value;
+                IsReturn = true;
+                _returnValue = value;
             }
         }
         /// <summary>
         /// 构造方法
         /// </summary>
+        /// <param name="interfaceMethodInfo"></param>
         /// <param name="methodInfo"></param>
         /// <param name="parameters"></param>
-        public InterceptorContext(MethodInfo methodInfo, object?[] parameters)
+        public InterceptorContext(MethodInfo interfaceMethodInfo, MethodInfo methodInfo, object?[] parameters)
         {
+            InterfaceMethodInfo = interfaceMethodInfo;
             MethodInfo = methodInfo;
             Parameters = parameters;
         }
