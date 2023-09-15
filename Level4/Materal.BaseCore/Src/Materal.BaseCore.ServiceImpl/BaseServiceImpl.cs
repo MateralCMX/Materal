@@ -1,5 +1,4 @@
-﻿using AspectCore.DynamicProxy;
-using AutoMapper;
+﻿using AutoMapper;
 using Materal.BaseCore.Common;
 using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.Domain;

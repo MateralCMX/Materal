@@ -1,6 +1,4 @@
 ﻿using Materal.BaseCore.WebAPI;
-using Materal.BaseCore.WebAPI.Common;
-using Materal.Logger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

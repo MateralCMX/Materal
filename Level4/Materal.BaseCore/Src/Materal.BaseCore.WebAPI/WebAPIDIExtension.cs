@@ -1,12 +1,10 @@
-﻿using AspectCore.Configuration;
-using AspectCore.Extensions.DependencyInjection;
-using Materal.BaseCore.Common;
+﻿using Materal.BaseCore.Common;
 using Materal.BaseCore.Services;
 using Materal.BaseCore.WebAPI.Common;
 using Materal.BaseCore.WebAPI.Controllers;
 using Materal.BaseCore.WebAPI.Filters;
+using Materal.Extensions.DependencyInjection;
 using Materal.Logger;
-using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Polly;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
@@ -33,7 +32,7 @@ namespace Materal.BaseCore.WebAPI
         /// <param name="mvcAction"></param>
         /// <param name="aopAction"></param>
         /// <param name="otherControlesAssemblys"></param>
-        public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, Action<MvcOptions>? mvcAction, Action<IAspectConfiguration>? aopAction, params Assembly[] otherControlesAssemblys)
+        public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, Action<MvcOptions>? mvcAction, params Assembly[] otherControlesAssemblys)
         {
             services.AddMateralLogger(options =>
             {
@@ -136,13 +135,15 @@ namespace Materal.BaseCore.WebAPI
              });
             #endregion
             services.AddEndpointsApiExplorer();
-            services.ConfigureDynamicProxy(option =>
+            services.AddInterceptor<DataValidationInterceptorAttribute>((im, m) =>
             {
-                //等https://github.com/dotnetcore/AspectCore-Framework/issues/313解决后再使用
-                //option.Interceptors.AddTyped<DataValidationAttribute>(Predicates.ForService("*Service"));
-                //option.Interceptors.AddTyped<DataValidationAttribute>(method => method.DeclaringType is not null && method.DeclaringType.IsAssignableTo<IBaseService>());
-                aopAction?.Invoke(option);
-            });//配置ServerAOP
+                string methodName = m.Name;
+                if (methodName.StartsWith("get_") || methodName.StartsWith("set_")) return false;
+                if (m.GetParameters().Length <= 0) return false;
+                if (im.DeclaringType is not null && im.DeclaringType == typeof(IBaseService)) return true;
+                if (m.Name.EndsWith("ServiceImpl")) return true;
+                return false;
+            });
             return services;
         }
     }

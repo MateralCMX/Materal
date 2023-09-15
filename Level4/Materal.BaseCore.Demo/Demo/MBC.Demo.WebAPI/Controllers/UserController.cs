@@ -1,5 +1,4 @@
-﻿using AspectCore.DynamicProxy;
-using Materal.BaseCore.Common;
+﻿using Materal.BaseCore.Common;
 using Materal.Utils.Model;
 using MBC.Core.Common;
 using MBC.Demo.DataTransmitModel.User;
@@ -45,14 +44,6 @@ namespace MBC.Demo.WebAPI.Controllers
                     ExpiredTime = MateralCoreConfig.JWTConfig.ExpiredTime
                 };
                 return ResultModel<LoginResultDTO>.Success(result, "登录成功");
-            }
-            catch (AspectInvocationException exception)
-            {
-                if (exception.InnerException is MBCException)
-                {
-                    return ResultModel<LoginResultDTO>.Fail("账号或者密码错误");
-                }
-                throw;
             }
             catch (MBCException)
             {

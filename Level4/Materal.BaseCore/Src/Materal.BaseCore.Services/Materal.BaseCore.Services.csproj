@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.57</Version>
+		<Version>1.1.58</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -18,6 +18,9 @@
 	<ItemGroup>
 		<None Include="../../../../README.md" Pack="true" PackagePath="" />
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.58" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.BaseCore.Common\Materal.BaseCore.Common.csproj" />

@@ -1,11 +1,8 @@
-﻿using AspectCore.Extensions.DependencyInjection;
-using Materal.BaseCore.Common;
+﻿using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Common;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace Materal.BaseCore.WebAPI
 {
@@ -50,7 +47,7 @@ namespace Materal.BaseCore.WebAPI
             initConfig?.Invoke(builder.Configuration);
             MateralCoreConfig.Configuration = builder.Configuration;
             configService?.Invoke(builder.Services);
-            builder.Host.UseServiceProviderFactory(new DynamicProxyServiceProviderFactory());//使用AOP
+            builder.Host.UseServiceProviderFactory(new MateralServiceProviderFactory());//使用AOP
             WebApplication app = builder.Build();
             configApp?.Invoke(app);
             app.WebApplicationConfig(consulTag);
