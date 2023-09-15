@@ -10,11 +10,15 @@
         [MyInterceptor2(Order = 1)]
         void SayHello();
         [MyInterceptor]
+        Task SayHelloAsync();
+        [MyInterceptor]
         void SayHello(string name);
         [MyInterceptor]
         void SayHello(string name1, string name2);
         [MyInterceptor]
         string GetMessage();
+        [MyInterceptor]
+        Task<string> GetMessageAsync();
         [MyInterceptor]
         string GetMessage(string name);
         [MyInterceptor]

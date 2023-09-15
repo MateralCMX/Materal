@@ -39,6 +39,15 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
             aopService.SayHello();
         }
         /// <summary>
+        /// SayHello测试
+        /// </summary>
+        [TestMethod]
+        public async Task SayHelloTestAsync()
+        {
+            IService aopService = _serviceProvider.GetRequiredService<IService>();
+            await aopService.SayHelloAsync();
+        }
+        /// <summary>
         /// 获得装饰器类型测试
         /// </summary>
         [TestMethod]

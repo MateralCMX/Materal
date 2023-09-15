@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Concurrent;
 using System.Reflection;
 
 namespace Materal.Extensions.DependencyInjection
@@ -9,7 +8,6 @@ namespace Materal.Extensions.DependencyInjection
     /// </summary>
     public static class DIExtension
     {
-        private readonly static ConcurrentDictionary<IServiceCollection, List<GolablInterceptorModel>> _golablInterceptors = new();
         /// <summary>
         /// 构建Materal服务提供者
         /// </summary>
@@ -19,10 +17,6 @@ namespace Materal.Extensions.DependencyInjection
         public static IServiceProvider BuildMateralServiceProvider(this IServiceCollection services, Func<Type, Type, bool>? filter = null)
         {
             services.AddSingleton<InterceptorHelper>();
-            if(_golablInterceptors.ContainsKey(services))
-            {
-                services.AddSingleton(_golablInterceptors[services]);
-            }
             IServiceProvider serviceProvider = services.BuildServiceProvider();
             IServiceProvider result = new MateralServiceProvider(serviceProvider, filter);
             return result;
@@ -67,11 +61,18 @@ namespace Materal.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddInterceptor(this IServiceCollection services, InterceptorAttribute interceptorAttribute, Func<MethodInfo, MethodInfo, bool>? filter = null)
         {
-            if (!_golablInterceptors.ContainsKey(services))
-            {
-                _golablInterceptors.TryAdd(services, new());
-            }
-            _golablInterceptors[services].Add(new(interceptorAttribute, filter));
+            services.AddInterceptor(new GolablInterceptorModel(interceptorAttribute, filter));
+            return services;
+        }
+        /// <summary>
+        /// 添加全局拦截器
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="golablInterceptor"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddInterceptor(this IServiceCollection services, GolablInterceptorModel golablInterceptor)
+        {
+            services.AddSingleton(golablInterceptor);
             return services;
         }
     }

@@ -229,7 +229,7 @@ namespace Materal.Extensions.DependencyInjection
             ilGenerator.Emit(OpCodes.Ldarg_0);
             ilGenerator.Emit(OpCodes.Ldfld, serviceFieldBuilder);
 
-            if(interfaceMethodParameterTypes.Length <= 0)
+            if (interfaceMethodParameterTypes.Length <= 0)
             {
                 ilGenerator.Emit(OpCodes.Call, _emptyObjectArrayMethodInfo);
                 ilGenerator.Emit(OpCodes.Call, _emptyTypeArrayMethodInfo);

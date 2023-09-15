@@ -11,11 +11,11 @@ namespace Materal.Extensions.DependencyInjection
         /// <summary>
         /// 全局拦截器
         /// </summary>
-        private readonly List<GolablInterceptorModel>? _golablInterceptors;
+        private readonly IEnumerable<GolablInterceptorModel>? _golablInterceptors;
         /// <summary>
         /// 构造方法
         /// </summary>
-        public InterceptorHelper(List<GolablInterceptorModel>? golablInterceptors = null)
+        public InterceptorHelper(IEnumerable<GolablInterceptorModel>? golablInterceptors = null)
         {
             _golablInterceptors = golablInterceptors;
         }
@@ -43,7 +43,7 @@ namespace Materal.Extensions.DependencyInjection
         /// <param name="genericTypes"></param>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        public TResult? Handler<TInterface, TResult>(string methodName, object obj, object?[] args, Type[] argTypes, Type[] genericTypes)
+        public TResult Handler<TInterface, TResult>(string methodName, object obj, object?[] args, Type[] argTypes, Type[] genericTypes)
         {
             Type interfaceType = typeof(TInterface);
             Type objType = obj.GetType();
@@ -64,6 +64,10 @@ namespace Materal.Extensions.DependencyInjection
             if (!context.IsReturn)
             {
                 objResult = objMethodInfo.Invoke(obj, args);
+                if(objResult is Task task)
+                {
+                    task.Wait();
+                }
                 for (int i = interceptors.Count - 1; i >= 0; i--)
                 {
                     InterceptorAttribute interceptor = interceptors[i];
@@ -75,7 +79,8 @@ namespace Materal.Extensions.DependencyInjection
                     }
                 }
             }
-            if (objResult is not TResult result) return default;
+            if (interfaceMethodInfo.ReturnType == typeof(void)) return default!;
+            if (objResult is not TResult result) throw new MateralException($"装饰器获取的结果不是类型[{typeof(TResult).FullName}]");
             return result;
         }
         /// <summary>
@@ -88,15 +93,15 @@ namespace Materal.Extensions.DependencyInjection
         {
             List<InterceptorAttribute> interceptors = interfaceMethodInfo.GetCustomAttributes<InterceptorAttribute>().ToList();
             interceptors.AddRange(objMethodInfo.GetCustomAttributes<InterceptorAttribute>());
-            if(interfaceMethodInfo.DeclaringType is not null)
+            if (interfaceMethodInfo.DeclaringType is not null)
             {
                 interceptors.AddRange(interfaceMethodInfo.DeclaringType.GetCustomAttributes<InterceptorAttribute>());
             }
-            if(objMethodInfo.DeclaringType is not null)
+            if (objMethodInfo.DeclaringType is not null)
             {
                 interceptors.AddRange(objMethodInfo.DeclaringType.GetCustomAttributes<InterceptorAttribute>());
             }
-            if(_golablInterceptors is not null && _golablInterceptors.Count > 0)
+            if (_golablInterceptors is not null && _golablInterceptors.Count() > 0)
             {
                 interceptors.AddRange(_golablInterceptors.Where(m => m.Filter(interfaceMethodInfo, objMethodInfo)).Select(m => m.Interceptor));
             }

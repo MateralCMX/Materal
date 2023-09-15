@@ -1,4 +1,5 @@
-﻿using Materal.Extensions.DependencyInjection;
+﻿using Materal.Abstractions;
+using Materal.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
@@ -14,6 +15,7 @@ namespace Materal.BaseCore.Services
         {
             ParameterInfo[] parameterInfos = context.MethodInfo.GetParameters();
             ParameterInfo[] interfaceParameterInfos = context.InterfaceMethodInfo.GetParameters();
+            if (parameterInfos.Length != interfaceParameterInfos.Length) throw new MateralException("参数数量不一致");
             for (var i = 0; i < parameterInfos.Length; i++)
             {
                 object? value = context.Parameters[i];

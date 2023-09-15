@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Utils.BarCode", "Sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Extensions.DependencyInjection", "Src\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj", "{0566F459-3B39-43EF-9452-C7E2AFFC8467}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WebAPITest", "Test\Materal.WebAPITest\Materal.WebAPITest.csproj", "{C8604FA3-4A03-4237-8B2B-23D2E690D9B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{0566F459-3B39-43EF-9452-C7E2AFFC8467}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0566F459-3B39-43EF-9452-C7E2AFFC8467}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0566F459-3B39-43EF-9452-C7E2AFFC8467}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8604FA3-4A03-4237-8B2B-23D2E690D9B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8604FA3-4A03-4237-8B2B-23D2E690D9B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8604FA3-4A03-4237-8B2B-23D2E690D9B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8604FA3-4A03-4237-8B2B-23D2E690D9B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,6 +108,7 @@ Global
 		{250EE2B8-34AF-4DE5-A322-22A0F00E1894} = {8EB5031E-67D8-41DE-8CEE-5265F623FD5E}
 		{FAF7735F-C355-46A8-9258-36C75C98E6DE} = {88975666-3BFD-44B9-BECB-FA546A721694}
 		{0566F459-3B39-43EF-9452-C7E2AFFC8467} = {88975666-3BFD-44B9-BECB-FA546A721694}
+		{C8604FA3-4A03-4237-8B2B-23D2E690D9B9} = {8EB5031E-67D8-41DE-8CEE-5265F623FD5E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44D71214-490E-42D6-969C-BDC35C93BEA5}

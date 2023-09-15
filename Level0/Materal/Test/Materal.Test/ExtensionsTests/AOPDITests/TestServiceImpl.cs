@@ -4,7 +4,6 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
 {
     public class TestServiceImpl : IService
     {
-#pragma warning disable CS8603 // 可能返回 null 引用。
         public readonly ServiceImpl Service;
         private readonly InterceptorHelper _interceptorHelper;
         public string Name { get => Service.Name; set => Service.Name = value; }
@@ -38,6 +37,8 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
                 new object[] { boolValue, intValue, floatValue, doubleValue, decimalValue, stringValue, dateTimeValue, guidValue, objectValue, customValue, objectValues },
                 new Type[] { typeof(bool), typeof(int), typeof(float), typeof(double), typeof(decimal), typeof(string), typeof(DateTime), typeof(Guid), typeof(object), typeof(MyClassValue), typeof(object) },
                 Array.Empty<Type>());
-#pragma warning restore CS8603 // 可能返回 null 引用。
+
+        public Task SayHelloAsync() => _interceptorHelper.Handler<IService, Task>(nameof(SayHello), Service, Array.Empty<object>(), Array.Empty<Type>(), Array.Empty<Type>());
+        public Task<string> GetMessageAsync() => _interceptorHelper.Handler<IService, Task<string>>(nameof(SayHello), Service, Array.Empty<object>(), Array.Empty<Type>(), Array.Empty<Type>());
     }
 }
