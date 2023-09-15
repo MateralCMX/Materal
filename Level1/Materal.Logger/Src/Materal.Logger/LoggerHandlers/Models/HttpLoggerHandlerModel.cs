@@ -28,7 +28,7 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <param name="model"></param>
         public HttpLoggerHandlerModel(LoggerRuleConfigModel rule, HttpLoggerTargetConfigModel target, LoggerHandlerModel model) : base(rule, target, model)
         {
-            Url = target.Url;
+            Url = LoggerHandlerHelper.FormatPath(target.Url, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
             HttpMethod = target.GetHttpMethod();
             string createTimeText = model.CreateTime.ToString("yyyy-MM-ddTHH:mm:ss.ffffZ");
             Data = Regex.Replace(target.Format, @"\$\{DateTime\}", createTimeText);

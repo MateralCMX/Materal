@@ -1,3 +1,4 @@
+using Materal.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HttpLoggerServer.Controllers
@@ -11,8 +12,49 @@ namespace HttpLoggerServer.Controllers
         public string WriteLog(List<LogModel> logModel)
         {
             count += logModel.Count;
-            Console.WriteLine(count);
-            //Console.WriteLine(logModel.ToJson());
+            ConsoleQueue.WriteLine(count);
+            return "OK";
+        }
+        [HttpPost]
+        public string WriteTrace(List<LogModel> logModel)
+        {
+            count += logModel.Count;
+            ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.DarkGray);
+            return "OK";
+        }
+        [HttpPost]
+        public string WriteDebug(List<LogModel> logModel)
+        {
+            count += logModel.Count;
+            ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.DarkGreen);
+            return "OK";
+        }
+        [HttpPost]
+        public string WriteInformation(List<LogModel> logModel)
+        {
+            count += logModel.Count;
+            ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.Gray);
+            return "OK";
+        }
+        [HttpPost]
+        public string WriteWarning(List<LogModel> logModel)
+        {
+            count += logModel.Count;
+            ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.DarkYellow);
+            return "OK";
+        }
+        [HttpPost]
+        public string WriteError(List<LogModel> logModel)
+        {
+            count += logModel.Count;
+            ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.DarkRed);
+            return "OK";
+        }
+        [HttpPost]
+        public string WriteCritical(List<LogModel> logModel)
+        {
+            count += logModel.Count;
+            ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.Red);
             return "OK";
         }
     }

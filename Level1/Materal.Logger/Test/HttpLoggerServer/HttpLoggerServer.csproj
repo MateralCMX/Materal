@@ -8,6 +8,7 @@
 
   <ItemGroup>
 		<PackageReference Include="Materal.Extensions" Version="1.1.57" />
+		<PackageReference Include="Materal.Utils" Version="1.1.57" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
