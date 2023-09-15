@@ -9,11 +9,9 @@
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="serviceProvider"></param>
         public MateralServiceProvider(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            InterceptorHelper.SortGolablInterceptors();
         }
         /// <summary>
         /// 获得服务
@@ -23,11 +21,9 @@
         public object? GetService(Type serviceType)
         {
             object? obj = _serviceProvider.GetService(serviceType);
-            if (serviceType.IsInterface && obj is not null)
-            {
-                obj = DecoratorBuilder.BuildDecoratorObject(obj);
-            }
-            return obj;
+            if (!serviceType.IsInterface || obj is null) return obj;
+            object result = DecoratorBuilder.BuildDecoratorObject(obj, _serviceProvider);
+            return result;
         }
     }
 }

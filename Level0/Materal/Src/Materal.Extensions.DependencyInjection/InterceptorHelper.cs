@@ -6,26 +6,19 @@ namespace Materal.Extensions.DependencyInjection
     /// <summary>
     /// 拦截器帮助类
     /// </summary>
-    public static class InterceptorHelper
+    public class InterceptorHelper
     {
         /// <summary>
         /// 全局拦截器
         /// </summary>
-        private static List<GolablInterceptorModel> _golablInterceptors = new();
+        private readonly List<GolablInterceptorModel>? _golablInterceptors;
         /// <summary>
-        /// 添加全局拦截器
+        /// 构造方法
         /// </summary>
-        /// <param name="interceptor"></param>
-        /// <param name="filter"></param>
-        public static void AddGolablInterceptors(InterceptorAttribute interceptor, Func<MethodInfo, MethodInfo, bool>? filter)
+        public InterceptorHelper(List<GolablInterceptorModel>? golablInterceptors = null)
         {
-            GolablInterceptorModel golablInterceptor = new(interceptor, filter);
-            _golablInterceptors.Add(golablInterceptor);
+            _golablInterceptors = golablInterceptors;
         }
-        /// <summary>
-        /// 排序全局拦截器
-        /// </summary>
-        public static void SortGolablInterceptors() => _golablInterceptors = _golablInterceptors.OrderByDescending(m => m.Interceptor.Order).ToList();
         /// <summary>
         /// 处理拦截器
         /// </summary>
@@ -37,7 +30,7 @@ namespace Materal.Extensions.DependencyInjection
         /// <param name="genericTypes"></param>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        public static object? Handler<TInterface>(string methodName, object obj, object?[] args, Type[] argTypes, Type[] genericTypes) => Handler<TInterface, object>(methodName, obj, args, argTypes, genericTypes);
+        public object? Handler<TInterface>(string methodName, object obj, object?[] args, Type[] argTypes, Type[] genericTypes) => Handler<TInterface, object>(methodName, obj, args, argTypes, genericTypes);
         /// <summary>
         /// 处理拦截器
         /// </summary>
@@ -50,7 +43,7 @@ namespace Materal.Extensions.DependencyInjection
         /// <param name="genericTypes"></param>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        public static TResult? Handler<TInterface, TResult>(string methodName, object obj, object?[] args, Type[] argTypes, Type[] genericTypes)
+        public TResult? Handler<TInterface, TResult>(string methodName, object obj, object?[] args, Type[] argTypes, Type[] genericTypes)
         {
             Type interfaceType = typeof(TInterface);
             Type objType = obj.GetType();
@@ -91,7 +84,7 @@ namespace Materal.Extensions.DependencyInjection
         /// <param name="objMethodInfo"></param>
         /// <param name="interfaceMethodInfo"></param>
         /// <returns></returns>
-        private static List<InterceptorAttribute> GetInterceptors(MethodInfo objMethodInfo, MethodInfo interfaceMethodInfo)
+        private List<InterceptorAttribute> GetInterceptors(MethodInfo objMethodInfo, MethodInfo interfaceMethodInfo)
         {
             List<InterceptorAttribute> interceptors = interfaceMethodInfo.GetCustomAttributes<InterceptorAttribute>().ToList();
             interceptors.AddRange(objMethodInfo.GetCustomAttributes<InterceptorAttribute>());
@@ -103,7 +96,7 @@ namespace Materal.Extensions.DependencyInjection
             {
                 interceptors.AddRange(objMethodInfo.DeclaringType.GetCustomAttributes<InterceptorAttribute>());
             }
-            if(_golablInterceptors.Count > 0)
+            if(_golablInterceptors is not null && _golablInterceptors.Count > 0)
             {
                 interceptors.AddRange(_golablInterceptors.Where(m => m.Filter(interfaceMethodInfo, objMethodInfo)).Select(m => m.Interceptor));
             }

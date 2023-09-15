@@ -5,7 +5,7 @@ namespace Materal.Extensions.DependencyInjection
     /// <summary>
     /// 全局拦截器模型
     /// </summary>
-    internal class GolablInterceptorModel
+    public class GolablInterceptorModel
     {
         /// <summary>
         /// 拦截器

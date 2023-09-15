@@ -49,10 +49,6 @@ namespace Materal.Extensions.DependencyInjection
         /// </summary>
         private const string _namespace = "Materal.Extensions.DependencyInjection.DecoratorObjects";
         /// <summary>
-        /// 服务字段名称
-        /// </summary>
-        private const string _serviceFieldName = "Service";
-        /// <summary>
         /// 构造方法
         /// </summary>
         /// <exception cref="MateralException"></exception>
@@ -111,35 +107,47 @@ namespace Materal.Extensions.DependencyInjection
         {
             Type[] interfaceTypes = objType.GetInterfaces();
             TypeBuilder typeBuilder = moduleBuilder.DefineType($"{_namespace}.{objType.Name}", TypeAttributes.Public, null, interfaceTypes);
-            FieldBuilder serviceFieldBuilder = DefineField(typeBuilder, objType);
-            DefineConstructor(typeBuilder, serviceFieldBuilder, objType);
+            FieldBuilder serviceFieldBuilder = DefineServiceField(typeBuilder, objType);
+            FieldBuilder interceptorHelperFieldBuilder = DefineInterceptorHelperField(typeBuilder, objType);
+            DefineConstructor(typeBuilder, serviceFieldBuilder, interceptorHelperFieldBuilder, objType);
             foreach (Type interfaceType in interfaceTypes)
             {
-                DefineMethods(typeBuilder, serviceFieldBuilder, interfaceType, objType);
+                DefineMethods(typeBuilder, serviceFieldBuilder, interceptorHelperFieldBuilder, interfaceType, objType);
             }
             return typeBuilder;
         }
         /// <summary>
-        /// 定义字段
+        /// 定义Service字段
         /// </summary>
         /// <param name="typeBuilder"></param>
         /// <param name="objType"></param>
         /// <returns></returns>
-        private static FieldBuilder DefineField(TypeBuilder typeBuilder, Type objType)
+        private static FieldBuilder DefineServiceField(TypeBuilder typeBuilder, Type objType)
         {
-            FieldBuilder serviceFieldBuilder = typeBuilder.DefineField(_serviceFieldName, objType, FieldAttributes.Public | FieldAttributes.InitOnly);
+            FieldBuilder serviceFieldBuilder = typeBuilder.DefineField("Service", objType, FieldAttributes.Public | FieldAttributes.InitOnly);
+            return serviceFieldBuilder;
+        }
+        /// <summary>
+        /// 定义_interceptorHelper字段
+        /// </summary>
+        /// <param name="typeBuilder"></param>
+        /// <param name="objType"></param>
+        /// <returns></returns>
+        private static FieldBuilder DefineInterceptorHelperField(TypeBuilder typeBuilder, Type objType)
+        {
+            FieldBuilder serviceFieldBuilder = typeBuilder.DefineField("_interceptorHelper", objType, FieldAttributes.Public | FieldAttributes.InitOnly);
             return serviceFieldBuilder;
         }
         /// <summary>
         /// 定义构造方法
         /// </summary>
         /// <returns></returns>
-        private static ConstructorBuilder DefineConstructor(TypeBuilder typeBuilder, FieldBuilder serviceFieldBuilder, Type objType)
+        private static ConstructorBuilder DefineConstructor(TypeBuilder typeBuilder, FieldBuilder serviceFieldBuilder, FieldBuilder interceptorHelperFieldBuilder, Type objType)
         {
-            ConstructorBuilder constructorBuilder = typeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, new Type[] { objType });
+            ConstructorBuilder constructorBuilder = typeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, new Type[] { objType, typeof(InterceptorHelper) });
             ILGenerator il = constructorBuilder.GetILGenerator();
             il.Emit(OpCodes.Ldarg_0);
-            ConstructorInfo constructorInfo = typeof(object).GetConstructor(Type.EmptyTypes);
+            ConstructorInfo? constructorInfo = typeof(object).GetConstructor(Type.EmptyTypes);
             if (constructorInfo is not null)
             {
                 il.Emit(OpCodes.Call, constructorInfo);
@@ -147,6 +155,9 @@ namespace Materal.Extensions.DependencyInjection
             il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Ldarg_1);
             il.Emit(OpCodes.Stfld, serviceFieldBuilder);
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Ldarg_2);
+            il.Emit(OpCodes.Stfld, interceptorHelperFieldBuilder);
             il.Emit(OpCodes.Ret);
             return constructorBuilder;
         }
@@ -155,16 +166,17 @@ namespace Materal.Extensions.DependencyInjection
         /// </summary>
         /// <param name="typeBuilder"></param>
         /// <param name="serviceFieldBuilder"></param>
+        /// <param name="interceptorHelperFieldBuilder"></param>
         /// <param name="interfaceType"></param>
         /// <param name="objType"></param>
         /// <returns></returns>
-        private static List<MethodBuilder> DefineMethods(TypeBuilder typeBuilder, FieldBuilder serviceFieldBuilder, Type interfaceType, Type objType)
+        private static List<MethodBuilder> DefineMethods(TypeBuilder typeBuilder, FieldBuilder serviceFieldBuilder, FieldBuilder interceptorHelperFieldBuilder, Type interfaceType, Type objType)
         {
             List<MethodBuilder> result = new();
             MethodInfo[] methodInfos = interfaceType.GetMethods();
             foreach (MethodInfo methodInfo in methodInfos)
             {
-                MethodBuilder? methodBuilder = DefineMethod(typeBuilder, serviceFieldBuilder, methodInfo, interfaceType, objType);
+                MethodBuilder? methodBuilder = DefineMethod(typeBuilder, serviceFieldBuilder, interceptorHelperFieldBuilder, methodInfo, interfaceType, objType);
                 if (methodBuilder is null) continue;
                 result.Add(methodBuilder);
             }
@@ -175,12 +187,13 @@ namespace Materal.Extensions.DependencyInjection
         /// </summary>
         /// <param name="typeBuilder"></param>
         /// <param name="serviceFieldBuilder"></param>
+        /// <param name="interceptorHelperFieldBuilder"></param>
         /// <param name="interfaceMethodInfo"></param>
         /// <param name="interfaceType"></param>
         /// <param name="objType"></param>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        private static MethodBuilder? DefineMethod(TypeBuilder typeBuilder, FieldBuilder serviceFieldBuilder, MethodInfo interfaceMethodInfo, Type interfaceType, Type objType)
+        private static MethodBuilder? DefineMethod(TypeBuilder typeBuilder, FieldBuilder serviceFieldBuilder, FieldBuilder interceptorHelperFieldBuilder, MethodInfo interfaceMethodInfo, Type interfaceType, Type objType)
         {
             Type[] interfaceMethodParameterTypes = interfaceMethodInfo.GetParameters().Select(m => m.ParameterType).ToArray();
             MethodInfo? objMethodInfo = null;
@@ -210,6 +223,8 @@ namespace Materal.Extensions.DependencyInjection
                 methodBuilder.DefineParameter(1, ParameterAttributes.None, "value");
             }
             ILGenerator ilGenerator = methodBuilder.GetILGenerator();
+            ilGenerator.Emit(OpCodes.Ldarg_0);
+            ilGenerator.Emit(OpCodes.Ldfld, interceptorHelperFieldBuilder);
             ilGenerator.Emit(OpCodes.Ldstr, interfaceMethodInfo.Name);
             ilGenerator.Emit(OpCodes.Ldarg_0);
             ilGenerator.Emit(OpCodes.Ldfld, serviceFieldBuilder);
@@ -292,13 +307,14 @@ namespace Materal.Extensions.DependencyInjection
         /// 构建装饰器对象
         /// </summary>
         /// <param name="obj"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        public static object BuildDecoratorObject(object obj)
+        public static object BuildDecoratorObject(object obj, IServiceProvider serviceProvider)
         {
             Type objType = obj.GetType();
             Type decoratorType = GetDecoratorType(objType);
-            object myClassInstance = Activator.CreateInstance(decoratorType, obj) ?? throw new MateralException($"[{objType.FullName}]实例化装饰器失败");
+            object myClassInstance = decoratorType.Instantiation(serviceProvider, obj) ?? throw new MateralException($"[{objType.FullName}]实例化装饰器失败");
             return myClassInstance;
         }
     }

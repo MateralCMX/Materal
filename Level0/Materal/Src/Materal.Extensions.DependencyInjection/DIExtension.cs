@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Concurrent;
 using System.Reflection;
 
 namespace Materal.Extensions.DependencyInjection
@@ -8,6 +9,7 @@ namespace Materal.Extensions.DependencyInjection
     /// </summary>
     public static class DIExtension
     {
+        private readonly static ConcurrentDictionary<IServiceCollection, List<GolablInterceptorModel>> _golablInterceptors = new();
         /// <summary>
         /// 构建Materal服务提供者
         /// </summary>
@@ -15,8 +17,14 @@ namespace Materal.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceProvider BuildMateralServiceProvider(this IServiceCollection services)
         {
+            services.AddSingleton<InterceptorHelper>();
+            if(_golablInterceptors.ContainsKey(services))
+            {
+                services.AddSingleton(_golablInterceptors[services]);
+            }
             IServiceProvider serviceProvider = services.BuildServiceProvider();
-            return new MateralServiceProvider(serviceProvider);
+            IServiceProvider result = new MateralServiceProvider(serviceProvider);
+            return result;
         }
         /// <summary>
         /// 添加全局拦截器
@@ -45,6 +53,7 @@ namespace Materal.Extensions.DependencyInjection
             if (!interceptorAttributeType.IsAssignableTo<InterceptorAttribute>()) return services;
             object? interceptorObj = Activator.CreateInstance(interceptorAttributeType);
             if (interceptorObj is null || interceptorObj is not InterceptorAttribute interceptor) return services;
+            interceptor.Order = order;
             services.AddInterceptor(interceptor, filter);
             return services;
         }
@@ -57,7 +66,11 @@ namespace Materal.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddInterceptor(this IServiceCollection services, InterceptorAttribute interceptorAttribute, Func<MethodInfo, MethodInfo, bool>? filter = null)
         {
-            InterceptorHelper.AddGolablInterceptors(interceptorAttribute, filter);
+            if (!_golablInterceptors.ContainsKey(services))
+            {
+                _golablInterceptors.TryAdd(services, new());
+            }
+            _golablInterceptors[services].Add(new(interceptorAttribute, filter));
             return services;
         }
     }

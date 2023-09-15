@@ -1,5 +1,6 @@
 ﻿using Materal.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Diagnostics;
 
 namespace Materal.Test.ExtensionsTests.AOPDITests
@@ -27,6 +28,13 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
         {
             IService aopService = _serviceProvider.GetRequiredService<IService>();
             aopService.SayHello();
+            IServiceCollection services2 = new ServiceCollection();
+            services2.AddTransient<IService, ServiceImpl>();
+            IServiceProvider serviceProvider2 = services2.BuildMateralServiceProvider();
+            IService aopService2 = serviceProvider2.GetRequiredService<IService>();
+            aopService2.SayHello();
+            //InterceptorHelper interceptorHelper = _serviceProvider.GetRequiredService<InterceptorHelper>();
+            //IService aopService = new TestServiceImpl(new ServiceImpl(), interceptorHelper);
         }
         /// <summary>
         /// 获得装饰器类型测试
