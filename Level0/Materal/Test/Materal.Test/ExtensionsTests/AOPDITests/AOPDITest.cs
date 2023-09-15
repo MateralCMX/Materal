@@ -1,7 +1,5 @@
 ﻿using Materal.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
-using NPOI.SS.Formula.Functions;
-using System;
 using System.Diagnostics;
 
 namespace Materal.Test.ExtensionsTests.AOPDITests
