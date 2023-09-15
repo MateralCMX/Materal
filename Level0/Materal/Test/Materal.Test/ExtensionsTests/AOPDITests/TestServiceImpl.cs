@@ -7,6 +7,9 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
 #pragma warning disable CS8603 // 可能返回 null 引用。
         public readonly ServiceImpl Service;
         private readonly InterceptorHelper _interceptorHelper;
+        public string Name { get => Service.Name; set => Service.Name = value; }
+        public string GetName => Service.Name;
+        public string SetName { set => Service.SetName = value; }
         public TestServiceImpl(ServiceImpl service, InterceptorHelper interceptorHelper)
         {
             Service = service;
@@ -23,12 +26,12 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
         public T GetTypeByName<T>(string value) => _interceptorHelper.Handler<IService, T>(nameof(GetTypeByName), Service, new object?[] { value }, new Type[] { typeof(string) }, new Type[] { typeof(T) });
         public (bool boolValue, int intValue, float floatValue, double doubleValue, decimal decimalValue, string stringValue, DateTime dateTimeValue, Guid guidValue, object objectValue, MyClassValue customValue, object[] objectValues) TestParams(bool boolValue, int intValue, float floatValue, double doubleValue, decimal decimalValue, string stringValue, DateTime dateTimeValue, Guid guidValue, object objectValue, MyClassValue customValue, params object[] objectValues)
             => _interceptorHelper.Handler<IService, (bool boolValue, int intValue, float floatValue, double doubleValue, decimal decimalValue, string stringValue, DateTime dateTimeValue, Guid guidValue, object objectValue, MyClassValue customValue, object[] objectValues)>(
-                nameof(TestParams), 
-                Service, 
-                new object[] { boolValue, intValue, floatValue, doubleValue, decimalValue, stringValue, dateTimeValue, guidValue, objectValue, customValue, objectValues }, 
+                nameof(TestParams),
+                Service,
+                new object[] { boolValue, intValue, floatValue, doubleValue, decimalValue, stringValue, dateTimeValue, guidValue, objectValue, customValue, objectValues },
                 new Type[] { typeof(bool), typeof(int), typeof(float), typeof(double), typeof(decimal), typeof(string), typeof(DateTime), typeof(Guid), typeof(object), typeof(MyClassValue), typeof(object) },
                 Array.Empty<Type>());
-        public Task<(bool boolValue, int intValue, float floatValue, double doubleValue, decimal decimalValue, string stringValue, DateTime dateTimeValue, Guid guidValue, object objectValue, MyClassValue customValue, object[] objectValues)> TestParamsAsync(bool boolValue, int intValue, float floatValue, double doubleValue, decimal decimalValue, string stringValue, DateTime dateTimeValue, Guid guidValue, object objectValue, MyClassValue customValue, params object[] objectValues) 
+        public Task<(bool boolValue, int intValue, float floatValue, double doubleValue, decimal decimalValue, string stringValue, DateTime dateTimeValue, Guid guidValue, object objectValue, MyClassValue customValue, object[] objectValues)> TestParamsAsync(bool boolValue, int intValue, float floatValue, double doubleValue, decimal decimalValue, string stringValue, DateTime dateTimeValue, Guid guidValue, object objectValue, MyClassValue customValue, params object[] objectValues)
             => _interceptorHelper.Handler<IService, Task<(bool boolValue, int intValue, float floatValue, double doubleValue, decimal decimalValue, string stringValue, DateTime dateTimeValue, Guid guidValue, object objectValue, MyClassValue customValue, object[] objectValues)>>(
                 nameof(TestParams),
                 Service,

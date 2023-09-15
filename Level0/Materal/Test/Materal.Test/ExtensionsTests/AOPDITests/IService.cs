@@ -3,6 +3,9 @@
     [MyInterceptor3(Order = 2)]
     public interface IService
     {
+        string Name { get; set; }
+        string GetName { get; }
+        string SetName { set; }
         [MyInterceptor(Order = -1)]
         [MyInterceptor2(Order = 1)]
         void SayHello();

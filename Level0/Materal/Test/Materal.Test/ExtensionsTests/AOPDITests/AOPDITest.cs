@@ -1,5 +1,6 @@
 ﻿using Materal.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Diagnostics;
 
@@ -18,7 +19,17 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
             //services.AddSingleton<IService, ServiceImpl>();
             //_serviceProvider = services.BuildServiceProvider();
             services.AddInterceptor<GlobalInterceptorAttribute>((im, m) => im.DeclaringType == typeof(IService), -2);
-            _serviceProvider = services.BuildMateralServiceProvider();
+            _serviceProvider = services.BuildMateralServiceProvider((serviceType, objType) => serviceType.Name.EndsWith("Service"));
+        }
+        /// <summary>
+        /// SayHello测试
+        /// </summary>
+        [TestMethod]
+        public void SayHelloScopeTest()
+        {
+            using IServiceScope serviceScope = _serviceProvider.CreateScope();
+            IService aopService = serviceScope.ServiceProvider.GetRequiredService<IService>();
+            aopService.SayHello();
         }
         /// <summary>
         /// SayHello测试
@@ -28,13 +39,6 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
         {
             IService aopService = _serviceProvider.GetRequiredService<IService>();
             aopService.SayHello();
-            IServiceCollection services2 = new ServiceCollection();
-            services2.AddTransient<IService, ServiceImpl>();
-            IServiceProvider serviceProvider2 = services2.BuildMateralServiceProvider();
-            IService aopService2 = serviceProvider2.GetRequiredService<IService>();
-            aopService2.SayHello();
-            //InterceptorHelper interceptorHelper = _serviceProvider.GetRequiredService<InterceptorHelper>();
-            //IService aopService = new TestServiceImpl(new ServiceImpl(), interceptorHelper);
         }
         /// <summary>
         /// 获得装饰器类型测试

@@ -14,8 +14,9 @@ namespace Materal.Extensions.DependencyInjection
         /// 构建Materal服务提供者
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="filter"></param>
         /// <returns></returns>
-        public static IServiceProvider BuildMateralServiceProvider(this IServiceCollection services)
+        public static IServiceProvider BuildMateralServiceProvider(this IServiceCollection services, Func<Type, Type, bool>? filter = null)
         {
             services.AddSingleton<InterceptorHelper>();
             if(_golablInterceptors.ContainsKey(services))
@@ -23,7 +24,7 @@ namespace Materal.Extensions.DependencyInjection
                 services.AddSingleton(_golablInterceptors[services]);
             }
             IServiceProvider serviceProvider = services.BuildServiceProvider();
-            IServiceProvider result = new MateralServiceProvider(serviceProvider);
+            IServiceProvider result = new MateralServiceProvider(serviceProvider, filter);
             return result;
         }
         /// <summary>

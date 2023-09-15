@@ -6,6 +6,9 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
     public class ServiceImpl : IService
     {
         private int _index = 0;
+        public string Name { get; set; } = "Materal";
+        public string GetName => Name;
+        public string SetName { set => Name = value; }
         public int GetIndex() => _index++;
         public string GetMessage() => "Hello World!";
         public string GetMessage(string name) => $"Hello {name}!";
