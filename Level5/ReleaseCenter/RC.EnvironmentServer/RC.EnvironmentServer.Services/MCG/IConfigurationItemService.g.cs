@@ -1,6 +1,5 @@
 using Materal.BaseCore.Services;
 using Materal.BaseCore.Services.Models;
-using Materal.Utils.Model;
 using RC.EnvironmentServer.DataTransmitModel.ConfigurationItem;
 using RC.EnvironmentServer.Services.Models.ConfigurationItem;
 

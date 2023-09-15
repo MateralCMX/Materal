@@ -1,6 +1,5 @@
 using Materal.BaseCore.Services;
 using Materal.BaseCore.Services.Models;
-using Materal.Utils.Model;
 using RC.Deploy.DataTransmitModel.ApplicationInfo;
 using RC.Deploy.Services.Models.ApplicationInfo;
 

@@ -1,7 +1,6 @@
 #nullable enable
 using RC.Core.HttpClient;
 using Materal.Utils.Model;
-using AspectCore.DynamicProxy;
 using Materal.BaseCore.Common;
 using Materal.BaseCore.PresentationModel;
 using RC.Authority.DataTransmitModel.User;

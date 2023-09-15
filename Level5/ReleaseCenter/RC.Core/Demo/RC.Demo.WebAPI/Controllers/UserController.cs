@@ -1,5 +1,4 @@
-﻿using AspectCore.DynamicProxy;
-using Materal.BaseCore.Common;
+﻿using Materal.BaseCore.Common;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +6,6 @@ using RC.Core.Common;
 using RC.Demo.DataTransmitModel.User;
 using RC.Demo.PresentationModel.User;
 using RC.Demo.Services.Models.User;
-using System.ComponentModel.DataAnnotations;
 
 namespace RC.Demo.WebAPI.Controllers
 {
@@ -46,14 +44,6 @@ namespace RC.Demo.WebAPI.Controllers
                     ExpiredTime = MateralCoreConfig.JWTConfig.ExpiredTime
                 };
                 return ResultModel<LoginResultDTO>.Success(result, "登录成功");
-            }
-            catch (AspectInvocationException exception)
-            {
-                if (exception.InnerException is RCException)
-                {
-                    return ResultModel<LoginResultDTO>.Fail("账号或者密码错误");
-                }
-                throw;
             }
             catch (RCException)
             {
