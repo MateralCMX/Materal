@@ -8,12 +8,13 @@ namespace Materal.Logger
     public class LoggerFactory : ILoggerFactory
     {
         private ILoggerProvider? _provider;
+        private readonly LoggerConfig _loggerConfig;
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="provider"></param>
-        public LoggerFactory(ILoggerProvider? provider = null)
+        public LoggerFactory(LoggerConfig loggerConfig, ILoggerProvider? provider = null)
         {
+            _loggerConfig = loggerConfig;
             if (provider is null) return;
             AddProvider(provider);
         }
@@ -29,7 +30,7 @@ namespace Materal.Logger
         /// <returns></returns>
         public ILogger CreateLogger(string categoryName)
         {
-            ILogger logger = _provider is null ? LoggerProvider.GetNewLogger(categoryName) : _provider.CreateLogger(categoryName);
+            ILogger logger = _provider is null ? LoggerProvider.GetNewLogger(categoryName, _loggerConfig) : _provider.CreateLogger(categoryName);
             return logger;
         }
         /// <summary>

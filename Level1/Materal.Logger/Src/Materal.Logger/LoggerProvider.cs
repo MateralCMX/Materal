@@ -7,13 +7,21 @@ namespace Materal.Logger
     /// </summary>
     public class LoggerProvider : ILoggerProvider
     {
+        private readonly LoggerConfig _loggerConfig;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public LoggerProvider(LoggerConfig loggerConfig)
+        {
+            _loggerConfig = loggerConfig;
+        }
         /// <summary>
         /// 创建日志
         /// </summary>
         /// <param name="categoryName"></param>
         /// <returns></returns>
         public ILogger CreateLogger(string categoryName)
-            => GetNewLogger(categoryName);
+            => GetNewLogger(categoryName, _loggerConfig);
         /// <summary>
         /// 释放
         /// </summary>
@@ -22,9 +30,9 @@ namespace Materal.Logger
         /// 获得新的日志
         /// </summary>
         /// <returns></returns>
-        public static Logger GetNewLogger(string categoryName)
+        public static Logger GetNewLogger(string categoryName, LoggerConfig config)
         {
-            return new Logger(categoryName);
+            return new Logger(categoryName, config);
         }
     }
 }

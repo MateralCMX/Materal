@@ -1,4 +1,6 @@
-﻿namespace Materal.Logger
+﻿using Microsoft.Extensions.Configuration;
+
+namespace Materal.Logger
 {
     /// <summary>
     /// 日志配置选项

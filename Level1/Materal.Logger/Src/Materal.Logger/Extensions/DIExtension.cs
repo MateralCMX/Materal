@@ -27,6 +27,8 @@ namespace Materal.Logger
             });
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
+            LoggerConfig config = new(options, configuration);
+            services.AddSingleton(config);
             //const string assembliyName = "Materal.Logger";
             //List<Assembly> targetAssemblies = assemblies.ToList();
             //targetAssemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName is not null && m.FullName.StartsWith(assembliyName)));

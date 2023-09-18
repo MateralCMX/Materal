@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger
 {
@@ -26,10 +27,10 @@ namespace Materal.Logger
         /// 分类名称
         /// </summary>
         private readonly string? _categoryName;
-        ///// <summary>
-        ///// 日志配置
-        ///// </summary>
-        //private readonly LoggerConfig _loggerConfig;
+        /// <summary>
+        /// 日志配置
+        /// </summary>
+        private readonly LoggerConfig _loggerConfig;
         /// <summary>
         /// 日志域
         /// </summary>
@@ -37,8 +38,9 @@ namespace Materal.Logger
         /// <summary>
         /// 构造方法
         /// </summary>
-        public Logger(string categoryName)
+        public Logger(string categoryName, LoggerConfig config)
         {
+            _loggerConfig = config;
             if (string.IsNullOrWhiteSpace(categoryName)) return;
             _categoryName = categoryName;
         }
