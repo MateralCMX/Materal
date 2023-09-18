@@ -49,7 +49,7 @@ namespace Materal.Logger
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public static void LogWarning(string message, Exception exception) => LogWarning(GetErrorMessage(message, exception));
+        public static void LogWarning(string message, Exception? exception) => LogWarning(GetErrorMessage(message, exception));
         /// <summary>
         /// 写错误
         /// </summary>
@@ -60,25 +60,28 @@ namespace Materal.Logger
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public static void LogError(string message, Exception exception) => LogError(GetErrorMessage(message, exception));
+        public static void LogError(string message, Exception? exception) => LogError(GetErrorMessage(message, exception));
         /// <summary>
         /// 获得错误消息
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
         /// <returns></returns>
-        private static string GetErrorMessage(string message, Exception exception)
+        private static string GetErrorMessage(string message, Exception? exception)
         {
             StringBuilder messageBuild = new();
             messageBuild.AppendLine(message);
-            switch (exception)
+            if(exception is not null)
             {
-                case MateralHttpException httpException:
-                    messageBuild.AppendLine(httpException.GetExceptionMessage());
-                    break;
-                default:
-                    messageBuild.AppendLine(exception.GetErrorMessage());
-                    break;
+                switch (exception)
+                {
+                    case MateralHttpException httpException:
+                        messageBuild.AppendLine(httpException.GetExceptionMessage());
+                        break;
+                    default:
+                        messageBuild.AppendLine(exception.GetErrorMessage());
+                        break;
+                }
             }
             return messageBuild.ToString();
         }
