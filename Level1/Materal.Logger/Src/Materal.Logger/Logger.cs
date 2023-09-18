@@ -49,11 +49,12 @@ namespace Materal.Logger
         public IDisposable BeginScope<TState>(TState state)
         {
             string scope;
+            LoggerScope? loggerScope = null;
             if (state is not null)
             {
                 if(state is AdvancedScope advancedScope)
                 {
-                    return BeginScope(advancedScope);
+                    loggerScope = BeginScope(advancedScope);
                 }
                 if (state is string stateString)
                 {
@@ -68,7 +69,9 @@ namespace Materal.Logger
             {
                 scope = "PublicScope";
             }
-            return BeginScope(scope);
+            loggerScope ??= BeginScope(scope);
+            LoggerLog.LogDebug($"已开启日志域{loggerScope.ScopeName}");
+            return loggerScope;
         }
         /// <summary>
         /// 开始域
@@ -166,13 +169,18 @@ namespace Materal.Logger
         {
             IsClose = true;
             if (LoggerConfig.Mode == LoggerModeEnum.Normal) return;
+            LoggerLog.LogInfomation($"正在关闭MateralLogger");
             if (Handlers is null) return;
             _actionBlock.Complete();
             await _actionBlock.Completion;
             foreach (ILoggerHandler handler in Handlers)
             {
+                string handlerName = handler.GetType().Name;
+                LoggerLog.LogDebug($"正在关闭{handlerName}");
                 await handler.ShutdownAsync();
+                LoggerLog.LogDebug($"已关闭{handlerName}");
             }
+            LoggerLog.LogInfomation($"已关闭MateralLogger");
         }
     }
 }

@@ -145,7 +145,7 @@ namespace Materal.Logger
         /// <summary>
         /// 日志日志等级配置
         /// </summary>
-        public static LogLogLevelConfigModel LogLogLevel => GetValueObject(nameof(LogLogLevel), name => new LogLogLevelConfigModel());
+        public static LogLogLevelConfigModel LogLogLevel => GetValueObject(nameof(LogLogLevel), name => _options.LogLogLevel ?? new LogLogLevelConfigModel());
         /// <summary>
         /// 自定义数据
         /// </summary>
@@ -193,20 +193,19 @@ namespace Materal.Logger
         public static T GetValueObject<T>(string name, Func<string, T>? defaultValue, Func<T, bool>? validation = null)
             where T : new()
         {
-            T? result = default;
             if (_config is not null)
             {
-                result = _config.GetValueObject<T>($"{_rootKey}:{name}");
-            }
-            if (result is not null)
-            {
-                if(validation is null)
+                T? result = _config.GetValueObject<T>($"{_rootKey}:{name}");
+                if (result is not null)
                 {
-                    return result;
-                }
-                else if(validation(result))
-                {
-                    return result;
+                    if (validation is null)
+                    {
+                        return result;
+                    }
+                    else if (validation(result))
+                    {
+                        return result;
+                    }
                 }
             }
             if (defaultValue is null) return new T();

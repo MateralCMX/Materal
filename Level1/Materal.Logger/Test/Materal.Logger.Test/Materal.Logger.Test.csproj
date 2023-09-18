@@ -22,4 +22,9 @@
 		<ProjectReference Include="..\..\Src\Materal.Logger.WebSocketLog\Materal.Logger.WebSocketLog.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger\Materal.Logger.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>

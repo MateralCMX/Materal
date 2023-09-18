@@ -19,88 +19,68 @@ namespace Materal.Logger
         /// </summary>
         public static LogLevel MaxLevel => LoggerConfig.LogLogLevel.MaxLevel;
         /// <summary>
+        /// 写日志
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="logLevel"></param>
+        /// <param name="consoleColor"></param>
+        public static void Log(string message, LogLevel logLevel, ConsoleColor consoleColor = ConsoleColor.Gray)
+        {
+            if (logLevel < MinLevel || logLevel > MaxLevel) return;
+            ConsoleQueue.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}|LoggerLog|{logLevel}|{message}", consoleColor);
+        }
+        /// <summary>
         /// 写Debug
         /// </summary>
         /// <param name="message"></param>
-        public static void LogDebug(string message)
-        {
-            if (LogLevel.Debug < MinLevel || LogLevel.Debug > MaxLevel) return;
-            ConsoleQueue.WriteLine($"LoggerLog|{message}", ConsoleColor.DarkGray);
-        }
+        public static void LogDebug(string message) => Log(message, LogLevel.Debug, ConsoleColor.DarkGreen);
         /// <summary>
         /// 写信息
         /// </summary>
         /// <param name="message"></param>
-        public static void LogInfomation(string message)
-        {
-            if (LogLevel.Information < MinLevel || LogLevel.Information > MaxLevel) return;
-            ConsoleQueue.WriteLine($"LoggerLog|{message}", ConsoleColor.Gray);
-        }
+        public static void LogInfomation(string message) => Log(message, LogLevel.Information, ConsoleColor.Gray);
         /// <summary>
         /// 写警告
         /// </summary>
         /// <param name="message"></param>
-        public static void LogWarning(string message)
-        {
-            if (LogLevel.Warning < MinLevel || LogLevel.Warning > MaxLevel) return;
-            ConsoleQueue.WriteLine($"LoggerLog|{message}", ConsoleColor.DarkYellow);
-        }
+        public static void LogWarning(string message) => Log(message, LogLevel.Warning, ConsoleColor.DarkYellow);
         /// <summary>
         /// 写警告
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public static void LogWarning(string message, Exception? exception)
-        {
-            if (LogLevel.Warning < MinLevel || LogLevel.Warning > MaxLevel) return;
-            StringBuilder messageBuild = new();
-            messageBuild.AppendLine($"LoggerLog|{message}");
-            if (exception is not null)
-            {
-                if (exception is MateralHttpException httpException)
-                {
-                    messageBuild.AppendLine(httpException.GetExceptionMessage());
-                }
-                else
-                {
-                    messageBuild.AppendLine(exception.GetErrorMessage());
-                }
-            }
-            ConsoleQueue.WriteLine(messageBuild.ToString(), ConsoleColor.DarkYellow);
-        }
+        public static void LogWarning(string message, Exception exception) => LogWarning(GetErrorMessage(message, exception));
         /// <summary>
         /// 写错误
         /// </summary>
         /// <param name="message"></param>
-        public static void LogError(string message)
-        {
-            if (LogLevel.Error < MinLevel || LogLevel.Error > MaxLevel) return;
-            StringBuilder messageBuild = new();
-            messageBuild.AppendLine($"LoggerLog|{message}");
-            ConsoleQueue.WriteLine(messageBuild.ToString(), ConsoleColor.DarkRed);
-        }
+        public static void LogError(string message) => Log(message, LogLevel.Error, ConsoleColor.DarkRed);
         /// <summary>
         /// 写错误
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public static void LogError(string message, Exception? exception)
+        public static void LogError(string message, Exception exception) => LogError(GetErrorMessage(message, exception));
+        /// <summary>
+        /// 获得错误消息
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        private static string GetErrorMessage(string message, Exception exception)
         {
-            if (LogLevel.Error < MinLevel || LogLevel.Error > MaxLevel) return;
-            StringBuilder messageBuild= new();
-            messageBuild.AppendLine($"LoggerLog|{message}");
-            if(exception is not null)
+            StringBuilder messageBuild = new();
+            messageBuild.AppendLine(message);
+            switch (exception)
             {
-                if(exception is MateralHttpException httpException)
-                {
+                case MateralHttpException httpException:
                     messageBuild.AppendLine(httpException.GetExceptionMessage());
-                }
-                else
-                {
+                    break;
+                default:
                     messageBuild.AppendLine(exception.GetErrorMessage());
-                }
+                    break;
             }
-            ConsoleQueue.WriteLine(messageBuild.ToString(), ConsoleColor.DarkRed);
+            return messageBuild.ToString();
         }
     }
 }

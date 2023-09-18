@@ -188,7 +188,7 @@ namespace System
             where T : notnull
         {
             string jsonStr = inputObj.ToJson();
-            return jsonStr.JsonToObject<T>();
+            return jsonStr.JsonToDeserializeObject<T>();
         }
         /// <summary>
         /// 克隆对象(XML序列化)

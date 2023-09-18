@@ -17,6 +17,10 @@ namespace Materal.Logger
         /// </summary>
         public List<LoggerRuleConfigModel> Rules { get; } = new();
         /// <summary>
+        /// 日志自身日志等级
+        /// </summary>
+        public LogLogLevelConfigModel? LogLogLevel { get; private set; }
+        /// <summary>
         /// 添加所有目标规则
         /// </summary>
         private Action? _addAllTargetRule;
@@ -26,6 +30,21 @@ namespace Materal.Logger
         public void Init()
         {
             _addAllTargetRule?.Invoke();
+        }
+        /// <summary>
+        /// 设置日志自身日志等级
+        /// </summary>
+        /// <param name="minLevel"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public LoggerConfigOptions SetLoggerLogLevel(LogLevel minLevel, LogLevel maxLevel = LogLevel.Critical)
+        {
+            LogLogLevel = new LogLogLevelConfigModel()
+            {
+                MinLevel = minLevel,
+                MaxLevel = maxLevel
+            };
+            return this;
         }
         /// <summary>
         /// 添加自定义配置
@@ -54,11 +73,17 @@ namespace Materal.Logger
         public LoggerConfigOptions AddRule(IEnumerable<string> targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
         {
             if (targets.Count() <= 0) throw new LoggerException("至少需要一个目标");
+            minLevel ??= LogLevel.Information;
+            maxLevel ??= LogLevel.Critical;
+            if (loglevels is null || loglevels.Count <= 0)
+            {
+                loglevels = new Dictionary<string, LogLevel>() { ["Default"] = minLevel.Value };
+            }
             LoggerRuleConfigModel rule = new()
             {
                 Targets = targets.ToList(),
-                MinLevel = minLevel ?? LogLevel.Trace,
-                MaxLevel = maxLevel ?? LogLevel.Critical,
+                MinLevel = minLevel.Value,
+                MaxLevel = maxLevel.Value,
                 LogLevels = loglevels
             };
             Rules.Add(rule);
