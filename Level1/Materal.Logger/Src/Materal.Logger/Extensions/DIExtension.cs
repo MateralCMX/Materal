@@ -29,18 +29,21 @@ namespace Materal.Logger
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
             LoggerConfig config = new(options, configuration);
             services.AddSingleton(config);
-            //const string assembliyName = "Materal.Logger";
-            //List<Assembly> targetAssemblies = assemblies.ToList();
-            //targetAssemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName is not null && m.FullName.StartsWith(assembliyName)));
-            //FileInfo dllFileInfo = new(typeof(Logger).Assembly.Location);
-            //DirectoryInfo directoryInfo = dllFileInfo.Directory;
-            //FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll").Where(m => m.Name.StartsWith(assembliyName)).ToArray();
-            //foreach (FileInfo fileInfo in fileInfos)
-            //{
-            //    if (targetAssemblies.Any(m => m.Location == fileInfo.FullName)) continue;
-            //    Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
-            //    targetAssemblies.Add(assembly);
-            //}
+            services.AddSingleton<LoggerRuntime>();
+            services.AddSingleton<LoggerLog>();
+            #region 检测LoggerHandler
+            const string assembliyName = "Materal.Logger";
+            List<Assembly> targetAssemblies = assemblies.ToList();
+            targetAssemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName is not null && m.FullName.StartsWith(assembliyName)));
+            FileInfo dllFileInfo = new(typeof(Logger).Assembly.Location);
+            DirectoryInfo directoryInfo = dllFileInfo.Directory;
+            FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll").Where(m => m.Name.StartsWith(assembliyName)).ToArray();
+            foreach (FileInfo fileInfo in fileInfos)
+            {
+                if (targetAssemblies.Any(m => m.Location == fileInfo.FullName)) continue;
+                Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
+                targetAssemblies.Add(assembly);
+            }
             //List<LoggerTargetConfigModel> configModels = new();
             //foreach (Assembly assembly in targetAssemblies)
             //{
@@ -56,6 +59,7 @@ namespace Materal.Logger
             //{
             //    configModel.OnLoggerServiceReady();
             //}
+            #endregion
             return services;
         }
         /// <summary>

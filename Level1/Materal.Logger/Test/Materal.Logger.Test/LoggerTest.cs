@@ -9,7 +9,7 @@ namespace Materal.Logger.Test
     {
         private readonly IConfiguration _configuration;
         private const string _textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}";
-        private Func<Action<LoggerConfigOptions>, Task> _initAsync = async action =>
+        private readonly Func<Action<LoggerConfigOptions>, Task> _initAsync = async action =>
         {
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralLogger(option =>
@@ -57,10 +57,7 @@ namespace Materal.Logger.Test
         /// <returns></returns>
         [TestMethod]
         public async Task WriteLogTestAsync()
-            => await _initAsync(option =>
-            {
-
-            });
+            => await _initAsync(option => { });
         /// <summary>
         /// 写日志
         /// </summary>
@@ -69,7 +66,8 @@ namespace Materal.Logger.Test
         /// <exception cref="Exception"></exception>
         private static async Task WriteLogAsync(IServiceProvider services)
         {
-            ILogger<LoggerTest> logger = services.GetService<ILogger<LoggerTest>>() ?? throw new Exception("获取日志记录器失败");
+            ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
+            LoggerRuntime loggerRuntime = services.GetRequiredService<LoggerRuntime>();
             const string message = "这是一条日志消息";
             //logger.LogTrace(message);
             //logger.LogDebug(message);
@@ -85,7 +83,7 @@ namespace Materal.Logger.Test
             //logger.LogWarning(scopeMessage);
             //logger.LogError(scopeMessage);
             //logger.LogCritical(scopeMessage);
-            //await Logger.ShutdownAsync();
+            await loggerRuntime.ShutdownAsync();
             await Task.CompletedTask;
         }
     }

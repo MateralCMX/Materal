@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Materal.Logger.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger
 {
@@ -15,10 +17,10 @@ namespace Materal.Logger
         ///// 规则组
         ///// </summary>
         //public List<LoggerRuleConfigModel> Rules { get; } = new();
-        ///// <summary>
-        ///// 日志自身日志等级
-        ///// </summary>
-        //public LogLogLevelConfigModel? LogLogLevel { get; private set; }
+        /// <summary>
+        /// 日志自身日志等级
+        /// </summary>
+        public LoggerLogLevelConfigModel? LoggerLogLevel { get; private set; }
         ///// <summary>
         ///// 添加所有目标规则
         ///// </summary>
@@ -30,21 +32,21 @@ namespace Materal.Logger
         //{
         //    _addAllTargetRule?.Invoke();
         //}
-        ///// <summary>
-        ///// 设置日志自身日志等级
-        ///// </summary>
-        ///// <param name="minLevel"></param>
-        ///// <param name="maxLevel"></param>
-        ///// <returns></returns>
-        //public LoggerConfigOptions SetLoggerLogLevel(LogLevel minLevel, LogLevel maxLevel = LogLevel.Critical)
-        //{
-        //    LogLogLevel = new LogLogLevelConfigModel()
-        //    {
-        //        MinLevel = minLevel,
-        //        MaxLevel = maxLevel
-        //    };
-        //    return this;
-        //}
+        /// <summary>
+        /// 设置日志自身日志等级
+        /// </summary>
+        /// <param name="minLevel"></param>
+        /// <param name="maxLevel"></param>
+        /// <returns></returns>
+        public LoggerConfigOptions SetLoggerLogLevel(LogLevel minLevel, LogLevel maxLevel = LogLevel.Critical)
+        {
+            LoggerLogLevel = new LoggerLogLevelConfigModel()
+            {
+                MinLevel = minLevel,
+                MaxLevel = maxLevel
+            };
+            return this;
+        }
         ///// <summary>
         ///// 添加自定义配置
         ///// </summary>

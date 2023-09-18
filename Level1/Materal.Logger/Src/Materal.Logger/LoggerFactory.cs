@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger
 {
@@ -7,14 +8,15 @@ namespace Materal.Logger
     /// </summary>
     public class LoggerFactory : ILoggerFactory
     {
+        private readonly IServiceProvider _serviceProvider;
         private ILoggerProvider? _provider;
-        private readonly LoggerConfig _loggerConfig;
         /// <summary>
         /// 构造方法
         /// </summary>
-        public LoggerFactory(LoggerConfig loggerConfig, ILoggerProvider? provider = null)
+        public LoggerFactory(IServiceProvider serviceProvider)
         {
-            _loggerConfig = loggerConfig;
+            _serviceProvider = serviceProvider;
+            ILoggerProvider? provider = _serviceProvider.GetService<ILoggerProvider>();
             if (provider is null) return;
             AddProvider(provider);
         }
@@ -30,7 +32,7 @@ namespace Materal.Logger
         /// <returns></returns>
         public ILogger CreateLogger(string categoryName)
         {
-            ILogger logger = _provider is null ? LoggerProvider.GetNewLogger(categoryName, _loggerConfig) : _provider.CreateLogger(categoryName);
+            ILogger logger = _provider is null ? LoggerProvider.GetNewLogger(categoryName, _serviceProvider) : _provider.CreateLogger(categoryName);
             return logger;
         }
         /// <summary>
