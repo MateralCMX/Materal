@@ -79,41 +79,41 @@ namespace Materal.Logger
             //LoggerLog.LogDebug($"已开启日志域{loggerScope.ScopeName}");
             //return loggerScope;
         }
-        ///// <summary>
-        ///// 开始域
-        ///// </summary>
-        ///// <param name="scope"></param>
-        ///// <returns></returns>
-        //public LoggerScope BeginScope(AdvancedScope scope)
-        //{
-        //    if (_loggerScope is null)
-        //    {
-        //        _loggerScope = new LoggerScope(scope, this);
-        //    }
-        //    else if (_loggerScope.ScopeName != scope.ScopeName)
-        //    {
-        //        _loggerScope.Dispose();
-        //        _loggerScope = new LoggerScope(scope, this);
-        //    }
-        //    return _loggerScope;
-        //}
-        ///// <summary>
-        ///// 开始域
-        ///// </summary>
-        ///// <param name="scope"></param>
-        ///// <returns></returns>
-        //public LoggerScope BeginScope(string scope)
-        //{
-        //    if (_loggerScope is null)
-        //    {
-        //        _loggerScope = new LoggerScope(scope, this);
-        //    }
-        //    else if (_loggerScope.ScopeName != scope)
-        //    {
-        //        _loggerScope.ScopeName = scope;
-        //    }
-        //    return _loggerScope;
-        //}
+        /// <summary>
+        /// 开始域
+        /// </summary>
+        /// <param name="scope"></param>
+        /// <returns></returns>
+        public LoggerScope BeginScope(AdvancedScope scope)
+        {
+            if (_loggerScope is null)
+            {
+                _loggerScope = new LoggerScope(scope, this);
+            }
+            else if (_loggerScope.ScopeName != scope.ScopeName)
+            {
+                _loggerScope.Dispose();
+                _loggerScope = new LoggerScope(scope, this);
+            }
+            return _loggerScope;
+        }
+        /// <summary>
+        /// 开始域
+        /// </summary>
+        /// <param name="scope"></param>
+        /// <returns></returns>
+        public LoggerScope BeginScope(string scope)
+        {
+            if (_loggerScope is null)
+            {
+                _loggerScope = new LoggerScope(scope, this);
+            }
+            else if (_loggerScope.ScopeName != scope)
+            {
+                _loggerScope.ScopeName = scope;
+            }
+            return _loggerScope;
+        }
         /// <summary>
         /// 退出域
         /// </summary>
