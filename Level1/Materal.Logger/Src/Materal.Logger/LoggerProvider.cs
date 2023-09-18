@@ -1,22 +1,30 @@
-﻿//using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
-//namespace Materal.Logger
-//{
-//    /// <summary>
-//    /// 日志供应者
-//    /// </summary>
-//    public class LoggerProvider : ILoggerProvider
-//    {
-//        /// <summary>
-//        /// 创建日志
-//        /// </summary>
-//        /// <param name="categoryName"></param>
-//        /// <returns></returns>
-//        public ILogger CreateLogger(string categoryName) 
-//            => new Logger(categoryName);
-//        /// <summary>
-//        /// 释放
-//        /// </summary>
-//        public void Dispose() => GC.SuppressFinalize(this);
-//    }
-//}
+namespace Materal.Logger
+{
+    /// <summary>
+    /// 日志供应者
+    /// </summary>
+    public class LoggerProvider : ILoggerProvider
+    {
+        /// <summary>
+        /// 创建日志
+        /// </summary>
+        /// <param name="categoryName"></param>
+        /// <returns></returns>
+        public ILogger CreateLogger(string categoryName)
+            => GetNewLogger(categoryName);
+        /// <summary>
+        /// 释放
+        /// </summary>
+        public void Dispose() => GC.SuppressFinalize(this);
+        /// <summary>
+        /// 获得新的日志
+        /// </summary>
+        /// <returns></returns>
+        public static Logger GetNewLogger(string categoryName)
+        {
+            return new Logger(categoryName);
+        }
+    }
+}
