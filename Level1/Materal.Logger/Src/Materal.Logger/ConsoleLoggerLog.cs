@@ -45,12 +45,13 @@ namespace Materal.Logger
         /// <param name="message"></param>
         /// <param name="logLevel"></param>
         /// <param name="consoleColor"></param>
-        public void Log(string message, LogLevel logLevel, ConsoleColor consoleColor = ConsoleColor.Gray)
+        /// <param name="name"></param>
+        public void Log(string message, LogLevel logLevel, ConsoleColor consoleColor = ConsoleColor.Gray, string name = "Loggerlog")
         {
             if (logLevel < MinLevel || logLevel > MaxLevel) return;
             _writeBuffer.Post(new()
             {
-                Message = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}|LoggerLog|{logLevel}|{message}",
+                Message = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}|{name}|{logLevel}|{message}",
                 Color = consoleColor
             });
         }
@@ -58,34 +59,40 @@ namespace Materal.Logger
         /// 写Debug
         /// </summary>
         /// <param name="message"></param>
-        public void LogDebug(string message) => Log(message, LogLevel.Debug, ConsoleColor.DarkGreen);
+        /// <param name="name"></param>
+        public void LogDebug(string message, string name = "Loggerlog") => Log(message, LogLevel.Debug, ConsoleColor.DarkGreen, name);
         /// <summary>
         /// 写信息
         /// </summary>
         /// <param name="message"></param>
-        public void LogInfomation(string message) => Log(message, LogLevel.Information, ConsoleColor.Gray);
+        /// <param name="name"></param>
+        public void LogInfomation(string message, string name = "Loggerlog") => Log(message, LogLevel.Information, ConsoleColor.Gray, name);
         /// <summary>
         /// 写警告
         /// </summary>
         /// <param name="message"></param>
-        public void LogWarning(string message) => Log(message, LogLevel.Warning, ConsoleColor.DarkYellow);
+        /// <param name="name"></param>
+        public void LogWarning(string message, string name = "Loggerlog") => Log(message, LogLevel.Warning, ConsoleColor.DarkYellow, name);
         /// <summary>
         /// 写警告
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public void LogWarning(string message, Exception? exception) => LogWarning(GetErrorMessage(message, exception));
+        /// <param name="name"></param>
+        public void LogWarning(string message, Exception? exception, string name = "Loggerlog") => LogWarning(GetErrorMessage(message, exception), name);
         /// <summary>
         /// 写错误
         /// </summary>
         /// <param name="message"></param>
-        public void LogError(string message) => Log(message, LogLevel.Error, ConsoleColor.DarkRed);
+        /// <param name="name"></param>
+        public void LogError(string message, string name = "Loggerlog") => Log(message, LogLevel.Error, ConsoleColor.DarkRed, name);
         /// <summary>
         /// 写错误
         /// </summary>
         /// <param name="message"></param>
         /// <param name="exception"></param>
-        public void LogError(string message, Exception? exception) => LogError(GetErrorMessage(message, exception));
+        /// <param name="name"></param>
+        public void LogError(string message, Exception? exception, string name = "Loggerlog") => LogError(GetErrorMessage(message, exception), name);
         /// <summary>
         /// 获得错误消息
         /// </summary>

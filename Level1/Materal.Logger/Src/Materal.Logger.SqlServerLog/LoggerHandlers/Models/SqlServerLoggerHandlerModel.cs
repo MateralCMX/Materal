@@ -24,8 +24,8 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// </summary>
         public SqlServerLoggerHandlerModel(LoggerRuleConfigModel rule, SqlServerLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig) : base(rule, target, model)
         {
-            ConnectionString = LoggerHandlerHelper.FormatPath(loggerConfig, target.ConnectionString, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
-            TableName = LoggerHandlerHelper.FormatText(loggerConfig, target.TableName, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
+            ConnectionString = LoggerHandlerHelper.FormatPath(loggerConfig, target.ConnectionString, model);
+            TableName = LoggerHandlerHelper.FormatText(loggerConfig, target.TableName, model);
             Fileds = target.Fileds.Count <= 0
                 ? SqlServerLoggerTargetConfigModel.DefaultFileds.Select(m => GetNewSqliteDBFiled(m, model, loggerConfig)).ToList()
                 : target.Fileds.Select(m => GetNewSqliteDBFiled(m, model, loggerConfig)).ToList();
@@ -49,7 +49,7 @@ namespace Materal.Logger.LoggerHandlers.Models
             };
             if (filed.Value is not null && !string.IsNullOrWhiteSpace(filed.Value))
             {
-                result.Value = LoggerHandlerHelper.FormatMessage(loggerConfig, filed.Value, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
+                result.Value = LoggerHandlerHelper.FormatMessage(loggerConfig, filed.Value, model);
             }
             return result;
         }

@@ -28,7 +28,7 @@ namespace Materal.Logger.LoggerHandlers
         {
             try
             {
-                string writeMessage = LoggerHandlerHelper.FormatMessage(Config, target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
+                string writeMessage = LoggerHandlerHelper.FormatMessage(Config, target.Format, model);
                 ConsoleColor color = target.Colors.GetConsoleColor(model.LogLevel);
                 _writeBuffer.Post(new ConsoleMessageModel
                 {

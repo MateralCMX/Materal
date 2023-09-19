@@ -1,4 +1,5 @@
-﻿using Materal.Utils.Http;
+﻿using Materal.Logger.LoggerHandlers.Models;
+using Materal.Utils.Http;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
@@ -59,6 +60,14 @@ namespace Materal.Logger.LoggerHandlers
         /// </summary>
         /// <param name="loggerConfig"></param>
         /// <param name="writeMessage"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static string FormatMessage(LoggerConfig loggerConfig, string writeMessage, LoggerHandlerModel model) => FormatMessage(loggerConfig, writeMessage, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
+        /// <summary>
+        /// 格式化消息
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="writeMessage"></param>
         /// <param name="logLevel"></param>
         /// <param name="message"></param>
         /// <param name="categoryName"></param>
@@ -88,6 +97,15 @@ namespace Materal.Logger.LoggerHandlers
         /// </summary>
         /// <param name="loggerConfig"></param>
         /// <param name="text"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static string FormatText(LoggerConfig loggerConfig, string text, LoggerHandlerModel model)
+            => FormatText(loggerConfig, text, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
+        /// <summary>
+        /// 格式化文本
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="text"></param>
         /// <param name="logLevel"></param>
         /// <param name="categoryName"></param>
         /// <param name="scope"></param>
@@ -103,6 +121,15 @@ namespace Materal.Logger.LoggerHandlers
             result = result.Trim();
             return result;
         }
+        /// <summary>
+        /// 格式化文本
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="path"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static string FormatPath(LoggerConfig loggerConfig, string path, LoggerHandlerModel model)
+            => FormatPath(loggerConfig, path, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
         /// <summary>
         /// 格式化路径
         /// </summary>

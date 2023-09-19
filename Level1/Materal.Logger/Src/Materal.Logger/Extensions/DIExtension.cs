@@ -57,11 +57,8 @@ namespace Materal.Logger
             services.AddSingleton(loggerLog);
             services.AddSingleton(config);
             services.AddSingleton(loggerRuntime);
-            foreach (LoggerTargetConfigModel configModel in configModels)
-            {
-                loggerRuntime.AddHandler(configModel);
-                configModel.OnLoggerServiceReady();
-            }
+            loggerRuntime.AddHandlers(configModels);
+            loggerRuntime.OnLoggerServiceReady();
             return services;
         }
         /// <summary>

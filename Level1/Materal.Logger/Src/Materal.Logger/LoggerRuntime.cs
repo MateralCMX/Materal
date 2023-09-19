@@ -1,6 +1,7 @@
 ﻿using Materal.Logger.LoggerHandlers;
 using Materal.Logger.LoggerHandlers.Models;
 using Materal.Logger.Models;
+using System.Reflection;
 using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger
@@ -40,22 +41,20 @@ namespace Materal.Logger
             LoggerLog = loggerLog;
         }
         /// <summary>
-        /// 添加一个处理器
+        /// 日志服务准备就绪
         /// </summary>
-        /// <param name="config"></param>
-        public void AddHandler(LoggerTargetConfigModel config)
-        {
-            ILoggerHandler loggerHandler = config.GetLoggerHandler(this);
-            AddHandler(loggerHandler);
-        }
+        public void OnLoggerServiceReady() => Parallel.ForEach(_handlers, handler => handler.OnLoggerServiceReady());
         /// <summary>
-        /// 添加一个处理器
+        /// 添加多个处理器
         /// </summary>
-        /// <param name="loggerHandler"></param>
-        private void AddHandler(ILoggerHandler loggerHandler)
+        /// <param name="configs"></param>
+        public void AddHandlers(IEnumerable<LoggerTargetConfigModel> configs)
         {
-            if (_handlers.Contains(loggerHandler)) return;
-            _handlers.Add(loggerHandler);
+            foreach (ILoggerHandler loggerHandler in configs.Select(m => m.GetLoggerHandler(this)))
+            {
+                if (_handlers.Contains(loggerHandler)) continue;
+                _handlers.Add(loggerHandler);
+            }
         }
         /// <summary>
         /// 处理日志

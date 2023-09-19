@@ -53,20 +53,5 @@ namespace Materal.Logger.Models
         /// </summary>
         /// <returns></returns>
         public HttpMethodEnum GetHttpMethod() => _httpMethod;
-        private string _format = "{\"ID\":\"${LogID}\",\"CreateTime\":\"${DateTime}\",\"Application\":\"${Application}\",\"Level\":\"${Level}\",\"Scope\":\"${Scope}\",\"CategoryName\":\"${CategoryName}\",\"MachineName\":\"${MachineName}\",\"ProgressID\":\"${ProgressID}\",\"ThreadID\":\"${ThreadID}\",\"Message\":\"${Message}\",\"Exception\":\"${Exception}\"}";
-        /// <summary>
-        /// 格式化
-        /// </summary>
-        public string Format
-        {
-            get => _format;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value)) throw new LoggerException("格式化字符串不能为空");
-                if (!value.IsJson()) throw new LoggerException("格式化字符串必须是一个Json对象字符串");
-                if (value[0] == '[') throw new LoggerException("格式化字符串必须是一个Json对象字符串,不能为集合Json字符串");
-                _format = value;
-            }
-        }
     }
 }

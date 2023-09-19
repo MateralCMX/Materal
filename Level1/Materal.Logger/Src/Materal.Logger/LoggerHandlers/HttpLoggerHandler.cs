@@ -1,6 +1,7 @@
 ﻿using Materal.Logger.LoggerHandlers.Models;
 using Materal.Logger.Models;
 using Materal.Utils.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger.LoggerHandlers
 {
@@ -37,7 +38,7 @@ namespace Materal.Logger.LoggerHandlers
                             //_httpHelper.SendAsync($"{model.Url}?{data}", model.HttpMethod).Wait();
                             break;
                         default:
-                            string data = $"[{string.Join(",", item.Select(m => m.Data))}]";
+                            string data = item.Select(m => new LogMessageModel(m, Config)).ToJson();
                             _httpHelper.SendAsync(model.Url, model.HttpMethod, null, data).Wait();
                             break;
                     }

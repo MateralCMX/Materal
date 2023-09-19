@@ -203,8 +203,7 @@ namespace Materal.Logger
         /// <param name="name"></param>
         /// <param name="url"></param>
         /// <param name="httpMethod"></param>
-        /// <param name="format"></param>
-        public LoggerConfigOptions AddHttpTarget(string name, string url, HttpMethod? httpMethod = null, string? format = null)
+        public LoggerConfigOptions AddHttpTarget(string name, string url, HttpMethod? httpMethod = null)
         {
             HttpLoggerTargetConfigModel target = new()
             {
@@ -214,10 +213,6 @@ namespace Materal.Logger
             if (httpMethod is not null)
             {
                 target.HttpMethod = httpMethod.Method;
-            }
-            if (format is not null && !string.IsNullOrWhiteSpace(format))
-            {
-                target.Format = format;
             }
             AddTarget(target);
             return this;

@@ -43,6 +43,10 @@ namespace Materal.Logger.LoggerHandlers
         /// <returns></returns>
         public virtual Task ShutdownAsync() => Task.CompletedTask;
         /// <summary>
+        /// 日志服务准备就绪
+        /// </summary>
+        public virtual void OnLoggerServiceReady() { }
+        /// <summary>
         /// 是否运行
         /// </summary>
         /// <param name="rule"></param>

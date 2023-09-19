@@ -24,8 +24,8 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// </summary>
         public FileLoggerHandlerModel(LoggerRuleConfigModel rule, FileLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig) : base(rule, target, model)
         {
-            Path = LoggerHandlerHelper.FormatPath(loggerConfig, target.Path, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
-            FileContent = LoggerHandlerHelper.FormatMessage(loggerConfig, target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
+            Path = LoggerHandlerHelper.FormatPath(loggerConfig, target.Path, model);
+            FileContent = LoggerHandlerHelper.FormatMessage(loggerConfig, target.Format, model);
         }
     }
 }

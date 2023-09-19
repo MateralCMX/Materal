@@ -24,9 +24,5 @@ namespace Materal.Logger.Models
         /// <paramref name="loggerRuntime"></paramref>
         /// </summary>
         public abstract ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime);
-        /// <summary>
-        /// 日志服务准备就绪
-        /// </summary>
-        public virtual void OnLoggerServiceReady() { }
     }
 }

@@ -13,6 +13,10 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="model"></param>
         void Handler(LoggerHandlerModel model);
         /// <summary>
+        /// 日志服务准备就绪
+        /// </summary>
+        void OnLoggerServiceReady();
+        /// <summary>
         /// 关闭
         /// </summary>
         Task ShutdownAsync();
