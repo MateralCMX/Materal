@@ -1,14 +1,13 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger.Test
 {
     [TestClass]
-    public class LoggerTest
+    public partial class LoggerTest
     {
         //private readonly IConfiguration _configuration;
-        private const string _textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}\r\n${LogID}";
+        private const string _textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}";
         ///// <summary>
         ///// 构造方法
         ///// </summary>
@@ -47,6 +46,17 @@ namespace Materal.Logger.Test
         public async Task WriteSqliteLogTestAsync()
             => await WriteLogAsync(option => option.AddSqliteTargetFromPath("SqliteLogger", "${RootPath}\\Logs\\MateralLogger.db", "${Level}Log"));
         /// <summary>
+        /// 写SqlServer日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteSqlServerLogTestAsync()
+            => await WriteLogAsync(option =>
+            {
+                const string connectionString = "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;";
+                option.AddSqlServerTarget("SqlServerLogger", connectionString, "${Level}Log");
+            });
+        /// <summary>
         /// 写日志
         /// </summary>
         /// <param name="services"></param>
@@ -59,26 +69,13 @@ namespace Materal.Logger.Test
             {
                 action(option);
                 option.AddAllTargetRule(LogLevel.Trace);
-                option.SetLoggerLogLevel(LogLevel.Trace);
+                option.SetLoggerLogLevel(LogLevel.Warning);
             });
             IServiceProvider services = serviceCollection.BuildServiceProvider();
-            ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
             LoggerRuntime loggerRuntime = services.GetRequiredService<LoggerRuntime>();
-            const string message = "这是一条日志消息";
-            logger.LogTrace(message);
-            logger.LogDebug(message);
-            logger.LogInformation(message);
-            logger.LogWarning(message);
-            logger.LogError(message);
-            logger.LogCritical(message);
-            const string scopeMessage = "这是一条作用域日志消息";
-            using IDisposable? scope = logger.BeginScope("CustomScope");
-            logger.LogTrace(scopeMessage);
-            logger.LogDebug(scopeMessage);
-            logger.LogInformation(scopeMessage);
-            logger.LogWarning(scopeMessage);
-            logger.LogError(scopeMessage);
-            logger.LogCritical(scopeMessage);
+            WriteLogs(services);
+            //WriteLargeLogs(services, LogLevel.Information, 10000);
+            //WriteThreadLogs(services, 100);
             await loggerRuntime.ShutdownAsync();
         }
     }

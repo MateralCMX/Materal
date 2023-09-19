@@ -1,6 +1,6 @@
-﻿using Materal.Logger.Models;
+﻿using Materal.Logger.LoggerHandlers;
 
-namespace Materal.Logger.LoggerHandlers.Models
+namespace Materal.Logger.Models
 {
     /// <summary>
     /// 控制台日志目标配置模型

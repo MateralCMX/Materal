@@ -37,32 +37,29 @@ namespace Materal.Logger
         /// <returns></returns>
         public IDisposable BeginScope<TState>(TState state)
         {
-            _loggerScope = new LoggerScope("TestScope");
-            return _loggerScope;
-            //string scope;
-            //LoggerScope? loggerScope = null;
-            //if (state is not null)
-            //{
-            //    if (state is AdvancedScope advancedScope)
-            //    {
-            //        loggerScope = BeginScope(advancedScope);
-            //    }
-            //    if (state is string stateString)
-            //    {
-            //        scope = stateString;
-            //    }
-            //    else
-            //    {
-            //        scope = state.ToString();
-            //    }
-            //}
-            //else
-            //{
-            //    scope = "PublicScope";
-            //}
-            //loggerScope ??= BeginScope(scope);
-            //LoggerLog.LogDebug($"已开启日志域{loggerScope.ScopeName}");
-            //return loggerScope;
+            string scope;
+            LoggerScope? loggerScope = null;
+            if (state is not null)
+            {
+                if (state is AdvancedScope advancedScope)
+                {
+                    loggerScope = BeginScope(advancedScope);
+                }
+                if (state is string stateString)
+                {
+                    scope = stateString;
+                }
+                else
+                {
+                    scope = state.ToString();
+                }
+            }
+            else
+            {
+                scope = "PublicScope";
+            }
+            loggerScope ??= BeginScope(scope);
+            return loggerScope;
         }
         /// <summary>
         /// 开始域

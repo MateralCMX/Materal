@@ -9,7 +9,7 @@
         /// <summary>
         /// 缓冲推入间隔(ms)
         /// </summary>
-        public int BufferPushInterval
+        public virtual int BufferPushInterval
         {
             get => _bufferPushInterval;
             set => _bufferPushInterval = value < 500 ? 500 : value;
@@ -18,7 +18,7 @@
         /// <summary>
         /// 缓冲区数量
         /// </summary>
-        public int BufferCount
+        public virtual int BufferCount
         {
             get => _bufferCount;
             set => _bufferCount = value < 2 ? 2 : value;
