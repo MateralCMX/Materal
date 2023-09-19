@@ -21,8 +21,9 @@ namespace Materal.Logger.Models
         public abstract string Type { get; }
         /// <summary>
         /// 获得日志处理器
+        /// <paramref name="loggerRuntime"></paramref>
         /// </summary>
-        public abstract ILoggerHandler GetLoggerHandler();
+        public abstract ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime);
         /// <summary>
         /// 日志服务准备就绪
         /// </summary>

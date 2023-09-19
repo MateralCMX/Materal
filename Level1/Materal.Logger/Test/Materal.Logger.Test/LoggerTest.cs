@@ -23,7 +23,12 @@ namespace Materal.Logger.Test
         /// <returns></returns>
         [TestMethod]
         public async Task WriteConsoleLogTestAsync()
-            => await WriteLogAsync(option => option.AddConsoleTarget("ConsoleLogger", _textFormat));
+            => await WriteLogAsync(option =>
+            {
+                //option.AddConsoleTarget("ConsoleLogger", _textFormat);
+                option.AddConsoleTarget("ConsoleLogger1", _textFormat);
+                option.AddConsoleTarget("ConsoleLogger2", _textFormat);
+            });
         /// <summary>
         /// 写文件日志
         /// </summary>
@@ -56,6 +61,17 @@ namespace Materal.Logger.Test
                 const string connectionString = "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;";
                 option.AddSqlServerTarget("SqlServerLogger", connectionString, "${Level}Log");
             });
+        ///// <summary>
+        ///// 写SqlServer日志
+        ///// </summary>
+        ///// <returns></returns>
+        //[TestMethod]
+        //public async Task WriteWebSocketLogTestAsync()
+        //    => await WriteLogAsync(option =>
+        //    {
+        //        const string connectionString = "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;";
+        //        option.AddWebSocketTarget("SqlServerLogger", connectionString, "${Level}Log");
+        //    });
         /// <summary>
         /// 写日志
         /// </summary>

@@ -27,9 +27,10 @@
 //        /// </summary>
 //        /// <param name="target"></param>
 //        /// <param name="model"></param>
-//        public LogMessageModel(WebSocketLoggerTargetConfigModel target, LoggerHandlerModel model)
+//        /// <param name="loggerConfig"></param>
+//        public LogMessageModel(WebSocketLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig)
 //        {
-//            Message = LoggerHandlerHelper.FormatMessage(target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
+//            Message = LoggerHandlerHelper.FormatMessage(loggerConfig, target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
 //            Color = target.Colors.GetConsoleColor(model.LogLevel);
 //            LogLevel = model.LogLevel;
 //        }

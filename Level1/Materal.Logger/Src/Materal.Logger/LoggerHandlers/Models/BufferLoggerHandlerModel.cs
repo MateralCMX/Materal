@@ -16,23 +16,13 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// </summary>
         public LoggerTargetConfigModel Target { get; }
         /// <summary>
-        /// 日志自身日志对象
-        /// </summary>
-        public LoggerConfig LoggerConfig { get; }
-        /// <summary>
-        /// 日志自身日志对象
-        /// </summary>
-        public ILoggerLog LoggerLog { get; }
-        /// <summary>
         /// 构造方法
         /// </summary>
-        public BufferLoggerHandlerModel(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig, ILoggerLog loggerLog)
+        public BufferLoggerHandlerModel(LoggerRuleConfigModel rule, LoggerTargetConfigModel target, LoggerHandlerModel model)
         {
             model.CopyProperties(this);
             Rule = rule;
             Target = target;
-            LoggerConfig = loggerConfig;
-            LoggerLog = loggerLog;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <summary>
         /// 构造方法
         /// </summary>
-        public FileLoggerHandlerModel(LoggerRuleConfigModel rule, FileLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig, ILoggerLog loggerLog) : base(rule, target, model, loggerConfig, loggerLog)
+        public FileLoggerHandlerModel(LoggerRuleConfigModel rule, FileLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig) : base(rule, target, model)
         {
             Path = LoggerHandlerHelper.FormatPath(loggerConfig, target.Path, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
             FileContent = LoggerHandlerHelper.FormatMessage(loggerConfig, target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);

@@ -14,7 +14,8 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 获得日志处理器
         /// </summary>
-        public override ILoggerHandler GetLoggerHandler() => new ConsoleLoggerHandler();
+        /// <paramref name="loggerRuntime"></paramref>
+        public override ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime) => new ConsoleLoggerHandler(loggerRuntime, this);
         /// <summary>
         /// 颜色组
         /// </summary>

@@ -12,9 +12,9 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="bufferPushInterval"></param>
-        /// <param name="bufferCount"></param>
-        public SqlServerLoggerHandler(int bufferPushInterval, int bufferCount) : base(bufferPushInterval, bufferCount)
+        /// <param name="loggerRuntime"></param>
+        /// <param name="target"></param>
+        public SqlServerLoggerHandler(LoggerRuntime loggerRuntime, SqlServerLoggerTargetConfigModel target) : base(loggerRuntime, target)
         {
         }
         /// <summary>
@@ -24,7 +24,6 @@ namespace Materal.Logger.LoggerHandlers
         protected override void HandlerData(SqlServerLoggerHandlerModel[] datas)
         {
             IGrouping<string, SqlServerLoggerHandlerModel>[] groupDatas = datas.GroupBy(m => m.ConnectionString).ToArray();
-            ILoggerLog loggerLog = datas.GetLoggerLog();
             Parallel.ForEach(groupDatas, item =>
             {
                 try
@@ -34,7 +33,7 @@ namespace Materal.Logger.LoggerHandlers
                 }
                 catch (Exception exception)
                 {
-                    loggerLog.LogError($"日志记录到SqlServer[{item.Key}]失败：", exception);
+                    LoggerLog.LogError($"日志记录到SqlServer[{item.Key}]失败：", exception);
                 }
             });
         }

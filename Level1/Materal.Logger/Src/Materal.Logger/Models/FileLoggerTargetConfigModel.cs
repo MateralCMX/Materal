@@ -14,7 +14,8 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 获得日志处理器
         /// </summary>
-        public override ILoggerHandler GetLoggerHandler() => new FileLoggerHandler(BufferPushInterval, BufferCount);
+        /// <paramref name="loggerRuntime"></paramref>
+        public override ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime) => new FileLoggerHandler(loggerRuntime, this);
         private string _path = "C:\\MateralLogger\\FileLogger.log";
         /// <summary>
         /// 路径

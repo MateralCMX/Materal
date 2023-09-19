@@ -9,7 +9,7 @@ namespace Materal.Logger.LoggerHandlers
     /// </summary>
     public abstract class BufferLoggerHandler<T, T2> : LoggerHandler<T2>
         where T : BufferLoggerHandlerModel
-        where T2 : LoggerTargetConfigModel
+        where T2 : BufferLoggerTargetConfigModel
     {
         /// <summary>
         /// 消息缓冲区
@@ -36,16 +36,12 @@ namespace Materal.Logger.LoggerHandlers
         /// </summary>
         private readonly int _bufferPushInterval;
         /// <summary>
-        /// 关闭标识
-        /// </summary>
-        private bool _isClose = false;
-        /// <summary>
         /// 构造方法
         /// </summary>
-        protected BufferLoggerHandler(int bufferPushInterval, int bufferCount)
+        protected BufferLoggerHandler(LoggerRuntime loggerRuntime, T2 target) : base(loggerRuntime, target)
         {
-            _bufferPushInterval = bufferPushInterval;
-            _bufferCount = bufferCount < 2 ? 2 : bufferCount;
+            _bufferPushInterval = target.BufferPushInterval;
+            _bufferCount = target.BufferCount < 2 ? 2 : target.BufferCount;
             _handlerDataBuffer = new(HandlerData);
             _messageBuffer = GetNewBatchBlock();
             ClearTimer = new(ClearTimerElapsed);
@@ -57,11 +53,9 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="rule"></param>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        /// <param name="loggerConfig"></param>
-        /// <param name="loggerLog"></param>
-        protected override void Handler(LoggerRuleConfigModel rule, T2 target, LoggerHandlerModel model, LoggerConfig loggerConfig, ILoggerLog loggerLog)
+        protected override void Handler(LoggerRuleConfigModel rule, T2 target, LoggerHandlerModel model)
         {
-            object? dataObj = typeof(T).Instantiation(rule, target, model, loggerConfig, loggerLog);
+            object? dataObj = typeof(T).Instantiation(rule, target, model, Config);
             if (dataObj is null || dataObj is not T data) return;
             PushData(data);
         }
@@ -82,7 +76,7 @@ namespace Materal.Logger.LoggerHandlers
             oldBlock.Complete();
             oldBlock.Completion.Wait();
             _isClearTimerExecution = false;
-            if (!_isClose)
+            if (!IsClose)
             {
                 ClearTimer.Change(TimeSpan.FromMilliseconds(_bufferPushInterval), Timeout.InfiniteTimeSpan);
             }
@@ -105,19 +99,17 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 关闭
         /// </summary>
-        /// <param name="loggerLog"></param>
         /// <returns></returns>
-        public override async Task ShutdownAsync(ILoggerLog loggerLog)
+        public override async Task ShutdownAsync()
         {
             string handlerName = GetType().Name;
-            loggerLog.LogDebug($"正在关闭{handlerName}");
-            _isClose = true;
+            LoggerLog.LogDebug($"正在关闭{handlerName}");
             while (_isClearTimerExecution) { }
             _messageBuffer.Complete();
             await _messageBuffer.Completion;
             _handlerDataBuffer.Complete();
             await _handlerDataBuffer.Completion;
-            loggerLog.LogDebug($"已关闭{handlerName}");
+            LoggerLog.LogDebug($"已关闭{handlerName}");
         }
     }
 }

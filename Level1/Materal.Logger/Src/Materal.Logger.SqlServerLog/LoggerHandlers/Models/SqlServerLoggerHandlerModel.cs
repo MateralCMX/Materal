@@ -22,7 +22,7 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <summary>
         /// 构造方法
         /// </summary>
-        public SqlServerLoggerHandlerModel(LoggerRuleConfigModel rule, SqlServerLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig, ILoggerLog loggerLog) : base(rule, target, model, loggerConfig, loggerLog)
+        public SqlServerLoggerHandlerModel(LoggerRuleConfigModel rule, SqlServerLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig) : base(rule, target, model)
         {
             ConnectionString = LoggerHandlerHelper.FormatPath(loggerConfig, target.ConnectionString, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
             TableName = LoggerHandlerHelper.FormatText(loggerConfig, target.TableName, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);

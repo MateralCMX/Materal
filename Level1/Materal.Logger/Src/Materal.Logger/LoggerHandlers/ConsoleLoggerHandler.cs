@@ -1,7 +1,6 @@
 ﻿using Materal.Logger.LoggerHandlers.Models;
 using Materal.Logger.Models;
 using Materal.Utils.Model;
-using System;
 using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger.LoggerHandlers
@@ -15,7 +14,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 构造方法
         /// </summary>
-        public ConsoleLoggerHandler()
+        public ConsoleLoggerHandler(LoggerRuntime loggerRuntime, ConsoleLoggerTargetConfigModel target) : base(loggerRuntime, target)
         {
             _writeBuffer = new(WriteMessage);
         }
@@ -25,13 +24,11 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="rule"></param>
         /// <param name="target"></param>
         /// <param name="model"></param>
-        /// <param name="config"></param>
-        /// <param name="loggerLog"></param>
-        protected override void Handler(LoggerRuleConfigModel rule, ConsoleLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig config, ILoggerLog loggerLog)
+        protected override void Handler(LoggerRuleConfigModel rule, ConsoleLoggerTargetConfigModel target, LoggerHandlerModel model)
         {
             try
             {
-                string writeMessage = LoggerHandlerHelper.FormatMessage(config, target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
+                string writeMessage = LoggerHandlerHelper.FormatMessage(Config, target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
                 ConsoleColor color = target.Colors.GetConsoleColor(model.LogLevel);
                 _writeBuffer.Post(new ConsoleMessageModel
                 {
@@ -41,7 +38,7 @@ namespace Materal.Logger.LoggerHandlers
             }
             catch (Exception exception)
             {
-                loggerLog.LogError($"输出控制台日志[{model.ID}]失败", exception);
+                LoggerLog.LogError($"输出控制台日志[{model.ID}]失败", exception);
             }
         }
         /// <summary>
@@ -65,14 +62,13 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 关闭
         /// </summary>
-        /// <param name="loggerLog"></param>
         /// <returns></returns>
-        public override async Task ShutdownAsync(ILoggerLog loggerLog)
+        public override async Task ShutdownAsync()
         {
-            loggerLog.LogDebug($"正在关闭ConsoleLoggerHandler");
+            LoggerLog.LogDebug($"正在关闭ConsoleLoggerHandler");
             _writeBuffer.Complete();
             await _writeBuffer.Completion;
-            loggerLog.LogDebug($"已关闭ConsoleLoggerHandler");
+            LoggerLog.LogDebug($"已关闭ConsoleLoggerHandler");
         }
     }
 }

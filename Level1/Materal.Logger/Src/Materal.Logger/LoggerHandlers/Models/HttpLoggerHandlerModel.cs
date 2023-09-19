@@ -21,14 +21,9 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// </summary>
         public string Data { get; set; }
         /// <summary>
-        /// Http日志处理器模型
+        /// 构造方法
         /// </summary>
-        /// <param name="rule"></param>
-        /// <param name="target"></param>
-        /// <param name="model"></param>
-        /// <param name="loggerConfig"></param>
-        /// <param name="loggerLog"></param>
-        public HttpLoggerHandlerModel(LoggerRuleConfigModel rule, HttpLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig, ILoggerLog loggerLog) : base(rule, target, model, loggerConfig, loggerLog)
+        public HttpLoggerHandlerModel(LoggerRuleConfigModel rule, HttpLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig) : base(rule, target, model)
         {
             Url = LoggerHandlerHelper.FormatPath(loggerConfig, target.Url, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
             HttpMethod = target.GetHttpMethod();

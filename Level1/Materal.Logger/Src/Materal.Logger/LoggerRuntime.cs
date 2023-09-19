@@ -11,27 +11,33 @@ namespace Materal.Logger
     public class LoggerRuntime
     {
         /// <summary>
+        /// 日志处理数据流块
+        /// </summary>
+        private readonly ActionBlock<LoggerHandlerModel> _actionBlock;
+        /// <summary>
         /// 处理器集合
         /// </summary>
         private readonly List<ILoggerHandler> _handlers = new();
         /// <summary>
         /// 日志已关闭
         /// </summary>
-        public bool _isClose = false;
+        public bool IsClose { get; private set; } = false;
         /// <summary>
-        /// 日志处理数据流块
+        /// 日志配置
         /// </summary>
-        private readonly ActionBlock<LoggerHandlerModel> _actionBlock;
-        private readonly LoggerConfig _loggerConfig;
-        private readonly ILoggerLog _loggerLog;
+        public LoggerConfig Config { get; private set; }
+        /// <summary>
+        /// 日志自身日志
+        /// </summary>
+        public ILoggerLog LoggerLog { get; private set; }
         /// <summary>
         /// 构造方法
         /// </summary>
         public LoggerRuntime(LoggerConfig loggerConfig, ILoggerLog loggerLog)
         {
             _actionBlock = new(HandlerLog);
-            _loggerConfig = loggerConfig;
-            _loggerLog = loggerLog;
+            Config = loggerConfig;
+            LoggerLog = loggerLog;
         }
         /// <summary>
         /// 添加一个处理器
@@ -39,7 +45,7 @@ namespace Materal.Logger
         /// <param name="config"></param>
         public void AddHandler(LoggerTargetConfigModel config)
         {
-            ILoggerHandler loggerHandler = config.GetLoggerHandler();
+            ILoggerHandler loggerHandler = config.GetLoggerHandler(this);
             AddHandler(loggerHandler);
         }
         /// <summary>
@@ -57,7 +63,7 @@ namespace Materal.Logger
         /// <param name="model"></param>
         public void Handler(LoggerHandlerModel model)
         {
-            if (_isClose) return;
+            if (IsClose) return;
             _actionBlock.Post(model);
         }
         /// <summary>
@@ -67,25 +73,25 @@ namespace Materal.Logger
         private void HandlerLog(LoggerHandlerModel model)
         {
             if (_handlers is null || _handlers.Count <= 0) return;
-            Parallel.ForEach(_handlers, handler => handler.Handler(model, _loggerConfig, _loggerLog));
+            Parallel.ForEach(_handlers, handler => handler.Handler(model));
         }
         /// <summary>
         /// 关闭
         /// </summary>
         public async Task ShutdownAsync()
         {
-            _isClose = true;
-            if (_loggerConfig.Mode == LoggerModeEnum.Normal) return;
-            _loggerLog.LogInfomation($"正在关闭MateralLogger");
+            IsClose = true;
+            if (Config.Mode == LoggerModeEnum.Normal) return;
+            LoggerLog.LogInfomation($"正在关闭MateralLogger");
             if (_handlers is null) return;
             _actionBlock.Complete();
             await _actionBlock.Completion;
             foreach (ILoggerHandler handler in _handlers)
             {
-                await handler.ShutdownAsync(_loggerLog);
+                await handler.ShutdownAsync();
             }
-            _loggerLog.LogInfomation($"已关闭MateralLogger");
-            await _loggerLog.ShutdownAsync();
+            LoggerLog.LogInfomation($"已关闭MateralLogger");
+            await LoggerLog.ShutdownAsync();
         }
     }
 }

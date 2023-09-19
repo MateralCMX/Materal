@@ -26,8 +26,7 @@ namespace Materal.Logger.LoggerHandlers.Models
         /// <param name="target"></param>
         /// <param name="model"></param>
         /// <param name="loggerConfig"></param>
-        /// <param name="loggerLog"></param>
-        public SqliteLoggerHandlerModel(LoggerRuleConfigModel rule, SqliteLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig, ILoggerLog loggerLog) : base(rule, target, model, loggerConfig, loggerLog)
+        public SqliteLoggerHandlerModel(LoggerRuleConfigModel rule, SqliteLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig) : base(rule, target, model)
         {
             Path = LoggerHandlerHelper.FormatPath(loggerConfig, target.Path, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);
             TableName = LoggerHandlerHelper.FormatText(loggerConfig, target.TableName, model.LogLevel, model.CategoryName, model.Scope, model.CreateTime, model.ThreadID);

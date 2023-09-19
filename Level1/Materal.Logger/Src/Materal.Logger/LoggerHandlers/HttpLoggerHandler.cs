@@ -13,9 +13,9 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="bufferPushInterval"></param>
-        /// <param name="bufferCount"></param>
-        public HttpLoggerHandler(int bufferPushInterval, int bufferCount) : base(bufferPushInterval, bufferCount)
+        /// <param name="loggerRuntime"></param>
+        /// <param name="target"></param>
+        public HttpLoggerHandler(LoggerRuntime loggerRuntime, HttpLoggerTargetConfigModel target) : base(loggerRuntime, target)
         {
             _httpHelper = new HttpHelper();
         }
@@ -26,7 +26,6 @@ namespace Materal.Logger.LoggerHandlers
         protected override void HandlerData(HttpLoggerHandlerModel[] datas)
         {
             IGrouping<string, HttpLoggerHandlerModel>[] models = datas.GroupBy(m => m.Url).ToArray();
-            ILoggerLog loggerLog = datas.GetLoggerLog();
             Parallel.ForEach(models, item =>
             {
                 try
@@ -36,7 +35,7 @@ namespace Materal.Logger.LoggerHandlers
                     {
                         case "GET":
                         case "DELETE":
-                            loggerLog.LogWarning("Http日志处理器不支持GET和DELETE方法");
+                            LoggerLog.LogWarning("Http日志处理器不支持GET和DELETE方法");
                             //_httpHelper.SendAsync($"{model.Url}?{data}", model.HttpMethod).Wait();
                             break;
                         default:
@@ -47,7 +46,7 @@ namespace Materal.Logger.LoggerHandlers
                 }
                 catch (Exception exception)
                 {
-                    loggerLog.LogError($"发送Http日志[{item.Key}]失败", exception);
+                    LoggerLog.LogError($"发送Http日志[{item.Key}]失败", exception);
                 }
             });
         }

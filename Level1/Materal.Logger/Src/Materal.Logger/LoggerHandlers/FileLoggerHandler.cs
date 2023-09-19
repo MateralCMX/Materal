@@ -12,9 +12,9 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="bufferPushInterval"></param>
-        /// <param name="bufferCount"></param>
-        public FileLoggerHandler(int bufferPushInterval, int bufferCount) : base(bufferPushInterval, bufferCount)
+        /// <param name="loggerRuntime"></param>
+        /// <param name="target"></param>
+        public FileLoggerHandler(LoggerRuntime loggerRuntime, FileLoggerTargetConfigModel target) : base(loggerRuntime, target)
         {
         }
         /// <summary>
@@ -24,7 +24,6 @@ namespace Materal.Logger.LoggerHandlers
         protected override void HandlerData(FileLoggerHandlerModel[] datas)
         {
             IGrouping<string, FileLoggerHandlerModel>[] fileModels = datas.GroupBy(m => m.Path).ToArray();
-            ILoggerLog loggerLog = datas.GetLoggerLog();
             Parallel.ForEach(fileModels, item =>
             {
                 try
@@ -43,7 +42,7 @@ namespace Materal.Logger.LoggerHandlers
                 }
                 catch (Exception exception)
                 {
-                    loggerLog.LogError($"保存日志文件[{item.Key}]失败", exception);
+                    LoggerLog.LogError($"保存日志文件[{item.Key}]失败", exception);
                 }
             });
         }
