@@ -18,9 +18,10 @@ namespace Materal.Logger
         /// <param name="services"></param>
         /// <param name="options"></param>
         /// <param name="configuration"></param>
+        /// <param name="getLoggerLog"></param>
         /// <param name="assemblies"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfigOptions>? options = null, IConfiguration? configuration = null, params Assembly[] assemblies)
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfigOptions>? options = null, IConfiguration? configuration = null, Func<LoggerConfig, ILoggerLog>? getLoggerLog = null, params Assembly[] assemblies)
         {
             services.AddLogging(builder =>
             {
@@ -51,7 +52,7 @@ namespace Materal.Logger
                 }
             }
             LoggerConfig config = new(configModels, options, configuration);
-            ILoggerLog loggerLog = new ConsoleLoggerLog(config);
+            ILoggerLog loggerLog = getLoggerLog is null ? new ConsoleLoggerLog(config) : getLoggerLog(config);
             LoggerRuntime loggerRuntime = new(config, loggerLog);
             services.AddSingleton(loggerLog);
             services.AddSingleton(config);
@@ -68,28 +69,21 @@ namespace Materal.Logger
         /// </summary>
         /// <param name="services"></param>
         /// <param name="options"></param>
+        /// <param name="getLoggerLog"></param>
         /// <param name="assemblies"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration configuration, Action<LoggerConfigOptions> options, params Assembly[] assemblies)
-            => AddMateralLogger(services, options, configuration, assemblies);
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration configuration, Action<LoggerConfigOptions> options, Func<LoggerConfig, ILoggerLog>? getLoggerLog = null, params Assembly[] assemblies)
+            => AddMateralLogger(services, options, configuration, getLoggerLog, assemblies);
         /// <summary>
         /// 添加日志服务
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
+        /// <param name="getLoggerLog"></param>
         /// <param name="assemblies"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration configuration, params Assembly[] assemblies)
-            => AddMateralLogger(services, null, configuration, assemblies);
-        /// <summary>
-        /// 添加日志服务
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="options"></param>
-        /// <param name="assemblies"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfigOptions> options, params Assembly[] assemblies)
-            => AddMateralLogger(services, options, null, assemblies);
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration configuration, Func<LoggerConfig, ILoggerLog>? getLoggerLog = null, params Assembly[] assemblies)
+            => AddMateralLogger(services, null, configuration, getLoggerLog, assemblies);
     }
 }
