@@ -15,7 +15,7 @@ namespace Materal.Logger.Models
         /// 获得日志处理器
         /// </summary>
         /// <param name="loggerRuntime"></param>
-        public override ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime) => new SqliteLoggerHandler(loggerRuntime, this);
+        public override ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime) => new SqliteLoggerHandler(loggerRuntime);
         private string _path = "C:\\MateralLogger\\SqliteLogger.db";
         /// <summary>
         /// 路径

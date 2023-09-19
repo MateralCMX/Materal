@@ -51,6 +51,14 @@ namespace Materal.Logger
         /// </summary>
         public LoggerModeEnum Mode => GetValueObject(nameof(Mode), LoggerModeEnum.Strict);
         /// <summary>
+        /// 缓冲推入间隔(ms)
+        /// </summary>
+        public int BufferPushInterval => GetValueObject(nameof(BufferPushInterval), 1000, value => value >= 500);
+        /// <summary>
+        /// 缓冲区数量
+        /// </summary>
+        public int BufferCount => GetValueObject(nameof(BufferCount), 2000, value => value > 2);
+        /// <summary>
         /// 默认日志等级组
         /// </summary>
         public Dictionary<string, LogLevel> DefaultLogLevels => GetValueObject("LogLevel", name =>

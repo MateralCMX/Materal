@@ -12,9 +12,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="loggerRuntime"></param>
-        /// <param name="target"></param>
-        public SqlServerLoggerHandler(LoggerRuntime loggerRuntime, SqlServerLoggerTargetConfigModel target) : base(loggerRuntime, target)
+        public SqlServerLoggerHandler(LoggerRuntime loggerRuntime) : base(loggerRuntime)
         {
         }
         /// <summary>

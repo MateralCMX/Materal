@@ -15,7 +15,7 @@ namespace Materal.Logger.Models
         /// 获得日志处理器
         /// </summary>
         /// <paramref name="loggerRuntime"></paramref>
-        public override ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime) => new SqlServerLoggerHandler(loggerRuntime, this);
+        public override ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime) => new SqlServerLoggerHandler(loggerRuntime);
         private string _connectionString = "Data Source=.;Initial Catalog=LogDB;Persist Security Info=True;User ID=sa;Password=123456";
         /// <summary>
         /// 连接字符串

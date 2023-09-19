@@ -12,9 +12,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="loggerRuntime"></param>
-        /// <param name="target"></param>
-        public FileLoggerHandler(LoggerRuntime loggerRuntime, FileLoggerTargetConfigModel target) : base(loggerRuntime, target)
+        public FileLoggerHandler(LoggerRuntime loggerRuntime) : base(loggerRuntime)
         {
         }
         /// <summary>

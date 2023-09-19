@@ -38,10 +38,10 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 构造方法
         /// </summary>
-        protected BufferLoggerHandler(LoggerRuntime loggerRuntime, T2 target) : base(loggerRuntime, target)
+        protected BufferLoggerHandler(LoggerRuntime loggerRuntime) : base(loggerRuntime)
         {
-            _bufferPushInterval = target.BufferPushInterval;
-            _bufferCount = target.BufferCount < 2 ? 2 : target.BufferCount;
+            _bufferPushInterval = Config.BufferPushInterval;
+            _bufferCount = Config.BufferCount;
             _handlerDataBuffer = new(HandlerData);
             _messageBuffer = GetNewBatchBlock();
             ClearTimer = new(ClearTimerElapsed);

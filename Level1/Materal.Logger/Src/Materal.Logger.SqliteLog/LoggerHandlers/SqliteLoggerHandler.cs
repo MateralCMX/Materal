@@ -12,7 +12,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 构造方法
         /// </summary>
-        public SqliteLoggerHandler(LoggerRuntime loggerRuntime, SqliteLoggerTargetConfigModel target) : base(loggerRuntime, target)
+        public SqliteLoggerHandler(LoggerRuntime loggerRuntime) : base(loggerRuntime)
         {
         }
         /// <summary>

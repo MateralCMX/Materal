@@ -15,16 +15,14 @@ namespace Materal.Logger
         /// <param name="path"></param>
         /// <param name="tableName"></param>
         /// <param name="fileds"></param>
-        /// <param name="bufferPishInterval"></param>
-        /// <param name="bufferCount"></param>
-        public static LoggerConfigOptions AddSqliteTargetFromPath(this LoggerConfigOptions loggerConfigOptions, string name, string path, string? tableName = null, List<SqliteDBFiled>? fileds = null, int? bufferPishInterval = null, int? bufferCount = null)
+        public static LoggerConfigOptions AddSqliteTargetFromPath(this LoggerConfigOptions loggerConfigOptions, string name, string path, string? tableName = null, List<SqliteDBFiled>? fileds = null)
         {
             SqliteLoggerTargetConfigModel target = new()
             {
                 Name = name,
                 Path = path
             };
-            return loggerConfigOptions.AddSqliteTarget(target, name, tableName, fileds, bufferPishInterval, bufferCount);
+            return loggerConfigOptions.AddSqliteTarget(target, name, tableName, fileds);
         }
         /// <summary>
         /// 添加一个Sqlite输出[链接字符串]
@@ -34,16 +32,14 @@ namespace Materal.Logger
         /// <param name="connectionString"></param>
         /// <param name="tableName"></param>
         /// <param name="fileds"></param>
-        /// <param name="bufferPishInterval"></param>
-        /// <param name="bufferCount"></param>
-        public static LoggerConfigOptions AddSqliteTargetFromConnectionString(this LoggerConfigOptions loggerConfigOptions, string name, string connectionString, string? tableName = null, List<SqliteDBFiled>? fileds = null, int? bufferPishInterval = null, int? bufferCount = null)
+        public static LoggerConfigOptions AddSqliteTargetFromConnectionString(this LoggerConfigOptions loggerConfigOptions, string name, string connectionString, string? tableName = null, List<SqliteDBFiled>? fileds = null)
         {
             SqliteLoggerTargetConfigModel target = new()
             {
                 Name = name,
                 ConnectionString = connectionString,
             };
-            return loggerConfigOptions.AddSqliteTarget(target, name, tableName, fileds, bufferPishInterval, bufferCount);
+            return loggerConfigOptions.AddSqliteTarget(target, name, tableName, fileds);
         }
         /// <summary>
         /// 添加一个Sqlite输出
@@ -64,10 +60,8 @@ namespace Materal.Logger
         /// <param name="name"></param>
         /// <param name="tableName"></param>
         /// <param name="fileds"></param>
-        /// <param name="bufferPishInterval"></param>
-        /// <param name="bufferCount"></param>
         /// <returns></returns>
-        private static LoggerConfigOptions AddSqliteTarget(this LoggerConfigOptions loggerConfigOptions, SqliteLoggerTargetConfigModel target, string name, string? tableName = null, List<SqliteDBFiled>? fileds = null, int? bufferPishInterval = null, int? bufferCount = null)
+        private static LoggerConfigOptions AddSqliteTarget(this LoggerConfigOptions loggerConfigOptions, SqliteLoggerTargetConfigModel target, string name, string? tableName = null, List<SqliteDBFiled>? fileds = null)
         {
             target.Name = name;
             if(tableName is not null && !string.IsNullOrWhiteSpace(tableName))
@@ -77,14 +71,6 @@ namespace Materal.Logger
             if (fileds is not null && fileds.Count > 0)
             {
                 target.Fileds = fileds;
-            }
-            if (bufferPishInterval is not null)
-            {
-                target.BufferPushInterval = bufferPishInterval.Value;
-            }
-            if (bufferCount is not null)
-            {
-                target.BufferCount = bufferCount.Value;
             }
             return loggerConfigOptions.AddSqliteTarget(target);
         }

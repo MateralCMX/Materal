@@ -90,15 +90,10 @@ namespace Materal.Logger.LoggerHandlers
         where T : LoggerTargetConfigModel
     {
         /// <summary>
-        /// 目标配置
-        /// </summary>
-        protected T TargetConfig { get; private set; }
-        /// <summary>
         /// 构造方法
         /// </summary>
-        protected LoggerHandler(LoggerRuntime loggerRuntime, T targetConfig) : base(loggerRuntime)
+        protected LoggerHandler(LoggerRuntime loggerRuntime) : base(loggerRuntime)
         {
-            TargetConfig = targetConfig;
         }
         /// <summary>
         /// 处理

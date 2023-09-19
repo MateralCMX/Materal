@@ -14,7 +14,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 构造方法
         /// </summary>
-        public ConsoleLoggerHandler(LoggerRuntime loggerRuntime, ConsoleLoggerTargetConfigModel target) : base(loggerRuntime, target)
+        public ConsoleLoggerHandler(LoggerRuntime loggerRuntime) : base(loggerRuntime)
         {
             _writeBuffer = new(WriteMessage);
         }

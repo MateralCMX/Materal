@@ -13,9 +13,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="loggerRuntime"></param>
-        /// <param name="target"></param>
-        public HttpLoggerHandler(LoggerRuntime loggerRuntime, HttpLoggerTargetConfigModel target) : base(loggerRuntime, target)
+        public HttpLoggerHandler(LoggerRuntime loggerRuntime) : base(loggerRuntime)
         {
             _httpHelper = new HttpHelper();
         }

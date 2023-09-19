@@ -183,9 +183,7 @@ namespace Materal.Logger
         /// <param name="name"></param>
         /// <param name="path"></param>
         /// <param name="format"></param>
-        /// <param name="bufferPishInterval"></param>
-        /// <param name="bufferCount"></param>
-        public LoggerConfigOptions AddFileTarget(string name, string path, string? format = null, int? bufferPishInterval = null, int? bufferCount = null)
+        public LoggerConfigOptions AddFileTarget(string name, string path, string? format = null)
         {
             FileLoggerTargetConfigModel target = new()
             {
@@ -195,14 +193,6 @@ namespace Materal.Logger
             if (format is not null && !string.IsNullOrWhiteSpace(format))
             {
                 target.Format = format;
-            }
-            if (bufferPishInterval is not null)
-            {
-                target.BufferPushInterval = bufferPishInterval.Value;
-            }
-            if (bufferCount is not null)
-            {
-                target.BufferCount = bufferCount.Value;
             }
             AddTarget(target);
             return this;
@@ -214,9 +204,7 @@ namespace Materal.Logger
         /// <param name="url"></param>
         /// <param name="httpMethod"></param>
         /// <param name="format"></param>
-        /// <param name="bufferPishInterval"></param>
-        /// <param name="bufferCount"></param>
-        public LoggerConfigOptions AddHttpTarget(string name, string url, HttpMethod? httpMethod = null, string? format = null, int? bufferPishInterval = null, int? bufferCount = null)
+        public LoggerConfigOptions AddHttpTarget(string name, string url, HttpMethod? httpMethod = null, string? format = null)
         {
             HttpLoggerTargetConfigModel target = new()
             {
@@ -230,14 +218,6 @@ namespace Materal.Logger
             if (format is not null && !string.IsNullOrWhiteSpace(format))
             {
                 target.Format = format;
-            }
-            if (bufferPishInterval is not null)
-            {
-                target.BufferPushInterval = bufferPishInterval.Value;
-            }
-            if (bufferCount is not null)
-            {
-                target.BufferCount = bufferCount.Value;
             }
             AddTarget(target);
             return this;

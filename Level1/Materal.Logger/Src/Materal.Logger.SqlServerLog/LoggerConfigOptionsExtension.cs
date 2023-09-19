@@ -15,9 +15,7 @@ namespace Materal.Logger
         /// <param name="connectionString"></param>
         /// <param name="tableName"></param>
         /// <param name="fileds"></param>
-        /// <param name="bufferPishInterval"></param>
-        /// <param name="bufferCount"></param>
-        public static LoggerConfigOptions AddSqlServerTarget(this LoggerConfigOptions loggerConfigOptions, string name, string connectionString, string? tableName = null, List<SqlServerDBFiled>? fileds = null, int? bufferPishInterval = null, int? bufferCount = null)
+        public static LoggerConfigOptions AddSqlServerTarget(this LoggerConfigOptions loggerConfigOptions, string name, string connectionString, string? tableName = null, List<SqlServerDBFiled>? fileds = null)
         {
             SqlServerLoggerTargetConfigModel target = new()
             {
@@ -31,14 +29,6 @@ namespace Materal.Logger
             if (fileds is not null && fileds.Count > 0)
             {
                 target.Fileds = fileds;
-            }
-            if (bufferPishInterval is not null)
-            {
-                target.BufferPushInterval = bufferPishInterval.Value;
-            }
-            if (bufferCount is not null)
-            {
-                target.BufferCount = bufferCount.Value;
             }
             loggerConfigOptions.AddTarget(target);
             return loggerConfigOptions;
