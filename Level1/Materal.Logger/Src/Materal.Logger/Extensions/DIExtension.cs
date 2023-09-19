@@ -51,7 +51,7 @@ namespace Materal.Logger
                 }
             }
             LoggerConfig config = new(configModels, options, configuration);
-            LoggerLog loggerLog = new(config);
+            ILoggerLog loggerLog = new ConsoleLoggerLog(config);
             LoggerRuntime loggerRuntime = new(config, loggerLog);
             services.AddSingleton(loggerLog);
             services.AddSingleton(config);

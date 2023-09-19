@@ -1,6 +1,7 @@
 ﻿using Materal.Logger.LoggerHandlers.Models;
 using Materal.Logger.Models;
 using Materal.Utils.Model;
+using System;
 using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger.LoggerHandlers
@@ -26,15 +27,22 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="model"></param>
         /// <param name="config"></param>
         /// <param name="loggerLog"></param>
-        protected override void Handler(LoggerRuleConfigModel rule, ConsoleLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig config, LoggerLog loggerLog)
+        protected override void Handler(LoggerRuleConfigModel rule, ConsoleLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig config, ILoggerLog loggerLog)
         {
-            string writeMessage = LoggerHandlerHelper.FormatMessage(config, target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, Guid.NewGuid());
-            ConsoleColor color = target.Colors.GetConsoleColor(model.LogLevel);
-            _writeBuffer.Post(new ConsoleMessageModel
+            try
             {
-                Color = color,
-                Message = writeMessage
-            });
+                string writeMessage = LoggerHandlerHelper.FormatMessage(config, target.Format, model.LogLevel, model.Message, model.CategoryName, model.Scope, model.CreateTime, model.Exception, model.ThreadID, model.ID);
+                ConsoleColor color = target.Colors.GetConsoleColor(model.LogLevel);
+                _writeBuffer.Post(new ConsoleMessageModel
+                {
+                    Color = color,
+                    Message = writeMessage
+                });
+            }
+            catch (Exception exception)
+            {
+                loggerLog.LogError($"输出控制台日志[{model.ID}]失败", exception);
+            }
         }
         /// <summary>
         /// 输出消息
@@ -59,7 +67,7 @@ namespace Materal.Logger.LoggerHandlers
         /// </summary>
         /// <param name="loggerLog"></param>
         /// <returns></returns>
-        public override async Task ShutdownAsync(LoggerLog loggerLog)
+        public override async Task ShutdownAsync(ILoggerLog loggerLog)
         {
             loggerLog.LogDebug($"正在关闭ConsoleLoggerHandler");
             _writeBuffer.Complete();

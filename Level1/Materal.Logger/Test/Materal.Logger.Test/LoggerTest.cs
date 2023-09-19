@@ -8,7 +8,7 @@ namespace Materal.Logger.Test
     public class LoggerTest
     {
         private readonly IConfiguration _configuration;
-        private const string _textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}";
+        private const string _textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}\r\n${LogID}";
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -26,33 +26,19 @@ namespace Materal.Logger.Test
         public async Task WriteConsoleLogTestAsync()
             => await WriteLogAsync(option => option.AddConsoleTarget("ConsoleLogger", _textFormat));
         /// <summary>
-        /// 写控制台日志2
+        /// 写文件日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
-        public async Task WriteConsoleLogTest2Async()
-            => await WriteLogAsync(option => option.AddConsoleTarget("ConsoleLogger", _textFormat));
+        public async Task WriteFileLogTestAsync()
+            => await WriteLogAsync(option => option.AddFileTarget("FileLogger", "Logs/${Level}.log", _textFormat));
         /// <summary>
-        /// 写控制台日志3
+        /// 写Http日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
-        public async Task WriteConsoleLogTest3Async()
-            => await WriteLogAsync(option => option.AddConsoleTarget("ConsoleLogger", _textFormat));
-        ///// <summary>
-        ///// 写文件日志
-        ///// </summary>
-        ///// <returns></returns>
-        //[TestMethod]
-        //public async Task WriteFileLogTestAsync()
-        //    => await WriteLogAsync(option => option.AddFileTarget("FileLogger", "Logs/${Level}.log", _textFormat));
-        ///// <summary>
-        ///// 写Http日志
-        ///// </summary>
-        ///// <returns></returns>
-        //[TestMethod]
-        //public async Task WriteHttpLogTestAsync()
-        //    => await WriteLogAsync(option => option.AddHttpTarget("HttpLogger", "http://localhost:5000/api/Log/Write${Level}", HttpMethod.Post));
+        public async Task WriteHttpLogTestAsync()
+            => await WriteLogAsync(option => option.AddHttpTarget("HttpLogger", "http://localhost:5000/api/Log/Write${Level}", HttpMethod.Post));
         /// <summary>
         /// 写日志
         /// </summary>

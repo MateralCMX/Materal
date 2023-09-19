@@ -14,6 +14,10 @@ namespace Materal.Logger.Models
         /// </summary>
         public bool Enable { get; set; } = true;
         /// <summary>
+        /// 名称
+        /// </summary>
+        public string Name { get; set; } = "规则";
+        /// <summary>
         /// 最小等级
         /// </summary>
         public LogLevel MinLevel { get; set; } = LogLevel.Trace;

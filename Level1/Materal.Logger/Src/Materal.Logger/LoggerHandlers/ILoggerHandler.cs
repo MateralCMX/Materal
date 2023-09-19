@@ -13,11 +13,11 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="model"></param>
         /// <param name="loggerConfig"></param>
         /// <param name="loggerLog"></param>
-        void Handler(LoggerHandlerModel model, LoggerConfig loggerConfig, LoggerLog loggerLog);
+        void Handler(LoggerHandlerModel model, LoggerConfig loggerConfig, ILoggerLog loggerLog);
         /// <summary>
         /// 关闭
         /// </summary>
         /// <param name="loggerLog"></param>
-        Task ShutdownAsync(LoggerLog loggerLog);
+        Task ShutdownAsync(ILoggerLog loggerLog);
     }
 }

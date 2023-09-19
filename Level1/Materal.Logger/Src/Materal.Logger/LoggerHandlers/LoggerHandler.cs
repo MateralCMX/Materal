@@ -15,13 +15,13 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="model"></param>
         /// <param name="config"></param>
         /// <param name="loggerLog"></param>
-        public abstract void Handler(LoggerHandlerModel model, LoggerConfig config, LoggerLog loggerLog);
+        public abstract void Handler(LoggerHandlerModel model, LoggerConfig config, ILoggerLog loggerLog);
         /// <summary>
         /// 关闭
         /// </summary>
         /// <param name="loggerLog"></param>
         /// <returns></returns>
-        public virtual Task ShutdownAsync(LoggerLog loggerLog) => Task.CompletedTask;
+        public virtual Task ShutdownAsync(ILoggerLog loggerLog) => Task.CompletedTask;
         /// <summary>
         /// 是否运行
         /// </summary>
@@ -76,9 +76,8 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="config"></param>
         /// <param name="loggerLog"></param>
         /// <returns></returns>
-        public override void Handler(LoggerHandlerModel model, LoggerConfig config, LoggerLog loggerLog)
+        public override void Handler(LoggerHandlerModel model, LoggerConfig config, ILoggerLog loggerLog)
         {
-            loggerLog.LogDebug("正在处理日志");
             List<T> trueTargets = config.GetAllTargets<T>();
             Handler(model, config, trueTargets, loggerLog);
         }
@@ -90,7 +89,7 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="targets"></param>
         /// <param name="loggerLog"></param>
         /// <returns></returns>
-        public void Handler(LoggerHandlerModel model, LoggerConfig config, List<T> targets, LoggerLog loggerLog)
+        public void Handler(LoggerHandlerModel model, LoggerConfig config, List<T> targets, ILoggerLog loggerLog)
         {
             Dictionary<string, LogLevel> defaultLogLevels = config.DefaultLogLevels;
             foreach (LoggerRuleConfigModel rule in config.Rules)
@@ -100,6 +99,7 @@ namespace Materal.Logger.LoggerHandlers
                 {
                     T? target = targets.FirstOrDefault(m => m.Name == targetName && m.Enable);
                     if (target is null) continue;
+                    loggerLog.LogDebug($"正在处理日志:{rule.Name}->{targetName}->{model.ID}");
                     Handler(rule, target, model, config, loggerLog);
                 }
             }
@@ -112,6 +112,6 @@ namespace Materal.Logger.LoggerHandlers
         /// <param name="model"></param>
         /// <param name="config"></param>
         /// <param name="loggerLog"></param>
-        protected abstract void Handler(LoggerRuleConfigModel rule, T target, LoggerHandlerModel model, LoggerConfig config, LoggerLog loggerLog);
+        protected abstract void Handler(LoggerRuleConfigModel rule, T target, LoggerHandlerModel model, LoggerConfig config, ILoggerLog loggerLog);
     }
 }

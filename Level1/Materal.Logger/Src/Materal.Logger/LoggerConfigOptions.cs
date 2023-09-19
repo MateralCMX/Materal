@@ -83,11 +83,12 @@ namespace Materal.Logger
         /// <summary>
         /// 添加一个规则
         /// </summary>
+        /// <param name="name"></param>
         /// <param name="targets"></param>
         /// <param name="minLevel"></param>
         /// <param name="maxLevel"></param>
         /// <param name="loglevels"></param>
-        public LoggerConfigOptions AddRule(IEnumerable<string> targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
+        public LoggerConfigOptions AddRule(string name, IEnumerable<string> targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
         {
             if (targets.Count() <= 0) throw new LoggerException("至少需要一个目标");
             minLevel ??= LogLevel.Information;
@@ -98,6 +99,7 @@ namespace Materal.Logger
             }
             LoggerRuleConfigModel rule = new()
             {
+                Name = name,
                 Targets = targets.ToList(),
                 MinLevel = minLevel.Value,
                 MaxLevel = maxLevel.Value,
@@ -109,28 +111,39 @@ namespace Materal.Logger
         /// <summary>
         /// 添加一个规则
         /// </summary>
+        /// <param name="name"></param>
         /// <param name="targets"></param>
         /// <param name="minLevel"></param>
         /// <param name="maxLevel"></param>
         /// <param name="loglevels"></param>
-        public LoggerConfigOptions AddRule(string targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
-            => AddRule(new string[] { targets }, minLevel, maxLevel, loglevels);
+        public LoggerConfigOptions AddRule(string name, string targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
+            => AddRule(name, new string[] { targets }, minLevel, maxLevel, loglevels);
         /// <summary>
         /// 添加一个全目标规则
         /// </summary>
+        /// <param name="name"></param>
         /// <param name="minLevel"></param>
         /// <param name="maxLevel"></param>
         /// <param name="loglevels"></param>
-        public LoggerConfigOptions AddAllTargetRule(LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
+        public LoggerConfigOptions AddAllTargetRule(string name = "全目标规则", LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
         {
             _addAllTargetRule = (loggerConfig) =>
             {
                 List<string> targets = new();
                 loggerConfig.Targets.ForEach(m => targets.Add(m.Name));
-                AddRule(targets, minLevel, maxLevel, loglevels);
+                AddRule(name, targets, minLevel, maxLevel, loglevels);
             };
             return this;
         }
+        /// <summary>
+        /// 添加一个全目标规则
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="minLevel"></param>
+        /// <param name="maxLevel"></param>
+        /// <param name="loglevels"></param>
+        public LoggerConfigOptions AddAllTargetRule(LogLevel? minLevel, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null) 
+            => AddAllTargetRule("全目标规则", minLevel, maxLevel, loglevels);
         /// <summary>
         /// 添加一个目标
         /// </summary>
@@ -166,50 +179,50 @@ namespace Materal.Logger
             AddTarget(target);
             return this;
         }
-        ///// <summary>
-        ///// 添加一个文件输出
-        ///// </summary>
-        ///// <param name="name"></param>
-        ///// <param name="path"></param>
-        ///// <param name="format"></param>
-        //public LoggerConfigOptions AddFileTarget(string name, string path, string? format = null)
-        //{
-        //    FileLoggerTargetConfigModel target = new()
-        //    {
-        //        Name = name,
-        //        Path = path
-        //    };
-        //    if (format is not null && !string.IsNullOrWhiteSpace(format))
-        //    {
-        //        target.Format = format;
-        //    }
-        //    AddTarget(target);
-        //    return this;
-        //}
-        ///// <summary>
-        ///// 添加一个Http输出
-        ///// </summary>
-        ///// <param name="name"></param>
-        ///// <param name="url"></param>
-        ///// <param name="httpMethod"></param>
-        ///// <param name="format"></param>
-        //public LoggerConfigOptions AddHttpTarget(string name, string url, HttpMethod? httpMethod = null, string? format = null)
-        //{
-        //    HttpLoggerTargetConfigModel target = new()
-        //    {
-        //        Name = name,
-        //        Url = url
-        //    };
-        //    if (httpMethod is not null)
-        //    {
-        //        target.HttpMethod = httpMethod.Method;
-        //    }
-        //    if (format is not null && !string.IsNullOrWhiteSpace(format))
-        //    {
-        //        target.Format = format;
-        //    }
-        //    AddTarget(target);
-        //    return this;
-        //}
+        /// <summary>
+        /// 添加一个文件输出
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="path"></param>
+        /// <param name="format"></param>
+        public LoggerConfigOptions AddFileTarget(string name, string path, string? format = null)
+        {
+            FileLoggerTargetConfigModel target = new()
+            {
+                Name = name,
+                Path = path
+            };
+            if (format is not null && !string.IsNullOrWhiteSpace(format))
+            {
+                target.Format = format;
+            }
+            AddTarget(target);
+            return this;
+        }
+        /// <summary>
+        /// 添加一个Http输出
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="url"></param>
+        /// <param name="httpMethod"></param>
+        /// <param name="format"></param>
+        public LoggerConfigOptions AddHttpTarget(string name, string url, HttpMethod? httpMethod = null, string? format = null)
+        {
+            HttpLoggerTargetConfigModel target = new()
+            {
+                Name = name,
+                Url = url
+            };
+            if (httpMethod is not null)
+            {
+                target.HttpMethod = httpMethod.Method;
+            }
+            if (format is not null && !string.IsNullOrWhiteSpace(format))
+            {
+                target.Format = format;
+            }
+            AddTarget(target);
+            return this;
+        }
     }
 }

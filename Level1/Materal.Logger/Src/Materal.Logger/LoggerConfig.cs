@@ -14,7 +14,7 @@ namespace Materal.Logger
         /// <summary>
         /// 本地配置项
         /// </summary>
-        private IConfiguration? _config;
+        private readonly IConfiguration? _config;
         /// <summary>
         /// 日志配置选项
         /// </summary>
@@ -50,14 +50,6 @@ namespace Materal.Logger
         /// 模式
         /// </summary>
         public LoggerModeEnum Mode => GetValueObject(nameof(Mode), LoggerModeEnum.Strict);
-        /// <summary>
-        /// 缓冲推入间隔(ms)
-        /// </summary>
-        public int BufferPushInterval => GetValueObject(nameof(BufferPushInterval), 1000, value => value >= 500);
-        /// <summary>
-        /// 缓冲区数量
-        /// </summary>
-        public int BufferCount => GetValueObject(nameof(BufferCount), 2000, value => value > 2);
         /// <summary>
         /// 默认日志等级组
         /// </summary>
@@ -138,7 +130,6 @@ namespace Materal.Logger
         /// <summary>
         /// 自定义配置
         /// </summary>
-
         public Dictionary<string, string> CustomConfig { get; private set; } = new();
         /// <summary>
         /// 获取配置项

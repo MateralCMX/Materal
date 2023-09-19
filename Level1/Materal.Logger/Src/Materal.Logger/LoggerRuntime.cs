@@ -17,17 +17,17 @@ namespace Materal.Logger
         /// <summary>
         /// 日志已关闭
         /// </summary>
-        public bool IsClose { get; private set; } = false;
+        public bool _isClose = false;
         /// <summary>
         /// 日志处理数据流块
         /// </summary>
         private readonly ActionBlock<LoggerHandlerModel> _actionBlock;
         private readonly LoggerConfig _loggerConfig;
-        private readonly LoggerLog _loggerLog;
+        private readonly ILoggerLog _loggerLog;
         /// <summary>
         /// 构造方法
         /// </summary>
-        public LoggerRuntime(LoggerConfig loggerConfig, LoggerLog loggerLog)
+        public LoggerRuntime(LoggerConfig loggerConfig, ILoggerLog loggerLog)
         {
             _actionBlock = new(HandlerLog);
             _loggerConfig = loggerConfig;
@@ -57,7 +57,7 @@ namespace Materal.Logger
         /// <param name="model"></param>
         public void Handler(LoggerHandlerModel model)
         {
-            if (IsClose) return;
+            if (_isClose) return;
             _actionBlock.Post(model);
         }
         /// <summary>
@@ -74,7 +74,7 @@ namespace Materal.Logger
         /// </summary>
         public async Task ShutdownAsync()
         {
-            IsClose = true;
+            _isClose = true;
             if (_loggerConfig.Mode == LoggerModeEnum.Normal) return;
             _loggerLog.LogInfomation($"正在关闭MateralLogger");
             if (_handlers is null) return;

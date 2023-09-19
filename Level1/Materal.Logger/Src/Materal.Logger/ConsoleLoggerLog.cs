@@ -1,5 +1,4 @@
-﻿using Materal.Utils;
-using Materal.Utils.Http;
+﻿using Materal.Utils.Http;
 using Materal.Utils.Model;
 using Microsoft.Extensions.Logging;
 using System.Text;
@@ -8,9 +7,9 @@ using System.Threading.Tasks.Dataflow;
 namespace Materal.Logger
 {
     /// <summary>
-    /// 日志对象日志
+    /// 控制台日志自身日志
     /// </summary>
-    public class LoggerLog
+    public class ConsoleLoggerLog : ILoggerLog
     {
         private readonly ActionBlock<ConsoleMessageModel> _writeBuffer;
         /// <summary>
@@ -26,7 +25,7 @@ namespace Materal.Logger
         /// 构造方法
         /// </summary>
         /// <param name="loggerConfig"></param>
-        public LoggerLog(LoggerConfig loggerConfig)
+        public ConsoleLoggerLog(LoggerConfig loggerConfig)
         {
             _writeBuffer = new(WriteMessage);
             _loggerConfig = loggerConfig;
@@ -41,24 +40,6 @@ namespace Materal.Logger
             await _writeBuffer.Completion;
         }
         /// <summary>
-        /// 输出消息
-        /// </summary>
-        /// <param name="model"></param>
-        private void WriteMessage(ConsoleMessageModel model)
-        {
-            ConsoleColor foregroundColor = Console.ForegroundColor;
-            Console.ForegroundColor = model.Color;
-            if (model.Args != null)
-            {
-                Console.WriteLine(model.Message, model.Args);
-            }
-            else
-            {
-                Console.WriteLine(model.Message);
-            }
-            Console.ForegroundColor = foregroundColor;
-        }
-        /// <summary>
         /// 写日志
         /// </summary>
         /// <param name="message"></param>
@@ -67,7 +48,7 @@ namespace Materal.Logger
         public void Log(string message, LogLevel logLevel, ConsoleColor consoleColor = ConsoleColor.Gray)
         {
             if (logLevel < MinLevel || logLevel > MaxLevel) return;
-            WriteMessage(new()
+            _writeBuffer.Post(new()
             {
                 Message = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}|LoggerLog|{logLevel}|{message}",
                 Color = consoleColor
@@ -128,6 +109,24 @@ namespace Materal.Logger
                 }
             }
             return messageBuild.ToString();
+        }
+        /// <summary>
+        /// 输出消息
+        /// </summary>
+        /// <param name="model"></param>
+        private void WriteMessage(ConsoleMessageModel model)
+        {
+            ConsoleColor foregroundColor = Console.ForegroundColor;
+            Console.ForegroundColor = model.Color;
+            if (model.Args != null)
+            {
+                Console.WriteLine(model.Message, model.Args);
+            }
+            else
+            {
+                Console.WriteLine(model.Message);
+            }
+            Console.ForegroundColor = foregroundColor;
         }
     }
 }
