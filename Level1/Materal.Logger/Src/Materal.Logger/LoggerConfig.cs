@@ -1,6 +1,8 @@
 ﻿using Materal.Logger.Models;
 using Microsoft.Extensions.Configuration;
-using System.Text.RegularExpressions;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace Materal.Logger
 {
@@ -16,147 +18,123 @@ namespace Materal.Logger
         /// <summary>
         /// 日志配置选项
         /// </summary>
-        private readonly LoggerConfigOptions _options = new();
+        private readonly LoggerConfigOptions _options;
         /// <summary>
         /// 根键
         /// </summary>
         private const string _rootKey = "MateralLogger";
-        ///// <summary>
-        ///// 配置模型类型
-        ///// </summary>
-        //private Dictionary<string, Type> ConfigModelTypes { get; set; } = new();
+        /// <summary>
+        /// 配置模型类型
+        /// </summary>
+        public Dictionary<string, Type> ConfigModelTypes { get; } = new();
         /// <summary>
         /// 构造方法
         /// </summary>
-        public LoggerConfig(Action<LoggerConfigOptions>? options, IConfiguration? configuration)
+        public LoggerConfig(List<LoggerTargetConfigModel> configModels, Action<LoggerConfigOptions>? options, IConfiguration? configuration)
         {
+            foreach (LoggerTargetConfigModel item in configModels)
+            {
+                if (ConfigModelTypes.ContainsKey(item.Type)) continue;
+                ConfigModelTypes.Add(item.Type, item.GetType());
+            }
             _config = configuration;
+            _options = new();
             options?.Invoke(_options);
+            _options.Init(this, CustomConfig);
         }
-        ///// <summary>
-        ///// 初始化
-        ///// </summary>
-        ///// <param name="configModels"></param>
-        ///// <param name="options"></param>
-        ///// <param name="configuration"></param>
-        //public void Init(List<LoggerTargetConfigModel> configModels, Action<LoggerConfigOptions>? options, IConfiguration? configuration)
-        //{
-        //    foreach (LoggerTargetConfigModel item in configModels)
-        //    {
-        //        if (ConfigModelTypes.ContainsKey(item.Type)) continue;
-        //        ILoggerHandler loggerHandler = item.GetLoggerHandler();
-        //        Logger.Handlers.Add(loggerHandler);
-        //        ConfigModelTypes.Add(item.Type, item.GetType());
-        //    }
-        //    _config = configuration;
-        //    options?.Invoke(_options);
-        //    _options.Init();
-        //}
-        ///// <summary>
-        ///// 应用程序名称
-        ///// </summary>
-        //public string Application => GetValue(nameof(Application), Assembly.GetEntryAssembly().GetName().Name);
+        /// <summary>
+        /// 应用程序名称
+        /// </summary>
+        public string Application => GetValue(nameof(Application), Assembly.GetEntryAssembly().GetName().Name);
         /// <summary>
         /// 模式
         /// </summary>
         public LoggerModeEnum Mode => GetValueObject(nameof(Mode), LoggerModeEnum.Strict);
-        ///// <summary>
-        ///// 缓冲推入间隔(ms)
-        ///// </summary>
-        //public int BufferPushInterval => GetValueObject(nameof(BufferPushInterval), 1000, value => value >= 500);
-        ///// <summary>
-        ///// 缓冲区数量
-        ///// </summary>
-        //public int BufferCount => GetValueObject(nameof(BufferCount), 2000, value => value > 2);
-        ///// <summary>
-        ///// 默认日志等级组
-        ///// </summary>
-        //public Dictionary<string, LogLevel> DefaultLogLevels => GetValueObject("LogLevel", name =>
-        //{
-        //    Dictionary<string, LogLevel> GetDefaultLogLevels() => new() { ["Default"] = LogLevel.Information };
-        //    if (_config is null) return GetDefaultLogLevels();
-        //    return _config.GetValueObject<Dictionary<string, LogLevel>>($"Logging:{name}") ?? GetDefaultLogLevels();
-        //});
-        ///// <summary>
-        ///// 目标配置
-        ///// </summary>
-        //public List<LoggerTargetConfigModel> Targets => GetAllTargets<LoggerTargetConfigModel>();
-        ///// <summary>
-        ///// 获得所有目标
-        ///// </summary>
-        ///// <returns></returns>
-        //public List<T> GetAllTargets<T>(bool onlyEnable = true)
-        //    where T : LoggerTargetConfigModel
-        //{
-        //    List<T> result = new();
-        //    #region 读取配置对象中的配置
-        //    string value = GetValue(nameof(Targets));
-        //    if (value is not null && !string.IsNullOrWhiteSpace(value) && value.IsArrayJson())
-        //    {
-        //        Type? targetType = typeof(T);
-        //        if (targetType == typeof(LoggerTargetConfigModel))
-        //        {
-        //            targetType = null;
-        //        }
-        //        JObject[] jObjs = value.JsonToDeserializeObject<JObject[]>();
-        //        foreach (JObject jObj in jObjs)
-        //        {
-        //            string? targetName = jObj.GetValue("Name")?.ToString();
-        //            if (targetName is null || string.IsNullOrWhiteSpace(targetName)) continue;
-        //            try
-        //            {
-        //                string? targetTypeName = jObj.GetValue("Type")?.ToString();
-        //                if (targetTypeName is null || string.IsNullOrWhiteSpace(targetTypeName) || !ConfigModelTypes.ContainsKey(targetTypeName)) continue;
-        //                Type configType = ConfigModelTypes[targetTypeName];
-        //                if (targetType is not null && targetType != configType) continue;
-        //                object? config = jObj.ToObject(configType);
-        //                if (config is null || config is not T targetConfig) continue;
-        //                if (onlyEnable && !targetConfig.Enable) continue;
-        //                result.Add(targetConfig);
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                LoggerLog.LogWarning($"获取目标配置[{targetName}]失败：\r\n{ex.GetErrorMessage()}");
-        //            }
-        //        }
-        //    }
-        //    #endregion
-        //    #region 读取手动配置中的配置
-        //    if (_options.Targets.Count > 0)
-        //    {
-        //        foreach (LoggerTargetConfigModel item in _options.Targets)
-        //        {
-        //            if (item is not T config) continue;
-        //            result.Add(config);
-        //        }
-        //    }
-        //    #endregion
-        //    return result;
-        //}
-        ///// <summary>
-        ///// 规则配置
-        ///// </summary>
-        //public List<LoggerRuleConfigModel> Rules
-        //{
-        //    get
-        //    {
-        //        List<LoggerRuleConfigModel> result = GetValueObject<List<LoggerRuleConfigModel>>(nameof(Rules));
-        //        if (_options.Rules.Count > 0)
-        //        {
-        //            result.AddRange(_options.Rules);
-        //        }
-        //        return result;
-        //    }
-        //}
+        /// <summary>
+        /// 缓冲推入间隔(ms)
+        /// </summary>
+        public int BufferPushInterval => GetValueObject(nameof(BufferPushInterval), 1000, value => value >= 500);
+        /// <summary>
+        /// 缓冲区数量
+        /// </summary>
+        public int BufferCount => GetValueObject(nameof(BufferCount), 2000, value => value > 2);
+        /// <summary>
+        /// 默认日志等级组
+        /// </summary>
+        public Dictionary<string, LogLevel> DefaultLogLevels => GetValueObject("LogLevel", name =>
+        {
+            static Dictionary<string, LogLevel> GetDefaultLogLevels() => new() { ["Default"] = LogLevel.Information };
+            if (_config is null) return GetDefaultLogLevels();
+            return _config.GetValueObject<Dictionary<string, LogLevel>>($"Logging:{name}") ?? GetDefaultLogLevels();
+        });
+        /// <summary>
+        /// 目标配置
+        /// </summary>
+        public List<LoggerTargetConfigModel> Targets => GetAllTargets<LoggerTargetConfigModel>();
+        /// <summary>
+        /// 获得所有目标
+        /// </summary>
+        /// <returns></returns>
+        public List<T> GetAllTargets<T>()
+            where T : LoggerTargetConfigModel
+        {
+            List<T> result = new();
+            #region 读取配置对象中的配置
+            string value = GetValue(nameof(Targets));
+            if (value is not null && !string.IsNullOrWhiteSpace(value) && value.IsArrayJson())
+            {
+                Type? targetType = typeof(T);
+                if (targetType == typeof(LoggerTargetConfigModel))
+                {
+                    targetType = null;
+                }
+                JObject[] jObjs = value.JsonToDeserializeObject<JObject[]>();
+                foreach (JObject jObj in jObjs)
+                {
+                    string? targetName = jObj.GetValue("Name")?.ToString();
+                    if (targetName is null || string.IsNullOrWhiteSpace(targetName)) continue;
+                    string? targetTypeName = jObj.GetValue("Type")?.ToString();
+                    if (targetTypeName is null || string.IsNullOrWhiteSpace(targetTypeName) || !ConfigModelTypes.ContainsKey(targetTypeName)) continue;
+                    Type configType = ConfigModelTypes[targetTypeName];
+                    if (targetType is not null && targetType != configType) continue;
+                    object? config = jObj.ToObject(configType);
+                    if (config is null || config is not T targetConfig) continue;
+                    if (!targetConfig.Enable) continue;
+                    result.Add(targetConfig);
+                }
+            }
+            #endregion
+            #region 读取手动配置中的配置
+            if (_options.Targets.Count > 0)
+            {
+                foreach (LoggerTargetConfigModel item in _options.Targets)
+                {
+                    if (!item.Enable || item is not T config) continue;
+                    result.Add(config);
+                }
+            }
+            #endregion
+            return result;
+        }
+        /// <summary>
+        /// 规则配置
+        /// </summary>
+        public List<LoggerRuleConfigModel> Rules
+        {
+            get
+            {
+                List<LoggerRuleConfigModel> result = GetValueObject<List<LoggerRuleConfigModel>>(nameof(Rules));
+                if (_options.Rules.Count > 0)
+                {
+                    result.AddRange(_options.Rules);
+                }
+                return result;
+            }
+        }
         /// <summary>
         /// 日志日志等级配置
         /// </summary>
         public LoggerLogLevelConfigModel LoggerLogLevel => GetValueObject(nameof(LoggerLogLevel), name => _options.LoggerLogLevel ?? new LoggerLogLevelConfigModel());
-        /// <summary>
-        /// 自定义数据
-        /// </summary>
-
-        public Dictionary<string, string> CustomData { get; private set; } = new();
         /// <summary>
         /// 自定义配置
         /// </summary>

@@ -13,7 +13,7 @@ namespace Materal.Logger
         /// <summary>
         /// 处理器集合
         /// </summary>
-        public static List<ILoggerHandler> Handlers { get; } = new();
+        private readonly List<ILoggerHandler> _handlers = new();
         /// <summary>
         /// 日志已关闭
         /// </summary>
@@ -34,19 +34,40 @@ namespace Materal.Logger
             _loggerLog = loggerLog;
         }
         /// <summary>
+        /// 添加一个处理器
+        /// </summary>
+        /// <param name="config"></param>
+        public void AddHandler(LoggerTargetConfigModel config)
+        {
+            ILoggerHandler loggerHandler = config.GetLoggerHandler();
+            AddHandler(loggerHandler);
+        }
+        /// <summary>
+        /// 添加一个处理器
+        /// </summary>
+        /// <param name="loggerHandler"></param>
+        private void AddHandler(ILoggerHandler loggerHandler)
+        {
+            if (_handlers.Contains(loggerHandler)) return;
+            _handlers.Add(loggerHandler);
+        }
+        /// <summary>
         /// 处理日志
         /// </summary>
         /// <param name="model"></param>
-        public void Handler(LoggerHandlerModel model) => _actionBlock.Post(model);
+        public void Handler(LoggerHandlerModel model)
+        {
+            if (IsClose) return;
+            _actionBlock.Post(model);
+        }
         /// <summary>
         /// 处理日志
         /// </summary>
         /// <param name="model"></param>
         private void HandlerLog(LoggerHandlerModel model)
         {
-            Console.WriteLine(1234);
-            //if (Handlers is null || Handlers.Count <= 0 || IsClose) return;
-            //Parallel.ForEach(Handlers, handler => handler.Handler(model));
+            if (_handlers is null || _handlers.Count <= 0) return;
+            Parallel.ForEach(_handlers, handler => handler.Handler(model, _loggerConfig, _loggerLog));
         }
         /// <summary>
         /// 关闭
@@ -56,18 +77,15 @@ namespace Materal.Logger
             IsClose = true;
             if (_loggerConfig.Mode == LoggerModeEnum.Normal) return;
             _loggerLog.LogInfomation($"正在关闭MateralLogger");
-            if (Handlers is null) return;
+            if (_handlers is null) return;
             _actionBlock.Complete();
             await _actionBlock.Completion;
-            foreach (ILoggerHandler handler in Handlers)
+            foreach (ILoggerHandler handler in _handlers)
             {
-                string handlerName = handler.GetType().Name;
-                _loggerLog.LogDebug($"正在关闭{handlerName}");
-                await handler.ShutdownAsync();
-                _loggerLog.LogDebug($"已关闭{handlerName}");
+                await handler.ShutdownAsync(_loggerLog);
             }
             _loggerLog.LogInfomation($"已关闭MateralLogger");
-            await Task.CompletedTask;
+            await _loggerLog.ShutdownAsync();
         }
     }
 }

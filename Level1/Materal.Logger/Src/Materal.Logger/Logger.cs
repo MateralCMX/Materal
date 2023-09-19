@@ -15,7 +15,7 @@ namespace Materal.Logger
         /// 分类名称
         /// </summary>
         private readonly string? _categoryName;
-        private readonly LoggerRuntime _loggerHelper;
+        private readonly LoggerRuntime _loggerRuntime;
         /// <summary>
         /// 日志域
         /// </summary>
@@ -25,7 +25,7 @@ namespace Materal.Logger
         /// </summary>
         public Logger(string categoryName, IServiceProvider serviceProvider)
         {
-            _loggerHelper = serviceProvider.GetRequiredService<LoggerRuntime>();
+            _loggerRuntime = serviceProvider.GetRequiredService<LoggerRuntime>();
             if (string.IsNullOrWhiteSpace(categoryName)) return;
             _categoryName = categoryName;
         }
@@ -139,7 +139,7 @@ namespace Materal.Logger
                 }
                 model.Scope ??= new LoggerScope(_loggerScope.ScopeName);
             }
-            _loggerHelper.Handler(model);
+            _loggerRuntime.Handler(model);
         }
     }
 }

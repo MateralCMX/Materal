@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Materal.Logger.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -27,11 +28,6 @@ namespace Materal.Logger
             });
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
-            LoggerConfig config = new(options, configuration);
-            services.AddSingleton(config);
-            services.AddSingleton<LoggerRuntime>();
-            services.AddSingleton<LoggerLog>();
-            #region 检测LoggerHandler
             const string assembliyName = "Materal.Logger";
             List<Assembly> targetAssemblies = assemblies.ToList();
             targetAssemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName is not null && m.FullName.StartsWith(assembliyName)));
@@ -44,22 +40,27 @@ namespace Materal.Logger
                 Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
                 targetAssemblies.Add(assembly);
             }
-            //List<LoggerTargetConfigModel> configModels = new();
-            //foreach (Assembly assembly in targetAssemblies)
-            //{
-            //    Type[] configTypes = assembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<LoggerTargetConfigModel>()).ToArray();
-            //    foreach (Type configType in configTypes)
-            //    {
-            //        LoggerTargetConfigModel config = configType.Instantiation<LoggerTargetConfigModel>();
-            //        configModels.Add(config);
-            //    }
-            //}
-            //LoggerConfig.Init(configModels, options, configuration);
-            //foreach (LoggerTargetConfigModel configModel in configModels)
-            //{
-            //    configModel.OnLoggerServiceReady();
-            //}
-            #endregion
+            List<LoggerTargetConfigModel> configModels = new();
+            foreach (Assembly assembly in targetAssemblies)
+            {
+                Type[] configTypes = assembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<LoggerTargetConfigModel>()).ToArray();
+                foreach (Type configType in configTypes)
+                {
+                    LoggerTargetConfigModel targetConfig = configType.Instantiation<LoggerTargetConfigModel>();
+                    configModels.Add(targetConfig);
+                }
+            }
+            LoggerConfig config = new(configModels, options, configuration);
+            LoggerLog loggerLog = new(config);
+            LoggerRuntime loggerRuntime = new(config, loggerLog);
+            services.AddSingleton(loggerLog);
+            services.AddSingleton(config);
+            services.AddSingleton(loggerRuntime);
+            foreach (LoggerTargetConfigModel configModel in configModels)
+            {
+                loggerRuntime.AddHandler(configModel);
+                configModel.OnLoggerServiceReady();
+            }
             return services;
         }
         /// <summary>

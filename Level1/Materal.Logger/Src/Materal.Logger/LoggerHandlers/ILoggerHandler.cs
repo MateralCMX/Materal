@@ -11,25 +11,13 @@ namespace Materal.Logger.LoggerHandlers
         /// 处理
         /// </summary>
         /// <param name="model"></param>
-        void Handler(LoggerHandlerModel model);
+        /// <param name="loggerConfig"></param>
+        /// <param name="loggerLog"></param>
+        void Handler(LoggerHandlerModel model, LoggerConfig loggerConfig, LoggerLog loggerLog);
         /// <summary>
         /// 关闭
         /// </summary>
-        Task ShutdownAsync();
+        /// <param name="loggerLog"></param>
+        Task ShutdownAsync(LoggerLog loggerLog);
     }
-    ///// <summary>
-    ///// 日志处理器
-    ///// </summary>
-    //public interface ILoggerHandler<T> : ILoggerHandler
-    //    where T : LoggerTargetConfigModel
-    //{
-    //    /// <summary>
-    //    /// 处理
-    //    /// </summary>
-    //    /// <param name="model"></param>
-    //    /// <param name="rules"></param>
-    //    /// <param name="targets"></param>
-    //    /// <param name="defaultLogLevels"></param>
-    //    void Handler(LoggerHandlerModel model, List<LoggerRuleConfigModel> rules, List<T> targets, Dictionary<string, LogLevel> defaultLogLevels);
-    //}
 }
