@@ -1,6 +1,6 @@
 ﻿using Materal.Logger.LoggerHandlers.Models;
 
-namespace Materal.Logger.Extensions
+namespace Materal.Logger
 {
     /// <summary>
     /// BufferLoggerHandlerModel扩展

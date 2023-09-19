@@ -7,17 +7,17 @@ namespace Materal.Logger.Test
     [TestClass]
     public class LoggerTest
     {
-        private readonly IConfiguration _configuration;
+        //private readonly IConfiguration _configuration;
         private const string _textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}\r\n${LogID}";
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public LoggerTest()
-        {
-            _configuration = new ConfigurationBuilder()
-                        .AddJsonFile("appsetting.json", optional: true, reloadOnChange: true)
-                        .Build();
-        }
+        ///// <summary>
+        ///// 构造方法
+        ///// </summary>
+        //public LoggerTest()
+        //{
+        //    _configuration = new ConfigurationBuilder()
+        //                .AddJsonFile("appsetting.json", optional: true, reloadOnChange: true)
+        //                .Build();
+        //}
         /// <summary>
         /// 写控制台日志
         /// </summary>
@@ -39,6 +39,13 @@ namespace Materal.Logger.Test
         [TestMethod]
         public async Task WriteHttpLogTestAsync()
             => await WriteLogAsync(option => option.AddHttpTarget("HttpLogger", "http://localhost:5000/api/Log/Write${Level}", HttpMethod.Post));
+        /// <summary>
+        /// 写Sqlite日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteSqliteLogTestAsync()
+            => await WriteLogAsync(option => option.AddSqliteTargetFromPath("SqliteLogger", "${RootPath}\\Logs\\MateralLogger.db", "${Level}Log"));
         /// <summary>
         /// 写日志
         /// </summary>

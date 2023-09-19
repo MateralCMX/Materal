@@ -99,7 +99,7 @@ namespace Materal.Logger.LoggerHandlers
                 {
                     T? target = targets.FirstOrDefault(m => m.Name == targetName && m.Enable);
                     if (target is null) continue;
-                    loggerLog.LogDebug($"正在处理日志:{rule.Name}->{targetName}->{model.ID}");
+                    loggerLog.LogDebug($"正在处理日志:{rule.Name}->{targetName}->{model.LogLevel}->{model.ID}");
                     Handler(rule, target, model, config, loggerLog);
                 }
             }

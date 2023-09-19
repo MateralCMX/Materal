@@ -1,5 +1,4 @@
-﻿using Materal.Logger.Extensions;
-using Materal.Logger.LoggerHandlers.Models;
+﻿using Materal.Logger.LoggerHandlers.Models;
 using Materal.Logger.Models;
 using Materal.Utils.Http;
 

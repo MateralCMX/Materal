@@ -7,53 +7,53 @@ namespace HttpLoggerServer.Controllers
     [Route("/api/[controller]/[action]")]
     public class LogController : ControllerBase
     {
-        public static int count = 0;
+        private static int _count;
         [HttpPost]
         public string WriteLog(List<LogModel> logModel)
         {
-            count += logModel.Count;
-            ConsoleQueue.WriteLine(count);
+            _count += logModel.Count;
+            ConsoleQueue.WriteLine(_count);
             return "OK";
         }
         [HttpPost]
         public string WriteTrace(List<LogModel> logModel)
         {
-            count += logModel.Count;
+            _count += logModel.Count;
             ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.DarkGray);
             return "OK";
         }
         [HttpPost]
         public string WriteDebug(List<LogModel> logModel)
         {
-            count += logModel.Count;
+            _count += logModel.Count;
             ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.DarkGreen);
             return "OK";
         }
         [HttpPost]
         public string WriteInformation(List<LogModel> logModel)
         {
-            count += logModel.Count;
+            _count += logModel.Count;
             ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.Gray);
             return "OK";
         }
         [HttpPost]
         public string WriteWarning(List<LogModel> logModel)
         {
-            count += logModel.Count;
+            _count += logModel.Count;
             ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.DarkYellow);
             return "OK";
         }
         [HttpPost]
         public string WriteError(List<LogModel> logModel)
         {
-            count += logModel.Count;
+            _count += logModel.Count;
             ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.DarkRed);
             return "OK";
         }
         [HttpPost]
         public string WriteCritical(List<LogModel> logModel)
         {
-            count += logModel.Count;
+            _count += logModel.Count;
             ConsoleQueue.WriteLine(logModel.ToJson(), ConsoleColor.Red);
             return "OK";
         }
