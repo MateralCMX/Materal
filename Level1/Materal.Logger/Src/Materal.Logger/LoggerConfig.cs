@@ -1,7 +1,9 @@
 ﻿using Materal.Logger.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Materal.Logger
@@ -30,8 +32,9 @@ namespace Materal.Logger
         /// <summary>
         /// 构造方法
         /// </summary>
-        public LoggerConfig(List<LoggerTargetConfigModel> configModels, Action<LoggerConfigOptions>? options, IConfiguration? configuration)
+        public LoggerConfig(List<LoggerTargetConfigModel> configModels, Action<LoggerConfigOptions>? options, IConfiguration? configuration, IServiceProvider serviceProvider)
         {
+            configuration ??= serviceProvider.GetRequiredService<IConfiguration>();
             foreach (LoggerTargetConfigModel item in configModels)
             {
                 if (ConfigModelTypes.ContainsKey(item.Type)) continue;
@@ -40,7 +43,7 @@ namespace Materal.Logger
             _config = configuration;
             _options = new();
             options?.Invoke(_options);
-            _options.Init(this);
+            _options.Init(this, serviceProvider);
         }
         /// <summary>
         /// 应用程序名称
@@ -49,7 +52,15 @@ namespace Materal.Logger
         /// <summary>
         /// 模式
         /// </summary>
-        public LoggerModeEnum Mode => GetValueObject(nameof(Mode), LoggerModeEnum.Strict);
+        public LoggerModeEnum Mode
+        {
+            get
+            {
+                LoggerModeEnum? result = GetValueObject<LoggerModeEnum?>(nameof(Mode));
+                if (result is null) return LoggerModeEnum.Strict;
+                return result.Value;
+            }
+        }
         /// <summary>
         /// 默认日志等级组
         /// </summary>
@@ -218,6 +229,16 @@ namespace Materal.Logger
                 result = defaultValue(name);
             }
             return result;
+        }
+        /// <summary>
+        /// 清空TraceListener
+        /// </summary>
+        public void ClearTraceListener()
+        {
+            foreach (TraceListener traceListener in _options.TraceListeners)
+            {
+                Trace.Listeners.Remove(traceListener);
+            }
         }
     }
 }

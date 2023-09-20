@@ -47,14 +47,12 @@ namespace Materal.Logger
             Parallel.ForEach(_handlers, handler => handler.OnLoggerServiceReady());
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
         }
-
         /// <summary>
         /// 应用程序退出时
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void CurrentDomain_ProcessExit(object sender, EventArgs e) => ShutdownAsync().Wait();
-
         /// <summary>
         /// 添加多个处理器
         /// </summary>
@@ -91,6 +89,7 @@ namespace Materal.Logger
         public async Task ShutdownAsync()
         {
             IsClose = true;
+            Config.ClearTraceListener();
             if (Config.Mode == LoggerModeEnum.Normal) return;
             LoggerLog.LogInfomation($"正在关闭MateralLogger");
             if (_handlers is null) return;

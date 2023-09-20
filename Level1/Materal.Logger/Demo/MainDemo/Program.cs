@@ -1,56 +1,23 @@
 ﻿using Materal.Logger;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace MainDemo
 {
-    public class Program
+    public partial class Program
     {
         public static void Main()
         {
-            IConfiguration configuration = new ConfigurationBuilder()
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .Build();
-            IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddMateralLogger(configuration, options =>
-            {
-                options.AddCustomConfig("ApplicationName", "MainDemo");
-                //const string textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}";
-                //Dictionary<LogLevel, ConsoleColor> colors = new() { [LogLevel.Debug] = ConsoleColor.Blue };
-                //options.AddConsoleTarget("LifeConsole", textFormat, colors);
-                //options.AddFileTarget("LevelFile", "${RootPath}\\Logs\\${Date}\\${Level}.log", textFormat);
-                //options.AddHttpTarget("HttpLog", "http://localhost:5000/api/Log/WriteLog", HttpMethod.Post, "{\"CreateTime\":\"${DateTime}\",\"Application\":\"${Application}\",\"Level\":\"${Level}\",\"Scope\":\"${Scope}\",\"CategoryName\":\"${CategoryName}\",\"MachineName\":\"${MachineName}\",\"ProgressID\":\"${ProgressID}\",\"ThreadID\":\"${ThreadID}\",\"Message\":\"${Message}\",\"Exception\":\"${Exception}\"}");
-                //options.AddSqliteTargetFromPath("LocalDB", "${RootPath}\\Logs\\MateralLogger.db");
-                //options.AddSqliteTargetFromConnectionString("LocalDB", "Data Source=${RootPath}\\Logs\\MateralLogger.db");
-                options.AddCustomConfig("LogDBConnectionString", "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;");
-                //options.AddSqlServerTarget("ServerDB", "${LogDBConnectionString}");
-                //options.AddWebSocketTarget("LocalWebSocket", 5002, textFormat, colors);
-                //options.AddAllTargetRule();
-            });
-            IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
-            ILoggerFactory loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
-            ILogger logger = serviceProvider.GetRequiredService<ILogger<Program>>();
             Random random = new();
+            Guid userID = Guid.NewGuid();
+            Console.WriteLine($"UserID={userID}");
             Console.WriteLine("按任意键开始测试");
             Console.ReadKey();
-            using IDisposable scope = logger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
+            using IDisposable scope = _logger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
             {
-                //["Application"] = "一个应用程序",
-                //["Level"] = "NewLevel",
-                ["UserID"] = Guid.NewGuid().ToString()
+                ["UserID"] = userID.ToString()
             }));
             while (true)
             {
-                #region 直接写日志
-                //logger.LogTrace($"Hello World!");
-                //logger.LogDebug($"Hello World!");
-                //logger.LogInformation($"Hello World!");
-                //logger.LogWarning($"Hello World!");
-                //logger.LogError($"Hello World!");
-                //logger.LogCritical($"Hello World!");
-                #endregion
-                #region 随机写日志
                 LogLevel logLevel = random.Next(0, 6) switch
                 {
                     0 => LogLevel.Trace,
@@ -61,43 +28,7 @@ namespace MainDemo
                     5 => LogLevel.Critical,
                     _ => throw new NotImplementedException()
                 };
-                logger.Log(logLevel, $"Hello World!");
-                #endregion
-                #region 写大量日志
-                //for (int i = 1; i <= 10000; i++)
-                //{
-                //    LogLevel logLevel = random.Next(0, 6) switch
-                //    {
-                //        0 => LogLevel.Trace,
-                //        1 => LogLevel.Debug,
-                //        2 => LogLevel.Information,
-                //        3 => LogLevel.Warning,
-                //        4 => LogLevel.Error,
-                //        5 => LogLevel.Critical,
-                //        _ => throw new NotImplementedException()
-                //    };
-                //    logger.Log(logLevel, $"Hello World!{i}");
-                //    //await Task.Delay(1000);
-                //    //logger.LogTrace( $"Hello World!{i}");
-                //}
-                //Console.WriteLine("输入完毕");
-                #endregion
-                #region 多线程日志
-                //for (int i = 0; i < 1000; i++)
-                //{
-                //    string index = i.ToString();
-                //    Task task = Task.Run(() =>
-                //    {
-                //        ILogger subLogger = loggerFactory.CreateLogger("NewThread");
-                //        using IDisposable scope2 = subLogger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
-                //        {
-                //            ["Index"] = index,
-                //            ["UserID"] = Guid.NewGuid().ToString()
-                //        }));
-                //        subLogger.LogDebug("Hello World![${Index}]");
-                //    });
-                //}
-                #endregion
+                _logger.Log(logLevel, $"Hello World!");
                 Console.ReadKey();
             }
         }

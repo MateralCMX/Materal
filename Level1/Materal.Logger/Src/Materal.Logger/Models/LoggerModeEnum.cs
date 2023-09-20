@@ -6,12 +6,12 @@
     public enum LoggerModeEnum
     {
         /// <summary>
-        /// 通常模式
-        /// </summary>
-        Normal = 0,
-        /// <summary>
         /// 严谨模式
         /// </summary>
-        Strict = 1,
+        Strict = 0,
+        /// <summary>
+        /// 通常模式
+        /// </summary>
+        Normal = 1,
     }
 }

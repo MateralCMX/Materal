@@ -1,5 +1,6 @@
 ﻿using Materal.Logger.Models;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace Materal.Logger
 {
@@ -30,10 +31,15 @@ namespace Materal.Logger
 
         private readonly Dictionary<string, string> _customConfig = new();
         /// <summary>
+        /// Trace监听器
+        /// </summary>
+        public List<TraceListener> TraceListeners { get; } = new();
+        /// <summary>
         /// 初始化
         /// </summary>
         /// <param name="loggerConfig"></param>
-        public void Init(LoggerConfig loggerConfig)
+        /// <param name="serviceProvider"></param>
+        public void Init(LoggerConfig loggerConfig, IServiceProvider serviceProvider)
         {
             foreach (KeyValuePair<string, string> item in _customConfig)
             {
@@ -46,6 +52,8 @@ namespace Materal.Logger
                     loggerConfig.CustomConfig.Add(item.Key, item.Value);
                 }
             }
+            TraceListeners.Add(new DebugTraceListener(serviceProvider));
+            Trace.Listeners.AddRange(TraceListeners.ToArray());
             _addAllTargetRule?.Invoke(loggerConfig);
         }
         /// <summary>
@@ -81,6 +89,16 @@ namespace Materal.Logger
             return this;
         }
         /// <summary>
+        /// 添加TraceListener
+        /// </summary>
+        /// <param name="traceListener"></param>
+        /// <returns></returns>
+        public LoggerConfigOptions AddTraceListener(TraceListener traceListener)
+        {
+            TraceListeners.Add(traceListener);
+            return this;
+        }
+        /// <summary>
         /// 添加一个规则
         /// </summary>
         /// <param name="name"></param>
@@ -90,7 +108,7 @@ namespace Materal.Logger
         /// <param name="loglevels"></param>
         public LoggerConfigOptions AddRule(string name, IEnumerable<string> targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
         {
-            if (targets.Count() <= 0) throw new LoggerException("至少需要一个目标");
+            if (targets.Count() <= 0) return this;
             minLevel ??= LogLevel.Information;
             maxLevel ??= LogLevel.Critical;
             if (loglevels is null || loglevels.Count <= 0)

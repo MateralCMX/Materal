@@ -51,7 +51,7 @@ namespace Materal.Logger
                     configModels.Add(targetConfig);
                 }
             }
-            services.TryAddSingleton(m => new LoggerConfig(configModels, options, configuration ?? m.GetService<IConfiguration>()));
+            services.TryAddSingleton(m => new LoggerConfig(configModels, options, configuration ?? m.GetService<IConfiguration>(), m));
             services.TryAddSingleton(m =>
             {
                 LoggerConfig config = m.GetRequiredService<LoggerConfig>();

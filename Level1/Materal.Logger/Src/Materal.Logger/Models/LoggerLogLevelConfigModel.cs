@@ -10,7 +10,7 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 最小等级
         /// </summary>
-        public LogLevel MinLevel { get; set; } = LogLevel.Trace;
+        public LogLevel MinLevel { get; set; } = LogLevel.Warning;
         /// <summary>
         /// 最大等级
         /// </summary>

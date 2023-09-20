@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
 
 namespace Materal.Logger.Test
 {
@@ -18,6 +20,29 @@ namespace Materal.Logger.Test
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .Build();
         }
+        /// <summary>
+        /// 写TraceListener日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteTraceListenerLogTestAsync()
+        {
+            IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddMateralLogger(option =>
+            {
+                option.AddTraceListener(new MyTraceListener());
+                option.SetLoggerLogLevel(LogLevel.Trace);
+            });
+            IServiceProvider services = serviceCollection.BuildServiceProvider();
+            LoggerRuntime loggerRuntime = services.GetRequiredService<LoggerRuntime>();
+            WriteLogs(services);
+            await loggerRuntime.ShutdownAsync();
+            Trace.WriteLine("[Trace]Hello World!");
+            Debug.WriteLine("[Debug]Hello World!");
+            await Task.Delay(5000);
+            await loggerRuntime.ShutdownAsync();
+        }
+
         /// <summary>
         /// 写控制台日志
         /// </summary>
