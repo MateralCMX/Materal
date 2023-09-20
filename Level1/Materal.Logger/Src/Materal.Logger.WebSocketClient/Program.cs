@@ -82,9 +82,9 @@ namespace Materal.Logger.WebSocketClient
                     if (message.IsJson())
                     {
                         LogMessageModel model = message.JsonToObject<LogMessageModel>();
-                        if (ignoreLogLevels.Count > 0 && ignoreLogLevels.Contains(model.LogLevel)) continue;
-                        if (targetLogLevels.Count > 0 && !targetLogLevels.Contains(model.LogLevel)) continue;
-                        ConsoleQueue.WriteLine(model.Message, model.Color);
+                        if (ignoreLogLevels.Count > 0 && ignoreLogLevels.Contains(model.Level)) continue;
+                        if (targetLogLevels.Count > 0 && !targetLogLevels.Contains(model.Level)) continue;
+                        ConsoleQueue.WriteLine(model.GetWriteMessage(), model.GetWriteMessageColor());
                     }
                     else
                     {
