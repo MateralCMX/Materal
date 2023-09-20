@@ -31,7 +31,7 @@ namespace Materal.Gateway.WebAPP
             #endregion
             #region DI
             IServiceCollection services = builder.Services;
-            services.AddMateralLogger(builder.Configuration);
+            services.AddMateralLogger();
             #region Blazor
             services.AddAntDesign();
             services.AddRazorPages();

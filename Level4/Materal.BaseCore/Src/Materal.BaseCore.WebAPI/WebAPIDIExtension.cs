@@ -37,7 +37,7 @@ namespace Materal.BaseCore.WebAPI
             services.AddMateralLogger(options =>
             {
                 options.AddCustomConfig("ApplicationName", WebAPIConfig.AppName);
-            }, MateralCoreConfig.Configuration);
+            });
             #region MVC
             IMvcBuilder mvcBuild = services.AddControllers(mvcOptions =>
             {

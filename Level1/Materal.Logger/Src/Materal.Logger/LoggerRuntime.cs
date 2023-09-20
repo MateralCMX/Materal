@@ -42,7 +42,19 @@ namespace Materal.Logger
         /// <summary>
         /// 日志服务准备就绪
         /// </summary>
-        public void OnLoggerServiceReady() => Parallel.ForEach(_handlers, handler => handler.OnLoggerServiceReady());
+        public void OnLoggerServiceReady()
+        {
+            Parallel.ForEach(_handlers, handler => handler.OnLoggerServiceReady());
+            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
+        }
+
+        /// <summary>
+        /// 应用程序退出时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CurrentDomain_ProcessExit(object sender, EventArgs e) => ShutdownAsync().Wait();
+
         /// <summary>
         /// 添加多个处理器
         /// </summary>

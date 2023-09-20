@@ -10,7 +10,7 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.58</Version>
+		<Version>1.1.59</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.SqlServerEFRepository</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -21,7 +21,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqlServerEFRepository" Version="1.1.58" />
+		<PackageReference Include="Materal.TTA.SqlServerEFRepository" Version="1.1.59" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />

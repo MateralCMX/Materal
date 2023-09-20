@@ -2,7 +2,6 @@
 using Materal.TTA.Common.Model;
 using MBC.Core.EFRepository;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
