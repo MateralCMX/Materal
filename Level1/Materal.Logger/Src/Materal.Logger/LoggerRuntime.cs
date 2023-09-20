@@ -89,18 +89,26 @@ namespace Materal.Logger
         public async Task ShutdownAsync()
         {
             IsClose = true;
-            Config.ClearTraceListener();
-            if (Config.Mode == LoggerModeEnum.Normal) return;
-            LoggerLog.LogInfomation($"正在关闭MateralLogger");
-            if (_handlers is null) return;
-            _actionBlock.Complete();
-            await _actionBlock.Completion;
-            foreach (ILoggerHandler handler in _handlers)
+            if (Config.Mode == LoggerModeEnum.Normal)
             {
-                await handler.ShutdownAsync();
+                Config.ClearTraceListener();
             }
-            LoggerLog.LogInfomation($"已关闭MateralLogger");
-            await LoggerLog.ShutdownAsync();
+            else
+            {
+                LoggerLog.LogInfomation($"正在关闭MateralLogger");
+                if (_handlers is not null)
+                {
+                    _actionBlock.Complete();
+                    await _actionBlock.Completion;
+                    foreach (ILoggerHandler handler in _handlers)
+                    {
+                        await handler.ShutdownAsync();
+                    }
+                    await LoggerLog.ShutdownAsync();
+                }
+                LoggerLog.LogInfomation($"已关闭MateralLogger");
+                Config.ClearTraceListener();
+            }
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Materal.Logger
         /// </summary>
         public LoggerConfig(List<LoggerTargetConfigModel> configModels, Action<LoggerConfigOptions>? options, IConfiguration? configuration, IServiceProvider serviceProvider)
         {
-            configuration ??= serviceProvider.GetRequiredService<IConfiguration>();
+            configuration ??= serviceProvider.GetService<IConfiguration>();
             foreach (LoggerTargetConfigModel item in configModels)
             {
                 if (ConfigModelTypes.ContainsKey(item.Type)) continue;

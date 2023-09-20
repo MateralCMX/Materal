@@ -30,7 +30,6 @@ namespace Materal.Logger.Test
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralLogger(option =>
             {
-                option.AddTraceListener(new MyTraceListener());
                 option.SetLoggerLogLevel(LogLevel.Trace);
             });
             IServiceProvider services = serviceCollection.BuildServiceProvider();
