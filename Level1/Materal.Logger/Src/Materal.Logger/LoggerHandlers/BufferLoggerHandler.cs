@@ -9,7 +9,7 @@ namespace Materal.Logger.LoggerHandlers
     /// </summary>
     public abstract class BufferLoggerHandler<T, T2> : LoggerHandler<T2>
         where T : BufferLoggerHandlerModel
-        where T2 : BufferLoggerTargetConfigModel
+        where T2 : LoggerTargetConfigModel
     {
         /// <summary>
         /// 消息缓冲区

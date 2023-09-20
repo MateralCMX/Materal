@@ -5,7 +5,7 @@ namespace Materal.Logger.Models
     /// <summary>
     /// SqlServer日志目标配置模型
     /// </summary>
-    public class SqlServerLoggerTargetConfigModel : BufferLoggerTargetConfigModel
+    public class SqlServerLoggerTargetConfigModel : LoggerTargetConfigModel
     {
         /// <summary>
         /// 类型

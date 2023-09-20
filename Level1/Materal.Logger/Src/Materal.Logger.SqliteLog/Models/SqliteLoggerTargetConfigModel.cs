@@ -5,7 +5,7 @@ namespace Materal.Logger.Models
     /// <summary>
     /// Sqlite日志目标配置模型
     /// </summary>
-    public class SqliteLoggerTargetConfigModel : BufferLoggerTargetConfigModel
+    public class SqliteLoggerTargetConfigModel : LoggerTargetConfigModel
     {
         /// <summary>
         /// 类型

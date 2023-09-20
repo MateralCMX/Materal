@@ -6,7 +6,7 @@ namespace Materal.Logger.Models
     /// <summary>
     /// Http日志目标配置模型
     /// </summary>
-    public class HttpLoggerTargetConfigModel : BufferLoggerTargetConfigModel
+    public class HttpLoggerTargetConfigModel : LoggerTargetConfigModel
     {
         /// <summary>
         /// 类型

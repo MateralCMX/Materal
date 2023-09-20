@@ -144,14 +144,6 @@ namespace Materal.Logger.LoggerHandlers
         public static string FormatPath(LoggerConfig loggerConfig, string path, LogLevel logLevel, string? categoryName, LoggerScope? scope, DateTime dateTime, string threadID)
         {
             string result = path;
-            if (scope is not null)
-            {
-                result = scope.HandlerText(result);
-            }
-            foreach (KeyValuePair<string, string> item in loggerConfig.CustomConfig)
-            {
-                result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);
-            }
             result = Regex.Replace(result, @"\$\{RootPath\}", RootPath);
             result = Regex.Replace(result, @"\$\{Date\}", dateTime.ToString("yyyyMMdd"));
             result = Regex.Replace(result, @"\$\{Year\}", dateTime.Year.ToString());
@@ -171,6 +163,14 @@ namespace Materal.Logger.LoggerHandlers
             result = Regex.Replace(result, @"\$\{ProgressID\}", progressID);
             result = Regex.Replace(result, @"\$\{ThreadID\}", threadID);
             result = Regex.Replace(result, @"\$\{MachineName\}", MachineName);
+            foreach (KeyValuePair<string, string> item in loggerConfig.CustomConfig)
+            {
+                result = Regex.Replace(result, $@"\${{{item.Key}}}", item.Value);
+            }
+            if (scope is not null)
+            {
+                result = scope.HandlerText(result);
+            }
             result = result.Trim();
             return result;
         }

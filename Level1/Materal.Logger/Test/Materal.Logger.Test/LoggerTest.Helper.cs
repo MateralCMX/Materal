@@ -39,6 +39,22 @@ namespace Materal.Logger.Test
                 WriteLogs(logger, "这是一条高级作用域日志消息[${UserID}]");
             }
         }
+        /// <summary>
+        /// 写循环日志
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="loopCount"></param>
+        /// <param name="interval"></param>
+        /// <returns></returns>
+        private static async Task WriteLoopLogsAsync(IServiceProvider services, int loopCount = 10, int interval = 1000)
+        {
+            ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
+            for (int i = 0; i < loopCount; i++)
+            {
+                await Task.Delay(interval);
+                WriteLogs(logger, $"这是一条循环日志[{i}]");
+            }
+        }
         ///// <summary>
         ///// 写大量日志
         ///// </summary>

@@ -5,7 +5,7 @@ namespace Materal.Logger.Models
     /// <summary>
     /// 文件日志目标配置模型
     /// </summary>
-    public class FileLoggerTargetConfigModel : BufferLoggerTargetConfigModel
+    public class FileLoggerTargetConfigModel : LoggerTargetConfigModel
     {
         /// <summary>
         /// 类型

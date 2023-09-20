@@ -32,17 +32,18 @@ namespace Materal.Logger
         /// <summary>
         /// 初始化
         /// </summary>
-        public void Init(LoggerConfig loggerConfig, Dictionary<string, string> customConfig)
+        /// <param name="loggerConfig"></param>
+        public void Init(LoggerConfig loggerConfig)
         {
             foreach (KeyValuePair<string, string> item in _customConfig)
             {
-                if (customConfig.ContainsKey(item.Key))
+                if (loggerConfig.CustomConfig.ContainsKey(item.Key))
                 {
-                    customConfig[item.Key] = item.Value;
+                    loggerConfig.CustomConfig[item.Key] = item.Value;
                 }
                 else
                 {
-                    customConfig.Add(item.Key, item.Value);
+                    loggerConfig.CustomConfig.Add(item.Key, item.Value);
                 }
             }
             _addAllTargetRule?.Invoke(loggerConfig);

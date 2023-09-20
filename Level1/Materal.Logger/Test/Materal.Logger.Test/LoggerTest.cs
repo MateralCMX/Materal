@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -6,17 +7,17 @@ namespace Materal.Logger.Test
     [TestClass]
     public partial class LoggerTest
     {
-        //private readonly IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private const string _textFormat = "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}";
-        ///// <summary>
-        ///// 构造方法
-        ///// </summary>
-        //public LoggerTest()
-        //{
-        //    _configuration = new ConfigurationBuilder()
-        //                .AddJsonFile("appsetting.json", optional: true, reloadOnChange: true)
-        //                .Build();
-        //}
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public LoggerTest()
+        {
+            _configuration = new ConfigurationBuilder()
+                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                        .Build();
+        }
         /// <summary>
         /// 写控制台日志
         /// </summary>
@@ -25,9 +26,7 @@ namespace Materal.Logger.Test
         public async Task WriteConsoleLogTestAsync()
             => await WriteLogAsync(option =>
             {
-                //option.AddConsoleTarget("ConsoleLogger", _textFormat);
-                option.AddConsoleTarget("ConsoleLogger1", _textFormat);
-                option.AddConsoleTarget("ConsoleLogger2", _textFormat);
+                option.AddConsoleTarget("ConsoleLogger", _textFormat);
             });
         /// <summary>
         /// 写文件日志
@@ -61,31 +60,63 @@ namespace Materal.Logger.Test
                 const string connectionString = "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;";
                 option.AddSqlServerTarget("SqlServerLogger", connectionString, "${Level}Log");
             });
-        ///// <summary>
-        ///// 写SqlServer日志
-        ///// </summary>
-        ///// <returns></returns>
-        //[TestMethod]
-        //public async Task WriteWebSocketLogTestAsync()
-        //    => await WriteLogAsync(option =>
-        //    {
-        //        const string connectionString = "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;";
-        //        option.AddWebSocketTarget("SqlServerLogger", connectionString, "${Level}Log");
-        //    });
         /// <summary>
-        /// 写日志
+        /// 写WebSocket日志
         /// </summary>
-        /// <param name="services"></param>
         /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        private static async Task WriteLogAsync(Action<LoggerConfigOptions> action)
+        [TestMethod]
+        public async Task WriteWebSocketLogTestAsync()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralLogger(option =>
             {
-                action(option);
+                option.AddWebSocketTarget("WebSocketLogger", 5002);
                 option.AddAllTargetRule(LogLevel.Trace);
-                option.SetLoggerLogLevel(LogLevel.Warning);
+                option.SetLoggerLogLevel(LogLevel.Trace);
+            });
+            IServiceProvider services = serviceCollection.BuildServiceProvider();
+            LoggerRuntime loggerRuntime = services.GetRequiredService<LoggerRuntime>();
+            await WriteLoopLogsAsync(services, 10, 1000);
+            await loggerRuntime.ShutdownAsync();
+        }
+        /// <summary>
+        /// 写配置文件日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteConfigFileLogTestAsync()
+        {
+            IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddSingleton(_configuration);
+            serviceCollection.AddMateralLogger(option =>
+            {
+                option.AddCustomConfig("ApplicationName", "MateralLoggerTest");
+            });
+            IServiceProvider services = serviceCollection.BuildServiceProvider();
+            LoggerRuntime loggerRuntime = services.GetRequiredService<LoggerRuntime>();
+            await WriteLoopLogsAsync(services, 10, 1000);
+            await loggerRuntime.ShutdownAsync();
+        }
+
+        /// <summary>
+        /// 写日志
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="loadConfigFile"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private async Task WriteLogAsync(Action<LoggerConfigOptions>? action, bool loadConfigFile = false)
+        {
+            IServiceCollection serviceCollection = new ServiceCollection();
+            if (loadConfigFile)
+            {
+                serviceCollection.AddSingleton(_configuration);
+            }
+            serviceCollection.AddMateralLogger(option =>
+            {
+                action?.Invoke(option);
+                option.AddAllTargetRule(LogLevel.Trace);
+                option.SetLoggerLogLevel(LogLevel.Trace);
             });
             IServiceProvider services = serviceCollection.BuildServiceProvider();
             LoggerRuntime loggerRuntime = services.GetRequiredService<LoggerRuntime>();
