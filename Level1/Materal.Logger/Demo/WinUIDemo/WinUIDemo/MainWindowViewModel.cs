@@ -36,18 +36,18 @@ namespace WinUIDemo
             }
             catch { }
         }
-        private void LoadLogContent(object? state) => DispatcherQueue?.TryEnqueue(() =>
+        private void LoadLogContent(object? state)
         {
-            try
+            DispatcherQueue?.TryEnqueue(() =>
             {
-                if (!File.Exists(_rootPath)) return;
-                LogContent = File.ReadAllText(_rootPath);
-            }
-            catch { }
-            finally
-            {
-                _timer.Change(TimeSpan.FromMilliseconds(100), Timeout.InfiniteTimeSpan);
-            }
-        });
+                try
+                {
+                    if (!File.Exists(_rootPath)) return;
+                    LogContent = File.ReadAllText(_rootPath);
+                }
+                catch { }
+            });
+            _timer.Change(TimeSpan.FromMilliseconds(100), Timeout.InfiniteTimeSpan);
+        }
     }
 }

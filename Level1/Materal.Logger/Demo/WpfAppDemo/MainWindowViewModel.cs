@@ -29,23 +29,23 @@ namespace WpfAppDemo
             {
                 if (!File.Exists(_rootPath)) return;
                 File.Delete(_rootPath);
-                Application.Current.Dispatcher.BeginInvoke(new Action(() => LogContent = string.Empty));
+                Application.Current?.Dispatcher.BeginInvoke(new Action(() => LogContent = string.Empty));
             }
             catch { }
         }
-        private void LoadLogContent(object? state) => Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        private void LoadLogContent(object? state)
         {
-            try
+            Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (!File.Exists(_rootPath)) return;
-                LogContent = File.ReadAllText(_rootPath);
-            }
-            catch { }
-            finally
-            {
-                _timer.Change(TimeSpan.FromMilliseconds(100), Timeout.InfiniteTimeSpan);
-            }
-        }));
+                try
+                {
+                    if (!File.Exists(_rootPath)) return;
+                    LogContent = File.ReadAllText(_rootPath);
+                }
+                catch { }
+            }));
+            _timer.Change(TimeSpan.FromMilliseconds(100), Timeout.InfiniteTimeSpan);
+        }
         [RelayCommand]
         private void WriteTraceLog() => _logger.LogTrace("Hello World!");
         [RelayCommand]

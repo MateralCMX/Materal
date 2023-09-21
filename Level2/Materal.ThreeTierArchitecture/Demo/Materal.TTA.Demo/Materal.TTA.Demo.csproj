@@ -7,7 +7,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="AspectCore.Extensions.DependencyInjection" Version="2.4.0" />
-		<PackageReference Include="Materal.Logger" Version="1.1.59" />
+		<PackageReference Include="Materal.Logger" Version="1.1.60" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.21">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
