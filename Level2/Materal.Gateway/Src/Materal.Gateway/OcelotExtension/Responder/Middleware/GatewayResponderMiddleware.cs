@@ -5,7 +5,9 @@ using Ocelot.Logging;
 using Ocelot.Middleware;
 using Ocelot.Request.Mapper;
 using Ocelot.Responder;
+using System.Net;
 using System.Net.Http;
+using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.Responder.Middleware
 {
@@ -43,6 +45,14 @@ namespace Materal.Gateway.OcelotExtension.Responder.Middleware
                 await _next(httpContext);
                 errors = httpContext.Items.Errors();
             }
+#if DEBUG
+            catch (Exception ex)
+            {
+                httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                httpContext.Response.ContentType = "text/plain; charset=utf-8";
+                await httpContext.Response.WriteAsync(ex.GetErrorMessage(), Encoding.UTF8);
+            }
+#else
             catch (Exception ex)
             {
                 errors.Add(new UnmappableRequestError(ex));
@@ -59,6 +69,7 @@ namespace Materal.Gateway.OcelotExtension.Responder.Middleware
                     await _responder.SetResponseOnHttpContext(httpContext, downstreamResponse);
                 }
             }
+#endif
         }
         /// <summary>
         /// …Ë÷√¥ÌŒÛœÏ”¶
