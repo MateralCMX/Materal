@@ -5,6 +5,7 @@
     /// </summary>
     public abstract class PageRequestModel : FilterModel
     {
+        private int pageSize = 10;
         /// <summary>
         /// 起始页码
         /// </summary>
@@ -16,7 +17,11 @@
         /// <summary>
         /// 显示数量
         /// </summary>
-        public int PageSize { get; set; } = 10;
+        public int PageSize
+        {
+            get => pageSize > 0 ? pageSize : 1;
+            set => pageSize = value;
+        }
         /// <summary>
         /// 跳过数量
         /// </summary>
