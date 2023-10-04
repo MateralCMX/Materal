@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Materal.BaseCore.Common;
-using Materal.TTA.Common;
+﻿using Materal.BaseCore.Common;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -20,6 +18,10 @@ namespace Materal.BaseCore.WebAPI.Filters
         /// 日志对象
         /// </summary>
         private readonly ILogger<ExceptionFilter> _logger;
+        /// <summary>
+        /// 自定义异常处理
+        /// </summary>
+        public static Func<Exception, ResultModel?>? CustomHandlerException { get; set; }
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -56,12 +58,22 @@ namespace Materal.BaseCore.WebAPI.Filters
         /// <returns></returns>
         private static ResultModel? HandlerException(Exception exception)
         {
-            if (exception is TTAException || 
-                exception is MateralCoreException || 
-                exception is ValidationException ||
-                exception is AutoMapperMappingException aex && aex.InnerException != null && aex.InnerException is MateralCoreException)
+            if(CustomHandlerException is not null)
             {
-                return ResultModel.Fail(exception.Message);
+                return CustomHandlerException?.Invoke(exception);
+            }
+            Exception? trueException = exception;
+            while (trueException is not null)
+            {
+                switch (trueException)
+                {
+                    case MateralCoreException:
+                    case ValidationException:
+                        return ResultModel.Fail(trueException.Message);
+                    default:
+                        trueException = trueException.InnerException;
+                        break;
+                }
             }
             return null;
         }
