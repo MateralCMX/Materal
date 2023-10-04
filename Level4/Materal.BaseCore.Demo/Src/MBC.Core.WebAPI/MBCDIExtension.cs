@@ -50,7 +50,7 @@ namespace MBC.Core.WebAPI
                         config.IncludeXmlComments(path);
                     }
                 }
-            }, null, Assembly.Load("MBC.Core.WebAPI"));
+            }, null, null, Assembly.Load("MBC.Core.WebAPI"));
             return services;
         }
     }
