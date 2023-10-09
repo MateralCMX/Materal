@@ -197,46 +197,12 @@ namespace Materal.Extensions.DependencyInjection
         {
             Type[] interfaceMethodParameterTypes = interfaceMethodInfo.GetParameters().Select(m => m.ParameterType).ToArray();
             MethodInfo? objMethodInfo = null;
-            MethodInfo[] methodInfos = objType.GetMethods().Where(m => m.Name == interfaceMethodInfo.Name).ToArray();
-            if (methodInfos.Length <= 0) return null;
-            foreach (MethodInfo methodInfo in methodInfos)
+            Type[] genericTypes = Array.Empty<Type>();
+            if (interfaceMethodInfo.IsGenericMethod)
             {
-                if (interfaceMethodInfo.IsGenericMethod != methodInfo.IsGenericMethod) continue;
-                ParameterInfo[] parameterInfos = methodInfo.GetParameters();
-                if (parameterInfos.Length != interfaceMethodParameterTypes.Length) continue;
-                bool parameterOK = true;
-                for (int i = 0; i < parameterInfos.Length; i++)
-                {
-                    if (parameterInfos[i].ParameterType != interfaceMethodParameterTypes[i])
-                    {
-                        parameterOK = false;
-                        break;
-                    }
-                }
-                if (!parameterOK) continue;
-                if (methodInfo.IsGenericMethod)
-                {
-                    Type[] genericTypes = methodInfo.GetGenericArguments();
-                    Type[] interfaceGenericTypes = interfaceMethodInfo.GetGenericArguments();
-                    if (genericTypes.Length != interfaceGenericTypes.Length) continue;
-                    for (int i = 0; i < genericTypes.Length; i++)
-                    {
-                        if (genericTypes[i].FullName is not null || interfaceGenericTypes[i].FullName is not null || genericTypes[i].Name != interfaceGenericTypes[i].Name || genericTypes[i].FullName != interfaceGenericTypes[i].FullName)
-                        {
-                            parameterOK = false;
-                            break;
-                        }
-                    }
-                    if (!parameterOK) continue;
-                    objMethodInfo = methodInfo.MakeGenericMethod(genericTypes);
-                    break;
-                }
-                else
-                {
-                    objMethodInfo = methodInfo;
-                    break;
-                }
+                genericTypes = interfaceMethodInfo.GetGenericArguments();
             }
+            objMethodInfo = InterceptorHelper.GetMethodInfo(objType, interfaceMethodInfo.Name, interfaceMethodParameterTypes, genericTypes);
             if (objMethodInfo is null) return null;
             MethodAttributes methodAttributes = MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final;
             MethodBuilder methodBuilder = typeBuilder.DefineMethod(interfaceMethodInfo.Name, methodAttributes, interfaceMethodInfo.ReturnType, interfaceMethodParameterTypes);
@@ -286,7 +252,6 @@ namespace Materal.Extensions.DependencyInjection
             }
             else
             {
-                Type[] genericTypes = interfaceMethodInfo.GetGenericArguments();
                 ilGenerator.Emit(OpCodes.Ldc_I4, genericTypes.Length);
                 ilGenerator.Emit(OpCodes.Newarr, typeof(Type));
                 for (int i = 0; i < genericTypes.Length; i++)
@@ -300,12 +265,12 @@ namespace Materal.Extensions.DependencyInjection
             }
             if (interfaceMethodInfo.ReturnType == typeof(void))
             {
-                ilGenerator.Emit(OpCodes.Call, _interceptorHelperHandlerMethodInfo1.MakeGenericMethod(interfaceType));
+                ilGenerator.Emit(OpCodes.Callvirt, _interceptorHelperHandlerMethodInfo1.MakeGenericMethod(interfaceType));
                 ilGenerator.Emit(OpCodes.Pop);
             }
             else
             {
-                ilGenerator.Emit(OpCodes.Call, _interceptorHelperHandlerMethodInfo2.MakeGenericMethod(interfaceType, interfaceMethodInfo.ReturnType));
+                ilGenerator.Emit(OpCodes.Callvirt, _interceptorHelperHandlerMethodInfo2.MakeGenericMethod(interfaceType, interfaceMethodInfo.ReturnType));
             }
             ilGenerator.Emit(OpCodes.Ret);
             return methodBuilder;

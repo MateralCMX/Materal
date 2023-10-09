@@ -1,4 +1,5 @@
 ﻿using Materal.Abstractions;
+using System.Data;
 using System.Reflection;
 
 namespace Materal.Extensions.DependencyInjection
@@ -117,25 +118,47 @@ namespace Materal.Extensions.DependencyInjection
         /// <param name="genericTypes"></param>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        private static MethodInfo? GetMethodInfo(Type type, string methodName, Type[] argTypes, Type[] genericTypes)
+        public static MethodInfo? GetMethodInfo(Type type, string methodName, Type[] argTypes, Type[] genericTypes)
         {
-            MethodInfo? result = type.GetMethod(methodName, argTypes);
-            if (result is null)
+            bool isGenericMethod = genericTypes is not null && genericTypes.Length > 0;
+            MethodInfo[] methodInfos = type.GetMethods().Where(m => m.Name == methodName).ToArray();
+            if (methodInfos.Length <= 0) return null;
+            foreach (MethodInfo methodInfo in methodInfos)
             {
-                MethodInfo[] methodInfos = type.GetMethods().Where(m => m.Name == methodName).ToArray();
-                if (methodInfos.Length <= 0) return null;
-                foreach (MethodInfo methodInfo in methodInfos)
+                if (isGenericMethod != methodInfo.IsGenericMethod) continue;
+                ParameterInfo[] parameterInfos = methodInfo.GetParameters();
+                if (parameterInfos.Length != argTypes.Length) continue;
+                bool parameterOK = true;
+                for (int i = 0; i < parameterInfos.Length; i++)
                 {
-                    Type[] parameterTypes = methodInfo.GetParameters().Select(m => m.ParameterType).ToArray();
-                    if (parameterTypes.Length != argTypes.Length || !methodInfo.IsGenericMethod) continue;
-                    result = methodInfo;
+                    if (parameterInfos[i].ParameterType != argTypes[i])
+                    {
+                        parameterOK = false;
+                        break;
+                    }
+                }
+                if (!parameterOK) continue;
+                if (methodInfo.IsGenericMethod)
+                {
+                    Type[] methodGenericTypes = methodInfo.GetGenericArguments();
+                    if (methodGenericTypes.Length != genericTypes.Length) continue;
+                    for (int i = 0; i < genericTypes.Length; i++)
+                    {
+                        if (methodGenericTypes[i].FullName is not null || genericTypes[i].FullName is not null || methodGenericTypes[i].Name != genericTypes[i].Name || methodGenericTypes[i].FullName != genericTypes[i].FullName)
+                        {
+                            parameterOK = false;
+                            break;
+                        }
+                    }
+                    if (!parameterOK) continue;
+                    return methodInfo.MakeGenericMethod(genericTypes);
+                }
+                else
+                {
+                    return methodInfo;
                 }
             }
-            if (result is not null && result.IsGenericMethod)
-            {
-                result = result.MakeGenericMethod(genericTypes);
-            }
-            return result;
+            return null;
         }
     }
 }
