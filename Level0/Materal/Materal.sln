@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Utils.BarCode", "Sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Extensions.DependencyInjection", "Src\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj", "{0566F459-3B39-43EF-9452-C7E2AFFC8467}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.WebAPITest", "Test\Materal.WebAPITest\Materal.WebAPITest.csproj", "{C8604FA3-4A03-4237-8B2B-23D2E690D9B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WebAPITest", "Test\Materal.WebAPITest\Materal.WebAPITest.csproj", "{C8604FA3-4A03-4237-8B2B-23D2E690D9B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

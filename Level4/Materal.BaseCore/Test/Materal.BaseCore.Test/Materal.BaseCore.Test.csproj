@@ -6,7 +6,7 @@
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils.Excel" Version="1.1.63" />
+		<PackageReference Include="Materal.Utils.Excel" Version="1.1.64" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
 		<PackageReference Include="MSTest.TestAdapter" Version="3.1.1" />
 		<PackageReference Include="MSTest.TestFramework" Version="3.0.4" />
