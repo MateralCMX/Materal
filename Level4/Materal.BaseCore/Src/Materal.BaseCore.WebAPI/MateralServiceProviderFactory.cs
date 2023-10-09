@@ -1,5 +1,4 @@
 ﻿using Materal.Extensions.DependencyInjection;
-using Materal.Utils;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

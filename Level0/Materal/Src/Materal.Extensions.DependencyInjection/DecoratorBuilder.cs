@@ -197,20 +197,43 @@ namespace Materal.Extensions.DependencyInjection
         {
             Type[] interfaceMethodParameterTypes = interfaceMethodInfo.GetParameters().Select(m => m.ParameterType).ToArray();
             MethodInfo? objMethodInfo = null;
-            if (!interfaceMethodInfo.IsGenericMethod)
+            MethodInfo[] methodInfos = objType.GetMethods().Where(m => m.Name == interfaceMethodInfo.Name).ToArray();
+            if (methodInfos.Length <= 0) return null;
+            foreach (MethodInfo methodInfo in methodInfos)
             {
-                objMethodInfo = objType.GetMethod(interfaceMethodInfo.Name, interfaceMethodParameterTypes);
-            }
-            else
-            {
-                MethodInfo[] methodInfos = objType.GetMethods().Where(m => m.Name == interfaceMethodInfo.Name && m.IsGenericMethod).ToArray();
-                if (methodInfos.Length <= 0) return null;
-                Type[] genericTypes = interfaceMethodInfo.GetGenericArguments();
-                foreach (MethodInfo item in methodInfos)
+                if (interfaceMethodInfo.IsGenericMethod != methodInfo.IsGenericMethod) continue;
+                ParameterInfo[] parameterInfos = methodInfo.GetParameters();
+                if (parameterInfos.Length != interfaceMethodParameterTypes.Length) continue;
+                bool parameterOK = true;
+                for (int i = 0; i < parameterInfos.Length; i++)
                 {
-                    Type[] itemGenericTypes = item.GetGenericArguments();
-                    if (itemGenericTypes.Length != genericTypes.Length) continue;
-                    objMethodInfo = item.MakeGenericMethod(genericTypes);
+                    if (parameterInfos[i].ParameterType != interfaceMethodParameterTypes[i])
+                    {
+                        parameterOK = false;
+                        break;
+                    }
+                }
+                if (!parameterOK) continue;
+                if (methodInfo.IsGenericMethod)
+                {
+                    Type[] genericTypes = methodInfo.GetGenericArguments();
+                    Type[] interfaceGenericTypes = interfaceMethodInfo.GetGenericArguments();
+                    if (genericTypes.Length != interfaceGenericTypes.Length) continue;
+                    for (int i = 0; i < genericTypes.Length; i++)
+                    {
+                        if (genericTypes[i].FullName is not null || interfaceGenericTypes[i].FullName is not null || genericTypes[i].Name != interfaceGenericTypes[i].Name || genericTypes[i].FullName != interfaceGenericTypes[i].FullName)
+                        {
+                            parameterOK = false;
+                            break;
+                        }
+                    }
+                    if (!parameterOK) continue;
+                    objMethodInfo = methodInfo.MakeGenericMethod(genericTypes);
+                    break;
+                }
+                else
+                {
+                    objMethodInfo = methodInfo;
                     break;
                 }
             }
