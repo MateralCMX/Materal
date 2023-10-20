@@ -79,20 +79,16 @@ namespace System
         /// <returns>复制的对象</returns>
         public static void CopyProperties<T>(this object source, T target, Func<PropertyInfo, object?, bool> isCopy)
         {
-            if (source == null) return;
+            if (source is null || target is null) return;
             PropertyInfo[] t1Props = source.GetType().GetProperties();
-            PropertyInfo[] t2Props = typeof(T).GetProperties();
+            PropertyInfo[] t2Props = target.GetType().GetProperties();
             foreach (PropertyInfo prop in t1Props)
             {
                 PropertyInfo? tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
-                if (tempProp != null && tempProp.CanWrite)
-                {
-                    object? value = prop.GetValue(source, null);
-                    if (isCopy(tempProp, value))
-                    {
-                        tempProp.SetValue(target, value, null);
-                    }
-                }
+                if (tempProp is null || !tempProp.CanWrite) continue;
+                object? value = prop.GetValue(source, null);
+                if (!isCopy(tempProp, value)) continue;
+                tempProp.SetValue(target, value, null);
             }
         }
         /// <summary>
@@ -116,21 +112,8 @@ namespace System
         /// <param name="target">复制目标对象</param>
         /// <param name="notCopyPropertyNames">不复制的属性名称</param>
         /// <returns>复制的对象</returns>
-        public static void CopyProperties<T>(this object source, T target, params string[] notCopyPropertyNames)
-        {
-            if (source == null) return;
-            PropertyInfo[] t1Props = source.GetType().GetProperties();
-            PropertyInfo[] t2Props = typeof(T).GetProperties();
-            foreach (PropertyInfo prop in t1Props)
-            {
-                if (notCopyPropertyNames.Contains(prop.Name)) continue;
-                PropertyInfo? tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
-                if (tempProp != null && tempProp.CanWrite)
-                {
-                    tempProp.SetValue(target, prop.GetValue(source, null), null);
-                }
-            }
-        }
+        public static void CopyProperties<T>(this object source, T target, params string[] notCopyPropertyNames) 
+            => CopyProperties(source, target, (prop, _) => !notCopyPropertyNames.Contains(prop.Name));
         /// <summary>
         /// 属性复制
         /// </summary>

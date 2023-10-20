@@ -3,10 +3,10 @@
 namespace Materal.Test.ExtensionsTests.ObjectTests
 {
     [TestClass]
-    public class ConfigurationTest
+    public class ObjectGetDescriptionTest
     {
         [TestMethod]
-        public void GetDescriptionTest1()
+        public void GetDescriptionTest()
         {
             ClassA classA = new();
             string description = classA.GetDescription();
