@@ -1,0 +1,10 @@
+{
+  "background_color": "#ffffff",
+  "description": "RCManagementTool",
+  "display": "standalone",
+  "name": "RCManagementTool",
+  "short_name": "RCManagementTool",
+  "start_url": "/index.html",
+  "theme_color": "#ffffff",
+  "scope": "/"
+}

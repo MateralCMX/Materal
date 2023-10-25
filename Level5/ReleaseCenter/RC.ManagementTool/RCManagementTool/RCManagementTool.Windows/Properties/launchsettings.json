@@ -1,0 +1,10 @@
+{
+  "profiles": {
+	"RCManagementTool.Windows (Package)": {
+	  "commandName": "MsixPackage"
+	},
+	"RCManagementTool.Windows (Unpackaged)": {
+	  "commandName": "Project"
+	}
+  }
+}

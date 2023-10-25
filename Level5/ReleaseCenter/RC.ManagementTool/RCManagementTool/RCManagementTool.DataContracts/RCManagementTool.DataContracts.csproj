@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\RCManagementTool.Base\IsExternalInit.cs"
+						 Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="System.Collections.Immutable" />
+		<PackageReference Include="System.Text.Json" />
+	</ItemGroup>
+</Project>
