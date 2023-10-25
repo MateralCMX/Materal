@@ -1,5 +1,9 @@
-using Microsoft.Extensions.Localization;
-using System.Runtime.CompilerServices;
+using Materal.BaseCore.Common;
+using Materal.Utils.Http;
+using Microsoft.Extensions.Configuration;
+using RC.Authority.HttpClient;
+using RC.Core.HttpClient;
+using RCManagementTool.Manager;
 
 namespace RCManagementTool
 {
@@ -9,8 +13,20 @@ namespace RCManagementTool
         public static IServiceProvider ServiceProvider { get; }
         static App()
         {
+            IConfiguration configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+            MateralCoreConfig.Configuration = configuration;
             IServiceCollection services = new ServiceCollection();
+            services.AddSingleton(configuration);
+            services.AddSingleton<IHttpHelper, HttpHelper>();
+            services.AddSingleton<UserHttpClient>();
             ServiceProvider = services.BuildServiceProvider();
+            #region ÉèÖÃHttpClient
+            HttpClientHelper.CloseAutoToken();
+            HttpClientHelper.GetToken = () => AuthorityManager.Token;
+            HttpClientHelper.GetTokenInterval = () => AuthorityManager.Interval;
+            #endregion
         }
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {

@@ -11,3 +11,4 @@ global using Windows.Networking.Connectivity;
 global using Windows.Storage;
 global using ApplicationExecutionState = Windows.ApplicationModel.Activation.ApplicationExecutionState;
 global using CommunityToolkit.Mvvm.ComponentModel;
+global using RCManagementTool.Messages;

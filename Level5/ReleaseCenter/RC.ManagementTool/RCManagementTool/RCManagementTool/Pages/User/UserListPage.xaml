@@ -1,0 +1,17 @@
+﻿<Page
+    x:Class="RCManagementTool.Pages.User.UserListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:RCManagementTool.Pages.User"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="Page_Loaded">
+
+    <Page.DataContext>
+        <local:UserListPageViewModel x:Name="ViewModel"/>
+    </Page.DataContext>
+    <Grid>
+        <TextBlock Text="UserListPage" />
+    </Grid>
+</Page>

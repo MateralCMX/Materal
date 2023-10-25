@@ -23,7 +23,7 @@ namespace RC.Core.HttpClient
         public static Dictionary<string, string> GetDefaultHeaders()
         {
             Dictionary<string, string> result = new();
-            string? token = GetToken();
+            string? token = _token ??= GetToken?.Invoke();
             if (!string.IsNullOrWhiteSpace(token))
             {
                 result.Add("Authorization", $"Bearer {token}");
@@ -41,7 +41,11 @@ namespace RC.Core.HttpClient
         /// <summary>
         /// 获取Token
         /// </summary>
-        public static Func<string?> GetToken { get; set; } = () => _token;
+        public static Func<string?> GetToken { get; set; } = () => MateralCoreConfig.JWTConfig.GetToken(HttpClientConfig.AppName);
+        /// <summary>
+        /// 获取Token
+        /// </summary>
+        public static Func<double> GetTokenInterval { get; set; } = () => (MateralCoreConfig.JWTConfig.ExpiredTime - 60) * 1000;
         /// <summary>
         /// 更新Token
         /// </summary>
@@ -58,8 +62,8 @@ namespace RC.Core.HttpClient
             _tokenTimer.Stop();
             try
             {
-                _token = MateralCoreConfig.JWTConfig.GetToken(HttpClientConfig.AppName);
-                _tokenTimer.Interval = (MateralCoreConfig.JWTConfig.ExpiredTime - 60) * 1000;
+                _token = GetToken?.Invoke();
+                _tokenTimer.Interval = GetTokenInterval.Invoke();
                 _tokenTimer.Start();
             }
             catch
