@@ -5,7 +5,6 @@
 		<NoWarn>$(NoWarn);NU1504;NU1505;NU1701</NoWarn>
 		<!-- Disabled due to issue with Central Package Management with implicit using -->
 		<ImplicitUsings>disable</ImplicitUsings>
-		<WasmPWAManifestFile>manifest.webmanifest</WasmPWAManifestFile>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<!--
 			Supports Deep Linking Routes
@@ -32,12 +31,7 @@
 		<!-- Temporarily uncomment to generate an AOT profile https://aka.platform.uno/wasm-aot-profile -->
 		<!-- <WasmShellGenerateAOTProfile>true</WasmShellGenerateAOTProfile> -->
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)'=='Debug' or '$(IsUiAutomationMappingEnabled)'=='True'">
-		<IsUiAutomationMappingEnabled>True</IsUiAutomationMappingEnabled>
-		<DefineConstants>$(DefineConstants);USE_UITESTS</DefineConstants>
-	</PropertyGroup>
 	<ItemGroup>
-		<Content Include="manifest.webmanifest" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="WasmCSS\Fonts.css" />
@@ -59,33 +53,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Windows.Compatibility" />
-		<PackageReference Include="Uno.Wasm.Bootstrap" />
-		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" />
-		<PackageReference Include="Uno.WinUI.WebAssembly" />
-		<PackageReference Include="Uno.WinUI.RemoteControl" Condition="'$(Configuration)'=='Debug'" />
-		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" />
-		<PackageReference Include="CommunityToolkit.Mvvm" />
-		<PackageReference Include="Uno.Extensions.Configuration" />
-		<PackageReference Include="Uno.Extensions.Http" />
-		<PackageReference Include="Uno.Extensions.Http.Refit" />
-		<PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" />
-		<PackageReference Include="Uno.Extensions.Logging.WinUI" />
-		<PackageReference Include="Uno.Extensions.Serialization.Http" />
-		<PackageReference Include="Uno.Extensions.Serialization.Refit" />
-		<PackageReference Include="Uno.Material.WinUI" />
-		<PackageReference Include="Uno.Toolkit.WinUI.Material" />
-		<PackageReference Include="Uno.Extensions.Toolkit.WinUI" />
-		<PackageReference Include="Uno.Toolkit.WinUI" />
-		<PackageReference Include="Uno.Extensions.Hosting.WinUI" />
-		<PackageReference Include="Uno.Extensions.Localization.WinUI" />
-		<PackageReference Include="Uno.Extensions.Navigation.Toolkit.WinUI" />
-		<PackageReference Include="Uno.Extensions.Navigation.WinUI" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Console" />
+		<PackageReference Include="Uno.Resizetizer" Version="1.1.3" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.3" />
+		<PackageReference Include="Uno.Wasm.Bootstrap" Version="7.0.31" />
+		<PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="7.0.31" />
+		<PackageReference Include="Uno.WinUI.WebAssembly" Version="4.10.26" />
+		<PackageReference Include="Uno.WinUI.RemoteControl" Version="4.10.26" Condition="'$(Configuration)'=='Debug'" />
+		<PackageReference Include="Uno.UI.Adapter.Microsoft.Extensions.Logging" Version="4.10.26" />
+		<PackageReference Include="Uno.Extensions.Logging.WebAssembly.Console" Version="1.6.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RCManagementTool\RCManagementTool.csproj" />
-		<ProjectReference Include="..\RCManagementTool.DataContracts\RCManagementTool.DataContracts.csproj" />
 	</ItemGroup>
 	<Import Project="..\RCManagementTool.Base\base.props" />
 </Project>

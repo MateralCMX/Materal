@@ -17,8 +17,6 @@
 		<DebugType>portable</DebugType>
 		<DebugSymbols>True</DebugSymbols>
 
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-
 		<NoWarn>$(NoWarn);CA1416;NU1507</NoWarn>
 
 		<DefaultLanguage>en</DefaultLanguage>
