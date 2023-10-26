@@ -13,7 +13,7 @@
     </Page.DataContext>
 
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10" Width="400" 
-                Background="White" Padding="20" CornerRadius="5">
+                Background="{StaticResource CardStrokeColorDefaultBrush}" Padding="20" CornerRadius="5">
         <TextBlock FontSize="24" HorizontalAlignment="Stretch" TextAlignment="Center" Text="RC管理工具" />
         <TextBox Header="账号" Text="{x:Bind ViewModel.Account, Mode=TwoWay}">
             <TextBox.Description>

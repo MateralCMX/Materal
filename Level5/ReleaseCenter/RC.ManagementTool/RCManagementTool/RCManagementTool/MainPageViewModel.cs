@@ -22,5 +22,14 @@
         /// </summary>
         [ObservableProperty]
         private InfoBarSeverity _infoBarSeverity = InfoBarSeverity.Informational;
+        /// <summary>
+        /// 深色主题
+        /// </summary>
+        [ObservableProperty, NotifyPropertyChangedFor(nameof(RequestedTheme))]
+        private bool _isDarkTheme = false;
+        /// <summary>
+        /// 选中的主题
+        /// </summary>
+        public ElementTheme RequestedTheme => IsDarkTheme ? ElementTheme.Dark : ElementTheme.Light;
     }
 }

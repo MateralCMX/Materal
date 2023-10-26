@@ -6,6 +6,7 @@
 		<!-- Disabled due to issue with Central Package Management with implicit using -->
 		<ImplicitUsings>disable</ImplicitUsings>
 		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
 		<!--
 			Supports Deep Linking Routes
 			https://aka.platform.uno/wasm-deeplink
