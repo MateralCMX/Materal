@@ -1,11 +1,11 @@
 <linker>
 	<assembly fullname="RCManagementTool" />
 	<assembly fullname="RCManagementTool.Wasm" />
-
-	<!--
-  Uncomment this section when using JSON.NET
-  <assembly fullname="System.Core">
-	  <type fullname="System.Linq.Expressions*" />
-  </assembly>
-   -->
+	<assembly fullname="RC.Authority.PresentationModel" />
+	<assembly fullname="RC.Authority.DataTransmitModel" />
+	<assembly fullname="Materal.Utils" />
+	<assembly fullname="Newtonsoft.Json" />
+	<assembly fullname="System.Core">
+		<type fullname="System.Linq.Expressions*" />
+	</assembly>
 </linker>
