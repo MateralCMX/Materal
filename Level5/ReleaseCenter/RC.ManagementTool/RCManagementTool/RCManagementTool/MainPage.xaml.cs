@@ -1,3 +1,4 @@
+using Materal.Utils;
 using Materal.Utils.Http;
 using RC.Core.Common;
 using RCManagementTool.Manager;
@@ -81,7 +82,8 @@ namespace RCManagementTool
             {
                 ViewModel.InfoBarTitle = "”¶”√≥Ã–Ú¥ÌŒÛ";
                 ViewModel.InfoBarSeverity = InfoBarSeverity.Error;
-                ViewModel.InfoBarMessage = ex.Message;
+                ViewModel.InfoBarMessage = ex.GetErrorMessage();
+                Console.WriteLine(ViewModel.InfoBarMessage);
             }
             ViewModel.InfoBarIsOpen = true;
         }

@@ -1,3 +1,5 @@
+using Microsoft.UI.Xaml;
+
 namespace RCManagementTool.Wasm
 {
     public class Program
@@ -6,8 +8,7 @@ namespace RCManagementTool.Wasm
 
         public static int Main(string[] args)
         {
-            Microsoft.UI.Xaml.Application.Start(_ => _app = new AppHead());
-
+            Application.Start(_ => _app = new AppHead());
             return 0;
         }
     }

@@ -75,10 +75,4 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\RC.Authority\RC.Authority.HttpClient\RC.Authority.HttpClient.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="appsettings.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
 </Project>

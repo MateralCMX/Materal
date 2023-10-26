@@ -44,7 +44,8 @@ namespace RCManagementTool.Pages.Authority
             {
                 if (!ValidateErrors()) return;
                 UserHttpClient userHttpClient = App.ServiceProvider.GetRequiredService<UserHttpClient>();
-                LoginResultDTO? loginResult = await userHttpClient.LoginAsync(new LoginRequestModel { Account = Account, Password = Password }) ?? throw new RCException("登录失败");
+                LoginRequestModel requestModel = new() { Account = Account, Password = Password };
+                LoginResultDTO? loginResult = await userHttpClient.LoginAsync(requestModel) ?? throw new RCException("登录失败");
                 AuthorityManager.Token = loginResult.Token;
                 RCMessageManager.SendRootNavigationMessage<NavigationPage>();
             }
