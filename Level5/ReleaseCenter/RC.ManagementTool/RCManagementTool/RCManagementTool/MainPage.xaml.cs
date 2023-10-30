@@ -1,4 +1,3 @@
-using Materal.Utils;
 using Materal.Utils.Http;
 using RC.Core.Common;
 using RCManagementTool.Manager;
@@ -17,13 +16,10 @@ namespace RCManagementTool
             _autoCloseInfoBarTimer = new(CloseInfoBar);
             RCMessageManager.RegisterExceptionMessage(this, (sender, message) => HandlerException(message.Value));
             RCMessageManager.RegisterRootNavigationMessage(this, (sender, message) => NavigationPage(message.Value));
+            RCMessageManager.RegisterOpenLoadingMaskMessage(this, (sender, message) => OpenLoadingMask(message.Value));
+            RCMessageManager.RegisterCloseLoadingMaskMessage(this, (sender, message) => CloseLoadingMask());
             InitializeComponent();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-        }
-        private void NavigationPage(Type type)
-        {
-            if (!type.IsAssignableTo<Page>()) return;
-            contentFrame.Navigate(type);
         }
         private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -41,6 +37,29 @@ namespace RCManagementTool
             {
                 NavigationPage(typeof(LoginPage));
             }
+        }
+        #region 私有方法
+        /// <summary>
+        /// 打开加载遮罩
+        /// </summary>
+        /// <param name="message"></param>
+        private void OpenLoadingMask(string message)
+        {
+            ViewModel.LoadingMaskMessage = message;
+            ViewModel.LoadingMaskVisibility = Visibility.Visible;
+        }
+        /// <summary>
+        /// 关闭加载遮罩
+        /// </summary>
+        private void CloseLoadingMask() => ViewModel.LoadingMaskVisibility = Visibility.Collapsed;
+        /// <summary>
+        /// 页面导航
+        /// </summary>
+        /// <param name="type"></param>
+        private void NavigationPage(Type type)
+        {
+            if (!type.IsAssignableTo<Page>()) return;
+            contentFrame.Navigate(type);
         }
         /// <summary>
         /// 处理异常
@@ -92,5 +111,6 @@ namespace RCManagementTool
         /// </summary>
         /// <param name="state"></param>
         private void CloseInfoBar(object? state) => DispatcherQueue.TryEnqueue(() => ViewModel.InfoBarIsOpen = false);
+        #endregion
     }
 }

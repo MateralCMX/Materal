@@ -31,6 +31,13 @@ namespace RCManagementTool.Pages.Authority
         /// </summary>
         [ObservableProperty]
         private string _passwordErrorMessage = string.Empty;
+#if DEBUG
+        public LoginPageViewModel()
+        {
+            Account = "cmx";
+            Password = "123456";
+        }
+#endif
         /// <summary>
         /// 登录
         /// </summary>
@@ -40,6 +47,7 @@ namespace RCManagementTool.Pages.Authority
         {
             try
             {
+                RCMessageManager.SendOpenLoadingMaskMessage("正在登录...");
                 if (!ValidateErrors()) return;
                 UserHttpClient userHttpClient = App.ServiceProvider.GetRequiredService<UserHttpClient>();
                 LoginRequestModel requestModel = new() { Account = Account, Password = Password };
@@ -50,6 +58,10 @@ namespace RCManagementTool.Pages.Authority
             catch (Exception ex)
             {
                 RCMessageManager.SendExceptionMessage(ex);
+            }
+            finally
+            {
+                RCMessageManager.SendCloseLoadingMaskMessage();
             }
         }
     }

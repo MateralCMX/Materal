@@ -10,7 +10,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="*" />
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.24" />
 		<PackageReference Include="Uno.WinUI" Version="4.10.26" />
 		<PackageReference Include="Uno.Resizetizer" Version="1.1.3" />

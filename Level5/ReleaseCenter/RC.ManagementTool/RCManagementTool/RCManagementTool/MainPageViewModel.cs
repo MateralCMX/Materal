@@ -23,13 +23,14 @@
         [ObservableProperty]
         private InfoBarSeverity _infoBarSeverity = InfoBarSeverity.Informational;
         /// <summary>
-        /// 深色主题
+        /// 加载遮罩层显示状态
         /// </summary>
-        [ObservableProperty, NotifyPropertyChangedFor(nameof(RequestedTheme))]
-        private bool _isDarkTheme = false;
+        [ObservableProperty]
+        private Visibility _loadingMaskVisibility = Visibility.Collapsed;
         /// <summary>
-        /// 选中的主题
+        /// 加载遮罩层信息
         /// </summary>
-        public ElementTheme RequestedTheme => IsDarkTheme ? ElementTheme.Dark : ElementTheme.Light;
+        [ObservableProperty]
+        private string _loadingMaskMessage = string.Empty;
     }
 }

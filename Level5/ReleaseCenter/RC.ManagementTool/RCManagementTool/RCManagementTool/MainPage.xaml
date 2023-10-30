@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:RCManagementTool.Controls"
-      mc:Ignorable="d" RequestedTheme="{x:Bind ViewModel.RequestedTheme, Mode=OneWay}"
+      mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Unloaded="Page_Unloaded" Loaded="Page_Loaded">
 
     <Page.DataContext>
@@ -13,9 +13,17 @@
     </Page.DataContext>
     <Grid>
         <Frame x:Name="contentFrame"/>
-        <ToggleButton Foreground="{StaticResource ButtonForegroundThemeBrush}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8,0,0,10" Padding="5, 2" IsChecked="{x:Bind ViewModel.IsDarkTheme, Mode=TwoWay}">
-            <FontIcon Glyph="&#xE793;" />
-        </ToggleButton>
+        <!--加载遮罩层-->
+        <Border Visibility="{x:Bind ViewModel.LoadingMaskVisibility, Mode=OneWay}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#000000" Opacity="0.5" />
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="15">
+                    <ProgressRing IsActive="True" Width="50" Height="50" />
+                    <TextBlock FontSize="16" FontWeight="Bold" Text="{x:Bind ViewModel.LoadingMaskMessage, Mode=OneWay}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <!--消息提示框-->
         <InfoBar Margin="0,20,0,0" HorizontalAlignment="Center" IsOpen="{x:Bind ViewModel.InfoBarIsOpen, Mode=TwoWay}"
                  Severity="{x:Bind ViewModel.InfoBarSeverity, Mode=OneWay}" Title="{x:Bind ViewModel.InfoBarTitle, Mode=OneWay}" Message="{x:Bind ViewModel.InfoBarMessage, Mode=OneWay}" />
     </Grid>
