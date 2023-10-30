@@ -1,9 +1,11 @@
-﻿namespace RCManagementTool.Pages.User
+﻿using RCManagementTool.Models;
+
+namespace RCManagementTool.Pages.User
 {
     /// <summary>
     /// 查询模型
     /// </summary>
-    public partial class QueryUserModel : ObservableObject
+    public partial class QueryUserModel : BaseQueryModel
     {
         /// <summary>
         /// 姓名
@@ -15,25 +17,5 @@
         /// </summary>
         [ObservableProperty]
         private string? _account;
-        /// <summary>
-        /// 当前页码
-        /// </summary>
-        [ObservableProperty]
-        private int _pageIndex = 1;
-        /// <summary>
-        /// 每页显示数量
-        /// </summary>
-        [ObservableProperty]
-        private int _pageSize = 10;
-        /// <summary>
-        /// 数据总数
-        /// </summary>
-        [ObservableProperty]
-        private int _dataCount = int.MaxValue;
-        /// <summary>
-        /// 页数
-        /// </summary>
-        [ObservableProperty]
-        private int _pageCount = int.MaxValue;
     }
 }

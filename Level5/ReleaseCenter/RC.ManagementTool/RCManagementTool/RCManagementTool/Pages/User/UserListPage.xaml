@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:RCManagementTool.Pages.User"
+    xmlns:controls="using:RCManagementTool.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Loaded="Page_Loaded">
 
@@ -12,14 +13,10 @@
         <local:UserListPageViewModel x:Name="ViewModel"/>
     </Page.DataContext>
 
-    <Grid Padding="20" RowSpacing="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <StackPanel Spacing="10" >
+    <controls:LoadingMask Grid.Row="0" Grid.RowSpan="3" ViewModel="{x:Bind ViewModel.LoadingMask, Mode=OneWay}">
+        <controls:LoadingMask.PanelContent>
+            <StackPanel Padding="20" Spacing="10">
+                <!--页头-->
                 <StackPanel Orientation="Horizontal" Spacing="5" Padding="0,0,0,5"
                             BorderThickness="0,0,0,1" BorderBrush="{StaticResource ControlElevationBorderBrush}">
                     <TextBlock Text="用户管理" Style="{StaticResource TitleTextBlockStyle}" />
@@ -27,62 +24,69 @@
                         <Button Style="{StaticResource IconButton}" ToolTipService.ToolTip="重置查询条件" Margin="0,0,0,3" VerticalAlignment="Bottom">
                             <FontIcon Glyph="&#xE8EE;" Style="{StaticResource IconFont}" />
                         </Button>
-                        <Button Style="{StaticResource IconButton}" ToolTipService.ToolTip="查询" Margin="0,0,0,3" VerticalAlignment="Bottom" BorderThickness="0,1,1,1">
+                        <Button Style="{StaticResource IconButton}" ToolTipService.ToolTip="查询" Margin="0,0,0,3" VerticalAlignment="Bottom" BorderThickness="0,1,1,1"
+                                Command="{x:Bind ViewModel.LoadDataCommand}">
+                            <Button.CommandParameter>
+                                <x:Int32>1</x:Int32>
+                            </Button.CommandParameter>
                             <FontIcon Glyph="&#xE71E;" Style="{StaticResource IconFont}" />
                         </Button>
                     </StackPanel>
                 </StackPanel>
+                <!--查询面板-->
                 <StackPanel Orientation="Horizontal" Spacing="10">
                     <TextBox PlaceholderText="姓名" Width="200" />
                     <TextBox PlaceholderText="账号" Width="200" />
                 </StackPanel>
-            </StackPanel>
-        </Grid>
-        <GridView Grid.Row="1" ItemsSource="{x:Bind ViewModel.Users, Mode=OneWay}" SelectionMode="None" Padding="0">
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="local:UserListModel">
-                    <Grid BorderThickness="1" BorderBrush="{StaticResource ControlElevationBorderBrush}" CornerRadius="4" Width="150" Height="70"
+                <!--数据面板-->
+                <GridView ItemsSource="{x:Bind ViewModel.Users, Mode=OneWay}" SelectionMode="None" Padding="0">
+                    <GridView.ItemTemplate>
+                        <DataTemplate x:DataType="local:UserListModel">
+                            <Grid BorderThickness="1" BorderBrush="{StaticResource ControlElevationBorderBrush}" CornerRadius="4" Width="150" Height="70"
                           Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
-                        <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Spacing="5" Margin="10,0,0,0">
-                            <TextBlock FontWeight="Bold" Text="{Binding Name, Mode=OneWay}" />
-                            <TextBlock Text="{Binding Account, Mode=OneWay}" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
-                            <Button Style="{StaticResource IconButton}" BorderThickness="1,0,1,1" ToolTipService.ToolTip="修改" Command="{Binding EditCommand}">
-                                <FontIcon Glyph="&#xE70F;" Style="{StaticResource IconFont}" />
-                            </Button>
-                            <DropDownButton Style="{StaticResource IconDropDownButton}" BorderThickness="0,0,0,1" ToolTipService.ToolTip="删除">
-                                <DropDownButton.Content>
-                                    <FontIcon Glyph="&#xE74D;" Style="{StaticResource IconFont}" />
-                                </DropDownButton.Content>
-                                <DropDownButton.Flyout>
-                                    <MenuFlyout Placement="Bottom">
-                                        <MenuFlyoutItem Text="删除" Command="{Binding DeleteCommand}">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE74D;" Style="{StaticResource IconFont}" />
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Text="取消" />
-                                    </MenuFlyout>
-                                </DropDownButton.Flyout>
-                            </DropDownButton>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Spacing="5">
-            <Button Content="&lt;" />
-            <Button Content="1" />
-            <Button Content="2" />
-            <Button Content="3" />
-            <Button Content="4" />
-            <Button Content="&gt;" />
-            <ComboBox PlaceholderText="Pick a color">
-                <x:String>10</x:String>
-                <x:String>20</x:String>
-                <x:String>50</x:String>
-            </ComboBox>
-        </StackPanel>
-    </Grid>
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Spacing="5" Margin="10,0,0,0">
+                                    <TextBlock FontWeight="Bold" Text="{Binding Name, Mode=OneWay}" />
+                                    <TextBlock Text="{Binding Account, Mode=OneWay}" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+                                    <Button Style="{StaticResource IconButton}" BorderThickness="1,0,1,1" ToolTipService.ToolTip="修改" Command="{Binding EditCommand}">
+                                        <FontIcon Glyph="&#xE70F;" Style="{StaticResource IconFont}" />
+                                    </Button>
+                                    <DropDownButton Style="{StaticResource IconDropDownButton}" BorderThickness="0,0,0,1" ToolTipService.ToolTip="删除">
+                                        <DropDownButton.Content>
+                                            <FontIcon Glyph="&#xE74D;" Style="{StaticResource IconFont}" />
+                                        </DropDownButton.Content>
+                                        <DropDownButton.Flyout>
+                                            <MenuFlyout Placement="Bottom">
+                                                <MenuFlyoutItem Text="删除" Command="{Binding DeleteCommand}">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE74D;" Style="{StaticResource IconFont}" />
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutItem Text="取消" />
+                                            </MenuFlyout>
+                                        </DropDownButton.Flyout>
+                                    </DropDownButton>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+                <!--分页面板-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Spacing="5">
+                    <Button Content="&lt;" />
+                    <Button Content="1" />
+                    <Button Content="2" />
+                    <Button Content="3" />
+                    <Button Content="4" />
+                    <Button Content="&gt;" />
+                    <ComboBox PlaceholderText="Pick a color">
+                        <x:String>10</x:String>
+                        <x:String>20</x:String>
+                        <x:String>50</x:String>
+                    </ComboBox>
+                </StackPanel>
+            </StackPanel>
+        </controls:LoadingMask.PanelContent>
+    </controls:LoadingMask>
 </Page>

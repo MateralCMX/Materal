@@ -16,8 +16,6 @@ namespace RCManagementTool
             _autoCloseInfoBarTimer = new(CloseInfoBar);
             RCMessageManager.RegisterExceptionMessage(this, (sender, message) => HandlerException(message.Value));
             RCMessageManager.RegisterRootNavigationMessage(this, (sender, message) => NavigationPage(message.Value));
-            RCMessageManager.RegisterOpenLoadingMaskMessage(this, (sender, message) => OpenLoadingMask(message.Value));
-            RCMessageManager.RegisterCloseLoadingMaskMessage(this, (sender, message) => CloseLoadingMask());
             InitializeComponent();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
@@ -39,24 +37,6 @@ namespace RCManagementTool
             }
         }
         #region 私有方法
-        /// <summary>
-        /// 打开加载遮罩
-        /// </summary>
-        /// <param name="model"></param>
-        private async void OpenLoadingMask(OpenLoadingMaskModel model)
-        {
-            ViewModel.LoadingMaskMessage = model.Message;
-            ViewModel.LoadingMaskVisibility = Visibility.Visible;
-            await model.ExcuteAsync();
-            if (model.AutoClose)
-            {
-                CloseLoadingMask();
-            }
-        }
-        /// <summary>
-        /// 关闭加载遮罩
-        /// </summary>
-        private void CloseLoadingMask() => ViewModel.LoadingMaskVisibility = Visibility.Collapsed;
         /// <summary>
         /// 页面导航
         /// </summary>

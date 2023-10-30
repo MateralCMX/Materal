@@ -1,13 +1,19 @@
-﻿using Materal.Utils.Model;
+﻿using CommunityToolkit.Mvvm.Input;
+using Materal.Utils.Model;
 using RC.Authority.DataTransmitModel.User;
 using RC.Authority.HttpClient;
 using RC.Authority.PresentationModel.User;
+using RCManagementTool.Controls;
 using System.Collections.ObjectModel;
 
 namespace RCManagementTool.Pages.User
 {
     public partial class UserListPageViewModel : ObservableObject
     {
+        /// <summary>
+        /// 加载遮罩
+        /// </summary>
+        public LoadingMaskViewModel LoadingMask { get; } = new();
         /// <summary>
         /// 用户列表
         /// </summary>
@@ -20,25 +26,16 @@ namespace RCManagementTool.Pages.User
         /// <summary>
         /// 加载数据
         /// </summary>
-        /// <param name="pageIndex"></param>
-        public void LoadData(int pageIndex = 1)
-        {
-            if (QueryModel.PageCount < pageIndex) return;
-            QueryModel.PageIndex = pageIndex;
-            OpenLoadingMaskModel openLoadingMaskModel = new("正在查询");
-            openLoadingMaskModel.OnOpenAsync += LoadDataAsync;
-            RCMessageManager.SendOpenLoadingMaskMessage(openLoadingMaskModel);
-        }
-        /// <summary>
-        /// 加载数据
-        /// </summary>
         /// <returns></returns>
-        public async Task LoadDataAsync()
+        [RelayCommand]
+        public async Task LoadDataAsync(int pageIndex)
         {
             try
             {
+                LoadingMask.IsShow = true;
                 UserHttpClient userHttpClient = App.ServiceProvider.GetRequiredService<UserHttpClient>();
                 QueryUserRequestModel requestModel = QueryModel.CopyProperties<QueryUserRequestModel>();
+                requestModel.PageIndex = pageIndex;
                 (List<UserListDTO>? users, PageModel pageInfo) = await userHttpClient.GetListAsync(requestModel);
                 pageInfo.CopyProperties(QueryModel);
                 Users.Clear();
@@ -53,6 +50,10 @@ namespace RCManagementTool.Pages.User
             catch (Exception ex)
             {
                 RCMessageManager.SendExceptionMessage(ex);
+            }
+            finally
+            {
+                LoadingMask.IsShow = false;
             }
         }
     }

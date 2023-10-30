@@ -13,16 +13,6 @@
     </Page.DataContext>
     <Grid>
         <Frame x:Name="contentFrame"/>
-        <!--加载遮罩层-->
-        <Border Visibility="{x:Bind ViewModel.LoadingMaskVisibility, Mode=OneWay}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#000000" Opacity="0.5" />
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="15">
-                    <ProgressRing IsActive="True" Width="50" Height="50" />
-                    <TextBlock FontSize="16" FontWeight="Bold" Text="{x:Bind ViewModel.LoadingMaskMessage, Mode=OneWay}" />
-                </StackPanel>
-            </Grid>
-        </Border>
         <!--消息提示框-->
         <InfoBar Margin="0,20,0,0" HorizontalAlignment="Center" IsOpen="{x:Bind ViewModel.InfoBarIsOpen, Mode=TwoWay}"
                  Severity="{x:Bind ViewModel.InfoBarSeverity, Mode=OneWay}" Title="{x:Bind ViewModel.InfoBarTitle, Mode=OneWay}" Message="{x:Bind ViewModel.InfoBarMessage, Mode=OneWay}" />

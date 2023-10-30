@@ -5,26 +5,31 @@
     xmlns:local="using:RCManagementTool.Pages.Authority"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:RCManagementTool.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.DataContext>
         <local:LoginPageViewModel x:Name="ViewModel" />
     </Page.DataContext>
-
-    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10" Width="400" 
+    
+    <controls:LoadingMask Visibility="Visible" ViewModel="{x:Bind ViewModel.LoadingMask, Mode=OneWay}">
+        <controls:LoadingMask.PanelContent>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10" Width="400" 
                 Background="{StaticResource CardStrokeColorDefaultBrush}" Padding="20" CornerRadius="4">
-        <TextBlock FontSize="24" HorizontalAlignment="Stretch" TextAlignment="Center" Text="RC管理工具" />
-        <TextBox Header="账号" Text="{x:Bind ViewModel.Account, Mode=TwoWay}">
-            <TextBox.Description>
-                <TextBlock Foreground="{StaticResource SystemErrorTextColor}" Text="{x:Bind ViewModel.AccountErrorMessage, Mode=OneWay}" />
-            </TextBox.Description>
-        </TextBox>
-        <PasswordBox Header="密码" PasswordChar="*" Password="{x:Bind ViewModel.Password, Mode=TwoWay}">
-            <PasswordBox.Description>
-                <TextBlock Foreground="{StaticResource SystemErrorTextColor}" Text="{x:Bind ViewModel.PasswordErrorMessage, Mode=OneWay}" />
-            </PasswordBox.Description>
-        </PasswordBox>
-        <Button HorizontalAlignment="Stretch" Content="登录" Command="{x:Bind ViewModel.LoginCommand}" />
-    </StackPanel>
+                <TextBlock FontSize="24" HorizontalAlignment="Stretch" TextAlignment="Center" Text="RC管理工具" />
+                <TextBox Header="账号" Text="{x:Bind ViewModel.Account, Mode=TwoWay}">
+                    <TextBox.Description>
+                        <TextBlock Foreground="{StaticResource SystemErrorTextColor}" Text="{x:Bind ViewModel.AccountErrorMessage, Mode=OneWay}" />
+                    </TextBox.Description>
+                </TextBox>
+                <PasswordBox Header="密码" Password="{x:Bind ViewModel.Password, Mode=TwoWay}">
+                    <PasswordBox.Description>
+                        <TextBlock Foreground="{StaticResource SystemErrorTextColor}" Text="{x:Bind ViewModel.PasswordErrorMessage, Mode=OneWay}" />
+                    </PasswordBox.Description>
+                </PasswordBox>
+                <Button HorizontalAlignment="Stretch" Content="登录" Command="{x:Bind ViewModel.LoginCommand}" />
+            </StackPanel>
+        </controls:LoadingMask.PanelContent>
+    </controls:LoadingMask>
 </Page>

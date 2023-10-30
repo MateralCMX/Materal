@@ -3,6 +3,7 @@ using RC.Authority.DataTransmitModel.User;
 using RC.Authority.HttpClient;
 using RC.Authority.PresentationModel.User;
 using RC.Core.Common;
+using RCManagementTool.Controls;
 using RCManagementTool.Manager;
 using RCManagementTool.Pages.Layer;
 using System.ComponentModel.DataAnnotations;
@@ -31,6 +32,10 @@ namespace RCManagementTool.Pages.Authority
         /// </summary>
         [ObservableProperty]
         private string _passwordErrorMessage = string.Empty;
+        /// <summary>
+        /// 加载遮罩
+        /// </summary>
+        public LoadingMaskViewModel LoadingMask { get; } = new();
 #if DEBUG
         public LoginPageViewModel()
         {
@@ -42,22 +47,14 @@ namespace RCManagementTool.Pages.Authority
         /// 登录
         /// </summary>
         /// <returns></returns>
-        [RelayCommand]
-        private void Login()
-        {
-            OpenLoadingMaskModel openLoadingMaskModel = new("正在登录");
-            openLoadingMaskModel.OnOpenAsync += LoginAsync;
-            RCMessageManager.SendOpenLoadingMaskMessage(openLoadingMaskModel);
-        }
-        /// <summary>
-        /// 登录
-        /// </summary>
-        /// <returns></returns>
         /// <exception cref="RCException"></exception>
+        [RelayCommand]
         private async Task LoginAsync()
         {
             try
             {
+                LoadingMask.IsShow = true;
+                LoadingMask.Message = "正在登录...";
                 UserHttpClient userHttpClient = App.ServiceProvider.GetRequiredService<UserHttpClient>();
                 LoginRequestModel requestModel = new() { Account = Account, Password = Password };
                 LoginResultDTO? loginResult = await userHttpClient.LoginAsync(requestModel) ?? throw new RCException("登录失败");
@@ -67,6 +64,7 @@ namespace RCManagementTool.Pages.Authority
             catch (Exception ex)
             {
                 RCMessageManager.SendExceptionMessage(ex);
+                LoadingMask.IsShow = false;
             }
         }
     }
