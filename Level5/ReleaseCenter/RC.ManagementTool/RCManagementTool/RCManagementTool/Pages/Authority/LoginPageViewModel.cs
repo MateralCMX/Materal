@@ -43,12 +43,21 @@ namespace RCManagementTool.Pages.Authority
         /// </summary>
         /// <returns></returns>
         [RelayCommand]
+        private void Login()
+        {
+            OpenLoadingMaskModel openLoadingMaskModel = new("正在登录");
+            openLoadingMaskModel.OnOpenAsync += LoginAsync;
+            RCMessageManager.SendOpenLoadingMaskMessage(openLoadingMaskModel);
+        }
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="RCException"></exception>
         private async Task LoginAsync()
         {
             try
             {
-                RCMessageManager.SendOpenLoadingMaskMessage("正在登录...");
-                if (!ValidateErrors()) return;
                 UserHttpClient userHttpClient = App.ServiceProvider.GetRequiredService<UserHttpClient>();
                 LoginRequestModel requestModel = new() { Account = Account, Password = Password };
                 LoginResultDTO? loginResult = await userHttpClient.LoginAsync(requestModel) ?? throw new RCException("登录失败");
@@ -58,10 +67,6 @@ namespace RCManagementTool.Pages.Authority
             catch (Exception ex)
             {
                 RCMessageManager.SendExceptionMessage(ex);
-            }
-            finally
-            {
-                RCMessageManager.SendCloseLoadingMaskMessage();
             }
         }
     }

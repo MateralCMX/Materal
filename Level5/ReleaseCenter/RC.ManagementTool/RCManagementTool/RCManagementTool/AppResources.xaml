@@ -1,11 +1,24 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
 	<ResourceDictionary.MergedDictionaries>
 		<!-- Load WinUI resources -->
-		<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-
-	</ResourceDictionary.MergedDictionaries>
+        <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+    </ResourceDictionary.MergedDictionaries>
 	<!-- Add resources here -->
-
+    <Style x:Key="IconDropDownButton" TargetType="DropDownButton">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="Height" Value="28" />
+    </Style>
+    <Style x:Key="IconButton" TargetType="Button">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Height" Value="28" />
+    </Style>
+    <Style x:Key="IconFont" TargetType="FontIcon">
+        <Setter Property="FontSize" Value="14" />
+    </Style>
 </ResourceDictionary>

@@ -7,6 +7,6 @@
             InitializeComponent();
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e) => await ViewModel.LoadDataAsync();
+        private void Page_Loaded(object sender, RoutedEventArgs e) => ViewModel.LoadData(1);
     }
 }

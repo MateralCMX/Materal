@@ -47,6 +47,6 @@
                 <controls:IconTextBlock Icon="&#xE76E;" Text="用户管理" />
             </NavigationViewItem>
         </NavigationView.MenuItems>
-        <Frame x:Name="contentFrame"/>
+        <Frame x:Name="contentFrame" />
     </NavigationView>
 </Page>

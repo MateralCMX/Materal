@@ -42,11 +42,16 @@ namespace RCManagementTool
         /// <summary>
         /// 打开加载遮罩
         /// </summary>
-        /// <param name="message"></param>
-        private void OpenLoadingMask(string message)
+        /// <param name="model"></param>
+        private async void OpenLoadingMask(OpenLoadingMaskModel model)
         {
-            ViewModel.LoadingMaskMessage = message;
+            ViewModel.LoadingMaskMessage = model.Message;
             ViewModel.LoadingMaskVisibility = Visibility.Visible;
+            await model.ExcuteAsync();
+            if (model.AutoClose)
+            {
+                CloseLoadingMask();
+            }
         }
         /// <summary>
         /// 关闭加载遮罩
