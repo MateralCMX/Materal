@@ -23,19 +23,23 @@ namespace RCManagementTool.Pages.User
         /// </summary>
         [ObservableProperty]
         private QueryUserModel _queryModel = new();
+        public UserListPageViewModel() => QueryModel.SearchDataCommand = LoadDataCommand;
         /// <summary>
         /// 加载数据
         /// </summary>
         /// <returns></returns>
         [RelayCommand]
-        public async Task LoadDataAsync(int pageIndex)
+        public async Task LoadDataAsync(int? pageIndex = null)
         {
             try
             {
                 LoadingMask.IsShow = true;
                 UserHttpClient userHttpClient = App.ServiceProvider.GetRequiredService<UserHttpClient>();
                 QueryUserRequestModel requestModel = QueryModel.CopyProperties<QueryUserRequestModel>();
-                requestModel.PageIndex = pageIndex;
+                if(pageIndex is not null && pageIndex.Value > 0)
+                {
+                    requestModel.PageIndex = pageIndex.Value;
+                }
                 (List<UserListDTO>? users, PageModel pageInfo) = await userHttpClient.GetListAsync(requestModel);
                 pageInfo.CopyProperties(QueryModel);
                 Users.Clear();

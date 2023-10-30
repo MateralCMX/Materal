@@ -61,6 +61,7 @@
 	<ItemGroup>
 	  <None Remove="Controls\IconTextBlock.xaml" />
 	  <None Remove="Controls\LoadingMask.xaml" />
+	  <None Remove="Controls\Paging.xaml" />
 	  <None Remove="Pages\Authority\LoginPage.xaml" />
 	  <None Remove="Pages\Layer\NavigationPage.xaml" />
 	  <None Remove="Pages\User\UserListPage.xaml" />
@@ -69,6 +70,7 @@
 	<ItemGroup>
 	  <UpToDateCheckInput Remove="Controls\IconTextBlock.xaml" />
 	  <UpToDateCheckInput Remove="Controls\LoadingMask.xaml" />
+	  <UpToDateCheckInput Remove="Controls\Paging.xaml" />
 	  <UpToDateCheckInput Remove="Pages\Authority\LoginPage.xaml" />
 	  <UpToDateCheckInput Remove="Pages\Layer\NavigationPage.xaml" />
 	  <UpToDateCheckInput Remove="Pages\User\UserListPage.xaml" />

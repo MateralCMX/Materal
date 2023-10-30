@@ -1,11 +1,11 @@
-﻿using RCManagementTool.Models;
+﻿using RCManagementTool.Controls;
 
 namespace RCManagementTool.Pages.User
 {
     /// <summary>
     /// 查询模型
     /// </summary>
-    public partial class QueryUserModel : BaseQueryModel
+    public partial class QueryUserModel : PagingViewModel
     {
         /// <summary>
         /// 姓名

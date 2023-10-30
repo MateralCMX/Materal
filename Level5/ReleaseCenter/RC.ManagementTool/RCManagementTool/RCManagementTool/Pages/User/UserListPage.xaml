@@ -73,19 +73,7 @@
                     </GridView.ItemTemplate>
                 </GridView>
                 <!--分页面板-->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Spacing="5">
-                    <Button Content="&lt;" />
-                    <Button Content="1" />
-                    <Button Content="2" />
-                    <Button Content="3" />
-                    <Button Content="4" />
-                    <Button Content="&gt;" />
-                    <ComboBox PlaceholderText="Pick a color">
-                        <x:String>10</x:String>
-                        <x:String>20</x:String>
-                        <x:String>50</x:String>
-                    </ComboBox>
-                </StackPanel>
+                <controls:Paging HorizontalAlignment="Left" ViewModel="{x:Bind ViewModel.QueryModel, Mode=OneWay}" />
             </StackPanel>
         </controls:LoadingMask.PanelContent>
     </controls:LoadingMask>
