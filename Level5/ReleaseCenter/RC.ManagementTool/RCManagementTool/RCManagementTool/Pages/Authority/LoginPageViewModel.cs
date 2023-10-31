@@ -53,8 +53,8 @@ namespace RCManagementTool.Pages.Authority
         {
             try
             {
-                LoadingMask.IsShow = true;
                 LoadingMask.Message = "正在登录...";
+                LoadingMask.IsShow = true;
                 UserHttpClient userHttpClient = App.ServiceProvider.GetRequiredService<UserHttpClient>();
                 LoginRequestModel requestModel = new() { Account = Account, Password = Password };
                 LoginResultDTO? loginResult = await userHttpClient.LoginAsync(requestModel) ?? throw new RCException("登录失败");

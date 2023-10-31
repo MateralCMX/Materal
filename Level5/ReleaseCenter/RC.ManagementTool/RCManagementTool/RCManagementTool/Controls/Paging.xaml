@@ -12,7 +12,7 @@
             <StackPanel Orientation="Horizontal" Spacing="5" />
         </ItemsPanelTemplate>
         <DataTemplate x:Key="IndexButtonTemplate" x:DataType="local:PagingButtonModel">
-            <ToggleButton Content="{Binding Index, Mode=OneWay}" IsChecked="{Binding IsChecked, Mode=OneWay}" Command="{Binding ChangeIndexCommand}" />
+            <ToggleButton Content="{Binding Index, Mode=OneWay}" IsChecked="{Binding IsChecked}" Command="{Binding ChangeIndexCommand}" Click="ToggleButton_Click" />
         </DataTemplate>
     </UserControl.Resources>
 

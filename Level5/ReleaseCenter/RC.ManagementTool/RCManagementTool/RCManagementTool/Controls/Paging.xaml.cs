@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.ObjectModel;
 
 namespace RCManagementTool.Controls
@@ -13,6 +14,12 @@ namespace RCManagementTool.Controls
         public Paging()
         {
             InitializeComponent();
+        }
+
+        private void ToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not ToggleButton button) return;
+            button.IsChecked = !button.IsChecked;
         }
     }
     /// <summary>
@@ -116,7 +123,12 @@ namespace RCManagementTool.Controls
         public bool IsChecked => Index == SelectedIndex;
         public event Action<int>? OnChangeIndex;
         [RelayCommand]
-        private void ChangeIndex() => OnChangeIndex?.Invoke(Index);
+        private void ChangeIndex()
+        {
+            if (Index == SelectedIndex) return;
+            OnChangeIndex?.Invoke(Index);
+        }
+
         public PagingButtonModel(int index, int selectedIndex)
         {
             Index = index;

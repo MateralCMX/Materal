@@ -13,6 +13,9 @@
     </Page.DataContext>
     <Grid>
         <Frame x:Name="contentFrame"/>
+        <!--抽屉面板-->
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Right" Visibility="Collapsed">
+        </Grid>
         <!--消息提示框-->
         <InfoBar Margin="0,20,0,0" HorizontalAlignment="Center" IsOpen="{x:Bind ViewModel.InfoBarIsOpen, Mode=TwoWay}"
                  Severity="{x:Bind ViewModel.InfoBarSeverity, Mode=OneWay}" Title="{x:Bind ViewModel.InfoBarTitle, Mode=OneWay}" Message="{x:Bind ViewModel.InfoBarMessage, Mode=OneWay}" />

@@ -17,33 +17,28 @@
         <controls:LoadingMask.PanelContent>
             <StackPanel Padding="20" Spacing="10">
                 <!--页头-->
-                <StackPanel Orientation="Horizontal" Spacing="5" Padding="0,0,0,5"
-                            BorderThickness="0,0,0,1" BorderBrush="{StaticResource ControlElevationBorderBrush}">
+                <StackPanel Orientation="Horizontal" Spacing="10" Padding="0,0,0,5" BorderThickness="0,0,0,1" BorderBrush="{StaticResource ControlElevationBorderBrush}">
                     <TextBlock Text="用户管理" Style="{StaticResource TitleTextBlockStyle}" />
-                    <StackPanel Orientation="Horizontal">
-                        <Button Style="{StaticResource IconButton}" ToolTipService.ToolTip="重置查询条件" Margin="0,0,0,3" VerticalAlignment="Bottom">
-                            <FontIcon Glyph="&#xE8EE;" Style="{StaticResource IconFont}" />
-                        </Button>
-                        <Button Style="{StaticResource IconButton}" ToolTipService.ToolTip="查询" Margin="0,0,0,3" VerticalAlignment="Bottom" BorderThickness="0,1,1,1"
-                                Command="{x:Bind ViewModel.LoadDataCommand}">
-                            <Button.CommandParameter>
-                                <x:Int32>1</x:Int32>
-                            </Button.CommandParameter>
-                            <FontIcon Glyph="&#xE71E;" Style="{StaticResource IconFont}" />
-                        </Button>
-                    </StackPanel>
+                    <Button Style="{StaticResource PageTitleIconButton}" ToolTipService.ToolTip="添加" Click="AddNewButton_Click">
+                        <FontIcon Glyph="&#xE710;" Style="{StaticResource IconFont}" />
+                    </Button>
                 </StackPanel>
                 <!--查询面板-->
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBox PlaceholderText="姓名" Width="200" />
-                    <TextBox PlaceholderText="账号" Width="200" />
+                    <TextBox PlaceholderText="姓名" Width="200" Text="{x:Bind ViewModel.QueryModel.Name, Mode=TwoWay}" />
+                    <TextBox PlaceholderText="账号" Width="200" Text="{x:Bind ViewModel.QueryModel.Account, Mode=TwoWay}" />
+                    <Button ToolTipService.ToolTip="查询" VerticalAlignment="Stretch" Command="{x:Bind ViewModel.LoadDataCommand}">
+                        <Button.CommandParameter>
+                            <x:Int32>1</x:Int32>
+                        </Button.CommandParameter>
+                        <FontIcon Glyph="&#xE71E;" Style="{StaticResource IconFont}" />
+                    </Button>
                 </StackPanel>
                 <!--数据面板-->
                 <GridView ItemsSource="{x:Bind ViewModel.Users, Mode=OneWay}" SelectionMode="None" Padding="0">
                     <GridView.ItemTemplate>
                         <DataTemplate x:DataType="local:UserListModel">
-                            <Grid BorderThickness="1" BorderBrush="{StaticResource ControlElevationBorderBrush}" CornerRadius="4" Width="150" Height="70"
-                          Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
+                            <Grid BorderThickness="1" BorderBrush="{StaticResource ControlElevationBorderBrush}" CornerRadius="4" Width="150" Height="70" Background="{StaticResource CardStrokeColorDefaultBrush}">
                                 <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Spacing="5" Margin="10,0,0,0">
                                     <TextBlock FontWeight="Bold" Text="{Binding Name, Mode=OneWay}" />
                                     <TextBlock Text="{Binding Account, Mode=OneWay}" />
@@ -52,18 +47,22 @@
                                     <Button Style="{StaticResource IconButton}" BorderThickness="1,0,1,1" ToolTipService.ToolTip="修改" Command="{Binding EditCommand}">
                                         <FontIcon Glyph="&#xE70F;" Style="{StaticResource IconFont}" />
                                     </Button>
-                                    <DropDownButton Style="{StaticResource IconDropDownButton}" BorderThickness="0,0,0,1" ToolTipService.ToolTip="删除">
+                                    <DropDownButton Style="{StaticResource IconDropDownButton}" BorderThickness="0,0,0,1" ToolTipService.ToolTip="更多">
                                         <DropDownButton.Content>
-                                            <FontIcon Glyph="&#xE74D;" Style="{StaticResource IconFont}" />
+                                            <FontIcon Glyph="&#xE712;" Style="{StaticResource IconFont}" />
                                         </DropDownButton.Content>
                                         <DropDownButton.Flyout>
                                             <MenuFlyout Placement="Bottom">
+                                                <MenuFlyoutItem Text="重置密码" Command="{Binding EditCommand}">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE8EE;" Style="{StaticResource IconFont}" />
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
                                                 <MenuFlyoutItem Text="删除" Command="{Binding DeleteCommand}">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon Glyph="&#xE74D;" Style="{StaticResource IconFont}" />
                                                     </MenuFlyoutItem.Icon>
                                                 </MenuFlyoutItem>
-                                                <MenuFlyoutItem Text="取消" />
                                             </MenuFlyout>
                                         </DropDownButton.Flyout>
                                     </DropDownButton>
@@ -72,7 +71,7 @@
                         </DataTemplate>
                     </GridView.ItemTemplate>
                 </GridView>
-                <!--分页面板-->
+                <!--分页组件-->
                 <controls:Paging HorizontalAlignment="Left" ViewModel="{x:Bind ViewModel.QueryModel, Mode=OneWay}" />
             </StackPanel>
         </controls:LoadingMask.PanelContent>

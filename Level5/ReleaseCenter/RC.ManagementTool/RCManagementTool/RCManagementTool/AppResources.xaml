@@ -21,4 +21,13 @@
     <Style x:Key="IconFont" TargetType="FontIcon">
         <Setter Property="FontSize" Value="14" />
     </Style>
+    <Style x:Key="PageTitleIconButton" TargetType="Button">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Height" Value="31" />
+        <Setter Property="MinWidth" Value="30" />
+    </Style>
 </ResourceDictionary>
