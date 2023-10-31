@@ -67,6 +67,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Controls\DrawerPanel.xaml" />
 	  <None Remove="Controls\IconTextBlock.xaml" />
 	  <None Remove="Controls\LoadingMask.xaml" />
 	  <None Remove="Controls\Paging.xaml" />
@@ -77,6 +78,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <UpToDateCheckInput Remove="Controls\DrawerPanel.xaml" />
 	  <UpToDateCheckInput Remove="Controls\IconTextBlock.xaml" />
 	  <UpToDateCheckInput Remove="Controls\LoadingMask.xaml" />
 	  <UpToDateCheckInput Remove="Controls\Paging.xaml" />

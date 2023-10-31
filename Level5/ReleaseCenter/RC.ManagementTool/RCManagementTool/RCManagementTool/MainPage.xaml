@@ -5,7 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:RCManagementTool.Controls"
-      mc:Ignorable="d"
+      xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
+      mc:Ignorable="d" RequestedTheme="Light"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Unloaded="Page_Unloaded" Loaded="Page_Loaded">
 
     <Page.DataContext>
@@ -13,10 +14,6 @@
     </Page.DataContext>
     <Grid>
         <Frame x:Name="contentFrame"/>
-        <!--抽屉面板-->
-        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Right" Visibility="Collapsed">
-        </Grid>
-        <!--消息提示框-->
         <InfoBar Margin="0,20,0,0" HorizontalAlignment="Center" IsOpen="{x:Bind ViewModel.InfoBarIsOpen, Mode=TwoWay}"
                  Severity="{x:Bind ViewModel.InfoBarSeverity, Mode=OneWay}" Title="{x:Bind ViewModel.InfoBarTitle, Mode=OneWay}" Message="{x:Bind ViewModel.InfoBarMessage, Mode=OneWay}" />
     </Grid>

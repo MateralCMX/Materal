@@ -22,15 +22,5 @@
         /// </summary>
         [ObservableProperty]
         private InfoBarSeverity _infoBarSeverity = InfoBarSeverity.Informational;
-        /// <summary>
-        /// 加载遮罩层显示状态
-        /// </summary>
-        [ObservableProperty]
-        private Visibility _loadingMaskVisibility = Visibility.Collapsed;
-        /// <summary>
-        /// 加载遮罩层信息
-        /// </summary>
-        [ObservableProperty]
-        private string _loadingMaskMessage = string.Empty;
     }
 }
