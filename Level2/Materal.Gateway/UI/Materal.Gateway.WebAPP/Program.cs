@@ -3,6 +3,8 @@ using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension;
 using Materal.Logger;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using MMLib.SwaggerForOcelot.ServiceDiscovery;
 
 namespace Materal.Gateway.WebAPP
 {
@@ -40,6 +42,7 @@ namespace Materal.Gateway.WebAPP
             services.AddScoped<AuthenticationStateProvider>(factory => factory.GetRequiredService<CustomAuthenticationStateProvider>());
             #endregion
             services.AddSwaggerForOcelot(builder.Configuration);
+            services.Replace(new ServiceDescriptor(typeof(ISwaggerServiceDiscoveryProvider), typeof(MySwaggerServiceDiscoveryProvider), ServiceLifetime.Transient));
             services.AddOcelotGateway();
             services.AddEndpointsApiExplorer();
             #endregion

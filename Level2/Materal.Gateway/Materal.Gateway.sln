@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.Abstraction
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway", "Src\Materal.Gateway\Materal.Gateway.csproj", "{309C372A-D00C-416C-9828-F9FB321EAA2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Gateway.Test", "Test\Materal.Gateway.Test\Materal.Gateway.Test.csproj", "{400AA20E-12FD-4128-8DCF-46595676C091}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.Test", "Test\Materal.Gateway.Test\Materal.Gateway.Test.csproj", "{400AA20E-12FD-4128-8DCF-46595676C091}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

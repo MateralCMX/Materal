@@ -1,5 +1,18 @@
-{
+﻿{
   "Routes": [
+    {
+      "UpstreamPathTemplate": "/RCDemoAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDemoAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCDemoAPI"
+    },
     {
       "UpstreamPathTemplate": "/RCAuthorityAPI/api/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
@@ -14,30 +27,17 @@
       "SwaggerKey": "RCAuthorityAPI"
     },
     {
-      "UpstreamPathTemplate": "/RCDeploy_DEVAPI/api/{everything}",
+      "UpstreamPathTemplate": "/RCServerCenterAPI/api/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "RCDeploy_DEVAPI",
+      "ServiceName": "RCServerCenterAPI",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "RCDeploy_DEVAPI"
-    },
-    {
-      "UpstreamPathTemplate": "/RCDeploy_UATAPI/api/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
-      "DownstreamPathTemplate": "/api/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHttpVersion": "1.1",
-      "ServiceName": "RCDeploy_UATAPI",
-      "LoadBalancerOptions": {
-        "Type": "LeastConnection"
-      },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "RCDeploy_UATAPI"
+      "SwaggerKey": "RCServerCenterAPI"
     },
     {
       "UpstreamPathTemplate": "/RCES_DEVAPI/api/{everything}",
@@ -66,17 +66,17 @@
       "SwaggerKey": "RCES_UATAPI"
     },
     {
-      "UpstreamPathTemplate": "/RCServerCenterAPI/api/{everything}",
+      "UpstreamPathTemplate": "/RCDeploy_DEVAPI/api/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamPathTemplate": "/api/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "RCServerCenterAPI",
+      "ServiceName": "RCDeploy_DEVAPI",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "RCServerCenterAPI"
+      "SwaggerKey": "RCDeploy_DEVAPI"
     },
     {
       "UpstreamPathTemplate": "/RCDeploy_DEVAPI/hubs/{everything}",
@@ -89,22 +89,70 @@
         "Type": "NoLoadBalancer"
       },
       "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeploy_UATAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeploy_UATAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCDeploy_UATAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeploy_UATAPI/hubs/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/hubs/{everything}",
+      "DownstreamScheme": "ws",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeploy_UATAPI",
+      "LoadBalancerOptions": {
+        "Type": "NoLoadBalancer"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
     }
   ],
   "GlobalConfiguration": {
     "ServiceDiscoveryProvider": {
-      "Host": "175.27.194.19",
+      "Host": "127.0.0.1",
       "Port": 8500,
       "Type": "Consul"
     }
   },
   "SwaggerEndPoints": [
+    //{
+    //  "Key": "RCDemoAPI",
+    //  "Config": [
+    //    {
+    //      "Name": "RCDemoAPI",
+    //      "Version": "v1",
+    //      "Url": "http://localhost:5000/swagger/v1/swagger.json"
+    //    }
+    //  ]
+    //},
+    {
+      "Key": "RCDemoAPI",
+      "Config": [
+        {
+          "Name": "RCDemoAPI",
+          "Version": "v1",
+          "Service": {
+            "Name": "RCDemoAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
     {
       "Key": "RCAuthorityAPI",
+      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCAuthorityAPI",
-          "TakeServersFromDownstreamService": true,
           "Version": "v1",
           "Service": {
             "Name": "RCAuthorityAPI",
@@ -114,28 +162,14 @@
       ]
     },
     {
-      "Key": "RCDeploy_DEVAPI",
+      "Key": "RCServerCenterAPI",
+      "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "RCDeploy_DEVAPI",
-          "TakeServersFromDownstreamService": true,
+          "Name": "RCServerCenterAPI",
           "Version": "v1",
           "Service": {
-            "Name": "RCDeploy_DEVAPI",
-            "Path": "/swagger/v1/swagger.json"
-          }
-        }
-      ]
-    },
-    {
-      "Key": "RCDeploy_UATAPI",
-      "Config": [
-        {
-          "Name": "RCDeploy_UATAPI",
-          "TakeServersFromDownstreamService": true,
-          "Version": "v1",
-          "Service": {
-            "Name": "RCDeploy_UATAPI",
+            "Name": "RCServerCenterAPI",
             "Path": "/swagger/v1/swagger.json"
           }
         }
@@ -143,10 +177,10 @@
     },
     {
       "Key": "RCES_DEVAPI",
+      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCES_DEVAPI",
-          "TakeServersFromDownstreamService": true,
           "Version": "v1",
           "Service": {
             "Name": "RCES_DEVAPI",
@@ -157,10 +191,10 @@
     },
     {
       "Key": "RCES_UATAPI",
+      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCES_UATAPI",
-          "TakeServersFromDownstreamService": true,
           "Version": "v1",
           "Service": {
             "Name": "RCES_UATAPI",
@@ -170,14 +204,28 @@
       ]
     },
     {
-      "Key": "RCServerCenterAPI",
+      "Key": "RCDeploy_DEVAPI",
+      "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "RCServerCenterAPI",
-          "TakeServersFromDownstreamService": true,
+          "Name": "RCDeploy_DEVAPI",
           "Version": "v1",
           "Service": {
-            "Name": "RCServerCenterAPI",
+            "Name": "RCDeploy_DEVAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCDeploy_UATAPI",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCDeploy_UATAPI",
+          "Version": "v1",
+          "Service": {
+            "Name": "RCDeploy_UATAPI",
             "Path": "/swagger/v1/swagger.json"
           }
         }
