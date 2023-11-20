@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Materal.Utils.Windows">
-			<Version>1.1.64</Version>
+      <Version>1.1.65</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.6.36389" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -118,12 +118,10 @@
     <EmbeddedResource Include="Tools\Microsoft.Extensions.Options.dll" />
     <EmbeddedResource Include="Tools\Microsoft.Extensions.Primitives.dll" />
     <EmbeddedResource Include="Tools\Microsoft.Win32.SystemEvents.dll" />
-    <EmbeddedResource Include="Tools\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll" />
-    <EmbeddedResource Include="Tools\runtimes\win\lib\net6.0\System.Drawing.Common.dll" />
     <EmbeddedResource Include="Tools\System.Drawing.Common.dll" />
     <EmbeddedResource Include="Tools\System.Reflection.Metadata.dll" />
     <EmbeddedResource Include="Tools\Newtonsoft.Json.dll" />
-    <EmbeddedResource Include="Tools\runtimes\unix\lib\net6.0\System.Drawing.Common.dll" />
+    <EmbeddedResource Include="Tools\runtimes\win\lib\net8.0\Microsoft.Win32.SystemEvents.dll" />
     <Content Include="尘歌壶.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInVSIX>true</IncludeInVSIX>

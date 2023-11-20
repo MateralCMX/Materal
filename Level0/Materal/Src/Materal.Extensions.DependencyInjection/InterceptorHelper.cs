@@ -102,7 +102,7 @@ namespace Materal.Extensions.DependencyInjection
             {
                 interceptors.AddRange(objMethodInfo.DeclaringType.GetCustomAttributes<InterceptorAttribute>());
             }
-            if (_golablInterceptors is not null && _golablInterceptors.Count() > 0)
+            if (_golablInterceptors is not null && _golablInterceptors.Any())
             {
                 interceptors.AddRange(_golablInterceptors.Where(m => m.Filter(interfaceMethodInfo, objMethodInfo)).Select(m => m.Interceptor));
             }
@@ -141,7 +141,7 @@ namespace Materal.Extensions.DependencyInjection
                 if (methodInfo.IsGenericMethod)
                 {
                     Type[] methodGenericTypes = methodInfo.GetGenericArguments();
-                    if (methodGenericTypes.Length != genericTypes.Length) continue;
+                    if (genericTypes is null || methodGenericTypes.Length != genericTypes.Length) continue;
                     for (int i = 0; i < genericTypes.Length; i++)
                     {
                         if (methodGenericTypes[i].FullName is not null || genericTypes[i].FullName is not null || methodGenericTypes[i].Name != genericTypes[i].Name || methodGenericTypes[i].FullName != genericTypes[i].FullName)

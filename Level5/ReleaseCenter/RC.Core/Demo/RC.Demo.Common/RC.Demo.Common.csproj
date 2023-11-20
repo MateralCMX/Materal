@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.Common" Version="1.1.64" />
+		<PackageReference Include="Materal.BaseCore.Common" Version="1.1.65" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\RC.Core.Common\RC.Core.Common.csproj" />

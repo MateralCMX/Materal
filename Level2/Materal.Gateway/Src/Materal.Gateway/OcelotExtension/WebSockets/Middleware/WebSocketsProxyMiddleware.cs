@@ -2,7 +2,12 @@ using Microsoft.AspNetCore.Http;
 using Ocelot.Configuration;
 using Ocelot.Logging;
 using Ocelot.Middleware;
+#if NET6_0
 using Ocelot.WebSockets.Middleware;
+#endif
+#if NET8_0
+using Ocelot.WebSockets;
+#endif
 using System.Net;
 using System.Net.WebSockets;
 using System.Text;
@@ -17,6 +22,8 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
         private static readonly string[] NotForwardedWebSocketHeaders = new[] { "Connection", "Host", "Upgrade", "Sec-WebSocket-Accept", "Sec-WebSocket-Protocol", "Sec-WebSocket-Key", "Sec-WebSocket-Version", "Sec-WebSocket-Extensions" };
         private const int DefaultWebSocketBufferSize = 4096;
         private readonly RequestDelegate _next;
+        private static readonly string[] ServerNames = new string[] { "Materal.Gateway" };
+
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -37,11 +44,7 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         private static async Task PumpWebSocket(WebSocket source, WebSocket destination, int bufferSize, CancellationToken cancellationToken)
         {
-            if (bufferSize <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(bufferSize));
-            }
-
+            if (bufferSize <= 0) throw new ArgumentOutOfRangeException(nameof(bufferSize));
             var buffer = new byte[bufferSize];
             while (true)
             {
@@ -99,15 +102,9 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
         /// <exception cref="InvalidOperationException"></exception>
         private async Task Proxy(HttpContext context, string serverEndpoint)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
+            ArgumentNullException.ThrowIfNull(context);
 
-            if (serverEndpoint == null)
-            {
-                throw new ArgumentNullException(nameof(serverEndpoint));
-            }
+            ArgumentNullException.ThrowIfNull(serverEndpoint);
 
             if (!context.WebSockets.IsWebSocketRequest)
             {
@@ -153,7 +150,7 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
             {
                 List<Header> headers = new()
                 {
-                    new Header("Server", new string[] { "Materal.Gateway" })
+                    new Header("Server", ServerNames)
                 };
                 HttpContent content = new StringContent($"websocket连接失败:{ex.Message}", Encoding.UTF8, "text/plain");
                 DownstreamResponse downstreamResponse = new(content, HttpStatusCode.BadGateway, headers, "GatewayWebSocketsProxyMiddleware");

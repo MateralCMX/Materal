@@ -33,9 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinFormsDemo", "Demo\WinFor
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "WinUIDemo (Package)", "Demo\WinUIDemo\WinUIDemo (Package)\WinUIDemo (Package).wapproj", "{BF7B86D9-83BC-418F-ABB5-FCA3AC1E72D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinUIDemo", "Demo\WinUIDemo\WinUIDemo\WinUIDemo.csproj", "{89FADAD9-5E30-4436-8455-DB849187E34F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinUIDemo", "Demo\WinUIDemo\WinUIDemo\WinUIDemo.csproj", "{89FADAD9-5E30-4436-8455-DB849187E34F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppDemo", "Demo\WpfAppDemo\WpfAppDemo.csproj", "{18219C92-53BE-4A79-A0C8-83E0546313B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfAppDemo", "Demo\WpfAppDemo\WpfAppDemo.csproj", "{18219C92-53BE-4A79-A0C8-83E0546313B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

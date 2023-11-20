@@ -117,7 +117,7 @@ namespace Materal.Gateway.OcelotExtension.Responder
         private static void AddHeaderIfDoesntExist(HttpContext context, Header httpResponseHeader)
         {
             if (context.Response.Headers.ContainsKey(httpResponseHeader.Key)) return;
-            context.Response.Headers.Add(httpResponseHeader.Key, new StringValues(httpResponseHeader.Values.ToArray()));
+            context.Response.Headers.Append(httpResponseHeader.Key, new StringValues(httpResponseHeader.Values.ToArray()));
         }
     }
 }

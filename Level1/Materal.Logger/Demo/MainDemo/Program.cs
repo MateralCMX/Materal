@@ -12,7 +12,7 @@ namespace MainDemo
             Console.WriteLine($"UserID={userID}");
             Console.WriteLine("按任意键开始测试");
             Console.ReadKey();
-            using IDisposable scope = _logger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
+            using IDisposable? scope = _logger.BeginScope(new AdvancedScope("TestScope", new Dictionary<string, string>
             {
                 ["UserID"] = userID.ToString()
             }));

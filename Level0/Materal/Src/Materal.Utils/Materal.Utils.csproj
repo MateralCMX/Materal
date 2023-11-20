@@ -10,7 +10,7 @@
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>1.1.64</Version>
+		<Version>1.1.65</Version>
 		<Description>Materal工具包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
@@ -22,9 +22,9 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="System.Threading.Tasks.Dataflow" Version="6.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+		<PackageReference Include="Microsoft.CSharp" Version="*" />
+		<PackageReference Include="System.Threading.Tasks.Dataflow" Version="*" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>11.0</LangVersion>
 		<Nullable>enable</Nullable>
@@ -10,7 +10,7 @@
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>1.1.64</Version>
+		<Version>1.1.65</Version>
 		<Description>Materal网关</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
@@ -18,11 +18,19 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.64" />
-		<PackageReference Include="Ocelot" Version="18.0.0" />
-		<PackageReference Include="Ocelot.Cache.CacheManager" Version="18.0.0" />
-		<PackageReference Include="Ocelot.Provider.Consul" Version="18.0.0" />
-		<PackageReference Include="Ocelot.Provider.Polly" Version="18.0.0" />
+		<PackageReference Include="Materal.Utils" Version="1.1.65" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Ocelot" Version="18.*" />
+		<PackageReference Include="Ocelot.Cache.CacheManager" Version="18.*" />
+		<PackageReference Include="Ocelot.Provider.Consul" Version="18.*" />
+		<PackageReference Include="Ocelot.Provider.Polly" Version="18.*" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+		<PackageReference Include="Ocelot" Version="20.*" />
+		<PackageReference Include="Ocelot.Cache.CacheManager" Version="20.*" />
+		<PackageReference Include="Ocelot.Provider.Consul" Version="20.*" />
+		<PackageReference Include="Ocelot.Provider.Polly" Version="20.*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Gateway.Abstractions\Materal.Gateway.Abstractions.csproj" />

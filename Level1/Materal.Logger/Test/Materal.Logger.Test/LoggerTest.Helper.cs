@@ -27,11 +27,11 @@ namespace Materal.Logger.Test
         {
             ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
             WriteLogs(logger, "这是一条日志消息");
-            using (IDisposable scope = logger.BeginScope("CustomScope"))
+            using (IDisposable? scope = logger.BeginScope("CustomScope"))
             {
                 WriteLogs(logger, "这是一条作用域日志消息");
             }
-            using (IDisposable scope = logger.BeginScope(new AdvancedScope("AdvancedScope", new Dictionary<string, string>
+            using (IDisposable? scope = logger.BeginScope(new AdvancedScope("AdvancedScope", new Dictionary<string, string>
             {
                 ["UserID"] = Guid.NewGuid().ToString()
             })))
@@ -75,7 +75,7 @@ namespace Materal.Logger.Test
         public static void WriteThreadLogs(IServiceProvider services, int threadCount = 100)
         {
             ILoggerFactory loggerFactory = services.GetRequiredService<ILoggerFactory>();
-            List<Task> tasks = new();
+            List<Task> tasks = [];
             for (int i = 0; i < threadCount; i++)
             {
                 string index = i.ToString();
@@ -86,7 +86,7 @@ namespace Materal.Logger.Test
                 });
                 tasks.Add(task);
             }
-            Task.WaitAll(tasks.ToArray());
+            Task.WaitAll([.. tasks]);
         }
     }
 }

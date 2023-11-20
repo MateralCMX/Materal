@@ -38,7 +38,7 @@
     <ProjectGuid>bf7b86d9-83bc-418f-abb5-fca3ac1e72d7</ProjectGuid>
     <TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <AssetTargetFallback>net6.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
+    <AssetTargetFallback>net8.0-windows$(TargetPlatformVersion);$(AssetTargetFallback)</AssetTargetFallback>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\WinUIDemo\WinUIDemo.csproj</EntryPointProjectUniqueName>
@@ -64,10 +64,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="[1.2.230217.4]">
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="[10.0.22621.755]">
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.2428">
       <IncludeAssets>build</IncludeAssets>
     </PackageReference>
   </ItemGroup>

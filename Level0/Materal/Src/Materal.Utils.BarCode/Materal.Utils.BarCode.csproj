@@ -10,7 +10,7 @@
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>1.1.64</Version>
+		<Version>1.1.65</Version>
 		<Description>Materal条码工具包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
@@ -22,8 +22,8 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="ZXing.Net" Version="0.16.9" />
-		<PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="0.16.12" />
+		<PackageReference Include="ZXing.Net" Version="*" />
+		<PackageReference Include="ZXing.Net.Bindings.Windows.Compatibility" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />

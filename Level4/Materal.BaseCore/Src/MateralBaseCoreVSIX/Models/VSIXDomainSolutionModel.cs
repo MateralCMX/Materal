@@ -451,7 +451,7 @@ namespace MateralBaseCoreVSIX.Models
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
-            codeContent.AppendLine($"\t\t<TargetFramework>net6.0</TargetFramework>");
+            codeContent.AppendLine($"\t\t<TargetFrameworks>net6.0;net8.0</TargetFrameworks>");
             codeContent.AppendLine($"\t\t<ImplicitUsings>enable</ImplicitUsings>");
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
@@ -471,7 +471,7 @@ namespace MateralBaseCoreVSIX.Models
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
-            codeContent.AppendLine($"\t\t<TargetFramework>net6.0</TargetFramework>");
+            codeContent.AppendLine($"\t\t<TargetFrameworks>net6.0;net8.0</TargetFrameworks>");
             codeContent.AppendLine($"\t\t<ImplicitUsings>enable</ImplicitUsings>");
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
@@ -494,7 +494,7 @@ namespace MateralBaseCoreVSIX.Models
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
-            codeContent.AppendLine($"\t\t<TargetFramework>net6.0</TargetFramework>");
+            codeContent.AppendLine($"\t\t<TargetFrameworks>net6.0;net8.0</TargetFrameworks>");
             codeContent.AppendLine($"\t\t<ImplicitUsings>enable</ImplicitUsings>");
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t\t<GenerateDocumentationFile>True</GenerateDocumentationFile>");
@@ -521,7 +521,7 @@ namespace MateralBaseCoreVSIX.Models
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
-            codeContent.AppendLine($"\t\t<TargetFramework>net6.0</TargetFramework>");
+            codeContent.AppendLine($"\t\t<TargetFrameworks>net6.0;net8.0</TargetFrameworks>");
             codeContent.AppendLine($"\t\t<ImplicitUsings>enable</ImplicitUsings>");
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
@@ -545,7 +545,7 @@ namespace MateralBaseCoreVSIX.Models
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
-            codeContent.AppendLine($"\t\t<TargetFramework>net6.0</TargetFramework>");
+            codeContent.AppendLine($"\t\t<TargetFrameworks>net6.0;net8.0</TargetFrameworks>");
             codeContent.AppendLine($"\t\t<ImplicitUsings>enable</ImplicitUsings>");
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t</PropertyGroup>");
@@ -569,7 +569,7 @@ namespace MateralBaseCoreVSIX.Models
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
-            codeContent.AppendLine($"\t\t<TargetFramework>net6.0</TargetFramework>");
+            codeContent.AppendLine($"\t\t<TargetFrameworks>net6.0;net8.0</TargetFrameworks>");
             codeContent.AppendLine($"\t\t<ImplicitUsings>enable</ImplicitUsings>");
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t\t<GenerateDocumentationFile>True</GenerateDocumentationFile>");
@@ -596,7 +596,7 @@ namespace MateralBaseCoreVSIX.Models
             StringBuilder codeContent = new StringBuilder();
             codeContent.AppendLine($"<Project Sdk=\"Microsoft.NET.Sdk.Web\">");
             codeContent.AppendLine($"\t<PropertyGroup>");
-            codeContent.AppendLine($"\t\t<TargetFramework>net6.0</TargetFramework>");
+            codeContent.AppendLine($"\t\t<TargetFrameworks>net6.0;net8.0</TargetFrameworks>");
             codeContent.AppendLine($"\t\t<ImplicitUsings>enable</ImplicitUsings>");
             codeContent.AppendLine($"\t\t<Nullable>enable</Nullable>");
             codeContent.AppendLine($"\t\t<GenerateDocumentationFile>True</GenerateDocumentationFile>");

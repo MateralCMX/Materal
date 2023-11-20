@@ -38,10 +38,11 @@ namespace MateralPublish.Models.ProjectModels.Level0
             if (csprojFileInfo.Name == "Materal.Utils.Windows.csproj")
             {
                 string cmd1 = $"dotnet publish {csprojFileInfo.FullName} -c Release -f net6.0-windows";
-                string cmd2 = $"dotnet publish {csprojFileInfo.FullName} -c Release -f net472";
-                if (NugetServerHelper.NugetDirectoryInfo == null) return new[] { cmd1, cmd2 };
-                string cmd3 = $"dotnet pack {csprojFileInfo.FullName} -o {NugetServerHelper.NugetDirectoryInfo.FullName} -c Release";
-                return new[] { cmd1, cmd2, cmd3 };
+                string cmd2 = $"dotnet publish {csprojFileInfo.FullName} -c Release -f net8.0-windows";
+                string cmd3 = $"dotnet publish {csprojFileInfo.FullName} -c Release -f net472";
+                if (NugetServerHelper.NugetDirectoryInfo == null) return new[] { cmd1, cmd2, cmd3 };
+                string cmdPack = $"dotnet pack {csprojFileInfo.FullName} -o {NugetServerHelper.NugetDirectoryInfo.FullName} -c Release";
+                return new[] { cmd1, cmd2, cmd3, cmdPack };
             }
             else
             {

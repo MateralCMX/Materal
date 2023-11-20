@@ -10,7 +10,7 @@
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>1.1.64</Version>
+		<Version>1.1.65</Version>
 		<Description>Materal 文本工具包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
@@ -22,7 +22,7 @@
 		<None Include="../../../../LICENSE"  Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="PinYinConverterCore" Version="1.0.2" />
+	  <PackageReference Include="PinYinConverterCore" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />

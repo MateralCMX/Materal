@@ -1,7 +1,6 @@
 ﻿using Materal.Logger.LoggerHandlers.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 namespace Materal.Logger
 {
@@ -35,7 +34,7 @@ namespace Materal.Logger
         /// <typeparam name="TState"></typeparam>
         /// <param name="state"></param>
         /// <returns></returns>
-        public IDisposable BeginScope<TState>(TState state)
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         {
             string scope;
             LoggerScope? loggerScope = null;

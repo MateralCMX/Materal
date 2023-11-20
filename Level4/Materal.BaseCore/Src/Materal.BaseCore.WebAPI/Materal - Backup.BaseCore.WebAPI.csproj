@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<Version>1.1.65</Version>
+		<Company>古典部工作室</Company>
+		<Product>Materal.BaseCore</Product>
+		<Authors>Materal</Authors>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
+		<Title>Materal.BaseCore.WebAPI</Title>
+		<Description>请引用对应名称包</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.BaseCore.PresentationModel\Materal.BaseCore.PresentationModel.csproj" />
+		<ProjectReference Include="..\Materal.BaseCore.ServiceImpl\Materal.BaseCore.ServiceImpl.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.Logger.SqlServerLog" Version="1.1.65" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.21" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
+		<PackageReference Include="Consul" Version="*" />
+		<PackageReference Include="Polly" Version="*" />
+	</ItemGroup>
+</Project>
