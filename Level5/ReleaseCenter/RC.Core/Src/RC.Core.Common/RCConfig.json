@@ -9,7 +9,7 @@
   "EventBusConfig": {
     "HostName": "127.0.0.1",
     "Port": 5672,
-    "UserName": "Admin",
+    "UserName": "admin",
     "Password": "123456",
     "ExchangeName": "RCExchange_DEV",
     "RetryNumber": 5,

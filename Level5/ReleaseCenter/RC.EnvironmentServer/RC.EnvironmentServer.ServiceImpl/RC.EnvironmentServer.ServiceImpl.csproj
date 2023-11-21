@@ -3,6 +3,7 @@
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<LangVersion>12.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.66" />

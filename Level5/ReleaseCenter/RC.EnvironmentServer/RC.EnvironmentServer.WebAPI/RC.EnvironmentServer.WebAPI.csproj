@@ -4,6 +4,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<IsPublish>true</IsPublish>
+		<Version>1.1.66</Version>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.66" />

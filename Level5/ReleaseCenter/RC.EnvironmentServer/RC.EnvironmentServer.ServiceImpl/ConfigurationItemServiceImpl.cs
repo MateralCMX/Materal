@@ -43,42 +43,48 @@ namespace RC.EnvironmentServer.ServiceImpl
         public async Task InitAsync()
         {
             List<ConfigurationItem> configurationItems = await DefaultRepository.FindAsync(m => true);
-            List<ConfigurationItem> removeItems = new();
+            List<ConfigurationItem> removeItems = [];
             Guid[] hastIDs;
             Guid[] removeIDs;
             #region 移除项目不存在的
             Guid[] allProjectIDs = configurationItems.Select(m => m.ProjectID).Distinct().ToArray();
-            (List<ProjectListDTO>? allProjectInfo, _) = await _projectHttpClient.GetListAsync(new()
+            if(allProjectIDs.Length > 0)
             {
-                PageIndex = 1,
-                PageSize = allProjectIDs.Length,
-                IDs = allProjectIDs.ToList()
-            });
-            if (allProjectInfo != null)
-            {
-                hastIDs = allProjectInfo.Select(m => m.ID).ToArray();
-                removeIDs = allProjectIDs.Except(hastIDs).ToArray();
-                if (removeIDs.Length > 0)
+                (List<ProjectListDTO>? allProjectInfo, _) = await _projectHttpClient.GetListAsync(new()
                 {
-                    removeItems.AddRange(configurationItems.Where(m => removeIDs.Contains(m.ProjectID)).ToList());
+                    PageIndex = 1,
+                    PageSize = allProjectIDs.Length,
+                    IDs = [.. allProjectIDs]
+                });
+                if (allProjectInfo != null && allProjectInfo.Count > 0)
+                {
+                    hastIDs = allProjectInfo.Select(m => m.ID).ToArray();
+                    removeIDs = allProjectIDs.Except(hastIDs).ToArray();
+                    if (removeIDs.Length > 0)
+                    {
+                        removeItems.AddRange(configurationItems.Where(m => removeIDs.Contains(m.ProjectID)).ToList());
+                    }
                 }
             }
             #endregion
             #region 移除命名空间不存在的
             Guid[] allNamespaceIDs = configurationItems.Select(m => m.NamespaceID).Distinct().ToArray();
-            (List<NamespaceListDTO>? allNamespaceInfo, _) = await _namespaceHttpClient.GetListAsync(new()
+            if(allNamespaceIDs.Length > 0)
             {
-                PageIndex = 1,
-                PageSize = allNamespaceIDs.Length,
-                IDs = allNamespaceIDs.ToList()
-            });
-            if (allNamespaceInfo != null)
-            {
-                hastIDs = allNamespaceInfo.Select(m => m.ID).ToArray();
-                removeIDs = allProjectIDs.Except(hastIDs).ToArray();
-                if (removeIDs.Length > 0)
+                (List<NamespaceListDTO>? allNamespaceInfo, _) = await _namespaceHttpClient.GetListAsync(new()
                 {
-                    removeItems.AddRange(configurationItems.Where(m => removeIDs.Contains(m.NamespaceID)).ToList());
+                    PageIndex = 1,
+                    PageSize = allNamespaceIDs.Length,
+                    IDs = [.. allNamespaceIDs]
+                });
+                if (allNamespaceInfo != null && allNamespaceInfo.Count > 0)
+                {
+                    hastIDs = allNamespaceInfo.Select(m => m.ID).ToArray();
+                    removeIDs = allProjectIDs.Except(hastIDs).ToArray();
+                    if (removeIDs.Length > 0)
+                    {
+                        removeItems.AddRange(configurationItems.Where(m => removeIDs.Contains(m.NamespaceID)).ToList());
+                    }
                 }
             }
             #endregion

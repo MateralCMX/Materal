@@ -1,5 +1,5 @@
 $codeDirPath = "D:\Project\Materal\Materal\Level5\ReleaseCenter\";#源码文件夹路径
-$publishDirPath = "D:\Project\Materal\RCApplication\";#发布文件夹路径
+$publishDirPath = "D:\Project\Materal\Application\ReleaseCenter\";#发布文件夹路径
 $applicationSuffixs = @("WebAPI","Web");#后缀名
 $applicationPrefixs = @("RC.Authority","RC.Deploy","RC.ServerCenter","RC.EnvironmentServer");#前缀名
 #"RC.Authority","RC.Deploy","RC.ServerCenter","RC.EnvironmentServer"
@@ -21,7 +21,7 @@ foreach ($subfolder in $allSubfolders) {
                 if(!$subFile.Name.EndsWith(".csproj")) { continue; }
                 $targetDirPath = $publishDirPath + $projectFolder.Name;
                 Write "开始发布 $projectFolder"
-                dotnet publish $subFile.FullName -o $targetDirPath -c $version
+                dotnet publish $subFile.FullName -o $targetDirPath -c $version -f net8.0
                 if($removeConfigFile){
                     $appsettingsFilePath = $targetDirPath + "\appsettings.json"
                     if(Test-Path $appsettingsFilePath){

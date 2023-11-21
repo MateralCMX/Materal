@@ -4,7 +4,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<IsPackage>true</IsPackage>
+		<IsPackable>true</IsPackable>
 		<Version>1.1.66</Version>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>MateralPublish</ToolCommandName>
