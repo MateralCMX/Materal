@@ -1,6 +1,5 @@
 ﻿using Materal.Tools.Helper;
 using MateralPublish.Extensions;
-using MateralPublish.Helper;
 using System.Diagnostics;
 using System.Text;
 
@@ -29,13 +28,15 @@ namespace MateralPublish.Models
         /// <summary>
         /// 发布
         /// </summary>
-        /// <param name="publishDirectoryInfo"></param>
         /// <param name="version"></param>
-        public virtual async Task PublishAsync(DirectoryInfo publishDirectoryInfo, string version)
+        public virtual async Task PublishAsync(string version)
         {
             await UpdateVersionAsync(version, ProjectDirectoryInfo);
-            await PublishAsync(publishDirectoryInfo, ProjectDirectoryInfo);
+            if (PublishHelper.PublishDirectoryInfo is null) return;
+            await PackageAsync(ProjectDirectoryInfo);
+            await PublishAsync(ProjectDirectoryInfo);
         }
+        #region 更新版本号
         /// <summary>
         /// 更新版本号
         /// </summary>
@@ -110,19 +111,77 @@ namespace MateralPublish.Models
             await File.WriteAllLinesAsync(csprojFileInfo.FullName, csprojFileContents, Encoding.UTF8);
             ConsoleHelper.WriteLine($"{projectName}版本号已更新到{version}");
         }
+        #endregion
+        #region 打包
         /// <summary>
-        /// 发布
+        /// 打包
         /// </summary>
         /// <param name="publishDirectoryInfo"></param>
-        /// <param name="rootDirectoryInfo"></param>
-        protected virtual async Task PublishAsync(DirectoryInfo publishDirectoryInfo, DirectoryInfo rootDirectoryInfo)
+        /// <param name="version"></param>
+        /// <returns></returns>
+        protected virtual async Task PackageAsync(DirectoryInfo rootDirectoryInfo)
         {
             FileInfo? csprojFileInfo = rootDirectoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
             if (csprojFileInfo != null)
             {
-                if (IsPublishProject(Path.GetFileNameWithoutExtension(csprojFileInfo.Name)))
+                if (!await IsPackageProjectAsync(csprojFileInfo)) return;
+                await PackageAsync(csprojFileInfo);
+            }
+            else
+            {
+                IEnumerable<DirectoryInfo> subDirectoryInfos = rootDirectoryInfo.GetDirectories();
+                foreach (DirectoryInfo directoryInfo in subDirectoryInfos)
                 {
-                    await PublishAsync(publishDirectoryInfo, csprojFileInfo);
+                    await PackageAsync(directoryInfo);
+                }
+            }
+        }
+        /// <summary>
+        /// 是要发布的项目
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected virtual async Task<bool> IsPackageProjectAsync(FileInfo csprojFileInfo)
+        {
+            if (!csprojFileInfo.Exists) return false;
+            string fileContent = await File.ReadAllTextAsync(csprojFileInfo.FullName);
+            return fileContent.Contains("<IsPackable>true</IsPackable>");
+        }
+        /// <summary>
+        /// 打包
+        /// </summary>
+        /// <param name="csprojFileInfo"></param>
+        protected virtual async Task PackageAsync(FileInfo csprojFileInfo)
+        {
+            string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
+            CmdHelper cmdHelper = new();
+            string[] cmds = GetPackageCommand(csprojFileInfo);
+            ConsoleHelper.WriteLine($"正在打包{projectName}...");
+            cmdHelper.OutputDataReceived += CmdHelper_OutputDataReceived;
+            cmdHelper.ErrorDataReceived += CmdHelper_ErrorDataReceived;
+            await cmdHelper.RunCmdCommandsAsync(cmds);
+            ConsoleHelper.WriteLine($"{projectName}打包完毕");
+        }
+        /// <summary>
+        /// 获得发布命令
+        /// </summary>
+        /// <param name="csprojFileInfo"></param>
+        /// <returns></returns>
+        protected virtual string[] GetPackageCommand(FileInfo csprojFileInfo) => [$"dotnet pack {csprojFileInfo.FullName} -o {NugetServerHelper.NugetDirectoryInfo} -c Release"];
+        #endregion
+        #region 发布
+        /// <summary>
+        /// 发布
+        /// </summary>
+        /// <param name="rootDirectoryInfo"></param>
+        protected virtual async Task PublishAsync(DirectoryInfo rootDirectoryInfo)
+        {
+            FileInfo? csprojFileInfo = rootDirectoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
+            if (csprojFileInfo != null)
+            {
+                if (await IsPublishProjectAsync(csprojFileInfo))
+                {
+                    await PublishAsync(csprojFileInfo);
                 }
             }
             else
@@ -130,55 +189,95 @@ namespace MateralPublish.Models
                 IEnumerable<DirectoryInfo> subDirectoryInfos = rootDirectoryInfo.GetDirectories();
                 foreach (DirectoryInfo directoryInfo in subDirectoryInfos)
                 {
-                    await PublishAsync(publishDirectoryInfo, directoryInfo);
+                    await PublishAsync(directoryInfo);
                 }
             }
         }
         /// <summary>
-        /// 获得发布命令
-        /// </summary>
-        /// <param name="publishDirectoryInfo"></param>
-        /// <param name="csprojFileInfo"></param>
-        /// <returns></returns>
-        protected virtual string[] GetPublishCommand(DirectoryInfo publishDirectoryInfo, FileInfo csprojFileInfo)
-        {
-            string cmd1 = $"dotnet publish {csprojFileInfo.FullName} -c Release";
-            return new[] { cmd1 };
-        }
-        /// <summary>
         /// 发布
         /// </summary>
-        /// <param name="publishDirectoryInfo"></param>
         /// <param name="csprojFileInfo"></param>
-        protected virtual async Task<DirectoryInfo?> PublishAsync(DirectoryInfo publishDirectoryInfo, FileInfo csprojFileInfo)
+        protected virtual async Task PublishAsync(FileInfo csprojFileInfo)
         {
             string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
             CmdHelper cmdHelper = new();
-            DirectoryInfo truePublishDirectoryInfo = Path.Combine(publishDirectoryInfo.FullName, projectName).GetNewDirectoryInfo();
-            string[] cmds = GetPublishCommand(truePublishDirectoryInfo, csprojFileInfo);
+            string[] cmds = await GetPublishCommandAsync(csprojFileInfo);
             ConsoleHelper.WriteLine($"正在发布{projectName}代码...");
             cmdHelper.OutputDataReceived += CmdHelper_OutputDataReceived;
             cmdHelper.ErrorDataReceived += CmdHelper_ErrorDataReceived;
             await cmdHelper.RunCmdCommandsAsync(cmds);
             ConsoleHelper.WriteLine($"{projectName}代码发布完毕");
-            return truePublishDirectoryInfo;
         }
-        private void CmdHelper_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        /// <summary>
+        /// 获得发布命令
+        /// </summary>
+        /// <param name="csprojFileInfo"></param>
+        /// <returns></returns>
+        protected virtual async Task<string[]> GetPublishCommandAsync(FileInfo csprojFileInfo)
         {
-            ConsoleHelper.WriteLine(e.Data, ConsoleColor.DarkRed);
-        }
-        private void CmdHelper_OutputDataReceived(object sender, DataReceivedEventArgs e)
-        {
-            ConsoleHelper.WriteLine(e.Data, ConsoleColor.DarkGreen);
+            StringBuilder stringBuilder = new();
+            stringBuilder.Append($"dotnet publish {csprojFileInfo.FullName}");
+            string[] csprojFileContent = await File.ReadAllLinesAsync(csprojFileInfo.FullName);
+            string[] targetFrameworks = [];
+            foreach (string fileLine in csprojFileContent)
+            {
+                string content = fileLine.Trim();
+                if (content.StartsWith("<TargetFramework>"))
+                {
+                    targetFrameworks = [content[17..^18]];
+                    break;
+                }
+                else if (content.StartsWith("<TargetFrameworks>"))
+                {
+                    targetFrameworks = content[18..^19].Split(";");
+                    break;
+                }
+            }
+            string? publishPath = null;
+            if (PublishHelper.PublishDirectoryInfo is not null)
+            {
+                string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
+                DirectoryInfo publishDirectoryInfo = Path.Combine(PublishHelper.PublishDirectoryInfo.FullName, projectName).GetNewDirectoryInfo();
+                publishPath = publishDirectoryInfo.FullName;
+            }
+            stringBuilder.Append(" -c Release");
+            List<string> result = [];
+            if(targetFrameworks.Length > 1)
+            {
+                foreach (string targetFramework in targetFrameworks)
+                {
+                    string item = stringBuilder.ToString();
+                    if (!string.IsNullOrWhiteSpace(publishPath))
+                    {
+                        item += $" -o {publishPath}\\{targetFramework}";
+                    }
+                    item += $" -f {targetFramework}";
+                    result.Add(item);
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(publishPath))
+                {
+                    stringBuilder.Append($" -o {publishPath}");
+                }
+                result.Add(stringBuilder.ToString());
+            }
+            return [.. result];
         }
         /// <summary>
         /// 是要发布的项目
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="fileInfo"></param>
         /// <returns></returns>
-        protected virtual bool IsPublishProject(string name)
+        protected virtual async Task<bool> IsPublishProjectAsync(FileInfo csprojFileInfo)
         {
-            return name.EndsWith(".Test");
+            if (!csprojFileInfo.Exists) return false;
+            string fileContent = await File.ReadAllTextAsync(csprojFileInfo.FullName);
+            return fileContent.Contains("<IsPublish>true</IsPublish>");
         }
+        #endregion
+        protected void CmdHelper_ErrorDataReceived(object sender, DataReceivedEventArgs e) => ConsoleHelper.WriteLine(e.Data, ConsoleColor.DarkRed);
+        protected void CmdHelper_OutputDataReceived(object sender, DataReceivedEventArgs e) => ConsoleHelper.WriteLine(e.Data, ConsoleColor.DarkGreen);
     }
 }

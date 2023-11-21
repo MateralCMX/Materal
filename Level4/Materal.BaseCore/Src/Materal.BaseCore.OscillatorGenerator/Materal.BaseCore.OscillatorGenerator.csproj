@@ -5,9 +5,8 @@
 		<LangVersion>10.0</LangVersion>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.65</Version>
+		<IsPackable>true</IsPackable>
+		<Version>1.1.66</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>

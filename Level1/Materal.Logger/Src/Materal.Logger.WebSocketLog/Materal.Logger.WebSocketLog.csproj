@@ -4,10 +4,9 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>10.0</LangVersion>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<IsPackable>true</IsPackable>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.65</Version>
+		<Version>1.1.66</Version>
 		<Company>Materal</Company>
 		<Product>Materal日志WebSocket模块</Product>
 		<Authors>Materal</Authors>

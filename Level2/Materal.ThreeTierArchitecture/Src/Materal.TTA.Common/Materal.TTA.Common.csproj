@@ -5,12 +5,11 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>10.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<IsPackable>true</IsPackable>
 		<Product>Materal.ThreeTierArchitecture</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.65</Version>
+		<Version>1.1.66</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.TTA.Common</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -22,6 +21,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.1.0" />
-		<PackageReference Include="Materal.Utils" Version="1.1.65" />
+		<PackageReference Include="Materal.Utils" Version="1.1.66" />
 	</ItemGroup>
 </Project>

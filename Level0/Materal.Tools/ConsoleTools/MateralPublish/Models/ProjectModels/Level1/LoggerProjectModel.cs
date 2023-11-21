@@ -1,9 +1,6 @@
 ﻿namespace MateralPublish.Models.ProjectModels.Level1
 {
-    public class LoggerProjectModel : BaseProjectModel
+    public class LoggerProjectModel(string solutionPath) : BaseProjectModel(solutionPath, 1, "Materal.Logger")
     {
-        public LoggerProjectModel(string solutionPath) : base(solutionPath, 1, "Materal.Logger")
-        {
-        }
     }
 }

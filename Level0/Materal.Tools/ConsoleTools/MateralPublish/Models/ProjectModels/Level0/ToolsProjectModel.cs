@@ -1,9 +1,6 @@
 ﻿namespace MateralPublish.Models.ProjectModels.Level0
 {
-    internal class ToolsProjectModel : BaseProjectModel
+    internal class ToolsProjectModel(string solutionPath) : BaseProjectModel(solutionPath, 0, "Materal.Tools")
     {
-        public ToolsProjectModel(string solutionPath) : base(solutionPath, 0, "Materal.Tools")
-        {
-        }
     }
 }

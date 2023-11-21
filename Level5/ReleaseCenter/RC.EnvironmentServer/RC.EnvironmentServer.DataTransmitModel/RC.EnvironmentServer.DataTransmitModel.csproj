@@ -4,7 +4,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<IsPackable>true</IsPackable>
 		<Version>1.0.1</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.ReleaseCenter</Product>
@@ -12,7 +12,6 @@
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>RC.EnvironmentServer.DataTransmitModel</Title>
 		<Description>发布中心环境数据传输模型</Description>
-		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>

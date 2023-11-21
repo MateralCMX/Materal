@@ -5,8 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-		<PackageReference Include="Materal.Extensions" Version="1.1.65" />
-		<PackageReference Include="Materal.Utils" Version="1.1.65" />
+		<PackageReference Include="Materal.Extensions" Version="1.1.66" />
+		<PackageReference Include="Materal.Utils" Version="1.1.66" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 </Project>

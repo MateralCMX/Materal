@@ -12,10 +12,6 @@ namespace MateralPublish.Models
         /// </summary>
         public DirectoryInfo ProjectDirectoryInfo { get; }
         /// <summary>
-        /// 发布文件夹信息
-        /// </summary>
-        public DirectoryInfo PublishDirectoryInfo { get; }
-        /// <summary>
         /// 项目模型列表
         /// </summary>
         private readonly List<BaseProjectModel> _projects;
@@ -26,19 +22,19 @@ namespace MateralPublish.Models
         public MateralSolutionModel(string path)
         {
             ProjectDirectoryInfo = GetProjectDirectoryInfo(path);
-            NugetServerHelper.NugetDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "nupkgs").GetNewDirectoryInfo();
-            PublishDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "publish").GetNewDirectoryInfo();
+            NugetServerHelper.NugetDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "Nupkgs").GetNewDirectoryInfo();
+            PublishHelper.PublishDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "Publish").GetNewDirectoryInfo();
             Type baseProjectType = typeof(BaseProjectModel);
             List<Type> allProjectTypes = baseProjectType.Assembly.GetTypes().Where(m => !m.IsAbstract && m.IsAssignableTo(baseProjectType)).ToList();
-            _projects = new();
+            _projects = [];
             foreach (Type projectType in allProjectTypes)
             {
-                ConstructorInfo? constructorInfo = projectType.GetConstructor(new[] { typeof(string) }) ?? throw new MateralPublishException("未找到构造函数");
+                ConstructorInfo? constructorInfo = projectType.GetConstructor([typeof(string)]) ?? throw new MateralPublishException("未找到构造函数");
                 object projectObj = constructorInfo.Invoke(new[] { ProjectDirectoryInfo.FullName });
                 if (projectObj is not BaseProjectModel projectModel) throw new MateralPublishException("类型不是BaseProjectModel");
                 _projects.Add(projectModel);
             }
-            _projects = _projects.OrderBy(m => m.Level).ThenBy(m => m.Index).ThenBy(m=>m.Name).ToList();
+            _projects = [.. _projects.OrderBy(m => m.Level).ThenBy(m => m.Index).ThenBy(m => m.Name)];
         }
         /// <summary>
         /// 获得下一个版本号
@@ -46,17 +42,12 @@ namespace MateralPublish.Models
         /// <returns></returns>
         public async Task<string> GetNextVersionAsync()
         {
-            foreach (BaseProjectModel project in _projects)
-            {
-                if (project is not MateralProjectModel materalProject) continue;
-                string nowVersion = await materalProject.GetNowVersionAsync();
-                string[] versions = nowVersion.Split('.');
-                int lastVersionNumber = Convert.ToInt32(versions.Last());
-                versions[^1] = (lastVersionNumber + 1).ToString();
-                string nextVersion = string.Join('.', versions);
-                return nextVersion;
-            }
-            throw new MateralPublishException("未找到版本号");
+            string nowVersion = await GetVersionAsync();
+            string[] versions = nowVersion.Split('.');
+            int lastVersionNumber = Convert.ToInt32(versions.Last());
+            versions[^1] = (lastVersionNumber + 1).ToString();
+            string nextVersion = string.Join('.', versions);
+            return nextVersion;
         }
         /// <summary>
         /// 获得版本号
@@ -64,13 +55,9 @@ namespace MateralPublish.Models
         /// <returns></returns>
         public async Task<string> GetVersionAsync()
         {
-            foreach (BaseProjectModel project in _projects)
-            {
-                if (project is not MateralProjectModel materalProject) continue;
-                string nowVersion = await materalProject.GetNowVersionAsync();
-                return nowVersion;
-            }
-            throw new MateralPublishException("未找到版本号");
+            MateralProjectModel materalProjectModel = _projects.OfType<MateralProjectModel>().FirstOrDefault() ?? throw new MateralPublishException("未找到版本号");
+            string nowVersion = await materalProjectModel.GetNowVersionAsync();
+            return nowVersion;
         }
         /// <summary>
         /// 发布
@@ -81,15 +68,13 @@ namespace MateralPublish.Models
         {
             foreach (BaseProjectModel project in _projects)
             {
-                await project.PublishAsync(PublishDirectoryInfo, version);
+                await project.PublishAsync(version);
             }
             if (uploadNuget)
             {
                 await NugetServerHelper.UploadNugetPackagesAsync();
             }
             ConsoleHelper.WriteLine("正在清理临时文件...");
-            ConsoleHelper.WriteLine($"删除文件夹{PublishDirectoryInfo.FullName}");
-            PublishDirectoryInfo.Delete(true);
         }
         /// <summary>
         /// 获得项目文件夹信息
@@ -97,7 +82,7 @@ namespace MateralPublish.Models
         /// <param name="path"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        private DirectoryInfo GetProjectDirectoryInfo(string path)
+        private static DirectoryInfo GetProjectDirectoryInfo(string path)
         {
             path ??= Environment.CurrentDirectory;
             DirectoryInfo result = new(path);

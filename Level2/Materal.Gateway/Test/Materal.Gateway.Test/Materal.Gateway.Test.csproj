@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<IsPackable>false</IsPackable>
@@ -15,5 +15,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\Materal.Gateway.Abstractions\Materal.Gateway.Abstractions.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.Gateway\Materal.Gateway.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\PublishProfiles\" />
 	</ItemGroup>
 </Project>

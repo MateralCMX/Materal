@@ -2,6 +2,7 @@
 using Materal.Abstractions;
 using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Common;
+using Materal.BaseCore.WebAPI.Common.Models;
 using Materal.BaseCore.WebAPI.Models;
 using Materal.Utils.Http;
 using Microsoft.Extensions.Logging;
@@ -107,8 +108,8 @@ namespace Materal.BaseCore.WebAPI
             {
                 ID = NodeID.ToString(),
                 Name = serviceName,
-                Address = WebAPIConfig.ExternalUrl.Host,
-                Port = WebAPIConfig.ExternalUrl.Port,
+                Address = WebAPIConfig.UseExternalUrl ? WebAPIConfig.ExternalUrl.Host : WebAPIConfig.BaseUrlConfig.Host,
+                Port = WebAPIConfig.UseExternalUrl ? WebAPIConfig.ExternalUrl.Port : WebAPIConfig.BaseUrlConfig.Port,
                 Tags = tagsValue.ToArray(),
                 Check = new AgentServiceCheck
                 {

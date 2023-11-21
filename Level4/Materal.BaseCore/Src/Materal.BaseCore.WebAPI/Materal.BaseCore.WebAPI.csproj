@@ -3,10 +3,9 @@
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<IsPackable>true</IsPackable>
 		<OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
-		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.65</Version>
+		<Version>1.1.66</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -28,7 +27,7 @@
 		<ProjectReference Include="..\Materal.BaseCore.ServiceImpl\Materal.BaseCore.ServiceImpl.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Logger.SqlServerLog" Version="1.1.65" />
+		<PackageReference Include="Materal.Logger.SqlServerLog" Version="1.1.66" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 		<PackageReference Include="Consul" Version="*" />
 		<PackageReference Include="Polly" Version="*" />

@@ -1,9 +1,6 @@
 ﻿namespace MateralPublish.Models.ProjectModels.Level3
 {
-    public class OscillatorProjectModel : BaseProjectModel
+    public class OscillatorProjectModel(string directoryPath) : BaseProjectModel(directoryPath, 3, "Materal.Oscillator")
     {
-        public OscillatorProjectModel(string directoryPath) : base(directoryPath, 3, "Materal.Oscillator")
-        {
-        }
     }
 }

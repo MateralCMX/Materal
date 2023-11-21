@@ -1,16 +1,16 @@
 {
   "ConsulConfig": {
-    "Enable": false,
+    "Enable": true,
     "Url": "http://127.0.0.1:8500",
     "HealthInterval": 30,
     "ReconnectionInterval": 30
   },
   "EnableAuthentication": true,
   "EventBusConfig": {
-    "HostName": "175.27.194.19",
+    "HostName": "127.0.0.1",
     "Port": 5672,
-    "UserName": "GDB",
-    "Password": "GDB2022",
+    "UserName": "admin",
+    "Password": "123456",
     "ExchangeName": "MBCExchange_DEV",
     "RetryCount": 5
   },

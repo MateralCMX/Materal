@@ -1,6 +1,19 @@
 ﻿{
   "Routes": [
     {
+      "UpstreamPathTemplate": "/MBCDemoAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "MBCDemoAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "MBCDemoAPI"
+    },
+    {
       "UpstreamPathTemplate": "/RCDemoAPI/api/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
       "DownstreamPathTemplate": "/api/{everything}",
@@ -124,22 +137,27 @@
     }
   },
   "SwaggerEndPoints": [
-    //{
-    //  "Key": "RCDemoAPI",
-    //  "Config": [
-    //    {
-    //      "Name": "RCDemoAPI",
-    //      "Version": "v1",
-    //      "Url": "http://localhost:5000/swagger/v1/swagger.json"
-    //    }
-    //  ]
-    //},
+    {
+      "Key": "MBCDemoAPI",
+      "Config": [
+        {
+          "Name": "MBCDemoAPI",
+          "Version": "v1",
+          "TakeServersFromDownstreamService": true,
+          "Service": {
+            "Name": "MBCDemoAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
     {
       "Key": "RCDemoAPI",
       "Config": [
         {
           "Name": "RCDemoAPI",
           "Version": "v1",
+          "TakeServersFromDownstreamService": true,
           "Service": {
             "Name": "RCDemoAPI",
             "Path": "/swagger/v1/swagger.json"
@@ -149,11 +167,11 @@
     },
     {
       "Key": "RCAuthorityAPI",
-      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCAuthorityAPI",
           "Version": "v1",
+          "TakeServersFromDownstreamService": true,
           "Service": {
             "Name": "RCAuthorityAPI",
             "Path": "/swagger/v1/swagger.json"
@@ -163,11 +181,11 @@
     },
     {
       "Key": "RCServerCenterAPI",
-      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCServerCenterAPI",
           "Version": "v1",
+          "TakeServersFromDownstreamService": true,
           "Service": {
             "Name": "RCServerCenterAPI",
             "Path": "/swagger/v1/swagger.json"
@@ -177,11 +195,11 @@
     },
     {
       "Key": "RCES_DEVAPI",
-      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCES_DEVAPI",
           "Version": "v1",
+          "TakeServersFromDownstreamService": true,
           "Service": {
             "Name": "RCES_DEVAPI",
             "Path": "/swagger/v1/swagger.json"
@@ -191,11 +209,11 @@
     },
     {
       "Key": "RCES_UATAPI",
-      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCES_UATAPI",
           "Version": "v1",
+          "TakeServersFromDownstreamService": true,
           "Service": {
             "Name": "RCES_UATAPI",
             "Path": "/swagger/v1/swagger.json"
@@ -205,11 +223,11 @@
     },
     {
       "Key": "RCDeploy_DEVAPI",
-      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCDeploy_DEVAPI",
           "Version": "v1",
+          "TakeServersFromDownstreamService": true,
           "Service": {
             "Name": "RCDeploy_DEVAPI",
             "Path": "/swagger/v1/swagger.json"
@@ -219,11 +237,11 @@
     },
     {
       "Key": "RCDeploy_UATAPI",
-      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCDeploy_UATAPI",
           "Version": "v1",
+          "TakeServersFromDownstreamService": true,
           "Service": {
             "Name": "RCDeploy_UATAPI",
             "Path": "/swagger/v1/swagger.json"

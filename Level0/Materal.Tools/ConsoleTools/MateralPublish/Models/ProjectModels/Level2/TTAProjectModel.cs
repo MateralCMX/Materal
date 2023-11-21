@@ -1,9 +1,6 @@
 ﻿namespace MateralPublish.Models.ProjectModels.Level2
 {
-    public class TTAProjectModel : BaseProjectModel
+    public class TTAProjectModel(string solutionPath) : BaseProjectModel(solutionPath, 2, "Materal.ThreeTierArchitecture")
     {
-        public TTAProjectModel(string solutionPath) : base(solutionPath, 2, "Materal.ThreeTierArchitecture")
-        {
-        }
     }
 }

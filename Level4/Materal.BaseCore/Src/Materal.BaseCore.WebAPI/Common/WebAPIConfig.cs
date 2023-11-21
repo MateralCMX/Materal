@@ -40,6 +40,7 @@ namespace Materal.BaseCore.WebAPI.Common
         {
             Url = MateralCoreConfig.GetValue(nameof(ExternalUrl), "http://localhost:5000")
         };
+        public static bool UseExternalUrl => MateralCoreConfig.GetValueObject(nameof(UseExternalUrl), true);
         /// <summary>
         /// Consul配置
         /// </summary>

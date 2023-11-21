@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>10.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IsPackable>true</IsPackable>
 		<Title>Materal基础类型扩展</Title>
 		<Company>Materal</Company>
 		<Product>Materal</Product>

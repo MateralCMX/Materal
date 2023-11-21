@@ -4,9 +4,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>11.0</LangVersion>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
-		<Version>1.1.65</Version>
+		<IsPackable>true</IsPackable>
+		<Version>1.1.66</Version>
 		<Authors>Materal</Authors>
 		<Product>Materal.TFMS</Product>
 		<Description>Materal事件总线</Description>
@@ -18,6 +17,6 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.65" />
+		<PackageReference Include="Materal.Utils" Version="1.1.66" />
 	</ItemGroup>
 </Project>

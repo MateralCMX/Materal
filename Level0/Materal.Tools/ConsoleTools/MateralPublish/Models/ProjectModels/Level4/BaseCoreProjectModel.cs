@@ -1,24 +1,22 @@
 ﻿using Materal.Tools.Helper;
+using MateralPublish.Extensions;
 using System.Text;
 
 namespace MateralPublish.Models.ProjectModels.Level4
 {
     public class BaseCoreProjectModel : BaseProjectModel
     {
-        private readonly DirectoryInfo vsixDirectoryInfo;
-        public BaseCoreProjectModel(string directoryPath) : base(directoryPath, 4, "Materal.BaseCore")
+        private readonly DirectoryInfo _vsixDirectoryInfo;
+        public BaseCoreProjectModel(string solutionPath) : base(solutionPath, 4, "Materal.BaseCore")
         {
-            vsixDirectoryInfo = new(Path.Combine(ProjectDirectoryInfo.FullName, "Src", "MateralBaseCoreVSIX"));
+            _vsixDirectoryInfo = new(Path.Combine(ProjectDirectoryInfo.FullName, "Src", "MateralBaseCoreVSIX"));
         }
-        protected override bool IsPublishProject(string name)
-        {
-            string[] whiteList = new[]
-            {
-                "Materal.BaseCore.Test",
-                "MateralBasePlugBuild"
-            };
-            return whiteList.Contains(name);
-        }
+        /// <summary>
+        /// 更新版本号
+        /// </summary>
+        /// <param name="version"></param>
+        /// <param name="csprojFileInfo"></param>
+        /// <returns></returns>
         protected override async Task UpdateVersionAsync(string version, FileInfo csprojFileInfo)
         {
             if (csprojFileInfo.Name != "MateralBaseCoreVSIX.csproj")
@@ -27,7 +25,7 @@ namespace MateralPublish.Models.ProjectModels.Level4
             }
             else
             {
-                FileInfo? sourceFile = vsixDirectoryInfo.GetFiles().FirstOrDefault(m => m.Name == "source.extension.vsixmanifest");
+                FileInfo? sourceFile = _vsixDirectoryInfo.GetFiles().FirstOrDefault(m => m.Name == "source.extension.vsixmanifest");
                 if (sourceFile == null) return;
                 string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
                 ConsoleHelper.WriteLine($"正在更新{projectName}版本号...");
@@ -51,42 +49,79 @@ namespace MateralPublish.Models.ProjectModels.Level4
                 ConsoleHelper.WriteLine($"{projectName}版本号已更新到{vsixVersion}");
             }
         }
-        protected override async Task<DirectoryInfo?> PublishAsync(DirectoryInfo publishDirectoryInfo, FileInfo csprojFileInfo)
+        /// <summary>
+        /// 发布
+        /// </summary>
+        /// <param name="csprojFileInfo"></param>
+        /// <returns></returns>
+        protected override async Task PublishAsync(FileInfo csprojFileInfo)
         {
-            if (csprojFileInfo.Name == "MateralBasePlugBuild.csproj")
+            await base.PublishAsync(csprojFileInfo);
+            if (csprojFileInfo.Name != "MateralBasePlugBuild.csproj") return;
+            await CopyToolsFileAsync(csprojFileInfo);
+            DeletePlugDirectory();
+            await PublishVSIXAsync();
+        }
+        /// <summary>
+        /// 复制工具文件
+        /// </summary>
+        /// <param name="csprojFileInfo"></param>
+        /// <returns></returns>
+        private async Task CopyToolsFileAsync(FileInfo csprojFileInfo)
+        {
+            if (csprojFileInfo.Name != "MateralBasePlugBuild.csproj" || PublishHelper.PublishDirectoryInfo is null) return;
+            string[] csprojFileContent = await File.ReadAllLinesAsync(csprojFileInfo.FullName);
+            string[] targetFrameworks = [];
+            foreach (string fileLine in csprojFileContent)
             {
-                DirectoryInfo? directoryInfo = await base.PublishAsync(publishDirectoryInfo, csprojFileInfo);
-                if (directoryInfo == null) return null;
-                CopyToolsFile(directoryInfo);
-                return directoryInfo;
+                string content = fileLine.Trim();
+                if (content.StartsWith("<TargetFramework>"))
+                {
+                    targetFrameworks = [content[17..^18]];
+                    break;
+                }
+                else if (content.StartsWith("<TargetFrameworks>"))
+                {
+                    targetFrameworks = content[18..^19].Split(";");
+                    break;
+                }
             }
-            else
+            if (targetFrameworks.Length == 0) return;
+            string targetFramework = targetFrameworks.OrderByDescending(m => m).First();
+            DirectoryInfo plugBuildDirectoryInfo = new(Path.Combine(PublishHelper.PublishDirectoryInfo.FullName, "MateralBasePlugBuild", targetFramework));
+            ConsoleHelper.WriteLine("正在复制MateralBasePlugBuild工具...");
+            CopyToolsFile(plugBuildDirectoryInfo);
+            ConsoleHelper.WriteLine("MateralBasePlugBuild工具复制成功");
+        }
+        /// <summary>
+        /// 删除插件目录
+        /// </summary>
+        private static void DeletePlugDirectory()
+        {
+            if (PublishHelper.PublishDirectoryInfo is null) return;
+            DirectoryInfo plugBuildDirectoryInfo = new(Path.Combine(PublishHelper.PublishDirectoryInfo.FullName, "MateralBasePlugBuild"));
+            if (plugBuildDirectoryInfo.Exists)
             {
-                return await base.PublishAsync(publishDirectoryInfo, csprojFileInfo);
+                ConsoleHelper.WriteLine("正在删除MateralBasePlugBuild目录...");
+                plugBuildDirectoryInfo.Delete(true);
+                ConsoleHelper.WriteLine("MateralBasePlugBuild目录已删除");
             }
         }
-        protected override string[] GetPublishCommand(DirectoryInfo publishDirectoryInfo, FileInfo csprojFileInfo)
-        {
-            if (csprojFileInfo.Name == "MateralBasePlugBuild.csproj")
-            {
-                string cmd = $"dotnet publish {csprojFileInfo.FullName} -o {publishDirectoryInfo.FullName} -c Release";
-                return new[] { cmd };
-            }
-            else
-            {
-                return base.GetPublishCommand(publishDirectoryInfo, csprojFileInfo);
-            }
-        }
+        /// <summary>
+        /// 复制工具文件
+        /// </summary>
+        /// <param name="plugBuildDirectoryInfo"></param>
+        /// <param name="prefix"></param>
         private void CopyToolsFile(DirectoryInfo plugBuildDirectoryInfo, string prefix = "")
         {
-            string[] blackList = new[]
-            {
+            string[] blackList =
+            [
                 "ModelData.json",
                 "Materal.BaseCore.CodeGenerator.pdb",
                 "MateralBasePlugBuild.pdb",
                 "MateralBasePlugBuild.exe"
-            };
-            DirectoryInfo toolsDirectoryInfo = new(Path.Combine(vsixDirectoryInfo.FullName, "Tools", prefix));
+            ];
+            DirectoryInfo toolsDirectoryInfo = new(Path.Combine(_vsixDirectoryInfo.FullName, "Tools", prefix));
             if (!toolsDirectoryInfo.Exists)
             {
                 toolsDirectoryInfo.Create();
@@ -103,6 +138,29 @@ namespace MateralPublish.Models.ProjectModels.Level4
                 string nextPrefix = Path.Combine(prefix, directoryInfo.Name);
                 CopyToolsFile(directoryInfo, nextPrefix);
             }
+        }
+        /// <summary>
+        /// 发布VSIX
+        /// </summary>
+        private async Task PublishVSIXAsync()
+        {
+            if (PublishHelper.PublishDirectoryInfo is null) return;
+            FileInfo vsixCsprojFileInfo = new(Path.Combine(_vsixDirectoryInfo.FullName, "MateralBaseCoreVSIX.csproj"));
+            string projectName = Path.GetFileNameWithoutExtension(vsixCsprojFileInfo.Name);
+            CmdHelper cmdHelper = new();
+            DirectoryInfo publishDirectoryInfo = Path.Combine(PublishHelper.PublishDirectoryInfo.FullName, projectName).GetNewDirectoryInfo();
+            string[] cmds = [$"msbuild {vsixCsprojFileInfo.FullName} /p:Configuration=Release /p:OutputPath={publishDirectoryInfo.FullName}"];
+            ConsoleHelper.WriteLine($"正在发布{projectName}插件...");
+            cmdHelper.OutputDataReceived += CmdHelper_OutputDataReceived;
+            cmdHelper.ErrorDataReceived += CmdHelper_ErrorDataReceived;
+            await cmdHelper.RunCmdCommandsAsync(cmds);
+            FileInfo vsixFileInfo = new(Path.Combine(publishDirectoryInfo.FullName, "MateralBaseCoreVSIX.vsix"));
+            if (vsixFileInfo.Exists)
+            {
+                vsixFileInfo.MoveTo(Path.Combine(PublishHelper.PublishDirectoryInfo.FullName, vsixFileInfo.Name));
+            }
+            publishDirectoryInfo.Delete(true);
+            ConsoleHelper.WriteLine($"{projectName}插件发布完毕");
         }
     }
 }

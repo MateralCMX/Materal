@@ -1,9 +1,6 @@
 ﻿namespace MateralPublish.Models.ProjectModels.Level2
 {
-    public class GatewayProjectModel : BaseProjectModel
+    public class GatewayProjectModel(string solutionPath) : BaseProjectModel(solutionPath, 2, "Materal.Gateway")
     {
-        public GatewayProjectModel(string solutionPath) : base(solutionPath, 2, "Materal.Gateway")
-        {
-        }
     }
 }

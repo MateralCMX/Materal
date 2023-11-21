@@ -5,12 +5,11 @@
 		<LangVersion>11.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<IsPackable>true</IsPackable>
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.65</Version>
+		<Version>1.1.66</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.Abstractions</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -21,7 +20,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.Common" Version="1.1.65" />
+		<PackageReference Include="Materal.TTA.Common" Version="1.1.66" />
 		<PackageReference Include="Quartz" Version="*" />
 	</ItemGroup>
 </Project>

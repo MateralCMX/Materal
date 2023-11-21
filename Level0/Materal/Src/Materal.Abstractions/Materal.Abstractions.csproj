@@ -5,15 +5,14 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>10.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IsPackable>true</IsPackable>
 		<Title>Materal基础抽象包</Title>
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>1.1.65</Version>
+		<Version>1.1.66</Version>
 		<Description>Materal基础抽象包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
-		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>

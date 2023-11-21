@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace MateralPublish.Helper
+namespace Materal.Tools.Helper
 {
     /// <summary>
     /// Cmd管理器

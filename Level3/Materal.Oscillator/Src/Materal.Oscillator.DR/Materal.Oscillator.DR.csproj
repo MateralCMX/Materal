@@ -4,12 +4,11 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>11.0</LangVersion>
 		<Nullable>enable</Nullable>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageOutputPath>../../../../nupkgs</PackageOutputPath>
+		<IsPackable>true</IsPackable>
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.65</Version>
+		<Version>1.1.66</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.DR</Description>
 	</PropertyGroup>
