@@ -42,7 +42,6 @@ namespace Materal.Gateway.WebAPP
             services.AddScoped<AuthenticationStateProvider>(factory => factory.GetRequiredService<CustomAuthenticationStateProvider>());
             #endregion
             services.AddSwaggerForOcelot(builder.Configuration);
-            services.Replace(new ServiceDescriptor(typeof(ISwaggerServiceDiscoveryProvider), typeof(MySwaggerServiceDiscoveryProvider), ServiceLifetime.Transient));
             services.AddOcelotGateway();
             services.AddEndpointsApiExplorer();
             #endregion

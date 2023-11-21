@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
@@ -9,6 +9,6 @@
 		<ProjectReference Include="..\RC.Deploy.Enums\RC.Deploy.Enums.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.65" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.66" />
 	</ItemGroup>
 </Project>

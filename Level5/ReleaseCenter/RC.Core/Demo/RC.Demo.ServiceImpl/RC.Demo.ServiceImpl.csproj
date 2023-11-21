@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.65" />
-		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="1.1.65" />
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.66" />
+		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="1.1.66" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.Demo.Domain\RC.Demo.Domain.csproj" />

@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net6.0-windows</TargetFramework>
+		<TargetFrameworks>net6.0-windows;net8.0-windows</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.65" />
-		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="1.1.65" />
-		<PackageReference Include="Materal.BaseCore.WebAPI" Version="1.1.65" />
-		<PackageReference Include="Materal.Utils.Windows" Version="1.1.65" />
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.66" />
+		<PackageReference Include="Materal.BaseCore.ServiceImpl" Version="1.1.66" />
+		<PackageReference Include="Materal.BaseCore.WebAPI" Version="1.1.66" />
+		<PackageReference Include="Materal.Utils.Windows" Version="1.1.66" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.Deploy.Domain\RC.Deploy.Domain.csproj" />

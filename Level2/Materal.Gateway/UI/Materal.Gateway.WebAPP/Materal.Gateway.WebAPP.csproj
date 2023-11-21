@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -12,7 +12,7 @@
 	<ItemGroup>
 		<PackageReference Include="AntDesign" Version="0.16.2" />
 		<PackageReference Include="Materal.Logger" Version="1.1.66" />
-		<PackageReference Include="MMLib.SwaggerForOcelot" Version="7.0.1" />
+		<PackageReference Include="MMLib.SwaggerForOcelot" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.Gateway\Materal.Gateway.csproj" />
