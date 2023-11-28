@@ -1,5 +1,4 @@
-﻿using Materal.Gateway.Common.ConfigModel;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace Materal.Gateway.Common
 {
@@ -12,10 +11,6 @@ namespace Materal.Gateway.Common
         /// 本地配置项
         /// </summary>
         public static IConfigurationRoot? Configuration { get; set; }
-        /// <summary>
-        /// 授权配置
-        /// </summary>
-        public static List<UserConfigModel> Users => GetValueObject<List<UserConfigModel>>("Users");
         /// <summary>
         /// 忽略无法找到下游路由错误
         /// </summary>

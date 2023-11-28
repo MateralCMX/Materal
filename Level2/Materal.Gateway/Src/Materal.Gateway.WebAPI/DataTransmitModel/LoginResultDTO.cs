@@ -1,4 +1,4 @@
-﻿namespace MBC.Demo.DataTransmitModel.User
+﻿namespace Materal.Gateway.WebAPI.DataTransmitModel
 {
     /// <summary>
     /// 登录返回数据传输模型

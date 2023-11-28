@@ -3,8 +3,6 @@ using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension;
 using Materal.Logger;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using MMLib.SwaggerForOcelot.ServiceDiscovery;
 
 namespace Materal.Gateway.WebAPP
 {

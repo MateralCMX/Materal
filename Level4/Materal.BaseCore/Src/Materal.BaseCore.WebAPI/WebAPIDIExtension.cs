@@ -91,13 +91,14 @@ namespace Materal.BaseCore.WebAPI
             {
                 services.AddSwaggerGen(config =>
                 {
-                    config.SwaggerDoc(GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Version, "v1"), new OpenApiInfo
+                    OpenApiInfo openApiInfo = new()
                     {
                         Title = GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Title, $"{WebAPIConfig.AppName}.WebAPI"),
                         Version = GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Version, "v1"),
                         Description = GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Description, "提供WebAPI接口"),
                         Contact = new OpenApiContact { Name = GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Author, "Materal"), Email = GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Email, "cloomcmx1554@hotmail.com") }
-                    });
+                    };
+                    config.SwaggerDoc(GetSwaggerConfigString(WebAPIConfig.SwaggerConfig.Version, "v1"), openApiInfo);
                     if (WebAPIConfig.EnableAuthentication)
                     {
                         OpenApiSecurityScheme bearerScheme = new()
@@ -113,10 +114,11 @@ namespace Materal.BaseCore.WebAPI
                             }
                         };
                         config.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, bearerScheme);
-                        config.AddSecurityRequirement(new OpenApiSecurityRequirement
+                        OpenApiSecurityRequirement openApiSecurityRequirement = new()
                         {
                             {bearerScheme , new List<string>()}
-                        });
+                        };
+                        config.AddSecurityRequirement(openApiSecurityRequirement);
                     }
                     swaggerGenConfig?.Invoke(config);
                 });

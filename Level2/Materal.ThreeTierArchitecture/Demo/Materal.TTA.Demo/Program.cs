@@ -1,7 +1,5 @@
-﻿using Materal.Abstractions;
-using Materal.Logger;
+﻿using Materal.Logger;
 using Materal.TTA.Common;
-using Materal.TTA.Demo.Domain;
 using Materal.TTA.Demo.Tests;
 using Materal.Utils;
 using Materal.Utils.Model;
@@ -28,18 +26,35 @@ namespace Materal.TTA.Demo
             serviceCollection.AddTransient<ITTADemoTest, Test00>();
             serviceCollection.AddTransient<ITTADemoTest, Test01>();
             serviceCollection.AddTransient<ITTADemoTest, Test02>();
+#if NET6_0
+            serviceCollection.AddMySqlEFTTA();
+            static async Task MigrateAsync(IServiceProvider serviceProvider) => await MySqlEFHelper.MigrateAsync(serviceProvider);
 
             //serviceCollection.AddSqliteEFTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
 
-            serviceCollection.AddSqlServerEFTTA();
-            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
+            //serviceCollection.AddSqlServerEFTTA();
+            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
 
             //serviceCollection.AddSqliteADONETTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteADONETHelper.MigrateAsync(serviceProvider);
 
             //serviceCollection.AddSqlServerADONETTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerADONETHelper.MigrateAsync(serviceProvider);
+#else
+            serviceCollection.AddSqliteEFTTA();
+            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
+
+            //serviceCollection.AddSqlServerEFTTA();
+            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
+
+            //serviceCollection.AddSqliteADONETTTA();
+            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteADONETHelper.MigrateAsync(serviceProvider);
+
+            //serviceCollection.AddSqlServerADONETTTA();
+            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerADONETHelper.MigrateAsync(serviceProvider);
+#endif
+
             IServiceProvider services = serviceCollection.BuildServiceProvider();
             ILoggerExtension.TSQLLogLevel = LogLevel.Trace;
 

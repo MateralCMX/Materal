@@ -1,7 +1,5 @@
 ﻿using Materal.Gateway.Common;
 using Microsoft.Extensions.DependencyInjection;
-using Ocelot.DownstreamRouteFinder.Finder;
-using Ocelot.Errors;
 
 namespace Materal.Gateway.OcelotExtension
 {

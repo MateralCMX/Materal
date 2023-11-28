@@ -159,5 +159,15 @@ namespace System
             }
             return result.ToString();
         }
+        /// <summary>
+        /// 转换为二进制字符串
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        public static string GetBinaryString(this int buffer)
+        {
+            string result = Convert.ToString(buffer, 2);
+            return result;
+        }
     }
 }

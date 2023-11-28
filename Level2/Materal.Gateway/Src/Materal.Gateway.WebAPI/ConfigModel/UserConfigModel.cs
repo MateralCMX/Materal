@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.Gateway.Common.ConfigModel
+namespace Materal.Gateway.WebAPI.ConfigModel
 {
     /// <summary>
     /// 用户配置模型

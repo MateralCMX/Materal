@@ -17,5 +17,13 @@ namespace Materal.TTA.Demo
             Password = "Materal@1234",
             TrustServerCertificate = true
         };
+        public static MySqlConfigModel MySqlConfig { get; set; } = new()
+        {
+            Address = "127.0.0.1",
+            Port = "3306",
+            Name = "TTATestDB",
+            UserID = "root",
+            Password = "Materal@1234",
+        };
     }
 }

@@ -1,0 +1,160 @@
+﻿{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/MBCDemoAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "MBCDemoAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "MBCDemoAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCAuthorityAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCAuthorityAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCAuthorityAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCServerCenterAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCServerCenterAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCServerCenterAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCES_TestAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCES_TestAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCES_TestAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeploy_TestAPI/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeploy_TestAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCDeploy_TestAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeploy_TestAPI/hubs/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/hubs/{everything}",
+      "DownstreamScheme": "ws",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeploy_TestAPI",
+      "LoadBalancerOptions": {
+        "Type": "NoLoadBalancer"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Host": "127.0.0.1",
+      "Port": 8500,
+      "Type": "Consul"
+    }
+  },
+  "SwaggerEndPoints": [
+    {
+      "Key": "MBCDemoAPI",
+      "Config": [
+        {
+          "Name": "MBCDemoAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "MBCDemoAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCAuthorityAPI",
+      "Config": [
+        {
+          "Name": "RCAuthorityAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "RCAuthorityAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCServerCenterAPI",
+      "Config": [
+        {
+          "Name": "RCServerCenterAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "RCServerCenterAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCES_TestAPI",
+      "Config": [
+        {
+          "Name": "RCES_TestAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "RCES_TestAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCDeploy_TestAPI",
+      "Config": [
+        {
+          "Name": "RCDeploy_TestAPI",
+          "TakeServersFromDownstreamService": true,
+          "Version": "v1",
+          "Service": {
+            "Name": "RCDeploy_TestAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Materal.TTA.Demo.SqlServerEFRepository
+namespace Materal.TTA.Demo.MySqlEFRepository
 {
     public class TTADemoDBContextFactory : IDesignTimeDbContextFactory<TTADemoDBContext>
     {
@@ -14,18 +14,16 @@ namespace Materal.TTA.Demo.SqlServerEFRepository
         public TTADemoDBContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<TTADemoDBContext>();
-            SqlServerConfigModel config = new()
+            MySqlConfigModel config = new()
             {
                 Address = "127.0.0.1",
-                Port = "1433",
+                Port = "3306",
                 Name = "TTATestDB",
-                UserID = "sa",
+                UserID = "root",
                 Password = "Materal@1234",
-                TrustServerCertificate = true
             };
-            optionsBuilder.UseSqlServer(config.ConnectionString);
+            optionsBuilder.UseMySQL(config.ConnectionString);
             return new TTADemoDBContext(optionsBuilder.Options);
-
         }
     }
 }

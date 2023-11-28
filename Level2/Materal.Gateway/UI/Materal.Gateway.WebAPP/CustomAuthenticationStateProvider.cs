@@ -52,10 +52,13 @@ namespace Materal.Gateway
         /// <returns></returns>
         public async void LoginAsyn(string account, string password)
         {
-            UserConfigModel user = ApplicationConfig.Users.FirstOrDefault(m => m.Account == account && m.Password == password) ?? throw new GatewayException("账号或者密码错误");
-            UserInfo userInfo = new(user.Account);
-            await _sessionStorage.SetAsync(_tokenKey, userInfo);
-            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            //UserConfigModel? user = ApplicationConfig.Users.FirstOrDefault(m => m.Account == account && m.Password == password);
+            //if(user is not null)
+            //{
+            //    UserInfo userInfo = new(user.Account);
+            //    await _sessionStorage.SetAsync(_tokenKey, userInfo);
+            //    NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            //}
         }
         /// <summary>
         /// 退出登录

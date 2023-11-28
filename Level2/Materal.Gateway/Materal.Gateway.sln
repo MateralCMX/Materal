@@ -5,11 +5,7 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{D100DEF6-98EA-496C-9076-91E7C1AAA4FA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{7FE5AE37-3833-4F17-9125-73B8F472E089}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BA3C5C17-2E7A-4B93-91C7-9A5C58B618C0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.WebAPP", "UI\Materal.Gateway.WebAPP\Materal.Gateway.WebAPP.csproj", "{494A7D35-519A-4797-8465-B052475A24DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.Abstractions", "Src\Materal.Gateway.Abstractions\Materal.Gateway.Abstractions.csproj", "{10B63845-0C02-4140-B019-1B057954A5A8}"
 EndProject
@@ -17,16 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway", "Src\Mate
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.Test", "Test\Materal.Gateway.Test\Materal.Gateway.Test.csproj", "{400AA20E-12FD-4128-8DCF-46595676C091}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.WebAPI", "Src\Materal.Gateway.WebAPI\Materal.Gateway.WebAPI.csproj", "{F3818C65-A29C-4D46-9EE3-67286878221F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{494A7D35-519A-4797-8465-B052475A24DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{494A7D35-519A-4797-8465-B052475A24DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{494A7D35-519A-4797-8465-B052475A24DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{494A7D35-519A-4797-8465-B052475A24DC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10B63845-0C02-4140-B019-1B057954A5A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{10B63845-0C02-4140-B019-1B057954A5A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10B63845-0C02-4140-B019-1B057954A5A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,15 +33,19 @@ Global
 		{400AA20E-12FD-4128-8DCF-46595676C091}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{400AA20E-12FD-4128-8DCF-46595676C091}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{400AA20E-12FD-4128-8DCF-46595676C091}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3818C65-A29C-4D46-9EE3-67286878221F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3818C65-A29C-4D46-9EE3-67286878221F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3818C65-A29C-4D46-9EE3-67286878221F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3818C65-A29C-4D46-9EE3-67286878221F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{494A7D35-519A-4797-8465-B052475A24DC} = {7FE5AE37-3833-4F17-9125-73B8F472E089}
 		{10B63845-0C02-4140-B019-1B057954A5A8} = {D100DEF6-98EA-496C-9076-91E7C1AAA4FA}
 		{309C372A-D00C-416C-9828-F9FB321EAA2A} = {D100DEF6-98EA-496C-9076-91E7C1AAA4FA}
 		{400AA20E-12FD-4128-8DCF-46595676C091} = {BA3C5C17-2E7A-4B93-91C7-9A5C58B618C0}
+		{F3818C65-A29C-4D46-9EE3-67286878221F} = {D100DEF6-98EA-496C-9076-91E7C1AAA4FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67DCEC3C-2CD1-4FDC-AFF5-E4ED903B292D}
