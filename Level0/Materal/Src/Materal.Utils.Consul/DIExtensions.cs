@@ -1,8 +1,7 @@
-﻿using Materal.Utils.Consul;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Materal.Utils
+namespace Materal.Utils.Consul
 {
     /// <summary>
     /// 依赖注入扩展
@@ -14,7 +13,7 @@ namespace Materal.Utils
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddConsulUtils(this IServiceCollection services)
+        public static IServiceCollection AddMateralConsulUtils(this IServiceCollection services)
         {
             services.AddMateralUtils();
             services.TryAddSingleton<IConsulService, ConsulServiceImpl>();

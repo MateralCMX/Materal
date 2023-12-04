@@ -1,5 +1,4 @@
 using Materal.Extensions.DependencyInjection;
-using Materal.Utils;
 using Materal.Utils.Consul;
 using Materal.Utils.Consul.ConfigModels;
 using Materal.Utils.Http;
@@ -19,7 +18,7 @@ namespace Materal.WebAPITest
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddConsulUtils();
+            builder.Services.AddMateralConsulUtils();
             builder.Services.AddScoped<ITestService, TestServiceImpl>();
             builder.Services.AddInterceptor<MyInterceptorAttribute>();
             builder.Host.UseServiceProviderFactory(new MateralServiceProviderFactory());// π”√AOP

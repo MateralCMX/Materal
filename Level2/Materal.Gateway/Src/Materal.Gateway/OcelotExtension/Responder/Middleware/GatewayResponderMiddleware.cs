@@ -1,37 +1,16 @@
 using Microsoft.AspNetCore.Http;
-using Ocelot.DownstreamRouteFinder.Finder;
 using Ocelot.Errors;
 using Ocelot.Logging;
 using Ocelot.Middleware;
-using Ocelot.Request.Mapper;
 using Ocelot.Responder;
-using System.Net;
-using System.Net.Http;
-using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.Responder.Middleware
 {
     /// <summary>
     /// 网关响应中间件
     /// </summary>
-    public class GatewayResponderMiddleware : OcelotMiddleware
+    public class GatewayResponderMiddleware(RequestDelegate next, IHttpResponder responder, IOcelotLoggerFactory loggerFactory, IErrorsToHttpStatusCodeMapper codeMapper) : OcelotMiddleware(loggerFactory.CreateLogger<GatewayResponderMiddleware>())
     {
-        private readonly RequestDelegate _next;
-        private readonly IHttpResponder _responder;
-        private readonly IErrorsToHttpStatusCodeMapper _codeMapper;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="next"></param>
-        /// <param name="responder"></param>
-        /// <param name="loggerFactory"></param>
-        /// <param name="codeMapper"></param>
-        public GatewayResponderMiddleware(RequestDelegate next, IHttpResponder responder, IOcelotLoggerFactory loggerFactory, IErrorsToHttpStatusCodeMapper codeMapper) : base(loggerFactory.CreateLogger<GatewayResponderMiddleware>())
-        {
-            _next = next;
-            _responder = responder;
-            _codeMapper = codeMapper;
-        }
         /// <summary>
         /// 中间件执行
         /// </summary>
@@ -39,37 +18,17 @@ namespace Materal.Gateway.OcelotExtension.Responder.Middleware
         /// <returns></returns>
         public async Task Invoke(HttpContext httpContext)
         {
-            List<Error> errors = new();
-            try
+            await next(httpContext);
+            List<Error> errors = httpContext.Items.Errors();
+            if (errors.Count > 0)
             {
-                await _next(httpContext);
-                errors = httpContext.Items.Errors();
+                SetErrorResponse(httpContext, errors);
             }
-#if DEBUG
-            catch (Exception ex)
+            else
             {
-                httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                httpContext.Response.ContentType = "text/plain; charset=utf-8";
-                await httpContext.Response.WriteAsync(ex.GetErrorMessage(), Encoding.UTF8);
+                DownstreamResponse downstreamResponse = httpContext.Items.DownstreamResponse();
+                await responder.SetResponseOnHttpContext(httpContext, downstreamResponse);
             }
-#else
-            catch (Exception ex)
-            {
-                errors.Add(new UnmappableRequestError(ex));
-            }
-            finally
-            {
-                if (errors.Count > 0)
-                {
-                    SetErrorResponse(httpContext, errors);
-                }
-                else
-                {
-                    DownstreamResponse downstreamResponse = httpContext.Items.DownstreamResponse();
-                    await _responder.SetResponseOnHttpContext(httpContext, downstreamResponse);
-                }
-            }
-#endif
         }
         /// <summary>
         /// 设置错误响应
@@ -78,12 +37,12 @@ namespace Materal.Gateway.OcelotExtension.Responder.Middleware
         /// <param name="errors"></param>
         private void SetErrorResponse(HttpContext context, List<Error> errors)
         {
-            int statusCode = _codeMapper.Map(errors);
-            _responder.SetErrorResponseOnContext(context, statusCode);
+            int statusCode = codeMapper.Map(errors);
+            responder.SetErrorResponseOnContext(context, statusCode);
             if (errors.Any(e => e.Code == OcelotErrorCode.QuotaExceededError))
             {
                 DownstreamResponse downstreamResponse = context.Items.DownstreamResponse();
-                _responder.SetErrorResponseOnContext(context, downstreamResponse);
+                responder.SetErrorResponseOnContext(context, downstreamResponse);
             }
         }
     }

@@ -67,9 +67,62 @@ namespace Materal.Utils.Consul
             });
         }
         /// <summary>
+        /// 获得服务
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public async Task<ConsulServiceModel?> GetServiceInfoAsync(Func<ConsulServiceModel, bool>? filter = null)
+        {
+            List<ConsulServiceModel> consulServices = await GetServiceListAsync(filter);
+            return consulServices.FirstOrDefault();
+        }
+        /// <summary>
+        /// 获得服务
+        /// </summary>
+        /// <param name="consulUrl"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public async Task<ConsulServiceModel?> GetServiceInfoAsync(string consulUrl, Func<ConsulServiceModel, bool>? filter = null)
+        {
+            List<ConsulServiceModel> consulServices = await GetServiceListAsync(consulUrl, filter);
+            return consulServices.FirstOrDefault();
+        }
+        /// <summary>
+        /// 获得服务
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public async Task<List<ConsulServiceModel>> GetServiceListAsync(Func<ConsulServiceModel, bool>? filter = null)
+        {
+            if (_consulConfig is null) throw new MateralException("未设置Consul配置对象");
+            return await GetServiceListAsync(_consulConfig.ConsulUrl.Url, filter);
+        }
+        /// <summary>
+        /// 获得服务
+        /// </summary>
+        /// <param name="consulUrl"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public async Task<List<ConsulServiceModel>> GetServiceListAsync(string consulUrl, Func<ConsulServiceModel, bool>? filter = null)
+        {
+            string url = $"{consulUrl}/v1/agent/services";
+            string requestText = await _httpHelper.SendGetAsync(url);
+            JsonDocument jsonDocument = JsonDocument.Parse(requestText);
+            if (jsonDocument.RootElement.ValueKind != JsonValueKind.Object) throw new MateralException("ConsulServices返回错误");
+            JsonElement.ObjectEnumerator element = jsonDocument.RootElement.EnumerateObject();
+            List<JsonProperty> jsonProperties = [.. element];
+            List<string> jsonTexts = jsonProperties.Select(jsonProperty => jsonProperty.Value.ToString()).ToList();
+            List<ConsulServiceModel> result = jsonTexts.Select(jsonText => jsonText.JsonToObject<ConsulServiceModel>()).ToList();
+            if (filter != null)
+            {
+                result = result.Where(filter).ToList();
+            }
+            return result;
+        }
+        /// <summary>
         /// 注册Consul服务
         /// </summary>
-        public async Task RegisterConsulAsync()
+        private async Task RegisterConsulAsync()
         {
             if (_consulConfig is null) throw new MateralException("未设置Consul配置对象");
             PolicyBuilder policyBuilder = Policy.Handle<Exception>();
@@ -115,7 +168,7 @@ namespace Materal.Utils.Consul
         {
             try
             {
-                ConsulServiceModel? service = await GetServiceAsync(m => m.ID != null && m.ID == NodeID.ToString());
+                ConsulServiceModel? service = await GetServiceInfoAsync(m => m.ID != null && m.ID == NodeID.ToString());
                 return service != null;
             }
             catch (Exception)
@@ -123,38 +176,6 @@ namespace Materal.Utils.Consul
                 _logger?.LogWarning("Consul健康检查失败");
                 return false;
             }
-        }
-        /// <summary>
-        /// 获得服务
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <returns></returns>
-        public async Task<ConsulServiceModel?> GetServiceAsync(Func<ConsulServiceModel, bool>? filter = null)
-        {
-            List<ConsulServiceModel> consulServices = await GetServicesAsync(filter);
-            return consulServices.FirstOrDefault();
-        }
-        /// <summary>
-        /// 获得服务
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <returns></returns>
-        public async Task<List<ConsulServiceModel>> GetServicesAsync(Func<ConsulServiceModel, bool>? filter = null)
-        {
-            if (_consulConfig is null) throw new MateralException("未设置Consul配置对象");
-            string url = $"{_consulConfig.ConsulUrl.Url}/v1/agent/services";
-            string requestText = await _httpHelper.SendGetAsync(url);
-            JsonDocument jsonDocument = JsonDocument.Parse(requestText);
-            if (jsonDocument.RootElement.ValueKind != JsonValueKind.Object) throw new MateralException("ConsulServices返回错误");
-            JsonElement.ObjectEnumerator element = jsonDocument.RootElement.EnumerateObject();
-            List<JsonProperty> jsonProperties = [.. element];
-            List<string> jsonTexts = jsonProperties.Select(jsonProperty => jsonProperty.Value.ToString()).ToList();
-            List<ConsulServiceModel> result = jsonTexts.Select(jsonText => jsonText.JsonToObject<ConsulServiceModel>()).ToList();
-            if (filter != null)
-            {
-                result = result.Where(filter).ToList();
-            }
-            return result;
         }
     }
 }

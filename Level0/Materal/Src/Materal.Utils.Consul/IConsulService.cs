@@ -1,4 +1,5 @@
 ﻿using Materal.Utils.Consul.ConfigModels;
+using Materal.Utils.Consul.Models;
 
 namespace Materal.Utils.Consul
 {
@@ -19,5 +20,31 @@ namespace Materal.Utils.Consul
         /// 反注册Consul
         /// </summary>
         Task UnregisterConsulAsync();
+        /// <summary>
+        /// 获得服务信息
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        Task<ConsulServiceModel?> GetServiceInfoAsync(Func<ConsulServiceModel, bool>? filter = null);
+        /// <summary>
+        /// 获得服务信息列表
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        Task<List<ConsulServiceModel>> GetServiceListAsync(Func<ConsulServiceModel, bool>? filter = null);
+        /// <summary>
+        /// 获得服务信息
+        /// </summary>
+        /// <param name="consulUrl"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        Task<ConsulServiceModel?> GetServiceInfoAsync(string consulUrl, Func<ConsulServiceModel, bool>? filter = null);
+        /// <summary>
+        /// 获得服务信息列表
+        /// </summary>
+        /// <param name="consulUrl"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        Task<List<ConsulServiceModel>> GetServiceListAsync(string consulUrl, Func<ConsulServiceModel, bool>? filter = null);
     }
 }

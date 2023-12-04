@@ -29,5 +29,7 @@ namespace Materal.WebAPITest.Controllers
             string message = await _testService.SayHelloAsync();
             return ResultModel<string>.Success(message, "获取成功");
         }
+        [HttpGet]
+        public ResultModel TestErrorAsync() => throw new NotImplementedException();
     }
 }

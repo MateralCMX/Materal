@@ -82,6 +82,20 @@
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
       "Index": 5
+    },
+    {
+      "UpstreamPathTemplate": "/MateralWebAPITest/api/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "MateralWebAPITest",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "MateralWebAPITest",
+      "Index": 6
     }
   ],
   "GlobalConfiguration": {
@@ -157,6 +171,20 @@
           "Version": "v1",
           "Service": {
             "Name": "RCDeploy_TestAPI",
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "MateralWebAPITest",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "MateralWebAPITest",
+          "Version": "v1",
+          "Service": {
+            "Name": "MateralWebAPITest",
             "Path": "/swagger/v1/swagger.json"
           }
         }

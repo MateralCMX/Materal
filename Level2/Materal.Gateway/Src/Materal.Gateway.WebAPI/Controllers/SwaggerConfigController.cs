@@ -132,7 +132,7 @@ namespace Materal.Gateway.WebAPI.Controllers
         [HttpPost]
         public async Task<ResultModel> EditServiceItemAsync(EditSwaggerServiceItemConfigRequestModel requestModel)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == requestModel.ID) ?? throw new GatewayException("未找到配置项");
+            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == requestModel.SwaggerConfigID) ?? throw new GatewayException("未找到配置项");
             SwaggerItemConfigModel itemConfig = config.Config.FirstOrDefault(m => m.ID == requestModel.ID) ?? throw new GatewayException("未找到配置项");
             requestModel.CopyProperties(itemConfig);
             itemConfig.Url = null;
@@ -152,7 +152,7 @@ namespace Materal.Gateway.WebAPI.Controllers
         [HttpPost]
         public async Task<ResultModel> EditJsonItemAsync(EditSwaggerJsonItemConfigRequestModel requestModel)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == requestModel.ID) ?? throw new GatewayException("未找到配置项");
+            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == requestModel.SwaggerConfigID) ?? throw new GatewayException("未找到配置项");
             SwaggerItemConfigModel itemConfig = config.Config.FirstOrDefault(m => m.ID == requestModel.ID) ?? throw new GatewayException("未找到配置项");
             requestModel.CopyProperties(itemConfig);
             itemConfig.Url = requestModel.Url;

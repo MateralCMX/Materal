@@ -2,37 +2,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Ocelot.Configuration;
-using Ocelot.Errors;
 using Ocelot.Middleware;
 using Ocelot.Request.Middleware;
 using Ocelot.Requester;
 using Ocelot.Responses;
 using System.Text;
 using System.Xml;
+using Error = Ocelot.Errors.Error;
 
 namespace Materal.Gateway.OcelotExtension.Requester
 {
     /// <summary>
     /// 网关HTTP请求器
     /// </summary>
-    public class GatewayHttpRequester : IHttpRequester
+    public class GatewayHttpRequester(IExceptionToErrorMapper mapper, IDelegatingHandlerHandlerFactory factory, IHttpClientCache cacheHandlers) : IHttpRequester
     {
         private const string RsultTypeKey = "ResultType";
-        private readonly IExceptionToErrorMapper _mapper;
-        private readonly IDelegatingHandlerHandlerFactory _factory;
-        private readonly IHttpClientCache _cacheHandlers;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="mapper"></param>
-        /// <param name="factory"></param>
-        /// <param name="cacheHandlers"></param>
-        public GatewayHttpRequester(IExceptionToErrorMapper mapper, IDelegatingHandlerHandlerFactory factory, IHttpClientCache cacheHandlers)
-        {
-            _mapper = mapper;
-            _factory = factory;
-            _cacheHandlers = cacheHandlers;
-        }
         /// <summary>
         /// 获得响应
         /// </summary>
@@ -40,7 +25,7 @@ namespace Materal.Gateway.OcelotExtension.Requester
         /// <returns></returns>
         public async Task<Response<HttpResponseMessage>> GetResponse(HttpContext httpContext)
         {
-            IHttpClientBuilder builder = new GatewayHttpClientBuilder(_factory, _cacheHandlers);
+            IHttpClientBuilder builder = new GatewayHttpClientBuilder(factory, cacheHandlers);
             DownstreamRoute downstreamRoute = httpContext.Items.DownstreamRoute();
             DownstreamRequest downstreamRequest = httpContext.Items.DownstreamRequest();
             IHttpClient httpClient = builder.Create(downstreamRoute);
@@ -52,7 +37,7 @@ namespace Materal.Gateway.OcelotExtension.Requester
             }
             catch (Exception exception)
             {
-                Error error = _mapper.Map(exception);
+                Error error = mapper.Map(exception);
                 return new ErrorResponse<HttpResponseMessage>(error);
             }
             finally
@@ -167,7 +152,7 @@ namespace Materal.Gateway.OcelotExtension.Requester
         {
             return await GetConvertHttpResponseMessage(response, (bodyBuffer, encoding) =>
             {
-                string xml = encoding.GetString(bodyBuffer); 
+                string xml = encoding.GetString(bodyBuffer);
                 XmlDocument doc = new();
                 doc.LoadXml(xml);
                 string json = JsonConvert.SerializeXmlNode(doc, Newtonsoft.Json.Formatting.None, true);

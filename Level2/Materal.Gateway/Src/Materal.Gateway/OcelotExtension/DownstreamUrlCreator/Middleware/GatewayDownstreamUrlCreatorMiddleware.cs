@@ -15,21 +15,8 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
     /// <summary>
     /// 网关下游URL创建中间件
     /// </summary>
-    public class GatewayDownstreamUrlCreatorMiddleware : OcelotMiddleware
+    public class GatewayDownstreamUrlCreatorMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory, IDownstreamPathPlaceholderReplacer replacer) : OcelotMiddleware(loggerFactory.CreateLogger<GatewayDownstreamUrlCreatorMiddleware>())
     {
-        private readonly RequestDelegate _next;
-        private readonly IDownstreamPathPlaceholderReplacer _replacer;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="next"></param>
-        /// <param name="loggerFactory"></param>
-        /// <param name="replacer"></param>
-        public GatewayDownstreamUrlCreatorMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory, IDownstreamPathPlaceholderReplacer replacer) : base(loggerFactory.CreateLogger<GatewayDownstreamUrlCreatorMiddleware>())
-        {
-            _next = next;
-            _replacer = replacer;
-        }
         /// <summary>
         /// 中间件执行
         /// </summary>
@@ -39,7 +26,7 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
         {
             DownstreamRoute downstreamRoute = httpContext.Items.DownstreamRoute();
             List<PlaceholderNameAndValue> templatePlaceholderNameAndValues = httpContext.Items.TemplatePlaceholderNameAndValues();
-            Response<DownstreamPath> response = _replacer.Replace(downstreamRoute.DownstreamPathTemplate.Value, templatePlaceholderNameAndValues);
+            Response<DownstreamPath> response = replacer.Replace(downstreamRoute.DownstreamPathTemplate.Value, templatePlaceholderNameAndValues);
             DownstreamRequest downstreamRequest = httpContext.Items.DownstreamRequest();
             if (response.IsError)
             {
@@ -80,7 +67,7 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
                     downstreamRequest.AbsolutePath = dsPath.Value;
                 }
             }
-            await _next.Invoke(httpContext);
+            await next.Invoke(httpContext);
         }
         /// <summary>
         /// 移除已经在模板中使用的查询字符串参数
@@ -110,13 +97,13 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
         /// </summary>
         /// <param name="dsPath"></param>
         /// <returns></returns>
-        private static string GetPath(DownstreamPath dsPath) => dsPath.Value[..dsPath.Value.IndexOf('?')];
+        private static string GetPath(DownstreamPath dsPath) => dsPath.Value[..dsPath.Value.IndexOf("?", StringComparison.Ordinal)];
         /// <summary>
         /// 获取查询字符串
         /// </summary>
         /// <param name="dsPath"></param>
         /// <returns></returns>
-        private static string GetQueryString(DownstreamPath dsPath) => dsPath.Value[dsPath.Value.IndexOf('?')..];
+        private static string GetQueryString(DownstreamPath dsPath) => dsPath.Value[dsPath.Value.IndexOf("?", StringComparison.Ordinal)..];
         /// <summary>
         /// 是否包含查询字符串
         /// </summary>
@@ -134,7 +121,7 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
         private (string path, string query) CreateServiceFabricUri(DownstreamRequest downstreamRequest, DownstreamRoute downstreamRoute, List<PlaceholderNameAndValue> templatePlaceholderNameAndValues, Response<DownstreamPath> dsPath)
         {
             string query = downstreamRequest.Query;
-            Response<DownstreamPath> serviceName = _replacer.Replace(downstreamRoute.ServiceName, templatePlaceholderNameAndValues);
+            Response<DownstreamPath> serviceName = replacer.Replace(downstreamRoute.ServiceName, templatePlaceholderNameAndValues);
             string pathTemplate = $"/{serviceName.Data.Value}{dsPath.Data.Value}";
             return (pathTemplate, query);
         }

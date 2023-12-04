@@ -3,6 +3,7 @@ using Materal.Gateway.OcelotExtension;
 using Materal.Gateway.OcelotExtension.Services;
 using Materal.Gateway.WebAPI.Filters;
 using Materal.Logger;
+using Materal.Utils.Consul;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -32,10 +33,11 @@ namespace Materal.Gateway.WebAPI
             #region DI
             IServiceCollection services = builder.Services;
             services.AddMateralLogger();
+            services.AddMateralConsulUtils();
             services.AddControllers(m =>
             {
                 m.Filters.Add(new AuthorizeFilter());
-                m.Filters.Add<ExceptionFilter>();
+                //m.Filters.Add<ExceptionFilter>();
                 m.SuppressAsyncSuffixInActionNames = true;
             })
             .AddJsonOptions(options =>
