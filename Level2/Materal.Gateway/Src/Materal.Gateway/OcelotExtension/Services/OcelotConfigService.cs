@@ -70,5 +70,23 @@ namespace Materal.Gateway.OcelotExtension.Services
             Reload();
             return Task.CompletedTask;
         }
+        /// <summary>
+        /// 路由排序
+        /// </summary>
+        public void RoutesSort()
+        {
+            OcelotConfig.Routes = [.. OcelotConfig.Routes.OrderBy(m => m.Index)];
+            SetRoutesIndex();
+        }
+        /// <summary>
+        /// 设置路由索引
+        /// </summary>
+        public void SetRoutesIndex()
+        {
+            for (int i = 0; i < OcelotConfig.Routes.Count; i++)
+            {
+                OcelotConfig.Routes[i].Index = i;
+            }
+        }
     }
 }

@@ -40,5 +40,13 @@ namespace Materal.Gateway.OcelotExtension.Services
         /// 保存
         /// </summary>
         void Save();
+        /// <summary>
+        /// 路由排序
+        /// </summary>
+        void RoutesSort();
+        /// <summary>
+        /// 设置路由索引
+        /// </summary>
+        void SetRoutesIndex();
     }
 }

@@ -8,10 +8,6 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     public class RateLimitOptionsModel
     {
         /// <summary>
-        /// 唯一标识
-        /// </summary>
-        public Guid ID { get; set; } = Guid.NewGuid();
-        /// <summary>
         /// 是否启用限流
         /// </summary>
         [Required(ErrorMessage = "必填")]

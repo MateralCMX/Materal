@@ -8,10 +8,6 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     public class AuthenticationOptionsModel
     {
         /// <summary>
-        /// 唯一标识
-        /// </summary>
-        public Guid ID { get; set; } = Guid.NewGuid();
-        /// <summary>
         /// 验证键
         /// </summary>
         [Required(ErrorMessage = "必填")]

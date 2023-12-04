@@ -8,10 +8,6 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     public class FileCacheOptionsModel
     {
         /// <summary>
-        /// 唯一标识
-        /// </summary>
-        public Guid ID { get; set; } = Guid.NewGuid();
-        /// <summary>
         /// 缓存时间
         /// </summary>
         [Required(ErrorMessage = "必填")]

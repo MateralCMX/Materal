@@ -11,7 +11,8 @@
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "MBCDemoAPI"
+      "SwaggerKey": "MBCDemoAPI",
+      "Index": 0
     },
     {
       "UpstreamPathTemplate": "/RCAuthorityAPI/api/{everything}",
@@ -24,7 +25,8 @@
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "RCAuthorityAPI"
+      "SwaggerKey": "RCAuthorityAPI",
+      "Index": 1
     },
     {
       "UpstreamPathTemplate": "/RCServerCenterAPI/api/{everything}",
@@ -37,7 +39,8 @@
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "RCServerCenterAPI"
+      "SwaggerKey": "RCServerCenterAPI",
+      "Index": 2
     },
     {
       "UpstreamPathTemplate": "/RCES_TestAPI/api/{everything}",
@@ -50,7 +53,8 @@
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "RCES_TestAPI"
+      "SwaggerKey": "RCES_TestAPI",
+      "Index": 3
     },
     {
       "UpstreamPathTemplate": "/RCDeploy_TestAPI/api/{everything}",
@@ -63,7 +67,8 @@
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "RCDeploy_TestAPI"
+      "SwaggerKey": "RCDeploy_TestAPI",
+      "Index": 4
     },
     {
       "UpstreamPathTemplate": "/RCDeploy_TestAPI/hubs/{everything}",
@@ -75,7 +80,8 @@
       "LoadBalancerOptions": {
         "Type": "NoLoadBalancer"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "Index": 5
     }
   ],
   "GlobalConfiguration": {
@@ -88,10 +94,10 @@
   "SwaggerEndPoints": [
     {
       "Key": "MBCDemoAPI",
+      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "MBCDemoAPI",
-          "TakeServersFromDownstreamService": true,
           "Version": "v1",
           "Service": {
             "Name": "MBCDemoAPI",
@@ -102,10 +108,10 @@
     },
     {
       "Key": "RCAuthorityAPI",
+      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCAuthorityAPI",
-          "TakeServersFromDownstreamService": true,
           "Version": "v1",
           "Service": {
             "Name": "RCAuthorityAPI",
@@ -116,10 +122,10 @@
     },
     {
       "Key": "RCServerCenterAPI",
+      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCServerCenterAPI",
-          "TakeServersFromDownstreamService": true,
           "Version": "v1",
           "Service": {
             "Name": "RCServerCenterAPI",
@@ -130,10 +136,10 @@
     },
     {
       "Key": "RCES_TestAPI",
+      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCES_TestAPI",
-          "TakeServersFromDownstreamService": true,
           "Version": "v1",
           "Service": {
             "Name": "RCES_TestAPI",
@@ -144,10 +150,10 @@
     },
     {
       "Key": "RCDeploy_TestAPI",
+      "TakeServersFromDownstreamService": true,
       "Config": [
         {
           "Name": "RCDeploy_TestAPI",
-          "TakeServersFromDownstreamService": true,
           "Version": "v1",
           "Service": {
             "Name": "RCDeploy_TestAPI",

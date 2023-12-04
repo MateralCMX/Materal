@@ -1,5 +1,6 @@
 using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension;
+using Materal.Gateway.OcelotExtension.Services;
 using Materal.Gateway.WebAPI.Filters;
 using Materal.Logger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -96,9 +97,19 @@ namespace Materal.Gateway.WebAPI
             services.AddOcelotGateway();
             services.AddEndpointsApiExplorer();
             #endregion
-            var app = builder.Build();
+            WebApplication app = builder.Build();
+            IOcelotConfigService ocelotConfigService = app.Services.GetRequiredService<IOcelotConfigService>();
+            ocelotConfigService.SetRoutesIndex();
+            await ocelotConfigService.SaveAsync();
             await app.UseOcelotGatewayAsync(true);
-            app.UseSwaggerForOcelotUI(m => m.PathToSwaggerGenerator = "/swagger/docs");
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwaggerForOcelotUI(m => m.PathToSwaggerGenerator = "/swagger/docs");
+            }
+            else
+            {
+                app.UseSwaggerForOcelotUI();
+            }
             app.UseAuthentication();
             app.MapControllers();
             app.UseCors();
