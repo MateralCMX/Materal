@@ -13,7 +13,7 @@ namespace Materal.WebAPITest.Controllers
         public TestController(IServiceProvider serviceProvider, ITestService testService)
         {
             _serviceProvider = serviceProvider;
-            ILogger<TestController> logger= _serviceProvider.GetRequiredService<ILogger<TestController>>();
+            ILogger<TestController> logger = _serviceProvider.GetRequiredService<ILogger<TestController>>();
             logger.LogDebug(_serviceProvider.GetType().FullName);
             _testService = testService;
         }

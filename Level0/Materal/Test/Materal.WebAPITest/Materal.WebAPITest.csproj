@@ -9,6 +9,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.Utils.Consul\Materal.Utils.Consul.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>
 </Project>

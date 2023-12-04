@@ -6,12 +6,12 @@
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<IsPackable>true</IsPackable>
-		<Title>Materal基础类型扩展</Title>
+		<Title>Materal Consul帮助库</Title>
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
 		<Version>1.1.66</Version>
-		<Description>Materal基础类扩展包</Description>
+		<Description>Materal Consul帮助库</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -21,12 +21,12 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="*" />
-		<PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="*" />
-		<PackageReference Include="Newtonsoft.Json" Version="*" />
-		<PackageReference Include="System.Drawing.Common" Version="*" />
+		<PackageReference Include="Consul" Version="*" />
+		<PackageReference Include="Polly" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Materal.Abstractions\Materal.Abstractions.csproj" />
+	  <ProjectReference Include="..\Materal.Abstractions\Materal.Abstractions.csproj" />
+	  <ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
+	  <ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>
 </Project>
