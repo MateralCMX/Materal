@@ -18,10 +18,6 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         [Required(ErrorMessage = "必填")]
         public string Name { get; set; } = "SwaggerAPI";
         /// <summary>
-        /// 服务发现
-        /// </summary>
-        public bool TakeServersFromDownstreamService { get; set; } = false;
-        /// <summary>
         /// 版本
         /// </summary>
         [Required(ErrorMessage = "必填")]

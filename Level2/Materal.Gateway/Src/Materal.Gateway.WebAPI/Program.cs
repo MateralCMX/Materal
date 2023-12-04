@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace Materal.Gateway.WebAPI
 {
@@ -35,6 +36,14 @@ namespace Materal.Gateway.WebAPI
                 m.Filters.Add(new AuthorizeFilter());
                 m.Filters.Add<ExceptionFilter>();
                 m.SuppressAsyncSuffixInActionNames = true;
+            })
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            })
+            .AddNewtonsoftJson(jsonOptions =>
+            {
+                jsonOptions.SerializerSettings.ContractResolver = new DefaultContractResolver();
             });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>

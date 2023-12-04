@@ -5,17 +5,21 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     /// <summary>
     /// Swagger配置模型
     /// </summary>
-    public class SwaggerEndPointsModel
+    public class SwaggerConfigModel
     {
         /// <summary>
         /// 唯一标识
         /// </summary>
         public Guid ID { get; set; } = Guid.NewGuid();
         /// <summary>
-        /// 唯一标识
+        /// 键
         /// </summary>
         [Required(ErrorMessage = "必填")]
         public string Key { get; set; } = "SwaggerKey";
+        /// <summary>
+        /// 服务发现
+        /// </summary>
+        public bool TakeServersFromDownstreamService { get; set; } = false;
         /// <summary>
         /// 配置项
         /// </summary>

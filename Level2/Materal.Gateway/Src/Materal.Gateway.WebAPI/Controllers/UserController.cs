@@ -5,7 +5,6 @@ using Materal.Gateway.WebAPI.PresentationModel;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.Common;
 
 namespace Materal.Gateway.WebAPI.Controllers
 {

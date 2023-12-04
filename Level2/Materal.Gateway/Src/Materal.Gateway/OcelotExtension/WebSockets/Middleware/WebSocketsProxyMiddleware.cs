@@ -2,12 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Ocelot.Configuration;
 using Ocelot.Logging;
 using Ocelot.Middleware;
-#if NET6_0
-using Ocelot.WebSockets.Middleware;
-#endif
-#if NET8_0
 using Ocelot.WebSockets;
-#endif
 using System.Net;
 using System.Net.WebSockets;
 using System.Text;

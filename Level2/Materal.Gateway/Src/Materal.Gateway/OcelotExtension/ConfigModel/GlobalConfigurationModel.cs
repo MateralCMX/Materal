@@ -8,10 +8,6 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
     public class GlobalConfigurationModel
     {
         /// <summary>
-        /// 唯一标识
-        /// </summary>
-        public Guid ID { get; set; } = Guid.NewGuid();
-        /// <summary>
         /// BaseUrl
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

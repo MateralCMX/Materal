@@ -2,7 +2,7 @@ using Materal.Gateway.OcelotExtension.Middleware;
 using Microsoft.AspNetCore.Http;
 using Ocelot.Configuration;
 using Ocelot.DownstreamRouteFinder.UrlMatcher;
-using Ocelot.DownstreamUrlCreator.UrlTemplateReplacer;
+using Ocelot.DownstreamUrlCreator;
 using Ocelot.Logging;
 using Ocelot.Middleware;
 using Ocelot.Request.Middleware;
@@ -110,13 +110,13 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
         /// </summary>
         /// <param name="dsPath"></param>
         /// <returns></returns>
-        private static string GetPath(DownstreamPath dsPath) => dsPath.Value[..dsPath.Value.IndexOf("?", StringComparison.Ordinal)];
+        private static string GetPath(DownstreamPath dsPath) => dsPath.Value[..dsPath.Value.IndexOf('?')];
         /// <summary>
         /// 获取查询字符串
         /// </summary>
         /// <param name="dsPath"></param>
         /// <returns></returns>
-        private static string GetQueryString(DownstreamPath dsPath) => dsPath.Value[dsPath.Value.IndexOf("?", StringComparison.Ordinal)..];
+        private static string GetQueryString(DownstreamPath dsPath) => dsPath.Value[dsPath.Value.IndexOf('?')..];
         /// <summary>
         /// 是否包含查询字符串
         /// </summary>
