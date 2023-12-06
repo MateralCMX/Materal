@@ -1,8 +1,7 @@
 ﻿using Materal.Gateway.Common;
-using Materal.Gateway.OcelotExtension.ConfigModel;
-using Materal.Gateway.OcelotExtension.Services;
-using Materal.Gateway.WebAPI.DataTransmitModel.SwaggerConfig;
-using Materal.Gateway.WebAPI.PresentationModel.SwaggerConfig;
+using Materal.Gateway.DataTransmitModel.Swagger;
+using Materal.Gateway.Service;
+using Materal.Gateway.WebAPI.PresentationModel.Swagger;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,33 +15,23 @@ namespace Materal.Gateway.WebAPI.Controllers
         /// <summary>
         /// 添加
         /// </summary>
-        /// <param name="requestModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ResultModel<Guid>> AddAsync(AddSwaggerConfigRequestModel requestModel)
+        public async Task<ResultModel<Guid>> AddAsync(AddSwaggerModel model)
         {
-            SwaggerConfigModel model = new()
-            {
-                ID = Guid.NewGuid(),
-                Config = [],
-                Key = requestModel.Key,
-                TakeServersFromDownstreamService = requestModel.TakeServersFromDownstreamService,
-            };
-            ocelotConfigService.OcelotConfig.SwaggerEndPoints.Add(model);
-            await ocelotConfigService.SaveAsync();
-            return ResultModel<Guid>.Success(model.ID, "添加成功");
+            Guid result = await ocelotConfigService.AddSwaggerAsync(model);
+            return ResultModel<Guid>.Success(result, "添加成功");
         }
         /// <summary>
         /// 修改
         /// </summary>
-        /// <param name="requestModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ResultModel> EditAsync(EditSwaggerConfigRequestModel requestModel)
+        public async Task<ResultModel> EditAsync(EditSwaggerModel model)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == requestModel.ID) ?? throw new GatewayException("未找到配置项");
-            requestModel.CopyProperties(config);
-            await ocelotConfigService.SaveAsync();
+            await ocelotConfigService.EditSwaggerAsync(model);
             return ResultModel.Success("修改成功");
         }
         /// <summary>
@@ -53,9 +42,7 @@ namespace Materal.Gateway.WebAPI.Controllers
         [HttpDelete]
         public async Task<ResultModel> DeleteAsync(Guid id)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == id) ?? throw new GatewayException("未找到配置项");
-            ocelotConfigService.OcelotConfig.SwaggerEndPoints.Remove(config);
-            await ocelotConfigService.SaveAsync();
+            await ocelotConfigService.DeleteSwaggerAsync(id);
             return ResultModel.Success("删除成功");
         }
         /// <summary>
@@ -63,101 +50,64 @@ namespace Materal.Gateway.WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResultModel<SwaggerConfigDTO> GetInfo(Guid id)
+        public ResultModel<SwaggerDTO> GetInfo(Guid id)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == id) ?? throw new GatewayException("未找到配置项");
-            SwaggerConfigDTO result = config.CopyProperties<SwaggerConfigDTO>();
-            return ResultModel<SwaggerConfigDTO>.Success(result, "获取成功");
+            SwaggerDTO result = ocelotConfigService.GetSwaggerInfo(id);
+            return ResultModel<SwaggerDTO>.Success(result, "获取成功");
         }
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="questModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ResultModel<List<SwaggerConfigDTO>> GetList(QuerySwaggerConfigRequestModel questModel)
+        public ResultModel<List<SwaggerDTO>> GetList(QuerySwaggerModel model)
         {
-            Func<SwaggerConfigModel, bool> filter = questModel.GetSearchDelegate<SwaggerConfigModel>();
-            List<SwaggerConfigModel> configs = ocelotConfigService.OcelotConfig.SwaggerEndPoints.Where(filter.Invoke).ToList();
-            List<SwaggerConfigDTO> result = configs.Select(m => m.CopyProperties<SwaggerConfigDTO>()).ToList();
-            return ResultModel<List<SwaggerConfigDTO>>.Success(result, "获取成功");
+            List<SwaggerDTO> result = ocelotConfigService.GetSwaggerList(model);
+            return ResultModel<List<SwaggerDTO>>.Success(result, "获取成功");
         }
         /// <summary>
         /// 添加服务项
         /// </summary>
-        /// <param name="requestModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ResultModel<Guid>> AddServiceItemAsync(AddSwaggerServiceItemConfigRequestModel requestModel)
+        public async Task<ResultModel<Guid>> AddServiceItemAsync(AddSwaggerServiceItemModel model)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == requestModel.SwaggerConfigID) ?? throw new GatewayException("未找到配置项");
-            SwaggerItemConfigModel itemConfig = new()
-            {
-                Name = requestModel.Name,
-                Version = requestModel.Version,
-                Service = new()
-                {
-                    Name = requestModel.ServiceName,
-                    Path = requestModel.ServicePath
-                }
-            };
-            config.Config.Add(itemConfig);
-            await ocelotConfigService.SaveAsync();
-            return ResultModel<Guid>.Success(itemConfig.ID, "添加成功");
+            Guid result = await ocelotConfigService.AddSwaggerServiceItemAsync(model);
+            return ResultModel<Guid>.Success(result, "添加成功");
         }
         /// <summary>
         /// 添加Json项
         /// </summary>
-        /// <param name="requestModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ResultModel<Guid>> AddJsonItemAsync(AddSwaggerJsonItemConfigRequestModel requestModel)
+        public async Task<ResultModel<Guid>> AddJsonItemAsync(AddSwaggerJsonItemModel model)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == requestModel.SwaggerConfigID) ?? throw new GatewayException("未找到配置项");
-            SwaggerItemConfigModel itemConfig = new()
-            {
-                Name = requestModel.Name,
-                Version = requestModel.Version,
-                Url = requestModel.Url
-            };
-            config.Config.Add(itemConfig);
-            await ocelotConfigService.SaveAsync();
-            return ResultModel<Guid>.Success(itemConfig.ID, "添加成功");
+            Guid result = await ocelotConfigService.AddSwaggerJsonItemAsync(model);
+            return ResultModel<Guid>.Success(result, "添加成功");
         }
         /// <summary>
         /// 修改服务项
         /// </summary>
-        /// <param name="requestModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ResultModel> EditServiceItemAsync(EditSwaggerServiceItemConfigRequestModel requestModel)
+        public async Task<ResultModel> EditServiceItemAsync(EditSwaggerServiceItemModel model)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == requestModel.SwaggerConfigID) ?? throw new GatewayException("未找到配置项");
-            SwaggerItemConfigModel itemConfig = config.Config.FirstOrDefault(m => m.ID == requestModel.ID) ?? throw new GatewayException("未找到配置项");
-            requestModel.CopyProperties(itemConfig);
-            itemConfig.Url = null;
-            itemConfig.Service = new()
-            {
-                Name = requestModel.ServiceName,
-                Path = requestModel.ServicePath
-            };
-            await ocelotConfigService.SaveAsync();
+            await ocelotConfigService.EditSwaggerServiceItemAsync(model);
             return ResultModel.Success("修改成功");
         }
         /// <summary>
         /// 修改Json项
         /// </summary>
-        /// <param name="requestModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ResultModel> EditJsonItemAsync(EditSwaggerJsonItemConfigRequestModel requestModel)
+        public async Task<ResultModel> EditJsonItemAsync(EditSwaggerJsonItemModel model)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == requestModel.SwaggerConfigID) ?? throw new GatewayException("未找到配置项");
-            SwaggerItemConfigModel itemConfig = config.Config.FirstOrDefault(m => m.ID == requestModel.ID) ?? throw new GatewayException("未找到配置项");
-            requestModel.CopyProperties(itemConfig);
-            itemConfig.Url = requestModel.Url;
-            itemConfig.Service = null;
-            await ocelotConfigService.SaveAsync();
+            await ocelotConfigService.EditSwaggerJsonItemAsync(model);
             return ResultModel.Success("修改成功");
         }
         /// <summary>
@@ -169,10 +119,7 @@ namespace Materal.Gateway.WebAPI.Controllers
         [HttpDelete]
         public async Task<ResultModel> DeleteItemAsync(Guid swaggerConfigID, Guid id)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == swaggerConfigID) ?? throw new GatewayException("未找到配置项");
-            SwaggerItemConfigModel itemConfig = config.Config.FirstOrDefault(m => m.ID == id) ?? throw new GatewayException("未找到配置项");
-            config.Config.Remove(itemConfig);
-            await ocelotConfigService.SaveAsync();
+            await ocelotConfigService.DeleteSwaggerItemAsync(swaggerConfigID, id);
             return ResultModel.Success("删除成功");
         }
         /// <summary>
@@ -180,34 +127,21 @@ namespace Materal.Gateway.WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ResultModel<SwaggerItemConfigDTO> GetItemInfo(Guid swaggerConfigID, Guid id)
+        public ResultModel<SwaggerItemDTO> GetItemInfo(Guid swaggerConfigID, Guid id)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == swaggerConfigID) ?? throw new GatewayException("未找到配置项");
-            SwaggerItemConfigModel itemConfig = config.Config.FirstOrDefault(m => m.ID == id) ?? throw new GatewayException("未找到配置项");
-            SwaggerItemConfigDTO result = itemConfig.CopyProperties<SwaggerItemConfigDTO>();
-            return ResultModel<SwaggerItemConfigDTO>.Success(result, "获取成功");
+            SwaggerItemDTO result = ocelotConfigService.GetSwaggerItemInfo(swaggerConfigID, id);
+            return ResultModel<SwaggerItemDTO>.Success(result, "获取成功");
         }
         /// <summary>
         /// 获取列表
         /// </summary>
-        /// <param name="questModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ResultModel<List<SwaggerItemConfigDTO>> GetItemList(QuerySwaggerItemConfigRequestModel questModel)
+        public ResultModel<List<SwaggerItemDTO>> GetItemList(QuerySwaggerItemModel model)
         {
-            SwaggerConfigModel config = ocelotConfigService.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == questModel.SwaggerConfigID) ?? throw new GatewayException("未找到配置项");
-            List<SwaggerItemConfigDTO> result = config.Config.Select(m =>
-            {
-                SwaggerItemConfigDTO dto = m.CopyProperties<SwaggerItemConfigDTO>();
-                if (m.Service != null)
-                {
-                    dto.Url = null;
-                    dto.ServiceName = m.Service.Name;
-                    dto.ServicePath = m.Service.Path;
-                }
-                return dto;
-            }).ToList();
-            return ResultModel<List<SwaggerItemConfigDTO>>.Success(result, "获取成功");
+            List<SwaggerItemDTO> result = ocelotConfigService.GetSwaggerItemList(model);
+            return ResultModel<List<SwaggerItemDTO>>.Success(result, "获取成功");
         }
     }
 }

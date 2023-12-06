@@ -1,9 +1,9 @@
-﻿namespace Materal.Gateway.WebAPI.DataTransmitModel.SwaggerConfig
+﻿namespace Materal.Gateway.DataTransmitModel.Swagger
 {
     /// <summary>
-    /// Swagger项配置数据传输模型
+    /// Swagger项数据传输模型
     /// </summary>
-    public class SwaggerItemConfigDTO
+    public class SwaggerItemDTO
     {
         /// <summary>
         /// 唯一标识

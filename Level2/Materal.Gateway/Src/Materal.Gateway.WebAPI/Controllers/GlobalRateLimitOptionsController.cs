@@ -1,14 +1,14 @@
 ﻿using Materal.Gateway.OcelotExtension.ConfigModel;
-using Materal.Gateway.OcelotExtension.Services;
+using Materal.Gateway.Service;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Materal.Gateway.WebAPI.Controllers
 {
     /// <summary>
-    /// 限流配置控制器
+    /// 全局限流配置控制器
     /// </summary>
-    public class RateLimitOptionsController(IOcelotConfigService ocelotConfigService) : GatewayControllerBase
+    public class GlobalRateLimitOptionsController(IOcelotConfigService ocelotConfigService) : GatewayControllerBase
     {
         /// <summary>
         /// 设置数据
@@ -18,8 +18,7 @@ namespace Materal.Gateway.WebAPI.Controllers
         [HttpPost]
         public async Task<ResultModel> SetConfigAsync(GlobalRateLimitOptionsModel? model)
         {
-            ocelotConfigService.OcelotConfig.GlobalConfiguration.RateLimitOptions = model;
-            await ocelotConfigService.SaveAsync();
+            await ocelotConfigService.SetGlobalRateLimitOptionsAsync(model);
             return ResultModel.Success("设置成功");
         }
         /// <summary>
@@ -29,7 +28,7 @@ namespace Materal.Gateway.WebAPI.Controllers
         [HttpGet]
         public ResultModel<GlobalRateLimitOptionsModel?> GetConfig()
         {
-            GlobalRateLimitOptionsModel? result = ocelotConfigService.OcelotConfig.GlobalConfiguration.RateLimitOptions;
+            GlobalRateLimitOptionsModel? result = ocelotConfigService.GetGlobalRateLimitOptions();
             return ResultModel<GlobalRateLimitOptionsModel?>.Success(result, "获取成功");
         }
     }

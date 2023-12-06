@@ -2,12 +2,12 @@
 using Materal.Gateway.OcelotExtension.ConfigModel;
 using System.Text;
 
-namespace Materal.Gateway.OcelotExtension.Services
+namespace Materal.Gateway.OcelotExtension.Repositories
 {
     /// <summary>
     /// Ocelot配置服务
     /// </summary>
-    public class OcelotConfigService : IOcelotConfigService
+    public class OcelotConfigRepositoryImpl : IOcelotConfigRepository
     {
         private readonly Encoding _encoding = Encoding.UTF8;
         private readonly FileInfo _ocelotFileInfo;
@@ -18,7 +18,7 @@ namespace Materal.Gateway.OcelotExtension.Services
         /// <summary>
         /// 构造方法
         /// </summary>
-        public OcelotConfigService()
+        public OcelotConfigRepositoryImpl()
         {
             _ocelotFileInfo = new(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ocelot.json"));
             Reload();

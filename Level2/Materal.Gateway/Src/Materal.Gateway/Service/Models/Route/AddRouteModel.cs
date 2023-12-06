@@ -1,12 +1,12 @@
 ﻿using Materal.Gateway.OcelotExtension.ConfigModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Materal.Gateway.WebAPI.PresentationModel.Route
+namespace Materal.Gateway.Service.Models.Route
 {
     /// <summary>
     /// 添加路由请求模型
     /// </summary>
-    public class AddRouteRequestModel
+    public class AddRouteModel
     {
         /// <summary>
         /// 上游路径模版

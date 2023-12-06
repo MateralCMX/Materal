@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.Gateway.WebAPI.DataTransmitModel.SwaggerConfig
+namespace Materal.Gateway.DataTransmitModel.Swagger
 {
     /// <summary>
-    /// Swager配置项数据传输模型
+    /// Swager数据传输模型
     /// </summary>
-    public class SwaggerConfigDTO
+    public class SwaggerDTO
+
     {
         /// <summary>
         /// 唯一标识

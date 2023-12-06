@@ -1,11 +1,11 @@
 ﻿using Materal.Utils.Model;
 
-namespace Materal.Gateway.WebAPI.PresentationModel.Route
+namespace Materal.Gateway.Service.Models.Route
 {
     /// <summary>
-    /// 查询路由请求模型
+    /// 查询路由模型
     /// </summary>
-    public class QueryRouteRequestModel : FilterModel
+    public class QueryRouteModel : FilterModel
     {
         /// <summary>
         /// 上游路径模版

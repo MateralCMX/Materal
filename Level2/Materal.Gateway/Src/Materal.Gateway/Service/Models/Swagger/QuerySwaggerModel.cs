@@ -1,11 +1,11 @@
 ﻿using Materal.Utils.Model;
 
-namespace Materal.Gateway.WebAPI.PresentationModel.SwaggerConfig
+namespace Materal.Gateway.WebAPI.PresentationModel.Swagger
 {
     /// <summary>
-    /// 查询Swagger配置请求模型
+    /// 查询Swagger配置模型
     /// </summary>
-    public class QuerySwaggerConfigRequestModel : FilterModel
+    public class QuerySwaggerModel : FilterModel
     {
         /// <summary>
         /// 键

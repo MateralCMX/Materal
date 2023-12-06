@@ -1,11 +1,13 @@
 ﻿using Materal.Gateway.OcelotExtension.ConfigModel;
 
-namespace Materal.Gateway.OcelotExtension.Services
+namespace Materal.Gateway.OcelotExtension.Repositories
 {
     /// <summary>
     /// Ocelot配置服务
     /// </summary>
-    public interface IOcelotConfigService
+    public interface IOcelotConfigRepository
+
+
     {
         /// <summary>
         /// Oceelot配置

@@ -1,12 +1,12 @@
 ﻿using Materal.Utils.Model;
 using System.ComponentModel.DataAnnotations;
 
-namespace Materal.Gateway.WebAPI.PresentationModel.SwaggerConfig
+namespace Materal.Gateway.WebAPI.PresentationModel.Swagger
 {
     /// <summary>
-    /// 查询Swagger项配置请求模型
+    /// 查询Swagger项配置模型
     /// </summary>
-    public class QuerySwaggerItemConfigRequestModel : FilterModel
+    public class QuerySwaggerItemModel : FilterModel
     {
         /// <summary>
         /// 配置ID

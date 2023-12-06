@@ -1,4 +1,4 @@
-﻿using Materal.Gateway.OcelotExtension.Services;
+﻿using Materal.Gateway.Service;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +12,12 @@ namespace Materal.Gateway.WebAPI.Controllers
         /// <summary>
         /// 设置数据
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="baseUrl"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ResultModel> SetConfigAsync(string? model)
+        public async Task<ResultModel> SetConfigAsync(string? baseUrl)
         {
-            ocelotConfigService.OcelotConfig.GlobalConfiguration.BaseUrl = model;
-            await ocelotConfigService.SaveAsync();
+            await ocelotConfigService.SetBaseUrlAsync(baseUrl);
             return ResultModel.Success("设置成功");
         }
         /// <summary>
@@ -28,8 +27,8 @@ namespace Materal.Gateway.WebAPI.Controllers
         [HttpGet]
         public ResultModel<string?> GetConfig()
         {
-            string? result = ocelotConfigService.OcelotConfig.GlobalConfiguration.BaseUrl;
-            return ResultModel<string?>.Success(result, "获取成功");
+            string? reusult = ocelotConfigService.GetBaseUrl();
+            return ResultModel<string?>.Success(reusult, "获取成功");
         }
     }
 }

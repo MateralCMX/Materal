@@ -1,6 +1,7 @@
 using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension;
-using Materal.Gateway.OcelotExtension.Services;
+using Materal.Gateway.OcelotExtension.Repositories;
+using Materal.Gateway.Service;
 using Materal.Gateway.WebAPI.Filters;
 using Materal.Logger;
 using Materal.Utils.Consul;
@@ -101,8 +102,7 @@ namespace Materal.Gateway.WebAPI
             #endregion
             WebApplication app = builder.Build();
             IOcelotConfigService ocelotConfigService = app.Services.GetRequiredService<IOcelotConfigService>();
-            ocelotConfigService.SetRoutesIndex();
-            await ocelotConfigService.SaveAsync();
+            await ocelotConfigService.InitAsync();
             await app.UseOcelotGatewayAsync(true);
             if (app.Environment.IsDevelopment())
             {

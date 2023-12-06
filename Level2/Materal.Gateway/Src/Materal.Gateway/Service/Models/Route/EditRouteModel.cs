@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.Gateway.WebAPI.PresentationModel.Route
+namespace Materal.Gateway.Service.Models.Route
 {
     /// <summary>
     /// 修改路由请求模型
     /// </summary>
-    public class EditRouteRequestModel : AddRouteRequestModel
+    public class EditRouteModel : AddRouteModel
     {
         /// <summary>
         /// 路由唯一标识

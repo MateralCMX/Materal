@@ -38,10 +38,10 @@ namespace Materal.Gateway.OcelotExtension.ServiceDiscovery
             {
                 return GetServiceDiscoveryProvider(serviceConfig, route);
             }
-            List<Service> services = new();
+            List<Ocelot.Values.Service> services = new();
             foreach (var downstreamAddress in route.DownstreamAddresses)
             {
-                Service service = new(route.ServiceName, new ServiceHostAndPort(downstreamAddress.Host, downstreamAddress.Port, route.GetDownstreamScheme()), string.Empty, string.Empty, Array.Empty<string>());
+                Ocelot.Values.Service service = new(route.ServiceName, new ServiceHostAndPort(downstreamAddress.Host, downstreamAddress.Port, route.GetDownstreamScheme()), string.Empty, string.Empty, Array.Empty<string>());
                 services.Add(service);
             }
             return new OkResponse<IServiceDiscoveryProvider>(new ConfigurationServiceProvider(services));

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.Gateway.WebAPI.PresentationModel.SwaggerConfig
+namespace Materal.Gateway.WebAPI.PresentationModel.Swagger
 {
     /// <summary>
-    /// 添加Swagger配置请求模型
+    /// 添加Swagger配置模型
     /// </summary>
-    public class AddSwaggerConfigRequestModel
+    public class AddSwaggerModel
     {
         /// <summary>
         /// 唯一标识
