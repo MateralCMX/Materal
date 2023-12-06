@@ -100,9 +100,10 @@
   ],
   "GlobalConfiguration": {
     "ServiceDiscoveryProvider": {
-      "Host": "127.0.0.1",
+      "Host": "175.27.194.19",
       "Port": 8500,
-      "Type": "Consul"
+      "Type": "Consul",
+      "IsSSL": false
     }
   },
   "SwaggerEndPoints": [

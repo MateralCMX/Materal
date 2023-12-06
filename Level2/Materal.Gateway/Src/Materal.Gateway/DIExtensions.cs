@@ -31,6 +31,18 @@ namespace Materal.Gateway
         /// <returns></returns>
         public static IOcelotBuilder AddOcelotGateway(this IServiceCollection services, bool enableConsul = true)
         {
+            services.AddOptions();
+            services.TryAddSingleton<IRequestMonitorHandlers, DefatultRequestMonitorHandlers>();
+            services.TryAddSingleton<ICustomHandlers, DefaultCustomHandlers>();
+            services.TryAddSingleton<IExceptionInterceptor, DefaultExceptionInterceptor>();
+            services.TryAddSingleton<IOcelotConfigRepository, OcelotConfigRepositoryImpl>();
+            services.TryAddSingleton<IOcelotConfigService, OcelotConfigServiceImpl>();
+            services.TryAddSingleton<IServiceDiscoveryProviderFactory, GatewayServiceDiscoveryProviderFactory>();
+            services.TryAddSingleton<IHttpRequester, GatewayHttpRequester>();
+            services.TryAddSingleton<IHttpResponder, GatewayHttpContextResponder>();
+            //services.Replace(new ServiceDescriptor(typeof(IServiceDiscoveryProviderFactory), typeof(GatewayServiceDiscoveryProviderFactory), ServiceLifetime.Singleton));
+            //services.Replace(new ServiceDescriptor(typeof(IHttpRequester), typeof(GatewayHttpRequester), ServiceLifetime.Singleton));
+            //services.Replace(new ServiceDescriptor(typeof(IHttpResponder), typeof(GatewayHttpContextResponder), ServiceLifetime.Singleton)); ;
             IOcelotBuilder result = services.AddOcelot();
             result.AddCacheManager(setting =>
             {
@@ -41,14 +53,6 @@ namespace Materal.Gateway
                 result.AddConsul();
             }
             result.AddPolly();
-            services.TryAddSingleton<IRequestMonitorHandlers, DefatultRequestMonitorHandlers>();
-            services.TryAddSingleton<ICustomHandlers, DefaultCustomHandlers>();
-            services.TryAddSingleton<IExceptionInterceptor, DefaultExceptionInterceptor>();
-            services.TryAddSingleton<IOcelotConfigRepository, OcelotConfigRepositoryImpl>();
-            services.TryAddSingleton<IOcelotConfigService, OcelotConfigServiceImpl>();
-            services.Replace(new ServiceDescriptor(typeof(IServiceDiscoveryProviderFactory), typeof(GatewayServiceDiscoveryProviderFactory), ServiceLifetime.Singleton));
-            services.Replace(new ServiceDescriptor(typeof(IHttpRequester), typeof(GatewayHttpRequester), ServiceLifetime.Singleton));
-            services.Replace(new ServiceDescriptor(typeof(IHttpResponder), typeof(GatewayHttpContextResponder), ServiceLifetime.Singleton));
             return result;
         }
     }

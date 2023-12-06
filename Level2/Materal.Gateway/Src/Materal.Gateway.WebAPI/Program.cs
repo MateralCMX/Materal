@@ -1,12 +1,13 @@
 using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension;
-using Materal.Gateway.OcelotExtension.Repositories;
-using Materal.Gateway.Service;
+using Materal.Gateway.OcelotExtension.ExceptionInterceptor;
 using Materal.Gateway.WebAPI.Filters;
 using Materal.Logger;
 using Materal.Utils.Consul;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
@@ -26,9 +27,10 @@ namespace Materal.Gateway.WebAPI
         /// <returns></returns>
         public static async Task Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
             #region º”‘ÿ≈‰÷√Œƒº˛
-            builder.Configuration.AddJsonFile("Ocelot.json", false, true); //º”‘ÿOcelot≈‰÷√
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ocelot.json");
+            builder.Configuration.AddJsonFile(filePath, false, true); //º”‘ÿOcelot≈‰÷√
             ApplicationConfig.Configuration = builder.Configuration;
             #endregion
             #region DI
@@ -97,13 +99,27 @@ namespace Materal.Gateway.WebAPI
                     opt.AddSecurityRequirement(openApiSecurityRequirement);
                 });
             });
+            services.TryAddSingleton<IExceptionInterceptor, MateralGatewayExceptionInterceptor>();
             services.AddOcelotGateway();
             services.AddEndpointsApiExplorer();
             #endregion
             WebApplication app = builder.Build();
-            IOcelotConfigService ocelotConfigService = app.Services.GetRequiredService<IOcelotConfigService>();
-            await ocelotConfigService.InitAsync();
+            //IOcelotConfigService ocelotConfigService = app.Services.GetRequiredService<IOcelotConfigService>();
+            //await ocelotConfigService.InitAsync();
             await app.UseOcelotGatewayAsync(true);
+            string managementPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Management");
+            DirectoryInfo managementDirectoryInfo = new(managementPath);
+            if (!managementDirectoryInfo.Exists)
+            {
+                managementDirectoryInfo.Create();
+                managementDirectoryInfo.Refresh();
+            }
+            StaticFileOptions staticFileOptions = new()
+            {
+                FileProvider = new PhysicalFileProvider(managementDirectoryInfo.FullName),
+                RequestPath = $"/{managementDirectoryInfo.Name}",
+            };
+            app.UseStaticFiles(staticFileOptions);
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwaggerForOcelotUI(m => m.PathToSwaggerGenerator = "/swagger/docs");
