@@ -22,5 +22,9 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// </summary>
         [Required(ErrorMessage = "必填")]
         public string Type { get; set; } = "Consul";
+        /// <summary>
+        /// SSL
+        /// </summary>
+        public bool IsSSL { get; set; } = false;
     }
 }

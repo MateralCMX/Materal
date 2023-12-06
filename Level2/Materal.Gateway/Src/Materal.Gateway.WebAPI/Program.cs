@@ -38,7 +38,7 @@ namespace Materal.Gateway.WebAPI
             services.AddControllers(m =>
             {
                 m.Filters.Add(new AuthorizeFilter());
-                //m.Filters.Add<ExceptionFilter>();
+                m.Filters.Add<ExceptionFilter>();
                 m.SuppressAsyncSuffixInActionNames = true;
             })
             .AddJsonOptions(options =>

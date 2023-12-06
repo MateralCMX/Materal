@@ -347,7 +347,7 @@ namespace Materal.Gateway.Service
         {
             if (ocelotConfigRepository.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider is null) throw new GatewayException("未配置服务发现");
             ServiceDiscoveryProviderModel consulModel = ocelotConfigRepository.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider;
-            string consulUrl = $"://{consulModel.Host}:{consulModel.Port}";
+            string consulUrl = $"{(consulModel.IsSSL ? "https" : "http")}://{consulModel.Host}:{consulModel.Port}";
             List<ConsulServiceModel> servies = await consulService.GetServiceListAsync(consulUrl);
             if (ocelotConfigRepository.OcelotConfig.SwaggerEndPoints == null) ocelotConfigRepository.OcelotConfig.SwaggerEndPoints = [];
             if (model.Clear) ocelotConfigRepository.OcelotConfig.SwaggerEndPoints.Clear();
@@ -407,7 +407,7 @@ namespace Materal.Gateway.Service
         {
             if (ocelotConfigRepository.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider is null) throw new GatewayException("未配置服务发现");
             ServiceDiscoveryProviderModel consulModel = ocelotConfigRepository.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider;
-            string consulUrl = $"://{consulModel.Host}:{consulModel.Port}";
+            string consulUrl = $"{(consulModel.IsSSL ? "https" : "http")}://{consulModel.Host}:{consulModel.Port}";
             List<ConsulServiceModel> servies = await consulService.GetServiceListAsync(consulUrl);
             if (ocelotConfigRepository.OcelotConfig.Routes == null) ocelotConfigRepository.OcelotConfig.Routes = [];
             if (model.Mode == SyncModeEnum.Cover) ocelotConfigRepository.OcelotConfig.Routes.Clear();
@@ -474,6 +474,7 @@ namespace Materal.Gateway.Service
             }
             routeConfigs = [.. routeConfigs.OrderBy(m => m.ServiceName)];
             ocelotConfigRepository.OcelotConfig.Routes.AddRange(routeConfigs);
+            ocelotConfigRepository.SetRoutesIndex();
             ocelotConfigRepository.Save();
         }
     }

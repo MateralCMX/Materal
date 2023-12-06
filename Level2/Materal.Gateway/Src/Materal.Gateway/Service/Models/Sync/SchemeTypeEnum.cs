@@ -11,31 +11,31 @@ namespace Materal.Gateway.Service.Models.Sync
         /// Http
         /// </summary>
         [Description("Http")]
-        Http,
+        Http = 0,
         /// <summary>
         /// Https
         /// </summary>
         [Description("Https")]
-        Https,
+        Https = 1,
         /// <summary>
         /// WS
         /// </summary>
         [Description("WS")]
-        WS,
+        WS = 2,
         /// <summary>
         /// WSS
         /// </summary>
         [Description("WSS")]
-        WSS,
+        WSS = 3,
         /// <summary>
         /// Grpc
         /// </summary>
         [Description("Grpc")]
-        Grpc,
+        Grpc = 4,
         /// <summary>
         /// Grpcs
         /// </summary>
         [Description("Grpcs")]
-        Grpcs
+        Grpcs = 5
     }
 }

@@ -11,16 +11,16 @@ namespace Materal.Gateway.Service.Models.Sync
         /// 添加
         /// </summary>
         [Description("添加")]
-        Add,
+        Add = 0,
         /// <summary>
         /// 替换
         /// </summary>
         [Description("替换")]
-        Replace,
+        Replace = 1,
         /// <summary>
         /// 覆盖
         /// </summary>
         [Description("覆盖")]
-        Cover
+        Cover = 2
     }
 }
