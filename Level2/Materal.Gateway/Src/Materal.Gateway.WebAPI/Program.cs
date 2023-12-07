@@ -1,6 +1,7 @@
 using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension;
 using Materal.Gateway.OcelotExtension.ExceptionInterceptor;
+using Materal.Gateway.Service;
 using Materal.Gateway.WebAPI.Filters;
 using Materal.Logger;
 using Materal.Utils.Consul;
@@ -50,6 +51,13 @@ namespace Materal.Gateway.WebAPI
             .AddNewtonsoftJson(jsonOptions =>
             {
                 jsonOptions.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.SetIsOriginAllowed(_ => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                });
             });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
@@ -104,8 +112,8 @@ namespace Materal.Gateway.WebAPI
             services.AddEndpointsApiExplorer();
             #endregion
             WebApplication app = builder.Build();
-            //IOcelotConfigService ocelotConfigService = app.Services.GetRequiredService<IOcelotConfigService>();
-            //await ocelotConfigService.InitAsync();
+            IOcelotConfigService ocelotConfigService = app.Services.GetRequiredService<IOcelotConfigService>();
+            await ocelotConfigService.InitAsync();
             await app.UseOcelotGatewayAsync(true);
             string managementPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Management");
             DirectoryInfo managementDirectoryInfo = new(managementPath);
