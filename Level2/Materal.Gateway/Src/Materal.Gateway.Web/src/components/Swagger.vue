@@ -29,23 +29,23 @@
 <template>
     <a-spin :loading="isLoading" style="width: 100%;">
         <a-space direction="vertical" fill>
-            <div>
-                <a-form :model="queryData" layout="inline" @submit-success="onQueryAsync">
-                    <a-form-item field="Key" label="SwaggerKey">
-                        <a-input v-model="queryData.Key" />
-                    </a-form-item>
-                    <a-form-item>
-                        <a-button-group>
-                            <a-button html-type="submit" type="primary"><template
-                                    #icon><icon-search /></template></a-button>
-                            <a-button type="outline" @click="openEditPanel()"><template
-                                    #icon><icon-plus /></template></a-button>
-                        </a-button-group>
-                    </a-form-item>
-                </a-form>
-            </div>
+            <a-form :model="queryData" layout="inline" @submit-success="onQueryAsync">
+                <a-form-item field="Key" label="SwaggerKey">
+                    <a-input v-model="queryData.Key" />
+                </a-form-item>
+                <a-form-item>
+                    <a-button-group>
+                        <a-button html-type="submit" type="primary">
+                            <template #icon><icon-search /></template>
+                        </a-button>
+                        <a-button type="outline" @click="openEditPanel()">
+                            <template #icon><icon-plus /></template>
+                        </a-button>
+                    </a-button-group>
+                </a-form-item>
+            </a-form>
             <div class="data-panel">
-                <a-card v-for="item in swaggerList">
+                <a-card v-for="item in dataList">
                     <template #title>
                         <a-tooltip content="服务发现：是" v-if="item.TakeServersFromDownstreamService">
                             <icon-cloud-download />
@@ -129,7 +129,7 @@ const swaggerItemEditorRef = ref<InstanceType<typeof SwaggerItemEditor>>();
 const queryData = reactive<QuerySwaggerModel>({
     Key: ""
 });
-const swaggerList = ref<Array<SwaggerDTO>>([]);
+const dataList = ref<Array<SwaggerDTO>>([]);
 const editID = ref<string | undefined>();
 const editItemID = ref<string | undefined>();
 const isServiceItem = ref<boolean | undefined>(false);
@@ -146,7 +146,7 @@ async function queryAsync() {
     try {
         const httpResult = await service.GetListAsync(queryData);
         if (!httpResult) return;
-        swaggerList.value = httpResult;
+        dataList.value = httpResult;
     } catch (error) {
         Message.error("获取Swagger配置失败");
     }

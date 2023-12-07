@@ -10,7 +10,6 @@ namespace Materal.Gateway.WebAPI.Controllers
     /// <summary>
     /// 路由控制器
     /// </summary>
-    /// <param name="ocelotConfigService"></param>
     public class RouteController(IOcelotConfigService ocelotConfigService) : GatewayControllerBase
     {
         /// <summary>
