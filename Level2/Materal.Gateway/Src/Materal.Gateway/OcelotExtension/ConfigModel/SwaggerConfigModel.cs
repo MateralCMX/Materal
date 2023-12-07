@@ -12,7 +12,7 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// </summary>
         public Guid ID { get; set; } = Guid.NewGuid();
         /// <summary>
-        /// 键
+        /// SwaggerKey
         /// </summary>
         [Required(ErrorMessage = "必填")]
         public string Key { get; set; } = "SwaggerKey";

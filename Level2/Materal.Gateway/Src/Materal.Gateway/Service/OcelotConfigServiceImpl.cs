@@ -206,6 +206,7 @@ namespace Materal.Gateway.Service
         {
             SwaggerConfigModel config = ocelotConfigRepository.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == id) ?? throw new GatewayException("未找到Swagger配置");
             SwaggerDTO result = config.CopyProperties<SwaggerDTO>();
+            result.Items = config.Config.Select(GetSwaggerItemDTO).ToList();
             return result;
         }
         /// <summary>
@@ -217,7 +218,12 @@ namespace Materal.Gateway.Service
         {
             Func<SwaggerConfigModel, bool> filter = model.GetSearchDelegate<SwaggerConfigModel>();
             List<SwaggerConfigModel> configs = ocelotConfigRepository.OcelotConfig.SwaggerEndPoints.Where(filter.Invoke).ToList();
-            List<SwaggerDTO> result = configs.Select(m => m.CopyProperties<SwaggerDTO>()).ToList();
+            List<SwaggerDTO> result = configs.Select(m =>
+            {
+                SwaggerDTO dto = m.CopyProperties<SwaggerDTO>();
+                dto.Items = m.Config.Select(GetSwaggerItemDTO).ToList();
+                return dto;
+            }).ToList();
             return result;
         }
         /// <summary>
@@ -313,7 +319,7 @@ namespace Materal.Gateway.Service
         {
             SwaggerConfigModel config = ocelotConfigRepository.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == swaggerConfigID) ?? throw new GatewayException("未找到Swagger配置");
             SwaggerItemConfigModel itemConfig = config.Config.FirstOrDefault(m => m.ID == id) ?? throw new GatewayException("未找到Swagger项");
-            SwaggerItemDTO result = itemConfig.CopyProperties<SwaggerItemDTO>();
+            SwaggerItemDTO result = GetSwaggerItemDTO(itemConfig);
             return result;
         }
         /// <summary>
@@ -324,17 +330,7 @@ namespace Materal.Gateway.Service
         public List<SwaggerItemDTO> GetSwaggerItemList(QuerySwaggerItemModel model)
         {
             SwaggerConfigModel config = ocelotConfigRepository.OcelotConfig.SwaggerEndPoints.FirstOrDefault(m => m.ID == model.SwaggerConfigID) ?? throw new GatewayException("未找到Swagger配置");
-            List<SwaggerItemDTO> result = config.Config.Select(m =>
-            {
-                SwaggerItemDTO dto = m.CopyProperties<SwaggerItemDTO>();
-                if (m.Service != null)
-                {
-                    dto.Url = null;
-                    dto.ServiceName = m.Service.Name;
-                    dto.ServicePath = m.Service.Path;
-                }
-                return dto;
-            }).ToList();
+            List<SwaggerItemDTO> result = config.Config.Select(GetSwaggerItemDTO).ToList();
             return result;
         }
         /// <summary>
@@ -476,6 +472,22 @@ namespace Materal.Gateway.Service
             ocelotConfigRepository.OcelotConfig.Routes.AddRange(routeConfigs);
             ocelotConfigRepository.SetRoutesIndex();
             ocelotConfigRepository.Save();
+        }
+        /// <summary>
+        /// 获得Swagger项DTO
+        /// </summary>
+        /// <param name="swaggerItemConfig"></param>
+        /// <returns></returns>
+        private static SwaggerItemDTO GetSwaggerItemDTO(SwaggerItemConfigModel swaggerItemConfig)
+        {
+            SwaggerItemDTO result = swaggerItemConfig.CopyProperties<SwaggerItemDTO>();
+            if (swaggerItemConfig.Service is not null)
+            {
+                result.Url = null;
+                result.ServiceName = swaggerItemConfig.Service.Name;
+                result.ServicePath = swaggerItemConfig.Service.Path;
+            }
+            return result;
         }
     }
 }

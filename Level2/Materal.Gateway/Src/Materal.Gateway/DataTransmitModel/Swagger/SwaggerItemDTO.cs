@@ -20,11 +20,11 @@
         /// <summary>
         /// 服务名称
         /// </summary>
-        public string ServiceName { get; set; } = string.Empty;
+        public string? ServiceName { get; set; } = string.Empty;
         /// <summary>
         /// 服务路径
         /// </summary>
-        public string ServicePath { get; set; } = string.Empty;
+        public string? ServicePath { get; set; } = string.Empty;
         /// <summary>
         /// SwaggerJson文件地址
         /// </summary>

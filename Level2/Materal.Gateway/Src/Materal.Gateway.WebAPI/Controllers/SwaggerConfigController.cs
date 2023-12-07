@@ -1,5 +1,4 @@
-﻿using Materal.Gateway.Common;
-using Materal.Gateway.DataTransmitModel.Swagger;
+﻿using Materal.Gateway.DataTransmitModel.Swagger;
 using Materal.Gateway.Service;
 using Materal.Gateway.WebAPI.PresentationModel.Swagger;
 using Materal.Utils.Model;

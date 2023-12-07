@@ -8,7 +8,7 @@ namespace Materal.Gateway.WebAPI.PresentationModel.Swagger
     public class AddSwaggerModel
     {
         /// <summary>
-        /// 唯一标识
+        /// SwaggerKey
         /// </summary>
         [Required(ErrorMessage = "必填")]
         public string Key { get; set; } = "SwaggerKey";

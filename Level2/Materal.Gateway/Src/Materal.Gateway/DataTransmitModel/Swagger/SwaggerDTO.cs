@@ -6,7 +6,6 @@ namespace Materal.Gateway.DataTransmitModel.Swagger
     /// Swager数据传输模型
     /// </summary>
     public class SwaggerDTO
-
     {
         /// <summary>
         /// 唯一标识
@@ -21,5 +20,9 @@ namespace Materal.Gateway.DataTransmitModel.Swagger
         /// 服务发现
         /// </summary>
         public bool TakeServersFromDownstreamService { get; set; } = false;
+        /// <summary>
+        /// 项
+        /// </summary>
+        public List<SwaggerItemDTO> Items { get; set; } = [];
     }
 }
