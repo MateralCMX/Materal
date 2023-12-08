@@ -11,7 +11,7 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// 熔断时间(ms)
         /// </summary>
         [Required(ErrorMessage = "必填")]
-        public int DurationOfBreak { get; set; } = 100000;
+        public int DurationOfBreak { get; set; } = 60000;
         /// <summary>
         /// 熔断前允许错误次数
         /// </summary>

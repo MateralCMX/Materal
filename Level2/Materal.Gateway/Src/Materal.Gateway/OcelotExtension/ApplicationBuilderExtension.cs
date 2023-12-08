@@ -80,6 +80,7 @@ namespace Materal.Gateway.OcelotExtension
             fileConfig.OnChange(async delegate (FileConfiguration config)
             {
                 Response<IInternalConfiguration> response2 = await internalConfigCreator.Create(config);
+                if (response2.IsError) return;
                 internalConfigRepo.AddOrReplace(response2.Data);
             });
             IEnumerable<OcelotMiddlewareConfigurationDelegate> services = OcelotService.GetServices<OcelotMiddlewareConfigurationDelegate>();

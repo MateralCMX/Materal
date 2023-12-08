@@ -122,7 +122,7 @@
             </a-list>
         </a-space>
     </a-spin>
-    <a-drawer :width="440" :visible="editPanelVisible" @ok="onEditPanelOKAsync" @cancel="onEditPanelCancelAsync"
+    <a-drawer :width="900" :visible="editPanelVisible" @ok="onEditPanelOKAsync" @cancel="onEditPanelCancelAsync"
         unmountOnClose>
         <template #title>
             {{ editID ? "编辑" : "新增" }}Route

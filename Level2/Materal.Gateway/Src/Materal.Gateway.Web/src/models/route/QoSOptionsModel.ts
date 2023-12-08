@@ -1,10 +1,10 @@
 export default interface QoSOptionsModel {
     /**
-     * 熔断时间
+     * 熔断时间(ms)
      */
     DurationOfBreak: number;
     /**
-     * 重试次数
+     * 超时时间(ms)
      */
     TimeoutValue: number;
     /**

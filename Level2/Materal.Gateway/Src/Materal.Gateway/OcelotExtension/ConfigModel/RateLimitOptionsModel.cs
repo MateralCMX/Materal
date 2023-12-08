@@ -31,6 +31,6 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// 白名单
         /// HttpHeaders中加入ClientId:MyClient
         /// </summary>
-        public List<string> ClientWhitelist { get; set; } = new();
+        public List<string> ClientWhitelist { get; set; } = [];
     }
 }

@@ -112,9 +112,11 @@ namespace Materal.Gateway.WebAPI
             services.AddEndpointsApiExplorer();
             #endregion
             WebApplication app = builder.Build();
+            #region Init
             IOcelotConfigService ocelotConfigService = app.Services.GetRequiredService<IOcelotConfigService>();
             await ocelotConfigService.InitAsync();
-            await app.UseOcelotGatewayAsync(true);
+            #endregion
+            #region Web
             string managementPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Management");
             DirectoryInfo managementDirectoryInfo = new(managementPath);
             if (!managementDirectoryInfo.Exists)
@@ -128,6 +130,11 @@ namespace Materal.Gateway.WebAPI
                 RequestPath = $"/{managementDirectoryInfo.Name}",
             };
             app.UseStaticFiles(staticFileOptions);
+            #endregion
+            app.UseCors();
+            app.UseAuthentication();
+            await app.UseOcelotGatewayAsync(true);
+            #region Swagger
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwaggerForOcelotUI(m => m.PathToSwaggerGenerator = "/swagger/docs");
@@ -136,9 +143,8 @@ namespace Materal.Gateway.WebAPI
             {
                 app.UseSwaggerForOcelotUI();
             }
-            app.UseAuthentication();
+            #endregion
             app.MapControllers();
-            app.UseCors();
             app.Run();
         }
     }

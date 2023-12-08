@@ -2,6 +2,7 @@ using Materal.Gateway.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Ocelot.Configuration;
+using Ocelot.Configuration.Repository;
 using Ocelot.DownstreamRouteFinder;
 using Ocelot.DownstreamRouteFinder.Finder;
 using Ocelot.DownstreamRouteFinder.Middleware;
@@ -15,25 +16,11 @@ namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
     /// <summary>
     /// 网关下游路由查找中间件
     /// </summary>
-    public class GatewayDownstreamRouteFinderMiddleware : OcelotMiddleware
+    /// <remarks>
+    /// 构造方法
+    /// </remarks>
+    public class GatewayDownstreamRouteFinderMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory, IDownstreamRouteProviderFactory downstreamRouteFinder) : OcelotMiddleware(loggerFactory.CreateLogger<DownstreamRouteFinderMiddleware>())
     {
-        private readonly RequestDelegate _next;
-        private readonly IDownstreamRouteProviderFactory _factory;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="next"></param>
-        /// <param name="loggerFactory"></param>
-        /// <param name="downstreamRouteFinder"></param>
-        public GatewayDownstreamRouteFinderMiddleware(RequestDelegate next,
-            IOcelotLoggerFactory loggerFactory,
-            IDownstreamRouteProviderFactory downstreamRouteFinder
-            )
-                : base(loggerFactory.CreateLogger<DownstreamRouteFinderMiddleware>())
-        {
-            _next = next;
-            _factory = downstreamRouteFinder;
-        }
         /// <summary>
         /// 中间件执行
         /// </summary>
@@ -46,14 +33,14 @@ namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
             StringValues upstreamHost = httpContext.Request.Headers["Host"];
             Logger.LogDebug($"上游Url路径为:{upstreamUrlPath}");
             IInternalConfiguration internalConfiguration = httpContext.Items.IInternalConfiguration();
-            IDownstreamRouteProvider provider = _factory.Get(internalConfiguration);
+            IDownstreamRouteProvider provider = downstreamRouteFinder.Get(internalConfiguration);
             Response<DownstreamRouteHolder> response = provider.Get(upstreamUrlPath, upstreamQueryString, httpContext.Request.Method, internalConfiguration, upstreamHost);
             if (response.IsError)
             {
                 Logger.LogDebug($"查找下游路由错误:{response.Errors.ToErrorString()}");
                 httpContext.Items.UpsertErrors(response.Errors);
                 if (!ApplicationConfig.IgnoreUnableToFindDownstreamRouteError) return;
-                await _next.Invoke(httpContext);
+                await next.Invoke(httpContext);
             }
             else
             {
@@ -61,7 +48,7 @@ namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
                 Logger.LogDebug($"下游模版是:{downstreamPathTemplates}");
                 httpContext.Items.UpsertTemplatePlaceholderNameAndValues(response.Data.TemplatePlaceholderNameAndValues);
                 httpContext.Items.UpsertDownstreamRoute(response.Data);
-                await _next.Invoke(httpContext);
+                await next.Invoke(httpContext);
             }
         }
     }
