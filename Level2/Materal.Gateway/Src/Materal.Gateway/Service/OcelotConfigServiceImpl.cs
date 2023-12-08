@@ -3,7 +3,7 @@ using Materal.Gateway.DataTransmitModel.Swagger;
 using Materal.Gateway.OcelotExtension.ConfigModel;
 using Materal.Gateway.OcelotExtension.Repositories;
 using Materal.Gateway.Service.Models.Route;
-using Materal.Gateway.Service.Models.Sync;
+using Materal.Gateway.Service.Models.Tools;
 using Materal.Gateway.WebAPI.PresentationModel.Swagger;
 using Materal.Utils.Consul;
 using Materal.Utils.Consul.Models;
@@ -339,7 +339,7 @@ namespace Materal.Gateway.Service
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="GatewayException"></exception>
-        public async Task SyncSwaggerAsync(SyncSwaggerModel model)
+        public async Task GetSwaggerFromConsulAsync(GetSwaggerFromConsulModel model)
         {
             if (ocelotConfigRepository.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider is null) throw new GatewayException("未配置服务发现");
             ServiceDiscoveryProviderModel consulModel = ocelotConfigRepository.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider;
@@ -399,7 +399,7 @@ namespace Materal.Gateway.Service
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task SyncRouteAsync(SyncRouteModel model)
+        public async Task GetRouteFromConsulAsync(GetRouteFromConsulModel model)
         {
             if (ocelotConfigRepository.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider is null) throw new GatewayException("未配置服务发现");
             ServiceDiscoveryProviderModel consulModel = ocelotConfigRepository.OcelotConfig.GlobalConfiguration.ServiceDiscoveryProvider;
@@ -450,8 +450,8 @@ namespace Materal.Gateway.Service
                 {
                     UpstreamPathTemplate = $"/{service.Service}{model.UpstreamPathTemplate}",
                     DownstreamPathTemplate = model.DownstreamPathTemplate,
-                    DownstreamScheme = model.DownstreamScheme.ToString().ToLower(),
-                    DownstreamHttpVersion = model.HttpVersion.GetDescription(),
+                    DownstreamScheme = model.DownstreamScheme,
+                    DownstreamHttpVersion = model.HttpVersion,
                     UpstreamHttpMethod = ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
                     ServiceName = service.Service,
                     LoadBalancerOptions = new() { Type = "LeastConnection" },

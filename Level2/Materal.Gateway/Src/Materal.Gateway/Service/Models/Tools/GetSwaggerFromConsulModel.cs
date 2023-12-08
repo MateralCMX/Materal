@@ -1,9 +1,9 @@
-﻿namespace Materal.Gateway.Service.Models.Sync
+﻿namespace Materal.Gateway.Service.Models.Tools
 {
     /// <summary>
     /// 同步Swagger模型
     /// </summary>
-    public class SyncSwaggerModel
+    public class GetSwaggerFromConsulModel
     {
         /// <summary>
         /// 名称

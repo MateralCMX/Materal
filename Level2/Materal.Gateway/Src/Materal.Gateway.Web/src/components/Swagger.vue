@@ -6,10 +6,6 @@
     gap: 2rem;
 }
 
-.detail-title {
-    font-weight: bold;
-}
-
 .sub-list-item {
     border-bottom: 1px solid #e8e8e8;
     line-height: 32px;

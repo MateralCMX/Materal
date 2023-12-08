@@ -100,7 +100,7 @@
   ],
   "GlobalConfiguration": {
     "ServiceDiscoveryProvider": {
-      "Host": "175.27.194.19",
+      "Host": "127.0.0.1",
       "Port": 8500,
       "Type": "Consul",
       "IsSSL": false

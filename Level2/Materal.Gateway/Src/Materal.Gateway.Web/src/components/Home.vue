@@ -1,4 +1,4 @@
 <template>
-  Hello Gateway!
+  Hello Materal Gateway!
 </template>
   

@@ -1,9 +1,9 @@
-﻿namespace Materal.Gateway.Service.Models.Sync
+﻿namespace Materal.Gateway.Service.Models.Tools
 {
     /// <summary>
     /// 同步路由模型
     /// </summary>
-    public class SyncRouteModel
+    public class GetRouteFromConsulModel
     {
         /// <summary>
         /// 名称
@@ -24,11 +24,11 @@
         /// <summary>
         /// 下游方案
         /// </summary>
-        public SchemeTypeEnum DownstreamScheme { get; set; } = SchemeTypeEnum.Http;
+        public string DownstreamScheme { get; set; } = "http";
         /// <summary>
         /// Http版本
         /// </summary>
-        public HttpVersionEnum HttpVersion { get; set; } = HttpVersionEnum.v1_1;
+        public string HttpVersion { get; set; } = "1.1";
         /// <summary>
         /// 上游路径模板
         /// </summary>

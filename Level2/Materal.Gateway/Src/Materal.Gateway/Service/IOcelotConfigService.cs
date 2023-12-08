@@ -1,7 +1,7 @@
 ﻿using Materal.Gateway.DataTransmitModel.Swagger;
 using Materal.Gateway.OcelotExtension.ConfigModel;
 using Materal.Gateway.Service.Models.Route;
-using Materal.Gateway.Service.Models.Sync;
+using Materal.Gateway.Service.Models.Tools;
 using Materal.Gateway.WebAPI.PresentationModel.Swagger;
 
 namespace Materal.Gateway.Service
@@ -162,16 +162,16 @@ namespace Materal.Gateway.Service
         /// <returns></returns>
         List<SwaggerItemDTO> GetSwaggerItemList(QuerySwaggerItemModel model);
         /// <summary>
-        /// 同步Swagger
+        /// 从Consul获取Swagger
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task SyncSwaggerAsync(SyncSwaggerModel model);
+        Task GetSwaggerFromConsulAsync(GetSwaggerFromConsulModel model);
         /// <summary>
-        /// 同步路由
+        /// 从Consul获取路由
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task SyncRouteAsync(SyncRouteModel model);
+        Task GetRouteFromConsulAsync(GetRouteFromConsulModel model);
     }
 }
