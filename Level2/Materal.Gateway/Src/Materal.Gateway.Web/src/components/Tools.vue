@@ -1,7 +1,7 @@
 <style scoped>
 .data-panel {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     justify-content: space-evenly;
     gap: 2rem;
 }
@@ -25,7 +25,7 @@
                     <a-form-item field="Tag" label="标签">
                         <a-input v-model="swaggerFormData.Tag" placeholder="可使用正则表达式" />
                     </a-form-item>
-                    <a-form-item field="Clear" label="覆盖">
+                    <a-form-item field="Clear" label="覆盖模式">
                         <a-switch v-model="swaggerFormData.Clear" />
                     </a-form-item>
                 </a-form>
