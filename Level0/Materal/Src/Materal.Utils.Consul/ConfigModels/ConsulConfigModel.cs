@@ -47,7 +47,7 @@ namespace Materal.Utils.Consul.ConfigModels
         /// </summary>
         /// <param name="nodeID"></param>
         /// <returns></returns>
-        public AgentServiceRegistration GetAgentServiceRegistration(Guid nodeID) => new AgentServiceRegistration
+        public AgentServiceRegistration GetAgentServiceRegistration(Guid nodeID) => new()
         {
             ID = nodeID.ToString(),
             Name = ServiceName,

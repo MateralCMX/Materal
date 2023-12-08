@@ -13,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
-using Polly;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 

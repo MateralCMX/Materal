@@ -1,0 +1,6 @@
+@MMB.Demo.WebAPI_HostAddress = http://localhost:5005
+
+GET {{MMB.Demo.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
