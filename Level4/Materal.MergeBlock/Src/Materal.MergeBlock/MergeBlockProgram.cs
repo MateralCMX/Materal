@@ -168,8 +168,14 @@ namespace Materal.MergeBlock
             foreach (FileInfo fileInfo in fileInfos)
             {
                 if (!fileInfo.Exists) continue;
-                Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
-                LoadMergeBlockModuleFormAssembly(mergeBlockModuleInfos, assembly);
+                try
+                {
+                    Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
+                    LoadMergeBlockModuleFormAssembly(mergeBlockModuleInfos, assembly);
+                }
+                catch
+                {
+                }
             }
         }
         /// <summary>

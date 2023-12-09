@@ -29,6 +29,7 @@
 .data-panel{
     width: 800px;
     margin: 0 auto;
+    background-color: white;
 }
 </style>
 <template>
