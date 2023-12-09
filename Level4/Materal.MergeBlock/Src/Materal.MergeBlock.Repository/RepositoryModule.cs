@@ -23,7 +23,7 @@ namespace Materal.MergeBlock.Repository
         public override async Task OnApplicationInitAsync(IApplicationContext context)
         {
             using IServiceScope serviceScope = context.ServiceProvider.CreateScope();
-            IMigrateHelper migrateHelper = serviceScope.ServiceProvider.GetRequiredService<IMigrateHelper<DbContext>>();
+            IMigrateHelper migrateHelper = serviceScope.ServiceProvider.GetRequiredService<IMigrateHelper<T>>();
             await migrateHelper.MigrateAsync();
             await base.OnApplicationInitAsync(context);
         }

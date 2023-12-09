@@ -42,6 +42,14 @@ namespace Materal.MergeBlock
             configServiceContext.MvcBuilder = builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = true)
                 .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            await RunAllModuleFuncAsync(moduleInfos, async (moduleInfo, _) =>
+            {
+                if (moduleInfo.ModuleAttribute.IsController)
+                {
+                    configServiceContext.MvcBuilder.AddApplicationPart(moduleInfo.ModuleAssembly);
+                }
+                await Task.CompletedTask;
+            });
             #endregion
             await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceAsync(configServiceContext));
             #region 添加低优先级服务

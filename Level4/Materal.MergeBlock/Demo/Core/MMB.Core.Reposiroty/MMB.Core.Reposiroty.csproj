@@ -5,12 +5,9 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TFMS.EventBus" Version="1.1.68" />
+		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.68" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Services\" />
+	  <ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj" />
 	</ItemGroup>
 </Project>

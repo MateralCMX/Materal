@@ -3,12 +3,6 @@
     /// <summary>
     /// MergeBlock程序集标识
     /// </summary>
-    /// <remarks>
-    /// 构造方法
-    /// </remarks>
-    /// <param name="description"></param>
-    /// <param name="moduleName"></param>
-    /// <param name="depends"></param>
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = false, Inherited = false)]
     public class MergeBlockAssemblyAttribute(string description, string? moduleName = null, string[]? depends = null) : Attribute
     {
@@ -24,6 +18,14 @@
         /// 依赖
         /// </summary>
         public string[] Depends { get; } = depends ?? [];
+        /// <summary>
+        /// 是否是控制器
+        /// </summary>
+        public bool IsController { get; set; } = true;
+        /// <summary>
+        /// 是否是服务
+        /// </summary>
+        public bool IsService { get; set; } = true;
         /// <summary>
         /// 构造方法
         /// </summary>

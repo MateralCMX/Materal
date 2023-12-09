@@ -4,4 +4,4 @@ global using Materal.TTA.Common.Model;
 global using Microsoft.EntityFrameworkCore;
 global using MMB.Demo.Domain;
 
-[assembly: MergeBlockAssembly("MMBDemo仓储模块")]
+[assembly: MergeBlockAssembly("MMBDemo仓储模块", IsController = false, IsService = false)]

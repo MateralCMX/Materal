@@ -5,9 +5,9 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.68" />
+		<PackageReference Include="RC.ConfigClient" Version="1.1.68" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj" />
+	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 	</ItemGroup>
 </Project>
