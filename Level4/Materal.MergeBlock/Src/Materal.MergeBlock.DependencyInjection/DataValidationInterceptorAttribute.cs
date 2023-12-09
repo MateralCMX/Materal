@@ -22,7 +22,7 @@ namespace Materal.MergeBlock.DependencyInjection
                 value?.Validation();
                 List<ValidationAttribute> validations = parameterInfos[i].GetCustomAttributes<ValidationAttribute>().ToList();
                 validations.AddRange(interfaceParameterInfos[i].GetCustomAttributes<ValidationAttribute>());
-                if (!validations.Any()) continue;
+                if (validations.Count == 0) continue;
                 value.Validation(validations, validationAttribute => GetValidationException(validationAttribute, context.MethodInfo.GetType().Name, parameterInfos[i], value));
             }
         }

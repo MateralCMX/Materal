@@ -4,30 +4,19 @@ namespace Materal.MergeBlock.Authorization
 {
     public class DemoModule : MergeBlockModule, IMergeBlockModule
     {
-        public override Task OnConfigServiceBeforeAsync(IConfigServiceContext context)
+        public override async Task OnConfigServiceBeforeAsync(IConfigServiceContext context)
         {
-            return base.OnConfigServiceBeforeAsync(context);
+            //if (context.Configuration is not IConfigurationBuilder configuration) return;
+            //string? url = context.Configuration.GetValue("ConfigUrl");
+            //if (url is null || !url.IsUrl()) throw new MergeBlockException("配置中心地址错误");
+            //configuration.AddDefaultNameSpace(url, "MMBProject")
+            //    .AddNameSpace("Demo");
+            await base.OnConfigServiceBeforeAsync(context);
         }
-        public override Task OnConfigServiceAsync(IConfigServiceContext context)
+        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.MvcBuilder?.AddApplicationPart(GetType().Assembly);
-            return base.OnConfigServiceAsync(context);
-        }
-        public override Task OnConfigServiceAfterAsync(IConfigServiceContext context)
-        {
-            return base.OnConfigServiceAfterAsync(context);
-        }
-        public override Task OnApplicationInitBeforeAsync(IApplicationContext context)
-        {
-            return base.OnApplicationInitBeforeAsync(context);
-        }
-        public override Task OnApplicationInitAsync(IApplicationContext context)
-        {
-            return base.OnApplicationInitAsync(context);
-        }
-        public override Task OnApplicationInitAfterAsync(IApplicationContext context)
-        {
-            return base.OnApplicationInitAfterAsync(context);
+            await base.OnConfigServiceAsync(context);
         }
     }
 }

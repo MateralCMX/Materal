@@ -6,6 +6,9 @@
 		<EnableDynamicLoading>true</EnableDynamicLoading>
 	</PropertyGroup>
 	<ItemGroup>
+	  <PackageReference Include="RC.ConfigClient" Version="1.1.68" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Authorization.Abstractions\Materal.MergeBlock.Authorization.Abstractions.csproj" />
 		<ProjectReference Include="..\MMB.Demo.Abstractions\MMB.Demo.Abstractions.csproj" />

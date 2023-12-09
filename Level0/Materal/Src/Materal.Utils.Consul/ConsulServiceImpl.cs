@@ -50,21 +50,22 @@ namespace Materal.Utils.Consul
         public async Task UnregisterConsulAsync()
         {
             if (_consulConfig is null) throw new MateralException("未设置Consul配置对象");
-            PolicyBuilder policyBuilder = Policy.Handle<Exception>();
-            RetryPolicy retryPolicy = policyBuilder.WaitAndRetryForever(index =>
+            _logger?.LogInformation($"正在向Consul反注册[{_consulConfig.ServiceName}]服务.....");
+            using ConsulClient consulClient = new(config => config.Address = new Uri(_consulConfig.ConsulUrl.Url));
+            AgentServiceRegistration registration = _consulConfig.GetAgentServiceRegistration(NodeID);
+            try
             {
-                _logger?.LogWarning($"服务[{_consulConfig.ServiceName}]反注册失败,{_consulConfig.HealthConfig.ReconnectionInterval}秒后重试");
-                return TimeSpan.FromSeconds(_consulConfig.HealthConfig.ReconnectionInterval);
-            });
-            await retryPolicy.Execute(async () =>
-            {
-                _logger?.LogInformation($"正在向Consul反注册[{_consulConfig.ServiceName}]服务.....");
-                using ConsulClient consulClient = new(config => config.Address = new Uri(_consulConfig.ConsulUrl.Url));
-                AgentServiceRegistration registration = _consulConfig.GetAgentServiceRegistration(NodeID);
                 await consulClient.Agent.ServiceDeregister(registration.ID);
                 _logger?.LogInformation($"服务[{_consulConfig.ServiceName}]反注册成功");
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogWarning(ex, $"服务[{_consulConfig.ServiceName}]反注册失败");
+            }
+            finally
+            {
                 _consulConfig = null;
-            });
+            }
         }
         /// <summary>
         /// 获得服务
@@ -126,12 +127,12 @@ namespace Materal.Utils.Consul
         {
             if (_consulConfig is null) throw new MateralException("未设置Consul配置对象");
             PolicyBuilder policyBuilder = Policy.Handle<Exception>();
-            RetryPolicy retryPolicy = policyBuilder.WaitAndRetryForever(index =>
+            AsyncRetryPolicy retryPolicy = policyBuilder.WaitAndRetryForeverAsync(index =>
             {
                 _logger?.LogWarning($"服务[{_consulConfig.ServiceName}]注册失败,{_consulConfig.HealthConfig.ReconnectionInterval}秒后重试");
                 return TimeSpan.FromSeconds(_consulConfig.HealthConfig.ReconnectionInterval);
             });
-            await retryPolicy.Execute(async () =>
+            await retryPolicy.ExecuteAsync(async () =>
             {
                 _logger?.LogInformation($"正在向Consul注册[{_consulConfig.ServiceName}]服务.....");
                 using ConsulClient consulClient = new(config => config.Address = new Uri(_consulConfig.ConsulUrl.Url));

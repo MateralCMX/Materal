@@ -2,6 +2,7 @@
   "profiles": {
     "MMB.Demo.WebAPI": {
       "commandName": "Project",
+      "commandLineArgs": "--ConfigUrl=http://175.27.254.187:8700/RCESDEVAPI", //古典部
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",

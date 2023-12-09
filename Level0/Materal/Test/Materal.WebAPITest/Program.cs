@@ -44,7 +44,8 @@ namespace Materal.WebAPITest
                     HealthInterval = 10,
                     HealthUrl = new()
                     {
-                        Host = "host.docker.internal",
+                        //Host = "host.docker.internal",
+                        Host = "127.0.0.1",
                         Port = 5000,
                         IsSSL = false,
                         Path = "api/Health"
@@ -60,7 +61,7 @@ namespace Materal.WebAPITest
                     IsSSL = false
                 }
             };
-            await consulService.RegisterConsulAsync(consulConfigModel);
+            ThreadPool.QueueUserWorkItem(async _ => await consulService.RegisterConsulAsync(consulConfigModel));
             app.UseAuthorization();
             app.MapControllers();
             app.Run();

@@ -15,7 +15,7 @@ namespace Materal.MergeBlock.Authorization
         {
             context.Services.Configure<AuthorizationConfigModel>(context.Configuration.GetSection(AuthorizationConfigModel.ConfigKey));
             context.MvcBuilder?.AddMvcOptions(options => options.Filters.Add(new AuthorizeFilter()));
-            AuthorizationConfigModel jwtConfigModel = context.Configuration.GetValueObject<AuthorizationConfigModel>(AuthorizationConfigModel.ConfigKey) ?? throw new InvalidOperationException($"未找到鉴权配置[{AuthorizationConfigModel.ConfigKey}]");
+            AuthorizationConfigModel jwtConfigModel = context.Configuration.GetValueObject<AuthorizationConfigModel>(AuthorizationConfigModel.ConfigKey) ?? throw new MergeBlockException($"未找到鉴权配置[{AuthorizationConfigModel.ConfigKey}]");
             context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
                 {

@@ -24,6 +24,6 @@ namespace Materal.Utils.Consul.ConfigModels
         /// <summary>
         /// 重连间隔(秒)
         /// </summary>
-        public int ReconnectionInterval { get; set; } = -1;
+        public int ReconnectionInterval { get; set; } = 5;
     }
 }

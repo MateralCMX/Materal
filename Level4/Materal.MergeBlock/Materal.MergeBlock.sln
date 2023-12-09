@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Demo.Abstractions", "De
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Demo.Repository", "Demo\MMB.Demo.Repository\MMB.Demo.Repository.csproj", "{E53A9E64-B678-4B51-8F6B-1DA476DDE4D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Consul", "Src\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj", "{C859F3EB-3880-402F-B54D-15876093C1AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{E53A9E64-B678-4B51-8F6B-1DA476DDE4D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E53A9E64-B678-4B51-8F6B-1DA476DDE4D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E53A9E64-B678-4B51-8F6B-1DA476DDE4D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C859F3EB-3880-402F-B54D-15876093C1AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C859F3EB-3880-402F-B54D-15876093C1AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C859F3EB-3880-402F-B54D-15876093C1AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C859F3EB-3880-402F-B54D-15876093C1AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +110,7 @@ Global
 		{676B45DC-D065-4172-8BEF-81D27EC0A8E5} = {BB5E0EDE-EE6A-415A-A81E-1BBFE2297CF8}
 		{2915C21C-B181-490D-A47B-BE3091803CA0} = {BB5E0EDE-EE6A-415A-A81E-1BBFE2297CF8}
 		{E53A9E64-B678-4B51-8F6B-1DA476DDE4D7} = {BB5E0EDE-EE6A-415A-A81E-1BBFE2297CF8}
+		{C859F3EB-3880-402F-B54D-15876093C1AA} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67833DC5-4077-4868-93CE-E1D59227F31F}
