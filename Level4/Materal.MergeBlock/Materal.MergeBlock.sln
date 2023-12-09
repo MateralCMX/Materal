@@ -25,15 +25,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Swagger"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Authorization.Abstractions", "Src\Materal.MergeBlock.Authorization.Abstractions\Materal.MergeBlock.Authorization.Abstractions.csproj", "{D4C1D1A7-01B9-4EA0-A37C-BED23651EF6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.DependencyInjection", "Src\Materal.MergeBlock.DependencyInjection\Materal.MergeBlock.DependencyInjection.csproj", "{18EE9DE8-FA61-4950-9A19-5D1F565E9538}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.DependencyInjection", "Src\Materal.MergeBlock.DependencyInjection\Materal.MergeBlock.DependencyInjection.csproj", "{18EE9DE8-FA61-4950-9A19-5D1F565E9538}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Demo.Domain", "Demo\MMB.Demo.Domain\MMB.Demo.Domain.csproj", "{676B45DC-D065-4172-8BEF-81D27EC0A8E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Demo.Domain", "Demo\MMB.Demo.Domain\MMB.Demo.Domain.csproj", "{676B45DC-D065-4172-8BEF-81D27EC0A8E5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Demo.Abstractions", "Demo\MMB.Demo.Abstractions\MMB.Demo.Abstractions.csproj", "{2915C21C-B181-490D-A47B-BE3091803CA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Demo.Repository", "Demo\MMB.Demo.Repository\MMB.Demo.Repository.csproj", "{E53A9E64-B678-4B51-8F6B-1DA476DDE4D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Demo.Repository", "Demo\MMB.Demo.Repository\MMB.Demo.Repository.csproj", "{E53A9E64-B678-4B51-8F6B-1DA476DDE4D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Consul", "Src\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj", "{C859F3EB-3880-402F-B54D-15876093C1AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Consul", "Src\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj", "{C859F3EB-3880-402F-B54D-15876093C1AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.EventBus", "Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj", "{6E50FAF7-BC52-464D-86ED-BF6C2CB9CB1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{C859F3EB-3880-402F-B54D-15876093C1AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C859F3EB-3880-402F-B54D-15876093C1AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C859F3EB-3880-402F-B54D-15876093C1AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E50FAF7-BC52-464D-86ED-BF6C2CB9CB1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E50FAF7-BC52-464D-86ED-BF6C2CB9CB1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E50FAF7-BC52-464D-86ED-BF6C2CB9CB1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E50FAF7-BC52-464D-86ED-BF6C2CB9CB1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +117,7 @@ Global
 		{2915C21C-B181-490D-A47B-BE3091803CA0} = {BB5E0EDE-EE6A-415A-A81E-1BBFE2297CF8}
 		{E53A9E64-B678-4B51-8F6B-1DA476DDE4D7} = {BB5E0EDE-EE6A-415A-A81E-1BBFE2297CF8}
 		{C859F3EB-3880-402F-B54D-15876093C1AA} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
+		{6E50FAF7-BC52-464D-86ED-BF6C2CB9CB1C} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67833DC5-4077-4868-93CE-E1D59227F31F}

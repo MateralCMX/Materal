@@ -15,20 +15,20 @@ namespace Materal.MergeBlock.Authorization
         {
             context.Services.Configure<AuthorizationConfigModel>(context.Configuration.GetSection(AuthorizationConfigModel.ConfigKey));
             context.MvcBuilder?.AddMvcOptions(options => options.Filters.Add(new AuthorizeFilter()));
-            AuthorizationConfigModel jwtConfigModel = context.Configuration.GetValueObject<AuthorizationConfigModel>(AuthorizationConfigModel.ConfigKey) ?? throw new MergeBlockException($"未找到鉴权配置[{AuthorizationConfigModel.ConfigKey}]");
+            AuthorizationConfigModel authorizationConfig = context.Configuration.GetValueObject<AuthorizationConfigModel>(AuthorizationConfigModel.ConfigKey) ?? throw new MergeBlockException($"未找到鉴权配置[{AuthorizationConfigModel.ConfigKey}]");
             context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
                 {
                     jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(jwtConfigModel.KeyBytes),
+                        IssuerSigningKey = new SymmetricSecurityKey(authorizationConfig.KeyBytes),
                         ValidateIssuer = true,
-                        ValidIssuer = jwtConfigModel.Issuer,
+                        ValidIssuer = authorizationConfig.Issuer,
                         ValidateAudience = true,
-                        ValidAudience = jwtConfigModel.Audience,
+                        ValidAudience = authorizationConfig.Audience,
                         ValidateLifetime = true,
-                        ClockSkew = TimeSpan.FromSeconds(jwtConfigModel.ExpiredTime)
+                        ClockSkew = TimeSpan.FromSeconds(authorizationConfig.ExpiredTime)
                     };
                 });
             context.Services.TryAddSingleton<ITokenService, TokenService>();

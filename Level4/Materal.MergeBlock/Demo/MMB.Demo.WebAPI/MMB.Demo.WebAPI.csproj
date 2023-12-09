@@ -11,9 +11,13 @@
     <ProjectReference Include="..\..\Src\Materal.MergeBlock.Authorization\Materal.MergeBlock.Authorization.csproj" />
     <ProjectReference Include="..\..\Src\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj" />
     <ProjectReference Include="..\..\Src\Materal.MergeBlock.DependencyInjection\Materal.MergeBlock.DependencyInjection.csproj" />
+    <ProjectReference Include="..\..\Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
     <ProjectReference Include="..\..\Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
     <ProjectReference Include="..\..\Src\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
     <ProjectReference Include="..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
+    <ProjectReference Include="..\MMB.Demo.Abstractions\MMB.Demo.Abstractions.csproj" />
+    <ProjectReference Include="..\MMB.Demo.Domain\MMB.Demo.Domain.csproj" />
+    <ProjectReference Include="..\MMB.Demo.Repository\MMB.Demo.Repository.csproj" />
     <ProjectReference Include="..\MMB.Demo.Service\MMB.Demo.Service.csproj" />
   </ItemGroup>
 

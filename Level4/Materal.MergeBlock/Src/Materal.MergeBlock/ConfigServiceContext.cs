@@ -7,7 +7,7 @@ namespace Materal.MergeBlock
     /// <summary>
     /// 配置服务上下文
     /// </summary>
-    public class ConfigServiceContext(IHostBuilder hostBuilder, IConfiguration configuration, IServiceCollection services) : IConfigServiceContext
+    public class ConfigServiceContext(IHostBuilder hostBuilder, IConfiguration configuration, IServiceCollection services, List<IMergeBlockModuleInfo> moduleInfos) : IConfigServiceContext
     {
         /// <summary>
         /// 主机构建器
@@ -24,6 +24,10 @@ namespace Materal.MergeBlock
         /// <summary>
         /// MVC构建器
         /// </summary>
-        public IMvcBuilder? MvcBuilder { get; set; }
+        public IMvcBuilder? MvcBuilder { get; internal set; }
+        /// <summary>
+        /// 模组信息
+        /// </summary>
+        public List<IMergeBlockModuleInfo> ModuleInfos { get; } = moduleInfos;
     }
 }

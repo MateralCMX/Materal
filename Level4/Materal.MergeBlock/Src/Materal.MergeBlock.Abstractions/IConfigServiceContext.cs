@@ -25,5 +25,9 @@ namespace Materal.MergeBlock.Abstractions
         /// MVC构建器
         /// </summary>
         IMvcBuilder? MvcBuilder { get; }
+        /// <summary>
+        /// 模组信息
+        /// </summary>
+        List<IMergeBlockModuleInfo> ModuleInfos { get; }
     }
 }
