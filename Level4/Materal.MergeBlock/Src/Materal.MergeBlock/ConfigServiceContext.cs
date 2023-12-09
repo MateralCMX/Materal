@@ -1,15 +1,18 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Materal.MergeBlock
 {
     /// <summary>
     /// 配置服务上下文
     /// </summary>
-    /// <param name="configuration"></param>
-    /// <param name="services"></param>
-    public class ConfigServiceContext(IConfiguration configuration, IServiceCollection services) : IConfigServiceContext
+    public class ConfigServiceContext(IHostBuilder hostBuilder, IConfiguration configuration, IServiceCollection services) : IConfigServiceContext
     {
+        /// <summary>
+        /// 主机构建器
+        /// </summary>
+        public IHostBuilder HostBuilder { get; } = hostBuilder;
         /// <summary>
         /// 配置对象
         /// </summary>

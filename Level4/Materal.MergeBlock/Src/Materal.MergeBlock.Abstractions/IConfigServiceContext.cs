@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Materal.MergeBlock.Abstractions
 {
@@ -8,6 +9,10 @@ namespace Materal.MergeBlock.Abstractions
     /// </summary>
     public interface IConfigServiceContext
     {
+        /// <summary>
+        /// 主机构建器
+        /// </summary>
+        IHostBuilder HostBuilder { get; }
         /// <summary>
         /// 配置对象
         /// </summary>

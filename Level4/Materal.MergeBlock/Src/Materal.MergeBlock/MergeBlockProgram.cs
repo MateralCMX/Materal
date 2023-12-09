@@ -22,7 +22,7 @@ namespace Materal.MergeBlock
         public static async Task RunAsync(string[] args)
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-            ConfigServiceContext configServiceContext = new(builder.Configuration, builder.Services);
+            ConfigServiceContext configServiceContext = new(builder.Host, builder.Configuration, builder.Services);
             List<IMergeBlockModuleInfo> moduleInfos = LoadAllMergeBlockModule(builder.Services);
             await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceBeforeAsync(configServiceContext));
             #region 添加高优先级服务

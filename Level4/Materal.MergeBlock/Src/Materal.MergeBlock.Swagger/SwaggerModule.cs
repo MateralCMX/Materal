@@ -1,11 +1,10 @@
-﻿using Materal.MergeBlock.Swagger;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
-namespace Materal.MergeBlock.Logger
+namespace Materal.MergeBlock.Swagger
 {
     public class SwaggerModule : MergeBlockModule, IMergeBlockModule
     {
