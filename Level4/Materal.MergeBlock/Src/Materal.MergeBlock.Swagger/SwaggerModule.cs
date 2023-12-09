@@ -9,10 +9,9 @@ namespace Materal.MergeBlock.Logger
 {
     public class SwaggerModule : MergeBlockModule, IMergeBlockModule
     {
-        private const string _configKey = "Swagger";
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            SwaggerConfigModel swaggerConfig = context.Configuration.GetValueObject<SwaggerConfigModel>(_configKey) ?? new SwaggerConfigModel();
+            SwaggerConfigModel swaggerConfig = context.Configuration.GetValueObject<SwaggerConfigModel>(SwaggerConfigModel.ConfigKey) ?? new SwaggerConfigModel();
             string applicationName = context.Configuration.GetValue(nameof(ApplicationConfigModel.ApplicationName)) ?? "MergeBlockApp";
             context.Services.AddSwaggerGen(config =>
             {

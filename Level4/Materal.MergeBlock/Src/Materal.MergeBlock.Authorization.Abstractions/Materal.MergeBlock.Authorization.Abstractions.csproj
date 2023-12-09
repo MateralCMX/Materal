@@ -5,6 +5,9 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Materal.MergeBlock.Authorization.Abstractions\Materal.MergeBlock.Authorization.Abstractions.csproj" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

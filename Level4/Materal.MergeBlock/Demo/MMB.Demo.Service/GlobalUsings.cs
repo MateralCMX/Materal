@@ -1,3 +1,3 @@
 ﻿global using Materal.MergeBlock.Abstractions;
 
-[assembly: MergeBlockAssembly("MMBDemo模块")]
+[assembly: MergeBlockAssembly("MMBDemo模块", ["Authorzation"])]

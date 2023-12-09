@@ -3,6 +3,10 @@
     public class SwaggerConfigModel
     {
         /// <summary>
+        /// 配置键
+        /// </summary>
+        public static string ConfigKey { get; } = "Swagger";
+        /// <summary>
         /// 标题
         /// </summary>
         public string? Title { get; set; }
@@ -15,8 +19,8 @@
         /// </summary>
         public string Description { get; set; } = "提供WebAPI接口";
         /// <summary>
-        /// 开启授权
+        /// 是否启用鉴权
         /// </summary>
-        public bool EnableAuthentication { get; set;} = true;
+        public bool EnableAuthentication { get; set; } = true;
     }
 }

@@ -1,64 +1,42 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
-namespace Materal.MergeBlock.Authorization
+namespace Materal.MergeBlock.Authorization.Abstractions
 {
-    /// <summary>
-    /// 鉴权配置模型
-    /// </summary>
-    public class AuthorizationConfigModel
+    public class TokenService(IOptionsMonitor<AuthorizationConfigModel> authorizationConfig) : ITokenService
     {
         /// <summary>
         /// 用户唯一标识键
         /// </summary>
-        public const string UserIDKey = "UserID";
+        public string UserIDKey { get; } = "UserID";
         /// <summary>
         /// 服务名称键
         /// </summary>
-        public const string ServerNameKey = "ServerName";
-        /// <summary>
-        /// 密钥
-        /// </summary>
-        public string Key { get; set; } = "CMXMateral";
-        /// <summary>
-        /// 有效期
-        /// </summary>
-        public uint ExpiredTime { get; set; } = 7200;
-        /// <summary>
-        /// 发布者
-        /// </summary>
-        public string Issuer { get; set; } = "MateralCore.Server";
-        /// <summary>
-        /// 接收者
-        /// </summary>
-        public string Audience { get; set; } = "MateralCore.WebAPI";
-        /// <summary>
-        /// 二进制密钥
-        /// </summary>
-        public byte[] KeyBytes => Encoding.UTF8.GetBytes(Key.ToMd5_32Encode(true));
+        public string ServerNameKey { get; } = "ServerName";
         /// <summary>
         /// 获得Token
         /// </summary>
+        /// <param name="claims"></param>
         /// <returns></returns>
         public string GetToken(params Claim[] claims)
         {
             JwtSecurityTokenHandler tokenHandler = new();
             DateTime authTime = DateTime.UtcNow;
-            DateTime expiresAt = authTime.AddSeconds(ExpiredTime);
-            SymmetricSecurityKey securityKey = new(KeyBytes);
+            DateTime expiresAt = authTime.AddSeconds(authorizationConfig.CurrentValue.ExpiredTime);
+            SymmetricSecurityKey securityKey = new(authorizationConfig.CurrentValue.KeyBytes);
             List<Claim> allClaims =
             [
-                new Claim(JwtRegisteredClaimNames.Aud,Audience),
-                new Claim(JwtRegisteredClaimNames.Iss,Issuer),
+                new Claim(JwtRegisteredClaimNames.Aud, authorizationConfig.CurrentValue.Audience),
+                new Claim(JwtRegisteredClaimNames.Iss, authorizationConfig.CurrentValue.Issuer),
                 .. claims,
             ];
             SecurityTokenDescriptor tokenDescriptor = new()
             {
                 Subject = new ClaimsIdentity(allClaims),
-                Audience = Audience,
-                Issuer = Issuer,
+                Audience = authorizationConfig.CurrentValue.Audience,
+                Issuer = authorizationConfig.CurrentValue.Issuer,
                 Expires = expiresAt,
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)
             };

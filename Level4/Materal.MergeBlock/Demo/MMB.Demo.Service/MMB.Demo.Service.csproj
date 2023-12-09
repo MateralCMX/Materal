@@ -7,5 +7,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Authorization.Abstractions\Materal.MergeBlock.Authorization.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

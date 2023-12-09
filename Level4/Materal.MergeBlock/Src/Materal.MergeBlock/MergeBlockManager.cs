@@ -1,5 +1,8 @@
 ﻿namespace Materal.MergeBlock
 {
+    /// <summary>
+    /// MergeBlock管理器
+    /// </summary>
     public static class MergeBlockManager
     {
         private static IServiceProvider? _serviceProvider;

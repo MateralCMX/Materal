@@ -80,17 +80,19 @@ namespace Materal.MergeBlock
         private static async Task RunAllModuleFuncAsync(List<IMergeBlockModuleInfo> moduleInfos, Func<IMergeBlockModuleInfo, Task> func)
         {
             List<IMergeBlockModuleInfo> completeModuleInfos = [];
+            moduleInfos = [.. moduleInfos.OrderBy(m => m.ModuleAttribute.Depends.Length)];
             while (moduleInfos.Count != completeModuleInfos.Count)
             {
                 foreach (IMergeBlockModuleInfo moduleInfo in moduleInfos)
                 {
                     if (completeModuleInfos.Contains(moduleInfo)) continue;
-                    string[]? depends = moduleInfo.ModuleAttribute.Depends;
-                    if (depends is not null && depends.Length > 0)
+                    string[] depends = moduleInfo.ModuleAttribute.Depends;
+                    if (depends.Length > 0)
                     {
                         bool isOK = true;
                         foreach (string depend in depends)
                         {
+                            if (moduleInfos.Any(m => m.ModuleName != depend)) throw new MergeBlockException($"模块{moduleInfo.ModuleName}的依赖{depend}不存在");
                             if (completeModuleInfos.Any(m => m.ModuleName == depend)) continue;
                             isOK = false;
                             break;

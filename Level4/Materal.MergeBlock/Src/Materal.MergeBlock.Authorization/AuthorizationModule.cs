@@ -1,20 +1,21 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Materal.MergeBlock.Authorization.Abstractions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Materal.MergeBlock.Authorization
 {
     public class AuthorizationModule : MergeBlockModule, IMergeBlockModule
     {
-        private const string _configKey = "Authorization";
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            context.Services.Configure<AuthorizationConfigModel>(context.Configuration.GetSection(_configKey));
+            context.Services.Configure<AuthorizationConfigModel>(context.Configuration.GetSection(AuthorizationConfigModel.ConfigKey));
             context.MvcBuilder?.AddMvcOptions(options => options.Filters.Add(new AuthorizeFilter()));
-            AuthorizationConfigModel jwtConfigModel = context.Configuration.GetValueObject<AuthorizationConfigModel>(_configKey) ?? throw new InvalidOperationException($"未找到鉴权配置[{_configKey}]");
+            AuthorizationConfigModel jwtConfigModel = context.Configuration.GetValueObject<AuthorizationConfigModel>(AuthorizationConfigModel.ConfigKey) ?? throw new InvalidOperationException($"未找到鉴权配置[{AuthorizationConfigModel.ConfigKey}]");
             context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
                 {
@@ -30,6 +31,7 @@ namespace Materal.MergeBlock.Authorization
                         ClockSkew = TimeSpan.FromSeconds(jwtConfigModel.ExpiredTime)
                     };
                 });
+            context.Services.TryAddSingleton<ITokenService, TokenService>();
             await base.OnConfigServiceAsync(context);
         }
         public override async Task OnApplicationInitAsync(IApplicationContext context)

@@ -17,11 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock", "Src\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Demo.Service", "Demo\MMB.Demo.Service\MMB.Demo.Service.csproj", "{D3F365E8-BF47-465F-B6D7-5274B4811F46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Logger", "Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj", "{FC0A5858-C5EE-4C24-9DD3-93018A1B6A2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Logger", "Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj", "{FC0A5858-C5EE-4C24-9DD3-93018A1B6A2C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Authorization", "Src\Materal.MergeBlock.Authorization\Materal.MergeBlock.Authorization.csproj", "{771394DB-344E-4F7B-9F2B-729D4D4364BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Swagger", "Src\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj", "{B6F77C93-29CD-4C17-A96F-A3FD6BC8F688}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Swagger", "Src\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj", "{B6F77C93-29CD-4C17-A96F-A3FD6BC8F688}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Authorization.Abstractions", "Src\Materal.MergeBlock.Authorization.Abstractions\Materal.MergeBlock.Authorization.Abstractions.csproj", "{D4C1D1A7-01B9-4EA0-A37C-BED23651EF6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{B6F77C93-29CD-4C17-A96F-A3FD6BC8F688}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6F77C93-29CD-4C17-A96F-A3FD6BC8F688}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6F77C93-29CD-4C17-A96F-A3FD6BC8F688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4C1D1A7-01B9-4EA0-A37C-BED23651EF6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4C1D1A7-01B9-4EA0-A37C-BED23651EF6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4C1D1A7-01B9-4EA0-A37C-BED23651EF6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4C1D1A7-01B9-4EA0-A37C-BED23651EF6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{FC0A5858-C5EE-4C24-9DD3-93018A1B6A2C} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
 		{771394DB-344E-4F7B-9F2B-729D4D4364BA} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
 		{B6F77C93-29CD-4C17-A96F-A3FD6BC8F688} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
+		{D4C1D1A7-01B9-4EA0-A37C-BED23651EF6F} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67833DC5-4077-4868-93CE-E1D59227F31F}
