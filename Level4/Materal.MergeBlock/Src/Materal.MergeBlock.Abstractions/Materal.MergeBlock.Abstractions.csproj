@@ -9,6 +9,6 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils.Text" Version="1.1.67" />
+		<PackageReference Include="Materal.Utils" Version="1.1.68" />
 	</ItemGroup>
 </Project>

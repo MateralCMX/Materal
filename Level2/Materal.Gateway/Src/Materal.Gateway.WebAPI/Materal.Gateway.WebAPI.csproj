@@ -8,7 +8,7 @@
 		<IsPublish>true</IsPublish>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Logger" Version="1.1.67" />
+		<PackageReference Include="Materal.Logger" Version="1.1.68" />
 		<PackageReference Include="MMLib.SwaggerForOcelot" Version="*" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	</ItemGroup>

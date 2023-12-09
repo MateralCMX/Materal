@@ -5,10 +5,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<IsPublish>true</IsPublish>
-		<Version>1.1.67</Version>
+		<Version>1.1.68</Version>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.67" />
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.68" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.*">

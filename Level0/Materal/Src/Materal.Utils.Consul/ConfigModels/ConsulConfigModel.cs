@@ -23,7 +23,7 @@ namespace Materal.Utils.Consul.ConfigModels
         /// <summary>
         /// 地址
         /// </summary>
-        public UrlConfigModel ConsulUrl { get; set; } = new()
+        public HttpUrlModel ConsulUrl { get; set; } = new()
         {
             IsSSL = false,
             Host = "127.0.0.1",
@@ -32,7 +32,7 @@ namespace Materal.Utils.Consul.ConfigModels
         /// <summary>
         /// 服务地址
         /// </summary>
-        public UrlConfigModel ServiceUrl { get; set; } = new()
+        public HttpUrlModel ServiceUrl { get; set; } = new()
         {
             IsSSL = false,
             Host = "localhost",

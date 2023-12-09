@@ -14,7 +14,7 @@ namespace Materal.Utils.Consul.ConfigModels
         /// <summary>
         /// 健康检查地址
         /// </summary>
-        public UrlConfigModel HealthUrl { get; set; } = new()
+        public HttpUrlModel HealthUrl { get; set; } = new()
         {
             IsSSL = false,
             Host = "localhost",

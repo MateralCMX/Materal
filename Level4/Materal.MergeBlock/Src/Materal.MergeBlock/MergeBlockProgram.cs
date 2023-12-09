@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Materal.Utils;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
@@ -23,6 +25,9 @@ namespace Materal.MergeBlock
             ConfigServiceContext configServiceContext = new(builder.Configuration, builder.Services);
             List<IMergeBlockModuleInfo> moduleInfos = LoadAllMergeBlockModule(builder.Services);
             await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceBeforeAsync(configServiceContext));
+            #region 添加高优先级服务
+            builder.Services.AddSingleton<IMergeBlockService, MergeBlockService>();
+            builder.Services.AddMateralUtils();
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
@@ -37,24 +42,40 @@ namespace Materal.MergeBlock
             configServiceContext.MvcBuilder = builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = true)
                 .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            #endregion
             await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceAsync(configServiceContext));
+            #region 添加低优先级服务
             builder.Services.AddResponseCompression();
+            #endregion
             await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceAfterAsync(configServiceContext));
             builder.Services.AddEndpointsApiExplorer();
             WebApplication app = builder.Build();
-            MergeBlockManager.ServiceProvider = app.Services;
             ApplicationContext applicationContext = new(app, app.Services);
             _logger = app.Services.GetService<ILogger<MergeBlockProgram>>();
             _logger?.LogDebug("MergeBlock启动");
             _logger?.LogDebug($"共找到{moduleInfos.Count}个模块");
+            app.Services.GetRequiredService<IMergeBlockService>().InitMergeBlockManage();
             await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnApplicationInitBeforeAsync(applicationContext));
+            #region 初始化高优先级服务
+            app.Use(async (context, next) =>
+            {
+                context.Request.EnableBuffering();
+                await next.Invoke();
+            });
             app.UseCors();
+            #endregion
             await RunAllModuleFuncAsync(moduleInfos, async (moduleInfo, module) =>
             {
                 _logger?.LogDebug($"正在初始化{moduleInfo.ModuleName}模块[{moduleInfo.ModuleAttribute.Description}]");
                 await module.OnApplicationInitAsync(applicationContext);
             });
+            #region 初始化低优先级服务
             app.MapControllers();
+            if (MergeBlockManager.BaseUris.Any(m => m.Scheme == "https"))
+            {
+                app.UseHttpsRedirection();
+            }
+            #endregion
             await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnApplicationInitAfterAsync(applicationContext));
             _logger?.LogDebug("MergeBlock初始化完毕");
             await app.RunAsync();
@@ -92,7 +113,7 @@ namespace Materal.MergeBlock
                         bool isOK = true;
                         foreach (string depend in depends)
                         {
-                            if (moduleInfos.Any(m => m.ModuleName != depend)) throw new MergeBlockException($"模块{moduleInfo.ModuleName}的依赖{depend}不存在");
+                            if (!moduleInfos.Any(m => m.ModuleName == depend)) throw new MergeBlockException($"模块{moduleInfo.ModuleName}的依赖{depend}不存在");
                             if (completeModuleInfos.Any(m => m.ModuleName == depend)) continue;
                             isOK = false;
                             break;
