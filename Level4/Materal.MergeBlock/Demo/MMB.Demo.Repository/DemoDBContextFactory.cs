@@ -1,5 +1,3 @@
-using Materal.TTA.Common.Model;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using MMB.Demo.Repository;
 

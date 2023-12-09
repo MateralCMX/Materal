@@ -1,7 +1,4 @@
-using Materal.MergeBlock.Repository;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MMB.Demo.Domain;
 
 namespace MMB.Demo.EFRepository.EntityConfigs
 {

@@ -1,12 +1,6 @@
-﻿using Materal.TTA.Common;
-using Materal.TTA.Common.Model;
-using Materal.TTA.EFRepository;
-using Materal.TTA.SqliteEFRepository;
-using Microsoft.Extensions.DependencyInjection;
-using MMB.Demo.Repository;
-using System.Reflection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Materal.MergeBlock.Authorization
+namespace MMB.Demo.Service
 {
     public class DemoModule : MergeBlockModule, IMergeBlockModule
     {
@@ -22,20 +16,7 @@ namespace Materal.MergeBlock.Authorization
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.MvcBuilder?.AddApplicationPart(GetType().Assembly);
-            SqliteConfigModel sqliteConfig = new()
-            {
-                Source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MMBDemo.db"),
-            };
-            context.Services.AddTTASqliteEFRepository<DemoDBContext>(sqliteConfig.ConnectionString, Assembly.Load("MMB.Demo.Repository"));
             await base.OnConfigServiceAsync(context);
-        }
-        public override async Task OnApplicationInitAsync(IApplicationContext context)
-        {
-#warning 仓储模块未完成，DI模块有错
-            using IServiceScope serviceScope = context.ServiceProvider.CreateScope();
-            IMigrateHelper migrateHelper = serviceScope.ServiceProvider.GetRequiredService<IMigrateHelper<DemoDBContext>>();
-            await migrateHelper.MigrateAsync();
-            await base.OnApplicationInitAsync(context);
         }
     }
 }

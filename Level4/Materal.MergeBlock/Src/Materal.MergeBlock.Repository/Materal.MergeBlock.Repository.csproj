@@ -8,6 +8,7 @@
 	  <PackageReference Include="Materal.TTA.EFRepository" Version="1.1.68" />
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.Domain\Materal.MergeBlock.Domain.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,33 +1,18 @@
 using Materal.MergeBlock.Authorization.Abstractions;
-using Materal.MergeBlock.Repository;
 using Materal.TFMS.EventBus;
-using Materal.TTA.Common;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MMB.Demo.Abstractions.Enums;
 using MMB.Demo.Abstractions.Events;
-using MMB.Demo.Domain;
-using MMB.Demo.Domain.Repositories;
 
 namespace MMB.Demo.WebAPI.Controllers
 {
     [ApiController, Route("/api/[controller]/[action]")]
-    public class TestController(ITokenService tokenService, IEventBus eventBus, IUserRepository userRepository, IMateralCoreUnitOfWork unitOfWork) : ControllerBase
+    public class TestController(ITokenService tokenService, IEventBus eventBus) : ControllerBase
     {
         [HttpGet]
-        public async Task<ResultModel> SayHelloAsync()
+        public ResultModel SayHello()
         {
-            User user = new()
-            {
-                Account = "admin",
-                Password = "123456",
-                Name = "¹ÜÀíÔ±",
-                Sex = SexEnum.Woman
-            };
-            unitOfWork.RegisterAdd(user);
-            await unitOfWork.CommitAsync();
-            User? a = await userRepository.FirstOrDefaultAsync(m => m.ID == user.ID);
             return ResultModel.Success("Hello World!");
         }
         [HttpGet, AllowAnonymous]

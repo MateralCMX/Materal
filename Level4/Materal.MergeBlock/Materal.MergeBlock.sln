@@ -35,17 +35,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Demo.Repository", "Demo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Consul", "Src\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj", "{C859F3EB-3880-402F-B54D-15876093C1AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.EventBus", "Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj", "{6E50FAF7-BC52-464D-86ED-BF6C2CB9CB1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.EventBus", "Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj", "{6E50FAF7-BC52-464D-86ED-BF6C2CB9CB1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Domain", "Src\Materal.MergeBlock.Domain\Materal.MergeBlock.Domain.csproj", "{F4B7D8BF-873E-4714-9FBF-D00EED327E0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Domain", "Src\Materal.MergeBlock.Domain\Materal.MergeBlock.Domain.csproj", "{F4B7D8BF-873E-4714-9FBF-D00EED327E0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Repository", "Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj", "{4AEA22CD-CA11-4950-9AFE-CF300B402279}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.SqlServerRepository", "Src\Materal.MergeBlock.SqlServerRepository\Materal.MergeBlock.SqlServerRepository.csproj", "{AB8ADF64-8910-4C08-B410-32136373B825}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Repository", "Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj", "{4AEA22CD-CA11-4950-9AFE-CF300B402279}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B4F5D3E6-BD2D-4C6C-AB9D-DCD97670B476}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Core.Reposiroty", "MMB.Core.Reposiroty\MMB.Core.Reposiroty.csproj", "{52C5E989-7CD7-4B3A-BA92-C116CEB02AB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Core.Reposiroty", "MMB.Core.Reposiroty\MMB.Core.Reposiroty.csproj", "{52C5E989-7CD7-4B3A-BA92-C116CEB02AB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,10 +115,6 @@ Global
 		{4AEA22CD-CA11-4950-9AFE-CF300B402279}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AEA22CD-CA11-4950-9AFE-CF300B402279}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AEA22CD-CA11-4950-9AFE-CF300B402279}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB8ADF64-8910-4C08-B410-32136373B825}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB8ADF64-8910-4C08-B410-32136373B825}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB8ADF64-8910-4C08-B410-32136373B825}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB8ADF64-8910-4C08-B410-32136373B825}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52C5E989-7CD7-4B3A-BA92-C116CEB02AB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{52C5E989-7CD7-4B3A-BA92-C116CEB02AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52C5E989-7CD7-4B3A-BA92-C116CEB02AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -146,7 +140,6 @@ Global
 		{6E50FAF7-BC52-464D-86ED-BF6C2CB9CB1C} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
 		{F4B7D8BF-873E-4714-9FBF-D00EED327E0E} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
 		{4AEA22CD-CA11-4950-9AFE-CF300B402279} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
-		{AB8ADF64-8910-4C08-B410-32136373B825} = {8D0B25CC-2DDC-4EE1-A18B-1AB43D106AD1}
 		{B4F5D3E6-BD2D-4C6C-AB9D-DCD97670B476} = {BB5E0EDE-EE6A-415A-A81E-1BBFE2297CF8}
 		{52C5E989-7CD7-4B3A-BA92-C116CEB02AB9} = {B4F5D3E6-BD2D-4C6C-AB9D-DCD97670B476}
 	EndGlobalSection
