@@ -72,5 +72,22 @@ namespace Materal.Logger
             _logger?.ExitScope();
             GC.SuppressFinalize(this);
         }
+        /// <summary>
+        /// 克隆域
+        /// </summary>
+        /// <returns></returns>
+        public LoggerScope CloneScope()
+        {
+            AdvancedScope? advancedScope = null;
+            if (AdvancedScope is not null)
+            {
+                advancedScope = new(AdvancedScope.ScopeName);
+                foreach (KeyValuePair<string, object?> item in AdvancedScope.ScopeData)
+                {
+                    advancedScope.ScopeData.Add(item.Key, item.Value);
+                }
+            }
+            return advancedScope is null ? new LoggerScope(ScopeName) : new LoggerScope(advancedScope);
+        }
     }
 }

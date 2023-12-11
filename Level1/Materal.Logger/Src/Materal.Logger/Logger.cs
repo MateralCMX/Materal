@@ -125,15 +125,7 @@ namespace Materal.Logger
             };
             if (_loggerScope is not null)
             {
-                if (_loggerScope.AdvancedScope is not null)
-                {
-                    AdvancedScope? advancedScope = _loggerScope.AdvancedScope.CloneByJson();
-                    if (advancedScope is not null)
-                    {
-                        model.Scope = new LoggerScope(advancedScope);
-                    }
-                }
-                model.Scope ??= new LoggerScope(_loggerScope.ScopeName);
+                model.Scope = _loggerScope.CloneScope();
             }
             _loggerRuntime.Handler(model);
         }
