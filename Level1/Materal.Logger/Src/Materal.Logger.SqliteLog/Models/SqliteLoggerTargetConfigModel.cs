@@ -51,8 +51,8 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 默认字段
         /// </summary>
-        public static List<SqliteDBFiled> DefaultFileds { get; } = new()
-        {
+        public static List<SqliteDBFiled> DefaultFileds { get; } =
+        [
             new(){ Name="ID", Type="TEXT", Value="${LogID}", PK = true },
             new(){ Name="CreateTime", Type="DATE", Value="${DateTime}", Index = true, IsNull = false },
             new(){ Name="Level", Type="TEXT", Value="${Level}" },
@@ -64,10 +64,10 @@ namespace Materal.Logger.Models
             new(){ Name="Application", Type="TEXT", Value="${Application}" },
             new(){ Name="Message", Type="TEXT", Value="${Message}" },
             new(){ Name="Exception", Type="TEXT", Value="${Exception}" }
-        };
+        ];
         /// <summary>
         /// 字段
         /// </summary>
-        public List<SqliteDBFiled> Fileds { get; set; } = new();
+        public List<SqliteDBFiled> Fileds { get; set; } = [];
     }
 }

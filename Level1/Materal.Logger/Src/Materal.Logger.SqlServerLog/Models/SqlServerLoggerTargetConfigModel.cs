@@ -36,8 +36,8 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 默认字段
         /// </summary>
-        public static List<SqlServerDBFiled> DefaultFileds { get; } = new()
-        {
+        public static List<SqlServerDBFiled> DefaultFileds { get; } =
+        [
             new(){ Name="ID", Type="[uniqueidentifier]", Value="${LogID}", PK = true },
             new(){ Name="CreateTime", Type="[datetime2](7)", Value="${DateTime}", Index = true, IsNull = false },
             new(){ Name="Level", Type="[nvarchar](50)", Value="${Level}" },
@@ -49,10 +49,10 @@ namespace Materal.Logger.Models
             new(){ Name="Application", Type="[nvarchar](50)", Value="${Application}" },
             new(){ Name="Message", Type="[nvarchar](Max)", Value="${Message}" },
             new(){ Name="Exception", Type="[nvarchar](Max)", Value="${Exception}" }
-        };
+        ];
         /// <summary>
         /// 字段
         /// </summary>
-        public List<SqlServerDBFiled> Fileds { get; set; } = new();
+        public List<SqlServerDBFiled> Fileds { get; set; } = [];
     }
 }

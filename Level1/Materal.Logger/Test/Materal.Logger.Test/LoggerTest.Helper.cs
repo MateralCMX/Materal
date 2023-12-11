@@ -31,12 +31,14 @@ namespace Materal.Logger.Test
             {
                 WriteLogs(logger, "这是一条作用域日志消息");
             }
-            using (IDisposable? scope = logger.BeginScope(new AdvancedScope("AdvancedScope", new Dictionary<string, string>
+            AdvancedScope advancedScope = new("AdvancedScope", new Dictionary<string, object?>
             {
-                ["UserID"] = Guid.NewGuid().ToString()
-            })))
+                ["UserID"] = Guid.NewGuid()
+            });
+            using (IDisposable? scope = logger.BeginScope(advancedScope))
             {
-                WriteLogs(logger, "这是一条高级作用域日志消息[${UserID}]");
+                advancedScope.ScopeData["CustomData"] = Guid.NewGuid();
+                WriteLogs(logger, "这是一条高级作用域日志消息[${UserID}]-${CustomData}");
             }
         }
         /// <summary>

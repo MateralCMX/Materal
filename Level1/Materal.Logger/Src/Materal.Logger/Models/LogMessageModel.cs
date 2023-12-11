@@ -56,7 +56,7 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 域数据
         /// </summary>
-        public Dictionary<string, string>? ScopeData { get; }
+        public Dictionary<string, object?>? ScopeData { get; }
         /// <summary>
         /// 构造方法
         /// </summary>

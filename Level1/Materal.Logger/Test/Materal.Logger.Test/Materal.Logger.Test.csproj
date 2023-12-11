@@ -16,6 +16,7 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.Logger.MongoLog\Materal.Logger.MongoLog.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger.SqliteLog\Materal.Logger.SqliteLog.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger.SqlServerLog\Materal.Logger.SqlServerLog.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger.WebSocketClient\Materal.Logger.WebSocketClient.csproj" />

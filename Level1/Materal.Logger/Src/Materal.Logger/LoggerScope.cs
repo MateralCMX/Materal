@@ -5,14 +5,13 @@ namespace Materal.Logger
     /// <summary>
     /// 日志域
     /// </summary>
-    [Serializable]
-    public class LoggerScope : IDisposable
+    public class LoggerScope(string scopeName) : IDisposable
     {
         private readonly Logger? _logger;
         /// <summary>
         /// 域
         /// </summary>
-        public string ScopeName { get; set; }
+        public string ScopeName { get; set; } = scopeName;
         /// <summary>
         /// 是否为高级域
         /// </summary>
@@ -21,14 +20,6 @@ namespace Materal.Logger
         /// 高级域对象
         /// </summary>
         public AdvancedScope? AdvancedScope { get; set; }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="scopeName"></param>
-        public LoggerScope(string scopeName)
-        {
-            ScopeName = scopeName;
-        }
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -64,9 +55,11 @@ namespace Materal.Logger
         {
             if (AdvancedScope is null || AdvancedScope.ScopeData is null || string.IsNullOrWhiteSpace(value)) return value;
             string result = value;
-            foreach (KeyValuePair<string, string> item in AdvancedScope.ScopeData)
+            foreach (KeyValuePair<string, object?> item in AdvancedScope.ScopeData)
             {
-                result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", item.Value);
+                if (item.Value is null || item.Value.IsNullOrWhiteSpaceString()) continue;
+                string scopeDataValue = item.Value is string stringValue ? stringValue : item.Value.ToString();
+                result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", scopeDataValue);
             }
             return result;
         }

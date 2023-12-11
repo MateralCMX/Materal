@@ -5,7 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.68</Version>
+		<Version>1.1.69</Version>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>ProjectClear</ToolCommandName>
 		<PackageReadmeFile>README.md</PackageReadmeFile>

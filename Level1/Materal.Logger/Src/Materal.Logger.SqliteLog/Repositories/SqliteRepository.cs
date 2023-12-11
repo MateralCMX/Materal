@@ -100,8 +100,8 @@ namespace Materal.Logger.Repositories
         {
             StringBuilder stringBuilder = new();
             stringBuilder.Append($"Insert into \"{tableName}\"(");
-            List<string> columns = new();
-            List<string> args = new();
+            List<string> columns = [];
+            List<string> args = [];
             foreach (SqliteDBFiled filed in fileds)
             {
                 columns.Add($"\"{filed.Name}\"");

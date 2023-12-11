@@ -40,7 +40,6 @@ namespace Materal.Logger.Test
             await Task.Delay(5000);
             await loggerRuntime.ShutdownAsync();
         }
-
         /// <summary>
         /// 写控制台日志
         /// </summary>
@@ -84,6 +83,17 @@ namespace Materal.Logger.Test
                 option.AddSqlServerTarget("SqlServerLogger", connectionString, "${Level}Log");
             });
         /// <summary>
+        /// 写Mongo日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteMongoLogTestAsync()
+            => await WriteLogAsync(option =>
+            {
+                const string connectionString = "mongodb://localhost:27017/";
+                option.AddMongoTarget("MongoLogger", connectionString);
+            });
+        /// <summary>
         /// 写WebSocket日志
         /// </summary>
         /// <returns></returns>
@@ -120,7 +130,6 @@ namespace Materal.Logger.Test
             await WriteLoopLogsAsync(services, 10, 1000);
             await loggerRuntime.ShutdownAsync();
         }
-
         /// <summary>
         /// 写日志
         /// </summary>

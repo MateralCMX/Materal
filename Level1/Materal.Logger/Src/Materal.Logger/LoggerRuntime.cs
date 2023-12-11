@@ -17,7 +17,7 @@ namespace Materal.Logger
         /// <summary>
         /// 处理器集合
         /// </summary>
-        private readonly List<ILoggerHandler> _handlers = new();
+        private readonly List<ILoggerHandler> _handlers = [];
         /// <summary>
         /// 日志已关闭
         /// </summary>

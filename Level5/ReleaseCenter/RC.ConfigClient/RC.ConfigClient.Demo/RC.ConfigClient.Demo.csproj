@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Logger" Version="1.1.68" />
+		<PackageReference Include="Materal.Logger" Version="1.1.69" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.ConfigClient\RC.ConfigClient.csproj" />

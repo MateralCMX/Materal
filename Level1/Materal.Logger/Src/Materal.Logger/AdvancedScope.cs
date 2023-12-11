@@ -4,25 +4,15 @@
     /// 高级域
     /// </summary>
     [Serializable]
-    public class AdvancedScope
+    public class AdvancedScope(string scopeName, Dictionary<string, object?>? scopeData = null)
     {
         /// <summary>
         /// 域名称
         /// </summary>
-        public string ScopeName { get; set; }
+        public string ScopeName { get; set; } = scopeName;
         /// <summary>
         /// 域数据
         /// </summary>
-        public Dictionary<string, string>? ScopeData { get; set; }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="scopeName"></param>
-        /// <param name="scopeData"></param>
-        public AdvancedScope(string scopeName, Dictionary<string, string>? scopeData = null)
-        {
-            ScopeName = scopeName;
-            ScopeData = scopeData;
-        }
+        public Dictionary<string, object?> ScopeData { get; set; } = scopeData ?? [];
     }
 }
