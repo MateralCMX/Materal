@@ -131,6 +131,31 @@ namespace Materal.Logger.Test
             await loggerRuntime.ShutdownAsync();
         }
         /// <summary>
+        /// 写多个日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteMultipleLogTestAsync()
+        {
+            LoggerRuntime WriteLog(string name)
+            {
+                IServiceCollection serviceCollection = new ServiceCollection();
+                serviceCollection.AddMateralLogger(option =>
+                {
+                    option.AddFileTarget("FileLogger", $"${{RootPath}}\\Logs\\{name}.log", _textFormat);
+                    option.AddAllTargetRule();
+                });
+                IServiceProvider services = serviceCollection.BuildServiceProvider();
+                ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
+                logger.LogInformation($"[{name}]Hello World!");
+                return services.GetRequiredService<LoggerRuntime>();
+            }
+            LoggerRuntime loggerRuntime1 = WriteLog("Log1");
+            LoggerRuntime loggerRuntime2 = WriteLog("Log2");
+            await loggerRuntime1.ShutdownAsync();
+            await loggerRuntime2.ShutdownAsync();
+        }
+        /// <summary>
         /// 写日志
         /// </summary>
         /// <param name="services"></param>

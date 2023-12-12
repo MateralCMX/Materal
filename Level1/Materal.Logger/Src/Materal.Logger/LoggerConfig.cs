@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Reflection;
@@ -99,19 +100,22 @@ namespace Materal.Logger
                 {
                     targetType = null;
                 }
-                JObject[] jObjs = value.JsonToDeserializeObject<JObject[]>();
-                foreach (JObject jObj in jObjs)
+                JObject[]? jObjs = JsonConvert.DeserializeObject<JObject[]>(value);
+                if (jObjs is not null)
                 {
-                    string? targetName = jObj.GetValue("Name")?.ToString();
-                    if (targetName is null || string.IsNullOrWhiteSpace(targetName)) continue;
-                    string? targetTypeName = jObj.GetValue("Type")?.ToString();
-                    if (targetTypeName is null || string.IsNullOrWhiteSpace(targetTypeName) || !ConfigModelTypes.ContainsKey(targetTypeName)) continue;
-                    Type configType = ConfigModelTypes[targetTypeName];
-                    if (targetType is not null && targetType != configType) continue;
-                    object? config = jObj.ToObject(configType);
-                    if (config is null || config is not T targetConfig) continue;
-                    if (!targetConfig.Enable) continue;
-                    result.Add(targetConfig);
+                    foreach (JObject jObj in jObjs)
+                    {
+                        string? targetName = jObj.GetValue("Name")?.ToString();
+                        if (targetName is null || string.IsNullOrWhiteSpace(targetName)) continue;
+                        string? targetTypeName = jObj.GetValue("Type")?.ToString();
+                        if (targetTypeName is null || string.IsNullOrWhiteSpace(targetTypeName) || !ConfigModelTypes.ContainsKey(targetTypeName)) continue;
+                        Type configType = ConfigModelTypes[targetTypeName];
+                        if (targetType is not null && targetType != configType) continue;
+                        object? config = jObj.ToObject(configType);
+                        if (config is null || config is not T targetConfig) continue;
+                        if (!targetConfig.Enable) continue;
+                        result.Add(targetConfig);
+                    }
                 }
             }
             #endregion
