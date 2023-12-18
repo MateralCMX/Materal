@@ -1,5 +1,6 @@
 using MMB.Core.Reposiroty;
-using MMB.Demo.Domain.Repositories;
+using MMB.Demo.Abstractions.Domain;
+using MMB.Demo.Abstractions.Repositories;
 using MMB.Demo.Repository;
 
 namespace MMB.Demo.EFRepository.RepositoryImpl

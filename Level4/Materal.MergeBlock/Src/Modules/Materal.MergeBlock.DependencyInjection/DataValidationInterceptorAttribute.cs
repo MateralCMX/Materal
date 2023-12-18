@@ -11,6 +11,11 @@ namespace Materal.MergeBlock.DependencyInjection
     [AttributeUsage(AttributeTargets.Method)]
     public class DataValidationInterceptorAttribute : InterceptorAttribute
     {
+        /// <summary>
+        /// 前置处理
+        /// </summary>
+        /// <param name="context"></param>
+        /// <exception cref="MateralException"></exception>
         public override void Befor(InterceptorContext context)
         {
             ParameterInfo[] parameterInfos = context.MethodInfo.GetParameters();

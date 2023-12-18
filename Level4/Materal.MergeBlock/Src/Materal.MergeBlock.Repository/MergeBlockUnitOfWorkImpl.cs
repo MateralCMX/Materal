@@ -8,9 +8,15 @@ namespace Materal.MergeBlock.Repository
     /// 工作单元
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class MateralCoreUnitOfWorkImpl<T>(T context, IServiceProvider serviceProvider) : EFUnitOfWorkImpl<T, Guid>(context, serviceProvider), IMateralCoreUnitOfWork
+    public abstract class MergeBlockUnitOfWorkImpl<T>(T context, IServiceProvider serviceProvider) : EFUnitOfWorkImpl<T, Guid>(context, serviceProvider), IMergeBlockUnitOfWork
         where T : DbContext
     {
+        /// <summary>
+        /// 注册添加
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="obj"></param>
         public override void RegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
         {
             if (obj is IDomain domain)
@@ -19,6 +25,12 @@ namespace Materal.MergeBlock.Repository
             }
             base.RegisterAdd<TEntity, TPrimaryKeyType>(obj);
         }
+        /// <summary>
+        /// 注册编辑
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="TPrimaryKeyType"></typeparam>
+        /// <param name="obj"></param>
         public override void RegisterEdit<TEntity, TPrimaryKeyType>(TEntity obj)
         {
             if (obj is IDomain domain)

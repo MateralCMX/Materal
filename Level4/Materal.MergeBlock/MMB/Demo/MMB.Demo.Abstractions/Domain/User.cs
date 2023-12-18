@@ -1,9 +1,6 @@
 ﻿using Materal.MergeBlock.Domain;
-using Materal.Utils.Model;
-using MMB.Demo.Abstractions.Enums;
-using System.ComponentModel.DataAnnotations;
 
-namespace MMB.Demo.Domain
+namespace MMB.Demo.Abstractions.Domain
 {
     /// <summary>
     /// 用户

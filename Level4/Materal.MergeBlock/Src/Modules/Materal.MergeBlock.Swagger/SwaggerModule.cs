@@ -6,8 +6,16 @@ using Microsoft.OpenApi.Models;
 
 namespace Materal.MergeBlock.Swagger
 {
+    /// <summary>
+    /// Swagger模块
+    /// </summary>
     public class SwaggerModule : MergeBlockModule, IMergeBlockModule
     {
+        /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             SwaggerConfig swaggerConfig = GetSwaggerConfig(context.Configuration);
@@ -46,6 +54,11 @@ namespace Materal.MergeBlock.Swagger
             }
             await base.OnConfigServiceAsync(context);
         }
+        /// <summary>
+        /// 应用初始化
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override async Task OnApplicationInitAsync(IApplicationContext context)
         {
             IConfiguration configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();

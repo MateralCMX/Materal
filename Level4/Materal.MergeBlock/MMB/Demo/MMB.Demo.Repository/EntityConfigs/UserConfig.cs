@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using MMB.Demo.Abstractions.Domain;
 
 namespace MMB.Demo.EFRepository.EntityConfigs
 {

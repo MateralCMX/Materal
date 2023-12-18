@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Materal.MergeBlock.Consul
 {
+    /// <summary>
+    /// 健康检查控制器
+    /// </summary>
+    /// <param name="consulService"></param>
     [ApiController, Route("/api/[controller]")]
     public class HealthController(IConsulService consulService) : ControllerBase
     {

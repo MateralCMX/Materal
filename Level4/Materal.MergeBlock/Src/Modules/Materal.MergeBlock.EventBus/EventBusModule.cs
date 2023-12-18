@@ -11,8 +11,16 @@ using RabbitMQ.Client;
 
 namespace Materal.MergeBlock.Logger
 {
+    /// <summary>
+    /// 日志模块
+    /// </summary>
     public class EventBusModule : MergeBlockModule, IMergeBlockModule
     {
+        /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             List<Type> handlerTypes = GetAllEventHandler(context.ModuleInfos);
@@ -25,6 +33,12 @@ namespace Materal.MergeBlock.Logger
             context.Services.Configure<EventBusConfig>(context.Configuration.GetSection(EventBusConfig.ConfigKey));
             await base.OnConfigServiceAsync(context);
         }
+        /// <summary>
+        /// 配置服务后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        /// <exception cref="MergeBlockException"></exception>
         public override async Task OnConfigServiceAfterAsync(IConfigServiceContext context)
         {
             EventBusConfig eventBusConfig = context.Configuration.GetValueObject<EventBusConfig>(EventBusConfig.ConfigKey) ?? throw new MergeBlockException($"未找到EventBus配置[{EventBusConfig.ConfigKey}]");
@@ -66,12 +80,22 @@ namespace Materal.MergeBlock.Logger
             });
             await base.OnConfigServiceAsync(context);
         }
+        /// <summary>
+        /// 应用初始化
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override async Task OnApplicationInitAsync(IApplicationContext context)
         {
             IEventBus eventBus = context.ServiceProvider.GetRequiredService<IEventBus>();
             eventBus.StartListening();
             await base.OnApplicationInitAsync(context);
         }
+        /// <summary>
+        /// 获得所有事件处理器
+        /// </summary>
+        /// <param name="moduleInfos"></param>
+        /// <returns></returns>
         private static List<Type> GetAllEventHandler(IEnumerable<IMergeBlockModuleInfo> moduleInfos)
         {
             List<Type> result = [];

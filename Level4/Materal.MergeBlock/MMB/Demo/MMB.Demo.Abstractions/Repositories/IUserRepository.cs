@@ -1,6 +1,7 @@
 using MMB.Core.Reposiroty;
+using MMB.Demo.Abstractions.Domain;
 
-namespace MMB.Demo.Domain.Repositories
+namespace MMB.Demo.Abstractions.Repositories
 {
     /// <summary>
     /// 用户仓储接口

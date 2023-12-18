@@ -3,11 +3,13 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<LangVersion>12.0</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.68" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj" />
 	</ItemGroup>
 </Project>

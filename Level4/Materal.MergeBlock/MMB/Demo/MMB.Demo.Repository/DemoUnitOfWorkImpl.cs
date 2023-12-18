@@ -1,6 +1,11 @@
 namespace MMB.Demo.Repository
 {
-    public class DemoUnitOfWorkImpl(DemoDBContext context, IServiceProvider serviceProvider) : MateralCoreUnitOfWorkImpl<DemoDBContext>(context, serviceProvider)
+    /// <summary>
+    /// Demo工作单元
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="serviceProvider"></param>
+    public class DemoUnitOfWorkImpl(DemoDBContext context, IServiceProvider serviceProvider) : MergeBlockUnitOfWorkImpl<DemoDBContext>(context, serviceProvider)
     {
     }
 }

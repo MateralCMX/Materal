@@ -9,7 +9,13 @@ namespace MMB.Core.Abstractions
     /// <param name="namespaces"></param>
     public abstract class MMBModule(params string[] namespaces) : ConfigCenterModule, IMergeBlockModule
     {
+        /// <summary>
+        /// 项目名称
+        /// </summary>
         protected override string ProjectName => "MMBProject";
+        /// <summary>
+        /// 命名空间
+        /// </summary>
         protected override string[] Namespaces { get; } = namespaces;
     }
 }

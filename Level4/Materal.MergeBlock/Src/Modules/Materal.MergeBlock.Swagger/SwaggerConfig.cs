@@ -1,5 +1,8 @@
 ﻿namespace Materal.MergeBlock.Swagger
 {
+    /// <summary>
+    /// Swagger配置模型
+    /// </summary>
     public class SwaggerConfig
     {
         /// <summary>

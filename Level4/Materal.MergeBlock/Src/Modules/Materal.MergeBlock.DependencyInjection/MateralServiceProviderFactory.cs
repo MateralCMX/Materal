@@ -5,8 +5,14 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Materal.MergeBlock.DependencyInjection
 {
+    /// <summary>
+    /// 依赖注入工厂
+    /// </summary>
     public class MateralServiceProviderFactory : IServiceProviderFactory<IServiceProvider>
     {
+        /// <summary>
+        /// DI过滤器
+        /// </summary>
         public static Func<Type, Type, bool> DIFilter { get; set; } = DefaultFilter;
         private readonly static string _namespaceString;
         static MateralServiceProviderFactory()
@@ -36,11 +42,21 @@ namespace Materal.MergeBlock.DependencyInjection
         public static bool DefaultFilter(Type interfaceType, Type objectType)
             => interfaceType.Namespace is not null && interfaceType.Namespace.StartsWith(_namespaceString) ||
             objectType.Namespace is not null && objectType.Namespace.StartsWith(_namespaceString);
+        /// <summary>
+        /// 创建构造器
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public IServiceProvider CreateBuilder(IServiceCollection services)
         {
             services.Replace(ServiceDescriptor.Singleton(typeof(IControllerActivatorProvider), typeof(MergeBlockControllerActivatorProvider)));
             return services.BuildMateralServiceProvider(DIFilter);
         }
+        /// <summary>
+        /// 创建服务提供器
+        /// </summary>
+        /// <param name="containerBuilder"></param>
+        /// <returns></returns>
         public IServiceProvider CreateServiceProvider(IServiceProvider containerBuilder)
         {
             if (containerBuilder is MateralServiceProvider) return containerBuilder;

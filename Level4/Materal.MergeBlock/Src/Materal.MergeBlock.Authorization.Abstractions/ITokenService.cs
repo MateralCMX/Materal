@@ -2,6 +2,9 @@
 
 namespace Materal.MergeBlock.Authorization.Abstractions
 {
+    /// <summary>
+    /// Token服务
+    /// </summary>
     public interface ITokenService
     {
         /// <summary>
@@ -15,13 +18,13 @@ namespace Materal.MergeBlock.Authorization.Abstractions
         /// <summary>
         /// 获得Token
         /// </summary>
-        /// <param name="serverName"></param>
+        /// <param name="claims"></param>
         /// <returns></returns>
         string GetToken(params Claim[] claims);
         /// <summary>
         /// 获得Token
         /// </summary>
-        /// <param name="serverName"></param>
+        /// <param name="userID"></param>
         /// <returns></returns>
         string GetToken(Guid userID);
         /// <summary>

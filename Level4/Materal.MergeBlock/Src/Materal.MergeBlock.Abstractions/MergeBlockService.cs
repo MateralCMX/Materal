@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Materal.MergeBlock.Abstractions
@@ -15,7 +16,12 @@ namespace Materal.MergeBlock.Abstractions
         public void InitMergeBlockManage()
         {
             MergeBlockManager.ServiceProvider = serviceProvider;
-            string urlsValue = configuration.GetValue("URLS") ?? configuration.GetValue("ASPNETCORE_URLS") ?? "http://localhost:5000";
+            string? urlsValue = configuration.GetValue("URLS");
+            if (environment.IsDevelopment() && string.IsNullOrWhiteSpace(urlsValue))
+            {
+                urlsValue ??= configuration.GetValue("ASPNETCORE_URLS");
+            }
+            urlsValue ??= "http://localhost:5000";
             string[] urls = urlsValue.Split(";");
             foreach (string url in urls)
             {

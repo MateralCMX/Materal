@@ -9,8 +9,17 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Materal.MergeBlock.Authorization
 {
+    /// <summary>
+    /// 鉴权模块
+    /// </summary>
     public class AuthorizationModule : MergeBlockModule, IMergeBlockModule
     {
+        /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        /// <exception cref="MergeBlockException"></exception>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.Services.Configure<AuthorizationConfig>(context.Configuration.GetSection(AuthorizationConfig.ConfigKey));
@@ -31,9 +40,14 @@ namespace Materal.MergeBlock.Authorization
                         ClockSkew = TimeSpan.FromSeconds(authorizationConfig.ExpiredTime)
                     };
                 });
-            context.Services.TryAddSingleton<ITokenService, TokenService>();
+            context.Services.TryAddSingleton<ITokenService, TokenServiceImpl>();
             await base.OnConfigServiceAsync(context);
         }
+        /// <summary>
+        /// 应用初始化
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override async Task OnApplicationInitAsync(IApplicationContext context)
         {
             context.ApplicationBuilder.UseAuthorization();
