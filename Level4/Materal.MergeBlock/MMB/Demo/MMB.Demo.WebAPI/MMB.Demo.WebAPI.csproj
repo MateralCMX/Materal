@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<InvariantGlobalization>true</InvariantGlobalization>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.Authorization\Materal.MergeBlock.Authorization.csproj" />
+		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj" />
+		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.DependencyInjection\Materal.MergeBlock.DependencyInjection.csproj" />
+		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
+		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
+		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
+		<ProjectReference Include="..\MMB.Demo.Service\MMB.Demo.Service.csproj" />
+	</ItemGroup>
+</Project>

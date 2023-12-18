@@ -22,7 +22,7 @@ namespace MMB.Demo.WebAPI.Controllers
             return ResultModel<string>.Success(token, "获取成功");
         }
         [HttpGet]
-        public async Task<ResultModel> SendMessageAsync()
+        public async Task<ResultModel> SendEventBusMessageAsync()
         {
             MyEvent @event = new() { Message = "Hello EventBus!" };
             await eventBus.PublishAsync(@event);

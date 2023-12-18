@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

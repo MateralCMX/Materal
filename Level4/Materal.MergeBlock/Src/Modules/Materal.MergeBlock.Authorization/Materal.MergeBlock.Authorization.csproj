@@ -5,9 +5,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Materal.Utils.Consul" Version="1.1.68" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\Materal.MergeBlock.Authorization.Abstractions\Materal.MergeBlock.Authorization.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

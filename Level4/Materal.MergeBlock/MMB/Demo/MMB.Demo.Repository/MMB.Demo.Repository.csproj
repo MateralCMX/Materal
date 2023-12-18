@@ -5,8 +5,8 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj" />
-		<ProjectReference Include="..\Core\MMB.Core.Reposiroty\MMB.Core.Reposiroty.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj" />
+		<ProjectReference Include="..\..\Core\MMB.Core.Reposiroty\MMB.Core.Reposiroty.csproj" />
 		<ProjectReference Include="..\MMB.Demo.Domain\MMB.Demo.Domain.csproj" />
 	</ItemGroup>
 </Project>
