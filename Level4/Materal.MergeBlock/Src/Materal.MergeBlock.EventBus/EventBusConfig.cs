@@ -3,7 +3,7 @@
     /// <summary>
     /// 事件总线配置
     /// </summary>
-    public class EventBusConfigModel
+    public class EventBusConfig
     {
         /// <summary>
         /// 配置键
@@ -44,6 +44,6 @@
         /// <summary>
         /// 队列名称
         /// </summary>
-        public string QueueName { get; set; } = "MateralCoreEventBusQueue";
+        public string? QueueName { get; set; }
     }
 }

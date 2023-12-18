@@ -13,9 +13,9 @@ namespace Materal.MergeBlock.Authorization
     {
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            context.Services.Configure<AuthorizationConfigModel>(context.Configuration.GetSection(AuthorizationConfigModel.ConfigKey));
+            context.Services.Configure<AuthorizationConfig>(context.Configuration.GetSection(AuthorizationConfig.ConfigKey));
             context.MvcBuilder?.AddMvcOptions(options => options.Filters.Add(new AuthorizeFilter()));
-            AuthorizationConfigModel authorizationConfig = context.Configuration.GetValueObject<AuthorizationConfigModel>(AuthorizationConfigModel.ConfigKey) ?? throw new MergeBlockException($"未找到鉴权配置[{AuthorizationConfigModel.ConfigKey}]");
+            AuthorizationConfig authorizationConfig = context.Configuration.GetValueObject<AuthorizationConfig>(AuthorizationConfig.ConfigKey) ?? throw new MergeBlockException($"未找到鉴权配置[{AuthorizationConfig.ConfigKey}]");
             context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
                 {

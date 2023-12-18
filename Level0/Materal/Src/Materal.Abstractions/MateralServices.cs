@@ -10,7 +10,7 @@ namespace Materal.Abstractions
         /// <summary>
         /// 服务容器
         /// </summary>
-        public static IServiceProvider? Services { get; set; }
+        public static IServiceProvider? services { get; set; }
         /// <summary>
         /// 获得服务或者默认值
         /// </summary>
@@ -19,8 +19,8 @@ namespace Materal.Abstractions
         /// <exception cref="MateralException"></exception>
         public static T? GetServiceOrDefatult<T>()
         {
-            if (Services == null) return default;
-            T? result = Services.GetService<T>();
+            if (services == null) return default;
+            T? result = services.GetService<T>();
             return result;
         }
         /// <summary>
@@ -42,8 +42,8 @@ namespace Materal.Abstractions
         /// <exception cref="MateralException"></exception>
         public static object? GetServiceOrDefatult(Type type)
         {
-            if (Services == null) return null;
-            object? result = Services.GetService(type);
+            if (services == null) return null;
+            object? result = services.GetService(type);
             return result;
         }
         /// <summary>

@@ -33,7 +33,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Extensions.Dependen
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.WebAPITest", "Test\Materal.WebAPITest\Materal.WebAPITest.csproj", "{C8604FA3-4A03-4237-8B2B-23D2E690D9B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Utils.Consul", "Src\Materal.Utils.Consul\Materal.Utils.Consul.csproj", "{665C7A0A-611B-43CE-AB8C-6CB1987DED6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Utils.Consul", "Src\Materal.Utils.Consul\Materal.Utils.Consul.csproj", "{665C7A0A-611B-43CE-AB8C-6CB1987DED6B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Utils.WebServiceClient", "Src\Materal.Utils.WebServiceClient\Materal.Utils.WebServiceClient.csproj", "{6ADCE4E6-D372-4F1A-8659-8FD9803E8C31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService.Server", "Test\WebService.Server\WebService.Server.csproj", "{39085C48-0E00-4F80-89EB-0CF876C8DD64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebService.Client", "Test\WebService.Client\WebService.Client.csproj", "{5F1948CC-1BFF-4C3A-9AC4-CDD412A84B01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +103,18 @@ Global
 		{665C7A0A-611B-43CE-AB8C-6CB1987DED6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{665C7A0A-611B-43CE-AB8C-6CB1987DED6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{665C7A0A-611B-43CE-AB8C-6CB1987DED6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ADCE4E6-D372-4F1A-8659-8FD9803E8C31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ADCE4E6-D372-4F1A-8659-8FD9803E8C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ADCE4E6-D372-4F1A-8659-8FD9803E8C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ADCE4E6-D372-4F1A-8659-8FD9803E8C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39085C48-0E00-4F80-89EB-0CF876C8DD64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39085C48-0E00-4F80-89EB-0CF876C8DD64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39085C48-0E00-4F80-89EB-0CF876C8DD64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39085C48-0E00-4F80-89EB-0CF876C8DD64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F1948CC-1BFF-4C3A-9AC4-CDD412A84B01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1948CC-1BFF-4C3A-9AC4-CDD412A84B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1948CC-1BFF-4C3A-9AC4-CDD412A84B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1948CC-1BFF-4C3A-9AC4-CDD412A84B01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -116,6 +134,9 @@ Global
 		{0566F459-3B39-43EF-9452-C7E2AFFC8467} = {88975666-3BFD-44B9-BECB-FA546A721694}
 		{C8604FA3-4A03-4237-8B2B-23D2E690D9B9} = {8EB5031E-67D8-41DE-8CEE-5265F623FD5E}
 		{665C7A0A-611B-43CE-AB8C-6CB1987DED6B} = {88975666-3BFD-44B9-BECB-FA546A721694}
+		{6ADCE4E6-D372-4F1A-8659-8FD9803E8C31} = {88975666-3BFD-44B9-BECB-FA546A721694}
+		{39085C48-0E00-4F80-89EB-0CF876C8DD64} = {8EB5031E-67D8-41DE-8CEE-5265F623FD5E}
+		{5F1948CC-1BFF-4C3A-9AC4-CDD412A84B01} = {8EB5031E-67D8-41DE-8CEE-5265F623FD5E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {44D71214-490E-42D6-969C-BDC35C93BEA5}

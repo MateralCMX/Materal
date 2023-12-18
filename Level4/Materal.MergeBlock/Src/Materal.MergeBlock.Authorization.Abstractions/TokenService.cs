@@ -5,7 +5,7 @@ using System.Security.Claims;
 
 namespace Materal.MergeBlock.Authorization.Abstractions
 {
-    public class TokenService(IOptionsMonitor<AuthorizationConfigModel> authorizationConfig) : ITokenService
+    public class TokenService(IOptionsMonitor<AuthorizationConfig> authorizationConfig) : ITokenService
     {
         /// <summary>
         /// 用户唯一标识键

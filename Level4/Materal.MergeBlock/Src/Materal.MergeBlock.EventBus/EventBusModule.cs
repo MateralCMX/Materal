@@ -6,6 +6,7 @@ using Materal.TFMS.EventBus.RabbitMQ.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
 namespace Materal.MergeBlock.Logger
@@ -21,11 +22,12 @@ namespace Materal.MergeBlock.Logger
                 if (eventHanlerInterfaceType is null) return;
                 context.Services.AddTransient(handlerType);
             }
+            context.Services.Configure<EventBusConfig>(context.Configuration.GetSection(EventBusConfig.ConfigKey));
             await base.OnConfigServiceAsync(context);
         }
         public override async Task OnConfigServiceAfterAsync(IConfigServiceContext context)
         {
-            EventBusConfigModel eventBusConfig = context.Configuration.GetValueObject<EventBusConfigModel>(EventBusConfigModel.ConfigKey) ?? throw new MergeBlockException($"未找到EventBus配置[{EventBusConfigModel.ConfigKey}]");
+            EventBusConfig eventBusConfig = context.Configuration.GetValueObject<EventBusConfig>(EventBusConfig.ConfigKey) ?? throw new MergeBlockException($"未找到EventBus配置[{EventBusConfig.ConfigKey}]");
             context.Services.AddTransient<IConnectionFactory, ConnectionFactory>(serviceProvider => new ConnectionFactory
             {
                 HostName = eventBusConfig.HostName,
@@ -44,7 +46,8 @@ namespace Materal.MergeBlock.Logger
                 IRabbitMQPersistentConnection rabbitMQPersistentConnection = serviceProvider.GetRequiredService<IRabbitMQPersistentConnection>();
                 ILogger<EventBusRabbitMQ>? logger = serviceProvider.GetService<ILogger<EventBusRabbitMQ>>();
                 IEventBusSubscriptionsManager eventBusSubscriptionsManager = serviceProvider.GetRequiredService<IEventBusSubscriptionsManager>();
-                EventBusRabbitMQ eventBus = new(rabbitMQPersistentConnection, serviceProvider, eventBusSubscriptionsManager, eventBusConfig.QueueName, eventBusConfig.ExchangeName, false, logger);
+                IOptionsMonitor<MergeBlockConfig> config = serviceProvider.GetRequiredService<IOptionsMonitor<MergeBlockConfig>>();
+                EventBusRabbitMQ eventBus = new(rabbitMQPersistentConnection, serviceProvider, eventBusSubscriptionsManager, eventBusConfig.QueueName ?? config.CurrentValue.ApplicationName, eventBusConfig.ExchangeName, false, logger);
                 IEnumerable<IMergeBlockModuleInfo> moduleInfos = serviceProvider.GetServices<IMergeBlockModuleInfo>();
                 List<Type> handlerTypes = GetAllEventHandler(context.ModuleInfos);
                 foreach (Type handlerType in handlerTypes)

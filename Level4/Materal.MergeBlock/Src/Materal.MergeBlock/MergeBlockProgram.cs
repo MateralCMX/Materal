@@ -56,6 +56,7 @@ namespace Materal.MergeBlock
             builder.Services.AddResponseCompression();
             #endregion
             await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceAfterAsync(configServiceContext));
+            builder.Services.Configure<MergeBlockConfig>(builder.Configuration);
             builder.Services.AddEndpointsApiExplorer();
             WebApplication app = builder.Build();
             ApplicationContext applicationContext = new(app, app.Services);

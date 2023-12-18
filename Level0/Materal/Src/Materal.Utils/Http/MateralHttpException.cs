@@ -1,4 +1,5 @@
 ﻿using Materal.Abstractions;
+using System.Net.Http;
 using System.Text;
 
 namespace Materal.Utils.Http
@@ -80,6 +81,15 @@ namespace Materal.Utils.Http
         /// <param name="message"></param>
         public MateralHttpException(string message) : base(message)
         {
+        }
+        /// <summary>
+        /// 获得Http请求消息内容
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string?> GetHttpResponseContentText()
+        {
+            if (HttpResponseMessage is null) return null;
+            return await HttpResponseMessage.GetHttpResponseMessageTextAsync();
         }
         /// <summary>
         /// <inheritdoc/>
@@ -197,11 +207,5 @@ namespace Materal.Utils.Http
             }
             return base.GetExceptionMessage(beforFunc, afterFunc);
         }
-        /// <summary>
-        /// 获得Http异常消息
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete($"请使用{nameof(GetExceptionMessage)}方法")]
-        public string GetHttpErrorMessage() => GetExceptionMessage();
     }
 }

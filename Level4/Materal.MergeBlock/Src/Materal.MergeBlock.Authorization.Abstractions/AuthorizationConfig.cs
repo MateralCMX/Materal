@@ -5,7 +5,7 @@ namespace Materal.MergeBlock.Authorization.Abstractions
     /// <summary>
     /// 鉴权配置模型
     /// </summary>
-    public class AuthorizationConfigModel
+    public class AuthorizationConfig
     {
         /// <summary>
         /// 配置键

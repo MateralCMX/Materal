@@ -1,11 +1,15 @@
 ﻿namespace Materal.MergeBlock.Swagger
 {
-    public class SwaggerConfigModel
+    public class SwaggerConfig
     {
         /// <summary>
         /// 配置键
         /// </summary>
         public static string ConfigKey { get; } = "Swagger";
+        /// <summary>
+        /// 启用标识
+        /// </summary>
+        public bool Enable { get; set; } = true;
         /// <summary>
         /// 标题
         /// </summary>
@@ -21,6 +25,6 @@
         /// <summary>
         /// 是否启用鉴权
         /// </summary>
-        public bool EnableAuthentication { get; set; } = true;
+        public bool? EnableAuthentication { get; set; }
     }
 }

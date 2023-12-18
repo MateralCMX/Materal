@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Net.Http;
 using System.Text;
 
 namespace Materal.Utils.Http
@@ -105,7 +106,7 @@ namespace Materal.Utils.Http
         /// <param name="httpVersion"></param>
         /// <returns></returns>
         /// <exception cref="MateralHttpException"></exception>
-        public async Task<string> SendHttpContentAsync(string url, HttpMethod httpMethod, HttpContent? httpContent = null, Dictionary<string,string>? headers = null, Version? httpVersion = null)
+        public async Task<string> SendHttpContentAsync(string url, HttpMethod httpMethod, HttpContent? httpContent = null, Dictionary<string, string>? headers = null, Version? httpVersion = null)
         {
             HttpRequestMessage httpRequestMessage;
             try
@@ -114,7 +115,7 @@ namespace Materal.Utils.Http
                 {
                     RequestUri = new Uri(url),
                     Method = httpMethod,
-                    Version= httpVersion ?? HttpVersion.Version11
+                    Version = httpVersion ?? HttpVersion.Version11
                 };
                 if (headers != null)
                 {
@@ -123,7 +124,7 @@ namespace Materal.Utils.Http
                         httpRequestMessage.Headers.Add(header.Key, header.Value);
                     }
                 }
-                if(httpContent != null)
+                if (httpContent != null)
                 {
                     httpRequestMessage.Content = httpContent;
                 }
@@ -153,13 +154,13 @@ namespace Materal.Utils.Http
             {
                 if (data == null) return await SendHttpContentAsync(url, httpMethod, null, headers, httpVersion);
                 else if (data is HttpContent content) return await SendHttpContentAsync(url, httpMethod, content, headers, httpVersion);
-                else if(data is byte[] buffer)
+                else if (data is byte[] buffer)
                 {
                     MemoryStream memoryStream = new(buffer);
                     httpContent = new StreamContent(memoryStream);
                     httpContent.Headers.Add("Content-Type", "application/octet-stream");
                 }
-                else if(data is FileInfo fileInfo)
+                else if (data is FileInfo fileInfo)
                 {
                     fileInfo.Refresh();
                     if (fileInfo.Exists) throw new MateralHttpException("文件不存在");
@@ -196,10 +197,10 @@ namespace Materal.Utils.Http
         /// <param name="encoding"></param>
         /// <param name="httpVersion"></param>
         /// <returns></returns>
-        public async Task<string> SendAsync(string url, HttpMethod httpMethod, Dictionary<string,string>? queryArgs = null, object? data = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Version? httpVersion = null)
+        public async Task<string> SendAsync(string url, HttpMethod httpMethod, Dictionary<string, string>? queryArgs = null, object? data = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Version? httpVersion = null)
         {
             string trueUrl = url;
-            if(queryArgs != null && queryArgs.Count > 0)
+            if (queryArgs != null && queryArgs.Count > 0)
             {
                 try
                 {
@@ -255,7 +256,7 @@ namespace Materal.Utils.Http
         /// <param name="encoding"></param>
         /// <param name="httpVersion"></param>
         /// <returns></returns>
-        public async Task<string> SendGetAsync(string url, Dictionary<string, string>? queryArgs = null, object? data = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Version? httpVersion = null) 
+        public async Task<string> SendGetAsync(string url, Dictionary<string, string>? queryArgs = null, object? data = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Version? httpVersion = null)
             => await SendAsync(url, HttpMethod.Get, queryArgs, data, headers, encoding, httpVersion);
         /// <summary>
         /// <inheritdoc/>

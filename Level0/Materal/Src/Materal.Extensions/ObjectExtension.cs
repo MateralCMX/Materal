@@ -14,7 +14,7 @@ namespace System
         /// <summary>
         /// 可转换类型字典
         /// </summary>
-        private static readonly Dictionary<Type, Func<object, object?>> _convertDictionary = new();
+        private static readonly Dictionary<Type, Func<object, object?>> _convertDictionary = [];
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -149,7 +149,8 @@ namespace System
         /// <returns></returns>
         public static object? ConvertTo(this object obj, Type targetType)
         {
-            if (obj == null) return !targetType.IsValueType ? null : throw new ArgumentNullException(nameof(obj), "不能将null转换为" + targetType.Name);
+            if (obj is null) return !targetType.IsValueType ? null : throw new ArgumentNullException(nameof(obj), "不能将null转换为" + targetType.Name);
+            if (obj.IsNullOrWhiteSpaceString()) return obj is string stringObj && targetType == typeof(string) ? stringObj : null;
             if (obj.GetType() == targetType || targetType.IsInstanceOfType(obj)) return obj;
             if (_convertDictionary.ContainsKey(targetType)) return _convertDictionary[targetType](obj);
             try

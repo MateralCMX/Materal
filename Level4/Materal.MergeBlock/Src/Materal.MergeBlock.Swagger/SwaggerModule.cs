@@ -10,43 +10,62 @@ namespace Materal.MergeBlock.Swagger
     {
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            SwaggerConfigModel swaggerConfig = context.Configuration.GetValueObject<SwaggerConfigModel>(SwaggerConfigModel.ConfigKey) ?? new SwaggerConfigModel();
-            string applicationName = context.Configuration.GetValue(nameof(ApplicationConfigModel.ApplicationName)) ?? "MergeBlockApp";
-            context.Services.AddSwaggerGen(config =>
+            SwaggerConfig swaggerConfig = GetSwaggerConfig(context.Configuration);
+            if (swaggerConfig.Enable)
             {
-                OpenApiInfo openApiInfo = new()
+                string applicationName = MergeBlockConfig.GetApplicationName(context.Configuration);
+                context.Services.AddSwaggerGen(config =>
                 {
-                    Title = swaggerConfig.Title ?? applicationName,
-                    Version = swaggerConfig.Version,
-                    Description = swaggerConfig.Description
-                };
-                config.SwaggerDoc(swaggerConfig.Version, openApiInfo);
-                if (swaggerConfig.EnableAuthentication)
-                {
-                    OpenApiSecurityScheme bearerScheme = new()
+                    OpenApiInfo openApiInfo = new()
                     {
-                        Description = "在请求头部加入JWT授权。例子:Authorization:Bearer {token}",
-                        Name = "Authorization",
-                        In = ParameterLocation.Header,
-                        Type = SecuritySchemeType.ApiKey,
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = JwtBearerDefaults.AuthenticationScheme
-                        }
+                        Title = swaggerConfig.Title ?? applicationName,
+                        Version = swaggerConfig.Version,
+                        Description = swaggerConfig.Description
                     };
-                    config.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, bearerScheme);
-                    OpenApiSecurityRequirement openApiSecurityRequirement = new() { { bearerScheme, new List<string>() } };
-                    config.AddSecurityRequirement(openApiSecurityRequirement);
-                }
-            });
+                    config.SwaggerDoc(swaggerConfig.Version, openApiInfo);
+                    bool EnableAuthentication = swaggerConfig.EnableAuthentication ?? context.ModuleInfos.Any(m => m.ModuleName == "Authorzation");
+                    if (EnableAuthentication)
+                    {
+                        OpenApiSecurityScheme bearerScheme = new()
+                        {
+                            Description = "在请求头部加入JWT授权。例子:Authorization:Bearer {token}",
+                            Name = "Authorization",
+                            In = ParameterLocation.Header,
+                            Type = SecuritySchemeType.ApiKey,
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            }
+                        };
+                        config.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, bearerScheme);
+                        OpenApiSecurityRequirement openApiSecurityRequirement = new() { { bearerScheme, new List<string>() } };
+                        config.AddSecurityRequirement(openApiSecurityRequirement);
+                    }
+                });
+            }
             await base.OnConfigServiceAsync(context);
         }
         public override async Task OnApplicationInitAsync(IApplicationContext context)
         {
-            context.ApplicationBuilder.UseSwagger();
-            context.ApplicationBuilder.UseSwaggerUI();
+            IConfiguration configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+            SwaggerConfig swaggerConfig = GetSwaggerConfig(configuration);
+            if (swaggerConfig.Enable)
+            {
+                context.ApplicationBuilder.UseSwagger();
+                context.ApplicationBuilder.UseSwaggerUI();
+            }
             await base.OnApplicationInitAsync(context);
+        }
+        /// <summary>
+        /// 获取Swagger配置
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        private static SwaggerConfig GetSwaggerConfig(IConfiguration configuration)
+        {
+            SwaggerConfig swaggerConfig = configuration.GetValueObject<SwaggerConfig>(SwaggerConfig.ConfigKey) ?? new SwaggerConfig();
+            return swaggerConfig;
         }
     }
 }
