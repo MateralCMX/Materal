@@ -8,6 +8,7 @@ namespace Materal.MergeBlock.Logger
     public class ConsulModule : MergeBlockModule, IMergeBlockModule
     {
         private const string _configKey="Consul";
+        private IConsulService? consulService;
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.Services.AddMateralConsulUtils();
@@ -22,17 +23,13 @@ namespace Materal.MergeBlock.Logger
             {
                 ThreadPool.QueueUserWorkItem(async state =>
                 {
-                    IConsulService consulService = MergeBlockManager.ServiceProvider.GetRequiredService<IConsulService>();
+                    consulService = MergeBlockManager.ServiceProvider.GetRequiredService<IConsulService>();
                     await consulService.RegisterConsulAsync(consulConfig);
                 });
                 AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             }
             await base.OnApplicationInitBeforeAsync(context);
         }
-        private void CurrentDomain_ProcessExit(object? sender, EventArgs e)
-        {
-            IConsulService consulService = MergeBlockManager.ServiceProvider.GetRequiredService<IConsulService>();
-            consulService.UnregisterConsulAsync().Wait();
-        }
+        private void CurrentDomain_ProcessExit(object? sender, EventArgs e) => consulService?.UnregisterConsulAsync().Wait();
     }
 }
