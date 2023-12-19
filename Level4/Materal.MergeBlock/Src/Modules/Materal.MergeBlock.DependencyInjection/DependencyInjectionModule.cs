@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.DependencyInjection
+﻿using Materal.MergeBlock.Abstractions.Services;
+
+namespace Materal.MergeBlock.DependencyInjection
 {
     /// <summary>
     /// 依赖注入模块

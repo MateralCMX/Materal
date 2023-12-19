@@ -1,4 +1,4 @@
-﻿using Materal.MergeBlock.Authorization.Abstractions.Extensions;
+﻿using Materal.MergeBlock.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 

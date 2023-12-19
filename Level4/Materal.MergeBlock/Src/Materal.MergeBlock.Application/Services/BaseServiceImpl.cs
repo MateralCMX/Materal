@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.Application.Services
+﻿using Materal.MergeBlock.Abstractions.Services;
+
+namespace Materal.MergeBlock.Application.Services
 {
     /// <summary>
     /// 基础服务实现

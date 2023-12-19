@@ -1,4 +1,5 @@
-﻿using MMB.Demo.Abstractions.DTO.User;
+﻿using Materal.MergeBlock.Abstractions.Services;
+using MMB.Demo.Abstractions.DTO.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 
 namespace MMB.Demo.Abstractions.Services

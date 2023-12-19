@@ -1,7 +1,10 @@
-﻿using Materal.MergeBlock.Abstractions.Config;
+﻿using AutoMapper;
+using Materal.MergeBlock.Abstractions.Config;
+using Materal.MergeBlock.Abstractions.Services;
 using Materal.MergeBlock.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json.Serialization;
 
 namespace Materal.MergeBlock
@@ -55,7 +58,32 @@ namespace Materal.MergeBlock
             #region 添加低优先级服务
             builder.Services.AddResponseCompression();
             #endregion
-            await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceAfterAsync(configServiceContext));
+            List<Assembly> autoMapperAssemblyList = [];
+            await RunAllModuleFuncAsync(moduleInfos, async (moduleInfo, module) =>
+            {
+                await module.OnConfigServiceAfterAsync(configServiceContext);
+                Type[] types = moduleInfo.ModuleAssembly.GetTypes();
+                bool isAutoMapperProfileAssembly = false;
+                foreach (Type type in types)
+                {
+                    if (!isAutoMapperProfileAssembly && type.IsSubclassOf(typeof(Profile)))
+                    {
+                        autoMapperAssemblyList.Add(moduleInfo.ModuleAssembly);
+                        isAutoMapperProfileAssembly = true;
+                        continue;
+                    }
+                    if(type.IsAssignableTo<IBaseService>())
+                    {
+                        List<Type> allInterfaces = type.GetAllInterfaces();
+                        foreach (Type item in allInterfaces)
+                        {
+                            if (item.Name.StartsWith(nameof(IBaseService))) continue;
+                            builder.Services.TryAddScoped(item, type);
+                        }
+                    }
+                }
+            });
+            builder.Services.AddAutoMapper(config => config.AllowNullCollections = true, autoMapperAssemblyList);
             builder.Services.Configure<MergeBlockConfig>(builder.Configuration);
             builder.Services.AddEndpointsApiExplorer();
             WebApplication app = builder.Build();

@@ -1,4 +1,5 @@
 ﻿using Materal.MergeBlock.Application.Services;
+using Microsoft.Extensions.Options;
 using MMB.Demo.Abstractions.DTO.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 
@@ -7,7 +8,7 @@ namespace MMB.Demo.Appllication.Services
     /// <summary>
     /// 用户服务
     /// </summary>
-    public class UserServiceImpl(IServiceProvider serviceProvider, ApplicationConfig applicationConfig) : BaseServiceImpl<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserRepository, User>(serviceProvider), IUserService
+    public class UserServiceImpl(IServiceProvider serviceProvider, IOptionsMonitor<ApplicationConfig> applicationConfig) : BaseServiceImpl<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserRepository, User>(serviceProvider), IUserService
     {
         /// <summary>
         /// 获得用户列表
@@ -34,7 +35,7 @@ namespace MMB.Demo.Appllication.Services
         /// <returns></returns>
         protected override async Task<Guid> AddAsync(User domain, AddUserModel model)
         {
-            string password = applicationConfig.DefaultPassword;
+            string password = applicationConfig.CurrentValue.DefaultPassword;
             domain.Password = PasswordManager.EncodePassword(password);
             return await base.AddAsync(domain, model);
         }
@@ -71,7 +72,7 @@ namespace MMB.Demo.Appllication.Services
         public async Task<string> ResetPasswordAsync(Guid id)
         {
             User domain = await DefaultRepository.FirstOrDefaultAsync(id) ?? throw new MMBException("用户不存在");
-            string password = applicationConfig.DefaultPassword;
+            string password = applicationConfig.CurrentValue.DefaultPassword;
             domain.Password = PasswordManager.EncodePassword(password);
             UnitOfWork.RegisterEdit(domain);
             await UnitOfWork.CommitAsync();

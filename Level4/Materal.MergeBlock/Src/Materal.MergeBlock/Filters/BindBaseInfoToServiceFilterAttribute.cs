@@ -1,4 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions.Filters;
+using Materal.MergeBlock.Abstractions.Services;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Materal.MergeBlock.Filters

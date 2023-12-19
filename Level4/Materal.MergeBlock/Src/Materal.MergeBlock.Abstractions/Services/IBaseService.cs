@@ -1,4 +1,4 @@
-﻿namespace Materal.MergeBlock.Abstractions
+﻿namespace Materal.MergeBlock.Abstractions.Services
 {
     /// <summary>
     /// 服务

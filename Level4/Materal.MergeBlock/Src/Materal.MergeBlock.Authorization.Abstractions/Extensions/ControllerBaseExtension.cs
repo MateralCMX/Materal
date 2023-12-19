@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Materal.MergeBlock.Authorization.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace Materal.MergeBlock.Authorization.Abstractions.Extensions
+namespace Materal.MergeBlock.Abstractions
 {
     /// <summary>
     /// 控制器基类扩展

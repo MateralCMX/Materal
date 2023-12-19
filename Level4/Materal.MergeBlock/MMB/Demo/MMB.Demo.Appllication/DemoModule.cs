@@ -19,5 +19,16 @@
             context.Services.Configure<ApplicationConfig>(context.Configuration);
             await base.OnConfigServiceAsync(context);
         }
+        /// <summary>
+        /// 应用程序初始化
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task OnApplicationInitAsync(IApplicationContext context)
+        {
+            IUserService userService = context.ServiceProvider.GetRequiredService<IUserService>();
+            await userService.AddDefaultUserAsync();
+            await base.OnApplicationInitAsync(context);
+        }
     }
 }

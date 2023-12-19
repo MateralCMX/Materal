@@ -1,12 +1,8 @@
-using Materal.MergeBlock.Application.Controllers;
-using Microsoft.AspNetCore.Mvc;
-
 namespace MMB.Demo.Appllication.Controllers
 {
     /// <summary>
     /// ²âÊÔ¿ØÖÆÆ÷
     /// </summary>
-    [ApiController, Route("/api/[controller]/[action]")]
     public class TestController(ITokenService tokenService, IEventBus eventBus) : MergeBlockControllerBase, ITestController
     {
         /// <summary>
