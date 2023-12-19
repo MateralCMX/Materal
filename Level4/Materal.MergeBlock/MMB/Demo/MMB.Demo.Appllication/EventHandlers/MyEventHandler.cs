@@ -1,7 +1,4 @@
-﻿using Materal.TFMS.EventBus;
-using MMB.Demo.Abstractions.Events;
-
-namespace MMB.Demo.Service.EventHandlers
+﻿namespace MMB.Demo.Appllication.EventHandlers
 {
     /// <summary>
     /// 我的事件处理器

@@ -1,4 +1,4 @@
-﻿namespace Materal.MergeBlock.Service
+﻿namespace Materal.MergeBlock.Application.Services
 {
     /// <summary>
     /// 服务实现帮助

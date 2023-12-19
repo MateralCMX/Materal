@@ -1,4 +1,4 @@
-﻿namespace MMB.Demo.Abstractions
+﻿namespace MMB.Demo.Appllication
 {
     /// <summary>
     /// 应用程序配置

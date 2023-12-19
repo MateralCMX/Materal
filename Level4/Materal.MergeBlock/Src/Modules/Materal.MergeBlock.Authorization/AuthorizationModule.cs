@@ -1,4 +1,5 @@
 ﻿using Materal.MergeBlock.Authorization.Abstractions;
+using Materal.MergeBlock.Authorization.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -20,7 +21,11 @@ namespace Materal.MergeBlock.Authorization
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.Services.Configure<AuthorizationConfig>(context.Configuration.GetSection(AuthorizationConfig.ConfigKey));
-            context.MvcBuilder?.AddMvcOptions(options => options.Filters.Add(new AuthorizeFilter()));
+            context.MvcBuilder?.AddMvcOptions(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter());
+                options.Filters.Add<BindLoginInfoToServiceFilterAttribute>();
+            });
             AuthorizationConfig authorizationConfig = context.Configuration.GetValueObject<AuthorizationConfig>(AuthorizationConfig.ConfigKey) ?? throw new MergeBlockException($"未找到鉴权配置[{AuthorizationConfig.ConfigKey}]");
             context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>

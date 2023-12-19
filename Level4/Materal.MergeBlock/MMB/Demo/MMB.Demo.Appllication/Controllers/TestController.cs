@@ -1,17 +1,13 @@
-using Materal.MergeBlock.Authorization.Abstractions;
-using Materal.TFMS.EventBus;
-using Microsoft.AspNetCore.Authorization;
+using Materal.MergeBlock.Application.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using MMB.Demo.Abstractions.Controllers;
-using MMB.Demo.Abstractions.Events;
 
-namespace MMB.Demo.WebAPI.Controllers
+namespace MMB.Demo.Appllication.Controllers
 {
     /// <summary>
     /// ²âÊÔ¿ØÖÆÆ÷
     /// </summary>
     [ApiController, Route("/api/[controller]/[action]")]
-    public class TestController(ITokenService tokenService, IEventBus eventBus) : ControllerBase, ITestController
+    public class TestController(ITokenService tokenService, IEventBus eventBus) : MergeBlockControllerBase, ITestController
     {
         /// <summary>
         /// ËµHello

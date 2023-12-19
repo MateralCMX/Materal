@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using MMB.Core.Abstractions;
-using MMB.Demo.Abstractions;
-using MMB.Demo.Service.Services;
-
-namespace MMB.Demo.Service
+﻿namespace MMB.Demo.Appllication
 {
     /// <summary>
     /// Demo模块

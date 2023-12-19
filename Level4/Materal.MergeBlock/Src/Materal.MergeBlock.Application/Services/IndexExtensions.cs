@@ -1,4 +1,4 @@
-﻿namespace Materal.MergeBlock.Service
+﻿namespace Materal.MergeBlock.Application.Services
 {
     /// <summary>
     /// 位序扩展

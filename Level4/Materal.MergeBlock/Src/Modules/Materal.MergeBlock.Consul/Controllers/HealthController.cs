@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Materal.MergeBlock.Consul
+namespace Materal.MergeBlock.Consul.Controllers
 {
     /// <summary>
     /// 健康检查控制器
@@ -16,10 +16,6 @@ namespace Materal.MergeBlock.Consul
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet, AllowAnonymous]
-        public virtual IActionResult Get(Guid? id)
-        {
-            if(id is not null && id != consulService.NodeID) return NotFound();
-            return Ok();
-        }
+        public virtual IActionResult Get(Guid? id) => (id is not null && id != consulService.NodeID) ? NotFound() : Ok();
     }
 }

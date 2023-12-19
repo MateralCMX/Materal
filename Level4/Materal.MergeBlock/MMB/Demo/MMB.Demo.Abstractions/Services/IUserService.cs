@@ -1,4 +1,4 @@
-﻿using MBC.Demo.DataTransmitModel.User;
+﻿using MMB.Demo.Abstractions.DTO.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 
 namespace MMB.Demo.Abstractions.Services

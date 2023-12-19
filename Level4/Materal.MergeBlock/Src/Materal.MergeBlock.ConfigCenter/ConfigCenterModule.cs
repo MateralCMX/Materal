@@ -1,6 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using RC.ConfigClient;
 
 namespace Materal.MergeBlock.ConfigCenter
@@ -36,16 +35,6 @@ namespace Materal.MergeBlock.ConfigCenter
                 configuration.AddNameSpace(namespaceName);
             }
             await base.OnConfigServiceBeforeAsync(context);
-        }
-        /// <summary>
-        /// 配置服务
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
-        {
-            context.MvcBuilder?.AddApplicationPart(GetType().Assembly);
-            await base.OnConfigServiceAsync(context);
         }
     }
 }

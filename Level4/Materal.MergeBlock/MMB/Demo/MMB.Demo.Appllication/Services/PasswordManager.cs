@@ -1,4 +1,4 @@
-﻿namespace MMB.Demo.Service.Services
+﻿namespace MMB.Demo.Appllication.Services
 {
     /// <summary>
     /// 密码管理器

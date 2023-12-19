@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.EventBus
+﻿using Materal.MergeBlock.Abstractions.Config;
+
+namespace Materal.MergeBlock.EventBus
 {
     /// <summary>
     /// 日志模块

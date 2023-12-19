@@ -1,13 +1,8 @@
-﻿using Materal.MergeBlock.Service;
-using MBC.Core.Common;
-using MBC.Demo.DataTransmitModel.User;
-using MMB.Demo.Abstractions;
-using MMB.Demo.Abstractions.Domain;
-using MMB.Demo.Abstractions.Repositories;
-using MMB.Demo.Abstractions.Services;
+﻿using Materal.MergeBlock.Application.Services;
+using MMB.Demo.Abstractions.DTO.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 
-namespace MMB.Demo.Service.Services
+namespace MMB.Demo.Appllication.Services
 {
     /// <summary>
     /// 用户服务

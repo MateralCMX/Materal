@@ -15,7 +15,6 @@
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.Services.AddMateralConsulUtils();
-            context.MvcBuilder?.AddApplicationPart(GetType().Assembly);
             await base.OnConfigServiceAsync(context);
         }
         /// <summary>

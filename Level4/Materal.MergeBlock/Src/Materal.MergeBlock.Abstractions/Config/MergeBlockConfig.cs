@@ -1,4 +1,4 @@
-﻿namespace Materal.MergeBlock.Abstractions
+﻿namespace Materal.MergeBlock.Abstractions.Config
 {
     /// <summary>
     /// 应用程序配置模型
@@ -9,6 +9,10 @@
         /// 应用程序名称
         /// </summary>
         public string ApplicationName { get; set; } = string.Empty;
+        /// <summary>
+        /// 异常配置
+        /// </summary>
+        public ExceptionConfig Exception { get; set; } = new();
         /// <summary>
         /// 获得应用程序名称
         /// </summary>

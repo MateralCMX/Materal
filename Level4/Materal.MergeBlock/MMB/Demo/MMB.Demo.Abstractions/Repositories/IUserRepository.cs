@@ -1,6 +1,3 @@
-using MMB.Core.Reposiroty;
-using MMB.Demo.Abstractions.Domain;
-
 namespace MMB.Demo.Abstractions.Repositories
 {
     /// <summary>

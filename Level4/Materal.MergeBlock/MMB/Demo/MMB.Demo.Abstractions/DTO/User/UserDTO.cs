@@ -1,6 +1,4 @@
-using Materal.MergeBlock.Abstractions.Models;
-
-namespace MBC.Demo.DataTransmitModel.User
+namespace MMB.Demo.Abstractions.DTO.User
 {
     /// <summary>
     /// 用户数据传输模型

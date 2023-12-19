@@ -1,5 +1,4 @@
-﻿using Materal.MergeBlock.Abstractions;
-using Materal.MergeBlock.ConfigCenter;
+﻿using Materal.MergeBlock.ConfigCenter;
 
 namespace MMB.Core.Abstractions
 {

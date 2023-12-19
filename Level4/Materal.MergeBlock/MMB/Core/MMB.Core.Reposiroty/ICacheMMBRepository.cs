@@ -1,6 +1,3 @@
-using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
-
 namespace MMB.Core.Reposiroty
 {
     /// <summary>

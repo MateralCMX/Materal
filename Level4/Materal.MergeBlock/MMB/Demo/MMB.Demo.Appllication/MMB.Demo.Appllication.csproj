@@ -7,9 +7,8 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj" />
 		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Authorization.Abstractions\Materal.MergeBlock.Authorization.Abstractions.csproj" />
-		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Service\Materal.MergeBlock.Service.csproj" />
 		<ProjectReference Include="..\..\Core\MMB.Core.Abstractions\MMB.Core.Abstractions.csproj" />
 		<ProjectReference Include="..\MMB.Demo.Repository\MMB.Demo.Repository.csproj" />
 	</ItemGroup>

@@ -1,10 +1,4 @@
-#nullable enable
-using Materal.Utils.Model;
-using System.ComponentModel.DataAnnotations;
-using MBC.Demo.Enums;
-using Materal.MergeBlock.Abstractions.Models;
-
-namespace MBC.Demo.PresentationModel.User
+namespace MMB.Demo.Abstractions.DTO.User
 {
     /// <summary>
     /// 用户查询请求模型

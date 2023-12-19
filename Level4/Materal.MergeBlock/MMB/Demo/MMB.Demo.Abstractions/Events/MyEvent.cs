@@ -1,6 +1,4 @@
-﻿using Materal.TFMS.EventBus;
-
-namespace MMB.Demo.Abstractions.Events
+﻿namespace MMB.Demo.Abstractions.Events
 {
     /// <summary>
     /// 我的事件

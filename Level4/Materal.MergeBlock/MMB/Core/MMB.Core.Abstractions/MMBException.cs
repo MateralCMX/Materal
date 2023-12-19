@@ -1,6 +1,4 @@
-﻿using Materal.MergeBlock.Abstractions;
-
-namespace MBC.Core.Common
+﻿namespace MMB.Core.Abstractions
 {
     /// <summary>
     /// MMB异常

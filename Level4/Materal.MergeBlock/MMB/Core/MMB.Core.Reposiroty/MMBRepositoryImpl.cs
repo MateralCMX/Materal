@@ -1,6 +1,4 @@
-﻿using Materal.TTA.Common;
-using Materal.TTA.SqliteEFRepository;
-using Microsoft.EntityFrameworkCore;
+﻿using Materal.TTA.SqliteEFRepository;
 
 namespace MMB.Core.Reposiroty
 {

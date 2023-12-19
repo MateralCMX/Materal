@@ -1,9 +1,4 @@
-﻿using Materal.MergeBlock.Abstractions;
-using Materal.MergeBlock.Repository;
-using Materal.TTA.Common.Model;
-using Materal.TTA.SqliteEFRepository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Materal.TTA.SqliteEFRepository;
 
 namespace MMB.Demo.Repository
 {

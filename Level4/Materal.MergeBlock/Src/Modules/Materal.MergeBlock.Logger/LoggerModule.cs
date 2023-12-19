@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.Logger
+﻿using Materal.MergeBlock.Abstractions.Config;
+
+namespace Materal.MergeBlock.Logger
 {
     /// <summary>
     /// 日志模块

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Materal.MergeBlock.Abstractions.Config;
+using Materal.MergeBlock.Filters;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Serialization;
 
@@ -35,15 +37,17 @@ namespace Materal.MergeBlock
                         .AllowCredentials();
                     });
             });
-            configServiceContext.MvcBuilder = builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = true)
-                .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
-                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            configServiceContext.MvcBuilder = builder.Services.AddControllers(options =>
+            {
+                options.Filters.Add<ActionPageQueryFilterAttribute>();
+                options.Filters.Add<BindBaseInfoToServiceFilterAttribute>();
+                options.Filters.Add<GlobalExceptionFilter>();
+                options.SuppressAsyncSuffixInActionNames = true;
+            }).AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
+            .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
             await RunAllModuleFuncAsync(moduleInfos, async (moduleInfo, _) =>
             {
-                if (moduleInfo.ModuleAttribute.IsController)
-                {
-                    configServiceContext.MvcBuilder.AddApplicationPart(moduleInfo.ModuleAssembly);
-                }
+                configServiceContext.MvcBuilder.AddApplicationPart(moduleInfo.ModuleAssembly);
                 await Task.CompletedTask;
             });
             #endregion

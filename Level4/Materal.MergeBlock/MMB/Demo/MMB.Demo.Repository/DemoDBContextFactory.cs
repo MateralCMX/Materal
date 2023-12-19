@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore.Design;
-using MMB.Demo.Repository;
 
 namespace MBC.Demo.EFRepository
 {
