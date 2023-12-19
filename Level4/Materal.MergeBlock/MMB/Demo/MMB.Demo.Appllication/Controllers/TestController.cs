@@ -1,9 +1,12 @@
+using Materal.Oscillator.Abstractions;
+using Polly;
+
 namespace MMB.Demo.Appllication.Controllers
 {
     /// <summary>
     /// 测试控制器
     /// </summary>
-    public class TestController(ITokenService tokenService, IEventBus eventBus) : MergeBlockControllerBase, ITestController
+    public class TestController(ITokenService tokenService, IEventBus eventBus, IOscillatorHost host) : MergeBlockControllerBase, ITestController
     {
         /// <summary>
         /// 说Hello
@@ -31,6 +34,17 @@ namespace MMB.Demo.Appllication.Controllers
             MyEvent @event = new() { Message = "Hello EventBus!" };
             await eventBus.PublishAsync(@event);
             return ResultModel.Success("发送成功");
+        }
+        /// <summary>
+        /// 测试调度器
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ResultModel> RunNowScheduleAsync(Guid id)
+        {
+            await host.RunNowAsync(id);
+            return ResultModel.Success("启动成功");
         }
     }
 }

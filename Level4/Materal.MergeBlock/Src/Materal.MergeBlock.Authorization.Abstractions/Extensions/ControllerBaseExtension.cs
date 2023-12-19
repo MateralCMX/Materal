@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.Authorization.Abstractions;
+﻿using Materal.Abstractions;
+using Materal.MergeBlock.Authorization.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -17,7 +18,7 @@ namespace Materal.MergeBlock.Abstractions
         public static Guid GetLoginUserID(this ControllerBase controller)
         {
             if (controller.User.Claims == null) throw new MergeBlockException("未鉴权");
-            ITokenService tokenService = MergeBlockManager.ServiceProvider.GetRequiredService<ITokenService>();
+            ITokenService tokenService = MateralServices.GetRequiredService<ITokenService>();
             Claim? claim = controller.User.Claims.FirstOrDefault(m => m.Type == tokenService.UserIDKey);
             if (claim == null || !claim.Value.IsGuid()) throw new MergeBlockException("非用户授权");
             Guid userID = Guid.Parse(claim.Value);
@@ -31,7 +32,7 @@ namespace Materal.MergeBlock.Abstractions
         public static string GetLoginServerName(this ControllerBase controller)
         {
             if (controller.User.Claims == null) throw new MergeBlockException("未鉴权");
-            ITokenService tokenService = MergeBlockManager.ServiceProvider.GetRequiredService<ITokenService>();
+            ITokenService tokenService = MateralServices.GetRequiredService<ITokenService>();
             Claim? claim = controller.User.Claims.FirstOrDefault(m => m.Type == tokenService.ServerNameKey);
             if (claim == null || string.IsNullOrWhiteSpace(claim.Value)) throw new MergeBlockException("非服务授权");
             return claim.Value;
@@ -44,7 +45,7 @@ namespace Materal.MergeBlock.Abstractions
         public static bool IsUserLogin(this ControllerBase controller)
         {
             if (controller.User.Claims == null) return false;
-            ITokenService tokenService = MergeBlockManager.ServiceProvider.GetRequiredService<ITokenService>();
+            ITokenService tokenService = MateralServices.GetRequiredService<ITokenService>();
             Claim? claim = controller.User.Claims.FirstOrDefault(m => m.Type == tokenService.UserIDKey);
             if (claim == null || !claim.Value.IsGuid()) return false;
             return true;
@@ -57,7 +58,7 @@ namespace Materal.MergeBlock.Abstractions
         public static bool IsServerLogin(this ControllerBase controller)
         {
             if (controller.User.Claims == null) return false;
-            ITokenService tokenService = MergeBlockManager.ServiceProvider.GetRequiredService<ITokenService>();
+            ITokenService tokenService = MateralServices.GetRequiredService<ITokenService>();
             Claim? claim = controller.User.Claims.FirstOrDefault(m => m.Type == tokenService.ServerNameKey);
             if (claim == null || string.IsNullOrWhiteSpace(claim.Value)) return false;
             return true;

@@ -7,12 +7,15 @@ using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.DTO;
 using Materal.Oscillator.Abstractions.Models;
 using Materal.Oscillator.Abstractions.Repositories;
+using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.Answers;
 using Materal.Oscillator.PlanTriggers;
 using Materal.Utils;
 using Materal.Utils.Model;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace ConsoleDemo
 {
@@ -30,20 +33,18 @@ namespace ConsoleDemo
                 option.AddConsoleTarget("LifeConsole");
                 option.AddAllTargetRule(LogLevel.Information, null, new() { ["Microsoft.EntityFrameworkCore"] = LogLevel.Warning });
             });
-            serviceCollection.AddOscillator();
-
-            IRepositoryHelper useRepositoryHelper = new SqliteEFRepositoryHelper();
-            //IRepositoryHelper useRepositoryHelper = new SqlServerEFRepositoryHelper();
-            //IRepositoryHelper useRepositoryHelper = new SqliteADONETRepositoryHelper();
-            //IRepositoryHelper useRepositoryHelper = new SqlServerADONETRepositoryHelper();
-
-            useRepositoryHelper.AddDRRepository(serviceCollection);
-            useRepositoryHelper.AddRepository(serviceCollection);
+            serviceCollection.AddOscillator(Assembly.Load("ConsoleDemo"));
+            SqliteEFRepositoryHelper repositoryHelper = new();
+            //SqlServerEFRepositoryHelper repositoryHelper = new();
+            //SqliteADONETRepositoryHelper repositoryHelper = new();
+            //SqlServerADONETRepositoryHelper repositoryHelper = new();
+            repositoryHelper.AddDRRepository(serviceCollection);
+            repositoryHelper.AddRepository(serviceCollection);
             serviceCollection.AddSingleton<IOscillatorListener, OscillatorListenerImpl>();
             serviceCollection.AddSingleton<IRetryAnswerListener, RetryAnswerListenerImpl>();
             MateralServices.Services = serviceCollection.BuildServiceProvider();
             _services = MateralServices.Services;
-            useRepositoryHelper.Init(_services);
+            repositoryHelper.Init(_services);
             _host = _services.GetRequiredService<IOscillatorHost>();
         }
         public static async Task Main()
@@ -112,28 +113,28 @@ namespace ConsoleDemo
                 {
                     Name = "TestSchedule",
                     Description = "测试调度",
-                    Answers = new()
-                    {
+                    Answers =
+                    [
                         new()
                         {
                             Name = "测试任务响应",
                             AnswerData = new ConsoleAnswer() { Message = "测试任务响应输出" },
                             WorkEvent = "Success"
                         }
-                    },
-                    Plans = new()
-                    {
+                    ],
+                    Plans =
+                    [
                         new()
                         {
                             Name = "执行一次",
                             Description = "执行一次",
                             PlanTriggerData = new OneTimePlanTrigger { StartTime = DateTime.Now.AddSeconds(5) }
                         }
-                    },
-                    Works = new()
-                    {
+                    ],
+                    Works =
+                    [
                         new() { WorkID = workID }
-                    }
+                    ]
                 };
                 scheduleID = await _host.AddScheduleAsync(model);
                 if (scheduleID == Guid.Empty) throw new Exception("添加调度器失败");
@@ -153,8 +154,8 @@ namespace ConsoleDemo
                     Description = dataInfo.Description,
                     Territory = dataInfo.Territory,
                     Enable = dataInfo.Enable,
-                    Answers = new()
-                    {
+                    Answers =
+                    [
                         new()
                         {
                             Name = "测试任务响应",
@@ -167,21 +168,31 @@ namespace ConsoleDemo
                             AnswerData = new ConsoleAnswer() { Message = "测试任务响应输出2" },
                             WorkEvent = "Success"
                         }
-                    },
-                    Plans = new()
-                    {
+                    ],
+                    Plans =
+                    [
                         new()
                         {
                             Name = "执行一次",
                             Description = "执行一次",
                             PlanTriggerData = new OneTimePlanTrigger { StartTime = DateTime.Now.AddSeconds(5) }
                         }
-                    },
-                    Works = new()
-                    {
+                        //new()
+                        //{
+                        //    Name = "每5秒执行一次",
+                        //    Description = "每5秒执行一次",
+                        //    PlanTriggerData = new RepeatPlanTrigger
+                        //    {
+                        //        DateTrigger = new DateDayTrigger(),
+                        //        EveryDayTrigger = new EveryDayRepeatTrigger() { Interval = 5, IntervalType = EveryDayIntervalType.Second }
+                        //    }
+                        //}
+                    ],
+                    Works =
+                    [
                         new() { WorkID = workID },
                         new() { WorkID = work2ID }
-                    }
+                    ]
                 };
                 await _host.EditScheduleAsync(model);
                 dataInfo = await _host.GetScheduleInfoAsync(dataList.First().ID);

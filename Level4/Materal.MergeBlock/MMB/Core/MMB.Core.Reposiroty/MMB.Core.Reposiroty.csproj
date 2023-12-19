@@ -7,7 +7,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.68" />
+		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.72" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj" />

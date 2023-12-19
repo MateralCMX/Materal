@@ -91,7 +91,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                     _logger?.LogError(ex, "发布事件失败: EventId={EventId} Timeout={Timeout} ({ExceptionMessage})", @event.ID, $"{time.TotalSeconds:n1}", ex.Message);
                 });
             string eventName = @event.GetType().Name;
-            _logger?.LogInformation("创建RabbitMQ发布事件通道: {EventId} ({EventName})", @event.ID, eventName);
+            _logger?.LogDebug("创建RabbitMQ发布事件通道: {EventId} ({EventName})", @event.ID, eventName);
             IModel channel = await _persistentConnection.CreateModelAsync();
             channel.ExchangeDeclare(_exchangeName, "direct");
             string message = JsonConvert.SerializeObject(@event);
@@ -161,7 +161,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             {
                 _persistentConnection.TryConnect();
             }
-            _logger?.LogInformation("创建RabbitMQ消费通道...");
+            _logger?.LogDebug("创建RabbitMQ消费通道...");
             IModel channel = await _persistentConnection.CreateModelAsync();
             channel.ExchangeDeclare(_exchangeName, "direct");
             channel.QueueDeclare(_queueName, true, false, false, null);
@@ -179,12 +179,12 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// </summary>
         private void StartBasicConsume()
         {
-            _logger?.LogInformation("RabbitMQ开始消费消息...");
             if (_consumerChannel != null)
             {
                 var consumer = new AsyncEventingBasicConsumer(_consumerChannel);
                 consumer.Received += Consumer_ReceivedAsync;
                 _consumerChannel.BasicConsume(_queueName, false, consumer);
+                _logger?.LogInformation("TFMS启动完毕");
             }
             else
             {

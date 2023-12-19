@@ -60,7 +60,7 @@ namespace RC.ConfigClient
                 {
                     ex = ex.InnerException;
                 }
-                _logger ??= MateralServices.GetServiceOrDefatult<ILogger<MateralConfigurationProvider>>();
+                _logger ??= MateralServices.GetService<ILogger<MateralConfigurationProvider>>();
                 if(_logger != null)
                 {
                     _logger?.LogWarning(ex, $"重读配置失败{_projectName}->{_namespaceName}");

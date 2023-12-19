@@ -7,7 +7,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.68" />
+	  <PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.72" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />

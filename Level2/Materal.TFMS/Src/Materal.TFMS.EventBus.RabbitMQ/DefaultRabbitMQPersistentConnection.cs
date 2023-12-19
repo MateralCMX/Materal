@@ -60,13 +60,13 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             }
             catch (IOException ex)
             {
-                Logger?.LogCritical(ex, "连接释放失败");
+                Logger?.LogError(ex, "连接释放失败");
             }
         }
         public bool TryConnect()
         {
             using IDisposable? scope = Logger?.BeginScope("Connect");
-            Logger?.LogInformation("正在连接RabbitMQ....");
+            Logger?.LogDebug("正在连接RabbitMQ....");
             lock (OnlineRabbitMQLock)
             {
                 RetryPolicy policy = Policy.Handle<SocketException>()
@@ -85,7 +85,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                     Logger?.LogInformation("RabbitMQ已连接到{HostName}", Connection.Endpoint.HostName);
                     return true;
                 }
-                Logger?.LogCritical("致命错误:无法连接RabbitMQ");
+                Logger?.LogError("致命错误:无法连接RabbitMQ");
                 return false;
             }
         }

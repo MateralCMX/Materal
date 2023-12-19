@@ -10,52 +10,40 @@ namespace Materal.Abstractions
         /// <summary>
         /// 服务容器
         /// </summary>
-        public static IServiceProvider? services { get; set; }
+        private static IServiceProvider? _services;
+        /// <summary>
+        /// 服务容器
+        /// </summary>
+        public static IServiceProvider Services { get => _services ?? throw new MateralException("服务容器未实例化"); set => _services = value; }
         /// <summary>
         /// 获得服务或者默认值
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        public static T? GetServiceOrDefatult<T>()
-        {
-            if (services == null) return default;
-            T? result = services.GetService<T>();
-            return result;
-        }
+        public static T? GetService<T>() => Services.GetService<T>();
         /// <summary>
         /// 获得服务
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        public static T GetService<T>()
-        {
-            T? result = GetServiceOrDefatult<T>();
-            return result ?? throw new MateralException("未找到对应服务");
-        }
+        public static T GetRequiredService<T>()
+            where T : notnull
+            => Services.GetRequiredService<T>();
         /// <summary>
         /// 获得服务或者默认值
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        public static object? GetServiceOrDefatult(Type type)
-        {
-            if (services == null) return null;
-            object? result = services.GetService(type);
-            return result;
-        }
+        public static object? GetService(Type type) => Services.GetService(type);
         /// <summary>
         /// 获得服务
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        public static object GetService(Type type)
-        {
-            object? result = GetServiceOrDefatult(type);
-            return result ?? throw new MateralException("未找到对应服务");
-        }
+        public static object GetRequiredService(Type type) => Services.GetRequiredService(type);
     }
 }

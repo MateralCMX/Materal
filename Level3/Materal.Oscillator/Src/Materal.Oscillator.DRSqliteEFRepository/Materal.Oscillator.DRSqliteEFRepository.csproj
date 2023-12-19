@@ -8,7 +8,7 @@
 		<Product>Materal.Oscillator</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.69</Version>
+		<Version>1.1.72</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.Oscillator.DRSqliteEFRepository</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -19,7 +19,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.69" />
+		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="1.1.72" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Oscillator\Materal.Oscillator.csproj" />

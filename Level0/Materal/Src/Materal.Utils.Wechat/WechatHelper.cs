@@ -27,7 +27,7 @@ namespace Materal.Utils.Wechat
         protected WechatHelper(WechatConfigModel config, IHttpHelper? httpHelper = null)
         {
             Config = config;
-            httpHelper ??= MateralServices.GetService<IHttpHelper>();
+            httpHelper ??= new HttpHelper();
             HttpHelper = httpHelper;
         }
 

@@ -8,6 +8,6 @@
 		<ProjectReference Include="..\..\RC.Core\Src\RC.Core.Domain\RC.Core.Domain.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.69" />
+		<PackageReference Include="Materal.BaseCore.CodeGenerator" Version="1.1.72" />
 	</ItemGroup>
 </Project>

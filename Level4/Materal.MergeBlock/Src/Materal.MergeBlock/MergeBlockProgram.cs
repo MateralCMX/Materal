@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Materal.Abstractions;
 using Materal.MergeBlock.Abstractions.Config;
 using Materal.MergeBlock.Abstractions.Services;
 using Materal.MergeBlock.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json.Serialization;
 
@@ -87,6 +89,7 @@ namespace Materal.MergeBlock
             builder.Services.Configure<MergeBlockConfig>(builder.Configuration);
             builder.Services.AddEndpointsApiExplorer();
             WebApplication app = builder.Build();
+            MateralServices.Services = app.Services;
             ApplicationContext applicationContext = new(app, app.Services);
             _logger = app.Services.GetService<ILogger<MergeBlockProgram>>();
             _logger?.LogDebug("MergeBlock启动");

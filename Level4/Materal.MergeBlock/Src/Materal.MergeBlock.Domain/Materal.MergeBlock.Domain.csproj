@@ -7,6 +7,6 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TTA.Common" Version="1.1.68" />
+		<PackageReference Include="Materal.TTA.Common" Version="1.1.72" />
 	</ItemGroup>
 </Project>

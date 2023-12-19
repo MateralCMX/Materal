@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.Abstractions.Filters;
+﻿using Materal.Abstractions;
+using Materal.MergeBlock.Abstractions.Filters;
 using Materal.MergeBlock.Abstractions.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -53,8 +54,8 @@ namespace Materal.MergeBlock.Application.Controllers
         /// </summary>
         protected MergeBlockControllerBase()
         {
-            Mapper = MergeBlockManager.ServiceProvider.GetService<IMapper>() ?? throw new MergeBlockException("获取映射器失败");
-            DefaultService = MergeBlockManager.ServiceProvider.GetService<TService>() ?? throw new MergeBlockException("获取服务失败");
+            Mapper = MateralServices.GetService<IMapper>() ?? throw new MergeBlockException("获取映射器失败");
+            DefaultService = MateralServices.GetService<TService>() ?? throw new MergeBlockException("获取服务失败");
         }
         /// <summary>
         /// 添加

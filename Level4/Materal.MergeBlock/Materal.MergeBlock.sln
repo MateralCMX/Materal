@@ -55,6 +55,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Applicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Demo.Appllication", "MMB\Demo\MMB.Demo.Appllication\MMB.Demo.Appllication.csproj", "{D6E19FB8-8786-4D2F-96C3-B8C9A10D73E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Oscillator", "Src\Modules\Materal.MergeBlock.Oscillator\Materal.MergeBlock.Oscillator.csproj", "{998926CF-C2E5-4CD1-8187-C43DE01692C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Oscillator.Abstractions", "Src\Materal.MergeBlock.Oscillator.Abstractions\Materal.MergeBlock.Oscillator.Abstractions.csproj", "{746334BF-18AC-46E3-87EB-46722C1DB7B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -305,6 +309,30 @@ Global
 		{D6E19FB8-8786-4D2F-96C3-B8C9A10D73E0}.Release|arm64.Build.0 = Release|Any CPU
 		{D6E19FB8-8786-4D2F-96C3-B8C9A10D73E0}.Release|x86.ActiveCfg = Release|Any CPU
 		{D6E19FB8-8786-4D2F-96C3-B8C9A10D73E0}.Release|x86.Build.0 = Release|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Debug|arm64.Build.0 = Debug|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Debug|x86.Build.0 = Debug|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Release|arm64.ActiveCfg = Release|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Release|arm64.Build.0 = Release|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Release|x86.ActiveCfg = Release|Any CPU
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4}.Release|x86.Build.0 = Release|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Debug|arm64.Build.0 = Debug|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Debug|x86.Build.0 = Debug|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Release|arm64.ActiveCfg = Release|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Release|arm64.Build.0 = Release|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Release|x86.ActiveCfg = Release|Any CPU
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -334,6 +362,8 @@ Global
 		{121D58EA-9DA0-4A33-8DFC-368BAE39CFBB} = {CBBC5065-D1AD-494A-8DD9-F97C4D7B5F44}
 		{33F43C5D-BDEA-42C2-BB8D-5B5D8B7FF44E} = {EA03071C-22C4-4208-AD5A-C199AF8560DB}
 		{D6E19FB8-8786-4D2F-96C3-B8C9A10D73E0} = {F84315E4-4BEE-4D4E-B643-F90EF3F95EC8}
+		{998926CF-C2E5-4CD1-8187-C43DE01692C4} = {ABA10EEB-61D2-43B3-80A1-9178E6174213}
+		{746334BF-18AC-46E3-87EB-46722C1DB7B5} = {EA03071C-22C4-4208-AD5A-C199AF8560DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67833DC5-4077-4868-93CE-E1D59227F31F}

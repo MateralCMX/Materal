@@ -1,7 +1,6 @@
 using Materal.Extensions.DependencyInjection;
 using Materal.Utils.Consul;
 using Materal.Utils.Consul.ConfigModels;
-using Materal.Utils.Http;
 using Materal.WebAPITest.Services;
 
 namespace Materal.WebAPITest
@@ -9,7 +8,7 @@ namespace Materal.WebAPITest
     public class Program
     {
         private static IServiceProvider? _serviceProvider;
-        public static async Task Main(string[] args)
+        public static void Main(string[] args)
         {
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);

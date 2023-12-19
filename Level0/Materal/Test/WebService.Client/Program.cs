@@ -21,8 +21,8 @@ namespace WebService.Client
             serviceCollection.TryAddSingleton(httpClient);
             serviceCollection.AddMateralUtils();
             serviceCollection.AddSingleton<IWebServiceClient, WebServiceClient>();
-            MateralServices.services = serviceCollection.BuildServiceProvider();
-            IServiceProvider Services = MateralServices.services;
+            MateralServices.Services = serviceCollection.BuildServiceProvider();
+            IServiceProvider Services = MateralServices.Services;
             IWebServiceClient webServiceClient = Services.GetRequiredService<IWebServiceClient>();
             string serviceName = "GetUserByUserInfo";
             UserInfo result = new() { Name = "Materal", Age = 18 };

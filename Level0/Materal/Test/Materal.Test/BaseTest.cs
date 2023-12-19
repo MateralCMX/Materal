@@ -25,8 +25,8 @@ namespace Materal.Test
             _serviceCollection.TryAddSingleton(httpClient);
             _serviceCollection.AddMateralUtils();
             AddServices(_serviceCollection);
-            MateralServices.services = _serviceCollection.BuildServiceProvider();
-            Services = MateralServices.services;
+            MateralServices.Services = _serviceCollection.BuildServiceProvider();
+            Services = MateralServices.Services;
         }
         public virtual void AddServices(IServiceCollection services)
         {

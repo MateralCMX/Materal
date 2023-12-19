@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.Logger
+﻿using Materal.Abstractions;
+
+namespace Materal.MergeBlock.Logger
 {
     /// <summary>
     /// Consul模块
@@ -31,7 +33,7 @@
             {
                 ThreadPool.QueueUserWorkItem(async state =>
                 {
-                    consulService = MergeBlockManager.ServiceProvider.GetRequiredService<IConsulService>();
+                    consulService = MateralServices.GetRequiredService<IConsulService>();
                     await consulService.RegisterConsulAsync(consulConfig);
                 });
                 AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
