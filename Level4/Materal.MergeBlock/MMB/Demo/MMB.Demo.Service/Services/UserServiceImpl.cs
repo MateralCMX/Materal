@@ -12,7 +12,7 @@ namespace MMB.Demo.Service.Services
     /// <summary>
     /// 用户服务
     /// </summary>
-    public class UserServiceImpl(IServiceProvider serviceProvider, IPasswordService passwordService, ApplicationConfig applicationConfig) : BaseServiceImpl<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserRepository, User>(serviceProvider), IUserService
+    public class UserServiceImpl(IServiceProvider serviceProvider, ApplicationConfig applicationConfig) : BaseServiceImpl<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserRepository, User>(serviceProvider), IUserService
     {
         /// <summary>
         /// 获得用户列表
@@ -40,7 +40,7 @@ namespace MMB.Demo.Service.Services
         protected override async Task<Guid> AddAsync(User domain, AddUserModel model)
         {
             string password = applicationConfig.DefaultPassword;
-            domain.Password = passwordService.EncodePassword(password);
+            domain.Password = PasswordManager.EncodePassword(password);
             return await base.AddAsync(domain, model);
         }
         /// <summary>
@@ -63,7 +63,7 @@ namespace MMB.Demo.Service.Services
         public async Task<UserDTO> LoginAsync(LoginModel model)
         {
             User domain = await DefaultRepository.FirstOrDefaultAsync(m => m.Account.Equals(model.Account)) ?? throw new MMBException("账号错误");
-            if (!domain.Password.Equals(passwordService.EncodePassword(model.Password))) throw new MMBException("密码错误");
+            if (!domain.Password.Equals(PasswordManager.EncodePassword(model.Password))) throw new MMBException("密码错误");
             UserDTO result = Mapper.Map<UserDTO>(domain);
             return result;
         }
@@ -77,7 +77,7 @@ namespace MMB.Demo.Service.Services
         {
             User domain = await DefaultRepository.FirstOrDefaultAsync(id) ?? throw new MMBException("用户不存在");
             string password = applicationConfig.DefaultPassword;
-            domain.Password = passwordService.EncodePassword(password);
+            domain.Password = PasswordManager.EncodePassword(password);
             UnitOfWork.RegisterEdit(domain);
             await UnitOfWork.CommitAsync();
             return password;
@@ -91,8 +91,8 @@ namespace MMB.Demo.Service.Services
         public async Task TestChangePasswordAsync(ChangePasswordModel model)
         {
             User domain = await DefaultRepository.FirstOrDefaultAsync(model.ID) ?? throw new MMBException("用户不存在");
-            if (!domain.Password.Equals(passwordService.EncodePassword(model.OldPassword))) throw new MMBException("旧密码错误");
-            domain.Password = passwordService.EncodePassword(model.NewPassword);
+            if (!domain.Password.Equals(PasswordManager.EncodePassword(model.OldPassword))) throw new MMBException("旧密码错误");
+            domain.Password = PasswordManager.EncodePassword(model.NewPassword);
             UnitOfWork.RegisterEdit(domain);
             await UnitOfWork.CommitAsync();
         }
@@ -105,8 +105,8 @@ namespace MMB.Demo.Service.Services
         public async Task ChangePasswordAsync(ChangePasswordModel model)
         {
             User domain = await DefaultRepository.FirstOrDefaultAsync(model.ID) ?? throw new MMBException("用户不存在");
-            if (!domain.Password.Equals(passwordService.EncodePassword(model.OldPassword))) throw new MMBException("旧密码错误");
-            domain.Password = passwordService.EncodePassword(model.NewPassword);
+            if (!domain.Password.Equals(PasswordManager.EncodePassword(model.OldPassword))) throw new MMBException("旧密码错误");
+            domain.Password = PasswordManager.EncodePassword(model.NewPassword);
             UnitOfWork.RegisterEdit(domain);
             await UnitOfWork.CommitAsync();
         }

@@ -1,9 +1,4 @@
-﻿using Materal.Utils.Consul;
-using Materal.Utils.Consul.ConfigModels;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.MergeBlock.Logger
+﻿namespace Materal.MergeBlock.Logger
 {
     /// <summary>
     /// Consul模块

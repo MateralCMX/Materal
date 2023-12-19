@@ -1,16 +1,4 @@
-﻿using AutoMapper;
-using Materal.MergeBlock.Abstractions;
-using Materal.MergeBlock.Domain;
-using Materal.MergeBlock.Repository;
-using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
-using Materal.Utils.Model;
-using Microsoft.Extensions.DependencyInjection;
-using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
-using System.Reflection;
-
-namespace Materal.MergeBlock.Service
+﻿namespace Materal.MergeBlock.Service
 {
     /// <summary>
     /// 基础服务实现

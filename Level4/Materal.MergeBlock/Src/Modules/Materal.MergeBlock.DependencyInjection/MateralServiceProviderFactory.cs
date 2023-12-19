@@ -1,7 +1,4 @@
-﻿using Materal.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace Materal.MergeBlock.DependencyInjection
 {

@@ -1,9 +1,9 @@
-﻿namespace Materal.MergeBlock.Abstractions
+﻿namespace Materal.MergeBlock.Abstractions.Models
 {
     /// <summary>
-    /// 修改模型
+    /// 编辑请求模型
     /// </summary>
-    public interface IEditServiceModel
+    public interface IEditRequestModel
     {
         /// <summary>
         /// 唯一标识

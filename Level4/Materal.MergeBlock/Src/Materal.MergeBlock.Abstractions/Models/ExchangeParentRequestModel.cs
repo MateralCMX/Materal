@@ -1,9 +1,9 @@
 ﻿namespace Materal.MergeBlock.Abstractions.Models
 {
     /// <summary>
-    /// 更改父级模型
+    /// 更改父级请求模型
     /// </summary>
-    public class ExchangeParentModel
+    public class ExchangeParentRequestModel
     {
         /// <summary>
         /// 唯一标识

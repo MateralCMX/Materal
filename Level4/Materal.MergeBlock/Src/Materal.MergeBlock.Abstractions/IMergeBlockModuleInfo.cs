@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Materal.MergeBlock.Abstractions
+﻿namespace Materal.MergeBlock.Abstractions
 {
     /// <summary>
     /// MergeBlock模块信息

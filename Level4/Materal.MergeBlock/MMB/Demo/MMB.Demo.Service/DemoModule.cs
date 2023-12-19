@@ -22,7 +22,6 @@ namespace MMB.Demo.Service
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.Services.Configure<ApplicationConfig>(context.Configuration);
-            context.Services.AddSingleton<IPasswordService, PasswordServiceImpl>();
             await base.OnConfigServiceAsync(context);
         }
     }

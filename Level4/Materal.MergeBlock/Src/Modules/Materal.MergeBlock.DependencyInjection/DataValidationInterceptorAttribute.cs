@@ -1,9 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.Extensions.DependencyInjection;
-using System.ComponentModel.DataAnnotations;
-using System.Reflection;
-
-namespace Materal.MergeBlock.DependencyInjection
+﻿namespace Materal.MergeBlock.DependencyInjection
 {
     /// <summary>
     /// 数据验证特性

@@ -1,9 +1,9 @@
 ﻿namespace Materal.MergeBlock.Abstractions.Models
 {
     /// <summary>
-    /// 更改父级模型
+    /// 交换索引请求模型
     /// </summary>
-    public class ExchangeParentModel
+    public class ExchangeIndexRequestModel
     {
         /// <summary>
         /// 唯一标识
@@ -13,6 +13,11 @@
         /// <summary>
         /// 目标唯一标识
         /// </summary>
-        public Guid? TargetID { get; set; }
+        [Required(ErrorMessage = "目标唯一标识为空")]
+        public Guid TargetID { get; set; }
+        /// <summary>
+        /// 是否在目标之前
+        /// </summary>
+        public bool Before { get; set; } = false;
     }
 }

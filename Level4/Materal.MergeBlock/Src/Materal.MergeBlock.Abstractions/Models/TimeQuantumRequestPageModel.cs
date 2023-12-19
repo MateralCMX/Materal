@@ -3,7 +3,7 @@
     /// <summary>
     /// 时间段请求模型
     /// </summary>
-    public class TimeQuantumPageModel : PageRequestModel
+    public class TimeQuantumRequestPageModel : PageRequestModel
     {
         /// <summary>
         /// 最小时间点

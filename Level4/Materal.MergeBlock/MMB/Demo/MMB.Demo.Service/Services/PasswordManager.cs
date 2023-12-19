@@ -1,9 +1,9 @@
 ﻿namespace MMB.Demo.Service.Services
 {
     /// <summary>
-    /// 密码服务
+    /// 密码管理器
     /// </summary>
-    public class PasswordServiceImpl : IPasswordService
+    public static class PasswordManager
     {
         /// <summary>
         /// 加密密码
@@ -11,6 +11,6 @@
         /// <param name="password"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public string EncodePassword(string password) => $"Materal{password}Materal".ToMd5_32Encode();
+        public static string EncodePassword(string password) => $"Materal{password}Materal".ToMd5_32Encode();
     }
 }

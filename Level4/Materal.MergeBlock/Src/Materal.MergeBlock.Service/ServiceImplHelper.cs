@@ -1,13 +1,4 @@
-﻿using Materal.MergeBlock.Abstractions;
-using Materal.MergeBlock.Abstractions.Models;
-using Materal.MergeBlock.Domain;
-using Materal.MergeBlock.Repository;
-using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
-using System.Linq.Expressions;
-using System.Reflection;
-
-namespace Materal.MergeBlock.Service
+﻿namespace Materal.MergeBlock.Service
 {
     /// <summary>
     /// 服务实现帮助

@@ -1,7 +1,4 @@
-﻿using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
-
-namespace Materal.MergeBlock.Repository
+﻿namespace Materal.MergeBlock.Repository
 {
     /// <summary>
     /// 核心工作单元

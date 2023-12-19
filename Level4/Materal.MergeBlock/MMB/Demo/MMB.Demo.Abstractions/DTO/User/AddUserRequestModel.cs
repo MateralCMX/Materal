@@ -1,20 +1,10 @@
-namespace MBC.Demo.DataTransmitModel.User
+namespace MBC.Demo.PresentationModel.User
 {
     /// <summary>
-    /// 用户列表数据传输模型
+    /// 用户添加请求模型
     /// </summary>
-    public partial class UserListDTO: IListDTO
+    public partial class AddUserRequestModel : IAddRequestModel
     {
-        /// <summary>
-        /// 唯一标识
-        /// </summary>
-        [Required(ErrorMessage = "唯一标识为空")]
-        public Guid ID { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        [Required(ErrorMessage = "创建时间为空")]
-        public DateTime CreateTime { get; set; }
         /// <summary>
         /// 姓名
         /// </summary>

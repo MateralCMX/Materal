@@ -1,6 +1,4 @@
-﻿using Materal.Extensions.DependencyInjection;
-
-namespace Materal.MergeBlock.DependencyInjection
+﻿namespace Materal.MergeBlock.DependencyInjection
 {
     /// <summary>
     /// 依赖注入模块

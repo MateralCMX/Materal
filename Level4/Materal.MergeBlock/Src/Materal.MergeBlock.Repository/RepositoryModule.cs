@@ -1,12 +1,4 @@
-﻿using Materal.MergeBlock.Abstractions;
-using Materal.TTA.Common;
-using Materal.TTA.Common.Model;
-using Materal.TTA.EFRepository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.MergeBlock.Repository
+﻿namespace Materal.MergeBlock.Repository
 {
     /// <summary>
     /// 仓储模块

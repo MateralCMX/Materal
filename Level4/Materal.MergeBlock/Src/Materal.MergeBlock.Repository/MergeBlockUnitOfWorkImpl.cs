@@ -1,8 +1,4 @@
-﻿using Materal.MergeBlock.Domain;
-using Materal.TTA.EFRepository;
-using Microsoft.EntityFrameworkCore;
-
-namespace Materal.MergeBlock.Repository
+﻿namespace Materal.MergeBlock.Repository
 {
     /// <summary>
     /// 工作单元

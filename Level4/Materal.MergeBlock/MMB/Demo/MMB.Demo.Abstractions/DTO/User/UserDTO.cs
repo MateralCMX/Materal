@@ -1,3 +1,5 @@
+using Materal.MergeBlock.Abstractions.Models;
+
 namespace MBC.Demo.DataTransmitModel.User
 {
     /// <summary>

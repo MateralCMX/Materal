@@ -1,10 +1,6 @@
-﻿using Materal.Utils;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using System.Reflection;
 
 namespace Materal.MergeBlock
 {

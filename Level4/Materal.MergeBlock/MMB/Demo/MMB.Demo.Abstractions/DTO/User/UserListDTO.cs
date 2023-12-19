@@ -1,17 +1,22 @@
 using Materal.MergeBlock.Abstractions.Models;
 
-namespace MMB.Demo.Abstractions.Services.Models.User
+namespace MBC.Demo.DataTransmitModel.User
 {
     /// <summary>
-    /// 用户修改模型
+    /// 用户列表数据传输模型
     /// </summary>
-    public partial class EditUserModel : IEditServiceModel
+    public partial class UserListDTO: IListDTO
     {
         /// <summary>
         /// 唯一标识
         /// </summary>
         [Required(ErrorMessage = "唯一标识为空")]
         public Guid ID { get; set; }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        [Required(ErrorMessage = "创建时间为空")]
+        public DateTime CreateTime { get; set; }
         /// <summary>
         /// 姓名
         /// </summary>

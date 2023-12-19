@@ -1,4 +1,4 @@
-﻿namespace Materal.MergeBlock.Abstractions
+﻿namespace Materal.MergeBlock.Abstractions.Models
 {
     /// <summary>
     /// 查询模型

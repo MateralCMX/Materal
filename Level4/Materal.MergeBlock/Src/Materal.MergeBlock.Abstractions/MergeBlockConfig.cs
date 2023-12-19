@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace Materal.MergeBlock.Abstractions
+﻿namespace Materal.MergeBlock.Abstractions
 {
     /// <summary>
     /// 应用程序配置模型

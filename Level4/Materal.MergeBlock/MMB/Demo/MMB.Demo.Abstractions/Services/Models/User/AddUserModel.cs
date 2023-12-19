@@ -1,3 +1,5 @@
+using Materal.MergeBlock.Abstractions.Models;
+
 namespace MMB.Demo.Abstractions.Services.Models.User
 {
     /// <summary>

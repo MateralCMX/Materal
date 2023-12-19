@@ -1,7 +1,4 @@
-﻿using Materal.Logger;
-using Microsoft.Extensions.Configuration;
-
-namespace Materal.MergeBlock.Logger
+﻿namespace Materal.MergeBlock.Logger
 {
     /// <summary>
     /// 日志模块

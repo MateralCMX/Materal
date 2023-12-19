@@ -3,7 +3,7 @@
     /// <summary>
     /// 时间段请求模型
     /// </summary>
-    public class TimeQuantumAndOperationUserIDModel : TimeQuantumModel
+    public class TimeQuantumAndOperationUserIDRequestModel : TimeQuantumRequestModel
     {
         /// <summary>
         /// 操作用户唯一标识

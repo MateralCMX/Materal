@@ -1,15 +1,4 @@
-﻿using Materal.MergeBlock.EventBus;
-using Materal.TFMS.EventBus;
-using Materal.TFMS.EventBus.Extensions;
-using Materal.TFMS.EventBus.RabbitMQ;
-using Materal.TFMS.EventBus.RabbitMQ.Extensions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using RabbitMQ.Client;
-
-namespace Materal.MergeBlock.Logger
+﻿namespace Materal.MergeBlock.EventBus
 {
     /// <summary>
     /// 日志模块

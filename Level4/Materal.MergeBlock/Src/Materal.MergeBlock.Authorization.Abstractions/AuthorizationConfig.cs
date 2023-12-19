@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Materal.MergeBlock.Authorization.Abstractions
+﻿namespace Materal.MergeBlock.Authorization.Abstractions
 {
     /// <summary>
     /// 鉴权配置模型

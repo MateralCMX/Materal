@@ -1,11 +1,14 @@
+#nullable enable
+using System.ComponentModel.DataAnnotations;
 using Materal.MergeBlock.Abstractions.Models;
+using MBC.Demo.Enums;
 
-namespace MMB.Demo.Abstractions.Services.Models.User
+namespace MBC.Demo.PresentationModel.User
 {
     /// <summary>
-    /// 用户修改模型
+    /// 用户修改请求模型
     /// </summary>
-    public partial class EditUserModel : IEditServiceModel
+    public partial class EditUserRequestModel : IEditRequestModel
     {
         /// <summary>
         /// 唯一标识

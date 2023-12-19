@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Web.Script.Services;
 using System.Web.Services;
 
 namespace WebService.Server
@@ -8,9 +10,9 @@ namespace WebService.Server
     /// </summary>
     [WebService(Namespace = "http://WebService.Server/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
-    [System.ComponentModel.ToolboxItem(false)]
+    [ToolboxItem(false)]
     // 若要允许使用 ASP.NET AJAX 从脚本中调用此 Web 服务，请取消注释以下行。 
-    // [System.Web.Script.Services.ScriptService]
+    [ScriptService]
     public class WebService1 : System.Web.Services.WebService
     {
         [WebMethod]

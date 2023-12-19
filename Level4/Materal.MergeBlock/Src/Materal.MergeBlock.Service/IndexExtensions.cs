@@ -1,6 +1,4 @@
-﻿using Materal.MergeBlock.Domain;
-
-namespace Materal.MergeBlock.Service
+﻿namespace Materal.MergeBlock.Service
 {
     /// <summary>
     /// 位序扩展
