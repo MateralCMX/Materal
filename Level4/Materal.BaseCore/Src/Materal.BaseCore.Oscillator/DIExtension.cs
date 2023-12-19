@@ -33,7 +33,7 @@ namespace Materal.BaseCore.Oscillator
         /// <exception cref="MateralCoreException"></exception>
         public static IServiceCollection AddOscillator(this IServiceCollection services, IDBConfigModel dBConfigModel, params Assembly[] scheduleAssemblies)
         {
-            OscillatorDIExtension.AddOscillator(services);
+            OscillatorDIExtension.AddOscillator(services, scheduleAssemblies);
             if(dBConfigModel is SqliteConfigModel sqliteConfig)
             {
                 services.AddOscillatorSqliteEFRepository(sqliteConfig);

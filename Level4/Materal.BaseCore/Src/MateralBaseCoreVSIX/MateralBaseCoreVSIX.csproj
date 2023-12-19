@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Materal.Utils.Windows">
-			<Version>1.1.66</Version>
+      <Version>1.1.72</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.6.36389" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
