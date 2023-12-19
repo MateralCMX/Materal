@@ -5,7 +5,21 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsPackable>true</IsPackable>
+		<Version>1.1.72</Version>
+		<Company>古典部工作室</Company>
+		<Product>Materal.MergeBlock.Oscillator</Product>
+		<Authors>Materal</Authors>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
+		<Title>Materal.MergeBlock.Oscillator</Title>
+		<Description>Materal.MergeBlock调度器模组</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>
@@ -17,6 +31,6 @@
 		<PackageReference Include="Materal.Oscillator.SqliteEFRepository" Version="1.1.72" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Materal.MergeBlock.Oscillator.Abstractions\Materal.MergeBlock.Oscillator.Abstractions.csproj" />
+	  <ProjectReference Include="..\Materal.MergeBlock.Oscillator.Abstractions\Materal.MergeBlock.Oscillator.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

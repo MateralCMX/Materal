@@ -14,13 +14,13 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.Authorization\Materal.MergeBlock.Authorization.csproj" />
-		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj" />
-		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.DependencyInjection\Materal.MergeBlock.DependencyInjection.csproj" />
-		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
-		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
-		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.Oscillator\Materal.MergeBlock.Oscillator.csproj" />
-		<ProjectReference Include="..\..\..\Src\Modules\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Authorization\Materal.MergeBlock.Authorization.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.DependencyInjection\Materal.MergeBlock.DependencyInjection.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Oscillator\Materal.MergeBlock.Oscillator.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
 		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
 		<ProjectReference Include="..\MMB.Demo.Appllication\MMB.Demo.Appllication.csproj" />
 	</ItemGroup>

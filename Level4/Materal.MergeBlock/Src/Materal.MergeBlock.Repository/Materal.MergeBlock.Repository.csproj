@@ -5,9 +5,23 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsPackable>true</IsPackable>
+		<Version>1.1.72</Version>
+		<Company>古典部工作室</Company>
+		<Product>Materal.MergeBlock.Repository</Product>
+		<Authors>Materal</Authors>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
+		<Title>Materal.MergeBlock.Repository</Title>
+		<Description>Materal.MergeBlock仓储库</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Materal.TTA.EFRepository" Version="1.1.72" />
+		<None Include="../../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.72" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />

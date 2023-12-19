@@ -5,7 +5,21 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsPackable>true</IsPackable>
+		<Version>1.1.72</Version>
+		<Company>古典部工作室</Company>
+		<Product>Materal.MergeBlock</Product>
+		<Authors>Materal</Authors>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
+		<Title>Materal.MergeBlock</Title>
+		<Description>Materal.MergeBlock运行库</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 	  <NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>

@@ -1,4 +1,4 @@
-namespace MMB.Demo.EFRepository.RepositoryImpl
+namespace MMB.Demo.Repository.Repositories
 {
     /// <summary>
     /// 用户仓储实现
