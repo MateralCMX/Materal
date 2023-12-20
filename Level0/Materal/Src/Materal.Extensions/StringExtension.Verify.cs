@@ -1,5 +1,6 @@
 ﻿using Materal.Extensions;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace System
 {
@@ -107,17 +108,34 @@ namespace System
         /// <returns></returns>
         public static bool IsJson(this string obj) => IsObjectJson(obj) || IsArrayJson(obj);
         /// <summary>
-        /// 验证输入字符串是否为Json
+        /// 验证输入字符串是否为Json对象
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static bool IsObjectJson(this string obj) => obj.StartsWith("{") && obj.EndsWith("}");
+        public static bool IsObjectJson(this string obj) => obj.StartsWith('{') && obj.EndsWith('}');
         /// <summary>
-        /// 验证输入字符串是否为Json
+        /// 验证输入字符串是否为Json数组
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static bool IsArrayJson(this string obj) => obj.StartsWith("[") && obj.EndsWith("]");
+        public static bool IsArrayJson(this string obj) => obj.StartsWith('[') && obj.EndsWith(']');
+        /// <summary>
+        /// 验证输入字符串是否为Xml
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool IsXml(this string obj)
+        {
+            try
+            {
+                XDocument.Parse(obj);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// 验证输入字符串是否为16进制颜色
         /// </summary>
@@ -758,7 +776,7 @@ namespace System
                 return false;//数字验证  
             }
             const string address = "11x22x35x44x53x12x23x36x45x54x13x31x37x46x61x14x32x41x50x62x15x33x42x51x63x21x34x43x52x64x65x71x81x82x91";
-            if (address.IndexOf(obj.Remove(2), StringComparison.Ordinal) == -1)
+            if (!address.Contains(obj.Remove(2)))
             {
                 return false;//省份验证  
             }
@@ -777,7 +795,7 @@ namespace System
             }
 
             Math.DivRem(sum, 11, out int y);
-            return arrVarifyCode[y] == obj.Substring(17, 1).ToLower();
+            return arrVarifyCode[y].Equals(obj.Substring(17, 1), StringComparison.CurrentCultureIgnoreCase);
         }
         /// <summary>  
         /// 15位身份证号码验证  
@@ -794,7 +812,7 @@ namespace System
                 return false;//数字验证  
             }
             const string address = "11x22x35x44x53x12x23x36x45x54x13x31x37x46x61x14x32x41x50x62x15x33x42x51x63x21x34x43x52x64x65x71x81x82x91";
-            if (address.IndexOf(obj.Remove(2), StringComparison.Ordinal) == -1)
+            if (!address.Contains(obj.Remove(2)))
             {
                 return false;//省份验证  
             }

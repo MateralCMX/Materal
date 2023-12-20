@@ -1,7 +1,9 @@
 ﻿using System.Collections;
+using System.Data;
 using System.Dynamic;
 using System.Reflection;
 using System.Text.Json;
+using System.Xml;
 
 namespace System
 {
@@ -21,6 +23,7 @@ namespace System
             if (obj is string stringValue) return stringValue.ToExpandoObject();
             if (obj is JsonElement jsonElement) return jsonElement.ToExpandoObject();
             if (obj is IEnumerable enumerable) return enumerable.ToExpandoObject();
+            if (obj is DataTable dataTable) return dataTable.ToExpandoObject();
             if (!obj.GetType().IsClass) return obj;
             ExpandoObject result = new();
             foreach (PropertyInfo propertyInfo in obj.GetType().GetProperties())
@@ -48,9 +51,76 @@ namespace System
             {
                 return (object)stringValue.JsonToDeserializeObject<ExpandoObject>() ?? stringValue;
             }
+            else if (stringValue.IsXml())
+            {
+                XmlDocument xmlDocument = new();
+                xmlDocument.LoadXml(stringValue);
+                return xmlDocument.ToExpandoObject();
+            }
             else
             {
                 return stringValue;
+            }
+        }
+        /// <summary>
+        /// 转换为动态对象
+        /// </summary>
+        /// <param name="document"></param>
+        /// <returns></returns>
+        public static object? ToExpandoObject(this XmlDocument document) => document.ChildNodes.ToExpandoObject();
+        /// <summary>
+        /// 转换为动态对象
+        /// </summary>
+        /// <param name="xmlNodes"></param>
+        /// <returns></returns>
+        public static object? ToExpandoObject(this XmlNodeList xmlNodes)
+        {
+            List<string> names = [];
+            bool isArray = false;
+            foreach (XmlNode xmlNode in xmlNodes)
+            {
+                if (names.Contains(xmlNode.Name))
+                {
+                    isArray = true;
+                    break;
+                }
+                names.Add(xmlNode.Name);
+            }
+            if (!isArray)
+            {
+                ExpandoObject result = new();
+                foreach (XmlNode xmlNode in xmlNodes)
+                {
+                    result.TryAdd(xmlNode.Name, xmlNode.ToExpandoObject());
+                }
+                return result;
+            }
+            else
+            {
+                List<object?> result = [];
+                foreach (XmlNode xmlNode in xmlNodes)
+                {
+                    result.Add(xmlNode.ToExpandoObject());
+                }
+                return result;
+            }
+        }
+        /// <summary>
+        /// 转换为动态对象
+        /// </summary>
+        /// <param name="xmlNode"></param>
+        /// <returns></returns>
+        public static object? ToExpandoObject(this XmlNode xmlNode)
+        {
+            if (xmlNode.ChildNodes.Count > 0)
+            {
+                if (xmlNode.ChildNodes.Count == 1 && xmlNode.FirstChild is XmlText xmlText) return xmlText.Value?.ToExpandoObject();
+                object? value = xmlNode.ChildNodes.ToExpandoObject();
+                return value;
+            }
+            else
+            {
+                return xmlNode.Value?.ToExpandoObject();
             }
         }
         /// <summary>
@@ -101,6 +171,13 @@ namespace System
         {
             if (dictionary is null) return null;
             ExpandoObject result = new();
+            List<string> keys = [];
+            foreach (object? keyObj in dictionary.Keys)
+            {
+                string? key = keyObj is string keyValue ? keyValue : keyObj.ToString();
+                if (key is null) continue;
+                if (keys.Contains(key)) return dictionary;
+            }
             foreach (object? item in dictionary)
             {
                 if (item is null || item is not DictionaryEntry dictionaryEntry) continue;
@@ -108,6 +185,37 @@ namespace System
                 string? key = keyObj is string keyValue ? keyValue : keyObj.ToString();
                 if (key is null) continue;
                 result.TryAdd(key, dictionaryEntry.Value.ToExpandoObject());
+            }
+            return result;
+        }
+        /// <summary>
+        /// 转换为动态对象
+        /// </summary>
+        /// <param name="dataTable"></param>
+        /// <returns></returns>
+        public static object? ToExpandoObject(this DataTable dataTable)
+        {
+            List<ExpandoObject> list = [];
+            foreach (DataRow row in dataTable.Rows)
+            {
+                ExpandoObject value = row.ToExpandoObject(dataTable.Columns);
+                list.Add(value);
+            }
+            return list;
+        }
+        /// <summary>
+        /// 转换为动态对象
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="dataColumns"></param>
+        /// <returns></returns>
+        public static ExpandoObject ToExpandoObject(this DataRow row, DataColumnCollection dataColumns)
+        {
+            ExpandoObject result = new();
+            for (int i = 0; i < dataColumns.Count; i++)
+            {
+                object value = row[i];
+                result.TryAdd(dataColumns[i].ColumnName, value.ToExpandoObject());
             }
             return result;
         }

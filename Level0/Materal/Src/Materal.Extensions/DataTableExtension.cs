@@ -195,5 +195,24 @@ namespace System.Data
             }
             return result;
         }
+        /// <summary>
+        /// 转换为字典
+        /// </summary>
+        /// <param name="dataTable"></param>
+        /// <returns></returns>
+        public static List<Dictionary<string, object?>> ToDictionaries(this DataTable dataTable)
+        {
+            List<Dictionary<string, object?>> list = [];
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Dictionary<string, object?> dictionary = [];
+                for (int i = 0; i < dataTable.Columns.Count; i++)
+                {
+                    dictionary.Add(dataTable.Columns[i].ColumnName, row[i]);
+                }
+                list.Add(dictionary);
+            }
+            return list;
+        }
     }
 }
