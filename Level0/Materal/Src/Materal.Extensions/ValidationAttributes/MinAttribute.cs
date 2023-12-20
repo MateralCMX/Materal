@@ -72,7 +72,7 @@
                     _ => false,
                 };
             }
-            else if(MinValue is DateTime minDateTimeValue && value != null && value is DateTime dateTimeValue)
+            else if(MinValue is DateTime minDateTimeValue && value is not null && value is DateTime dateTimeValue)
             {
                 result = dateTimeValue >= minDateTimeValue;
             }

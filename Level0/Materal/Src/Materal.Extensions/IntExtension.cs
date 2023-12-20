@@ -26,12 +26,12 @@ namespace System
                 [8] = "八",
                 [9] = "九",
             },
-            Units = new()
-            {
+            Units =
+            [
                 "",
                 "万",
                 "亿"
-            },
+            ],
             Extend = new()
             {
                 [0] = "千",
@@ -57,12 +57,12 @@ namespace System
                 [8] = "捌",
                 [9] = "玖",
             },
-            Units = new()
-            {
+            Units =
+            [
                 "",
                 "万",
                 "亿"
-            },
+            ],
             Extend = new()
             {
                 [0] = "仟",
@@ -82,13 +82,13 @@ namespace System
             StringBuilder result = new();
             if (number < 0)
             {
-                result.Append("负");
+                result.Append('负');
                 number *= -1;
             }
             else if (number == 0) return "零";
             model ??= SimplifiedChineseModel;
             Dictionary<int, string> chineseNumberDictionary = model.Numbers;
-            List<int> numbers = new();
+            List<int> numbers = [];
             while (number > 0)
             {
                 numbers.Add(number % 10);
@@ -98,7 +98,7 @@ namespace System
             {
                 numbers.Add(0);
             }
-            List<string> chineseNumbers = new();
+            List<string> chineseNumbers = [];
             string nowChineseNumber = string.Empty;
             int temp = 0;
             for (int i = numbers.Count - 1; i >= 0; i--)
@@ -118,7 +118,7 @@ namespace System
                 Handler(chineseNumber, temp++, model);
             }
             result.Append(string.Join("", chineseNumbers));
-            if (result[result.Length - 1] == '零')
+            if (result[^1] == '零')
             {
                 result.Remove(result.Length - 1, 1);
             }

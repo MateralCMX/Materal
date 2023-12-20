@@ -41,7 +41,7 @@ namespace System
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        public static string ToHexStr(this byte[] bytes) => bytes == null ? string.Empty : bytes.Aggregate(string.Empty, (current, item) => current + item.ToString("X2"));
+        public static string ToHexStr(this byte[] bytes) => bytes is null ? string.Empty : bytes.Aggregate(string.Empty, (current, item) => current + item.ToString("X2"));
         /// <summary>
         /// 文本转换为二进制字符
         /// </summary>
@@ -82,7 +82,7 @@ namespace System
         /// <returns></returns>
         public static string ToSHA256_64Encode(this string inputStr, bool isLower = false)
         {
-            if (inputStr == null) throw new ArgumentNullException(nameof(inputStr));
+            if (inputStr is null) throw new ArgumentNullException(nameof(inputStr));
             using SHA256 sha256 = SHA256.Create();
             byte[] output = sha256.ComputeHash(Encoding.Default.GetBytes(inputStr));
             string outputStr = BitConverter.ToString(output).Replace("-", "");
@@ -97,7 +97,7 @@ namespace System
         /// <returns></returns>
         public static string ToSHA1_40Encode(this string inputStr, bool isLower = false)
         {
-            if (inputStr == null) throw new ArgumentNullException(nameof(inputStr));
+            if (inputStr is null) throw new ArgumentNullException(nameof(inputStr));
             using SHA1 sha1 = SHA1.Create();
             byte[] output = sha1.ComputeHash(Encoding.Default.GetBytes(inputStr));
             string outputStr = BitConverter.ToString(output).Replace("-", "");
@@ -112,7 +112,7 @@ namespace System
         /// <returns></returns>
         public static string ToMd5_32Encode(this string inputStr, bool isLower = false)
         {
-            if (inputStr == null) throw new ArgumentNullException(nameof(inputStr));
+            if (inputStr is null) throw new ArgumentNullException(nameof(inputStr));
             using MD5 md5 = MD5.Create();
             byte[] output = md5.ComputeHash(Encoding.Default.GetBytes(inputStr));
             string outputStr = BitConverter.ToString(output).Replace("-", "");

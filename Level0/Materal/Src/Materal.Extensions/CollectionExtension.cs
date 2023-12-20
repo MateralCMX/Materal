@@ -49,8 +49,8 @@ namespace System.Collections.Generic
 
             public bool Equals(T? x, T? y)
             {
-                if (x == null && y == null) return true;
-                else if (x == null || y == null) return false;
+                if (x is null && y is null) return true;
+                else if (x is null || y is null) return false;
                 return _func(x, y);
             }
 

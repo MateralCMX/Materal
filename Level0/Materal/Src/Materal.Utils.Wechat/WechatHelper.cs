@@ -1,5 +1,4 @@
 ﻿using LitJson;
-using Materal.Abstractions;
 using Materal.Utils.Http;
 using Materal.Utils.Wechat.Model;
 using Materal.Utils.Wechat.Model.Result;
@@ -60,7 +59,7 @@ namespace Materal.Utils.Wechat
         /// <param name="httpResult"></param>
         /// <returns></returns>
         /// <exception cref="WechatException"></exception>
-        protected JsonData HandlerHttpResult(string httpResult)
+        protected static JsonData HandlerHttpResult(string httpResult)
         {
             JsonData jsonData = JsonMapper.ToObject(httpResult);
             int? errcode = jsonData.GetInt("errcode");
@@ -73,9 +72,9 @@ namespace Materal.Utils.Wechat
         /// </summary>
         /// <param name="jsonData"></param>
         /// <returns></returns>
-        protected WechatException GetWechatException(JsonData jsonData)
+        protected static WechatException GetWechatException(JsonData jsonData)
         {
-            int? errcode = jsonData.GetInt("errcode");
+            int errcode = jsonData.GetInt("errcode") ?? 500;
             string message = jsonData.GetString("errmsg") ?? "无返回错误消息";
             return new WechatException(message, errcode.ToString());
         }

@@ -90,7 +90,7 @@ namespace System
             if (IsDefaultType(model)) return;
             object? memberValue = memberInfo.GetValue(model);
             Validation(memberValue, memberInfo.GetCustomAttributes<ValidationAttribute>(), validationAttribute => NewException(validationAttribute, prefix, memberInfo, memberValue));
-            if (memberValue == null || IsDefaultType(memberValue)) return;
+            if (memberValue is null || IsDefaultType(memberValue)) return;
             string nextPrefix = memberInfo.Name;
             if (!string.IsNullOrWhiteSpace(prefix))
             {
@@ -101,7 +101,7 @@ namespace System
                 int index = 0;
                 foreach (object? item in collection)
                 {
-                    if (memberValue == null || IsDefaultType(item)) continue;
+                    if (memberValue is null || IsDefaultType(item)) continue;
                     item.Validation($"{nextPrefix}[{index}]");
                 }
             }
@@ -149,7 +149,7 @@ namespace System
                 }
                 else if (validationAttribute is RequiredAttribute requiredAttribute)
                 {
-                    if (value == null) throw newException(validationAttribute);
+                    if (value is null) throw newException(validationAttribute);
                     switch (value)
                     {
                         case Guid guid when guid == Guid.Empty:

@@ -85,10 +85,7 @@ namespace Materal.Utils.Http
             byte[] responseContent = await SendByBytesAsync(httpRequestMessage, httpResponseMessage);
             try
             {
-                Encoding encoding = httpResponseMessage.Content.Headers.ContentType.CharSet == null ?
-                    Encoding.Default :
-                    Encoding.GetEncoding(httpResponseMessage.Content.Headers.ContentType.CharSet);
-                string result = encoding.GetString(responseContent);
+                string result = await httpResponseMessage.Content.ReadAsStringAsync();
                 return result;
             }
             catch (Exception ex)
@@ -117,14 +114,14 @@ namespace Materal.Utils.Http
                     Method = httpMethod,
                     Version = httpVersion ?? HttpVersion.Version11
                 };
-                if (headers != null)
+                if (headers is not null)
                 {
                     foreach (KeyValuePair<string, string> header in headers)
                     {
                         httpRequestMessage.Headers.Add(header.Key, header.Value);
                     }
                 }
-                if (httpContent != null)
+                if (httpContent is not null)
                 {
                     httpRequestMessage.Content = httpContent;
                 }
@@ -152,7 +149,7 @@ namespace Materal.Utils.Http
             encoding ??= Encoding.UTF8;
             try
             {
-                if (data == null) return await SendHttpContentAsync(url, httpMethod, null, headers, httpVersion);
+                if (data is null) return await SendHttpContentAsync(url, httpMethod, null, headers, httpVersion);
                 else if (data is HttpContent content) return await SendHttpContentAsync(url, httpMethod, content, headers, httpVersion);
                 else if (data is byte[] buffer)
                 {
@@ -200,7 +197,7 @@ namespace Materal.Utils.Http
         public async Task<string> SendAsync(string url, HttpMethod httpMethod, Dictionary<string, string>? queryArgs = null, object? data = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Version? httpVersion = null)
         {
             string trueUrl = url;
-            if (queryArgs != null && queryArgs.Count > 0)
+            if (queryArgs is not null && queryArgs.Count > 0)
             {
                 try
                 {
@@ -229,7 +226,7 @@ namespace Materal.Utils.Http
         public async Task<T> SendAsync<T>(string url, HttpMethod httpMethod, Dictionary<string, string>? queryArgs = null, object? data = null, Dictionary<string, string>? headers = null, Encoding? encoding = null, Version? httpVersion = null)
         {
             string trueUrl = url;
-            if (queryArgs != null && queryArgs.Count > 0)
+            if (queryArgs is not null && queryArgs.Count > 0)
             {
                 try
                 {
@@ -480,7 +477,7 @@ namespace Materal.Utils.Http
         /// <param name="httpResult"></param>
         /// <returns></returns>
         /// <exception cref="MateralHttpException"></exception>
-        private T GetResultObject<T>(string httpResult)
+        private static T GetResultObject<T>(string httpResult)
         {
             if (httpResult.IsJson()) return httpResult.JsonToDeserializeObject<T>();
             throw new MateralHttpException("暂不支持非Json返回转换");

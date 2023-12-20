@@ -34,7 +34,7 @@ namespace System.Reflection
             where T : Attribute
         {
             Attribute? attr = propertyInfo.GetCustomAttribute<T>();
-            return attr != null;
+            return attr is not null;
         }
     }
 }

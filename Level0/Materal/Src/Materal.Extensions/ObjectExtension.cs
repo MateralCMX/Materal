@@ -68,7 +68,7 @@ namespace System
         /// <typeparam name="T"></typeparam>
         /// <param name="input"></param>
         /// <returns></returns>
-        private static Func<object, object?> WrapValueConvert<T>(Func<object, T?> input)  => i => input(i);
+        private static Func<object, object?> WrapValueConvert<T>(Func<object, T?> input) => i => input(i);
         /// <summary>
         /// 属性复制sourceM->targetM
         /// </summary>
@@ -112,7 +112,7 @@ namespace System
         /// <param name="target">复制目标对象</param>
         /// <param name="notCopyPropertyNames">不复制的属性名称</param>
         /// <returns>复制的对象</returns>
-        public static void CopyProperties<T>(this object source, T target, params string[] notCopyPropertyNames) 
+        public static void CopyProperties<T>(this object source, T target, params string[] notCopyPropertyNames)
             => CopyProperties(source, target, (prop, _) => !notCopyPropertyNames.Contains(prop.Name));
         /// <summary>
         /// 属性复制
@@ -152,7 +152,7 @@ namespace System
             if (obj is null) return !targetType.IsValueType ? null : throw new ArgumentNullException(nameof(obj), "不能将null转换为" + targetType.Name);
             if (obj.IsNullOrWhiteSpaceString()) return obj is string stringObj && targetType == typeof(string) ? stringObj : null;
             if (obj.GetType() == targetType || targetType.IsInstanceOfType(obj)) return obj;
-            if (_convertDictionary.ContainsKey(targetType)) return _convertDictionary[targetType](obj);
+            if (_convertDictionary.TryGetValue(targetType, out Func<object, object?>? value)) return value(obj);
             try
             {
                 return Convert.ChangeType(obj, targetType);
@@ -183,7 +183,7 @@ namespace System
         public static T? CloneByXml<T>(this T inputObj)
             where T : notnull
         {
-            object result;
+            object? result;
             using (var ms = new MemoryStream())
             {
                 var xml = new XmlSerializer(typeof(T));
@@ -192,7 +192,7 @@ namespace System
                 result = xml.Deserialize(ms);
                 ms.Close();
             }
-            return (T)result;
+            return result is null ? default : (T)result;
         }
         /// <summary>
         /// 克隆对象(反射)
@@ -209,11 +209,12 @@ namespace System
             foreach (PropertyInfo propertyInfo in propertyInfos)
             {
                 object? value = propertyInfo.GetValue(inputObj);
-                if (value == null) continue;
+                if (value is null) continue;
                 propertyInfo.SetValue(resM, value is ValueType ? value : Clone(value));
             }
             return resM;
         }
+#if NETSTANDARD
         /// <summary>
         /// 克隆对象(字节流序列化)
         /// </summary>
@@ -244,6 +245,16 @@ namespace System
             SerializableAttribute? serializableAttribute = inputObj.GetType().GetCustomAttribute<SerializableAttribute>();
             return serializableAttribute is not null ? CloneBySerializable(inputObj) : CloneByJson(inputObj);
         }
+#else
+        /// <summary>
+        /// 克隆对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputObj">输入对象</param>
+        /// <returns>克隆的对象</returns>
+        public static T? Clone<T>(this T inputObj)
+            where T : notnull => CloneByJson(inputObj);
+#endif
         #region 获得描述
         /// <summary>
         /// 描述字段名称
@@ -264,7 +275,7 @@ namespace System
             {
                 Type objType = inputObj.GetType();
                 DescriptionAttribute? attribute = objType.GetCustomAttribute<DescriptionAttribute>();
-                if (attribute != null) return attribute.Description;
+                if (attribute is not null) return attribute.Description;
                 const string descriptionName = DescriptionMemberName;
                 return inputObj.GetDescription(descriptionName);
             }
@@ -294,12 +305,12 @@ namespace System
         public static string GetDescription(this object inputObj, MemberInfo memberInfo)
         {
             DescriptionAttribute? attribute = memberInfo.GetCustomAttribute<DescriptionAttribute>();
-            if(attribute != null) return attribute.Description;
+            if (attribute is not null) return attribute.Description;
             if (inputObj is Enum @enum) return @enum.ToString();
             if (memberInfo.Name == DescriptionMemberName)
             {
                 object? value = memberInfo.GetValue(inputObj);
-                if(value != null && value is string descriptionValue)
+                if (value is not null && value is string descriptionValue)
                 {
                     return descriptionValue;
                 }
@@ -334,7 +345,7 @@ namespace System
             Type objType = inputObj.GetType();
             MemberInfo? memberInfo = objType.GetRuntimeField(memberName);
             memberInfo ??= objType.GetRuntimeProperty(memberName);
-            if (memberInfo == null) throw new ExtensionException($"未找到字段或属性{memberName}");
+            if (memberInfo is null) throw new ExtensionException($"未找到字段或属性{memberName}");
             return inputObj.GetDescription(memberInfo);
         }
         /// <summary>
@@ -397,15 +408,15 @@ namespace System
             foreach (PropertyInfo aProperty in aType.GetProperties())
             {
                 object? aValue = aProperty.GetValue(aModel);
-                if (maps.ContainsKey(aProperty.Name))
+                if (maps.TryGetValue(aProperty.Name, out Func<object?, bool>? value))
                 {
-                    bool mapResult = maps[aProperty.Name].Invoke(aValue);
+                    bool mapResult = value.Invoke(aValue);
                     if (!mapResult) return false;
                 }
                 else
                 {
                     PropertyInfo? bProperty = bType.GetProperty(aProperty.Name);
-                    if (bProperty == null || aProperty.PropertyType != bProperty.PropertyType) return false;
+                    if (bProperty is null || aProperty.PropertyType != bProperty.PropertyType) return false;
                     object? bValue = bProperty.GetValue(bModel);
                     if (aValue != bValue) return false;
                 }

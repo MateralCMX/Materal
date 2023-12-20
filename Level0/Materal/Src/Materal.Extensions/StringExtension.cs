@@ -22,11 +22,11 @@ namespace System
             foreach (Assembly assembly in assemblies)
             {
                 Type? tempType = assembly.GetTypes().Where(m => filter(m)).FirstOrDefault();
-                if (tempType == null) continue;
+                if (tempType is null) continue;
                 targetType = tempType;
                 break;
             }
-            if (targetType == null) return null;
+            if (targetType is null) return null;
             return targetType;
         }
         /// <summary>
@@ -44,13 +44,13 @@ namespace System
             foreach (Assembly assembly in assemblies)
             {
                 Type? tempType = assembly.GetTypes().Where(m => filter(m)).FirstOrDefault();
-                if (tempType == null) continue;
+                if (tempType is null) continue;
                 ConstructorInfo? constructorInfo = tempType.GetConstructor(argTypes);
-                if (constructorInfo == null) continue;
+                if (constructorInfo is null) continue;
                 targetType = tempType;
                 break;
             }
-            if (targetType == null) return null;
+            if (targetType is null) return null;
             return targetType;
         }
         /// <summary>
@@ -90,7 +90,7 @@ namespace System
         {
             if (string.IsNullOrWhiteSpace(typeName)) return null;
             Type? result = GetTypeByTypeName(typeName, args);
-            if (result == null || !result.IsAssignableTo(targetType)) return null;
+            if (result is null || !result.IsAssignableTo(targetType)) return null;
             return result;
         }
         /// <summary>

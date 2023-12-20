@@ -42,11 +42,12 @@ namespace Materal.Utils.Wechat.Model.Event
         /// <exception cref="WechatException"></exception>
         protected string GetXmlValue(string name)
         {
-            if (XmlDocument.FirstChild == null) throw new WechatException("未识别xml文档");
+            if (XmlDocument.FirstChild is null) throw new WechatException("未识别xml文档");
             XmlNodeList? nodes = XmlDocument.FirstChild.SelectNodes(name);
-            if (nodes == null || nodes.Count <= 0 || nodes[0] == null) return string.Empty;
-            XmlNode node = nodes[0];
-            return node.FirstChild != null ? node.FirstChild.Value : node.Value;
+            if (nodes is null || nodes.Count <= 0 || nodes[0] is null) return string.Empty;
+            XmlNode? node = nodes[0];
+            if (node is null) return string.Empty;
+            return (node.FirstChild is not null ? node.FirstChild.Value : node.Value) ?? string.Empty;
         }
         /// <summary>
         /// 获得Xml值(时间格式)

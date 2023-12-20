@@ -1,6 +1,6 @@
 ﻿using Materal.Abstractions;
 using Materal.Utils;
-using Materal.Utils.WebServiceClient;
+using Materal.Utils.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -20,10 +20,10 @@ namespace WebService.Client
             HttpClient httpClient = new(handler);
             serviceCollection.TryAddSingleton(httpClient);
             serviceCollection.AddMateralUtils();
-            serviceCollection.AddSingleton<IWebServiceClient, WebServiceClient>();
+            serviceCollection.AddSingleton<IWebServiceHelper, WebServiceHelper>();
             MateralServices.Services = serviceCollection.BuildServiceProvider();
             IServiceProvider Services = MateralServices.Services;
-            IWebServiceClient webServiceClient = Services.GetRequiredService<IWebServiceClient>();
+            IWebServiceHelper webServiceClient = Services.GetRequiredService<IWebServiceHelper>();
             string serviceName = "GetUserByUserInfo";
             UserInfo result = new() { Name = "Materal", Age = 18 };
             UserInfo? soap1_1Result = await webServiceClient.SendSoapAsync<UserInfo>(url, serviceName, serviceNamespace, new() { ["user"] = result }, SoapVersionEnum.Soap1_1);

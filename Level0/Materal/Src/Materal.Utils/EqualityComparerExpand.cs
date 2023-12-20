@@ -6,28 +6,19 @@ namespace Materal.Utils
     /// 相等扩展
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class EqualityComparerExpand<T> : IEqualityComparer<T> where T : class
+    public class EqualityComparerExpand<T>(List<Expression<Func<T, object>>> expressions) : IEqualityComparer<T> where T : class
     {
-        private readonly List<Expression<Func<T, object>>> _expressions;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="expressions"></param>
-        public EqualityComparerExpand(List<Expression<Func<T, object>>> expressions)
-        {
-            _expressions = expressions;
-        }
         /// <summary>
         /// 相等
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        public bool Equals(T x, T y)
+        public bool Equals(T? x, T? y)
         {
-            if (x == null && y == null) return true;
-            else if (x == null || y == null) return false;
-            foreach (Expression<Func<T, object>> expression in _expressions)
+            if (x is null && y is null) return true;
+            else if (x is null || y is null) return false;
+            foreach (Expression<Func<T, object>> expression in expressions)
             {
                 object xValue = expression.Compile().Invoke(x);
                 object yValue = expression.Compile().Invoke(y);

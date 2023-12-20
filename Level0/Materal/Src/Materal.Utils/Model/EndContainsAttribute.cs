@@ -25,7 +25,7 @@ namespace Materal.Utils.Model
         /// <returns></returns>
         public override Expression? GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            if (value == null || value.IsNullOrEmptyString()) return null;
+            if (value is null || value.IsNullOrEmptyString()) return null;
             Expression? result = GetCallExpression(parameterExpression, propertyInfo, value, "EndsWith", targetPropertyInfo);
             return result;
         }

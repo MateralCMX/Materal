@@ -37,7 +37,7 @@ namespace Materal.Utils
         /// <param name="consoleColor"></param>
         public static void WriteLine(char[]? buffer, ConsoleColor consoleColor = ConsoleColor.Gray)
         {
-            if (buffer == null || buffer.Length == 0)
+            if (buffer is null || buffer.Length == 0)
             {
                 WriteLine(consoleColor);
             }
@@ -111,7 +111,7 @@ namespace Materal.Utils
         /// <param name="consoleColor"></param>
         public static void WriteLine(object? value, ConsoleColor consoleColor = ConsoleColor.Gray)
         {
-            if (value == null)
+            if (value is null)
             {
                 WriteLine(consoleColor);
             }
@@ -127,7 +127,7 @@ namespace Materal.Utils
         /// <param name="consoleColor"></param>
         public static void WriteLine(Exception? exception, ConsoleColor consoleColor = ConsoleColor.DarkRed)
         {
-            if (exception == null)
+            if (exception is null)
             {
                 WriteLine(consoleColor);
             }
@@ -157,7 +157,7 @@ namespace Materal.Utils
         /// <param name="args"></param>
         public static void WriteLine(string format, ConsoleColor consoleColor = ConsoleColor.Gray, params object?[]? args)
         {
-            if (args == null || args.Length == 0)
+            if (args is null || args.Length == 0)
             {
                 WriteLine(format, consoleColor);
             }
@@ -181,7 +181,7 @@ namespace Materal.Utils
         {
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = model.Color;
-            if (model.Args != null)
+            if (model.Args is not null)
             {
                 Console.WriteLine(model.Message, model.Args);
             }

@@ -34,9 +34,9 @@ namespace Materal.Abstractions
         {
             StringBuilder messageBuilder = new();
             Exception? tempException = this;
-            while (tempException != null)
+            while (tempException is not null)
             {
-                if (beforFunc != null)
+                if (beforFunc is not null)
                 {
                     string? temp = beforFunc(tempException);
                     if (!string.IsNullOrWhiteSpace(temp))
@@ -51,7 +51,7 @@ namespace Materal.Abstractions
                 {
                     messageBuilder.AppendLine(tempException.StackTrace);
                 }
-                if (afterFunc != null)
+                if (afterFunc is not null)
                 {
                     string? temp = afterFunc(tempException);
                     if (!string.IsNullOrWhiteSpace(temp))

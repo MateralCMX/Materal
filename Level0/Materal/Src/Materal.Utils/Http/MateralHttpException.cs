@@ -89,7 +89,7 @@ namespace Materal.Utils.Http
         public async Task<string?> GetHttpResponseContentText()
         {
             if (HttpResponseMessage is null) return null;
-            return await HttpResponseMessage.GetHttpResponseMessageTextAsync();
+            return await HttpResponseMessage.Content.ReadAsStringAsync();
         }
         /// <summary>
         /// <inheritdoc/>
@@ -101,14 +101,14 @@ namespace Materal.Utils.Http
             {
                 if (exception is not MateralHttpException httpException) return null;
                 StringBuilder errorMessage = new();
-                if (httpException.HttpRequestMessage != null)
+                if (httpException.HttpRequestMessage is not null)
                 {
                     errorMessage.AppendLine("Request:");
-                    if (httpException.HttpRequestMessage.RequestUri != null)
+                    if (httpException.HttpRequestMessage.RequestUri is not null)
                     {
                         errorMessage.AppendLine($"  Url:{httpException.HttpRequestMessage.RequestUri.AbsoluteUri}");
                     }
-                    if (httpException.HttpRequestMessage.Headers.Count() > 0)
+                    if (httpException.HttpRequestMessage.Headers.Any())
                     {
                         errorMessage.AppendLine($"  Headers:");
                         foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpRequestMessage.Headers)
@@ -116,9 +116,9 @@ namespace Materal.Utils.Http
                             errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
                         }
                     }
-                    if (httpException.HttpRequestMessage.Content != null)
+                    if (httpException.HttpRequestMessage.Content is not null)
                     {
-                        if (httpException.HttpRequestMessage.Content.Headers.Count() > 0)
+                        if (httpException.HttpRequestMessage.Content.Headers.Any())
                         {
                             errorMessage.AppendLine($"  ContentHeaders:");
                             foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpRequestMessage.Content.Headers)
@@ -130,13 +130,8 @@ namespace Materal.Utils.Http
                         {
                             try
                             {
-                                Encoding encoding = string.IsNullOrWhiteSpace(stringContent.Headers.ContentType.CharSet) ?
-                                        Encoding.Default :
-                                        Encoding.GetEncoding(stringContent.Headers.ContentType.CharSet);
-                                using MemoryStream memoryStream = new();
-                                stringContent.CopyToAsync(memoryStream).Wait();
-                                byte[] messageBuffer = memoryStream.ToArray();
-                                errorMessage.AppendLine($"  ContentBody:{encoding.GetString(messageBuffer)}");
+                                string message = stringContent.ReadAsStringAsync().Result;
+                                errorMessage.AppendLine($"  ContentBody:{message}");
                             }
                             catch (Exception ex)
                             {
@@ -145,11 +140,11 @@ namespace Materal.Utils.Http
                         }
                     }
                 }
-                if (httpException.HttpResponseMessage != null)
+                if (httpException.HttpResponseMessage is not null)
                 {
                     errorMessage.AppendLine("Response:");
                     errorMessage.AppendLine($"  StatusCode:{httpException.HttpResponseMessage.StatusCode}[{(int)httpException.HttpResponseMessage.StatusCode}]");
-                    if (httpException.HttpResponseMessage.Headers.Count() > 0)
+                    if (httpException.HttpResponseMessage.Headers.Any())
                     {
                         errorMessage.AppendLine($"  Headers:");
                         foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpResponseMessage.Headers)
@@ -157,24 +152,19 @@ namespace Materal.Utils.Http
                             errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
                         }
                     }
-                    if (httpException.HttpResponseMessage.Content != null && httpException.HttpResponseMessage.Content.Headers.Count() > 0)
+                    if (httpException.HttpResponseMessage.Content is not null && httpException.HttpResponseMessage.Content.Headers.Any())
                     {
                         errorMessage.AppendLine($"  ContentHeaders:");
                         foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpResponseMessage.Content.Headers)
                         {
                             errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
                         }
-                        if (httpException.HttpResponseMessage.Content.Headers.ContentLength != null && httpException.HttpResponseMessage.Content.Headers.ContentLength > 0)
+                        if (httpException.HttpResponseMessage.Content.Headers.ContentLength is not null && httpException.HttpResponseMessage.Content.Headers.ContentLength > 0)
                         {
                             try
                             {
-                                Encoding encoding = string.IsNullOrWhiteSpace(httpException.HttpResponseMessage.Content.Headers.ContentType.CharSet) ?
-                                        Encoding.Default :
-                                        Encoding.GetEncoding(httpException.HttpResponseMessage.Content.Headers.ContentType.CharSet);
-                                using MemoryStream memoryStream = new();
-                                httpException.HttpResponseMessage.Content.CopyToAsync(memoryStream).Wait();
-                                byte[] messageBuffer = memoryStream.ToArray();
-                                errorMessage.AppendLine($"  ContentBody:{encoding.GetString(messageBuffer)}");
+                                string? message = httpException.HttpRequestMessage?.Content?.ReadAsStringAsync().Result;
+                                errorMessage.AppendLine($"  ContentBody:{message}");
                             }
                             catch (Exception ex)
                             {
@@ -186,7 +176,7 @@ namespace Materal.Utils.Http
                 string result = errorMessage.ToString();
                 return result;
             }
-            if (beforFunc == null)
+            if (beforFunc is null)
             {
                 beforFunc = HttpExceptionBefor;
             }
@@ -196,9 +186,9 @@ namespace Materal.Utils.Http
                 {
                     string? message = beforFunc.Invoke(exception);
                     string? httpMessage = HttpExceptionBefor(exception);
-                    if (message == null && httpMessage != null) return httpMessage;
-                    if (message != null && httpMessage == null) return message;
-                    if (message != null && httpMessage != null)
+                    if (message is null && httpMessage is not null) return httpMessage;
+                    if (message is not null && httpMessage is null) return message;
+                    if (message is not null && httpMessage is not null)
                     {
                         message += "\r\n" + httpMessage;
                     }

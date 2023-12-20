@@ -16,7 +16,7 @@ namespace Materal.WindowsHelper
         public static bool AnyAll(string name, params RegistryKey[] registryKeys)
         {
             RegistryKey[] scope;
-            if(registryKeys == null || registryKeys.Length == 0)
+            if(registryKeys is null || registryKeys.Length == 0)
             {
                 scope = new RegistryKey[]
                 {
@@ -34,7 +34,7 @@ namespace Materal.WindowsHelper
             foreach (RegistryKey registryKey in scope)
             {
                 RegistryKey? temp = registryKey.OpenSubKey(name);
-                if (temp != null) return true;
+                if (temp is not null) return true;
             }
             return false;
         }

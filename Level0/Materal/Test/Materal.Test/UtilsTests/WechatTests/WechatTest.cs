@@ -62,7 +62,7 @@ namespace Materal.Test.UtilsTests.WechatTests
                     accessToken = null;
                 }
             }
-            if(accessToken == null)
+            if(accessToken is null)
             {
                 AccessTokenResultModel result = await GetAccessTokenByWechatAsync();
                 saveModel = new(result);

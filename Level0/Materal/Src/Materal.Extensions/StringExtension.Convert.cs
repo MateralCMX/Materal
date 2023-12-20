@@ -42,7 +42,7 @@
         public static object? GetObjectByTypeName(this string typeName, params object[] args)
         {
             Type? type = typeName.GetTypeByTypeName(args);
-            if (type == null) return null;
+            if (type is null) return null;
             return type.Instantiation(args);
         }
         /// <summary>
@@ -54,9 +54,9 @@
         public static T? GetObjectByTypeName<T>(this string typeName, params object[] args)
         {
             Type? type = typeName.GetTypeByTypeName<T>(args);
-            if (type == null) return default;
+            if (type is null) return default;
             object? typeObject = type.Instantiation(args);
-            if (typeObject == null || typeObject is not T result) return default;
+            if (typeObject is null || typeObject is not T result) return default;
             return result;
         }
         /// <summary>
@@ -70,7 +70,7 @@
         {
             Type[] argTypes = args.Select(m => m.GetType()).ToArray();
             Type? type = typeName.GetTypeByParentType(parentType, argTypes);
-            if (type == null) return null;
+            if (type is null) return null;
             return type.Instantiation(args);
         }
         /// <summary>
@@ -82,7 +82,7 @@
         public static T? GetObjectByParentType<T>(this string typeName, params object[] args)
         {
             object? obj = typeName.GetObjectByParentType(parentType: typeof(T), args);
-            if (obj == null || obj is not T result) return default;
+            if (obj is null || obj is not T result) return default;
             return result;
         }
     }

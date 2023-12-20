@@ -114,7 +114,7 @@ namespace Materal.Utils.Consul
             List<JsonProperty> jsonProperties = [.. element];
             List<string> jsonTexts = jsonProperties.Select(jsonProperty => jsonProperty.Value.ToString()).ToList();
             List<ConsulServiceModel> result = jsonTexts.Select(jsonText => jsonText.JsonToObject<ConsulServiceModel>()).ToList();
-            if (filter != null)
+            if (filter is not null)
             {
                 result = result.Where(filter).ToList();
             }
@@ -169,8 +169,8 @@ namespace Materal.Utils.Consul
         {
             try
             {
-                ConsulServiceModel? service = await GetServiceInfoAsync(m => m.ID != null && m.ID == NodeID.ToString());
-                return service != null;
+                ConsulServiceModel? service = await GetServiceInfoAsync(m => m.ID is not null && m.ID == NodeID.ToString());
+                return service is not null;
             }
             catch (Exception)
             {

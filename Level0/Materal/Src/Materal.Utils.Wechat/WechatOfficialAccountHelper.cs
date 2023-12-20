@@ -39,14 +39,14 @@ namespace Materal.Utils.Wechat
                 {"grant_type", "authorization_code"},
             };
             string httpResult = await HttpHelper.SendGetAsync($"{Config.WechatAPIUrl}sns/oauth2/access_token", queryParams);
-            JsonData jsonData = HandlerHttpResult(httpResult);
+            JsonData jsonData = WechatHelper.HandlerHttpResult(httpResult);
             WebAssessTokenResultModel result = new()
             {
-                WebAssessToken = jsonData.GetString("access_token") ?? throw GetWechatException(jsonData),
-                OpenID = jsonData.GetString("openid") ?? throw GetWechatException(jsonData),
-                ExpiresIn = jsonData.GetInt("expires_in") ?? throw GetWechatException(jsonData),
-                RefreshToken = jsonData.GetString("refresh_token") ?? throw GetWechatException(jsonData),
-                Scope = jsonData.GetString("scope") ?? throw GetWechatException(jsonData),
+                WebAssessToken = jsonData.GetString("access_token") ?? throw WechatHelper.GetWechatException(jsonData),
+                OpenID = jsonData.GetString("openid") ?? throw WechatHelper.GetWechatException(jsonData),
+                ExpiresIn = jsonData.GetInt("expires_in") ?? throw WechatHelper.GetWechatException(jsonData),
+                RefreshToken = jsonData.GetString("refresh_token") ?? throw WechatHelper.GetWechatException(jsonData),
+                Scope = jsonData.GetString("scope") ?? throw WechatHelper.GetWechatException(jsonData),
             };
             return result;
         }
@@ -70,7 +70,7 @@ namespace Materal.Utils.Wechat
                 template_id = requestModel.TemplateID,
                 url = requestModel.Url,
                 data = new Dictionary<string, object>(),
-                miniprogram = requestModel.Miniprogram == null ? null : new
+                miniprogram = requestModel.Miniprogram is null ? null : new
                 {
                     appid = requestModel.Miniprogram.AppID,
                     pagepath = requestModel.Miniprogram.PagePath
@@ -85,7 +85,7 @@ namespace Materal.Utils.Wechat
                 });
             }
             string httpResult = await HttpHelper.SendPostAsync($"{Config.WechatAPIUrl}cgi-bin/message/template/send", queryParams, data);
-            HandlerHttpResult(httpResult);
+            WechatHelper.HandlerHttpResult(httpResult);
         }
     }
 }

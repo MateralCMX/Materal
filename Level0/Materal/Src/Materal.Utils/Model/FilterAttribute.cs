@@ -43,10 +43,10 @@ namespace Materal.Utils.Model
         /// <returns></returns>
         protected Expression? GetSearchExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo, Func<Expression, Expression, Expression> func)
         {
-            if (value == null || value.IsNullOrEmptyString()) return null;
+            if (value is null || value.IsNullOrEmptyString()) return null;
             (Expression leftExpression, Expression rightExpression, Expression? otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
             Expression result = func(leftExpression, rightExpression);
-            if (otherExpression != null)
+            if (otherExpression is not null)
             {
                 result = Expression.AndAlso(otherExpression, result);
             }
@@ -65,11 +65,11 @@ namespace Materal.Utils.Model
         protected (Expression leftExpression, Expression rightExpression, Expression? otherExpression) GetLeftAndRightExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
             var isNullable = false;
-            if (targetPropertyInfo != null)
+            if (targetPropertyInfo is not null)
             {
                 string? fullName = targetPropertyInfo.PropertyType.FullName;
                 if (string.IsNullOrWhiteSpace(fullName)) throw new InvalidOperationException("获取属性名失败");
-                isNullable = fullName.IndexOf("System.Nullable", StringComparison.Ordinal) == 0;
+                isNullable = fullName.StartsWith("System.Nullable", StringComparison.Ordinal);
             }
             Expression leftExpression = GetLeftExpression(parameterExpression, propertyInfo, isNullable);
             Expression rightExpression = GetRightExpression(propertyInfo, value);
@@ -123,7 +123,7 @@ namespace Materal.Utils.Model
         /// <returns></returns>
         protected static dynamic? GetValue<T>(PropertyInfo propertyInfo, T value)
         {
-            if (value == null) return null;
+            if (value is null) return null;
             dynamic? useValue = value;
             Type propertyType = propertyInfo.PropertyType;
             if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
@@ -151,10 +151,10 @@ namespace Materal.Utils.Model
         protected Expression? GetCallExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, string methodName, PropertyInfo targetPropertyInfo)
         {
             Type propertyType = propertyInfo.PropertyType;
-            MethodInfo? methodInfo = propertyType.GetMethod(methodName, new[] { propertyType });
+            MethodInfo? methodInfo = propertyType.GetMethod(methodName, [propertyType]);
             Expression? otherExpression = null;
             Expression? result = null;
-            if (methodInfo != null)
+            if (methodInfo is not null)
             {
                 (Expression leftExpression, Expression rightExpression, otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
                 result = Expression.Call(leftExpression, methodInfo, rightExpression);
@@ -167,8 +167,8 @@ namespace Materal.Utils.Model
                     Type nullType = typeof(Nullable<>).MakeGenericType(genericType);
                     if (targetPropertyInfo.PropertyType == nullType)
                     {
-                        methodInfo = propertyType.GetMethod(methodName, new[] { genericType });
-                        if (methodInfo != null)
+                        methodInfo = propertyType.GetMethod(methodName, [genericType]);
+                        if (methodInfo is not null)
                         {
                             (Expression rightExpression, Expression leftExpression, _) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
                             result = Expression.Call(leftExpression, methodInfo, rightExpression);
@@ -180,23 +180,23 @@ namespace Materal.Utils.Model
                 }
                 else
                 {
-                    methodInfo = propertyType.GetMethod(methodName, new[] { targetPropertyInfo.PropertyType });
-                    if (methodInfo != null)
+                    methodInfo = propertyType.GetMethod(methodName, [targetPropertyInfo.PropertyType]);
+                    if (methodInfo is not null)
                     {
                         (Expression rightExpression, Expression leftExpression, otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
                         result = Expression.Call(leftExpression, methodInfo, rightExpression);
                     }
                 }
             }
-            if (result == null)
+            if (result is null)
             {
                 if(methodName == "Contains")
                 {
                     result = GetContainsCallExpression<T>(parameterExpression, propertyInfo, value, targetPropertyInfo);
                 }
             }
-            if (result == null) return null;
-            if (otherExpression != null)
+            if (result is null) return null;
+            if (otherExpression is not null)
             {
                 result = Expression.Add(otherExpression, result);
             }
@@ -207,7 +207,7 @@ namespace Materal.Utils.Model
             Expression? result = null;
             Expression? otherExpression = null;
             MethodInfo? methodInfo = typeof(Enumerable).GetMethods().FirstOrDefault(m => m.Name == "Contains" && m.GetParameters().Length == 2);
-            if (methodInfo == null) return null;
+            if (methodInfo is null) return null;
             if (targetPropertyInfo.PropertyType.IsGenericType && targetPropertyInfo.PropertyType.GenericTypeArguments.Length == 1)
             {
                 Type genericType = targetPropertyInfo.PropertyType.GenericTypeArguments.First();
@@ -228,8 +228,8 @@ namespace Materal.Utils.Model
                 (Expression rightExpression, Expression leftExpression, otherExpression) = GetLeftAndRightExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
                 result = Expression.Call(null, methodInfo, leftExpression, rightExpression);
             }
-            if (result == null) return null;
-            if (otherExpression != null)
+            if (result is null) return null;
+            if (otherExpression is not null)
             {
                 result = Expression.Add(otherExpression, result);
             }

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
@@ -21,7 +21,6 @@
 		<ProjectReference Include="..\..\Src\Materal.Utils.Excel\Materal.Utils.Excel.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils.Redis\Materal.Utils.Redis.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils.Text\Materal.Utils.Text.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.Utils.WebServiceClient\Materal.Utils.WebServiceClient.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils.Wechat\Materal.Utils.Wechat.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>

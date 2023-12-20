@@ -1,22 +1,21 @@
-﻿using Materal.Utils.Http;
-using System.Collections;
+﻿using System.Collections;
 using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Xml;
 
-namespace Materal.Utils.WebServiceClient
+namespace Materal.Utils.Http
 {
     /// <summary>
-    /// WebService客户端
+    /// WebService帮助类
     /// </summary>
-    public class WebServiceClient : IWebServiceClient
+    public class WebServiceHelper : IWebServiceHelper
     {
         private readonly IHttpHelper _httpHelper;
         /// <summary>
         /// 构造方法
         /// </summary>
-        public WebServiceClient(IHttpHelper? httpHelper = null)
+        public WebServiceHelper(IHttpHelper? httpHelper = null)
         {
             httpHelper ??= new HttpHelper();
             _httpHelper = httpHelper;
@@ -93,11 +92,11 @@ namespace Materal.Utils.WebServiceClient
             XmlDocument xmlObject = new();
             xmlObject.LoadXml(responseMessage);
             if (xmlObject.ChildNodes.Count != 2) return result;
-            XmlNode resultNode = xmlObject.ChildNodes[1];
+            XmlNode resultNode = xmlObject.ChildNodes[1] ?? throw new MateralHttpException("获取结果节点soap:Envelope失败");
             if (resultNode.Name != "soap:Envelope") throw new MateralHttpException("未找到节点soap:Envelope");
-            resultNode = resultNode.ChildNodes[0];
+            resultNode = resultNode.ChildNodes[0] ?? throw new MateralHttpException("获取结果节点soap:Body失败");
             if (resultNode.Name != "soap:Body") throw new MateralHttpException("未找到节点soap:Body");
-            resultNode = resultNode.ChildNodes[0];
+            resultNode = resultNode.ChildNodes[0] ?? throw new MateralHttpException("获取结果节点Result失败");
             return GetResult<T>(resultNode, serviceName, serviceNamespace);
         }
         /// <summary>
@@ -138,11 +137,11 @@ namespace Materal.Utils.WebServiceClient
             XmlDocument xmlObject = new();
             xmlObject.LoadXml(responseMessage);
             if (xmlObject.ChildNodes.Count != 2) return result;
-            XmlNode resultNode = xmlObject.ChildNodes[1];
+            XmlNode resultNode = xmlObject.ChildNodes[1] ?? throw new MateralHttpException("获取结果节点soap12:Envelope失败");
             if (resultNode.Name != "soap12:Envelope" && resultNode.Name != "soap:Envelope") throw new MateralHttpException("未找到节点soap12:Envelope");
-            resultNode = resultNode.ChildNodes[0];
+            resultNode = resultNode.ChildNodes[0] ?? throw new MateralHttpException("获取结果节点soap12:Body失败");
             if (resultNode.Name != "soap12:Body" && resultNode.Name != "soap:Body") throw new MateralHttpException("未找到节点soap12:Body");
-            resultNode = resultNode.ChildNodes[0];
+            resultNode = resultNode.ChildNodes[0] ?? throw new MateralHttpException("获取结果节点Result失败");
             return GetResult<T>(resultNode, serviceName, serviceNamespace);
         }
         /// <summary>
@@ -156,7 +155,7 @@ namespace Materal.Utils.WebServiceClient
         private XmlNode GetRequestNode(XmlDocument xmlObject, string serviceName, string serviceNamespace, Dictionary<string, object?>? data)
         {
             XmlNode requestNode = xmlObject.CreateElement(serviceName, serviceNamespace);
-            if(data is not null && data.Count > 0)
+            if (data is not null && data.Count > 0)
             {
                 foreach (KeyValuePair<string, object?> item in data)
                 {
@@ -252,6 +251,7 @@ namespace Materal.Utils.WebServiceClient
         {
             if (resultNode.Name != $"{serviceName}Response") throw new MateralHttpException($"未找到节点{serviceName}Response");
             bool isOK = false;
+            if (resultNode.Attributes is null) return default;
             foreach (XmlAttribute item in resultNode.Attributes)
             {
                 if (item.Name != "xmlns" || item.Value != serviceNamespace) continue;
@@ -260,6 +260,7 @@ namespace Materal.Utils.WebServiceClient
             }
             if (!isOK) throw new MateralHttpException("服务命名空间错误");
             Type tType = typeof(T);
+            if (resultNode.FirstChild is null) return default;
             object? nodeValue = GetNodeValue(resultNode.FirstChild, tType);
             if (nodeValue is not T result) throw new MateralHttpException("转换结果失败");
             return result;
@@ -277,7 +278,7 @@ namespace Materal.Utils.WebServiceClient
             if (propertyType.IsAssignableTo<ICollection>()) return GetNodeValueCollection(xmlNode, propertyType);
             PropertyInfo[] propertyInfos = propertyType.GetProperties();
             object? result = propertyType.Instantiation();
-            if(xmlNode.ChildNodes is not null)
+            if (xmlNode.ChildNodes is not null)
             {
                 foreach (XmlNode item in xmlNode.ChildNodes)
                 {
@@ -297,19 +298,20 @@ namespace Materal.Utils.WebServiceClient
         /// <returns></returns>
         private ICollection GetNodeValueCollection(XmlNode xmlNode, Type propertyType)
         {
-            Type elementType;
+            Type? elementType;
             Type listType;
             Func<IList, ICollection>? GetCollection = null;
             if (propertyType.IsAssignableTo<Array>())
             {
                 elementType = propertyType.GetElementType();
+                if (elementType is null) return Array.Empty<object>();
                 listType = typeof(List<>).MakeGenericType(elementType);
                 MethodInfo? toArray = listType.GetMethod("ToArray");
-                if(toArray != null)
+                if (toArray is not null)
                 {
                     GetCollection = m =>
                     {
-                        object convertValue = toArray.Invoke(m, new object[] { });
+                        object? convertValue = toArray.Invoke(m, []);
                         if (convertValue is not ICollection value || convertValue.GetType() != propertyType) throw new MateralHttpException("转换为数组失败");
                         return value;
                     };

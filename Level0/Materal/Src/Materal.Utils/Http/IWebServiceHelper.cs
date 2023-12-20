@@ -1,9 +1,9 @@
-﻿namespace Materal.Utils.WebServiceClient
+﻿namespace Materal.Utils.Http
 {
     /// <summary>
-    /// WebService客户端
+    /// WebService帮助类
     /// </summary>
-    public interface IWebServiceClient
+    public interface IWebServiceHelper
     {
         /// <summary>
         /// 发送Soap请求

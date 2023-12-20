@@ -17,14 +17,14 @@ namespace System
         /// <returns></returns>
         public static string GetErrorMessage(this Exception? exception, Func<Exception, string?>? beforFunc = null, Func<Exception, string?>? afterFunc = null)
         {
-            if (exception == null) return string.Empty;
+            if (exception is null) return string.Empty;
             StringBuilder messageBuilder = new();
             Exception? tempException = exception;
-            while (tempException != null)
+            while (tempException is not null)
             {
                 if (tempException is not MateralException materalException)
                 {
-                    if (beforFunc != null)
+                    if (beforFunc is not null)
                     {
                         string? temp = beforFunc(tempException);
                         if (!string.IsNullOrWhiteSpace(temp))
@@ -39,7 +39,7 @@ namespace System
                     {
                         messageBuilder.AppendLine(tempException.StackTrace);
                     }
-                    if (afterFunc != null)
+                    if (afterFunc is not null)
                     {
                         string? temp = afterFunc(tempException);
                         if (!string.IsNullOrWhiteSpace(temp))

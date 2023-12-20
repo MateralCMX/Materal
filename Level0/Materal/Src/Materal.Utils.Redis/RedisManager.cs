@@ -509,7 +509,7 @@ namespace Materal.Utils.Redis
         /// <param name="channelName"></param>
         public async Task UnsubscribeAsync(string channelName)
         {
-            if (_subscriber == null) return;
+            if (_subscriber is null) return;
             RedisChannel channel = new(channelName, RedisChannel.PatternMode.Literal);
             await _subscriber.UnsubscribeAsync(channel);
         }
@@ -518,7 +518,7 @@ namespace Materal.Utils.Redis
         /// </summary>
         public async Task UnsubscribeAllAsync()
         {
-            if (_subscriber == null) return;
+            if (_subscriber is null) return;
             await _subscriber.UnsubscribeAllAsync();
         }
         #endregion
@@ -754,7 +754,7 @@ namespace Materal.Utils.Redis
         /// <returns></returns>
         protected virtual RedisValue ObjectToRedisValue(object? obj)
         {
-            if (obj == null) return new RedisValue();
+            if (obj is null) return new RedisValue();
             if (obj is string stringObj)
             {
                 return new RedisValue(stringObj);

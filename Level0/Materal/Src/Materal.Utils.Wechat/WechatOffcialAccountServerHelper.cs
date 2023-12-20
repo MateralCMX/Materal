@@ -10,20 +10,8 @@ namespace Materal.Utils.Wechat
     /// <summary>
     /// 微信公众号服务帮助类
     /// </summary>
-    public class WechatOffcialAccountServerHelper
+    public class WechatOffcialAccountServerHelper(string token, IServiceProvider serviceProvider)
     {
-        private readonly string _token;
-        private readonly IServiceProvider _serviceProvider;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="token"></param>
-        /// <param name="serviceProvider"></param>
-        public WechatOffcialAccountServerHelper(string token, IServiceProvider serviceProvider)
-        {
-            _token = token;
-            _serviceProvider = serviceProvider;
-        }
         /// <summary>
         /// 获得签名
         /// </summary>
@@ -32,10 +20,14 @@ namespace Materal.Utils.Wechat
         /// <returns></returns>
         public string GetSignature(string timestamp, string nonce)
         {
-            string[] arr = new[] { _token, timestamp, nonce }.OrderBy(m => m).ToArray();
+            string[] arr = [.. new[] { token, timestamp, nonce }.OrderBy(m => m)];
             string arrString = string.Join("", arr);
+#if NET8_0
+            byte[] sha1Buffer = SHA1.HashData(Encoding.UTF8.GetBytes(arrString));
+#else
             SHA1 sha1 = SHA1.Create();
             byte[] sha1Buffer = sha1.ComputeHash(Encoding.UTF8.GetBytes(arrString));
+#endif
             StringBuilder enText = new();
             foreach (byte sha1Item in sha1Buffer)
             {
@@ -61,19 +53,19 @@ namespace Materal.Utils.Wechat
         /// <returns></returns>
         public async Task<ReplyMessageModel?> HandlerWechatEventAsync(XmlDocument xmlDocument)
         {
-            string eventValue = GetEventValue(xmlDocument);
+            string eventValue = WechatOffcialAccountServerHelper.GetEventValue(xmlDocument);
             string eventHandlerName = $"I{eventValue}EventHandler";
             Type? eventHandlerType = eventHandlerName.GetTypeByTypeName(m => m.Name.Equals(eventHandlerName, StringComparison.OrdinalIgnoreCase));
-            if (eventHandlerType == null) return null;
-            object? eventHandler = _serviceProvider.GetService(eventHandlerType);
-            if (eventHandler == null) return null;
+            if (eventHandlerType is null) return null;
+            object? eventHandler = serviceProvider.GetService(eventHandlerType);
+            if (eventHandler is null) return null;
             string eventName = $"{eventValue}Event";
             Type? eventType = eventName.GetTypeByTypeName(new object[] { xmlDocument });
-            if (eventType == null) return null;
-            object @event = eventType.Instantiation(new object[] { xmlDocument });
+            if (eventType is null) return null;
+            object @event = eventType.Instantiation([xmlDocument]);
             MethodInfo? methodInfo = eventHandler.GetType().GetMethod("HandlerAsync");
-            if (methodInfo == null) return null;
-            object handlerResult = methodInfo.Invoke(eventHandler, new object[] { @event });
+            if (methodInfo is null) return null;
+            object? handlerResult = methodInfo.Invoke(eventHandler, new object[] { @event });
             if(handlerResult is Task<ReplyMessageModel?> task)
             {
                 ReplyMessageModel? result = await task;
@@ -88,27 +80,27 @@ namespace Materal.Utils.Wechat
         /// <returns></returns>
         /// <exception cref="WechatException"></exception>
         /// <exception cref="Exception"></exception>
-        public string GetEventValue(XmlDocument xmlDocument)
+        public static string GetEventValue(XmlDocument xmlDocument)
         {
-            if (xmlDocument.FirstChild == null) throw new WechatException("未识别xml文档");
+            if (xmlDocument.FirstChild is null) throw new WechatException("未识别xml文档");
             try
             {
                 XmlNodeList? eventNodes = xmlDocument.FirstChild.SelectNodes("Event");
                 XmlNode eventNode;
-                if (eventNodes != null && eventNodes.Count > 0)
+                if (eventNodes is not null && eventNodes.Count > 0)
                 {
-                    eventNode = eventNodes[0];
-                    return eventNode.FirstChild.Value.FirstUpper();
+                    eventNode = eventNodes[0] ?? throw new WechatException("获取Event节点失败");
+                    return eventNode.FirstChild?.Value?.FirstUpper() ?? throw new WechatException("获取Event节点值失败");
                 }
                 eventNodes = xmlDocument.FirstChild.SelectNodes("MsgId");
-                if (eventNodes != null && eventNodes.Count > 0)
+                if (eventNodes is not null && eventNodes.Count > 0)
                 {
                     eventNodes = xmlDocument.FirstChild.SelectNodes("MsgType");
-                    if (eventNodes != null && eventNodes.Count > 0)
+                    if (eventNodes is not null && eventNodes.Count > 0)
                     {
                         // https://developers.weixin.qq.com/doc/offiaccount/Message_Management/Receiving_standard_messages.html
-                        eventNode = eventNodes[0];
-                        string messageType = eventNode.FirstChild.Value;
+                        eventNode = eventNodes[0] ?? throw new WechatException("获取Event节点失败");
+                        string messageType = eventNode.FirstChild?.Value ?? throw new WechatException("获取Event节点值失败");
                         switch (messageType)
                         {
                             case "text":

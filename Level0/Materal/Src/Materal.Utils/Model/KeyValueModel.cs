@@ -127,7 +127,7 @@
         /// <returns></returns>
         public static Dictionary<string, string> ToDictionary(this List<KeyValueModel> keyValueModels, bool useNewValue = true)
         {
-            Dictionary<string, string> result = new();
+            Dictionary<string, string> result = [];
             foreach (KeyValueModel item in keyValueModels)
             {
                 if (result.ContainsKey(item.Key))
@@ -157,6 +157,7 @@
         /// <param name="dictionary"></param>
         /// <returns></returns>
         public static List<KeyValueModel<TKey, TValue>> ToKeyValueModel<TKey,TValue>(this Dictionary<TKey, TValue> dictionary)
+            where TKey : notnull
             => dictionary.Select(item => new KeyValueModel<TKey, TValue>(item.Key, item.Value)).ToList();
         /// <summary>
         /// 获得所有识别码

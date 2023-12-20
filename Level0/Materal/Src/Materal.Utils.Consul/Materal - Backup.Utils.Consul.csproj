@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0;net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>12.0</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsPackable>true</IsPackable>
+		<Title>Materal Consul帮助库</Title>
+		<Company>Materal</Company>
+		<Product>Materal</Product>
+		<Authors>Materal</Authors>
+		<Version>1.1.72</Version>
+		<Description>Materal Consul帮助库</Description>
+		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Consul" Version="*" />
+		<PackageReference Include="Polly" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Materal.Abstractions\Materal.Abstractions.csproj" />
+	  <ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
+	  <ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
+	</ItemGroup>
+</Project>

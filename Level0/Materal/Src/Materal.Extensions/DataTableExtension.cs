@@ -22,7 +22,7 @@ namespace System.Data
             DataTable dt = type.ToDataTable();
             foreach (T item in listM)
             {
-                if (item == null) continue;
+                if (item is null) continue;
                 dt.Rows.Add(item.ToDataRow(dt.NewRow()));
             }
             return dt;
@@ -35,7 +35,7 @@ namespace System.Data
         /// <returns>数据行</returns>
         public static DataRow ToDataRow(this object obj, DataRow dr)
         {
-            if (dr == null) throw new ExtensionException("数据行不可为空");
+            if (dr is null) throw new ExtensionException("数据行不可为空");
             var type = obj.GetType();
             var props = type.GetProperties();
             foreach (var prop in props)
@@ -75,13 +75,13 @@ namespace System.Data
                 }
                 catch (Exception exception)
                 {
-                    if(exceptions == null)
+                    if (exceptions is not null)
                     {
-                        throw exception;
+                        exceptions.Add(exception);
                     }
                     else
                     {
-                        exceptions.Add(exception);
+                        throw;
                     }
                 }
             }
@@ -108,7 +108,7 @@ namespace System.Data
         /// <returns></returns>
         public static string? GetStringValue(this DataRow row, int index)
         {
-            if (row.ItemArray == null || row.ItemArray.Length <= index) return null;
+            if (row.ItemArray is null || row.ItemArray.Length <= index) return null;
             string? result = row[index].ToString();
             return result;
         }
@@ -122,11 +122,11 @@ namespace System.Data
         public static List<T> ToList<T>(this DataTable dataTable, List<Exception>? exceptions = null)
             where T : new()
         {
-            List<T> result = new();
+            List<T> result = [];
             foreach (DataRow dr in dataTable.Rows)
             {
                 T? value = dr.GetValue<T>(exceptions);
-                if (value == null) continue;
+                if (value is null) continue;
                 result.Add(value);
             }
             return result;
@@ -159,7 +159,7 @@ namespace System.Data
         public static List<List<T>> ToList<T>(this DataSet dataSet, List<Exception>? exceptions = null)
             where T : new()
         {
-            List<List<T>> result = new();
+            List<List<T>> result = [];
             foreach (DataTable dt in dataSet.Tables)
             {
                 result.Add(dt.ToList<T>(exceptions));

@@ -35,15 +35,15 @@ namespace Materal.Utils.Model
                 {
                     object? value = propertyInfo.GetValue(this);
                     PropertyInfo? tValuePropertyInfo = tType.GetProperty(filterAttribute.TargetPropertyName ?? propertyInfo.Name);
-                    if (tValuePropertyInfo == null) continue;
+                    if (tValuePropertyInfo is null) continue;
                     Expression? binaryExpression = filterAttribute.GetSearchExpression(mParameterExpression, propertyInfo, value, tValuePropertyInfo);
-                    if (binaryExpression != null)
+                    if (binaryExpression is not null)
                     {
-                        expression = expression == null ? binaryExpression : Expression.AndAlso(expression, binaryExpression);
+                        expression = expression is null ? binaryExpression : Expression.AndAlso(expression, binaryExpression);
                     }
                 }
             }
-            Expression<Func<T, bool>> result = expression != null
+            Expression<Func<T, bool>> result = expression is not null
                 ? Expression.Lambda<Func<T, bool>>(expression, mParameterExpression)
                 : m => true;
             return result;
@@ -69,7 +69,7 @@ namespace Materal.Utils.Model
             if (string.IsNullOrWhiteSpace(SortPropertyName)) return null;
             Type tType = typeof(T);
             PropertyInfo? propertyInfo = tType.GetProperty(SortPropertyName);
-            if (propertyInfo == null) return null;
+            if (propertyInfo is null) return null;
             ParameterExpression parameterExpression = Expression.Parameter(tType, "m");
             MemberExpression memberExpression = Expression.Property(parameterExpression, propertyInfo);
             Expression<Func<T, object>> result;
@@ -107,9 +107,9 @@ namespace Materal.Utils.Model
             IQueryable<T> result = values;
             bool isAsc = IsAsc;
             Expression<Func<T, object>>? sortExpression = GetSortExpression<T>();
-            if(sortExpression == null)
+            if(sortExpression is null)
             {
-                if (defaultOrderExpression == null) return result;
+                if (defaultOrderExpression is null) return result;
                 sortExpression = defaultOrderExpression;
                 isAsc = defaultIsAsc ?? IsAsc;
             }
@@ -136,9 +136,9 @@ namespace Materal.Utils.Model
             List<T> result = values.ToList();
             bool isAsc = IsAsc;
             Func<T, object>? sortDlegate = GetSortDlegate<T>();
-            if (sortDlegate == null)
+            if (sortDlegate is null)
             {
-                if (defaultOrderExpression == null) return result;
+                if (defaultOrderExpression is null) return result;
                 sortDlegate = defaultOrderExpression.Compile();
                 isAsc = defaultIsAsc ?? IsAsc;
             }

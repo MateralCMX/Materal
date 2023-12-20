@@ -11,7 +11,7 @@ namespace Materal.Test.ExtensionsTests.StringTests
         public void GetTypeByTypeNameTest()
         {
             Type? studentType = nameof(Student).GetTypeByTypeName<User>(new object[] { "1234", 22 });
-            if (studentType == null) return;
+            if (studentType is null) return;
             User model = studentType.Instantiation<User>("1234", 22);
             User model2 = model.CopyProperties<User>();
         }

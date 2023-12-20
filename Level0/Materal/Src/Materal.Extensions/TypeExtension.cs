@@ -53,7 +53,7 @@ namespace System
         {
             Type[] argTypes = args.Select(m => m.GetType()).ToArray();
             ConstructorInfo? constructorInfo = type.GetConstructor(argTypes);
-            if (constructorInfo == null) return null;
+            if (constructorInfo is null) return null;
             object result = constructorInfo.Invoke(args);
             return result;
         }
@@ -85,7 +85,7 @@ namespace System
                     }
                     if (isOK) continue;
                     object? argument = serviceProvider.GetService(argumentInfo.ParameterType);
-                    if(argument == null) break;
+                    if(argument is null) break;
                     trueArguments.Add(argument);
                 }
                 if (trueArguments.Count != argumentInfos.Length) continue;
@@ -103,7 +103,7 @@ namespace System
         public static T Instantiation<T>(this Type type, params object[] args)
         {
             object? obj = InstantiationOrDefault(type, args);
-            if (obj == null || obj is not T result) throw new ExtensionException("实例化失败");
+            if (obj is null || obj is not T result) throw new ExtensionException("实例化失败");
             return result;
         }
         /// <summary>
@@ -116,7 +116,7 @@ namespace System
         public static T Instantiation<T>(this Type type, IServiceProvider serviceProvider, params object[] args)
         {
             object? obj = InstantiationOrDefault(type, serviceProvider, args);
-            if (obj == null || obj is not T result) throw new ExtensionException("实例化失败");
+            if (obj is null || obj is not T result) throw new ExtensionException("实例化失败");
             return result;
         }
         /// <summary>
@@ -128,7 +128,7 @@ namespace System
         public static T? InstantiationOrDefault<T>(this Type type, params object[] args)
         {
             object? obj = InstantiationOrDefault(type, args);
-            if (obj == null || obj is not T result) return default;
+            if (obj is null || obj is not T result) return default;
             return result;
         }
         /// <summary>
@@ -141,7 +141,7 @@ namespace System
         public static T? InstantiationOrDefault<T>(this Type type, IServiceProvider serviceProvider, params object[] args)
         {
             object? obj = InstantiationOrDefault(type, serviceProvider, args);
-            if (obj == null || obj is not T result) return default;
+            if (obj is null || obj is not T result) return default;
             return result;
         }
         /// <summary>
@@ -175,7 +175,7 @@ namespace System
             Type objType = typeof(object);
             while (temp != objType)
             {
-                if (temp == null) break;
+                if (temp is null) break;
                 allBaseTypes.Add(temp);
                 temp = temp.BaseType;
             }
@@ -248,7 +248,7 @@ namespace System
             where T : Attribute
         {
             Attribute? attr = type.GetCustomAttribute<T>();
-            return attr != null;
+            return attr is not null;
         }
     }
 }

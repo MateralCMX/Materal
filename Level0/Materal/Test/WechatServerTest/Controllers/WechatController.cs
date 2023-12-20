@@ -49,7 +49,7 @@ namespace WechatServerTest.Controllers
             {
                 XmlDocument xmlDocument = await GetBodyXmlAsync();
                 ReplyMessageModel? replyMessage = await _helper.HandlerWechatEventAsync(xmlDocument);
-                if (replyMessage != null)
+                if (replyMessage is not null)
                 {
                     return Content(replyMessage.GetXmlString(), "text/xml");
                 }

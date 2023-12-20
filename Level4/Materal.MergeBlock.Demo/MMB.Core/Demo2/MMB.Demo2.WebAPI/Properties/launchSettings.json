@@ -1,0 +1,15 @@
+﻿{
+  "profiles": {
+    "MMB.Demo2.WebAPI": {
+      "commandName": "Project",
+      "commandLineArgs": "--ConfigUrl=http://175.27.254.187:8700/RCESDEVAPI", //古典部
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

@@ -24,21 +24,21 @@ namespace Materal.WindowsHelper
         {
             ProcessStartInfo processStartInfo = ProcessHelper.GetProcessStartInfo("cmd.exe", string.Empty);
             using var process = new Process { StartInfo = processStartInfo };
-            if (OutputDataReceived != null)
+            if (OutputDataReceived is not null)
             {
                 process.OutputDataReceived += OutputDataReceived;
             }
-            if (ErrorDataReceived != null)
+            if (ErrorDataReceived is not null)
             {
                 process.ErrorDataReceived += ErrorDataReceived;
             }
             if (process.Start())
             {
-                if (OutputDataReceived != null)
+                if (OutputDataReceived is not null)
                 {
                     process.BeginOutputReadLine();
                 }
-                if (ErrorDataReceived != null)
+                if (ErrorDataReceived is not null)
                 {
                     process.BeginErrorReadLine();
                 }

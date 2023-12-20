@@ -109,14 +109,14 @@ namespace Materal.Utils.Cache
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public bool KeyAny(string key) => GetOrDefault(key) != null;
+        public bool KeyAny(string key) => GetOrDefault(key) is not null;
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public void Clear()
         {
             string[]? tempAllKey = allKey.ToJson().JsonToDeserializeObject<string[]>();
-            if (tempAllKey == null || tempAllKey.Length <= 0) return;
+            if (tempAllKey is null || tempAllKey.Length <= 0) return;
             foreach (var item in tempAllKey)
             {
                 Remove(item);

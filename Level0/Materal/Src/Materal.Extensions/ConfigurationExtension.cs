@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.Configuration
         public static T? GetValueObject<T>(this IConfiguration configuration, string key)
         {
             string? value = configuration.GetValue(key);
-            if (string.IsNullOrEmpty(value) || value == null) return default;
+            if (string.IsNullOrEmpty(value) || value is null) return default;
             T? result;
             Type tType = typeof(T);
             if (value.CanConvertTo(tType))
@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.Configuration
             {
                 result = (T?)Enum.Parse(tType, value);
             }
-            else if (tType.GetCustomAttribute<SerializableAttribute>() != null)
+            else if (tType.GetCustomAttribute<SerializableAttribute>() is not null)
             {
                 result = value.JsonToDeserializeObject<T>();
             }
@@ -62,7 +62,7 @@ namespace Microsoft.Extensions.Configuration
         private static string? GetObjectJson(IConfigurationSection configSection)
         {
             object? value = GetDictionaryObject(configSection);
-            if (value != null)
+            if (value is not null)
             {
                 return value.ToJson();
             }
@@ -96,7 +96,7 @@ namespace Microsoft.Extensions.Configuration
                 else
                 {
                     object? value = GetDictionaryObject(sectionItem);
-                    if (value == null) continue;
+                    if (value is null) continue;
                     if (!isArray)
                     {
                         propertyDic.Add(sectionItem.Key, value);
