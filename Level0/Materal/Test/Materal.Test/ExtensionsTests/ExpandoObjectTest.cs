@@ -22,6 +22,9 @@ namespace Materal.Test.ExtensionsTests
             object input4 = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body><GetUserResponse xmlns=\"http://WebService.Server/\"><GetUserResult><Name>string</Name><Age>int</Age><TestNull>int</TestNull><ScoreValue><Name>string</Name><Score>int</Score><TestNull>int</TestNull></ScoreValue><ArrayValues><int>int</int><int>int</int></ArrayValues><Scores><ScoreInfo><Name>string</Name><Score>int</Score><TestNull>int</TestNull></ScoreInfo><ScoreInfo><Name>string</Name><Score>int</Score> <TestNull>int</TestNull></ScoreInfo></Scores></GetUserResult></GetUserResponse></soap:Body></soap:Envelope>";
             object? value4 = input4.ToExpandoObject();
             Assert.AreNotEqual(input4, value4);
+            object input5 = "<GetUserResult><Name>string</Name><Age>int</Age><TestNull>int</TestNull><ScoreValue><Name>string</Name><Score>int</Score><TestNull>int</TestNull></ScoreValue><ArrayValues><int>int</int><int>int</int></ArrayValues><Scores><ScoreInfo><Name>string</Name><Score>int</Score><TestNull>int</TestNull></ScoreInfo><ScoreInfo><Name>string</Name><Score>int</Score> <TestNull>int</TestNull></ScoreInfo></Scores></GetUserResult>";
+            object? value5 = input5.ToExpandoObject();
+            Assert.AreNotEqual(input5, value5);
         }
         [TestMethod]
         public void ExpandoObjectToExpandoObjectTest()

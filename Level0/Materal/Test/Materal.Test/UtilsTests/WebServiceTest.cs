@@ -1,5 +1,6 @@
 ﻿using Materal.Utils.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System.Dynamic;
 
 namespace Materal.Test.UtilsTests
 {
@@ -36,6 +37,8 @@ namespace Materal.Test.UtilsTests
             UserInfo? soap1_2Result = await webServiceClient.SendSoapAsync<UserInfo>(url, serviceName, serviceNamespace, null, SoapVersionEnum.Soap1_2);
             Assert.AreEqual(result.Name, soap1_2Result?.Name);
             Assert.AreEqual(result.Age, soap1_2Result?.Age);
+            object? soap1_3Result = await webServiceClient.SendSoapObjectAsync(url, serviceName, serviceNamespace, null, SoapVersionEnum.Soap1_2);
+            Assert.IsNotNull(soap1_3Result);
         }
         [TestMethod]
         public async Task GetUsersTestAsync()
@@ -47,6 +50,8 @@ namespace Materal.Test.UtilsTests
             Assert.AreEqual(resultCount, soap1_1Result?.Count);
             UserInfo[]? soap1_2Result = await webServiceClient.SendSoapAsync<UserInfo[]>(url, serviceName, serviceNamespace, null, SoapVersionEnum.Soap1_2);
             Assert.AreEqual(resultCount, soap1_2Result?.Length);
+            object? soap1_3Result = await webServiceClient.SendSoapObjectAsync(url, serviceName, serviceNamespace, null, SoapVersionEnum.Soap1_2);
+            Assert.IsNotNull(soap1_3Result);
         }
         [TestMethod]
         public async Task GetUserByUserInfoTestAsync()

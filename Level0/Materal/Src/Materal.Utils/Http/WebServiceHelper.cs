@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Dynamic;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -29,7 +30,6 @@ namespace Materal.Utils.Http
         /// <param name="data"></param>
         /// <param name="soapVersion"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public async Task<string> SendSoapAsync(string url, string serviceName, string serviceNamespace, Dictionary<string, object?>? data = null, SoapVersionEnum soapVersion = SoapVersionEnum.Soap1_2) => soapVersion == SoapVersionEnum.Soap1_1
                 ? await SendSoap1_1Async(url, serviceName, serviceNamespace, data)
                 : await SendSoap1_2Async(url, serviceName, serviceNamespace, data);
@@ -47,6 +47,30 @@ namespace Materal.Utils.Http
             => soapVersion == SoapVersionEnum.Soap1_1
                 ? await SendSoap1_1Async<T>(url, serviceName, serviceNamespace, data)
                 : await SendSoap1_2Async<T>(url, serviceName, serviceNamespace, data);
+        /// <summary>
+        /// 发送Soap请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="serviceNamespace"></param>
+        /// <param name="data"></param>
+        /// <param name="soapVersion"></param>
+        /// <returns></returns>
+        public async Task<object?> SendSoapObjectAsync(string url, string serviceName, string serviceNamespace, Dictionary<string, object?>? data = null, SoapVersionEnum soapVersion = SoapVersionEnum.Soap1_2) => soapVersion == SoapVersionEnum.Soap1_1
+                ? await SendSoap1_1ObjectAsync(url, serviceName, serviceNamespace, data)
+                : await SendSoap1_2ObjectAsync(url, serviceName, serviceNamespace, data);
+        /// <summary>
+        /// 发送Soap请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="serviceNamespace"></param>
+        /// <param name="data"></param>
+        /// <param name="soapVersion"></param>
+        /// <returns></returns>
+        public async Task<XmlNode?> SendSoapNodeAsync(string url, string serviceName, string serviceNamespace, Dictionary<string, object?>? data = null, SoapVersionEnum soapVersion = SoapVersionEnum.Soap1_2) => soapVersion == SoapVersionEnum.Soap1_1
+                ? await SendSoap1_1NodeAsync(url, serviceName, serviceNamespace, data)
+                : await SendSoap1_2NodeAsync(url, serviceName, serviceNamespace, data);
         /// <summary>
         /// 发送Soap1.1请求
         /// </summary>
@@ -79,6 +103,41 @@ namespace Materal.Utils.Http
         /// <summary>
         /// 发送Soap1.1请求
         /// </summary>
+        /// <param name="url"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="serviceNamespace"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public async Task<XmlNode?> SendSoap1_1NodeAsync(string url, string serviceName, string serviceNamespace, Dictionary<string, object?>? data = null)
+        {
+            string responseMessage = await SendSoap1_1Async(url, serviceName, serviceNamespace, data);
+            XmlDocument xmlObject = new();
+            xmlObject.LoadXml(responseMessage);
+            if (xmlObject.ChildNodes.Count != 2) return null;
+            XmlNode resultNode = xmlObject.ChildNodes[1] ?? throw new MateralHttpException("获取结果节点soap:Envelope失败");
+            if (resultNode.Name != "soap:Envelope") throw new MateralHttpException("未找到节点soap:Envelope");
+            resultNode = resultNode.ChildNodes[0] ?? throw new MateralHttpException("获取结果节点soap:Body失败");
+            if (resultNode.Name != "soap:Body") throw new MateralHttpException("未找到节点soap:Body");
+            resultNode = resultNode.ChildNodes[0] ?? throw new MateralHttpException("获取结果节点Result失败");
+            return resultNode;
+        }
+        /// <summary>
+        /// 发送Soap1.1请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="serviceNamespace"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public async Task<object?> SendSoap1_1ObjectAsync(string url, string serviceName, string serviceNamespace, Dictionary<string, object?>? data = null)
+        {
+            XmlNode? resultNode = await SendSoap1_1NodeAsync(url, serviceName, serviceNamespace, data);
+            if (resultNode is null) return null;
+            return GetResult<ExpandoObject>(resultNode, serviceName, serviceNamespace);
+        }
+        /// <summary>
+        /// 发送Soap1.1请求
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
         /// <param name="serviceName"></param>
@@ -87,17 +146,11 @@ namespace Materal.Utils.Http
         /// <returns></returns>
         public async Task<T?> SendSoap1_1Async<T>(string url, string serviceName, string serviceNamespace, Dictionary<string, object?>? data = null)
         {
-            T? result = default;
-            string responseMessage = await SendSoap1_1Async(url, serviceName, serviceNamespace, data);
-            XmlDocument xmlObject = new();
-            xmlObject.LoadXml(responseMessage);
-            if (xmlObject.ChildNodes.Count != 2) return result;
-            XmlNode resultNode = xmlObject.ChildNodes[1] ?? throw new MateralHttpException("获取结果节点soap:Envelope失败");
-            if (resultNode.Name != "soap:Envelope") throw new MateralHttpException("未找到节点soap:Envelope");
-            resultNode = resultNode.ChildNodes[0] ?? throw new MateralHttpException("获取结果节点soap:Body失败");
-            if (resultNode.Name != "soap:Body") throw new MateralHttpException("未找到节点soap:Body");
-            resultNode = resultNode.ChildNodes[0] ?? throw new MateralHttpException("获取结果节点Result失败");
-            return GetResult<T>(resultNode, serviceName, serviceNamespace);
+            XmlNode? resultNode = await SendSoap1_1NodeAsync(url, serviceName, serviceNamespace, data);
+            if (resultNode is null) return default;
+            object? nodeValue = GetResult<T>(resultNode, serviceName, serviceNamespace);
+            if (nodeValue is not T result) throw new MateralHttpException("转换结果失败");
+            return result;
         }
         /// <summary>
         /// 发送Soap1.2请求
@@ -130,19 +183,50 @@ namespace Materal.Utils.Http
         /// <param name="serviceNamespace"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public async Task<T?> SendSoap1_2Async<T>(string url, string serviceName, string serviceNamespace, Dictionary<string, object?>? data = null)
+        public async Task<XmlNode?> SendSoap1_2NodeAsync(string url, string serviceName, string serviceNamespace, Dictionary<string, object?>? data = null)
         {
-            T? result = default;
             string responseMessage = await SendSoap1_2Async(url, serviceName, serviceNamespace, data);
             XmlDocument xmlObject = new();
             xmlObject.LoadXml(responseMessage);
-            if (xmlObject.ChildNodes.Count != 2) return result;
+            if (xmlObject.ChildNodes.Count != 2) return null;
             XmlNode resultNode = xmlObject.ChildNodes[1] ?? throw new MateralHttpException("获取结果节点soap12:Envelope失败");
             if (resultNode.Name != "soap12:Envelope" && resultNode.Name != "soap:Envelope") throw new MateralHttpException("未找到节点soap12:Envelope");
             resultNode = resultNode.ChildNodes[0] ?? throw new MateralHttpException("获取结果节点soap12:Body失败");
             if (resultNode.Name != "soap12:Body" && resultNode.Name != "soap:Body") throw new MateralHttpException("未找到节点soap12:Body");
             resultNode = resultNode.ChildNodes[0] ?? throw new MateralHttpException("获取结果节点Result失败");
-            return GetResult<T>(resultNode, serviceName, serviceNamespace);
+            return resultNode;
+        }
+        /// <summary>
+        /// 发送Soap1.2请求
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="serviceNamespace"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public async Task<object?> SendSoap1_2ObjectAsync(string url, string serviceName, string serviceNamespace, Dictionary<string, object?>? data = null)
+        {
+            XmlNode? resultNode = await SendSoap1_2NodeAsync(url, serviceName, serviceNamespace, data);
+            if (resultNode is null) return null;
+            return GetResult<ExpandoObject>(resultNode, serviceName, serviceNamespace);
+        }
+        /// <summary>
+        /// 发送Soap1.2请求
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="url"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="serviceNamespace"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public async Task<T?> SendSoap1_2Async<T>(string url, string serviceName, string serviceNamespace, Dictionary<string, object?>? data = null)
+        {
+            XmlNode? resultNode = await SendSoap1_2NodeAsync(url, serviceName, serviceNamespace, data);
+            if (resultNode is null) return default;
+            object? nodeValue = GetResult<T>(resultNode, serviceName, serviceNamespace);
+            if (nodeValue is not T result) throw new MateralHttpException("转换结果失败");
+            return result;
         }
         /// <summary>
         /// 获得请求节点
@@ -247,11 +331,11 @@ namespace Materal.Utils.Http
         /// <param name="serviceName"></param>
         /// <param name="serviceNamespace"></param>
         /// <returns></returns>
-        private T? GetResult<T>(XmlNode resultNode, string serviceName, string serviceNamespace)
+        private object? GetResult<T>(XmlNode resultNode, string serviceName, string serviceNamespace)
         {
             if (resultNode.Name != $"{serviceName}Response") throw new MateralHttpException($"未找到节点{serviceName}Response");
             bool isOK = false;
-            if (resultNode.Attributes is null) return default;
+            if (resultNode.Attributes is null) return null;
             foreach (XmlAttribute item in resultNode.Attributes)
             {
                 if (item.Name != "xmlns" || item.Value != serviceNamespace) continue;
@@ -259,10 +343,21 @@ namespace Materal.Utils.Http
                 break;
             }
             if (!isOK) throw new MateralHttpException("服务命名空间错误");
+            if (resultNode.FirstChild is null) return null;
+            object? nodeValue = GetNodeValue<T>(resultNode.FirstChild);
+            return nodeValue;
+        }
+        /// <summary>
+        /// 获得节点值
+        /// </summary>
+        /// <param name="xmlNode"></param>
+        /// <returns></returns>
+        private object? GetNodeValue<T>(XmlNode xmlNode)
+        {
+            if (xmlNode is null) return null;
             Type tType = typeof(T);
-            if (resultNode.FirstChild is null) return default;
-            object? nodeValue = GetNodeValue(resultNode.FirstChild, tType);
-            if (nodeValue is not T result) throw new MateralHttpException("转换结果失败");
+            if (tType == typeof(ExpandoObject) || tType == typeof(List<ExpandoObject>) || tType == typeof(List<object>)) return xmlNode.ChildNodes.ToExpandoObject();
+            object? result = GetNodeValue(xmlNode, tType);
             return result;
         }
         /// <summary>
