@@ -1,5 +1,4 @@
 ﻿using Materal.Abstractions;
-using System.Net.Http;
 using System.Text;
 
 namespace Materal.Utils.Http

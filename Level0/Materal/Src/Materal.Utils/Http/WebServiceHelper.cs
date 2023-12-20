@@ -64,7 +64,12 @@ namespace Materal.Utils.Http
             string xmlContent = xmlObject.OuterXml;
             HttpContent httpContent = new StringContent(xmlContent, Encoding.UTF8, "text/xml");
             string SOAPAction = serviceNamespace;
+#if NETSTANDARD
             if (SOAPAction.EndsWith("/"))
+
+#else
+            if (SOAPAction.EndsWith('/'))
+#endif
             {
                 SOAPAction = SOAPAction[..^1];
             }
