@@ -187,10 +187,7 @@ namespace Materal.MergeBlock.Application.Services
         /// <param name="dto"></param>
         /// <returns></returns>
         /// <exception cref="MergeBlockException"></exception>
-        protected virtual Task<TDTO> GetInfoAsync(TDTO dto)
-        {
-            return Task.FromResult(dto);
-        }
+        protected virtual Task<TDTO> GetInfoAsync(TDTO dto) => Task.FromResult(dto);
         /// <summary>
         /// 获得列表
         /// </summary>
