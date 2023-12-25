@@ -441,45 +441,101 @@ namespace System
         /// <summary>
         /// 获得值
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="names"></param>
+        /// <returns></returns>
+        public static T? GetValue<T>(this object obj, params string[] names)
+        {
+            object? resultObj = GetValue(obj, names);
+            if (resultObj is null || resultObj is not T result) return default;
+            return result;
+        }
+        /// <summary>
+        /// 获得值
+        /// </summary>
         /// <param name="obj"></param>
         /// <param name="name"></param>
         /// <returns></returns>
         public static object? GetValue(this object obj, string name)
         {
-            if (obj is IDictionary dic) return dic.GetValue(name);
-            if (obj is IDictionary<string, object> dicObj) return dicObj.GetValue(name);
-            PropertyInfo? propertyInfo = obj.GetType().GetRuntimeProperty(name);
-            if (propertyInfo is not null && propertyInfo.CanRead)
+            string[] trueNames = name.Split('.');
+            if(trueNames.Length == 1)
             {
-                return propertyInfo.GetValue(obj);
+                if (obj is ICollection collection) return collection.GetValue(name);
+                if (obj is IDictionary dic) return dic.GetValue(name);
+                if (obj is IDictionary<string, object> dicObj) return dicObj.GetValue(name);
+                PropertyInfo? propertyInfo = obj.GetType().GetRuntimeProperty(name);
+                if (propertyInfo is not null && propertyInfo.CanRead)
+                {
+                    return propertyInfo.GetValue(obj);
+                }
+                FieldInfo? fieldInfo = obj.GetType().GetRuntimeField(name);
+                if (fieldInfo is not null)
+                {
+                    return fieldInfo.GetValue(obj);
+                }
+                return null;
             }
-            FieldInfo? fieldInfo = obj.GetType().GetRuntimeField(name);
-            if (fieldInfo is not null)
+            else
             {
-                return fieldInfo.GetValue(obj);
+                return obj.GetValue(trueNames);
             }
-            return null;
         }
         /// <summary>
         /// 获得值
         /// </summary>
         /// <param name="obj"></param>
-        /// <param name="name"></param>
+        /// <param name="names"></param>
         /// <returns></returns>
-        public static object? GetValue(this IDictionary obj, string name)
+        public static object? GetValue(this object obj, params string[] names)
         {
-            foreach (object? item in obj.Keys)
+            object? currentObj = obj;
+            foreach (string name in names)
             {
-                if (item is not null && item.Equals(name)) return obj[item];
+                currentObj = currentObj?.GetValue(name);
+                if (currentObj is null) break;
+            }
+            return currentObj;
+        }
+        /// <summary>
+        /// 获得值
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static object? GetValue(this ICollection collection, string name)
+        {
+            if (!name.IsNumber()) return null;
+            int index = 0;
+            int targetIndex = Convert.ToInt32(name);
+            foreach (object? item in collection)
+            {
+                if (index == targetIndex) return item;
+                index++;
             }
             return null;
         }
         /// <summary>
         /// 获得值
         /// </summary>
-        /// <param name="obj"></param>
+        /// <param name="dic"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static object? GetValue(this IDictionary<string, object> obj, string name) => obj.TryGetValue(name, out object? value) ? value : null;
+        public static object? GetValue(this IDictionary dic, string name)
+        {
+            foreach (object? item in dic.Keys)
+            {
+                if (item is not null && item.Equals(name)) return dic[item];
+            }
+            return null;
+        }
+        /// <summary>
+        /// 获得值
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static object? GetValue(this IDictionary<string, object> dic, string name) => dic.TryGetValue(name, out object? value) ? value : null;
     }
 }
