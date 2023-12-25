@@ -3,9 +3,9 @@
     /// <summary>
     /// Http日志处理器
     /// </summary>
-    public class HttpLoggerHandler(LoggerRuntime loggerRuntime, IHttpHelper? httpHelper = null) : BufferLoggerHandler<HttpLoggerHandlerModel, HttpLoggerTargetConfigModel>(loggerRuntime)
+    public class HttpLoggerHandler(LoggerRuntime loggerRuntime) : BufferLoggerHandler<HttpLoggerHandlerModel, HttpLoggerTargetConfigModel>(loggerRuntime)
     {
-        private readonly IHttpHelper _httpHelper = httpHelper ?? new HttpHelper();
+        private readonly IHttpHelper _httpHelper = new HttpHelper();
         /// <summary>
         /// 处理合格的数据
         /// </summary>

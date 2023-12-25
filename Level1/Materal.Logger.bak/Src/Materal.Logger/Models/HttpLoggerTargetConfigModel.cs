@@ -15,11 +15,7 @@ namespace Materal.Logger.Models
         /// 获得日志处理器
         /// </summary>
         /// <paramref name="loggerRuntime"></paramref>
-        public override ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime)
-        {
-            IHttpHelper? httpHelper = loggerRuntime.ServiceProvider.GetService<IHttpHelper>();
-            return new HttpLoggerHandler(loggerRuntime, httpHelper);
-        }
+        public override ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime) => new HttpLoggerHandler(loggerRuntime);
         private string _url = "http://127.0.0.1/api/Logger/WriteLog";
         /// <summary>
         /// 地址
