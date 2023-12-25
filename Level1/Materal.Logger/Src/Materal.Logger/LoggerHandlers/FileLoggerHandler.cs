@@ -1,20 +1,10 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.Models;
-using System.Text;
-
-namespace Materal.Logger.LoggerHandlers
+﻿namespace Materal.Logger.LoggerHandlers
 {
     /// <summary>
     /// 文件日志处理器
     /// </summary>
-    public class FileLoggerHandler : BufferLoggerHandler<FileLoggerHandlerModel, FileLoggerTargetConfigModel>
+    public class FileLoggerHandler(LoggerRuntime loggerRuntime) : BufferLoggerHandler<FileLoggerHandlerModel, FileLoggerTargetConfigModel>(loggerRuntime)
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public FileLoggerHandler(LoggerRuntime loggerRuntime) : base(loggerRuntime)
-        {
-        }
         /// <summary>
         /// 处理合格的数据
         /// </summary>

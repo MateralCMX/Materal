@@ -1,9 +1,5 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.Models;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using System.Data;
-using System.Reflection;
-using System.Text;
 
 namespace Materal.Logger.Repositories
 {
@@ -51,7 +47,7 @@ namespace Materal.Logger.Repositories
                         sqliteCmd.CommandText = GetInsertTSQL(item.Key, firstFileds);
                         foreach (SqliteLoggerHandlerModel model in item)
                         {
-                            Insert(sqliteCmd, model.Fileds);
+                            SqliteRepository.Insert(sqliteCmd, model.Fileds);
                         }
                         dbTransaction.Commit();
                     }
@@ -76,7 +72,7 @@ namespace Materal.Logger.Repositories
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="fileds"></param>
-        private void Insert(SqliteCommand cmd, List<SqliteDBFiled> fileds)
+        private static void Insert(SqliteCommand cmd, List<SqliteDBFiled> fileds)
         {
             cmd.Parameters.Clear();
             foreach (SqliteDBFiled filed in fileds)
@@ -141,7 +137,7 @@ namespace Materal.Logger.Repositories
                     try
                     {
                         cmd.CommandText = GetCreateTableTSQL(tableName, fileds);
-                        object createTableResult = cmd.ExecuteScalar();
+                        object? createTableResult = cmd.ExecuteScalar();
                         dbTransaction.Commit();
                         cmd.Dispose();
                     }
@@ -173,11 +169,11 @@ namespace Materal.Logger.Repositories
         private string GetCreateTableTSQL(string tableName, List<SqliteDBFiled> fileds)
         {
             string? setPrimaryKeyTSQL = null;
-            List<string> indexColumns = new();
+            List<string> indexColumns = [];
             StringBuilder createTableTSQL = new();
             createTableTSQL.AppendLine("PRAGMA foreign_keys = false;");
             createTableTSQL.AppendLine($"CREATE TABLE \"{tableName}\" (");
-            List<string> columns = new();
+            List<string> columns = [];
             foreach (SqliteDBFiled filed in fileds)
             {
                 columns.Add(filed.GetCreateTableFiledSQL());

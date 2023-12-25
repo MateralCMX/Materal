@@ -58,7 +58,7 @@ namespace Materal.Logger
             foreach (KeyValuePair<string, object?> item in AdvancedScope.ScopeData)
             {
                 if (item.Value is null || item.Value.IsNullOrWhiteSpaceString()) continue;
-                string scopeDataValue = item.Value is string stringValue ? stringValue : item.Value.ToString();
+                string scopeDataValue = item.Value is string stringValue ? stringValue : item.Value.ToString() ?? string.Empty;
                 result = Regex.Replace(result, $@"\$\{{{item.Key}\}}", scopeDataValue);
             }
             return result;

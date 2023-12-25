@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
 namespace Materal.Logger.Models
@@ -28,7 +27,7 @@ namespace Materal.Logger.Models
         /// <summary>
         /// 目标组
         /// </summary>
-        public List<string> Targets { get; set; } = new();
+        public List<string> Targets { get; set; } = [];
         /// <summary>
         /// 日志等级组
         /// </summary>

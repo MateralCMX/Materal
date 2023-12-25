@@ -1,27 +1,21 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.Models;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Text;
 
 namespace Materal.Logger.Repositories
 {
     /// <summary>
     /// Sqlserver基础仓储
     /// </summary>
-    public class SqlServerRepository : BaseRepository<SqlServerLoggerHandlerModel>
-    {
-        /// <summary>
-        /// Sqlserver基础仓储
-        /// </summary>
-        /// <param name="connectionString"></param>
-        public SqlServerRepository(string connectionString) : base(() =>
+    /// <remarks>
+    /// Sqlserver基础仓储
+    /// </remarks>
+    /// <param name="connectionString"></param>
+    public class SqlServerRepository(string connectionString) : BaseRepository<SqlServerLoggerHandlerModel>(() =>
         {
             SqlConnectionStringBuilder builder = new(connectionString);
             return new SqlConnection(builder.ConnectionString);
         })
-        {
-        }
+    {
         /// <summary>
         /// 插入多个
         /// </summary>
@@ -45,7 +39,7 @@ namespace Materal.Logger.Repositories
                     }
                     using SqlBulkCopy sqlBulkCopy = new(sqlConnection);
                     sqlBulkCopy.DestinationTableName = item.Key;
-                    FillDataTable(dt, item);
+                    SqlServerRepository.FillDataTable(dt, item);
                     sqlBulkCopy.BatchSize = dt.Rows.Count;
                     foreach (DataColumn column in dt.Columns)
                     {
@@ -65,7 +59,7 @@ namespace Materal.Logger.Repositories
         /// <param name="dt"></param>
         /// <param name="models"></param>
         /// <returns></returns>
-        private DataTable FillDataTable(DataTable dt, IEnumerable<SqlServerLoggerHandlerModel> models)
+        private static DataTable FillDataTable(DataTable dt, IEnumerable<SqlServerLoggerHandlerModel> models)
         {
             foreach (SqlServerLoggerHandlerModel model in models)
             {
@@ -74,7 +68,8 @@ namespace Materal.Logger.Repositories
                 {
                     if (filed.Value is not null)
                     {
-                        Type targetType = dt.Columns[filed.Name].DataType;
+                        Type? targetType = dt.Columns[filed.Name]?.DataType;
+                        if(targetType == null) continue;
                         if (filed.Value.CanConvertTo(targetType))
                         {
                             dr[filed.Name] = filed.Value.ConvertTo(targetType);
@@ -124,7 +119,7 @@ namespace Materal.Logger.Repositories
                     try
                     {
                         cmd.CommandText = GetCreateTableTSQL(tableName, fileds);
-                        object createTableResult = cmd.ExecuteScalar();
+                        object? createTableResult = cmd.ExecuteScalar();
                         dbTransaction.Commit();
                         cmd.Dispose();
                     }
@@ -148,7 +143,7 @@ namespace Materal.Logger.Repositories
                         try
                         {
                             cmd.CommandText = creteIndexTSQL;
-                            object createTableResult = cmd.ExecuteScalar();
+                            object? createTableResult = cmd.ExecuteScalar();
                             dbTransaction.Commit();
                             cmd.Dispose();
                         }
@@ -184,7 +179,7 @@ namespace Materal.Logger.Repositories
             StringBuilder setPrimaryKeyTSQL = new();
             StringBuilder createTableTSQL = new();
             createTableTSQL.AppendLine($"CREATE TABLE [{tableName}](");
-            List<string> columns = new();
+            List<string> columns = [];
             foreach (SqlServerDBFiled filed in fileds)
             {
                 columns.Add(filed.GetCreateTableFiledSQL());
@@ -213,7 +208,7 @@ namespace Materal.Logger.Repositories
         /// <returns></returns>
         private string? GetCreateIndexTSQL(string tableName, List<SqlServerDBFiled> fileds)
         {
-            List<string> indexColumns = new();
+            List<string> indexColumns = [];
             foreach (SqlServerDBFiled filed in fileds)
             {
                 if (filed.Index)

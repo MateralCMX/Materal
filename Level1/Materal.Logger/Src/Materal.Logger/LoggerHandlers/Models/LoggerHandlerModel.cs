@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Materal.Logger.LoggerHandlers.Models
 {

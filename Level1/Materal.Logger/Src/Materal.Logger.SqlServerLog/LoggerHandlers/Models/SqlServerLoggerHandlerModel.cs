@@ -1,6 +1,4 @@
-﻿using Materal.Logger.Models;
-
-namespace Materal.Logger.LoggerHandlers.Models
+﻿namespace Materal.Logger.LoggerHandlers.Models
 {
     /// <summary>
     /// SqlServer日志处理器模型

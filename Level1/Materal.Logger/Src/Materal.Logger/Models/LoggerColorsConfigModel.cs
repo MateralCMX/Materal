@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace Materal.Logger.Models
+﻿namespace Materal.Logger.Models
 {
     /// <summary>
     /// 日志颜色配置模型

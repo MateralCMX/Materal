@@ -1,8 +1,4 @@
-﻿using Materal.Utils.Http;
-using Materal.Utils.Model;
-using Microsoft.Extensions.Logging;
-using System.Text;
-using System.Threading.Tasks.Dataflow;
+﻿using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger
 {

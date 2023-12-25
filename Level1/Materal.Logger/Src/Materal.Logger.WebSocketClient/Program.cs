@@ -1,9 +1,6 @@
 ﻿using Materal.Logger.WebSocketClient.Models;
-using Materal.Utils;
-using Microsoft.Extensions.Logging;
 using System.CommandLine;
 using System.Net.WebSockets;
-using System.Text;
 
 namespace Materal.Logger.WebSocketClient
 {
@@ -48,8 +45,8 @@ namespace Materal.Logger.WebSocketClient
         private static async Task ExcuteListenerAsync(string url, string? targets, string? ignores)
         {
             Uri serverUri = new($"ws://{url}");
-            List<LogLevel> targetLogLevels = new();
-            List<LogLevel> ignoreLogLevels = new();
+            List<LogLevel> targetLogLevels = [];
+            List<LogLevel> ignoreLogLevels = [];
             if (targets is not null && !string.IsNullOrWhiteSpace(targets))
             {
                 string[] targetLevels = targets.Split(",");

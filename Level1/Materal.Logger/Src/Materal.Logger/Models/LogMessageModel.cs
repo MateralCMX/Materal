@@ -1,81 +1,57 @@
-﻿using Materal.Logger.LoggerHandlers;
-using Materal.Logger.LoggerHandlers.Models;
-using Microsoft.Extensions.Logging;
-
-namespace Materal.Logger.Models
+﻿namespace Materal.Logger.Models
 {
     /// <summary>
     /// 日志消息模型
     /// </summary>
-    public class LogMessageModel
+    public class LogMessageModel(LoggerHandlerModel model, LoggerConfig loggerConfig)
     {
         /// <summary>
         /// 唯一标识
         /// </summary>
-        public Guid ID { get; }
+        public Guid ID { get; } = model.ID;
         /// <summary>
         /// 创建时间
         /// </summary>
-        public DateTime CreateTime { get; }
+        public DateTime CreateTime { get; } = model.CreateTime;
         /// <summary>
         /// 级别
         /// </summary>
-        public LogLevel Level { get; }
+        public LogLevel Level { get; } = model.LogLevel;
         /// <summary>
         /// 进程ID
         /// </summary>
-        public string ProgressID { get; }
+        public string ProgressID { get; } = LoggerHandlerHelper.GetProgressID();
         /// <summary>
         /// 线程ID
         /// </summary>
-        public string ThreadID { get; }
+        public string ThreadID { get; } = model.ThreadID;
         /// <summary>
         /// 域
         /// </summary>
-        public string? Scope { get; }
+        public string? Scope { get; } = model.Scope?.ScopeName;
         /// <summary>
         /// 机器名称
         /// </summary>
-        public string MachineName { get; }
+        public string MachineName { get; } = LoggerHandlerHelper.MachineName;
         /// <summary>
         /// 类型名称
         /// </summary>
-        public string? CategoryName { get; }
+        public string? CategoryName { get; } = model.CategoryName;
         /// <summary>
         /// 应用程序
         /// </summary>
-        public string Application { get; }
+        public string Application { get; } = loggerConfig.Application;
         /// <summary>
         /// 消息
         /// </summary>
-        public string Message { get; }
+        public string Message { get; } = LoggerHandlerHelper.FormatText(loggerConfig, model.Message, model);
         /// <summary>
         /// 异常对象
         /// </summary>
-        public string? Exception { get; }
+        public string? Exception { get; } = model.Exception?.GetErrorMessage();
         /// <summary>
         /// 域数据
         /// </summary>
-        public Dictionary<string, object?>? ScopeData { get; }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="model"></param>
-        /// <param name="loggerConfig"></param>
-        public LogMessageModel(LoggerHandlerModel model, LoggerConfig loggerConfig)
-        {
-            ID = model.ID;
-            CreateTime = model.CreateTime;
-            Level = model.LogLevel;
-            ProgressID = LoggerHandlerHelper.GetProgressID();
-            ThreadID = model.ThreadID;
-            Scope = model.Scope?.ScopeName;
-            MachineName = LoggerHandlerHelper.MachineName;
-            CategoryName = model.CategoryName;
-            Application = loggerConfig.Application;
-            Message = LoggerHandlerHelper.FormatText(loggerConfig, model.Message, model);
-            Exception = model.Exception?.GetErrorMessage();
-            ScopeData = model.Scope?.AdvancedScope?.ScopeData;
-        }
+        public Dictionary<string, object?>? ScopeData { get; } = model.Scope?.AdvancedScope?.ScopeData;
     }
 }

@@ -1,8 +1,4 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
-namespace Materal.Logger
+﻿namespace Materal.Logger
 {
     /// <summary>
     /// 日志
@@ -36,7 +32,7 @@ namespace Materal.Logger
         /// <returns></returns>
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         {
-            string scope;
+            string? scope = null;
             LoggerScope? loggerScope = null;
             if (state is not null)
             {
@@ -53,10 +49,7 @@ namespace Materal.Logger
                     scope = state.ToString();
                 }
             }
-            else
-            {
-                scope = "PublicScope";
-            }
+            scope ??= "PublicScope";
             loggerScope ??= BeginScope(scope);
             return loggerScope;
         }

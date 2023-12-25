@@ -1,23 +1,11 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.Models;
-using Materal.Utils.Http;
-using Microsoft.Extensions.Logging;
-
-namespace Materal.Logger.LoggerHandlers
+﻿namespace Materal.Logger.LoggerHandlers
 {
     /// <summary>
     /// Http日志处理器
     /// </summary>
-    public class HttpLoggerHandler : BufferLoggerHandler<HttpLoggerHandlerModel, HttpLoggerTargetConfigModel>
+    public class HttpLoggerHandler(LoggerRuntime loggerRuntime, IHttpHelper? httpHelper = null) : BufferLoggerHandler<HttpLoggerHandlerModel, HttpLoggerTargetConfigModel>(loggerRuntime)
     {
-        private readonly IHttpHelper _httpHelper;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public HttpLoggerHandler(LoggerRuntime loggerRuntime) : base(loggerRuntime)
-        {
-            _httpHelper = new HttpHelper();
-        }
+        private readonly IHttpHelper _httpHelper = httpHelper ?? new HttpHelper();
         /// <summary>
         /// 处理合格的数据
         /// </summary>

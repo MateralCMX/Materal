@@ -1,5 +1,4 @@
-﻿using Materal.Logger.Models;
-using Materal.Logger.MongoLog.LoggerHandlers.Models;
+﻿using Materal.Logger.MongoLog.LoggerHandlers.Models;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

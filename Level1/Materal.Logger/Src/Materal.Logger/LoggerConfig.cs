@@ -1,11 +1,6 @@
-﻿using Materal.Logger.Models;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using System.Reflection;
 
 namespace Materal.Logger
 {
@@ -29,7 +24,7 @@ namespace Materal.Logger
         /// <summary>
         /// 配置模型类型
         /// </summary>
-        public Dictionary<string, Type> ConfigModelTypes { get; } = new();
+        public Dictionary<string, Type> ConfigModelTypes { get; } = [];
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -49,7 +44,7 @@ namespace Materal.Logger
         /// <summary>
         /// 应用程序名称
         /// </summary>
-        public string Application => GetValue(nameof(Application), Assembly.GetEntryAssembly().GetName().Name);
+        public string Application => GetValue(nameof(Application), Assembly.GetEntryAssembly()?.GetName().Name);
         /// <summary>
         /// 模式
         /// </summary>
@@ -90,7 +85,7 @@ namespace Materal.Logger
         public List<T> GetAllTargets<T>()
             where T : LoggerTargetConfigModel
         {
-            List<T> result = new();
+            List<T> result = [];
             #region 读取配置对象中的配置
             string value = GetValue(nameof(Targets));
             if (value is not null && !string.IsNullOrWhiteSpace(value) && value.IsArrayJson())
@@ -153,7 +148,7 @@ namespace Materal.Logger
         /// <summary>
         /// 自定义配置
         /// </summary>
-        public Dictionary<string, string> CustomConfig { get; private set; } = new();
+        public Dictionary<string, string> CustomConfig { get; private set; } = [];
         /// <summary>
         /// 获取配置项
         /// </summary>

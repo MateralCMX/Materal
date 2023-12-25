@@ -1,27 +1,17 @@
-﻿using Materal.Logger.Models;
-
-namespace Materal.Logger.LoggerHandlers.Models
+﻿namespace Materal.Logger.LoggerHandlers.Models
 {
     /// <summary>
     /// Http日志处理器模型
     /// </summary>
-    public class HttpLoggerHandlerModel : BufferLoggerHandlerModel
+    public class HttpLoggerHandlerModel(LoggerRuleConfigModel rule, HttpLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig) : BufferLoggerHandlerModel(rule, target, model)
     {
         /// <summary>
         /// Url
         /// </summary>
-        public string Url { get; set; } = string.Empty;
+        public string Url { get; set; } = LoggerHandlerHelper.FormatPath(loggerConfig, target.Url, model);
         /// <summary>
         /// Http方法
         /// </summary>
-        public HttpMethod HttpMethod { get; set; } = HttpMethod.Post;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public HttpLoggerHandlerModel(LoggerRuleConfigModel rule, HttpLoggerTargetConfigModel target, LoggerHandlerModel model, LoggerConfig loggerConfig) : base(rule, target, model)
-        {
-            Url = LoggerHandlerHelper.FormatPath(loggerConfig, target.Url, model);
-            HttpMethod = target.GetHttpMethod();
-        }
+        public HttpMethod HttpMethod { get; set; } = target.GetHttpMethod();
     }
 }

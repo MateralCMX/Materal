@@ -1,11 +1,4 @@
-﻿using Materal.Logger.Models;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
-using System.Reflection;
-
-namespace Materal.Logger
+﻿namespace Materal.Logger
 {
     /// <summary>
     /// DI扩展
@@ -30,10 +23,10 @@ namespace Materal.Logger
             services.Replace(ServiceDescriptor.Singleton<ILoggerFactory, LoggerFactory>());
             services.Replace(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
             const string assembliyName = "Materal.Logger";
-            List<Assembly> targetAssemblies = assemblies.ToList();
+            List<Assembly> targetAssemblies = [.. assemblies];
             targetAssemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName is not null && m.FullName.StartsWith(assembliyName)));
             FileInfo dllFileInfo = new(typeof(Logger).Assembly.Location);
-            DirectoryInfo directoryInfo = dllFileInfo.Directory;
+            DirectoryInfo directoryInfo = dllFileInfo.Directory ?? throw new LoggerException("获取dll文件夹信息失败");
             FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll").Where(m => m.Name.StartsWith(assembliyName)).ToArray();
             foreach (FileInfo fileInfo in fileInfos)
             {
@@ -41,7 +34,7 @@ namespace Materal.Logger
                 Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
                 targetAssemblies.Add(assembly);
             }
-            List<LoggerTargetConfigModel> configModels = new();
+            List<LoggerTargetConfigModel> configModels = [];
             foreach (Assembly assembly in targetAssemblies)
             {
                 Type[] configTypes = assembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<LoggerTargetConfigModel>()).ToArray();

@@ -1,8 +1,4 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.Models;
-using Materal.Logger.Repositories;
-
-namespace Materal.Logger.LoggerHandlers
+﻿namespace Materal.Logger.LoggerHandlers
 {
     /// <summary>
     /// Sqlite日志处理器

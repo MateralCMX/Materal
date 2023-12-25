@@ -1,6 +1,4 @@
-﻿using Materal.Logger.LoggerHandlers;
-
-namespace Materal.Logger.Models
+﻿namespace Materal.Logger.Models
 {
     /// <summary>
     /// SqlServer日志目标配置模型

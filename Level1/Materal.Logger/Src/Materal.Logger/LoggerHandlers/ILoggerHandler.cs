@@ -1,6 +1,4 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-
-namespace Materal.Logger.LoggerHandlers
+﻿namespace Materal.Logger.LoggerHandlers
 {
     /// <summary>
     /// 日志处理器

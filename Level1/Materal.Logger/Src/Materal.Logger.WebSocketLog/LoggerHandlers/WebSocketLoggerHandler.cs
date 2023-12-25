@@ -1,6 +1,5 @@
 ﻿using Fleck;
-using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.Models;
+using LogLevel = Fleck.LogLevel;
 
 namespace Materal.Logger.LoggerHandlers
 {
@@ -9,8 +8,8 @@ namespace Materal.Logger.LoggerHandlers
     /// </summary>
     public class WebSocketLoggerHandler : LoggerHandler<WebSocketLoggerTargetConfigModel>
     {
-        private readonly Dictionary<string, WebSocketServer> _webSocketServers = new();
-        private readonly Dictionary<string, List<IWebSocketConnection>> _webSocketConnections = new();
+        private readonly Dictionary<string, WebSocketServer> _webSocketServers = [];
+        private readonly Dictionary<string, List<IWebSocketConnection>> _webSocketConnections = [];
         private readonly Timer _verifyWebSocketServerTimer;
         private const int VerifyWebSocketServerInterval = 5000;
         private readonly object GetWebSocketServerLock = new();
@@ -127,7 +126,7 @@ namespace Materal.Logger.LoggerHandlers
                     LoggerLog.LogDebug($"监测程序已连接:[{name}]{connection.ConnectionInfo.ClientIpAddress}:{connection.ConnectionInfo.ClientPort}");
                     if (!_webSocketConnections.ContainsKey(name))
                     {
-                        _webSocketConnections.Add(name, new());
+                        _webSocketConnections.Add(name, []);
                     }
                     _webSocketConnections[name].Add(connection);
                 };
@@ -154,7 +153,7 @@ namespace Materal.Logger.LoggerHandlers
             List<WebSocketLoggerTargetConfigModel> targets = Config.GetAllTargets<WebSocketLoggerTargetConfigModel>();
             #region 关闭禁用或不存在的服务
             string[] enableTargetNames = targets.Select(m => m.Name).ToArray();
-            string[] allKeys = _webSocketServers.Keys.ToArray();
+            string[] allKeys = [.. _webSocketServers.Keys];
             foreach (string key in allKeys)
             {
                 if (enableTargetNames.Contains(key)) continue;

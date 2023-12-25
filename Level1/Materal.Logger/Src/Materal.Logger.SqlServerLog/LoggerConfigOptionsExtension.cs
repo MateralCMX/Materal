@@ -1,6 +1,4 @@
-﻿using Materal.Logger.Models;
-
-namespace Materal.Logger
+﻿namespace Materal.Logger
 {
     /// <summary>
     /// 日志配置选项扩展

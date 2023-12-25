@@ -1,7 +1,4 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.Models;
-using Materal.Utils.Model;
-using System.Threading.Tasks.Dataflow;
+﻿using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger.LoggerHandlers
 {

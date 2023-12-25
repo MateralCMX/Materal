@@ -1,6 +1,4 @@
-﻿using Materal.Logger.Models;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Materal.Logger
 {
@@ -12,11 +10,11 @@ namespace Materal.Logger
         /// <summary>
         /// 目标组
         /// </summary>
-        public List<LoggerTargetConfigModel> Targets { get; } = new();
+        public List<LoggerTargetConfigModel> Targets { get; } = [];
         /// <summary>
         /// 规则组
         /// </summary>
-        public List<LoggerRuleConfigModel> Rules { get; } = new();
+        public List<LoggerRuleConfigModel> Rules { get; } = [];
         /// <summary>
         /// 日志自身日志等级
         /// </summary>
@@ -29,11 +27,11 @@ namespace Materal.Logger
         /// 自定义配置
         /// </summary>
 
-        private readonly Dictionary<string, string> _customConfig = new();
+        private readonly Dictionary<string, string> _customConfig = [];
         /// <summary>
         /// Trace监听器
         /// </summary>
-        public List<TraceListener> TraceListeners { get; } = new();
+        public List<TraceListener> TraceListeners { get; } = [];
         /// <summary>
         /// 初始化
         /// </summary>
@@ -147,7 +145,7 @@ namespace Materal.Logger
         {
             _addAllTargetRule = (loggerConfig) =>
             {
-                List<string> targets = new();
+                List<string> targets = [];
                 loggerConfig.Targets.ForEach(m => targets.Add(m.Name));
                 AddRule(name, targets, minLevel, maxLevel, loglevels);
             };

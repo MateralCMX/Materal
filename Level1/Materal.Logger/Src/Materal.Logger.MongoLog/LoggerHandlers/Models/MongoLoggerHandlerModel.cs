@@ -1,8 +1,4 @@
-﻿using Materal.Logger.LoggerHandlers;
-using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.Models;
-
-namespace Materal.Logger.MongoLog.LoggerHandlers.Models
+﻿namespace Materal.Logger.MongoLog.LoggerHandlers.Models
 {
     /// <summary>
     /// Mongo日志处理器模型

@@ -1,7 +1,4 @@
-﻿using Materal.Logger.LoggerHandlers.Models;
-using Materal.Utils.Http;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace Materal.Logger.LoggerHandlers

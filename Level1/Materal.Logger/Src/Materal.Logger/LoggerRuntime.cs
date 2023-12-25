@@ -1,7 +1,4 @@
-﻿using Materal.Logger.LoggerHandlers;
-using Materal.Logger.LoggerHandlers.Models;
-using Materal.Logger.Models;
-using System.Threading.Tasks.Dataflow;
+﻿using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger
 {
@@ -52,7 +49,7 @@ namespace Materal.Logger
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CurrentDomain_ProcessExit(object sender, EventArgs e) => ShutdownAsync().Wait();
+        private void CurrentDomain_ProcessExit(object? sender, EventArgs e) => ShutdownAsync().Wait();
         /// <summary>
         /// 添加多个处理器
         /// </summary>
