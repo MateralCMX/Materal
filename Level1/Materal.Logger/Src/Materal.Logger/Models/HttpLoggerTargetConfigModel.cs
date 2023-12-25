@@ -17,7 +17,7 @@ namespace Materal.Logger.Models
         /// <paramref name="loggerRuntime"></paramref>
         public override ILoggerHandler GetLoggerHandler(LoggerRuntime loggerRuntime)
         {
-            IHttpHelper? httpHelper = MateralServices.GetService<IHttpHelper>();
+            IHttpHelper? httpHelper = loggerRuntime.ServiceProvider.GetService<IHttpHelper>();
             return new HttpLoggerHandler(loggerRuntime, httpHelper);
         }
         private string _url = "http://127.0.0.1/api/Logger/WriteLog";

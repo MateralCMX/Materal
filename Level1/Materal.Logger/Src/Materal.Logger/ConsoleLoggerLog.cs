@@ -95,7 +95,7 @@ namespace Materal.Logger
         /// <param name="message"></param>
         /// <param name="exception"></param>
         /// <returns></returns>
-        private string GetErrorMessage(string message, Exception? exception)
+        private static string GetErrorMessage(string message, Exception? exception)
         {
             StringBuilder messageBuild = new();
             messageBuild.AppendLine(message);

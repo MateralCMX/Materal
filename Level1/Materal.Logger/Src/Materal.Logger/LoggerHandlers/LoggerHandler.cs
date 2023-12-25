@@ -47,13 +47,18 @@
         /// </summary>
         /// <param name="rule"></param>
         /// <param name="logLevel"></param>
+        /// <param name="scope"></param>
         /// <param name="categoryName"></param>
         /// <param name="defaultLogLevels"></param>
         /// <returns></returns>
-        protected virtual bool CanRun(LoggerRuleConfigModel rule, LogLevel logLevel, string? categoryName, Dictionary<string, LogLevel> defaultLogLevels)
+        protected virtual bool CanRun(LoggerRuleConfigModel rule, LogLevel logLevel, string? scope, string? categoryName, Dictionary<string, LogLevel> defaultLogLevels)
         {
             if (logLevel == LogLevel.None) return false;
             if (rule.MinLevel > logLevel || rule.MaxLevel < logLevel) return false;
+            if(rule.Scopes is not null && rule.Scopes.Count > 0)
+            {
+                if(scope is null || string.IsNullOrWhiteSpace(scope) || !rule.Scopes.Contains(scope)) return false;
+            }
             LogLevel? configLogLevel = null;
             Dictionary<string, LogLevel> logLevels = rule.LogLevels ?? defaultLogLevels;
             if (categoryName is not null && !string.IsNullOrWhiteSpace(categoryName))
@@ -73,9 +78,9 @@
                     configLogLevel = logLevels[key];
                 }
             }
-            if (configLogLevel is null && logLevels.ContainsKey("Default"))
+            if (configLogLevel is null && logLevels.TryGetValue("Default", out LogLevel value))
             {
-                configLogLevel = logLevels["Default"];
+                configLogLevel = value;
             }
             if (configLogLevel is null) return true;
             if (configLogLevel == LogLevel.None) return false;
@@ -116,7 +121,7 @@
             Dictionary<string, LogLevel> defaultLogLevels = Config.DefaultLogLevels;
             foreach (LoggerRuleConfigModel rule in Config.Rules)
             {
-                if (!rule.Enable || !CanRun(rule, model.LogLevel, model.CategoryName, defaultLogLevels)) continue;
+                if (!rule.Enable || !CanRun(rule, model.LogLevel, model.Scope?.ScopeName, model.CategoryName, defaultLogLevels)) continue;
                 foreach (string targetName in rule.Targets)
                 {
                     T? target = targets.FirstOrDefault(m => m.Name == targetName && m.Enable);

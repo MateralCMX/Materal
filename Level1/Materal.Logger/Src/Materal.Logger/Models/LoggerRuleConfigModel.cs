@@ -29,6 +29,10 @@ namespace Materal.Logger.Models
         /// </summary>
         public List<string> Targets { get; set; } = [];
         /// <summary>
+        /// 域组
+        /// </summary>
+        public List<string>? Scopes { get; set; }
+        /// <summary>
         /// 日志等级组
         /// </summary>
         [JsonPropertyName("LogLevel")]

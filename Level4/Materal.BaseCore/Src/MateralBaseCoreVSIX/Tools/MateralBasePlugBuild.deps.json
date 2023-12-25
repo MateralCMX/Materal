@@ -31,7 +31,7 @@
           "Microsoft.Extensions.DependencyInjection": "8.0.0"
         },
         "runtime": {
-          "lib/netstandard2.0/Materal.Abstractions.dll": {
+          "lib/net8.0/Materal.Abstractions.dll": {
             "assemblyVersion": "1.1.72.0",
             "fileVersion": "1.1.72.0"
           }
@@ -46,7 +46,7 @@
           "System.Drawing.Common": "8.0.0"
         },
         "runtime": {
-          "lib/netstandard2.0/Materal.Extensions.dll": {
+          "lib/net8.0/Materal.Extensions.dll": {
             "assemblyVersion": "1.1.72.0",
             "fileVersion": "1.1.72.0"
           }
@@ -296,14 +296,14 @@
     "Materal.Abstractions/1.1.72": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-R0mBV9/ziQxoTHEK+OAWB6MZ/xdFpdtZUuzs0xcE/orck4wsrrAu6PjG0yp7ySyzo0yIbFvOrRgr64r1BrX2BA==",
+      "sha512": "sha512-02zTixWYQw4SDUQ/DGWgVTvy+I62a1EOaR6oQg4sdrDFoZVElNbO6/wx4BATTcms3cdUiVdhqK0tpnil8NVkLg==",
       "path": "materal.abstractions/1.1.72",
       "hashPath": "materal.abstractions.1.1.72.nupkg.sha512"
     },
     "Materal.Extensions/1.1.72": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-R31NeWSH0FELLqqO9FOAA3/78UrFzlIXI0oOcKGu3QvQbLNKz4GHX2GKUbwC8Fn1ctZSyxVtxb45UX611e/UFw==",
+      "sha512": "sha512-CzLyoQ4GsNQfPBM93YR8Nx1sG99UzyZJjh7VW6njELdE4UMjwxKVD8gQ9V5D3ZEtX4vqhhY7QLUOULCYUNrGhw==",
       "path": "materal.extensions/1.1.72",
       "hashPath": "materal.extensions.1.1.72.nupkg.sha512"
     },

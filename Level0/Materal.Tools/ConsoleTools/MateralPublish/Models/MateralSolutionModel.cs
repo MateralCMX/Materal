@@ -69,7 +69,14 @@ namespace MateralPublish.Models
         {
             foreach (BaseProjectModel project in _projects)
             {
-                await project.PublishAsync(version);
+                try
+                {
+                    await project.PublishAsync(version);
+                }
+                catch (Exception ex)
+                {
+                    ConsoleHelper.WriteLine($"项目{project.Name}发布失败:{ex.Message}", ConsoleColor.Red);
+                }
             }
             if (uploadNuget)
             {

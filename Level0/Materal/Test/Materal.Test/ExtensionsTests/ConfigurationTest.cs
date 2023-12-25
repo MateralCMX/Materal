@@ -20,8 +20,16 @@ namespace Materal.Test.ExtensionsTests
             Assert.AreEqual("Materal", value);
             value = _configuration.GetValueObject<int>("IntValue");
             Assert.AreEqual(123, value);
+            value = _configuration.GetValueObject<int?>("IntValue");
+            Assert.AreEqual(123, value);
             value = _configuration.GetValueObject<TestEnum>("EnumValue");
             Assert.AreEqual(TestEnum.Enum2, value);
+            value = _configuration.GetValueObject<TestEnum?>("EnumValue");
+            Assert.AreEqual(TestEnum.Enum2, value);
+            value = _configuration.GetValueObject<TestEnum>("EnumValue2");
+            Assert.AreEqual(TestEnum.Enum1, value);
+            value = _configuration.GetValueObject<TestEnum?>("EnumValue2");
+            Assert.AreEqual(TestEnum.Enum1, value);
         }
     }
 }

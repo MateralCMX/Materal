@@ -126,8 +126,9 @@ namespace Materal.Logger.Test
                 option.AddCustomConfig("ApplicationName", "MateralLoggerTest");
             });
             IServiceProvider services = serviceCollection.BuildServiceProvider();
+            //await WriteLoopLogsAsync(services, 10, 1000);
             LoggerRuntime loggerRuntime = services.GetRequiredService<LoggerRuntime>();
-            await WriteLoopLogsAsync(services, 10, 1000);
+            WriteLogs(services);
             await loggerRuntime.ShutdownAsync();
         }
         /// <summary>

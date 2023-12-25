@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Microsoft.Extensions.Configuration
+﻿namespace Microsoft.Extensions.Configuration
 {
     /// <summary>
     /// 配置对象扩展
@@ -20,6 +18,10 @@ namespace Microsoft.Extensions.Configuration
             if (string.IsNullOrEmpty(value) || value is null) return default;
             T? result;
             Type tType = typeof(T);
+            if (tType.IsGenericType && tType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                tType = tType.GetGenericArguments()[0];
+            }
             if (value.CanConvertTo(tType))
             {
                 result = (T?)value.ConvertTo(tType);
@@ -28,13 +30,9 @@ namespace Microsoft.Extensions.Configuration
             {
                 result = (T?)Enum.Parse(tType, value);
             }
-            else if (tType.GetCustomAttribute<SerializableAttribute>() is not null)
+            else if (value.IsJson())
             {
                 result = value.JsonToDeserializeObject<T>();
-            }
-            else if(value.IsJson())
-            {
-                result = value.JsonToObject<T>();
             }
             else
             {

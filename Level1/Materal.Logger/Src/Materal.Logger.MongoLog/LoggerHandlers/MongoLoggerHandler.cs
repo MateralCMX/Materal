@@ -39,7 +39,7 @@ namespace Materal.Logger.LoggerHandlers
                 }
             });
         }
-        private IEnumerable<BsonDocument> GetBsonDocument(IGrouping<string, MongoLoggerHandlerModel>[] data)
+        private List<BsonDocument> GetBsonDocument(IGrouping<string, MongoLoggerHandlerModel>[] data)
         {
             List<BsonDocument> result = [];
             foreach (IGrouping<string, MongoLoggerHandlerModel> item in data)
@@ -48,7 +48,13 @@ namespace Materal.Logger.LoggerHandlers
             }
             return result;
         }
-        private IEnumerable<BsonDocument> GetBsonDocuments(IGrouping<string, MongoLoggerHandlerModel> data) => GetKeyValuePairs(data).Select(m => new BsonDocument(m));
-        private IEnumerable<Dictionary<string, object>> GetKeyValuePairs(IGrouping<string, MongoLoggerHandlerModel> data) => data.Select(m => m.ToDictionary());
+        private static IEnumerable<BsonDocument> GetBsonDocuments(IGrouping<string, MongoLoggerHandlerModel> data)
+        {
+            IEnumerable<Dictionary<string, object>> keyValuePairs = GetKeyValuePairs(data);
+            IEnumerable<BsonDocument> bsonElements = keyValuePairs.Select(m => new BsonDocument(m));
+            return bsonElements;
+        }
+
+        private static IEnumerable<Dictionary<string, object>> GetKeyValuePairs(IGrouping<string, MongoLoggerHandlerModel> data) => data.Select(m => m.ToDictionary());
     }
 }

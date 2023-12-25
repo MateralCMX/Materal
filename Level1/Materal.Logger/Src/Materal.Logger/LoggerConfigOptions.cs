@@ -104,7 +104,8 @@ namespace Materal.Logger
         /// <param name="minLevel"></param>
         /// <param name="maxLevel"></param>
         /// <param name="loglevels"></param>
-        public LoggerConfigOptions AddRule(string name, IEnumerable<string> targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
+        /// <param name="scopes"></param>
+        public LoggerConfigOptions AddRule(string name, IEnumerable<string> targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null, IEnumerable<string>? scopes = null)
         {
             if (targets.Count() <= 0) return this;
             minLevel ??= LogLevel.Information;
@@ -121,6 +122,10 @@ namespace Materal.Logger
                 MaxLevel = maxLevel.Value,
                 LogLevels = loglevels
             };
+            if(scopes is not null)
+            {
+                rule.Scopes = scopes.ToList();
+            }
             Rules.Add(rule);
             return this;
         }

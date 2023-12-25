@@ -54,7 +54,7 @@
             {
                 LoggerConfig config = m.GetRequiredService<LoggerConfig>();
                 ILoggerLog loggerLog = m.GetRequiredService<ILoggerLog>();
-                LoggerRuntime loggerRuntime = new(config, loggerLog);
+                LoggerRuntime loggerRuntime = new(m, config, loggerLog);
                 loggerRuntime.AddHandlers(configModels);
                 loggerRuntime.OnLoggerServiceReady();
                 return loggerRuntime;

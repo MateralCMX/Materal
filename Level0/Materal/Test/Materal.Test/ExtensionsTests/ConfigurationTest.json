@@ -1,5 +1,6 @@
 {
   "StringValue": "Materal",
   "IntValue": 123,
-  "EnumValue": 1
+  "EnumValue": 1,
+  "EnumValue2": "Enum1"
 }

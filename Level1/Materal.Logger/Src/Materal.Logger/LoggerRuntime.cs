@@ -28,10 +28,15 @@ namespace Materal.Logger
         /// </summary>
         public ILoggerLog LoggerLog { get; private set; }
         /// <summary>
+        /// 服务提供者
+        /// </summary>
+        public IServiceProvider ServiceProvider { get; }
+        /// <summary>
         /// 构造方法
         /// </summary>
-        public LoggerRuntime(LoggerConfig loggerConfig, ILoggerLog loggerLog)
+        public LoggerRuntime(IServiceProvider serviceProvider, LoggerConfig loggerConfig, ILoggerLog loggerLog)
         {
+            ServiceProvider = serviceProvider;
             _actionBlock = new(HandlerLog);
             Config = loggerConfig;
             LoggerLog = loggerLog;
