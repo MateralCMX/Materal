@@ -80,5 +80,13 @@ namespace Materal.Test.ExtensionsTests
             object? value = ((object)dataTable).ToExpandoObject();
             Assert.AreNotEqual(dataTable, value);
         }
+        [TestMethod]
+        public void GuidToExpandoObjectTest()
+        {
+            Guid id = Guid.NewGuid();
+            var data = new { ID = id.ToByteArray(), Name = "Materal" };
+            object? value = data.ToExpandoObject();
+            Assert.AreEqual(id, value?.GetValue<Guid>(nameof(data.ID)));
+        }
     }
 }

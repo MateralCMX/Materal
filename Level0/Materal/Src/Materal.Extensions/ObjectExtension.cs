@@ -1,5 +1,7 @@
 ﻿using Materal.Extensions;
+using System.Collections;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
@@ -423,5 +425,61 @@ namespace System
             }
             return true;
         }
+        /// <summary>
+        /// 获得值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static T? GetValue<T>(this object obj, string name)
+        {
+            object? resultObj = GetValue(obj, name);
+            if (resultObj is null || resultObj is not T result) return default;
+            return result;
+        }
+        /// <summary>
+        /// 获得值
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static object? GetValue(this object obj, string name)
+        {
+            if (obj is IDictionary dic) return dic.GetValue(name);
+            if (obj is IDictionary<string, object> dicObj) return dicObj.GetValue(name);
+            PropertyInfo? propertyInfo = obj.GetType().GetRuntimeProperty(name);
+            if (propertyInfo is not null && propertyInfo.CanRead)
+            {
+                return propertyInfo.GetValue(obj);
+            }
+            FieldInfo? fieldInfo = obj.GetType().GetRuntimeField(name);
+            if (fieldInfo is not null)
+            {
+                return fieldInfo.GetValue(obj);
+            }
+            return null;
+        }
+        /// <summary>
+        /// 获得值
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static object? GetValue(this IDictionary obj, string name)
+        {
+            foreach (object? item in obj.Keys)
+            {
+                if (item is not null && item.Equals(name)) return obj[item];
+            }
+            return null;
+        }
+        /// <summary>
+        /// 获得值
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static object? GetValue(this IDictionary<string, object> obj, string name) => obj.TryGetValue(name, out object? value) ? value : null;
     }
 }

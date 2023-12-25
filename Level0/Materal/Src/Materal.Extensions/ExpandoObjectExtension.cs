@@ -154,6 +154,14 @@ namespace System
             if (enumerable is null) return null;
             if (enumerable is ExpandoObject expandoObject) return expandoObject.ToExpandoObject();
             if (enumerable is IDictionary dictionary) return dictionary.ToExpandoObject();
+            if (enumerable is byte[] bytes && bytes.Length == 16)
+            {
+                try
+                {
+                    return new Guid(bytes);
+                }
+                catch { }
+            }
             List<object?> result = [];
             foreach (object item in enumerable)
             {

@@ -177,7 +177,6 @@ namespace Materal.Utils.Http
         /// <summary>
         /// 发送Soap1.2请求
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
         /// <param name="serviceName"></param>
         /// <param name="serviceNamespace"></param>
@@ -199,7 +198,6 @@ namespace Materal.Utils.Http
         /// <summary>
         /// 发送Soap1.2请求
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="url"></param>
         /// <param name="serviceName"></param>
         /// <param name="serviceNamespace"></param>
