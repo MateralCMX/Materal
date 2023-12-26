@@ -1,7 +1,7 @@
 ﻿namespace Materal.Logger.FileLogger
 {
     /// <summary>
-    /// 控制台目标配置
+    /// 文件目标配置
     /// </summary>
     public class FileLoggerTargetConfig : BatchTargetConfig<FileLoggerWriter>
     {

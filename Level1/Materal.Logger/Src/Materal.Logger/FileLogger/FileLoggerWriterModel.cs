@@ -1,7 +1,7 @@
 ﻿namespace Materal.Logger.FileLogger
 {
     /// <summary>
-    /// 控制台日志写入器模型
+    /// 文件日志写入器模型
     /// </summary>
     public class FileLoggerWriterModel(LoggerWriterModel model, FileLoggerTargetConfig target) : BatchLoggerWriterModel(model)
     {
