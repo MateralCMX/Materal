@@ -147,13 +147,5 @@ namespace Materal.Logger.ConfigModels
             if (targetsObj is not List<ExpandoObject> targets) return null;
             return targets;
         }
-        /// <summary>
-        /// 设置自定义配置
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-#pragma warning disable CA1822 // 将成员标记为 static
-        public void SetCustomConfig(string key, object? value) => CustomConfig.TryAdd(key, value);
-#pragma warning restore CA1822 // 将成员标记为 static
     }
 }

@@ -37,36 +37,36 @@
         /// 构造方法
         /// </summary>
         public ColorsConfig() { }
-        ///// <summary>
-        ///// 构造方法
-        ///// </summary>
-        //public ColorsConfig(Dictionary<LogLevel, ConsoleColor> colors)
-        //{
-        //    foreach (KeyValuePair<LogLevel, ConsoleColor> color in colors)
-        //    {
-        //        switch (color.Key)
-        //        {
-        //            case LogLevel.Trace:
-        //                Trace = color.Value;
-        //                break;
-        //            case LogLevel.Debug:
-        //                Debug = color.Value;
-        //                break;
-        //            case LogLevel.Information:
-        //                Information = color.Value;
-        //                break;
-        //            case LogLevel.Warning:
-        //                Warning = color.Value;
-        //                break;
-        //            case LogLevel.Error:
-        //                Error = color.Value;
-        //                break;
-        //            case LogLevel.Critical:
-        //                Critical = color.Value;
-        //                break;
-        //        }
-        //    }
-        //}
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public ColorsConfig(Dictionary<LogLevel, ConsoleColor> colors)
+        {
+            foreach (KeyValuePair<LogLevel, ConsoleColor> color in colors)
+            {
+                switch (color.Key)
+                {
+                    case LogLevel.Trace:
+                        Trace = color.Value;
+                        break;
+                    case LogLevel.Debug:
+                        Debug = color.Value;
+                        break;
+                    case LogLevel.Information:
+                        Information = color.Value;
+                        break;
+                    case LogLevel.Warning:
+                        Warning = color.Value;
+                        break;
+                    case LogLevel.Error:
+                        Error = color.Value;
+                        break;
+                    case LogLevel.Critical:
+                        Critical = color.Value;
+                        break;
+                }
+            }
+        }
         /// <summary>
         /// 获得控制台颜色
         /// </summary>

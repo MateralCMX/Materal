@@ -1,4 +1,5 @@
 ﻿using Materal.Logger.LoggerLogs;
+using System.Diagnostics;
 using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger
@@ -10,6 +11,7 @@ namespace Materal.Logger
     {
         private static readonly ActionBlock<LoggerWriterModel> _writeLoggerBlock;
         private static readonly List<ILoggerWriter> _loggerWriters = [];
+        private static readonly List<TraceListener> _traceListeners = [];
         /// <summary>
         /// 日志自身日志
         /// </summary>
@@ -60,12 +62,26 @@ namespace Materal.Logger
             }
         }
         /// <summary>
+        /// 添加TraceListener
+        /// </summary>
+        /// <param name="traceListener"></param>
+        public static void AddTraceListener(TraceListener traceListener)
+        {
+            _traceListeners.Add(traceListener);
+            Trace.Listeners.Add(traceListener);
+        }
+        /// <summary>
         /// 关闭
         /// </summary>
         public static async Task ShutdownAsync()
         {
             IsClose = true;
             LoggerLog?.LogDebug($"正在关闭[MateralLogger]");
+            foreach (TraceListener traceListener in _traceListeners)
+            {
+                Trace.Listeners.Remove(traceListener);
+            }
+            _traceListeners.Clear();
             if (_loggerWriters is not null)
             {
                 _writeLoggerBlock.Complete();

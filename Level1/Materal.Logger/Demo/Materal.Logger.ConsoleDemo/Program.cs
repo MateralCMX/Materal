@@ -12,15 +12,18 @@ namespace Materal.Logger.ConsoleDemo
             HostApplicationBuilder hostApplicationBuilder = Host.CreateApplicationBuilder(args);
             hostApplicationBuilder.AddMateralLogger(config =>
             {
-                config.SetCustomConfig("ApplicationName", "MateralLoggerApplication");
-                config.Application = "${ApplicationName}";
-                config.MinLogLevel = LogLevel.Trace;
-                config.MaxLogLevel = LogLevel.Critical;
+                //config.AddConsoleTarget("ConsoleLog")
+                //.AddAllTargetsRule(minLevel: LogLevel.Trace);
             });
             IHost host = hostApplicationBuilder.Build();
             host.UseMateralLogger();
             ILogger logger = host.Services.GetRequiredService<ILogger<Program>>();
             logger.LogTrace("Trace");
+            logger.LogDebug("Debug");
+            logger.LogInformation("Information");
+            logger.LogWarning("Warning");
+            logger.LogError("Error");
+            logger.LogCritical("Critical");
             //ThreadPool.QueueUserWorkItem(_ =>
             //{
             //    using IDisposable? loggerScope = logger.BeginScope("CustomScope");

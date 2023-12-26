@@ -41,7 +41,7 @@
         /// </summary>
         /// <param name="fileContent"></param>
         /// <param name="path"></param>
-        private void SaveFile(string fileContent, string path)
+        private static void SaveFile(string fileContent, string path)
         {
             Encoding defaultEncoding = Encoding.UTF8;
             if (string.IsNullOrWhiteSpace(path)) return;
