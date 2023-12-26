@@ -1,6 +1,4 @@
-﻿using Materal.Utils;
-using Materal.Utils.Http;
-using System.Text;
+﻿using Materal.Utils.Http;
 
 namespace Materal.Logger.LoggerLogs
 {

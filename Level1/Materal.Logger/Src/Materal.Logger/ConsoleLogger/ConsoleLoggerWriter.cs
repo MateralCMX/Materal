@@ -12,7 +12,9 @@
         /// <returns></returns>
         public override async Task WriteLoggerAsync(ConsoleLoggerWriterModel model)
         {
-            Console.WriteLine(model.Message);
+            string writeMessage = LoggerWriterHelper.FormatMessage(TargetConfig.Format, model);
+            ConsoleColor color = TargetConfig.Colors.GetConsoleColor(model.LogLevel);
+            ConsoleQueue.WriteLine(writeMessage, color);
             await Task.CompletedTask;
         }
     }

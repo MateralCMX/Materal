@@ -117,11 +117,10 @@ namespace Materal.Logger.LoggerWriter
             result = Regex.Replace(result, @"\$\{ProgressID\}", progressID);
             result = Regex.Replace(result, @"\$\{ThreadID\}", model.ThreadID);
             result = Regex.Replace(result, @"\$\{MachineName\}", MachineName);
-
             foreach (KeyValuePair<string, object?> item in LoggerConfig.CustomConfig)
             {
                 string value = string.Empty;
-                if (item.Value is not null && item.Value.IsNullOrWhiteSpaceString())
+                if (item.Value is not null && !item.Value.IsNullOrWhiteSpaceString())
                 {
                     value = item.Value is string stringValue ? stringValue : item.Value.ToString() ?? string.Empty;
                 }

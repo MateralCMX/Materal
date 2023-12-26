@@ -48,5 +48,12 @@
         /// 作用域
         /// </summary>
         public LoggerScope Scope { get; set; } = scope ?? new LoggerScope("PublicScope");
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public virtual void Init()
+        {
+            Message = LoggerWriterHelper.FormatMessage(Message, this);
+        }
     }
 }
