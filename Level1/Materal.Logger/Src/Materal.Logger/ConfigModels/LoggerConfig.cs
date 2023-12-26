@@ -1,4 +1,5 @@
 ﻿using System.Dynamic;
+using LogLevelEnum = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Materal.Logger.ConfigModels
 {
@@ -37,28 +38,32 @@ namespace Materal.Logger.ConfigModels
         /// <summary>
         /// 最小日志等级
         /// </summary>
-        public LogLevel MinLogLevel { get; set; } = LogLevel.Trace;
+        public LogLevelEnum MinLogLevel { get; set; } = LogLevelEnum.Trace;
         /// <summary>
         /// 最大日志等级
         /// </summary>
-        public LogLevel MaxLogLevel { get; set; } = LogLevel.Critical;
+        public LogLevelEnum MaxLogLevel { get; set; } = LogLevelEnum.Critical;
         /// <summary>
         /// 最小自身日志等级
         /// </summary>
-        public LogLevel MinLoggerLogLevel { get; set; } = LogLevel.Trace;
+        public LogLevelEnum MinLoggerLogLevel { get; set; } = LogLevelEnum.Trace;
         /// <summary>
         /// 最大自身日志等级
         /// </summary>
-        public LogLevel MaxLoggerLogLevel { get; set; } = LogLevel.Critical;
-        private string? _applicationName;
+        public LogLevelEnum MaxLoggerLogLevel { get; set; } = LogLevelEnum.Critical;
+        private string? _application;
         /// <summary>
         /// 应用程序名称
         /// </summary>
-        public string ApplicationName
+        public string Application
         {
-            get => _applicationName ?? Assembly.GetEntryAssembly()?.GetName().Name ?? "Use MateralLogger application";
-            set => _applicationName = value;
+            get => _application ?? Assembly.GetEntryAssembly()?.GetName().Name ?? "Use MateralLogger application";
+            set => _application = value;
         }
+        /// <summary>
+        /// 日志等级组
+        /// </summary>
+        public Dictionary<string, LogLevelEnum>? LogLevel { get; set; }
         /// <summary>
         /// 目标配置
         /// </summary>
@@ -67,6 +72,14 @@ namespace Materal.Logger.ConfigModels
         /// 规则配置
         /// </summary>
         public List<RuleConfig> Rules { get; set; } = [];
+        /// <summary>
+        /// 日志等级组
+        /// </summary>
+        public static Dictionary<string, LogLevelEnum>? DefaultLogLevel { get; set; }
+        /// <summary>
+        /// 自定义配置
+        /// </summary>
+        public static Dictionary<string, object?> CustomConfig { get; private set; } = [];
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -87,6 +100,8 @@ namespace Materal.Logger.ConfigModels
         private void LoggerConfig_OnTargetTypesChanged()
         {
             Targets.Clear();
+            if (Configuration is null) return;
+            DefaultLogLevel = Configuration.GetValueObject<Dictionary<string, LogLevelEnum>>("Logging:MateralLogger:LogLevel");
             List<ExpandoObject>? targets = GetTargetExpandoObjects();
             if (targets is null || targets.Count <= 0) return;
             foreach (ExpandoObject target in targets)
@@ -132,5 +147,11 @@ namespace Materal.Logger.ConfigModels
             if (targetsObj is not List<ExpandoObject> targets) return null;
             return targets;
         }
+        /// <summary>
+        /// 设置自定义配置
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public void SetCustomConfig(string key, object? value) => CustomConfig.TryAdd(key, value);
     }
 }

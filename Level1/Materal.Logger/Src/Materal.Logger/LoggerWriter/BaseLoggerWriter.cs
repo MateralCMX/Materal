@@ -65,9 +65,53 @@
         /// <returns></returns>
         protected virtual bool CanWriteLogger(LoggerWriterModel model, RuleConfig rule)
         {
-            if (!rule.Enable) return false;
+            if (model.LogLevel == LogLevel.None || !rule.Enable) return false;
             if (model.LogLevel < rule.MinLogLevel || model.LogLevel > rule.MaxLogLevel) return false;
-            return true;
+            if (!rule.Targets.Contains(TargetConfig.Name)) return false;
+            if (rule.Scopes is not null && rule.Scopes.Count > 0)
+            {
+                if (string.IsNullOrWhiteSpace(model.Scope.ScopeName) || !rule.Scopes.Contains(model.Scope.ScopeName)) return false;
+            }
+            if (rule.LogLevel is not null && rule.LogLevel.Count > 0) return CanWriteLogger(model, rule, rule.LogLevel);
+            else if (model.Config.LogLevel is not null && model.Config.LogLevel.Count > 0) return CanWriteLogger(model, rule, model.Config.LogLevel);
+            else if (LoggerConfig.DefaultLogLevel is not null && LoggerConfig.DefaultLogLevel.Count > 0) return CanWriteLogger(model, rule, LoggerConfig.DefaultLogLevel);
+            else return true;
+        }
+        /// <summary>
+        /// 是否可以写入日志
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="rule"></param>
+        /// <param name="logLevels"></param>
+        /// <returns></returns>
+        protected virtual bool CanWriteLogger(LoggerWriterModel model, RuleConfig rule, Dictionary<string, LogLevel>? logLevels)
+        {
+            if (logLevels is null) return true;
+            LogLevel? configLogLevel = null;
+            if (model.CategoryName is not null && !string.IsNullOrWhiteSpace(model.CategoryName))
+            {
+                int index = 0;
+                foreach (string key in logLevels.Keys)
+                {
+                    if (model.CategoryName == key)
+                    {
+                        configLogLevel = logLevels[key];
+                        break;
+                    }
+                    if (!model.CategoryName.StartsWith(key)) continue;
+                    int nowIndex = key.Split('.').Length;
+                    if (index > nowIndex) continue;
+                    index = nowIndex;
+                    configLogLevel = logLevels[key];
+                }
+            }
+            if (configLogLevel is null && logLevels.TryGetValue("Default", out LogLevel value))
+            {
+                configLogLevel = value;
+            }
+            if (configLogLevel is null || configLogLevel == LogLevel.None) return false;
+            bool result = configLogLevel <= model.LogLevel;
+            return result;
         }
     }
     /// <summary>

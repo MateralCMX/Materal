@@ -34,6 +34,6 @@ namespace Materal.Logger.ConfigModels
         /// <summary>
         /// 日志等级组
         /// </summary>
-        public Dictionary<string, LogLevelEnum> LogLevel { get; set; } = [];
+        public Dictionary<string, LogLevelEnum>? LogLevel { get; set; }
     }
 }

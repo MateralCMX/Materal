@@ -47,6 +47,6 @@
         /// <summary>
         /// 作用域
         /// </summary>
-        public LoggerScope? Scope { get; set; } = scope;
+        public LoggerScope Scope { get; set; } = scope ?? new LoggerScope("PublicScope");
     }
 }

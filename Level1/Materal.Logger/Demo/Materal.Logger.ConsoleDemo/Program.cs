@@ -12,9 +12,10 @@ namespace Materal.Logger.ConsoleDemo
             HostApplicationBuilder hostApplicationBuilder = Host.CreateApplicationBuilder(args);
             hostApplicationBuilder.AddMateralLogger(config =>
             {
-                //config.ApplicationName = "MateralLoggerApplication";
-                //config.MinLogLevel = LogLevel.Trace;
-                //config.MaxLogLevel = LogLevel.Critical;
+                config.SetCustomConfig("ApplicationName", "MateralLoggerApplication");
+                config.Application = "${ApplicationName}";
+                config.MinLogLevel = LogLevel.Trace;
+                config.MaxLogLevel = LogLevel.Critical;
             });
             IHost host = hostApplicationBuilder.Build();
             host.UseMateralLogger();
