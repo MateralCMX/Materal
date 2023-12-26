@@ -1,6 +1,5 @@
 ﻿global using Materal.Abstractions;
 global using Materal.Logger.ConfigModels;
-global using Materal.Logger.LoggerHandlers;
 global using Materal.Logger.LoggerWriter;
 global using Materal.Utils;
 global using Microsoft.Extensions.Configuration;

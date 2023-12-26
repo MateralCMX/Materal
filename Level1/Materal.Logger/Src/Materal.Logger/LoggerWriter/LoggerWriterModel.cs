@@ -1,4 +1,4 @@
-﻿namespace Materal.Logger.LoggerHandlers
+﻿namespace Materal.Logger.LoggerWriter
 {
     /// <summary>
     /// 日志处理器模型

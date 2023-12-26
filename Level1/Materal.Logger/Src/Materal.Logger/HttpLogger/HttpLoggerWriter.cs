@@ -7,7 +7,7 @@ namespace Materal.Logger.HttpLogger
     /// </summary>
     public class HttpLoggerWriter(HttpLoggerTargetConfig targetConfig) : BatchLoggerWriter<HttpLoggerWriterModel, HttpLoggerTargetConfig>(targetConfig), ILoggerWriter
     {
-        private readonly IHttpHelper _httpHelper = new HttpHelper();
+        private readonly HttpHelper _httpHelper = new();
         /// <summary>
         /// 写入日志
         /// </summary>
