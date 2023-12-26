@@ -8,10 +8,19 @@ namespace Materal.Utils
     /// </summary>
     public class ConsoleQueue
     {
-        private readonly static ActionBlock<ConsoleMessageModel> writeBuffer;
+        private readonly static ActionBlock<ConsoleMessageModel> _writeBuffer;
         static ConsoleQueue()
         {
-            writeBuffer = new(WriteMessage);
+            _writeBuffer = new(WriteMessage);
+        }
+        /// <summary>
+        /// 关闭
+        /// </summary>
+        /// <returns></returns>
+        public static async Task ShutdownAsync()
+        {
+            _writeBuffer.Complete();
+            await _writeBuffer.Completion;
         }
         /// <summary>
         /// 写一行消息
@@ -143,7 +152,7 @@ namespace Materal.Utils
         /// <param name="consoleColor"></param>
         public static void WriteLine(string? value, ConsoleColor consoleColor = ConsoleColor.Gray)
         {
-            writeBuffer.Post(new()
+            _writeBuffer.Post(new()
             {
                 Color = consoleColor,
                 Message = value ?? string.Empty
@@ -163,7 +172,7 @@ namespace Materal.Utils
             }
             else
             {
-                writeBuffer.Post(new()
+                _writeBuffer.Post(new()
                 {
                     Color = consoleColor,
                     Message = format,
@@ -177,6 +186,10 @@ namespace Materal.Utils
         /// <param name="format"></param>
         /// <param name="args"></param>
         public static void WriteLine(string format, params object?[]? args) => WriteLine(format, ConsoleColor.Gray, args);
+        /// <summary>
+        /// 写消息
+        /// </summary>
+        /// <param name="model"></param>
         private static void WriteMessage(ConsoleMessageModel model)
         {
             ConsoleColor oldColor = Console.ForegroundColor;
