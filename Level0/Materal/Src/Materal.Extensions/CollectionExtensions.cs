@@ -5,7 +5,7 @@ namespace System.Collections.Generic
     /// <summary>
     /// 集合扩展
     /// </summary>
-    public static partial class CollectionExtension
+    public static partial class CollectionExtensions
     {
         /// <summary>
         /// 将列表转换为动态数据集合

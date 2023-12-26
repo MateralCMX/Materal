@@ -1,12 +1,9 @@
-﻿using Materal.Extensions;
-using System.Reflection;
-
-namespace System.Data
+﻿namespace System.Data
 {
     /// <summary>
     /// DataTable扩展
     /// </summary>
-    public static class DataTableExtension
+    public static class DataTableExtensions
     {
         /// <summary>
         /// 转换List为DataTable

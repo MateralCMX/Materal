@@ -3,7 +3,7 @@
     /// <summary>
     /// 字符串转行扩展类
     /// </summary>
-    public static partial class StringExtension
+    public static partial class StringExtensions
     {
         /// <summary>
         /// 解析

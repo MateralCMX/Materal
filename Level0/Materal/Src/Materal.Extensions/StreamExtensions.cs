@@ -1,13 +1,11 @@
-﻿using Materal.Extensions;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Security.Cryptography;
 
 namespace System.IO
 {
     /// <summary>
     /// 流扩展
     /// </summary>
-    public static class StreamExtension
+    public static class StreamExtensions
     {
         /// <summary>
         /// 获得MD5加密结果(32位)

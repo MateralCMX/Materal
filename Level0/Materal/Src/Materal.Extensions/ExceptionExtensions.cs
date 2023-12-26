@@ -1,12 +1,9 @@
-﻿using Materal.Abstractions;
-using System.Text;
-
-namespace System
+﻿namespace System
 {
     /// <summary>
     /// 异常扩展
     /// </summary>
-    public static class ExceptionExtension
+    public static class ExceptionExtensions
     {
         /// <summary>
         /// 获得错误消息

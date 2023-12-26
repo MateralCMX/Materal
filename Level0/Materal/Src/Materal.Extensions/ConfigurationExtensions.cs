@@ -3,7 +3,7 @@
     /// <summary>
     /// 配置对象扩展
     /// </summary>
-    public static class ConfigurationExtension
+    public static class ConfigurationExtensions
     {
         /// <summary>
         /// 获得值对象

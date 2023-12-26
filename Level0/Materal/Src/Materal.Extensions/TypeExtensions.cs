@@ -1,13 +1,11 @@
-﻿using Materal.Extensions;
-using System.Data;
-using System.Reflection;
+﻿using System.Data;
 
 namespace System
 {
     /// <summary>
     /// 类型扩展
     /// </summary>
-    public static class TypeExtension
+    public static class TypeExtensions
     {
         /// <summary>
         /// 根据描述获取枚举

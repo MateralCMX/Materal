@@ -1,12 +1,11 @@
-﻿using Materal.Abstractions;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace System
 {
     /// <summary>
     /// 日期时间扩展
     /// </summary>
-    public static class DateTimeExtension
+    public static class DateTimeExtensions
     {
         /// <summary>
         /// 转换为DateTimeOffset

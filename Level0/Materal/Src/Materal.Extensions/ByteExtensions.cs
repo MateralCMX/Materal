@@ -3,7 +3,7 @@
     /// <summary>
     /// Byte扩展
     /// </summary>
-    public static class ByteExtension
+    public static class ByteExtensions
     {
         /// <summary>
         /// 转换为二进制字符串

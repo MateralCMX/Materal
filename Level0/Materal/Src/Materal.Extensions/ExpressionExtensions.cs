@@ -1,11 +1,9 @@
-﻿using Materal.Extensions;
-
-namespace System.Linq.Expressions
+﻿namespace System.Linq.Expressions
 {
     /// <summary>
     /// 表达式扩展
     /// </summary>
-    public static class ExpressionExtension
+    public static class ExpressionExtensions
     {
         /// <summary>
         /// 拼接条件

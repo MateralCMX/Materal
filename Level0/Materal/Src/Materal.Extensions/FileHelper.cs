@@ -1,7 +1,4 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
-
-namespace Materal.Extensions
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// 文件帮助类

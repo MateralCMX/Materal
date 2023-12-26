@@ -1,6 +1,4 @@
-﻿using Materal.Extensions;
-
-namespace System
+﻿namespace System
 {
     /// <summary>
     /// 类型帮助类

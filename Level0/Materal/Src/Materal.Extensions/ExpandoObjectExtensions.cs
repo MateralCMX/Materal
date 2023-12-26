@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Data;
+﻿using System.Data;
 using System.Dynamic;
-using System.Reflection;
 using System.Text.Json;
 using System.Xml;
 
@@ -10,7 +8,7 @@ namespace System
     /// <summary>
     /// 动态对象扩展
     /// </summary>
-    public static class ExpandoObjectExtension
+    public static class ExpandoObjectExtensions
     {
         /// <summary>
         /// 转换为动态对象

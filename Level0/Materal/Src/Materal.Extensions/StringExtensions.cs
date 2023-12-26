@@ -1,12 +1,9 @@
-﻿using Materal.Extensions;
-using System.Reflection;
-
-namespace System
+﻿namespace System
 {
     /// <summary>
     /// 字符串扩展
     /// </summary>
-    public static partial class StringExtension
+    public static partial class StringExtensions
     {
         /// <summary>
         /// 获得类型

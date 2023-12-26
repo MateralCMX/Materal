@@ -1,13 +1,11 @@
-﻿using Materal.Extensions;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Security.Cryptography;
 
 namespace System
 {
     /// <summary>
     /// 字符串加密解密扩展
     /// </summary>
-    public static partial class StringExtension
+    public static partial class StringExtensions
     {
         /// <summary>
         /// 字符串转16进制字节数组

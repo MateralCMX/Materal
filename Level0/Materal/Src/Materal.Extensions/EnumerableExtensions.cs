@@ -3,7 +3,7 @@
     /// <summary>
     /// Enumerable扩展
     /// </summary>
-    public static class EnumerableExtension
+    public static class EnumerableExtensions
     {
         /// <summary>
         /// 通过HashSet去重

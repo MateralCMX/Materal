@@ -1,5 +1,4 @@
-﻿using Materal.Extensions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Xml;
 
 namespace System
@@ -7,7 +6,7 @@ namespace System
     /// <summary>
     /// Json扩展
     /// </summary>
-    public static class JsonExtension
+    public static class JsonExtensions
     {
         /// <summary>
         /// Json转换为XML文档对象

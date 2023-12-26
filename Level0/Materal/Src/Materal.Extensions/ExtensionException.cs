@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-
-namespace Materal.Extensions
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// 扩展异常

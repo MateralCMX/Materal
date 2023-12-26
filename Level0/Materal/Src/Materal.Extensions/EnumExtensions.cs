@@ -1,11 +1,9 @@
-﻿using Materal.Extensions;
-
-namespace System
+﻿namespace System
 {
     /// <summary>
     /// 枚举扩展
     /// </summary>
-    public static class EnumExtension
+    public static class EnumExtensions
     {
         /// <summary>
         /// 获取所有枚举

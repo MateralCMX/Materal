@@ -6,7 +6,7 @@ namespace System
     /// <summary>
     /// XML扩展
     /// </summary>
-    public static class XmlExtension
+    public static class XmlExtensions
     {
         /// <summary>
         /// XML文档对象转换为Json字符串

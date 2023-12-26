@@ -21,7 +21,17 @@ namespace Materal.Abstractions
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        public static T? GetService<T>() => Services.GetService<T>();
+        public static T? GetService<T>()
+        {
+            try
+            {
+                return Services.GetService<T>();
+            }
+            catch
+            {
+                return default;
+            }
+        }
         /// <summary>
         /// 获得服务
         /// </summary>
@@ -37,7 +47,18 @@ namespace Materal.Abstractions
         /// <param name="type"></param>
         /// <returns></returns>
         /// <exception cref="MateralException"></exception>
-        public static object? GetService(Type type) => Services.GetService(type);
+        public static object? GetService(Type type)
+        {
+            try
+            {
+                return Services.GetService(type);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// 获得服务
         /// </summary>

@@ -1,11 +1,9 @@
-﻿using Materal.Extensions;
-
-namespace System.Reflection
+﻿namespace System.Reflection
 {
     /// <summary>
     /// MemberInfo扩展
     /// </summary>
-    public static class MemberInfoExtension
+    public static class MemberInfoExtensions
     {
         /// <summary>
         /// 获得值

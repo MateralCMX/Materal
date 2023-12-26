@@ -1,12 +1,9 @@
-﻿using Materal.Extensions.Models;
-using System.Text;
-
-namespace System
+﻿namespace System
 {
     /// <summary>
     /// 整数扩展
     /// </summary>
-    public static class IntExtension
+    public static class Int32Extensions
     {
         /// <summary>
         /// 简体中文

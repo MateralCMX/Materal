@@ -1,5 +1,4 @@
-﻿using Materal.Extensions;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace System
@@ -7,7 +6,7 @@ namespace System
     /// <summary>
     /// 字符串验证扩展类
     /// </summary>
-    public static partial class StringExtension
+    public static partial class StringExtensions
     {
         /// <summary>
         /// 验证字符串

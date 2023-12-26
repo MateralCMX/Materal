@@ -1,8 +1,4 @@
-﻿using Materal.Extensions;
-using System.Collections;
-using System.ComponentModel;
-using System.Dynamic;
-using System.Reflection;
+﻿using System.ComponentModel;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 
@@ -11,7 +7,7 @@ namespace System
     /// <summary>
     /// Object扩展
     /// </summary>
-    public static partial class ObjectExtension
+    public static partial class ObjectExtensions
     {
         /// <summary>
         /// 可转换类型字典
@@ -20,7 +16,7 @@ namespace System
         /// <summary>
         /// 构造方法
         /// </summary>
-        static ObjectExtension()
+        static ObjectExtensions()
         {
             _convertDictionary.Add(typeof(bool), WrapValueConvert(Convert.ToBoolean));
             _convertDictionary.Add(typeof(bool?), WrapValueConvert(Convert.ToBoolean));

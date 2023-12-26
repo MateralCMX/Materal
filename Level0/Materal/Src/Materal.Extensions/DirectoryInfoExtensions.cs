@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Text;
-
-namespace Materal.Extensions
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// 文件夹信息扩展
     /// </summary>
-    public static class DirectoryInfoExtension
+    public static class DirectoryInfoExtensions
     {
         /// <summary>
         /// 复制
