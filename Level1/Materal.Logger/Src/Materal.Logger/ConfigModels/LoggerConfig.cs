@@ -152,6 +152,8 @@ namespace Materal.Logger.ConfigModels
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
+#pragma warning disable CA1822 // 将成员标记为 static
         public void SetCustomConfig(string key, object? value) => CustomConfig.TryAdd(key, value);
+#pragma warning restore CA1822 // 将成员标记为 static
     }
 }

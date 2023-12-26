@@ -9,7 +9,7 @@
         /// 构造方法
         /// </summary>
         /// <param name="model"></param>
-        public LoggerWriterModel(LoggerWriterModel model) :this(model.Config, model.CategoryName, model.LogLevel, model.Message, model.Exception, model.Scope)
+        public LoggerWriterModel(LoggerWriterModel model) : this(model.Config, model.CategoryName, model.LogLevel, model.Message, model.Exception, model.Scope)
         {
         }
         /// <summary>
@@ -48,12 +48,5 @@
         /// 作用域
         /// </summary>
         public LoggerScope Scope { get; set; } = scope ?? new LoggerScope("PublicScope");
-        /// <summary>
-        /// 初始化
-        /// </summary>
-        public virtual void Init()
-        {
-            Message = LoggerWriterHelper.FormatMessage(Message, this);
-        }
     }
 }

@@ -42,9 +42,9 @@ namespace Materal.Logger.LoggerWriter
         /// <summary>
         /// 写批量日志
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="models"></param>
         /// <returns></returns>
-        public abstract Task WriteBatchLoggerAsync(TModel[] model);
+        public abstract Task WriteBatchLoggerAsync(TModel[] models);
         /// <summary>
         /// 获得一个新的数据块
         /// </summary>

@@ -128,8 +128,27 @@
         /// <returns></returns>
         public override async Task WriteAsync(LoggerWriterModel model)
         {
-            object? dataObj = typeof(TModel).Instantiation(model);
-            if (dataObj is null || dataObj is not TModel data) return;
+            Type modelType = typeof(TModel);
+            ConstructorInfo[] constructorInfos = modelType.GetConstructors();
+            ConstructorInfo? targetConstructorInfo = null;
+            object?[]? parameters = null;
+            foreach (ConstructorInfo constructorInfo in constructorInfos)
+            {
+                ParameterInfo[] parameterInfos = constructorInfo.GetParameters();
+                if (parameterInfos.Length == 2 && parameterInfos[0].ParameterType == typeof(LoggerWriterModel) && parameterInfos[1].ParameterType == typeof(TTarget))
+                {
+                    targetConstructorInfo = constructorInfo;
+                    parameters = [model, TargetConfig];
+                }
+                else if (parameterInfos.Length == 1 && targetConstructorInfo is null && parameterInfos[0].ParameterType == typeof(LoggerWriterModel))
+                {
+                    targetConstructorInfo = constructorInfo;
+                    parameters = [model];
+                }
+                break;
+            }
+            if (targetConstructorInfo is null || parameters is null) throw new LoggerException($"未找到{modelType.Name}合适的构造函数");
+            TModel data = (TModel)targetConstructorInfo.Invoke(parameters);
             await WriteLoggerAsync(data);
             await Task.CompletedTask;
         }

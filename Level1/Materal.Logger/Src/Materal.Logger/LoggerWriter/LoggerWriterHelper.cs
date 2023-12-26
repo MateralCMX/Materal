@@ -46,7 +46,7 @@ namespace Materal.Logger.LoggerWriter
             get
             {
                 string result = AppDomain.CurrentDomain.BaseDirectory;
-                if (result.EndsWith("\\") || result.EndsWith("/"))
+                if (result.EndsWith('\\') || result.EndsWith('/'))
                 {
                     result = result[0..^1];
                 }
