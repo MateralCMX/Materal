@@ -64,12 +64,12 @@ namespace System
         /// <returns></returns>
         public static object? InstantiationOrDefault(this Type type, IServiceProvider serviceProvider, params object[] args)
         {
-            ConstructorInfo[] constructorInfos = type.GetConstructors().OrderByDescending(m => m.GetParameters().Length).ToArray();
-            List<object> argList = args.ToList();
+            ConstructorInfo[] constructorInfos = [.. type.GetConstructors().OrderByDescending(m => m.GetParameters().Length)];
+            List<object> argList = [.. args];
             foreach (ConstructorInfo constructorInfo in constructorInfos)
             {
                 ParameterInfo[] argumentInfos = constructorInfo.GetParameters();
-                List<object> trueArguments = new();
+                List<object> trueArguments = [];
                 foreach (ParameterInfo argumentInfo in argumentInfos)
                 {
                     bool isOK = false;
@@ -87,7 +87,7 @@ namespace System
                     trueArguments.Add(argument);
                 }
                 if (trueArguments.Count != argumentInfos.Length) continue;
-                object result = constructorInfo.Invoke(trueArguments.ToArray());
+                object result = constructorInfo.Invoke([.. trueArguments]);
                 return result;
             }
             return null;
@@ -147,7 +147,14 @@ namespace System
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
+        public static bool IsAssignableFrom<T>(this Type type) => typeof(T).IsAssignableFrom(type);
+        /// <summary>
+        /// 是否可作为类型使用
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static bool IsAssignableTo<T>(this Type type) => type.IsAssignableTo(typeof(T));
+#if NETSTANDARD
         /// <summary>
         /// 是否可作为类型使用
         /// </summary>
@@ -155,12 +162,7 @@ namespace System
         /// <param name="targetType"></param>
         /// <returns></returns>
         public static bool IsAssignableTo(this Type type, Type targetType) => targetType.IsAssignableFrom(type);
-        /// <summary>
-        /// 是否可作为类型使用
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static bool IsAssignableFrom<T>(this Type type) => typeof(T).IsAssignableFrom(type);
+#endif
         /// <summary>
         /// 获得所有的基类
         /// </summary>
@@ -168,7 +170,7 @@ namespace System
         /// <returns></returns>
         public static List<Type> GetAllBaseType(this Type type)
         {
-            List<Type> allBaseTypes = new();
+            List<Type> allBaseTypes = [];
             Type? temp = type;
             Type objType = typeof(object);
             while (temp != objType)
@@ -193,7 +195,7 @@ namespace System
         /// <returns></returns>
         private static List<Type> GetAllInterfaces(Type[] interfaces)
         {
-            List<Type> allInterfaces = new();
+            List<Type> allInterfaces = [];
             foreach (var item in interfaces)
             {
                 allInterfaces.Add(item);

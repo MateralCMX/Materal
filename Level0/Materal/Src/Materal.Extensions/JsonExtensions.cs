@@ -40,10 +40,8 @@ namespace System
         /// <returns></returns>
         public static object JsonToObject(this string jsonStr, string typeName)
         {
-            Type? triggerDataType = typeName.GetTypeByTypeName(Array.Empty<object>());
-            if (triggerDataType is null) throw new ExtensionException("转换失败");
-            object? result = jsonStr.JsonToObject(triggerDataType);
-            if (result is null) throw new ExtensionException("转换失败");
+            Type triggerDataType = typeName.GetTypeByTypeName(Array.Empty<object>()) ?? throw new ExtensionException("转换失败");
+            object result = jsonStr.JsonToObject(triggerDataType) ?? throw new ExtensionException("转换失败");
             return result;
         }
         /// <summary>
@@ -56,8 +54,7 @@ namespace System
         {
             try
             {
-                object? model = Activator.CreateInstance(type);
-                if (model is null) throw new ExtensionException("创建实体失败");
+                object model = Activator.CreateInstance(type) ?? throw new ExtensionException("创建实体失败");
                 JsonConvert.PopulateObject(jsonStr, model);
                 return model;
             }
@@ -76,8 +73,7 @@ namespace System
         {
             try
             {
-                T model = typeof(T).Instantiation<T>();
-                if (model is null) throw new ExtensionException("转换失败");
+                T model = typeof(T).Instantiation<T>() ?? throw new ExtensionException("转换失败");
                 JsonConvert.PopulateObject(jsonStr, model);
                 return model;
             }

@@ -80,9 +80,14 @@ namespace System
         /// <returns></returns>
         public static string ToSHA256_64Encode(this string inputStr, bool isLower = false)
         {
+#if NETSTANDARD
             if (inputStr is null) throw new ArgumentNullException(nameof(inputStr));
             using SHA256 sha256 = SHA256.Create();
             byte[] output = sha256.ComputeHash(Encoding.Default.GetBytes(inputStr));
+#else
+            ArgumentNullException.ThrowIfNull(inputStr);
+            byte[] output = SHA256.HashData(Encoding.Default.GetBytes(inputStr));
+#endif
             string outputStr = BitConverter.ToString(output).Replace("-", "");
             outputStr = isLower ? outputStr.ToLower() : outputStr.ToUpper();
             return outputStr;
@@ -95,9 +100,14 @@ namespace System
         /// <returns></returns>
         public static string ToSHA1_40Encode(this string inputStr, bool isLower = false)
         {
+#if NETSTANDARD
             if (inputStr is null) throw new ArgumentNullException(nameof(inputStr));
             using SHA1 sha1 = SHA1.Create();
             byte[] output = sha1.ComputeHash(Encoding.Default.GetBytes(inputStr));
+#else
+            ArgumentNullException.ThrowIfNull(inputStr);
+            byte[] output = SHA1.HashData(Encoding.Default.GetBytes(inputStr));
+#endif
             string outputStr = BitConverter.ToString(output).Replace("-", "");
             outputStr = isLower ? outputStr.ToLower() : outputStr.ToUpper();
             return outputStr;
@@ -110,9 +120,14 @@ namespace System
         /// <returns></returns>
         public static string ToMd5_32Encode(this string inputStr, bool isLower = false)
         {
+#if NETSTANDARD
             if (inputStr is null) throw new ArgumentNullException(nameof(inputStr));
             using MD5 md5 = MD5.Create();
             byte[] output = md5.ComputeHash(Encoding.Default.GetBytes(inputStr));
+#else
+            ArgumentNullException.ThrowIfNull(inputStr);
+            byte[] output = MD5.HashData(Encoding.Default.GetBytes(inputStr));
+#endif
             string outputStr = BitConverter.ToString(output).Replace("-", "");
             outputStr = isLower ? outputStr.ToLower() : outputStr.ToUpper();
             return outputStr;
@@ -221,7 +236,7 @@ namespace System
             var outputStr = "";
             if (!inputStr.IsLetter()) throw new ExtensionException("只能包含英文字母");
             inputStr = inputStr.ToUpper();
-            char[] alphabet = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+            char[] alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
             int aCount = alphabet.Length;
             int count = inputStr.Length;
             for (var i = 0; i < count; i++)

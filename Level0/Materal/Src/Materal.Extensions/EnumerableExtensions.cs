@@ -13,7 +13,7 @@
         /// <returns></returns>
         public static IEnumerable<T> DistinctByHashSet<T>(this IEnumerable<T> sources)
         {
-            HashSet<T> hashSet = new();
+            HashSet<T> hashSet = [];
             foreach (T source in sources)
             {
                 if (hashSet.Add(source))
@@ -32,7 +32,7 @@
         /// <returns></returns>
         public static IEnumerable<T> DistinctByHashSet<T, TKey>(this IEnumerable<T> sources, Func<T, TKey> keySelector)
         {
-            HashSet<TKey> hashSet = new();
+            HashSet<TKey> hashSet = [];
             foreach (T source in sources)
             {
                 if (hashSet.Add(keySelector(source)))

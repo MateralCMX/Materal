@@ -75,8 +75,8 @@
         {
             IConfigurationSection[] sectionItems = configSection.GetChildren().ToArray();
             if (sectionItems.Length == 0) return null;
-            Dictionary<string, object?> propertyDic = new();
-            List<object?> objects = new();
+            Dictionary<string, object?> propertyDic = [];
+            List<object?> objects = [];
             bool isArray = sectionItems.First().Key == "0";
             foreach (IConfigurationSection sectionItem in sectionItems)
             {
