@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger", "Src\Mater
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.MongoLogger", "Src\Materal.Logger.MongoLogger\Materal.Logger.MongoLogger.csproj", "{A39F9DBB-DFF6-4FC2-BDE5-825BBCC649BA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.SqliteLogger", "Src\Materal.Logger.SqliteLogger\Materal.Logger.SqliteLogger.csproj", "{ADDD7112-2F33-449C-BAA0-0044A3AA014F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A39F9DBB-DFF6-4FC2-BDE5-825BBCC649BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A39F9DBB-DFF6-4FC2-BDE5-825BBCC649BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A39F9DBB-DFF6-4FC2-BDE5-825BBCC649BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADDD7112-2F33-449C-BAA0-0044A3AA014F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADDD7112-2F33-449C-BAA0-0044A3AA014F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADDD7112-2F33-449C-BAA0-0044A3AA014F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADDD7112-2F33-449C-BAA0-0044A3AA014F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +47,7 @@ Global
 		{5B625F3F-2356-4CD5-BDBA-BC0DBF15B9D0} = {FD86AF2D-CDF0-4762-9AAD-C8B0C2DE15FB}
 		{2F3E78D1-537F-4060-8446-67EE176C203A} = {D50FB148-416F-44CA-A048-615560E26524}
 		{A39F9DBB-DFF6-4FC2-BDE5-825BBCC649BA} = {D50FB148-416F-44CA-A048-615560E26524}
+		{ADDD7112-2F33-449C-BAA0-0044A3AA014F} = {D50FB148-416F-44CA-A048-615560E26524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BDC3165-1789-4856-909F-812A91617D4C}
