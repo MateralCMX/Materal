@@ -12,7 +12,7 @@ namespace Materal.Logger.WebSocketLogger
         /// <summary>
         /// 配置变更事件
         /// </summary>
-        public override Action<LoggerConfig, IServiceProvider>? OnLoggerConfigChanged => UpdateWebSocketServer;
+        public override Action<LoggerConfig>? OnLoggerConfigChanged => UpdateWebSocketServer;
         /// <summary>
         /// 写入日志
         /// </summary>
@@ -20,7 +20,7 @@ namespace Materal.Logger.WebSocketLogger
         /// <returns></returns>
         public override async Task WriteLoggerAsync(WebSocketLoggerWriterModel model)
         {
-            if(_webSocketServer is null) return;
+            if (_webSocketServer is null) return;
             for (int i = 0; i < _webSocketConnections.Count; i++)
             {
                 IWebSocketConnection connection = _webSocketConnections[i];
@@ -56,8 +56,7 @@ namespace Materal.Logger.WebSocketLogger
         /// 更新WebSocket服务
         /// </summary>
         /// <param name="config"></param>
-        /// <param name="serviceProvider"></param>
-        public void UpdateWebSocketServer(LoggerConfig config, IServiceProvider serviceProvider)
+        public void UpdateWebSocketServer(LoggerConfig config)
         {
             if (CanRun(config.Rules))
             {

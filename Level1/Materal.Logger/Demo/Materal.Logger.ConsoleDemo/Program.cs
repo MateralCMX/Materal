@@ -18,26 +18,26 @@ namespace Materal.Logger.ConsoleDemo
             IHost host = hostApplicationBuilder.Build();
             host.UseMateralLogger();
             ILogger logger = host.Services.GetRequiredService<ILogger<Program>>();
-            //logger.LogTrace("Trace");
+            logger.LogTrace("Trace");
             //logger.LogDebug("Debug");
             //logger.LogInformation("Information");
             //logger.LogWarning("Warning");
             //logger.LogError("Error");
             //logger.LogCritical("Critical");
-            ThreadPool.QueueUserWorkItem(_ =>
-            {
-                //using IDisposable? loggerScope = logger.BeginScope("CustomScope");
-                while (true)
-                {
-                    logger.LogTrace("Trace");
-                    logger.LogDebug("Debug");
-                    logger.LogInformation("Information");
-                    logger.LogWarning("Warning");
-                    logger.LogError("Error");
-                    logger.LogCritical("Critical");
-                    Thread.Sleep(1000);
-                }
-            });
+            //ThreadPool.QueueUserWorkItem(_ =>
+            //{
+            //    //using IDisposable? loggerScope = logger.BeginScope("CustomScope");
+            //    while (true)
+            //    {
+            //        logger.LogTrace("Trace");
+            //        logger.LogDebug("Debug");
+            //        logger.LogInformation("Information");
+            //        logger.LogWarning("Warning");
+            //        logger.LogError("Error");
+            //        logger.LogCritical("Critical");
+            //        Thread.Sleep(1000);
+            //    }
+            //});
             await host.RunAsync();
         }
     }

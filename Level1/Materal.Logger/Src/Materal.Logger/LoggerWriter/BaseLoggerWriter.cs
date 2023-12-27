@@ -17,7 +17,7 @@
         /// <summary>
         /// 日志配置变更事件
         /// </summary>
-        public virtual Action<LoggerConfig, IServiceProvider>? OnLoggerConfigChanged => null;
+        public virtual Action<LoggerConfig>? OnLoggerConfigChanged => null;
         /// <summary>
         /// 关闭
         /// </summary>

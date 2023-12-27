@@ -114,8 +114,18 @@ namespace Materal.Logger.ConfigModels
                 object targetConfigObj = target.ToJson().JsonToObject(targetConfigType);
                 if (targetConfigObj is not TargetConfig targetConfig) continue;
                 Targets.Add(targetConfig);
-                ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter();
-                loggerWriter.OnLoggerConfigChanged?.Invoke(this, serviceProvider);
+            }
+            UpdateLoggerWriterConfig();
+        }
+        /// <summary>
+        /// 更新日志写入器配置
+        /// </summary>
+        public void UpdateLoggerWriterConfig()
+        {
+            foreach (TargetConfig target in Targets)
+            {
+                ILoggerWriter loggerWriter = target.GetLoggerWriter();
+                loggerWriter.OnLoggerConfigChanged?.Invoke(this);
             }
         }
         /// <summary>

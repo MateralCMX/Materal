@@ -172,6 +172,7 @@ namespace Materal.Logger
                 rule.Scopes = scopes;
             }
             loggerConfig.AddRule(rule);
+            loggerConfig.UpdateLoggerWriterConfig();
             return loggerConfig;
         }
         /// <summary>

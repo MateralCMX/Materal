@@ -60,7 +60,7 @@
           "Name": "SqliteLog",
           "Type": "Sqlite", //Sqlite日志类型,数据库路径或链接字符串必选其一，优先使用数据库接字符串
           "Path": "${RootPath}\\Logs\\MateralLogger.db", //Sqlite数据库路径
-          "ConnectionString": "Data Source=${RootPath}\\Logs\\MateralLogger.db", //Sqlite数据库连接字符串
+          //"ConnectionString": "Data Source=${RootPath}\\Logs\\MateralLogger.db", //Sqlite数据库连接字符串
           "TableName": "${Level}Log", //日志表名称，默认为MateralLogger
           "Fileds": [ //字段组，默认不配置时如下
             {
@@ -131,7 +131,7 @@
           "Enable": true,
           "Name": "SqlServerLog",
           "Type": "SqlServer", //SqlServer日志类型
-          "ConnectionString": "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;", //SqlServer数据库连接字符串
+          "ConnectionString": "Data Source=127.0.0.1;Database=MateralLoggerTestDB; User ID=sa; Password=Materal@1234;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;", //SqlServer数据库连接字符串
           "TableName": "${Level}Log", //日志表名称，默认为MateralLogger
           "Fileds": [ //字段组，默认不配置时如下
             {
@@ -201,7 +201,7 @@
         {
           "Enable": true,
           "Name": "MongoLog",
-          "Type": "Mogo", //Mongo日志类型
+          "Type": "Mongo", //Mongo日志类型
           "ConnectionString": "mongodb://localhost:27017/", //WebSocket端口
           "DBName": "MateralLogger", //数据库名称
           "CollectionName": "Logger${Year}${Month}${Day}", //集合名称
@@ -229,6 +229,7 @@
             //"HttpLog",
             //"SqliteLog",
             //"SqlServerLog",
+            //"MongoLog"
             //"WebSocketLog"
           ]
           //"LogLevel": { //日志等级过滤

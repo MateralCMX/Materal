@@ -31,7 +31,7 @@
                 [nameof(CreateTime)] = CreateTime,
                 ["ProgressID"] = LoggerWriterHelper.GetProgressID(),
                 [nameof(ThreadID)] = ThreadID,
-                [nameof(Message)] = Message,
+                [nameof(Message)] = LoggerWriterHelper.FormatMessage(Message, this),
                 [nameof(Scope)] = (Scope == null) ? "PublicScope" : Scope.ScopeName,
                 [nameof(LoggerWriterHelper.MachineName)] = LoggerWriterHelper.MachineName
             };

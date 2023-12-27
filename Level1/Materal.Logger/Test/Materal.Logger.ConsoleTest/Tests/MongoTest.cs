@@ -5,14 +5,14 @@ using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger.ConsoleTest.Tests
 {
-    public class MogoTest : ITest
+    public class MongoTest : ITest
     {
         public async Task TestAsync(string[] args)
         {
             HostApplicationBuilder hostApplicationBuilder = Host.CreateApplicationBuilder(args);
             hostApplicationBuilder.AddMateralLogger(config =>
             {
-                config.AddMongoTarget("MogoLog", "mongodb://localhost:27017/").AddAllTargetsRule(minLevel: LogLevel.Trace);
+                config.AddMongoTarget("MongoLog", "mongodb://localhost:27017/").AddAllTargetsRule(minLevel: LogLevel.Trace);
             });
             IHost host = hostApplicationBuilder.Build();
             host.UseMateralLogger();

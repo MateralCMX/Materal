@@ -17,7 +17,7 @@
         /// <summary>
         /// 日志配置变更事件
         /// </summary>
-        Action<LoggerConfig, IServiceProvider>? OnLoggerConfigChanged { get; }
+        Action<LoggerConfig>? OnLoggerConfigChanged { get; }
     }
     /// <summary>
     /// 日志写入器
