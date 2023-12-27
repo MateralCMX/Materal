@@ -52,7 +52,7 @@ namespace Materal.Logger
             foreach (KeyValuePair<string, object?> item in AdvancedScope.ScopeData)
             {
                 string scopeDataValue = string.Empty;
-                if (item.Value is not null && item.Value.IsNullOrWhiteSpaceString())
+                if (item.Value is not null)
                 {
                     scopeDataValue = item.Value is string stringValue ? stringValue : item.Value.ToString() ?? string.Empty;
                 }
