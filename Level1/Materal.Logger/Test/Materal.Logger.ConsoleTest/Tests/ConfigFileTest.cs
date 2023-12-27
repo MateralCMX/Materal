@@ -14,7 +14,7 @@ namespace Materal.Logger.ConsoleTest.Tests
             hostApplicationBuilder.Configuration.AddJsonFile("MateralLogger.json", true, true);
             hostApplicationBuilder.AddMateralLogger();
             IHost host = hostApplicationBuilder.Build();
-            host.UseMateralLogger();
+            await host.UseMateralLoggerAsync();
             ILogger logger = host.Services.GetRequiredService<ILogger<Program>>();
             SendLoggerManager.Send(logger);
             await host.RunAsync();

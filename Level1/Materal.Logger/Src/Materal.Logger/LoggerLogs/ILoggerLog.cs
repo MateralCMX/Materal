@@ -14,6 +14,11 @@
         /// </summary>
         public LogLevel MaxLevel { get; set; }
         /// <summary>
+        /// 开始
+        /// </summary>
+        /// <returns></returns>
+        Task StartAsync();
+        /// <summary>
         /// 关闭
         /// </summary>
         /// <returns></returns>

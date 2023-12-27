@@ -15,7 +15,7 @@ namespace Materal.Logger.ConsoleTest.Tests
                 config.AddHttpTarget("HttpLog", "http://localhost:5000/api/Log/Write${Level}").AddAllTargetsRule(minLevel: LogLevel.Trace);
             });
             IHost host = hostApplicationBuilder.Build();
-            host.UseMateralLogger();
+            await host.UseMateralLoggerAsync();
             ILogger logger = host.Services.GetRequiredService<ILogger<Program>>();
             SendLoggerManager.Send(logger);
             await host.RunAsync();

@@ -15,7 +15,7 @@ namespace Materal.Logger.ConsoleTest.Tests
                 config.AddFileTarget("FileLog", "${RootPath}\\Logs\\${Level}.log").AddAllTargetsRule(minLevel: LogLevel.Trace);
             });
             IHost host = hostApplicationBuilder.Build();
-            host.UseMateralLogger();
+            await host.UseMateralLoggerAsync();
             ILogger logger = host.Services.GetRequiredService<ILogger<Program>>();
             SendLoggerManager.Send(logger);
             await host.RunAsync();

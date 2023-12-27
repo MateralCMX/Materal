@@ -19,7 +19,7 @@ namespace Materal.Logger
         /// <summary>
         /// 是否关闭
         /// </summary>
-        public static bool IsClose { get; private set; }
+        public static bool IsClose { get; private set; } = true;
         /// <summary>
         /// 静态构造方法
         /// </summary>
@@ -69,6 +69,19 @@ namespace Materal.Logger
         {
             _traceListeners.Add(traceListener);
             Trace.Listeners.Add(traceListener);
+        }
+        /// <summary>
+        /// 启动
+        /// </summary>
+        public static async Task StartAsync()
+        {
+            if (LoggerLog is not null)
+            {
+                await LoggerLog.StartAsync();
+            }
+            LoggerLog?.LogDebug($"正在启动[MateralLogger]");
+            IsClose = false;
+            LoggerLog?.LogDebug($"[MateralLogger]启动成功");
         }
         /// <summary>
         /// 关闭

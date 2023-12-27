@@ -1,44 +1,34 @@
 ﻿using Materal.Logger.Extensions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace Materal.Logger.ConsoleDemo
 {
     public class Program
     {
-        public static async Task Main(string[] args)
+        public static async void Main()
         {
-            HostApplicationBuilder hostApplicationBuilder = Host.CreateApplicationBuilder(args);
-            hostApplicationBuilder.AddMateralLogger(config =>
+            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.AddJsonFile("appsettings.json", true, true);
+            IConfiguration configuration = configurationBuilder.Build();
+            IServiceCollection services = new ServiceCollection();
+            services.AddLogging(builder =>
             {
-                //config.AddConsoleTarget("ConsoleLog")
-                //.AddAllTargetsRule(minLevel: LogLevel.Trace);
+                builder.AddMateralLogger(configuration, config =>
+                {
+                    config.AddConsoleTarget("CodeConsoleLog").AddAllTargetsRule(minLevel: LogLevel.Trace);
+                });
+                builder.AddMateralLoggerConfig(config =>
+                {
+                    config.AddConsoleTarget("Code2ConsoleLog").AddAllTargetsRule(minLevel: LogLevel.Trace);
+                });
+                //builder.AddMateralLogger(configuration);
             });
-            IHost host = hostApplicationBuilder.Build();
-            host.UseMateralLogger();
-            ILogger logger = host.Services.GetRequiredService<ILogger<Program>>();
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
+            await serviceProvider.UseMateralLoggerAsync();
+            ILogger logger = serviceProvider.GetRequiredService<ILogger<Program>>();
             logger.LogTrace("Trace");
-            //logger.LogDebug("Debug");
-            //logger.LogInformation("Information");
-            //logger.LogWarning("Warning");
-            //logger.LogError("Error");
-            //logger.LogCritical("Critical");
-            //ThreadPool.QueueUserWorkItem(_ =>
-            //{
-            //    //using IDisposable? loggerScope = logger.BeginScope("CustomScope");
-            //    while (true)
-            //    {
-            //        logger.LogTrace("Trace");
-            //        logger.LogDebug("Debug");
-            //        logger.LogInformation("Information");
-            //        logger.LogWarning("Warning");
-            //        logger.LogError("Error");
-            //        logger.LogCritical("Critical");
-            //        Thread.Sleep(1000);
-            //    }
-            //});
-            await host.RunAsync();
         }
     }
 }

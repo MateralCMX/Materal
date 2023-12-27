@@ -15,7 +15,21 @@ namespace Materal.Logger.Extensions
         /// <param name="clearOtherProvider"></param>
         /// <param name="getLoggerLog"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder,Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
+        {
+            builder.AddMateralLogger(configure, clearOtherProvider, getLoggerLog);
+            return builder;
+        }
+        /// <summary>
+        /// 添加Materal日志
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="configuration"></param>
+        /// <param name="configure"></param>
+        /// <param name="clearOtherProvider"></param>
+        /// <param name="getLoggerLog"></param>
+        /// <returns></returns>
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, IConfiguration? configuration, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
         {
             getLoggerLog ??= () => new ConsoleLoggerLog();
             if (clearOtherProvider)
@@ -26,9 +40,27 @@ namespace Materal.Logger.Extensions
             builder.AddConfiguration();
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, LoggerProvider>());
             LoggerProviderOptions.RegisterProviderOptions<LoggerConfig, LoggerProvider>(builder.Services);
-            configure ??= m => { };
-            builder.Services.Configure(configure);
+            if (configuration is not null)
+            {
+                builder.Services.TryAddSingleton(configuration);
+                builder.Services.Configure<LoggerConfig>(configuration.GetSection("Logging:MateralLogger"));
+            }
+            if (configure is not null)
+            {
+                builder.Services.Configure(configure);
+            }
             LoggerHost.LoggerLog = getLoggerLog();
+            return builder;
+        }
+        /// <summary>
+        /// 添加Materal日志配置
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static ILoggingBuilder AddMateralLoggerConfig(this ILoggingBuilder builder, Action<LoggerConfig> configure)
+        {
+            builder.Services.Configure(configure);
             return builder;
         }
     }

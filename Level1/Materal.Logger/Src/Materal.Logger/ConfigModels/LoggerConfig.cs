@@ -100,20 +100,24 @@ namespace Materal.Logger.ConfigModels
         /// </summary>
         public void UpdateConfig(IServiceProvider serviceProvider)
         {
-            IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();
-            DefaultLogLevel = configuration.GetValueObject<Dictionary<string, LogLevelEnum>>("Logging:MateralLogger:LogLevel");
-            Targets.RemoveAll(m => !CodeConfigTargetNames.Contains(m.Name));
-            List<ExpandoObject>? targets = GetTargetExpandoObjects(configuration);
-            if (targets is null || targets.Count <= 0) return;
-            foreach (ExpandoObject target in targets)
+            IConfiguration? configuration = serviceProvider.GetService<IConfiguration>();
+            if(configuration is not null)
             {
-                string? targetTypeName = target.GetValue<string>(nameof(TargetConfig.Type));
-                if (targetTypeName is null || string.IsNullOrWhiteSpace(targetTypeName)) continue;
-                if (!TargetTypes.ContainsKey(targetTypeName)) continue;
-                Type targetConfigType = TargetTypes[targetTypeName];
-                object targetConfigObj = target.ToJson().JsonToObject(targetConfigType);
-                if (targetConfigObj is not TargetConfig targetConfig) continue;
-                Targets.Add(targetConfig);
+                DefaultLogLevel = configuration.GetValueObject<Dictionary<string, LogLevelEnum>>("Logging:MateralLogger:LogLevel");
+                Targets.RemoveAll(m => !CodeConfigTargetNames.Contains(m.Name));
+                List<ExpandoObject>? targets = GetTargetExpandoObjects(configuration);
+                if (targets is null || targets.Count <= 0) return;
+                foreach (ExpandoObject target in targets)
+                {
+                    string? targetTypeName = target.GetValue<string>(nameof(TargetConfig.Type));
+                    if (targetTypeName is null || string.IsNullOrWhiteSpace(targetTypeName)) continue;
+                    if (!TargetTypes.ContainsKey(targetTypeName)) continue;
+                    Type targetConfigType = TargetTypes[targetTypeName];
+                    object targetConfigObj = target.ToJson().JsonToObject(targetConfigType);
+                    if (targetConfigObj is not TargetConfig targetConfig) continue;
+                    if (Targets.Any(m => m.Name == targetConfig.Name)) continue;
+                    Targets.Add(targetConfig);
+                }
             }
             UpdateLoggerWriterConfig();
         }

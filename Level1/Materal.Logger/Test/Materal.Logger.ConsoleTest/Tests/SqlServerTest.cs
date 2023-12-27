@@ -15,7 +15,7 @@ namespace Materal.Logger.ConsoleTest.Tests
                 config.AddSqlServerTarget("SqlServerLog", "Data Source=127.0.0.1;Database=MateralLoggerTestDB; User ID=sa; Password=Materal@1234;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;").AddAllTargetsRule(minLevel: LogLevel.Trace);
             });
             IHost host = hostApplicationBuilder.Build();
-            host.UseMateralLogger();
+            await host.UseMateralLoggerAsync();
             ILogger logger = host.Services.GetRequiredService<ILogger<Program>>();
             SendLoggerManager.Send(logger);
             await host.RunAsync();

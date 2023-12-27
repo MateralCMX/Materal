@@ -16,6 +16,14 @@ namespace Materal.Logger.LoggerLogs
         /// </summary>
         public LogLevel MaxLevel { get; set; } = LogLevel.Critical;
         /// <summary>
+        /// 启动
+        /// </summary>
+        public async Task StartAsync()
+        {
+            ConsoleQueue.Start();
+            await Task.CompletedTask;
+        }
+        /// <summary>
         /// 关闭
         /// </summary>
         /// <returns></returns>
