@@ -131,7 +131,7 @@
           "Enable": true,
           "Name": "SqlServerLog",
           "Type": "SqlServer", //SqlServer日志类型
-          "ConnectionString": "Data Source=82.156.11.176;Database=LogTestDB; User ID=sa; Password=gdb@admin678;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;", //SqlServer数据库连接字符串
+          "ConnectionString": "Data Source=127.0.0.1;Database=MateralLoggerTestDB; User ID=sa; Password=Materal@1234;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;", //SqlServer数据库连接字符串
           "TableName": "${Level}Log", //日志表名称，默认为MateralLogger
           "Fileds": [ //字段组，默认不配置时如下
             {

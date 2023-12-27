@@ -17,7 +17,7 @@ namespace Materal.Logger.Extensions
         /// <returns></returns>
         public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder,Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
         {
-            builder.AddMateralLogger(configure, clearOtherProvider, getLoggerLog);
+            builder.AddMateralLogger(null, configure, clearOtherProvider, getLoggerLog);
             return builder;
         }
         /// <summary>

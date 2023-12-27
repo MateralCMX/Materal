@@ -20,7 +20,7 @@
 		<ProjectReference Include="..\..\Src\Materal.Logger\Materal.Logger.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="appsettings.json">
+		<None Update="MateralLogger.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

@@ -9,7 +9,7 @@ namespace Materal.Logger
     /// </summary>
     public static class LoggerHost
     {
-        private static readonly ActionBlock<LoggerWriterModel> _writeLoggerBlock;
+        private static ActionBlock<LoggerWriterModel>? _writeLoggerBlock;
         private static readonly List<ILoggerWriter> _loggerWriters = [];
         private static readonly List<TraceListener> _traceListeners = [];
         /// <summary>
@@ -21,21 +21,13 @@ namespace Materal.Logger
         /// </summary>
         public static bool IsClose { get; private set; } = true;
         /// <summary>
-        /// 静态构造方法
-        /// </summary>
-        static LoggerHost()
-        {
-            IsClose = false;
-            _writeLoggerBlock = new(AsyncWriteLogger);
-        }
-        /// <summary>
         ///  写入日志
         /// </summary>
         /// <param name="model"></param>
         public static void WriteLogger(LoggerWriterModel model)
         {
             if (IsClose) return;
-            _writeLoggerBlock.Post(model);
+            _writeLoggerBlock?.Post(model);
         }
         /// <summary>
         ///  写入日志
@@ -81,6 +73,7 @@ namespace Materal.Logger
             }
             LoggerLog?.LogDebug($"正在启动[MateralLogger]");
             IsClose = false;
+            _writeLoggerBlock = new(AsyncWriteLogger);
             LoggerLog?.LogDebug($"[MateralLogger]启动成功");
         }
         /// <summary>
@@ -95,10 +88,13 @@ namespace Materal.Logger
                 Trace.Listeners.Remove(traceListener);
             }
             _traceListeners.Clear();
-            if (_loggerWriters is not null)
+            if(_writeLoggerBlock is not null)
             {
                 _writeLoggerBlock.Complete();
                 await _writeLoggerBlock.Completion;
+            }
+            if (_loggerWriters is not null)
+            {
                 foreach (ILoggerWriter writer in _loggerWriters)
                 {
                     await writer.ShutdownAsync();

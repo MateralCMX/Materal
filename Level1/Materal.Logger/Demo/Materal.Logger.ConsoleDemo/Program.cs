@@ -7,10 +7,10 @@ namespace Materal.Logger.ConsoleDemo
 {
     public class Program
     {
-        public static async void Main()
+        public static async Task Main()
         {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            configurationBuilder.AddJsonFile("appsettings.json", true, true);
+            ConfigurationBuilder configurationBuilder = new();
+            configurationBuilder.AddJsonFile("MateralLogger.json", true, true);
             IConfiguration configuration = configurationBuilder.Build();
             IServiceCollection services = new ServiceCollection();
             services.AddLogging(builder =>
