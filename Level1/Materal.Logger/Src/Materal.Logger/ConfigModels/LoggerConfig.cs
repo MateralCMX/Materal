@@ -65,6 +65,10 @@ namespace Materal.Logger.ConfigModels
         /// </summary>
         public Dictionary<string, LogLevelEnum>? LogLevel { get; set; }
         /// <summary>
+        /// 作用域组
+        /// </summary>
+        public Dictionary<string, LogLevelEnum>? Scopes { get; set; }
+        /// <summary>
         /// 目标配置
         /// </summary>
         public List<TargetConfig> Targets { get; set; } = [];

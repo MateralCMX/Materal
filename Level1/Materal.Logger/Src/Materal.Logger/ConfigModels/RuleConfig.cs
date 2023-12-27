@@ -28,9 +28,9 @@ namespace Materal.Logger.ConfigModels
         /// </summary>
         public List<string> Targets { get; set; } = [];
         /// <summary>
-        /// 域组
+        /// 作用域组
         /// </summary>
-        public List<string> Scopes { get; set; } = [];
+        public Dictionary<string, LogLevelEnum>? Scopes { get; set; }
         /// <summary>
         /// 日志等级组
         /// </summary>
