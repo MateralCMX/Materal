@@ -6,7 +6,7 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="1.1.72" />
+		<PackageReference Include="Materal.BaseCore.DataTransmitModel" Version="1.1.73" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.Deploy.Enums\RC.Deploy.Enums.csproj" />

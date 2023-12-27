@@ -14,7 +14,6 @@ namespace Materal.Logger.Extensions
         /// <returns></returns>
         public static IHost UseMateralLogger(this IHost host)
         {
-            LoggerServices.Services = host.Services;
             IOptionsMonitor<LoggerConfig> loggerConfigMonitor = host.Services.GetRequiredService<IOptionsMonitor<LoggerConfig>>();
             LoggerConfig loggerConfig = loggerConfigMonitor.CurrentValue;
             loggerConfig.UpdateConfig(host.Services);

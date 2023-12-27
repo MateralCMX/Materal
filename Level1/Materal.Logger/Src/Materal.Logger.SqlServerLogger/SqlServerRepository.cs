@@ -1,8 +1,7 @@
-﻿using Materal.Logger.SqlServerLogger;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace Materal.Logger.Repositories
+namespace Materal.Logger.SqlServerLogger
 {
     /// <summary>
     /// Sqlserver基础仓储
@@ -40,7 +39,7 @@ namespace Materal.Logger.Repositories
                     }
                     using SqlBulkCopy sqlBulkCopy = new(sqlConnection);
                     sqlBulkCopy.DestinationTableName = item.Key;
-                    SqlServerRepository.FillDataTable(dt, item);
+                    FillDataTable(dt, item);
                     sqlBulkCopy.BatchSize = dt.Rows.Count;
                     foreach (DataColumn column in dt.Columns)
                     {
@@ -70,7 +69,7 @@ namespace Materal.Logger.Repositories
                     if (filed.Value is not null)
                     {
                         Type? targetType = dt.Columns[filed.Name]?.DataType;
-                        if(targetType == null) continue;
+                        if (targetType == null) continue;
                         if (filed.Value.CanConvertTo(targetType))
                         {
                             dr[filed.Name] = filed.Value.ConvertTo(targetType);

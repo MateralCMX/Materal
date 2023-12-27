@@ -7,13 +7,13 @@
 		<LangVersion>10.0</LangVersion>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageOutputPath>../../nupkgs</PackageOutputPath>
-		<Version>0.0.1</Version>
+		<Version>1.1.73</Version>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>MateralLoggerTrace</ToolCommandName>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="*" />
 		<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
-		<PackageReference Include="Materal.Utils" Version="1.1.72" />
+		<PackageReference Include="Materal.Utils" Version="1.1.73" />
 	</ItemGroup>
 </Project>
