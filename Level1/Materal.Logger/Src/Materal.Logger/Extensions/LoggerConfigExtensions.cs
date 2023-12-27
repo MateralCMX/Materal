@@ -136,6 +136,7 @@ namespace Materal.Logger
         {
             if (loggerConfig.Targets.Any(m => m.Name == target.Name)) throw new LoggerException("已存在相同名称的目标");
             loggerConfig.Targets.Add(target);
+            loggerConfig.CodeConfigTargetNames.Add(target.Name);
             return loggerConfig;
         }
         #endregion

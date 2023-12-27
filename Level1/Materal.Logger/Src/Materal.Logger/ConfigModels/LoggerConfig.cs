@@ -76,6 +76,10 @@ namespace Materal.Logger.ConfigModels
         /// </summary>
         public Dictionary<string, LogLevelEnum>? Scopes { get; set; }
         /// <summary>
+        /// 代码配置目标名称
+        /// </summary>
+        public List<string> CodeConfigTargetNames { get; } = [];
+        /// <summary>
         /// 目标配置
         /// </summary>
         public List<TargetConfig> Targets { get; set; } = [];
@@ -98,7 +102,7 @@ namespace Materal.Logger.ConfigModels
         {
             IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();
             DefaultLogLevel = configuration.GetValueObject<Dictionary<string, LogLevelEnum>>("Logging:MateralLogger:LogLevel");
-            Targets.Clear();
+            Targets.RemoveAll(m => !CodeConfigTargetNames.Contains(m.Name));
             List<ExpandoObject>? targets = GetTargetExpandoObjects(configuration);
             if (targets is null || targets.Count <= 0) return;
             foreach (ExpandoObject target in targets)

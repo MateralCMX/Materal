@@ -1,6 +1,5 @@
 ﻿using Materal.Logger.ConsoleTest.Tests;
 using Materal.Utils;
-using System.Reflection;
 
 namespace Materal.Logger.ConsoleTest
 {
@@ -12,7 +11,7 @@ namespace Materal.Logger.ConsoleTest
             while (true)
             {
                 ConsoleQueue.WriteLine("ConfigFile Console File Http WebSocket Mongo Sqlite SqlServer");
-                ConsoleQueue.WriteLine("请输入测试类型[默认ConfigFile]：");
+                ConsoleQueue.WriteLine("请输入测试类型：");
                 string? inputArg = Console.ReadLine();
                 if (inputArg == null || string.IsNullOrEmpty(inputArg))
                 {
