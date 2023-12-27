@@ -8,29 +8,36 @@ namespace Materal.Logger.ConfigModels
     /// </summary>
     public class LoggerConfig
     {
-        private static IConfiguration? _configuration;
-        /// <summary>
-        /// 配置对象
-        /// </summary>
-        public static IConfiguration? Configuration
-        {
-            get => _configuration;
-            set
-            {
-                _configuration = value;
-                if (_configuration is null) return;
-                _configuration.GetReloadToken().RegisterChangeCallback(Configuration_OnChanged, null);
-                Configuration_OnChanged();
-            }
-        }
         /// <summary>
         /// 目标类型字典
         /// </summary>
         public static Dictionary<string, Type> TargetTypes { get; set; } = [];
-        /// <summary>
-        /// 目标类型改变事件
-        /// </summary>
-        public static event Action? OnConfigurationChanged;
+        static LoggerConfig()
+        {
+            DirectoryInfo directoryInfo = new(AppDomain.CurrentDomain.BaseDirectory);
+            if (directoryInfo.Exists)
+            {
+                FileInfo[] fileInfos = directoryInfo.GetFiles("*.dll");
+                foreach (FileInfo fileInfo in fileInfos)
+                {
+                    try
+                    {
+                        Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
+                        Type[] targetConfigTypes = assembly.GetTypes().Where(m => !m.IsAbstract && m.IsClass && m.IsAssignableTo<TargetConfig>()).ToArray();
+                        foreach (Type targetConfigType in targetConfigTypes)
+                        {
+                            TargetConfig? targetConfig = targetConfigType.InstantiationOrDefault<TargetConfig>();
+                            if (targetConfig is null) continue;
+                            TargetTypes.TryAdd(targetConfig.Type, targetConfigType);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+                }
+            }
+        }
         /// <summary>
         /// 启用标识
         /// </summary>
@@ -85,28 +92,14 @@ namespace Materal.Logger.ConfigModels
         /// </summary>
         public static Dictionary<string, object?> CustomConfig { get; private set; } = [];
         /// <summary>
-        /// 构造方法
+        /// 更新配置
         /// </summary>
-        public LoggerConfig()
+        public void UpdateConfig(IServiceProvider serviceProvider)
         {
-            OnConfigurationChanged += LoggerConfig_OnTargetTypesChanged;
-        }
-        /// <summary>
-        /// 析构方法
-        /// </summary>
-        ~LoggerConfig()
-        {
-            OnConfigurationChanged -= LoggerConfig_OnTargetTypesChanged;
-        }
-        /// <summary>
-        /// 当目标类型改变
-        /// </summary>
-        private void LoggerConfig_OnTargetTypesChanged()
-        {
+            IConfiguration configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            DefaultLogLevel = configuration.GetValueObject<Dictionary<string, LogLevelEnum>>("Logging:MateralLogger:LogLevel");
             Targets.Clear();
-            if (Configuration is null) return;
-            DefaultLogLevel = Configuration.GetValueObject<Dictionary<string, LogLevelEnum>>("Logging:MateralLogger:LogLevel");
-            List<ExpandoObject>? targets = GetTargetExpandoObjects();
+            List<ExpandoObject>? targets = GetTargetExpandoObjects(configuration);
             if (targets is null || targets.Count <= 0) return;
             foreach (ExpandoObject target in targets)
             {
@@ -117,35 +110,17 @@ namespace Materal.Logger.ConfigModels
                 object targetConfigObj = target.ToJson().JsonToObject(targetConfigType);
                 if (targetConfigObj is not TargetConfig targetConfig) continue;
                 Targets.Add(targetConfig);
+                ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter();
+                loggerWriter.OnLoggerConfigChanged?.Invoke(this, serviceProvider);
             }
-        }
-        /// <summary>
-        /// 当配置改变
-        /// </summary>
-        /// <param name="state"></param>
-        private static void Configuration_OnChanged(object? state = null)
-        {
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (Assembly assembly in assemblies)
-            {
-                Type[] targetConfigTypes = assembly.GetTypes().Where(m => !m.IsAbstract && m.IsClass && m.IsAssignableTo<TargetConfig>()).ToArray();
-                foreach (Type targetConfigType in targetConfigTypes)
-                {
-                    TargetConfig? targetConfig = targetConfigType.InstantiationOrDefault<TargetConfig>();
-                    if(targetConfig is null) continue;
-                    TargetTypes.TryAdd(targetConfig.Type, targetConfigType);
-                }
-            }
-            OnConfigurationChanged?.Invoke();
         }
         /// <summary>
         /// 获取目标配置
         /// </summary>
         /// <returns></returns>
-        private static List<ExpandoObject>? GetTargetExpandoObjects()
+        private static List<ExpandoObject>? GetTargetExpandoObjects(IConfiguration configuration)
         {
-            if (Configuration is null) return null;
-            string? targetsJson = Configuration.GetValue("Logging:MateralLogger:Targets");
+            string? targetsJson = configuration.GetValue("Logging:MateralLogger:Targets");
             if (targetsJson is null || string.IsNullOrWhiteSpace(targetsJson) || !targetsJson.IsArrayJson()) return null;
             object? targetsObj = targetsJson.ToExpandoObject();
             if (targetsObj is not List<ExpandoObject> targets) return null;

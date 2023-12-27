@@ -14,6 +14,10 @@
         /// 关闭
         /// </summary>
         Task ShutdownAsync();
+        /// <summary>
+        /// 日志配置变更事件
+        /// </summary>
+        Action<LoggerConfig, IServiceProvider>? OnLoggerConfigChanged { get; }
     }
     /// <summary>
     /// 日志写入器

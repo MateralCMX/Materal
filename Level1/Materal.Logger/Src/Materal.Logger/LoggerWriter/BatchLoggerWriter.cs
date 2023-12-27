@@ -19,11 +19,13 @@ namespace Materal.Logger.LoggerWriter
         /// 清空定时器执行中
         /// </summary>
         private bool _isClearTimerExecution = false;
+        private readonly TTarget _targetConfig;
         /// <summary>
         /// 构造方法
         /// </summary>
         public BatchLoggerWriter(TTarget targetConfig) : base(targetConfig)
         {
+            _targetConfig = targetConfig;
             _writeLoggersBlock = new(WriteBatchLoggerAsync);
             _writeLoggerBlock = GetNewBatchBlock();
             ClearTimer = new(ClearTimerElapsed);
@@ -51,7 +53,7 @@ namespace Materal.Logger.LoggerWriter
         /// <returns></returns>
         protected virtual BatchBlock<TModel> GetNewBatchBlock()
         {
-            BatchBlock<TModel> result = new(TargetConfig.Batch.BatchSize);
+            BatchBlock<TModel> result = new(_targetConfig.Batch.BatchSize);
             result.LinkTo(_writeLoggersBlock);
             return result;
         }
@@ -68,7 +70,7 @@ namespace Materal.Logger.LoggerWriter
             oldBlock.Completion.Wait();
             if (!IsClose)
             {
-                ClearTimer.Change(TimeSpan.FromSeconds(TargetConfig.Batch.PushInterval), Timeout.InfiniteTimeSpan);
+                ClearTimer.Change(TimeSpan.FromSeconds(_targetConfig.Batch.PushInterval), Timeout.InfiniteTimeSpan);
             }
             _isClearTimerExecution = false;
         }
@@ -79,13 +81,13 @@ namespace Materal.Logger.LoggerWriter
         public override async Task ShutdownAsync()
         {
             IsClose = true;
-            LoggerHost.LoggerLog?.LogDebug($"正在关闭[{TargetConfig.Name}]");
+            LoggerHost.LoggerLog?.LogDebug($"正在关闭[{_targetConfig.Name}]");
             while (_isClearTimerExecution) { await Task.Delay(1000); }
             _writeLoggerBlock.Complete();
             await _writeLoggerBlock.Completion;
             _writeLoggersBlock.Complete();
             await _writeLoggersBlock.Completion;
-            LoggerHost.LoggerLog?.LogDebug($"[{TargetConfig.Name}]关闭成功");
+            LoggerHost.LoggerLog?.LogDebug($"[{_targetConfig.Name}]关闭成功");
         }
     }
 }

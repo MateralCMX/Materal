@@ -3,7 +3,7 @@
     /// <summary>
     /// 日志消息模型
     /// </summary>
-    public class LogMessageModel(LoggerWriterModel model, LoggerConfig loggerConfig)
+    public class LogMessageModel(LoggerWriterModel model)
     {
         /// <summary>
         /// 唯一标识
@@ -40,7 +40,7 @@
         /// <summary>
         /// 应用程序
         /// </summary>
-        public string Application { get; } = loggerConfig.Application;
+        public string Application { get; } = model.Config.Application;
         /// <summary>
         /// 消息
         /// </summary>

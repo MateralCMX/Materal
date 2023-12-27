@@ -11,15 +11,13 @@ namespace Materal.Logger.Extensions
         /// 添加Materal日志
         /// </summary>
         /// <param name="builder"></param>
-        /// <param name="configuration"></param>
         /// <param name="configure"></param>
         /// <param name="clearOtherProvider"></param>
         /// <param name="getLoggerLog"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, IConfiguration configuration, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
         {
             getLoggerLog ??= () => new ConsoleLoggerLog();
-            LoggerConfig.Configuration = configuration;
             if (clearOtherProvider)
             {
                 builder.ClearProviders();

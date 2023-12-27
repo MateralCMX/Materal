@@ -15,13 +15,16 @@ namespace Materal.Logger.Extensions
         public static IHost UseMateralLogger(this IHost host)
         {
             LoggerServices.Services = host.Services;
-            host.Services.GetRequiredService<IOptionsMonitor<LoggerConfig>>()
-                .OnChange(m=>
-                {
-                    if (LoggerHost.LoggerLog is null) return;
-                    LoggerHost.LoggerLog.MinLevel = m.MinLoggerLogLevel;
-                    LoggerHost.LoggerLog.MaxLevel = m.MaxLoggerLogLevel;
-                });
+            IOptionsMonitor<LoggerConfig> loggerConfigMonitor = host.Services.GetRequiredService<IOptionsMonitor<LoggerConfig>>();
+            LoggerConfig loggerConfig = loggerConfigMonitor.CurrentValue;
+            loggerConfig.UpdateConfig(host.Services);
+            loggerConfigMonitor.OnChange(m =>
+            {
+                loggerConfig.UpdateConfig(host.Services);
+                if (LoggerHost.LoggerLog is null) return;
+                LoggerHost.LoggerLog.MinLevel = m.MinLoggerLogLevel;
+                LoggerHost.LoggerLog.MaxLevel = m.MaxLoggerLogLevel;
+            });
             AppDomain.CurrentDomain.ProcessExit += (_, _) => LoggerHost.ShutdownAsync().Wait();
             LoggerHost.LoggerLog?.LogDebug($"MateralLogger已启动");
             return host;

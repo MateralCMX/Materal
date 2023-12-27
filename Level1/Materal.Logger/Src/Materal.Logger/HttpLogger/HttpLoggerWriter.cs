@@ -29,7 +29,7 @@ namespace Materal.Logger.HttpLogger
                             //_httpHelper.SendAsync($"{model.Url}?{data}", model.HttpMethod).Wait();
                             break;
                         default:
-                            string data = item.Select(m => new LogMessageModel(m, model.Config)).ToJson();
+                            string data = item.Select(m => new LogMessageModel(m)).ToJson();
                             _httpHelper.SendAsync(model.Url, model.HttpMethod, null, data).Wait();
                             break;
                     }

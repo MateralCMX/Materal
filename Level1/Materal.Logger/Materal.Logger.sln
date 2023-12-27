@@ -13,11 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.ConsoleDemo"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger", "Src\Materal.Logger\Materal.Logger.csproj", "{2F3E78D1-537F-4060-8446-67EE176C203A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.MongoLogger", "Src\Materal.Logger.MongoLogger\Materal.Logger.MongoLogger.csproj", "{A39F9DBB-DFF6-4FC2-BDE5-825BBCC649BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.MongoLogger", "Src\Materal.Logger.MongoLogger\Materal.Logger.MongoLogger.csproj", "{A39F9DBB-DFF6-4FC2-BDE5-825BBCC649BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.SqliteLogger", "Src\Materal.Logger.SqliteLogger\Materal.Logger.SqliteLogger.csproj", "{ADDD7112-2F33-449C-BAA0-0044A3AA014F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.SqliteLogger", "Src\Materal.Logger.SqliteLogger\Materal.Logger.SqliteLogger.csproj", "{ADDD7112-2F33-449C-BAA0-0044A3AA014F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.SqlServerLogger", "Src\Materal.Logger.SqlServerLogger\Materal.Logger.SqlServerLogger.csproj", "{594554CA-F5D1-417E-B9DC-4EA28F627087}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.SqlServerLogger", "Src\Materal.Logger.SqlServerLogger\Materal.Logger.SqlServerLogger.csproj", "{594554CA-F5D1-417E-B9DC-4EA28F627087}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.WebSocketLogger", "Src\Materal.Logger.WebSocketLogger\Materal.Logger.WebSocketLogger.csproj", "{6C91962E-02AB-4A96-BEF7-221BA32B5CFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.LoggerTrace", "Src\Materal.Logger.LoggerTrace\Materal.Logger.LoggerTrace.csproj", "{2C443D11-AD25-4238-B1D6-06549450ABA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{594554CA-F5D1-417E-B9DC-4EA28F627087}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{594554CA-F5D1-417E-B9DC-4EA28F627087}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{594554CA-F5D1-417E-B9DC-4EA28F627087}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C91962E-02AB-4A96-BEF7-221BA32B5CFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C91962E-02AB-4A96-BEF7-221BA32B5CFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C91962E-02AB-4A96-BEF7-221BA32B5CFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C91962E-02AB-4A96-BEF7-221BA32B5CFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C443D11-AD25-4238-B1D6-06549450ABA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C443D11-AD25-4238-B1D6-06549450ABA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C443D11-AD25-4238-B1D6-06549450ABA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C443D11-AD25-4238-B1D6-06549450ABA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +67,8 @@ Global
 		{A39F9DBB-DFF6-4FC2-BDE5-825BBCC649BA} = {D50FB148-416F-44CA-A048-615560E26524}
 		{ADDD7112-2F33-449C-BAA0-0044A3AA014F} = {D50FB148-416F-44CA-A048-615560E26524}
 		{594554CA-F5D1-417E-B9DC-4EA28F627087} = {D50FB148-416F-44CA-A048-615560E26524}
+		{6C91962E-02AB-4A96-BEF7-221BA32B5CFB} = {D50FB148-416F-44CA-A048-615560E26524}
+		{2C443D11-AD25-4238-B1D6-06549450ABA6} = {D50FB148-416F-44CA-A048-615560E26524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BDC3165-1789-4856-909F-812A91617D4C}

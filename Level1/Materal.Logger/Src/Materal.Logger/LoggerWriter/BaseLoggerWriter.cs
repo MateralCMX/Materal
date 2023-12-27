@@ -9,11 +9,15 @@
         /// <summary>
         /// 目标配置
         /// </summary>
-        protected readonly TTarget TargetConfig = target;
+        protected TTarget Target => target;
         /// <summary>
         /// 是否关闭
         /// </summary>
         protected bool IsClose { get; set; } = false;
+        /// <summary>
+        /// 日志配置变更事件
+        /// </summary>
+        public virtual Action<LoggerConfig, IServiceProvider>? OnLoggerConfigChanged => null;
         /// <summary>
         /// 关闭
         /// </summary>
@@ -21,9 +25,9 @@
         public virtual async Task ShutdownAsync()
         {
             IsClose = true;
-            LoggerHost.LoggerLog?.LogDebug($"正在关闭[{TargetConfig.Name}]");
+            LoggerHost.LoggerLog?.LogDebug($"正在关闭[{Target.Name}]");
             await Task.CompletedTask;
-            LoggerHost.LoggerLog?.LogDebug($"[{TargetConfig.Name}]关闭成功");
+            LoggerHost.LoggerLog?.LogDebug($"[{Target.Name}]关闭成功");
         }
         /// <summary>
         /// 写入日志
@@ -49,7 +53,7 @@
         protected virtual bool CanWriteLogger(LoggerWriterModel model)
         {
             if (!model.Config.Enable) return false;
-            if (!TargetConfig.Enable) return false;
+            if (!target.Enable) return false;
             if (model.LogLevel < model.Config.MinLogLevel || model.LogLevel > model.Config.MaxLogLevel) return false;
             foreach (RuleConfig rule in model.Config.Rules)
             {
@@ -67,7 +71,7 @@
         {
             if (model.LogLevel == LogLevel.None || !rule.Enable) return false;
             if (model.LogLevel < rule.MinLogLevel || model.LogLevel > rule.MaxLogLevel) return false;
-            if (!rule.Targets.Contains(TargetConfig.Name)) return false;
+            if (!rule.Targets.Contains(target.Name)) return false;
             #region 验证作用域
             if (rule.Scopes is not null && rule.Scopes.Count > 0)
             {
@@ -172,7 +176,7 @@
                 if (parameterInfos.Length == 2 && parameterInfos[0].ParameterType == typeof(LoggerWriterModel) && parameterInfos[1].ParameterType == typeof(TTarget))
                 {
                     targetConstructorInfo = constructorInfo;
-                    parameters = [model, TargetConfig];
+                    parameters = [model, Target];
                 }
                 else if (parameterInfos.Length == 1 && targetConstructorInfo is null && parameterInfos[0].ParameterType == typeof(LoggerWriterModel))
                 {
