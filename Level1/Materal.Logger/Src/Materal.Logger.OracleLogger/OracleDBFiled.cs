@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.Logger.SqlServerLogger
+namespace Materal.Logger.OracleLogger
 {
     /// <summary>
-    /// SqlServer数据库字段
+    /// Oracle数据库字段
     /// </summary>
-    public class SqlServerDBFiled
+    public class OracleDBFiled
     {
         /// <summary>
         /// 名称
@@ -36,23 +36,13 @@ namespace Materal.Logger.SqlServerLogger
                 {
                     type = type[0..tempIndex];
                 }
-                type = type.ToLower();
+                type = type.ToUpper();
                 return type switch
                 {
-                    "bit" => typeof(bool),
-                    "tinyint" => typeof(byte),
-                    "smallint" => typeof(short),
-                    "int" => typeof(int),
-                    "bigint" => typeof(long),
-                    "float" => typeof(float),
-                    "real" => typeof(double),
-                    "decimal" or "numeric" or "money" or "smallmoney" => typeof(decimal),
-                    "char" or "varchar" or "text" or "nchar" or "nvarchar" or "ntext" or "xml" => typeof(string),
-                    "date" or "datetime" or "datetime2" or "smalldatetime" => typeof(DateTime),
-                    "datetimeoffset" => typeof(DateTimeOffset),
-                    "time" => typeof(TimeSpan),
-                    "timestamp" or "binary" or "varbinary" or "image" => typeof(byte[]),// 通常用于存储时间戳的二进制数据，需要序列化成字节数组
-                    "uniqueidentifier" => typeof(Guid),
+                    "NUMBER" => typeof(decimal),// Or double, float, int, etc., depending on scale and precision.
+                    "DATE" or "TIMESTAMP" => typeof(DateTime),
+                    "CLOB" or "CHAR" or "VARCHAR2" => typeof(string),
+                    "BLOB" => typeof(byte[]),
                     _ => throw new LoggerException($"未知类型{Type}")
                 };
             }
@@ -79,14 +69,10 @@ namespace Materal.Logger.SqlServerLogger
         /// <returns></returns>
         public string GetCreateTableFiledSQL()
         {
-            string result = $"[{Name}] {Type} ";
-            if (PK)
+            string result = $"\"{Name}\" {Type}";
+            if (PK || !IsNull)
             {
-                result += "NOT NULL";
-            }
-            else
-            {
-                result += IsNull ? "NULL" : "NOT NULL";
+                result += " NOT NULL";
             }
             return result;
         }

@@ -49,7 +49,6 @@ namespace Materal.Logger.Repositories
         /// 添加
         /// </summary>
         /// <param name="models"></param>
-        /// <exception cref="LoggerException"></exception>
         public abstract void Inserts(T[] models);
     }
 }

@@ -205,7 +205,7 @@
           "Enable": true, //启用标识
           "Name": "MySqlLog", //目标名称
           "Type": "MySql", //MySql日志类型
-          "ConnectionString": "Server=127.0.0.1;Port=3306;Database=MateralLoggerTestDB;Uid=root;Pwd=Materal@1234;;AllowLoadLocalInfile=true;", //SqlServer数据库连接字符串
+          "ConnectionString": "Server=127.0.0.1;Port=3306;Database=MateralLoggerTestDB;Uid=root;Pwd=Materal@1234;;AllowLoadLocalInfile=true;", //MySql数据库连接字符串
           "TableName": "${Level}Log", //日志表名称，默认为MateralLogger
           "Fileds": [ //字段组，默认不配置时如下
             {
@@ -264,6 +264,77 @@
             {
               "Name": "Exception",
               "Type": "longtext",
+              "Value": "${Exception}"
+            }
+          ],
+          "Batch": {
+            "BatchSize": 2000, //批量大小
+            "PushInterval": 2 //推送间隔
+          }
+        },
+        {
+          "Enable": true, //启用标识
+          "Name": "OracleLog", //目标名称
+          "Type": "Oracle", //MySql日志类型
+          "ConnectionString": "user id=dy; Password=dy123; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =192.168.1.181)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = YXEYORCL)));VALIDATE CONNECTION=True;", //Oracle数据库连接字符串
+          "TableName": "${Level}Log", //日志表名称，默认为MateralLogger
+          "Fileds": [ //字段组，默认不配置时如下
+            {
+              "Name": "ID",
+              "Type": "VARCHAR2(36)",
+              "Value": "${LogID}",
+              "PK": true
+            },
+            {
+              "Name": "CreateTime",
+              "Type": "DATE",
+              "Value": "${DateTime}",
+              "Index": "DESC",
+              "IsNull": false
+            },
+            {
+              "Name": "Level",
+              "Type": "VARCHAR2(50)",
+              "Value": "${Level}"
+            },
+            {
+              "Name": "ProgressID",
+              "Type": "VARCHAR2(20)",
+              "Value": "${ProgressID}"
+            },
+            {
+              "Name": "ThreadID",
+              "Type": "VARCHAR2(20)",
+              "Value": "${ThreadID}"
+            },
+            {
+              "Name": "Scope",
+              "Type": "VARCHAR2(100)",
+              "Value": "${Scope}"
+            },
+            {
+              "Name": "MachineName",
+              "Type": "VARCHAR2(100)",
+              "Value": "${MachineName}"
+            },
+            {
+              "Name": "CategoryName",
+              "Type": "VARCHAR2(100)",
+              "Value": "${CategoryName}"
+            },
+            {
+              "Name": "Application",
+              "Type": "VARCHAR2(50)",
+              "Value": "${Application}"
+            },
+            {
+              "Name": "Message",
+              "Type": "CLOB",
+              "Value": "${Message}"
+            },
+            {
+              "Name": "Exception",
+              "Type": "CLOB",
               "Value": "${Exception}"
             }
           ],

@@ -39,7 +39,7 @@ namespace Materal.Logger.SqlServerLogger
                     sqlBulkCopy.BatchSize = dt.Rows.Count;
                     foreach (DataColumn column in dt.Columns)
                     {
-                        sqlBulkCopy.ColumnMappings.Add(column.ColumnName, column.ColumnName);
+                        sqlBulkCopy.ColumnMappings.Add(column.ColumnName, $"[{column.ColumnName}]");
                     }
                     sqlBulkCopy.WriteToServer(dt);
                 }
@@ -105,56 +105,52 @@ namespace Materal.Logger.SqlServerLogger
                 {
                     tableCount = Convert.ToInt32(tableCountResult);
                 }
-                if (tableCount <= 0)
+                if (tableCount > 0) return;
+                IDbTransaction dbTransaction;
+                #region 创建表
+                dbTransaction = DBConnection.BeginTransaction();
+                cmd = DBConnection.CreateCommand();
+                cmd.Transaction = dbTransaction;
+                try
                 {
-                    IDbTransaction dbTransaction;
-                    #region 创建表
-                    dbTransaction = DBConnection.BeginTransaction();
-                    cmd = DBConnection.CreateCommand();
-                    cmd.Transaction = dbTransaction;
-                    try
-                    {
-                        cmd.CommandText = GetCreateTableTSQL(tableName, fileds);
-                        object? createTableResult = cmd.ExecuteScalar();
-                        dbTransaction.Commit();
-                        cmd.Dispose();
-                    }
-                    catch (Exception)
-                    {
-                        dbTransaction.Rollback();
-                        throw;
-                    }
-                    finally
-                    {
-                        dbTransaction.Dispose();
-                    }
-                    #endregion
-                    #region 创建索引
-                    string? creteIndexTSQL = GetCreateIndexTSQL(tableName, fileds);
-                    if (creteIndexTSQL is not null && !string.IsNullOrWhiteSpace(creteIndexTSQL))
-                    {
-                        dbTransaction = DBConnection.BeginTransaction();
-                        cmd = DBConnection.CreateCommand();
-                        cmd.Transaction = dbTransaction;
-                        try
-                        {
-                            cmd.CommandText = creteIndexTSQL;
-                            object? createTableResult = cmd.ExecuteScalar();
-                            dbTransaction.Commit();
-                            cmd.Dispose();
-                        }
-                        catch (Exception)
-                        {
-                            dbTransaction.Rollback();
-                            throw;
-                        }
-                        finally
-                        {
-                            dbTransaction.Dispose();
-                        }
-                    }
-                    #endregion
+                    cmd.CommandText = GetCreateTableTSQL(tableName, fileds);
+                    object? createTableResult = cmd.ExecuteScalar();
+                    dbTransaction.Commit();
+                    cmd.Dispose();
                 }
+                catch (Exception)
+                {
+                    dbTransaction.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    dbTransaction.Dispose();
+                }
+                #endregion
+                #region 创建索引
+                string? creteIndexTSQL = GetCreateIndexTSQL(tableName, fileds);
+                if (creteIndexTSQL is null || string.IsNullOrWhiteSpace(creteIndexTSQL)) return;
+                dbTransaction = DBConnection.BeginTransaction();
+                cmd = DBConnection.CreateCommand();
+                cmd.Transaction = dbTransaction;
+                try
+                {
+                    cmd.CommandText = creteIndexTSQL;
+                    object? createTableResult = cmd.ExecuteScalar();
+                    dbTransaction.Commit();
+                    cmd.Dispose();
+                }
+                catch (Exception)
+                {
+                    dbTransaction.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    dbTransaction.Dispose();
+                }
+                #endregion
             }
             finally
             {
@@ -192,6 +188,10 @@ namespace Materal.Logger.SqlServerLogger
             {
                 createTableTSQL.AppendLine(",");
                 createTableTSQL.Append(setPrimaryKeyTSQL);
+            }
+            else
+            {
+                createTableTSQL.AppendLine(")");
             }
             string result = createTableTSQL.ToString();
             return result;

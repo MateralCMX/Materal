@@ -76,6 +76,16 @@ namespace Materal.Logger.Test
             option.AddMySqlTarget("MySqlLogger", connectionString, "${Level}Log");
         });
         /// <summary>
+        /// 写Oracle日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteOracleLogTestAsync() => await WriteLogAsync(option =>
+        {
+            const string connectionString = "user id=dy; Password=dy123; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =192.168.1.181)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = YXEYORCL)));VALIDATE CONNECTION=True;";
+            option.AddOracleTarget("OracleLogger", connectionString, "TestLogger");
+        });
+        /// <summary>
         /// 写Mongo日志
         /// </summary>
         /// <returns></returns>

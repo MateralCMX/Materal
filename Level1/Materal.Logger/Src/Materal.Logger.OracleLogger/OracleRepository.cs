@@ -1,43 +1,46 @@
-﻿using MySqlConnector;
+﻿using Oracle.ManagedDataAccess.Client;
 using System.Data;
 
-namespace Materal.Logger.MySqlLogger
+namespace Materal.Logger.OracleLogger
 {
     /// <summary>
     /// Sqlserver基础仓储
     /// </summary>
-    public class MySqlRepository(string connectionString) : BaseRepository<MySqlLoggerWriterModel>(() =>
-    {
-        MySqlConnectionStringBuilder builder = new(connectionString);
-        return new MySqlConnection(builder.ConnectionString);
-    })
+    public class OracleRepository(string connectionString) : BaseRepository<OracleLoggerWriterModel>(() =>
+        {
+            OracleConnectionStringBuilder builder = new(connectionString);
+            return new OracleConnection(builder.ConnectionString);
+        })
     {
         /// <summary>
         /// 插入多个
         /// </summary>
         /// <param name="models"></param>
         /// <exception cref="LoggerException"></exception>
-        public override void Inserts(MySqlLoggerWriterModel[] models)
+        public override void Inserts(OracleLoggerWriterModel[] models)
         {
             DBConnection ??= GetDBConnection();
             OpenDBConnection();
             try
             {
-                if (DBConnection is not MySqlConnection sqlConnection) throw new LoggerException("连接对象不是MySql连接对象");
-                foreach (IGrouping<string, MySqlLoggerWriterModel> item in models.GroupBy(m => m.TableName))
+                if (DBConnection is not OracleConnection sqlConnection) throw new LoggerException("连接对象不是Oracle连接对象");
+                foreach (IGrouping<string, OracleLoggerWriterModel> item in models.GroupBy(m => m.TableName))
                 {
-                    List<MySqlDBFiled> firstFileds = models.First().Fileds;
+                    List<OracleDBFiled> firstFileds = models.First().Fileds;
                     CreateTable(item.Key, firstFileds);
                     DataTable dt = new();
-                    foreach (MySqlDBFiled filed in firstFileds)
+                    foreach (OracleDBFiled filed in firstFileds)
                     {
                         dt.Columns.Add(filed.Name, filed.CSharpType);
                     }
-                    MySqlBulkCopy sqlBulkCopy = new(sqlConnection)
-                    {
-                        DestinationTableName = item.Key
-                    };
+                    using OracleBulkCopy sqlBulkCopy = new(sqlConnection);
+                    sqlBulkCopy.DestinationTableName = $"\"{item.Key}\"";
                     FillDataTable(dt, item);
+                    sqlBulkCopy.BatchSize = dt.Rows.Count;
+                    foreach (DataColumn column in dt.Columns)
+                    {
+                        sqlBulkCopy.ColumnMappings.Add(column.ColumnName, $"\"{column.ColumnName}\"");
+                    }
                     sqlBulkCopy.WriteToServer(dt);
                 }
             }
@@ -52,12 +55,12 @@ namespace Materal.Logger.MySqlLogger
         /// <param name="dt"></param>
         /// <param name="models"></param>
         /// <returns></returns>
-        private static DataTable FillDataTable(DataTable dt, IEnumerable<MySqlLoggerWriterModel> models)
+        private static DataTable FillDataTable(DataTable dt, IEnumerable<OracleLoggerWriterModel> models)
         {
-            foreach (MySqlLoggerWriterModel model in models)
+            foreach (OracleLoggerWriterModel model in models)
             {
                 DataRow dr = dt.NewRow();
-                foreach (MySqlDBFiled filed in model.Fileds)
+                foreach (OracleDBFiled filed in model.Fileds)
                 {
                     if (filed.Value is not null)
                     {
@@ -87,17 +90,22 @@ namespace Materal.Logger.MySqlLogger
         /// <param name="tableName"></param>
         /// <param name="fileds"></param>
         /// <param name="closeDB"></param>
-        private void CreateTable(string tableName, List<MySqlDBFiled> fileds, bool closeDB = false)
+        private void CreateTable(string tableName, List<OracleDBFiled> fileds, bool closeDB = false)
         {
             DBConnection ??= GetDBConnection();
             try
             {
                 IDbCommand cmd = DBConnection.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = $"SHOW TABLES LIKE '{tableName}';";
-                bool tableExists = cmd.ExecuteScalar() is not null;
+                cmd.CommandText = $"SELECT COUNT(*) FROM all_tables WHERE table_name = '{tableName}'";
+                object? tableCountResultObj = cmd.ExecuteScalar();
                 cmd.Dispose();
-                if (tableExists) return;
+                int tableCount = 0;
+                if (tableCountResultObj is not null and decimal tableCountResult)
+                {
+                    tableCount = Convert.ToInt32(tableCountResult);
+                }
+                if (tableCount > 0) return;
                 IDbTransaction dbTransaction;
                 #region 创建表
                 dbTransaction = DBConnection.BeginTransaction();
@@ -120,6 +128,31 @@ namespace Materal.Logger.MySqlLogger
                     dbTransaction.Dispose();
                 }
                 #endregion
+                #region 创建索引
+                string? creteIndexTSQL = GetCreateIndexTSQL(tableName, fileds);
+                if (creteIndexTSQL is not null && !string.IsNullOrWhiteSpace(creteIndexTSQL))
+                {
+                    dbTransaction = DBConnection.BeginTransaction();
+                    cmd = DBConnection.CreateCommand();
+                    cmd.Transaction = dbTransaction;
+                    try
+                    {
+                        cmd.CommandText = creteIndexTSQL;
+                        object? createTableResult = cmd.ExecuteScalar();
+                        dbTransaction.Commit();
+                        cmd.Dispose();
+                    }
+                    catch (Exception)
+                    {
+                        dbTransaction.Rollback();
+                        throw;
+                    }
+                    finally
+                    {
+                        dbTransaction.Dispose();
+                    }
+                }
+                #endregion
             }
             finally
             {
@@ -135,23 +168,18 @@ namespace Materal.Logger.MySqlLogger
         /// <param name="tableName">表名</param>
         /// <param name="fileds">字段</param>
         /// <returns></returns>
-        private string GetCreateTableTSQL(string tableName, List<MySqlDBFiled> fileds)
+        private string GetCreateTableTSQL(string tableName, List<OracleDBFiled> fileds)
         {
             StringBuilder setPrimaryKeyTSQL = new();
             StringBuilder createTableTSQL = new();
-            createTableTSQL.AppendLine($"CREATE TABLE `{tableName}`(");
-            List<string> indexs = [];
+            createTableTSQL.AppendLine($"CREATE TABLE \"{tableName}\"(");
             List<string> columns = [];
-            foreach (MySqlDBFiled filed in fileds)
+            foreach (OracleDBFiled filed in fileds)
             {
                 columns.Add(filed.GetCreateTableFiledSQL());
                 if (filed.PK)
                 {
-                    setPrimaryKeyTSQL.AppendLine($"PRIMARY KEY (`{filed.Name}`)");
-                }
-                if (filed.Index is not null)
-                {
-                    indexs.Add($"INDEX `{filed.Name}Index`(`{filed.Name}` {filed.Index})");
+                    setPrimaryKeyTSQL.AppendLine($"PRIMARY KEY (\"{filed.Name}\")");
                 }
             }
             createTableTSQL.Append(string.Join(",", columns));
@@ -160,13 +188,30 @@ namespace Materal.Logger.MySqlLogger
                 createTableTSQL.AppendLine(",");
                 createTableTSQL.Append(setPrimaryKeyTSQL);
             }
-            if (indexs is not null && indexs.Count > 0)
-            {
-                createTableTSQL.AppendLine(",");
-                createTableTSQL.Append(string.Join(",", indexs));
-            }
             createTableTSQL.Append(")");
             string result = createTableTSQL.ToString();
+            return result;
+        }
+        /// <summary>
+        /// 获得创建索引语句
+        /// </summary>
+        /// <param name="tableName">表名</param>
+        /// <param name="fileds">字段</param>
+        /// <returns></returns>
+        private string? GetCreateIndexTSQL(string tableName, List<OracleDBFiled> fileds)
+        {
+            List<string> indexColumns = [];
+            foreach (OracleDBFiled filed in fileds)
+            {
+                if (filed.Index is not null)
+                {
+                    indexColumns.Add($"CREATE INDEX \"{filed.Name}Index\" ON \"{tableName}\" (\"{filed.Name}\" {filed.Index})");
+                }
+            }
+            if (indexColumns.Count <= 0) return null;
+            StringBuilder createIndexTSQL = new();
+            createIndexTSQL.Append(string.Join(";", indexColumns));
+            string result = createIndexTSQL.ToString();
             return result;
         }
     }

@@ -129,27 +129,25 @@ namespace Materal.Logger.SqliteLogger
                 {
                     tableCount = Convert.ToInt32(tableCountResult);
                 }
-                if (tableCount <= 0)
+                if (tableCount > 0) return;
+                IDbTransaction dbTransaction = DBConnection.BeginTransaction();
+                cmd = DBConnection.CreateCommand();
+                cmd.Transaction = dbTransaction;
+                try
                 {
-                    IDbTransaction dbTransaction = DBConnection.BeginTransaction();
-                    cmd = DBConnection.CreateCommand();
-                    cmd.Transaction = dbTransaction;
-                    try
-                    {
-                        cmd.CommandText = GetCreateTableTSQL(tableName, fileds);
-                        object? createTableResult = cmd.ExecuteScalar();
-                        dbTransaction.Commit();
-                        cmd.Dispose();
-                    }
-                    catch (Exception)
-                    {
-                        dbTransaction.Rollback();
-                        throw;
-                    }
-                    finally
-                    {
-                        dbTransaction.Dispose();
-                    }
+                    cmd.CommandText = GetCreateTableTSQL(tableName, fileds);
+                    object? createTableResult = cmd.ExecuteScalar();
+                    dbTransaction.Commit();
+                    cmd.Dispose();
+                }
+                catch (Exception)
+                {
+                    dbTransaction.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    dbTransaction.Dispose();
                 }
             }
             finally
