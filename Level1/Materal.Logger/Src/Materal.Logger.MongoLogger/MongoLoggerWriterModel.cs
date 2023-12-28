@@ -26,6 +26,7 @@
             Dictionary<string, object> result = new()
             {
                 [nameof(ID)] = ID,
+                [nameof(LoggerConfig.Application)] = LoggerWriterHelper.FormatText(model.Config.Application, model),
                 [nameof(LogLevel)] = LogLevel,
                 ["LogLevelText"] = LogLevel.GetDescription(),
                 [nameof(CreateTime)] = CreateTime,

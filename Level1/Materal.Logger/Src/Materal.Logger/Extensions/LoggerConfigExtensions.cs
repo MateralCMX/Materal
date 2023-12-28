@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Data;
+﻿using System.Data;
 
 namespace Materal.Logger.ConfigModels
 {
@@ -117,7 +116,7 @@ namespace Materal.Logger.ConfigModels
         /// <param name="name"></param>
         /// <param name="logLevel"></param>
         /// <returns></returns>
-        public static LoggerConfig AddScopes(this LoggerConfig loggerConfig, string name, LogLevel logLevel)
+        public static LoggerConfig AddScope(this LoggerConfig loggerConfig, string name, LogLevel logLevel)
         {
             loggerConfig.AddScopes([new(name, logLevel)]);
             return loggerConfig;

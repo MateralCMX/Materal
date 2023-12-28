@@ -64,12 +64,10 @@ namespace Materal.Logger.LoggerWriter
             string errorMesage = model.Exception is null ? string.Empty : GetErrorMessage(model.Exception);
             string message = model.Message;
             message = FormatText(message, model);
-            message = Regex.Replace(message, @"\$\{LogID\}", model.ID.ToString());
             message = Regex.Replace(message, @"\$\{Exception\}", errorMesage);
             string result = writeMessage;
             result = FormatText(result, model);
             result = Regex.Replace(result, @"\$\{Message\}", message);
-            result = Regex.Replace(result, @"\$\{LogID\}", model.ID.ToString());
             result = Regex.Replace(result, @"\$\{Exception\}", errorMesage);
             result = result.Trim();
             return result;
@@ -84,6 +82,7 @@ namespace Materal.Logger.LoggerWriter
         {
             string result = text;
             result = FormatPath(result, model);
+            result = Regex.Replace(result, @"\$\{LogID\}", model.ID.ToString());
             result = Regex.Replace(result, @"\$\{Time\}", model.CreateTime.ToString("HH:mm:ss"));
             result = Regex.Replace(result, @"\$\{DateTime\}", model.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"));
             result = result.Trim();
