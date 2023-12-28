@@ -47,7 +47,7 @@ namespace Materal.Logger.SqliteLogger
                         sqliteCmd.CommandText = GetInsertTSQL(item.Key, firstFileds);
                         foreach (SqliteLoggerWriterModel model in item)
                         {
-                            SqliteRepository.Insert(sqliteCmd, model.Fileds);
+                            Insert(sqliteCmd, model.Fileds);
                         }
                         dbTransaction.Commit();
                     }
@@ -181,9 +181,9 @@ namespace Materal.Logger.SqliteLogger
                 {
                     setPrimaryKeyTSQL = $", PRIMARY KEY (\"{filed.Name}\")";
                 }
-                if (filed.Index)
+                if (filed.Index is not null)
                 {
-                    indexColumns.Add($"\"{filed.Name}\"");
+                    indexColumns.Add($"\"{filed.Name}\" {filed.Index}");
                 }
             }
             createTableTSQL.Append(string.Join(",", columns));
@@ -195,7 +195,7 @@ namespace Materal.Logger.SqliteLogger
             if (indexColumns.Count > 0)
             {
                 createTableTSQL.AppendLine($"CREATE INDEX \"{tableName}Index\" ON \"{tableName}\" (");
-                createTableTSQL.Append(string.Join(" DESC,", indexColumns));
+                createTableTSQL.Append(string.Join(",", indexColumns));
                 createTableTSQL.AppendLine(");");
             }
             createTableTSQL.AppendLine("PRAGMA foreign_keys = true;");

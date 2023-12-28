@@ -28,7 +28,7 @@ namespace Materal.Logger.SqliteLogger
         /// <summary>
         /// 索引
         /// </summary>
-        public bool Index { get; set; } = false;
+        public string? Index { get; set; }
         /// <summary>
         /// 可以为空
         /// </summary>

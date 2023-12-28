@@ -9,10 +9,6 @@
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Src\Materal.Logger.MongoLogger\Materal.Logger.MongoLogger.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.Logger.SqliteLogger\Materal.Logger.SqliteLogger.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.Logger.SqlServerLogger\Materal.Logger.SqlServerLogger.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.Logger.WebSocketLogger\Materal.Logger.WebSocketLogger.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger\Materal.Logger.csproj" />
 	</ItemGroup>
 	<ItemGroup>

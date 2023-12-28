@@ -2,7 +2,6 @@ using Materal.Logger.ConfigModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace Materal.Logger.Test
 {
@@ -65,6 +64,16 @@ namespace Materal.Logger.Test
         {
             const string connectionString = "Data Source=127.0.0.1;Database=MateralLoggerTestDB; User ID=sa; Password=Materal@1234;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;";
             option.AddSqlServerTarget("SqlServerLogger", connectionString, "${Level}Log");
+        });
+        /// <summary>
+        /// 写MySql日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteMySqlLogTestAsync() => await WriteLogAsync(option =>
+        {
+            const string connectionString = "Server=127.0.0.1;Port=3306;Database=MateralLoggerTestDB;Uid=root;Pwd=Materal@1234;AllowLoadLocalInfile=true;";
+            option.AddMySqlTarget("MySqlLogger", connectionString, "${Level}Log");
         });
         /// <summary>
         /// 写Mongo日志
@@ -182,6 +191,15 @@ namespace Materal.Logger.Test
             logger.LogWarning(message);
             logger.LogError(message);
             logger.LogCritical(message);
+        }
+        /// <summary>
+        /// 写日志
+        /// </summary>
+        /// <param name="message"></param>
+        private static void WriteLog(IServiceProvider services, LogLevel logLevel, string message)
+        {
+            ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
+            logger.Log(logLevel, message);
         }
         /// <summary>
         /// 写日志

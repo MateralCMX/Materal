@@ -1,5 +1,4 @@
 ﻿using Materal.Logger.LoggerLogs;
-using System.Diagnostics;
 using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger

@@ -6,10 +6,6 @@ namespace Materal.Logger.SqlServerLogger
     /// <summary>
     /// Sqlserver基础仓储
     /// </summary>
-    /// <remarks>
-    /// Sqlserver基础仓储
-    /// </remarks>
-    /// <param name="connectionString"></param>
     public class SqlServerRepository(string connectionString) : BaseRepository<SqlServerLoggerWriterModel>(() =>
         {
             SqlConnectionStringBuilder builder = new(connectionString);
@@ -201,7 +197,7 @@ namespace Materal.Logger.SqlServerLogger
             return result;
         }
         /// <summary>
-        /// 获得创建表语句
+        /// 获得创建索引语句
         /// </summary>
         /// <param name="tableName">表名</param>
         /// <param name="fileds">字段</param>
@@ -211,15 +207,15 @@ namespace Materal.Logger.SqlServerLogger
             List<string> indexColumns = [];
             foreach (SqlServerDBFiled filed in fileds)
             {
-                if (filed.Index)
+                if (filed.Index is not null)
                 {
-                    indexColumns.Add($"[{filed.Name}]");
+                    indexColumns.Add($"[{filed.Name}] {filed.Index}");
                 }
             }
             if (indexColumns.Count <= 0) return null;
             StringBuilder createIndexTSQL = new();
             createIndexTSQL.AppendLine($"CREATE NONCLUSTERED INDEX [IX_{tableName}s] ON [{tableName}] (");
-            createIndexTSQL.Append(string.Join(" DESC,", indexColumns));
+            createIndexTSQL.Append(string.Join(",", indexColumns));
             createIndexTSQL.AppendLine($")WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]");
             string result = createIndexTSQL.ToString();
             return result;

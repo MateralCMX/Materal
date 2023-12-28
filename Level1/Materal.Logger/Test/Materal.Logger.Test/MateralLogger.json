@@ -48,8 +48,8 @@
           }
         },
         {
-          "Enable": true,
-          "Name": "HttpLog",
+          "Enable": true, //启用标识
+          "Name": "HttpLog", //目标名称
           "Type": "Http", //Http日志类型
           "Url": "http://localhost:5000/api/Log/Write${Level}", //Http请求地址
           "HttpMethod": "POST", //Http请求方法
@@ -59,8 +59,8 @@
           }
         },
         {
-          "Enable": true,
-          "Name": "SqliteLog",
+          "Enable": true, //启用标识
+          "Name": "SqliteLog", //目标名称
           "Type": "Sqlite", //Sqlite日志类型,数据库路径或链接字符串必选其一，优先使用数据库接字符串
           "Path": "${RootPath}\\Logs\\MateralLogger.db", //Sqlite数据库路径
           //"ConnectionString": "Data Source=${RootPath}\\Logs\\MateralLogger.db", //Sqlite数据库连接字符串
@@ -76,7 +76,7 @@
               "Name": "CreateTime",
               "Type": "DATE",
               "Value": "${DateTime}",
-              "Index": true,
+              "Index": "DESC",
               "IsNull": false
             },
             {
@@ -131,8 +131,8 @@
           }
         },
         {
-          "Enable": true,
-          "Name": "SqlServerLog",
+          "Enable": true, //启用标识
+          "Name": "SqlServerLog", //目标名称
           "Type": "SqlServer", //SqlServer日志类型
           "ConnectionString": "Data Source=127.0.0.1;Database=MateralLoggerTestDB; User ID=sa; Password=Materal@1234;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;", //SqlServer数据库连接字符串
           "TableName": "${Level}Log", //日志表名称，默认为MateralLogger
@@ -147,7 +147,7 @@
               "Name": "CreateTime",
               "Type": "[datetime2](7)",
               "Value": "${DateTime}",
-              "Index": true,
+              "Index": "DESC",
               "IsNull": false
             },
             {
@@ -202,8 +202,79 @@
           }
         },
         {
-          "Enable": true,
-          "Name": "MongoLog",
+          "Enable": true, //启用标识
+          "Name": "MySqlLog", //目标名称
+          "Type": "MySql", //MySql日志类型
+          "ConnectionString": "Server=127.0.0.1;Port=3306;Database=MateralLoggerTestDB;Uid=root;Pwd=Materal@1234;;AllowLoadLocalInfile=true;", //SqlServer数据库连接字符串
+          "TableName": "${Level}Log", //日志表名称，默认为MateralLogger
+          "Fileds": [ //字段组，默认不配置时如下
+            {
+              "Name": "ID",
+              "Type": "char(36)",
+              "Value": "${LogID}",
+              "PK": true
+            },
+            {
+              "Name": "CreateTime",
+              "Type": "datetime",
+              "Value": "${DateTime}",
+              "Index": "DESC",
+              "IsNull": false
+            },
+            {
+              "Name": "Level",
+              "Type": "varchar(50)",
+              "Value": "${Level}"
+            },
+            {
+              "Name": "ProgressID",
+              "Type": "varchar(20)",
+              "Value": "${ProgressID}"
+            },
+            {
+              "Name": "ThreadID",
+              "Type": "varchar(20)",
+              "Value": "${ThreadID}"
+            },
+            {
+              "Name": "Scope",
+              "Type": "varchar(100)",
+              "Value": "${Scope}"
+            },
+            {
+              "Name": "MachineName",
+              "Type": "varchar(100)",
+              "Value": "${MachineName}"
+            },
+            {
+              "Name": "CategoryName",
+              "Type": "varchar(100)",
+              "Value": "${CategoryName}"
+            },
+            {
+              "Name": "Application",
+              "Type": "varchar(50)",
+              "Value": "${Application}"
+            },
+            {
+              "Name": "Message",
+              "Type": "longtext",
+              "Value": "${Message}"
+            },
+            {
+              "Name": "Exception",
+              "Type": "longtext",
+              "Value": "${Exception}"
+            }
+          ],
+          "Batch": {
+            "BatchSize": 2000, //批量大小
+            "PushInterval": 2 //推送间隔
+          }
+        },
+        {
+          "Enable": true, //启用标识
+          "Name": "MongoLog", //目标名称
           "Type": "Mongo", //Mongo日志类型
           "ConnectionString": "mongodb://localhost:27017/", //WebSocket端口
           "DBName": "MateralLogger", //数据库名称
@@ -214,8 +285,8 @@
           }
         },
         {
-          "Enable": true,
-          "Name": "WebSocketLog",
+          "Enable": true, //启用标识
+          "Name": "WebSocketLog", //目标名称
           "Type": "WebSocket", //WebSocket日志类型
           "Port": 5002 //WebSocket端口
         }

@@ -37,7 +37,7 @@
         public static List<SqliteDBFiled> DefaultFileds { get; } =
         [
             new() { Name = "ID", Type = "TEXT", Value = "${LogID}", PK = true },
-            new() { Name = "CreateTime", Type = "DATE", Value = "${DateTime}", Index = true, IsNull = false },
+            new() { Name = "CreateTime", Type = "DATE", Value = "${DateTime}", Index = "DESC", IsNull = false },
             new() { Name = "Level", Type = "TEXT", Value = "${Level}" },
             new() { Name = "ProgressID", Type = "TEXT", Value = "${ProgressID}" },
             new() { Name = "ThreadID", Type = "TEXT", Value = "${ThreadID}" },
