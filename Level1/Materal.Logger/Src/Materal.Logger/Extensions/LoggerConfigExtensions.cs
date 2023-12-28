@@ -11,18 +11,6 @@ namespace Materal.Logger.ConfigModels
     /// </summary>
     public static class LoggerConfigExtensions
     {
-        /// <summary>
-        /// 添加TraceListener
-        /// </summary>
-        /// <param name="loggerConfig"></param>
-        /// <param name="traceListener"></param>
-        /// <returns></returns>
-        public static LoggerConfig AddTraceListener(this LoggerConfig loggerConfig, TraceListener traceListener)
-        {
-            LoggerHost.AddTraceListener(traceListener);
-            Trace.Listeners.Add(traceListener);
-            return loggerConfig;
-        }
         #region Other
         /// <summary>
         /// 设置日志等级

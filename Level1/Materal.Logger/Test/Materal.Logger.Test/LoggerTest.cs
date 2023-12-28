@@ -1,8 +1,8 @@
 using Materal.Logger.ConfigModels;
-using Materal.Logger.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 namespace Materal.Logger.Test
 {
@@ -20,24 +20,6 @@ namespace Materal.Logger.Test
                         .AddJsonFile("MateralLogger.json", optional: true, reloadOnChange: true)
                         .Build();
         }
-        ///// <summary>
-        ///// 写TraceListener日志
-        ///// </summary>
-        ///// <returns></returns>
-        //[TestMethod]
-        //public async Task WriteTraceListenerLogTestAsync()
-        //{
-        //    IServiceCollection serviceCollection = new ServiceCollection();
-        //    serviceCollection.AddLogging(builder =>
-        //    {
-        //        builder.AddMateralLogger();
-        //    });
-        //    IServiceProvider services = serviceCollection.BuildServiceProvider();
-        //    await services.UseMateralLoggerAsync();
-        //    WriteLogs(services);
-        //    Trace.WriteLine("[Trace]Hello World!");
-        //    Debug.WriteLine("[Debug]Hello World!");
-        //}
         /// <summary>
         /// 写控制台日志
         /// </summary>
@@ -112,6 +94,7 @@ namespace Materal.Logger.Test
         {
             option.AddCustomConfig("ApplicationName", "DyLoggerTest");
         }, true);
+        #region 便捷方法
         /// <summary>
         /// 写日志
         /// </summary>
@@ -136,7 +119,7 @@ namespace Materal.Logger.Test
         /// <exception cref="Exception"></exception>
         private async Task WriteLogAsync(Action<LoggerConfig>? action, Action<IServiceProvider> testFunc, bool loadConfigFile = false)
         {
-            IServiceProvider services = await Init(action, loadConfigFile);
+            IServiceProvider services = await InitAsync(action, loadConfigFile);
             testFunc.Invoke(services);
             await LoggerHost.ShutdownAsync();
         }
@@ -150,7 +133,7 @@ namespace Materal.Logger.Test
         /// <exception cref="Exception"></exception>
         private async Task WriteLogAsync(Action<LoggerConfig>? action, Func<IServiceProvider, Task> testFunc, bool loadConfigFile = false)
         {
-            IServiceProvider services = await Init(action, loadConfigFile);
+            IServiceProvider services = await InitAsync(action, loadConfigFile);
             await testFunc.Invoke(services);
             await LoggerHost.ShutdownAsync();
         }
@@ -160,7 +143,7 @@ namespace Materal.Logger.Test
         /// <param name="action"></param>
         /// <param name="loadConfigFile"></param>
         /// <returns></returns>
-        private async Task<IServiceProvider> Init(Action<LoggerConfig>? action, bool loadConfigFile = false)
+        private async Task<IServiceProvider> InitAsync(Action<LoggerConfig>? action, bool loadConfigFile = false)
         {
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(builder =>
@@ -286,5 +269,6 @@ namespace Materal.Logger.Test
             }
             Task.WaitAll([.. tasks]);
         }
+        #endregion
     }
 }
