@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Microsoft.Extensions.Logging;
+using System.Data;
 
 namespace Materal.Logger.ConfigModels
 {
@@ -55,14 +56,44 @@ namespace Materal.Logger.ConfigModels
         /// 设置LogLevel
         /// </summary>
         /// <param name="loggerConfig"></param>
-        /// <param name="scopes"></param>
+        /// <param name="logLevels"></param>
         /// <returns></returns>
-        public static LoggerConfig SetLogLevels(this LoggerConfig loggerConfig, Dictionary<string, LogLevel> scopes)
+        public static LoggerConfig SetLogLevels(this LoggerConfig loggerConfig, Dictionary<string, LogLevel> logLevels)
         {
-            if (scopes.Count > 0)
+            if (logLevels.Count > 0)
             {
-                loggerConfig.LogLevel = scopes;
+                loggerConfig.LogLevel = logLevels;
             }
+            return loggerConfig;
+        }
+        /// <summary>
+        /// 添加LogLevel
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="logLevels"></param>
+        /// <returns></returns>
+        public static LoggerConfig AddLogLevels(this LoggerConfig loggerConfig, KeyValuePair<string, LogLevel>[] logLevels)
+        {
+            if (logLevels.Length > 0)
+            {
+                loggerConfig.LogLevel ??= [];
+                foreach (KeyValuePair<string, LogLevel> scope in logLevels)
+                {
+                    loggerConfig.LogLevel.TryAdd(scope.Key, scope.Value);
+                }
+            }
+            return loggerConfig;
+        }
+        /// <summary>
+        /// 添加LogLevel
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="name"></param>
+        /// <param name="logLevel"></param>
+        /// <returns></returns>
+        public static LoggerConfig AddLogLevel(this LoggerConfig loggerConfig, string name, LogLevel logLevel)
+        {
+            loggerConfig.AddLogLevels([new(name, logLevel)]);
             return loggerConfig;
         }
         /// <summary>
@@ -76,6 +107,36 @@ namespace Materal.Logger.ConfigModels
             if (scopes.Count > 0)
             {
                 loggerConfig.Scopes = scopes;
+            }
+            return loggerConfig;
+        }
+        /// <summary>
+        /// 添加Scopes
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="name"></param>
+        /// <param name="logLevel"></param>
+        /// <returns></returns>
+        public static LoggerConfig AddScopes(this LoggerConfig loggerConfig, string name, LogLevel logLevel)
+        {
+            loggerConfig.AddScopes([new(name, logLevel)]);
+            return loggerConfig;
+        }
+        /// <summary>
+        /// 添加Scopes
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="scopes"></param>
+        /// <returns></returns>
+        public static LoggerConfig AddScopes(this LoggerConfig loggerConfig, KeyValuePair<string, LogLevel>[] scopes)
+        {
+            if (scopes.Length > 0)
+            {
+                loggerConfig.Scopes ??= [];
+                foreach (KeyValuePair<string, LogLevel> scope in scopes)
+                {
+                    loggerConfig.Scopes.TryAdd(scope.Key, scope.Value);
+                }
             }
             return loggerConfig;
         }
