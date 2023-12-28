@@ -165,7 +165,7 @@ namespace Materal.Logger.MySqlLogger
                 createTableTSQL.AppendLine(",");
                 createTableTSQL.Append(string.Join(",", indexs));
             }
-            createTableTSQL.Append(")");
+            createTableTSQL.Append(')');
             string result = createTableTSQL.ToString();
             return result;
         }

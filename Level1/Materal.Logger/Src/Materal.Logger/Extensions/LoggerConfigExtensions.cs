@@ -1,15 +1,11 @@
-﻿using Materal.Logger.ConsoleLogger;
-using Materal.Logger.FileLogger;
-using Materal.Logger.HttpLogger;
-using System.Data;
-using System.Diagnostics;
+﻿using System.Data;
 
 namespace Materal.Logger.ConfigModels
 {
     /// <summary>
     /// LoggerConfig扩展
     /// </summary>
-    public static class LoggerConfigExtensions
+    public static partial class LoggerConfigExtensions
     {
         #region Other
         /// <summary>
@@ -121,72 +117,6 @@ namespace Materal.Logger.ConfigModels
         }
         #endregion
         #region Target
-        /// <summary>
-        /// 添加一个控制台目标
-        /// </summary>
-        /// <param name="loggerConfig"></param>
-        /// <param name="name"></param>
-        /// <param name="format"></param>
-        /// <param name="colors"></param>
-        public static LoggerConfig AddConsoleTarget(this LoggerConfig loggerConfig, string name, string? format = null, Dictionary<LogLevel, ConsoleColor>? colors = null)
-        {
-            ConsoleLoggerTargetConfig target = new()
-            {
-                Name = name
-            };
-            if (format is not null && !string.IsNullOrWhiteSpace(format))
-            {
-                target.Format = format;
-            }
-            if (colors is not null)
-            {
-                target.Colors = new ColorsConfig(colors);
-            }
-            loggerConfig.AddTarget(target);
-            return loggerConfig;
-        }
-        /// <summary>
-        /// 添加一个文件输出
-        /// </summary>
-        /// <param name="loggerConfig"></param>
-        /// <param name="name"></param>
-        /// <param name="path"></param>
-        /// <param name="format"></param>
-        public static LoggerConfig AddFileTarget(this LoggerConfig loggerConfig, string name, string path, string? format = null)
-        {
-            FileLoggerTargetConfig target = new()
-            {
-                Name = name,
-                Path = path
-            };
-            if (format is not null && !string.IsNullOrWhiteSpace(format))
-            {
-                target.Format = format;
-            }
-            loggerConfig.AddTarget(target);
-            return loggerConfig;
-        }
-        /// <summary>
-        /// 添加一个Http输出
-        /// </summary>
-        /// <param name="loggerConfig"></param>
-        /// <param name="name"></param>
-        /// <param name="url"></param>
-        /// <param name="httpMethod"></param>
-        public static LoggerConfig AddHttpTarget(this LoggerConfig loggerConfig, string name, string url, HttpMethod? httpMethod = null)
-        {
-            HttpLoggerTargetConfig target = new()
-            {
-                Name = name,
-                Url = url
-            };
-            if (httpMethod is not null)
-            {
-                target.HttpMethod = httpMethod.Method;
-            }
-            loggerConfig.AddTarget(target);
-            return loggerConfig;
-        }
         /// <summary>
         /// 添加一个目标
         /// </summary>

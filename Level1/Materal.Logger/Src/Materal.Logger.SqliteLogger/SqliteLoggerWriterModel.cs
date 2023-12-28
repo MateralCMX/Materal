@@ -3,41 +3,34 @@
     /// <summary>
     /// Sqlite日志写入器模型
     /// </summary>
-    public class SqliteLoggerWriterModel : BatchLoggerWriterModel
+    /// <remarks>
+    /// 构造方法
+    /// </remarks>
+    /// <param name="target"></param>
+    /// <param name="model"></param>
+    public class SqliteLoggerWriterModel(LoggerWriterModel model, SqliteLoggerTargetConfig target) : BatchLoggerWriterModel(model)
     {
         /// <summary>
         /// 数据库路径
         /// </summary>
-        public string Path { get; set; }
+        public string Path { get; set; } = LoggerWriterHelper.FormatPath(target.Path, model);
         /// <summary>
         /// 表名
         /// </summary>
-        public string TableName { get; set; }
+        public string TableName { get; set; } = LoggerWriterHelper.FormatText(target.TableName, model);
         /// <summary>
         /// 字段
         /// </summary>
-        public List<SqliteDBFiled> Fileds { get; set; }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="model"></param>
-        public SqliteLoggerWriterModel(LoggerWriterModel model, SqliteLoggerTargetConfig target) : base(model)
-        {
-            Path = LoggerWriterHelper.FormatPath(target.Path, model);
-            TableName = LoggerWriterHelper.FormatText(target.TableName, model);
-            Fileds = target.Fileds.Count <= 0
+        public List<SqliteDBFiled> Fileds { get; set; } = target.Fileds.Count <= 0
                 ? SqliteLoggerTargetConfig.DefaultFileds.Select(m => GetNewSqliteDBFiled(m, model)).ToList()
                 : target.Fileds.Select(m => GetNewSqliteDBFiled(m, model)).ToList();
-        }
-
         /// <summary>
         /// 获得新的Sqlite数据库字段
         /// </summary>
         /// <param name="filed"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        private SqliteDBFiled GetNewSqliteDBFiled(SqliteDBFiled filed, LoggerWriterModel model)
+        private static SqliteDBFiled GetNewSqliteDBFiled(SqliteDBFiled filed, LoggerWriterModel model)
         {
             SqliteDBFiled result = new()
             {

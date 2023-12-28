@@ -1,11 +1,11 @@
 ﻿using Materal.Logger.MongoLogger;
 
-namespace Materal.Logger
+namespace Materal.Logger.ConfigModels
 {
     /// <summary>
     /// LoggerConfig扩展
     /// </summary>
-    public static class LoggerConfigExtensions
+    public static partial class LoggerConfigExtensions
     {
         /// <summary>
         /// 添加一个Mongo输出

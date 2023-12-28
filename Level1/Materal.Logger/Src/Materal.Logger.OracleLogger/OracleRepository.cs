@@ -188,7 +188,7 @@ namespace Materal.Logger.OracleLogger
                 createTableTSQL.AppendLine(",");
                 createTableTSQL.Append(setPrimaryKeyTSQL);
             }
-            createTableTSQL.Append(")");
+            createTableTSQL.Append(')');
             string result = createTableTSQL.ToString();
             return result;
         }
