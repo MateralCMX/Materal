@@ -45,5 +45,16 @@ namespace Microsoft.Extensions.Logging
             services.AddLogging(bulider => bulider.AddMateralLogger(configure));
             return services;
         }
+        /// <summary>
+        /// 添加Materal日志
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddMateralLoggerConfig(this IServiceCollection services, Action<LoggerConfig> configure)
+        {
+            services.AddLogging(bulider => bulider.AddMateralLoggerConfig(configure));
+            return services;
+        }
     }
 }
