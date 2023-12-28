@@ -8,11 +8,11 @@
         /// <summary>
         /// 最小等级
         /// </summary>
-        public LogLevel MinLevel { get; set; }
+        public LogLevel MinLogLevel { get; set; }
         /// <summary>
         /// 最大等级
         /// </summary>
-        public LogLevel MaxLevel { get; set; }
+        public LogLevel MaxLogLevel { get; set; }
         /// <summary>
         /// 开始
         /// </summary>

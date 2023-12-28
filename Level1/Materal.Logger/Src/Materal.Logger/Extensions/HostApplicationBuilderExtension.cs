@@ -1,7 +1,6 @@
 ﻿using Materal.Logger.LoggerLogs;
-using Microsoft.Extensions.Hosting;
 
-namespace Materal.Logger.Extensions
+namespace Microsoft.Extensions.Hosting
 {
     /// <summary>
     /// 主机构建器扩展

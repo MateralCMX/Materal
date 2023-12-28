@@ -1,4 +1,6 @@
-﻿namespace Materal.Logger.Extensions
+﻿using Materal.Logger;
+
+namespace System
 {
     /// <summary>
     /// 服务提供器扩展
@@ -20,8 +22,8 @@
             {
                 loggerConfig.UpdateConfig(serviceProvider);
                 if (LoggerHost.LoggerLog is null) return;
-                LoggerHost.LoggerLog.MinLevel = m.MinLoggerLogLevel;
-                LoggerHost.LoggerLog.MaxLevel = m.MaxLoggerLogLevel;
+                LoggerHost.LoggerLog.MinLogLevel = m.MinLoggerLogLevel;
+                LoggerHost.LoggerLog.MaxLogLevel = m.MaxLoggerLogLevel;
             });
             AppDomain.CurrentDomain.ProcessExit += (_, _) => LoggerHost.ShutdownAsync().Wait();
             await LoggerHost.StartAsync();

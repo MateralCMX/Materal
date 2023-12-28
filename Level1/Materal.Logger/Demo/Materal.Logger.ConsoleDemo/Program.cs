@@ -15,15 +15,7 @@ namespace Materal.Logger.ConsoleDemo
             IServiceCollection services = new ServiceCollection();
             services.AddLogging(builder =>
             {
-                builder.AddMateralLogger(configuration, config =>
-                {
-                    config.AddConsoleTarget("CodeConsoleLog").AddAllTargetsRule(minLevel: LogLevel.Trace);
-                });
-                builder.AddMateralLoggerConfig(config =>
-                {
-                    config.AddConsoleTarget("Code2ConsoleLog").AddAllTargetsRule(minLevel: LogLevel.Trace);
-                });
-                //builder.AddMateralLogger(configuration);
+                builder.AddMateralLogger(configuration);
             });
             IServiceProvider serviceProvider = services.BuildServiceProvider();
             await serviceProvider.UseMateralLoggerAsync();

@@ -3,7 +3,6 @@ using Materal.Logger.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
 
 namespace Materal.Logger.Test
 {
@@ -179,7 +178,7 @@ namespace Materal.Logger.Test
                     action?.Invoke(option);
                     if (!loadConfigFile)
                     {
-                        option.AddAllTargetsRule(minLevel: LogLevel.Trace);
+                        option.AddAllTargetsRule();
                     }
                 });
             });

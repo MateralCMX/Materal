@@ -10,11 +10,11 @@ namespace Materal.Logger.LoggerLogs
         /// <summary>
         /// 最小等级
         /// </summary>
-        public LogLevel MinLevel { get; set; } = LogLevel.Trace;
+        public LogLevel MinLogLevel { get; set; } = LogLevel.Trace;
         /// <summary>
         /// 最大等级
         /// </summary>
-        public LogLevel MaxLevel { get; set; } = LogLevel.Critical;
+        public LogLevel MaxLogLevel { get; set; } = LogLevel.Critical;
         /// <summary>
         /// 启动
         /// </summary>
@@ -37,7 +37,7 @@ namespace Materal.Logger.LoggerLogs
         /// <param name="name"></param>
         public void Log(string message, LogLevel logLevel, ConsoleColor consoleColor = ConsoleColor.Gray, string name = "Loggerlog")
         {
-            if (logLevel < MinLevel || logLevel > MaxLevel) return;
+            if (logLevel < MinLogLevel || logLevel > MaxLogLevel) return;
             ConsoleQueue.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss}|{name}|{logLevel}|{message}", consoleColor);
         }
         /// <summary>

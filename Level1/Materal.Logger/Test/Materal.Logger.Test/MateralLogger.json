@@ -1,23 +1,26 @@
+//LogLevel:Trace|Debug|Information|Warning|Error|Critical|None
+//Colors:Black|DarkBlue|DarkGreen|DarkCyan|DarkRed|DarkMagenta|DarkYellow|Gray|DarkGray|Blue|Green|Cyan|Red|Magenta|Yellow|White
+//DefaultFormat:LogID|RootPath|Exception|Level|DateTime|Date|Time|Year|Month|Day|Hour|Minute|Second|Scope|CategoryName|Application|ProgressID|ThreadID|MachineName
 {
   "Logging": {
-    //"LogLevel": { //日志等级过滤
-    //  "Default": "Trace",
-    //  "Microsoft": "Warning"
-    //},
+    "LogLevel": { //日志等级过滤
+      "Default": "Trace",
+      "Microsoft": "Information"
+    },
     "MateralLogger": {
-      "Application": "MateralLogger", //应用程序名称
+      "Application": "LoggerTest", //应用程序
       "MinLogLevel": "Trace", //最小日志等级
       "MaxLogLevel": "Critical", //最大日志等级
       "MinLoggerLogLevel": "Trace", //最小自身日志等级
       "MaxLoggerLogLevel": "Critical", //最大自身日志等级
-      //"LogLevel": {  //日志等级过滤
-      //  "Default": "Trace",
-      //  "Microsoft": "Warning"
-      //},
-      //"Scopes": { //作用域目标
-      //  "Default": "Trace",
-      //  "CustomScope": "Warning"
-      //},
+      "LogLevel": { //日志等级过滤
+        "Default": "Trace",
+        "Microsoft": "Information"
+      },
+      "Scopes": { //作用域目标
+        "Default": "Trace",
+        "CustomScope": "Trace"
+      },
       "Targets": [ //目标
         {
           "Enable": true, //启用标识
@@ -60,7 +63,7 @@
           "Name": "SqliteLog",
           "Type": "Sqlite", //Sqlite日志类型,数据库路径或链接字符串必选其一，优先使用数据库接字符串
           "Path": "${RootPath}\\Logs\\MateralLogger.db", //Sqlite数据库路径
-          "ConnectionString": "Data Source=${RootPath}\\Logs\\MateralLogger.db", //Sqlite数据库连接字符串
+          //"ConnectionString": "Data Source=${RootPath}\\Logs\\MateralLogger.db", //Sqlite数据库连接字符串
           "TableName": "${Level}Log", //日志表名称，默认为MateralLogger
           "Fileds": [ //字段组，默认不配置时如下
             {
@@ -221,8 +224,8 @@
         {
           "Enable": true, //启用标识
           "Name": "规则1", //规则名称
-          "MinLevel": "Trace", //最小日志等级
-          "MaxLevel": "Critical", //最大日志等级
+          "MinLogLevel": "Trace", //最小日志等级
+          "MaxLogLevel": "Critical", //最大日志等级
           "Targets": [ //目标
             "ConsoleLog",
             "FileLog",
@@ -231,15 +234,15 @@
             "SqlServerLog",
             "MongoLog",
             "WebSocketLog"
-          ]
-          //"LogLevel": { //日志等级过滤
-          //  "Default": "Trace",
-          //  "Microsoft": "Warning"
-          //}
-          //"Scopes": { //作用域目标
-          //  "Default": "Trace",
-          //  "CustomScope": "Warning"
-          //}
+          ],
+          "LogLevel": { //日志等级过滤
+            "Default": "Trace",
+            "Microsoft": "Trace"
+          },
+          "Scopes": { //作用域目标
+            "Default": "Trace",
+            "CustomScope": "Trace"
+          }
         }
       ]
     }

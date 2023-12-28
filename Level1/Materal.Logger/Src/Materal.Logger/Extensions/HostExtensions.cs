@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-
-namespace Materal.Logger.Extensions
+﻿namespace Microsoft.Extensions.Hosting
 {
     /// <summary>
     /// 主机扩展

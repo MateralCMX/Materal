@@ -3,7 +3,7 @@ using Materal.Logger.FileLogger;
 using Materal.Logger.HttpLogger;
 using System.Diagnostics;
 
-namespace Materal.Logger
+namespace Materal.Logger.ConfigModels
 {
     /// <summary>
     /// LoggerConfig扩展
@@ -22,6 +22,24 @@ namespace Materal.Logger
             Trace.Listeners.Add(traceListener);
             return loggerConfig;
         }
+        #region Other
+        /// <summary>
+        /// 设置日志等级
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="minLogLevel"></param>
+        /// <param name="maxLogLevel"></param>
+        /// <returns></returns>
+        public static LoggerConfig SetLogLevel(this LoggerConfig loggerConfig, LogLevel minLogLevel, LogLevel? maxLogLevel)
+        {
+            loggerConfig.MinLogLevel = minLogLevel;
+            if(maxLogLevel is not null)
+            {
+                loggerConfig.MaxLogLevel = maxLogLevel.Value;
+            }
+            return loggerConfig;
+        }
+        #endregion
         #region CustomConfig
         /// <summary>
         /// 设置自定义配置
@@ -154,7 +172,7 @@ namespace Materal.Logger
         public static LoggerConfig AddRule(this LoggerConfig loggerConfig, string name, IEnumerable<string> targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null, Dictionary<string, LogLevel>? scopes = null)
         {
             if (!targets.Any()) return loggerConfig;
-            minLevel ??= LogLevel.Information;
+            minLevel ??= LogLevel.Trace;
             maxLevel ??= LogLevel.Critical;
             RuleConfig rule = new()
             {
@@ -172,7 +190,6 @@ namespace Materal.Logger
                 rule.Scopes = scopes;
             }
             loggerConfig.AddRule(rule);
-            loggerConfig.UpdateLoggerWriterConfig();
             return loggerConfig;
         }
         /// <summary>
@@ -195,6 +212,7 @@ namespace Materal.Logger
         public static LoggerConfig AddRule(this LoggerConfig loggerConfig, RuleConfig ruleConfig)
         {
             loggerConfig.Rules.Add(ruleConfig);
+            loggerConfig.UpdateLoggerWriterConfig();
             return loggerConfig;
         }
         /// <summary>
