@@ -1,6 +1,7 @@
 ﻿using Materal.Logger.ConsoleLogger;
 using Materal.Logger.FileLogger;
 using Materal.Logger.HttpLogger;
+using System.Data;
 using System.Diagnostics;
 
 namespace Materal.Logger.ConfigModels
@@ -36,6 +37,61 @@ namespace Materal.Logger.ConfigModels
             if(maxLogLevel is not null)
             {
                 loggerConfig.MaxLogLevel = maxLogLevel.Value;
+            }
+            return loggerConfig;
+        }
+        /// <summary>
+        /// 设置日志自身等级
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="minLogLevel"></param>
+        /// <param name="maxLogLevel"></param>
+        /// <returns></returns>
+        public static LoggerConfig SetLoggerLogLevel(this LoggerConfig loggerConfig, LogLevel minLogLevel, LogLevel? maxLogLevel)
+        {
+            loggerConfig.MinLoggerLogLevel = minLogLevel;
+            if (maxLogLevel is not null)
+            {
+                loggerConfig.MaxLoggerLogLevel = maxLogLevel.Value;
+            }
+            return loggerConfig;
+        }
+        /// <summary>
+        /// 设置应用程序
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="application"></param>
+        /// <returns></returns>
+        public static LoggerConfig SetApplication(this LoggerConfig loggerConfig, string application)
+        {
+            loggerConfig.Application = application;
+            return loggerConfig;
+        }
+        /// <summary>
+        /// 设置LogLevel
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="scopes"></param>
+        /// <returns></returns>
+        public static LoggerConfig SetLogLevels(this LoggerConfig loggerConfig, Dictionary<string, LogLevel> scopes)
+        {
+            if (scopes.Count > 0)
+            {
+                loggerConfig.LogLevel = scopes;
+            }
+            return loggerConfig;
+        }
+        /// <summary>
+        /// 设置Scopes
+        /// </summary>
+        /// <param name="loggerConfig"></param>
+        /// <param name="scopes"></param>
+        /// <returns></returns>
+        public static LoggerConfig SetScopes(this LoggerConfig loggerConfig, Dictionary<string, LogLevel> scopes)
+        {
+            if (scopes.Count > 0)
+            {
+                loggerConfig.Scopes = scopes;
             }
             return loggerConfig;
         }
@@ -167,9 +223,9 @@ namespace Materal.Logger.ConfigModels
         /// <param name="targets"></param>
         /// <param name="minLevel"></param>
         /// <param name="maxLevel"></param>
-        /// <param name="loglevels"></param>
+        /// <param name="logLevels"></param>
         /// <param name="scopes"></param>
-        public static LoggerConfig AddRule(this LoggerConfig loggerConfig, string name, IEnumerable<string> targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null, Dictionary<string, LogLevel>? scopes = null)
+        public static LoggerConfig AddRule(this LoggerConfig loggerConfig, string name, IEnumerable<string> targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? logLevels = null, Dictionary<string, LogLevel>? scopes = null)
         {
             if (!targets.Any()) return loggerConfig;
             minLevel ??= LogLevel.Trace;
@@ -181,9 +237,9 @@ namespace Materal.Logger.ConfigModels
                 MinLogLevel = minLevel.Value,
                 MaxLogLevel = maxLevel.Value
             };
-            if (loglevels is not null && loglevels.Count > 0)
+            if (logLevels is not null && logLevels.Count > 0)
             {
-                rule.LogLevel = loglevels;
+                rule.LogLevel = logLevels;
             }
             if (scopes is not null && scopes.Count > 0)
             {
@@ -200,9 +256,9 @@ namespace Materal.Logger.ConfigModels
         /// <param name="targets"></param>
         /// <param name="minLevel"></param>
         /// <param name="maxLevel"></param>
-        /// <param name="loglevels"></param>
-        public static LoggerConfig AddRule(this LoggerConfig loggerConfig, string name, string targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
-            => loggerConfig.AddRule(name, new string[] { targets }, minLevel, maxLevel, loglevels);
+        /// <param name="logLevels"></param>
+        public static LoggerConfig AddRule(this LoggerConfig loggerConfig, string name, string targets, LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? logLevels = null)
+            => loggerConfig.AddRule(name, new string[] { targets }, minLevel, maxLevel, logLevels);
         /// <summary>
         /// 添加规则
         /// </summary>
@@ -222,12 +278,12 @@ namespace Materal.Logger.ConfigModels
         /// <param name="name"></param>
         /// <param name="minLevel"></param>
         /// <param name="maxLevel"></param>
-        /// <param name="loglevels"></param>
-        public static LoggerConfig AddAllTargetsRule(this LoggerConfig loggerConfig, string name = "全目标规则", LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? loglevels = null)
+        /// <param name="logLevels"></param>
+        public static LoggerConfig AddAllTargetsRule(this LoggerConfig loggerConfig, string name = "全目标规则", LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? logLevels = null)
         {
             List<string> targets = [];
             loggerConfig.Targets.ForEach(m => targets.Add(m.Name));
-            loggerConfig.AddRule(name, targets, minLevel, maxLevel, loglevels);
+            loggerConfig.AddRule(name, targets, minLevel, maxLevel, logLevels);
             return loggerConfig;
         }
         #endregion
