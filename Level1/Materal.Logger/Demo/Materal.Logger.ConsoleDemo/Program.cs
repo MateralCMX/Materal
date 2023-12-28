@@ -20,6 +20,11 @@ namespace Materal.Logger.ConsoleDemo
             await serviceProvider.UseMateralLoggerAsync();
             ILogger logger = serviceProvider.GetRequiredService<ILogger<Program>>();
             logger.LogTrace("Trace");
+            logger.LogDebug("Debug");
+            logger.LogInformation("Information");
+            logger.LogWarning("Warning");
+            logger.LogError("Error");
+            logger.LogCritical("Critical");
         }
     }
 }

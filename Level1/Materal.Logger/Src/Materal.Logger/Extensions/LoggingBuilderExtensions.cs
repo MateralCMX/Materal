@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.Logging
         /// <param name="clearOtherProvider"></param>
         /// <param name="getLoggerLog"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder,Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
         {
             builder.AddMateralLogger(null, configure, clearOtherProvider, getLoggerLog);
             return builder;
@@ -54,7 +54,7 @@ namespace Microsoft.Extensions.Logging
             return builder;
         }
         /// <summary>
-        /// 添加Materal日志配置
+        /// 添加Materal日志
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configure"></param>

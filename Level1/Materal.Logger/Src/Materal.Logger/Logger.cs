@@ -1,4 +1,7 @@
-﻿namespace Materal.Logger
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Materal.Logger
 {
     /// <summary>
     /// 日志记录器
@@ -21,34 +24,42 @@
             }
             else if (state is not null)
             {
-                if (state is AdvancedScope advancedScope)
-                {
-                    _loggerScope = BeginScope(advancedScope);
-                }
-                else if (state is Dictionary<string, object?> dictionary)
-                {
-                    _loggerScope = BeginScope(new AdvancedScope(defaultScope, dictionary));
-                }
-                else if (state is string stateString)
+                if (state is string stateString)
                 {
                     _loggerScope = BeginScope(stateString);
                 }
-                else if (state.GetType().IsClass)
+                else if (state is AdvancedScope advancedScope)
                 {
-                    PropertyInfo[] propertyInfos = state.GetType().GetProperties();
-                    Dictionary<string, object?> scopeData = [];
-                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    _loggerScope = BeginScope(advancedScope);
+                }
+                else if(state is Dictionary<string, object?> objDictionary)
+                {
+                    _loggerScope = BeginScope(new AdvancedScope(defaultScope, objDictionary));
+                }
+                else if(state is not IEnumerable collection)
+                {
+                    Type stateType = state.GetType();
+                    if (stateType.IsClass)
                     {
-                        if (!propertyInfo.CanRead) continue;
-                        object? valueObj = propertyInfo.GetValue(state);
-                        scopeData.TryAdd(propertyInfo.Name, valueObj);
+                        try
+                        {
+                            PropertyInfo[] propertyInfos = state.GetType().GetProperties();
+                            Dictionary<string, object?> scopeData = [];
+                            foreach (PropertyInfo propertyInfo in propertyInfos)
+                            {
+                                if (!propertyInfo.CanRead) continue;
+                                object? valueObj = propertyInfo.GetValue(state);
+                                scopeData.TryAdd(propertyInfo.Name, valueObj);
+                            }
+                            _loggerScope = BeginScope(new AdvancedScope(defaultScope, scopeData));
+                        }
+                        catch
+                        {
+                            _loggerScope = null;
+                        }
                     }
-                    _loggerScope = BeginScope(new AdvancedScope(defaultScope, scopeData));
                 }
-                else
-                {
-                    _loggerScope = BeginScope(state.ToString() ?? defaultScope);
-                }
+                _loggerScope ??= BeginScope(state.ToString() ?? defaultScope);
             }
             return _loggerScope;
         }
