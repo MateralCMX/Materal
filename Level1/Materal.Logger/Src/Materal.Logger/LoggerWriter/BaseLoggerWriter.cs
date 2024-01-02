@@ -57,7 +57,7 @@
             if (model.LogLevel < model.Config.MinLogLevel || model.LogLevel > model.Config.MaxLogLevel) return false;
             foreach (RuleConfig rule in model.Config.Rules)
             {
-                if (CanWriteLogger(model, rule)) return true;
+                if (CanWriteLoggerByRules(model, rule)) return true;
             }
             return false;
         }
@@ -67,7 +67,7 @@
         /// <param name="model"></param>
         /// <param name="rule"></param>
         /// <returns></returns>
-        protected virtual bool CanWriteLogger(LoggerWriterModel model, RuleConfig rule)
+        protected virtual bool CanWriteLoggerByRules(LoggerWriterModel model, RuleConfig rule)
         {
             if (model.LogLevel == LogLevel.None || !rule.Enable) return false;
             if (model.LogLevel < rule.MinLogLevel || model.LogLevel > rule.MaxLogLevel) return false;

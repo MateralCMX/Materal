@@ -5,11 +5,13 @@ using Materal.BaseCore.WebAPI.Controllers;
 using Materal.BaseCore.WebAPI.Filters;
 using Materal.Extensions.DependencyInjection;
 using Materal.Logger;
+using Materal.Logger.ConfigModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
@@ -31,12 +33,11 @@ namespace Materal.BaseCore.WebAPI
         /// <param name="mvcAction"></param>
         /// <param name="loggerOptions"></param>
         /// <param name="otherControlesAssemblys"></param>
-        public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, Action<MvcOptions>? mvcAction, Action<LoggerConfigOptions>? loggerOptions, params Assembly[] otherControlesAssemblys)
+        public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, Action<MvcOptions>? mvcAction, params Assembly[] otherControlesAssemblys)
         {
-            services.AddMateralLogger(options =>
+            services.AddMateralLogger(config =>
             {
-                options.AddCustomConfig("ApplicationName", WebAPIConfig.AppName);
-                loggerOptions?.Invoke(options);
+                config.AddCustomConfig("ApplicationName", WebAPIConfig.AppName);
             });
             #region MVC
             IMvcBuilder mvcBuild = services.AddControllers(mvcOptions =>

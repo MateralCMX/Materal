@@ -33,7 +33,7 @@ namespace Materal.BaseCore.WebAPI
         {
             NodeID = Guid.NewGuid();
             _httpHelper = MateralServices.GetService<IHttpHelper>();
-            _logger = MateralServices.GetServiceOrDefatult<ILogger<ConsulManager>>();
+            _logger = MateralServices.GetService<ILogger<ConsulManager>>();
         }
         /// <summary>
         /// 初始化

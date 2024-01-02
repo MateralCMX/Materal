@@ -21,6 +21,7 @@ namespace Materal.BaseCore.WebAPI
         public static WebApplication WebApplicationConfig(this WebApplication app, string? consulTag = null)
         {
             MateralServices.Services = app.Services;
+            app.UseMateralLoggerAsync().Wait();
             app.Use(async (context, next) =>
             {
                 context.Request.EnableBuffering();
