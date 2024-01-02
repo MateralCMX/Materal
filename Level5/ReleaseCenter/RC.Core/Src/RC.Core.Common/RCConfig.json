@@ -1,6 +1,6 @@
 {
   "ConsulConfig": {
-    "Enable": true,
+    "Enable": false,
     "Url": "http://127.0.0.1:8500",
     "HealthInterval": 30,
     "ReconnectionInterval": 30
@@ -30,52 +30,54 @@
     "Issuer": "MateralReleaseCenter",
     "Key": "MateralCMXConfig"
   },
-  "MateralLogger": {
-    "Application": "${ApplicationName}",
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning"
-    },
-    "Targets": [
-      {
-        "Name": "LifeConsole",
-        "Type": "Console",
-        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}"
+  "Logging": {
+    "MateralLogger": {
+      "Application": "${ApplicationName}",
+      "LogLevel": {
+        "Default": "Information",
+        "Microsoft": "Warning"
       },
-      {
-        "Name": "ErrorConsole",
-        "Type": "Console",
-        "Colors": {
-          "Warning": "DarkYellow",
-          "Error": "DarkRed",
-          "Critical": "DarkRed"
+      "Targets": [
+        {
+          "Name": "LifeConsole",
+          "Type": "Console",
+          "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}"
         },
-        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}"
-      },
-      {
-        "Name": "LevelFile",
-        "Type": "File",
-        "Path": "${RootPath}\\Logs\\${Date}\\${Level}.log",
-        "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}"
-      }
-    ],
-    "Rules": [
-      {
-        "Targets": [
-          "LifeConsole"
-        ],
-        "MinLevel": "Information",
-        "MaxLevel": "Information"
-      },
-      {
-        "Targets": [
-          "ErrorConsole",
-          "LevelFile"
-        ],
-        "MinLevel": "Warning",
-        "MaxLevel": "Critical"
-      }
-    ]
+        {
+          "Name": "ErrorConsole",
+          "Type": "Console",
+          "Colors": {
+            "Warning": "DarkYellow",
+            "Error": "DarkRed",
+            "Critical": "DarkRed"
+          },
+          "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}"
+        },
+        {
+          "Name": "LevelFile",
+          "Type": "File",
+          "Path": "${RootPath}\\Logs\\${Date}\\${Level}.log",
+          "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}"
+        }
+      ],
+      "Rules": [
+        {
+          "Targets": [
+            "LifeConsole"
+          ],
+          "MinLevel": "Information",
+          "MaxLevel": "Information"
+        },
+        {
+          "Targets": [
+            "ErrorConsole",
+            "LevelFile"
+          ],
+          "MinLevel": "Warning",
+          "MaxLevel": "Critical"
+        }
+      ]
+    }
   },
   "SwaggerConfig": {
     "Enable": true,

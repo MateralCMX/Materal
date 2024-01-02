@@ -1,4 +1,5 @@
 ﻿using Materal.Logger;
+using Materal.Logger.ConfigModels;
 using Materal.TTA.Common;
 using Materal.TTA.Demo.Tests;
 using Materal.Utils;
@@ -17,21 +18,18 @@ namespace Materal.TTA.Demo
             serviceCollection.AddMateralUtils();
             serviceCollection.AddMateralLogger(option =>
             {
-                option.AddConsoleTarget("LifeConsole");
-                option.AddAllTargetRule(LogLevel.Information, null, new Dictionary<string, LogLevel>
-                {
-                    ["Microsoft.EntityFrameworkCore"] = LogLevel.Warning
-                });
+                option.AddConsoleTarget("LifeConsole")
+                .AddAllTargetsRule(minLevel:LogLevel.Trace);
             });
             serviceCollection.AddTransient<ITTADemoTest, Test00>();
             serviceCollection.AddTransient<ITTADemoTest, Test01>();
             serviceCollection.AddTransient<ITTADemoTest, Test02>();
 #if NET6_0
-            serviceCollection.AddMySqlEFTTA();
-            static async Task MigrateAsync(IServiceProvider serviceProvider) => await MySqlEFHelper.MigrateAsync(serviceProvider);
+            //serviceCollection.AddMySqlEFTTA();
+            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await MySqlEFHelper.MigrateAsync(serviceProvider);
 
-            //serviceCollection.AddSqliteEFTTA();
-            //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
+            serviceCollection.AddSqliteEFTTA();
+            static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqliteEFHelper.MigrateAsync(serviceProvider);
 
             //serviceCollection.AddSqlServerEFTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
@@ -56,6 +54,7 @@ namespace Materal.TTA.Demo
 #endif
 
             IServiceProvider services = serviceCollection.BuildServiceProvider();
+            await services.UseMateralLoggerAsync();
             ILoggerExtension.TSQLLogLevel = LogLevel.Trace;
 
             using (IServiceScope scope = services.CreateScope())
