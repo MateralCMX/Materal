@@ -3,7 +3,7 @@
     /// <summary>
     /// 用户
     /// </summary>
-    [CodeGeneratorPlug("MMB.Core.CodeGenerator", "InitProject")]
+    //[CodeGeneratorPlug("MMB.Core.CodeGenerator", "InitProject")]
     public class User : BaseDomain, IDomain
     {
         /// <summary>
@@ -27,7 +27,7 @@
         /// <summary>
         /// 密码
         /// </summary>
-        [NotDTOGenerator, NotListDTOGenerator, NotAddGenerator, NotEditGenerator]
+        //[NotDTOGenerator, NotListDTOGenerator, NotAddGenerator, NotEditGenerator]
         [Required(ErrorMessage = "账号为空"), StringLength(32, ErrorMessage = "密码过长")]
         public string Password { get; set; } = string.Empty;
     }

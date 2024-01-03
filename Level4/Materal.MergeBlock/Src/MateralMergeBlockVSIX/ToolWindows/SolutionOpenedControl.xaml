@@ -4,8 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MateralMergeBlockVSIX.ToolWindows"
-             mc:Ignorable="d" >
-    <Grid>
-        <TextBlock Text="已经打开解决方案了"/>
-    </Grid>
+             xmlns:viewModels="clr-namespace:MateralMergeBlockVSIX.ToolWindows.ViewModels"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <viewModels:SolutionOpenedControlViewModel x:Name="ViewModel" />
+    </UserControl.DataContext>
+    <StackPanel>
+        <TextBlock Text="{Binding SolutionName, Mode=OneWay}"/>
+        <Button x:Name="GeneratorCodeButton" Content="生成代码" Visibility="{Binding Visibility, Mode=OneWay}" Click="GeneratorCodeButton_Click" />
+    </StackPanel>
 </UserControl>

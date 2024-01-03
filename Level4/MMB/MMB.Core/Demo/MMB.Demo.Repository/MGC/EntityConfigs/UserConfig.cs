@@ -1,14 +1,14 @@
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MMB.Demo.EFRepository.EntityConfigs
 {
     /// <summary>
-    /// 用户实体配置基类
+    /// 用户配置基类
     /// </summary>
     public class UserConfigBase : BaseEntityConfig<User>
     {
         /// <summary>
-        /// 配置实体
+        /// 配置
         /// </summary>
         public override void Configure(EntityTypeBuilder<User> builder)
         {
@@ -32,7 +32,7 @@ namespace MMB.Demo.EFRepository.EntityConfigs
         }
     }
     /// <summary>
-    /// 用户实体配置类
+    /// 用户配置类
     /// </summary>
     public partial class UserConfig : UserConfigBase { }
 }

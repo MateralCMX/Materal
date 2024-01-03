@@ -3,7 +3,5 @@
     /// <summary>
     /// Demo仓储模块
     /// </summary>
-    public class DemoRepositoryModule : MMBRepositoryModule<DemoDBContext>, IMergeBlockModule
-    {
-    }
+    public partial class DemoRepositoryModule : MMBRepositoryModule<DemoDBContext>, IMergeBlockModule { }
 }

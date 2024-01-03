@@ -11,7 +11,9 @@ namespace MateralMergeBlockVSIX.ToolWindows
         }
         public void Init(Solution? solution)
         {
-            //DataContext = new SolutionOpenedControlViewModel();
+            if (solution is null) return;
+            ViewModel.Init(solution);
         }
+        private void GeneratorCodeButton_Click(object sender, System.Windows.RoutedEventArgs e) => ViewModel.GeneratorCode();
     }
 }

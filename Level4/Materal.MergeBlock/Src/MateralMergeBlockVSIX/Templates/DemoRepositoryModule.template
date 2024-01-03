@@ -1,0 +1,9 @@
+﻿namespace ${ProjectName}.Demo.Repository
+{
+    /// <summary>
+    /// Demo仓储模块
+    /// </summary>
+    public partial class DemoRepositoryModule : ${ProjectName}RepositoryModule<DemoDBContext>, IMergeBlockModule
+    {
+    }
+}

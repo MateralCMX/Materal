@@ -2,6 +2,7 @@
 global using Materal.MergeBlock.Abstractions.Controllers;
 global using Materal.MergeBlock.Abstractions.Models;
 global using Materal.MergeBlock.Domain;
+global using Materal.MergeBlock.Domain.CodeGeneratorAttributers;
 global using Materal.TFMS.EventBus;
 global using Materal.Utils.Model;
 global using Microsoft.AspNetCore.Authorization;

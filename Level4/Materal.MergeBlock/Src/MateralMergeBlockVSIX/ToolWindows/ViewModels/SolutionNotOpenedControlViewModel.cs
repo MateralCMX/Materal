@@ -1,14 +1,9 @@
 ﻿#nullable enable
-using EnvDTE90;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Resources;
-using System.Runtime.Remoting.Contexts;
 using System.Text;
-using System.Windows;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
 {
@@ -174,6 +169,8 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             string projectName = $"{ProjectName}.Demo.Repository";
             CreateNewProject(demoDirectoryInfo, projectName, "DemoRepositoryProject");
             string directoryPath = Path.Combine(demoDirectoryInfo.FullName, projectName);
+            ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "DemoRepositoryGlobalUsings");
+            ApplyTemplate(Path.Combine(directoryPath, $"DemoRepositoryModule.cs"), "DemoRepositoryModule");
         }
         /// <summary>
         /// 创建DemoWebAPI项目
