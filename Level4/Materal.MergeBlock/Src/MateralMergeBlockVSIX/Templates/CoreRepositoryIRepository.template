@@ -1,0 +1,11 @@
+﻿namespace ${ProjectName}.Core.Reposiroty
+{
+    /// <summary>
+    /// ${ProjectName}仓储
+    /// </summary>
+    public partial interface I${ProjectName}Repository<T, TPrimaryKeyType> : IEFRepository<T, TPrimaryKeyType>
+        where T : class, IEntity<TPrimaryKeyType>, new()
+        where TPrimaryKeyType : struct
+    {
+    }
+}

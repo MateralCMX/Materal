@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>12.0</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.MergeBlock.Repository" Version="*" />
+		<PackageReference Include="Materal.TTA.SqliteEFRepository" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\MMC.Core.Abstractions\MMC.Core.Abstractions.csproj" />
+	</ItemGroup>
+</Project>

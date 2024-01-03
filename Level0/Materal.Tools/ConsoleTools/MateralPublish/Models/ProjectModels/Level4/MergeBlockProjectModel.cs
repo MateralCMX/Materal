@@ -30,7 +30,7 @@ namespace MateralPublish.Models.ProjectModels.Level4
                 string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
                 ConsoleHelper.WriteLine($"正在更新{projectName}版本号...");
                 string[] codeContent = await File.ReadAllLinesAsync(sourceFile.FullName);
-                const string versionStartCode = "<Identity Id=\"MateralMergeBlockVSIX.d14d0005-d1cb-4ff8-a07e-14c6653b61b6\" Version=\"";
+                const string versionStartCode = "<Identity Id=\"MateralMergeBlockVSIX.b1552ba8-4727-4fcf-8258-ef4040604f52\" Version=\"";
                 const string versionEndCode = "\" Language=\"zh-Hans\" Publisher=\"Materal\" />";
                 string vsixVersion = $"{version}.1";
                 for (int i = 0; i < codeContent.Length; i++)

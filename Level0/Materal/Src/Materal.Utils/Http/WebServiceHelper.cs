@@ -25,6 +25,17 @@ namespace Materal.Utils.Http
         /// 发送Soap请求
         /// </summary>
         /// <param name="url"></param>
+        /// <param name="xmlContent"></param>
+        /// <param name="soapAction"></param>
+        /// <param name="soapVersion"></param>
+        /// <returns></returns>
+        public async Task<string> SendSoapAsync(string url, string xmlContent, string? soapAction = null, SoapVersionEnum soapVersion = SoapVersionEnum.Soap1_1) => soapVersion == SoapVersionEnum.Soap1_1
+                ? await SendSoap1_1Async(url, xmlContent, soapAction)
+                : await SendSoap1_2Async(url, xmlContent);
+        /// <summary>
+        /// 发送Soap请求
+        /// </summary>
+        /// <param name="url"></param>
         /// <param name="serviceName"></param>
         /// <param name="serviceNamespace"></param>
         /// <param name="data"></param>
@@ -86,18 +97,13 @@ namespace Materal.Utils.Http
             XmlNode requestNode = GetRequestNode(xmlObject, serviceName, serviceNamespace, data);
             xmlObject.ChildNodes[1]?.ChildNodes[0]?.AppendChild(requestNode);
             string xmlContent = xmlObject.OuterXml;
-            HttpContent httpContent = new StringContent(xmlContent, Encoding.UTF8, "text/xml");
             string SOAPAction = serviceNamespace;
             if (SOAPAction.EndsWith('/'))
             {
                 SOAPAction = SOAPAction[..^1];
             }
             SOAPAction = $"{SOAPAction}/{serviceName}";
-            string responseMessage = await _httpHelper.SendHttpContentAsync(url, HttpMethod.Post, httpContent, new()
-            {
-                ["ContentType"] = "text/xml; charset=utf-8",
-                ["SOAPAction"] = SOAPAction
-            }, HttpVersion.Version11);
+            string responseMessage = await SendSoap1_1Async(url, xmlContent, SOAPAction);
             return responseMessage;
         }
         /// <summary>
@@ -153,6 +159,28 @@ namespace Materal.Utils.Http
             return result;
         }
         /// <summary>
+        /// 发送Soap1.1请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="xmlContent"></param>
+        /// <param name="soapAction"></param>
+        /// <returns></returns>
+        public async Task<string> SendSoap1_1Async(string url, string xmlContent, string? soapAction = null)
+        {
+            if (!xmlContent.IsXml()) throw new MateralHttpException("文本内容不是XML");
+            HttpContent httpContent = new StringContent(xmlContent, Encoding.UTF8, "text/xml");
+            Dictionary<string, string> headers = new()
+            {
+                ["ContentType"] = "text/xml; charset=utf-8"
+            };
+            if (soapAction is not null && string.IsNullOrWhiteSpace(soapAction))
+            {
+                headers.Add("SOAPAction", soapAction);
+            }
+            string responseMessage = await _httpHelper.SendHttpContentAsync(url, HttpMethod.Post, httpContent, headers, HttpVersion.Version11);
+            return responseMessage;
+        }
+        /// <summary>
         /// 发送Soap1.2请求
         /// </summary>
         /// <param name="url"></param>
@@ -167,11 +195,7 @@ namespace Materal.Utils.Http
             XmlNode requestNode = GetRequestNode(xmlObject, serviceName, serviceNamespace, data);
             xmlObject.ChildNodes[1]?.ChildNodes[0]?.AppendChild(requestNode);
             string xmlContent = xmlObject.InnerXml;
-            HttpContent httpContent = new StringContent(xmlContent, Encoding.UTF8, "application/soap+xml");
-            string responseMessage = await _httpHelper.SendHttpContentAsync(url, HttpMethod.Post, httpContent, new()
-            {
-                ["ContentType"] = "application/soap+xml; charset=utf-8"
-            }, HttpVersion.Version11);
+            string responseMessage = await SendSoap1_2Async(url, xmlContent);
             return responseMessage;
         }
         /// <summary>
@@ -225,6 +249,22 @@ namespace Materal.Utils.Http
             object? nodeValue = GetResult<T>(resultNode, serviceName, serviceNamespace);
             if (nodeValue is not T result) throw new MateralHttpException("转换结果失败");
             return result;
+        }
+        /// <summary>
+        /// 发送Soap1.2请求
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="xmlContent"></param>
+        /// <returns></returns>
+        public async Task<string> SendSoap1_2Async(string url, string xmlContent)
+        {
+            if (!xmlContent.IsXml()) throw new MateralHttpException("文本内容不是XML");
+            HttpContent httpContent = new StringContent(xmlContent, Encoding.UTF8, "application/soap+xml");
+            string responseMessage = await _httpHelper.SendHttpContentAsync(url, HttpMethod.Post, httpContent, new()
+            {
+                ["ContentType"] = "application/soap+xml; charset=utf-8"
+            }, HttpVersion.Version11);
+            return responseMessage;
         }
         /// <summary>
         /// 获得请求节点

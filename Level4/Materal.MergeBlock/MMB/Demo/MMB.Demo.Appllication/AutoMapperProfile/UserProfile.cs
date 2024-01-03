@@ -2,7 +2,7 @@ using AutoMapper;
 using MMB.Demo.Abstractions.DTO.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 
-namespace MBC.Demo.WebAPI.AutoMapperProfile
+namespace MMB.Demo.WebAPI.AutoMapperProfile
 {
     /// <summary>
     /// 用户AutoMapper映射配置基类

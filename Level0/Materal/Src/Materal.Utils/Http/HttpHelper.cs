@@ -165,7 +165,16 @@ namespace Materal.Utils.Http
                 }
                 else if (data is string stringData)
                 {
-                    httpContent = new StringContent(stringData, encoding, stringData.IsJson() ? "application/json" : "text/plain");
+                    string contentType = "text/plain";
+                    if (stringData.IsJson())
+                    {
+                        contentType = "application/json";
+                    }
+                    else if (stringData.IsXml())
+                    {
+                        contentType = "text/xml";
+                    }
+                    httpContent = new StringContent(stringData, encoding, contentType);
                 }
                 else
                 {

@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace MBC.Demo.EFRepository
+namespace MMB.Demo.EFRepository
 {
     /// <summary>
     /// 数据库上下文工厂

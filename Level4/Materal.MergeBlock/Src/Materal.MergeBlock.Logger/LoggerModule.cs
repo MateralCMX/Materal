@@ -1,4 +1,6 @@
-﻿using Materal.MergeBlock.Abstractions.Config;
+﻿using Materal.Logger.ConfigModels;
+using Materal.MergeBlock.Abstractions.Config;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.MergeBlock.Logger
 {
@@ -14,12 +16,21 @@ namespace Materal.MergeBlock.Logger
         /// <returns></returns>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            context.Services.AddMateralLogger(options =>
+            context.Services.AddMateralLogger(config =>
             {
                 string applicationName = context.Configuration.GetValue(nameof(MergeBlockConfig.ApplicationName)) ?? "MergeBlockApplication";
-                options.AddCustomConfig("ApplicationName", applicationName);
+                config.AddCustomConfig("ApplicationName", applicationName);
             });
             await base.OnConfigServiceAsync(context);
+        }
+        /// <summary>
+        /// 应用程序初始化
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task OnApplicationInitBeforeAsync(IApplicationContext context)
+        {
+            await context.ServiceProvider.UseMateralLoggerAsync();
         }
     }
 }

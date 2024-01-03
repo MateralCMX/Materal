@@ -57,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Oscillat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Swagger", "Src\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj", "{375645C7-D663-4AFB-9522-56B074A586C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MateralMergeBlockVSIX", "MateralMergeBlockVSIX\MateralMergeBlockVSIX.csproj", "{6183EBF3-6406-4BA3-AC93-D5D5B0B29B76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MateralMergeBlockVSIX", "Src\MateralMergeBlockVSIX\MateralMergeBlockVSIX.csproj", "{6183EBF3-6406-4BA3-AC93-D5D5B0B29B76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
