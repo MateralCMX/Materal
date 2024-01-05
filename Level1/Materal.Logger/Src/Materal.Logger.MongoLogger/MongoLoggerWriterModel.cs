@@ -3,7 +3,9 @@
     /// <summary>
     /// Mongo日志写入器模型
     /// </summary>
+#pragma warning disable CS9107 // 参数捕获到封闭类型状态，其值也传递给基构造函数。该值也可能由基类捕获。
     public class MongoLoggerWriterModel(LoggerWriterModel model, MongoLoggerTargetConfig target) : BatchLoggerWriterModel(model)
+#pragma warning restore CS9107 // 参数捕获到封闭类型状态，其值也传递给基构造函数。该值也可能由基类捕获。
     {
         /// <summary>
         /// 链接字符串
@@ -36,7 +38,7 @@
                 [nameof(Scope)] = (Scope == null) ? "PublicScope" : Scope.ScopeName,
                 [nameof(LoggerWriterHelper.MachineName)] = LoggerWriterHelper.MachineName
             };
-            SetNotNullKeyVlueToDictionary(result, nameof(Exception), Exception?.GetErrorMessage());
+            SetNotNullKeyVlueToDictionary(result, nameof(Exception), Exception?.GetExceptionMessage());
             SetNotNullKeyVlueToDictionary(result, nameof(CategoryName), CategoryName);
             if (Scope is not null && Scope.IsAdvancedScope && Scope.AdvancedScope is not null)
             {

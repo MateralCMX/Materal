@@ -1,4 +1,4 @@
-﻿using Materal.Logger;
+﻿using Materal.Logger.ConfigModels;
 using Materal.TFMS.EventBus;
 using Materal.TFMS.EventBus.Extensions;
 using Materal.TFMS.EventBus.RabbitMQ;
@@ -6,6 +6,7 @@ using Materal.TFMS.EventBus.RabbitMQ.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
+using System;
 
 namespace Materal.TFMS.TestClient
 {
@@ -14,11 +15,11 @@ namespace Materal.TFMS.TestClient
         public static async Task Main()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddMateralLogger(option =>
+            services.AddMateralLogger(config =>
             {
-                option.AddCustomConfig("ApplicationName", "TestClient");
-                option.AddConsoleTarget("LifeConsole");
-                option.AddAllTargetRule();
+                config.AddCustomConfig("ApplicationName", "TestClient");
+                config.AddConsoleTarget("LifeConsole");
+                config.AddAllTargetsRule();
             });
             const string queueName = "Educational_FatQueue";
             const string exchangeName = "XMJEventBusExchange_Fat";
@@ -41,6 +42,7 @@ namespace Materal.TFMS.TestClient
             });
             services.AddTransient<NewRegistrationFormEventHandler>();
             IServiceProvider serviceProvider = services.BuildServiceProvider();
+            await serviceProvider.UseMateralLoggerAsync();
             IEventBus eventBus = serviceProvider.GetRequiredService<IEventBus>();
             await eventBus.SubscribeAsync<NewRegistrationFormEvent, NewRegistrationFormEventHandler>();
             eventBus.StartListening();

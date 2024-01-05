@@ -87,18 +87,11 @@ namespace Materal.Logger.LoggerLogs
         private static string GetErrorMessage(string message, Exception? exception)
         {
             StringBuilder messageBuild = new();
-            messageBuild.AppendLine(message);
-            if (exception is not null)
+            messageBuild.Append(message);
+            if(exception is not null)
             {
-                switch (exception)
-                {
-                    case MateralHttpException httpException:
-                        messageBuild.AppendLine(httpException.GetExceptionMessage());
-                        break;
-                    default:
-                        messageBuild.AppendLine(exception.GetErrorMessage());
-                        break;
-                }
+                messageBuild.AppendLine();
+                messageBuild.Append(exception.GetExceptionMessage());
             }
             return messageBuild.ToString();
         }

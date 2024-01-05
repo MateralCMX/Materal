@@ -10,10 +10,6 @@
         /// </summary>
         public string ApplicationName { get; set; } = string.Empty;
         /// <summary>
-        /// 异常配置
-        /// </summary>
-        public ExceptionConfig Exception { get; set; } = new();
-        /// <summary>
         /// 获得应用程序名称
         /// </summary>
         /// <param name="configuration"></param>

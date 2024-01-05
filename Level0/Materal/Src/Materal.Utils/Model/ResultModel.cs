@@ -28,6 +28,15 @@
             Message = message;
         }
         /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="exception">异常消息</param>
+        public ResultModel(Exception exception)
+        {
+            ResultType = ResultTypeEnum.Fail;
+            Message = exception.GetExceptionMessage();
+        }
+        /// <summary>
         /// 获得一个成功返回对象
         /// </summary>
         /// <param name="message">返回消息</param>

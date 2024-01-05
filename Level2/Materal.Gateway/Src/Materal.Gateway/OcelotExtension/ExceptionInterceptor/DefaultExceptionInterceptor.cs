@@ -17,7 +17,7 @@ namespace Materal.Gateway.OcelotExtension.ExceptionInterceptor
         /// <returns></returns>
         public virtual async Task HandlerExceptionAsync(HttpContext httpContext, Exception exception)
         {
-            string errorMessage = exception.GetErrorMessage();
+            string errorMessage = exception.GetExceptionMessage();
             httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             httpContext.Response.ContentType = "application/text";
             await httpContext.Response.WriteAsync(errorMessage);

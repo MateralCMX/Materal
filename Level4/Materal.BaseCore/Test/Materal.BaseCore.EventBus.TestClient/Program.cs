@@ -1,8 +1,9 @@
 ﻿using Materal.BaseCore.Common;
-using Materal.Logger;
+using Materal.Logger.ConfigModels;
 using Materal.TFMS.EventBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.BaseCore.EventBus.TestClient
 {
@@ -11,11 +12,11 @@ namespace Materal.BaseCore.EventBus.TestClient
         public static void Main()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddMateralLogger(option =>
+            services.AddMateralLogger(config =>
             {
-                option.AddCustomConfig("ApplicationName", "TestClient");
-                option.AddConsoleTarget("LifeConsole");
-                option.AddAllTargetRule();
+                config.AddCustomConfig("ApplicationName", "TestClient");
+                config.AddConsoleTarget("LifeConsole");
+                config.AddAllTargetsRule();
             });
             const string queueName = "Educational_FatQueue";
             IConfigurationBuilder builder = new ConfigurationBuilder();

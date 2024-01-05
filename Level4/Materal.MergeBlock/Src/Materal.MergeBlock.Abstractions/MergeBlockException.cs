@@ -1,7 +1,7 @@
 ﻿namespace Materal.MergeBlock.Abstractions
 {
     /// <summary>
-    /// 合并块异常
+    /// MergeBlock异常
     /// </summary>
     public class MergeBlockException : Exception
     {

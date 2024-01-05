@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.Authorization.Abstractions;
+﻿using Materal.MergeBlock.Abstractions.Config;
+using Materal.MergeBlock.Authorization.Abstractions;
 using Materal.MergeBlock.Authorization.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

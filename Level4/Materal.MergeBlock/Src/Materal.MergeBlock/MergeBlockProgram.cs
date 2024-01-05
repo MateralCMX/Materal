@@ -29,6 +29,7 @@ namespace Materal.MergeBlock
             ConfigServiceContext configServiceContext = new(builder.Host, builder.Configuration, builder.Services, moduleInfos);
             await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceBeforeAsync(configServiceContext));
             #region 添加高优先级服务
+            builder.Services.AddOptions();
             builder.Services.AddSingleton<IMergeBlockService, MergeBlockService>();
             builder.Services.AddMateralUtils();
             builder.Services.AddCors(options =>
@@ -46,7 +47,6 @@ namespace Materal.MergeBlock
             {
                 options.Filters.Add<ActionPageQueryFilterAttribute>();
                 options.Filters.Add<BindBaseInfoToServiceFilterAttribute>();
-                options.Filters.Add<GlobalExceptionFilter>();
                 options.SuppressAsyncSuffixInActionNames = true;
             }).AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
             .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());

@@ -1,21 +1,21 @@
-﻿namespace MMB.Core.Abstractions
+﻿namespace Materal.MergeBlock.Abstractions
 {
     /// <summary>
-    /// MMB异常
+    /// MergeBlock模块异常
     /// </summary>
-    public class MMBException : MergeBlockModuleException
+    public class MergeBlockModuleException : MergeBlockException
     {
         /// <summary>
         /// 构造方法
         /// </summary>
-        public MMBException()
+        public MergeBlockModuleException()
         {
         }
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="message"></param>
-        public MMBException(string? message) : base(message)
+        public MergeBlockModuleException(string? message) : base(message)
         {
         }
         /// <summary>
@@ -23,7 +23,7 @@
         /// </summary>
         /// <param name="message"></param>
         /// <param name="innerException"></param>
-        public MMBException(string? message, Exception? innerException) : base(message, innerException)
+        public MergeBlockModuleException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
     }

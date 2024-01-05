@@ -1,7 +1,7 @@
 ﻿namespace Materal.MergeBlock.Oscillator.Abstractions
 {
     /// <summary>
-    /// 合并块任务
+    /// MergeBlock任务
     /// </summary>
     /// <typeparam name="TWorkData"></typeparam>
     public abstract class MergeBlockWork<TWorkData> : BaseWork<TWorkData>, IWork<TWorkData>

@@ -93,108 +93,94 @@ namespace Materal.Utils.Http
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
+        /// <param name="prefix"></param>
         /// <returns></returns>
-        public override string GetExceptionMessage(Func<Exception, string?>? beforFunc = null, Func<Exception, string?>? afterFunc = null)
+        public override string GetDetailMessage(string prefix)
         {
-            static string? HttpExceptionBefor(Exception exception)
+            StringBuilder errorMessage = new();
+            errorMessage.AppendLine(Message);
+            errorMessage.Append($"{prefix}--- Http详细信息开始 ---");
+            if(HttpRequestMessage is not null)
             {
-                if (exception is not MateralHttpException httpException) return null;
-                StringBuilder errorMessage = new();
-                if (httpException.HttpRequestMessage is not null)
+                errorMessage.AppendLine();
+                errorMessage.Append($"{prefix}Request:");
+                if (HttpRequestMessage.RequestUri is not null)
                 {
-                    errorMessage.AppendLine("Request:");
-                    if (httpException.HttpRequestMessage.RequestUri is not null)
+                    errorMessage.AppendLine();
+                    errorMessage.Append($"{prefix}\tUrl: {HttpRequestMessage.RequestUri.AbsoluteUri}");
+                }
+                if (HttpRequestMessage.Headers.Any())
+                {
+                    errorMessage.AppendLine();
+                    errorMessage.Append($"{prefix}\tHeaders:");
+                    foreach (KeyValuePair<string, IEnumerable<string>> header in HttpRequestMessage.Headers)
                     {
-                        errorMessage.AppendLine($"  Url:{httpException.HttpRequestMessage.RequestUri.AbsoluteUri}");
-                    }
-                    if (httpException.HttpRequestMessage.Headers.Any())
-                    {
-                        errorMessage.AppendLine($"  Headers:");
-                        foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpRequestMessage.Headers)
-                        {
-                            errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
-                        }
-                    }
-                    if (httpException.HttpRequestMessage.Content is not null)
-                    {
-                        if (httpException.HttpRequestMessage.Content.Headers.Any())
-                        {
-                            errorMessage.AppendLine($"  ContentHeaders:");
-                            foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpRequestMessage.Content.Headers)
-                            {
-                                errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
-                            }
-                        }
-                        if (httpException.HttpRequestMessage.Content is StringContent stringContent)
-                        {
-                            try
-                            {
-                                string message = stringContent.ReadAsStringAsync().Result;
-                                errorMessage.AppendLine($"  ContentBody:{message}");
-                            }
-                            catch (Exception ex)
-                            {
-                                errorMessage.AppendLine($"  获取ContentBody失败:{ex.Message}");
-                            }
-                        }
+                        errorMessage.AppendLine();
+                        errorMessage.Append($"{prefix}\t\t{header.Key}: {string.Join(";", header.Value)}");
                     }
                 }
-                if (httpException.HttpResponseMessage is not null)
+                if (HttpRequestMessage.Content is not null)
                 {
-                    errorMessage.AppendLine("Response:");
-                    errorMessage.AppendLine($"  StatusCode:{httpException.HttpResponseMessage.StatusCode}[{(int)httpException.HttpResponseMessage.StatusCode}]");
-                    if (httpException.HttpResponseMessage.Headers.Any())
+                    errorMessage.AppendLine();
+                    errorMessage.Append($"{prefix}\tContent:");
+                    if (HttpRequestMessage.Content.Headers.Any())
                     {
-                        errorMessage.AppendLine($"  Headers:");
-                        foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpResponseMessage.Headers)
+                        errorMessage.AppendLine();
+                        errorMessage.Append($"{prefix}\t\tContentHeaders:");
+                        foreach (KeyValuePair<string, IEnumerable<string>> header in HttpRequestMessage.Content.Headers)
                         {
-                            errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
+                            errorMessage.AppendLine();
+                            errorMessage.Append($"{prefix}\t\t\t{header.Key}:{string.Join(";", header.Value)}");
                         }
                     }
-                    if (httpException.HttpResponseMessage.Content is not null && httpException.HttpResponseMessage.Content.Headers.Any())
+                    string message = HttpRequestMessage.Content.ReadAsStringAsync().Result;
+                    errorMessage.AppendLine();
+                    errorMessage.AppendLine($"{prefix}\t\tContentBody:");
+                    errorMessage.Append($"{prefix}\t\t\t{message}");
+                }
+            }
+            if (HttpResponseMessage is not null)
+            {
+                errorMessage.AppendLine();
+                errorMessage.AppendLine($"{prefix}Response:");
+                errorMessage.Append($"{prefix}\tStatusCode: {HttpResponseMessage.StatusCode}[{(int)HttpResponseMessage.StatusCode}]");
+                if (HttpResponseMessage.Headers.Any())
+                {
+                    errorMessage.AppendLine();
+                    errorMessage.Append($"{prefix}\tHeaders:");
+                    foreach (KeyValuePair<string, IEnumerable<string>> header in HttpResponseMessage.Headers)
                     {
-                        errorMessage.AppendLine($"  ContentHeaders:");
-                        foreach (KeyValuePair<string, IEnumerable<string>> header in httpException.HttpResponseMessage.Content.Headers)
-                        {
-                            errorMessage.AppendLine($"      {header.Key}:{string.Join(";", header.Value)}");
-                        }
-                        if (httpException.HttpResponseMessage.Content.Headers.ContentLength is not null && httpException.HttpResponseMessage.Content.Headers.ContentLength > 0)
-                        {
-                            try
-                            {
-                                string? message = httpException.HttpRequestMessage?.Content?.ReadAsStringAsync().Result;
-                                errorMessage.AppendLine($"  ContentBody:{message}");
-                            }
-                            catch (Exception ex)
-                            {
-                                errorMessage.AppendLine($"  获取ContentBody失败:{ex.Message}");
-                            }
-                        }
+                        errorMessage.AppendLine();
+                        errorMessage.Append($"{prefix}\t\t{header.Key}: {string.Join(";", header.Value)}");
                     }
                 }
-                string result = errorMessage.ToString();
-                return result;
-            }
-            if (beforFunc is null)
-            {
-                beforFunc = HttpExceptionBefor;
-            }
-            else
-            {
-                beforFunc = exception =>
+                if (HttpResponseMessage.Content is not null)
                 {
-                    string? message = beforFunc.Invoke(exception);
-                    string? httpMessage = HttpExceptionBefor(exception);
-                    if (message is null && httpMessage is not null) return httpMessage;
-                    if (message is not null && httpMessage is null) return message;
-                    if (message is not null && httpMessage is not null)
+                    errorMessage.AppendLine();
+                    errorMessage.Append($"{prefix}\tContent:");
+                    if (HttpResponseMessage.Content.Headers.Any())
                     {
-                        message += "\r\n" + httpMessage;
+                        errorMessage.AppendLine();
+                        errorMessage.Append($"{prefix}\t\tContentHeaders:");
+                        foreach (KeyValuePair<string, IEnumerable<string>> header in HttpResponseMessage.Content.Headers)
+                        {
+                            errorMessage.AppendLine();
+                            errorMessage.Append($"{prefix}\t\t\t{header.Key}: {string.Join(";", header.Value)}");
+                        }
                     }
-                    return message;
-                };
+                    string message = HttpResponseMessage.Content.ReadAsStringAsync().Result;
+                    errorMessage.AppendLine();
+                    errorMessage.AppendLine($"{prefix}\t\tContentBody:");
+                    errorMessage.Append($"{prefix}\t\t\t{message}");
+                }
             }
-            return base.GetExceptionMessage(beforFunc, afterFunc);
+            if (errorMessage[^1] != '\n')
+            {
+                errorMessage.AppendLine();
+            }
+            errorMessage.Append($"{prefix}--- Http详细信息结束 ---");
+            string result = errorMessage.ToString();
+            return result;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Materal.Utils.Http;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace Materal.Logger.LoggerWriter
@@ -9,22 +8,6 @@ namespace Materal.Logger.LoggerWriter
     /// </summary>
     public static class LoggerWriterHelper
     {
-        /// <summary>
-        /// 获得错误消息
-        /// </summary>
-        /// <param name="exception"></param>
-        /// <returns></returns>
-        public static string GetErrorMessage(Exception exception)
-        {
-            if (exception is MateralHttpException httpException)
-            {
-                return httpException.GetExceptionMessage();
-            }
-            else
-            {
-                return exception.GetErrorMessage();
-            }
-        }
         /// <summary>
         /// 获得进程ID
         /// </summary>
@@ -61,7 +44,7 @@ namespace Materal.Logger.LoggerWriter
         /// <returns></returns>
         public static string FormatMessage(string writeMessage, LoggerWriterModel model)
         {
-            string errorMesage = model.Exception is null ? string.Empty : GetErrorMessage(model.Exception);
+            string errorMesage = model.Exception is null ? string.Empty : model.Exception.GetExceptionMessage();
             string message = model.Message;
             message = FormatText(message, model);
             message = Regex.Replace(message, @"\$\{Exception\}", errorMesage);

@@ -270,6 +270,6 @@
         /// </summary>
         /// <param name="exception"></param>
         /// <returns></returns>
-        private static string GetExceptionMessage(Exception exception) => exception.GetErrorMessage();
+        private static string GetExceptionMessage(Exception exception) => exception.GetExceptionMessage();
     }
 }

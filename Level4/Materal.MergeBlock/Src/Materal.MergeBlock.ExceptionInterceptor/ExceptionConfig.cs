@@ -1,10 +1,14 @@
-﻿namespace Materal.MergeBlock.Abstractions.Config
+﻿namespace Materal.MergeBlock.ExceptionInterceptor
 {
     /// <summary>
     /// 异常配置
     /// </summary>
     public class ExceptionConfig
     {
+        /// <summary>
+        /// 配置键
+        /// </summary>
+        public static string ConfigKey { get; } = "Exception";
         /// <summary>
         /// 显示异常
         /// </summary>

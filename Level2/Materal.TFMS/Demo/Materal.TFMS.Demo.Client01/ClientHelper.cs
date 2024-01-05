@@ -1,8 +1,9 @@
-﻿using Materal.Logger;
+﻿using Materal.Logger.ConfigModels;
 using Materal.TFMS.Demo.Client01.EventHandlers;
 using Materal.TFMS.Demo.Core;
 using Materal.TFMS.Demo.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.TFMS.Demo.Client01
 {
@@ -13,14 +14,15 @@ namespace Materal.TFMS.Demo.Client01
         public static string AppName { get; private set; } = "Client01";
         static ClientHelper()
         {
-            _serviceCollection.AddMateralLogger(option =>
+            _serviceCollection.AddMateralLogger(config =>
             {
-                option.AddCustomConfig("ApplicationName", AppName);
-                option.AddConsoleTarget("LifeConsole");
-                option.AddAllTargetRule();
+                config.AddCustomConfig("ApplicationName", AppName);
+                config.AddConsoleTarget("LifeConsole");
+                config.AddAllTargetsRule();
             });
             RegisterServices();
             _serviceProvider = _serviceCollection.BuildServiceProvider();
+            _serviceProvider.UseMateralLoggerAsync().Wait();
         }
         /// <summary>
         /// 注册依赖注入

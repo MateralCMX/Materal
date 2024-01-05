@@ -6,7 +6,7 @@ namespace MMB.Demo.Appllication.Controllers
     /// <summary>
     /// 测试控制器
     /// </summary>
-    public class TestController(ITokenService tokenService, IEventBus eventBus, IOscillatorHost host) : MergeBlockControllerBase, ITestController
+    public class TestController(ITokenService tokenService, IEventBus eventBus, IOscillatorHost host) : MergeBlockControllerBase//, ITestController
     {
         /// <summary>
         /// 说Hello
@@ -46,5 +46,17 @@ namespace MMB.Demo.Appllication.Controllers
             await host.RunNowAsync(id);
             return ResultModel.Success("启动成功");
         }
+        /// <summary>
+        /// 抛出系统异常
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResultModel ThrowSystemException() => throw new NotImplementedException("测试异常");
+        /// <summary>
+        /// 抛出模块业务异常
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ResultModel ThrowModuleException() => throw new MMBException("测试异常");
     }
 }

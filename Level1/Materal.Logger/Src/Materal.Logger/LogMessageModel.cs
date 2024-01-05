@@ -48,7 +48,7 @@
         /// <summary>
         /// 异常对象
         /// </summary>
-        public string? Exception { get; } = model.Exception?.GetErrorMessage();
+        public string? Exception { get; } = model.Exception?.GetExceptionMessage();
         /// <summary>
         /// 域数据
         /// </summary>

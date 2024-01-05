@@ -112,6 +112,7 @@ namespace Materal.Gateway.WebAPI
             services.AddEndpointsApiExplorer();
             #endregion
             WebApplication app = builder.Build();
+            await app.UseMateralLoggerAsync();
             #region Init
             IOcelotConfigService ocelotConfigService = app.Services.GetRequiredService<IOcelotConfigService>();
             await ocelotConfigService.InitAsync();
@@ -145,7 +146,7 @@ namespace Materal.Gateway.WebAPI
             }
             #endregion
             app.MapControllers();
-            app.Run();
+            await app.RunAsync();
         }
     }
 }

@@ -1,18 +1,16 @@
 ﻿using ConsoleDemo.Works;
 using Materal.Abstractions;
-using Materal.Logger;
+using Materal.Logger.ConfigModels;
 using Materal.Oscillator;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.DTO;
 using Materal.Oscillator.Abstractions.Models;
 using Materal.Oscillator.Abstractions.Repositories;
-using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.Answers;
 using Materal.Oscillator.PlanTriggers;
 using Materal.Utils;
 using Materal.Utils.Model;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
@@ -28,10 +26,10 @@ namespace ConsoleDemo
             IServiceCollection serviceCollection = new ServiceCollection();
             PageRequestModel.PageStartNumber = 1;
             serviceCollection.AddMateralUtils();
-            serviceCollection.AddMateralLogger(option =>
+            serviceCollection.AddMateralLogger(config =>
             {
-                option.AddConsoleTarget("LifeConsole");
-                option.AddAllTargetRule(LogLevel.Information, null, new() { ["Microsoft.EntityFrameworkCore"] = LogLevel.Warning });
+                config.AddConsoleTarget("LifeConsole");
+                config.AddAllTargetsRule(minLevel: LogLevel.Information, logLevels: new() { ["Microsoft.EntityFrameworkCore"] = LogLevel.Warning });
             });
             serviceCollection.AddOscillator(Assembly.Load("ConsoleDemo"));
             SqliteEFRepositoryHelper repositoryHelper = new();
@@ -44,6 +42,7 @@ namespace ConsoleDemo
             serviceCollection.AddSingleton<IRetryAnswerListener, RetryAnswerListenerImpl>();
             MateralServices.Services = serviceCollection.BuildServiceProvider();
             _services = MateralServices.Services;
+            _services.UseMateralLoggerAsync().Wait();
             repositoryHelper.Init(_services);
             _host = _services.GetRequiredService<IOscillatorHost>();
         }

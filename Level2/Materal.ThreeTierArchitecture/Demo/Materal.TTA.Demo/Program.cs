@@ -16,9 +16,9 @@ namespace Materal.TTA.Demo
             PageRequestModel.PageStartNumber = 1;
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddMateralUtils();
-            serviceCollection.AddMateralLogger(option =>
+            serviceCollection.AddMateralLogger(config =>
             {
-                option.AddConsoleTarget("LifeConsole")
+                config.AddConsoleTarget("LifeConsole")
                 .AddAllTargetsRule(minLevel:LogLevel.Trace);
             });
             serviceCollection.AddTransient<ITTADemoTest, Test00>();

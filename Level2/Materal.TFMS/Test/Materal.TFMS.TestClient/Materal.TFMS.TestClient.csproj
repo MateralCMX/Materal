@@ -9,6 +9,6 @@
 		<PackageReference Include="Materal.Logger" Version="1.1.73" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Src\Materal.TFMS.EventBus.RabbitMQ\Materal.TFMS.EventBus.RabbitMQ.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.TFMS.EventBus.RabbitMQ\Materal.TFMS.EventBus.RabbitMQ.csproj" />
 	</ItemGroup>
 </Project>

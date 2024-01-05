@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-
-namespace Materal.Abstractions
+﻿namespace Materal.Abstractions
 {
     /// <summary>
     /// Materal基础异常类
@@ -27,42 +24,15 @@ namespace Materal.Abstractions
         {
         }
         /// <summary>
-        /// 获得异常消息
+        /// 转换为字符串
         /// </summary>
         /// <returns></returns>
-        public virtual string GetExceptionMessage(Func<Exception, string?>? beforFunc = null, Func<Exception, string?>? afterFunc = null)
-        {
-            StringBuilder messageBuilder = new();
-            Exception? tempException = this;
-            while (tempException is not null)
-            {
-                if (beforFunc is not null)
-                {
-                    string? temp = beforFunc(tempException);
-                    if (!string.IsNullOrWhiteSpace(temp))
-                    {
-                        messageBuilder.AppendLine(temp);
-                    }
-                }
-                messageBuilder.Append(tempException.GetType().FullName);
-                messageBuilder.Append("-->");
-                messageBuilder.AppendLine(tempException.Message);
-                if (!string.IsNullOrWhiteSpace(tempException.StackTrace))
-                {
-                    messageBuilder.AppendLine(tempException.StackTrace);
-                }
-                if (afterFunc is not null)
-                {
-                    string? temp = afterFunc(tempException);
-                    if (!string.IsNullOrWhiteSpace(temp))
-                    {
-                        messageBuilder.AppendLine(temp);
-                    }
-                }
-                tempException = tempException.InnerException;
-            }
-            string result = messageBuilder.ToString();
-            return result;
-        }
+        public override string ToString() => this.GetExceptionMessage();
+        /// <summary>
+        /// 获取详细消息
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
+        public virtual string GetDetailMessage(string prefix) => Message;
     }
 }
