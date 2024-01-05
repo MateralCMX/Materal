@@ -25,7 +25,7 @@ namespace MMB.Demo.Appllication.Oscillator.Schedules
             PlanTriggerData = new RepeatPlanTrigger()
             {
                 DateTrigger = new DateDayTrigger(),
-                EveryDayTrigger = new EveryDayRepeatTrigger() { Interval = 5, IntervalType = EveryDayIntervalType.Second }
+                EveryDayTrigger = new EveryDayRepeatTrigger() { Interval = 5, IntervalType = EveryDayIntervalType.Minute }
             }
         };
     }

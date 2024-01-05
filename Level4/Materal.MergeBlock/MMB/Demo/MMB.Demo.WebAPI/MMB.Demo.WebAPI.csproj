@@ -22,6 +22,7 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.AccessLog\Materal.MergeBlock.AccessLog.csproj" />
 		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Authorization\Materal.MergeBlock.Authorization.csproj" />
 		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj" />
 		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.DependencyInjection\Materal.MergeBlock.DependencyInjection.csproj" />

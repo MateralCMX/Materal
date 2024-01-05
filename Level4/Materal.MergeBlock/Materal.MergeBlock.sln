@@ -65,7 +65,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{432A751A-A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Test", "Test\Materal.MergeBlock.Test\Materal.MergeBlock.Test.csproj", "{1C49C57D-C22A-418E-BFFC-2776587B876B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.ExceptionInterceptor", "Src\Materal.MergeBlock.ExceptionInterceptor\Materal.MergeBlock.ExceptionInterceptor.csproj", "{3E0B1815-7B07-4675-BCCD-0C64E52CEE16}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.ExceptionInterceptor", "Src\Materal.MergeBlock.ExceptionInterceptor\Materal.MergeBlock.ExceptionInterceptor.csproj", "{3E0B1815-7B07-4675-BCCD-0C64E52CEE16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.AccessLog", "Src\Materal.MergeBlock.AccessLog\Materal.MergeBlock.AccessLog.csproj", "{23F24D20-A17E-4878-83A0-DA2F7FC6C360}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -377,6 +379,18 @@ Global
 		{3E0B1815-7B07-4675-BCCD-0C64E52CEE16}.Release|arm64.Build.0 = Release|Any CPU
 		{3E0B1815-7B07-4675-BCCD-0C64E52CEE16}.Release|x86.ActiveCfg = Release|Any CPU
 		{3E0B1815-7B07-4675-BCCD-0C64E52CEE16}.Release|x86.Build.0 = Release|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Debug|arm64.Build.0 = Debug|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Debug|x86.Build.0 = Debug|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Release|arm64.ActiveCfg = Release|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Release|arm64.Build.0 = Release|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Release|x86.ActiveCfg = Release|Any CPU
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -411,6 +425,7 @@ Global
 		{4615F3A8-0FB0-4998-86AD-81B373D24C81} = {CBBC5065-D1AD-494A-8DD9-F97C4D7B5F44}
 		{1C49C57D-C22A-418E-BFFC-2776587B876B} = {432A751A-ABDB-4AA4-91BF-A5CA747A1CBD}
 		{3E0B1815-7B07-4675-BCCD-0C64E52CEE16} = {ABA10EEB-61D2-43B3-80A1-9178E6174213}
+		{23F24D20-A17E-4878-83A0-DA2F7FC6C360} = {ABA10EEB-61D2-43B3-80A1-9178E6174213}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67833DC5-4077-4868-93CE-E1D59227F31F}

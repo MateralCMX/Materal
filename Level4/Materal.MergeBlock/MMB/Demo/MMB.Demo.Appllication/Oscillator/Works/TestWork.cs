@@ -23,7 +23,7 @@ namespace MMB.Demo.Appllication.Oscillator.Works
         /// <returns></returns>
         protected override async Task<string?> WorkExcuteAsync(TestWorkData workData, List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork, Work work)
         {
-            logger.LogInformation("测试作业");
+            //logger.LogInformation("测试作业");
             await Task.CompletedTask;
             return null;
         }
