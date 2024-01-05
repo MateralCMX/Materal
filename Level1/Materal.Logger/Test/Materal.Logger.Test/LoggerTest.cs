@@ -19,6 +19,47 @@ namespace Materal.Logger.Test
                         .AddJsonFile("MateralLogger.json", optional: true, reloadOnChange: true)
                         .Build();
         }
+        [TestMethod]
+        public async Task WriteLogTestAsync() => await WriteLogAsync(option =>
+        {
+            option.AddConsoleTarget("ConsoleLogger", _textFormat);
+        }, services =>
+        {
+            ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
+            using IDisposable? scope = logger.BeginScope(new AdvancedScope("CustomScope", new Dictionary<string, object?>
+            {
+                ["StringValue"] = "StringValue",
+                ["IntValue"] = 1,
+                ["DecimalValue"] = 1.1m,
+                ["DateTimeValue"] = DateTime.Now,
+                ["GuidValue"] = Guid.NewGuid(),
+                ["ListValue"] = new List<object> { "0", 1, "22" },
+                ["ArrayValue"] = new object[] { "0", 1, "22" },
+                ["DictionaryValue"] = new Dictionary<string, object?>
+                {
+                    ["StringValue"] = "StringValue",
+                    ["IntValue"] = 1,
+                    ["DecimalValue"] = 1.1m,
+                    ["DateTimeValue"] = DateTime.Now,
+                    ["GuidValue"] = Guid.NewGuid()
+                },
+                ["ObjectValue"] = new
+                {
+                    StringValue = "StringValue",
+                    IntValue = 1,
+                    DecimalValue = 1.1m,
+                    DateTimeValue = DateTime.Now,
+                    GuidValue = Guid.NewGuid()
+                }
+            }));
+#pragma warning disable CA2017 // 参数计数不匹配。
+            logger.LogInformation("${StringValue}|${IntValue}|${DecimalValue}|${DateTimeValue}|${GuidValue}");
+            logger.LogInformation("${ListValue[0]}|${ListValue[1]}|${ListValue[2]}");
+            logger.LogInformation("${ArrayValue[0]}|${ArrayValue[1]}|${ArrayValue[2]}");
+            logger.LogInformation("${DictionaryValue.StringValue}|${DictionaryValue.IntValue}|${DictionaryValue.DecimalValue}|${DictionaryValue.DateTimeValue}|${DictionaryValue.GuidValue}");
+            logger.LogInformation("${ObjectValue.StringValue}|${ObjectValue.IntValue}|${ObjectValue.DecimalValue}|${ObjectValue.DateTimeValue}|${ObjectValue.GuidValue}");
+#pragma warning restore CA2017 // 参数计数不匹配。
+        });
         /// <summary>
         /// 写控制台日志
         /// </summary>

@@ -182,7 +182,7 @@ namespace System
             {
                 string? key = keyObj is string keyValue ? keyValue : keyObj.ToString();
                 if (key is null) continue;
-                if (keys.Contains(key)) return dictionary;
+                if (keys.Contains(key)) continue;
             }
             foreach (object? item in dictionary)
             {
