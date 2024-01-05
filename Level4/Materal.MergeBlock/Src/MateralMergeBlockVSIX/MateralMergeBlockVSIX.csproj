@@ -64,6 +64,7 @@
       <DependentUpon>SolutionOpenedControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToolWindows\ViewModels\SolutionNotOpenedControlViewModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.Services.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.Repository.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.cs" />
     <Compile Include="VSCommandTable.cs">

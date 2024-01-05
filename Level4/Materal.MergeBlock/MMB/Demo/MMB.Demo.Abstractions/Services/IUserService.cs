@@ -7,7 +7,7 @@ namespace MMB.Demo.Abstractions.Services
     /// <summary>
     /// 用户服务
     /// </summary>
-    public interface IUserService : IBaseService<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO>
+    public partial interface IUserService : IBaseService<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO>
     {
         /// <summary>
         /// 获得用户列表

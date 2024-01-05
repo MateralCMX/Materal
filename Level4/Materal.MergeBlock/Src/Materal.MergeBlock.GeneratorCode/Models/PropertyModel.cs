@@ -37,5 +37,21 @@
         /// 特性组
         /// </summary>
         public List<AttributeModel> Attributes { get; set; } = [];
+        /// <summary>
+        /// 获得验证特性代码
+        /// </summary>
+        /// <returns></returns>
+        public string? GetVerificationAttributesCode()
+        {
+            return null;
+        }
+        /// <summary>
+        /// 获得查询特性代码
+        /// </summary>
+        /// <returns></returns>
+        public string? GetQueryAttributesCode()
+        {
+            return null;
+        }
     }
 }
