@@ -7,7 +7,7 @@ namespace Materal.MergeBlock.AccessLog
     /// <summary>
     /// 访问日志中间件
     /// </summary>
-    public class AccessLogMiddleware(ILogger<AccessLogMiddleware> logger) : IMiddleware
+    public class AccessLogMiddleware(IAccessLogService accessLogService) : IMiddleware
     {
         /// <summary>
         /// 执行
@@ -17,11 +17,10 @@ namespace Materal.MergeBlock.AccessLog
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            AdvancedScope advancedScope = new(ConstData.AccessLogScopeName, new Dictionary<string, object?>
-            {
-                [nameof(context.Request)] = new RequestModel(context.Request)
-            });
-            using IDisposable? scope = logger.BeginScope(advancedScope);
+            RequestModel request = new(context.Request);
+            ResponseModel? response = null;
+            LogLevel logLevel = LogLevel.Information;
+            Exception? exception = null;
             Stream originalBody = context.Response.Body;
             using MemoryStream memStream = new();
             context.Response.Body = memStream;
@@ -32,32 +31,31 @@ namespace Materal.MergeBlock.AccessLog
                 await next(context);
                 stopwatch.Stop();
                 memStream.Position = 0;
-                advancedScope.ScopeData.TryAdd("ElapsedMilliseconds", stopwatch.ElapsedMilliseconds);
-                advancedScope.ScopeData.TryAdd(nameof(context.Response), new ResponseModel(context.Response, memStream));
+                response = new ResponseModel(context.Response, memStream);
                 memStream.Position = 0;
                 await memStream.CopyToAsync(originalBody);
-                if (context.Response.StatusCode == StatusCodes.Status200OK)
+                logLevel = context.Response.StatusCode switch
                 {
-                    logger.LogInformation($"[{context.Request.Method}] {context.Request.Scheme}://{context.Request.Host.Host}:{context.Request.Host.Port}{context.Request.Path} [{context.Response.StatusCode}]");
-                }
-                else if (context.Response.StatusCode >= 500)
-                {
-                    logger.LogError($"[{context.Request.Method}] {context.Request.Scheme}://{context.Request.Host.Host}:{context.Request.Host.Port}{context.Request.Path} [{context.Response.StatusCode}]");
-                }
-                else
-                {
-                    logger.LogWarning($"[{context.Request.Method}] {context.Request.Scheme}://{context.Request.Host.Host}:{context.Request.Host.Port}{context.Request.Path} [{context.Response.StatusCode}]");
-                }
+                    StatusCodes.Status200OK or 
+                    StatusCodes.Status401Unauthorized or 
+                    StatusCodes.Status404NotFound => LogLevel.Information,
+                    >= 500 => LogLevel.Error,
+                    _ => LogLevel.Warning,
+                };
             }
             catch (Exception ex)
             {
                 stopwatch.Stop();
-                advancedScope.ScopeData.TryAdd("ElapsedMilliseconds", stopwatch.ElapsedMilliseconds);
-                logger.LogError(ex, "请求有错误");
+                response = new ResponseModel(ex);
+                exception = ex;
                 throw;
             }
             finally
             {
+                if(response is not null)
+                {
+                    accessLogService.WriteAccessLog(logLevel, request, response, stopwatch.ElapsedMilliseconds, exception);
+                }
                 context.Response.Body = originalBody;
             }
         }

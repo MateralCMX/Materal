@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Options;
 
 namespace Materal.MergeBlock.ExceptionInterceptor
 {

@@ -1,5 +1,6 @@
 ﻿using Materal.MergeBlock.AccessLog;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Materal.MergeBlock.ExceptionInterceptor
@@ -16,6 +17,8 @@ namespace Materal.MergeBlock.ExceptionInterceptor
         /// <returns></returns>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
+            context.Services.Configure<AccessLogConfig>(context.Configuration.GetSection(AccessLogConfig.ConfigKey));
+            context.Services.TryAddSingleton<IAccessLogService, AccessLogServiceImpl>();
             context.Services.TryAddSingleton<AccessLogMiddleware>();
             await base.OnConfigServiceAsync(context);
         }

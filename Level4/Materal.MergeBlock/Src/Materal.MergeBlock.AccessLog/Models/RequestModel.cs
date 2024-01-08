@@ -13,6 +13,10 @@ namespace Materal.MergeBlock.AccessLog.Models
         /// </summary>
         public string Method { get; set; }
         /// <summary>
+        /// Scheme
+        /// </summary>
+        public string Scheme { get; set; }
+        /// <summary>
         /// Host
         /// </summary>
         public string Host { get; set; }
@@ -33,6 +37,10 @@ namespace Materal.MergeBlock.AccessLog.Models
         /// </summary>
         public Dictionary<string, string> Headers { get; set; }
         /// <summary>
+        /// HeadersData
+        /// </summary>
+        public string HeadersData => Headers.ToJson();
+        /// <summary>
         /// Body
         /// </summary>
         public string? Body { get; set; }
@@ -43,6 +51,7 @@ namespace Materal.MergeBlock.AccessLog.Models
         public RequestModel(HttpRequest httpRequest)
         {
             Method = httpRequest.Method;
+            Scheme = httpRequest.Scheme;
             Host = httpRequest.Host.Host;
             Port = httpRequest.Host.Port ?? -1;
             Path = httpRequest.Path.Value ?? string.Empty;

@@ -16,6 +16,7 @@
 	  </None>
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Materal.Logger.SqliteLogger" Version="1.1.74" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
+using System;
+using System.Net;
 
 namespace Materal.MergeBlock.AccessLog.Models
 {
@@ -17,9 +19,23 @@ namespace Materal.MergeBlock.AccessLog.Models
         /// </summary>
         public Dictionary<string, string> Headers { get; set; }
         /// <summary>
+        /// HeadersData
+        /// </summary>
+        public string HeadersData => Headers.ToJson();
+        /// <summary>
         /// Body
         /// </summary>
         public string? Body { get; set; }
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="exception"></param>
+        public ResponseModel(Exception exception)
+        {
+            StatusCode = (int)HttpStatusCode.InternalServerError;
+            Headers = [];
+            Body = exception.Message;
+        }
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -34,7 +50,14 @@ namespace Materal.MergeBlock.AccessLog.Models
                 Headers.TryAdd(item.Key, item.Value.ToString());
             }
             bodyStream.Position = 0;
-            Body = new StreamReader(bodyStream).ReadToEnd();
+            try
+            {
+                Body = new StreamReader(bodyStream).ReadToEnd();
+            }
+            catch (Exception ex)
+            {
+                Body = $"Body无法读取\r\n{ex.GetErrorMessage()}";
+            }
         }
     }
 }

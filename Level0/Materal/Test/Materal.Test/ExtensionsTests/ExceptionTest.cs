@@ -8,7 +8,13 @@ namespace Materal.Test.ExtensionsTests
     public class ExceptionTest : BaseTest
     {
         [TestMethod]
-        public async Task GetErrorMessageTestAsync()
+        public void GetNotStackTraceExceptionErrorMessageTest()
+        {
+            Exception exception = new NotImplementedException("测试异常");
+            Debug.WriteLine(exception.GetErrorMessage());
+        }
+        [TestMethod]
+        public async Task GetHasStackTraceExceptionErrorMessageTestAsync()
         {
             try
             {

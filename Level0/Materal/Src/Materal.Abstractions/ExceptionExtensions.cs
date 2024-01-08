@@ -59,14 +59,14 @@ namespace System
                 catch
                 {
                 }
-                message ??= exception.ToString();
+                message ??= exception.Message;
             }
             errorMessage.AppendLine($"{prefix}--->{exception.GetType().FullName}: {message}");
             if (exception.InnerException is not null)
             {
                 errorMessage.Append(exception.InnerException.GetErrorMessage($"\t{prefix}", getDetailMessage));
             }
-            if (exception.StackTrace is null) return string.Empty;
+            if (exception.StackTrace is null) return errorMessage.ToString();
             string[] stackTraces = exception.StackTrace.Split('\n');
             foreach (string stackTrace in stackTraces)
             {

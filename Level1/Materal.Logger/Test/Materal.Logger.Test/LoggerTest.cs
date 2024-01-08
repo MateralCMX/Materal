@@ -2,6 +2,7 @@ using Materal.Logger.ConfigModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Materal.Logger.Test
 {
@@ -19,8 +20,34 @@ namespace Materal.Logger.Test
                         .AddJsonFile("MateralLogger.json", optional: true, reloadOnChange: true)
                         .Build();
         }
+        /// <summary>
+        /// 写错误日志测试
+        /// </summary>
+        /// <returns></returns>
         [TestMethod]
-        public async Task WriteLogTestAsync() => await WriteLogAsync(option =>
+        public async Task WriteErrorLogTestAsync() => await WriteLogAsync(option =>
+        {
+            option.AddConsoleTarget("ConsoleLogger", _textFormat);
+        }, services =>
+        {
+            ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
+            Exception exception = new NotImplementedException("测试消息");
+            logger.LogError(exception, "这是一条错误日志消息");
+            try
+            {
+                throw new NotImplementedException("测试消息");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "这是一条错误日志消息");
+            }
+        });
+        /// <summary>
+        /// 写多级日志测试
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteMultiLevelTextLogTestAsync() => await WriteLogAsync(option =>
         {
             option.AddConsoleTarget("ConsoleLogger", _textFormat);
         }, services =>
