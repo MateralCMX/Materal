@@ -67,7 +67,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Test", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.ExceptionInterceptor", "Src\Materal.MergeBlock.ExceptionInterceptor\Materal.MergeBlock.ExceptionInterceptor.csproj", "{3E0B1815-7B07-4675-BCCD-0C64E52CEE16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.AccessLog", "Src\Materal.MergeBlock.AccessLog\Materal.MergeBlock.AccessLog.csproj", "{23F24D20-A17E-4878-83A0-DA2F7FC6C360}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.AccessLog", "Src\Materal.MergeBlock.AccessLog\Materal.MergeBlock.AccessLog.csproj", "{23F24D20-A17E-4878-83A0-DA2F7FC6C360}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

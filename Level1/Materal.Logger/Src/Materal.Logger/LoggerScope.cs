@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Data;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Materal.Logger
@@ -50,33 +51,47 @@ namespace Materal.Logger
         public string HandlerText(string text)
         {
             if (AdvancedScope is null || AdvancedScope.ScopeData is null || string.IsNullOrWhiteSpace(text)) return text;
-            string result = text;
-            foreach (KeyValuePair<string, object?> item in AdvancedScope.ScopeData)
-            {
-                result = HandlerText(result, item.Key, item.Value);
-            }
+            string result = HandlerText(text, string.Empty, AdvancedScope.ScopeData);
             return result;
         }
         /// <summary>
         /// 处理文本
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="key"></param>
+        /// <param name="upKey"></param>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static string HandlerText(string text, string key, object? obj)
+        public static string HandlerText(string text, string upKey, object? obj)
         {
-            if (obj is null) return text;
-            if (obj is string stringValue) return HandlerText(text, key, stringValue);
-            if (obj is IEnumerable enumerable) return HandlerText(text, key, enumerable);
-            if (obj is DataTable dataTable) return HandlerText(text, key, dataTable);
-            if (!obj.GetType().IsClass) return HandlerText(text, key, obj.ToString());
             string result = text;
-            foreach (PropertyInfo propertyInfo in obj.GetType().GetProperties())
+            Type? objType = null;
+            if (!string.IsNullOrWhiteSpace(upKey))
+            {
+                if (obj is null)
+                {
+                    result = HandlerText(result, upKey, (string?)null);
+                }
+                else
+                {
+                    objType = obj.GetType();
+                    if(objType.IsClass && obj is not string)
+                    {
+                        result = HandlerText(result, upKey, obj.ToJson());
+                    }
+                }
+            }
+            if (obj is null) return result;
+            objType ??= obj.GetType();
+            if (obj is string stringValue) return HandlerText(result, upKey, stringValue);
+            if (obj is IEnumerable enumerable) return HandlerText(result, upKey, enumerable);
+            if (obj is DataTable dataTable) return HandlerText(result, upKey, dataTable);
+            if (!objType.IsClass) return HandlerText(result, upKey, obj.ToString());
+            foreach (PropertyInfo propertyInfo in objType.GetProperties())
             {
                 if (!propertyInfo.CanRead) continue;
                 object? propertyValue = propertyInfo.GetValue(obj);
-                result = HandlerText(result, $"{key}.{propertyInfo.Name}", propertyValue);
+                string key = upKey.IsNullOrWhiteSpaceString() ? propertyInfo.Name : $"{upKey}.{propertyInfo.Name}";
+                result = HandlerText(result, key, propertyValue);
             }
             return result;
         }
@@ -84,39 +99,40 @@ namespace Materal.Logger
         /// 处理文本
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="key"></param>
+        /// <param name="upKey"></param>
         /// <param name="stringValue"></param>
         /// <returns></returns>
-        private static string HandlerText(string text, string key, string? stringValue)
+        private static string HandlerText(string text, string upKey, string? stringValue)
         {
-            if(stringValue is null) return text;
-            string result = Regex.Replace(text, $@"\${{{key}}}", stringValue);
+            stringValue ??= string.Empty;
+            string result = Regex.Replace(text, $@"\${{{upKey}}}", stringValue);
             return result;
         }
         /// <summary>
         /// 处理文本
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="key"></param>
+        /// <param name="upKey"></param>
         /// <param name="enumerable"></param>
         /// <returns></returns>
-        private static string HandlerText(string text, string key, IEnumerable enumerable)
+        private static string HandlerText(string text, string upKey, IEnumerable enumerable)
         {
             if (enumerable is null) return text;
-            if (enumerable is IDictionary dictionary) return HandlerText(text, key, dictionary);
+            if (enumerable is IDictionary dictionary) return HandlerText(text, upKey, dictionary);
             if (enumerable is byte[] bytes && bytes.Length == 16)
             {
                 try
                 {
-                    return HandlerText(text, key, new Guid(bytes).ToString());
+                    return HandlerText(text, upKey, new Guid(bytes).ToString());
                 }
                 catch { }
             }
             string result = text;
+            result = HandlerText(result, upKey, enumerable.ToJson());
             int index = 0;
             foreach (object item in enumerable)
             {
-                result = HandlerText(result, $"{key}\\[{index}\\]", item);
+                result = HandlerText(result, $"{upKey}\\[{index}\\]", item);
                 index++;
             }
             return result;
@@ -125,26 +141,20 @@ namespace Materal.Logger
         /// 处理文本
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="key"></param>
+        /// <param name="upKey"></param>
         /// <param name="dictionary"></param>
         /// <returns></returns>
-        private static string HandlerText(string text, string key, IDictionary dictionary)
+        private static string HandlerText(string text, string upKey, IDictionary dictionary)
         {
-            List<string> keys = [];
-            foreach (object? keyObj in dictionary.Keys)
-            {
-                string? dicKey = keyObj is string keyValue ? keyValue : keyObj.ToString();
-                if (key is null) continue;
-                if (keys.Contains(key)) continue;
-            }
             string result = text;
             foreach (object? item in dictionary)
             {
                 if (item is null || item is not DictionaryEntry dictionaryEntry) continue;
                 object keyObj = dictionaryEntry.Key;
                 string? dicKey = keyObj is string keyValue ? keyValue : keyObj.ToString();
-                if (key is null) continue;
-                result = HandlerText(result, $"{key}.{dicKey}", dictionaryEntry.Value);
+                if (dicKey is null) continue;
+                string key = upKey.IsNullOrWhiteSpaceString() ? dicKey : $"{upKey}.{dicKey}";
+                result = HandlerText(result, key, dictionaryEntry.Value);
             }
             return result;
         }
@@ -152,10 +162,10 @@ namespace Materal.Logger
         /// 处理文本
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="key"></param>
+        /// <param name="upKey"></param>
         /// <param name="dataTable"></param>
         /// <returns></returns>
-        private static string HandlerText(string text, string key, DataTable dataTable)
+        private static string HandlerText(string text, string upKey, DataTable dataTable)
         {
             string result = text;
             for (int i = 0; i < dataTable.Rows.Count; i++)
@@ -164,8 +174,8 @@ namespace Materal.Logger
                 for (int j = 0; j < dataTable.Columns.Count; j++)
                 {
                     DataColumn dataColumn = dataTable.Columns[j];
-                    result = HandlerText(result, $"{key}.\\[{i}\\]\\[{j}\\]", dataRow[dataColumn]);
-                    result = HandlerText(result, $"{key}.\\[{i}\\].{dataColumn.ColumnName}", dataRow[dataColumn]);
+                    result = HandlerText(result, $"{upKey}.\\[{i}\\]\\[{j}\\]", dataRow[dataColumn]);
+                    result = HandlerText(result, $"{upKey}.\\[{i}\\].{dataColumn.ColumnName}", dataRow[dataColumn]);
                 }
             }
             return result;

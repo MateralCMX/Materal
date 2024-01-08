@@ -21,9 +21,6 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Logger" Version="1.1.74" />
-	</ItemGroup>
-	<ItemGroup>
 	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

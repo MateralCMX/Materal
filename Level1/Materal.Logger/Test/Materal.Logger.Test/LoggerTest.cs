@@ -53,8 +53,9 @@ namespace Materal.Logger.Test
         }, services =>
         {
             ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
-            using IDisposable? scope = logger.BeginScope(new AdvancedScope("CustomScope", new Dictionary<string, object?>
+            Dictionary<string, object?> data = new()
             {
+                ["NullValue"] = null,
                 ["StringValue"] = "StringValue",
                 ["IntValue"] = 1,
                 ["DecimalValue"] = 1.1m,
@@ -64,6 +65,7 @@ namespace Materal.Logger.Test
                 ["ArrayValue"] = new object[] { "0", 1, "22" },
                 ["DictionaryValue"] = new Dictionary<string, object?>
                 {
+                    ["NullValue"] = null,
                     ["StringValue"] = "StringValue",
                     ["IntValue"] = 1,
                     ["DecimalValue"] = 1.1m,
@@ -76,10 +78,27 @@ namespace Materal.Logger.Test
                     IntValue = 1,
                     DecimalValue = 1.1m,
                     DateTimeValue = DateTime.Now,
-                    GuidValue = Guid.NewGuid()
+                    GuidValue = Guid.NewGuid(),
+                    ObjectValue = new { DateTimeValue = DateTime.Now },
+                    DictionaryValue = new Dictionary<string, object?>
+                    {
+                        ["NullValue"] = null,
+                        ["StringValue"] = "StringValue",
+                        ["IntValue"] = 1,
+                        ["DecimalValue"] = 1.1m,
+                        ["DateTimeValue"] = DateTime.Now,
+                        ["GuidValue"] = Guid.NewGuid()
+                    },
                 }
-            }));
+            };
+            using IDisposable? scope = logger.BeginScope(new AdvancedScope("CustomScope", data));
 #pragma warning disable CA2017 // 参数计数不匹配。
+            logger.LogInformation("${ObjectValue.DictionaryValue}");
+            logger.LogInformation("${NullValue}");
+            logger.LogInformation("${DictionaryValue.NullValue}");
+            logger.LogInformation("${ObjectValue}");
+            logger.LogInformation("${ObjectValue.ObjectValue}");
+            logger.LogInformation("${ListValue}");
             logger.LogInformation("${StringValue}|${IntValue}|${DecimalValue}|${DateTimeValue}|${GuidValue}");
             logger.LogInformation("${ListValue[0]}|${ListValue[1]}|${ListValue[2]}");
             logger.LogInformation("${ArrayValue[0]}|${ArrayValue[1]}|${ArrayValue[2]}");

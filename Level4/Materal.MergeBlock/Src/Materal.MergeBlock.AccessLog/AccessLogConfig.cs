@@ -10,7 +10,7 @@
         /// </summary>
         public static string ConfigKey { get; } = "AccessLog";
         /// <summary>
-        /// 显示异常
+        /// 最大请求体大小
         /// </summary>
         public int MaxBodySize { get; set; } = 2048;
     }

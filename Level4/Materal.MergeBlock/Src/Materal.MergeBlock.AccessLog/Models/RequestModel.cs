@@ -27,19 +27,15 @@ namespace Materal.MergeBlock.AccessLog.Models
         /// <summary>
         /// Path
         /// </summary>
-        public string Path { get; set; }
+        public string? Path { get; set; }
         /// <summary>
         /// QueryString
         /// </summary>
-        public string QueryString { get; set; }
+        public string? QueryString { get; set; }
         /// <summary>
         /// Headers
         /// </summary>
         public Dictionary<string, string> Headers { get; set; }
-        /// <summary>
-        /// HeadersData
-        /// </summary>
-        public string HeadersData => Headers.ToJson();
         /// <summary>
         /// Body
         /// </summary>
@@ -54,8 +50,8 @@ namespace Materal.MergeBlock.AccessLog.Models
             Scheme = httpRequest.Scheme;
             Host = httpRequest.Host.Host;
             Port = httpRequest.Host.Port ?? -1;
-            Path = httpRequest.Path.Value ?? string.Empty;
-            QueryString = httpRequest.QueryString.Value ?? string.Empty;
+            Path = httpRequest.Path.Value;
+            QueryString = httpRequest.QueryString.Value;
             Headers = [];
             foreach (KeyValuePair<string, StringValues> item in httpRequest.Headers)
             {

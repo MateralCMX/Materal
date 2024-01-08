@@ -28,6 +28,6 @@
         /// <summary>
         /// 日志消息
         /// </summary>
-        public string LogMessage=> $"[{Request.Method}] {Request.Scheme}://{Request.Host}:{Request.Host}{Request.Path} [{Response.StatusCode}] [{ElapsedMilliseconds}ms]";
+        public string LogMessage => $"[{Response.StatusCode}|{ElapsedMilliseconds}ms|{Request.Method}]{Request.Scheme}://{Request.Host}:{Request.Host}{Request.Path}";
     }
 }

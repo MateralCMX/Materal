@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using System;
 using System.Net;
 
 namespace Materal.MergeBlock.AccessLog.Models
@@ -18,10 +17,6 @@ namespace Materal.MergeBlock.AccessLog.Models
         /// Headers
         /// </summary>
         public Dictionary<string, string> Headers { get; set; }
-        /// <summary>
-        /// HeadersData
-        /// </summary>
-        public string HeadersData => Headers.ToJson();
         /// <summary>
         /// Body
         /// </summary>

@@ -18,14 +18,17 @@ namespace System
         public static object? ToExpandoObject(this object? obj)
         {
             if (obj is null) return obj;
+            Type objType = obj.GetType();
+            if (objType.GetCustomAttribute<IgnoreToExpandoObjectAttribute>() is not null) return obj;
             if (obj is string stringValue) return stringValue.ToExpandoObject();
             if (obj is JsonElement jsonElement) return jsonElement.ToExpandoObject();
             if (obj is IEnumerable enumerable) return enumerable.ToExpandoObject();
             if (obj is DataTable dataTable) return dataTable.ToExpandoObject();
-            if (!obj.GetType().IsClass) return obj;
+            if (!objType.IsClass) return obj;
             ExpandoObject result = new();
             foreach (PropertyInfo propertyInfo in obj.GetType().GetProperties())
             {
+                if (propertyInfo.GetCustomAttribute<IgnoreToExpandoObjectAttribute>() is not null) continue;
                 if (!propertyInfo.CanRead) continue;
                 object? value = propertyInfo.GetValue(obj);
                 value = value?.ToExpandoObject();

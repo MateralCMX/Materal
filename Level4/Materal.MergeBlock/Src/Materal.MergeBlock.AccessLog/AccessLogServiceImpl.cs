@@ -12,15 +12,18 @@ namespace Materal.MergeBlock.AccessLog
         private readonly ILogger<AccessLogServiceImpl> _logger;
         private readonly IOptionsMonitor<AccessLogConfig> _config;
         private readonly ActionBlock<WriteLoggerModel> _writeLogBlock;
+        private readonly IBigAccessLogInterceptor _bigAccessLogInterceptor;
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="config"></param>
-        public AccessLogServiceImpl(ILogger<AccessLogServiceImpl> logger, IOptionsMonitor<AccessLogConfig> config)
+        /// <param name="bigAccessLogInterceptor"></param>
+        public AccessLogServiceImpl(ILogger<AccessLogServiceImpl> logger, IOptionsMonitor<AccessLogConfig> config, IBigAccessLogInterceptor? bigAccessLogInterceptor = null)
         {
             _logger = logger;
             _config = config;
+            _bigAccessLogInterceptor = bigAccessLogInterceptor ?? new TruncatedBigAccessLogInterceptor(config);
             _writeLogBlock = new(WriteAccessLog);
         }
         /// <summary>
@@ -98,11 +101,11 @@ namespace Materal.MergeBlock.AccessLog
         {
             if (model.Request.Body?.Length > _config.CurrentValue.MaxBodySize)
             {
-                model.Request.Body = model.Request.Body[.._config.CurrentValue.MaxBodySize];
+                model.Request.Body = _bigAccessLogInterceptor.Handler(model.Request.Body);
             }
             if (model.Response.Body?.Length > _config.CurrentValue.MaxBodySize)
             {
-                model.Response.Body = model.Response.Body[.._config.CurrentValue.MaxBodySize];
+                model.Response.Body = _bigAccessLogInterceptor.Handler(model.Response.Body);
             }
             AdvancedScope advancedScope = new(ConstData.AccessLogScopeName, new Dictionary<string, object?>
             {
