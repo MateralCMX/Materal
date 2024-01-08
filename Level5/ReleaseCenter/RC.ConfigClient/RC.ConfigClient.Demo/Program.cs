@@ -1,7 +1,8 @@
 ﻿using Materal.Abstractions;
-using Materal.Logger;
+using Materal.Logger.ConfigModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace RC.ConfigClient.Demo
 {
@@ -14,7 +15,7 @@ namespace RC.ConfigClient.Demo
             serviceCollection.AddMateralLogger(option =>
             {
                 option.AddConsoleTarget("LifeConsole");
-                option.AddAllTargetRule();
+                option.AddAllTargetsRule();
             });
             MateralServices.Services = serviceCollection.BuildServiceProvider();
             #endregion

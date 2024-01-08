@@ -32,7 +32,7 @@ namespace Materal.BaseCore.Test
             }
             catch (MateralHttpException ex)
             {
-                string errorMessage = ex.GetExceptionMessage();
+                string errorMessage = ex.GetErrorMessage();
                 Console.WriteLine(errorMessage);
             }
         }

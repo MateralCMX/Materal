@@ -1,4 +1,5 @@
 ﻿using Materal.Abstractions;
+using System.Reflection;
 using System.Text;
 
 namespace System
@@ -14,7 +15,7 @@ namespace System
         /// <param name="exception"></param>
         /// <param name="getDetailMessage"></param>
         /// <returns></returns>
-        public static string GetExceptionMessage(this Exception? exception, Func<Exception, string, string>? getDetailMessage = null)
+        public static string GetErrorMessage(this Exception? exception, Func<Exception, string, string>? getDetailMessage = null)
         {
             if (exception is null) return string.Empty;
             string result = exception.GetErrorMessage(null, getDetailMessage);
@@ -32,7 +33,7 @@ namespace System
             if (exception is null) return string.Empty;
             prefix ??= string.Empty;
             StringBuilder errorMessage = new();
-            string message;
+            string? message = null;
             if (getDetailMessage is not null)
             {
                 message = getDetailMessage(exception, prefix);
@@ -43,13 +44,29 @@ namespace System
             }
             else
             {
-                message = exception.Message;
+                try
+                {
+                    MethodInfo? methodInfo = exception.GetType().GetMethod("GetDetailMessage", [typeof(string)]);
+                    if(methodInfo is not null && methodInfo.ReturnType == typeof(string))
+                    {
+                        object? detailMessage = methodInfo.Invoke(exception, new object[] { prefix });
+                        if(detailMessage is not null && detailMessage is string detailMessageString)
+                        {
+                            message = detailMessageString;
+                        }
+                    }
+                }
+                catch
+                {
+                }
+                message ??= exception.ToString();
             }
             errorMessage.AppendLine($"{prefix}--->{exception.GetType().FullName}: {message}");
             if (exception.InnerException is not null)
             {
                 errorMessage.Append(exception.InnerException.GetErrorMessage($"\t{prefix}", getDetailMessage));
             }
+            if (exception.StackTrace is null) return string.Empty;
             string[] stackTraces = exception.StackTrace.Split('\n');
             foreach (string stackTrace in stackTraces)
             {

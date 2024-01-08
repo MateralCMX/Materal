@@ -18,7 +18,7 @@ namespace Materal.MergeBlock.ExceptionInterceptor
         /// <returns></returns>
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
-            string message = exceptionConfig.CurrentValue.ShowException ? exception.GetExceptionMessage() : exceptionConfig.CurrentValue.ErrorMessage;
+            string message = exceptionConfig.CurrentValue.ShowException ? exception.GetErrorMessage() : exceptionConfig.CurrentValue.ErrorMessage;
             ResultModel resultModel = ResultModel.Fail(message);
             message = resultModel.ToJson();
             byte[] bytes = Encoding.UTF8.GetBytes(message);

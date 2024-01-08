@@ -6,8 +6,8 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.WebAPI" Version="1.1.73" />
-		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.73" />
+		<PackageReference Include="Materal.BaseCore.WebAPI" Version="1.1.74" />
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.74" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.*">

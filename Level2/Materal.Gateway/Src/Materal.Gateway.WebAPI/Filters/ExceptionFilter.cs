@@ -71,7 +71,7 @@ namespace Materal.Gateway.WebAPI.Filters
         /// <returns></returns>
         private ResultModel HandlerDefaultException(ExceptionContext context)
         {
-            ResultModel result = GetDefaultResult(context.Exception.GetExceptionMessage());
+            ResultModel result = GetDefaultResult(context.Exception.GetErrorMessage());
             _ = WriteErrorAsync(context);
             return result;
         }

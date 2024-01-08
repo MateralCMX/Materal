@@ -82,15 +82,6 @@ namespace Materal.Utils.Http
         {
         }
         /// <summary>
-        /// 获得Http请求消息内容
-        /// </summary>
-        /// <returns></returns>
-        public async Task<string?> GetHttpResponseContentText()
-        {
-            if (HttpResponseMessage is null) return null;
-            return await HttpResponseMessage.Content.ReadAsStringAsync();
-        }
-        /// <summary>
         /// <inheritdoc/>
         /// </summary>
         /// <param name="prefix"></param>

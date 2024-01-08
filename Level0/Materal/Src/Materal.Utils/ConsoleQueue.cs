@@ -149,7 +149,7 @@ namespace Materal.Utils
             }
             else
             {
-                WriteLine(exception.GetExceptionMessage(), consoleColor);
+                WriteLine(exception.GetErrorMessage(), consoleColor);
             }
         }
         /// <summary>

@@ -33,7 +33,7 @@ namespace RC.Deploy.ServiceImpl.Models
         static ApplicationRuntimeModel()
         {
             _taskQueue = new(RunTask);
-            _hubContext = MateralServices.GetService<IHubContext<ConsoleMessageHub, IConsoleMessageHub>>();
+            _hubContext = MateralServices.GetRequiredService<IHubContext<ConsoleMessageHub, IConsoleMessageHub>>();
         }
         /// <summary>
         /// 应用程序信息

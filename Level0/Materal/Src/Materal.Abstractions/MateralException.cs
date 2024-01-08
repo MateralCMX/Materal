@@ -27,7 +27,7 @@
         /// 转换为字符串
         /// </summary>
         /// <returns></returns>
-        public override string ToString() => this.GetExceptionMessage();
+        public override string ToString() => this.GetErrorMessage();
         /// <summary>
         /// 获取详细消息
         /// </summary>

@@ -34,7 +34,7 @@
         public ResultModel(Exception exception)
         {
             ResultType = ResultTypeEnum.Fail;
-            Message = exception.GetExceptionMessage();
+            Message = exception.GetErrorMessage();
         }
         /// <summary>
         /// 获得一个成功返回对象

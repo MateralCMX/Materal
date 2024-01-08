@@ -16,7 +16,7 @@ namespace Materal.Test.ExtensionsTests
             }
             catch (Exception exception)
             {
-                Debug.WriteLine(exception.GetExceptionMessage());
+                Debug.WriteLine(exception.GetErrorMessage());
             }
         }
         private static async Task ThrowNewException1Async()

@@ -5,11 +5,11 @@
 		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<IsPublish>true</IsPublish>
-		<Version>1.1.73</Version>
+		<Version>1.1.74</Version>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.73" />
-		<PackageReference Include="Materal.BaseCore.EventBus" Version="1.1.73" />
+		<PackageReference Include="Materal.BaseCore.AutoDI" Version="1.1.74" />
+		<PackageReference Include="Materal.BaseCore.EventBus" Version="1.1.74" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.*">

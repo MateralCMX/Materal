@@ -40,7 +40,7 @@ namespace RC.ServerCenter.Web
         public static async Task InitAsync()
         {
             IsLoaded = true;
-            ServerHttpClient serverHttpClient = MateralServices.GetService<ServerHttpClient>();
+            ServerHttpClient serverHttpClient = MateralServices.GetRequiredService<ServerHttpClient>();
             {
                 Deploys.Clear();
                 List<DeployListDTO>? data = await serverHttpClient.GetDeployListAsync();

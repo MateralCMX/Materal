@@ -67,7 +67,7 @@ namespace RC.Deploy.WebAPI
                     }
                     else
                     {
-                        IApplicationInfoService applicationInfoService = MateralServices.GetService<IApplicationInfoService>();
+                        IApplicationInfoService applicationInfoService = MateralServices.GetRequiredService<IApplicationInfoService>();
                         string[] paths = httpContext.Request.Path.Value.Split("/");
                         if (paths.Length >= 2 && applicationInfoService.IsRunningApplication(paths[1]))
                         {

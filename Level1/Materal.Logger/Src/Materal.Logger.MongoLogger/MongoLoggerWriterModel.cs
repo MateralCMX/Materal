@@ -38,7 +38,7 @@
                 [nameof(Scope)] = (Scope == null) ? "PublicScope" : Scope.ScopeName,
                 [nameof(LoggerWriterHelper.MachineName)] = LoggerWriterHelper.MachineName
             };
-            SetNotNullKeyVlueToDictionary(result, nameof(Exception), Exception?.GetExceptionMessage());
+            SetNotNullKeyVlueToDictionary(result, nameof(Exception), Exception?.GetErrorMessage());
             SetNotNullKeyVlueToDictionary(result, nameof(CategoryName), CategoryName);
             if (Scope is not null && Scope.IsAdvancedScope && Scope.AdvancedScope is not null)
             {

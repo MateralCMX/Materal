@@ -9,9 +9,9 @@ namespace RC.ServerCenter.Web
     {
         public static void HandlerHttpError(this MateralHttpException exception, IMessageService? message = null, NotificationService? notificationService = null)
         {
-            message ??= MateralServices.GetService<IMessageService>();
-            notificationService ??= MateralServices.GetService<NotificationService>();
-            CustomAuthenticationStateProvider authenticationState = MateralServices.GetService<CustomAuthenticationStateProvider>();
+            message ??= MateralServices.GetRequiredService<IMessageService>();
+            notificationService ??= MateralServices.GetRequiredService<NotificationService>();
+            CustomAuthenticationStateProvider authenticationState = MateralServices.GetRequiredService<CustomAuthenticationStateProvider>();
             if (exception.HttpRequestMessage == null && exception.HttpResponseMessage == null)
             {
                 message.ShowError(exception.Message);

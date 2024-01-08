@@ -57,7 +57,7 @@ namespace RC.ServerCenter.Web
             HttpClientHelper.CloseAutoToken();
             HttpClientHelper.GetToken = () =>
             {
-                CustomAuthenticationStateProvider authenticationState = MateralServices.GetService<CustomAuthenticationStateProvider>();
+                CustomAuthenticationStateProvider authenticationState = MateralServices.GetRequiredService<CustomAuthenticationStateProvider>();
                 string? token = authenticationState.GetToken();
                 return token;
             };

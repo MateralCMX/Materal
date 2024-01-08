@@ -44,7 +44,7 @@ namespace Materal.Logger.LoggerWriter
         /// <returns></returns>
         public static string FormatMessage(string writeMessage, LoggerWriterModel model)
         {
-            string errorMesage = model.Exception is null ? string.Empty : model.Exception.GetExceptionMessage();
+            string errorMesage = model.Exception is null ? string.Empty : model.Exception.GetErrorMessage();
             string message = model.Message;
             message = FormatText(message, model);
             message = Regex.Replace(message, @"\$\{Exception\}", errorMesage);

@@ -91,7 +91,7 @@ namespace Materal.Logger.LoggerLogs
             if(exception is not null)
             {
                 messageBuild.AppendLine();
-                messageBuild.Append(exception.GetExceptionMessage());
+                messageBuild.Append(exception.GetErrorMessage());
             }
             return messageBuild.ToString();
         }

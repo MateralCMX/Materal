@@ -87,7 +87,7 @@
         {
             string message = await GetMessageTempleteAsync(schedule);
             message += $"调度器错误：\r\n";
-            message += GetExceptionMessage(exception);
+            message += exception.GetErrorMessage();
             ShowMessage(message, LogLevel.Error);
         }
         /// <summary>
@@ -265,11 +265,5 @@
             }
             return Task.FromResult(message.ToString());
         }
-        /// <summary>
-        /// 获得异常消息
-        /// </summary>
-        /// <param name="exception"></param>
-        /// <returns></returns>
-        private static string GetExceptionMessage(Exception exception) => exception.GetExceptionMessage();
     }
 }
