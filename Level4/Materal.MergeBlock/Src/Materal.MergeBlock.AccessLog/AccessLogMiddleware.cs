@@ -39,7 +39,7 @@ namespace Materal.MergeBlock.AccessLog
                     StatusCodes.Status200OK or 
                     StatusCodes.Status401Unauthorized or 
                     StatusCodes.Status404NotFound => LogLevel.Information,
-                    >= 500 => LogLevel.Error,
+                    >= StatusCodes.Status500InternalServerError => LogLevel.Error,
                     _ => LogLevel.Warning,
                 };
             }
