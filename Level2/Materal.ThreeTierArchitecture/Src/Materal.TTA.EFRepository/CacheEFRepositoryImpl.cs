@@ -41,38 +41,12 @@ namespace Materal.TTA.EFRepository
         /// 从缓存获得所有信息
         /// </summary>
         /// <returns></returns>
-        public virtual async Task<List<TEntity>> GetAllInfoFromCacheAsync() => await GetInfoFromCacheAsync(AllInfoCacheName);
+        public List<TEntity> GetAllInfoFromCache() => GetInfoFromCache(AllInfoCacheName);
         /// <summary>
         /// 从缓存获得所有信息
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public List<TEntity> GetAllInfoFromCache()
-        {
-            throw new NotImplementedException();
-        }
-        /// <summary>
-        /// 清理缓存
-        /// </summary>
-        /// <returns></returns>
-        public virtual async Task ClearAllCacheAsync() => await ClearCacheAsync(AllInfoCacheName);
-        /// <summary>
-        /// 清理缓存
-        /// </summary>
-        public void ClearAllCache() => ClearCache(AllInfoCacheName);
-        /// <summary>
-        /// 通过缓存获得信息
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public virtual async Task<List<TEntity>> GetInfoFromCacheAsync(string key)
-        {
-            List<TEntity>? result = CacheHelper.GetOrDefault<List<TEntity>>(key);
-            if (result != null) return result;
-            result = await FindAsync(m => true);
-            CacheHelper.SetBySliding(key, result, 1);
-            return result;
-        }
+        public virtual async Task<List<TEntity>> GetAllInfoFromCacheAsync() => await GetInfoFromCacheAsync(AllInfoCacheName);
         /// <summary>
         /// 通过缓存获得信息
         /// </summary>
@@ -87,25 +61,45 @@ namespace Materal.TTA.EFRepository
             return result;
         }
         /// <summary>
-        /// 清理缓存
+        /// 通过缓存获得信息
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public virtual Task ClearCacheAsync(string key)
+        public virtual async Task<List<TEntity>> GetInfoFromCacheAsync(string key)
         {
-            ClearCache(key);
-            return Task.CompletedTask;
+            List<TEntity>? result = CacheHelper.GetOrDefault<List<TEntity>>(key);
+            if (result != null) return result;
+            result = await FindAsync(m => true);
+            CacheHelper.SetBySliding(key, result, 1);
+            return result;
         }
+        /// <summary>
+        /// 清理缓存
+        /// </summary>
+        public void ClearAllCache() => ClearCache(AllInfoCacheName);
+        /// <summary>
+        /// 清理缓存
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task ClearAllCacheAsync() => await ClearCacheAsync(AllInfoCacheName);
         /// <summary>
         /// 清理缓存
         /// </summary>
         /// <param name="key"></param>
         public virtual void ClearCache(string key)
         {
-            if (CacheHelper.KeyAny(key))
-            {
-                CacheHelper.Remove(key);
-            }
+            if (!CacheHelper.KeyAny(key)) return;
+            CacheHelper.Remove(key);
+        }
+        /// <summary>
+        /// 清理缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public virtual async Task ClearCacheAsync(string key)
+        {
+            ClearCache(key);
+            await Task.CompletedTask;
         }
     }
 }

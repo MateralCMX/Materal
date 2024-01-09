@@ -143,7 +143,14 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {domain.Annotation}仓储");
             codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial interface I{domain.Name}Repository : I{_projectName}Repository<{domain.Name}, Guid> {{ }}");
+            if (domain.HasAttribute<CacheAttribute>())
+            {
+                codeContent.AppendLine($"    public partial interface I{domain.Name}Repository : I{_projectName}CacheRepository<{domain.Name}, Guid> {{ }}");
+            }
+            else
+            {
+                codeContent.AppendLine($"    public partial interface I{domain.Name}Repository : I{_projectName}Repository<{domain.Name}, Guid> {{ }}");
+            }
             codeContent.AppendLine($"}}");
             codeContent.SaveAs(_moduleAbstractions, "Repositories", $"I{domain.Name}Repository.cs");
         }
@@ -160,7 +167,14 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {domain.Annotation}仓储");
             codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext) : {_projectName}RepositoryImpl<{domain.Name}, Guid, {_moduleName}DBContext>(dbContext), I{domain.Name}Repository {{ }}");
+            if (domain.HasAttribute<CacheAttribute>())
+            {
+                codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext, ICacheHelper cacheManager) : {_projectName}CacheRepositoryImpl<{domain.Name}, Guid, {_moduleName}DBContext>(dbContext, cacheManager), I{domain.Name}Repository {{ }}");
+            }
+            else
+            {
+                codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext) : {_projectName}RepositoryImpl<{domain.Name}, Guid, {_moduleName}DBContext>(dbContext), I{domain.Name}Repository {{ }}");
+            }
             codeContent.AppendLine($"}}");
             codeContent.SaveAs(_moduleReposiroty, "Repositories", $"{domain.Name}RepositoryImpl.cs");
         }

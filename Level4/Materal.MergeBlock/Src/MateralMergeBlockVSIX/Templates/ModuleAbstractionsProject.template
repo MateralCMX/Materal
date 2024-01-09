@@ -7,6 +7,6 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\MMB.Core\${ProjectName}.Core.Repository\${ProjectName}.Core.Repository.csproj" />
+		<ProjectReference Include="..\..\${ProjectName}.Core\${ProjectName}.Core.Repository\${ProjectName}.Core.Repository.csproj" />
 	</ItemGroup>
 </Project>

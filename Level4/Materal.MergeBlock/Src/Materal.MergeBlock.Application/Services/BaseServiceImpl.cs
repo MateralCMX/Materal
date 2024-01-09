@@ -273,15 +273,8 @@ namespace Materal.MergeBlock.Application.Services
         /// <returns></returns>
         protected virtual async Task ClearCacheAsync(object targetRepository)
         {
-            MethodInfo? methodInfo = targetRepository.GetType().GetMethod(nameof(ICacheEFRepository<TDomain, Guid>.ClearAllCacheAsync));
-            if (methodInfo != null)
-            {
-                object? methodResult = methodInfo.Invoke(targetRepository, null);
-                if (methodResult != null && methodResult is Task methodResultTask)
-                {
-                    await methodResultTask;
-                }
-            }
+            if (targetRepository is not ICacheRepository<TDomain> cacheRepository) return;
+            await cacheRepository.ClearAllCacheAsync();
         }
         /// <summary>
         /// 清空缓存
