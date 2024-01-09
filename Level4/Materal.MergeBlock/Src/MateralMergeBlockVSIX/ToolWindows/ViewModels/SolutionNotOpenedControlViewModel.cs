@@ -146,7 +146,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             ApplyTemplate(Path.Combine(enumDirectoryPath, $"SexEnum.cs"), "DemoAbstractionsEnum");
             string domainDirectoryPath = Path.Combine(directoryPath, "Domain");
             ApplyTemplate(Path.Combine(domainDirectoryPath, $"User.cs"), "DemoAbstractionsDomain");
-            string servicesDirectoryPath = Path.Combine(directoryPath, "Services");
         }
         /// <summary>
         /// 创建Demo应用项目

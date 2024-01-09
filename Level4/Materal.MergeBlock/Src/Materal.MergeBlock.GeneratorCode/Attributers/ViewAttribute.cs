@@ -1,4 +1,4 @@
-﻿namespace Materal.MergeBlock.Domain.CodeGeneratorAttributers
+﻿namespace Materal.MergeBlock.GeneratorCode.Attributers
 {
     /// <summary>
     /// 视图

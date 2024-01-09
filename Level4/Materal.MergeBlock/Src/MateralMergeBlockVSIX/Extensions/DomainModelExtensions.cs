@@ -1,9 +1,7 @@
 ﻿#nullable enable
-using Materal.BaseCore.CodeGenerator;
 using Materal.MergeBlock.GeneratorCode.Models;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace MateralMergeBlockVSIX.Extensions
 {
@@ -47,27 +45,6 @@ namespace MateralMergeBlockVSIX.Extensions
                 domains.Add(new DomainModel(codes));
             }
             return domains;
-        }
-        /// <summary>
-        /// 获得查询领域
-        /// </summary>
-        /// <param name="domain"></param>
-        /// <param name="domains"></param>
-        /// <returns></returns>
-        public static DomainModel GetQueryDomain(this DomainModel domain, List<DomainModel> domains)
-        {
-            DomainModel targetDomain = domain;
-            AttributeModel? queryViewAttribute = targetDomain.GetAttribute<QueryViewAttribute>();
-            if (queryViewAttribute is not null)
-            {
-                string? targetDomainName = queryViewAttribute.GetAttributeArgument()?.Value;
-                if (targetDomainName is not null && !string.IsNullOrWhiteSpace(targetDomainName) && targetDomainName.Length > 2)
-                {
-                    targetDomainName = targetDomainName.RemovePackag();
-                    targetDomain = domains.FirstOrDefault(m => m.Name == targetDomainName) ?? throw new Exception($"未找到[{targetDomainName}]");
-                }
-            }
-            return targetDomain;
         }
     }
 }

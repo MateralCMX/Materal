@@ -1,4 +1,4 @@
-﻿namespace Materal.BaseCore.CodeGenerator
+﻿namespace Materal.MergeBlock.GeneratorCode.Attributers
 {
     /// <summary>
     /// 查询视图

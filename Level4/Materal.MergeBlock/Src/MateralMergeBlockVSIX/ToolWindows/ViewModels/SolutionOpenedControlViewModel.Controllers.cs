@@ -1,6 +1,6 @@
 ﻿#nullable enable
-using Materal.BaseCore.CodeGenerator;
-using Materal.MergeBlock.Domain.CodeGeneratorAttributers;
+using Materal.MergeBlock.GeneratorCode;
+using Materal.MergeBlock.GeneratorCode.Attributers;
 using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
@@ -24,6 +24,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 GeneratorAddRequestModel(domain);
                 GeneratorEditRequestModel(domain);
                 GeneratorQueryRequestModel(domain, domains);
+                GeneratorTreeQueryRequestModel(domain);
             }
         }
         /// <summary>
@@ -149,6 +150,39 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.SaveAs(_moduleAbstractions, "RequestModel", domain.Name, $"Query{domain.Name}RequestModel.cs");
         }
         /// <summary>
+        /// 创建树查询模型
+        /// </summary>
+        /// <param name="domain"></param>
+        private void GeneratorTreeQueryRequestModel(DomainModel domain)
+        {
+            if (domain.HasAttribute<ViewAttribute>()) return;
+            if (domain.HasAttribute<NotQueryAttribute>()) return;
+            StringBuilder codeContent = new();
+            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {domain.Annotation}树查询请求模型");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class Query{domain.Name}TreeListRequestModel : FilterModel");
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"        /// <summary>");
+            codeContent.AppendLine($"        /// 父级唯一标识");
+            codeContent.AppendLine($"        /// </summary>");
+            codeContent.AppendLine($"        public Guid? ParentID {{ get; set; }}");
+            PropertyModel? treePropertyModel = domain.GetTreeGroupProperty();
+            if (treePropertyModel is not null)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {treePropertyModel.Annotation}");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        [Equal]");
+                codeContent.AppendLine($"        public {treePropertyModel.NullPredefinedType} {treePropertyModel.Name} {{ get; set; }}");
+            }
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveAs(_moduleAbstractions, "RequestModel", domain.Name, $"Query{domain.Name}TreeListRequestModel.cs");
+        }
+        /// <summary>
         /// 创建控制器代码
         /// </summary>
         /// <param name="domains"></param>
@@ -187,6 +221,34 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"    public partial interface I{domain.Name}Controller : IMergeBlockControllerBase<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Service>");
             }
             codeContent.AppendLine($"    {{");
+
+            if (domain.IsIndexDomain)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 交换位序");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"requestModel\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [HttpPut]");
+                codeContent.AppendLine($"        Task<ResultModel> ExchangeIndexAsync(ExchangeIndexRequestModel requestModel);");
+            }
+            if (domain.IsTreeDomain)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 更改父级");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"requestModel\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [HttpPut]");
+                codeContent.AppendLine($"        Task<ResultModel> ExchangeParentAsync(ExchangeParentRequestModel requestModel);");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 查询树列表");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"requestModel\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [HttpPost]");
+                codeContent.AppendLine($"        Task<ResultModel<List<{domain.Name}TreeListDTO>>> GetTreeListAsync(Query{domain.Name}TreeListRequestModel requestModel);");
+            }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             codeContent.SaveAs(_moduleAbstractions, "Controllers", $"I{domain.Name}Controller.cs");
@@ -217,6 +279,48 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"    public partial class {domain.Name}Controller : MergeBlockControllerBase<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Service>, I{domain.Name}Controller");
             }
             codeContent.AppendLine($"    {{");
+            if (domain.IsIndexDomain)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 交换位序");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"requestModel\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [HttpPut]");
+                codeContent.AppendLine($"        public async Task<ResultModel> ExchangeIndexAsync(ExchangeIndexRequestModel requestModel)");
+                codeContent.AppendLine($"        {{");
+                codeContent.AppendLine($"            ExchangeIndexModel model = Mapper.Map<ExchangeIndexModel>(requestModel);");
+                codeContent.AppendLine($"            await DefaultService.ExchangeIndexAsync(model);");
+                codeContent.AppendLine($"            return ResultModel.Success(\"交换位序成功\");");
+                codeContent.AppendLine($"        }}");
+            }
+            if (domain.IsTreeDomain)
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 更改父级");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"requestModel\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [HttpPut]");
+                codeContent.AppendLine($"        public async Task<ResultModel> ExchangeParentAsync(ExchangeParentRequestModel requestModel)");
+                codeContent.AppendLine($"        {{");
+                codeContent.AppendLine($"            ExchangeParentModel model = Mapper.Map<ExchangeParentModel>(requestModel);");
+                codeContent.AppendLine($"            await DefaultService.ExchangeParentAsync(model);");
+                codeContent.AppendLine($"            return ResultModel.Success(\"更改父级成功\");");
+                codeContent.AppendLine($"        }}");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 查询树列表");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        /// <param name=\"requestModel\"></param>");
+                codeContent.AppendLine($"        /// <returns></returns>");
+                codeContent.AppendLine($"        [HttpPost]");
+                codeContent.AppendLine($"        public async Task<ResultModel<List<{domain.Name}TreeListDTO>>> GetTreeListAsync(Query{domain.Name}TreeListRequestModel requestModel)");
+                codeContent.AppendLine($"        {{");
+                codeContent.AppendLine($"            Query{domain.Name}TreeListModel model = Mapper.Map<Query{domain.Name}TreeListModel>(requestModel);");
+                codeContent.AppendLine($"            List<{domain.Name}TreeListDTO> result = await DefaultService.GetTreeListAsync(model);");
+                codeContent.AppendLine($"            return ResultModel<List<{domain.Name}TreeListDTO>>.Success(result, \"查询成功\");");
+                codeContent.AppendLine($"        }}");
+            }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             codeContent.SaveAs(_moduleApplication, "Controllers", $"{domain.Name}Controller.cs");

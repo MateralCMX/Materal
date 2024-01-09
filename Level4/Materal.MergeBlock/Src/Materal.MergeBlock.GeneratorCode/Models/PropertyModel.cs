@@ -1,5 +1,4 @@
-﻿using Materal.MergeBlock.GeneratorCode.Extensions;
-using Materal.Utils.Model;
+﻿using Materal.Utils.Model;
 using System.ComponentModel.DataAnnotations;
 
 namespace Materal.MergeBlock.GeneratorCode.Models

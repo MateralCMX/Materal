@@ -1,6 +1,6 @@
 ﻿#nullable enable
-using Materal.BaseCore.CodeGenerator;
-using Materal.MergeBlock.Domain.CodeGeneratorAttributers;
+using Materal.MergeBlock.GeneratorCode;
+using Materal.MergeBlock.GeneratorCode.Attributers;
 using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
@@ -152,12 +152,35 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             if (domain.HasAttribute<CacheAttribute>())
             {
-                codeContent.AppendLine($"    public partial interface I{domain.Name}Repository : I{_projectName}CacheRepository<{domain.Name}, Guid> {{ }}");
+                codeContent.AppendLine($"    public partial interface I{domain.Name}Repository : I{_projectName}CacheRepository<{domain.Name}, Guid>");
             }
             else
             {
-                codeContent.AppendLine($"    public partial interface I{domain.Name}Repository : I{_projectName}Repository<{domain.Name}, Guid> {{ }}");
+                codeContent.AppendLine($"    public partial interface I{domain.Name}Repository : I{_projectName}Repository<{domain.Name}, Guid>");
             }
+            codeContent.AppendLine($"    {{");
+            if(domain.IsIndexDomain)
+            {
+                PropertyModel? indexGroupPropertyModel = domain.GetIndexGroupProperty();
+                if(indexGroupPropertyModel is null)
+                {
+                    codeContent.AppendLine($"        /// <summary>");
+                    codeContent.AppendLine($"        /// 获取最大位序");
+                    codeContent.AppendLine($"        /// </summary>");
+                    codeContent.AppendLine($"        /// <returns></returns>");
+                    codeContent.AppendLine($"        Task<int> GetMaxIndexAsync();");
+                }
+                else
+                {
+                    codeContent.AppendLine($"        /// <summary>");
+                    codeContent.AppendLine($"        /// 获取最大位序");
+                    codeContent.AppendLine($"        /// </summary>");
+                    codeContent.AppendLine($"        /// <param name=\"{indexGroupPropertyModel.Name}\"></param>");
+                    codeContent.AppendLine($"        /// <returns></returns>");
+                    codeContent.AppendLine($"        Task<int> GetMaxIndexAsync({indexGroupPropertyModel.PredefinedType} {indexGroupPropertyModel.Name.FirstLower()});");
+                }
+            }
+            codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             codeContent.SaveAs(_moduleAbstractions, "Repositories", $"I{domain.Name}Repository.cs");
         }
@@ -176,12 +199,45 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             if (domain.HasAttribute<CacheAttribute>())
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext, ICacheHelper cacheManager) : {_projectName}CacheRepositoryImpl<{domain.Name}, Guid, {_moduleName}DBContext>(dbContext, cacheManager), I{domain.Name}Repository {{ }}");
+                codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext, ICacheHelper cacheManager) : {_projectName}CacheRepositoryImpl<{domain.Name}, Guid, {_moduleName}DBContext>(dbContext, cacheManager), I{domain.Name}Repository");
+                codeContent.AppendLine($"    {{");
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 获得所有缓存名称");
+                codeContent.AppendLine($"        /// </summary>");
+                codeContent.AppendLine($"        protected override string GetAllCacheName() => \"All{domain.Name}\";");
             }
             else
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext) : {_projectName}RepositoryImpl<{domain.Name}, Guid, {_moduleName}DBContext>(dbContext), I{domain.Name}Repository {{ }}");
+                codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext) : {_projectName}RepositoryImpl<{domain.Name}, Guid, {_moduleName}DBContext>(dbContext), I{domain.Name}Repository");
+                codeContent.AppendLine($"    {{");
             }
+            if (domain.IsIndexDomain)
+            {
+                PropertyModel? indexGroupPropertyModel = domain.GetIndexGroupProperty();
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// 获取最大位序");
+                codeContent.AppendLine($"        /// </summary>");
+                if (indexGroupPropertyModel is null)
+                {
+                    codeContent.AppendLine($"        /// <returns></returns>");
+                    codeContent.AppendLine($"        Task<int> GetMaxIndexAsync();");
+                    codeContent.AppendLine($"        {{");
+                    codeContent.AppendLine($"            if (!await DBSet.AnyAsync()) return -1;");
+                    codeContent.AppendLine($"            int result = await DBSet.MaxAsync(m => m.Index);");
+                }
+                else
+                {
+                    codeContent.AppendLine($"        /// <param name=\"{indexGroupPropertyModel.Name.FirstLower()}\"></param>");
+                    codeContent.AppendLine($"        /// <returns></returns>");
+                    codeContent.AppendLine($"        public async Task<int> GetMaxIndexAsync({indexGroupPropertyModel.PredefinedType} {indexGroupPropertyModel.Name.FirstLower()})");
+                    codeContent.AppendLine($"        {{");
+                    codeContent.AppendLine($"            if (!await DBSet.AnyAsync(m => m.{indexGroupPropertyModel.Name} == {indexGroupPropertyModel.Name.FirstLower()})) return -1;");
+                    codeContent.AppendLine($"            int result = await DBSet.Where(m => m.{indexGroupPropertyModel.Name} == {indexGroupPropertyModel.Name.FirstLower()}).MaxAsync(m => m.Index);");
+                }
+                codeContent.AppendLine($"            return result;");
+                codeContent.AppendLine($"        }}");
+            }
+            codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             codeContent.SaveAs(_moduleReposiroty, "Repositories", $"{domain.Name}RepositoryImpl.cs");
         }

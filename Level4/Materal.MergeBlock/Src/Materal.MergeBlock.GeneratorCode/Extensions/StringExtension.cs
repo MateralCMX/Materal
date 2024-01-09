@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace System
+﻿namespace System
 {
     /// <summary>
     /// 字符串扩展
