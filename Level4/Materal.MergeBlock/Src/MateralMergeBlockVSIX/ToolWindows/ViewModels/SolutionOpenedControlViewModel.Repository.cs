@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using Materal.BaseCore.CodeGenerator;
+using Materal.MergeBlock.Domain.CodeGeneratorAttributers;
 using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
@@ -28,6 +29,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// </summary>
         private void GeneratorEntityConfigCode(DomainModel domain)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
             if (domain.HasAttribute<NotEntityConfigAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
@@ -54,6 +56,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     codeContent.AppendLine($"                .IsRequired()");
                 }
                 codeContent.AppendLine($"                .HasComment(\"{property.Annotation}\")");
+                AttributeArgumentModel? columnTypeArgument = property.GetAttribute<ColumnTypeAttribute>()?.GetAttributeArgument();
+                if (columnTypeArgument is not null)
+                {
+                    codeContent.AppendLine($"                .HasColumnType({columnTypeArgument.Value})");
+                }
                 AttributeModel? attribute = property.GetAttribute<StringLengthAttribute>();
                 if (attribute is not null)
                 {

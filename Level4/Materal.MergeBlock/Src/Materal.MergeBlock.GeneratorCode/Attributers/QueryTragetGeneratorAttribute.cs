@@ -4,19 +4,11 @@
     /// 查询视图
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class QueryViewAttribute : Attribute
+    public class QueryViewAttribute(string targetName) : Attribute
     {
         /// <summary>
         /// 目标名称
         /// </summary>
-        public string TargetName { get; set; }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="targetName"></param>
-        public QueryViewAttribute(string targetName)
-        {
-            TargetName = targetName;
-        }
+        public string TargetName { get; set; } = targetName;
     }
 }
