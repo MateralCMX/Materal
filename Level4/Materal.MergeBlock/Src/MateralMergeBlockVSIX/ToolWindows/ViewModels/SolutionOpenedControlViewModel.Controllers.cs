@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using Materal.BaseCore.CodeGenerator;
+using Materal.MergeBlock.Domain.CodeGeneratorAttributers;
 using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
@@ -22,7 +23,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             {
                 GeneratorAddRequestModel(domain);
                 GeneratorEditRequestModel(domain);
-                GeneratorQueryRequestModel(domain);
+                GeneratorQueryRequestModel(domain, domains);
             }
         }
         /// <summary>
@@ -31,6 +32,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorAddRequestModel(DomainModel domain)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
             if (domain.HasAttribute<NotAddAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
@@ -55,6 +57,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorEditRequestModel(DomainModel domain)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
             if (domain.HasAttribute<NotEditAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
@@ -82,9 +85,12 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// 创建查询模型
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorQueryRequestModel(DomainModel domain)
+        /// <param name="domains"></param>
+        private void GeneratorQueryRequestModel(DomainModel domain, List<DomainModel> domains)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
             if (domain.HasAttribute<NotQueryAttribute>()) return;
+            DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -93,7 +99,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             codeContent.AppendLine($"    public partial class Query{domain.Name}RequestModel : PageRequestModel, IQueryRequestModel");
             codeContent.AppendLine($"    {{");
-            foreach (PropertyModel property in domain.Properties)
+            foreach (PropertyModel property in targetDomain.Properties)
             {
                 if (property.HasAttribute<NotQueryAttribute>()) continue;
                 if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
@@ -143,6 +149,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorIControllerCode(DomainModel domain)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
@@ -172,6 +179,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorControllersCode(DomainModel domain)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");

@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using Materal.BaseCore.CodeGenerator;
+using Materal.MergeBlock.Domain.CodeGeneratorAttributers;
 using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
@@ -22,7 +23,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             {
                 GeneratorAddModel(domain);
                 GeneratorEditModel(domain);
-                GeneratorQueryModel(domain);
+                GeneratorQueryModel(domain, domains);
             }
         }
         /// <summary>
@@ -31,6 +32,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorAddModel(DomainModel domain)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
             if (domain.HasAttribute<NotAddAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
@@ -55,6 +57,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorEditModel(DomainModel domain)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
             if (domain.HasAttribute<NotEditAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
@@ -82,9 +85,12 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// 创建查询模型
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorQueryModel(DomainModel domain)
+        /// <param name="domains"></param>
+        private void GeneratorQueryModel(DomainModel domain, List<DomainModel> domains)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
             if (domain.HasAttribute<NotQueryAttribute>()) return;
+            DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -93,7 +99,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             codeContent.AppendLine($"    public partial class Query{domain.Name}Model : PageRequestModel, IQueryServiceModel");
             codeContent.AppendLine($"    {{");
-            foreach (PropertyModel property in domain.Properties)
+            foreach (PropertyModel property in targetDomain.Properties)
             {
                 if (property.HasAttribute<NotQueryAttribute>()) continue;
                 if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
@@ -141,17 +147,19 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             foreach (DomainModel domain in domains)
             {
-                GeneratorListDTOModel(domain);
-                GeneratorDTOModel(domain);
+                GeneratorListDTOModel(domain, domains);
+                GeneratorDTOModel(domain, domains);
             }
         }
         /// <summary>
         /// 创建列表数据传输模型
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorListDTOModel(DomainModel domain)
+        /// <param name="domains"></param>
+        private void GeneratorListDTOModel(DomainModel domain, List<DomainModel> domains)
         {
             if (domain.HasAttribute<NotListDTOAttribute>()) return;
+            DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -170,7 +178,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        /// </summary>");
             codeContent.AppendLine($"        [Required(ErrorMessage = \"创建时间为空\")]");
             codeContent.AppendLine($"        public DateTime CreateTime {{ get; set; }}");
-            foreach (PropertyModel property in domain.Properties)
+            foreach (PropertyModel property in targetDomain.Properties)
             {
                 if (property.HasAttribute<NotListDTOAttribute>()) continue;
                 GeneratorDTOModelProperty(codeContent, property);
@@ -183,9 +191,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// 创建列表数据传输模型
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorDTOModel(DomainModel domain)
+        /// <param name="domains"></param>
+        private void GeneratorDTOModel(DomainModel domain, List<DomainModel> domains)
         {
             if (domain.HasAttribute<NotListDTOAttribute>()) return;
+            DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -194,7 +204,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             codeContent.AppendLine($"    public partial class {domain.Name}DTO : {domain.Name}ListDTO, IDTO");
             codeContent.AppendLine($"    {{");
-            foreach (PropertyModel property in domain.Properties)
+            foreach (PropertyModel property in targetDomain.Properties)
             {
                 if (property.HasAttribute<NotDTOAttribute>() || !property.HasAttribute<NotListDTOAttribute>()) continue;
                 GeneratorDTOModelProperty(codeContent, property);
@@ -237,7 +247,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             foreach (DomainModel domain in domains)
             {
                 GeneratorIServicesCode(domain);
-                GeneratorServiceImplsCode(domain);
+                GeneratorServiceImplsCode(domain, domains);
             }
         }
         /// <summary>
@@ -246,6 +256,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorIServicesCode(DomainModel domain)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.MergeBlock.Abstractions.Services;");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
@@ -273,8 +284,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// 创建服务代码实现
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorServiceImplsCode(DomainModel domain)
+        private void GeneratorServiceImplsCode(DomainModel domain, List<DomainModel> domains)
         {
+            if (domain.HasAttribute<ViewAttribute>()) return;
+            DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.MergeBlock.Application.Services;");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
@@ -288,6 +301,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             if (domain.HasAttribute<EmptyServiceAttribute>())
             {
                 codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl(IServiceProvider serviceProvider) : BaseServiceImpl(serviceProvider), I{domain.Name}Service");
+            }
+            else if (targetDomain != domain)
+            {
+                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl(IServiceProvider serviceProvider) : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, I{targetDomain.Name}Repository, {domain.Name}, {targetDomain.Name}>(serviceProvider), I{domain.Name}Service");
             }
             else
             {
