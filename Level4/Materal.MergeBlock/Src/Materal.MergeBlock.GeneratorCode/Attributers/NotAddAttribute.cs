@@ -4,5 +4,5 @@
     /// 不添加
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class NotAddAttribute : Attribute { }
+    public sealed class NotAddAttribute : Attribute { }
 }

@@ -4,5 +4,5 @@
     /// 不生成仓储
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class NotRepositoryAttribute : Attribute { }
+    public sealed class NotRepositoryAttribute : Attribute { }
 }

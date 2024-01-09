@@ -4,5 +4,5 @@
     /// 空白服务
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class EmptyServiceAttribute : Attribute { }
+    public sealed class EmptyServiceAttribute : Attribute { }
 }

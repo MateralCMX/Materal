@@ -4,5 +4,5 @@
     /// 不查询
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class NotQueryAttribute : Attribute { }
+    public sealed class NotQueryAttribute : Attribute { }
 }

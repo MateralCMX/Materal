@@ -2,6 +2,7 @@
 using Materal.BaseCore.CodeGenerator;
 using Materal.MergeBlock.Domain.CodeGeneratorAttributers;
 using Materal.MergeBlock.GeneratorCode.Models;
+using Materal.Utils.Model;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
 using Microsoft.VisualStudio.PlatformUI;
@@ -102,21 +103,39 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             foreach (PropertyModel property in targetDomain.Properties)
             {
                 if (property.HasAttribute<NotQueryAttribute>()) continue;
-                if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
+                if (!property.HasAttribute<BetweenAttribute>())
                 {
-                    codeContent.AppendLine($"        /// <summary>");
-                    codeContent.AppendLine($"        /// {property.Annotation}");
-                    codeContent.AppendLine($"        /// </summary>");
+                    if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
+                    {
+                        codeContent.AppendLine($"        /// <summary>");
+                        codeContent.AppendLine($"        /// {property.Annotation}");
+                        codeContent.AppendLine($"        /// </summary>");
+                    }
+                    string? queryAttributesCode = property.GetQueryAttributesCode();
+                    if (queryAttributesCode is not null && !string.IsNullOrWhiteSpace(queryAttributesCode))
+                    {
+                        codeContent.AppendLine($"        {queryAttributesCode}");
+                    }
+                    codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
                 }
-                string? queryAttributesCode = property.GetQueryAttributesCode();
-                if (queryAttributesCode is not null && !string.IsNullOrWhiteSpace(queryAttributesCode))
+                else
                 {
-                    codeContent.AppendLine($"        {queryAttributesCode}");
-                }
-                codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
-                if (property.Initializer is not null && !string.IsNullOrWhiteSpace(property.Initializer))
-                {
-                    codeContent.Insert(codeContent.Length - 2, $"  = {property.Initializer};");
+                    if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
+                    {
+                        codeContent.AppendLine($"        /// <summary>");
+                        codeContent.AppendLine($"        /// 最小{property.Annotation}");
+                        codeContent.AppendLine($"        /// </summary>");
+                    }
+                    codeContent.AppendLine($"        [GreaterThanOrEqual(\"{property.Name}\")]");
+                    codeContent.AppendLine($"        public {property.NullPredefinedType} Min{property.Name} {{ get; set; }}");
+                    if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
+                    {
+                        codeContent.AppendLine($"        /// <summary>");
+                        codeContent.AppendLine($"        /// 最大{property.Annotation}");
+                        codeContent.AppendLine($"        /// </summary>");
+                    }
+                    codeContent.AppendLine($"        [LessThanOrEqual(\"{property.Name}\")]");
+                    codeContent.AppendLine($"        public {property.NullPredefinedType} Max{property.Name} {{ get; set; }}");
                 }
             }
             codeContent.AppendLine($"        /// <summary>");
@@ -125,15 +144,15 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        [Contains(\"ID\")]");
             codeContent.AppendLine($"        public List<Guid>? IDs {{ get; set; }}");
             codeContent.AppendLine($"        /// <summary>");
-            codeContent.AppendLine($"        /// 最大创建时间");
-            codeContent.AppendLine($"        /// </summary>");
-            codeContent.AppendLine($"        [LessThanOrEqual(\"CreateTime\")]");
-            codeContent.AppendLine($"        public DateTime? MaxCreateTime {{ get; set; }}");
-            codeContent.AppendLine($"        /// <summary>");
             codeContent.AppendLine($"        /// 最小创建时间");
             codeContent.AppendLine($"        /// </summary>");
             codeContent.AppendLine($"        [GreaterThanOrEqual(\"CreateTime\")]");
             codeContent.AppendLine($"        public DateTime? MinCreateTime {{ get; set; }}");
+            codeContent.AppendLine($"        /// <summary>");
+            codeContent.AppendLine($"        /// 最大创建时间");
+            codeContent.AppendLine($"        /// </summary>");
+            codeContent.AppendLine($"        [LessThanOrEqual(\"CreateTime\")]");
+            codeContent.AppendLine($"        public DateTime? MaxCreateTime {{ get; set; }}");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             codeContent.SaveAs(_moduleAbstractions, "Services", "Models", domain.Name, $"Query{domain.Name}Model.cs");

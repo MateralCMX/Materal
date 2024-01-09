@@ -4,5 +4,5 @@
     /// 不生成实体配置
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class NotEntityConfigAttribute : Attribute { }
+    public sealed class NotEntityConfigAttribute : Attribute { }
 }

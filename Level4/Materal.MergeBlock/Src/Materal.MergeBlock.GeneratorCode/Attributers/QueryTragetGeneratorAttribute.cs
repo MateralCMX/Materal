@@ -4,7 +4,7 @@
     /// 查询视图
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class QueryViewAttribute(string targetName) : Attribute
+    public sealed class QueryViewAttribute(string targetName) : Attribute
     {
         /// <summary>
         /// 目标名称

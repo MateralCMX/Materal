@@ -4,5 +4,5 @@
     /// 不生成ListDTO
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class NotListDTOAttribute : Attribute { }
+    public sealed class NotListDTOAttribute : Attribute { }
 }

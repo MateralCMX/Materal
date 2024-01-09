@@ -4,5 +4,5 @@
     /// 不生成DTO
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class NotDTOAttribute : Attribute { }
+    public sealed class NotDTOAttribute : Attribute { }
 }
