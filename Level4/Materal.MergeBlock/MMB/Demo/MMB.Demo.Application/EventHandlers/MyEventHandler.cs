@@ -1,4 +1,4 @@
-﻿namespace MMB.Demo.Appllication.EventHandlers
+﻿namespace MMB.Demo.Application.EventHandlers
 {
     /// <summary>
     /// 我的事件处理器

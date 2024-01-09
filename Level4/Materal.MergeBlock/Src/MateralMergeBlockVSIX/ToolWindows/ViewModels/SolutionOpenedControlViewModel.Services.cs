@@ -280,7 +280,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
             codeContent.AppendLine($"");
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Appllication.Services");
+            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Application.Services");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {domain.Annotation}服务");

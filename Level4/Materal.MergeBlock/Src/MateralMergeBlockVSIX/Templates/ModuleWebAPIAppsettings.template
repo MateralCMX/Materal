@@ -1,5 +1,5 @@
 ﻿{
-  "ApplicationName": "${ProjectName}.Demo",
+  "ApplicationName": "${ProjectName}.${ModuleName}",
   "Authorization": {
     "Audience": "WebAPI",
     "ExpiredTime": "18000",
@@ -66,6 +66,6 @@
     }
   },
   "DBConfig": {
-    "Source": "${ProjectPath}\\DataBase\\${ProjectName}Demo.db"
+    "Source": "${ProjectPath}\\DataBase\\${ProjectName}${ModuleName}.db"
   }
 }

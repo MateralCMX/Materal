@@ -51,11 +51,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             string coreDirectoryPath = Path.Combine(ProjectPath, $"{ProjectName}.Core");
             DirectoryInfo coreDirectoryInfo = new(coreDirectoryPath);
-            if (!coreDirectoryInfo.Exists)
-            {
-                coreDirectoryInfo.Create();
-                coreDirectoryInfo.Refresh();
-            }
+            if (coreDirectoryInfo.Exists) return;
+            coreDirectoryInfo.Create();
+            coreDirectoryInfo.Refresh();
             string coreSolutionPath = Path.Combine(coreDirectoryPath, $"{ProjectName}.Core.sln");
             FileInfo coreSolutionFileInfo = new(coreSolutionPath);
             CreateCoreSolutionFile(coreSolutionFileInfo);
@@ -160,6 +158,8 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             CreateNewProject(demoDirectoryInfo, projectName, "DemoApplicationProject");
             string directoryPath = Path.Combine(demoDirectoryInfo.FullName, projectName);
             ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "DemoApplicationGlobalUsings");
+            ApplyTemplate(Path.Combine(directoryPath, $"ApplicationConfig.cs"), "DemoApplicationApplicationConfig");
+            ApplyTemplate(Path.Combine(directoryPath, $"DemoModule.cs"), "DemoApplicationModule");
         }
         /// <summary>
         /// 创建Demo仓储项目
@@ -194,7 +194,91 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// </summary>
         private string CreateModuleSolution()
         {
-            return @"D:\Project\Materal\Materal\Level4\MMB\MMB.Core\MMB.Core.sln";
+            string moduleDirectoryPath = Path.Combine(ProjectPath, $"{ProjectName}.{ModuleName}");
+            string moduleSolutionPath = Path.Combine(moduleDirectoryPath, $"{ProjectName}.{ModuleName}.sln");
+            DirectoryInfo moduleDirectoryInfo = new(moduleDirectoryPath);
+            if (moduleDirectoryInfo.Exists) return moduleSolutionPath;
+            moduleDirectoryInfo.Create();
+            moduleDirectoryInfo.Refresh();
+            FileInfo moduleSolutionFileInfo = new(moduleSolutionPath);
+            CreateModuleSolutionFile(moduleSolutionFileInfo);
+            CreateModuleProjects(moduleDirectoryInfo);
+
+            return moduleSolutionPath;
+        }
+        /// <summary>
+        /// 创建模块解决方案文件
+        /// </summary>
+        /// <param name="moduleSolutionFileInfo"></param>
+        private void CreateModuleSolutionFile(FileInfo moduleSolutionFileInfo)
+        {
+            if (moduleSolutionFileInfo.Exists) return;
+            ApplyTemplate(moduleSolutionFileInfo.FullName, "ModuleSolution");
+        }
+        /// <summary>
+        /// 创建模块项目
+        /// </summary>
+        /// <param name="moduleDirectoryInfo"></param>
+        private void CreateModuleProjects(DirectoryInfo moduleDirectoryInfo)
+        {
+            if (!moduleDirectoryInfo.Exists)
+            {
+                moduleDirectoryInfo.Create();
+                moduleDirectoryInfo.Refresh();
+            }
+            CreateModuleAbstractionsProject(moduleDirectoryInfo);
+            CreateModuleApplicationProject(moduleDirectoryInfo);
+            CreateModuleRepositoryProject(moduleDirectoryInfo);
+            CreateModuleWebAPIProject(moduleDirectoryInfo);
+        }
+        /// <summary>
+        /// 创建模块抽象项目
+        /// </summary>
+        /// <param name="moduleDirectoryInfo"></param>
+        private void CreateModuleAbstractionsProject(DirectoryInfo moduleDirectoryInfo)
+        {
+            string projectName = $"{ProjectName}.{ModuleName}.Abstractions";
+            CreateNewProject(moduleDirectoryInfo, projectName, "ModuleAbstractionsProject");
+            string directoryPath = Path.Combine(moduleDirectoryInfo.FullName, projectName);
+            ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "ModuleAbstractionsGlobalUsings");
+        }
+        /// <summary>
+        /// 创建模块应用项目
+        /// </summary>
+        /// <param name="moduleDirectoryInfo"></param>
+        private void CreateModuleApplicationProject(DirectoryInfo moduleDirectoryInfo)
+        {
+            string projectName = $"{ProjectName}.{ModuleName}.Application";
+            CreateNewProject(moduleDirectoryInfo, projectName, "ModuleApplicationProject");
+            string directoryPath = Path.Combine(moduleDirectoryInfo.FullName, projectName);
+            ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "ModuleApplicationGlobalUsings");
+            ApplyTemplate(Path.Combine(directoryPath, $"ApplicationConfig.cs"), "ModuleApplicationApplicationConfig");
+            ApplyTemplate(Path.Combine(directoryPath, $"{ModuleName}Module.cs"), "ModuleApplicationModule");
+        }
+        /// <summary>
+        /// 创建模块仓储项目
+        /// </summary>
+        /// <param name="moduleDirectoryInfo"></param>
+        private void CreateModuleRepositoryProject(DirectoryInfo moduleDirectoryInfo)
+        {
+            string projectName = $"{ProjectName}.{ModuleName}.Repository";
+            CreateNewProject(moduleDirectoryInfo, projectName, "ModuleRepositoryProject");
+            string directoryPath = Path.Combine(moduleDirectoryInfo.FullName, projectName);
+            ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "ModuleRepositoryGlobalUsings");
+            ApplyTemplate(Path.Combine(directoryPath, $"ModuleRepositoryModule.cs"), "ModuleRepositoryModule");
+        }
+        /// <summary>
+        /// 创建模块WebAPI项目
+        /// </summary>
+        /// <param name="moduleDirectoryInfo"></param>
+        private void CreateModuleWebAPIProject(DirectoryInfo moduleDirectoryInfo)
+        {
+            string projectName = $"{ProjectName}.{ModuleName}.WebAPI";
+            CreateNewProject(moduleDirectoryInfo, projectName, "ModuleWebAPIProject");
+            string directoryPath = Path.Combine(moduleDirectoryInfo.FullName, projectName);
+            ApplyTemplate(Path.Combine(directoryPath, $"Program.cs"), "ModuleWebAPIProgram");
+            ApplyTemplate(Path.Combine(directoryPath, $"appsettings.json"), "ModuleWebAPIAppsettings");
+            ApplyTemplate(Path.Combine(directoryPath, "Properties", $"launchSettings.json"), "ModuleWebAPILaunchSettings");
         }
         #endregion
         #region 工具方法
@@ -239,7 +323,8 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             using Stream templateFileStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
             string template = new StreamReader(templateFileStream, Encoding.UTF8).ReadToEnd();
             template = template.Replace("${ProjectName}", ProjectName);
-            template = template.Replace("${ProjectPath}", ProjectPath);
+            string projectPath = ProjectPath.Replace("\\", "\\\\");
+            template = template.Replace("${ProjectPath}", projectPath);
             template = template.Replace("${ModuleName}", ModuleName);
             File.WriteAllText(filePath, template, Encoding.UTF8);
         }

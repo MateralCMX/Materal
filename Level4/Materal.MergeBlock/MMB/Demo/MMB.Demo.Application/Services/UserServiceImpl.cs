@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using MMB.Demo.Abstractions.DTO.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 
-namespace MMB.Demo.Appllication.Services
+namespace MMB.Demo.Application.Services
 {
     /// <summary>
     /// 用户服务

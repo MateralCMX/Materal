@@ -2,9 +2,9 @@
 using Materal.Oscillator.Abstractions.Models;
 using Materal.Oscillator.Abstractions.Services.Trigger;
 using Materal.Oscillator.PlanTriggers;
-using MMB.Demo.Appllication.Oscillator.Works;
+using MMB.Demo.Application.Oscillator.Works;
 
-namespace MMB.Demo.Appllication.Oscillator.Schedules
+namespace MMB.Demo.Application.Oscillator.Schedules
 {
     /// <summary>
     /// 测试计划

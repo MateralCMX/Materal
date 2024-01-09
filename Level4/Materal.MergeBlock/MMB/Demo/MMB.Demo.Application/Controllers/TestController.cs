@@ -1,7 +1,7 @@
 using Materal.Oscillator.Abstractions;
 using Polly;
 
-namespace MMB.Demo.Appllication.Controllers
+namespace MMB.Demo.Application.Controllers
 {
     /// <summary>
     /// ²âÊÔ¿ØÖÆÆ÷

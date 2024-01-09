@@ -1,4 +1,4 @@
-﻿namespace MMB.Demo.Appllication
+﻿namespace MMB.Demo.Application
 {
     /// <summary>
     /// Demo模块

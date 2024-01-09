@@ -4,7 +4,7 @@ using MMB.Demo.Abstractions.RequestModel.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 using System.ComponentModel.DataAnnotations;
 
-namespace MMB.Demo.Appllication.Controllers
+namespace MMB.Demo.Application.Controllers
 {
     /// <summary>
     /// ²âÊÔ¿ØÖÆÆ÷

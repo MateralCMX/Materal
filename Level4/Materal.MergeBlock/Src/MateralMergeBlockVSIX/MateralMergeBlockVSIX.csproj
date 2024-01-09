@@ -112,6 +112,20 @@
     <EmbeddedResource Include="Templates\DemoApplicationGlobalUsings.template" />
     <EmbeddedResource Include="Templates\DemoApplicationModule.template" />
     <EmbeddedResource Include="Templates\DemoApplicationApplicationConfig.template" />
+    <EmbeddedResource Include="Templates\ModuleSolution.template" />
+    <EmbeddedResource Include="Templates\ModuleWebAPIProject.template" />
+    <EmbeddedResource Include="Templates\ModuleAbstractionsGlobalUsings.template" />
+    <EmbeddedResource Include="Templates\ModuleAbstractionsProject.template" />
+    <EmbeddedResource Include="Templates\ModuleApplicationApplicationConfig.template" />
+    <EmbeddedResource Include="Templates\ModuleApplicationGlobalUsings.template" />
+    <EmbeddedResource Include="Templates\ModuleApplicationModule.template" />
+    <EmbeddedResource Include="Templates\ModuleApplicationProject.template" />
+    <EmbeddedResource Include="Templates\ModuleRepositoryGlobalUsings.template" />
+    <EmbeddedResource Include="Templates\ModuleRepositoryModule.template" />
+    <EmbeddedResource Include="Templates\ModuleRepositoryProject.template" />
+    <EmbeddedResource Include="Templates\ModuleWebAPIAppsettings.template" />
+    <EmbeddedResource Include="Templates\ModuleWebAPILaunchSettings.template" />
+    <EmbeddedResource Include="Templates\ModuleWebAPIProgram.template" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="VSCommandTable.vsct">

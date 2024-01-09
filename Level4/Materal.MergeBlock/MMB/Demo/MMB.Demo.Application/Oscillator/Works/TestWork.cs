@@ -2,7 +2,7 @@
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Works;
 
-namespace MMB.Demo.Appllication.Oscillator.Works
+namespace MMB.Demo.Application.Oscillator.Works
 {
     ///// <summary>
     ///// 测试作业

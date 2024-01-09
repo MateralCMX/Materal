@@ -1,8 +1,7 @@
 ﻿{
   "profiles": {
-    "MMB.Demo.WebAPI": {
+    "${ProjectName}.${ModuleName}.WebAPI": {
       "commandName": "Project",
-      "commandLineArgs": "--ConfigUrl=http://175.27.254.187:8700/RCESDEVAPI",
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
