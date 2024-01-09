@@ -17,6 +17,16 @@ namespace MateralMergeBlockVSIX.Extensions
         /// <summary>
         /// 是否拥有特性
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="domain"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T1,T2>(this DomainModel domain)
+            where T1 : Attribute
+            where T2 : Attribute => domain.Attributes.HasAttribute<T1>() || domain.Attributes.HasAttribute<T2>();
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="domain"></param>
         /// <returns></returns>

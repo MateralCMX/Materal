@@ -79,30 +79,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.SaveAs(_moduleAbstractions, "Services", "Models", domain.Name, $"Edit{domain.Name}Model.cs");
         }
         /// <summary>
-        /// 创建操作模型属性
-        /// </summary>
-        /// <param name="codeContent"></param>
-        /// <param name="property"></param>
-        private void GeneratorOperationalModelProperty(StringBuilder codeContent, PropertyModel property)
-        {
-            if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
-            {
-                codeContent.AppendLine($"        /// <summary>");
-                codeContent.AppendLine($"        /// {property.Annotation}");
-                codeContent.AppendLine($"        /// </summary>");
-            }
-            string? verificationAttributesCode = property.GetVerificationAttributesCode();
-            if (verificationAttributesCode is not null && !string.IsNullOrWhiteSpace(verificationAttributesCode))
-            {
-                codeContent.AppendLine($"        {verificationAttributesCode}");
-            }
-            codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }}");
-            if (property.Initializer is not null && !string.IsNullOrWhiteSpace(property.Initializer))
-            {
-                codeContent.Insert(codeContent.Length - 2, $"  = {property.Initializer};");
-            }
-        }
-        /// <summary>
         /// 创建查询模型
         /// </summary>
         /// <param name="domain"></param>
@@ -311,11 +287,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             if (domain.HasAttribute<EmptyServiceAttribute>())
             {
-                codeContent.AppendLine($"    public class {domain.Name}ServiceImpl(IServiceProvider serviceProvider) : BaseServiceImpl(serviceProvider), I{domain.Name}Service");
+                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl(IServiceProvider serviceProvider) : BaseServiceImpl(serviceProvider), I{domain.Name}Service");
             }
             else
             {
-                codeContent.AppendLine($"    public class {domain.Name}ServiceImpl(IServiceProvider serviceProvider) : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, {domain.Name}>(serviceProvider), I{domain.Name}Service");
+                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl(IServiceProvider serviceProvider) : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, {domain.Name}>(serviceProvider), I{domain.Name}Service");
             }
             codeContent.AppendLine($"    {{");
             codeContent.AppendLine($"    }}");

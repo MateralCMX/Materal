@@ -65,6 +65,7 @@
       <DependentUpon>SolutionOpenedControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToolWindows\ViewModels\SolutionNotOpenedControlViewModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.Controllers.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.Services.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.Repository.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.cs" />
@@ -109,6 +110,8 @@
     <EmbeddedResource Include="Templates\DemoRepositoryGlobalUsings.template" />
     <EmbeddedResource Include="Templates\DemoRepositoryModule.template" />
     <EmbeddedResource Include="Templates\DemoApplicationGlobalUsings.template" />
+    <EmbeddedResource Include="Templates\DemoApplicationModule.template" />
+    <EmbeddedResource Include="Templates\DemoApplicationApplicationConfig.template" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="VSCommandTable.vsct">

@@ -5,7 +5,6 @@ namespace ${ProjectName}.Demo.Abstractions.Domain
     /// <summary>
     /// 用户
     /// </summary>
-    //[CodeGeneratorPlug("${ProjectName}.Core.CodeGenerator", "InitProject")]
     public class User : BaseDomain, IDomain
     {
         /// <summary>

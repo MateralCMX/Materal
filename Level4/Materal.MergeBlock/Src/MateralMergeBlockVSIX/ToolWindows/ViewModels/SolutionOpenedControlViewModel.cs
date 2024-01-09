@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
@@ -160,6 +161,30 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             catch (Exception ex)
             {
                 VS.MessageBox.Show("错误", ex.GetErrorMessage(), Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_WARNING, Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK);
+            }
+        }
+        /// <summary>
+        /// 创建操作模型属性
+        /// </summary>
+        /// <param name="codeContent"></param>
+        /// <param name="property"></param>
+        private void GeneratorOperationalModelProperty(StringBuilder codeContent, PropertyModel property)
+        {
+            if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
+            {
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {property.Annotation}");
+                codeContent.AppendLine($"        /// </summary>");
+            }
+            string? verificationAttributesCode = property.GetVerificationAttributesCode();
+            if (verificationAttributesCode is not null && !string.IsNullOrWhiteSpace(verificationAttributesCode))
+            {
+                codeContent.AppendLine($"        {verificationAttributesCode}");
+            }
+            codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }}");
+            if (property.Initializer is not null && !string.IsNullOrWhiteSpace(property.Initializer))
+            {
+                codeContent.Insert(codeContent.Length - 2, $"  = {property.Initializer};");
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace MMB.Demo.Abstractions.DTO.User
+﻿namespace MMB.Demo.Abstractions.RequestModel.User
 {
     /// <summary>
     /// 更改密码请求模型

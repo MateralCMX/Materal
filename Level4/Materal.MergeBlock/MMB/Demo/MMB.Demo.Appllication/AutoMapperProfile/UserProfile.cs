@@ -1,5 +1,6 @@
 using AutoMapper;
 using MMB.Demo.Abstractions.DTO.User;
+using MMB.Demo.Abstractions.RequestModel.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 
 namespace MMB.Demo.WebAPI.AutoMapperProfile

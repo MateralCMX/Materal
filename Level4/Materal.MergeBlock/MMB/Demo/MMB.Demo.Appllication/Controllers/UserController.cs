@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using MMB.Demo.Abstractions.DTO.User;
+using MMB.Demo.Abstractions.RequestModel.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,7 +9,7 @@ namespace MMB.Demo.Appllication.Controllers
     /// <summary>
     /// 测试控制器
     /// </summary>
-    public class UserController(ITokenService tokenService, IOptionsMonitor<AuthorizationConfig> authorizationConfig) : MergeBlockControllerBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserService>//, IUserController
+    public class UserController(ITokenService tokenService, IOptionsMonitor<AuthorizationConfig> authorizationConfig) : MergeBlockControllerBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserService>, IUserController
     {
         /// <summary>
         /// 获得用户列表

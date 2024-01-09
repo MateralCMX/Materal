@@ -7,7 +7,7 @@ global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Extensions.DependencyInjection;
 global using MMB.Core.Abstractions;
-//global using MMB.Demo.Abstractions.Controllers;
+global using MMB.Demo.Abstractions.Controllers;
 global using MMB.Demo.Abstractions.Domain;
 global using MMB.Demo.Abstractions.Events;
 global using MMB.Demo.Abstractions.Repositories;

@@ -6,7 +6,7 @@ namespace MMB.Demo.Appllication.Controllers
     /// <summary>
     /// ²âÊÔ¿ØÖÆÆ÷
     /// </summary>
-    public class TestController(ITokenService tokenService, IEventBus eventBus, IOscillatorHost host) : MergeBlockControllerBase//, ITestController
+    public class TestController(ITokenService tokenService, IEventBus eventBus, IOscillatorHost host) : MergeBlockControllerBase, ITestController
     {
         /// <summary>
         /// ËµHello
