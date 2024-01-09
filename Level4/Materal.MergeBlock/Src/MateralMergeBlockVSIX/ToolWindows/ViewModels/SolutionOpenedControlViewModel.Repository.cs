@@ -1,19 +1,21 @@
 ﻿#nullable enable
+using Materal.BaseCore.CodeGenerator;
 using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
+using MateralMergeBlockVSIX.ToolWindows.Attributes;
 using Microsoft.VisualStudio.PlatformUI;
 using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
 {
     public partial class SolutionOpenedControlViewModel : ObservableObject
     {
         /// <summary>
-        /// 创建仓储模块代码
+        /// 创建实体配置代码
         /// </summary>
+        [GeneratorCodeMethod]
         private void GeneratorEntityConfigsCode(List<DomainModel> domains)
         {
             foreach (DomainModel domain in domains)
@@ -22,10 +24,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
         }
         /// <summary>
-        /// 创建仓储模块代码
+        /// 创建实体配置代码
         /// </summary>
         private void GeneratorEntityConfigCode(DomainModel domain)
         {
+            if (domain.HasAttribute<NotEntityConfigAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
             codeContent.AppendLine($"");
@@ -71,6 +74,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// 创建数据库上下文代码
         /// </summary>
         /// <param name="domains"></param>
+        [GeneratorCodeMethod]
         private void GeneratorDBContextCode(List<DomainModel> domains)
         {
             StringBuilder codeContent = new();
@@ -83,6 +87,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    {{");
             foreach (DomainModel domain in domains)
             {
+                if (domain.HasAttribute<NotInDBContextAttribute>()) continue;
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// {domain.Annotation}");
                 codeContent.AppendLine($"        /// </summary>");
@@ -99,6 +104,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <summary>
         /// 创建工作单元代码
         /// </summary>
+        [GeneratorCodeMethod]
         private void GeneratorUnitOfWorkCode()
         {
             StringBuilder codeContent = new();
@@ -115,6 +121,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// 创建仓储代码
         /// </summary>
         /// <param name="domains"></param>
+        [GeneratorCodeMethod]
         private void GeneratorRepositoryCode(List<DomainModel> domains)
         {
             foreach (DomainModel domain in domains)
@@ -129,6 +136,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorIRepositoryCode(DomainModel domain)
         {
+            if (domain.HasAttribute<NotRepositoryAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Repositories");
             codeContent.AppendLine($"{{");
@@ -145,6 +153,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorRepositoryImplCode(DomainModel domain)
         {
+            if (domain.HasAttribute<NotRepositoryAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Repository.Repositories");
             codeContent.AppendLine($"{{");

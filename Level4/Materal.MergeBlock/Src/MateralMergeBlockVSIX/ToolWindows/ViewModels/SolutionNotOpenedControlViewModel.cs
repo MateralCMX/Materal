@@ -159,6 +159,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             string projectName = $"{ProjectName}.Demo.Application";
             CreateNewProject(demoDirectoryInfo, projectName, "DemoApplicationProject");
             string directoryPath = Path.Combine(demoDirectoryInfo.FullName, projectName);
+            ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "DemoApplicationGlobalUsings");
         }
         /// <summary>
         /// 创建Demo仓储项目

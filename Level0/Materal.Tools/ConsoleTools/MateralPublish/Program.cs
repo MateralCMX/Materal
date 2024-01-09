@@ -40,9 +40,22 @@ namespace MateralPublish
         /// <param name="uploadNuget"></param>
         private static async Task PublishAsync(string? version, bool nextVersion, bool uploadNuget)
         {
+            ClearNugetPackages();
             MateralSolutionModel materalProject = new(Environment.CurrentDirectory);
             version ??= nextVersion ? await materalProject.GetNextVersionAsync() : await materalProject.GetVersionAsync();
             await materalProject.PublishAsync(version, uploadNuget);
+        }
+        private static void ClearNugetPackages()
+        {
+            string nugetPackagesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
+            DirectoryInfo nugetDirectoryInfo = new(nugetPackagesPath);
+            if (!nugetDirectoryInfo.Exists) return;
+            DirectoryInfo[] directoryInfos = nugetDirectoryInfo.GetDirectories();
+            foreach (DirectoryInfo directoryInfo in directoryInfos)
+            {
+                if (!directoryInfo.Name.StartsWith("materal.")) continue;
+                directoryInfo.Delete(true);
+            }
         }
     }
 }

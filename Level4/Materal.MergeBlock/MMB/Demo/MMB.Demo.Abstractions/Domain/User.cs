@@ -1,4 +1,6 @@
-﻿namespace MMB.Demo.Abstractions.Domain
+﻿using Materal.BaseCore.CodeGenerator;
+
+namespace MMB.Demo.Abstractions.Domain
 {
     /// <summary>
     /// 用户
@@ -23,11 +25,12 @@
         /// </summary>
         [Required(ErrorMessage = "账号为空"), StringLength(50, ErrorMessage = "账号过长")]
         [Equal]
+        [NotEdit]
         public string Account { get; set; } = string.Empty;
         /// <summary>
         /// 密码
         /// </summary>
-        //[NotDTOGenerator, NotListDTOGenerator, NotAddGenerator, NotEditGenerator]
+        [NotAdd, NotEdit, NotQuery, NotListDTO, NotDTO]
         [Required(ErrorMessage = "账号为空"), StringLength(32, ErrorMessage = "密码过长")]
         public string Password { get; set; } = string.Empty;
     }

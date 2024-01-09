@@ -23,4 +23,7 @@
 	<ItemGroup>
 		<PackageReference Include="Materal.TTA.Common" Version="1.1.74" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Materal.MergeBlock.GeneratorCode\Materal.MergeBlock.GeneratorCode.csproj" />
+	</ItemGroup>
 </Project>

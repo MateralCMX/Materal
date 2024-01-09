@@ -5,38 +5,8 @@ namespace Materal.MergeBlock.Application.Services
     /// <summary>
     /// 基础服务实现
     /// </summary>
-    /// <typeparam name="TAddModel"></typeparam>
-    /// <typeparam name="TEditModel"></typeparam>
-    /// <typeparam name="TQueryModel"></typeparam>
-    /// <typeparam name="TDTO"></typeparam>
-    /// <typeparam name="TListDTO"></typeparam>
-    /// <typeparam name="TRepository"></typeparam>
-    /// <typeparam name="TDomain"></typeparam>
-    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain> : IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
-        where TAddModel : class, IAddServiceModel, new()
-        where TEditModel : class, IEditServiceModel, new()
-        where TQueryModel : PageRequestModel, IQueryServiceModel, new()
-        where TDTO : class, IDTO
-        where TListDTO : class, IListDTO
-        where TRepository : class, IEFRepository<TDomain, Guid>, IRepository
-        where TDomain : class, IDomain, new()
+    public abstract class BaseServiceImpl : IBaseService
     {
-        /// <summary>
-        /// 映射器
-        /// </summary>
-        protected readonly IMapper Mapper;
-        /// <summary>
-        /// 工作单元
-        /// </summary>
-        protected readonly IMergeBlockUnitOfWork UnitOfWork;
-        /// <summary>
-        /// 默认仓储
-        /// </summary>
-        protected readonly TRepository DefaultRepository;
-        /// <summary>
-        /// 服务提供者
-        /// </summary>
-        protected readonly IServiceProvider ServiceProvider;
         private Guid? _loginUserID;
         private string? _loginServiceName;
         private string? _clientIP;
@@ -53,14 +23,56 @@ namespace Materal.MergeBlock.Application.Services
         /// </summary>
         public string ClientIP { get => _clientIP is not null && !string.IsNullOrWhiteSpace(_clientIP) ? _clientIP : throw new MergeBlockException("获取登录用户失败"); set => _clientIP = value; }
         /// <summary>
+        /// 映射器
+        /// </summary>
+        protected readonly IMapper Mapper;
+        /// <summary>
+        /// 工作单元
+        /// </summary>
+        protected readonly IMergeBlockUnitOfWork UnitOfWork;
+        /// <summary>
+        /// 服务提供者
+        /// </summary>
+        protected readonly IServiceProvider ServiceProvider;
+        /// <summary>
         /// 构造方法
         /// </summary>
         protected BaseServiceImpl(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
             UnitOfWork = serviceProvider.GetService<IMergeBlockUnitOfWork>() ?? throw new MergeBlockException("获取工作单元失败");
-            DefaultRepository = UnitOfWork.GetRepository<TRepository>() ?? throw new MergeBlockException("获取仓储失败");
             Mapper = serviceProvider.GetService<IMapper>() ?? throw new MergeBlockException("获取映射器失败");
+        }
+    }
+    /// <summary>
+    /// 基础服务实现
+    /// </summary>
+    /// <typeparam name="TAddModel"></typeparam>
+    /// <typeparam name="TEditModel"></typeparam>
+    /// <typeparam name="TQueryModel"></typeparam>
+    /// <typeparam name="TDTO"></typeparam>
+    /// <typeparam name="TListDTO"></typeparam>
+    /// <typeparam name="TRepository"></typeparam>
+    /// <typeparam name="TDomain"></typeparam>
+    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain> : BaseServiceImpl, IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
+        where TAddModel : class, IAddServiceModel, new()
+        where TEditModel : class, IEditServiceModel, new()
+        where TQueryModel : PageRequestModel, IQueryServiceModel, new()
+        where TDTO : class, IDTO
+        where TListDTO : class, IListDTO
+        where TRepository : class, IEFRepository<TDomain, Guid>, IRepository
+        where TDomain : class, IDomain, new()
+    {
+        /// <summary>
+        /// 默认仓储
+        /// </summary>
+        protected readonly TRepository DefaultRepository;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        protected BaseServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
+        {
+            DefaultRepository = UnitOfWork.GetRepository<TRepository>() ?? throw new MergeBlockException("获取仓储失败");
         }
         /// <summary>
         /// 添加

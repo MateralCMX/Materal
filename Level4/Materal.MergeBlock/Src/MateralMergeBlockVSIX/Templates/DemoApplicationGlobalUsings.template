@@ -1,0 +1,14 @@
+﻿global using Materal.MergeBlock.Abstractions;
+global using Materal.MergeBlock.Application.Controllers;
+global using Materal.Utils.Model;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.DependencyInjection;
+global using ${ProjectName}.Core.Abstractions;
+//global using ${ProjectName}.Demo.Abstractions.Controllers;
+global using ${ProjectName}.Demo.Abstractions.Domain;
+global using ${ProjectName}.Demo.Abstractions.Repositories;
+global using ${ProjectName}.Demo.Abstractions.Services;
+global using Microsoft.Extensions.Logging;
+
+[assembly: MergeBlockAssembly("${ProjectName}Demo模块", ["Authorzation", "${ProjectName}.Demo.Repository", "${ProjectName}.Demo.Abstractions"])]

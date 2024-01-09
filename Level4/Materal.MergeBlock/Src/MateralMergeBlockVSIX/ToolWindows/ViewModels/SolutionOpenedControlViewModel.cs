@@ -1,9 +1,12 @@
 ﻿#nullable enable
 using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
+using MateralMergeBlockVSIX.ToolWindows.Attributes;
 using Microsoft.VisualStudio.PlatformUI;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Windows;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
@@ -108,41 +111,56 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 }
             }
         }
-        #region 生成代码
         /// <summary>
         /// 生成代码
         /// </summary>
         public void GeneratorCode()
         {
-            if (_moduleAbstractions is null) return;
-            #region 清理旧文件
-            DirectoryInfo? directoryInfo = _moduleAbstractions.GetGeneratorCodeRootDirectory();
-            if (directoryInfo.Exists)
+            try
             {
-                directoryInfo.Delete(true);
+                #region 清理旧文件
+                DirectoryInfo? directoryInfo = _moduleAbstractions?.GetGeneratorCodeRootDirectory();
+                if (directoryInfo is not null && directoryInfo.Exists)
+                {
+                    directoryInfo.Delete(true);
+                }
+                directoryInfo = _moduleApplication?.GetGeneratorCodeRootDirectory();
+                if (directoryInfo is not null && directoryInfo.Exists)
+                {
+                    directoryInfo.Delete(true);
+                }
+                directoryInfo = _moduleReposiroty?.GetGeneratorCodeRootDirectory();
+                if (directoryInfo is not null && directoryInfo.Exists)
+                {
+                    directoryInfo.Delete(true);
+                }
+                directoryInfo = _moduleWebAPI?.GetGeneratorCodeRootDirectory();
+                if (directoryInfo is not null && directoryInfo.Exists)
+                {
+                    directoryInfo.Delete(true);
+                }
+                #endregion
+                List<DomainModel> allDomains = _moduleAbstractions?.GetAllDomains() ?? [];
+                IEnumerable<MethodInfo> allMethodInfos = GetType().GetRuntimeMethods();
+                foreach (MethodInfo methodInfo in allMethodInfos)
+                {
+                    if (methodInfo.GetCustomAttribute<GeneratorCodeMethodAttribute>() is null) continue;
+                    ParameterInfo[] parameterInfos = methodInfo.GetParameters();
+                    if (parameterInfos.Length == 0)
+                    {
+                        methodInfo.Invoke(this, []);
+                    }
+                    else if(parameterInfos.Length == 1 && parameterInfos.First().ParameterType == typeof(List<DomainModel>))
+                    {
+                        methodInfo.Invoke(this, [allDomains]);
+                    }
+                }
+                VS.MessageBox.Show("提示", "代码生成完毕", Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_INFO, Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
-            directoryInfo = _moduleApplication?.GetGeneratorCodeRootDirectory();
-            if (directoryInfo is not null && directoryInfo.Exists)
+            catch (Exception ex)
             {
-                directoryInfo.Delete(true);
+                VS.MessageBox.Show("错误", ex.GetErrorMessage(), Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_WARNING, Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
-            directoryInfo = _moduleReposiroty?.GetGeneratorCodeRootDirectory();
-            if (directoryInfo is not null && directoryInfo.Exists)
-            {
-                directoryInfo.Delete(true);
-            }
-            directoryInfo = _moduleWebAPI?.GetGeneratorCodeRootDirectory();
-            if (directoryInfo is not null && directoryInfo.Exists)
-            {
-                directoryInfo.Delete(true);
-            }
-            #endregion
-            GeneratorUnitOfWorkCode();
-            List<DomainModel> allDomains = _moduleAbstractions.GetAllDomains();
-            GeneratorEntityConfigsCode(allDomains);
-            GeneratorDBContextCode(allDomains);
-            GeneratorRepositoryCode(allDomains);
         }
-        #endregion
     }
 }

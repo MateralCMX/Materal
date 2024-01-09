@@ -56,6 +56,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
+    <Compile Include="ToolWindows\Attributes\GeneratorCodeMethodAttribute.cs" />
     <Compile Include="ToolWindows\ViewModels\MergeBlockManagerWindowViewModel.cs" />
     <Compile Include="ToolWindows\SolutionNotOpenedControl.xaml.cs">
       <DependentUpon>SolutionNotOpenedControl.xaml</DependentUpon>
@@ -107,6 +108,7 @@
     <EmbeddedResource Include="Templates\DemoAbstractionsEnum.template" />
     <EmbeddedResource Include="Templates\DemoRepositoryGlobalUsings.template" />
     <EmbeddedResource Include="Templates\DemoRepositoryModule.template" />
+    <EmbeddedResource Include="Templates\DemoApplicationGlobalUsings.template" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="VSCommandTable.vsct">
@@ -153,6 +155,9 @@
     </PackageReference>
     <PackageReference Include="IndexRange">
       <Version>1.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Materal.Abstractions">
+      <Version>1.1.74</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.8.2365">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
