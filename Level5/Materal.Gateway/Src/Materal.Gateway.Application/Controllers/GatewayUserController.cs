@@ -1,4 +1,3 @@
-using Consul;
 using Materal.Gateway.Common;
 using Materal.Gateway.Controllers;
 using Materal.MergeBlock.Authorization.Abstractions;

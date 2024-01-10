@@ -3,7 +3,6 @@ using Materal.Gateway.Service;
 using Materal.Utils.Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 
@@ -14,6 +13,15 @@ namespace Materal.Gateway.Application
     /// </summary>
     public class GatewayModule : MergeBlockModule, IMergeBlockModule
     {
+        public override Task OnConfigServiceBeforeAsync(IConfigServiceContext context)
+        {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ocelot.json");
+            if (context.Configuration is ConfigurationManager configuration)
+            {
+                configuration.AddJsonFile(filePath, false, true);
+            }
+            return base.OnConfigServiceBeforeAsync(context);
+        }
         /// <summary>
         /// 配置服务
         /// </summary>
@@ -22,11 +30,6 @@ namespace Materal.Gateway.Application
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.Services.Configure<ApplicationConfig>(context.Configuration);
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ocelot.json");
-            if (context.Configuration is ConfigurationManager configuration)
-            {
-                configuration.AddJsonFile(filePath, false, true); //加载Ocelot配置
-            }
             context.Services.AddMateralConsulUtils();
             context.Services.AddSwaggerForOcelot(context.Configuration);
             context.Services.AddOcelotGateway();

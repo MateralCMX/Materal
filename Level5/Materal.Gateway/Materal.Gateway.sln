@@ -5,13 +5,9 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{D100DEF6-98EA-496C-9076-91E7C1AAA4FA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{BA3C5C17-2E7A-4B93-91C7-9A5C58B618C0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.Abstractions", "Src\Materal.Gateway.Abstractions\Materal.Gateway.Abstractions.csproj", "{10B63845-0C02-4140-B019-1B057954A5A8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway", "Src\Materal.Gateway\Materal.Gateway.csproj", "{309C372A-D00C-416C-9828-F9FB321EAA2A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.Test", "Test\Materal.Gateway.Test\Materal.Gateway.Test.csproj", "{400AA20E-12FD-4128-8DCF-46595676C091}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.WebAPI", "Src\Materal.Gateway.WebAPI\Materal.Gateway.WebAPI.csproj", "{F3818C65-A29C-4D46-9EE3-67286878221F}"
 EndProject
@@ -36,7 +32,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Materal.Gateway.Web", "Src\
 		SlnRelativePath = "Src\Materal.Gateway.Web\"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Gateway.Application", "Src\Materal.Gateway.Application\Materal.Gateway.Application.csproj", "{8EBF416D-521E-4AC1-8ED8-DB00AE855395}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.Application", "Src\Materal.Gateway.Application\Materal.Gateway.Application.csproj", "{8EBF416D-521E-4AC1-8ED8-DB00AE855395}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,10 +48,6 @@ Global
 		{309C372A-D00C-416C-9828-F9FB321EAA2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{309C372A-D00C-416C-9828-F9FB321EAA2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{309C372A-D00C-416C-9828-F9FB321EAA2A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{400AA20E-12FD-4128-8DCF-46595676C091}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{400AA20E-12FD-4128-8DCF-46595676C091}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{400AA20E-12FD-4128-8DCF-46595676C091}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{400AA20E-12FD-4128-8DCF-46595676C091}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F3818C65-A29C-4D46-9EE3-67286878221F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F3818C65-A29C-4D46-9EE3-67286878221F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3818C65-A29C-4D46-9EE3-67286878221F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -75,7 +67,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{10B63845-0C02-4140-B019-1B057954A5A8} = {D100DEF6-98EA-496C-9076-91E7C1AAA4FA}
 		{309C372A-D00C-416C-9828-F9FB321EAA2A} = {D100DEF6-98EA-496C-9076-91E7C1AAA4FA}
-		{400AA20E-12FD-4128-8DCF-46595676C091} = {BA3C5C17-2E7A-4B93-91C7-9A5C58B618C0}
 		{F3818C65-A29C-4D46-9EE3-67286878221F} = {D100DEF6-98EA-496C-9076-91E7C1AAA4FA}
 		{9FE40E53-06DB-40C9-8E66-68A2726C7150} = {D100DEF6-98EA-496C-9076-91E7C1AAA4FA}
 		{8EBF416D-521E-4AC1-8ED8-DB00AE855395} = {D100DEF6-98EA-496C-9076-91E7C1AAA4FA}
