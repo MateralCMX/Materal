@@ -1,5 +1,4 @@
 ﻿using Materal.Logger;
-using Materal.Logger.LoggerLogs;
 
 namespace Microsoft.Extensions.Logging
 {
@@ -14,11 +13,10 @@ namespace Microsoft.Extensions.Logging
         /// <param name="builder"></param>
         /// <param name="configure"></param>
         /// <param name="clearOtherProvider"></param>
-        /// <param name="getLoggerLog"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true)
         {
-            builder.AddMateralLogger(null, configure, clearOtherProvider, getLoggerLog);
+            builder.AddMateralLogger(null, configure, clearOtherProvider);
             return builder;
         }
         /// <summary>
@@ -28,11 +26,9 @@ namespace Microsoft.Extensions.Logging
         /// <param name="configuration"></param>
         /// <param name="configure"></param>
         /// <param name="clearOtherProvider"></param>
-        /// <param name="getLoggerLog"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, IConfiguration? configuration, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, IConfiguration? configuration, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true)
         {
-            getLoggerLog ??= () => new ConsoleLoggerLog();
             if (clearOtherProvider)
             {
                 builder.ClearProviders();
@@ -50,7 +46,6 @@ namespace Microsoft.Extensions.Logging
             {
                 builder.Services.Configure(configure);
             }
-            LoggerHost.LoggerLog = getLoggerLog();
             return builder;
         }
         /// <summary>

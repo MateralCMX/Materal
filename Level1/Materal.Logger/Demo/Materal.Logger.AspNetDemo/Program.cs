@@ -7,9 +7,9 @@ namespace Materal.Logger.AspNetDemo
         {
             WebApplicationBuilder applicationBuilder = WebApplication.CreateBuilder(args);
             applicationBuilder.AddMateralLogger();
-            //applicationBuilder.Logging.AddDyLogger();
-            //applicationBuilder.Services.AddLogging(bulider => bulider.AddDyLogger());
-            //applicationBuilder.Services.AddDyLogger();
+            //applicationBuilder.Logging.AddMateralLogger();
+            //applicationBuilder.Services.AddMateralLogger(bulider => bulider.AddMateralLogger());
+            //applicationBuilder.Services.AddMateralLogger();
             applicationBuilder.Services.AddControllers();
             applicationBuilder.Services.AddEndpointsApiExplorer();
             applicationBuilder.Services.AddSwaggerGen();

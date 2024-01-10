@@ -13,11 +13,10 @@ namespace Microsoft.Extensions.Logging
         /// <param name="services"></param>
         /// <param name="configure"></param>
         /// <param name="clearOtherProvider"></param>
-        /// <param name="getLoggerLog"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true)
         {
-            services.AddLogging(bulider => bulider.AddMateralLogger(configure, clearOtherProvider, getLoggerLog));
+            services.AddLogging(bulider => bulider.AddMateralLogger(configure, clearOtherProvider));
             return services;
         }
         /// <summary>
@@ -27,11 +26,10 @@ namespace Microsoft.Extensions.Logging
         /// <param name="configuration"></param>
         /// <param name="configure"></param>
         /// <param name="clearOtherProvider"></param>
-        /// <param name="getLoggerLog"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration? configuration, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration? configuration, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true)
         {
-            services.AddLogging(bulider => bulider.AddMateralLogger(configuration, configure, clearOtherProvider, getLoggerLog));
+            services.AddLogging(bulider => bulider.AddMateralLogger(configuration, configure, clearOtherProvider));
             return services;
         }
         /// <summary>

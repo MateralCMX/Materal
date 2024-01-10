@@ -186,9 +186,9 @@ namespace Materal.Logger.ConfigModels
         /// <exception cref="LoggerException"></exception>
         public static LoggerConfig AddTarget(this LoggerConfig loggerConfig, TargetConfig target)
         {
-            if (loggerConfig.Targets.Any(m => m.Name == target.Name)) throw new LoggerException("已存在相同名称的目标");
-            loggerConfig.Targets.Add(target);
-            loggerConfig.CodeConfigTargetNames.Add(target.Name);
+            if (LoggerConfig.Targets.Any(m => m.Name == target.Name)) throw new LoggerException("已存在相同名称的目标");
+            LoggerConfig.Targets.Add(target);
+            LoggerConfig.CodeConfigTargetNames.Add(target.Name);
             return loggerConfig;
         }
         #endregion
@@ -246,7 +246,6 @@ namespace Materal.Logger.ConfigModels
         public static LoggerConfig AddRule(this LoggerConfig loggerConfig, RuleConfig ruleConfig)
         {
             loggerConfig.Rules.Add(ruleConfig);
-            loggerConfig.UpdateLoggerWriterConfig();
             return loggerConfig;
         }
         /// <summary>
@@ -260,7 +259,7 @@ namespace Materal.Logger.ConfigModels
         public static LoggerConfig AddAllTargetsRule(this LoggerConfig loggerConfig, string name = "全目标规则", LogLevel? minLevel = null, LogLevel? maxLevel = null, Dictionary<string, LogLevel>? logLevels = null)
         {
             List<string> targets = [];
-            loggerConfig.Targets.ForEach(m => targets.Add(m.Name));
+            LoggerConfig.Targets.ForEach(m => targets.Add(m.Name));
             loggerConfig.AddRule(name, targets, minLevel, maxLevel, logLevels);
             return loggerConfig;
         }

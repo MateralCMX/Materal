@@ -1,4 +1,5 @@
 ﻿using Materal.Logger;
+using Materal.Logger.LoggerLogs;
 
 namespace System
 {
@@ -15,16 +16,7 @@ namespace System
         public static async Task<IServiceProvider> UseMateralLoggerAsync(this IServiceProvider serviceProvider)
         {
             if (!LoggerHost.IsClose) return serviceProvider;
-            IOptionsMonitor<LoggerConfig> loggerConfigMonitor = serviceProvider.GetRequiredService<IOptionsMonitor<LoggerConfig>>();
-            LoggerConfig loggerConfig = loggerConfigMonitor.CurrentValue;
-            loggerConfig.UpdateConfig(serviceProvider);
-            loggerConfigMonitor.OnChange(m =>
-            {
-                loggerConfig.UpdateConfig(serviceProvider);
-                if (LoggerHost.LoggerLog is null) return;
-                LoggerHost.LoggerLog.MinLogLevel = m.MinLoggerLogLevel;
-                LoggerHost.LoggerLog.MaxLogLevel = m.MaxLoggerLogLevel;
-            });
+            LoggerHost.LoggerLog = serviceProvider.GetService<ILoggerLog>() ?? new ConsoleLoggerLog(serviceProvider);
             AppDomain.CurrentDomain.ProcessExit += (_, _) => LoggerHost.ShutdownAsync().Wait();
             await LoggerHost.StartAsync();
             return serviceProvider;

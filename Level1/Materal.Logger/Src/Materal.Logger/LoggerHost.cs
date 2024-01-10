@@ -9,7 +9,6 @@ namespace Materal.Logger
     public static class LoggerHost
     {
         private static ActionBlock<LoggerWriterModel>? _writeLoggerBlock;
-        private static readonly List<ILoggerWriter> _loggerWriters = [];
         /// <summary>
         /// 日志自身日志
         /// </summary>
@@ -34,8 +33,7 @@ namespace Materal.Logger
         private static async Task AsyncWriteLogger(LoggerWriterModel model)
         {
             if (!model.Config.Enable) return;
-            List<ILoggerWriter> loggerHandlers = [];
-            foreach (TargetConfig targetConfig in model.Config.Targets)
+            foreach (TargetConfig targetConfig in LoggerConfig.Targets)
             {
                 if (!targetConfig.Enable) continue;
                 ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter();
@@ -47,8 +45,6 @@ namespace Materal.Logger
                 {
                     LoggerLog?.LogError($"写入日志失败", ex);
                 }
-                if(_loggerWriters.Contains(loggerWriter)) continue;
-                _loggerWriters.Add(loggerWriter);
             }
         }
         /// <summary>
@@ -77,12 +73,11 @@ namespace Materal.Logger
                 _writeLoggerBlock.Complete();
                 await _writeLoggerBlock.Completion;
             }
-            if (_loggerWriters is not null)
+            foreach (TargetConfig targetConfig in LoggerConfig.Targets)
             {
-                foreach (ILoggerWriter writer in _loggerWriters)
-                {
-                    await writer.ShutdownAsync();
-                }
+                if (!targetConfig.Enable) continue;
+                ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter();
+                await loggerWriter.ShutdownAsync();
             }
             LoggerLog?.LogDebug($"[MateralLogger]关闭成功");
             if(LoggerLog is not null)

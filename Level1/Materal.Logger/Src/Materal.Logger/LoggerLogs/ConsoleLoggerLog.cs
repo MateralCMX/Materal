@@ -1,20 +1,23 @@
-﻿using Materal.Utils.Http;
-
-namespace Materal.Logger.LoggerLogs
+﻿namespace Materal.Logger.LoggerLogs
 {
     /// <summary>
     /// 控制台日志自身日志
     /// </summary>
-    public class ConsoleLoggerLog : ILoggerLog
+    public class ConsoleLoggerLog(IServiceProvider serviceProvider) : ILoggerLog
     {
+        /// <summary>
+        /// 配置文件
+        /// </summary>
+        private readonly IOptionsMonitor<LoggerConfig> _config = serviceProvider.GetRequiredService<IOptionsMonitor<LoggerConfig>>();
         /// <summary>
         /// 最小等级
         /// </summary>
-        public LogLevel MinLogLevel { get; set; } = LogLevel.Trace;
+        public LogLevel MinLogLevel => _config.CurrentValue.MinLoggerLogLevel;
         /// <summary>
         /// 最大等级
         /// </summary>
-        public LogLevel MaxLogLevel { get; set; } = LogLevel.Critical;
+        public LogLevel MaxLogLevel => _config.CurrentValue.MaxLoggerLogLevel;
+
         /// <summary>
         /// 启动
         /// </summary>

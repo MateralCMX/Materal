@@ -6,14 +6,6 @@
     public interface ILoggerLog
     {
         /// <summary>
-        /// 最小等级
-        /// </summary>
-        public LogLevel MinLogLevel { get; set; }
-        /// <summary>
-        /// 最大等级
-        /// </summary>
-        public LogLevel MaxLogLevel { get; set; }
-        /// <summary>
         /// 开始
         /// </summary>
         /// <returns></returns>

@@ -1,6 +1,4 @@
-﻿using Materal.Logger.LoggerLogs;
-
-namespace Microsoft.Extensions.Hosting
+﻿namespace Microsoft.Extensions.Hosting
 {
     /// <summary>
     /// 主机构建器扩展
@@ -13,11 +11,10 @@ namespace Microsoft.Extensions.Hosting
         /// <param name="builder"></param>
         /// <param name="configure"></param>
         /// <param name="clearOtherProvider"></param>
-        /// <param name="getLoggerLog"></param>
         /// <returns></returns>
-        public static IHostApplicationBuilder AddMateralLogger(this IHostApplicationBuilder builder, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true, Func<ILoggerLog>? getLoggerLog = null)
+        public static IHostApplicationBuilder AddMateralLogger(this IHostApplicationBuilder builder, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true)
         {
-            builder.Logging.AddMateralLogger(configure, clearOtherProvider, getLoggerLog);
+            builder.Logging.AddMateralLogger(configure, clearOtherProvider);
             return builder;
         }
         /// <summary>

@@ -12,6 +12,22 @@ namespace Materal.Logger.ConfigModels
         /// 目标类型字典
         /// </summary>
         public static Dictionary<string, Type> TargetTypes { get; set; } = [];
+        /// <summary>
+        /// 代码配置目标名称
+        /// </summary>
+        public static List<string> CodeConfigTargetNames { get; } = [];
+        /// <summary>
+        /// 目标配置
+        /// </summary>
+        public static List<TargetConfig> Targets { get; set; } = [];
+        /// <summary>
+        /// 日志等级组
+        /// </summary>
+        public static Dictionary<string, LogLevelEnum>? DefaultLogLevel { get; set; }
+        /// <summary>
+        /// 自定义配置
+        /// </summary>
+        public static Dictionary<string, object?> CustomConfig { get; private set; } = [];
         static LoggerConfig()
         {
             DirectoryInfo directoryInfo = new(AppDomain.CurrentDomain.BaseDirectory);
@@ -76,35 +92,18 @@ namespace Materal.Logger.ConfigModels
         /// </summary>
         public Dictionary<string, LogLevelEnum>? Scopes { get; set; }
         /// <summary>
-        /// 代码配置目标名称
-        /// </summary>
-        public List<string> CodeConfigTargetNames { get; } = [];
-        /// <summary>
-        /// 目标配置
-        /// </summary>
-        public List<TargetConfig> Targets { get; set; } = [];
-        /// <summary>
         /// 规则配置
         /// </summary>
         public List<RuleConfig> Rules { get; set; } = [];
         /// <summary>
-        /// 日志等级组
-        /// </summary>
-        public static Dictionary<string, LogLevelEnum>? DefaultLogLevel { get; set; }
-        /// <summary>
-        /// 自定义配置
-        /// </summary>
-        public static Dictionary<string, object?> CustomConfig { get; private set; } = [];
-        /// <summary>
         /// 更新配置
         /// </summary>
-        public void UpdateConfig(IServiceProvider serviceProvider)
+        public async Task UpdateConfig(IServiceProvider serviceProvider)
         {
             IConfiguration? configuration = serviceProvider.GetService<IConfiguration>();
-            if(configuration is not null)
+            if (configuration is not null)
             {
                 DefaultLogLevel = configuration.GetValueObject<Dictionary<string, LogLevelEnum>>("Logging:MateralLogger:LogLevel");
-                Targets.RemoveAll(m => !CodeConfigTargetNames.Contains(m.Name));
                 List<ExpandoObject>? targets = GetTargetExpandoObjects(configuration);
                 if (targets is null || targets.Count <= 0) return;
                 foreach (ExpandoObject target in targets)
@@ -115,21 +114,27 @@ namespace Materal.Logger.ConfigModels
                     Type targetConfigType = TargetTypes[targetTypeName];
                     object targetConfigObj = target.ToJson().JsonToObject(targetConfigType);
                     if (targetConfigObj is not TargetConfig targetConfig) continue;
-                    if (Targets.Any(m => m.Name == targetConfig.Name)) continue;
-                    Targets.Add(targetConfig);
+                    TargetConfig? oldTargetConfig = Targets.FirstOrDefault(m => m.Name == targetConfig.Name);
+                    if (oldTargetConfig is not null)
+                    {
+                        ILoggerWriter loggerWriter = oldTargetConfig.GetLoggerWriter();
+                        if (oldTargetConfig.GetType() == targetConfig.GetType())
+                        {
+                            targetConfig.CopyProperties(oldTargetConfig);
+                            loggerWriter.OnLoggerConfigChanged?.Invoke(this);
+                        }
+                        else
+                        {
+                            await loggerWriter.ShutdownAsync();
+                            Targets.Remove(oldTargetConfig);
+                            Targets.Add(targetConfig);
+                        }
+                    }
+                    else
+                    {
+                        Targets.Add(targetConfig);
+                    }
                 }
-            }
-            UpdateLoggerWriterConfig();
-        }
-        /// <summary>
-        /// 更新日志写入器配置
-        /// </summary>
-        public void UpdateLoggerWriterConfig()
-        {
-            foreach (TargetConfig target in Targets)
-            {
-                ILoggerWriter loggerWriter = target.GetLoggerWriter();
-                loggerWriter.OnLoggerConfigChanged?.Invoke(this);
             }
         }
         /// <summary>

@@ -7,16 +7,19 @@
     public sealed class LoggerProvider : ILoggerProvider
     {
         private readonly IDisposable? _onChangeToken;
-        private LoggerConfig _currentConfig;
         private readonly ConcurrentDictionary<string, Logger> _loggers = new(StringComparer.OrdinalIgnoreCase);
+        private readonly IOptionsMonitor<LoggerConfig> _config;
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="config"></param>
-        public LoggerProvider(IOptionsMonitor<LoggerConfig> config)
+        public LoggerProvider(IServiceProvider serviceProvider, IOptionsMonitor<LoggerConfig> config)
         {
-            _currentConfig = config.CurrentValue;
-            _onChangeToken = config.OnChange(updatedConfig => _currentConfig = updatedConfig);
+            _config = config;
+            _config.CurrentValue.UpdateConfig(serviceProvider).Wait();
+            _config.OnChange(async m =>
+            {
+                await m.UpdateConfig(serviceProvider);
+            });
         }
         /// <summary>
         /// 创建日志记录器
@@ -28,7 +31,7 @@
         /// 获取配置
         /// </summary>
         /// <returns></returns>
-        private LoggerConfig GetConfig() => _currentConfig;
+        private LoggerConfig GetConfig() => _config.CurrentValue;
         /// <summary>
         /// 释放资源
         /// </summary>
