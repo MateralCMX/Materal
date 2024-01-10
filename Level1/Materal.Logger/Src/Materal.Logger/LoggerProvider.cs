@@ -16,7 +16,7 @@
         {
             _config = config;
             _config.CurrentValue.UpdateConfig(serviceProvider).Wait();
-            _config.OnChange(async m =>
+            _onChangeToken = _config.OnChange(async m =>
             {
                 await m.UpdateConfig(serviceProvider);
             });

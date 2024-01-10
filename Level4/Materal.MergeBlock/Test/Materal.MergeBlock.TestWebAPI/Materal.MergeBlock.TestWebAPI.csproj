@@ -9,6 +9,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
+	  <ProjectReference Include="..\Materal.MergeBlock.AccessLogTest\Materal.MergeBlock.AccessLogTest.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.LoggerTest\Materal.MergeBlock.LoggerTest.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.SwaggerTest\Materal.MergeBlock.SwaggerTest.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.TestModule\Materal.MergeBlock.TestModule.csproj" />
