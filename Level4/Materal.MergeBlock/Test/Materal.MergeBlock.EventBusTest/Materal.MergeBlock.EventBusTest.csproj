@@ -5,10 +5,10 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Remove="ExceptionInterceptorConfig.json" />
+		<None Remove="EventBusConfig.json" />
 	</ItemGroup>
 	<ItemGroup>
-		<Content Include="ExceptionInterceptorConfig.json">
+		<Content Include="EventBusConfig.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -16,6 +16,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.MergeBlock.ExceptionInterceptor\Materal.MergeBlock.ExceptionInterceptor.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
 	</ItemGroup>
 </Project>

@@ -85,13 +85,13 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             {
                 _persistentConnection.TryConnect();
             }
+            string eventName = @event.GetType().Name;
             RetryPolicy policy = Policy.Handle<BrokerUnreachableException>().Or<SocketException>()
                 .WaitAndRetryForever(count => TimeSpan.FromSeconds(5), (ex, time) =>
                 {
-                    _logger?.LogError(ex, "发布事件失败: EventId={EventId} Timeout={Timeout} ({ExceptionMessage})", @event.ID, $"{time.TotalSeconds:n1}", ex.Message);
+                    _logger?.LogError(ex, "发布事件失败: {EventName}_{EventId} Timeout={Timeout} ({ExceptionMessage})", eventName, @event.ID, $"{time.TotalSeconds:n1}", ex.Message);
                 });
-            string eventName = @event.GetType().Name;
-            _logger?.LogDebug("创建RabbitMQ发布事件通道: {EventId} ({EventName})", @event.ID, eventName);
+            _logger?.LogDebug("创建RabbitMQ发布事件通道: {EventName}_{EventId}", eventName, @event.ID);
             IModel channel = await _persistentConnection.CreateModelAsync();
             channel.ExchangeDeclare(_exchangeName, "direct");
             string message = JsonConvert.SerializeObject(@event);
@@ -100,7 +100,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             {
                 IBasicProperties properties = channel.CreateBasicProperties();
                 properties.DeliveryMode = 2;
-                _logger?.LogInformation("发布事件: {EventId}", @event.ID);
+                _logger?.LogInformation("发布事件: {EventName}_{EventId}", eventName, @event.ID);
                 channel.BasicPublish(_exchangeName, eventName, properties, body);
                 channel.Dispose();
             });
@@ -223,7 +223,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         private async Task<bool> TryProcessEvent(string eventName, string message)
         {
             using IDisposable? scope = _logger?.BeginScope("ProcessEvent");
-            _logger?.LogInformation("处理事件: {eventName}", eventName);
+            _logger?.LogDebug("事件触发: {eventName}", eventName);
             if (!_subsManager.HasSubscriptionsForEvent(eventName))
             {
                 _logger?.LogError("未找到订阅事件: {eventName}", eventName);
@@ -318,6 +318,14 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             Type concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
             MethodInfo? handlerMethodInfo = concreteType.GetMethod("HandleAsync");
             if (handlerMethodInfo == null || handlerMethodInfo.ReturnType != typeof(Task)) return false;
+            if(integrationEvent is IntegrationEvent @event)
+            {
+                _logger?.LogInformation("处理事件: {eventName}_{EventId}", eventName, @event.ID);
+            }
+            else
+            {
+                _logger?.LogInformation("处理事件: {eventName}", eventName);
+            }
             async Task HandlerFunc()
             {
                 if (handlerMethodInfo == null || handlerMethodInfo.ReturnType != typeof(Task)) return;
@@ -342,6 +350,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             IServiceProvider service = serviceScope.ServiceProvider;
             if (service.GetService(subscription.HandlerType) is not IDynamicIntegrationEventHandler handler) return false;
             dynamic eventData = JObject.Parse(message);
+            _logger?.LogInformation("处理事件: {eventName}", eventName);
             async Task HandlerFunc()
             {
                 await handler.HandleAsync(eventData);
