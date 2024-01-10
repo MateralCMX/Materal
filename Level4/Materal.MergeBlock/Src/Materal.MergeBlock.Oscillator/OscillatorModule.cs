@@ -1,6 +1,7 @@
 ﻿using Materal.Oscillator.SqliteEFRepository;
 using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Materal.MergeBlock.Oscillator
 {
@@ -33,9 +34,10 @@ namespace Materal.MergeBlock.Oscillator
         /// <returns></returns>
         public override async Task OnApplicationInitAsync(IApplicationContext context)
         {
-            IMigrateHelper migrateHelper = context.ServiceProvider.GetRequiredService<IMigrateHelper<OscillatorDBContext>>();
+            using IServiceScope scope = context.ServiceProvider.CreateScope();
+            IMigrateHelper migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<OscillatorDBContext>>();
             await migrateHelper.MigrateAsync();
-            IOscillatorService oscillatorService = context.ServiceProvider.GetRequiredService<IOscillatorService>();
+            IOscillatorService oscillatorService = scope.ServiceProvider.GetRequiredService<IOscillatorService>();
             await oscillatorService.StartAsync();
             await base.OnApplicationInitAsync(context);
         }

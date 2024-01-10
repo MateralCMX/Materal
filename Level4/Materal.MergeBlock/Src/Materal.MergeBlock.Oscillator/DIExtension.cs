@@ -16,7 +16,7 @@ namespace Materal.MergeBlock.Oscillator
         /// <returns></returns>
         public static IServiceCollection AddOscillator(this IServiceCollection services, params Assembly[] scheduleAssemblies)
         {
-            IDBConfigModel dBConfigModel = new SqliteConfigModel() { Source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "./Oscillator.db") };
+            IDBConfigModel dBConfigModel = new SqliteConfigModel() { Source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Oscillator.db") };
             services.AddOscillator(dBConfigModel, scheduleAssemblies);
             return services;
         }

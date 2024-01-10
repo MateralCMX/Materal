@@ -15,6 +15,7 @@
 	  <ProjectReference Include="..\Materal.MergeBlock.EventBusTest\Materal.MergeBlock.EventBusTest.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.ExceptionInterceptorTest\Materal.MergeBlock.ExceptionInterceptorTest.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.LoggerTest\Materal.MergeBlock.LoggerTest.csproj" />
+	  <ProjectReference Include="..\Materal.MergeBlock.OscillatorTest\Materal.MergeBlock.OscillatorTest.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.SwaggerTest\Materal.MergeBlock.SwaggerTest.csproj" />
 	</ItemGroup>
 	<ItemGroup>
