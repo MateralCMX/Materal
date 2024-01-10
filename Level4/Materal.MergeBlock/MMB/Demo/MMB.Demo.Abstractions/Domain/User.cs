@@ -1,4 +1,4 @@
-﻿using Materal.BaseCore.CodeGenerator;
+﻿using Materal.MergeBlock.GeneratorCode.Attributers;
 
 namespace MMB.Demo.Abstractions.Domain
 {

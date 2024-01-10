@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="1.1.74" />
+		<PackageReference Include="Materal.MergeBlock.Authorization.Abstractions" Version="1.1.74" />
+		<PackageReference Include="Materal.Utils.Consul" Version="1.1.74" />
+		<PackageReference Include="MMLib.SwaggerForOcelot" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Gateway\Materal.Gateway.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Management\**">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Ocelot.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>

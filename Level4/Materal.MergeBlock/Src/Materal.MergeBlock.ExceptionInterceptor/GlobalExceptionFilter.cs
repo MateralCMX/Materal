@@ -14,8 +14,13 @@ namespace Materal.MergeBlock.ExceptionInterceptor
         /// <param name="context"></param>
         public void OnException(ExceptionContext context)
         {
-            if (context.Exception is not MergeBlockModuleException && context.Exception is not ValidationException) return;
-            ResultModel result = ResultModel.Fail(context.Exception.Message);
+            Exception exception = context.Exception;
+            if(exception is AggregateException aggregateException)
+            {
+                exception = aggregateException.InnerException ?? exception;
+            }
+            if (exception is not MergeBlockModuleException && exception is not ValidationException) return;
+            ResultModel result = ResultModel.Fail(exception.Message);
             context.Result = new JsonResult(result);
         }
     }

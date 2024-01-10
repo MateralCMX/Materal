@@ -3,7 +3,7 @@
 namespace Materal.MergeBlock.EventBus
 {
     /// <summary>
-    /// 日志模块
+    /// 事件总线模块
     /// </summary>
     public class EventBusModule : MergeBlockModule, IMergeBlockModule
     {
