@@ -9,10 +9,6 @@ namespace Materal.MergeBlock.LoggerTest.Controllers
     /// </summary>
     public class LoggerTestController(ILogger<LoggerTestController> logger) : MergeBlockControllerBase
     {
-        /// <summary>
-        /// ˵Hello
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public void WriteLogger()
         {

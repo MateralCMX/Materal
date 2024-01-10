@@ -11,10 +11,6 @@ namespace Materal.MergeBlock.AuthorizationTest.Controllers
     /// </summary>
     public class AuthorizationTestController(ITokenService tokenService) : MergeBlockControllerBase
     {
-        /// <summary>
-        /// ˵Hello
-        /// </summary>
-        /// <returns></returns>
         [HttpGet, AllowAnonymous]
         public ResultModel<string> GetToken()
         {

@@ -1,6 +1,6 @@
 ﻿{
   "Consul": {
-    "Enable": true,
+    "Enable": false,
     "ServiceName": "MergeBlock_TestAPI",
     "Tags": [ "Materal", "Materal.MergeBlock", "Materal.MergeBlock.TestModule" ],
     "ServiceUrl": {
