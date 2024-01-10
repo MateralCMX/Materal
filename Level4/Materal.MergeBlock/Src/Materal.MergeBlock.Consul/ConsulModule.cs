@@ -1,4 +1,5 @@
 ﻿using Materal.Abstractions;
+using Microsoft.Extensions.Options;
 
 namespace Materal.MergeBlock.Logger
 {
@@ -8,7 +9,9 @@ namespace Materal.MergeBlock.Logger
     public class ConsulModule : MergeBlockModule, IMergeBlockModule
     {
         private const string _configKey="Consul";
-        private IConsulService? consulService;
+        private IConsulService? _consulService;
+        private IOptionsMonitor<ConsulConfigModel>? _config;
+        private bool isRegister = false;
         /// <summary>
         /// 配置服务
         /// </summary>
@@ -16,6 +19,7 @@ namespace Materal.MergeBlock.Logger
         /// <returns></returns>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
+            context.Services.Configure<ConsulConfigModel>(context.Configuration.GetSection(_configKey));
             context.Services.AddMateralConsulUtils();
             await base.OnConfigServiceAsync(context);
         }
@@ -27,19 +31,42 @@ namespace Materal.MergeBlock.Logger
         /// <exception cref="MergeBlockException"></exception>
         public override async Task OnApplicationInitBeforeAsync(IApplicationContext context)
         {
-            IConfiguration configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-            ConsulConfigModel consulConfig = configuration.GetValueObject<ConsulConfigModel>(_configKey) ?? throw new MergeBlockException($"未找到Consul配置[{_configKey}]");
-            if (consulConfig.Enable)
+            _config = context.ServiceProvider.GetRequiredService<IOptionsMonitor<ConsulConfigModel>>();
+            _consulService = MateralServices.GetRequiredService<IConsulService>();
+            _config.OnChange(config =>
             {
-                ThreadPool.QueueUserWorkItem(async state =>
+                if (config.Enable)
                 {
-                    consulService = MateralServices.GetRequiredService<IConsulService>();
-                    await consulService.RegisterConsulAsync(consulConfig);
-                });
-                AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
+                    RegisterConsul();
+                }
+                else
+                {
+                    UnregisterConsul();
+                }
+            });
+            if (_config.CurrentValue.Enable)
+            {
+                RegisterConsul();
             }
+            AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             await base.OnApplicationInitBeforeAsync(context);
         }
-        private void CurrentDomain_ProcessExit(object? sender, EventArgs e) => consulService?.UnregisterConsulAsync().Wait();
+        private void RegisterConsul()
+        {
+            if(isRegister) return;
+            isRegister = true;
+            ThreadPool.QueueUserWorkItem(async state =>
+            {
+                if (_config is null || _consulService is null) return;
+                await _consulService.RegisterConsulAsync(_config.CurrentValue);
+            });
+        }
+        private void UnregisterConsul()
+        {
+            if (!isRegister || _consulService is null) return;
+            _consulService.UnregisterConsulAsync().Wait();
+            isRegister = false;
+        }
+        private void CurrentDomain_ProcessExit(object? sender, EventArgs e) => UnregisterConsul();
     }
 }

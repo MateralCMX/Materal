@@ -39,7 +39,10 @@ namespace Materal.Utils.Consul
         /// <param name="consulConfig"></param>
         public async Task RegisterConsulAsync(ConsulConfigModel consulConfig)
         {
-            if (_consulConfig is not null) throw new MateralException("Consul服务已注册");
+            if (_consulConfig is not null)
+            {
+                await UnregisterConsulAsync();
+            }
             _consulConfig = consulConfig;
             await RegisterConsulAsync();
         }
@@ -49,7 +52,7 @@ namespace Materal.Utils.Consul
         /// <returns></returns>
         public async Task UnregisterConsulAsync()
         {
-            if (_consulConfig is null) throw new MateralException("未设置Consul配置对象");
+            if (_consulConfig is null) return;
             _logger?.LogInformation($"正在向Consul反注册[{_consulConfig.ServiceName}]服务.....");
             using ConsulClient consulClient = new(config => config.Address = new Uri(_consulConfig.ConsulUrl.Url));
             AgentServiceRegistration registration = _consulConfig.GetAgentServiceRegistration(NodeID);

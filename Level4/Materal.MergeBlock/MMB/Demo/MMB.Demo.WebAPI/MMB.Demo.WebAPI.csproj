@@ -33,7 +33,6 @@
 		<!--<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Oscillator\Materal.MergeBlock.Oscillator.csproj" />-->
 		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
 		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
-		<ProjectReference Include="..\..\..\Test\Materal.MergeBlock.TestModule\Materal.MergeBlock.TestModule.csproj" />
 		<!--<ProjectReference Include="..\MMB.Demo.Application\MMB.Demo.Application.csproj" />-->
 	</ItemGroup>
 </Project>
