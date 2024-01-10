@@ -27,6 +27,32 @@ namespace Materal.MergeBlock.GeneratorCode
         /// <summary>
         /// 是否拥有特性
         /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="domain"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T1, T2, T3>(this DomainModel domain)
+            where T1 : Attribute
+            where T2 : Attribute
+            where T3 : Attribute => domain.Attributes.HasAttribute<T1>() || domain.Attributes.HasAttribute<T2>() || domain.Attributes.HasAttribute<T3>();
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <param name="domain"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T1, T2, T3, T4>(this DomainModel domain)
+            where T1 : Attribute
+            where T2 : Attribute
+            where T3 : Attribute
+            where T4 : Attribute => domain.Attributes.HasAttribute<T1>() || domain.Attributes.HasAttribute<T2>() || domain.Attributes.HasAttribute<T3>() || domain.Attributes.HasAttribute<T4>();
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="property"></param>
         /// <returns></returns>

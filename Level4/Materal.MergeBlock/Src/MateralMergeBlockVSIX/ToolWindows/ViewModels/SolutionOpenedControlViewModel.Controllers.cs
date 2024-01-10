@@ -33,8 +33,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorAddRequestModel(DomainModel domain)
         {
-            if (domain.HasAttribute<ViewAttribute>()) return;
-            if (domain.HasAttribute<NotAddAttribute>()) return;
+            if (domain.HasAttribute<NotServiceAttribute, NotControllerAttribute, ViewAttribute, NotAddAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -58,8 +57,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorEditRequestModel(DomainModel domain)
         {
-            if (domain.HasAttribute<ViewAttribute>()) return;
-            if (domain.HasAttribute<NotEditAttribute>()) return;
+            if (domain.HasAttribute<NotServiceAttribute, NotControllerAttribute, ViewAttribute, NotEditAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -89,8 +87,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domains"></param>
         private void GeneratorQueryRequestModel(DomainModel domain, List<DomainModel> domains)
         {
-            if (domain.HasAttribute<ViewAttribute>()) return;
-            if (domain.HasAttribute<NotQueryAttribute>()) return;
+            if (domain.HasAttribute<NotServiceAttribute, NotControllerAttribute, ViewAttribute, NotQueryAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
@@ -155,8 +152,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorTreeQueryRequestModel(DomainModel domain)
         {
-            if (domain.HasAttribute<ViewAttribute>()) return;
-            if (domain.HasAttribute<NotQueryAttribute>()) return;
+            if (domain.HasAttribute<NotServiceAttribute, NotControllerAttribute, ViewAttribute, NotQueryAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -201,7 +197,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorIControllerCode(DomainModel domain)
         {
-            if (domain.HasAttribute<ViewAttribute>()) return;
+            if (domain.HasAttribute<NotServiceAttribute, NotControllerAttribute, ViewAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
@@ -259,7 +255,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorControllersCode(DomainModel domain)
         {
-            if (domain.HasAttribute<ViewAttribute>()) return;
+            if (domain.HasAttribute<NotServiceAttribute, NotControllerAttribute, ViewAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
