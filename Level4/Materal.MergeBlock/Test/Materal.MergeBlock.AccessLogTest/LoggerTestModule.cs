@@ -10,11 +10,11 @@ namespace Materal.MergeBlock.AccessLogTest
     public class AccessLogTestModule : MergeBlockModule, IMergeBlockModule
     {
         /// <summary>
-        /// 配置服务
+        /// 配置服务之前
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
+        public override async Task OnConfigServiceBeforeAsync(IConfigServiceContext context)
         {
             if(context.Configuration is IConfigurationBuilder configurationBuilder)
             {

@@ -2,7 +2,7 @@ using Materal.MergeBlock.Application.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace MMB.Demo.Application.Controllers
+namespace Materal.MergeBlock.LoggerTest.Controllers
 {
     /// <summary>
     /// Logger²âÊÔ¿ØÖÆÆ÷

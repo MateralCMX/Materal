@@ -30,7 +30,7 @@ namespace Materal.MergeBlock.Swagger
                         Description = swaggerConfig.Description
                     };
                     config.SwaggerDoc(swaggerConfig.Version, openApiInfo);
-                    bool EnableAuthentication = swaggerConfig.EnableAuthentication ?? context.ModuleInfos.Any(m => m.ModuleName == "Authorzation");
+                    bool EnableAuthentication = swaggerConfig.EnableAuthentication ?? context.ModuleInfos.Any(m => m.ModuleName == "Authorization");
                     if (EnableAuthentication)
                     {
                         OpenApiSecurityScheme bearerScheme = new()

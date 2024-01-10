@@ -81,6 +81,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.LoggerTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.AccessLogTest", "Test\Materal.MergeBlock.AccessLogTest\Materal.MergeBlock.AccessLogTest.csproj", "{B395B5F4-F851-423B-AD32-11BBBB5ECFF8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.AuthorizationTest", "Test\Materal.MergeBlock.AuthorizationTest\Materal.MergeBlock.AuthorizationTest.csproj", "{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -475,6 +477,18 @@ Global
 		{B395B5F4-F851-423B-AD32-11BBBB5ECFF8}.Release|arm64.Build.0 = Release|Any CPU
 		{B395B5F4-F851-423B-AD32-11BBBB5ECFF8}.Release|x86.ActiveCfg = Release|Any CPU
 		{B395B5F4-F851-423B-AD32-11BBBB5ECFF8}.Release|x86.Build.0 = Release|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Debug|arm64.Build.0 = Debug|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Debug|x86.Build.0 = Debug|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Release|arm64.ActiveCfg = Release|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Release|arm64.Build.0 = Release|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Release|x86.ActiveCfg = Release|Any CPU
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -516,6 +530,7 @@ Global
 		{0D051E08-377E-4AAD-AF65-CF2EC3F66847} = {432A751A-ABDB-4AA4-91BF-A5CA747A1CBD}
 		{985B3339-6DEB-460B-B880-142BA72215BB} = {432A751A-ABDB-4AA4-91BF-A5CA747A1CBD}
 		{B395B5F4-F851-423B-AD32-11BBBB5ECFF8} = {432A751A-ABDB-4AA4-91BF-A5CA747A1CBD}
+		{03C1DB25-442D-455B-AE95-DE0BBA5AC25A} = {432A751A-ABDB-4AA4-91BF-A5CA747A1CBD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {67833DC5-4077-4868-93CE-E1D59227F31F}

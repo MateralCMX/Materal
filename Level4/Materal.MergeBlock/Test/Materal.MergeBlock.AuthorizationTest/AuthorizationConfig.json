@@ -1,0 +1,8 @@
+﻿{
+  "Authorization": {
+    "Audience": "WebAPI",
+    "ExpiredTime": "18000",
+    "Issuer": "Materal.APP",
+    "Key": "MateralCMXConfig"
+  }
+}
