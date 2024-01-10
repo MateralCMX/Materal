@@ -1,0 +1,7 @@
+﻿{
+  "Swagger": {
+    "Enable": true,
+    "Version": "v1",
+    "Description": "提供WebAPI接口"
+  }
+}

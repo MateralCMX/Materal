@@ -5,7 +5,6 @@ using Materal.MergeBlock.Abstractions.Services;
 using Materal.MergeBlock.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json.Serialization;
 
@@ -27,7 +26,6 @@ namespace Materal.MergeBlock
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
             List<IMergeBlockModuleInfo> moduleInfos = LoadAllMergeBlockModule(builder.Services);
             ConfigServiceContext configServiceContext = new(builder.Host, builder.Configuration, builder.Services, moduleInfos);
-            await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceBeforeAsync(configServiceContext));
             #region 添加高优先级服务
             builder.Services.AddOptions();
             builder.Services.AddSingleton<IMergeBlockService, MergeBlockService>();
@@ -50,12 +48,13 @@ namespace Materal.MergeBlock
                 options.SuppressAsyncSuffixInActionNames = true;
             }).AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
             .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            #endregion
+            await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceBeforeAsync(configServiceContext));
             await RunAllModuleFuncAsync(moduleInfos, async (moduleInfo, _) =>
             {
                 configServiceContext.MvcBuilder.AddApplicationPart(moduleInfo.ModuleAssembly);
                 await Task.CompletedTask;
             });
-            #endregion
             await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnConfigServiceAsync(configServiceContext));
             #region 添加低优先级服务
             builder.Services.AddResponseCompression();
@@ -95,20 +94,21 @@ namespace Materal.MergeBlock
             _logger?.LogDebug("MergeBlock启动");
             _logger?.LogDebug($"共找到{moduleInfos.Count}个模块");
             app.Services.GetRequiredService<IMergeBlockService>().InitMergeBlockManage();
-            await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnApplicationInitBeforeAsync(applicationContext));
             #region 初始化高优先级服务
             app.Use(async (context, next) =>
             {
                 context.Request.EnableBuffering();
-                await next.Invoke();
+                await next.Invoke(context);
             });
             app.UseCors();
             #endregion
+            await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnApplicationInitBeforeAsync(applicationContext));
             await RunAllModuleFuncAsync(moduleInfos, async (moduleInfo, module) =>
             {
                 _logger?.LogDebug($"正在初始化{moduleInfo.ModuleName}模块[{moduleInfo.ModuleAttribute.Description}]");
                 await module.OnApplicationInitAsync(applicationContext);
             });
+            await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnApplicationInitAfterAsync(applicationContext));
             #region 初始化低优先级服务
             app.MapControllers();
             if (MergeBlockManager.BaseUris.Any(m => m.Scheme == "https"))
@@ -116,7 +116,6 @@ namespace Materal.MergeBlock
                 app.UseHttpsRedirection();
             }
             #endregion
-            await RunAllModuleFuncAsync(moduleInfos, async (_, module) => await module.OnApplicationInitAfterAsync(applicationContext));
             _logger?.LogDebug("MergeBlock初始化完毕");
             await app.RunAsync();
             _logger?.LogDebug("MergeBlock停止");

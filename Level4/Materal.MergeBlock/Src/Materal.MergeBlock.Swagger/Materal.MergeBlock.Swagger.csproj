@@ -23,6 +23,7 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="*" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />

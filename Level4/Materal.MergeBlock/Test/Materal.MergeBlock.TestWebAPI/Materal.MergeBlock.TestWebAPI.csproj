@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<LangVersion>12.0</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
+	  <ProjectReference Include="..\Materal.MergeBlock.LoggerTest\Materal.MergeBlock.LoggerTest.csproj" />
+	  <ProjectReference Include="..\Materal.MergeBlock.SwaggerTest\Materal.MergeBlock.SwaggerTest.csproj" />
+	  <ProjectReference Include="..\Materal.MergeBlock.TestModule\Materal.MergeBlock.TestModule.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Update="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+</Project>
