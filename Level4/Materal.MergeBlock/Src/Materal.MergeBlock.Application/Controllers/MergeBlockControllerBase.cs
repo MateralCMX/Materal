@@ -1,6 +1,7 @@
 ﻿using Materal.Abstractions;
 using Materal.MergeBlock.Abstractions.Filters;
 using Materal.MergeBlock.Abstractions.Services;
+using Materal.MergeBlock.GeneratorCode.Attributers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,22 @@ namespace Materal.MergeBlock.Application.Controllers
         /// </summary>
         /// <returns></returns>
         protected string GetClientIP() => FilterHelper.GetIPAddress(HttpContext.Connection);
+        /// <summary>
+        /// 绑定LoginUserID
+        /// </summary>
+        protected void BindLoginUserID(object model)
+        {
+            PropertyInfo[] propertyInfos = model.GetType().GetProperties();
+            foreach (PropertyInfo propertyInfo in propertyInfos)
+            {
+                if (!propertyInfo.CanWrite || propertyInfo.GetCustomAttribute<LoginUserIDAttribute>() is null) return;
+                Guid? loginUserID = FilterHelper.GetOperatingUserID(User);
+                if (propertyInfo.PropertyType == typeof(Guid) && loginUserID is not null || propertyInfo.PropertyType == typeof(Guid?))
+                {
+                    propertyInfo.SetValue(model, loginUserID);
+                }
+            }
+        }
     }
     /// <summary>
     /// WebAPI服务控制器基类
@@ -66,6 +83,7 @@ namespace Materal.MergeBlock.Application.Controllers
         public virtual async Task<ResultModel<Guid>> AddAsync(TAddRequestModel requestModel)
         {
             TAddModel model = Mapper.Map<TAddModel>(requestModel);
+            BindLoginUserID(model);
             return await AddAsync(model, requestModel);
         }
         /// <summary>
@@ -88,6 +106,7 @@ namespace Materal.MergeBlock.Application.Controllers
         public virtual async Task<ResultModel> EditAsync(TEditRequestModel requestModel)
         {
             TEditModel model = Mapper.Map<TEditModel>(requestModel);
+            BindLoginUserID(model);
             return await EditAsync(model, requestModel);
         }
         /// <summary>

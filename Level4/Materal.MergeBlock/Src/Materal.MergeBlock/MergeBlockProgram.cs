@@ -44,7 +44,6 @@ namespace Materal.MergeBlock
             configServiceContext.MvcBuilder = builder.Services.AddControllers(options =>
             {
                 options.Filters.Add<ActionPageQueryFilterAttribute>();
-                options.Filters.Add<BindBaseInfoToServiceFilterAttribute>();
                 options.SuppressAsyncSuffixInActionNames = true;
             }).AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
             .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());

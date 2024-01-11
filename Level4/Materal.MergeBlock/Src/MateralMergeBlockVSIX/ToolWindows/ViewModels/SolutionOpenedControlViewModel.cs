@@ -1,4 +1,6 @@
 ﻿#nullable enable
+using Materal.MergeBlock.GeneratorCode;
+using Materal.MergeBlock.GeneratorCode.Attributers;
 using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
@@ -180,6 +182,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             if (verificationAttributesCode is not null && !string.IsNullOrWhiteSpace(verificationAttributesCode))
             {
                 codeContent.AppendLine($"        {verificationAttributesCode}");
+            }
+            if (property.HasAttribute<LoginUserIDAttribute>())
+            {
+                codeContent.AppendLine($"        [{nameof(LoginUserIDAttribute).RemoveAttributeSuffix()}]");
             }
             codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }}");
             if (property.Initializer is not null && !string.IsNullOrWhiteSpace(property.Initializer))

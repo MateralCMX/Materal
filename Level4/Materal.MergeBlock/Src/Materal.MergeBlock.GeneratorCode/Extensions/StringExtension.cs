@@ -82,19 +82,5 @@
             }
             return result;
         }
-        /// <summary>
-        /// 移除特性后缀
-        /// </summary>
-        /// <param name="attributeName"></param>
-        /// <returns></returns>
-        public static string RemoveAttributeSuffix(this string attributeName)
-        {
-            const string attributeSuffix = "Attribute";
-            if (attributeName.EndsWith(attributeSuffix))
-            {
-                return attributeName[..^attributeSuffix.Length];
-            }
-            return attributeName;
-        }
     }
 }
