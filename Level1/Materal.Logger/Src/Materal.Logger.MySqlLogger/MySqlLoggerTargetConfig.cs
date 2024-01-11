@@ -3,7 +3,7 @@
     /// <summary>
     /// MySql目标配置
     /// </summary>
-    public class MySqlLoggerTargetConfig : BatchTargetConfig<MySqlLoggerWriter>
+    public class MySqlLoggerTargetConfig : DBLoggerTargetConfig<MySqlLoggerWriter, MySqlDBFiled>
     {
         /// <summary>
         /// 类型
@@ -12,15 +12,8 @@
         /// <summary>
         /// 连接字符串
         /// </summary>
-        public string ConnectionString { get; set; } = "Server=127.0.0.1;Port=3306;Database=LogDB;Uid=root;Pwd=123456;";
-        /// <summary>
-        /// 表名
-        /// </summary>
-        public string TableName { get; set; } = "MateralLogger";
-        /// <summary>
-        /// 默认字段
-        /// </summary>
-        public static List<MySqlDBFiled> DefaultFileds { get; } =
+        public override string ConnectionString { get; set; } = "Server=127.0.0.1;Port=3306;Database=LogDB;Uid=root;Pwd=123456;";
+        private static readonly List<MySqlDBFiled> _defaultFileds =
         [
             new() { Name = "ID", Type = "char(36)", Value = "${LogID}", PK = true },
             new() { Name = "CreateTime", Type = "datetime", Value = "${DateTime}", Index = "DESC", IsNull = false },
@@ -35,8 +28,8 @@
             new() { Name = "Exception", Type = "longtext", Value = "${Exception}" }
         ];
         /// <summary>
-        /// 字段
+        /// 默认字段
         /// </summary>
-        public List<MySqlDBFiled> Fileds { get; set; } = [];
+        public override List<MySqlDBFiled> DefaultFileds => _defaultFileds;
     }
 }

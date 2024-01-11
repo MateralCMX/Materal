@@ -3,7 +3,7 @@
     /// <summary>
     /// Mongo目标配置
     /// </summary>
-    public class MongoLoggerTargetConfig : BatchTargetConfig<MongoLoggerWriter>
+    public class MongoLoggerTargetConfig : BatchLoggerTargetConfig<MongoLoggerWriter>
     {
         /// <summary>
         /// 类型

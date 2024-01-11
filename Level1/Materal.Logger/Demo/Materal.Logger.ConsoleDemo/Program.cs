@@ -13,19 +13,16 @@ namespace Materal.Logger.ConsoleDemo
             IConfiguration configuration = configurationBuilder.Build();
             IServiceCollection services = new ServiceCollection();
             services.AddMateralLogger(configuration);
+            //services.AddLogging(builder => builder.AddMateralLogger());
             IServiceProvider serviceProvider = services.BuildServiceProvider();
             await serviceProvider.UseMateralLoggerAsync();
             ILogger logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-            while (true)
-            {
-                Console.ReadLine();
-                logger.LogTrace("Trace");
-                //logger.LogDebug("Debug");
-                //logger.LogInformation("Information");
-                //logger.LogWarning("Warning");
-                //logger.LogError("Error");
-                //logger.LogCritical("Critical");
-            }
+            logger.LogTrace("Trace");
+            logger.LogDebug("Debug");
+            logger.LogInformation("Information");
+            logger.LogWarning("Warning");
+            logger.LogError("Error");
+            logger.LogCritical("Critical");
         }
     }
 }

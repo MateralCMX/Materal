@@ -7,7 +7,7 @@ namespace Materal.Logger.LoggerWriter
     /// </summary>
     public abstract class BatchLoggerWriter<TModel, TTarget> : BaseLoggerWriter<TModel, TTarget>, ILoggerWriter<TModel>, ILoggerWriter
         where TModel : BatchLoggerWriterModel
-        where TTarget : BatchTargetConfig
+        where TTarget : BatchLoggerTargetConfig
     {
         private BatchBlock<TModel> _writeLoggerBlock;
         private readonly ActionBlock<TModel[]> _writeLoggersBlock;

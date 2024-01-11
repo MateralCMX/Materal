@@ -3,7 +3,7 @@
     /// <summary>
     /// SqlServer目标配置
     /// </summary>
-    public class SqlServerLoggerTargetConfig : BatchTargetConfig<SqlServerLoggerWriter>
+    public class SqlServerLoggerTargetConfig : DBLoggerTargetConfig<SqlServerLoggerWriter, SqlServerDBFiled>
     {
         /// <summary>
         /// 类型
@@ -12,15 +12,8 @@
         /// <summary>
         /// 连接字符串
         /// </summary>
-        public string ConnectionString { get; set; } = "Data Source=.;Initial Catalog=LogDB;Persist Security Info=True;User ID=sa;Password=123456";
-        /// <summary>
-        /// 表名
-        /// </summary>
-        public string TableName { get; set; } = "MateralLogger";
-        /// <summary>
-        /// 默认字段
-        /// </summary>
-        public static List<SqlServerDBFiled> DefaultFileds { get; } =
+        public override string ConnectionString { get; set; } = "Data Source=.;Initial Catalog=LogDB;Persist Security Info=True;User ID=sa;Password=123456";
+        private static readonly List<SqlServerDBFiled> _defaultFileds =
         [
             new() { Name = "ID", Type = "[uniqueidentifier]", Value = "${LogID}", PK = true },
             new() { Name = "CreateTime", Type = "[datetime2](7)", Value = "${DateTime}", Index = "DESC", IsNull = false },
@@ -35,8 +28,8 @@
             new() { Name = "Exception", Type = "[nvarchar](Max)", Value = "${Exception}" }
         ];
         /// <summary>
-        /// 字段
+        /// 默认字段
         /// </summary>
-        public List<SqlServerDBFiled> Fileds { get; set; } = [];
+        public override List<SqlServerDBFiled> DefaultFileds => _defaultFileds;
     }
 }

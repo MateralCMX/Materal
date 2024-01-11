@@ -3,7 +3,7 @@
     /// <summary>
     /// 批量目标配置
     /// </summary>
-    public abstract class BatchTargetConfig : TargetConfig
+    public abstract class BatchLoggerTargetConfig : TargetConfig
     {
         /// <summary>
         /// 批量处理大小
@@ -13,7 +13,7 @@
     /// <summary>
     /// 批量目标配置
     /// </summary>
-    public abstract class BatchTargetConfig<TLoggerWriter> : BatchTargetConfig
+    public abstract class BatchLoggerTargetConfig<TLoggerWriter> : BatchLoggerTargetConfig
         where TLoggerWriter : ILoggerWriter
     {
         private TLoggerWriter? _loggerWriter;

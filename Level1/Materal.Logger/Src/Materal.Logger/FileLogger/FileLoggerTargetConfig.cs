@@ -3,7 +3,7 @@
     /// <summary>
     /// 文件目标配置
     /// </summary>
-    public class FileLoggerTargetConfig : BatchTargetConfig<FileLoggerWriter>
+    public class FileLoggerTargetConfig : BatchLoggerTargetConfig<FileLoggerWriter>
     {
         /// <summary>
         /// 类型

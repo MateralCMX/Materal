@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "http": {
+    "HttpLoggerServer": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

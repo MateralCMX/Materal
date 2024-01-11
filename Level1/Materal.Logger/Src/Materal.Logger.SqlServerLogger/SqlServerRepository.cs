@@ -26,15 +26,11 @@ namespace Materal.Logger.SqlServerLogger
                 if (DBConnection is not SqlConnection sqlConnection) throw new LoggerException("连接对象不是SqlServer连接对象");
                 foreach (IGrouping<string, SqlServerLoggerWriterModel> item in models.GroupBy(m => m.TableName))
                 {
-                    List<SqlServerDBFiled> firstFileds = models.First().Fileds;
+                    List<IDBFiled> firstFileds = models.First().Fileds;
                     CreateTable(item.Key, firstFileds);
-                    DataTable dt = new();
-                    foreach (SqlServerDBFiled filed in firstFileds)
-                    {
-                        dt.Columns.Add(filed.Name, filed.CSharpType);
-                    }
+                    DataTable dt = firstFileds.CreateDataTable();
                     using SqlBulkCopy sqlBulkCopy = new(sqlConnection);
-                    sqlBulkCopy.DestinationTableName = item.Key;
+                    sqlBulkCopy.DestinationTableName = $"[{item.Key}]";
                     FillDataTable(dt, item);
                     sqlBulkCopy.BatchSize = dt.Rows.Count;
                     foreach (DataColumn column in dt.Columns)
@@ -59,28 +55,7 @@ namespace Materal.Logger.SqlServerLogger
         {
             foreach (SqlServerLoggerWriterModel model in models)
             {
-                DataRow dr = dt.NewRow();
-                foreach (SqlServerDBFiled filed in model.Fileds)
-                {
-                    if (filed.Value is not null)
-                    {
-                        Type? targetType = dt.Columns[filed.Name]?.DataType;
-                        if (targetType == null) continue;
-                        if (filed.Value.CanConvertTo(targetType))
-                        {
-                            dr[filed.Name] = filed.Value.ConvertTo(targetType);
-                        }
-                        else
-                        {
-                            dr[filed.Name] = filed.Value;
-                        }
-                    }
-                    else
-                    {
-                        dr[filed.Name] = DBNull.Value;
-                    }
-                }
-                dt.Rows.Add(dr);
+                model.Fileds.AddNewRow(dt);
             }
             return dt;
         }
@@ -90,7 +65,7 @@ namespace Materal.Logger.SqlServerLogger
         /// <param name="tableName"></param>
         /// <param name="fileds"></param>
         /// <param name="closeDB"></param>
-        private void CreateTable(string tableName, List<SqlServerDBFiled> fileds, bool closeDB = false)
+        private void CreateTable(string tableName, List<IDBFiled> fileds, bool closeDB = false)
         {
             DBConnection ??= GetDBConnection();
             try
@@ -166,13 +141,13 @@ namespace Materal.Logger.SqlServerLogger
         /// <param name="tableName">表名</param>
         /// <param name="fileds">字段</param>
         /// <returns></returns>
-        private string GetCreateTableTSQL(string tableName, List<SqlServerDBFiled> fileds)
+        private string GetCreateTableTSQL(string tableName, List<IDBFiled> fileds)
         {
             StringBuilder setPrimaryKeyTSQL = new();
             StringBuilder createTableTSQL = new();
             createTableTSQL.AppendLine($"CREATE TABLE [{tableName}](");
             List<string> columns = [];
-            foreach (SqlServerDBFiled filed in fileds)
+            foreach (IDBFiled filed in fileds)
             {
                 columns.Add(filed.GetCreateTableFiledSQL());
                 if (filed.PK)
@@ -202,10 +177,10 @@ namespace Materal.Logger.SqlServerLogger
         /// <param name="tableName">表名</param>
         /// <param name="fileds">字段</param>
         /// <returns></returns>
-        private string? GetCreateIndexTSQL(string tableName, List<SqlServerDBFiled> fileds)
+        private string? GetCreateIndexTSQL(string tableName, List<IDBFiled> fileds)
         {
             List<string> indexColumns = [];
-            foreach (SqlServerDBFiled filed in fileds)
+            foreach (IDBFiled filed in fileds)
             {
                 if (filed.Index is not null)
                 {

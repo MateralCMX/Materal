@@ -4,12 +4,25 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>12.0</LangVersion>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.74</Version>
 		<PackAsTool>true</PackAsTool>
+		<Version>1.1.74</Version>
+		<Company>Materal</Company>
+		<Product>Materal日志追踪器</Product>
+		<Authors>Materal</Authors>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
+		<Title>Materal-日志追踪器</Title>
+		<Description>包含日志所需的基本内容</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<ToolCommandName>MateralLoggerTrace</ToolCommandName>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="*" />
 		<PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />

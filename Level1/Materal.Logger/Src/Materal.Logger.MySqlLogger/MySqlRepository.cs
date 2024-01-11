@@ -26,13 +26,9 @@ namespace Materal.Logger.MySqlLogger
                 if (DBConnection is not MySqlConnection sqlConnection) throw new LoggerException("连接对象不是MySql连接对象");
                 foreach (IGrouping<string, MySqlLoggerWriterModel> item in models.GroupBy(m => m.TableName))
                 {
-                    List<MySqlDBFiled> firstFileds = models.First().Fileds;
+                    List<IDBFiled> firstFileds = models.First().Fileds;
                     CreateTable(item.Key, firstFileds);
-                    DataTable dt = new();
-                    foreach (MySqlDBFiled filed in firstFileds)
-                    {
-                        dt.Columns.Add(filed.Name, filed.CSharpType);
-                    }
+                    DataTable dt = firstFileds.CreateDataTable();
                     MySqlBulkCopy sqlBulkCopy = new(sqlConnection)
                     {
                         DestinationTableName = item.Key
@@ -56,28 +52,7 @@ namespace Materal.Logger.MySqlLogger
         {
             foreach (MySqlLoggerWriterModel model in models)
             {
-                DataRow dr = dt.NewRow();
-                foreach (MySqlDBFiled filed in model.Fileds)
-                {
-                    if (filed.Value is not null)
-                    {
-                        Type? targetType = dt.Columns[filed.Name]?.DataType;
-                        if (targetType == null) continue;
-                        if (filed.Value.CanConvertTo(targetType))
-                        {
-                            dr[filed.Name] = filed.Value.ConvertTo(targetType);
-                        }
-                        else
-                        {
-                            dr[filed.Name] = filed.Value;
-                        }
-                    }
-                    else
-                    {
-                        dr[filed.Name] = DBNull.Value;
-                    }
-                }
-                dt.Rows.Add(dr);
+                model.Fileds.AddNewRow(dt);
             }
             return dt;
         }
@@ -87,7 +62,7 @@ namespace Materal.Logger.MySqlLogger
         /// <param name="tableName"></param>
         /// <param name="fileds"></param>
         /// <param name="closeDB"></param>
-        private void CreateTable(string tableName, List<MySqlDBFiled> fileds, bool closeDB = false)
+        private void CreateTable(string tableName, List<IDBFiled> fileds, bool closeDB = false)
         {
             DBConnection ??= GetDBConnection();
             try
@@ -135,14 +110,14 @@ namespace Materal.Logger.MySqlLogger
         /// <param name="tableName">表名</param>
         /// <param name="fileds">字段</param>
         /// <returns></returns>
-        private string GetCreateTableTSQL(string tableName, List<MySqlDBFiled> fileds)
+        private string GetCreateTableTSQL(string tableName, List<IDBFiled> fileds)
         {
             StringBuilder setPrimaryKeyTSQL = new();
             StringBuilder createTableTSQL = new();
             createTableTSQL.AppendLine($"CREATE TABLE `{tableName}`(");
             List<string> indexs = [];
             List<string> columns = [];
-            foreach (MySqlDBFiled filed in fileds)
+            foreach (IDBFiled filed in fileds)
             {
                 columns.Add(filed.GetCreateTableFiledSQL());
                 if (filed.PK)

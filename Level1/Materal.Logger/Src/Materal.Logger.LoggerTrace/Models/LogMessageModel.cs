@@ -57,7 +57,15 @@ namespace Materal.Logger.LoggerTrace.Models
         /// 域数据
         /// </summary>
         public Dictionary<string, string>? ScopeData { get; set; }
+        /// <summary>
+        /// 获得写入消息
+        /// </summary>
+        /// <returns></returns>
         public string GetWriteMessage() => $"{CreateTime}|{Application}|{Level}|{Scope}|{CategoryName}|[{MachineName},{ProgressID},{ThreadID}]\r\n{Message}\r\n{Exception}";
+        /// <summary>
+        /// 获得写入消息颜色
+        /// </summary>
+        /// <returns></returns>
         public ConsoleColor GetWriteMessageColor() => Level switch
         {
             LogLevel.Trace => ConsoleColor.DarkGray,

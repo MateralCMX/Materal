@@ -5,7 +5,7 @@ namespace Materal.Logger.HttpLogger
     /// <summary>
     /// Http目标配置
     /// </summary>
-    public class HttpLoggerTargetConfig : BatchTargetConfig<HttpLoggerWriter>
+    public class HttpLoggerTargetConfig : BatchLoggerTargetConfig<HttpLoggerWriter>
     {
         /// <summary>
         /// 类型

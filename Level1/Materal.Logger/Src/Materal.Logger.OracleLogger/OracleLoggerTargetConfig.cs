@@ -3,7 +3,7 @@
     /// <summary>
     /// Oracle目标配置
     /// </summary>
-    public class OracleLoggerTargetConfig : BatchTargetConfig<OracleLoggerWriter>
+    public class OracleLoggerTargetConfig : DBLoggerTargetConfig<OracleLoggerWriter, OracleDBFiled>
     {
         /// <summary>
         /// 类型
@@ -12,15 +12,8 @@
         /// <summary>
         /// 连接字符串
         /// </summary>
-        public string ConnectionString { get; set; } = "user id=oracle; Password=123456; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =127.0.0.1)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = YXEYORCL)));VALIDATE CONNECTION=True;";
-        /// <summary>
-        /// 表名
-        /// </summary>
-        public string TableName { get; set; } = "MateralLogger";
-        /// <summary>
-        /// 默认字段
-        /// </summary>
-        public static List<OracleDBFiled> DefaultFileds { get; } =
+        public override string ConnectionString { get; set; } = "user id=oracle; Password=123456; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =127.0.0.1)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = YXEYORCL)));VALIDATE CONNECTION=True;";
+        private static readonly List<OracleDBFiled> _defaultFileds =
         [
             new() { Name = "ID", Type = "VARCHAR2(36)", Value = "${LogID}", PK = true },
             new() { Name = "CreateTime", Type = "DATE", Value = "${DateTime}", Index = "DESC", IsNull = false },
@@ -35,8 +28,8 @@
             new() { Name = "Exception", Type = "CLOB", Value = "${Exception}" }
         ];
         /// <summary>
-        /// 字段
+        /// 默认字段
         /// </summary>
-        public List<OracleDBFiled> Fileds { get; set; } = [];
+        public override List<OracleDBFiled> DefaultFileds => _defaultFileds;
     }
 }

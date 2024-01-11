@@ -3,7 +3,7 @@
     /// <summary>
     /// Sqlite目标配置
     /// </summary>
-    public class SqliteLoggerTargetConfig : BatchTargetConfig<SqliteLoggerWriter>
+    public class SqliteLoggerTargetConfig : DBLoggerTargetConfig<SqliteLoggerWriter, SqliteDBFiled>
     {
         /// <summary>
         /// 类型
@@ -13,28 +13,24 @@
         /// 路径
         /// </summary>
         public string Path { get; set; } = "C:\\MateralLogger\\SqliteLogger.db";
-        private const string connectionPrefix = "Data Source=";
+        /// <summary>
+        /// 连接字符串前缀
+        /// </summary>
+        public const string ConnectionPrefix = "Data Source=";
         /// <summary>
         /// 连接字符串
         /// </summary>
-        public string ConnectionString
+        public override string ConnectionString
         {
-            get => $"{connectionPrefix}{Path}";
+            get => $"{ConnectionPrefix}{Path}";
             set
             {
                 if (value is null || string.IsNullOrWhiteSpace(value)) throw new LoggerException("连接字符串不能为空");
-                if (!value.StartsWith(connectionPrefix)) throw new LoggerException("连接字符串错误");
-                Path = value[connectionPrefix.Length..];
+                if (!value.StartsWith(ConnectionPrefix)) throw new LoggerException("连接字符串错误");
+                Path = value[ConnectionPrefix.Length..];
             }
         }
-        /// <summary>
-        /// 表名
-        /// </summary>
-        public string TableName { get; set; } = "MateralLogger";
-        /// <summary>
-        /// 默认字段
-        /// </summary>
-        public static List<SqliteDBFiled> DefaultFileds { get; } =
+        private static readonly List<SqliteDBFiled> _defaultFileds =
         [
             new() { Name = "ID", Type = "TEXT", Value = "${LogID}", PK = true },
             new() { Name = "CreateTime", Type = "DATE", Value = "${DateTime}", Index = "DESC", IsNull = false },
@@ -49,8 +45,8 @@
             new() { Name = "Exception", Type = "TEXT", Value = "${Exception}" }
         ];
         /// <summary>
-        /// 字段
+        /// 默认字段
         /// </summary>
-        public List<SqliteDBFiled> Fileds { get; set; } = [];
+        public override List<SqliteDBFiled> DefaultFileds => _defaultFileds;
     }
 }

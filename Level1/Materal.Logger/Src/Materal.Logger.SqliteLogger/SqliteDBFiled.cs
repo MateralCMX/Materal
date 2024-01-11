@@ -1,43 +1,38 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Logger.SqliteLogger
+﻿namespace Materal.Logger.SqliteLogger
 {
     /// <summary>
     /// Sqiite数据库字段
     /// </summary>
-    public class SqliteDBFiled
+    public class SqliteDBFiled : BaseDBFiled, IDBFiled
     {
         /// <summary>
-        /// 名称
+        /// C#类型
         /// </summary>
-        [Required(ErrorMessage = "名称不能为空")]
-        public string Name { get; set; } = string.Empty;
-        /// <summary>
-        /// 数据库类型
-        /// </summary>
-        [Required(ErrorMessage = "数据库类型不能为空")]
-        public string Type { get; set; } = string.Empty;
-        /// <summary>
-        /// 值
-        /// </summary>
-        public string? Value { get; set; }
-        /// <summary>
-        /// 主键
-        /// </summary>
-        public bool PK { get; set; } = false;
-        /// <summary>
-        /// 索引
-        /// </summary>
-        public string? Index { get; set; }
-        /// <summary>
-        /// 可以为空
-        /// </summary>
-        public bool IsNull { get; set; } = true;
+        public override Type CSharpType
+        {
+            get
+            {
+                string type = Type;
+                int tempIndex = type.IndexOf('(');
+                if (tempIndex > 0)
+                {
+                    type = type[0..tempIndex];
+                }
+                type = type.ToUpper();
+                return type switch
+                {
+                    "TEXT" => typeof(string),
+                    "DATE" => typeof(DateTime),
+                    "INTEGER" => typeof(int),
+                    _ => throw new LoggerException($"未知类型{Type}")
+                };
+            }
+        }
         /// <summary>
         /// 获得创建表字段SQL
         /// </summary>
         /// <returns></returns>
-        public string GetCreateTableFiledSQL()
+        public override string GetCreateTableFiledSQL()
         {
             string result = $"\"{Name}\" {Type} ";
             if (PK)

@@ -26,13 +26,9 @@ namespace Materal.Logger.OracleLogger
                 if (DBConnection is not OracleConnection sqlConnection) throw new LoggerException("连接对象不是Oracle连接对象");
                 foreach (IGrouping<string, OracleLoggerWriterModel> item in models.GroupBy(m => m.TableName))
                 {
-                    List<OracleDBFiled> firstFileds = models.First().Fileds;
+                    List<IDBFiled> firstFileds = models.First().Fileds;
                     CreateTable(item.Key, firstFileds);
-                    DataTable dt = new();
-                    foreach (OracleDBFiled filed in firstFileds)
-                    {
-                        dt.Columns.Add(filed.Name, filed.CSharpType);
-                    }
+                    DataTable dt = firstFileds.CreateDataTable();
                     using OracleBulkCopy sqlBulkCopy = new(sqlConnection);
                     sqlBulkCopy.DestinationTableName = $"\"{item.Key}\"";
                     FillDataTable(dt, item);
@@ -59,28 +55,7 @@ namespace Materal.Logger.OracleLogger
         {
             foreach (OracleLoggerWriterModel model in models)
             {
-                DataRow dr = dt.NewRow();
-                foreach (OracleDBFiled filed in model.Fileds)
-                {
-                    if (filed.Value is not null)
-                    {
-                        Type? targetType = dt.Columns[filed.Name]?.DataType;
-                        if (targetType == null) continue;
-                        if (filed.Value.CanConvertTo(targetType))
-                        {
-                            dr[filed.Name] = filed.Value.ConvertTo(targetType);
-                        }
-                        else
-                        {
-                            dr[filed.Name] = filed.Value;
-                        }
-                    }
-                    else
-                    {
-                        dr[filed.Name] = DBNull.Value;
-                    }
-                }
-                dt.Rows.Add(dr);
+                model.Fileds.AddNewRow(dt);
             }
             return dt;
         }
@@ -90,7 +65,7 @@ namespace Materal.Logger.OracleLogger
         /// <param name="tableName"></param>
         /// <param name="fileds"></param>
         /// <param name="closeDB"></param>
-        private void CreateTable(string tableName, List<OracleDBFiled> fileds, bool closeDB = false)
+        private void CreateTable(string tableName, List<IDBFiled> fileds, bool closeDB = false)
         {
             DBConnection ??= GetDBConnection();
             try
@@ -168,13 +143,13 @@ namespace Materal.Logger.OracleLogger
         /// <param name="tableName">表名</param>
         /// <param name="fileds">字段</param>
         /// <returns></returns>
-        private string GetCreateTableTSQL(string tableName, List<OracleDBFiled> fileds)
+        private string GetCreateTableTSQL(string tableName, List<IDBFiled> fileds)
         {
             StringBuilder setPrimaryKeyTSQL = new();
             StringBuilder createTableTSQL = new();
             createTableTSQL.AppendLine($"CREATE TABLE \"{tableName}\"(");
             List<string> columns = [];
-            foreach (OracleDBFiled filed in fileds)
+            foreach (IDBFiled filed in fileds)
             {
                 columns.Add(filed.GetCreateTableFiledSQL());
                 if (filed.PK)
@@ -198,10 +173,10 @@ namespace Materal.Logger.OracleLogger
         /// <param name="tableName">表名</param>
         /// <param name="fileds">字段</param>
         /// <returns></returns>
-        private string? GetCreateIndexTSQL(string tableName, List<OracleDBFiled> fileds)
+        private string? GetCreateIndexTSQL(string tableName, List<IDBFiled> fileds)
         {
             List<string> indexColumns = [];
-            foreach (OracleDBFiled filed in fileds)
+            foreach (IDBFiled filed in fileds)
             {
                 if (filed.Index is not null)
                 {

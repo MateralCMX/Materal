@@ -12,11 +12,11 @@ namespace Materal.Logger.SqliteLogger
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="path"></param>
-        public SqliteRepository(string path) : base(() => new SqliteConnection($"Data Source={path};"))
+        /// <param name="connectionString"></param>
+        public SqliteRepository(string connectionString) : base(() => new SqliteConnection(connectionString))
         {
-            _dbPath = path;
-            if (string.IsNullOrEmpty(_dbPath)) throw new LoggerException("未指定Sqlite数据库位置");
+            if (!connectionString.StartsWith(SqliteLoggerTargetConfig.ConnectionPrefix)) throw new LoggerException("连接字符串错误");
+            _dbPath = connectionString[SqliteLoggerTargetConfig.ConnectionPrefix.Length..];
             FileInfo fileInfo = new(_dbPath);
             if (fileInfo.Directory != null && !fileInfo.Directory.Exists)
             {
@@ -35,7 +35,7 @@ namespace Materal.Logger.SqliteLogger
             {
                 foreach (IGrouping<string, SqliteLoggerWriterModel> item in models.GroupBy(m => m.TableName))
                 {
-                    List<SqliteDBFiled> firstFileds = item.First().Fileds;
+                    List<IDBFiled> firstFileds = item.First().Fileds;
                     CreateTable(item.Key, firstFileds);
                     IDbTransaction dbTransaction = DBConnection.BeginTransaction();
                     try
@@ -72,10 +72,10 @@ namespace Materal.Logger.SqliteLogger
         /// </summary>
         /// <param name="cmd"></param>
         /// <param name="fileds"></param>
-        private static void Insert(SqliteCommand cmd, List<SqliteDBFiled> fileds)
+        private static void Insert(SqliteCommand cmd, List<IDBFiled> fileds)
         {
             cmd.Parameters.Clear();
-            foreach (SqliteDBFiled filed in fileds)
+            foreach (IDBFiled filed in fileds)
             {
                 object? value = filed.Value;
                 if (filed.Value is null)
@@ -92,13 +92,13 @@ namespace Materal.Logger.SqliteLogger
         /// <param name="tableName"></param>
         /// <param name="fileds"></param>
         /// <returns></returns>
-        private string GetInsertTSQL(string tableName, List<SqliteDBFiled> fileds)
+        private string GetInsertTSQL(string tableName, List<IDBFiled> fileds)
         {
             StringBuilder stringBuilder = new();
             stringBuilder.Append($"Insert into \"{tableName}\"(");
             List<string> columns = [];
             List<string> args = [];
-            foreach (SqliteDBFiled filed in fileds)
+            foreach (IDBFiled filed in fileds)
             {
                 columns.Add($"\"{filed.Name}\"");
                 args.Add($"@{filed.Name}");
@@ -114,7 +114,7 @@ namespace Materal.Logger.SqliteLogger
         /// <param name="tableName"></param>
         /// <param name="fileds"></param>
         /// <param name="closeDB"></param>
-        private void CreateTable(string tableName, List<SqliteDBFiled> fileds, bool closeDB = false)
+        private void CreateTable(string tableName, List<IDBFiled> fileds, bool closeDB = false)
         {
             DBConnection ??= GetDBConnection();
             try
@@ -164,7 +164,7 @@ namespace Materal.Logger.SqliteLogger
         /// <param name="tableName">表名</param>
         /// <param name="fileds">字段</param>
         /// <returns></returns>
-        private string GetCreateTableTSQL(string tableName, List<SqliteDBFiled> fileds)
+        private string GetCreateTableTSQL(string tableName, List<IDBFiled> fileds)
         {
             string? setPrimaryKeyTSQL = null;
             List<string> indexColumns = [];
@@ -172,7 +172,7 @@ namespace Materal.Logger.SqliteLogger
             createTableTSQL.AppendLine("PRAGMA foreign_keys = false;");
             createTableTSQL.AppendLine($"CREATE TABLE \"{tableName}\" (");
             List<string> columns = [];
-            foreach (SqliteDBFiled filed in fileds)
+            foreach (IDBFiled filed in fileds)
             {
                 columns.Add(filed.GetCreateTableFiledSQL());
                 if (filed.PK)

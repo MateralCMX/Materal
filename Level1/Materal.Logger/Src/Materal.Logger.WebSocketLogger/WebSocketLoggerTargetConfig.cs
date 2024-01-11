@@ -3,7 +3,7 @@
     /// <summary>
     /// WebSocket目标配置
     /// </summary>
-    public class WebSocketLoggerTargetConfig : BatchTargetConfig<WebSocketLoggerWriter>
+    public class WebSocketLoggerTargetConfig : BatchLoggerTargetConfig<WebSocketLoggerWriter>
     {
         /// <summary>
         /// 类型
