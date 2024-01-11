@@ -3,7 +3,7 @@
     /// <summary>
     /// RC异常
     /// </summary>
-    public class RCException : MergeBlockException
+    public class RCException : MergeBlockModuleException
     {
         /// <summary>
         /// 构造方法

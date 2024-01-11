@@ -11,15 +11,14 @@
         {
             DirectoryInfo result = new(path);
 #if DEBUG
-            if (result.Exists) return result;
-#else
+            if (result.Exists && result.Name == "Nupkgs") return result;
+#endif
             if (result.Exists)
             {
                 string newPath = $"{path}_{DateTime.Now:yyyyMMddHHmmss}";
                 result.MoveTo(newPath);
                 result = new(path);
             }
-#endif
             result.Create();
             result.Refresh();
             return result;

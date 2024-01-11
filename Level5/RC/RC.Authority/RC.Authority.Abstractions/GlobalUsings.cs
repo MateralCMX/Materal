@@ -3,6 +3,8 @@ global using Materal.MergeBlock.Abstractions.Controllers;
 global using Materal.MergeBlock.Abstractions.Models;
 global using Materal.MergeBlock.Domain;
 global using Materal.Utils.Model;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
 global using RC.Authority.Abstractions.Domain;
 global using RC.Authority.Abstractions.Services;
 global using RC.Core.Abstractions;

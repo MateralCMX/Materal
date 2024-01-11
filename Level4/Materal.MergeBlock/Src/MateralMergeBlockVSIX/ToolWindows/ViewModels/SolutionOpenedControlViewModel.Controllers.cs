@@ -6,6 +6,7 @@ using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
 using Microsoft.VisualStudio.PlatformUI;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
@@ -152,6 +153,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorTreeQueryRequestModel(DomainModel domain)
         {
+            if (!domain.IsTreeDomain) return;
             if (domain.HasAttribute<NotServiceAttribute, NotControllerAttribute, ViewAttribute, NotQueryAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
@@ -217,7 +219,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"    public partial interface I{domain.Name}Controller : IMergeBlockControllerBase<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Service>");
             }
             codeContent.AppendLine($"    {{");
-
             if (domain.IsIndexDomain)
             {
                 codeContent.AppendLine($"        /// <summary>");
@@ -320,6 +321,243 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             codeContent.SaveAs(_moduleApplication, "Controllers", $"{domain.Name}Controller.cs");
+        }
+        /// <summary>
+        /// 创建控制器代码
+        /// </summary>
+        /// <param name="services"></param>
+        [GeneratorCodeMethod]
+        private void GeneratorControllerCode(List<IServiceModel> services)
+        {
+            foreach (IServiceModel service in services)
+            {
+                GeneratorIControllerCode(service);
+                GeneratorControllerCode(service);
+            }
+        }
+        /// <summary>
+        /// 创建控制器代码接口
+        /// </summary>
+        /// <param name="domain"></param>
+        private void GeneratorIControllerCode(IServiceModel service)
+        {
+            if (!service.HasMapperMethod) return;
+            StringBuilder codeContent = new();
+            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{service.DomainName};");
+            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{service.DomainName};");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Controllers");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {service.Annotation}控制器");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial interface I{service.DomainName}Controller");
+            codeContent.AppendLine($"    {{");
+            foreach (MethodModel method in service.Methods)
+            {
+                AttributeModel? attribute = method.Attributes.GetAttribute<MapperControllerAttribute>();
+                string? httpMethod = attribute?.GetAttributeArgument()?.Value;
+                if (attribute is null || httpMethod is null) continue;
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {method.Annotation}");
+                codeContent.AppendLine($"        /// </summary>");
+                foreach (MethodArgumentModel argument in method.Arguments)
+                {
+                    codeContent.AppendLine($"        /// <param name=\"{argument.RequestName}\"></param>");
+                }
+                if(method.ReturnType != "void")
+                {
+                    codeContent.AppendLine($"        /// <returns></returns>");
+                }
+                codeContent.Append($"        [");
+                switch (httpMethod)
+                {
+                    case "MapperType.Get":
+                        codeContent.Append($"HttpGet");
+                        break;
+                    case "MapperType.Post":
+                        codeContent.Append($"HttpPost");
+                        break;
+                    case "MapperType.Put":
+                        codeContent.Append($"HttpPut");
+                        break;
+                    case "MapperType.Delete":
+                        codeContent.Append($"HttpDelete");
+                        break;
+                    case "MapperType.Patch":
+                        codeContent.Append($"HttpPatch");
+                        break;
+                }
+                string? isAllowAnonymous = attribute.GetAttributeArgument(nameof(MapperControllerAttribute.IsAllowAnonymous))?.Value;
+                if (isAllowAnonymous == "true")
+                {
+                    codeContent.Append($", AllowAnonymous");
+                }
+                codeContent.AppendLine($"]");
+                List<string> methodArguments = [];
+                List<string> mapperCodes = [];
+                List<string> useArguments = [];
+                for (int i = 0; i < method.Arguments.Count; i++)
+                {
+                    MethodArgumentModel methodArgument = method.Arguments[i];
+                    methodArguments.Add($"{methodArgument.RequestPredefinedType} {methodArgument.RequestName}");
+                }
+                if (method.IsTaskReturnType)
+                {
+                    if(method.NotTaskReturnType == "void")
+                    {
+                        codeContent.AppendLine($"        Task<ResultModel> {method.Name}({string.Join(", ", methodArguments)});");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"        Task<ResultModel<{method.NotTaskReturnType}>> {method.Name}({string.Join(", ", methodArguments)});");
+                    }
+                }
+                else
+                {
+                    if (method.NotTaskReturnType == "void")
+                    {
+                        codeContent.AppendLine($"        ResultModel {method.Name}({string.Join(", ", methodArguments)});");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"        ResultModel<{method.NotTaskReturnType}> {method.Name}({string.Join(", ", methodArguments)});");
+                    }
+                }
+            }
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveAs(_moduleAbstractions, "Controllers", $"I{service.DomainName}Controller.Mapper.cs");
+        }
+        /// <summary>
+        /// 创建控制器代码接口
+        /// </summary>
+        /// <param name="domain"></param>
+        private void GeneratorControllerCode(IServiceModel service)
+        {
+            if (!service.HasMapperMethod) return;
+            StringBuilder codeContent = new();
+            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{service.DomainName};");
+            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{service.DomainName};");
+            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{service.DomainName};");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Application.Controllers");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// {service.Annotation}控制器");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public partial class {service.DomainName}Controller");
+            codeContent.AppendLine($"    {{");
+            foreach (MethodModel method in service.Methods)
+            {
+                AttributeModel? attribute = method.Attributes.GetAttribute<MapperControllerAttribute>();
+                string? httpMethod = attribute?.GetAttributeArgument()?.Value;
+                if (attribute is null || httpMethod is null) continue;
+                codeContent.AppendLine($"        /// <summary>");
+                codeContent.AppendLine($"        /// {method.Annotation}");
+                codeContent.AppendLine($"        /// </summary>");
+                foreach (MethodArgumentModel argument in method.Arguments)
+                {
+                    codeContent.AppendLine($"        /// <param name=\"{argument.RequestName}\"></param>");
+                }
+                if (method.ReturnType != "void")
+                {
+                    codeContent.AppendLine($"        /// <returns></returns>");
+                }
+                codeContent.Append($"        [");
+                switch (httpMethod)
+                {
+                    case "MapperType.Get":
+                        codeContent.Append($"HttpGet");
+                        break;
+                    case "MapperType.Post":
+                        codeContent.Append($"HttpPost");
+                        break;
+                    case "MapperType.Put":
+                        codeContent.Append($"HttpPut");
+                        break;
+                    case "MapperType.Delete":
+                        codeContent.Append($"HttpDelete");
+                        break;
+                    case "MapperType.Patch":
+                        codeContent.Append($"HttpPatch");
+                        break;
+                }
+                string? isAllowAnonymous = attribute.GetAttributeArgument(nameof(MapperControllerAttribute.IsAllowAnonymous))?.Value;
+                if (isAllowAnonymous == "true")
+                {
+                    codeContent.Append($", AllowAnonymous");
+                }
+                codeContent.AppendLine($"]");
+                List<string> methodArguments = [];
+                List<string> mapperArguments = [];
+                List<string> mapperCodes = [];
+                List<string> useArguments = [];
+                for (int i = 0; i < method.Arguments.Count; i++)
+                {
+                    MethodArgumentModel methodArgument = method.Arguments[i];
+                    methodArguments.Add($"{methodArgument.RequestPredefinedType} {methodArgument.RequestName}");
+                    if(methodArgument.RequestName != methodArgument.Name)
+                    {
+                        mapperCodes.Add($"            {methodArgument.PredefinedType} {methodArgument.Name} = Mapper.Map<{methodArgument.PredefinedType}>({methodArgument.RequestName});");
+                        mapperArguments.Add(methodArgument.Name);
+                    }
+                    useArguments.Add(methodArgument.Name);
+                }
+                if (method.IsTaskReturnType)
+                {
+                    if (method.NotTaskReturnType == "void")
+                    {
+                        codeContent.AppendLine($"        public async Task<ResultModel> {method.Name}({string.Join(", ", methodArguments)})");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"        public async Task<ResultModel<{method.NotTaskReturnType}>> {method.Name}({string.Join(", ", methodArguments)})");
+                    }
+                }
+                else
+                {
+                    if (method.NotTaskReturnType == "void")
+                    {
+                        codeContent.AppendLine($"        public ResultModel {method.Name}({string.Join(", ", methodArguments)})");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"        public ResultModel<{method.NotTaskReturnType}> {method.Name}({string.Join(", ", methodArguments)})");
+                    }
+                }
+                codeContent.AppendLine($"        {{");
+                foreach (string mapperCode in mapperCodes)
+                {
+                    codeContent.AppendLine(mapperCode);
+                }
+                foreach (string mapperArgument in mapperArguments)
+                {
+                    codeContent.AppendLine($"            BindLoginUserID({mapperArgument});");
+                }
+                codeContent.Append($"            ");
+                if (method.NotTaskReturnType != "void")
+                {
+                    codeContent.Append($"{method.NotTaskReturnType} result = ");
+                }
+                if (method.IsTaskReturnType)
+                {
+                    codeContent.Append($"await ");
+                }
+                codeContent.AppendLine($"DefaultService.{method.Name}({string.Join(", ", useArguments)});");
+                if (method.NotTaskReturnType != "void")
+                {
+                    codeContent.AppendLine($"            return ResultModel<{method.NotTaskReturnType}>.Success(result, \"{method.Annotation}成功\");");
+                }
+                else
+                {
+                    codeContent.AppendLine($"            return ResultModel.Success(\"{method.Annotation}成功\");");
+                }
+                codeContent.AppendLine($"        }}");
+            }
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveAs(_moduleApplication, "Controllers", $"{service.DomainName}Controller.Mapper.cs");
         }
     }
 }

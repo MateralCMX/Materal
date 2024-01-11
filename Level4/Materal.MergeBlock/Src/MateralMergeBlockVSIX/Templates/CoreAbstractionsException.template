@@ -3,7 +3,7 @@
     /// <summary>
     /// ${ProjectName}异常
     /// </summary>
-    public class ${ProjectName}Exception : MergeBlockException
+    public class ${ProjectName}Exception : MergeBlockModuleException
     {
         /// <summary>
         /// 构造方法

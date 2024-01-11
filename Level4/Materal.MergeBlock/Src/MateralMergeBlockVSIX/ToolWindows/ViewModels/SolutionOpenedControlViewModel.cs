@@ -144,6 +144,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 }
                 #endregion
                 List<DomainModel> allDomains = _moduleAbstractions?.GetAllDomains() ?? [];
+                List<IServiceModel> allServices = _moduleAbstractions?.GetAllIServices() ?? [];
                 IEnumerable<MethodInfo> allMethodInfos = GetType().GetRuntimeMethods();
                 foreach (MethodInfo methodInfo in allMethodInfos)
                 {
@@ -153,9 +154,16 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     {
                         methodInfo.Invoke(this, []);
                     }
-                    else if(parameterInfos.Length == 1 && parameterInfos.First().ParameterType == typeof(List<DomainModel>))
+                    else if(parameterInfos.Length == 1)
                     {
-                        methodInfo.Invoke(this, [allDomains]);
+                        if(parameterInfos.First().ParameterType == typeof(List<DomainModel>))
+                        {
+                            methodInfo.Invoke(this, [allDomains]);
+                        }
+                        else if (parameterInfos.First().ParameterType == typeof(List<IServiceModel>))
+                        {
+                            methodInfo.Invoke(this, [allServices]);
+                        }
                     }
                 }
                 VS.MessageBox.Show("提示", "代码生成完毕", Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_INFO, Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK);

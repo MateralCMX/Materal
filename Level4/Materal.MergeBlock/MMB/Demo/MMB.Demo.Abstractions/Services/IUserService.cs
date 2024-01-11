@@ -1,4 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions.Services;
+using Materal.MergeBlock.GeneratorCode.Attributers;
 using MMB.Demo.Abstractions.DTO.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 
@@ -14,7 +15,7 @@ namespace MMB.Demo.Abstractions.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        //[MapperController(MapperType.Post)]
+        [MapperController(MapperType.Post)]
         Task<(List<UserListDTO> data, PageModel pageInfo)> GetUserListAsync(QueryUserModel model);
         /// <summary>
         /// 登录

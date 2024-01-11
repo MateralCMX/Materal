@@ -1,18 +1,10 @@
-﻿using Materal.MergeBlock.GeneratorCode.Attributers;
-
-namespace RC.Authority.Abstractions.Services.Models.User
+﻿namespace RC.Authority.Abstractions.RequestModel.User
 {
     /// <summary>
-    /// 更改密码模型
+    /// 更改密码请求模型
     /// </summary>
-    public class ChangePasswordModel
+    public class ChangePasswordRequestModel
     {
-        /// <summary>
-        /// 用户唯一标识
-        /// </summary>
-        [Required(ErrorMessage = "唯一标识不能为空")]
-        [LoginUserID]
-        public Guid ID { get; set; }
         /// <summary>
         /// 旧密码
         /// </summary>

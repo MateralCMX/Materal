@@ -28,7 +28,7 @@ namespace RC.Authority.Application.Services
         protected override async Task<Guid> AddAsync(User domain, AddUserModel model)
         {
             string password = config.CurrentValue.DefaultPassword;
-            domain.Password = ApplicationConfig.EncodePassword(password);
+            domain.Password = EncodePassword(password);
             return await base.AddAsync(domain, model);
         }
         /// <summary>
@@ -49,9 +49,8 @@ namespace RC.Authority.Application.Services
         /// <exception cref="RCException"></exception>
         public async Task<UserDTO> LoginAsync(LoginModel model)
         {
-            User? domain = await DefaultRepository.FirstOrDefaultAsync(m => m.Account.Equals(model.Account));
-            if (domain == null) throw new RCException("账号错误");
-            if (!domain.Password.Equals(ApplicationConfig.EncodePassword(model.Password))) throw new RCException("密码错误");
+            User domain = await DefaultRepository.FirstOrDefaultAsync(m => m.Account.Equals(model.Account)) ?? throw new RCException("账号错误");
+            if (!domain.Password.Equals(EncodePassword(model.Password))) throw new RCException("密码错误");
             var result = Mapper.Map<UserDTO>(domain);
             return result;
         }
@@ -63,10 +62,9 @@ namespace RC.Authority.Application.Services
         /// <exception cref="RCException"></exception>
         public async Task<string> ResetPasswordAsync(Guid id)
         {
-            User? domain = await DefaultRepository.FirstOrDefaultAsync(id);
-            if (domain == null) throw new RCException("用户不存在");
+            User domain = await DefaultRepository.FirstOrDefaultAsync(id) ?? throw new RCException("用户不存在");
             string password = config.CurrentValue.DefaultPassword;
-            domain.Password = ApplicationConfig.EncodePassword(password);
+            domain.Password = EncodePassword(password);
             UnitOfWork.RegisterEdit(domain);
             await UnitOfWork.CommitAsync();
             return password;
@@ -79,10 +77,9 @@ namespace RC.Authority.Application.Services
         /// <exception cref="RCException"></exception>
         public async Task ChangePasswordAsync(ChangePasswordModel model)
         {
-            User? domain = await DefaultRepository.FirstOrDefaultAsync(model.ID);
-            if (domain == null) throw new RCException("用户不存在");
-            if (!domain.Password.Equals(ApplicationConfig.EncodePassword(model.OldPassword))) throw new RCException("旧密码错误");
-            domain.Password = ApplicationConfig.EncodePassword(model.NewPassword);
+            User domain = await DefaultRepository.FirstOrDefaultAsync(model.ID) ?? throw new RCException("用户不存在");
+            if (!domain.Password.Equals(EncodePassword(model.OldPassword))) throw new RCException("旧密码错误");
+            domain.Password = EncodePassword(model.NewPassword);
             UnitOfWork.RegisterEdit(domain);
             await UnitOfWork.CommitAsync();
         }
@@ -100,5 +97,11 @@ namespace RC.Authority.Application.Services
                 Name = "管理员"
             });
         }
+        /// <summary>
+        /// 加密密码
+        /// </summary>
+        /// <param name="inputString"></param>
+        /// <returns></returns>
+        private static string EncodePassword(string inputString) => $"Materal{inputString}Materal".ToMd5_32Encode();
     }
 }

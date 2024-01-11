@@ -72,7 +72,7 @@ namespace MateralPublish.Models
                 try
                 {
 #if DEBUG
-                    if(project.Name != "Materal.MergeBlock") continue;
+                    if(project is not MergeBlockProjectModel) continue;
 #endif
                     await project.PublishAsync(version);
                 }

@@ -19,7 +19,10 @@ namespace Materal.MergeBlock.GeneratorCode.Models
                 {
                     NextHandler = new NameAnalysisCodeHandler()
                     {
-                        NextHandler = new PropertiesAnalysisCodeHandler()
+                        NextHandler = new PropertyAnalysisCodeHandler()
+                        {
+                            NextHandler = new InterfaceMethodAnalysisCodeHandler()
+                        }
                     }
                 }
             };
@@ -52,6 +55,10 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// 属性
         /// </summary>
         public List<PropertyModel> Properties { get; set; } = [];
+        /// <summary>
+        /// 方法
+        /// </summary>
+        public List<MethodModel> Methods { get; set; } = [];
         /// <summary>
         /// 构造方法
         /// </summary>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers
+﻿namespace Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers
 {
     /// <summary>
     /// 名称分析代码处理器
@@ -18,8 +16,17 @@ namespace Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers
         protected override bool AnalysisCodes(InterfaceModel interfaceModel, string code, string[] codes, int currentLine)
         {
             int index = code.IndexOf(" class ");
-            if (index < 0) return true;
-            string codeContent = code[(index + 7)..];
+            string codeContent;
+            if (index > 0)
+            {
+                codeContent = code[(index + 7)..];
+            }
+            else
+            {
+                index = code.IndexOf(" interface ");
+                if (index < 0) return true;
+                codeContent = code[(index + 11)..];
+            }
             index = codeContent.IndexOf(" : ");
             #region Name
             if (index > 0)

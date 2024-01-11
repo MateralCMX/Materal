@@ -161,6 +161,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorTreeQueryModel(DomainModel domain)
         {
+            if (!domain.IsTreeDomain) return;
             if (domain.HasAttribute<NotServiceAttribute, ViewAttribute, NotQueryAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
