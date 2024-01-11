@@ -6,7 +6,7 @@ global using Materal.Utils.Model;
 global using Microsoft.AspNetCore.Mvc;
 global using System.ComponentModel;
 global using System.ComponentModel.DataAnnotations;
-global using ${ProjectName}.Core.Reposiroty;
+global using ${ProjectName}.Core.Repository;
 global using ${ProjectName}.${ModuleName}.Abstractions.Domain;
 global using ${ProjectName}.${ModuleName}.Abstractions.Enums;
 global using ${ProjectName}.${ModuleName}.Abstractions.Services;

@@ -8,7 +8,7 @@ namespace MMB.Demo.Application.Services
     /// <summary>
     /// 用户服务
     /// </summary>
-    public class UserServiceImpl(IServiceProvider serviceProvider, IOptionsMonitor<ApplicationConfig> applicationConfig) : BaseServiceImpl<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserRepository, User>(serviceProvider), IUserService
+    public class UserServiceImpl(IOptionsMonitor<ApplicationConfig> applicationConfig) : BaseServiceImpl<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserRepository, User>, IUserService
     {
         /// <summary>
         /// 获得用户列表

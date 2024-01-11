@@ -75,7 +75,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             codeContent.AppendLine($"    public partial class {domain.Name}Config : {domain.Name}ConfigBase {{ }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleReposiroty, "EntityConfigs", $"{domain.Name}Config.cs");
+            codeContent.SaveAs(_moduleRepository, "EntityConfigs", $"{domain.Name}Config.cs");
         }
         /// <summary>
         /// 创建数据库上下文代码
@@ -106,7 +106,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleReposiroty, $"{_moduleName}DBContext.cs");
+            codeContent.SaveAs(_moduleRepository, $"{_moduleName}DBContext.cs");
         }
         /// <summary>
         /// 创建工作单元代码
@@ -122,7 +122,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             codeContent.AppendLine($"    public partial class {_moduleName}UnitOfWorkImpl({_moduleName}DBContext context, IServiceProvider serviceProvider) : MergeBlockUnitOfWorkImpl<{_moduleName}DBContext>(context, serviceProvider) {{ }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleReposiroty, $"{_moduleName}UnitOfWorkImpl.cs");
+            codeContent.SaveAs(_moduleRepository, $"{_moduleName}UnitOfWorkImpl.cs");
         }
         /// <summary>
         /// 创建仓储代码
@@ -239,7 +239,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleReposiroty, "Repositories", $"{domain.Name}RepositoryImpl.cs");
+            codeContent.SaveAs(_moduleRepository, "Repositories", $"{domain.Name}RepositoryImpl.cs");
         }
     }
 }

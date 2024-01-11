@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.Abstractions.Services;
+﻿using Materal.Abstractions;
+using Materal.MergeBlock.Abstractions.Services;
 
 namespace Materal.MergeBlock.Application.Services
 {
@@ -7,26 +8,24 @@ namespace Materal.MergeBlock.Application.Services
     /// </summary>
     public abstract class BaseServiceImpl : IBaseService
     {
+        private IMapper? _mapper;
         /// <summary>
         /// 映射器
         /// </summary>
-        protected readonly IMapper Mapper;
+        protected IMapper Mapper => _mapper ??= ServiceProvider.GetRequiredService<IMapper>();
+        private IMergeBlockUnitOfWork? _unitOfWork;
         /// <summary>
         /// 工作单元
         /// </summary>
-        protected readonly IMergeBlockUnitOfWork UnitOfWork;
+        protected IMergeBlockUnitOfWork UnitOfWork => _unitOfWork ??= ServiceProvider.GetRequiredService<IMergeBlockUnitOfWork>();
+        private IServiceProvider? _serviceProvider;
         /// <summary>
         /// 服务提供者
         /// </summary>
-        protected readonly IServiceProvider ServiceProvider;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        protected BaseServiceImpl(IServiceProvider serviceProvider)
+        public IServiceProvider ServiceProvider
         {
-            ServiceProvider = serviceProvider;
-            UnitOfWork = serviceProvider.GetService<IMergeBlockUnitOfWork>() ?? throw new MergeBlockException("获取工作单元失败");
-            Mapper = serviceProvider.GetService<IMapper>() ?? throw new MergeBlockException("获取映射器失败");
+            get => _serviceProvider ?? MateralServices.Services;
+            set => _serviceProvider = value;
         }
     }
     /// <summary>
@@ -48,17 +47,11 @@ namespace Materal.MergeBlock.Application.Services
         where TRepository : class, IEFRepository<TDomain, Guid>, IRepository
         where TDomain : class, IDomain, new()
     {
+        private TRepository? _defaultRepository;
         /// <summary>
         /// 默认仓储
         /// </summary>
-        protected readonly TRepository DefaultRepository;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        protected BaseServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-            DefaultRepository = UnitOfWork.GetRepository<TRepository>() ?? throw new MergeBlockException("获取仓储失败");
-        }
+        protected TRepository DefaultRepository => _defaultRepository ??= UnitOfWork.GetRepository<TRepository>();
         /// <summary>
         /// 添加
         /// </summary>
@@ -293,17 +286,11 @@ namespace Materal.MergeBlock.Application.Services
         where TDomain : class, IDomain, new()
         where TViewDomain : class, IDomain, new()
     {
+        private TViewRepository? _defaultViewRepository;
         /// <summary>
         /// 默认视图仓储
         /// </summary>
-        protected readonly TViewRepository DefaultViewRepository;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        protected BaseServiceImpl(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-            DefaultViewRepository = UnitOfWork.GetRepository<TViewRepository>();
-        }
+        protected TViewRepository DefaultViewRepository => _defaultViewRepository ??= UnitOfWork.GetRepository<TViewRepository>();
         /// <summary>
         /// 获得信息
         /// </summary>

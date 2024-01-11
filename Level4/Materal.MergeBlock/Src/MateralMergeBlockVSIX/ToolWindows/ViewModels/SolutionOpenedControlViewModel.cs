@@ -29,10 +29,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         private string? _projectName;
         private string? _moduleName;
         private SolutionItem? _coreAbstractions;
-        private SolutionItem? _coreReposiroty;
+        private SolutionItem? _coreRepository;
         private SolutionItem? _moduleAbstractions;
         private SolutionItem? _moduleApplication;
-        private SolutionItem? _moduleReposiroty;
+        private SolutionItem? _moduleRepository;
         private SolutionItem? _moduleWebAPI;
         public void Init(Solution solution)
         {
@@ -47,10 +47,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 SolutionName = "不是MergeBlock模块项目";
                 Visibility = Visibility.Collapsed;
                 _coreAbstractions = null;
-                _coreReposiroty = null;
+                _coreRepository = null;
                 _moduleAbstractions = null;
                 _moduleApplication = null;
-                _moduleReposiroty = null;
+                _moduleRepository = null;
                 _moduleWebAPI = null;
             }
         }
@@ -96,7 +96,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                             _moduleApplication = solutionItem;
                             break;
                         case "Repository":
-                            _moduleReposiroty = solutionItem;
+                            _moduleRepository = solutionItem;
                             break;
                     }
                 }
@@ -108,7 +108,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                             _coreAbstractions = solutionItem;
                             break;
                         case "Repository":
-                            _coreReposiroty = solutionItem;
+                            _coreRepository = solutionItem;
                             break;
                     }
                 }
@@ -132,7 +132,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 {
                     directoryInfo.Delete(true);
                 }
-                directoryInfo = _moduleReposiroty?.GetGeneratorCodeRootDirectory();
+                directoryInfo = _moduleRepository?.GetGeneratorCodeRootDirectory();
                 if (directoryInfo is not null && directoryInfo.Exists)
                 {
                     directoryInfo.Delete(true);

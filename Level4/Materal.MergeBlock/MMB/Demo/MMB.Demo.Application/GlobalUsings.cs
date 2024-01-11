@@ -14,4 +14,4 @@ global using MMB.Demo.Abstractions.Repositories;
 global using MMB.Demo.Abstractions.Services;
 global using Microsoft.Extensions.Logging;
 
-[assembly: MergeBlockAssembly("MMBDemo模块", ["Authorzation", "EventBus", "Oscillator", "MMB.Demo.Repository", "MMB.Demo.Abstractions"])]
+[assembly: MergeBlockAssembly("MMBDemo模块", ["Authorization", "EventBus", "Oscillator", "MMB.Demo.Repository", "MMB.Demo.Abstractions"])]

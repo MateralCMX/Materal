@@ -16,4 +16,4 @@ global using ${ProjectName}.${ModuleName}.Abstractions.Domain;
 global using ${ProjectName}.${ModuleName}.Abstractions.Repositories;
 global using ${ProjectName}.${ModuleName}.Abstractions.Services;
 
-[assembly: MergeBlockAssembly("${ProjectName}${ModuleName}模块", ["Authorzation", "${ProjectName}.${ModuleName}.Repository", "${ProjectName}.${ModuleName}.Abstractions"])]
+[assembly: MergeBlockAssembly("${ProjectName}${ModuleName}模块", ["Authorization", "${ProjectName}.${ModuleName}.Repository", "${ProjectName}.${ModuleName}.Abstractions"])]

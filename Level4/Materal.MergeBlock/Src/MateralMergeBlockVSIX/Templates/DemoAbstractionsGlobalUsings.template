@@ -5,7 +5,7 @@ global using Materal.MergeBlock.Domain;
 global using Materal.Utils.Model;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
-global using ${ProjectName}.Core.Reposiroty;
+global using ${ProjectName}.Core.Repository;
 global using ${ProjectName}.Demo.Abstractions.Domain;
 global using ${ProjectName}.Demo.Abstractions.Enums;
 global using ${ProjectName}.Demo.Abstractions.Services;

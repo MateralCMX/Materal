@@ -5,6 +5,10 @@
     /// </summary>
     public interface IBaseService
     {
+        /// <summary>
+        /// 服务提供者
+        /// </summary>
+        public IServiceProvider ServiceProvider { get; set; }
     }
     /// <summary>
     /// 服务

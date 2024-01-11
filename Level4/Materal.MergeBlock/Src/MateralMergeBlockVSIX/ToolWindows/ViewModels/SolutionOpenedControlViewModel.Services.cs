@@ -387,7 +387,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             if (domain.HasAttribute<NotServiceAttribute, ViewAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
-            codeContent.AppendLine($"using Materal.MergeBlock.Application.Services;");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
             codeContent.AppendLine($"");
@@ -398,15 +397,15 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             if (domain.HasAttribute<EmptyServiceAttribute>())
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl(IServiceProvider serviceProvider) : BaseServiceImpl(serviceProvider), I{domain.Name}Service");
+                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl, I{domain.Name}Service");
             }
             else if (targetDomain != domain)
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl(IServiceProvider serviceProvider) : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, I{targetDomain.Name}Repository, {domain.Name}, {targetDomain.Name}>(serviceProvider), I{domain.Name}Service");
+                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, I{targetDomain.Name}Repository, {domain.Name}, {targetDomain.Name}>, I{domain.Name}Service");
             }
             else
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl(IServiceProvider serviceProvider) : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, {domain.Name}>(serviceProvider), I{domain.Name}Service");
+                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, {domain.Name}>, I{domain.Name}Service");
             }
             codeContent.AppendLine($"    {{");
             PropertyModel? treeGroupProperty = null;

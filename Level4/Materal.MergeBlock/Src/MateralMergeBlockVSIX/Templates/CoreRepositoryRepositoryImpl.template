@@ -1,6 +1,6 @@
 ﻿using Materal.TTA.SqliteEFRepository;
 
-namespace ${ProjectName}.Core.Reposiroty
+namespace ${ProjectName}.Core.Repository
 {
     /// <summary>
     /// ${ProjectName}仓储

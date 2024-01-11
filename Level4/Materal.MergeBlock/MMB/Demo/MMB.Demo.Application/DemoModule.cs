@@ -26,7 +26,9 @@
         /// <returns></returns>
         public override async Task OnApplicationInitAsync(IApplicationContext context)
         {
-            IUserService userService = context.ServiceProvider.GetRequiredService<IUserService>();
+            using IServiceScope scope = context.ServiceProvider.CreateScope();
+            IUserService userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+            userService.ServiceProvider = scope.ServiceProvider;
             await userService.AddDefaultUserAsync();
             await base.OnApplicationInitAsync(context);
         }

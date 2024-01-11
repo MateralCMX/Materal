@@ -3,7 +3,7 @@ global using Materal.MergeBlock.Repository;
 global using Materal.TTA.Common.Model;
 global using Materal.Utils.Cache;
 global using Microsoft.EntityFrameworkCore;
-global using ${ProjectName}.Core.Reposiroty;
+global using ${ProjectName}.Core.Repository;
 global using ${ProjectName}.${ModuleName}.Abstractions.Domain;
 global using ${ProjectName}.${ModuleName}.Abstractions.Repositories;
 global using ${ProjectName}.${ModuleName}.Repository;

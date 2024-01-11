@@ -11,4 +11,4 @@ global using ${ProjectName}.Demo.Abstractions.Repositories;
 global using ${ProjectName}.Demo.Abstractions.Services;
 global using Microsoft.Extensions.Logging;
 
-[assembly: MergeBlockAssembly("${ProjectName}Demo模块", ["Authorzation", "${ProjectName}.Demo.Repository", "${ProjectName}.Demo.Abstractions"])]
+[assembly: MergeBlockAssembly("${ProjectName}Demo模块", ["Authorization", "${ProjectName}.Demo.Repository", "${ProjectName}.Demo.Abstractions"])]

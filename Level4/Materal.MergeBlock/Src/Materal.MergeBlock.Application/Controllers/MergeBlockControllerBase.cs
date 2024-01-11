@@ -13,6 +13,15 @@ namespace Materal.MergeBlock.Application.Controllers
     [Route("api/[controller]/[action]"), ApiController]
     public abstract class MergeBlockControllerBase : ControllerBase
     {
+        private IServiceProvider? _serviceProvider;
+        /// <summary>
+        /// 服务提供者
+        /// </summary>
+        public IServiceProvider ServiceProvider
+        {
+            get => _serviceProvider ?? MateralServices.Services;
+            set => _serviceProvider = value;
+        }
         /// <summary>
         /// 获得客户端IP
         /// </summary>
@@ -58,22 +67,16 @@ namespace Materal.MergeBlock.Application.Controllers
         where TListDTO : class, IListDTO, new()
         where TService : IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
     {
+        private IMapper? _mapper;
         /// <summary>
         /// 自动映射
         /// </summary>
-        protected readonly IMapper Mapper;
+        protected IMapper Mapper => _mapper ??= ServiceProvider.GetRequiredService<IMapper>();
+        private TService? _defaultService;
         /// <summary>
         /// 服务对象
         /// </summary>
-        protected readonly TService DefaultService;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        protected MergeBlockControllerBase()
-        {
-            Mapper = MateralServices.GetService<IMapper>() ?? throw new MergeBlockException("获取映射器失败");
-            DefaultService = MateralServices.GetService<TService>() ?? throw new MergeBlockException("获取服务失败");
-        }
+        protected TService DefaultService => _defaultService ??= ServiceProvider.GetRequiredService<TService>();
         /// <summary>
         /// 添加
         /// </summary>

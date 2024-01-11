@@ -17,8 +17,8 @@
 		<PackageReference Include="Materal.MergeBlock.Swagger" Version="*" />
 		<PackageReference Include="Materal.MergeBlock.Authorization" Version="*" />
 		<PackageReference Include="Materal.MergeBlock.DependencyInjection" Version="*" />
-		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="*" />
 		<PackageReference Include="Materal.MergeBlock.AccessLog" Version="*" />
+		<!--<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="*" />-->
 		<!--<PackageReference Include="Materal.MergeBlock.Consul" Version="*" />-->
 		<!--<PackageReference Include="Materal.MergeBlock.EventBus" Version="*" />-->
 		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" Version="*" />-->

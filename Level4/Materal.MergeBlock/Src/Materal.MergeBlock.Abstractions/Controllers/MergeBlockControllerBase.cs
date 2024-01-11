@@ -8,6 +8,10 @@ namespace Materal.MergeBlock.Abstractions.Controllers
     /// </summary>
     public interface IMergeBlockControllerBase
     {
+        /// <summary>
+        /// 服务提供者
+        /// </summary>
+        public IServiceProvider ServiceProvider { get; set; }
     }
     /// <summary>
     /// WebAPI服务控制器基类

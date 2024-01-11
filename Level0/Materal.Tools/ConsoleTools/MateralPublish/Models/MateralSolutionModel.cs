@@ -71,6 +71,9 @@ namespace MateralPublish.Models
             {
                 try
                 {
+#if DEBUG
+                    if(project.Name != "Materal.MergeBlock") continue;
+#endif
                     await project.PublishAsync(version);
                 }
                 catch (Exception ex)
