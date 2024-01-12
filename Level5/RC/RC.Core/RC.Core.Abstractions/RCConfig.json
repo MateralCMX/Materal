@@ -29,6 +29,16 @@
       }
     }
   },
+  "EventBus": {
+    "HostName": "127.0.0.1",
+    "Port": 5672,
+    "UserName": "admin",
+    "Password": "123456",
+    "ExchangeName": "RCExchange",
+    "RetryNumber": 5,
+    "RetryIntervalSecond": 5,
+    "DiscardErrorMessage": false
+  },
   "AccessLog": {
     "MaxBodySize": 2048
   },

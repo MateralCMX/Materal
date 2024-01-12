@@ -72,7 +72,7 @@ namespace MateralPublish.Models
                 try
                 {
 #if DEBUG
-                    if(project is not GatewayProjectModel) continue;
+                    if (project is not RCProjectModel) continue;
 #endif
                     await project.PublishAsync(version);
                 }

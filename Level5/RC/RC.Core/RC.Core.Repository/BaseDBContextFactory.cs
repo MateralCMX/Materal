@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 
-namespace RC.Authority.Repository
+namespace RC.Core.Repository
 {
     /// <summary>
     /// 数据库上下文工厂
