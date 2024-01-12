@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Materal.MergeBlock.Abstractions.Controllers
+namespace Materal.MergeBlock.Abstractions
 {
     /// <summary>
     /// WebAPI控制器基类

@@ -1,5 +1,4 @@
 ﻿global using Materal.MergeBlock.Abstractions;
-global using Materal.MergeBlock.Abstractions.Controllers;
 global using Materal.MergeBlock.Abstractions.Models;
 global using Materal.MergeBlock.Domain;
 global using Materal.Utils.Model;

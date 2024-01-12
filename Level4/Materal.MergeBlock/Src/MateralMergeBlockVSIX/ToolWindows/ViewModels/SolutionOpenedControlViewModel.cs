@@ -89,14 +89,14 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 {
                     _projectName = projectNames[0];
                 }
-                else if (_projectName != projectNames[0]) throw new Exception("项目名称不一致");
+                else if (_projectName != projectNames[0]) return;
                 if (projectNames[1] != "Core")
                 {
                     if (_moduleName is null)
                     {
                         _moduleName = projectNames[1];
                     }
-                    else if (_moduleName != projectNames[1]) throw new Exception("模块名称不一致");
+                    else if (_moduleName != projectNames[1]) return;
                     switch (projectNames[2])
                     {
                         case "WebAPI":

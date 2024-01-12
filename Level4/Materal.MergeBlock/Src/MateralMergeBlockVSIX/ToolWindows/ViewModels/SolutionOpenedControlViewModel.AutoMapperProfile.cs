@@ -38,7 +38,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
             codeContent.AppendLine($"");
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.AutoMapperProfile");
+            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstraction.AutoMapperProfile");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {domain.Annotation}AutoMapper映射配置基类");

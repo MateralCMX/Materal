@@ -16,4 +16,4 @@ global using RC.ServerCenter.Abstractions.Domain;
 global using RC.ServerCenter.Abstractions.Repositories;
 global using RC.ServerCenter.Abstractions.Services;
 
-[assembly: MergeBlockAssembly("RCServerCenter模块", ["Authorization", "RC.ServerCenter.Repository", "RC.ServerCenter.Abstractions"])]
+[assembly: MergeBlockAssembly("RCServerCenter模块", ["Authorization", "EventBus", "RC.ServerCenter.Repository", "RC.ServerCenter.Abstractions"])]

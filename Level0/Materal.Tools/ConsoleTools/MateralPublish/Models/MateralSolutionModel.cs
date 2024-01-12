@@ -1,6 +1,7 @@
 ﻿using Materal.Tools.Helper;
 using MateralPublish.Extensions;
 using MateralPublish.Models.ProjectModels.Level0;
+using MateralPublish.Models.ProjectModels.Level4;
 using MateralPublish.Models.ProjectModels.Level5;
 using System.Reflection;
 
@@ -72,6 +73,8 @@ namespace MateralPublish.Models
                 try
                 {
 #if DEBUG
+                    //if (project is not MergeBlockProjectModel) continue;
+                    //if (project is not GatewayProjectModel) continue;
                     if (project is not RCProjectModel) continue;
 #endif
                     await project.PublishAsync(version);
