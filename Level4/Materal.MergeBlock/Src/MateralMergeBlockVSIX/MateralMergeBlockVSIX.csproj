@@ -46,6 +46,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Extensions\DomainModelExtensions.cs" />
+    <Compile Include="Extensions\IControllerModelExtensions.cs" />
+    <Compile Include="Extensions\InterfaceModelExtensions.cs" />
     <Compile Include="Extensions\IServiceModelExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,6 +58,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
+    <Compile Include="ToolWindows\Attributes\GeneratorCodeAfterMethodAttribute.cs" />
+    <Compile Include="ToolWindows\Attributes\GeneratorCodeBeforMethodAttribute.cs" />
     <Compile Include="ToolWindows\Attributes\GeneratorCodeMethodAttribute.cs" />
     <Compile Include="ToolWindows\ViewModels\MergeBlockManagerWindowViewModel.cs" />
     <Compile Include="ToolWindows\SolutionNotOpenedControl.xaml.cs">
@@ -65,6 +69,7 @@
       <DependentUpon>SolutionOpenedControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToolWindows\ViewModels\SolutionNotOpenedControlViewModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.ControllerHttpHelper.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.Controllers.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.AutoMapperProfile.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.Services.cs" />

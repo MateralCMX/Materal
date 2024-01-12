@@ -65,6 +65,13 @@ namespace Materal.MergeBlock.GeneratorCode
         /// <returns></returns>
         public static bool HasAttribute<T>(this List<AttributeModel> attributes) where T : Attribute => attributes.GetAttribute<T>() != null;
         /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <param name="attributes"></param>
+        /// <param name="attributeName"></param>
+        /// <returns></returns>
+        public static bool HasAttribute(this List<AttributeModel> attributes, string attributeName) => attributes.GetAttribute(attributeName) != null;
+        /// <summary>
         /// 获得特性
         /// </summary>
         /// <typeparam name="T"></typeparam>

@@ -1,4 +1,5 @@
 ﻿{
+  "BaseUrl": "http://127.0.0.1:8700",
   "Authorization": {
     "Audience": "WebAPI",
     "ExpiredTime": "18000",
@@ -14,22 +15,37 @@
     "Version": "v1",
     "Description": "提供WebAPI接口"
   },
+  "Consul": {
+    "Enable": true,
+    "Tags": [ "Materal", "Materal.MergeBlock", "RC" ],
+    "ServiceUrl": {
+      "Host": "localhost",
+      "IsSSL": false
+    },
+    "HealthConfig": {
+      "HealthUrl": {
+        "IsSSL": false,
+        "Path": "/api/Health"
+      }
+    }
+  },
   "AccessLog": {
     "MaxBodySize": 2048
   },
   "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Materal.Utils.Consul": "Warning",
+      "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware": "None",
+      "Microsoft.AspNetCore.Hosting.Diagnostics": "Warning",
+      "Microsoft.AspNetCore.Mvc.Infrastructure": "Warning",
+      "Microsoft.AspNetCore.Routing.EndpointMiddleware": "Warning",
+      "Microsoft.EntityFrameworkCore": "Warning"
+    },
     "MateralLogger": {
       "Application": "${ApplicationName}",
       "Scopes": {
         "MergeBlockAccessLog": "None"
-      },
-      "LogLevel": {
-        "Default": "Information",
-        "Microsoft.EntityFrameworkCore": "Warning",
-        "Microsoft.AspNetCore.Hosting.Diagnostics": "Warning",
-        "Microsoft.AspNetCore.Routing.EndpointMiddleware": "Warning",
-        "Microsoft.AspNetCore.Mvc.Infrastructure": "Warning",
-        "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware": "None"
       },
       "Targets": [
         {

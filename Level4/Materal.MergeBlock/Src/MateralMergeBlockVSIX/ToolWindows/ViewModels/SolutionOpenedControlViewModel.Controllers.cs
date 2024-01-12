@@ -203,7 +203,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
-            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Controllers");
             codeContent.AppendLine($"{{");
@@ -216,7 +215,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             else
             {
-                codeContent.AppendLine($"    public partial interface I{domain.Name}Controller : IMergeBlockControllerBase<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Service>");
+                codeContent.AppendLine($"    public partial interface I{domain.Name}Controller : IMergeBlockControllerBase<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, {domain.Name}DTO, {domain.Name}ListDTO>");
             }
             codeContent.AppendLine($"    {{");
             if (domain.IsIndexDomain)

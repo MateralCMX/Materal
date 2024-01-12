@@ -7,7 +7,7 @@ namespace MMB.Demo.Abstractions.Controllers
     /// <summary>
     /// 用户控制器
     /// </summary>
-    public interface IUserController : IMergeBlockControllerBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserService>
+    public interface IUserController : IMergeBlockControllerBase<AddUserRequestModel, EditUserRequestModel, QueryUserRequestModel, UserDTO, UserListDTO>
     {
         /// <summary>
         /// 获得用户列表

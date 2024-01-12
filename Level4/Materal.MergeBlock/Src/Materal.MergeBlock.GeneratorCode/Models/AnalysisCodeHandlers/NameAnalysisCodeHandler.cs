@@ -43,23 +43,34 @@
             {
                 codeContent = codeContent[(index + 3)..];
                 string[] codeContents = codeContent.Split(',');
+                codeContent = string.Empty;
                 foreach (string item in codeContents)
                 {
+                    if (string.IsNullOrWhiteSpace(codeContent))
+                    {
+                        codeContent = item;
+                    }
+                    else
+                    {
+                        codeContent += $",{item}";
+                    }
+                    if (!codeContent.IsFullCodeBlock()) continue;
                     if (interfaceModel is ClassModel classModel)
                     {
-                        if ((classModel.BaseClass is null || string.IsNullOrWhiteSpace(classModel.BaseClass)) && !item.StartsWith("I"))
+                        if ((classModel.BaseClass is null || string.IsNullOrWhiteSpace(classModel.BaseClass)) && !codeContent.StartsWith("I"))
                         {
-                            classModel.BaseClass = item.Trim();
+                            classModel.BaseClass = codeContent.Trim();
                         }
                         else
                         {
-                            classModel.Interfaces.Add(item.Trim());
+                            classModel.Interfaces.Add(codeContent.Trim());
                         }
                     }
                     else
                     {
-                        interfaceModel.Interfaces.Add(item.Trim());
+                        interfaceModel.Interfaces.Add(codeContent.Trim());
                     }
+                    codeContent = string.Empty;
                 }
             }
             #endregion

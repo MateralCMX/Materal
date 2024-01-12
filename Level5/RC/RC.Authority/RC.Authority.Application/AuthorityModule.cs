@@ -1,4 +1,7 @@
-﻿namespace RC.Authority.Application
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using RC.Authority.Abstractions.HttpClient;
+
+namespace RC.Authority.Application
 {
     /// <summary>
     /// Authority模块
@@ -13,6 +16,7 @@
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.Services.Configure<ApplicationConfig>(context.Configuration);
+            context.Services.TryAddSingleton<IUserController, UserControllerAccessor>();
             await base.OnConfigServiceAsync(context);
         }
     }

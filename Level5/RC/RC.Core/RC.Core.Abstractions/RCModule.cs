@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Materal.MergeBlock.Abstractions.ControllerHttpHelper;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace RC.Core.Abstractions
 {
@@ -20,6 +22,16 @@ namespace RC.Core.Abstractions
                 configurationManager.AddJsonFile(configFilePath, true, true);
             }
             await base.OnConfigServiceBeforeAsync(context);
+        }
+        /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
+        {
+            context.Services.TryAddSingleton<IControllerHttpHelper, RCControllerHttpHelper>();
+            await base.OnConfigServiceAsync(context);
         }
     }
 }

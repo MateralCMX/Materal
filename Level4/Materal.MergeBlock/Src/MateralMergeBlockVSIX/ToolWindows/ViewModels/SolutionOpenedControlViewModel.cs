@@ -34,6 +34,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         private SolutionItem? _moduleApplication;
         private SolutionItem? _moduleRepository;
         private SolutionItem? _moduleWebAPI;
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="solution"></param>
         public void Init(Solution solution)
         {
             try
@@ -54,6 +58,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 _moduleWebAPI = null;
             }
         }
+        /// <summary>
+        /// 绑定解决方案项
+        /// </summary>
+        /// <param name="solutionItems"></param>
         private void BindingSolutionItems(IEnumerable<SolutionItem?> solutionItems)
         {
             foreach (SolutionItem? solutionItem in solutionItems)
@@ -62,6 +70,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 BindingSolutionItem(solutionItem);
             }
         }
+        /// <summary>
+        /// 绑定解决方案项
+        /// </summary>
+        /// <param name="solutionItem"></param>
+        /// <exception cref="Exception"></exception>
         private void BindingSolutionItem(SolutionItem solutionItem)
         {
             if (solutionItem.Type == SolutionItemType.SolutionFolder)
@@ -143,34 +156,51 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     directoryInfo.Delete(true);
                 }
                 #endregion
-                List<DomainModel> allDomains = _moduleAbstractions?.GetAllDomains() ?? [];
-                List<IServiceModel> allServices = _moduleAbstractions?.GetAllIServices() ?? [];
                 IEnumerable<MethodInfo> allMethodInfos = GetType().GetRuntimeMethods();
-                foreach (MethodInfo methodInfo in allMethodInfos)
-                {
-                    if (methodInfo.GetCustomAttribute<GeneratorCodeMethodAttribute>() is null) continue;
-                    ParameterInfo[] parameterInfos = methodInfo.GetParameters();
-                    if (parameterInfos.Length == 0)
-                    {
-                        methodInfo.Invoke(this, []);
-                    }
-                    else if(parameterInfos.Length == 1)
-                    {
-                        if(parameterInfos.First().ParameterType == typeof(List<DomainModel>))
-                        {
-                            methodInfo.Invoke(this, [allDomains]);
-                        }
-                        else if (parameterInfos.First().ParameterType == typeof(List<IServiceModel>))
-                        {
-                            methodInfo.Invoke(this, [allServices]);
-                        }
-                    }
-                }
+                ExcuteMethodInfoByAttribute<GeneratorCodeBeforMethodAttribute>(allMethodInfos);
+                ExcuteMethodInfoByAttribute<GeneratorCodeMethodAttribute>(allMethodInfos);
+                ExcuteMethodInfoByAttribute<GeneratorCodeAfterMethodAttribute>(allMethodInfos);
                 VS.MessageBox.Show("提示", "代码生成完毕", Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_INFO, Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
             catch (Exception ex)
             {
                 VS.MessageBox.Show("错误", ex.GetErrorMessage(), Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_WARNING, Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK);
+            }
+        }
+        /// <summary>
+        /// 执行带有指定特性的方法
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="allMethodInfos"></param>
+        private void ExcuteMethodInfoByAttribute<T>(IEnumerable<MethodInfo> allMethodInfos)
+            where T : Attribute
+        {
+            List<DomainModel> allDomains = _moduleAbstractions?.GetAllDomains() ?? [];
+            List<IServiceModel> allServices = _moduleAbstractions?.GetAllIServices() ?? [];
+            List<IControllerModel> allControllers = _moduleAbstractions?.GetAllIControllers() ?? [];
+            foreach (MethodInfo methodInfo in allMethodInfos)
+            {
+                if (methodInfo.GetCustomAttribute<T>() is null) continue;
+                ParameterInfo[] parameterInfos = methodInfo.GetParameters();
+                if (parameterInfos.Length == 0)
+                {
+                    methodInfo.Invoke(this, []);
+                }
+                else if (parameterInfos.Length == 1)
+                {
+                    if (parameterInfos.First().ParameterType == typeof(List<DomainModel>))
+                    {
+                        methodInfo.Invoke(this, [allDomains]);
+                    }
+                    else if (parameterInfos.First().ParameterType == typeof(List<IServiceModel>))
+                    {
+                        methodInfo.Invoke(this, [allServices]);
+                    }
+                    else if (parameterInfos.First().ParameterType == typeof(List<IControllerModel>))
+                    {
+                        methodInfo.Invoke(this, [allControllers]);
+                    }
+                }
             }
         }
         /// <summary>

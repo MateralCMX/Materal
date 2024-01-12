@@ -17,6 +17,7 @@
 	  </Content>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="*" />
+		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="1.1.74" />
+		<PackageReference Include="Materal.MergeBlock.Authorization.Abstractions" Version="1.1.74" />
 	</ItemGroup>
 </Project>
