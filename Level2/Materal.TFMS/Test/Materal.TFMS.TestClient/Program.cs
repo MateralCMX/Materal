@@ -1,12 +1,12 @@
 ﻿using Materal.Logger.ConfigModels;
+using Materal.Logger.ConsoleLogger;
+using Materal.Logger.Extensions;
 using Materal.TFMS.EventBus;
-using Materal.TFMS.EventBus.Extensions;
 using Materal.TFMS.EventBus.RabbitMQ;
 using Materal.TFMS.EventBus.RabbitMQ.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
-using System;
 
 namespace Materal.TFMS.TestClient
 {

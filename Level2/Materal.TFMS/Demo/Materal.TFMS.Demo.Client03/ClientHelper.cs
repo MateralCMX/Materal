@@ -1,9 +1,10 @@
 ﻿using Materal.Logger.ConfigModels;
+using Materal.Logger.ConsoleLogger;
+using Materal.Logger.Extensions;
 using Materal.TFMS.Demo.Client03.EventHandlers;
 using Materal.TFMS.Demo.Core;
 using Materal.TFMS.Demo.Core.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Materal.TFMS.Demo.Client03
 {

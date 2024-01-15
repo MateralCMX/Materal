@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-
-namespace Materal.TFMS.EventBus
+﻿namespace Materal.TFMS.EventBus
 {
     public class MateralTFMSException : MateralException
     {

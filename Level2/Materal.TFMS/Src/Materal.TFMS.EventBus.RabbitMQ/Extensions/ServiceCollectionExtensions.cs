@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.TFMS.EventBus.RabbitMQ.Extensions
+﻿namespace Materal.TFMS.EventBus.RabbitMQ.Extensions
 {
     /// <summary>
     /// 事件总线扩展
     /// </summary>
-    public static class RabbitMQEventBusExtensions
+    public static class ServiceCollectionExtensions
     {
         /// <summary>
         /// 添加RabbitMQ持久连接事件总线订阅
@@ -14,7 +12,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ.Extensions
         /// <returns></returns>
         public static IServiceCollection AddRabbitMQPersistentConnection(this IServiceCollection services)
         {
-            return AddRabbitMQPersistentConnection<DefaultRabbitMQPersistentConnection>(services);
+            return services.AddRabbitMQPersistentConnection<DefaultRabbitMQPersistentConnection>();
         }
         /// <summary>
         /// 添加RabbitMQ持久连接事件总线订阅

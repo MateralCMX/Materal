@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.TFMS.EventBus.Extensions
+﻿namespace Materal.TFMS.EventBus
 {
     /// <summary>
     /// 事件总线扩展

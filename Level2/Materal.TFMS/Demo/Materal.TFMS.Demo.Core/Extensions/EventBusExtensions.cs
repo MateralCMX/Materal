@@ -1,5 +1,4 @@
 ﻿using Materal.TFMS.EventBus;
-using Materal.TFMS.EventBus.Extensions;
 using Materal.TFMS.EventBus.RabbitMQ;
 using Materal.TFMS.EventBus.RabbitMQ.Extensions;
 using Microsoft.Extensions.DependencyInjection;

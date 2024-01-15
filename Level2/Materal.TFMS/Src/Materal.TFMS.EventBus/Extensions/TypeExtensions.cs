@@ -1,6 +1,6 @@
 ﻿namespace Materal.TFMS.EventBus.Extensions
 {
-    public static class GenericTypeExtensions
+    public static class TypeExtensions
     {
         /// <summary>
         /// 获得一般类型名称
@@ -22,15 +22,6 @@
             }
 
             return typeName;
-        }
-        /// <summary>
-        /// 获得一般类型名称
-        /// </summary>
-        /// <param name="@object"></param>
-        /// <returns></returns>
-        public static string GetGenericTypeName(this object @object)
-        {
-            return @object.GetType().GetGenericTypeName();
         }
     }
 }
