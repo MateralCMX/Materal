@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using Materal.Extensions;
+using System.Data;
 
 namespace Materal.Test.ExtensionsTests.ObjectTests
 {

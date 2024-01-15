@@ -1,5 +1,6 @@
 ﻿using Consul;
 using Materal.Abstractions;
+using Materal.Extensions;
 using Materal.Utils.Consul.ConfigModels;
 using Materal.Utils.Consul.Models;
 using Materal.Utils.Http;

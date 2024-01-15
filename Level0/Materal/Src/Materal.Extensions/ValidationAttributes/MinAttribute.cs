@@ -1,4 +1,6 @@
-﻿namespace System.ComponentModel.DataAnnotations
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Materal.Extensions.ValidationAttributes
 {
     /// <summary>
     /// 最小
@@ -56,7 +58,7 @@
         public override bool IsValid(object? value)
         {
             bool result = false;
-            if(MinValue is decimal minNumberValue)
+            if (MinValue is decimal minNumberValue)
             {
                 result = value switch
                 {
@@ -72,7 +74,7 @@
                     _ => false,
                 };
             }
-            else if(MinValue is DateTime minDateTimeValue && value is not null && value is DateTime dateTimeValue)
+            else if (MinValue is DateTime minDateTimeValue && value is not null && value is DateTime dateTimeValue)
             {
                 result = dateTimeValue >= minDateTimeValue;
             }

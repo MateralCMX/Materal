@@ -1,4 +1,4 @@
-﻿namespace System
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// 日期时间帮助类
@@ -254,16 +254,16 @@
                     result = timeValue / 365;
                     break;
                 case DateTimeTypeEnum.Hour:
-                    result = timeValue /365 / 30 / 24;
+                    result = timeValue / 365 / 30 / 24;
                     break;
                 case DateTimeTypeEnum.Minute:
-                    result = timeValue /365 / 30 / 24 / 60;
+                    result = timeValue / 365 / 30 / 24 / 60;
                     break;
                 case DateTimeTypeEnum.Second:
-                    result = timeValue /365 / 30 / 24 / 60 / 60;
+                    result = timeValue / 365 / 30 / 24 / 60 / 60;
                     break;
                 case DateTimeTypeEnum.Millisecond:
-                    result = timeValue /365 / 30 / 24 / 60 / 60 / 1000;
+                    result = timeValue / 365 / 30 / 24 / 60 / 60 / 1000;
                     break;
             }
             return result;

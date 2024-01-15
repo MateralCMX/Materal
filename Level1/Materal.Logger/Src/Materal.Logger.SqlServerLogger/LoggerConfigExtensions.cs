@@ -1,6 +1,4 @@
-﻿using Materal.Logger.SqlServerLogger;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.SqlServerLogger
 {
     /// <summary>
     /// LoggerConfig扩展

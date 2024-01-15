@@ -1,7 +1,7 @@
 using Materal.Utils.Model;
 using System.Linq.Expressions;
 
-namespace Materal.Test.UtilsTest
+namespace Materal.Test.UtilsTests
 {
     [TestClass]
     public class FilterModelTest : BaseTest

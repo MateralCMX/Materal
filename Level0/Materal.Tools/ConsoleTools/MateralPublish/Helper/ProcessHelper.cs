@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Materal.Tools.Helper
+namespace MateralPublish.Helper
 {
     /// <summary>
     /// 进程管理器

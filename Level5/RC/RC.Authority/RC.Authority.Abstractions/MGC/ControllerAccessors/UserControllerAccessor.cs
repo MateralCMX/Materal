@@ -17,6 +17,12 @@ namespace RC.Authority.Abstractions.HttpClient
         /// </summary>
         public override string ModuleName => "Authority";
         /// <summary>
+        /// 获得登录用户信息
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ResultModel<UserDTO>> GetLoginUserInfoAsync()
+            => await HttpHelper.SendAsync<IUserController, ResultModel<UserDTO>>(ProjectName, ModuleName, nameof(GetLoginUserInfoAsync), []);
+        /// <summary>
         /// 登录
         /// </summary>
         /// <param name="requestModel"></param>

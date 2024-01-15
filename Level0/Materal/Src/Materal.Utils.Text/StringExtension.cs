@@ -1,6 +1,6 @@
 ﻿using Microsoft.International.Converters.PinYinConverter;
 
-namespace System
+namespace Materal.Utils.Text
 {
     /// <summary>
     /// 字符串扩展

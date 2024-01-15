@@ -2,7 +2,7 @@
 using RC.Authority.Abstractions.RequestModel.User;
 using RC.Authority.Abstractions.Services.Models.User;
 
-namespace RC.Authority.Abstractions.AutoMapperProfile
+namespace RC.Authority.Abstraction.AutoMapperProfile
 {
     /// <summary>
     /// 用户AutoMapper映射配置基类

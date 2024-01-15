@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using Materal.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.Test.ExtensionsTests
 {

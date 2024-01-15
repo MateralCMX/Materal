@@ -1,6 +1,4 @@
-﻿using Materal.Logger.SqliteLogger;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.SqliteLogger
 {
     /// <summary>
     /// LoggerConfig扩展

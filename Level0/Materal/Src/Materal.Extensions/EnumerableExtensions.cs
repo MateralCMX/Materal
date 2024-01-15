@@ -1,4 +1,4 @@
-﻿namespace System.Collections.Generic
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// Enumerable扩展

@@ -1,4 +1,5 @@
-﻿using Materal.Utils.Wechat.Model;
+﻿using Materal.Extensions;
+using Materal.Utils.Wechat.Model;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;

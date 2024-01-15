@@ -1,4 +1,4 @@
-﻿namespace Materal.Tools.Helper
+﻿namespace MateralPublish.Helper
 {
     public static class PublishHelper
     {

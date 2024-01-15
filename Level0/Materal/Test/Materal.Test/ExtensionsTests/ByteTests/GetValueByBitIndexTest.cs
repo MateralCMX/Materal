@@ -1,4 +1,6 @@
-﻿namespace Materal.Test.ExtensionsTests.ByteTests
+﻿using Materal.Extensions;
+
+namespace Materal.Test.ExtensionsTests.ByteTests
 {
     [TestClass]
     public class GetValueByBitIndexTest : BaseTest

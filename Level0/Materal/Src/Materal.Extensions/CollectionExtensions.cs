@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace System.Collections.Generic
+namespace Materal.Extensions
 {
     /// <summary>
     /// 集合扩展

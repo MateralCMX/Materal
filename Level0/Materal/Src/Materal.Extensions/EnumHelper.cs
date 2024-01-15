@@ -1,4 +1,4 @@
-﻿namespace System
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// 类型帮助类

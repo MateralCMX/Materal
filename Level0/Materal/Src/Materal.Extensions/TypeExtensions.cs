@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace System
+namespace Materal.Extensions
 {
     /// <summary>
     /// 类型扩展
@@ -32,7 +32,7 @@ namespace System
         /// <param name="type"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static object Instantiation(this Type type, params object[] args) => InstantiationOrDefault(type, args) ?? throw new ExtensionException("实例化失败");
+        public static object Instantiation(this Type type, params object[] args) => type.InstantiationOrDefault(args) ?? throw new ExtensionException("实例化失败");
         /// <summary>
         /// 实例化对象
         /// </summary>
@@ -40,7 +40,7 @@ namespace System
         /// <param name="serviceProvider"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static object Instantiation(this Type type, IServiceProvider serviceProvider, params object[] args) => InstantiationOrDefault(type, serviceProvider, args) ?? throw new ExtensionException("实例化失败");
+        public static object Instantiation(this Type type, IServiceProvider serviceProvider, params object[] args) => type.InstantiationOrDefault(serviceProvider, args) ?? throw new ExtensionException("实例化失败");
         /// <summary>
         /// 实例化对象
         /// </summary>
@@ -83,7 +83,7 @@ namespace System
                     }
                     if (isOK) continue;
                     object? argument = serviceProvider.GetService(argumentInfo.ParameterType);
-                    if(argument is null) break;
+                    if (argument is null) break;
                     trueArguments.Add(argument);
                 }
                 if (trueArguments.Count != argumentInfos.Length) continue;
@@ -100,7 +100,7 @@ namespace System
         /// <returns></returns>
         public static T Instantiation<T>(this Type type, params object[] args)
         {
-            object? obj = InstantiationOrDefault(type, args);
+            object? obj = type.InstantiationOrDefault(args);
             if (obj is null || obj is not T result) throw new ExtensionException("实例化失败");
             return result;
         }
@@ -113,7 +113,7 @@ namespace System
         /// <returns></returns>
         public static T Instantiation<T>(this Type type, IServiceProvider serviceProvider, params object[] args)
         {
-            object? obj = InstantiationOrDefault(type, serviceProvider, args);
+            object? obj = type.InstantiationOrDefault(serviceProvider, args);
             if (obj is null || obj is not T result) throw new ExtensionException("实例化失败");
             return result;
         }
@@ -125,7 +125,7 @@ namespace System
         /// <returns></returns>
         public static T? InstantiationOrDefault<T>(this Type type, params object[] args)
         {
-            object? obj = InstantiationOrDefault(type, args);
+            object? obj = type.InstantiationOrDefault(args);
             if (obj is null || obj is not T result) return default;
             return result;
         }
@@ -138,7 +138,7 @@ namespace System
         /// <returns></returns>
         public static T? InstantiationOrDefault<T>(this Type type, IServiceProvider serviceProvider, params object[] args)
         {
-            object? obj = InstantiationOrDefault(type, serviceProvider, args);
+            object? obj = type.InstantiationOrDefault(serviceProvider, args);
             if (obj is null || obj is not T result) return default;
             return result;
         }
@@ -218,7 +218,7 @@ namespace System
             foreach (PropertyInfo item in props)
             {
                 Type colType = item.PropertyType;
-                if (colType.IsGenericType && (colType.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                if (colType.IsGenericType && colType.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
                     colType = colType.GetGenericArguments()[0];
                 }

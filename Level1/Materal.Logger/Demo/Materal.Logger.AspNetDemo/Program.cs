@@ -1,3 +1,4 @@
+using Materal.Logger.Extensions;
 
 namespace Materal.Logger.AspNetDemo
 {

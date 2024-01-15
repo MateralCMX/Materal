@@ -2,7 +2,7 @@
 using RC.ServerCenter.Abstractions.RequestModel.Project;
 using RC.ServerCenter.Abstractions.Services.Models.Project;
 
-namespace RC.ServerCenter.Abstractions.AutoMapperProfile
+namespace RC.ServerCenter.Abstraction.AutoMapperProfile
 {
     /// <summary>
     /// 项目AutoMapper映射配置基类

@@ -1,7 +1,6 @@
-﻿using Materal.Logger.Repositories;
-using System.Data;
+﻿using System.Data;
 
-namespace Materal.Logger
+namespace Materal.Logger.Repositories
 {
     /// <summary>
     /// 数据库字段扩展

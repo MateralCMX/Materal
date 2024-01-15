@@ -1,8 +1,5 @@
-﻿using Materal.Tools.Helper;
-using MateralPublish.Extensions;
-using MateralPublish.Models.ProjectModels.Level0;
-using MateralPublish.Models.ProjectModels.Level4;
-using MateralPublish.Models.ProjectModels.Level5;
+﻿using MateralPublish.Extensions;
+using MateralPublish.Helper;
 using System.Reflection;
 
 namespace MateralPublish.Models
@@ -57,7 +54,7 @@ namespace MateralPublish.Models
         /// <returns></returns>
         public async Task<string> GetVersionAsync()
         {
-            MateralProjectModel materalProjectModel = _projects.OfType<MateralProjectModel>().FirstOrDefault() ?? throw new MateralPublishException("未找到版本号");
+            ProjectModels.Level0.MateralProjectModel materalProjectModel = _projects.OfType<ProjectModels.Level0.MateralProjectModel>().FirstOrDefault() ?? throw new MateralPublishException("未找到版本号");
             string nowVersion = await materalProjectModel.GetNowVersionAsync();
             return nowVersion;
         }
@@ -73,9 +70,16 @@ namespace MateralPublish.Models
                 try
                 {
 #if DEBUG
-                    //if (project is not MergeBlockProjectModel) continue;
-                    //if (project is not GatewayProjectModel) continue;
-                    if (project is not RCProjectModel) continue;
+                    if (project is not ProjectModels.Level0.MateralProjectModel) continue;
+                    //if (project is not ProjectModels.Level0.ToolsProjectModel) continue;
+                    //if (project is not ProjectModels.Level1.LoggerProjectModel) continue;
+                    //if (project is not ProjectModels.Level2.TFMSProjectModel) continue;
+                    //if (project is not ProjectModels.Level2.TTAProjectModel) continue;
+                    //if (project is not ProjectModels.Level3.OscillatorProjectModel) continue;
+                    //if (project is not ProjectModels.Level4.BaseCoreProjectModel) continue;
+                    //if (project is not ProjectModels.Level4.MergeBlockProjectModel) continue;
+                    //if (project is not ProjectModels.Level5.GatewayProjectModel) continue;
+                    //if (project is not ProjectModels.Level5.RCProjectModel) continue;
 #endif
                     await project.PublishAsync(version);
                 }

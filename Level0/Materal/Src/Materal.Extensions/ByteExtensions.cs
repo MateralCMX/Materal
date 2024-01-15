@@ -1,4 +1,4 @@
-﻿namespace System
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// Byte扩展
@@ -39,7 +39,7 @@
         public static byte[] GetValueByBitIndex(this byte[] buffer, int startBitIndex, int endBitIndex)
         {
             int intValue = buffer.GetIntValueByBitIndex(startBitIndex, endBitIndex);
-            byte[] result  = BitConverter.GetBytes(intValue);
+            byte[] result = BitConverter.GetBytes(intValue);
             return result;
         }
         /// <summary>

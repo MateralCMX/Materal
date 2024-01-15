@@ -1,6 +1,4 @@
-﻿using Materal.Logger.WebSocketLogger;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.WebSocketLogger
 {
     /// <summary>
     /// LoggerConfig扩展

@@ -1,6 +1,4 @@
-﻿using Materal.Logger.OracleLogger;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.OracleLogger
 {
     /// <summary>
     /// LoggerConfig扩展

@@ -1,4 +1,6 @@
-﻿namespace System.Linq.Expressions
+﻿using System.Linq.Expressions;
+
+namespace Materal.Extensions
 {
     /// <summary>
     /// 表达式扩展

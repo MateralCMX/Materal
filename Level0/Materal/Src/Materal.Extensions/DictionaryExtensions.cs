@@ -1,4 +1,4 @@
-﻿namespace System.Collections.Generic
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// 字典扩展

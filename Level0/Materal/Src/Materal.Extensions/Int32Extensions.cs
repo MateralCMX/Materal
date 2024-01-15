@@ -1,4 +1,4 @@
-﻿namespace System
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// 整数扩展

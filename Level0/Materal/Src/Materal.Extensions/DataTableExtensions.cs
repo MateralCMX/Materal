@@ -1,4 +1,6 @@
-﻿namespace System.Data
+﻿using System.Data;
+
+namespace Materal.Extensions
 {
     /// <summary>
     /// DataTable扩展

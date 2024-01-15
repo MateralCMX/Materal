@@ -1,6 +1,4 @@
-﻿using Materal.Logger.MySqlLogger;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.MySqlLogger
 {
     /// <summary>
     /// LoggerConfig扩展

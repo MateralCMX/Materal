@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace Materal.WindowsHelper
+namespace Materal.Utils.Windows
 {
     /// <summary>
     /// 注册表管理器
@@ -16,7 +16,7 @@ namespace Materal.WindowsHelper
         public static bool AnyAll(string name, params RegistryKey[] registryKeys)
         {
             RegistryKey[] scope;
-            if(registryKeys is null || registryKeys.Length == 0)
+            if (registryKeys is null || registryKeys.Length == 0)
             {
                 scope = new RegistryKey[]
                 {

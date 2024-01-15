@@ -1,6 +1,4 @@
-﻿using Materal.Logger.MongoLogger;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.MongoLogger
 {
     /// <summary>
     /// LoggerConfig扩展

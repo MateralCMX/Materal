@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace System
+namespace Materal.Extensions
 {
     /// <summary>
     /// 日期时间扩展

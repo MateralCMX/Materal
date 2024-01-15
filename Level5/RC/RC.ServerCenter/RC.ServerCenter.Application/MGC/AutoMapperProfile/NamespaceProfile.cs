@@ -2,7 +2,7 @@
 using RC.ServerCenter.Abstractions.RequestModel.Namespace;
 using RC.ServerCenter.Abstractions.Services.Models.Namespace;
 
-namespace RC.ServerCenter.Abstractions.AutoMapperProfile
+namespace RC.ServerCenter.Abstraction.AutoMapperProfile
 {
     /// <summary>
     /// 命名空间AutoMapper映射配置基类

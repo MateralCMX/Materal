@@ -1,4 +1,6 @@
-﻿namespace Microsoft.Extensions.Configuration
+﻿using Microsoft.Extensions.Configuration;
+
+namespace Materal.Extensions
 {
     /// <summary>
     /// 配置对象扩展

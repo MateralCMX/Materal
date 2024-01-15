@@ -1,4 +1,4 @@
-﻿namespace System.Reflection
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// MemberInfo扩展

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Xml;
 
-namespace System
+namespace Materal.Extensions
 {
     /// <summary>
     /// XML扩展

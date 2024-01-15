@@ -2,34 +2,13 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace Materal.Extensions
+namespace Materal.Utils.Image
 {
     /// <summary>
     /// 图片帮助类
     /// </summary>
     public static class ImageHelper
     {
-        /// <summary>
-        /// 获得Base64的图片
-        /// </summary>
-        /// <param name="image"></param>
-        /// <returns></returns>
-        public static string GetBase64Image(this Image image) => GetBase64Image(image, ImageFormat.Jpeg);
-        /// <summary>
-        /// 获得Base64的图片
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="imageFormat"></param>
-        /// <returns></returns>
-        public static string GetBase64Image(this Image image, ImageFormat imageFormat)
-        {
-            using MemoryStream memoryStream = new();
-            image.Save(memoryStream, imageFormat);
-            byte[] imageArray = new byte[memoryStream.Length];
-            memoryStream.Position = 0;
-            memoryStream.Read(imageArray, 0, (int)memoryStream.Length);
-            return "data:image/png;base64," + Convert.ToBase64String(imageArray);
-        }
         /// <summary>
         /// 获取缩略图
         /// </summary>
@@ -101,7 +80,7 @@ namespace Materal.Extensions
         /// <returns></returns>
         public static Image GetThumbnailImage(Image image, int width, int height)
         {
-            Image myThumbnail = image.GetThumbnailImage(width, height, () => false, IntPtr.Zero);
+            Image myThumbnail = image.GetThumbnailImage(width, height, () => false, nint.Zero);
             return myThumbnail;
         }
         /// <summary>

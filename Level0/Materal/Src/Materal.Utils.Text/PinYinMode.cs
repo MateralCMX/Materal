@@ -1,5 +1,5 @@
-﻿namespace System
-{ 
+﻿namespace Materal.Utils.Text
+{
     /// <summary>
     /// 拼音模式
     /// </summary>

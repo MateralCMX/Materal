@@ -1,8 +1,7 @@
-﻿using Materal.Abstractions;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
 
-namespace System
+namespace Materal.Abstractions
 {
     /// <summary>
     /// 异常扩展
@@ -38,7 +37,7 @@ namespace System
             {
                 message = getDetailMessage(exception, prefix);
             }
-            else if(exception is MateralException materalException)
+            else if (exception is MateralException materalException)
             {
                 message = materalException.GetDetailMessage(prefix);
             }
@@ -47,10 +46,10 @@ namespace System
                 try
                 {
                     MethodInfo? methodInfo = exception.GetType().GetMethod("GetDetailMessage", [typeof(string)]);
-                    if(methodInfo is not null && methodInfo.ReturnType == typeof(string))
+                    if (methodInfo is not null && methodInfo.ReturnType == typeof(string))
                     {
                         object? detailMessage = methodInfo.Invoke(exception, new object[] { prefix });
-                        if(detailMessage is not null && detailMessage is string detailMessageString)
+                        if (detailMessage is not null && detailMessage is string detailMessageString)
                         {
                             message = detailMessageString;
                         }
@@ -70,7 +69,7 @@ namespace System
             string[] stackTraces = exception.StackTrace.Split('\n');
             foreach (string stackTrace in stackTraces)
             {
-                if(stackTrace.Last() == '\r')
+                if (stackTrace.Last() == '\r')
                 {
                     errorMessage.AppendLine($"{prefix}{stackTrace[..^1]}");
                 }

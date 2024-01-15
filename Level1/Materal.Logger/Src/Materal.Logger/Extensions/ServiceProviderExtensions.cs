@@ -1,7 +1,6 @@
-﻿using Materal.Logger;
-using Materal.Logger.LoggerLogs;
+﻿using Materal.Logger.LoggerLogs;
 
-namespace System
+namespace Materal.Logger.Extensions
 {
     /// <summary>
     /// 服务提供器扩展

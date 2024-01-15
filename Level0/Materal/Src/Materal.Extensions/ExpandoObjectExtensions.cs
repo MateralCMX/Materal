@@ -1,9 +1,10 @@
-﻿using System.Data;
+﻿using Materal.Extensions.Attributes;
+using System.Data;
 using System.Dynamic;
 using System.Text.Json;
 using System.Xml;
 
-namespace System
+namespace Materal.Extensions
 {
     /// <summary>
     /// 动态对象扩展

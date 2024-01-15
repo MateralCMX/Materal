@@ -1,4 +1,6 @@
-﻿namespace Microsoft.Extensions.Hosting
+﻿using Microsoft.Extensions.Hosting;
+
+namespace Materal.Logger.Extensions
 {
     /// <summary>
     /// 主机构建器扩展

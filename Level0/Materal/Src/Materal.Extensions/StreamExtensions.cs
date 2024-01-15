@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace System.IO
+namespace Materal.Extensions
 {
     /// <summary>
     /// 流扩展

@@ -1,4 +1,6 @@
-﻿namespace Materal.Utils.Model
+﻿using Materal.Abstractions;
+
+namespace Materal.Utils.Model
 {
     /// <summary>
     /// 返回模型

@@ -1,6 +1,4 @@
-﻿using Materal.Logger.LoggerLogs;
-
-namespace Microsoft.Extensions.Logging
+﻿namespace Materal.Logger.Extensions
 {
     /// <summary>
     /// 服务集合扩展

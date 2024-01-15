@@ -1,4 +1,6 @@
-﻿namespace System.ComponentModel.DataAnnotations
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Materal.Extensions.ValidationAttributes
 {
     /// <summary>
     /// 最大

@@ -99,7 +99,14 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 {
                     codeContent.AppendLine($"        /// <returns></returns>");
                 }
-                codeContent.AppendLine($"        public async Task<{method.NotTaskReturnType}> {method.Name}({string.Join(", ", arguments)})");
+                if (method.IsTaskReturnType)
+                {
+                    codeContent.AppendLine($"        public async Task<{method.NotTaskReturnType}> {method.Name}({string.Join(", ", arguments)})");
+                }
+                else
+                {
+                    codeContent.AppendLine($"        public {method.NotTaskReturnType} {method.Name}({string.Join(", ", arguments)})");
+                }
                 string dicCode = "[]";
                 if (dicArguments.Count > 0)
                 {
@@ -110,13 +117,27 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 {
                     objCode = string.Join(", ", objArguments);
                 }
-                if (string.IsNullOrWhiteSpace(objCode))
+                if (method.IsTaskReturnType)
                 {
-                    codeContent.AppendLine($"            => await HttpHelper.SendAsync<I{controller.DomainName}Controller, {method.NotTaskReturnType}>(ProjectName, ModuleName, nameof({method.Name}), {dicCode});");
+                    if (string.IsNullOrWhiteSpace(objCode))
+                    {
+                        codeContent.AppendLine($"            => await HttpHelper.SendAsync<I{controller.DomainName}Controller, {method.NotTaskReturnType}>(ProjectName, ModuleName, nameof({method.Name}), {dicCode});");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"            => await HttpHelper.SendAsync<I{controller.DomainName}Controller, {method.NotTaskReturnType}>(ProjectName, ModuleName, nameof({method.Name}), {dicCode}, {objCode});");
+                    }
                 }
                 else
                 {
-                    codeContent.AppendLine($"            => await HttpHelper.SendAsync<I{controller.DomainName}Controller, {method.NotTaskReturnType}>(ProjectName, ModuleName, nameof({method.Name}), {dicCode}, {objCode});");
+                    if (string.IsNullOrWhiteSpace(objCode))
+                    {
+                        codeContent.AppendLine($"            => HttpHelper.SendAsync<I{controller.DomainName}Controller, {method.NotTaskReturnType}>(ProjectName, ModuleName, nameof({method.Name}), {dicCode}).Result;");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"            => HttpHelper.SendAsync<I{controller.DomainName}Controller, {method.NotTaskReturnType}>(ProjectName, ModuleName, nameof({method.Name}), {dicCode}, {objCode}).Result;");
+                    }
                 }
             }
             codeContent.AppendLine($"    }}");

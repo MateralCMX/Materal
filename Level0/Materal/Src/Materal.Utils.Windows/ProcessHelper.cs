@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Materal.WindowsHelper
+namespace Materal.Utils.Windows
 {
     /// <summary>
     /// 进程管理器

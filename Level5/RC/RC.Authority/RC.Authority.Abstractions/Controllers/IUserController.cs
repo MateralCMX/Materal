@@ -9,6 +9,12 @@ namespace RC.Authority.Abstractions.Controllers
     public partial interface IUserController
     {
         /// <summary>
+        /// 获得登录用户信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        Task<ResultModel<UserDTO>> GetLoginUserInfoAsync();
+        /// <summary>
         /// 登录
         /// </summary>
         /// <param name="requestModel"></param>

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Materal.Extensions;
+using System.Net;
 using System.Text;
 
 namespace Materal.Utils.Http

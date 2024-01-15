@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks.Dataflow;
 
-namespace Materal.Tools.Helper
+namespace MateralPublish.Helper
 {
     public static class ConsoleHelper
     {

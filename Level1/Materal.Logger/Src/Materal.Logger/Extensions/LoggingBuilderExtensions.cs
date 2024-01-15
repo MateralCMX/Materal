@@ -1,6 +1,4 @@
-﻿using Materal.Logger;
-
-namespace Microsoft.Extensions.Logging
+﻿namespace Materal.Logger.Extensions
 {
     /// <summary>
     /// 日志构建器扩展

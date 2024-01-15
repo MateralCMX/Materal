@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Materal.Extensions;
+using System.Text;
 using System.Xml;
 
 namespace Materal.Utils.Wechat.Model

@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 
-namespace Materal.Tools.Helper
+namespace MateralVersion.Helper
 {
     public static class NugetServerHelper
     {

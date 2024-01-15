@@ -1,4 +1,4 @@
-﻿namespace System
+﻿namespace Materal.Extensions.Attributes
 {
     /// <summary>
     /// 忽略转换为ExpandoObject

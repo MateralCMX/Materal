@@ -17,6 +17,7 @@ namespace RC.ServerCenter.Abstractions
         {
             context.Services.TryAddScoped<IProjectController, ProjectControllerAccessor>();
             context.Services.TryAddScoped<INamespaceController, NamespaceControllerAccessor>();
+            context.Services.TryAddScoped<IServerController, ServerControllerAccessor>();
             await base.OnConfigServiceAsync(context);
         }
     }
