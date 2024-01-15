@@ -1,11 +1,9 @@
-﻿using Materal.Logger.ConsoleLogger;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.ConsoleLogger
 {
     /// <summary>
     /// LoggerConfig扩展
     /// </summary>
-    public static partial class LoggerConfigExtensions
+    public static class LoggerConfigExtensions
     {
         /// <summary>
         /// 添加一个控制台目标

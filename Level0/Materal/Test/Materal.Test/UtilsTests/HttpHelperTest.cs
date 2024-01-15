@@ -1,6 +1,4 @@
-using Materal.Abstractions;
 using Materal.Utils.Http;
-using System.Text;
 
 namespace Materal.Test.UtilsTests
 {

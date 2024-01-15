@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-
-namespace Materal.Extensions.DependencyInjection
+﻿namespace Materal.Extensions.DependencyInjection
 {
     /// <summary>
     /// DI扩展

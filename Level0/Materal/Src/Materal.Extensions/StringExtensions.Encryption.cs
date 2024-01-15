@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace System
+namespace Materal.Extensions
 {
     /// <summary>
     /// 字符串加密解密扩展

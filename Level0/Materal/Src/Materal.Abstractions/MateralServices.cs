@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.Abstractions
+﻿namespace Materal.Abstractions
 {
     /// <summary>
     /// Materal服务

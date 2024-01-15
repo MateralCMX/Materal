@@ -1,8 +1,4 @@
-﻿using Materal.Extensions;
-using System.Text;
-using System.Xml;
-
-namespace Materal.Utils.Wechat.Model
+﻿namespace Materal.Utils.Wechat.Model
 {
     /// <summary>
     /// 回复消息模型
@@ -55,22 +51,13 @@ namespace Materal.Utils.Wechat.Model
     /// <summary>
     /// 回复文本消息模型
     /// </summary>
-    public class ReplyTextMessageModel : ReplyMessageModel
+    public class ReplyTextMessageModel(string toUserName, string fromUserName, string content) : ReplyMessageModel(toUserName, fromUserName, "text")
     {
         /// <summary>
         /// 消息内容
         /// </summary>
-        public string Content { get; }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="toUserName"></param>
-        /// <param name="fromUserName"></param>
-        /// <param name="content"></param>
-        public ReplyTextMessageModel(string toUserName, string fromUserName, string content) : base(toUserName, fromUserName, "text")
-        {
-            Content = content;
-        }
+        public string Content { get; } = content;
+
         /// <summary>
         /// 获得Xml文档
         /// </summary>

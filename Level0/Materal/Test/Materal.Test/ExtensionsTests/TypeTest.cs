@@ -1,7 +1,4 @@
-﻿using Materal.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.Test.ExtensionsTests
+﻿namespace Materal.Test.ExtensionsTests
 {
     [TestClass]
     public class TypeTest : BaseTest

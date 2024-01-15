@@ -1,5 +1,4 @@
 ﻿using LitJson;
-using Materal.Utils.Http;
 using Materal.Utils.Wechat.Model;
 using Materal.Utils.Wechat.Model.Result;
 

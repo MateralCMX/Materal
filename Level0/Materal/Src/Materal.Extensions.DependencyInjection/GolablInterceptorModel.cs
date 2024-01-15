@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Materal.Extensions.DependencyInjection
+﻿namespace Materal.Extensions.DependencyInjection
 {
     /// <summary>
     /// 全局拦截器模型

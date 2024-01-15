@@ -1,5 +1,4 @@
-﻿using Materal.Extensions;
-using Materal.Test.TestData;
+﻿using Materal.Test.TestData;
 using Microsoft.Extensions.Configuration;
 
 namespace Materal.Test.ExtensionsTests

@@ -1,6 +1,7 @@
 ﻿using Materal.Abstractions;
 using System.Drawing;
 using System.Drawing.Imaging;
+using ImageClass = System.Drawing.Image;
 
 namespace Materal.Utils.Image
 {
@@ -16,10 +17,10 @@ namespace Materal.Utils.Image
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public static Image GetThumbnailImage(string filePath, int width, int height)
+        public static ImageClass GetThumbnailImage(string filePath, int width, int height)
         {
-            using Image image = new Bitmap(filePath);
-            Image myThumbnail = GetThumbnailImage(image, width, height);
+            using ImageClass image = new Bitmap(filePath);
+            ImageClass myThumbnail = GetThumbnailImage(image, width, height);
             return myThumbnail;
         }
         /// <summary>
@@ -28,10 +29,10 @@ namespace Materal.Utils.Image
         /// <param name="filePath"></param>
         /// <param name="proportion"></param>
         /// <returns></returns>
-        public static Image GetThumbnailImage(string filePath, float proportion)
+        public static ImageClass GetThumbnailImage(string filePath, float proportion)
         {
-            using Image image = new Bitmap(filePath);
-            Image myThumbnail = GetThumbnailImage(image, proportion);
+            using ImageClass image = new Bitmap(filePath);
+            ImageClass myThumbnail = GetThumbnailImage(image, proportion);
             return myThumbnail;
         }
         /// <summary>
@@ -41,10 +42,10 @@ namespace Materal.Utils.Image
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public static Image GetThumbnailImage(Stream stream, int width, int height)
+        public static ImageClass GetThumbnailImage(Stream stream, int width, int height)
         {
-            using Image image = new Bitmap(stream);
-            Image myThumbnail = GetThumbnailImage(image, width, height);
+            using ImageClass image = new Bitmap(stream);
+            ImageClass myThumbnail = GetThumbnailImage(image, width, height);
             return myThumbnail;
         }
         /// <summary>
@@ -53,10 +54,10 @@ namespace Materal.Utils.Image
         /// <param name="stream"></param>
         /// <param name="proportion"></param>
         /// <returns></returns>
-        public static Image GetThumbnailImage(Stream stream, float proportion)
+        public static ImageClass GetThumbnailImage(Stream stream, float proportion)
         {
-            using Image image = new Bitmap(stream);
-            Image myThumbnail = GetThumbnailImage(image, proportion);
+            using ImageClass image = new Bitmap(stream);
+            ImageClass myThumbnail = GetThumbnailImage(image, proportion);
             return myThumbnail;
         }
         /// <summary>
@@ -65,10 +66,10 @@ namespace Materal.Utils.Image
         /// <param name="image"></param>
         /// <param name="proportion"></param>
         /// <returns></returns>
-        public static Image GetThumbnailImage(Image image, float proportion)
+        public static ImageClass GetThumbnailImage(ImageClass image, float proportion)
         {
             (int thumbnailImageWidth, int thumbnailImageHeight) = GetThumbnailImageWidthAndHeight(image.Width, image.Height, proportion);
-            Image myThumbnail = GetThumbnailImage(image, thumbnailImageWidth, thumbnailImageHeight);
+            ImageClass myThumbnail = GetThumbnailImage(image, thumbnailImageWidth, thumbnailImageHeight);
             return myThumbnail;
         }
         /// <summary>
@@ -78,9 +79,13 @@ namespace Materal.Utils.Image
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <returns></returns>
-        public static Image GetThumbnailImage(Image image, int width, int height)
+        public static ImageClass GetThumbnailImage(ImageClass image, int width, int height)
         {
-            Image myThumbnail = image.GetThumbnailImage(width, height, () => false, nint.Zero);
+#if NETSTANDARD
+            ImageClass myThumbnail = image.GetThumbnailImage(width, height, () => false, (nint)0);
+#else
+            ImageClass myThumbnail = image.GetThumbnailImage(width, height, () => false, 0);
+#endif
             return myThumbnail;
         }
         /// <summary>
@@ -120,7 +125,7 @@ namespace Materal.Utils.Image
         /// <param name="destStream">压缩后的Stream对象</param>
         /// <param name="level">压缩等级，0到100，0 最差质量，100 最佳</param>
         /// <param name="mimeType">image/jpeg image/png</param>
-        public static void Compress(Image srcBitmap, Stream destStream, long level, string mimeType = "image/jpeg")
+        public static void Compress(ImageClass srcBitmap, Stream destStream, long level, string mimeType = "image/jpeg")
         {
             ImageCodecInfo? myImageCodecInfo = GetEncoderInfo(mimeType);
             if (myImageCodecInfo is null) return;
@@ -138,7 +143,7 @@ namespace Materal.Utils.Image
         /// <param name="destFile">压缩后的图片保存路径</param>
         /// <param name="level">压缩等级，0到100，0 最差质量，100 最佳</param>
         /// <param name="mimeType"></param>
-        public static void Compress(Image srcBitMap, string destFile, long level, string mimeType = "image/jpeg")
+        public static void Compress(ImageClass srcBitMap, string destFile, long level, string mimeType = "image/jpeg")
         {
             using Stream stream = new FileStream(destFile, FileMode.Create);
             Compress(srcBitMap, stream, level, mimeType);

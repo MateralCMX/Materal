@@ -1,5 +1,5 @@
 ﻿using Materal.Abstractions;
-using Materal.Utils;
+using Materal.Utils.Extensions;
 using Materal.Utils.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

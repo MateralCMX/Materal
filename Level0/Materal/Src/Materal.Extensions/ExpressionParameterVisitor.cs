@@ -1,19 +1,13 @@
-﻿using System.Linq.Expressions;
-
-namespace Materal.Extensions
+﻿namespace Materal.Extensions
 {
-    /// <inheritdoc />
     /// <summary>
+    /// 表达式参数访问器
     /// </summary>
-    public class ExpressionParameterVisitor : ExpressionVisitor
+    /// <param name="map"></param>
+    public class ExpressionParameterVisitor(Dictionary<ParameterExpression, ParameterExpression> map) : ExpressionVisitor
     {
-        private readonly Dictionary<ParameterExpression, ParameterExpression> _map;
-        /// <inheritdoc />
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="map"></param>
-        public ExpressionParameterVisitor(Dictionary<ParameterExpression, ParameterExpression> map) => _map = map ?? new Dictionary<ParameterExpression, ParameterExpression>();
+        private readonly Dictionary<ParameterExpression, ParameterExpression> _map = map ?? [];
+
         /// <summary>
         /// 构造方法
         /// </summary>

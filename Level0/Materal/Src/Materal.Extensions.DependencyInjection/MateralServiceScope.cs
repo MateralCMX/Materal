@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.Extensions.DependencyInjection
+﻿namespace Materal.Extensions.DependencyInjection
 {
     /// <summary>
     /// Materal服务作用域

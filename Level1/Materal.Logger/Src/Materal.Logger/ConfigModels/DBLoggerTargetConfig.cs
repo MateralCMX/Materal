@@ -1,6 +1,4 @@
-﻿using Materal.Logger.Repositories;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.ConfigModels
 {
     /// <summary>
     /// 数据库目标配置

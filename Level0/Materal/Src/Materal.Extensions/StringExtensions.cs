@@ -1,4 +1,4 @@
-﻿namespace System
+﻿namespace Materal.Extensions
 {
     /// <summary>
     /// 字符串扩展

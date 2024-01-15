@@ -1,6 +1,4 @@
-﻿using Materal.Utils.Model;
-
-namespace Materal.Utils.Consul.ConfigModels
+﻿namespace Materal.Utils.Consul.ConfigModels
 {
     /// <summary>
     /// 健康检查配置模型

@@ -8,7 +8,7 @@ namespace Materal.Utils.Redis
     /// </summary>
     public class RedisHelper
     {
-        private static readonly ConcurrentDictionary<string, ConnectionMultiplexer> Redis = new ConcurrentDictionary<string, ConnectionMultiplexer>();
+        private static readonly ConcurrentDictionary<string, ConnectionMultiplexer> Redis = new();
         /// <summary>
         /// 获得订阅
         /// </summary>

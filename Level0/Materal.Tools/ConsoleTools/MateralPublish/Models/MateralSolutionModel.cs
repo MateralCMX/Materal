@@ -70,9 +70,9 @@ namespace MateralPublish.Models
                 try
                 {
 #if DEBUG
-                    if (project is not ProjectModels.Level0.MateralProjectModel) continue;
+                    //if (project is not ProjectModels.Level0.MateralProjectModel) continue;
                     //if (project is not ProjectModels.Level0.ToolsProjectModel) continue;
-                    //if (project is not ProjectModels.Level1.LoggerProjectModel) continue;
+                    if (project is not ProjectModels.Level1.LoggerProjectModel) continue;
                     //if (project is not ProjectModels.Level2.TFMSProjectModel) continue;
                     //if (project is not ProjectModels.Level2.TTAProjectModel) continue;
                     //if (project is not ProjectModels.Level3.OscillatorProjectModel) continue;

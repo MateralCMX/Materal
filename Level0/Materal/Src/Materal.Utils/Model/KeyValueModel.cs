@@ -1,6 +1,4 @@
-﻿using Materal.Extensions;
-
-namespace Materal.Utils.Model
+﻿namespace Materal.Utils.Model
 {
     /// <summary>
     /// 键值对模型

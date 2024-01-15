@@ -1,6 +1,4 @@
-﻿using Materal.Extensions;
-using Materal.Utils.Model;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System.Dynamic;
 
 namespace Materal.Test.ExtensionsTests.StringTests
@@ -11,11 +9,12 @@ namespace Materal.Test.ExtensionsTests.StringTests
         [TestMethod]
         public void GetTypeByTypeNameTest()
         {
-            Type? studentType = nameof(Student).GetTypeByTypeName<User>(new object[] { "1234", 22 });
+            Type? studentType = nameof(Student).GetTypeByTypeName<User>(["1234", 22]);
             if (studentType is null) return;
             User model = studentType.Instantiation<User>("1234", 22);
             User model2 = model.CopyProperties<User>();
         }
+        private static readonly string[] _arrayValue = ["1", "2", "3", "4", "5"];
         [TestMethod]
         public void ToJsonTest()
         {
@@ -28,7 +27,7 @@ namespace Materal.Test.ExtensionsTests.StringTests
                 DateTimeValue = new DateTime(1993,4,20,8,30,40),
                 GuidValue = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                 ListValue = new List<int>() { 1, 2, 3, 4, 5 },
-                ArrayValue = new string[] { "1", "2", "3","4", "5" },
+                ArrayValue = _arrayValue,
                 SubObjectValue = new
                 {
                     IntValue = 1,
@@ -39,7 +38,7 @@ namespace Materal.Test.ExtensionsTests.StringTests
                     DateTimeValue = new DateTime(1993, 4, 20, 8, 30, 40),
                     GuidValue = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                     ListValue = new List<int>() { 1, 2, 3, 4, 5 },
-                    ArrayValue = new string[] { "1", "2", "3", "4", "5" },
+                    ArrayValue = _arrayValue,
                     SubObjectValue = new
                     {
                         IntValue = 1,
@@ -50,13 +49,16 @@ namespace Materal.Test.ExtensionsTests.StringTests
                         DateTimeValue = new DateTime(1993, 4, 20, 8, 30, 40),
                         GuidValue = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                         ListValue = new List<int>() { 1, 2, 3, 4, 5 },
-                        ArrayValue = new string[] { "1", "2", "3", "4", "5" },
+                        ArrayValue = _arrayValue,
                     }
                 }
             }.ToJson();
             JObject jObject = jsonString.JsonToDeserializeObject<JObject>();
+            Assert.IsNotNull(jObject);
             ExpandoObject expandoObject = jsonString.JsonToDeserializeObject<ExpandoObject>();
+            Assert.IsNotNull(expandoObject);
             dynamic dynamicObject = jsonString.JsonToDeserializeObject<dynamic>();
+            Assert.IsNotNull(dynamicObject);
 
         }
         private class TestJsonModel

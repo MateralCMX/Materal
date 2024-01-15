@@ -1,6 +1,4 @@
-﻿using System.Drawing.Drawing2D;
-
-namespace Materal.Utils.Model
+﻿namespace Materal.Utils.Model
 {
     /// <summary>
     /// HttpUrl模型

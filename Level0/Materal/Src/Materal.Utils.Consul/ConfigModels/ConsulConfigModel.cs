@@ -1,5 +1,4 @@
 ﻿using Consul;
-using Materal.Utils.Model;
 
 namespace Materal.Utils.Consul.ConfigModels
 {

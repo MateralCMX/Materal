@@ -9,7 +9,7 @@
         /// <summary>
         /// 有31号的月份
         /// </summary>
-        public static readonly int[] Has31DayMonths = new[] { 1, 3, 5, 7, 8, 10, 12 };
+        public static readonly int[] Has31DayMonths = [1, 3, 5, 7, 8, 10, 12];
         private int _year = 1;
         private int _month = 1;
         private int _day = 1;

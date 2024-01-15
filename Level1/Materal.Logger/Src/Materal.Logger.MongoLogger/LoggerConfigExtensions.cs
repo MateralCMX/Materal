@@ -3,7 +3,7 @@
     /// <summary>
     /// LoggerConfig扩展
     /// </summary>
-    public static partial class LoggerConfigExtensions
+    public static class LoggerConfigExtensions
     {
         /// <summary>
         /// 添加一个Mongo输出

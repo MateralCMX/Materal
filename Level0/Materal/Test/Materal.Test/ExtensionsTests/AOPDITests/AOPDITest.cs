@@ -1,5 +1,4 @@
 ﻿using Materal.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
 namespace Materal.Test.ExtensionsTests.AOPDITests
@@ -106,7 +105,7 @@ namespace Materal.Test.ExtensionsTests.AOPDITests
             Guid guidValue = Guid.NewGuid();
             object objectValue = new { ID = Guid.NewGuid(), Name = name1 };
             MyClassValue customValue = new();
-            object[] objectValues = { new object(), new object() };
+            object[] objectValues = [new object(), new object()];
             var result = aopService.TestParams(boolValue, intValue, floatValue, doubleValue, decimalValue, stringValue, dateTimeValue, guidValue, objectValue, customValue, objectValues);
             Assert.AreEqual(result.boolValue, boolValue);
             Assert.AreEqual(result.intValue, intValue);

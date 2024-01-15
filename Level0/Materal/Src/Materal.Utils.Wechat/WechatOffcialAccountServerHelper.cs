@@ -1,10 +1,6 @@
-﻿using Materal.Extensions;
-using Materal.Utils.Wechat.Model;
+﻿using Materal.Utils.Wechat.Model;
 using System.Reflection;
 using System.Security.Cryptography;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace Materal.Utils.Wechat
 {

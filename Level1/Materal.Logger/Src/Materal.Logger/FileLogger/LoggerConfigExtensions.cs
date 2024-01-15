@@ -1,11 +1,9 @@
-﻿using Materal.Logger.FileLogger;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.FileLogger
 {
     /// <summary>
     /// LoggerConfig扩展
     /// </summary>
-    public static partial class LoggerConfigExtensions
+    public static class LoggerConfigExtensions
     {
         /// <summary>
         /// 添加一个文件输出

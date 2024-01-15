@@ -1,7 +1,4 @@
-﻿using Materal.Utils.Model;
-using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Utils.Wechat.Model.OfficialAccount.Request
+﻿namespace Materal.Utils.Wechat.Model.OfficialAccount.Request
 {
     /// <summary>
     /// 发送模版消息请求模型
@@ -34,7 +31,7 @@ namespace Materal.Utils.Wechat.Model.OfficialAccount.Request
         /// 数据集
         /// </summary>
         [Required(ErrorMessage = "数据集必填")]
-        public List<KeyValueModel> TemplateDatas { get; set; } = new();
+        public List<KeyValueModel> TemplateDatas { get; set; } = [];
         /// <summary>
         /// 防重复标识ID
         /// </summary>

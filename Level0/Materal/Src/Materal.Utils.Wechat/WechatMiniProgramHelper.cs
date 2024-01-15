@@ -1,24 +1,14 @@
 ﻿using LitJson;
-using Materal.Utils.Http;
 using Materal.Utils.Wechat.Model;
 using Materal.Utils.Wechat.Model.MiniProgram.Request;
-using System.ComponentModel.DataAnnotations;
 
 namespace Materal.Utils.Wechat
 {
     /// <summary>
     /// 微信小程序管理器
     /// </summary>
-    public class WechatMiniProgramHelper : WechatHelper
+    public class WechatMiniProgramHelper(WechatConfigModel config, IHttpHelper? httpHelper = null) : WechatHelper(config, httpHelper)
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="config"></param>
-        /// <param name="httpHelper"></param>
-        public WechatMiniProgramHelper(WechatConfigModel config, IHttpHelper? httpHelper = null) : base(config, httpHelper)
-        {
-        }
         /// <summary>
         /// 根据Code获得OpenID
         /// </summary>

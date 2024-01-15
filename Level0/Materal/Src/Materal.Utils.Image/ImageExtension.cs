@@ -1,4 +1,5 @@
 ﻿using System.Drawing.Imaging;
+using ImageClass = System.Drawing.Image;
 
 namespace Materal.Utils.Image
 {
@@ -12,14 +13,14 @@ namespace Materal.Utils.Image
         /// </summary>
         /// <param name="image"></param>
         /// <returns></returns>
-        public static string GetBase64Image(this Image image) => image.GetBase64Image(ImageFormat.Jpeg);
+        public static string GetBase64Image(this ImageClass image) => image.GetBase64Image(ImageFormat.Jpeg);
         /// <summary>
         /// 获得Base64的图片
         /// </summary>
         /// <param name="image"></param>
         /// <param name="imageFormat"></param>
         /// <returns></returns>
-        public static string GetBase64Image(this Image image, ImageFormat imageFormat)
+        public static string GetBase64Image(this ImageClass image, ImageFormat imageFormat)
         {
             using MemoryStream memoryStream = new();
             image.Save(memoryStream, imageFormat);

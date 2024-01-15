@@ -1,9 +1,6 @@
-﻿using Materal.Extensions;
-using System.Collections;
+﻿using System.Collections;
 using System.Dynamic;
 using System.Net;
-using System.Reflection;
-using System.Text;
 using System.Xml;
 
 namespace Materal.Utils.Http

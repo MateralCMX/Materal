@@ -1,11 +1,9 @@
-﻿using Materal.Logger.HttpLogger;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.HttpLogger
 {
     /// <summary>
     /// LoggerConfig扩展
     /// </summary>
-    public static partial class LoggerConfigExtensions
+    public static class LoggerConfigExtensions
     {
         /// <summary>
         /// 添加一个Http输出

@@ -1,25 +1,12 @@
-﻿using Materal.Abstractions;
-using System.Data;
-using System.Reflection;
+﻿using System.Data;
 
 namespace Materal.Extensions.DependencyInjection
 {
     /// <summary>
     /// 拦截器帮助类
     /// </summary>
-    public class InterceptorHelper
+    public class InterceptorHelper(IEnumerable<GolablInterceptorModel>? golablInterceptors = null)
     {
-        /// <summary>
-        /// 全局拦截器
-        /// </summary>
-        private readonly IEnumerable<GolablInterceptorModel>? _golablInterceptors;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public InterceptorHelper(IEnumerable<GolablInterceptorModel>? golablInterceptors = null)
-        {
-            _golablInterceptors = golablInterceptors;
-        }
         /// <summary>
         /// 处理拦截器
         /// </summary>
@@ -102,11 +89,11 @@ namespace Materal.Extensions.DependencyInjection
             {
                 interceptors.AddRange(objMethodInfo.DeclaringType.GetCustomAttributes<InterceptorAttribute>());
             }
-            if (_golablInterceptors is not null && _golablInterceptors.Any())
+            if (golablInterceptors is not null && golablInterceptors.Any())
             {
-                interceptors.AddRange(_golablInterceptors.Where(m => m.Filter(interfaceMethodInfo, objMethodInfo)).Select(m => m.Interceptor));
+                interceptors.AddRange(golablInterceptors.Where(m => m.Filter(interfaceMethodInfo, objMethodInfo)).Select(m => m.Interceptor));
             }
-            interceptors = interceptors.OrderByDescending(m => m.Order).ToList();
+            interceptors = [.. interceptors.OrderByDescending(m => m.Order)];
             return interceptors;
         }
         /// <summary>

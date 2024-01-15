@@ -1,5 +1,4 @@
 ﻿using Materal.Logger.LoggerTrace.Models;
-using Microsoft.Extensions.Logging;
 using System.CommandLine;
 using System.Net.WebSockets;
 using System.Text;

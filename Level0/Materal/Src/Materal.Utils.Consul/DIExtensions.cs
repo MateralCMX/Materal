@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Materal.Utils.Extensions;
 
 namespace Materal.Utils.Consul
 {

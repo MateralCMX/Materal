@@ -1,29 +1,15 @@
 ﻿using LitJson;
-using Materal.Utils.Http;
-using Materal.Utils.Model;
 using Materal.Utils.Wechat.Model;
 using Materal.Utils.Wechat.Model.OfficialAccount.Request;
 using Materal.Utils.Wechat.Model.OfficialAccount.Result;
-using Materal.Utils.Wechat.Model.Result;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Materal.Utils.Wechat
 {
     /// <summary>
     /// 微信公众号帮助类
     /// </summary>
-    public class WechatOfficialAccountHelper : WechatHelper
+    public class WechatOfficialAccountHelper(WechatConfigModel config, IHttpHelper? httpHelper = null) : WechatHelper(config, httpHelper)
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="config"></param>
-        /// <param name="httpHelper"></param>
-        public WechatOfficialAccountHelper(WechatConfigModel config, IHttpHelper? httpHelper = null) : base(config, httpHelper)
-        {
-        }
         /// <summary>
         /// 根据Code获得网页AccessToken
         /// </summary>

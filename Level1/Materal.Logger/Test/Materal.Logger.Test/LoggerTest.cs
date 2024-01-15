@@ -1,15 +1,3 @@
-using Materal.Logger.ConfigModels;
-using Materal.Logger.Extensions;
-using Materal.Logger.MongoLogger;
-using Materal.Logger.MySqlLogger;
-using Materal.Logger.OracleLogger;
-using Materal.Logger.SqliteLogger;
-using Materal.Logger.SqlServerLogger;
-using Materal.Logger.WebSocketLogger;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-
 namespace Materal.Logger.Test
 {
     [TestClass]

@@ -1,6 +1,4 @@
-﻿using Materal.Extensions;
-
-namespace Materal.Test.ExtensionsTests.ByteTests
+﻿namespace Materal.Test.ExtensionsTests.ByteTests
 {
     [TestClass]
     public class GetValueByBitIndexTest : BaseTest
@@ -8,11 +6,14 @@ namespace Materal.Test.ExtensionsTests.ByteTests
         [TestMethod]
         public void Test01()
         {
-            byte[] byteArray = new byte[] { 255, 170 };
+            byte[] byteArray = [255, 170];
             string oldBinaryString = byteArray.GetBinaryString();
+            Assert.IsNotNull(oldBinaryString);
             int result = byteArray.GetIntValueByBitIndex(3, 12);
             byte[] byteResult = byteArray.GetValueByBitIndex(3, 12);
+            Assert.IsNotNull(byteResult);
             string newBinaryString = result.GetBinaryString();
+            Assert.IsNotNull(newBinaryString);
         }
     }
 }

@@ -2,7 +2,6 @@
 using Materal.Utils.Wechat;
 using Materal.Utils.Wechat.Model;
 using Materal.Utils.Wechat.Model.Result;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.Test.UtilsTests.WechatTests
 {

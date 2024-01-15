@@ -1,6 +1,4 @@
-﻿using Materal.Logger.Repositories;
-
-namespace Materal.Logger.LoggerWriter
+﻿namespace Materal.Logger.LoggerWriter
 {
     /// <summary>
     /// 数据库日志写入器模型

@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace System
+namespace Materal.Extensions
 {
     /// <summary>
     /// 字符串验证扩展类

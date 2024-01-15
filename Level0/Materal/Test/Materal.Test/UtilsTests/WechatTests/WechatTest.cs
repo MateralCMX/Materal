@@ -1,5 +1,4 @@
-﻿using Materal.Extensions;
-using Materal.Utils.Wechat.Model;
+﻿using Materal.Utils.Wechat.Model;
 using Materal.Utils.Wechat.Model.Result;
 
 namespace Materal.Test.UtilsTests.WechatTests

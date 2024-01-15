@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-
-namespace Materal.Utils.Cache
+﻿namespace Materal.Utils.Cache
 {
     /// <summary>
     /// 缓存管理器

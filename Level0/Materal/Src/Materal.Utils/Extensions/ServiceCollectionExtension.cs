@@ -1,14 +1,14 @@
 ﻿using Materal.Utils.Cache;
 using Materal.Utils.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Materal.Utils
+namespace Materal.Utils.Extensions
 {
     /// <summary>
-    /// 工具库DI扩展
+    /// ServiceCollection扩展
     /// </summary>
-    public static class DIExtension
+    public static class ServiceCollectionExtension
+
     {
         /// <summary>
         /// 添加所有工具

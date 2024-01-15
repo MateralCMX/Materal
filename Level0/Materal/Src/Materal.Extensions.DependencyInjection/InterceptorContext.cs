@@ -1,24 +1,22 @@
-﻿using System.Reflection;
-
-namespace Materal.Extensions.DependencyInjection
+﻿namespace Materal.Extensions.DependencyInjection
 {
     /// <summary>
     /// 拦截器上下文
     /// </summary>
-    public class InterceptorContext
+    public class InterceptorContext(MethodInfo interfaceMethodInfo, MethodInfo methodInfo, object?[] parameters)
     {
         /// <summary>
         /// 接口方法信息
         /// </summary>
-        public MethodInfo InterfaceMethodInfo { get; }
+        public MethodInfo InterfaceMethodInfo { get; } = interfaceMethodInfo;
         /// <summary>
         /// 方法信息
         /// </summary>
-        public MethodInfo MethodInfo { get; }
+        public MethodInfo MethodInfo { get; } = methodInfo;
         /// <summary>
         /// 参数
         /// </summary>
-        public object?[] Parameters { get; }
+        public object?[] Parameters { get; } = parameters;
         /// <summary>
         /// 是否返回
         /// </summary>
@@ -35,18 +33,6 @@ namespace Materal.Extensions.DependencyInjection
                 IsReturn = true;
                 _returnValue = value;
             }
-        }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="interfaceMethodInfo"></param>
-        /// <param name="methodInfo"></param>
-        /// <param name="parameters"></param>
-        public InterceptorContext(MethodInfo interfaceMethodInfo, MethodInfo methodInfo, object?[] parameters)
-        {
-            InterfaceMethodInfo = interfaceMethodInfo;
-            MethodInfo = methodInfo;
-            Parameters = parameters;
         }
     }
 }

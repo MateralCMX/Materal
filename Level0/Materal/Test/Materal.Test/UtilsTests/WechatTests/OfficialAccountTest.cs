@@ -3,7 +3,6 @@ using Materal.Utils.Wechat;
 using Materal.Utils.Wechat.Model.OfficialAccount.Request;
 using Materal.Utils.Wechat.Model.OfficialAccount.Result;
 using Materal.Utils.Wechat.Model.Result;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.Test.UtilsTests.WechatTests
 {
@@ -47,13 +46,13 @@ namespace Materal.Test.UtilsTests.WechatTests
                     AppID = "wxc4823d71dcecbc56",
                     PagePath = "pages/index/index"
                 },
-                TemplateDatas = new()
-                {
+                TemplateDatas =
+                [
                     new("thing9", "测试上报人"),
                     new("time10", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
                     new("number11", "测试的，没有进度"),
                     new("thing8", "测试小程序跳转"),
-                }
+                ]
             };
             await _wechatHelper.SendTemplateMessageAsync(requestModel);
         }

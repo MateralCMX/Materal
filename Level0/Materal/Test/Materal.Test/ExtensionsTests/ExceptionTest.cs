@@ -1,5 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.Utils.Http;
+﻿using Materal.Utils.Http;
 using System.Diagnostics;
 
 namespace Materal.Test.ExtensionsTests

@@ -1,6 +1,3 @@
-using Materal.Utils.Model;
-using System.Linq.Expressions;
-
 namespace Materal.Test.UtilsTests
 {
     [TestClass]
@@ -9,19 +6,19 @@ namespace Materal.Test.UtilsTests
         [TestMethod]
         public void SortTest()
         {
-            List<User> users = new()
-            {
+            List<User> users =
+            [
                 new() { Name = "D" },
                 new() { Name = "C" },
                 new() { Name = "A" },
                 new() { Name = "B" },
                 new() { Name = "E" }
-            };
+            ];
             QueryUserModel queryModel = new()
             {
                 SortPropertyName = nameof(User.CreateTime),
                 IsAsc = false,
-                SourceIDs = new List<Guid>() { Guid.NewGuid(), Guid.NewGuid() }
+                SourceIDs = [Guid.NewGuid(), Guid.NewGuid()]
             };
             users = queryModel.Sort(users);
             if (queryModel.IsAsc)
@@ -36,17 +33,17 @@ namespace Materal.Test.UtilsTests
         [TestMethod]
         public void ListContains()
         {
-            List<User> users = new()
-            {
+            List<User> users =
+            [
                 new() { Name = "D" },
                 new() { Name = "C" },
                 new() { Name = "A" },
                 new() { Name = "B" },
                 new() { Name = "E" }
-            };
+            ];
             QueryUserModel queryModel = new()
             {
-                SourceIDs = new List<Guid>() { Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), Guid.NewGuid() }
+                SourceIDs = [Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), Guid.NewGuid()]
             };
             Expression<Func<User, bool>> expression = queryModel.GetSearchExpression<User>();
             Assert.IsTrue(users.Where(expression.Compile()).Count() == users.Count);
@@ -54,17 +51,17 @@ namespace Materal.Test.UtilsTests
         [TestMethod]
         public void ArrayContains()
         {
-            List<User> users = new()
-            {
+            List<User> users =
+            [
                 new() { Name = "D" },
                 new() { Name = "C" },
                 new() { Name = "A" },
                 new() { Name = "B" },
                 new() { Name = "E" }
-            };
+            ];
             QueryUserModel queryModel = new()
             {
-                SourceID2s = new[] { Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), Guid.NewGuid() }
+                SourceID2s = [Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), Guid.NewGuid()]
             };
             Expression<Func<User, bool>> expression = queryModel.GetSearchExpression<User>();
             Assert.IsTrue(users.Where(expression.Compile()).Count() == users.Count);

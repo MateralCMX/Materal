@@ -1,22 +1,13 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.Extensions.DependencyInjection
+﻿namespace Materal.Extensions.DependencyInjection
 {
     /// <summary>
     /// Materal服务提供者
     /// </summary>
-    public class MateralServiceProvider : IServiceProvider
+    public class MateralServiceProvider(IServiceProvider serviceProvider, Func<Type, Type, bool>? filter = null) : IServiceProvider
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly Func<Type, Type, bool> _filter;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public MateralServiceProvider(IServiceProvider serviceProvider, Func<Type, Type, bool>? filter = null)
-        {
-            _serviceProvider = serviceProvider;
-            _filter = filter ?? ((serviceType, objType) => true);
-        }
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
+        private readonly Func<Type, Type, bool> _filter = filter ?? ((serviceType, objType) => true);
+
         /// <summary>
         /// 获得服务
         /// </summary>

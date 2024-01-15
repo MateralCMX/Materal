@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Extensions.ValidationAttributes
+﻿namespace Materal.Extensions.ValidationAttributes
 {
     /// <summary>
     /// 最小

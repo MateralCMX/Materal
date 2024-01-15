@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.Extensions;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
 namespace Materal.Utils.Cache
@@ -8,18 +6,12 @@ namespace Materal.Utils.Cache
     /// <summary>
     /// 内存缓存管理器
     /// </summary>
-    public class MemoryCacheHelper : ICacheHelper
+    public class MemoryCacheHelper(IMemoryCache? memoryCache = null) : ICacheHelper
     {
-        private readonly List<string> allKey = new();
-        private readonly IMemoryCache _memoryCache;
+        private readonly List<string> allKey = [];
+        private readonly IMemoryCache _memoryCache = memoryCache ?? new MemoryCache(Options.Create(new MemoryCacheOptions()));
         private readonly object _setValueLockObj = new();
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public MemoryCacheHelper(IMemoryCache? memoryCache = null)
-        {
-            _memoryCache = memoryCache ?? new MemoryCache(Options.Create(new MemoryCacheOptions()));
-        }
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -106,7 +98,7 @@ namespace Materal.Utils.Cache
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public List<string> GetCacheKeys() => allKey.ToJson().JsonToDeserializeObject<List<string>>() ?? new();
+        public List<string> GetCacheKeys() => allKey.ToJson().JsonToDeserializeObject<List<string>>() ?? [];
         /// <summary>
         /// <inheritdoc/>
         /// </summary>

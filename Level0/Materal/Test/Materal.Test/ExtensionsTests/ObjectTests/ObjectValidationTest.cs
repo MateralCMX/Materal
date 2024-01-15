@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Test.ExtensionsTests.ObjectTests
+﻿namespace Materal.Test.ExtensionsTests.ObjectTests
 {
     [TestClass]
     public class ObjectValidationTest : BaseTest
@@ -22,7 +20,7 @@ namespace Materal.Test.ExtensionsTests.ObjectTests
             //[Required, MinLength(1), MaxLength(2)]
             //public List<CustomModel2> ListProperty { get; set; } = new();
             [Required, MinLength(1), MaxLength(2)]
-            public Dictionary<string, CustomModel2> DictionaryProperty { get; set; } = new();
+            public Dictionary<string, CustomModel2> DictionaryProperty { get; set; } = [];
             //[Required]
             //public CustomModel2 ClassProperty { get; set; } = new();
         }

@@ -1,4 +1,3 @@
-using Materal.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HttpLoggerServer.Controllers

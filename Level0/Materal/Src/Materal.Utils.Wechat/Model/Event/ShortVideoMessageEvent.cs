@@ -1,6 +1,4 @@
-﻿using System.Xml;
-
-namespace Materal.Utils.Wechat.Model.Event
+﻿namespace Materal.Utils.Wechat.Model.Event
 {
     /// <summary>
     /// 小视频消息事件

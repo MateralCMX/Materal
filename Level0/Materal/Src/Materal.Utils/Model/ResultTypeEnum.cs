@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Materal.Utils.Model
+﻿namespace Materal.Utils.Model
 {
     /// <summary>
     /// 返回对象类型

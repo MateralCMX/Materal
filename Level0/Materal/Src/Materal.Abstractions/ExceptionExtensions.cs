@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using System.Text;
-
-namespace Materal.Abstractions
+﻿namespace Materal.Abstractions
 {
     /// <summary>
     /// 异常扩展

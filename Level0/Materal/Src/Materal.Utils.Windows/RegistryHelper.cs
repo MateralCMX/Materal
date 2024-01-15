@@ -1,6 +1,4 @@
-﻿using Microsoft.Win32;
-
-namespace Materal.Utils.Windows
+﻿namespace Materal.Utils.Windows
 {
     /// <summary>
     /// 注册表管理器
@@ -18,14 +16,14 @@ namespace Materal.Utils.Windows
             RegistryKey[] scope;
             if (registryKeys is null || registryKeys.Length == 0)
             {
-                scope = new RegistryKey[]
-                {
+                scope =
+                [
                     Registry.ClassesRoot,
                     Registry.LocalMachine,
                     Registry.CurrentUser,
                     Registry.Users,
                     Registry.CurrentConfig
-                };
+                ];
             }
             else
             {

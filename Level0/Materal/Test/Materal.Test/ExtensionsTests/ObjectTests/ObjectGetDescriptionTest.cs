@@ -62,7 +62,8 @@ namespace Materal.Test.ExtensionsTests.ObjectTests
         public void CloneTest()
         {
             ClassA @class = new();
-            ClassA? a = @class.CloneByXml();
+            ClassA? temp = @class.CloneByXml();
+            Assert.IsNotNull(temp);
         }
     }
 }

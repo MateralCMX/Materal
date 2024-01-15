@@ -1,19 +1,11 @@
-﻿using System.Linq.Expressions;
-using System.Reflection;
-
-namespace Materal.Utils.Model
+﻿namespace Materal.Utils.Model
 {
     /// <summary>
     /// StartContains
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class StartContainsAttribute : FilterAttribute
+    public class StartContainsAttribute(string? targetPropertyName = null) : FilterAttribute(targetPropertyName)
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="targetPropertyName"></param>
-        public StartContainsAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         /// <summary>
         /// <inheritdoc/>
         /// </summary>

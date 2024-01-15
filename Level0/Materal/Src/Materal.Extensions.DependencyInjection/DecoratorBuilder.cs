@@ -1,9 +1,7 @@
-﻿using System.Reflection.Emit;
-using System.Reflection;
-using Materal.Abstractions;
+﻿using Materal.Abstractions;
 using System.Collections.Concurrent;
-using System.Text;
-using System.Data.SqlTypes;
+using System.Reflection;
+using System.Reflection.Emit;
 
 namespace Materal.Extensions.DependencyInjection
 {
@@ -57,7 +55,7 @@ namespace Materal.Extensions.DependencyInjection
             MethodInfo emptyArrayMethodInfo = typeof(Array).GetMethod("Empty") ?? throw new MateralException("获取Array.Empty方法失败");
             _emptyObjectArrayMethodInfo = emptyArrayMethodInfo.MakeGenericMethod(typeof(object));
             _emptyTypeArrayMethodInfo = emptyArrayMethodInfo.MakeGenericMethod(typeof(Type));
-            _typeofMethodInfo = typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }) ?? throw new MateralException("获取方法typeof失败");
+            _typeofMethodInfo = typeof(Type).GetMethod("GetTypeFromHandle", [typeof(RuntimeTypeHandle)]) ?? throw new MateralException("获取方法typeof失败");
             MethodInfo[] methodInfos = typeof(InterceptorHelper).GetMethods().Where(m => m.Name == "Handler").ToArray();
             foreach (MethodInfo methodInfo in methodInfos)
             {
@@ -144,7 +142,7 @@ namespace Materal.Extensions.DependencyInjection
         /// <returns></returns>
         private static ConstructorBuilder DefineConstructor(TypeBuilder typeBuilder, FieldBuilder serviceFieldBuilder, FieldBuilder interceptorHelperFieldBuilder, Type objType)
         {
-            ConstructorBuilder constructorBuilder = typeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, new Type[] { objType, typeof(InterceptorHelper) });
+            ConstructorBuilder constructorBuilder = typeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, [objType, typeof(InterceptorHelper)]);
             ILGenerator il = constructorBuilder.GetILGenerator();
             il.Emit(OpCodes.Ldarg_0);
             ConstructorInfo? constructorInfo = typeof(object).GetConstructor(Type.EmptyTypes);
@@ -172,7 +170,7 @@ namespace Materal.Extensions.DependencyInjection
         /// <returns></returns>
         private static List<MethodBuilder> DefineMethods(TypeBuilder typeBuilder, FieldBuilder serviceFieldBuilder, FieldBuilder interceptorHelperFieldBuilder, Type interfaceType, Type objType)
         {
-            List<MethodBuilder> result = new();
+            List<MethodBuilder> result = [];
             MethodInfo[] methodInfos = interfaceType.GetMethods();
             foreach (MethodInfo methodInfo in methodInfos)
             {
@@ -197,7 +195,7 @@ namespace Materal.Extensions.DependencyInjection
         {
             Type[] interfaceMethodParameterTypes = interfaceMethodInfo.GetParameters().Select(m => m.ParameterType).ToArray();
             MethodInfo? objMethodInfo = null;
-            Type[] genericTypes = Array.Empty<Type>();
+            Type[] genericTypes = [];
             if (interfaceMethodInfo.IsGenericMethod)
             {
                 genericTypes = interfaceMethodInfo.GetGenericArguments();
@@ -208,7 +206,7 @@ namespace Materal.Extensions.DependencyInjection
             MethodBuilder methodBuilder = typeBuilder.DefineMethod(interfaceMethodInfo.Name, methodAttributes, interfaceMethodInfo.ReturnType, interfaceMethodParameterTypes);
             if (interfaceMethodInfo.IsGenericMethod)
             {
-                methodBuilder.DefineGenericParameters(new[] { "T" });
+                methodBuilder.DefineGenericParameters(["T"]);
                 methodBuilder.DefineParameter(1, ParameterAttributes.None, "value");
             }
             ILGenerator ilGenerator = methodBuilder.GetILGenerator();

@@ -8,14 +8,14 @@
         /// <summary>
         /// 数字
         /// </summary>
-        public Dictionary<int, string> Numbers { get; set; } = new();
+        public Dictionary<int, string> Numbers { get; set; } = [];
         /// <summary>
         /// 单位
         /// </summary>
-        public List<string> Units { get; set; } = new();
+        public List<string> Units { get; set; } = [];
         /// <summary>
         /// 扩展
         /// </summary>
-        public Dictionary<int, string> Extend { get; set; } = new();
+        public Dictionary<int, string> Extend { get; set; } = [];
     }
 }

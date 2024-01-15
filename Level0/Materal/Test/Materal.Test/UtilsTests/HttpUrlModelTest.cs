@@ -1,6 +1,4 @@
-﻿using Materal.Utils.Model;
-
-namespace Materal.Test.UtilsTests
+﻿namespace Materal.Test.UtilsTests
 {
     /// <summary>
     /// HttpUrl模型测试
@@ -12,6 +10,7 @@ namespace Materal.Test.UtilsTests
         public void Test01()
         {
             HttpUrlModel httpUrlModel = new("http://www.baidu.com:1237/dasf?id=0000");
+            Assert.IsNotNull(httpUrlModel);
         }
     }
 }

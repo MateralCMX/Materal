@@ -1,5 +1,4 @@
 ﻿using Materal.Extensions.ValidationAttributes;
-using System.ComponentModel.DataAnnotations;
 
 namespace System
 {
@@ -49,9 +48,7 @@ namespace System
         public static void Validation(this object model, string prefix = "")
         {
             Type modelType = model.GetType();
-            List<MemberInfo> memberInfos = new();
-            memberInfos.AddRange(modelType.GetProperties());
-            memberInfos.AddRange(modelType.GetFields());
+            List<MemberInfo> memberInfos = [.. modelType.GetProperties(), .. modelType.GetFields()];
             foreach (MemberInfo memberInfo in memberInfos)
             {
                 Validation(model, memberInfo, prefix);
@@ -205,9 +202,9 @@ namespace System
             {
                 memberName = $"{prefix}.{memberName}";
             }
-            if (DefaultValidationFailHandler.ContainsKey(type))
+            if (DefaultValidationFailHandler.TryGetValue(type, out Func<ValidationAttribute, string, object?, string>? value))
             {
-                message = DefaultValidationFailHandler[type](validationAttribute, memberName, propertyValue);
+                message = value(validationAttribute, memberName, propertyValue);
             }
             else
             {

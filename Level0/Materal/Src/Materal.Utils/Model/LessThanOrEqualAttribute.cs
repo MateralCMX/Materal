@@ -1,19 +1,11 @@
-﻿using System.Linq.Expressions;
-using System.Reflection;
-
-namespace Materal.Utils.Model
+﻿namespace Materal.Utils.Model
 {
     /// <summary>
     /// 小于等于
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class LessThanOrEqualAttribute : FilterAttribute
+    public class LessThanOrEqualAttribute(string? targetPropertyName = null) : FilterAttribute(targetPropertyName)
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="targetPropertyName"></param>
-        public LessThanOrEqualAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         /// <summary>
         /// <inheritdoc/>
         /// </summary>

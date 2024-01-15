@@ -37,7 +37,7 @@ namespace Materal.Utils.Text
         /// <param name="chineseChars"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        private static IEnumerable<string> GetPinYin(string nowPinyin, int index, IReadOnlyList<object> chineseChars, PinYinMode mode)
+        private static List<string> GetPinYin(string nowPinyin, int index, IReadOnlyList<object> chineseChars, PinYinMode mode)
         {
             var inputPinYin = new List<string>();
             if (chineseChars.Count <= index)

@@ -1,7 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Reflection;
-
-namespace Materal.Utils.Model
+﻿namespace Materal.Utils.Model
 {
     /// <summary>
     /// 过滤器模型
@@ -133,7 +130,7 @@ namespace Materal.Utils.Model
         /// <returns></returns>
         public List<T> Sort<T>(ICollection<T> values, Expression<Func<T, object>>? defaultOrderExpression = null, bool? defaultIsAsc = null)
         {
-            List<T> result = values.ToList();
+            List<T> result = [.. values];
             bool isAsc = IsAsc;
             Func<T, object>? sortDlegate = GetSortDlegate<T>();
             if (sortDlegate is null)
@@ -144,11 +141,11 @@ namespace Materal.Utils.Model
             }
             if (isAsc)
             {
-                result = result.OrderBy(sortDlegate).ToList();
+                result = [.. result.OrderBy(sortDlegate)];
             }
             else
             {
-                result = result.OrderByDescending(sortDlegate).ToList();
+                result = [.. result.OrderByDescending(sortDlegate)];
             }
             return result;
         }

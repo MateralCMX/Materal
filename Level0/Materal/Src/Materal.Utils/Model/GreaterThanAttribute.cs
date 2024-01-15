@@ -1,19 +1,11 @@
-﻿using System.Linq.Expressions;
-using System.Reflection;
-
-namespace Materal.Utils.Model
+﻿namespace Materal.Utils.Model
 {
     /// <summary>
     /// 大于
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class GreaterThanAttribute : FilterAttribute
+    public class GreaterThanAttribute(string? targetPropertyName = null) : FilterAttribute(targetPropertyName)
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="targetPropertyName"></param>
-        public GreaterThanAttribute(string? targetPropertyName = null) : base(targetPropertyName) { }
         /// <summary>
         /// <inheritdoc/>
         /// </summary>

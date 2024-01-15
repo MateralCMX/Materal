@@ -1,6 +1,4 @@
 ﻿using Materal.Utils.Http;
-using Microsoft.Extensions.DependencyInjection;
-using System.Dynamic;
 
 namespace Materal.Test.UtilsTests
 {

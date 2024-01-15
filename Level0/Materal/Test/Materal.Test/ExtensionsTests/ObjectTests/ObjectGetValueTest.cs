@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Test.ExtensionsTests.ObjectTests
+﻿namespace Materal.Test.ExtensionsTests.ObjectTests
 {
     [TestClass]
     public class ObjectGetValueTest : BaseTest

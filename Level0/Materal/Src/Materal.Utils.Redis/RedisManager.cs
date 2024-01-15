@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.Extensions;
-using StackExchange.Redis;
+﻿using StackExchange.Redis;
 using System.Text;
 
 namespace Materal.Utils.Redis

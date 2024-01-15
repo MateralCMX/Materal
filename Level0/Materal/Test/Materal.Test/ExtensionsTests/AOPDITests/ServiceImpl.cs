@@ -1,5 +1,4 @@
-﻿using Materal.Abstractions;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Materal.Test.ExtensionsTests.AOPDITests
 {

@@ -1,11 +1,9 @@
-﻿using System.Data;
-
-namespace Materal.Logger.ConfigModels
+﻿namespace Materal.Logger.ConfigModels
 {
     /// <summary>
     /// LoggerConfig扩展
     /// </summary>
-    public static partial class LoggerConfigExtensions
+    public static class LoggerConfigExtensions
     {
         #region Other
         /// <summary>
