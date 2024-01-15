@@ -1,8 +1,4 @@
-﻿using Materal.BaseCore.Domain;
-using Materal.TTA.EFRepository;
-using Microsoft.EntityFrameworkCore;
-
-namespace Materal.BaseCore.EFRepository
+﻿namespace Materal.BaseCore.EFRepository
 {
     /// <summary>
     /// 工作单元

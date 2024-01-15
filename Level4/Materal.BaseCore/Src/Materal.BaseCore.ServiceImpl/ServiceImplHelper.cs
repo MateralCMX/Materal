@@ -2,9 +2,6 @@
 using Materal.BaseCore.Domain;
 using Materal.BaseCore.EFRepository;
 using Materal.BaseCore.Services.Models;
-using Materal.TTA.EFRepository;
-using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Materal.BaseCore.ServiceImpl
 {

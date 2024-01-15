@@ -1,7 +1,5 @@
 ﻿using Materal.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Materal.BaseCore.WebAPI
 {
@@ -12,7 +10,7 @@ namespace Materal.BaseCore.WebAPI
         static MateralServiceProviderFactory()
         {
             string startAssemblyName = AppDomain.CurrentDomain.FriendlyName;
-            List<string> namespaces = startAssemblyName.Split('.').ToList();
+            List<string> namespaces = [.. startAssemblyName.Split('.')];
             namespaces.RemoveAt(namespaces.Count - 1);
             _namespaceString = string.Join(".", namespaces);
         }

@@ -28,7 +28,7 @@ namespace MBC.Core.CodeGenerator
             if (configFileInfo.Exists) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Materal.BaseCore.Common;");
-            codeContent.AppendLine($"using Materal.TTA.Common.Model;");
+            codeContent.AppendLine($"using Materal.TTA.SqliteEFRepository;");
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {model.CommonProject.Namespace}");
             codeContent.AppendLine($"{{");

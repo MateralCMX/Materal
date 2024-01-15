@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
-using System.Text;
 
 namespace Materal.BaseCore.WebAPI.Filters
 {

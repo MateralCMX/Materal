@@ -1,5 +1,5 @@
 using Materal.BaseCore.Common;
-using Materal.TTA.Common.Model;
+using Materal.TTA.SqliteEFRepository;
 
 namespace MBC.Demo.Common
 {

@@ -1,6 +1,6 @@
-﻿using Materal.Abstractions;
-using Materal.BaseCore.Common;
+﻿using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Common;
+using Materal.Logger.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
@@ -50,15 +50,17 @@ namespace Materal.BaseCore.WebAPI
             {
                 Task.Run(() =>
                 {
+#pragma warning disable IDE0028 // 简化集合初始化
                     List<string> tags = new()
                     {
                         WebAPIConfig.AppTitle
                     };
-                    if (!string.IsNullOrWhiteSpace(consulTag))
+#pragma warning restore IDE0028 // 简化集合初始化
+                    if (consulTag != null && !string.IsNullOrWhiteSpace(consulTag))
                     {
                         tags.Add(consulTag);
                     }
-                    ConsulManager.Init(tags.ToArray());
+                    ConsulManager.Init([.. tags]);
                     ConsulManager.RegisterConsul();
                 });
             }

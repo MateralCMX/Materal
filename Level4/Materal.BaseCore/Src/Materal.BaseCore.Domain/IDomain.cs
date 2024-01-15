@@ -1,6 +1,4 @@
-﻿using Materal.TTA.Common;
-
-namespace Materal.BaseCore.Domain
+﻿namespace Materal.BaseCore.Domain
 {
     /// <summary>
     /// Domain

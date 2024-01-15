@@ -1,7 +1,6 @@
 ﻿using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.PlanTriggers;
-using System.Text;
 
 namespace Materal.BaseCore.Oscillator
 {

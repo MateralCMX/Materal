@@ -3,10 +3,7 @@ using Materal.BaseCore.Common;
 using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.PresentationModel;
 using Materal.BaseCore.Services;
-using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using System.ComponentModel.DataAnnotations;
 
 namespace Materal.BaseCore.WebAPI.Controllers
 {

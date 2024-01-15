@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using NetCore.AutoRegisterDi;
-using System.Reflection;
+﻿using NetCore.AutoRegisterDi;
 
 namespace Materal.BaseCore.HttpClient.Extensions
 {

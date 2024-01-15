@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.BaseCore.PresentationModel
+﻿namespace Materal.BaseCore.PresentationModel
 {
     /// <summary>
     /// 更改父级请求模型

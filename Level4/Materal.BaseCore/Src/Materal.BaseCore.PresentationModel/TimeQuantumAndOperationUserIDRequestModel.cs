@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.BaseCore.PresentationModel
+﻿namespace Materal.BaseCore.PresentationModel
 {
     /// <summary>
     /// 时间段请求模型

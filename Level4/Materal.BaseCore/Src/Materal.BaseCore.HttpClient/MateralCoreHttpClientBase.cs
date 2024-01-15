@@ -1,13 +1,7 @@
-using Materal.Abstractions;
 using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.HttpClient.Extensions;
 using Materal.BaseCore.PresentationModel;
 using Materal.Utils.Http;
-using Materal.Utils.Model;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Materal.BaseCore.HttpClient
 {
@@ -496,7 +490,7 @@ namespace Materal.BaseCore.HttpClient
         /// <returns></returns>
         public async Task<List<TListDTO>?> GetDataAsync(TQueryRequestModel requestModel)
         {
-            List<TListDTO> result = new();
+            List<TListDTO> result = [];
             try
             {
                 if (requestModel == null) return result;
@@ -533,7 +527,7 @@ namespace Materal.BaseCore.HttpClient
             {
                 Logger?.LogWarning(ex, "获取数据失败");
             }
-            return (false, new());
+            return (false, []);
         }
         /// <summary>
         /// 获得数据
@@ -556,7 +550,7 @@ namespace Materal.BaseCore.HttpClient
             {
                 Logger?.LogWarning(ex, "获取数据失败");
             }
-            return new List<TListDTO>();
+            return [];
         }
         /// <summary>
         /// 获得数据
@@ -567,7 +561,7 @@ namespace Materal.BaseCore.HttpClient
         {
             try
             {
-                List<TListDTO>? data = await GetDataAsync(new Guid[] { id });
+                List<TListDTO>? data = await GetDataAsync([id]);
                 if (data == null) return default;
                 return data.FirstOrDefault();
             }
@@ -587,7 +581,7 @@ namespace Materal.BaseCore.HttpClient
         {
             try
             {
-                List<TListDTO>? data = await GetDataAsync(ids.ToArray());
+                List<TListDTO>? data = await GetDataAsync([.. ids]);
                 if (data == null) return;
                 foreach (var item in data)
                 {

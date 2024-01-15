@@ -1,11 +1,11 @@
 ﻿using Materal.BaseCore.Common;
-using Materal.Oscillator;
 using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.SqliteEFRepository;
-using Materal.Oscillator.SqlServerEFRepository;
+using Materal.Oscillator.Extensions;
+using Materal.Oscillator.SqliteEFRepository.Extensions;
+using Materal.Oscillator.SqlServerEFRepository.Extensions;
 using Materal.TTA.Common.Model;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using Materal.TTA.SqliteEFRepository;
+using Materal.TTA.SqlServerEFRepository;
 
 namespace Materal.BaseCore.Oscillator
 {
@@ -47,13 +47,13 @@ namespace Materal.BaseCore.Oscillator
                 throw new MateralCoreException("未知的数据库类型");
             }
             services.AddSingleton<IOscillatorListener, OscillatorListenerImpl>();
-            List<IOscillatorSchedule> schedules = new();
+            List<IOscillatorSchedule> schedules = [];
             foreach (Assembly scheduleAssembly in scheduleAssemblies)
             {
                 Type[] oscillatorScheduleTypes = scheduleAssembly.GetTypes().Where(m => !m.IsAbstract && m.IsClass && m.IsAssignableTo<IOscillatorSchedule>()).ToArray();
                 foreach (Type oscillatorScheduleType in oscillatorScheduleTypes)
                 {
-                    object obj = oscillatorScheduleType.Instantiation(Array.Empty<object>());
+                    object obj = oscillatorScheduleType.Instantiation([]);
                     if (obj is not IOscillatorSchedule oscillatorSchedule) continue;
                     schedules.Add(oscillatorSchedule);
                 }

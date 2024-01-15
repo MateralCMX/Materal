@@ -2,7 +2,6 @@
 using Materal.BaseCore.WebAPI.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.BaseCore.WebAPI
 {

@@ -1,5 +1,5 @@
 ﻿using Materal.BaseCore.WebAPI;
-using Materal.TTA.Common.Model;
+using Materal.TTA.SqliteEFRepository;
 using MBC.Core.EFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,7 +50,7 @@ namespace MBC.Core.WebAPI
                         config.IncludeXmlComments(path);
                     }
                 }
-            }, null, null, Assembly.Load("MBC.Core.WebAPI"));
+            }, null, Assembly.Load("MBC.Core.WebAPI"));
             return services;
         }
     }

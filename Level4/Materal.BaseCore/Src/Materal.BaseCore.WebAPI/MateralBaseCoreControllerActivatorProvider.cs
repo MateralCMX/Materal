@@ -4,13 +4,10 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace Materal.BaseCore.WebAPI
 {
-    public class MateralBaseCoreControllerActivatorProvider : IControllerActivatorProvider
+    public class MateralBaseCoreControllerActivatorProvider(IControllerActivator controllerActivator) : IControllerActivatorProvider
     {
-        private ControllerActivatorProvider _controllerActivatorProvider;
-        public MateralBaseCoreControllerActivatorProvider(IControllerActivator controllerActivator)
-        {
-            _controllerActivatorProvider = new ControllerActivatorProvider(controllerActivator);
-        }
+        private readonly ControllerActivatorProvider _controllerActivatorProvider = new(controllerActivator);
+
         public Func<ControllerContext, object> CreateActivator(ControllerActionDescriptor descriptor)
         {
             Func<ControllerContext, object> activator = _controllerActivatorProvider.CreateActivator(descriptor);

@@ -1,13 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.BaseCore.Common;
-using Materal.TFMS.EventBus;
-using Materal.TFMS.EventBus.Extensions;
-using Materal.TFMS.EventBus.RabbitMQ;
-using Materal.TFMS.EventBus.RabbitMQ.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
-using System.Reflection;
+﻿using RabbitMQ.Client;
 
 namespace Materal.BaseCore.EventBus
 {
@@ -19,7 +10,7 @@ namespace Materal.BaseCore.EventBus
         /// <summary>
         /// 自动订阅处理器
         /// </summary>
-        private static List<Type>? subscribeHandlers = new();
+        private static List<Type>? subscribeHandlers = [];
         /// <summary>
         /// 添加Integration事件总线
         /// </summary>
@@ -123,7 +114,7 @@ namespace Materal.BaseCore.EventBus
                     services.AddTransient(handlerType);
                     if (autoSubscribe)
                     {
-                        subscribeHandlers ??= new();
+                        subscribeHandlers ??= [];
                         subscribeHandlers.Add(handlerType);
                     }
                 }

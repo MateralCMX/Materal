@@ -1,4 +1,5 @@
 ﻿using Materal.BaseCore.Common;
+using Materal.Extensions;
 
 namespace MBC.Demo.Common
 {

@@ -1,11 +1,8 @@
 ﻿using Materal.BaseCore.Common;
-using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace Materal.BaseCore.WebAPI.Filters
 {

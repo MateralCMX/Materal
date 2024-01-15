@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis.Text;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text;
 
 namespace Materal.BaseCore.AutoDI
 {
@@ -103,8 +102,8 @@ namespace Materal.BaseCore.AutoDI
                 }
             }
             #endregion
-            List<string> args = new();
-            List<string> values = new();
+            List<string> args = [];
+            List<string> values = [];
             foreach (MemberDeclarationSyntax memberDeclarationSyntax in classDeclarationSyntax.Members)
             {
                 if (memberDeclarationSyntax is not FieldDeclarationSyntax fieldDeclarationSyntax) continue;

@@ -4,13 +4,6 @@ using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.Domain;
 using Materal.BaseCore.EFRepository;
 using Materal.BaseCore.Services;
-using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
-using Materal.Utils.Model;
-using Microsoft.Extensions.DependencyInjection;
-using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Materal.BaseCore.ServiceImpl
 {

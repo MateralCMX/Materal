@@ -1,6 +1,4 @@
-﻿using Materal.BaseCore.Domain;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Materal.BaseCore.EFRepository
 {

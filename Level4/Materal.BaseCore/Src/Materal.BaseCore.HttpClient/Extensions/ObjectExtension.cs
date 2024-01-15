@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Materal.BaseCore.HttpClient.Extensions
+﻿namespace Materal.BaseCore.HttpClient.Extensions
 {
     public static class ObjectExtension
     {

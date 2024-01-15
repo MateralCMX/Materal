@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.BaseCore.Services.Models
+﻿namespace Materal.BaseCore.Services.Models
 {
     public class ExchangeIndexModel
     {

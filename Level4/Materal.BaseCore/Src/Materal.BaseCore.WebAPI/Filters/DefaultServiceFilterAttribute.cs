@@ -2,7 +2,6 @@
 using Materal.BaseCore.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Reflection;
 using System.Security.Claims;
 
 namespace Materal.BaseCore.WebAPI.Filters

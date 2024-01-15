@@ -1,7 +1,7 @@
 ﻿using EnvDTE;
 using Materal.BaseCore.CodeGenerator.Extensions;
 using Materal.BaseCore.CodeGenerator.Models;
-using Materal.WindowsHelper;
+using Materal.Utils.Windows;
 using Microsoft.VisualStudio.Shell;
 using Newtonsoft.Json;
 using System;

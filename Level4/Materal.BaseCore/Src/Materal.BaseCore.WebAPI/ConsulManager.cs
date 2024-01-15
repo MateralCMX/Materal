@@ -1,8 +1,6 @@
 ﻿using Consul;
-using Materal.Abstractions;
 using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Common;
-using Materal.BaseCore.WebAPI.Common.Models;
 using Materal.BaseCore.WebAPI.Models;
 using Materal.Utils.Http;
 using Microsoft.Extensions.Logging;
@@ -99,8 +97,7 @@ namespace Materal.BaseCore.WebAPI
 
         private static AgentServiceRegistration GetAgentServiceRegistration(string serviceName, params string[] tags)
         {
-            List<string> tagsValue = new() { "MateralCore" };
-            tagsValue.AddRange(tags);
+            List<string> tagsValue = ["MateralCore", .. tags];
             string healthUrl = $"{WebAPIConfig.ExternalUrl.Url}/api/Health?id={NodeID}";
             bool isHttps = healthUrl.StartsWith("https");
             _logger?.LogInformation($"健康检查地址:{healthUrl}");
@@ -110,7 +107,7 @@ namespace Materal.BaseCore.WebAPI
                 Name = serviceName,
                 Address = WebAPIConfig.UseExternalUrl ? WebAPIConfig.ExternalUrl.Host : WebAPIConfig.BaseUrlConfig.Host,
                 Port = WebAPIConfig.UseExternalUrl ? WebAPIConfig.ExternalUrl.Port : WebAPIConfig.BaseUrlConfig.Port,
-                Tags = tagsValue.ToArray(),
+                Tags = [.. tagsValue],
                 Check = new AgentServiceCheck
                 {
                     DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
@@ -181,7 +178,7 @@ namespace Materal.BaseCore.WebAPI
             JsonDocument jsonDocument = JsonDocument.Parse(requestText);
             if (jsonDocument.RootElement.ValueKind != JsonValueKind.Object) throw new MateralCoreException("ConsulServices返回错误");
             JsonElement.ObjectEnumerator element = jsonDocument.RootElement.EnumerateObject();
-            List<JsonProperty> jsonProperties = element.ToList();
+            List<JsonProperty> jsonProperties = [.. element];
             List<string> jsonTexts = jsonProperties.Select(jsonProperty => jsonProperty.Value.ToString()).ToList();
             List<ConsulServiceModel> result = jsonTexts.Select(jsonText => jsonText.JsonToObject<ConsulServiceModel>()).ToList();
             if (filter != null)

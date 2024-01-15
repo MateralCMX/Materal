@@ -1,9 +1,4 @@
-﻿using Materal.Utils;
-using Materal.Utils.Model;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-
-namespace Materal.BaseCore.Common
+﻿namespace Materal.BaseCore.Common
 {
     /// <summary>
     /// 发布中心依赖注入扩展
