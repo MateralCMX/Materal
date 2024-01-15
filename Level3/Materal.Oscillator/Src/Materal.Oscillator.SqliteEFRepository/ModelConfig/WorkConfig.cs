@@ -1,7 +1,7 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Materal.Oscillator.SqliteEFRepositoryImpl.ModelConfig
+namespace Materal.Oscillator.SqliteEFRepository.ModelConfig
 {
     /// <summary>
     /// 任务配置

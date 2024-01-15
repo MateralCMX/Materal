@@ -1,9 +1,8 @@
 ﻿using Materal.Oscillator.DRSqlServerEFRepository;
+using Materal.Oscillator.DRSqlServerEFRepository.Extensions;
 using Materal.Oscillator.SqlServerEFRepository;
-using Materal.TTA.Common;
-using Materal.TTA.Common.Model;
-using Materal.TTA.EFRepository;
-using Microsoft.Extensions.DependencyInjection;
+using Materal.Oscillator.SqlServerEFRepository.Extensions;
+using Materal.TTA.SqlServerEFRepository;
 
 namespace ConsoleDemo
 {

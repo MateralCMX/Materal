@@ -1,11 +1,5 @@
-﻿using Materal.Abstractions;
-using Materal.Oscillator.SqliteEFRepository;
-using Materal.TTA.Common.Model;
-using Materal.TTA.EFRepository;
-using Materal.Utils;
-using Materal.Utils.Model;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Materal.Oscillator.SqliteEFRepository.Extensions;
+using Materal.TTA.SqliteEFRepository;
 
 namespace Materal.Oscillator.Test
 {

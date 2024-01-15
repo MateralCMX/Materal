@@ -1,7 +1,6 @@
-﻿using Materal.Oscillator.Abstractions;
+﻿using Materal.Oscillator.Abstractions.DR;
 using Materal.Oscillator.Abstractions.DR.Domain;
 using Materal.Oscillator.Abstractions.DR.Models;
-using Materal.Oscillator.DR;
 using Quartz;
 
 namespace Materal.Oscillator.QuartZExtend

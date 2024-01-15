@@ -1,11 +1,10 @@
 ﻿using Materal.Oscillator.Abstractions.Helper;
 using Materal.Oscillator.Abstractions.PlanTriggers;
-using Materal.Oscillator.PlanTriggers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Quartz;
 
-namespace Materal.Oscillator.Abstractions.Services.Trigger
+namespace Materal.Oscillator.PlanTriggers
 {
     /// <summary>
     /// 重复计划数据模型

@@ -1,18 +1,14 @@
-﻿using Materal.Abstractions;
-using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Answers;
+﻿using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
+using Materal.Oscillator.Abstractions.DR;
 using Materal.Oscillator.Abstractions.DR.Domain;
 using Materal.Oscillator.Abstractions.Enums;
 using Materal.Oscillator.Abstractions.Helper;
 using Materal.Oscillator.Abstractions.QuartZExtend;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Abstractions.Works;
-using Materal.Oscillator.DR;
 using Materal.TTA.Common;
-using Microsoft.Extensions.DependencyInjection;
 using Quartz;
-using System;
 
 namespace Materal.Oscillator.QuartZExtend
 {

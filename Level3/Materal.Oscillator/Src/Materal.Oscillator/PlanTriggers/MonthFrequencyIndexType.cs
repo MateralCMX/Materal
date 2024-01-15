@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Materal.Oscillator.PlanTriggers
+﻿namespace Materal.Oscillator.PlanTriggers
 {
     /// <summary>
     /// 月度

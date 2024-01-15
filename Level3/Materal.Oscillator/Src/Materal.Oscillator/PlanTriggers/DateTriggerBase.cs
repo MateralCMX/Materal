@@ -1,7 +1,4 @@
-﻿using Materal.Abstractions;
-using System.Text;
-
-namespace Materal.Oscillator.PlanTriggers
+﻿namespace Materal.Oscillator.PlanTriggers
 {
     /// <summary>
     /// 日期触发器

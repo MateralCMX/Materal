@@ -1,6 +1,6 @@
 ﻿using Materal.TTA.Common;
 
-namespace Materal.Oscillator.Abstractions.Repositories
+namespace Materal.Oscillator.Abstractions
 {
     /// <summary>
     /// Oscillator工作单元

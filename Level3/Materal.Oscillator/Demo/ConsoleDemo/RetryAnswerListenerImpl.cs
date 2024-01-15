@@ -1,6 +1,5 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Answers;
-using System.Text;
 
 namespace ConsoleDemo
 {

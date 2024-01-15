@@ -1,8 +1,6 @@
-﻿using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Answers;
+﻿using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.QuartZExtend;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.Oscillator.Answers
 {
@@ -15,7 +13,7 @@ namespace Materal.Oscillator.Answers
         /// 目标调度器唯一标识
         /// </summary>
         public Guid ScheduleID { get; set; }
-        private IOscillatorHost? _host;
+        private readonly IOscillatorHost? _host;
         /// <summary>
         /// 构造方法
         /// </summary>

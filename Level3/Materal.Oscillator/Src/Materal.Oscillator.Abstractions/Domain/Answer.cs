@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Oscillator.Abstractions.Domain
+﻿namespace Materal.Oscillator.Abstractions.Domain
 {
     /// <summary>
     /// 响应

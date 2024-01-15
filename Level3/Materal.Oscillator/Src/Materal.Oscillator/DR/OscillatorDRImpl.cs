@@ -1,10 +1,9 @@
-﻿using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Domain;
+﻿using Materal.Oscillator.Abstractions.Domain;
+using Materal.Oscillator.Abstractions.DR;
 using Materal.Oscillator.Abstractions.DR.Domain;
 using Materal.Oscillator.Abstractions.DR.Models;
 using Materal.Oscillator.Abstractions.DR.Repositories;
 using Materal.Oscillator.QuartZExtend;
-using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 
 namespace Materal.Oscillator.DR

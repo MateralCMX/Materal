@@ -1,7 +1,7 @@
 ﻿using ConsoleDemo.Works;
-using Materal.Abstractions;
 using Materal.Logger.ConfigModels;
-using Materal.Oscillator;
+using Materal.Logger.ConsoleLogger;
+using Materal.Logger.Extensions;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.DTO;
@@ -9,11 +9,6 @@ using Materal.Oscillator.Abstractions.Models;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Answers;
 using Materal.Oscillator.PlanTriggers;
-using Materal.Utils;
-using Materal.Utils.Model;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 namespace ConsoleDemo
 {
@@ -34,8 +29,6 @@ namespace ConsoleDemo
             serviceCollection.AddOscillator(Assembly.Load("ConsoleDemo"));
             SqliteEFRepositoryHelper repositoryHelper = new();
             //SqlServerEFRepositoryHelper repositoryHelper = new();
-            //SqliteADONETRepositoryHelper repositoryHelper = new();
-            //SqlServerADONETRepositoryHelper repositoryHelper = new();
             repositoryHelper.AddDRRepository(serviceCollection);
             repositoryHelper.AddRepository(serviceCollection);
             serviceCollection.AddSingleton<IOscillatorListener, OscillatorListenerImpl>();

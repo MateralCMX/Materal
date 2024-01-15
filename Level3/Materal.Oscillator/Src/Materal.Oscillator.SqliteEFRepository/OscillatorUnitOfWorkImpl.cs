@@ -1,6 +1,5 @@
-﻿using Materal.Oscillator.Abstractions.Domain;
-using Materal.Oscillator.Abstractions.Repositories;
-using Materal.TTA.SqliteEFRepository;
+﻿using Materal.Oscillator.Abstractions;
+using Materal.Oscillator.Abstractions.Domain;
 
 namespace Materal.Oscillator.SqliteEFRepository
 {

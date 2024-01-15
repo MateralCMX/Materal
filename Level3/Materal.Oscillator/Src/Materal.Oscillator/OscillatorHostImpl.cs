@@ -1,5 +1,4 @@
-﻿using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Answers;
+﻿using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.DR.Domain;
 using Materal.Oscillator.Abstractions.DR.Models;
@@ -11,10 +10,7 @@ using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.PlanTriggers;
 using Materal.Oscillator.QuartZExtend;
-using Materal.Utils.Model;
-using Microsoft.Extensions.DependencyInjection;
 using Quartz;
-using System.Linq.Expressions;
 
 namespace Materal.Oscillator
 {

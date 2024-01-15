@@ -1,7 +1,4 @@
-﻿using Materal.TTA.Common;
-using Materal.TTA.SqlServerEFRepository;
-
-namespace Materal.Oscillator.SqlServerEFRepository.Repositories
+﻿namespace Materal.Oscillator.SqlServerEFRepository.Repositories
 {
     /// <summary>
     /// Oscillator仓储

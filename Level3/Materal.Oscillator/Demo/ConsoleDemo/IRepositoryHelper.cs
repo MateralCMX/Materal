@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace ConsoleDemo
+﻿namespace ConsoleDemo
 {
     public interface IRepositoryHelper
     {

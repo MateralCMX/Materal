@@ -5,9 +5,8 @@ using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Answers;
 using Materal.Oscillator.PlanTriggers;
 using Materal.Oscillator.Works;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Materal.Oscillator.Test.RepositoryTest.SqliteEF
+namespace Materal.Oscillator.Test
 {
     [TestClass]
     public class HostTest : BaseTest
@@ -75,28 +74,28 @@ namespace Materal.Oscillator.Test.RepositoryTest.SqliteEF
                 {
                     Name = "TestSchedule",
                     Description = "测试调度",
-                    Answers = new()
-                    {
+                    Answers =
+                    [
                         new()
                         {
                             Name = "测试任务响应",
                             AnswerData = new ConsoleAnswer() { Message = "测试任务响应输出" },
                             WorkEvent = "Success"
                         }
-                    },
-                    Plans = new()
-                    {
+                    ],
+                    Plans =
+                    [
                         new()
                         {
                             Name = "执行一次",
                             Description = "执行一次",
                             PlanTriggerData = new OneTimePlanTrigger { StartTime = DateTime.Now.AddSeconds(5) }
                         }
-                    },
-                    Works = new()
-                    {
+                    ],
+                    Works =
+                    [
                         new() { WorkID = workID }
-                    }
+                    ]
                 };
                 scheduleID = await host.AddScheduleAsync(model);
                 if (scheduleID == Guid.Empty) Assert.Fail("添加调度器失败");
@@ -116,8 +115,8 @@ namespace Materal.Oscillator.Test.RepositoryTest.SqliteEF
                     Description = dataInfo.Description,
                     Territory = dataInfo.Territory,
                     Enable = dataInfo.Enable,
-                    Answers = new()
-                    {
+                    Answers =
+                    [
                         new()
                         {
                             Name = "测试任务响应",
@@ -130,21 +129,21 @@ namespace Materal.Oscillator.Test.RepositoryTest.SqliteEF
                             AnswerData = new ConsoleAnswer() { Message = "测试任务响应输出2" },
                             WorkEvent = "Success"
                         }
-                    },
-                    Plans = new()
-                    {
+                    ],
+                    Plans =
+                    [
                         new()
                         {
                             Name = "执行一次",
                             Description = "执行一次",
                             PlanTriggerData = new OneTimePlanTrigger { StartTime = DateTime.Now.AddSeconds(5) }
                         }
-                    },
-                    Works = new()
-                    {
+                    ],
+                    Works =
+                    [
                         new() { WorkID = workID },
                         new() { WorkID = work2ID }
-                    }
+                    ]
                 };
                 await host.EditScheduleAsync(model);
                 dataInfo = await host.GetScheduleInfoAsync(dataList.First().ID);

@@ -74,8 +74,8 @@ namespace MateralPublish.Models
                     //if (project is not ProjectModels.Level0.ToolsProjectModel) continue;
                     //if (project is not ProjectModels.Level1.LoggerProjectModel) continue;
                     //if (project is not ProjectModels.Level2.TFMSProjectModel) continue;
-                    if (project is not ProjectModels.Level2.TTAProjectModel) continue;
-                    //if (project is not ProjectModels.Level3.OscillatorProjectModel) continue;
+                    //if (project is not ProjectModels.Level2.TTAProjectModel) continue;
+                    if (project is not ProjectModels.Level3.OscillatorProjectModel) continue;
                     //if (project is not ProjectModels.Level4.BaseCoreProjectModel) continue;
                     //if (project is not ProjectModels.Level4.MergeBlockProjectModel) continue;
                     //if (project is not ProjectModels.Level5.GatewayProjectModel) continue;

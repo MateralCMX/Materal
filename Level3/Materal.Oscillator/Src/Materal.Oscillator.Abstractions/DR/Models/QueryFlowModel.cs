@@ -1,6 +1,4 @@
-﻿using Materal.Utils.Model;
-
-namespace Materal.Oscillator.Abstractions.DR.Models
+﻿namespace Materal.Oscillator.Abstractions.DR.Models
 {
     /// <summary>
     /// 查询流程模型

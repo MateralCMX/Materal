@@ -1,10 +1,11 @@
-﻿using Materal.Oscillator.DR;
+﻿using Materal.Oscillator.Abstractions.DR;
+using Materal.Oscillator.DR;
 using Materal.TTA.Common.Model;
 using Materal.TTA.SqliteEFRepository;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Materal.Oscillator.DRSqliteEFRepository
+namespace Materal.Oscillator.DRSqliteEFRepository.Extensions
 {
     /// <summary>
     /// 调度器容灾DI扩展

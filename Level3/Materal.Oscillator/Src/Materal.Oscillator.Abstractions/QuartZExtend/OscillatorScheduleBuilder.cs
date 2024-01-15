@@ -1,5 +1,4 @@
 ﻿using Materal.Oscillator.Abstractions.PlanTriggers;
-using Materal.Oscillator.QuartZExtension;
 using Quartz;
 using Quartz.Spi;
 

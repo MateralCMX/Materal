@@ -1,7 +1,5 @@
-﻿using Materal.Abstractions;
-using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Domain;
-using Materal.Oscillator.DR;
+﻿using Materal.Oscillator.Abstractions.Domain;
+using Materal.Oscillator.Abstractions.DR;
 using Quartz;
 using Quartz.Impl.Matchers;
 using System.Collections.Specialized;

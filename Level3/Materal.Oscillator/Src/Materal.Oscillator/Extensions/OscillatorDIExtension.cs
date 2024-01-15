@@ -1,14 +1,10 @@
-﻿using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Works;
+﻿using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.QuartZExtend;
 using Materal.Oscillator.Works;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Quartz;
-using System.Reflection;
 
-namespace Materal.Oscillator
+namespace Materal.Oscillator.Extensions
 {
     /// <summary>
     /// DI扩展

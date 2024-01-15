@@ -1,6 +1,4 @@
-﻿using Materal.TTA.Common.Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+﻿using Microsoft.EntityFrameworkCore.Design;
 
 namespace Materal.Oscillator.SqlServerEFRepository
 {
@@ -19,11 +17,11 @@ namespace Materal.Oscillator.SqlServerEFRepository
             var optionsBuilder = new DbContextOptionsBuilder<OscillatorDBContext>();
             SqlServerConfigModel config = new()
             {
-                Address = "82.156.11.176",
+                Address = "127.0.0.1",
                 Port = "1433",
                 Name = "OscillatorTestDB",
                 UserID = "sa",
-                Password = "gdb@admin678",
+                Password = "Materal@1234",
                 TrustServerCertificate = true
             };
             optionsBuilder.UseSqlServer(config.ConnectionString);

@@ -1,6 +1,4 @@
-﻿using Materal.TTA.Common;
-
-namespace Materal.Oscillator.Abstractions.Domain
+﻿namespace Materal.Oscillator.Abstractions.Domain
 {
     /// <summary>
     /// 基础Domain

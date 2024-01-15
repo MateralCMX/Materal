@@ -1,5 +1,4 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
-using Materal.TTA.Common;
 
 namespace Materal.Oscillator.Abstractions.DR.Repositories
 {

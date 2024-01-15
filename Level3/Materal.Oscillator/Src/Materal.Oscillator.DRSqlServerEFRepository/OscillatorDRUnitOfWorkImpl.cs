@@ -1,5 +1,5 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
-using Materal.Oscillator.DR;
+using Materal.Oscillator.Abstractions.DR;
 using Materal.TTA.SqlServerEFRepository;
 
 namespace Materal.Oscillator.DRSqlServerEFRepository

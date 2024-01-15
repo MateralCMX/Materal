@@ -1,7 +1,7 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Materal.Oscillator.SqlServerEFRepositoryImpl.ModelConfig
+namespace Materal.Oscillator.SqlServerEFRepository.ModelConfig
 {
     /// <summary>
     /// 计划配置

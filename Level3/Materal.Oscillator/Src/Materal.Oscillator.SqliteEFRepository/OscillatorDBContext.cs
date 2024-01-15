@@ -1,6 +1,4 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 
 namespace Materal.Oscillator.SqliteEFRepository
 {

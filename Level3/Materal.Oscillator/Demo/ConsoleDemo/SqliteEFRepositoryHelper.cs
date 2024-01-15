@@ -1,9 +1,8 @@
 ﻿using Materal.Oscillator.DRSqliteEFRepository;
+using Materal.Oscillator.DRSqliteEFRepository.Extensions;
 using Materal.Oscillator.SqliteEFRepository;
-using Materal.TTA.Common;
-using Materal.TTA.Common.Model;
-using Materal.TTA.EFRepository;
-using Microsoft.Extensions.DependencyInjection;
+using Materal.Oscillator.SqliteEFRepository.Extensions;
+using Materal.TTA.SqliteEFRepository;
 
 namespace ConsoleDemo
 {

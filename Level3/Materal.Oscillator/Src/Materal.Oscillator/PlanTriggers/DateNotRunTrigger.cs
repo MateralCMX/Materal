@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-
-namespace Materal.Oscillator.PlanTriggers
+﻿namespace Materal.Oscillator.PlanTriggers
 {
     /// <summary>
     /// 不运行触发器

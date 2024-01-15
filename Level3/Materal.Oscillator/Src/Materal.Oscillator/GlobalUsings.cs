@@ -1,0 +1,10 @@
+﻿global using Materal.Abstractions;
+global using Materal.Extensions;
+global using Materal.Oscillator.Abstractions;
+global using Materal.Utils.Model;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.DependencyInjection.Extensions;
+global using System.ComponentModel;
+global using System.Linq.Expressions;
+global using System.Reflection;
+global using System.Text;

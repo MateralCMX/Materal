@@ -1,13 +1,9 @@
-﻿using Materal.TTA.Common.Model;
-using Materal.TTA.SqliteEFRepository;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.Oscillator.SqliteEFRepository
+﻿namespace Materal.Oscillator.SqliteEFRepository.Extensions
 {
     /// <summary>
     /// DI扩展
     /// </summary>
-    public static class DIExtension
+    public static class ServiceCollectionExtension
     {
         /// <summary>
         /// 添加OscillatorSqlite仓储服务

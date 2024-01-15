@@ -1,13 +1,9 @@
-﻿using Materal.TTA.Common.Model;
-using Materal.TTA.SqlServerEFRepository;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.Oscillator.SqlServerEFRepository
+﻿namespace Materal.Oscillator.SqlServerEFRepository.Extensions
 {
     /// <summary>
     /// DI扩展
     /// </summary>
-    public static class DIExtension
+    public static class ServiceCollectionExtension
     {
         /// <summary>
         /// 添加OscillatorSqlServer仓储服务

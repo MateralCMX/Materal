@@ -1,9 +1,8 @@
 ﻿using Materal.Oscillator.Abstractions.PlanTriggers;
-using Materal.Oscillator.Abstractions.QuartZExtend;
 using Quartz;
 using Quartz.Impl.Triggers;
 
-namespace Materal.Oscillator.QuartZExtension
+namespace Materal.Oscillator.Abstractions.QuartZExtend
 {
     /// <summary>
     /// 触发器实现

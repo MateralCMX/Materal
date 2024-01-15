@@ -1,8 +1,6 @@
-﻿using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Answers;
+﻿using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.QuartZExtend;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.Oscillator.Answers
 {
