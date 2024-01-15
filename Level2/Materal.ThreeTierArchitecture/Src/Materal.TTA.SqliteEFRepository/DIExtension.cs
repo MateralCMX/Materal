@@ -1,12 +1,5 @@
-﻿using Materal.Abstractions;
-using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 namespace Materal.TTA.SqliteEFRepository
 {

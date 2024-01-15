@@ -1,7 +1,4 @@
-﻿using Materal.Utils.Model;
-using System.Linq.Expressions;
-
-namespace Materal.TTA.Common
+﻿namespace Materal.TTA.Common
 {
     /// <summary>
     /// 读写分离仓储

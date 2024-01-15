@@ -1,6 +1,4 @@
-﻿using Materal.TTA.Common;
-
-namespace Materal.TTA.EFRepository
+﻿namespace Materal.TTA.EFRepository
 {
     /// <summary>
     /// EF工作单元

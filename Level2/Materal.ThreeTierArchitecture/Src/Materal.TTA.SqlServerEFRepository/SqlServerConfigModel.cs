@@ -1,4 +1,4 @@
-﻿namespace Materal.TTA.Common.Model
+﻿namespace Materal.TTA.SqlServerEFRepository
 {
     /// <summary>
     /// SqlServer数据库配置模型

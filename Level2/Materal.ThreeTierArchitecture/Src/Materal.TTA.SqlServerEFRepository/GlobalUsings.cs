@@ -1,0 +1,11 @@
+﻿global using Materal.Abstractions;
+global using Materal.Extensions;
+global using Materal.TTA.Common;
+global using Materal.TTA.Common.Model;
+global using Materal.TTA.EFRepository;
+global using Materal.Utils.Model;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.DependencyInjection;
+global using System.Linq.Expressions;
+global using System.Reflection;
+global using System.Text;

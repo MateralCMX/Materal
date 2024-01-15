@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Materal.TTA.Common.Model
+﻿namespace Materal.TTA.SqlServerEFRepository
 {
     /// <summary>
     /// SQLServer从属配置
@@ -56,7 +54,7 @@ namespace Materal.TTA.Common.Model
                 {
                     result.Append($",{Port}");
                 }
-                result.Append(";");
+                result.Append(';');
                 if (string.IsNullOrWhiteSpace(AttachDbFilename))
                 {
                     result.Append($"Database={Name}; User ID={UserID}; Password={Password};");

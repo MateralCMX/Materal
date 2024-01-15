@@ -1,14 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.TTA.Common;
-using Materal.TTA.Common.Model;
-using Materal.TTA.EFRepository;
-using Materal.Utils.Model;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
-
-namespace Materal.TTA.SqlServerEFRepository
+﻿namespace Materal.TTA.SqlServerEFRepository
 {
     /// <summary>
     /// SqlServerEF读写分离仓储

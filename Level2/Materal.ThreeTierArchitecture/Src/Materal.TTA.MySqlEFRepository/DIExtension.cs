@@ -1,10 +1,5 @@
-﻿using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using MySql.EntityFrameworkCore.Infrastructure;
-using System.Reflection;
 
 namespace Materal.TTA.MySqlEFRepository
 {

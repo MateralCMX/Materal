@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Materal.TTA.Common
+﻿namespace Materal.TTA.Common
 {
     /// <summary>
     /// 排序

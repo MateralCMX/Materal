@@ -1,8 +1,4 @@
-﻿using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
-using Microsoft.EntityFrameworkCore;
-
-namespace Materal.TTA.MySqlEFRepository
+﻿namespace Materal.TTA.MySqlEFRepository
 {
     /// <summary>
     /// MySqlEF仓储

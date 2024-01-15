@@ -5,7 +5,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Src\Materal.TTA.SqliteADONETRepository\Materal.TTA.SqliteADONETRepository.csproj" />
 		<ProjectReference Include="..\Materal.TTA.Demo.Domain\Materal.TTA.Demo.Domain.csproj" />
 	</ItemGroup>
 </Project>

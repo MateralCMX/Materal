@@ -1,4 +1,4 @@
-﻿namespace Materal.TTA.Common.Model
+﻿namespace Materal.TTA.SqliteEFRepository
 {
     /// <summary>
     /// Sqlite配置模型

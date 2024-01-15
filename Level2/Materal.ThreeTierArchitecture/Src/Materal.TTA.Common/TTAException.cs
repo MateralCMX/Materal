@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-
-namespace Materal.TTA.Common
+﻿namespace Materal.TTA.Common
 {
     /// <summary>
     /// TTA异常

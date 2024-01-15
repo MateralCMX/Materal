@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System.Data;
+﻿using System.Data;
 
 namespace Materal.TTA.Common
 {

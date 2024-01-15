@@ -1,9 +1,4 @@
-﻿using Materal.TTA.Common;
-using Materal.Utils.Model;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-
-namespace Materal.TTA.EFRepository
+﻿namespace Materal.TTA.EFRepository
 {
     /// <summary>
     /// EF仓储

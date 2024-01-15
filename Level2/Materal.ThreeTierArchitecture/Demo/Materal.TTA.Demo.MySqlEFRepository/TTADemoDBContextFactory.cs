@@ -1,4 +1,4 @@
-﻿using Materal.TTA.Common.Model;
+﻿using Materal.TTA.MySqlEFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

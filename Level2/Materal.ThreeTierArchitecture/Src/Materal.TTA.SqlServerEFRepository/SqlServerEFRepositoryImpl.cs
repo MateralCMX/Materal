@@ -1,8 +1,4 @@
-﻿using Materal.TTA.Common;
-using Materal.TTA.EFRepository;
-using Microsoft.EntityFrameworkCore;
-
-namespace Materal.TTA.SqlServerEFRepository
+﻿namespace Materal.TTA.SqlServerEFRepository
 {
     /// <summary>
     /// SqlServerEF仓储

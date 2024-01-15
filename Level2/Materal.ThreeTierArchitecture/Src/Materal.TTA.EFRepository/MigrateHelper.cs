@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
-namespace Materal.TTA.EFRepository
+﻿namespace Materal.TTA.EFRepository
 {
     /// <summary>
     /// 迁移帮助类

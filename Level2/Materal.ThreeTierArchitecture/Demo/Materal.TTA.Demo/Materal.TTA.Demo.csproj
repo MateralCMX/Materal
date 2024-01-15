@@ -23,9 +23,9 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Materal.TTA.Demo.SqliteADONETRepository\Materal.TTA.Demo.SqliteADONETRepository.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.MySqlEFRepository\Materal.TTA.MySqlEFRepository.csproj" />
 		<ProjectReference Include="..\Materal.TTA.Demo.SqliteEFRepository\Materal.TTA.Demo.SqliteEFRepository.csproj" />
-		<ProjectReference Include="..\Materal.TTA.Demo.SqlServerADONETRepository\Materal.TTA.Demo.SqlServerADONETRepository.csproj" />
+		<ProjectReference Include="..\Materal.TTA.Demo.SqlServerEFRepository\Materal.TTA.Demo.SqlServerEFRepository.csproj" />
 		<ProjectReference Include="..\Materal.TTA.Demo.SqlServerEFRepository\Materal.TTA.Demo.SqlServerEFRepository.csproj" />
 	</ItemGroup>
 </Project>

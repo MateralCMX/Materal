@@ -1,4 +1,6 @@
-﻿using Materal.TTA.Common.Model;
+﻿using Materal.TTA.MySqlEFRepository;
+using Materal.TTA.SqliteEFRepository;
+using Materal.TTA.SqlServerEFRepository;
 
 namespace Materal.TTA.Demo
 {

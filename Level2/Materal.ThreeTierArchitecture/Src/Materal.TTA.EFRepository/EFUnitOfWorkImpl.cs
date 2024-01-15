@@ -1,8 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.TTA.Common;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Materal.TTA.EFRepository
 {

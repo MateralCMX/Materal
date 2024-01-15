@@ -1,6 +1,4 @@
-﻿using Materal.TTA.Common;
-using Materal.Utils.Cache;
-using Microsoft.EntityFrameworkCore;
+﻿using Materal.Utils.Cache;
 
 namespace Materal.TTA.EFRepository
 {
