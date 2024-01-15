@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using Materal.Abstractions;
 using Materal.MergeBlock.GeneratorCode;
 using Materal.MergeBlock.GeneratorCode.Attributers;
 using Materal.MergeBlock.GeneratorCode.Models;

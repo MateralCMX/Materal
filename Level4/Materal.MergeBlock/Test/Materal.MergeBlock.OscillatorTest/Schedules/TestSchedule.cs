@@ -1,7 +1,6 @@
 ﻿using Materal.MergeBlock.Oscillator.Abstractions;
 using Materal.MergeBlock.OscillatorTest.Works;
 using Materal.Oscillator.Abstractions.Models;
-using Materal.Oscillator.Abstractions.Services.Trigger;
 using Materal.Oscillator.PlanTriggers;
 
 namespace Materal.MergeBlock.OscillatorTest.Schedules

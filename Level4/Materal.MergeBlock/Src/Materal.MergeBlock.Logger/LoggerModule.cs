@@ -1,6 +1,6 @@
 ﻿using Materal.Logger.ConfigModels;
+using Materal.Logger.Extensions;
 using Materal.MergeBlock.Abstractions.Config;
-using Microsoft.Extensions.Logging;
 
 namespace Materal.MergeBlock.Logger
 {

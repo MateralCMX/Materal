@@ -1,6 +1,5 @@
 ﻿using Materal.MergeBlock.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Models;
-using Materal.Oscillator.Abstractions.Services.Trigger;
 using Materal.Oscillator.PlanTriggers;
 using MMB.Demo.Application.Oscillator.Works;
 

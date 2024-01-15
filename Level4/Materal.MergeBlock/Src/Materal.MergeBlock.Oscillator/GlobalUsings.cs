@@ -1,7 +1,8 @@
-﻿global using Materal.BaseCore.Oscillator;
+﻿global using Materal.Abstractions;
+global using Materal.BaseCore.Oscillator;
+global using Materal.Extensions;
 global using Materal.MergeBlock.Abstractions;
 global using Materal.MergeBlock.Oscillator.Abstractions;
-global using Materal.Oscillator;
 global using Materal.Oscillator.Abstractions;
 global using Materal.Oscillator.Abstractions.Domain;
 global using Materal.Oscillator.Abstractions.PlanTriggers;

@@ -1,4 +1,6 @@
-﻿using Materal.Oscillator.SqliteEFRepository;
+﻿using Materal.Oscillator.Extensions;
+using Materal.Oscillator.SqliteEFRepository.Extensions;
+using Materal.TTA.SqliteEFRepository;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Materal.MergeBlock.Oscillator

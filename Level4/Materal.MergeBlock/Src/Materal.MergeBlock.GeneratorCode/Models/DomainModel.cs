@@ -1,5 +1,4 @@
-﻿#nullable enable
-using Materal.MergeBlock.GeneratorCode.Attributers;
+﻿using Materal.MergeBlock.GeneratorCode.Attributers;
 
 namespace Materal.MergeBlock.GeneratorCode.Models
 {

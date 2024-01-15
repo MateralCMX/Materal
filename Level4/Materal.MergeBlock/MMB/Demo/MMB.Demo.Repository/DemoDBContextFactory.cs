@@ -1,3 +1,4 @@
+using Materal.TTA.SqliteEFRepository;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace MMB.Demo.EFRepository
@@ -15,7 +16,7 @@ namespace MMB.Demo.EFRepository
         public DemoDBContext CreateDbContext(string[] args)
         {
             DbContextOptionsBuilder<DemoDBContext> optionsBuilder = new();
-            optionsBuilder.UseSqlite(new SqlServerConfigModel
+            optionsBuilder.UseSqlite(new SqliteConfigModel
             {
 
             }.ConnectionString);

@@ -1,4 +1,6 @@
 ﻿global using AutoMapper;
+global using Materal.Abstractions;
+global using Materal.Extensions;
 global using Materal.MergeBlock.Abstractions;
 global using Materal.MergeBlock.Abstractions.Models;
 global using Materal.MergeBlock.Domain;
