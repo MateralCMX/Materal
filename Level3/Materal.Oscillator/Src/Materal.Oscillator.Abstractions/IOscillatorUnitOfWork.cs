@@ -1,6 +1,4 @@
-﻿using Materal.TTA.Common;
-
-namespace Materal.Oscillator.Abstractions
+﻿namespace Materal.Oscillator.Abstractions
 {
     /// <summary>
     /// Oscillator工作单元

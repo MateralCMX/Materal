@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Ocelot.Responses;
+﻿using Ocelot.Responses;
 
 namespace Materal.Gateway.OcelotExtension.Custom
 {

@@ -1,5 +1,4 @@
 ﻿using Materal.Gateway.Common;
-using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.ConfigModel
 {

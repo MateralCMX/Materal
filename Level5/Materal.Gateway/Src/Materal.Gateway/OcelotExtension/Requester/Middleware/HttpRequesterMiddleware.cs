@@ -1,5 +1,4 @@
 ﻿using Materal.Gateway.OcelotExtension.Middleware;
-using Microsoft.AspNetCore.Http;
 using Ocelot.Logging;
 using Ocelot.Middleware;
 using Ocelot.Requester;

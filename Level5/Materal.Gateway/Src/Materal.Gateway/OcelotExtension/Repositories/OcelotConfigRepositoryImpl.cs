@@ -1,6 +1,5 @@
 ﻿using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension.ConfigModel;
-using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.Repositories
 {

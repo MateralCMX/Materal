@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-
-namespace Materal.Gateway.Common
+﻿namespace Materal.Gateway.Common
 {
     /// <summary>
     /// 网关异常

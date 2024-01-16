@@ -14,7 +14,7 @@
         /// <summary>
         /// 表名
         /// </summary>
-        public string TableName { get; set; } = "MateralLogger";
+        public string TableName { get; set; } = "Logs";
         /// <summary>
         /// 默认字段
         /// </summary>

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System.Net;
-
-namespace Materal.Gateway.OcelotExtension.ExceptionInterceptor
+﻿namespace Materal.Gateway.OcelotExtension.ExceptionInterceptor
 {
     /// <summary>
     /// 默认异常拦截器

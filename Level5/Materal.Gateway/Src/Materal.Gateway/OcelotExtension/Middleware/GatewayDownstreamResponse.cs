@@ -1,5 +1,4 @@
 using Ocelot.Middleware;
-using System.Net;
 using System.Net.Http.Headers;
 
 namespace Materal.Gateway.OcelotExtension.Middleware

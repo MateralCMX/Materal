@@ -1,5 +1,4 @@
 ﻿using Ocelot.Errors;
-using System.Net;
 
 namespace Materal.Gateway.OcelotExtension.Custom
 {

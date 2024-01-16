@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace Materal.Gateway.OcelotExtension
+﻿namespace Materal.Gateway.OcelotExtension
 {
     /// <summary>
     /// Http响应消息帮助类

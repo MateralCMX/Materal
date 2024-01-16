@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Gateway.OcelotExtension.ConfigModel
+﻿namespace Materal.Gateway.OcelotExtension.ConfigModel
 {
     /// <summary>
     /// 限流配置模型

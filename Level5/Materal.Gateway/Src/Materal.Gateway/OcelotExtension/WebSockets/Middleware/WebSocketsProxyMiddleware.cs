@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Http;
 using Ocelot.Configuration;
 using Ocelot.Logging;
 using Ocelot.Middleware;
 using Ocelot.WebSockets;
-using System.Net;
 using System.Net.WebSockets;
-using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
 {

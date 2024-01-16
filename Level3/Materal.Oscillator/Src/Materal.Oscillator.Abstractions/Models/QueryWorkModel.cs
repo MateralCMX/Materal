@@ -1,5 +1,4 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
-using Materal.Utils.Model;
 
 namespace Materal.Oscillator.Abstractions.Models
 {

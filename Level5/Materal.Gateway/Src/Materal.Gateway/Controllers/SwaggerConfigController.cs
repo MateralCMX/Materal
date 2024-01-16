@@ -1,8 +1,6 @@
 ﻿using Materal.Gateway.DataTransmitModel.Swagger;
 using Materal.Gateway.Service;
 using Materal.Gateway.Service.Models.Swagger;
-using Materal.Utils.Model;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Materal.Gateway.Controllers
 {

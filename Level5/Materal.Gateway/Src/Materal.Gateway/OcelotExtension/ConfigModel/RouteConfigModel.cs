@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
 
 namespace Materal.Gateway.OcelotExtension.ConfigModel
 {

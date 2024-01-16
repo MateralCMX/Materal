@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Ocelot.Errors;
 using Ocelot.Logging;
 using Ocelot.Middleware;

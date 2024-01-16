@@ -1,4 +1,5 @@
-﻿using Materal.Oscillator.Abstractions.Answers;
+﻿using Dy.Oscillator.Abstractions;
+using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.DR;
 using Materal.Oscillator.Abstractions.DR.Domain;
@@ -66,8 +67,8 @@ namespace Materal.Oscillator.QuartZExtend
         /// </summary>
         public OscillatorJob()
         {
-            if (MateralServices.Services == null) throw new OscillatorException("获取DI容器失败");
-            _serviceScope = MateralServices.Services.CreateScope();
+            if (OscillatorServices.Services == null) throw new OscillatorException("获取DI容器失败");
+            _serviceScope = OscillatorServices.Services.CreateScope();
             _serviceProvider = _serviceScope.ServiceProvider;
             _oscillatorListener = _serviceProvider.GetService<IOscillatorListener>();
             _oscillatorDR = _serviceProvider.GetService<IOscillatorDR>();
@@ -107,7 +108,7 @@ namespace Materal.Oscillator.QuartZExtend
         /// <returns></returns>
         public async Task<string> HandlerJobAsync(ScheduleWork scheduleWork)
         {
-            if (_schedule == null) return scheduleWork.FailEvent;
+            if (_schedule == null || _works is null || _works.Length <= 0) return scheduleWork.FailEvent;
             Work work = _works.First(m => m.ID == scheduleWork.WorkID);
             IWorkData workData = OscillatorConvertHelper.ConvertToInterface<IWorkData>(work.WorkType, work.WorkData) ?? throw new OscillatorException("获取任务数据失败");
             string eventValue = scheduleWork.FailEvent;
@@ -253,7 +254,7 @@ namespace Materal.Oscillator.QuartZExtend
                         await _oscillatorDR.WorkExecuteAsync(_flow, scheduleWork);
                     }
                 }
-                if (_oscillatorListener != null)
+                if (_oscillatorListener != null && _works is not null && _works.Length > 0)
                 {
                     Work work = _works.First(m => m.ID == scheduleWork.WorkID);
                     await _oscillatorListener.WorkExecuteAsync(_schedule, scheduleWork, work);
@@ -274,6 +275,7 @@ namespace Materal.Oscillator.QuartZExtend
         /// <returns></returns>
         private async Task HandlerNextEventAsync(ScheduleWork scheduleWork)
         {
+            if (_works is null || _works.Length <= 0) return;
             Work work = _works.First(m => m.ID == scheduleWork.WorkID);
             if (_oscillatorListener != null && _schedule != null)
             {
@@ -289,6 +291,7 @@ namespace Materal.Oscillator.QuartZExtend
         /// <returns></returns>
         private async Task HandlerSuccessEventAsync(ScheduleWork scheduleWork)
         {
+            if (_works is null || _works.Length <= 0) return;
             Work work = _works.First(m => m.ID == scheduleWork.WorkID);
             if (_oscillatorListener != null && _schedule != null)
             {
@@ -304,6 +307,7 @@ namespace Materal.Oscillator.QuartZExtend
         /// <returns></returns>
         private async Task HandlerFailEventAsync(ScheduleWork scheduleWork)
         {
+            if (_works is null || _works.Length <= 0) return;
             Work work = _works.First(m => m.ID == scheduleWork.WorkID);
             if (_oscillatorListener != null && _schedule != null)
             {
@@ -319,6 +323,7 @@ namespace Materal.Oscillator.QuartZExtend
         /// <param name="scheduleWork"></param>
         private async Task DefaultHandlerEventAsync(string eventValue, ScheduleWork scheduleWork)
         {
+            if (_works is null || _works.Length <= 0) return;
             Work work = _works.First(m => m.ID == scheduleWork.WorkID);
             if (_oscillatorListener != null && _schedule != null)
             {

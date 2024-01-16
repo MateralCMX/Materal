@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace Materal.Gateway.Common
+﻿namespace Materal.Gateway.Common
 {
     /// <summary>
     /// 网关配置

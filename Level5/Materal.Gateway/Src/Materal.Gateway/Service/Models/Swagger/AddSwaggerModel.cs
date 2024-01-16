@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Gateway.Service.Models.Swagger
+﻿namespace Materal.Gateway.Service.Models.Swagger
 {
     /// <summary>
     /// 添加Swagger配置模型

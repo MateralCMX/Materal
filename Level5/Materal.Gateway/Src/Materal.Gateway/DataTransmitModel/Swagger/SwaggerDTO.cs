@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Gateway.DataTransmitModel.Swagger
+﻿namespace Materal.Gateway.DataTransmitModel.Swagger
 {
     /// <summary>
     /// Swager数据传输模型

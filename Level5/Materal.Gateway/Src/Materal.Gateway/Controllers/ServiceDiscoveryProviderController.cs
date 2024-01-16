@@ -1,7 +1,5 @@
 using Materal.Gateway.OcelotExtension.ConfigModel;
 using Materal.Gateway.Service;
-using Materal.Utils.Model;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Materal.Gateway.Controllers
 {

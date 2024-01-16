@@ -1,6 +1,4 @@
-﻿using Materal.Utils.Model;
-
-namespace Materal.Oscillator.Abstractions.Models
+﻿namespace Materal.Oscillator.Abstractions.Models
 {
     /// <summary>
     /// 查询调度器模型

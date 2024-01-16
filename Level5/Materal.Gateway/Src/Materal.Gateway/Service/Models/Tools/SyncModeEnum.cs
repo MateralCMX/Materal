@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Materal.Gateway.Service.Models.Tools
+﻿namespace Materal.Gateway.Service.Models.Tools
 {
     /// <summary>
     /// 同步模式枚举

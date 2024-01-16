@@ -3,7 +3,6 @@ using Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware;
 using Materal.Gateway.OcelotExtension.WebSockets.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Ocelot.Authentication.Middleware;
@@ -30,7 +29,6 @@ using Ocelot.RequestId.Middleware;
 using Ocelot.Responses;
 using Ocelot.Security.Middleware;
 using System.Diagnostics;
-using System.Text;
 
 namespace Materal.Gateway.OcelotExtension
 {

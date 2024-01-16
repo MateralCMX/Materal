@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Materal.Gateway.Controllers
+﻿namespace Materal.Gateway.Controllers
 {
     /// <summary>
     /// 网关控制器基类

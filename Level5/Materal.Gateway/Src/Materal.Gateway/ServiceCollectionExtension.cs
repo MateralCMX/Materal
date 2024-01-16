@@ -6,8 +6,6 @@ using Materal.Gateway.OcelotExtension.RequestMonitor;
 using Materal.Gateway.OcelotExtension.Responder;
 using Materal.Gateway.OcelotExtension.ServiceDiscovery;
 using Materal.Gateway.Service;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Ocelot.Cache.CacheManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Provider.Consul;
@@ -21,7 +19,7 @@ namespace Materal.Gateway
     /// <summary>
     /// 依赖注入扩展
     /// </summary>
-    public static class DIExtension
+    public static class ServiceCollectionExtension
     {
         /// <summary>
         /// 添加Ocelot网关

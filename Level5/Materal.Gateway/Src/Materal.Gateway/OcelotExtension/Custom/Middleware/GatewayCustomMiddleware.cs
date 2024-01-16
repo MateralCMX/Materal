@@ -1,11 +1,8 @@
 ﻿using Materal.Gateway.OcelotExtension.Middleware;
-using Microsoft.AspNetCore.Http;
 using Ocelot.Errors;
 using Ocelot.Logging;
 using Ocelot.Middleware;
 using Ocelot.Responses;
-using System.Net;
-using System.Text;
 
 namespace Materal.Gateway.OcelotExtension.Custom.Middleware
 {

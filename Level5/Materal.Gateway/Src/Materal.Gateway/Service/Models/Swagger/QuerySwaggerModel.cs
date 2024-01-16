@@ -1,6 +1,4 @@
-﻿using Materal.Utils.Model;
-
-namespace Materal.Gateway.Service.Models.Swagger
+﻿namespace Materal.Gateway.Service.Models.Swagger
 {
     /// <summary>
     /// 查询Swagger配置模型

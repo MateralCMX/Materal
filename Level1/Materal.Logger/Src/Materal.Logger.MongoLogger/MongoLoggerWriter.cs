@@ -16,7 +16,7 @@ namespace Materal.Logger.MongoLogger
         public override async Task WriteBatchLoggerAsync(MongoLoggerWriterModel[] models)
         {
             IGrouping<string, MongoLoggerWriterModel>[] groupDatas = models.GroupBy(m => m.ConnectionString).ToArray();
-            Parallel.ForEach(groupDatas, data =>
+            foreach (IGrouping<string, MongoLoggerWriterModel> data in groupDatas)
             {
                 try
                 {
@@ -27,16 +27,28 @@ namespace Materal.Logger.MongoLogger
                         IMongoDatabase db = client.GetDatabase(dbNameItem.Key);
                         IGrouping<string, MongoLoggerWriterModel>[] groupCollection = dbNameItem.GroupBy(m => m.CollectionName).ToArray();
                         if (groupCollection.Length <= 0) continue;
-                        IMongoCollection<BsonDocument> collection = db.GetCollection<BsonDocument>(groupCollection.First().Key);
+                        string collectionName = groupCollection.First().Key;
+                        IAsyncCursor<string> collectionNames = await db.ListCollectionNamesAsync(new ListCollectionNamesOptions
+                        {
+                            Filter = new BsonDocument("name", collectionName)
+                        });
+                        if (!collectionNames.Any())
+                        {
+                            await db.CreateCollectionAsync(collectionName, new CreateCollectionOptions
+                            {
+                                TimeSeriesOptions = new TimeSeriesOptions("CreateTime")
+                            });
+                        }
+                        IMongoCollection<BsonDocument> collection = db.GetCollection<BsonDocument>(collectionName);
                         IEnumerable<BsonDocument> documents = GetBsonDocument(groupCollection);
-                        collection.InsertManyAsync(documents).Wait();
+                        await collection.InsertManyAsync(documents);
                     }
                 }
                 catch (Exception exception)
                 {
                     LoggerHost.LoggerLog?.LogError($"日志记录到Mongo[{data.Key}]失败：", exception);
                 }
-            });
+            }
             await Task.CompletedTask;
         }
         private List<BsonDocument> GetBsonDocument(IGrouping<string, MongoLoggerWriterModel>[] data)

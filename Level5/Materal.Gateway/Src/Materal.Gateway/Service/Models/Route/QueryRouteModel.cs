@@ -1,6 +1,4 @@
-﻿using Materal.Utils.Model;
-
-namespace Materal.Gateway.Service.Models.Route
+﻿namespace Materal.Gateway.Service.Models.Route
 {
     /// <summary>
     /// 查询路由模型

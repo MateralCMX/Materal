@@ -20,6 +20,6 @@
         /// <summary>
         /// 集合名
         /// </summary>
-        public string CollectionName { get; set; } = "Logger${Year}${Month}${Day}";
+        public string CollectionName { get; set; } = "Logs";
     }
 }

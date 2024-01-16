@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Ocelot.Configuration;
@@ -6,9 +5,9 @@ using Ocelot.Middleware;
 using Ocelot.Request.Middleware;
 using Ocelot.Requester;
 using Ocelot.Responses;
-using System.Text;
 using System.Xml;
 using Error = Ocelot.Errors.Error;
+using IHttpClientBuilder = Ocelot.Requester.IHttpClientBuilder;
 
 namespace Materal.Gateway.OcelotExtension.Requester
 {

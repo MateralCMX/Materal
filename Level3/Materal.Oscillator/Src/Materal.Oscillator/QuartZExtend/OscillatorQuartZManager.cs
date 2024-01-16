@@ -1,4 +1,5 @@
-﻿using Materal.Oscillator.Abstractions.Domain;
+﻿using Dy.Oscillator.Abstractions;
+using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.DR;
 using Quartz;
 using Quartz.Impl.Matchers;
@@ -91,12 +92,12 @@ namespace Materal.Oscillator.QuartZExtend
             _scheduler = await SchedulerBuilder.Create(properties)
                     .UseDefaultThreadPool(x => x.MaxConcurrency = OscillatorConfig.MaxConcurrency)
                     .BuildScheduler();
-            IJobListener? jobListener = MateralServices.GetService<IJobListener>();
+            IJobListener? jobListener = OscillatorServices.GetService<IJobListener>();
             if (jobListener != null)
             {
                 _scheduler.ListenerManager.AddJobListener(jobListener, GroupMatcher<JobKey>.AnyGroup());
             }
-            IOscillatorDR? _oscillatorDR = MateralServices.GetService<IOscillatorDR>();
+            IOscillatorDR? _oscillatorDR = OscillatorServices.GetService<IOscillatorDR>();
             if (_oscillatorDR != null)
             {
                 await _oscillatorDR.ScheduleStartAsync();

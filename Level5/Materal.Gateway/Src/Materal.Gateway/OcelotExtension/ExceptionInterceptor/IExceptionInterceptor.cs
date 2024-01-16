@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Materal.Gateway.OcelotExtension.ExceptionInterceptor
+﻿namespace Materal.Gateway.OcelotExtension.ExceptionInterceptor
 {
     /// <summary>
     /// 异常拦截器

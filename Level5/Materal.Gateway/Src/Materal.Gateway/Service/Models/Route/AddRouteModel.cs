@@ -1,5 +1,4 @@
 ﻿using Materal.Gateway.OcelotExtension.ConfigModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace Materal.Gateway.Service.Models.Route
 {

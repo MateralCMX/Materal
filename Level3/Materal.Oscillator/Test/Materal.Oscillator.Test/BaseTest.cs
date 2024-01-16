@@ -1,4 +1,5 @@
-﻿using Materal.Oscillator.SqliteEFRepository.Extensions;
+﻿using Dy.Oscillator.Abstractions;
+using Materal.Oscillator.SqliteEFRepository.Extensions;
 using Materal.TTA.SqliteEFRepository;
 
 namespace Materal.Oscillator.Test
@@ -17,6 +18,7 @@ namespace Materal.Oscillator.Test
             AddSqliteRepository(serviceCollection);
             AddServices(serviceCollection);
             MateralServices.Services = serviceCollection.BuildServiceProvider();
+            OscillatorServices.Services = MateralServices.Services;
             Services = MateralServices.Services;
 
             IMigrateHelper<SqliteEFRepository.OscillatorDBContext> migrateHelper = GetServiceTest<IMigrateHelper<SqliteEFRepository.OscillatorDBContext>>();

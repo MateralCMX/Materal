@@ -1,4 +1,5 @@
 ﻿using ConsoleDemo.Works;
+using Dy.Oscillator.Abstractions;
 using Materal.Logger.ConfigModels;
 using Materal.Logger.ConsoleLogger;
 using Materal.Logger.Extensions;
@@ -34,6 +35,7 @@ namespace ConsoleDemo
             serviceCollection.AddSingleton<IOscillatorListener, OscillatorListenerImpl>();
             serviceCollection.AddSingleton<IRetryAnswerListener, RetryAnswerListenerImpl>();
             MateralServices.Services = serviceCollection.BuildServiceProvider();
+            OscillatorServices.Services = MateralServices.Services;
             _services = MateralServices.Services;
             _services.UseMateralLoggerAsync().Wait();
             repositoryHelper.Init(_services);

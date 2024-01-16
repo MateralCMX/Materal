@@ -1,6 +1,4 @@
 ﻿using Materal.Gateway.Service.Models.Tools;
-using Materal.Utils.Model;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Materal.Gateway.Controllers
 {

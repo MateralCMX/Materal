@@ -1,8 +1,6 @@
 using Materal.Gateway.Common;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Ocelot.Configuration;
-using Ocelot.Configuration.Repository;
 using Ocelot.DownstreamRouteFinder;
 using Ocelot.DownstreamRouteFinder.Finder;
 using Ocelot.DownstreamRouteFinder.Middleware;

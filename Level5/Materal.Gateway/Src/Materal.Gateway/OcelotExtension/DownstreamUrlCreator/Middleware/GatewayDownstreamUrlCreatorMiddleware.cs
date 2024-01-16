@@ -1,5 +1,4 @@
 using Materal.Gateway.OcelotExtension.Middleware;
-using Microsoft.AspNetCore.Http;
 using Ocelot.Configuration;
 using Ocelot.DownstreamRouteFinder.UrlMatcher;
 using Ocelot.DownstreamUrlCreator;

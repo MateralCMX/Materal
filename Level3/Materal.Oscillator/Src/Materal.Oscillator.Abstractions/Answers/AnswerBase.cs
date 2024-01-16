@@ -1,4 +1,5 @@
-﻿using Materal.Oscillator.Abstractions.Domain;
+﻿using Dy.Oscillator.Abstractions;
+using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.QuartZExtend;
 
 namespace Materal.Oscillator.Abstractions.Answers
@@ -21,8 +22,8 @@ namespace Materal.Oscillator.Abstractions.Answers
         /// </summary>
         protected AnswerBase()
         {
-            if (MateralServices.Services == null) throw new OscillatorException("获取DI容器失败");
-            ServiceScope = MateralServices.Services.CreateScope();
+            if (OscillatorServices.Services == null) throw new OscillatorException("获取DI容器失败");
+            ServiceScope = OscillatorServices.Services.CreateScope();
             ServiceProvider = ServiceScope.ServiceProvider;
         }
         /// <summary>
@@ -53,6 +54,7 @@ namespace Materal.Oscillator.Abstractions.Answers
         public virtual void Dispose()
         {
             ServiceScope.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

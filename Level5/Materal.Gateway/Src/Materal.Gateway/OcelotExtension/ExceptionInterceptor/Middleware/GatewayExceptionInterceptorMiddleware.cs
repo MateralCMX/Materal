@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Ocelot.Logging;
+﻿using Ocelot.Logging;
 using Ocelot.Middleware;
 
 namespace Materal.Gateway.OcelotExtension.ExceptionInterceptor.Middleware
