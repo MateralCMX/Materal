@@ -68,13 +68,13 @@
     <Compile Include="ToolWindows\SolutionOpenedControl.xaml.cs">
       <DependentUpon>SolutionOpenedControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToolWindows\ViewModels\SolutionNotOpenedControlViewModel.cs" />
-    <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.ControllerHttpHelper.cs" />
-    <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.Controllers.cs" />
-    <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.AutoMapperProfile.cs" />
-    <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.Services.cs" />
-    <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.Repository.cs" />
-    <Compile Include="ToolWindows\ViewModels\SolutionOpenedControlViewModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionNotOpenedViewModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerHttpHelper.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Controllers.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.AutoMapperProfile.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Services.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Repository.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.cs" />
     <Compile Include="VSCommandTable.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

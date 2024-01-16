@@ -8,7 +8,7 @@
              toolkit:Themes.UseVsTheme="True"
              mc:Ignorable="d">
     <UserControl.DataContext>
-        <viewModels:SolutionOpenedControlViewModel x:Name="ViewModel" />
+        <viewModels:SolutionOpenedViewModel x:Name="ViewModel" />
     </UserControl.DataContext>
     <StackPanel>
         <TextBlock Text="{Binding SolutionName, Mode=OneWay}"/>

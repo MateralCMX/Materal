@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
 {
-    public partial class SolutionNotOpenedControlViewModel : ObservableObject
+    public partial class SolutionNotOpenedViewModel : ObservableObject
     {
         private string? _projectName = "MMB";
         public string? ProjectName { get => _projectName; set { _projectName = value; NotifyPropertyChanged(); } }
@@ -15,7 +15,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         public string ModuleName { get => _moduleName; set { _moduleName = value; NotifyPropertyChanged(); } }
         private string _projectPath = @"C:\Project";
         public string ProjectPath { get => _projectPath; set { _projectPath = value; NotifyPropertyChanged(); } }
-        public SolutionNotOpenedControlViewModel() => PropertyChanged += SolutionNotOpenedControlViewModel_PropertyChanged;
+        public SolutionNotOpenedViewModel() => PropertyChanged += SolutionNotOpenedControlViewModel_PropertyChanged;
         private void SolutionNotOpenedControlViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ProjectPath))

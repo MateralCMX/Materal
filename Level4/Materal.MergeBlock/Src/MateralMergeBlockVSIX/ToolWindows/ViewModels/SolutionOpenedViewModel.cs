@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
 {
-    public partial class SolutionOpenedControlViewModel : ObservableObject
+    public partial class SolutionOpenedViewModel : ObservableObject
     {
         private string _solutionName = "不是MergeBlock模块项目";
         /// <summary>

@@ -9,7 +9,7 @@ using System.Text;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
 {
-    public partial class SolutionOpenedControlViewModel : ObservableObject
+    public partial class SolutionOpenedViewModel : ObservableObject
     {
         /// <summary>
         /// 生成控制器访问器

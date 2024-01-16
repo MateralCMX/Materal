@@ -8,7 +8,7 @@
              toolkit:Themes.UseVsTheme="True"
              mc:Ignorable="d">
     <UserControl.DataContext>
-        <viewModels:SolutionNotOpenedControlViewModel x:Name="ViewModel" />
+        <viewModels:SolutionNotOpenedViewModel x:Name="ViewModel" />
     </UserControl.DataContext>
     <StackPanel>
         <StackPanel.Resources>
