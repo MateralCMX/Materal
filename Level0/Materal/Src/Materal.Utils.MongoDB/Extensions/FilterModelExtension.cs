@@ -1,4 +1,5 @@
 ﻿using Materal.Utils.Model;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Materal.Utils.MongoDB.Extensions
@@ -74,17 +75,32 @@ namespace Materal.Utils.MongoDB.Extensions
         /// <exception cref="MongoUtilException"></exception>
         private static FilterDefinition<T>? GetSearchFilterDefinition<T>(this FilterAttribute filterAttribute, PropertyInfo propertyInfo, object value)
         {
-            PropertyInfo targetPropertyInfo;
+            string name;
             Type tType = typeof(T);
             if (filterAttribute.TargetPropertyName is null || string.IsNullOrWhiteSpace(filterAttribute.TargetPropertyName))
             {
-                targetPropertyInfo = tType.GetProperty(propertyInfo.Name) ?? throw new MongoUtilException($"类型{tType.FullName}中不存在属性{propertyInfo.Name}");
+                if (tType != typeof(BsonDocument))
+                {
+                    PropertyInfo targetPropertyInfo = tType.GetProperty(propertyInfo.Name) ?? throw new MongoUtilException($"类型{tType.FullName}中不存在属性{propertyInfo.Name}");
+                    name = targetPropertyInfo.Name;
+                }
+                else
+                {
+                    name = propertyInfo.Name;
+                }
             }
             else
             {
-                targetPropertyInfo = tType.GetProperty(filterAttribute.TargetPropertyName) ?? throw new MongoUtilException($"类型{tType.FullName}中不存在属性{filterAttribute.TargetPropertyName}");
+                if (tType != typeof(BsonDocument))
+                {
+                    PropertyInfo targetPropertyInfo = tType.GetProperty(filterAttribute.TargetPropertyName) ?? throw new MongoUtilException($"类型{tType.FullName}中不存在属性{filterAttribute.TargetPropertyName}");
+                    name = targetPropertyInfo.Name;
+                }
+                else
+                {
+                    name = filterAttribute.TargetPropertyName;
+                }
             }
-            string name = targetPropertyInfo.Name;
             return filterAttribute switch
             {
                 ContainsAttribute containsAttribute => containsAttribute.GetSearchFilterDefinition<T>(name, value),
