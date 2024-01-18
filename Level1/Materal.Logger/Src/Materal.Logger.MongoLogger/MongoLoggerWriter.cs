@@ -1,4 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using Materal.Utils.MongoDB;
+using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Materal.Logger.MongoLogger
@@ -6,8 +8,17 @@ namespace Materal.Logger.MongoLogger
     /// <summary>
     /// Mongo日志写入器
     /// </summary>
-    public class MongoLoggerWriter(MongoLoggerTargetConfig targetConfig) : BatchLoggerWriter<MongoLoggerWriterModel, MongoLoggerTargetConfig>(targetConfig), ILoggerWriter
+    public class MongoLoggerWriter : BatchLoggerWriter<MongoLoggerWriterModel, MongoLoggerTargetConfig>, ILoggerWriter
     {
+        private readonly IMongoRepository _mongoRepository;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public MongoLoggerWriter(MongoLoggerTargetConfig targetConfig, IMongoRepository mongoRepository) : base(targetConfig)
+        {
+            _mongoRepository = mongoRepository;
+            _mongoRepository.CollectionOptions = new() { TimeSeriesOptions = new TimeSeriesOptions("CreateTime") };
+        }
         /// <summary>
         /// 写入日志
         /// </summary>
@@ -15,41 +26,37 @@ namespace Materal.Logger.MongoLogger
         /// <returns></returns>
         public override async Task WriteBatchLoggerAsync(MongoLoggerWriterModel[] models)
         {
-            IGrouping<string, MongoLoggerWriterModel>[] groupDatas = models.GroupBy(m => m.ConnectionString).ToArray();
-            foreach (IGrouping<string, MongoLoggerWriterModel> data in groupDatas)
+            try
             {
-                try
+                IGrouping<string, MongoLoggerWriterModel>[] groupDatas = models.GroupBy(m => m.ConnectionString).ToArray();
+                foreach (IGrouping<string, MongoLoggerWriterModel> data in groupDatas)
                 {
-                    MongoClient client = new(data.Key);
-                    IGrouping<string, MongoLoggerWriterModel>[] groupDBName = data.GroupBy(m => m.DBName).ToArray();
-                    foreach (IGrouping<string, MongoLoggerWriterModel> dbNameItem in groupDBName)
+                    try
                     {
-                        IMongoDatabase db = client.GetDatabase(dbNameItem.Key);
-                        IGrouping<string, MongoLoggerWriterModel>[] groupCollection = dbNameItem.GroupBy(m => m.CollectionName).ToArray();
-                        if (groupCollection.Length <= 0) continue;
-                        string collectionName = groupCollection.First().Key;
-                        IAsyncCursor<string> collectionNames = await db.ListCollectionNamesAsync(new ListCollectionNamesOptions
+                        _mongoRepository.ConnectionString = data.Key;
+                        IGrouping<string, MongoLoggerWriterModel>[] groupDBName = data.GroupBy(m => m.DBName).ToArray();
+                        foreach (IGrouping<string, MongoLoggerWriterModel> dbNameItem in groupDBName)
                         {
-                            Filter = new BsonDocument("name", collectionName)
-                        });
-                        if (!collectionNames.Any())
-                        {
-                            await db.CreateCollectionAsync(collectionName, new CreateCollectionOptions
-                            {
-                                TimeSeriesOptions = new TimeSeriesOptions("CreateTime")
-                            });
+                            _mongoRepository.DatabaseName = dbNameItem.Key;
+                            IGrouping<string, MongoLoggerWriterModel>[] groupCollection = dbNameItem.GroupBy(m => m.CollectionName).ToArray();
+                            if (groupCollection.Length <= 0) continue;
+                            string collectionName = groupCollection.First().Key;
+                            _mongoRepository.CollectionName = collectionName;
+                            IEnumerable<BsonDocument> documents = GetBsonDocument(groupCollection);
+                            await _mongoRepository.InsertAsync(documents);
                         }
-                        IMongoCollection<BsonDocument> collection = db.GetCollection<BsonDocument>(collectionName);
-                        IEnumerable<BsonDocument> documents = GetBsonDocument(groupCollection);
-                        await collection.InsertManyAsync(documents);
+                    }
+                    catch (Exception exception)
+                    {
+                        LoggerHost.LoggerLog?.LogError($"日志记录到Mongo[{data.Key}]失败：", exception);
                     }
                 }
-                catch (Exception exception)
-                {
-                    LoggerHost.LoggerLog?.LogError($"日志记录到Mongo[{data.Key}]失败：", exception);
-                }
+                await Task.CompletedTask;
             }
-            await Task.CompletedTask;
+            catch (Exception exception)
+            {
+                LoggerHost.LoggerLog?.LogError($"日志记录到Mongo失败：", exception);
+            }
         }
         private List<BsonDocument> GetBsonDocument(IGrouping<string, MongoLoggerWriterModel>[] data)
         {

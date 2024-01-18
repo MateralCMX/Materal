@@ -117,7 +117,7 @@ namespace Materal.Logger.ConfigModels
                     TargetConfig? oldTargetConfig = Targets.FirstOrDefault(m => m.Name == targetConfig.Name);
                     if (oldTargetConfig is not null)
                     {
-                        ILoggerWriter loggerWriter = oldTargetConfig.GetLoggerWriter();
+                        ILoggerWriter loggerWriter = oldTargetConfig.GetLoggerWriter(serviceProvider);
                         if (oldTargetConfig.GetType() == targetConfig.GetType())
                         {
                             targetConfig.CopyProperties(oldTargetConfig);

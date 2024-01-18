@@ -1,4 +1,5 @@
 ﻿using Materal.Logger.LoggerLogs;
+using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger
@@ -9,6 +10,7 @@ namespace Materal.Logger
     public static class LoggerHost
     {
         private static ActionBlock<LoggerWriterModel>? _writeLoggerBlock;
+        private static IServiceProvider? _serviceProvider;
         /// <summary>
         /// 日志自身日志
         /// </summary>
@@ -32,11 +34,11 @@ namespace Materal.Logger
         /// <param name="model"></param>
         private static async Task AsyncWriteLogger(LoggerWriterModel model)
         {
-            if (!model.Config.Enable) return;
+            if (!model.Config.Enable || _serviceProvider is null) return;
             foreach (TargetConfig targetConfig in LoggerConfig.Targets)
             {
                 if (!targetConfig.Enable) continue;
-                ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter();
+                ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter(_serviceProvider);
                 try
                 {
                     await loggerWriter.WriteLoggerAsync(model);
@@ -50,16 +52,26 @@ namespace Materal.Logger
         /// <summary>
         /// 启动
         /// </summary>
-        public static async Task StartAsync()
+        public static async Task StartAsync(IServiceProvider serviceProvider)
         {
-            if (LoggerLog is not null)
+            if (!IsClose) return;
+            try
             {
-                await LoggerLog.StartAsync();
+                IsClose = false;
+                _serviceProvider = serviceProvider;
+                if (LoggerLog is not null)
+                {
+                    await LoggerLog.StartAsync();
+                }
+                LoggerLog?.LogDebug($"正在启动[MateralLogger]");
+                _writeLoggerBlock = new(AsyncWriteLogger);
+                LoggerLog?.LogDebug($"[MateralLogger]启动成功");
             }
-            LoggerLog?.LogDebug($"正在启动[MateralLogger]");
-            IsClose = false;
-            _writeLoggerBlock = new(AsyncWriteLogger);
-            LoggerLog?.LogDebug($"[MateralLogger]启动成功");
+            catch (Exception ex)
+            {
+                IsClose = true;
+                LoggerLog?.LogError($"[MateralLogger]启动失败", ex);
+            }
         }
         /// <summary>
         /// 关闭
@@ -75,8 +87,8 @@ namespace Materal.Logger
             }
             foreach (TargetConfig targetConfig in LoggerConfig.Targets)
             {
-                if (!targetConfig.Enable) continue;
-                ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter();
+                if (!targetConfig.Enable || _serviceProvider is null) continue;
+                ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter(_serviceProvider);
                 await loggerWriter.ShutdownAsync();
             }
             LoggerLog?.LogDebug($"[MateralLogger]关闭成功");

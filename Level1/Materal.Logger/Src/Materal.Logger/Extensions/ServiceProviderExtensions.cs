@@ -17,7 +17,7 @@ namespace Materal.Logger.Extensions
             if (!LoggerHost.IsClose) return serviceProvider;
             LoggerHost.LoggerLog = serviceProvider.GetService<ILoggerLog>() ?? new ConsoleLoggerLog(serviceProvider);
             AppDomain.CurrentDomain.ProcessExit += (_, _) => LoggerHost.ShutdownAsync().Wait();
-            await LoggerHost.StartAsync();
+            await LoggerHost.StartAsync(serviceProvider);
             return serviceProvider;
         }
     }

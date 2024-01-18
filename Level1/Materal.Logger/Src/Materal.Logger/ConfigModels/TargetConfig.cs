@@ -20,7 +20,8 @@
         /// <summary>
         /// 获得日志写入器
         /// </summary>
-        public abstract ILoggerWriter GetLoggerWriter();
+        /// <param name="serviceProvider"></param>
+        public abstract ILoggerWriter GetLoggerWriter(IServiceProvider serviceProvider);
     }
     /// <summary>
     /// 目标配置
@@ -32,6 +33,7 @@
         /// <summary>
         /// 获得日志写入器
         /// </summary>
-        public override ILoggerWriter GetLoggerWriter() => _loggerWriter ??= typeof(TLoggerWriter).Instantiation<TLoggerWriter>(this);
+        /// <param name="serviceProvider"></param>
+        public override ILoggerWriter GetLoggerWriter(IServiceProvider serviceProvider) => _loggerWriter ??= typeof(TLoggerWriter).Instantiation<TLoggerWriter>(serviceProvider, this);
     }
 }

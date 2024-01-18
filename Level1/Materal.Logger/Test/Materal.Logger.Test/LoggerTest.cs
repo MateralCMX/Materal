@@ -1,3 +1,5 @@
+using Materal.Utils.MongoDB.Extensions;
+
 namespace Materal.Logger.Test
 {
     [TestClass]
@@ -265,6 +267,7 @@ namespace Materal.Logger.Test
                     }
                 });
             });
+            serviceCollection.AddMongoUtils();
             IServiceProvider services = serviceCollection.BuildServiceProvider();
             await services.UseMateralLoggerAsync();
             return services;

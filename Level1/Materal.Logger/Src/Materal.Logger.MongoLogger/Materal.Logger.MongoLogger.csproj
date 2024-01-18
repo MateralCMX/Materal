@@ -21,7 +21,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="MongoDB.Driver" Version="*" />
+		<PackageReference Include="Materal.Utils.MongoDB" Version="1.1.74" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Logger\Materal.Logger.csproj" />
