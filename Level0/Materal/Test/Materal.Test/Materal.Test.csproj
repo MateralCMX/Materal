@@ -19,6 +19,7 @@
 		<ProjectReference Include="..\..\Src\Materal.Extensions\Materal.Extensions.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils.BarCode\Materal.Utils.BarCode.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils.Excel\Materal.Utils.Excel.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.Utils.MongoDB\Materal.Utils.MongoDB.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils.Redis\Materal.Utils.Redis.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils.Text\Materal.Utils.Text.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils.Wechat\Materal.Utils.Wechat.csproj" />

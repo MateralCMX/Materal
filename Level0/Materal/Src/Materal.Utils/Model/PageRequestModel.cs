@@ -5,19 +5,19 @@
     /// </summary>
     public abstract class PageRequestModel : FilterModel
     {
-        private int pageSize = 10;
+        private long pageSize = 10;
         /// <summary>
         /// 起始页码
         /// </summary>
-        public static int PageStartNumber { get; set; } = 1;
+        public static long PageStartNumber { get; set; } = 1;
         /// <summary>
         /// 页面位序
         /// </summary>
-        public int PageIndex { get; set; } = PageStartNumber;
+        public long PageIndex { get; set; } = PageStartNumber;
         /// <summary>
         /// 显示数量
         /// </summary>
-        public int PageSize
+        public long PageSize
         {
             get => pageSize > 0 ? pageSize : 1;
             set => pageSize = value;
@@ -25,11 +25,11 @@
         /// <summary>
         /// 跳过数量
         /// </summary>
-        public int Skip => (PageIndex - PageStartNumber) * PageSize;
+        public long Skip => (PageIndex - PageStartNumber) * PageSize;
         /// <summary>
         /// 获取数量
         /// </summary>
-        public int Take => PageSize;
+        public long Take => PageSize;
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -39,7 +39,7 @@
         /// </summary>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
-        protected PageRequestModel(int pageIndex, int pageSize)
+        protected PageRequestModel(long pageIndex, long pageSize)
         {
             PageIndex = pageIndex;
             PageSize = pageSize;

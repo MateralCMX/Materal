@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Materal.Test
 {
@@ -32,5 +30,17 @@ namespace Materal.Test
         public virtual void AddConfig(IConfigurationBuilder builder)
         {
         }
+        /// <summary>
+        /// 获取服务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public virtual T? GetServices<T>() => Services.GetService<T>();
+        /// <summary>
+        /// 获取必须的服务
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public virtual T GetRequiredService<T>() where T : notnull => Services.GetRequiredService<T>();
     }
 }
