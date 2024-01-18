@@ -296,14 +296,14 @@
     "Materal.Abstractions/1.1.74": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-/F4c0+ldPnWcatJrF3XdfNbccA2LT4aKX4ioqU7J+N1zX9AbneTKq0l5WCbD4HgSrmU8fn4y5wpLuaBE6hfdNg==",
+      "sha512": "sha512-qOpUFEuY0fvzS7x0BF7zI0b9DXSNYWAaudlvXoSTGDIqJidtavmHCaF6stad0yhmtd6DfZX+tFjSs0/v7ViCvg==",
       "path": "materal.abstractions/1.1.74",
       "hashPath": "materal.abstractions.1.1.74.nupkg.sha512"
     },
     "Materal.Extensions/1.1.74": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-p3Ub8piJ0mwQcbwks62pvzEZUVBYcY3znjHaH639jYr5uZOJ3uvkEagXS+2KVwOow1ywZiw/xg/xeMai62Lkow==",
+      "sha512": "sha512-DXF66oFXMMy0D9cBNghUXzde2SX7Rmfxpt/guJaCgNsMvDovMs5Nl5H1daRquUhikkl4NrLFflbHWValIQrh7Q==",
       "path": "materal.extensions/1.1.74",
       "hashPath": "materal.extensions.1.1.74.nupkg.sha512"
     },

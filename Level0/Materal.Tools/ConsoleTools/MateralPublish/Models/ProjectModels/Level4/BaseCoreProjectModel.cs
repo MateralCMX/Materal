@@ -149,7 +149,7 @@ namespace MateralPublish.Models.ProjectModels.Level4
             string projectName = Path.GetFileNameWithoutExtension(vsixCsprojFileInfo.Name);
             CmdHelper cmdHelper = new();
             DirectoryInfo publishDirectoryInfo = Path.Combine(PublishHelper.PublishDirectoryInfo.FullName, projectName).GetNewDirectoryInfo();
-            string[] cmds = [$"msbuild {vsixCsprojFileInfo.FullName} /p:Configuration=Release /p:OutputPath={publishDirectoryInfo.FullName}"];
+            string[] cmds = [$"msbuild {vsixCsprojFileInfo.FullName} /p:Configuration=Release /p:OutputPath={publishDirectoryInfo.FullName} -r"];
             ConsoleHelper.WriteLine($"正在发布{projectName}插件...");
             cmdHelper.OutputDataReceived += CmdHelper_OutputDataReceived;
             cmdHelper.ErrorDataReceived += CmdHelper_ErrorDataReceived;

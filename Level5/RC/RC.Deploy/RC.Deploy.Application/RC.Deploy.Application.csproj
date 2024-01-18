@@ -8,7 +8,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="SignalRSwaggerGen" Version="*" />
-		<PackageReference Include="Materal.MergeBlock.Application" Version="*" />
+		<PackageReference Include="Materal.MergeBlock.Application" Version="1.1.74" />
 		<PackageReference Include="Materal.Utils.Windows" Version="1.1.74" />
 	</ItemGroup>
 	<ItemGroup>

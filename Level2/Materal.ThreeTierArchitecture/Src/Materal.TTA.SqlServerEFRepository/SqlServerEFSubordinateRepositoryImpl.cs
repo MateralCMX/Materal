@@ -300,7 +300,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, int pageIndex, int pageSize) => PagingFromSubordinate(filterExpression, m => m.ID, pageIndex, pageSize);
+        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, long pageIndex, long pageSize) => PagingFromSubordinate(filterExpression, m => m.ID, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -326,7 +326,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pageIndex, int pageSize) => PagingFromSubordinate(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
+        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, long pageIndex, long pageSize) => PagingFromSubordinate(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -336,7 +336,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
+        public virtual (List<T> data, PageModel pageInfo) PagingFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, long pageIndex, long pageSize)
         {
             return GetSubordinateResult(queryable =>
             {
@@ -344,9 +344,9 @@
                 var pageModel = new PageModel(pageIndex, pageSize, queryable.Count());
                 List<T> result = sortOrder switch
                 {
-                    SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
-                    SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
-                    _ => queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
+                    SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToList(),
+                    SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToList(),
+                    _ => queryable.Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToList(),
                 };
                 return (result, pageModel);
             });
@@ -386,7 +386,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, int pageIndex, int pageSize) => await PagingFromSubordinateAsync(filterExpression, m => m.ID, pageIndex, pageSize);
+        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, long pageIndex, long pageSize) => await PagingFromSubordinateAsync(filterExpression, m => m.ID, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -412,7 +412,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, int pageIndex, int pageSize) => await PagingFromSubordinateAsync(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
+        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, long pageIndex, long pageSize) => await PagingFromSubordinateAsync(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -422,7 +422,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
+        public virtual async Task<(List<T> data, PageModel pageInfo)> PagingFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, long pageIndex, long pageSize)
         {
             return await GetSubordinateResultAsync(async queryable =>
             {
@@ -430,11 +430,9 @@
                 var pageModel = new PageModel(pageIndex, pageSize, await queryable.CountAsync());
                 List<T> result = sortOrder switch
                 {
-                    SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take)
-                                                .ToListAsync(),
-                    SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip)
-                                                .Take(pageModel.Take).ToListAsync(),
-                    _ => await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
+                    SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
+                    SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
+                    _ => await queryable.Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
                 };
                 return (result, pageModel);
             });

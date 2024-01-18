@@ -108,7 +108,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public override (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
+        public override (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long pageIndex, long pageSize)
         {
             IQueryable<TEntity> queryable = DBSet.Where(filterExpression);
             PageModel pageModel = new(pageIndex, pageSize, queryable.Count())
@@ -118,9 +118,9 @@
             };
             List<TEntity> result = sortOrder switch
             {
-                SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
-                SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
-                _ => queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToList(),
+                SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToList(),
+                SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToList(),
+                _ => queryable.Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToList(),
             };
             return (result, pageModel);
         }
@@ -133,7 +133,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public override async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
+        public override async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long pageIndex, long pageSize)
         {
             IQueryable<TEntity> queryable = DBSet.Where(filterExpression);
             PageModel pageModel = new(pageIndex, pageSize, await queryable.CountAsync())
@@ -143,9 +143,9 @@
             };
             List<TEntity> result = sortOrder switch
             {
-                SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
-                SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
-                _ => await queryable.Skip(pageModel.Skip).Take(pageModel.Take).ToListAsync(),
+                SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
+                SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
+                _ => await queryable.Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
             };
             return (result, pageModel);
         }

@@ -254,7 +254,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public abstract (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, int pageIndex, int pageSize);
+        public abstract (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, long pageIndex, long pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -282,7 +282,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pageIndex, int pageSize) 
+        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, long pageIndex, long pageSize) 
             => Paging(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
@@ -293,7 +293,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public abstract (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize);
+        public abstract (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long pageIndex, long pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -356,7 +356,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public abstract Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, int pageIndex, int pageSize);
+        public abstract Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, long pageIndex, long pageSize);
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -384,7 +384,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, int pageIndex, int pageSize)
+        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, long pageIndex, long pageSize)
             => await PagingAsync(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
@@ -395,7 +395,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize)
+        public virtual Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long pageIndex, long pageSize)
             => Task.FromResult(Paging(filterExpression, orderExpression, sortOrder, pageIndex, pageSize));
         /// <summary>
         /// 获得排序属性名称
@@ -477,7 +477,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public override (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, int pageIndex, int pageSize)
+        public override (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, long pageIndex, long pageSize)
             => Paging(filterExpression, m => m.ID, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
@@ -486,7 +486,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public override async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, int pageIndex, int pageSize)
+        public override async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, long pageIndex, long pageSize)
             => await PagingAsync(filterExpression, m => m.ID, pageIndex, pageSize);
     }
 }
