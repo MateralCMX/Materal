@@ -1,5 +1,4 @@
-﻿
-namespace Materal.Utils.MongoDB
+﻿namespace Materal.Utils.MongoDB
 {
     /// <summary>
     /// MongoDB工具异常

@@ -1,6 +1,4 @@
-﻿using Materal.Utils.Model;
-using MongoDB.Driver;
-using System.Linq.Expressions;
+﻿using MongoDB.Driver;
 
 namespace Materal.Utils.MongoDB
 {

@@ -1,8 +1,4 @@
-﻿using Materal.Utils.Enums;
-using Materal.Utils.Model;
-using Materal.Utils.MongoDB.Extensions;
-using MongoDB.Driver;
-using System.Linq.Expressions;
+﻿using MongoDB.Driver;
 
 namespace Materal.Utils.MongoDB
 {

@@ -1,5 +1,4 @@
-﻿using Materal.Utils.Model;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Materal.Utils.MongoDB.Extensions
