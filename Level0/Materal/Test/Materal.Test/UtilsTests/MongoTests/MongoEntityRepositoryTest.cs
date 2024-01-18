@@ -63,6 +63,32 @@ namespace Materal.Test.UtilsTests.MongoTests
             }
         }
         [TestMethod]
+        public async Task UpdateEntityTestAsync()
+        {
+            User user = Users.First();
+            await _repository.ClearAsync();
+            await _repository.InsertAsync(user);
+            user.Name = "测试修改-Entity模式";
+            long updateCount = await _repository.UpdateAsync(user);
+            Assert.AreEqual(1, updateCount);
+            User dbUser = await _repository.FirstAsync(user.ID);
+            Assert.AreEqual(dbUser.ID, user.ID);
+            Assert.AreEqual(dbUser.Name, user.Name);
+        }
+        [TestMethod]
+        public async Task UpdateIDTestAsync()
+        {
+            User user = Users.First();
+            await _repository.ClearAsync();
+            await _repository.InsertAsync(user);
+            user.Name = "测试修改-ID模式";
+            long updateCount = await _repository.UpdateAsync(user.ID, Builders<User>.Update.Set(m => m.Name, user.Name));
+            Assert.AreEqual(1, updateCount);
+            User dbUser = await _repository.FirstAsync(user.ID);
+            Assert.AreEqual(dbUser.ID, user.ID);
+            Assert.AreEqual(dbUser.Name, user.Name);
+        }
+        [TestMethod]
         public async Task UpdateOneTestAsync()
         {
             const string newName = "User测试修改-UpdateOne模式";
@@ -99,6 +125,28 @@ namespace Materal.Test.UtilsTests.MongoTests
             FilterDefinition<User> filter2 = Builders<User>.Filter.Eq(m => m.Name, "User2");
             filter = Builders<User>.Filter.Or(filter, filter2);
             await _repository.DeleteOneAsync(filter);
+            long dbCount = await _repository.CountAsync(Builders<User>.Filter.Empty);
+            Assert.AreEqual(dataCount - 1, dbCount);
+        }
+        [TestMethod]
+        public async Task DeleteEntityTestAsync()
+        {
+            const int dataCount = 6;
+            await _repository.ClearAsync();
+            await _repository.InsertAsync(Users.Take(dataCount));
+            long updateCount = await _repository.DeleteAsync(Users.First());
+            Assert.AreEqual(1, updateCount);
+            long dbCount = await _repository.CountAsync(Builders<User>.Filter.Empty);
+            Assert.AreEqual(dataCount - 1, dbCount);
+        }
+        [TestMethod]
+        public async Task DeleteIDTestAsync()
+        {
+            const int dataCount = 6;
+            await _repository.ClearAsync();
+            await _repository.InsertAsync(Users.Take(dataCount));
+            long updateCount = await _repository.DeleteAsync(Users.First().ID);
+            Assert.AreEqual(1, updateCount);
             long dbCount = await _repository.CountAsync(Builders<User>.Filter.Empty);
             Assert.AreEqual(dataCount - 1, dbCount);
         }
