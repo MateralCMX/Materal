@@ -179,6 +179,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             List<DomainModel> allDomains = _moduleAbstractions?.GetAllDomains() ?? [];
             List<IServiceModel> allServices = _moduleAbstractions?.GetAllIServices() ?? [];
             List<IControllerModel> allControllers = _moduleAbstractions?.GetAllIControllers() ?? [];
+            List<EnumModel> allEnums = _moduleAbstractions?.GetAllEnums() ?? [];
             foreach (MethodInfo methodInfo in allMethodInfos)
             {
                 if (methodInfo.GetCustomAttribute<T>() is null) continue;
@@ -189,17 +190,22 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 }
                 else if (parameterInfos.Length == 1)
                 {
-                    if (parameterInfos.First().ParameterType == typeof(List<DomainModel>))
+                    ParameterInfo parameterInfo = parameterInfos.First();
+                    if (parameterInfo.ParameterType == typeof(List<DomainModel>))
                     {
                         methodInfo.Invoke(this, [allDomains]);
                     }
-                    else if (parameterInfos.First().ParameterType == typeof(List<IServiceModel>))
+                    else if (parameterInfo.ParameterType == typeof(List<IServiceModel>))
                     {
                         methodInfo.Invoke(this, [allServices]);
                     }
-                    else if (parameterInfos.First().ParameterType == typeof(List<IControllerModel>))
+                    else if (parameterInfo.ParameterType == typeof(List<IControllerModel>))
                     {
                         methodInfo.Invoke(this, [allControllers]);
+                    }
+                    else if (parameterInfo.ParameterType == typeof(List<EnumModel>))
+                    {
+                        methodInfo.Invoke(this, [allEnums]);
                     }
                 }
             }

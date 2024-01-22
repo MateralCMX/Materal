@@ -8,14 +8,15 @@
         /// <summary>
         /// 分析代码
         /// </summary>
-        /// <param name="interfaceModel"></param>
+        /// <param name="cSharpCodeFileModel"></param>
         /// <param name="code"></param>
         /// <param name="codes"></param>
         /// <param name="currentLine"></param>
         /// <returns></returns>
-        protected override bool AnalysisCodes(InterfaceModel interfaceModel, string code, string[] codes, int currentLine)
+        protected override bool AnalysisCodes(CSharpCodeFileModel cSharpCodeFileModel, string code, string[] codes, int currentLine)
         {
             if (!code.StartsWith("public ")) return true;
+            if (cSharpCodeFileModel is not InterfaceModel interfaceModel) return true;
             int index = code.IndexOf(" { get; set; }");
             if (index < 0) return true;
             PropertyModel property = new();

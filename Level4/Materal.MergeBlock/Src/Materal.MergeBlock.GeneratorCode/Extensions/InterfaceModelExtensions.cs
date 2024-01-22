@@ -1,5 +1,4 @@
 ﻿using Materal.MergeBlock.GeneratorCode.Models;
-using System.Reflection;
 
 namespace Materal.MergeBlock.GeneratorCode.Extensions
 {
@@ -17,7 +16,7 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
         /// <param name="models"></param>
         /// <returns></returns>
         public static List<T> GetAllInterfaceModels<T>(this DirectoryInfo directoryInfo, Func<DirectoryInfo, bool> isTargetDirectory, Func<FileInfo, bool> isTargetFile, List<T>? models = null)
-            where T : InterfaceModel
+            where T : CSharpCodeFileModel
         {
             models ??= [];
             foreach (DirectoryInfo? item in directoryInfo.GetDirectories())
@@ -42,7 +41,7 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
         /// <param name="models"></param>
         /// <returns></returns>
         private static void FillInterfaceModels<T>(this DirectoryInfo directoryInfo, Func<FileInfo, bool> isTargetFile, List<T> models)
-             where T : InterfaceModel
+             where T : CSharpCodeFileModel
         {
             foreach (DirectoryInfo? item in directoryInfo.GetDirectories())
             {
@@ -64,11 +63,14 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
                     else
                     {
                         oldModel.Annotation ??= model.Annotation;
-                        oldModel.Methods.AddRange(model.Methods);
-                        oldModel.Properties.AddRange(model.Properties);
+                        if(oldModel is InterfaceModel oldInterfaceModel && model is InterfaceModel interfaceModel)
+                        {
+                            oldInterfaceModel.Methods.AddRange(interfaceModel.Methods);
+                            oldInterfaceModel.Properties.AddRange(interfaceModel.Properties);
+                            oldInterfaceModel.Interfaces.AddRange(interfaceModel.Interfaces);
+                        }
                         oldModel.Usings.AddRange(model.Usings);
                         oldModel.Usings = oldModel.Usings.Distinct().ToList();
-                        oldModel.Interfaces.AddRange(model.Interfaces);
                     }
                 }
             }

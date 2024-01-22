@@ -7,5 +7,7 @@ global using RC.Core.Repository;
 global using RC.Deploy.Abstractions.Domain;
 global using RC.Deploy.Abstractions.Repositories;
 global using RC.Deploy.Repository;
+global using Materal.Extensions;
+global using Materal.TTA.SqliteEFRepository;
 
 [assembly: MergeBlockAssembly("RCDeploy仓储模块")]

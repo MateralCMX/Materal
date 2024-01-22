@@ -1,9 +1,10 @@
 ﻿using Materal.BaseCore.Common;
 using Materal.Logger.ConfigModels;
+using Materal.Logger.ConsoleLogger;
+using Materal.Logger.Extensions;
 using Materal.TFMS.EventBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Materal.BaseCore.EventBus.TestClient
 {

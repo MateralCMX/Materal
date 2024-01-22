@@ -8,76 +8,79 @@
         /// <summary>
         /// 分析代码
         /// </summary>
-        /// <param name="interfaceModel"></param>
+        /// <param name="cSharpCodeFileModel"></param>
         /// <param name="code"></param>
         /// <param name="codes"></param>
         /// <param name="currentLine"></param>
         /// <returns></returns>
-        protected override bool AnalysisCodes(InterfaceModel interfaceModel, string code, string[] codes, int currentLine)
+        protected override bool AnalysisCodes(CSharpCodeFileModel cSharpCodeFileModel, string code, string[] codes, int currentLine)
         {
-            int index = code.IndexOf(" class ");
-            string codeContent;
-            if (index > 0)
-            {
-                codeContent = code[(index + 7)..];
-            }
-            else
-            {
-                index = code.IndexOf(" interface ");
-                if (index < 0) return true;
-                codeContent = code[(index + 11)..];
-            }
-            index = codeContent.IndexOf(" : ");
             #region Name
-            if (index > 0)
-            {
-                interfaceModel.Name = codeContent[..index];
-            }
-            else
-            {
-                interfaceModel.Name = codeContent;
-            }
+            string? name = GetName(code, "class");
+            name ??= GetName(code, "interface");
+            name ??= GetName(code, "enum");
+            if (name is null) return true;
+            cSharpCodeFileModel.Name = name;
             #endregion
             #region 父类和接口
-            if (index > 0)
+            if(cSharpCodeFileModel is InterfaceModel interfaceModel)
             {
-                codeContent = codeContent[(index + 3)..];
-                string[] codeContents = codeContent.Split(',');
-                codeContent = string.Empty;
-                foreach (string item in codeContents)
+                int index = code.LastIndexOf(" : ");
+                if (index > 0)
                 {
-                    if (string.IsNullOrWhiteSpace(codeContent))
+                    string codeContent = code[(index + 3)..];
+                    string[] codeContents = codeContent.Split(',');
+                    codeContent = string.Empty;
+                    foreach (string item in codeContents)
                     {
-                        codeContent = item;
-                    }
-                    else
-                    {
-                        codeContent += $",{item}";
-                    }
-                    if (!codeContent.IsFullCodeBlock()) continue;
-                    if (interfaceModel is ClassModel classModel)
-                    {
-                        if ((classModel.BaseClass is null || string.IsNullOrWhiteSpace(classModel.BaseClass)) && !codeContent.StartsWith("I"))
+                        if (string.IsNullOrWhiteSpace(codeContent))
                         {
-                            classModel.BaseClass = codeContent.Trim();
+                            codeContent = item;
                         }
                         else
                         {
-                            classModel.Interfaces.Add(codeContent.Trim());
+                            codeContent += $",{item}";
                         }
+                        if (!codeContent.IsFullCodeBlock()) continue;
+                        if (interfaceModel is ClassModel classModel)
+                        {
+                            if ((classModel.BaseClass is null || string.IsNullOrWhiteSpace(classModel.BaseClass)) && !codeContent.StartsWith("I"))
+                            {
+                                classModel.BaseClass = codeContent.Trim();
+                            }
+                            else
+                            {
+                                classModel.Interfaces.Add(codeContent.Trim());
+                            }
+                        }
+                        else
+                        {
+                            interfaceModel.Interfaces.Add(codeContent.Trim());
+                        }
+                        codeContent = string.Empty;
                     }
-                    else
-                    {
-                        interfaceModel.Interfaces.Add(codeContent.Trim());
-                    }
-                    codeContent = string.Empty;
                 }
             }
             #endregion
             #region 其他
-            interfaceModel.Annotation = StringHelper.GetAnnotationSetAttributes(codes, currentLine, interfaceModel.Attributes);
+            cSharpCodeFileModel.Annotation = StringHelper.GetAnnotationSetAttributes(codes, currentLine, cSharpCodeFileModel.Attributes);
             #endregion
             return false;
+        }
+        private string? GetName(string code, string type)
+        {
+            int index = code.IndexOf($" {type} ");
+            if (index < 0) return null;
+            string codeContent = code[(index + type.Length + 2)..];
+            index = codeContent.IndexOf(" : ");
+            if (index > 0)
+            {
+                return codeContent[..index];
+            }
+            else
+            {
+                return codeContent;
+            }
         }
     }
 }

@@ -12,25 +12,25 @@
         /// <summary>
         /// 处理
         /// </summary>
-        /// <param name="interfaceModel"></param>
+        /// <param name="cSharpCodeFileModel"></param>
         /// <param name="codes"></param>
         /// <param name="currentLine"></param>
-        public virtual void Handler(InterfaceModel interfaceModel, string[] codes, int currentLine)
+        public virtual void Handler(CSharpCodeFileModel cSharpCodeFileModel, string[] codes, int currentLine)
         {
             if (currentLine >= codes.Length) return;
             string code = codes[currentLine].Trim();
             if(code is null || string.IsNullOrWhiteSpace(code)) return;
-            if (!AnalysisCodes(interfaceModel, code, codes, currentLine)) return;
-            NextHandler?.Handler(interfaceModel, codes, currentLine);
+            if (!AnalysisCodes(cSharpCodeFileModel, code, codes, currentLine)) return;
+            NextHandler?.Handler(cSharpCodeFileModel, codes, currentLine);
         }
         /// <summary>
         /// 分析代码
         /// </summary>
-        /// <param name="interfaceModel"></param>
+        /// <param name="cSharpCodeFileModel"></param>
         /// <param name="code"></param>
         /// <param name="codes"></param>
         /// <param name="currentLine"></param>
-        protected abstract bool AnalysisCodes(InterfaceModel interfaceModel, string code, string[] codes, int currentLine);
+        protected abstract bool AnalysisCodes(CSharpCodeFileModel cSharpCodeFileModel, string code, string[] codes, int currentLine);
     }
     /// <summary>
     /// 分析代码处理器
@@ -41,14 +41,14 @@
         /// <summary>
         /// 分析代码
         /// </summary>
-        /// <param name="interfaceModel"></param>
+        /// <param name="cSharpCodeFileModel"></param>
         /// <param name="code"></param>
         /// <param name="codes"></param>
         /// <param name="currentLine"></param>
         /// <returns></returns>
-        protected override bool AnalysisCodes(InterfaceModel interfaceModel, string code, string[] codes, int currentLine)
+        protected override bool AnalysisCodes(CSharpCodeFileModel cSharpCodeFileModel, string code, string[] codes, int currentLine)
         {
-            if(interfaceModel is not T model) return true;
+            if(cSharpCodeFileModel is not T model) return true;
             return AnalysisCodes(model, code, codes, currentLine);
         }
         /// <summary>

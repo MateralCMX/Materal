@@ -8,16 +8,16 @@
         /// <summary>
         /// 分析代码
         /// </summary>
-        /// <param name="interfaceModel"></param>
+        /// <param name="cSharpCodeFileModel"></param>
         /// <param name="code"></param>
         /// <param name="codes"></param>
         /// <param name="currentLine"></param>
         /// <returns></returns>
-        protected override bool AnalysisCodes(InterfaceModel interfaceModel, string code, string[] codes, int currentLine)
+        protected override bool AnalysisCodes(CSharpCodeFileModel cSharpCodeFileModel, string code, string[] codes, int currentLine)
         {
             if (!code.StartsWith("using ")) return true;
             string usingCode = code[6..^1];
-            interfaceModel.Usings.Add(usingCode);
+            cSharpCodeFileModel.Usings.Add(usingCode);
             return false;
         }
     }

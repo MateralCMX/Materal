@@ -1,8 +1,10 @@
 ﻿using Materal.Abstractions;
+using Materal.Extensions;
 using Materal.Logger.ConfigModels;
+using Materal.Logger.ConsoleLogger;
+using Materal.Logger.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace RC.ConfigClient.Demo
 {

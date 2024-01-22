@@ -2,7 +2,6 @@
 
 namespace Materal.BaseCore.AutoDITest
 {
-    [UsesVerify]
     public class GeneratorTests
     {
         [Fact]

@@ -8,11 +8,11 @@
         /// <summary>
         /// 每页数量
         /// </summary>
-        public int PageSize { get; set; }
+        public long PageSize { get; set; }
         /// <summary>
         /// 页码
         /// </summary>
-        public int PageIndex { get; set; }
+        public long PageIndex { get; set; }
         /// <summary>
         /// 唯一标识组
         /// </summary>

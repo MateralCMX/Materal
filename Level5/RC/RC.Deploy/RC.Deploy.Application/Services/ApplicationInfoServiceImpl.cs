@@ -130,7 +130,7 @@ namespace RC.Deploy.Application.Services
                 .. allApplications.Where(m => targetApplicationIDs.Contains(m.ApplicationInfo.ID)).OrderBy(m => m.ApplicationInfo.MainModule),
             ];
             PageModel pageInfo = new(model, allApplications.Count);
-            allApplications = allApplications.Skip(model.Skip).Take(model.Take).ToList();
+            allApplications = allApplications.Skip(model.SkipInt).Take(model.TakeInt).ToList();
             List<ApplicationInfoListDTO> result = Mapper.Map<List<ApplicationInfoListDTO>>(allApplications);
             return Task.FromResult((result, pageInfo));
         }
