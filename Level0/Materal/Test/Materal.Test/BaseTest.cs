@@ -6,12 +6,14 @@ namespace Materal.Test
     {
         private readonly IServiceCollection _serviceCollection;
         protected IServiceProvider Services;
+        protected readonly IConfigurationRoot Configuration;
         protected BaseTest()
         {
             _serviceCollection = new ServiceCollection();
             PageRequestModel.PageStartNumber = 1;
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            ConfigurationBuilder configurationBuilder = new();
             AddConfig(configurationBuilder);
+            Configuration = configurationBuilder.Build();
             HttpMessageHandler handler = new HttpClientHandler()
             {
                 ServerCertificateCustomValidationCallback = (request, ceti, chain, errors) => true
@@ -19,6 +21,7 @@ namespace Materal.Test
             HttpClient httpClient = new(handler);
             _serviceCollection.TryAddSingleton(httpClient);
             _serviceCollection.AddMateralUtils();
+            _serviceCollection.AddOptions();
             AddServices(_serviceCollection);
             MateralServices.Services = _serviceCollection.BuildServiceProvider();
             Services = MateralServices.Services;

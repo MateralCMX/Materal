@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MateralTest</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            margin: 0;
+            padding: 0;
+        }
+
+        a {
+            color: #000000;
+        }
+
+        a:hover {
+            color: #0000FF;
+        }
+
+        .test_group {
+            margin-top: 15px;
+            border: 1px solid #000000;
+            padding: 15px;
+        }
+
+        .title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .item {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <a href="../../Index.html">主页</a>
+        <a href="../Index.html">工具测试</a>
+        <a href="Index.html">云存储测试</a>
+    </div>
+    <div class="test_group">
+        <div class="title">SDK下载地址</div>
+        <div class="item">
+            <a href="https://github.com/tencentyun/cos-js-sdk-v5/blob/master/dist/cos-js-sdk-v5.min.js"
+                target="_blank">GitHub</a>
+            <a href="https://cdn.jsdelivr.net/npm/cos-js-sdk-v5/dist/cos-js-sdk-v5.min.js" target="_blank">NPM</a>
+            <a href="cos-js-sdk-v5.min.js" target="_blank">本地(当前页面使用的)</a>
+        </div>
+    </div>
+    <div class="test_group">
+        <div class="title">上传文件测试</div>
+        <div class="item">
+            <input type="file" id="uploadFile" />
+        </div>
+        <div class="item">
+            <button onclick="uploadFile()">上传</button>
+        </div>
+    </div>
+</body>
+<script src="cos-js-sdk-v5.min.js"></script>
+<script>
+    const cos = new COS({
+        // getAuthorization 必选参数
+        getAuthorization: function (options, callback) {
+            callback({
+                TmpSecretId: 'AKIDbSvagexEy0XHDIm1jvFLONa5E0vWt69LSTW6atb-eyjQ9_WxBvKG4JAmMrcRkw50',
+                TmpSecretKey: 'zTLgBKSVws/JujeLt84PYlqVBTfsLMntSYwuIlbvZsY=',
+                SecurityToken: 'FIkdXk2xEE3VpJezXfZiPcQgiW7Prrqa5f6641c141712f1645a269eb09b1c142ZXphH27WSTmKHigmxiOaBnZsok12j0G-V7zoWxHiOnNGmeK4geiaHGoi4wzaEtkG0iMDTGC72NI_cpo5qoBMHNWc0GIi21iSXupyHxkvyToTq83DysjsIvtD_dttpi4pLoXKCsnftVu8cLW_Z4W5NTUhBBMulbCys7M96UHQBwto7S__vvdBAGycRT28wm33ktHpSsf1cR1bPWMQdXliCYJGNVH_WnZkUZulgzdEkBJM9TfvREts1JL9TEF2eu91oWH-ioFnjhzNrC9EffXkgmBGxrd4GX7jJ2sgxucMWeG0OqJF6zW-A0Uq8xG4hCATKSKVYoMHjlUlECxF5QlmILlR1M7PKb6mdXaHj9g6KhVm6rAeW3Oer7UXgkE5Gil7fyi3otQtpePT9MyIPZ8Xpb820RNV1QaDAc4poP5Wj-joy1GBAkUrzGed_Of2tLSEiCM5ELXsef-e-QEsHlUM-X6QDJONV4df-IsfIMDX8SwdFthIAmb-BSOfcUc7NAFvpmvbNkXtjQDDhIglM-zqazDgWQBPGf6ylJMsQ14YMlJF1lcD9Qr1N8gE6ZIlRlUiLiXUkrsJsrvW3Xs8K-7o4g',
+                StartTime: 1705893818,
+                ExpiredTime: 1705894418
+            });
+        }
+    });
+    function uploadFile() {
+        const uploadFileElement = document.getElementById('uploadFile');
+        const fileObject = uploadFileElement.files[0];
+        cos.uploadFile({
+            Bucket: 'xmjcos-1300073491', /* 填入您自己的存储桶，必须字段 */
+            Region: 'ap-guangzhou',  /* 存储桶所在地域，例如ap-beijing，必须字段 */
+            Key: fileObject.name,  /* 存储在桶里的对象键（例如1.jpg，a/b/test.txt），必须字段 */
+            Body: fileObject, /* 必须，上传文件对象，可以是input[type="file"]标签选择本地文件后得到的file对象 */
+            SliceSize: 1024 * 1024 * 5,     /* 触发分块上传的阈值，超过5MB使用分块上传，非必须 */
+            onTaskReady: function (taskId) {                   /* 非必须 */
+                console.log(taskId);
+            },
+            onProgress: function (progressData) {           /* 非必须 */
+                console.log(JSON.stringify(progressData));
+            },
+            onFileFinish: function (err, data, options) {   /* 非必须 */
+                console.log(options.Key + '上传' + (err ? '失败' : '完成'));
+            }
+        }, function (err, data) {
+            console.log(err || data);
+        });
+    }
+</script>
+
+</html>
