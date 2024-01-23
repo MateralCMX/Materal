@@ -9,16 +9,6 @@
 		<IsPublish>true</IsPublish>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="Properties\launchSettings.json" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Content Include="Properties\launchSettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
-	</ItemGroup>
-	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -31,14 +21,8 @@
 		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="1.1.74" />
 		<PackageReference Include="Materal.MergeBlock.Consul" Version="1.1.74" />
 		<PackageReference Include="Materal.MergeBlock.EventBus" Version="1.1.74" />
-		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" Version="*" />-->
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.ServerCenter.Application\RC.ServerCenter.Application.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Update="appsetting.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
 	</ItemGroup>
 </Project>

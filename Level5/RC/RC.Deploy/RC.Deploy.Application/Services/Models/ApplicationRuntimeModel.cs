@@ -1,5 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.Utils.Windows;
+﻿using Materal.Utils.Windows;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using RC.Deploy.Application.Hubs;

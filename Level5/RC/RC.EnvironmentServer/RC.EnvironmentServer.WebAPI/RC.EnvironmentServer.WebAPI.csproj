@@ -21,14 +21,8 @@
 		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="1.1.74" />
 		<PackageReference Include="Materal.MergeBlock.Consul" Version="1.1.74" />
 		<PackageReference Include="Materal.MergeBlock.EventBus" Version="1.1.74" />
-		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" Version="*" />-->
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.EnvironmentServer.Application\RC.EnvironmentServer.Application.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Update="appsetting.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
 	</ItemGroup>
 </Project>

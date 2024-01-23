@@ -44,8 +44,13 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="enum"></param>
         private void GeneratorEnumController(EnumModel @enum, StringBuilder codeContent)
         {
+            string annotation = $"        /// 获取所有{@enum.Annotation}";
+            if(!annotation.EndsWith("枚举"))
+            {
+                annotation += "枚举";
+            }
             codeContent.AppendLine($"        /// <summary>");
-            codeContent.AppendLine($"        /// 获取所有{@enum.Annotation}枚举");
+            codeContent.AppendLine(annotation);
             codeContent.AppendLine($"        /// </summary>");
             codeContent.AppendLine($"        /// <returns></returns>");
             codeContent.AppendLine($"        [HttpGet]");

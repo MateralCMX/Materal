@@ -1,5 +1,4 @@
-﻿using Materal.Abstractions;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using RC.Deploy.Abstractions.DTO.ApplicationInfo;
 using RC.Deploy.Abstractions.Services.Models.ApplicationInfo;

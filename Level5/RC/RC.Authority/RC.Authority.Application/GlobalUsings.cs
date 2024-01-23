@@ -1,4 +1,5 @@
 ﻿global using AutoMapper;
+global using Materal.Extensions;
 global using Materal.MergeBlock.Abstractions;
 global using Materal.MergeBlock.Application.Controllers;
 global using Materal.MergeBlock.Application.Services;

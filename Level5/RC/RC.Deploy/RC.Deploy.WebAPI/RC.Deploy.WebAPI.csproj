@@ -6,6 +6,7 @@
 		<InvariantGlobalization>true</InvariantGlobalization>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsPublish>true</IsPublish>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*">
@@ -18,17 +19,10 @@
 		<PackageReference Include="Materal.MergeBlock.Authorization" Version="1.1.74" />
 		<PackageReference Include="Materal.MergeBlock.DependencyInjection" Version="1.1.74" />
 		<PackageReference Include="Materal.MergeBlock.AccessLog" Version="1.1.74" />
-		<!--<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="*" />-->
-		<!--<PackageReference Include="Materal.MergeBlock.Consul" Version="*" />-->
-		<!--<PackageReference Include="Materal.MergeBlock.EventBus" Version="*" />-->
-		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" Version="*" />-->
+		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="1.1.74" />
+		<PackageReference Include="Materal.MergeBlock.Consul" Version="1.1.74" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.Deploy.Application\RC.Deploy.Application.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Update="appsetting.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
 	</ItemGroup>
 </Project>

@@ -1,8 +1,13 @@
 ﻿{
   "Consul": {
-    "Enable": false,
+    "Enable": true,
     "ServiceName": "MergeBlock_TestAPI",
     "Tags": [ "Materal", "Materal.MergeBlock", "Materal.MergeBlock.TestModule" ],
+    "ConsulUrl": {
+      "Host": "127.0.0.1",
+      "Port": 8500,
+      "IsSSL": false
+    },
     "ServiceUrl": {
       "Host": "localhost",
       "Port": 5000,

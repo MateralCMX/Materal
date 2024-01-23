@@ -70,7 +70,7 @@ namespace MateralPublish.Models
                 try
                 {
 #if DEBUG
-                    if (project is not ProjectModels.Level0.MateralProjectModel) continue;
+                    //if (project is not ProjectModels.Level0.MateralProjectModel) continue;
                     //if (project is not ProjectModels.Level0.ToolsProjectModel) continue;
                     //if (project is not ProjectModels.Level1.LoggerProjectModel) continue;
                     //if (project is not ProjectModels.Level2.TFMSProjectModel) continue;
@@ -79,7 +79,7 @@ namespace MateralPublish.Models
                     //if (project is not ProjectModels.Level4.BaseCoreProjectModel) continue;
                     //if (project is not ProjectModels.Level4.MergeBlockProjectModel) continue;
                     //if (project is not ProjectModels.Level5.GatewayProjectModel) continue;
-                    //if (project is not ProjectModels.Level5.RCProjectModel) continue;
+                    if (project is not ProjectModels.Level5.RCProjectModel) continue;
 #endif
                     await project.PublishAsync(version);
                 }
