@@ -10,7 +10,7 @@ namespace RC.EnvironmentServer.Abstractions.Domain
         /// <summary>
         /// 项目唯一标识
         /// </summary>
-        [NotEdit]
+        [NotAdd, NotEdit]
         [Required(ErrorMessage = "项目唯一标识为空")]
         [Equal]
         public Guid ProjectID { get; set; }
@@ -44,11 +44,13 @@ namespace RC.EnvironmentServer.Abstractions.Domain
         /// <summary>
         /// 值
         /// </summary>
+        [NotQuery]
         [Required(ErrorMessage = "值为空")]
         public string Value { get; set; } = string.Empty;
         /// <summary>
         /// 描述
         /// </summary>
+        [NotQuery]
         [Required(ErrorMessage = "描述为空"), StringLength(200, ErrorMessage = "描述过长")]
         public string Description { get; set; } = string.Empty;
     }

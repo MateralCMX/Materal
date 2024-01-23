@@ -1,4 +1,5 @@
 ﻿using RC.ServerCenter.Abstractions.DTO.Server;
+using RC.ServerCenter.Abstractions.RequestModel.Server;
 
 namespace RC.ServerCenter.Abstractions.HttpClient
 {

@@ -16,26 +16,17 @@ namespace RC.EnvironmentServer.Application.Services
         /// <summary>
         /// 添加配置项
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        /// <exception cref="RCException"></exception>
-        public override async Task<Guid> AddAsync(AddConfigurationItemModel model)
-        {
-            if (await DefaultRepository.ExistedAsync(m => m.NamespaceID == model.NamespaceID && m.ProjectID == model.ProjectID && m.Key == model.Key)) throw new RCException("键重复");
-            return await base.AddAsync(model);
-        }
-        /// <summary>
-        /// 添加配置项
-        /// </summary>
         /// <param name="domain"></param>
         /// <param name="model"></param>
         /// <returns></returns>
         /// <exception cref="RCException"></exception>
         protected override async Task<Guid> AddAsync(ConfigurationItem domain, AddConfigurationItemModel model)
         {
-            ProjectListDTO project = await projectHttpClient.FirstOrDefaultAsync(model.ProjectID) ?? throw new RCException("项目不存在");
             NamespaceListDTO @namespace = await namespaceHttpClient.FirstOrDefaultAsync(model.NamespaceID) ?? throw new RCException("命名空间不存在");
+            if (await DefaultRepository.ExistedAsync(m => m.NamespaceID == model.NamespaceID && m.ProjectID == @namespace.ProjectID && m.Key == model.Key)) throw new RCException("键重复");
+            ProjectListDTO project = await projectHttpClient.FirstOrDefaultAsync(@namespace.ProjectID) ?? throw new RCException("项目不存在");
             domain.NamespaceName = @namespace.Name;
+            domain.ProjectID = project.ID;
             domain.ProjectName = project.Name;
             return await base.AddAsync(domain, model);
         }

@@ -6,11 +6,6 @@
     public partial class AddConfigurationItemRequestModel : IAddRequestModel
     {
         /// <summary>
-        /// 项目唯一标识
-        /// </summary>
-        [Required(ErrorMessage = "项目唯一标识为空")]
-        public Guid ProjectID { get; set; }
-        /// <summary>
         /// 命名空间唯一标识
         /// </summary>
         [Required(ErrorMessage = "命名空间唯一标识为空")]

@@ -22,7 +22,7 @@ namespace RC.Authority.Abstractions.Domain
         /// <summary>
         /// 密码
         /// </summary>
-        [NotDTO, NotListDTO, NotAdd, NotEdit]
+        [NotDTO, NotListDTO, NotAdd, NotEdit, NotQuery]
         [Required(ErrorMessage = "密码为空"), StringLength(100, ErrorMessage = "密码最多32个字符")]
         public string Password { get; set; } = string.Empty;
     }

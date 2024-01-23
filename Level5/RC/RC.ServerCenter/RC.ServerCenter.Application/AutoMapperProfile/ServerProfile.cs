@@ -25,13 +25,13 @@ namespace RC.ServerCenter.Application.AutoMapperProfile
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public string GetDeployName(ConsulServiceModel model)
+        public static string GetDeployName(ConsulServiceModel model)
         {
             string result = string.IsNullOrWhiteSpace(model.Service) ? "未知服务" : model.Service;
             if (model.Tags == null || model.Tags.Length == 0) return result;
             foreach (string item in model.Tags)
             {
-                if (item == "MateralCore" || item == "RC.Deploy") continue;
+                if (item == "Materal" || item == "Materal.MergeBlock" || item == "RC" || item == "RC.Deploy") continue;
                 return item;
             }
             return result;
@@ -41,13 +41,13 @@ namespace RC.ServerCenter.Application.AutoMapperProfile
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public string GetEnvironmentServerName(ConsulServiceModel model)
+        public static string GetEnvironmentServerName(ConsulServiceModel model)
         {
             string result = string.IsNullOrWhiteSpace(model.Service) ? "未知服务" : model.Service;
             if (model.Tags == null || model.Tags.Length == 0) return result;
             foreach (string item in model.Tags)
             {
-                if (item == "MateralCore" || item == "RC.EnvironmentServer") continue;
+                if (item == "Materal" || item == "Materal.MergeBlock" || item == "RC" || item == "RC.EnvironmentServer") continue;
                 return item;
             }
             return result;

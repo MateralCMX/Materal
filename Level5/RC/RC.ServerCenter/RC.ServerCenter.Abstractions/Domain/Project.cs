@@ -17,6 +17,7 @@ namespace RC.ServerCenter.Abstractions.Domain
         /// <summary>
         /// 描述
         /// </summary>
+        [NotQuery]
         [Required(ErrorMessage = "描述为空"), StringLength(200, ErrorMessage = "描述过长")]
         public string Description { get; set; } = string.Empty;
     }

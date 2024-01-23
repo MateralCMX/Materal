@@ -14,10 +14,6 @@
         /// </summary>
         public string? Account { get; set; }
         /// <summary>
-        /// 密码
-        /// </summary>
-        public string? Password { get; set; }
-        /// <summary>
         /// 唯一标识组
         /// </summary>
         public List<Guid>? IDs { get; set; }

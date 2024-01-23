@@ -1,6 +1,7 @@
 ﻿using Materal.MergeBlock.Abstractions.Config;
 using Materal.MergeBlock.Repository;
 using Materal.TFMS.EventBus;
+using Materal.Utils.Consul.ConfigModels;
 using Microsoft.Extensions.Options;
 using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
 using RC.EnvironmentServer.Abstractions.Enums;
@@ -11,7 +12,7 @@ namespace RC.EnvironmentServer.Application.EventHandlers
     /// <summary>
     /// 同步配置事件处理器
     /// </summary>
-    public class SyncConfigEventHandler(IOptionsMonitor<MergeBlockConfig> config, IMapper mapper, IMergeBlockUnitOfWork unitOfWork, IConfigurationItemRepository configurationItemRepository) : IIntegrationEventHandler<SyncConfigEvent>
+    public class SyncConfigEventHandler(IOptionsMonitor<ConsulConfigModel> config, IMapper mapper, IMergeBlockUnitOfWork unitOfWork, IConfigurationItemRepository configurationItemRepository) : IIntegrationEventHandler<SyncConfigEvent>
     {
         private static readonly object _syncLockObj = new();
         /// <summary>
@@ -21,7 +22,7 @@ namespace RC.EnvironmentServer.Application.EventHandlers
         /// <returns></returns>
         public async Task HandleAsync(SyncConfigEvent @event)
         {
-            if (@event.TargetEnvironments.Length == 0 || !@event.TargetEnvironments.Contains(config.CurrentValue.ApplicationName)) return;
+            if (@event.TargetEnvironments.Length == 0 || !@event.TargetEnvironments.Contains(config.CurrentValue.ServiceName)) return;
             lock (_syncLockObj)
             {
                 switch (@event.Mode)
@@ -34,7 +35,7 @@ namespace RC.EnvironmentServer.Application.EventHandlers
                         break;
                     case SyncModeEnum.Cover:
                         List<Guid> projectIDs = @event.ConfigurationItems.Select(m => m.ProjectID).Distinct().ToList();
-                        if (projectIDs.Count > 0) break;
+                        if (projectIDs.Count > 1) break;
                         ClearItemsByProjectID(projectIDs.First());
                         AddItems(@event.ConfigurationItems);
                         break;
