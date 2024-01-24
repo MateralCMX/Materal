@@ -17,18 +17,18 @@ namespace RC.Deploy.Application.Services.ApplicationHandlers
         /// </summary>
         /// <param name="applicationRuntime"></param>
         /// <returns></returns>
-        void StartApplication(ApplicationRuntimeModel applicationRuntime);
+        Task StartApplicationAsync(ApplicationRuntimeModel applicationRuntime);
         /// <summary>
         /// 关闭应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
         /// <returns></returns>
-        void StopApplication(ApplicationRuntimeModel applicationRuntime);
+        Task StopApplicationAsync(ApplicationRuntimeModel applicationRuntime);
         /// <summary>
         /// 杀死应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
         /// <returns></returns>
-        void KillApplication(ApplicationRuntimeModel applicationRuntime);
+        Task KillApplicationAsync(ApplicationRuntimeModel applicationRuntime);
     }
 }

@@ -10,8 +10,7 @@ namespace RC.Deploy.Application.Services
     /// <summary>
     /// 应用程序信息服务
     /// </summary>
-    /// <param name="config"></param>
-    public partial class ApplicationInfoServiceImpl(IOptionsMonitor<ApplicationConfig> config)
+    public partial class ApplicationInfoServiceImpl(IServiceProvider serviceProvider, IOptionsMonitor<ApplicationConfig> config)
     {
         static ApplicationInfoServiceImpl()
         {
@@ -23,7 +22,7 @@ namespace RC.Deploy.Application.Services
             List<ApplicationInfo> allApplicationInfos = applicationInfoRepository.Find(m => true, m => m.Name, SortOrderEnum.Ascending);
             foreach (ApplicationInfo applicationInfo in allApplicationInfos)
             {
-                ApplicationRuntimeModel model = new(applicationInfo, config);
+                ApplicationRuntimeModel model = new(services, applicationInfo, config);
                 ApplicationRuntimeHost.ApplicationRuntimes.TryAdd(applicationInfo.ID, model);
             }
         }
@@ -48,7 +47,7 @@ namespace RC.Deploy.Application.Services
         protected override async Task<Guid> AddAsync(ApplicationInfo domain, AddApplicationInfoModel model)
         {
             Guid result = await base.AddAsync(domain, model);
-            ApplicationRuntimeHost.ApplicationRuntimes.TryAdd(result, new ApplicationRuntimeModel(domain, config));
+            ApplicationRuntimeHost.ApplicationRuntimes.TryAdd(result, new ApplicationRuntimeModel(serviceProvider, domain, config));
             return result;
         }
         /// <summary>
@@ -229,10 +228,10 @@ namespace RC.Deploy.Application.Services
         /// 杀死程序
         /// </summary>
         /// <param name="id"></param>
-        public void Kill([Required(ErrorMessage = "唯一标识为空")] Guid id)
+        public async Task KillAsync([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
             if (!ApplicationRuntimeHost.ApplicationRuntimes.TryGetValue(id, out ApplicationRuntimeModel? value)) throw new RCException("应用程序信息不存在");
-            value.Kill();
+            await value.KillAsync();
         }
         /// <summary>
         /// 启动所有

@@ -12,7 +12,7 @@ namespace RC.Deploy.Application.Services.Models
     /// <summary>
     /// 应用程序模型
     /// </summary>
-    public class ApplicationRuntimeModel(ApplicationInfo applicationInfo, IOptionsMonitor<ApplicationConfig> applicationConfig)
+    public class ApplicationRuntimeModel(IServiceProvider serviceProvider, ApplicationInfo applicationInfo, IOptionsMonitor<ApplicationConfig> applicationConfig)
     {
         /// <summary>
         /// 任务队列
@@ -22,7 +22,7 @@ namespace RC.Deploy.Application.Services.Models
         /// <summary>
         /// 应用程序处理器
         /// </summary>
-        private IApplicationHandler _applicationHandler = applicationInfo.ApplicationType.GetApplicationHandler();
+        private IApplicationHandler _applicationHandler = applicationInfo.ApplicationType.GetApplicationHandler(serviceProvider);
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -40,7 +40,7 @@ namespace RC.Deploy.Application.Services.Models
             {
                 if (ApplicationStatus != ApplicationStatusEnum.Stop) throw new RCException("应用程序尚未停止");
                 applicationInfo = value;
-                _applicationHandler = applicationInfo.ApplicationType.GetApplicationHandler();
+                _applicationHandler = applicationInfo.ApplicationType.GetApplicationHandler(serviceProvider);
             }
         }
         /// <summary>
@@ -65,7 +65,7 @@ namespace RC.Deploy.Application.Services.Models
         public void ExecuteStartTask() => _taskQueue.Post(new ApplicationTask
         {
             Application = this,
-            TargetAction = Start
+            TargetTask = StartAsync
         });
         /// <summary>
         /// 执行关闭任务
@@ -73,7 +73,7 @@ namespace RC.Deploy.Application.Services.Models
         public void ExecuteStopTask() => _taskQueue.Post(new ApplicationTask
         {
             Application = this,
-            TargetAction = Stop
+            TargetTask = StopAsync
         });
         /// <summary>
         /// 执行应用最后一个文件任务
@@ -81,7 +81,7 @@ namespace RC.Deploy.Application.Services.Models
         public void ExecuteApplyLatestFileTask() => _taskQueue.Post(new ApplicationTask
         {
             Application = this,
-            TargetAction = () => { ApplyFile(); }
+            TargetAction = () => ApplyFile()
         });
         /// <summary>
         /// 执行应用文件任务
@@ -89,12 +89,12 @@ namespace RC.Deploy.Application.Services.Models
         public void ExecuteApplyFileTask(string fileName) => _taskQueue.Post(new ApplicationTask
         {
             Application = this,
-            TargetAction = () => { ApplyFile(fileName); }
+            TargetAction = () => ApplyFile(fileName)
         });
         /// <summary>
         /// 杀死程序
         /// </summary>
-        public void Kill() => _applicationHandler.KillApplication(this);
+        public async Task KillAsync() => await _applicationHandler.KillApplicationAsync(this);
         /// <summary>
         /// 添加控制台消息
         /// </summary>
@@ -149,12 +149,12 @@ namespace RC.Deploy.Application.Services.Models
         /// 启动
         /// </summary>
         /// <exception cref="RCException"></exception>
-        private void Start() => _applicationHandler.StartApplication(this);
+        private async Task StartAsync() => await _applicationHandler.StartApplicationAsync(this);
         /// <summary>
         /// 停止
         /// </summary>
         /// <exception cref="RCException"></exception>
-        private void Stop() => _applicationHandler.StopApplication(this);
+        private async Task StopAsync() => await _applicationHandler.StopApplicationAsync(this);
         /// <summary>
         /// 更新最新的文件
         /// </summary>
@@ -286,7 +286,7 @@ namespace RC.Deploy.Application.Services.Models
                 {
                     await task.TargetTask.Invoke();
                 }
-                task.TargetAction?.Invoke();
+                 task.TargetAction?.Invoke();
             }
             catch (Exception ex)
             {

@@ -9,13 +9,14 @@
         /// 获得应用程序处理器
         /// </summary>
         /// <param name="applicationType"></param>
+        /// <param name="serviceProvider"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public static IApplicationHandler GetApplicationHandler(this ApplicationTypeEnum applicationType) => applicationType switch
+        public static IApplicationHandler GetApplicationHandler(this ApplicationTypeEnum applicationType, IServiceProvider serviceProvider) => applicationType switch
         {
-            ApplicationTypeEnum.StaticDocument => new StaticDocumentApplicationHandler(),
-            ApplicationTypeEnum.Exe => new ExeApplicationHandler(),
-            ApplicationTypeEnum.DotNet => new DotNetApplicationHandler(),
+            ApplicationTypeEnum.StaticDocument => typeof(StaticDocumentApplicationHandler).Instantiation<IApplicationHandler>(serviceProvider),
+            ApplicationTypeEnum.Exe => typeof(ExeApplicationHandler).Instantiation<IApplicationHandler>(serviceProvider),
+            ApplicationTypeEnum.DotNet => typeof(DotNetApplicationHandler).Instantiation<IApplicationHandler>(serviceProvider),
             _ => throw new ArgumentOutOfRangeException(nameof(applicationType), applicationType, null),
         };
     }

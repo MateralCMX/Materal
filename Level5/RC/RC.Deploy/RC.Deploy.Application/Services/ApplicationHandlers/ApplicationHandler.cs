@@ -16,29 +16,30 @@ namespace RC.Deploy.Application.Services.ApplicationHandlers
         /// 启动应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
-        public abstract void StartApplication(ApplicationRuntimeModel applicationRuntime);
+        public abstract Task StartApplicationAsync(ApplicationRuntimeModel applicationRuntime);
         /// <summary>
         /// 停止应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
-        public abstract void StopApplication(ApplicationRuntimeModel applicationRuntime);
+        public abstract Task StopApplicationAsync(ApplicationRuntimeModel applicationRuntime);
         /// <summary>
         /// 杀死应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
-        public virtual void KillApplication(ApplicationRuntimeModel applicationRuntime)
+        public virtual async Task KillApplicationAsync(ApplicationRuntimeModel applicationRuntime)
         {
             if (applicationRuntime.ApplicationStatus == ApplicationStatusEnum.Stop) throw new RCException("应用程序尚未启动");
             KillProcess();
             applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Stop;
             applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}已强制停止");
+            await Task.CompletedTask;
         }
         /// <summary>
         /// 停止应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
         /// <param name="applicationType"></param>
-        protected virtual void StopApplication(ApplicationRuntimeModel applicationRuntime, ApplicationTypeEnum applicationType)
+        protected virtual async Task StopApplicationAsync(ApplicationRuntimeModel applicationRuntime, ApplicationTypeEnum applicationType)
         {
             if (applicationRuntime.ApplicationInfo.ApplicationType != applicationType) throw new RCException("处理器类型错误");
             applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}准备停止");
@@ -54,6 +55,7 @@ namespace RC.Deploy.Application.Services.ApplicationHandlers
                 applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Runing;
                 applicationRuntime.AddConsoleMessage(ex.GetErrorMessage());
             }
+            await Task.CompletedTask;
         }
         /// <summary>
         /// 关闭进程

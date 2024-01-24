@@ -12,26 +12,23 @@ namespace RC.Deploy.Application.Services.ApplicationHandlers
         /// 启动应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
-        public override void StartApplication(ApplicationRuntimeModel applicationRuntime)
+        public override async Task StartApplicationAsync(ApplicationRuntimeModel applicationRuntime)
         {
             string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application", applicationRuntime.ApplicationInfo.RootPath, $"{applicationRuntime.ApplicationInfo.MainModule}");
-            StartApplication(applicationRuntime, exePath, applicationRuntime.ApplicationInfo.RunParams);
+            await StartApplicationAsync(applicationRuntime, exePath, applicationRuntime.ApplicationInfo.RunParams);
         }
         /// <summary>
         /// 停止应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
-        public override void StopApplication(ApplicationRuntimeModel applicationRuntime)
-        {
-            StopApplication(applicationRuntime, ApplicationTypeEnum.Exe);
-        }
+        public override async Task StopApplicationAsync(ApplicationRuntimeModel applicationRuntime) => await StopApplicationAsync(applicationRuntime, ApplicationTypeEnum.Exe);
         /// <summary>
         /// 开始一个应用程序
         /// </summary>
         /// <param name="applicationRuntime"></param>
         /// <param name="exePath"></param>
         /// <param name="runParams"></param>
-        public virtual void StartApplication(ApplicationRuntimeModel applicationRuntime, string exePath, string? runParams)
+        public virtual async Task StartApplicationAsync(ApplicationRuntimeModel applicationRuntime, string exePath, string? runParams)
         {
             if (!exePath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)) throw new RCException("主模块必须以.exe结尾");
             if (applicationRuntime.ApplicationStatus != ApplicationStatusEnum.Stop) throw new RCException("应用程序尚未停止");
@@ -67,6 +64,7 @@ namespace RC.Deploy.Application.Services.ApplicationHandlers
                 applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Stop;
                 applicationRuntime.AddConsoleMessage(ex.GetErrorMessage());
             }
+            await Task.CompletedTask;
         }
         private static ProcessStartInfo GetProcessStartInfo(ApplicationRuntimeModel applicationRuntime, string processPath, string arg)
         {

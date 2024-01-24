@@ -44,8 +44,9 @@ namespace RC.Deploy.Abstractions.Controllers
         /// 杀死程序
         /// </summary>
         /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
-        ResultModel Kill(Guid id);
+        Task<ResultModel> KillAsync(Guid id);
         /// <summary>
         /// 全部启动
         /// </summary>

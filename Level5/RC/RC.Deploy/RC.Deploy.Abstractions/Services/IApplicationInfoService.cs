@@ -59,7 +59,7 @@ namespace RC.Deploy.Abstractions.Services
         /// <param name="id"></param>
         /// <returns></returns>
         [MapperController(MapperType.Post)]
-        void Kill(Guid id);
+        Task KillAsync(Guid id);
         /// <summary>
         /// 全部启动
         /// </summary>

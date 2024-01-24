@@ -65,10 +65,11 @@ namespace RC.Deploy.Application.Controllers
         /// 杀死程序
         /// </summary>
         /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ResultModel Kill(Guid id)
+        public async Task<ResultModel> KillAsync(Guid id)
         {
-            DefaultService.Kill(id);
+            await DefaultService.KillAsync(id);
             return ResultModel.Success("杀死程序成功");
         }
         /// <summary>

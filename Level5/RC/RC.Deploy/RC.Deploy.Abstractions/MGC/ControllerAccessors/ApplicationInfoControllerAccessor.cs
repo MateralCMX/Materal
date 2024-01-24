@@ -58,8 +58,8 @@ namespace RC.Deploy.Abstractions.HttpClient
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public ResultModel Kill(Guid id)
-            => HttpHelper.SendAsync<IApplicationInfoController, ResultModel>(ProjectName, ModuleName, nameof(Kill), new() {[nameof(id)] = id.ToString()}).Result;
+        public async Task<ResultModel> KillAsync(Guid id)
+            => await HttpHelper.SendAsync<IApplicationInfoController, ResultModel>(ProjectName, ModuleName, nameof(KillAsync), new() {[nameof(id)] = id.ToString()});
         /// <summary>
         /// 全部启动
         /// </summary>
