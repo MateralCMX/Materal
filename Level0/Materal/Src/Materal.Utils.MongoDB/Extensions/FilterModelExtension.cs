@@ -1,5 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace Materal.Utils.MongoDB.Extensions
 {
@@ -18,11 +20,18 @@ namespace Materal.Utils.MongoDB.Extensions
         {
             if (filterModel.SortPropertyName is null || string.IsNullOrWhiteSpace(filterModel.SortPropertyName)) return null;
             Type tType = typeof(T);
-            PropertyInfo? propertyInfo = tType.GetProperty(filterModel.SortPropertyName);
-            if (propertyInfo is null) return null;
-            if(filterModel.IsAsc) return Builders<T>.Sort.Ascending(propertyInfo.Name);
-            else return Builders<T>.Sort.Descending(propertyInfo.Name);
-
+            if (tType != typeof(BsonDocument))
+            {
+                PropertyInfo? propertyInfo = tType.GetProperty(filterModel.SortPropertyName);
+                if (propertyInfo is null) return null;
+                if (filterModel.IsAsc) return Builders<T>.Sort.Ascending(propertyInfo.Name);
+                else return Builders<T>.Sort.Descending(propertyInfo.Name);
+            }
+            else
+            {
+                if (filterModel.IsAsc) return Builders<T>.Sort.Ascending(filterModel.SortPropertyName);
+                else return Builders<T>.Sort.Descending(filterModel.SortPropertyName);
+            }
         }
         /// <summary>
         /// 获取搜索过滤器
