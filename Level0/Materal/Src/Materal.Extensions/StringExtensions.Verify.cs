@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
 namespace Materal.Extensions
@@ -105,19 +107,30 @@ namespace Materal.Extensions
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static bool IsJson(this string obj) => IsObjectJson(obj) || IsArrayJson(obj);
+        public static bool IsJson(this string obj)
+        {
+            try
+            {
+                JsonDocument.Parse(obj);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// 验证输入字符串是否为Json对象
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static bool IsObjectJson(this string obj) => obj.StartsWith('{') && obj.EndsWith('}');
+        public static bool IsObjectJson(this string obj) => obj.StartsWith('{') && obj.EndsWith('}') && obj.IsJson();
         /// <summary>
         /// 验证输入字符串是否为Json数组
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static bool IsArrayJson(this string obj) => obj.StartsWith('[') && obj.EndsWith(']');
+        public static bool IsArrayJson(this string obj) => obj.StartsWith('[') && obj.EndsWith(']') && obj.IsJson();
         /// <summary>
         /// 验证输入字符串是否为Xml
         /// </summary>

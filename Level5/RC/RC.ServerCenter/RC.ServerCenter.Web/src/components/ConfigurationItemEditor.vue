@@ -1,3 +1,10 @@
+<style scoped>
+.monacoEditor {
+    width: 100%;
+    height: 100%;
+    min-height: 600px;
+}
+</style>
 <template>
     <a-spin :loading="isLoading" style="width: 100%;">
         <a-form ref="formRef" :model="formData">
@@ -14,7 +21,14 @@
                 </a-select>
             </a-form-item>
             <a-form-item field="Value" label="值" :rules="formRules.Value">
-                <a-textarea v-model="formData.Value" placeholder="请输入配置项值" allow-clear />
+                <vue-monaco-editor class="monacoEditor" v-model:value="formData.Value" :language="valueType" :options="{
+                    wordWrap: 'on',
+                    theme: 'vs',
+                    automaticLayout: true,
+                    minimap: {
+                        enabled: true
+                    }
+                }" />
             </a-form-item>
         </a-form>
     </a-spin>
@@ -25,13 +39,14 @@ import AddConfigurationItemModel from '../models/configurationItem/AddConfigurat
 import service from '../services/ConfigurationItemService';
 import { Form, Message } from '@arco-design/web-vue';
 import serverManagement from '../serverManagement';
+import VueMonacoEditor from '@guolao/vue-monaco-editor';
 
 const formRef = ref<InstanceType<typeof Form>>();
-const valueType = ref<string>('text');
 const props = defineProps({
     id: String,
     namespaceID: String
 });
+const valueType = ref<string>('text');
 defineExpose({
     saveAsync
 });
@@ -99,6 +114,12 @@ async function queryAsync() {
         if (!httpResult) return;
         formData.Key = httpResult.Key;
         formData.Value = httpResult.Value;
+        if (formData.Value && isJson(formData.Value)) {
+            valueType.value = 'json';
+        }
+        else {
+            valueType.value = 'text';
+        }
         formData.Description = httpResult.Description;
     } catch (error) {
         Message.error("获取配置项失败");
@@ -106,6 +127,14 @@ async function queryAsync() {
     finally {
         isLoading.value = false;
     }
+}
+function isJson(str: string) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
 onMounted(async () => {
     if (serverManagement.selectedEnvironmentServer) {

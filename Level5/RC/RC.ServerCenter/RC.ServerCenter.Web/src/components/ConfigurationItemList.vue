@@ -1,9 +1,15 @@
 <style scoped>
 .data-panel {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     justify-content: space-evenly;
     gap: 2rem;
+}
+
+.data-panel-value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 </style>
 <template>
@@ -48,6 +54,12 @@
                     </template>
                     <template #extra>
                         <a-button-group>
+                            <a-button type="text" @click="openSyncPanel(item.ID)" title="同步">
+                                <template #icon><icon-sync /></template>
+                            </a-button>
+                            <a-button type="text" @click="copyValue(item.ID)" title="复制值">
+                                <template #icon><icon-copy /></template>
+                            </a-button>
                             <a-button type="text" @click="openEditPanel(item.ID)" title="编辑">
                                 <template #icon><icon-edit /></template>
                             </a-button>
@@ -60,7 +72,10 @@
                         </a-button-group>
                     </template>
                     <div>
-                        {{ item.Value }}
+                        {{ item.Description }}
+                        <p class="data-panel-value">
+                            {{ item.Value }}
+                        </p>
                     </div>
                 </a-card>
             </div>
@@ -73,6 +88,19 @@
         </template>
         <ConfigurationItemEditor ref="configurationItemEditorRef" :id="editID" :namespace-i-d="queryData.NamespaceID" />
     </a-drawer>
+    <a-modal v-model:visible="syncPanelVisible" title="同步配置项" @cancel="() => syncPanelVisible = false" draggable
+        @before-ok="syncConfigurationItemAsync" :align-center="false" :top="150">
+        <a-form :model="syncFormData">
+            <a-form-item field="environmentServer" label="目标环境">
+                <a-select v-model="syncFormData.environmentServers" multiple :style="{ width: '320px' }">
+                    <a-option v-for="item in serverManagement.environmentServerList" :value="item.Service"
+                        :disabled="environmentServer == item.Service">
+                        {{ item.Name }}
+                    </a-option>
+                </a-select>
+            </a-form-item>
+        </a-form>
+    </a-modal>
 </template>
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
@@ -92,6 +120,7 @@ import serverManagement from '../serverManagement';
  */
 const isLoading = ref(false);
 const editPanelVisible = ref(false);
+const syncPanelVisible = ref(false);
 const configurationItemEditorRef = ref<InstanceType<typeof ConfigurationItemEditor>>();
 let projectID = ref("");
 const queryData = reactive<QueryConfigurationItemModel>({
@@ -100,6 +129,10 @@ const queryData = reactive<QueryConfigurationItemModel>({
     PageIndex: 1,
     PageSize: 99999
 });
+const syncFormData = reactive({
+    syncID: "",
+    environmentServers: [] as string[]
+});
 const dataList = ref<Array<ConfigurationItemDTO>>([]);
 const projectList = ref<Array<ProjectDTO>>([]);
 const namespaceList = ref<Array<NamespaceDTO>>([]);
@@ -107,6 +140,7 @@ const editID = ref<string | undefined>();
 const environmentServer = ref<string>();
 async function selectedEnvironmentServer() {
     serverManagement.checkEnvironmentServer(environmentServer.value);
+    syncFormData.environmentServers = [];
     await onQueryAsync();
 }
 async function onQueryAsync() {
@@ -142,6 +176,12 @@ async function deleteAsync(id: string) {
         isLoading.value = false;
     }
 }
+function copyValue(id: string) {
+    const item = dataList.value.find(x => x.ID === id);
+    if (!item) return;
+    navigator.clipboard.writeText(item.Value);
+    Message.success("复制成功");
+}
 function openEditPanel(id?: string) {
     editID.value = id;
     editPanelVisible.value = true;
@@ -151,12 +191,41 @@ async function onEditPanelOKAsync() {
     editPanelVisible.value = false;
     await queryAsync();
 }
+function openSyncPanel(id: string) {
+    syncFormData.syncID = id;
+    syncPanelVisible.value = true;
+}
+async function syncConfigurationItemAsync() {
+    if (syncFormData.environmentServers.length <= 0) {
+        Message.warning('请选择至少一个目标环境');
+        return false;
+    }
+    for (const environmentServer of syncFormData.environmentServers) {
+        service.serviceName = environmentServer;
+        const data = dataList.value.find(x => x.ID === syncFormData.syncID);
+        if (!data) continue;
+        const key = data.Key;
+        const httpResult = await service.GetListAsync({ Key: key, NamespaceID: queryData.NamespaceID, PageIndex: 1, PageSize: 1 });
+        if (!httpResult) continue;
+        if (httpResult.length > 0) {
+            service.EditAsync({ ID: httpResult[0].ID, Key: data.Key, Value: data.Value, Description: data.Description });
+        }
+        else {
+            service.AddAsync({ NamespaceID: data.NamespaceID, Key: data.Key, Value: data.Value, Description: data.Description });
+        }
+    }
+    Message.success('同步完毕');
+    return true;
+}
 async function onEditPanelCancelAsync() {
     editPanelVisible.value = false;
 }
 async function loadAllProjectAsync() {
     isLoading.value = true;
     try {
+        if (!serverManagement.selectedEnvironmentServer) {
+            await serverManagement.initAsync();
+        }
         environmentServer.value = serverManagement.selectedEnvironmentServer?.Service;
         const projectResult = await projectService.GetListAsync({ Name: "", PageIndex: 1, PageSize: 99999 });
         if (!projectResult) return;

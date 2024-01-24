@@ -65,8 +65,7 @@ const routes = {
     '/ProjectList': ProjectList,
     '/NamespaceList': NamespaceList,
     '/ConfigurationItemList': ConfigurationItemList,
-    '/SyncConfigurationItem': SyncConfigurationItem,
-    // '/tools': Tools
+    '/SyncConfigurationItem': SyncConfigurationItem
 };
 const currentPath = ref(window.location.hash);
 window.addEventListener('hashchange', () => {

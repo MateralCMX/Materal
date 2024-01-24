@@ -93,7 +93,7 @@ export default abstract class BaseService {
     private handlerHttpError(error: AxiosError) {
         if (!error.response) return;
         if (error.response.status == 401) {
-            window.location.hash = "/login";
+            window.location.hash = "/Login";
         }
     }
 }

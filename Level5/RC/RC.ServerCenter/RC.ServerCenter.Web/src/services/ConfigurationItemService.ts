@@ -25,5 +25,5 @@ class ConfigurationItemService extends BaseService {
         return await this.sendPutAsync("SyncConfig", null, requestModel);
     }
 }
-const service = new ConfigurationItemService("RCServerCenterAPI", "ConfigurationItem");
+const service = new ConfigurationItemService("", "ConfigurationItem");
 export default service;

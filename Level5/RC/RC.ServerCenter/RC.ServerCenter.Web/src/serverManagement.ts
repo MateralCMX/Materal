@@ -47,5 +47,4 @@ class ServerManagement {
     }
 }
 const serverManagement = new ServerManagement();
-await serverManagement.initAsync();
 export default serverManagement;

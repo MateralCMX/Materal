@@ -31,6 +31,7 @@ import { onMounted, reactive, ref } from 'vue';
 import loginManagement from '../loginManagement';
 import LoginRequestModel from '../models/user/LoginRequestModel';
 import userService from '../services/UserService';
+import serverManagement from '../serverManagement';
 
 /**
  * 加载数据标识
@@ -66,6 +67,7 @@ async function onLoginAsync() {
       return;
     }
     loginManagement.setToken(result.Token);
+    await serverManagement.initAsync();
     window.location.hash = "/";
   }
   catch {
@@ -77,4 +79,3 @@ onMounted(() => {
   loginManagement.loginOut();
 });
 </script>
-  ../models/user/LoginRequestModel
