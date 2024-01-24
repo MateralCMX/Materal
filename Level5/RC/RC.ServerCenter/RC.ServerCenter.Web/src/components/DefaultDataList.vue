@@ -108,7 +108,7 @@ const applicationTypeList = ref<Array<KeyValueModel>>([]);
 const editID = ref<string | undefined>();
 const deploy = ref<string>();
 async function selectedDeploy() {
-    serverManagement.checkEnvironmentServer(deploy.value);
+    serverManagement.checkDeploy(deploy.value);
     await onQueryAsync();
 }
 async function onQueryAsync() {
