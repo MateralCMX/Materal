@@ -62,6 +62,7 @@ namespace Materal.Utils.MongoDB.Extensions
             if(!propertyInfo.CanWrite || !propertyInfo.CanRead) return null;
             object? value = propertyInfo.GetValue(filterModel);
             if (value is null) return null;
+            if (value is string stringValue && string.IsNullOrWhiteSpace(stringValue)) return null;
             FilterDefinition<T>? filter = null;
             IEnumerable<FilterAttribute> filterAttributes = propertyInfo.GetCustomAttributes<FilterAttribute>();
             foreach (FilterAttribute filterAttribute in filterAttributes)
