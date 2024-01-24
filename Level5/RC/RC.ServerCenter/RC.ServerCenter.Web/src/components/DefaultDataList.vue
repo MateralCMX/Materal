@@ -122,9 +122,6 @@ async function onQueryAsync() {
 }
 async function queryAsync() {
     try {
-        if (deploy.value) {
-            service.serviceName = deploy.value;
-        }
         if (queryData.ApplicationType as any === '') {
             queryData.ApplicationType = undefined;
         }
@@ -168,8 +165,6 @@ async function onEditPanelCancelAsync() {
 async function loadApplicationTypeAsync() {
     isLoading.value = true;
     try {
-        if (!deploy.value) return;
-        deployEnumsService.serviceName = deploy.value;
         const namespaceResult = await deployEnumsService.GetAllApplicationTypeEnumAsync();
         if (!namespaceResult) return;
         applicationTypeList.value = namespaceResult;

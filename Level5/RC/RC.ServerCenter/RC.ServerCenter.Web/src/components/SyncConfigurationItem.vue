@@ -84,7 +84,6 @@ const syncConfigData = reactive<SyncConfigRequestModel>({
 async function syncConfigAsync() {
     isLoading.value = true;
     try {
-        service.serviceName = sourceEnvironmentServer.value;
         await service.SyncConfigAsync(syncConfigData);
     } catch (error) {
         Message.error("同步配置失败");
@@ -93,6 +92,7 @@ async function syncConfigAsync() {
     }
 }
 function verifyTargetEnvironments(){
+    serverManagement.checkEnvironmentServer(sourceEnvironmentServer.value);
     for (let index = 0; index < syncConfigData.TargetEnvironments.length; index++) {
         const element = syncConfigData.TargetEnvironments[index];
         if(element != sourceEnvironmentServer.value) continue;

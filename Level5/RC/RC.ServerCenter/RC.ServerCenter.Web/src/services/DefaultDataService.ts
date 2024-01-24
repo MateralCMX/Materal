@@ -3,6 +3,7 @@ import EditDefaultDataModel from "../models/defaultData/EditDefaultDataModel";
 import QueryDefaultDataModel from "../models/defaultData/QueryDefaultDataModel";
 import DefaultDataDTO from "../models/defaultData/DefaultDataDTO";
 import BaseService from "./BaseService";
+import serverManagement from "../serverManagement";
 
 class DefaultDataService extends BaseService {
     public async AddAsync(requestModel: AddDefaultDataModel): Promise<string | null> {
@@ -21,5 +22,11 @@ class DefaultDataService extends BaseService {
         return await this.sendPostAsync("GetList", null, requestModel);
     }
 }
-const service = new DefaultDataService("", "DefaultData");
+const service = new DefaultDataService(async () => {
+    if (!serverManagement.selectedDeploy) {
+        await serverManagement.initAsync();
+    }
+    if (!serverManagement.selectedDeploy) throw new Error("没有选中任何目标");
+    return serverManagement.selectedDeploy.Service;
+}, "DefaultData");
 export default service;

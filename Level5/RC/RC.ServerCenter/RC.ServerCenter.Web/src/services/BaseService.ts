@@ -5,14 +5,14 @@ import loginManagement from "../loginManagement";
 
 export default abstract class BaseService {
     protected controllerName: string;
-    public serviceName: string;
-    constructor(serviceName:string, controllerName: string) {
+    public getServiceNameAsync: () => Promise<string>;
+    constructor(serviceName: () => Promise<string>, controllerName: string) {
         this.controllerName = controllerName;
-        this.serviceName = serviceName;
+        this.getServiceNameAsync = serviceName;
     }
     protected async sendGetAsync<T>(url: string, querydata?: any): Promise<T | null> {
         try {
-            let trueUrl = this.getTrueUrl(url, querydata);
+            const trueUrl = await this.getTrueUrlAsync(url, querydata);
             const httpResult = await axios.get(trueUrl, this.getAxiosRequestConfig());
             return this.handlerHttpResult(httpResult);
         } catch (error) {
@@ -22,7 +22,7 @@ export default abstract class BaseService {
     }
     protected async sendDeleteAsync<T>(url: string, querydata?: any): Promise<T | null> {
         try {
-            let trueUrl = this.getTrueUrl(url, querydata);
+            const trueUrl = await this.getTrueUrlAsync(url, querydata);
             const httpResult = await axios.delete(trueUrl, this.getAxiosRequestConfig());
             return this.handlerHttpResult(httpResult);
         } catch (error) {
@@ -32,7 +32,7 @@ export default abstract class BaseService {
     }
     protected async sendPostAsync<T>(url: string, querydata?: any, data?: any): Promise<T | null> {
         try {
-            const trueUrl = this.getTrueUrl(url, querydata);
+            const trueUrl = await this.getTrueUrlAsync(url, querydata);
             const httpResult = await axios.post(trueUrl, data, this.getAxiosRequestConfig());
             return this.handlerHttpResult(httpResult);
         } catch (error) {
@@ -42,7 +42,7 @@ export default abstract class BaseService {
     }
     protected async sendPutAsync<T>(url: string, querydata?: any, data?: any): Promise<T | null> {
         try {
-            const trueUrl = this.getTrueUrl(url, querydata);
+            const trueUrl = await this.getTrueUrlAsync(url, querydata);
             const httpResult = await axios.put(trueUrl, data, this.getAxiosRequestConfig());
             return this.handlerHttpResult(httpResult);
         } catch (error) {
@@ -50,11 +50,12 @@ export default abstract class BaseService {
             throw error;
         }
     }
-    private getTrueUrl(url: string, data?: any): string {
+    private async getTrueUrlAsync(url: string, data?: any): Promise<string> {
         if (url.startsWith('/')) {
             url = url.substring(1);
         }
-        let trueUrl = `${config.baseUrl}/${this.serviceName}/api/${this.controllerName}/${url}`;
+        const serviceName = await this.getServiceNameAsync()
+        let trueUrl = `${config.baseUrl}/${serviceName}/api/${this.controllerName}/${url}`;
         if (data) {
             trueUrl += '?';
             for (const key in data) {

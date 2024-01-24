@@ -154,9 +154,6 @@ async function onQueryAsync() {
 }
 async function queryAsync() {
     try {
-        if (serverManagement.selectedEnvironmentServer) {
-            service.serviceName = serverManagement.selectedEnvironmentServer.Service;
-        }
         const httpResult = await service.GetListAsync(queryData);
         if (!httpResult) return;
         dataList.value = httpResult;
@@ -200,8 +197,9 @@ async function syncConfigurationItemAsync() {
         Message.warning('请选择至少一个目标环境');
         return false;
     }
+    const defaultGetServiceNameAsync = service.getServiceNameAsync;
     for (const environmentServer of syncFormData.environmentServers) {
-        service.serviceName = environmentServer;
+        service.getServiceNameAsync = async () => environmentServer;
         const data = dataList.value.find(x => x.ID === syncFormData.syncID);
         if (!data) continue;
         const key = data.Key;
@@ -214,6 +212,7 @@ async function syncConfigurationItemAsync() {
             service.AddAsync({ NamespaceID: data.NamespaceID, Key: data.Key, Value: data.Value, Description: data.Description });
         }
     }
+    service.getServiceNameAsync = defaultGetServiceNameAsync;
     Message.success('同步完毕');
     return true;
 }

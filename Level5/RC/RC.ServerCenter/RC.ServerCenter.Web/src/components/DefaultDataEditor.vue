@@ -40,7 +40,6 @@ import { onMounted, reactive, ref } from 'vue';
 import AddDefaultDataModel from '../models/defaultData/AddDefaultDataModel';
 import service from '../services/DefaultDataService';
 import { Form, Message } from '@arco-design/web-vue';
-import serverManagement from '../serverManagement';
 import VueMonacoEditor from '@guolao/vue-monaco-editor';
 import deployEnumsService from '../services/DeployEnumsService';
 import KeyValueModel from '../models/KeyValueModel';
@@ -147,11 +146,7 @@ async function loadApplicationTypeAsync() {
     }
 }
 onMounted(async () => {
-    if (serverManagement.selectedDeploy) {
-        service.serviceName = serverManagement.selectedDeploy.Service;
-        deployEnumsService.serviceName = serverManagement.selectedDeploy.Service;
-        await loadApplicationTypeAsync();
-    }
+    await loadApplicationTypeAsync();
     if (!props.id) return;
     await queryAsync();
 });

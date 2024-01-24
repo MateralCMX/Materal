@@ -4,6 +4,7 @@ import QueryConfigurationItemModel from "../models/configurationItem/QueryConfig
 import ConfigurationItemDTO from "../models/configurationItem/ConfigurationItemDTO";
 import BaseService from "./BaseService";
 import SyncConfigRequestModel from "../models/configurationItem/SyncConfigRequestModel";
+import serverManagement from "../serverManagement";
 
 class ConfigurationItemService extends BaseService {
     public async AddAsync(requestModel: AddConfigurationItemModel): Promise<string | null> {
@@ -25,5 +26,11 @@ class ConfigurationItemService extends BaseService {
         return await this.sendPutAsync("SyncConfig", null, requestModel);
     }
 }
-const service = new ConfigurationItemService("", "ConfigurationItem");
+const service = new ConfigurationItemService(async () => {
+    if (!serverManagement.selectedEnvironmentServer) {
+        await serverManagement.initAsync();
+    }
+    if (!serverManagement.selectedEnvironmentServer) throw new Error("没有选中任何目标");
+    return serverManagement.selectedEnvironmentServer.Service;
+}, "ConfigurationItem");
 export default service;

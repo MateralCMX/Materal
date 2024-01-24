@@ -38,7 +38,6 @@ import { onMounted, reactive, ref } from 'vue';
 import AddConfigurationItemModel from '../models/configurationItem/AddConfigurationItemModel';
 import service from '../services/ConfigurationItemService';
 import { Form, Message } from '@arco-design/web-vue';
-import serverManagement from '../serverManagement';
 import VueMonacoEditor from '@guolao/vue-monaco-editor';
 
 const formRef = ref<InstanceType<typeof Form>>();
@@ -137,9 +136,6 @@ function isJson(str: string) {
     return true;
 }
 onMounted(async () => {
-    if (serverManagement.selectedEnvironmentServer) {
-        service.serviceName = serverManagement.selectedEnvironmentServer.Service;
-    }
     if (!props.id) return;
     await queryAsync();
 });
