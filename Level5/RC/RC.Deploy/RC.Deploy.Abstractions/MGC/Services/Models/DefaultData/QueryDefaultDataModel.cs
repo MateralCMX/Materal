@@ -16,10 +16,6 @@
         [Equal]
         public string? Key { get; set; }
         /// <summary>
-        /// 数据
-        /// </summary>
-        public string? Data { get; set; }
-        /// <summary>
         /// 唯一标识组
         /// </summary>
         [Contains("ID")]

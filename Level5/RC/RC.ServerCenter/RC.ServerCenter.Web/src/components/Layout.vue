@@ -58,6 +58,7 @@ import ProjectList from './ProjectList.vue';
 import NamespaceList from './NamespaceList.vue';
 import ConfigurationItemList from './ConfigurationItemList.vue';
 import SyncConfigurationItem from './SyncConfigurationItem.vue';
+import DefaultDataList from './DefaultDataList.vue';
 
 const routes = {
     '/': Home,
@@ -65,7 +66,8 @@ const routes = {
     '/ProjectList': ProjectList,
     '/NamespaceList': NamespaceList,
     '/ConfigurationItemList': ConfigurationItemList,
-    '/SyncConfigurationItem': SyncConfigurationItem
+    '/SyncConfigurationItem': SyncConfigurationItem,
+    '/DefaultDataList': DefaultDataList
 };
 const currentPath = ref(window.location.hash);
 window.addEventListener('hashchange', () => {

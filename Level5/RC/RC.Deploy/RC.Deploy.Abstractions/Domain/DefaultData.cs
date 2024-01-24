@@ -1,4 +1,6 @@
-﻿namespace RC.Deploy.Abstractions.Domain
+﻿using Materal.MergeBlock.GeneratorCode.Attributers;
+
+namespace RC.Deploy.Abstractions.Domain
 {
     /// <summary>
     /// 默认数据
@@ -20,6 +22,7 @@
         /// <summary>
         /// 数据
         /// </summary>
+        [NotQuery]
         [Required(ErrorMessage = "数据为空")]
         public string Data { get; set; } = string.Empty;
     }

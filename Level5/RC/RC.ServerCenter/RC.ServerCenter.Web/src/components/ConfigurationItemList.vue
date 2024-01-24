@@ -161,7 +161,7 @@ async function queryAsync() {
         if (!httpResult) return;
         dataList.value = httpResult;
     } catch (error) {
-        Message.error("获取命名空间列表失败");
+        Message.error("获取配置项列表失败");
     }
 }
 async function deleteAsync(id: string) {
@@ -170,7 +170,7 @@ async function deleteAsync(id: string) {
         await service.DeleteAsync(id);
         await queryAsync();
     } catch (error) {
-        Message.error("删除命名空间失败");
+        Message.error("删除配置项失败");
     }
     finally {
         isLoading.value = false;
@@ -252,7 +252,7 @@ async function loadNamespaceAsync() {
         }
         queryAsync();
     } catch (error) {
-        Message.error("获取项目列表失败");
+        Message.error("获取命名空间列表失败");
     }
 }
 async function onQueryNamespaceAsync() {
@@ -260,7 +260,7 @@ async function onQueryNamespaceAsync() {
     try {
         loadNamespaceAsync();
     } catch (error) {
-        Message.error("获取项目列表失败");
+        Message.error("获取命名空间列表失败");
     }
     finally {
         isLoading.value = false;
