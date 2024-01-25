@@ -11,7 +11,7 @@
         <a-space direction="vertical" fill>
             <a-form :model="queryData" layout="inline" @submit-success="onQueryAsync">
                 <a-form-item field="ProjectID" label="项目">
-                    <a-select v-model="queryData.ProjectID" :style="{ width: '320px' }" @change="onQueryAsync">
+                    <a-select v-model="queryData.ProjectID" @change="onQueryAsync">
                         <a-option v-for="item in projectList" :value="item.ID">{{ item.Name }}</a-option>
                     </a-select>
                 </a-form-item>
@@ -135,7 +135,7 @@ async function loadAllProjectAsync() {
         const httpResult = await projectService.GetListAsync({ Name: "", PageIndex: 1, PageSize: 99999 });
         if (!httpResult) return;
         projectList.value = httpResult;
-        if(projectList.value.length > 0) {
+        if (projectList.value.length > 0) {
             queryData.ProjectID = projectList.value[0].ID;
         }
         queryAsync();

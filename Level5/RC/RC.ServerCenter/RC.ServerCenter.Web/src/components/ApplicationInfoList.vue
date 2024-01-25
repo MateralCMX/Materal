@@ -42,8 +42,7 @@
                     <DeploySelect @change="onQueryAsync" />
                 </a-form-item>
                 <a-form-item field="ProjectID" label="应用程序类型">
-                    <a-select v-model="queryData.ApplicationType" :style="{ width: '320px' }" allow-clear
-                        @change="queryAsync">
+                    <a-select v-model="queryData.ApplicationType" allow-clear @change="queryAsync">
                         <a-option v-for="item in applicationTypeList" :value="item.Key">{{ item.Value }}</a-option>
                     </a-select>
                 </a-form-item>
@@ -294,6 +293,7 @@ async function startAllAsync() {
     isLoading.value = true;
     try {
         await service.StartAllAsync();
+        await queryAsync();
     } catch (error) {
         Message.error("启动应用程序失败");
     }
@@ -305,6 +305,7 @@ async function stopAllAsync() {
     isLoading.value = true;
     try {
         await service.StopAllAsync();
+        await queryAsync();
     } catch (error) {
         Message.error("停止应用程序失败");
     }
@@ -316,6 +317,7 @@ async function startAsync(id: string) {
     isLoading.value = true;
     try {
         await service.StartAsync(id);
+        await queryAsync();
     } catch (error) {
         Message.error("启动应用程序失败");
     }
@@ -327,6 +329,7 @@ async function stopAsync(id: string) {
     isLoading.value = true;
     try {
         await service.StopAsync(id);
+        await queryAsync();
     } catch (error) {
         Message.error("停止应用程序失败");
     }
@@ -338,6 +341,7 @@ async function killAsync(id: string) {
     isLoading.value = true;
     try {
         await service.KillAsync(id);
+        await queryAsync();
     } catch (error) {
         Message.error("强制关闭应用程序失败");
     }
@@ -349,6 +353,7 @@ async function applyLasetFileAsync(id: string) {
     isLoading.value = true;
     try {
         await service.ApplyLasetFileAsync(id);
+        Message.success("应用最后一次上传文件成功");
     } catch (error) {
         Message.error("应用最后一次上传文件失败");
     }
@@ -387,7 +392,6 @@ function customRequest(id: string, option: RequestOption): UploadRequest {
     xhr.onload = function onload() {
         if (xhr.status < 200 || xhr.status >= 300) return option.onError(xhr.responseText);
         option.onSuccess(xhr.response);
-        debugger;
     };
     const formData = new FormData();
     formData.append("file", option.fileItem.file as File);

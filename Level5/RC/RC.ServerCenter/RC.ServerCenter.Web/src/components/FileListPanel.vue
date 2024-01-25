@@ -11,6 +11,9 @@
             <span style="line-height: 32px;">[{{ getDateTimeText(item.LastWriteTime) }}]{{ item.Name }}</span>
             <template #actions>
                 <a-button-group>
+                    <a-button v-if="applicationInfo?.ApplicationStatus == 3" type="text" @click="applyLasetFileAsync(item.Name)" title="使用该文件">
+                        <template #icon><icon-copy /></template>
+                    </a-button>
                     <a-link class="download-button" :href="getDownloadUrl(item.DownloadUrl)" title="下载文件" target="_blank">
                         <icon-download />
                     </a-link>
@@ -30,12 +33,14 @@ import { onMounted, ref } from 'vue';
 import service from '../services/ApplicationInfoService';
 import FileInfoDTO from '../models/applicationInfo/FileInfoDTO';
 import { Message } from '@arco-design/web-vue';
+import ApplicationInfoDTO from '../models/applicationInfo/ApplicationInfoDTO';
 
 const props = defineProps({
     id: String
 });
 const dataList = ref<Array<FileInfoDTO>>([]);
 const isLoading = ref(false);
+const applicationInfo = ref<ApplicationInfoDTO>();
 function getDownloadUrl(downloadUrl: string): string {
     const url = service.GetGetDownloadUrl(downloadUrl);
     return url;
@@ -63,10 +68,26 @@ async function deleteAsync(fileName: string) {
         isLoading.value = false;
     }
 }
+async function applyLasetFileAsync(name: string) {
+    if (!props.id) return;
+    isLoading.value = true;
+    try {
+        await service.ApplyFileAsync(props.id, name);
+        Message.success("应用文件成功");
+    } catch (error) {
+        Message.error("应用文件失败");
+    }
+    finally {
+        isLoading.value = false;
+    }
+}
 async function queryAsync() {
     if (!props.id) return;
     isLoading.value = true;
     try {
+        const applicationInfoHttpResult = await service.GetInfoAsync(props.id);
+        if (!applicationInfoHttpResult) return;
+        applicationInfo.value = applicationInfoHttpResult;
         const httpResult = await service.GetUploadFilesAsync(props.id);
         if (!httpResult) return;
         dataList.value = httpResult;

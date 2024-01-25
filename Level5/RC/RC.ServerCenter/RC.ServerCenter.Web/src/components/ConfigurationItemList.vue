@@ -20,12 +20,12 @@
                     <EnvironmentServerSelect @change="selectedEnvironmentServerAsync" />
                 </a-form-item>
                 <a-form-item field="ProjectID" label="项目">
-                    <a-select v-model="projectID" :style="{ width: '320px' }" @change="onQueryNamespaceAsync">
+                    <a-select v-model="projectID" @change="onQueryNamespaceAsync">
                         <a-option v-for="item in projectList" :value="item.ID">{{ item.Name }}</a-option>
                     </a-select>
                 </a-form-item>
                 <a-form-item field="NamespaceID" label="命名空间">
-                    <a-select v-model="queryData.NamespaceID" :style="{ width: '320px' }" @change="onQueryAsync">
+                    <a-select v-model="queryData.NamespaceID" @change="onQueryAsync">
                         <a-option v-for="item in namespaceList" :value="item.ID">{{ item.Name }}</a-option>
                     </a-select>
                 </a-form-item>
@@ -88,7 +88,7 @@
         @before-ok="syncConfigurationItemAsync" :align-center="false" :top="150">
         <a-form :model="syncFormData">
             <a-form-item field="environmentServer" label="目标环境">
-                <a-select v-model="syncFormData.environmentServers" multiple :style="{ width: '320px' }">
+                <a-select v-model="syncFormData.environmentServers" multiple>
                     <a-option v-for="item in serverManagement.environmentServerList" :value="item.Service"
                         :disabled="serverManagement.selectedEnvironmentServer?.Service == item.Service">
                         {{ item.Name }}
