@@ -4,7 +4,7 @@ export default interface AddApplicationInfoModel {
      */
     Name: string;
     /**
-     * 根路径
+     * 路径
      */
     RootPath: string;
     /**

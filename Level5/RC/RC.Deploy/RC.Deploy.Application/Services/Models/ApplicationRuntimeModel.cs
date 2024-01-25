@@ -190,8 +190,14 @@ namespace RC.Deploy.Application.Services.Models
                 DirectoryInfo? targetDirectoryInf = unRarDirectoryInfo.GetDirectories().FirstOrDefault(m => m.Name == ApplicationInfo.RootPath);
                 if (targetDirectoryInf != null)
                 {
+                    AddConsoleMessage("开始移动文件...");
                     MoveToDirectory(targetDirectoryInf, publishDirectoryInfo);
                 }
+                else
+                {
+                    AddConsoleMessage("未移动文件：不是该应用程序文件。");
+                }
+                AddConsoleMessage("删除临时文件");
                 unRarDirectoryInfo.Delete(true);
             }
             finally

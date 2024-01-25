@@ -8,7 +8,7 @@ export default interface ApplicationInfoDTO {
      */
     Name: string;
     /**
-     * 根路径
+     * 路径
      */
     RootPath: string;
     /**

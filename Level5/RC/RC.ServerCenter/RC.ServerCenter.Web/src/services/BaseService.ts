@@ -12,7 +12,7 @@ export default abstract class BaseService {
     }
     protected async sendGetAsync<T>(url: string, querydata?: any): Promise<T | null> {
         try {
-            const trueUrl = await this.getTrueUrlAsync(url, querydata);
+            const trueUrl = await this.getApiUrlAsync(url, querydata);
             const httpResult = await axios.get(trueUrl, this.getAxiosRequestConfig());
             return this.handlerHttpResult(httpResult);
         } catch (error) {
@@ -22,7 +22,7 @@ export default abstract class BaseService {
     }
     protected async sendDeleteAsync<T>(url: string, querydata?: any): Promise<T | null> {
         try {
-            const trueUrl = await this.getTrueUrlAsync(url, querydata);
+            const trueUrl = await this.getApiUrlAsync(url, querydata);
             const httpResult = await axios.delete(trueUrl, this.getAxiosRequestConfig());
             return this.handlerHttpResult(httpResult);
         } catch (error) {
@@ -32,7 +32,7 @@ export default abstract class BaseService {
     }
     protected async sendPostAsync<T>(url: string, querydata?: any, data?: any): Promise<T | null> {
         try {
-            const trueUrl = await this.getTrueUrlAsync(url, querydata);
+            const trueUrl = await this.getApiUrlAsync(url, querydata);
             const httpResult = await axios.post(trueUrl, data, this.getAxiosRequestConfig());
             return this.handlerHttpResult(httpResult);
         } catch (error) {
@@ -42,7 +42,7 @@ export default abstract class BaseService {
     }
     protected async sendPutAsync<T>(url: string, querydata?: any, data?: any): Promise<T | null> {
         try {
-            const trueUrl = await this.getTrueUrlAsync(url, querydata);
+            const trueUrl = await this.getApiUrlAsync(url, querydata);
             const httpResult = await axios.put(trueUrl, data, this.getAxiosRequestConfig());
             return this.handlerHttpResult(httpResult);
         } catch (error) {
@@ -50,12 +50,12 @@ export default abstract class BaseService {
             throw error;
         }
     }
-    private async getTrueUrlAsync(url: string, data?: any): Promise<string> {
+    protected getApiUrlByServiceName(url: string, serviceName: string, data?: any): string {
         if (url.startsWith('/')) {
             url = url.substring(1);
         }
-        const serviceName = await this.getServiceNameAsync()
-        let trueUrl = `${config.baseUrl}/${serviceName}/api/${this.controllerName}/${url}`;
+        let trueUrl = `${this.getUrl(serviceName)}`;
+        trueUrl = `${trueUrl}/api/${this.controllerName}/${url}`;
         if (data) {
             trueUrl += '?';
             for (const key in data) {
@@ -67,6 +67,15 @@ export default abstract class BaseService {
                 }
             }
         }
+        return trueUrl;
+    }
+    protected async getApiUrlAsync(url: string, data?: any): Promise<string> {
+        const serviceName = await this.getServiceNameAsync();
+        let trueUrl = this.getApiUrlByServiceName(url, serviceName, data);
+        return trueUrl;
+    }
+    protected getUrl(serviceName: string): string {
+        let trueUrl = `${config.baseUrl}/${serviceName}`;
         return trueUrl;
     }
     private handlerHttpResult<T>(httpResult: AxiosResponse<any, any>): T | null {

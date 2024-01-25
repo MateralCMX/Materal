@@ -1,11 +1,12 @@
-﻿using RC.Deploy.Application.Services.Models;
+﻿using Materal.Abstractions;
+using RC.Deploy.Application.Services.Models;
 
 namespace RC.Deploy.Application.Services.ApplicationHandlers
 {
     /// <summary>
     /// DotNet应用程序处理器
     /// </summary>
-    public class DotNetApplicationHandler(IDefaultDataRepository defaultDataRepository) : ExeApplicationHandler
+    public class DotNetApplicationHandler : ExeApplicationHandler
     {
         /// <summary>
         /// 启动应用程序
@@ -29,6 +30,8 @@ namespace RC.Deploy.Application.Services.ApplicationHandlers
         /// <returns></returns>
         private async Task<string> GetStartArgsAsync(ApplicationRuntimeModel model)
         {
+            using IServiceScope scope = MateralServices.Services.CreateScope();
+            IDefaultDataRepository defaultDataRepository = scope.ServiceProvider.GetRequiredService<IDefaultDataRepository>();
             List<DefaultData> defaultDatas = await defaultDataRepository.FindAsync(m => m.ApplicationType == ApplicationTypeEnum.DotNet);
             List<string> runParams = [];
             if(model.ApplicationInfo.RunParams is not null && !string.IsNullOrWhiteSpace(model.ApplicationInfo.RunParams))

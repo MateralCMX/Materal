@@ -63,6 +63,7 @@ namespace RC.Deploy.Application.Services.ApplicationHandlers
             {
                 applicationRuntime.ApplicationStatus = ApplicationStatusEnum.Stop;
                 applicationRuntime.AddConsoleMessage(ex.GetErrorMessage());
+                applicationRuntime.AddConsoleMessage($"{applicationRuntime.ApplicationInfo.Name}已停止");
             }
             await Task.CompletedTask;
         }

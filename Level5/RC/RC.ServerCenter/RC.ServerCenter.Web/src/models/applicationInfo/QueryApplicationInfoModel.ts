@@ -4,7 +4,7 @@ export default interface QueryApplicationInfoModel {
      */
     Name: string;
     /**
-     * 根路径
+     * 路径
      */
     RootPath: string;
     /**
@@ -14,5 +14,13 @@ export default interface QueryApplicationInfoModel {
     /**
      * 应用类型
      */
-    ApplicationType: number;
+    ApplicationType?: number;
+    /**
+     * 页码
+     */
+    PageIndex: number;
+    /**
+     * 每页显示数量
+     */
+    PageSize: number;
 }
