@@ -17,11 +17,7 @@
         <a-space direction="vertical" fill>
             <a-form :model="queryData" layout="inline" @submit-success="onQueryAsync">
                 <a-form-item field="EnvironmentServer" label="目标">
-                    <a-select v-model="deploy" :style="{ width: '320px' }" @change="selectedDeploy">
-                        <a-option v-for="item in serverManagement.deployList" :value="item.Service">
-                            {{ item.Name }}
-                        </a-option>
-                    </a-select>
+                    <DeploySelect @change="onQueryAsync" />
                 </a-form-item>
                 <a-form-item field="ProjectID" label="应用程序类型">
                     <a-select v-model="queryData.ApplicationType" :style="{ width: '320px' }" allow-clear
@@ -87,8 +83,8 @@ import deployEnumsService from '../services/DeployEnumsService';
 import { Message } from '@arco-design/web-vue';
 import DefaultDataDTO from '../models/defaultData/DefaultDataDTO';
 import DefaultDataEditor from './DefaultDataEditor.vue';
-import serverManagement from '../serverManagement';
 import KeyValueModel from '../models/KeyValueModel';
+import DeploySelect from './DeploySelect.vue';
 
 /**
  * 加载数据标识
@@ -106,11 +102,6 @@ const queryData = reactive<QueryDefaultDataModel>({
 const dataList = ref<Array<DefaultDataDTO>>([]);
 const applicationTypeList = ref<Array<KeyValueModel>>([]);
 const editID = ref<string | undefined>();
-const deploy = ref<string>();
-async function selectedDeploy() {
-    serverManagement.checkDeploy(deploy.value);
-    await onQueryAsync();
-}
 async function onQueryAsync() {
     isLoading.value = true;
     try {
@@ -176,12 +167,5 @@ async function loadApplicationTypeAsync() {
         isLoading.value = false;
     }
 }
-async function initAsync() {
-    if (!serverManagement.selectedDeploy) {
-        await serverManagement.initAsync();
-    }
-    deploy.value = serverManagement.selectedDeploy?.Service;
-    await loadApplicationTypeAsync();
-}
-onMounted(initAsync);
+onMounted(loadApplicationTypeAsync);
 </script>

@@ -17,11 +17,7 @@
         <a-space direction="vertical" fill>
             <a-form :model="queryData" layout="inline" @submit-success="onQueryAsync">
                 <a-form-item field="EnvironmentServer" label="环境">
-                    <a-select v-model="environmentServer" :style="{ width: '320px' }" @change="selectedEnvironmentServer">
-                        <a-option v-for="item in serverManagement.environmentServerList" :value="item.Service">
-                            {{ item.Name }}
-                        </a-option>
-                    </a-select>
+                    <EnvironmentServerSelect @change="selectedEnvironmentServerAsync" />
                 </a-form-item>
                 <a-form-item field="ProjectID" label="项目">
                     <a-select v-model="projectID" :style="{ width: '320px' }" @change="onQueryNamespaceAsync">
@@ -94,7 +90,7 @@
             <a-form-item field="environmentServer" label="目标环境">
                 <a-select v-model="syncFormData.environmentServers" multiple :style="{ width: '320px' }">
                     <a-option v-for="item in serverManagement.environmentServerList" :value="item.Service"
-                        :disabled="environmentServer == item.Service">
+                        :disabled="serverManagement.selectedEnvironmentServer?.Service == item.Service">
                         {{ item.Name }}
                     </a-option>
                 </a-select>
@@ -114,6 +110,7 @@ import ConfigurationItemEditor from './ConfigurationItemEditor.vue';
 import ProjectDTO from '../models/project/ProjectDTO';
 import NamespaceDTO from '../models/namespace/NamespaceDTO';
 import serverManagement from '../serverManagement';
+import EnvironmentServerSelect from './EnvironmentServerSelect.vue';
 
 /**
  * 加载数据标识
@@ -137,9 +134,7 @@ const dataList = ref<Array<ConfigurationItemDTO>>([]);
 const projectList = ref<Array<ProjectDTO>>([]);
 const namespaceList = ref<Array<NamespaceDTO>>([]);
 const editID = ref<string | undefined>();
-const environmentServer = ref<string>();
-async function selectedEnvironmentServer() {
-    serverManagement.checkEnvironmentServer(environmentServer.value);
+async function selectedEnvironmentServerAsync() {
     syncFormData.environmentServers = [];
     await onQueryAsync();
 }
@@ -222,10 +217,6 @@ async function onEditPanelCancelAsync() {
 async function loadAllProjectAsync() {
     isLoading.value = true;
     try {
-        if (!serverManagement.selectedEnvironmentServer) {
-            await serverManagement.initAsync();
-        }
-        environmentServer.value = serverManagement.selectedEnvironmentServer?.Service;
         const projectResult = await projectService.GetListAsync({ Name: "", PageIndex: 1, PageSize: 99999 });
         if (!projectResult) return;
         projectList.value = projectResult;

@@ -39,11 +39,7 @@
         <a-space direction="vertical" fill>
             <a-form :model="queryData" layout="inline" @submit-success="onQueryAsync">
                 <a-form-item field="EnvironmentServer" label="目标">
-                    <a-select v-model="deploy" :style="{ width: '320px' }" @change="selectedDeploy">
-                        <a-option v-for="item in serverManagement.deployList" :value="item.Service">
-                            {{ item.Name }}
-                        </a-option>
-                    </a-select>
+                    <DeploySelect @change="onQueryAsync" />
                 </a-form-item>
                 <a-form-item field="ProjectID" label="应用程序类型">
                     <a-select v-model="queryData.ApplicationType" :style="{ width: '320px' }" allow-clear
@@ -199,9 +195,9 @@ import ApplicationInfoDTO from '../models/applicationInfo/ApplicationInfoDTO';
 import ApplicationInfoEditor from './ApplicationInfoEditor.vue';
 import FileListPanel from './FileListPanel.vue';
 import ConsolePanel from './ConsolePanel.vue';
-import serverManagement from '../serverManagement';
 import KeyValueModel from '../models/KeyValueModel';
 import loginManagement from '../loginManagement';
+import DeploySelect from './DeploySelect.vue';
 
 /**
  * 加载数据标识
@@ -223,7 +219,6 @@ const dataList = ref<Array<ApplicationInfoDTO>>([]);
 const applicationTypeList = ref<Array<KeyValueModel>>([]);
 const editID = ref<string | undefined>();
 const selectApplicationID = ref<string | undefined>();
-const deploy = ref<string>();
 function getClassByApplicationStatus(applicationStatus: number) {
     switch (applicationStatus) {
         case 0:
@@ -235,10 +230,6 @@ function getClassByApplicationStatus(applicationStatus: number) {
         default:
             return 'yellow';
     }
-}
-async function selectedDeploy() {
-    serverManagement.checkDeploy(deploy.value);
-    await onQueryAsync();
 }
 async function onQueryAsync() {
     isLoading.value = true;
@@ -406,12 +397,5 @@ function customRequest(id: string, option: RequestOption): UploadRequest {
     xhr.send(formData);
     return { abort() { xhr.abort() } }
 }
-async function initAsync() {
-    if (!serverManagement.selectedDeploy) {
-        await serverManagement.initAsync();
-    }
-    deploy.value = serverManagement.selectedDeploy?.Service;
-    await loadApplicationTypeAsync();
-}
-onMounted(initAsync);
+onMounted(loadApplicationTypeAsync);
 </script>

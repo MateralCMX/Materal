@@ -20,15 +20,11 @@
                 </template>
                 <a-form :model="syncConfigData">
                     <a-form-item field="sourceEnvironmentServer" label="源环境">
-                        <a-select v-model="sourceEnvironmentServer" @change="verifyTargetEnvironments">
-                            <a-option v-for="item in serverManagement.environmentServerList" :value="item.Service">
-                                {{ item.Name }}
-                            </a-option>
-                        </a-select>
+                        <EnvironmentServerSelect @change="verifyTargetEnvironments" />
                     </a-form-item>
                     <a-form-item field="TargetEnvironments" label="目标环境">
                         <a-select v-model="syncConfigData.TargetEnvironments" multiple>
-                            <a-option v-for="item in serverManagement.environmentServerList" :value="item.Service" :disabled="item.Service == sourceEnvironmentServer">
+                            <a-option v-for="item in serverManagement.environmentServerList" :value="item.Service" :disabled="item.Service == serverManagement.selectedEnvironmentServer?.Service">
                                 {{ item.Name }}
                             </a-option>
                         </a-select>
@@ -70,9 +66,9 @@ import serverManagement from '../serverManagement'
 import { onMounted } from 'vue';
 import NamespaceDTO from '../models/namespace/NamespaceDTO';
 import ProjectDTO from '../models/project/ProjectDTO';
+import EnvironmentServerSelect from './EnvironmentServerSelect.vue';
 
 const isLoading = ref(false);
-const sourceEnvironmentServer = ref('');
 const projectList = ref<Array<ProjectDTO>>([]);
 const namespaceList = ref<Array<NamespaceDTO>>([]);
 const syncConfigData = reactive<SyncConfigRequestModel>({
@@ -92,10 +88,9 @@ async function syncConfigAsync() {
     }
 }
 function verifyTargetEnvironments(){
-    serverManagement.checkEnvironmentServer(sourceEnvironmentServer.value);
     for (let index = 0; index < syncConfigData.TargetEnvironments.length; index++) {
         const element = syncConfigData.TargetEnvironments[index];
-        if(element != sourceEnvironmentServer.value) continue;
+        if(element != serverManagement.selectedEnvironmentServer?.Service) continue;
         syncConfigData.TargetEnvironments.splice(index, 1);
     }
 }
@@ -137,14 +132,5 @@ async function onQueryNamespaceAsync() {
         isLoading.value = false;
     }
 }
-async function initAsync() {
-    if (serverManagement.selectedEnvironmentServer) {
-        sourceEnvironmentServer.value = serverManagement.selectedEnvironmentServer.Service;
-    }
-    else {
-        sourceEnvironmentServer.value = serverManagement.environmentServerList[0].Service;
-    }
-    await loadAllProjectAsync();
-}
-onMounted(initAsync);
+onMounted(loadAllProjectAsync);
 </script>

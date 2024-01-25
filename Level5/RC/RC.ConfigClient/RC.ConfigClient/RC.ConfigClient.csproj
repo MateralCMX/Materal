@@ -24,7 +24,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="Materal.Utils" Version="1.1.74" />
+		<PackageReference Include="Materal.Utils" Version="1.1.74" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.Abstractions\RC.EnvironmentServer.Abstractions.csproj" />
