@@ -67,6 +67,9 @@ class ApplicationInfoService extends BaseService {
         trueUrl = `${trueUrl}${url}`;
         return trueUrl;
     }
+    public async GetMaxConsoleMessageCountAsync(): Promise<number | null> {
+        return await this.sendGetAsync("GetMaxConsoleMessageCount", null);
+    }
 }
 const service = new ApplicationInfoService(async () => {
     if (!serverManagement.selectedDeploy) {

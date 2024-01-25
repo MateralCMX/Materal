@@ -101,12 +101,11 @@ namespace RC.Deploy.Application.Services.Models
         /// <param name="message"></param>
         public async void AddConsoleMessage(string message)
         {
-            const int consoleCount = 500;
             if (string.IsNullOrWhiteSpace(message)) return;
             _consoleMessages.Add(message);
-            if (_consoleMessages.Count > consoleCount)
+            if (_consoleMessages.Count > applicationConfig.CurrentValue.MaxConsoleMessageCount)
             {
-                _consoleMessages.RemoveRange(0, _consoleMessages.Count - consoleCount);
+                _consoleMessages.RemoveRange(0, _consoleMessages.Count - applicationConfig.CurrentValue.MaxConsoleMessageCount);
             }
             await _hubContext.Clients.All.NewConsoleMessageEvent(ApplicationInfo.ID, message);
         }

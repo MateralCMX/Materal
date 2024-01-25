@@ -16,6 +16,10 @@ namespace RC.Deploy.Application
         /// </summary>
         public string WinRarPath { get; set; } = "C:\\Program Files\\WinRAR";
         /// <summary>
+        /// 控制台消息数量
+        /// </summary>
+        public int MaxConsoleMessageCount { get; set; } = 500;
+        /// <summary>
         /// 重写配置
         /// </summary>
         public RewriteConfigModel RewriteConfig { get; set; } = new();
