@@ -11,19 +11,22 @@
 		<Product>Materal.ReleaseCenter</Product>
 		<Authors>Materal</Authors>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
-		<Title>RC.EnvironmentServer.Abstractions</Title>
-		<Description>环境服务抽象</Description>
+		<Title>RC.ConfigClient</Title>
+		<Description>配置中心客户端</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+	<PropertyGroup>
+	  <NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="../../../../README.md" Pack="true" PackagePath="" />
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TFMS.EventBus" Version="1.1.74" />
+	  <PackageReference Include="Materal.Utils" Version="1.1.74" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\RC.Core\RC.Core.Repository\RC.Core.Repository.csproj" />
+	  <ProjectReference Include="..\..\RC.EnvironmentServer\RC.EnvironmentServer.Abstractions\RC.EnvironmentServer.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

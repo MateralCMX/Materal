@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock", "Src\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Authorization.Abstractions", "Src\Materal.MergeBlock.Authorization.Abstractions\Materal.MergeBlock.Authorization.Abstractions.csproj", "{9ED4D68A-2FB2-44D2-A28A-D1142E20872B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.ConfigCenter", "Src\Materal.MergeBlock.ConfigCenter\Materal.MergeBlock.ConfigCenter.csproj", "{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Domain", "Src\Materal.MergeBlock.Domain\Materal.MergeBlock.Domain.csproj", "{38F9395D-885E-417F-9B6A-7EDF25E9DEA2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Repository", "Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj", "{421266B9-08D0-4857-A104-0F01E691AD77}"
@@ -87,7 +85,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Exceptio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.EventBusTest", "Test\Materal.MergeBlock.EventBusTest\Materal.MergeBlock.EventBusTest.csproj", "{9F7056A5-309A-4EEF-AE9B-D81A4CB7970B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.OscillatorTest", "Test\Materal.MergeBlock.OscillatorTest\Materal.MergeBlock.OscillatorTest.csproj", "{E56215A5-DDF4-44A8-B6F6-5C16D95FCE65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.OscillatorTest", "Test\Materal.MergeBlock.OscillatorTest\Materal.MergeBlock.OscillatorTest.csproj", "{E56215A5-DDF4-44A8-B6F6-5C16D95FCE65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -195,18 +193,6 @@ Global
 		{9ED4D68A-2FB2-44D2-A28A-D1142E20872B}.Release|arm64.Build.0 = Release|Any CPU
 		{9ED4D68A-2FB2-44D2-A28A-D1142E20872B}.Release|x86.ActiveCfg = Release|Any CPU
 		{9ED4D68A-2FB2-44D2-A28A-D1142E20872B}.Release|x86.Build.0 = Release|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Debug|arm64.Build.0 = Debug|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Debug|x86.Build.0 = Debug|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Release|arm64.ActiveCfg = Release|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Release|arm64.Build.0 = Release|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Release|x86.ActiveCfg = Release|Any CPU
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123}.Release|x86.Build.0 = Release|Any CPU
 		{38F9395D-885E-417F-9B6A-7EDF25E9DEA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{38F9395D-885E-417F-9B6A-7EDF25E9DEA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38F9395D-885E-417F-9B6A-7EDF25E9DEA2}.Debug|arm64.ActiveCfg = Debug|Any CPU
@@ -546,7 +532,6 @@ Global
 		{3E70830F-94B7-4E76-9F04-792E57FBAF3D} = {EA03071C-22C4-4208-AD5A-C199AF8560DB}
 		{582BDC70-E809-4C11-84A3-A96CB24D3672} = {EA03071C-22C4-4208-AD5A-C199AF8560DB}
 		{9ED4D68A-2FB2-44D2-A28A-D1142E20872B} = {EA03071C-22C4-4208-AD5A-C199AF8560DB}
-		{F8767E14-8F66-43E6-B2E3-3CB5D67AF123} = {EA03071C-22C4-4208-AD5A-C199AF8560DB}
 		{38F9395D-885E-417F-9B6A-7EDF25E9DEA2} = {EA03071C-22C4-4208-AD5A-C199AF8560DB}
 		{421266B9-08D0-4857-A104-0F01E691AD77} = {EA03071C-22C4-4208-AD5A-C199AF8560DB}
 		{ABA10EEB-61D2-43B3-80A1-9178E6174213} = {EA03071C-22C4-4208-AD5A-C199AF8560DB}

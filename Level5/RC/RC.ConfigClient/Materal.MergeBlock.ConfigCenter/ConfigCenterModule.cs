@@ -1,7 +1,7 @@
 ﻿using Materal.Extensions;
 using Materal.MergeBlock.Abstractions;
 using Microsoft.Extensions.Configuration;
-using RC.ConfigClient;
+using RC.ConfigClient.Extensions;
 
 namespace Materal.MergeBlock.ConfigCenter
 {
@@ -18,6 +18,10 @@ namespace Materal.MergeBlock.ConfigCenter
         /// 命名空间
         /// </summary>
         protected abstract string[] Namespaces { get; }
+        /// <summary>
+        /// 重载配置时间
+        /// </summary>
+        protected virtual int ReloadSecondInterval { get; } = 60;
         private const string _configKey = "ConfigUrl";
         /// <summary>
         /// 配置服务前
@@ -30,11 +34,7 @@ namespace Materal.MergeBlock.ConfigCenter
             if (context.Configuration is not IConfigurationBuilder configuration) return;
             string? url = context.Configuration.GetValue(_configKey);
             if (url is null || !url.IsUrl()) throw new MergeBlockException("配置中心地址错误");
-            configuration.AddDefaultNameSpace(url, ProjectName);
-            foreach (string namespaceName in Namespaces)
-            {
-                configuration.AddNameSpace(namespaceName);
-            }
+            configuration.AddDefaultNameSpace(url, ProjectName, ReloadSecondInterval).AddNameSpaces(Namespaces);
             await base.OnConfigServiceBeforeAsync(context);
         }
     }
