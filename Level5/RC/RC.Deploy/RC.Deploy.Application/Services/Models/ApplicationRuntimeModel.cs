@@ -166,9 +166,17 @@ namespace RC.Deploy.Application.Services.Models
             {
                 AddConsoleMessage($"{ApplicationInfo.Name}开始更新...");
                 DirectoryInfo rarFilesDirectoryInfo = new(RarFilesDirectoryPath);
-                if (!rarFilesDirectoryInfo.Exists) return;
+                if (!rarFilesDirectoryInfo.Exists)
+                {
+                    AddConsoleMessage($"{ApplicationInfo.Name}未找到上传文件夹");
+                    return;
+                }
                 FileInfo[] rarFileInfos = rarFilesDirectoryInfo.GetFiles();
-                if (rarFileInfos.Length <= 0) return;
+                if (rarFileInfos.Length <= 0)
+                {
+                    AddConsoleMessage($"{ApplicationInfo.Name}未找到任何文件");
+                    return;
+                }
                 FileInfo? rarFileInfo;
                 if (!string.IsNullOrWhiteSpace(fileName))
                 {
@@ -181,23 +189,38 @@ namespace RC.Deploy.Application.Services.Models
                 if (rarFileInfo == null) return;
                 string unRarDirectoryPath = UnRarFile(rarFileInfo.FullName);
                 DirectoryInfo unRarDirectoryInfo = new(unRarDirectoryPath);
-                DirectoryInfo publishDirectoryInfo = new(PublishDirectoryPath);
-                if (publishDirectoryInfo.Exists && !ApplicationInfo.IsIncrementalUpdating)
+                try
                 {
-                    publishDirectoryInfo.Delete(true);
+                    DirectoryInfo publishDirectoryInfo = new(PublishDirectoryPath);
+                    if (publishDirectoryInfo.Exists && !ApplicationInfo.IsIncrementalUpdating)
+                    {
+                        AddConsoleMessage("移除旧文件...");
+                        try
+                        {
+                            publishDirectoryInfo.Delete(true);
+                        }
+                        catch (Exception ex)
+                        {
+                            AddConsoleMessage("移除旧文件失败");
+                            AddConsoleMessage(ex.GetErrorMessage());
+                        }
+                    }
+                    DirectoryInfo? targetDirectoryInf = unRarDirectoryInfo.GetDirectories().FirstOrDefault(m => m.Name == ApplicationInfo.RootPath);
+                    if (targetDirectoryInf != null)
+                    {
+                        AddConsoleMessage("开始移动文件...");
+                        MoveToDirectory(targetDirectoryInf, publishDirectoryInfo);
+                    }
+                    else
+                    {
+                        AddConsoleMessage("未移动文件：不是该应用程序文件。");
+                    }
                 }
-                DirectoryInfo? targetDirectoryInf = unRarDirectoryInfo.GetDirectories().FirstOrDefault(m => m.Name == ApplicationInfo.RootPath);
-                if (targetDirectoryInf != null)
+                finally
                 {
-                    AddConsoleMessage("开始移动文件...");
-                    MoveToDirectory(targetDirectoryInf, publishDirectoryInfo);
+                    AddConsoleMessage("删除临时文件");
+                    unRarDirectoryInfo.Delete(true);
                 }
-                else
-                {
-                    AddConsoleMessage("未移动文件：不是该应用程序文件。");
-                }
-                AddConsoleMessage("删除临时文件");
-                unRarDirectoryInfo.Delete(true);
             }
             finally
             {

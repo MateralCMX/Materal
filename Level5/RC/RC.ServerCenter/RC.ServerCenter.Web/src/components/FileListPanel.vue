@@ -11,10 +11,12 @@
             <span style="line-height: 32px;">[{{ getDateTimeText(item.LastWriteTime) }}]{{ item.Name }}</span>
             <template #actions>
                 <a-button-group>
-                    <a-button v-if="applicationInfo?.ApplicationStatus == 3" type="text" @click="applyLasetFileAsync(item.Name)" title="使用该文件">
+                    <a-button v-if="applicationInfo?.ApplicationStatus == 3" type="text"
+                        @click="applyLasetFileAsync(item.Name)" title="使用该文件">
                         <template #icon><icon-copy /></template>
                     </a-button>
-                    <a-link class="download-button" :href="getDownloadUrl(item.DownloadUrl)" title="下载文件" target="_blank">
+                    <a-link class="download-button" :href="item.DownloadUrl"
+                        title="下载文件" target="_blank">
                         <icon-download />
                     </a-link>
                     <a-popconfirm :content="`是否删除${item.Name}?`" type="warning" ok-text="删除"
@@ -41,10 +43,6 @@ const props = defineProps({
 const dataList = ref<Array<FileInfoDTO>>([]);
 const isLoading = ref(false);
 const applicationInfo = ref<ApplicationInfoDTO>();
-function getDownloadUrl(downloadUrl: string): string {
-    const url = service.GetGetDownloadUrl(downloadUrl);
-    return url;
-}
 function getDateTimeText(dateTimeStr: string): string {
     const dateTime = new Date(dateTimeStr);
     const year = dateTime.getFullYear();
@@ -90,6 +88,7 @@ async function queryAsync() {
         applicationInfo.value = applicationInfoHttpResult;
         const httpResult = await service.GetUploadFilesAsync(props.id);
         if (!httpResult) return;
+        await Promise.all(httpResult.map(async m => m.DownloadUrl = await service.GetGetDownloadUrlAsync(m.DownloadUrl)));
         dataList.value = httpResult;
     } catch (error) {
         Message.error("获取文件列表失败");

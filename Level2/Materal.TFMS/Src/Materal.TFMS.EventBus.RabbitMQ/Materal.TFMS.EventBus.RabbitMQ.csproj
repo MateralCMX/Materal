@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>11.0</LangVersion>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.74</Version>
+		<Version>1.1.75</Version>
 		<Authors>Materal</Authors>
 		<Product>Materal.TFMS</Product>
 		<Description>Materal事件总线RabbitMQ实现</Description>

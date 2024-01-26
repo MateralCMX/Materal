@@ -1,10 +1,10 @@
 import { Message } from '@arco-design/web-vue';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import config from "../config";
 import loginManagement from "../loginManagement";
 
 export default abstract class BaseService {
     protected controllerName: string;
+    public baseUrl: string = location.origin;
     public getServiceNameAsync: () => Promise<string>;
     constructor(serviceName: () => Promise<string>, controllerName: string) {
         this.controllerName = controllerName;
@@ -50,11 +50,11 @@ export default abstract class BaseService {
             throw error;
         }
     }
-    protected getApiUrlByServiceName(url: string, serviceName: string, data?: any): string {
+    protected async getApiUrlByServiceNameAsync(url: string, serviceName: string, data?: any): Promise<string> {
         if (url.startsWith('/')) {
             url = url.substring(1);
         }
-        let trueUrl = `${this.getUrl(serviceName)}`;
+        let trueUrl = await this.getUrlAsync(serviceName);
         trueUrl = `${trueUrl}/api/${this.controllerName}/${url}`;
         if (data) {
             trueUrl += '?';
@@ -71,11 +71,23 @@ export default abstract class BaseService {
     }
     protected async getApiUrlAsync(url: string, data?: any): Promise<string> {
         const serviceName = await this.getServiceNameAsync();
-        let trueUrl = this.getApiUrlByServiceName(url, serviceName, data);
+        let trueUrl = await this.getApiUrlByServiceNameAsync(url, serviceName, data);
         return trueUrl;
     }
-    protected getUrl(serviceName: string): string {
-        let trueUrl = `${config.baseUrl}/${serviceName}`;
+    protected async getUrlAsync(serviceName: string): Promise<string> {
+        if (this.baseUrl == location.origin) {
+            try {
+                const url = `${this.baseUrl}/api/Server/GetGatewayUrl`;
+                const httpResult = await axios.get(url, this.getAxiosRequestConfig());
+                const gatewayUrl = this.handlerHttpResult<string>(httpResult);
+                if (gatewayUrl) {
+                    this.baseUrl = gatewayUrl;
+                }
+            } catch (error) {
+                this.baseUrl = "http://127.0.0.1:8700";
+            }
+        }
+        let trueUrl = `${this.baseUrl}/${serviceName}`;
         return trueUrl;
     }
     private handlerHttpResult<T>(httpResult: AxiosResponse<any, any>): T | null {

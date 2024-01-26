@@ -55,15 +55,15 @@ class ApplicationInfoService extends BaseService {
     public async StopAllAsync(): Promise<null> {
         return await this.sendPostAsync("StopAll", null, null);
     }
-    public GetUploadFileUrl(id: string): string {
+    public async GetUploadFileUrlAsync(id: string): Promise<string> {
         if (!serverManagement.selectedDeploy) throw new Error("没有选中任何目标");
         const servicename = serverManagement.selectedDeploy.Service;
-        return this.getApiUrlByServiceName("UploadNewFile", servicename, { id });
+        return await this.getApiUrlByServiceNameAsync("UploadNewFile", servicename, { id });
     }
-    public GetGetDownloadUrl(url: string): string {
+    public async GetGetDownloadUrlAsync(url: string): Promise<string> {
         if (!serverManagement.selectedDeploy) throw new Error("没有选中任何目标");
         const servicename = serverManagement.selectedDeploy.Service;
-        let trueUrl = this.getUrl(servicename);
+        let trueUrl = await this.getUrlAsync(servicename);
         trueUrl = `${trueUrl}${url}`;
         return trueUrl;
     }

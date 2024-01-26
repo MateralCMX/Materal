@@ -1,4 +1,4 @@
-export default interface LoginRequestModel {
+export default interface LoginModel {
     /**
      * 帐号
      */

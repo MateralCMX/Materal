@@ -100,7 +100,7 @@
                                 <template #icon><icon-poweroff /></template>
                             </a-button>
                             <a-upload class="upload-button" v-if="item.ApplicationStatus === 3" draggable
-                                :custom-request="(option) => customRequest(item.ID, option)">
+                                :custom-request="(option) => customRequest(item.UploadFileUrl, option)">
                                 <template #upload-button>
                                     <div style="line-height: 32px;">
                                         <icon-upload />
@@ -246,6 +246,7 @@ async function queryAsync() {
         }
         const httpResult = await service.GetListAsync(queryData);
         if (!httpResult) return;
+        await Promise.all(httpResult.map(async m => m.UploadFileUrl = await service.GetUploadFileUrlAsync(m.ID)));
         dataList.value = httpResult;
     } catch (error) {
         Message.error("获取应用程序列表失败");
@@ -375,7 +376,7 @@ function openConsolePanel(id: string) {
 async function onConsolePanelCancelAsync() {
     consolePanelVisible.value = false;
 }
-function customRequest(id: string, option: RequestOption): UploadRequest {
+function customRequest(url: string, option: RequestOption): UploadRequest {
     const xhr = new XMLHttpRequest();
     if (xhr.upload) {
         xhr.upload.onprogress = function (event) {
@@ -395,7 +396,6 @@ function customRequest(id: string, option: RequestOption): UploadRequest {
     };
     const formData = new FormData();
     formData.append("file", option.fileItem.file as File);
-    const url = service.GetUploadFileUrl(id);
     xhr.open('put', url, true);
     xhr.setRequestHeader('Authorization', `Bearer ${loginManagement.getToken()}`);
     xhr.send(formData);

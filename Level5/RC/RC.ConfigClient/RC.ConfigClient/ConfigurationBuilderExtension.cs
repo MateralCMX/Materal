@@ -1,7 +1,4 @@
-﻿using Materal.Extensions;
-using Microsoft.Extensions.Configuration;
-
-namespace RC.ConfigClient.Extensions
+﻿namespace RC.ConfigClient.Extensions
 {
     /// <summary>
     /// 配置中心构建器扩展

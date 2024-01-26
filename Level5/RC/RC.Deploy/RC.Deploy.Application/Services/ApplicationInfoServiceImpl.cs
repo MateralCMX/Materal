@@ -183,7 +183,7 @@ namespace RC.Deploy.Application.Services
             applicationInfo.ExecuteApplyFileTask(fileName);
         }
         /// <summary>
-        /// 应用文件
+        /// 删除文件
         /// </summary>
         /// <param name="id"></param>
         /// <param name="fileName"></param>

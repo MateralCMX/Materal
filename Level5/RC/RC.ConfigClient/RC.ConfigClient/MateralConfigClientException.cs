@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-
-namespace RC.ConfigClient
+﻿namespace RC.ConfigClient
 {
     /// <summary>
     /// 配置客户端异常

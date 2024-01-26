@@ -39,4 +39,8 @@ export default interface ApplicationInfoDTO {
      * 应用状态文本
      */
     ApplicationStatusTxt: string;
+    /**
+     * 上传文件Url
+     */
+    UploadFileUrl: string;
 }

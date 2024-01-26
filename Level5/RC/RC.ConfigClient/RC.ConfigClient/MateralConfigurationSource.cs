@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace RC.ConfigClient
+﻿namespace RC.ConfigClient
 {
     /// <summary>
     /// 配置源

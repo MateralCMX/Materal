@@ -174,11 +174,8 @@
     <PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.507" ExcludeAssets="Runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="IndexRange">
-      <Version>1.0.3</Version>
-    </PackageReference>
     <PackageReference Include="Materal.Abstractions">
-      <Version>1.1.74</Version>
+      <Version>1.1.75</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.8.2365">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

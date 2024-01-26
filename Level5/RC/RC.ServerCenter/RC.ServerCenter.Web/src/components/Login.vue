@@ -29,7 +29,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import loginManagement from '../loginManagement';
-import LoginRequestModel from '../models/user/LoginRequestModel';
+import LoginModel from '../models/user/LoginModel';
 import userService from '../services/UserService';
 import serverManagement from '../serverManagement';
 
@@ -40,7 +40,7 @@ const isLoading = ref(false);
 /**
  * 表单数据
  */
-const formData = reactive<LoginRequestModel>({
+const formData = reactive<LoginModel>({
   Account: '',
   Password: ''
 });
@@ -78,4 +78,4 @@ async function onLoginAsync() {
 onMounted(() => {
   loginManagement.loginOut();
 });
-</script>
+</script>../models/user/LoginModel

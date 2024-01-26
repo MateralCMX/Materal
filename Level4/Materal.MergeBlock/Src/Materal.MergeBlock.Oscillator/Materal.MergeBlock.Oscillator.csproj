@@ -6,7 +6,7 @@
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.74</Version>
+		<Version>1.1.75</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.MergeBlock.Oscillator</Product>
 		<Authors>Materal</Authors>
@@ -27,8 +27,8 @@
 	  <NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Oscillator" Version="1.1.74" />
-		<PackageReference Include="Materal.Oscillator.SqliteEFRepository" Version="1.1.74" />
+		<PackageReference Include="Materal.Oscillator" Version="1.1.75" />
+		<PackageReference Include="Materal.Oscillator.SqliteEFRepository" Version="1.1.75" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.MergeBlock.Oscillator.Abstractions\Materal.MergeBlock.Oscillator.Abstractions.csproj" />
