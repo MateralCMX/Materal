@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.Abstractions;
+﻿using Materal.Extensions;
+using Materal.MergeBlock.Abstractions;
 using Microsoft.Extensions.Configuration;
 
 [assembly: MergeBlockAssembly("AccessLog测试模块", "AccessLogTest", ["AccessLog"])]
@@ -16,10 +17,13 @@ namespace Materal.MergeBlock.AccessLogTest
         /// <returns></returns>
         public override async Task OnConfigServiceBeforeAsync(IConfigServiceContext context)
         {
-            if(context.Configuration is IConfigurationBuilder configurationBuilder)
+            if (context.Configuration is IConfigurationBuilder configurationBuilder)
             {
-                string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AccessLogConfig.json");
-                configurationBuilder.AddJsonFile(configFilePath, true, true);
+                string configFilePath = Path.Combine(GetType().Assembly.GetDirectoryPath(), "AccessLogConfig.json");
+                if (File.Exists(configFilePath))
+                {
+                    configurationBuilder.AddJsonFile(configFilePath, true, true);
+                }
             }
             await base.OnConfigServiceAsync(context);
         }

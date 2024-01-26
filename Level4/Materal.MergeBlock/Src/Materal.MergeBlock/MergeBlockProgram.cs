@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Materal.Abstractions;
 using Materal.MergeBlock.Abstractions.Config;
 using Materal.MergeBlock.Abstractions.Services;
 using Materal.MergeBlock.Filters;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Newtonsoft.Json.Serialization;
+using System.IO;
 
 namespace Materal.MergeBlock
 {
@@ -73,7 +73,7 @@ namespace Materal.MergeBlock
                         isAutoMapperProfileAssembly = true;
                         continue;
                     }
-                    if(type.IsAssignableTo<IBaseService>())
+                    if (type.IsAssignableTo<IBaseService>())
                     {
                         List<Type> allInterfaces = type.GetAllInterfaces();
                         foreach (Type item in allInterfaces)
@@ -172,8 +172,18 @@ namespace Materal.MergeBlock
         private static List<IMergeBlockModuleInfo> LoadAllMergeBlockModule(IServiceCollection services)
         {
             List<IMergeBlockModuleInfo> mergeBlockModuleInfos = [];
-            DirectoryInfo directoryInfo = new(AppDomain.CurrentDomain.BaseDirectory);
-            LoadMergeBlockModuleFormDirectoryInfo(mergeBlockModuleInfos, directoryInfo);
+            DirectoryInfo? directoryInfo = new(AppDomain.CurrentDomain.BaseDirectory);
+            LoadMergeBlockModuleFormDirectoryInfo(mergeBlockModuleInfos, null, directoryInfo);
+            directoryInfo = directoryInfo.GetDirectories().FirstOrDefault(m => m.Name == "Modules");
+            if (directoryInfo is not null)
+            {
+                DirectoryInfo[] directoryInfos = directoryInfo.GetDirectories();
+                foreach (DirectoryInfo item in directoryInfos)
+                {
+                    ModuleLoadContext loadContext = new(item);
+                    LoadMergeBlockModuleFormDirectoryInfo(mergeBlockModuleInfos, loadContext, item);
+                }
+            }
             foreach (IMergeBlockModuleInfo moduleInfo in mergeBlockModuleInfos)
             {
                 services.AddSingleton(moduleInfo);
@@ -184,37 +194,53 @@ namespace Materal.MergeBlock
         /// 从目录信息中加载MergeBlock模块
         /// </summary>
         /// <param name="mergeBlockModuleInfos"></param>
+        /// <param name="loadContext"></param>
         /// <param name="directoryInfo"></param>
         /// <exception cref="MergeBlockException"></exception>
-        private static void LoadMergeBlockModuleFormDirectoryInfo(List<IMergeBlockModuleInfo> mergeBlockModuleInfos, DirectoryInfo directoryInfo)
+        private static void LoadMergeBlockModuleFormDirectoryInfo(List<IMergeBlockModuleInfo> mergeBlockModuleInfos, ModuleLoadContext? loadContext, DirectoryInfo directoryInfo)
         {
             if (!directoryInfo.Exists) return;
             FileInfo[] allDllFile = directoryInfo.GetFiles("*.dll");
-            LoadMergeBlockModuleFormFileInfos(mergeBlockModuleInfos, allDllFile);
-            DirectoryInfo[] allDirectoryInfo = directoryInfo.GetDirectories();
-            foreach (DirectoryInfo subDirectoryInfo in allDirectoryInfo)
-            {
-                LoadMergeBlockModuleFormDirectoryInfo(mergeBlockModuleInfos, subDirectoryInfo);
-            }
+            LoadMergeBlockModuleFormFileInfos(mergeBlockModuleInfos, loadContext, allDllFile);
         }
         /// <summary>
         /// 从文件信息中加载MergeBlock模块
         /// </summary>
         /// <param name="mergeBlockModuleInfos"></param>
+        /// <param name="loadContext"></param>
         /// <param name="fileInfos"></param>
-        private static void LoadMergeBlockModuleFormFileInfos(List<IMergeBlockModuleInfo> mergeBlockModuleInfos, params FileInfo[] fileInfos)
+        private static void LoadMergeBlockModuleFormFileInfos(List<IMergeBlockModuleInfo> mergeBlockModuleInfos, ModuleLoadContext? loadContext, params FileInfo[] fileInfos)
         {
             foreach (FileInfo fileInfo in fileInfos)
             {
-                if (!fileInfo.Exists) continue;
-                try
+                LoadMergeBlockModuleFormFileInfos(mergeBlockModuleInfos, loadContext, fileInfo);
+            }
+        }
+        /// <summary>
+        /// 从文件中加载MergeBlock模块
+        /// </summary>
+        /// <param name="mergeBlockModuleInfos"></param>
+        /// <param name="loadContext"></param>
+        /// <param name="fileInfo"></param>
+        /// <returns></returns>
+        private static void LoadMergeBlockModuleFormFileInfos(List<IMergeBlockModuleInfo> mergeBlockModuleInfos, ModuleLoadContext? loadContext, FileInfo fileInfo)
+        {
+            try
+            {
+                if (!fileInfo.Exists) return;
+                Assembly assembly;
+                if (loadContext is not null)
                 {
-                    Assembly assembly = Assembly.LoadFrom(fileInfo.FullName);
-                    LoadMergeBlockModuleFormAssembly(mergeBlockModuleInfos, assembly);
+                    assembly = loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(fileInfo.Name)));
                 }
-                catch
+                else
                 {
+                    assembly = Assembly.LoadFrom(fileInfo.FullName);
                 }
+                LoadMergeBlockModuleFormAssembly(mergeBlockModuleInfos, assembly);
+            }
+            catch
+            {
             }
         }
         /// <summary>

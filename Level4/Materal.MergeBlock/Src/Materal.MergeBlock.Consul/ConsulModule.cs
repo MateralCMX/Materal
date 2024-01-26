@@ -1,5 +1,4 @@
-﻿using Materal.Abstractions;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
 namespace Materal.MergeBlock.Logger
 {
@@ -32,7 +31,7 @@ namespace Materal.MergeBlock.Logger
         public override async Task OnApplicationInitBeforeAsync(IApplicationContext context)
         {
             _config = context.ServiceProvider.GetRequiredService<IOptionsMonitor<ConsulConfigModel>>();
-            _consulService = MateralServices.GetRequiredService<IConsulService>();
+            _consulService = context.ServiceProvider.GetRequiredService<IConsulService>();
             _config.OnChange(config =>
             {
                 if (config.Enable)

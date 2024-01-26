@@ -4,7 +4,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
-		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj">
@@ -17,10 +17,5 @@
 			<ExcludeAssets>runtime</ExcludeAssets>
 			<PrivateAssets>all</PrivateAssets>
 		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup>
-	  <None Update="AccessLogConfig.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 </Project>

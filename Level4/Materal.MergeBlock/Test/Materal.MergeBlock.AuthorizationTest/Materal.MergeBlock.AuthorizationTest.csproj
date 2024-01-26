@@ -3,19 +3,23 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Remove="AuthorizationConfig.json" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</ProjectReference>
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</ProjectReference>
 	</ItemGroup>
 	<ItemGroup>
-		<Content Include="AuthorizationConfig.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Authorization\Materal.MergeBlock.Authorization.csproj" />
+	  <None Update="AuthorizationConfig.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

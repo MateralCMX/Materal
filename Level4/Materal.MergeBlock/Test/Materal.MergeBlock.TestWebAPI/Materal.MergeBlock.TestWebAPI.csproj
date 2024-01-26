@@ -9,14 +9,15 @@
 	</PropertyGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
-	  <ProjectReference Include="..\Materal.MergeBlock.AccessLogTest\Materal.MergeBlock.AccessLogTest.csproj" />
-	  <ProjectReference Include="..\Materal.MergeBlock.AuthorizationTest\Materal.MergeBlock.AuthorizationTest.csproj" />
-	  <ProjectReference Include="..\Materal.MergeBlock.ConsulTest\Materal.MergeBlock.ConsulTest.csproj" />
-	  <ProjectReference Include="..\Materal.MergeBlock.EventBusTest\Materal.MergeBlock.EventBusTest.csproj" />
-	  <ProjectReference Include="..\Materal.MergeBlock.ExceptionInterceptorTest\Materal.MergeBlock.ExceptionInterceptorTest.csproj" />
-	  <ProjectReference Include="..\Materal.MergeBlock.LoggerTest\Materal.MergeBlock.LoggerTest.csproj" />
-	  <ProjectReference Include="..\Materal.MergeBlock.OscillatorTest\Materal.MergeBlock.OscillatorTest.csproj" />
-	  <ProjectReference Include="..\Materal.MergeBlock.SwaggerTest\Materal.MergeBlock.SwaggerTest.csproj" />
+	  <!--<ProjectReference Include="..\Materal.MergeBlock.HelloWorldTest\Materal.MergeBlock.HelloWorldTest.csproj" />-->
+	  <!--<ProjectReference Include="..\Materal.MergeBlock.AccessLogTest\Materal.MergeBlock.AccessLogTest.csproj" />-->
+	  <!--<ProjectReference Include="..\Materal.MergeBlock.AuthorizationTest\Materal.MergeBlock.AuthorizationTest.csproj" />-->
+	  <!--<ProjectReference Include="..\Materal.MergeBlock.ConsulTest\Materal.MergeBlock.ConsulTest.csproj" />-->
+	  <!--<ProjectReference Include="..\Materal.MergeBlock.EventBusTest\Materal.MergeBlock.EventBusTest.csproj" />-->
+	  <!--<ProjectReference Include="..\Materal.MergeBlock.ExceptionInterceptorTest\Materal.MergeBlock.ExceptionInterceptorTest.csproj" />-->
+	  <!--<ProjectReference Include="..\Materal.MergeBlock.LoggerTest\Materal.MergeBlock.LoggerTest.csproj" />-->
+	  <!--<ProjectReference Include="..\Materal.MergeBlock.OscillatorTest\Materal.MergeBlock.OscillatorTest.csproj" />-->
+	  <!--<ProjectReference Include="..\Materal.MergeBlock.SwaggerTest\Materal.MergeBlock.SwaggerTest.csproj" />-->
 	</ItemGroup>
 	<ItemGroup>
 	  <Content Update="appsettings.json">

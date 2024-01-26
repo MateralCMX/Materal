@@ -20,17 +20,20 @@
 		<None Include="../../../../README.md" Pack="true" PackagePath="" />
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <NoWarn>1701;1702;CA2254</NoWarn>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <NoWarn>1701;1702;CA2254</NoWarn>
+	<PropertyGroup>
+		<NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="*" />
-	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="*" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="*" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Authorization.Abstractions\Materal.MergeBlock.Authorization.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Domain\Materal.MergeBlock.Domain.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.GeneratorCode\Materal.MergeBlock.GeneratorCode.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Oscillator.Abstractions\Materal.MergeBlock.Oscillator.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj" />
 	</ItemGroup>
 </Project>

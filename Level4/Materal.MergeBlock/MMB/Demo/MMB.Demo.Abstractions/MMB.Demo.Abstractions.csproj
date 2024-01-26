@@ -10,6 +10,8 @@
 		<PackageReference Include="Materal.TFMS.EventBus" Version="1.1.75" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Domain\Materal.MergeBlock.Domain.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.GeneratorCode\Materal.MergeBlock.GeneratorCode.csproj" />
 		<ProjectReference Include="..\..\Core\MMB.Core.Reposiroty\MMB.Core.Reposiroty.csproj" />
 	</ItemGroup>
 </Project>

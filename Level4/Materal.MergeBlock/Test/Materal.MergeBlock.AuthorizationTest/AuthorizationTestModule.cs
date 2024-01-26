@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.Abstractions;
+﻿using Materal.Extensions;
+using Materal.MergeBlock.Abstractions;
 using Microsoft.Extensions.Configuration;
 
 [assembly: MergeBlockAssembly("Authorization测试模块", "AuthorizationTest", ["Authorization"])]
@@ -18,8 +19,11 @@ namespace Materal.MergeBlock.AuthorizationTest
         {
             if (context.Configuration is IConfigurationBuilder configurationBuilder)
             {
-                string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AuthorizationConfig.json");
-                configurationBuilder.AddJsonFile(configFilePath, true, true);
+                string configFilePath = Path.Combine(GetType().Assembly.GetDirectoryPath(), "AuthorizationConfig.json");
+                if (File.Exists(configFilePath))
+                {
+                    configurationBuilder.AddJsonFile(configFilePath, true, true);
+                }
             }
             await base.OnConfigServiceBeforeAsync(context);
         }

@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.Abstractions;
+﻿using Materal.Extensions;
+using Materal.MergeBlock.Abstractions;
 using Microsoft.Extensions.Configuration;
 
 [assembly: MergeBlockAssembly("Oscillator测试模块", "OscillatorTest", ["Oscillator"])]
@@ -16,10 +17,13 @@ namespace Materal.MergeBlock.OscillatorTest
         /// <returns></returns>
         public override async Task OnConfigServiceBeforeAsync(IConfigServiceContext context)
         {
-            if(context.Configuration is IConfigurationBuilder configurationBuilder)
+            if (context.Configuration is IConfigurationBuilder configurationBuilder)
             {
-                string configFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "OscillatorConfig.json");
-                configurationBuilder.AddJsonFile(configFilePath, true, true);
+                string configFilePath = Path.Combine(GetType().Assembly.GetDirectoryPath(), "OscillatorConfig.json");
+                if (File.Exists(configFilePath))
+                {
+                    configurationBuilder.AddJsonFile(configFilePath, true, true);
+                }
             }
             await base.OnConfigServiceAsync(context);
         }
