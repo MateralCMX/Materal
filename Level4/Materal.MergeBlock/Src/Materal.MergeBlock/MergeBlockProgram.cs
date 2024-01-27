@@ -28,13 +28,21 @@
             services.AddMateralUtils();
             TConfigServiceContext context = GetConfigServiceContext();
             LoadModules(context.ServiceProvider);
-            IEnumerable<string> allMergeBlockNames = MergeBlockHost.ModuleInfos.Select(m => m.Name);
-            if (allMergeBlockNames.Distinct().Count() != allMergeBlockNames.Count()) throw new MergeBlockException("模块名称重复");
+            List<IModuleInfo> allMergeBlockModules = MergeBlockHost.ModuleInfos;
+            List<IModuleInfo> tempMergeBlockModules = [];
+            List<string> allMergeBlockModuleNames = [];
+            foreach (IModuleInfo module in allMergeBlockModules)
+            {
+                IModuleInfo? duplicateModule = tempMergeBlockModules.FirstOrDefault(m => m.Name == module.Name);
+                if (duplicateModule is not null) throw new MergeBlockException($"模块[{module.Location},{module.Name}|{module.Description}]与模块[{duplicateModule.Location},{duplicateModule.Name}|{module.Description}]重复");
+                tempMergeBlockModules.Add(module);
+                allMergeBlockModuleNames.Add(module.Name);
+            }
             await RunModuleAsync(async m =>
             {
                 foreach (string depend in m.Depends)
                 {
-                    if (allMergeBlockNames.Contains(depend)) continue;
+                    if (allMergeBlockModuleNames.Contains(depend)) continue;
                     throw new MergeBlockException($"未找到模块{m.Name}的依赖模块{depend}");
                 }
                 await Task.CompletedTask;

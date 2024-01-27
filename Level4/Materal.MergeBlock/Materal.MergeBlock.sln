@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.ConsoleT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.NormalTest", "Test\Materal.MergeBlock.NormalTest\Materal.MergeBlock.NormalTest.csproj", "{EAE8628B-4DF7-4A54-8B3F-C892EB853F6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Logger", "Modules\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj", "{B8EEB74C-DC60-40A9-B525-F49D3078501D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{EAE8628B-4DF7-4A54-8B3F-C892EB853F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAE8628B-4DF7-4A54-8B3F-C892EB853F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAE8628B-4DF7-4A54-8B3F-C892EB853F6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8EEB74C-DC60-40A9-B525-F49D3078501D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8EEB74C-DC60-40A9-B525-F49D3078501D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8EEB74C-DC60-40A9-B525-F49D3078501D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8EEB74C-DC60-40A9-B525-F49D3078501D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{F09ABD75-30F3-4053-BCEC-7E72D5F1AF64} = {AAEB8EAF-4463-4C4B-B0AC-E64B2B5FEB6B}
 		{342E611C-2CC5-47DB-85CF-CADCA92F8BB5} = {AAEB8EAF-4463-4C4B-B0AC-E64B2B5FEB6B}
 		{EAE8628B-4DF7-4A54-8B3F-C892EB853F6B} = {AAEB8EAF-4463-4C4B-B0AC-E64B2B5FEB6B}
+		{B8EEB74C-DC60-40A9-B525-F49D3078501D} = {679FA2B4-82C9-4274-9906-00CB64404619}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {936B17FE-AF26-49C1-8527-F897DDA8C646}

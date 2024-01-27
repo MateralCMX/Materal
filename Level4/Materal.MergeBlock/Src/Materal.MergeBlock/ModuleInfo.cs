@@ -35,6 +35,10 @@
         /// </summary>
         public string[] Depends => Instance.Depends;
         /// <summary>
+        /// 模块位置
+        /// </summary>
+        public string Location => ModuleType.Assembly.Location;
+        /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="moduleDirectoryInfo"></param>

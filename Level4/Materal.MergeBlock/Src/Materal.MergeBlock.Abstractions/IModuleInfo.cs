@@ -18,6 +18,10 @@
         /// </summary>
         string Description { get; }
         /// <summary>
+        /// 模块位置
+        /// </summary>
+        string Location { get; }
+        /// <summary>
         /// 依赖模块
         /// </summary>
         string[] Depends { get; }

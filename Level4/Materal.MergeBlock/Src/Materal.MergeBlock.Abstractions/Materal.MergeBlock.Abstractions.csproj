@@ -5,7 +5,22 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<IsPackable>true</IsPackable>
+		<Version>1.1.75</Version>
+		<Company>古典部工作室</Company>
+		<Product>Materal.MergeBlock.Abstractions</Product>
+		<Authors>Materal</Authors>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
+		<Title>Materal.MergeBlock.Abstractions</Title>
+		<Description>Materal.MergeBlock抽象库</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>

@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock
+﻿using System.Runtime.Loader;
+
+namespace Materal.MergeBlock
 {
     /// <summary>
     /// 模块文件夹信息
@@ -12,7 +14,7 @@
         /// <summary>
         /// 加载上下文
         /// </summary>
-        public ModuleLoadContext LoadContext { get; }
+        public AssemblyLoadContext LoadContext { get; }
         /// <summary>
         /// 模块信息
         /// </summary>
@@ -24,13 +26,14 @@
         /// <param name="moduleBuilders"></param>
         public ModuleDirectoryInfo(DirectoryInfo directoryInfo, IEnumerable<IModuleBuilder> moduleBuilders)
         {
-            DirectoryInfo = directoryInfo;
-            LoadContext = new(directoryInfo);
+            DirectoryInfo = directoryInfo;            
+            LoadContext = directoryInfo.FullName != AppDomain.CurrentDomain.BaseDirectory ? new ModuleLoadContext(directoryInfo) : AssemblyLoadContext.Default;
             foreach (FileInfo dllFileInfo in directoryInfo.EnumerateFiles("*.dll"))
             {
                 if (!dllFileInfo.Exists) continue;
                 Assembly? assembly = LoadContext.LoadFromAssemblyPath(dllFileInfo.FullName);
                 if (assembly is null) continue;
+                List<Attribute> attributes = assembly.GetCustomAttributes().ToList();
                 if (!assembly.HasCustomAttribute<MergeBlockAssemblyAttribute>()) continue;
                 List<Type> moduleTypes = assembly.GetTypes().Where(IsMergeBlockModule).ToList();
                 foreach (Type moduleType in moduleTypes)
