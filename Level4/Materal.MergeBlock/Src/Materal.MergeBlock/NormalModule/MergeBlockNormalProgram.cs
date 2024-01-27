@@ -1,6 +1,4 @@
 ﻿using Materal.MergeBlock.Abstractions.NormalModule;
-using Materal.MergeBlock.ConsoleModule;
-using Materal.MergeBlock.WebModule;
 
 namespace Materal.MergeBlock.NormalModule
 {
@@ -23,12 +21,13 @@ namespace Materal.MergeBlock.NormalModule
             _configuration.AddCommandLine(args);
             _configuration.AddJsonFile("appsettings.json", true, true);
             _services = new ServiceCollection();
-            _services.AddSingleton<IModuleBuilder, NormalModuleBuilder>();
-            _services.AddSingleton<IModuleBuilder, ConsoleModuleBuilder>();
-            _services.AddSingleton<IModuleBuilder, WebModuleBuilder>();
+            _services.TryAddSingleton<IConfiguration>(_configuration);
+            _services.TryAddSingleton<IConfigurationBuilder>(_configuration);
+            _services.TryAddSingleton<IConfigurationManager>(_configuration);
+            _services.TryAddSingleton<IConfigurationRoot>(_configuration);
             await ConfigModuleAsync(_services, _configuration);
             _serviceProvider = _services.BuildServiceProvider();
-            await InitModuleAsync();
+            await InitModuleAsync(_serviceProvider);
         }
         /// <summary>
         /// 获得配置服务上下文

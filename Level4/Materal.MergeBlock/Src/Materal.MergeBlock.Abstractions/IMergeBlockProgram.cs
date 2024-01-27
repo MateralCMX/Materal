@@ -21,7 +21,8 @@
         /// <summary>
         /// 应用程序初始化
         /// </summary>
+        /// <paramref name="serviceProvider"></paramref>
         /// <returns></returns>
-        Task InitModuleAsync();
+        Task InitModuleAsync(IServiceProvider serviceProvider);
     }
 }

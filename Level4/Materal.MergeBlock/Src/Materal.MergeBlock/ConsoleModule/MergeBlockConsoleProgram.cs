@@ -1,6 +1,4 @@
 ﻿using Materal.MergeBlock.Abstractions.ConsoleModule;
-using Materal.MergeBlock.NormalModule;
-using Materal.MergeBlock.WebModule;
 using Microsoft.Extensions.Hosting;
 
 namespace Materal.MergeBlock.ConsoleModule
@@ -20,12 +18,9 @@ namespace Materal.MergeBlock.ConsoleModule
         public override async Task RunAsync(string[] args)
         {
             _builder = Host.CreateApplicationBuilder(args);
-            _builder.Services.AddSingleton<IModuleBuilder, ConsoleModuleBuilder>();
-            _builder.Services.AddSingleton<IModuleBuilder, WebModuleBuilder>();
-            _builder.Services.AddSingleton<IModuleBuilder, NormalModuleBuilder>();
             await ConfigModuleAsync(_builder.Services, _builder.Configuration);
             _app = _builder.Build();
-            await InitModuleAsync();
+            await InitModuleAsync(_app.Services);
             await _app.RunAsync();
         }
         /// <summary>

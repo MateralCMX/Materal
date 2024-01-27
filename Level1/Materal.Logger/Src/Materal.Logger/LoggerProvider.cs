@@ -15,10 +15,10 @@
         public LoggerProvider(IServiceProvider serviceProvider, IOptionsMonitor<LoggerConfig> config)
         {
             _config = config;
-            _config.CurrentValue.UpdateConfig(serviceProvider).Wait();
+            _config.CurrentValue.UpdateConfigAsync(serviceProvider).Wait();
             _onChangeToken = _config.OnChange(async m =>
             {
-                await m.UpdateConfig(serviceProvider);
+                await m.UpdateConfigAsync(serviceProvider);
             });
         }
         /// <summary>

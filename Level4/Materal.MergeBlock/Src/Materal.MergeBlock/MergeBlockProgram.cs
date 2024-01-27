@@ -1,4 +1,11 @@
-﻿namespace Materal.MergeBlock
+﻿using Materal.MergeBlock.ConsoleModule;
+using Materal.MergeBlock.NormalModule;
+using Materal.MergeBlock.WebModule;
+using Materal.Utils;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+
+namespace Materal.MergeBlock
 {
     /// <summary>
     /// MergeBlock程序
@@ -23,12 +30,19 @@
         /// <returns></returns>
         public virtual async Task ConfigModuleAsync(IServiceCollection services, ConfigurationManager configuration)
         {
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, ConsoleModuleBuilder>());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, WebModuleBuilder>());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, NormalModuleBuilder>());
+            //services.AddSingleton<IModuleBuilder, ConsoleModuleBuilder>();
+            //services.AddSingleton<IModuleBuilder, WebModuleBuilder>();
+            //services.AddSingleton<IModuleBuilder, NormalModuleBuilder>();
             services.AddOptions();
             services.Configure<MergeBlockConfig>(configuration);
             services.AddMateralUtils();
             TConfigServiceContext context = GetConfigServiceContext();
             LoadModules(context.ServiceProvider);
             List<IModuleInfo> allMergeBlockModules = MergeBlockHost.ModuleInfos;
+            MergeBlockHost.Logger?.LogDebug($"找到{allMergeBlockModules.Count}个模块");
             List<IModuleInfo> tempMergeBlockModules = [];
             List<string> allMergeBlockModuleNames = [];
             foreach (IModuleInfo module in allMergeBlockModules)
@@ -81,13 +95,17 @@
         /// 初始化模块
         /// </summary>
         /// <returns></returns>
-        public virtual async Task InitModuleAsync()
+        public virtual async Task InitModuleAsync(IServiceProvider serviceProvider)
         {
             TApplicationContext context = GetApplicationContext();
             await ApplicationInitBeforeAsync(context);
             await RunModuleAsync(async m => await m.ApplicationInitBeforeAsync(context));
             await ApplicationInitAsync(context);
-            await RunModuleAsync(async m => await m.ApplicationInitAsync(context));
+            await RunModuleAsync(async m =>
+            {
+                MergeBlockHost.Logger?.LogDebug($"初始化模块[{m.Name}|{m.Description}]");
+                await m.ApplicationInitAsync(context);
+            });
             await ApplicationInitAfterAsync(context);
             await RunModuleAsync(async m => await m.ApplicationInitAfterAsync(context));
         }

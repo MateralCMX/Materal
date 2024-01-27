@@ -99,7 +99,7 @@ namespace Materal.Logger.ConfigModels
         /// <summary>
         /// 更新配置
         /// </summary>
-        public async Task UpdateConfig(IServiceProvider serviceProvider)
+        public async Task UpdateConfigAsync(IServiceProvider serviceProvider)
         {
             IConfiguration? configuration = serviceProvider.GetService<IConfiguration>();
             if (configuration is not null)
