@@ -1,0 +1,50 @@
+﻿using Materal.MergeBlock.Abstractions.WebModule;
+using Materal.MergeBlock.ConsoleModule;
+using Materal.MergeBlock.NormalModule;
+using Microsoft.AspNetCore.Builder;
+
+namespace Materal.MergeBlock.WebModule
+{
+    /// <summary>
+    /// MergeBlockWeb程序
+    /// </summary>
+    public class MergeBlockWebProgram : MergeBlockProgram<MergeBlockWebModule, WebModuleInfo, WebConfigServiceContext, WebApplicationContext>
+    {
+        private WebApplicationBuilder? _builder;
+        private WebApplication? _app;
+        /// <summary>
+        /// 运行
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public override async Task RunAsync(string[] args)
+        {
+            _builder = WebApplication.CreateBuilder(args);
+            _builder.Services.AddSingleton<IModuleBuilder, WebModuleBuilder>();
+            _builder.Services.AddSingleton<IModuleBuilder, ConsoleModuleBuilder>();
+            _builder.Services.AddSingleton<IModuleBuilder, NormalModuleBuilder>();
+            await ConfigModuleAsync(_builder.Services, _builder.Configuration);
+            _app = _builder.Build();
+            await InitModuleAsync();
+            await _app.RunAsync();
+        }
+        /// <summary>
+        /// 获得配置服务上下文
+        /// </summary>
+        /// <returns></returns>
+        protected override WebConfigServiceContext GetConfigServiceContext()
+        {
+            if (_builder is null) throw new MergeBlockException("未初始化WebApplicationBuilder");
+            return new(_builder);
+        }
+        /// <summary>
+        /// 获得配置服务上下文
+        /// </summary>
+        /// <returns></returns>
+        protected override WebApplicationContext GetApplicationContext()
+        {
+            if (_app is null) throw new MergeBlockException("未初始化WebApplication");
+            return new(_app.Services);
+        }
+    }
+}
