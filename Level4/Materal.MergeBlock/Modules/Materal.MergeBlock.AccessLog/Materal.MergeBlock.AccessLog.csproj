@@ -9,25 +9,25 @@
 		<IsPackable>true</IsPackable>
 		<Version>1.1.75</Version>
 		<Company>古典部工作室</Company>
-		<Product>Materal.MergeBlock.Abstractions</Product>
+		<Product>Materal.MergeBlock.AccessLog</Product>
 		<Authors>Materal</Authors>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
-		<Title>Materal.MergeBlock.Abstractions</Title>
-		<Description>Materal.MergeBlock抽象库</Description>
+		<Title>Materal.MergeBlock.AccessLog</Title>
+		<Description>Materal.MergeBlock访问日志模组</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+	<PropertyGroup>
+		<NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="../../../../README.md" Pack="true" PackagePath="" />
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="*" />
+	<!--<ItemGroup>
 		<PackageReference Include="Materal.Logger" Version="1.1.75" />
-		<PackageReference Include="Materal.TTA.Common" Version="1.1.75" />
-		<PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.75" />
-	</ItemGroup>
+	</ItemGroup>-->
 </Project>

@@ -71,6 +71,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Authoriz
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Authorization", "Modules\Materal.MergeBlock.Authorization\Materal.MergeBlock.Authorization.csproj", "{BA4CED16-D2F6-49E1-9CB5-C2F48F98B94A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.AccessLog", "Modules\Materal.MergeBlock.AccessLog\Materal.MergeBlock.AccessLog.csproj", "{4FA36EEC-3253-4692-82F3-39E9716F9F1C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.AccessLogTest", "Test\Materal.MergeBlock.AccessLogTest\Materal.MergeBlock.AccessLogTest.csproj", "{1A0A4A89-E470-42FF-BB4C-57E7F29DA9D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -181,6 +185,14 @@ Global
 		{BA4CED16-D2F6-49E1-9CB5-C2F48F98B94A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA4CED16-D2F6-49E1-9CB5-C2F48F98B94A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA4CED16-D2F6-49E1-9CB5-C2F48F98B94A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FA36EEC-3253-4692-82F3-39E9716F9F1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FA36EEC-3253-4692-82F3-39E9716F9F1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FA36EEC-3253-4692-82F3-39E9716F9F1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FA36EEC-3253-4692-82F3-39E9716F9F1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A0A4A89-E470-42FF-BB4C-57E7F29DA9D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A0A4A89-E470-42FF-BB4C-57E7F29DA9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A0A4A89-E470-42FF-BB4C-57E7F29DA9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A0A4A89-E470-42FF-BB4C-57E7F29DA9D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,6 +228,8 @@ Global
 		{378F9870-E9EB-4A60-AD3B-E038E8045782} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
 		{34CAE222-40A5-4360-A3AF-836868B6566D} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
 		{BA4CED16-D2F6-49E1-9CB5-C2F48F98B94A} = {679FA2B4-82C9-4274-9906-00CB64404619}
+		{4FA36EEC-3253-4692-82F3-39E9716F9F1C} = {679FA2B4-82C9-4274-9906-00CB64404619}
+		{1A0A4A89-E470-42FF-BB4C-57E7F29DA9D2} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {936B17FE-AF26-49C1-8527-F897DDA8C646}
