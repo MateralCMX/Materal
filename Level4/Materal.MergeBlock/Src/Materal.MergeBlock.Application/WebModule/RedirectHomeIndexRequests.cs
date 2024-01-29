@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Rewrite;
+﻿using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Net.Http.Headers;
 
 namespace Materal.MergeBlock.Application.WebModule

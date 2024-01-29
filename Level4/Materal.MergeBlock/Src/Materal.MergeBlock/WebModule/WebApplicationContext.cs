@@ -1,4 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule;
+using Microsoft.AspNetCore.Builder;
 
 namespace Materal.MergeBlock.WebModule
 {
@@ -6,7 +7,11 @@ namespace Materal.MergeBlock.WebModule
     /// Web配置服务上下文
     /// </summary>
     /// <param name="serviceProvider"></param>
-    public class WebApplicationContext(IServiceProvider serviceProvider) : ApplicationContext(serviceProvider), IWebApplicationContext
+    public class WebApplicationContext(IServiceProvider serviceProvider, WebApplication webApplication) : ApplicationContext(serviceProvider), IWebApplicationContext
     {
+        /// <summary>
+        /// Web应用程序
+        /// </summary>
+        public WebApplication WebApplication { get; } = webApplication;
     }
 }

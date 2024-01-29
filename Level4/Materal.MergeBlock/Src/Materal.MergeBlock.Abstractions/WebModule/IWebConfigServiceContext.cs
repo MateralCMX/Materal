@@ -11,5 +11,9 @@ namespace Materal.MergeBlock.Abstractions.WebModule
         /// 主机构建器
         /// </summary>
         WebApplicationBuilder HostBuilder { get; }
+        /// <summary>
+        /// MVC构建器
+        /// </summary>
+        IMvcBuilder MvcBuilder { get; }
     }
 }

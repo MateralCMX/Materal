@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace MMB.Demo.Application
+﻿namespace MMB.Demo.Application
 {
     /// <summary>
     /// Demo模块
@@ -10,7 +8,7 @@ namespace MMB.Demo.Application
         /// <summary>
         /// 构造函数
         /// </summary>
-        public DemoModule() : base("MMBDemo模块", "MMB.Demo")
+        public DemoModule() : base("MMBDemo模块", "MMB.Demo", ["MMB.Demo.Repository"])
         {
         }
         /// <summary>

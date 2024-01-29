@@ -18,6 +18,7 @@
 	  </Content>
 	</ItemGroup>
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
 	  <ProjectReference Include="..\..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
 	  <ProjectReference Include="..\MMB.Demo.Application\MMB.Demo.Application.csproj" />
 	</ItemGroup>

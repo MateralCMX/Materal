@@ -289,7 +289,7 @@ namespace Materal.MergeBlock
         /// <param name="func"></param>
         /// <param name="enableDepend">启用依赖</param>
         /// <returns></returns>
-        private static async Task RunModuleAsync(Action<IModuleInfo> func, bool enableDepend = true) => await RunModuleAsync(async m =>
+        protected static async Task RunModuleAsync(Action<IModuleInfo> func, bool enableDepend = true) => await RunModuleAsync(async m =>
         {
             func.Invoke(m);
             await Task.CompletedTask;
@@ -300,7 +300,7 @@ namespace Materal.MergeBlock
         /// <param name="func"></param>
         /// <param name="enableDepend">启用依赖</param>
         /// <returns></returns>
-        private static async Task RunModuleAsync(Func<IModuleInfo, Task> func, bool enableDepend = true)
+        protected static async Task RunModuleAsync(Func<IModuleInfo, Task> func, bool enableDepend = true)
         {
             Queue<IModuleInfo> waitingModules = new(MergeBlockHost.ModuleInfos);
             List<string> complateModuleNames = [];
