@@ -9,7 +9,10 @@
         where T : DbContext
         where TDBConfigType : IDBConfigModel
     {
-        private const string _configKey = "DBConfig";
+        /// <summary>
+        /// 配置键
+        /// </summary>
+        protected abstract string ConfigKey { get; }
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -41,7 +44,7 @@
         /// <exception cref="MergeBlockException"></exception>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            TDBConfigType dbConfig = context.Configuration.GetValueObject<TDBConfigType>(_configKey) ?? throw new MergeBlockException($"获取数据库配置[{_configKey}]失败");
+            TDBConfigType dbConfig = context.Configuration.GetValueObject<TDBConfigType>(ConfigKey) ?? throw new MergeBlockException($"获取数据库配置[{ConfigKey}]失败");
             AddDBContext(context.Services, dbConfig);
             await base.OnConfigServiceAsync(context);
         }

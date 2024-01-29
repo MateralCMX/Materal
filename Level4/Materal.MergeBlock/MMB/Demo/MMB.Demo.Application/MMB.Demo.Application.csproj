@@ -5,9 +5,112 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Core\MMB.Core.Application\MMB.Core.Application.csproj" />
-	  <ProjectReference Include="..\MMB.Demo.Repository\MMB.Demo.Repository.csproj" />
+		<PackageReference Include="AutoMapper" Version="*">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="IndexRange" Version="*">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Materal.Abstractions" Version="1.1.75">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Materal.Extensions" Version="1.1.75">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.75">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Materal.TTA.Common" Version="1.1.75">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.75">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Materal.Utils" Version="1.1.75">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="*">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="*">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="*">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="*">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Win32.SystemEvents" Version="*">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="NetCore.AutoRegisterDi" Version="*">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="*">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="System.Drawing.Common" Version="*">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</ProjectReference>
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj">
+			<Private>false</Private>
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</ProjectReference>
+		<ProjectReference Include="..\MMB.Demo.Repository\MMB.Demo.Repository.csproj"/>
+		<ProjectReference Include="..\..\Core\MMB.Core.Application\MMB.Core.Application.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="MMB.Demo.Application.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>

@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Materal.Extensions;
+using Materal.MergeBlock.Abstractions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace MMB.Demo.Repository
@@ -25,6 +28,19 @@ namespace MMB.Demo.Repository
         /// <param name="depends"></param>
         public MMBRepositoryModule(string description, string? moduleName = null, string[]? depends = null) : base(description, moduleName, depends)
         {
+        }
+        /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
+        {
+            Type moduleType = GetType();
+            string configFilePath = moduleType.Assembly.GetDirectoryPath();
+            configFilePath = Path.Combine(configFilePath, $"{moduleType.Namespace}.json");
+            context.Configuration.AddJsonFile(configFilePath, optional: true, reloadOnChange: true);
+            await base.OnConfigServiceAsync(context);
         }
         /// <summary>
         /// 添加DBContext

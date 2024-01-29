@@ -7,7 +7,14 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Core\MMB.Core.Repository\MMB.Core.Repository.csproj" />
-	  <ProjectReference Include="..\MMB.Demo.Abstractions\MMB.Demo.Abstractions.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj" />
+		<ProjectReference Include="..\..\Core\MMB.Core.Repository\MMB.Core.Repository.csproj" />
+		<ProjectReference Include="..\MMB.Demo.Abstractions\MMB.Demo.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="MMB.Demo.Repository.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 </Project>

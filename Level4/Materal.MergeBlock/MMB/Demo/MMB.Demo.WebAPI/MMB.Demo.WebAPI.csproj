@@ -15,7 +15,5 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
-	  <ProjectReference Include="..\MMB.Demo.Application\MMB.Demo.Application.csproj" />
-	  <ProjectReference Include="..\MMB.Demo.Repository\MMB.Demo.Repository.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,0 +1,7 @@
+{
+  "MMB.Demo": {
+    "DBConfig": {
+      "Source": "D:\\Project\\Materal\\Materal\\Level4\\Materal.MergeBlock\\MMB\\Demo\\MMB.Demo.WebAPI\\bin\\MMBDemo.db"
+    }
+  }
+}

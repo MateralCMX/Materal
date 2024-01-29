@@ -1,4 +1,6 @@
-﻿namespace MMB.Demo.Application
+﻿using Microsoft.Extensions.Configuration;
+
+namespace MMB.Demo.Application
 {
     /// <summary>
     /// Demo模块
@@ -18,8 +20,8 @@
         /// <returns></returns>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            context.Services.Configure<ApplicationConfig>(context.Configuration);
             await base.OnConfigServiceAsync(context);
+            context.Services.Configure<ApplicationConfig>(context.Configuration.GetSection("MMB.Demo"));
         }
         /// <summary>
         /// 应用程序初始化

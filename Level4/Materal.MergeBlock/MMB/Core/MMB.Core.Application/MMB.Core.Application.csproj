@@ -8,6 +8,5 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj" />
-		<ProjectReference Include="..\..\Demo\MMB.Demo.Abstractions\MMB.Demo.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

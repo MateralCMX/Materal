@@ -1,4 +1,7 @@
-﻿using Materal.MergeBlock.Abstractions.WebModule;
+﻿using Materal.Extensions;
+using Materal.MergeBlock.Abstractions;
+using Materal.MergeBlock.Abstractions.WebModule;
+using Microsoft.Extensions.Configuration;
 
 namespace MMB.Core.Application
 {
@@ -23,6 +26,19 @@ namespace MMB.Core.Application
         /// <param name="depends"></param>
         protected MMBModule(string description, string? moduleName = null, string[]? depends = null) : base(description, moduleName, depends)
         {
+        }
+        /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
+        {
+            Type moduleType = GetType();
+            string configFilePath = moduleType.Assembly.GetDirectoryPath();
+            configFilePath = Path.Combine(configFilePath, $"{moduleType.Namespace}.json");
+            context.Configuration.AddJsonFile(configFilePath, optional: true, reloadOnChange: true);
+            await base.OnConfigServiceAsync(context);
         }
     }
 }

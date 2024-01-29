@@ -11,5 +11,9 @@
         public DemoRepositoryModule() : base("MMB.Demo仓储模块", "MMB.Demo.Repository")
         {
         }
+        /// <summary>
+        /// 配置键
+        /// </summary>
+        protected override string ConfigKey => "MMB.Demo:DBConfig";
     }
 }
