@@ -1,7 +1,7 @@
 ﻿using Materal.MergeBlock.GeneratorCode.Attributers;
 using Materal.MergeBlock.GeneratorCode.Models;
 
-namespace Materal.MergeBlock.GeneratorCode
+namespace Materal.MergeBlock.GeneratorCode.Extensions
 {
     /// <summary>
     /// 领域模型扩展
@@ -16,8 +16,8 @@ namespace Materal.MergeBlock.GeneratorCode
         /// <returns></returns>
         public static DomainModel GetQueryDomain(this DomainModel domain, List<DomainModel> domains)
         {
-            DomainModel targetDomain = domain;
-            AttributeModel? queryViewAttribute = targetDomain.GetAttribute<QueryViewAttribute>();
+            var targetDomain = domain;
+            var queryViewAttribute = targetDomain.GetAttribute<QueryViewAttribute>();
             if (queryViewAttribute is not null)
             {
                 string? targetDomainName = queryViewAttribute.GetAttributeArgument()?.Value;

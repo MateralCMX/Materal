@@ -1,6 +1,6 @@
 ﻿using Materal.MergeBlock.GeneratorCode.Models;
 
-namespace Materal.MergeBlock.GeneratorCode
+namespace Materal.MergeBlock.GeneratorCode.Extensions
 {
     /// <summary>
     /// 特性扩展
@@ -205,7 +205,7 @@ namespace Materal.MergeBlock.GeneratorCode
         {
             if (attributes.Count <= 0) return null;
             List<string> attributeCodes = [];
-            foreach (AttributeModel attribute in attributes)
+            foreach (var attribute in attributes)
             {
                 attributeCodes.Add(attribute.ToString());
             }

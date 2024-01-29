@@ -1,7 +1,6 @@
-﻿using Materal.MergeBlock.WebModule;
-using Microsoft.AspNetCore.Mvc.Controllers;
+﻿using Microsoft.AspNetCore.Mvc.Controllers;
 
-namespace Materal.MergeBlock
+namespace Materal.MergeBlock.WebModule
 {
     /// <summary>
     /// 服务提供者工厂

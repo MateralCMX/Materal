@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace MMB.Demo.EFRepository.EntityConfigs
+namespace MMB.Demo.Repository.EntityConfigs
 {
     /// <summary>
     /// 用户实体配置基类

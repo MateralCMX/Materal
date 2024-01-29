@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace MMB.Demo.Repository
+namespace MMB.Core.Repository
 {
     /// <summary>
     /// MMB仓储模块
@@ -36,7 +36,7 @@ namespace MMB.Demo.Repository
         /// <returns></returns>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            Type moduleType = GetType();
+            var moduleType = GetType();
             string configFilePath = moduleType.Assembly.GetDirectoryPath();
             configFilePath = Path.Combine(configFilePath, $"{moduleType.Namespace}.json");
             context.Configuration.AddJsonFile(configFilePath, optional: true, reloadOnChange: true);

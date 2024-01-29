@@ -1,4 +1,5 @@
 ﻿using Materal.MergeBlock.GeneratorCode.Attributers;
+using Materal.MergeBlock.GeneratorCode.Extensions;
 
 namespace Materal.MergeBlock.GeneratorCode.Models
 {

@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers
+﻿using Materal.MergeBlock.GeneratorCode.Extensions;
+
+namespace Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers
 {
     /// <summary>
     /// 方法分析代码处理器

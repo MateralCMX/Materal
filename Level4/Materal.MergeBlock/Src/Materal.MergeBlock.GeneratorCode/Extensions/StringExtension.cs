@@ -1,4 +1,4 @@
-﻿namespace System
+﻿namespace Materal.MergeBlock.GeneratorCode.Extensions
 {
     /// <summary>
     /// 字符串扩展
@@ -64,10 +64,10 @@
                 packags =
                 [
                     ["\"", "\""],
-                    ["'","'"],
-                    ["(",")"],
-                    ["[","]"],
-                    ["{","}"]
+                    ["'", "'"],
+                    ["(", ")"],
+                    ["[", "]"],
+                    ["{", "}"]
                 ];
             }
             string result = code;
