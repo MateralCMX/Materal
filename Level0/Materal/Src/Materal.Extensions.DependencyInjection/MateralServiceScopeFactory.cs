@@ -3,7 +3,7 @@
     /// <summary>
     /// Materal服务作用域工厂
     /// </summary>
-    public class MateralServiceScopeFactory(IServiceScopeFactory scopeFactory, Func<Type, Type, bool> filter) : IServiceScopeFactory
+    public class MateralServiceScopeFactory(IServiceScopeFactory scopeFactory) : IServiceScopeFactory
     {
         /// <summary>
         /// 创建作用域
@@ -12,7 +12,7 @@
         public IServiceScope CreateScope()
         {
             IServiceScope serviceScope = scopeFactory.CreateScope();
-            IServiceScope result = new MateralServiceScope(serviceScope, filter);
+            IServiceScope result = new MateralServiceScope(serviceScope);
             return result;
         }
     }

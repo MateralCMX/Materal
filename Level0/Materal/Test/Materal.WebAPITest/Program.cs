@@ -19,7 +19,8 @@ namespace Materal.WebAPITest
             builder.Services.AddSwaggerGen();
             builder.Services.AddMateralConsulUtils();
             builder.Services.AddScoped<ITestService, TestServiceImpl>();
-            builder.Services.AddInterceptor<MyInterceptorAttribute>();
+            builder.Services.AddScoped<ITestRepository, TestRepositoryImpl>();
+            //builder.Services.AddInterceptor<MyInterceptorAttribute>();
             builder.Host.UseServiceProviderFactory(new MateralServiceProviderFactory());// π”√AOP
             WebApplication app = builder.Build();
             _serviceProvider = app.Services;
@@ -32,6 +33,7 @@ namespace Materal.WebAPITest
             IConsulService consulService = app.Services.GetRequiredService<IConsulService>();
             ConsulConfigModel consulConfigModel = new()
             {
+                Enable = false,
                 ConsulUrl = new()
                 {
                     Host = "127.0.0.1",
@@ -52,7 +54,6 @@ namespace Materal.WebAPITest
                 },
                 ServiceName = "MateralWebAPITest",
                 Tags = ["Materal", "Materal.Utils"],
-                Enable = true,
                 ServiceUrl = new()
                 {
                     Host = "localhost",

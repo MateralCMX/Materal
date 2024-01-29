@@ -25,6 +25,6 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.75" />
+		<PackageReference Include="Materal.TTA.Common" Version="1.1.75" />
 	</ItemGroup>
 </Project>

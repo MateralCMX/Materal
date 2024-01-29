@@ -10,10 +10,10 @@
         /// <summary>
         /// 构造方法
         /// </summary>
-        public MateralServiceScope(IServiceScope serviceScope, Func<Type, Type, bool> filter)
+        public MateralServiceScope(IServiceScope serviceScope)
         {
             _serviceScope = serviceScope;
-            _materalServiceProvider = new MateralServiceProvider(_serviceScope.ServiceProvider, filter);
+            _materalServiceProvider = new MateralServiceProvider(_serviceScope.ServiceProvider);
         }
         /// <summary>
         /// 服务提供者

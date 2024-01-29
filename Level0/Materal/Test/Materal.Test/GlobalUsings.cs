@@ -1,5 +1,6 @@
 global using Materal.Abstractions;
 global using Materal.Extensions;
+global using Materal.Extensions.DependencyInjection;
 global using Materal.Extensions.ValidationAttributes;
 global using Materal.Utils.Extensions;
 global using Materal.Utils.Model;

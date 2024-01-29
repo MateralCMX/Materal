@@ -23,9 +23,10 @@ namespace Materal.Test
             _serviceCollection.AddMateralUtils();
             _serviceCollection.AddOptions();
             AddServices(_serviceCollection);
-            MateralServices.Services = _serviceCollection.BuildServiceProvider();
+            MateralServices.Services = BuilderServiceProvider(_serviceCollection);
             Services = MateralServices.Services;
         }
+        protected virtual IServiceProvider BuilderServiceProvider(IServiceCollection services) => services.BuildMateralServiceProvider();
         public virtual void AddServices(IServiceCollection services)
         {
 
