@@ -24,11 +24,28 @@ namespace Materal.MergeBlock
         /// </summary>
         /// <param name="directoryInfo"></param>
         /// <param name="moduleBuilders"></param>
-        public ModuleDirectoryInfo(DirectoryInfo directoryInfo, IEnumerable<IModuleBuilder> moduleBuilders)
+        /// <param name="autoRemoveAssemblies"></param>
+        public ModuleDirectoryInfo(DirectoryInfo directoryInfo, IEnumerable<IModuleBuilder> moduleBuilders, bool autoRemoveAssemblies)
         {
+            FileInfo[] moduleDllFileInfos = directoryInfo.GetFiles("*.dll");
+            if (autoRemoveAssemblies)
+            {
+                DirectoryInfo rootDirectoryInfo = new(AppDomain.CurrentDomain.BaseDirectory);
+                FileInfo[] rootDllFileInfos = rootDirectoryInfo.GetFiles("*.dll");
+                string[] rootDllFileNames = rootDllFileInfos.Select(m => m.Name).ToArray();
+                foreach (FileInfo fileInfo in moduleDllFileInfos)
+                {
+                    if (rootDllFileNames.Contains(fileInfo.Name))
+                    {
+                        fileInfo.Delete();
+                        fileInfo.Refresh();
+                    }
+                }
+                moduleDllFileInfos = moduleDllFileInfos.Where(m => m.Exists).ToArray();
+            }
             DirectoryInfo = directoryInfo;            
             LoadContext = directoryInfo.FullName != AppDomain.CurrentDomain.BaseDirectory ? new ModuleLoadContext(directoryInfo) : AssemblyLoadContext.Default;
-            foreach (FileInfo dllFileInfo in directoryInfo.EnumerateFiles("*.dll"))
+            foreach (FileInfo dllFileInfo in moduleDllFileInfos)
             {
                 if (!dllFileInfo.Exists) continue;
                 Assembly? assembly = LoadContext.LoadFromAssemblyPath(dllFileInfo.FullName);

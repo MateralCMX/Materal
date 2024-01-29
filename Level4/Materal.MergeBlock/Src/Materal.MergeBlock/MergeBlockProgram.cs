@@ -1,5 +1,4 @@
-﻿using Materal.Extensions;
-using Materal.MergeBlock.ConsoleModule;
+﻿using Materal.MergeBlock.ConsoleModule;
 using Materal.MergeBlock.NormalModule;
 using Materal.MergeBlock.WebModule;
 
@@ -18,15 +17,17 @@ namespace Materal.MergeBlock
         /// 运行
         /// </summary>
         /// <param name="args"></param>
+        /// <param name="autoRemoveAssemblies"></param>
         /// <returns></returns>
-        public abstract Task RunAsync(string[] args);
+        public abstract Task RunAsync(string[] args, bool autoRemoveAssemblies = true);
         /// <summary>
         /// 配置模块
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
+        /// <param name="autoRemoveAssemblies"></param>
         /// <returns></returns>
-        public virtual async Task ConfigModuleAsync(IServiceCollection services, ConfigurationManager configuration)
+        public virtual async Task ConfigModuleAsync(IServiceCollection services, ConfigurationManager configuration, bool autoRemoveAssemblies)
         {
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, ConsoleModuleBuilder>());
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, WebModuleBuilder>());
@@ -35,7 +36,7 @@ namespace Materal.MergeBlock
             services.Configure<MergeBlockConfig>(configuration);
             services.AddMateralUtils();
             TConfigServiceContext context = GetConfigServiceContext();
-            LoadModules(context.ServiceProvider);
+            LoadModules(context.ServiceProvider, autoRemoveAssemblies);
             List<IModuleInfo> allMergeBlockModules = MergeBlockHost.ModuleInfos;
             MergeBlockHost.Logger?.LogDebug($"找到{allMergeBlockModules.Count}个模块");
             List<IModuleInfo> tempMergeBlockModules = [];
@@ -92,6 +93,14 @@ namespace Materal.MergeBlock
             await ConfigServiceAfterAsync(context);
             await RunModuleAsync(async m => await m.ConfigServiceAfterAsync(context));
             #endregion
+        }
+        private static void RemoveDuplicateAssemblies()
+        {
+            List<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName?.StartsWith("Materal.MergeBlock") ?? false).ToList();
+            foreach (Assembly assembly in assemblies)
+            {
+                AppDomain.CurrentDomain.Load(assembly.GetName());
+            }
         }
         /// <summary>
         /// 添加自动DI
@@ -242,13 +251,14 @@ namespace Materal.MergeBlock
         /// 加载模块
         /// </summary>
         /// <param name="serviceProvider"></param>
+        /// <param name="autoRemoveAssemblies"></param>
         /// <returns></returns>
-        private static void LoadModules(IServiceProvider serviceProvider)
+        private static void LoadModules(IServiceProvider serviceProvider, bool autoRemoveAssemblies)
         {
             IEnumerable<IModuleBuilder> moduleBuilders = serviceProvider.GetServices<IModuleBuilder>();
             IOptionsMonitor<MergeBlockConfig> mergeBlockConfig = serviceProvider.GetRequiredService<IOptionsMonitor<MergeBlockConfig>>();
             string rootModulesPath = AppDomain.CurrentDomain.BaseDirectory;
-            LoadModules(moduleBuilders, new DirectoryInfo(rootModulesPath));
+            LoadModules(moduleBuilders, new DirectoryInfo(rootModulesPath), false);
             string defaultModulesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Modules");
             string[] modulesDirectoryPaths = [defaultModulesPath, .. mergeBlockConfig.CurrentValue.ModulesDirectories];
             foreach (string moduleDirectoryPath in modulesDirectoryPaths)
@@ -257,7 +267,7 @@ namespace Materal.MergeBlock
                 if (!modulesDirectoryInfo.Exists) continue;
                 foreach (DirectoryInfo moduleDirectoryInfo in modulesDirectoryInfo.GetDirectories())
                 {
-                    LoadModules(moduleBuilders, moduleDirectoryInfo);
+                    LoadModules(moduleBuilders, moduleDirectoryInfo, autoRemoveAssemblies);
                 }
             }
         }
@@ -266,10 +276,11 @@ namespace Materal.MergeBlock
         /// </summary>
         /// <param name="moduleBuilders"></param>
         /// <param name="directoryInfo"></param>
+        /// <param name="autoRemoveAssemblies"></param>
         /// <returns></returns>
-        private static void LoadModules(IEnumerable<IModuleBuilder> moduleBuilders, DirectoryInfo directoryInfo)
+        private static void LoadModules(IEnumerable<IModuleBuilder> moduleBuilders, DirectoryInfo directoryInfo, bool autoRemoveAssemblies)
         {
-            ModuleDirectoryInfo moduleDirectoryInfo = new(directoryInfo, moduleBuilders);
+            ModuleDirectoryInfo moduleDirectoryInfo = new(directoryInfo, moduleBuilders, autoRemoveAssemblies);
             MergeBlockHost.ModuleDirectoryInfos.Add(moduleDirectoryInfo);
         }
         /// <summary>

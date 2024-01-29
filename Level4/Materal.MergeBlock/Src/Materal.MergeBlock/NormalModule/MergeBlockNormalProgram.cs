@@ -14,8 +14,9 @@ namespace Materal.MergeBlock.NormalModule
         /// 运行
         /// </summary>
         /// <param name="args"></param>
+        /// <param name="autoRemoveAssemblies"></param>
         /// <returns></returns>
-        public override async Task RunAsync(string[] args)
+        public override async Task RunAsync(string[] args, bool autoRemoveAssemblies = true)
         {
             _configuration = new();
             _configuration.AddCommandLine(args);
@@ -25,7 +26,7 @@ namespace Materal.MergeBlock.NormalModule
             _services.TryAddSingleton<IConfigurationBuilder>(_configuration);
             _services.TryAddSingleton<IConfigurationManager>(_configuration);
             _services.TryAddSingleton<IConfigurationRoot>(_configuration);
-            await ConfigModuleAsync(_services, _configuration);
+            await ConfigModuleAsync(_services, _configuration, autoRemoveAssemblies);
             _serviceProvider = _services.BuildMateralServiceProvider();
             await InitModuleAsync(_serviceProvider);
         }

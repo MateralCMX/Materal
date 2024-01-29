@@ -1,5 +1,4 @@
 ﻿using Materal.MergeBlock.Abstractions.ConsoleModule;
-using Materal.MergeBlock.WebModule;
 using Microsoft.Extensions.Hosting;
 
 namespace Materal.MergeBlock.ConsoleModule
@@ -15,12 +14,13 @@ namespace Materal.MergeBlock.ConsoleModule
         /// 运行
         /// </summary>
         /// <param name="args"></param>
+        /// <param name="autoRemoveAssemblies"></param>
         /// <returns></returns>
-        public override async Task RunAsync(string[] args)
+        public override async Task RunAsync(string[] args, bool autoRemoveAssemblies = true)
         {
             _builder = Host.CreateApplicationBuilder(args);
             _builder.ConfigureContainer(new MateralServiceProviderFactory());//替换服务提供者工厂
-            await ConfigModuleAsync(_builder.Services, _builder.Configuration);
+            await ConfigModuleAsync(_builder.Services, _builder.Configuration, autoRemoveAssemblies);
             _app = _builder.Build();
             await InitModuleAsync(_app.Services);
             await _app.RunAsync();
