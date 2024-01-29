@@ -16,6 +16,6 @@
         /// <summary>
         /// 服务提供者
         /// </summary>
-        public IServiceProvider ServiceProvider { get; } = services.BuildServiceProvider();
+        public IServiceProvider ServiceProvider { get; } = new MateralServiceProviderFactory().CreateBuilder(services);
     }
 }

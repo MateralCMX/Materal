@@ -26,7 +26,7 @@ namespace Materal.MergeBlock.NormalModule
             _services.TryAddSingleton<IConfigurationManager>(_configuration);
             _services.TryAddSingleton<IConfigurationRoot>(_configuration);
             await ConfigModuleAsync(_services, _configuration);
-            _serviceProvider = _services.BuildServiceProvider();
+            _serviceProvider = _services.BuildMateralServiceProvider();
             await InitModuleAsync(_serviceProvider);
         }
         /// <summary>

@@ -18,6 +18,7 @@ namespace Materal.MergeBlock.WebModule
         public override async Task RunAsync(string[] args)
         {
             _builder = WebApplication.CreateBuilder(args);
+            _builder.Host.UseServiceProviderFactory(new WebModuleMateralServiceProviderFactory());//替换服务提供者工厂
             await ConfigModuleAsync(_builder.Services, _builder.Configuration);
             _app = _builder.Build();
             await InitModuleAsync(_app.Services);

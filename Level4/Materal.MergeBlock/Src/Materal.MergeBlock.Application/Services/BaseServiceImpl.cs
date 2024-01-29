@@ -4,17 +4,29 @@
     /// 基础服务实现
     /// </summary>
     /// <typeparam name="TUnitOfWork"></typeparam>
-    public abstract class BaseServiceImpl<TUnitOfWork>(IMapper mapper, TUnitOfWork unitOfWork) : IBaseService
+    public abstract class BaseServiceImpl<TUnitOfWork> : IBaseService
         where TUnitOfWork : IMergeBlockUnitOfWork
     {
+        private IMapper? _mapper;
         /// <summary>
         /// 映射器
         /// </summary>
-        protected IMapper Mapper { get; } = mapper;
+        [PropertyInjection]
+        protected IMapper Mapper
+        {
+            get => _mapper ?? throw new MergeBlockException("未设置映射器");
+            set => _mapper = value;
+        }
+        private TUnitOfWork? _unitOfWork;
         /// <summary>
         /// 工作单元
         /// </summary>
-        protected TUnitOfWork UnitOfWork { get; } = unitOfWork;
+        [PropertyInjection]
+        protected TUnitOfWork UnitOfWork
+        {
+            get => _unitOfWork ?? throw new MergeBlockException("未设置工作单元");
+            set => _unitOfWork = value;
+        }
     }
     /// <summary>
     /// 基础服务实现
@@ -27,7 +39,7 @@
     /// <typeparam name="TRepository"></typeparam>
     /// <typeparam name="TDomain"></typeparam>
     /// <typeparam name="TUnitOfWork"></typeparam>
-    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain, TUnitOfWork>(IMapper mapper, TUnitOfWork unitOfWork) : BaseServiceImpl<TUnitOfWork>(mapper, unitOfWork), IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
+    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain, TUnitOfWork> : BaseServiceImpl<TUnitOfWork>, IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
         where TAddModel : class, IAddServiceModel, new()
         where TEditModel : class, IEditServiceModel, new()
         where TQueryModel : PageRequestModel, IQueryServiceModel, new()
@@ -266,7 +278,7 @@
     /// <typeparam name="TDomain"></typeparam>
     /// <typeparam name="TViewDomain"></typeparam>
     /// <typeparam name="TUnitOfWork"></typeparam>
-    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TViewRepository, TDomain, TViewDomain, TUnitOfWork>(IMapper mapper, TUnitOfWork unitOfWork) : BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain, TUnitOfWork>(mapper, unitOfWork), IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
+    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TViewRepository, TDomain, TViewDomain, TUnitOfWork> : BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain, TUnitOfWork>, IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
         where TAddModel : class, IAddServiceModel, new()
         where TEditModel : class, IEditServiceModel, new()
         where TQueryModel : PageRequestModel, IQueryServiceModel, new()

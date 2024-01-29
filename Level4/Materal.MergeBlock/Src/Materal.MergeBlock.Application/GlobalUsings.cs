@@ -1,6 +1,6 @@
 ﻿global using AutoMapper;
-global using Materal.Abstractions;
 global using Materal.Extensions;
+global using Materal.Extensions.DependencyInjection;
 global using Materal.MergeBlock.Abstractions;
 global using Materal.MergeBlock.Abstractions.Domain;
 global using Materal.MergeBlock.Abstractions.Models;
@@ -9,7 +9,6 @@ global using Materal.MergeBlock.Repository;
 global using Materal.TTA.Common;
 global using Materal.TTA.EFRepository;
 global using Materal.Utils.Model;
-global using Microsoft.Extensions.DependencyInjection;
 global using System.Collections;
 global using System.ComponentModel.DataAnnotations;
 global using System.Linq.Expressions;

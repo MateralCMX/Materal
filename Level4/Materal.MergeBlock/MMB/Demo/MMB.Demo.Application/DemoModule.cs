@@ -1,4 +1,7 @@
-﻿namespace MMB.Demo.Application
+﻿using Microsoft.Extensions.DependencyInjection.Extensions;
+using MMB.Demo.Application.Services;
+
+namespace MMB.Demo.Application
 {
     /// <summary>
     /// Demo模块
@@ -19,6 +22,7 @@
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.Services.Configure<ApplicationConfig>(context.Configuration);
+            context.Services.TryAddScoped<IUserService, UserServiceImpl>();
             await base.OnConfigServiceAsync(context);
         }
         /// <summary>
@@ -30,7 +34,6 @@
         {
             using IServiceScope scope = context.ServiceProvider.CreateScope();
             IUserService userService = scope.ServiceProvider.GetRequiredService<IUserService>();
-            userService.ServiceProvider = scope.ServiceProvider;
             await userService.AddDefaultUserAsync();
             await base.OnApplicationInitAsync(context);
         }

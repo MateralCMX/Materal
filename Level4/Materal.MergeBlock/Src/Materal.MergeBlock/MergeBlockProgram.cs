@@ -1,9 +1,6 @@
 ﻿using Materal.MergeBlock.ConsoleModule;
 using Materal.MergeBlock.NormalModule;
 using Materal.MergeBlock.WebModule;
-using Materal.Utils;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
 
 namespace Materal.MergeBlock
 {
@@ -33,9 +30,6 @@ namespace Materal.MergeBlock
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, ConsoleModuleBuilder>());
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, WebModuleBuilder>());
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, NormalModuleBuilder>());
-            //services.AddSingleton<IModuleBuilder, ConsoleModuleBuilder>();
-            //services.AddSingleton<IModuleBuilder, WebModuleBuilder>();
-            //services.AddSingleton<IModuleBuilder, NormalModuleBuilder>();
             services.AddOptions();
             services.Configure<MergeBlockConfig>(configuration);
             services.AddMateralUtils();
@@ -67,6 +61,13 @@ namespace Materal.MergeBlock
             await RunModuleAsync(async m => await m.ConfigServiceAsync(context));
             await ConfigServiceAfterAsync(context);
             await RunModuleAsync(async m => await m.ConfigServiceAfterAsync(context));
+            List<Assembly> autoMapperAssemblyList = [];
+            await RunModuleAsync(m =>
+            {
+                if (!m.ModuleType.Assembly.GetTypes().Any(m => m.IsSubclassOf(typeof(Profile)))) return;
+                autoMapperAssemblyList.Add(m.ModuleType.Assembly);
+            }, false);
+            services.AddAutoMapper(config => config.AllowNullCollections = true, autoMapperAssemblyList);
         }
         /// <summary>
         /// 获得配置服务上下文
@@ -167,6 +168,17 @@ namespace Materal.MergeBlock
             ModuleDirectoryInfo moduleDirectoryInfo = new(directoryInfo, moduleBuilders);
             MergeBlockHost.ModuleDirectoryInfos.Add(moduleDirectoryInfo);
         }
+        /// <summary>
+        /// 运行模块
+        /// </summary>
+        /// <param name="func"></param>
+        /// <param name="enableDepend">启用依赖</param>
+        /// <returns></returns>
+        private static async Task RunModuleAsync(Action<IModuleInfo> func, bool enableDepend = true) => await RunModuleAsync(async m =>
+        {
+            func.Invoke(m);
+            await Task.CompletedTask;
+        }, enableDepend);
         /// <summary>
         /// 运行模块
         /// </summary>
