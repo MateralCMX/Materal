@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.ConsoleModule;
+﻿using Materal.Extensions;
+using Materal.MergeBlock.ConsoleModule;
 using Materal.MergeBlock.NormalModule;
 using Materal.MergeBlock.WebModule;
 
@@ -55,19 +56,122 @@ namespace Materal.MergeBlock
                 }
                 await Task.CompletedTask;
             }, false);
+            #region 配置服务之前
             await ConfigServiceBeforeAsync(context);
             await RunModuleAsync(async m => await m.ConfigServiceBeforeAsync(context));
+            #endregion
+            #region 配置服务
+            List<Assembly> autoMapperAssemblyList = [];
+            List<Assembly> processedAssemblies = [];
+            #region 模块
             await ConfigServiceAsync(context);
-            await RunModuleAsync(async m => await m.ConfigServiceAsync(context));
+            await RunModuleAsync(async m =>
+            {
+                await m.ConfigServiceAsync(context);
+                if(processedAssemblies.Contains(m.ModuleType.Assembly)) return;
+                Type[] allTypes = m.ModuleType.Assembly.GetTypes();
+                #region AutoMapper
+                if (!allTypes.Any(m => m.IsSubclassOf(typeof(Profile))))
+                {
+                    autoMapperAssemblyList.Add(m.ModuleType.Assembly);
+                }
+                #endregion
+                #region 自动DI
+                List<Type> autoDITypes = allTypes.Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<IDependencyInjectionService>()).ToList();
+                foreach (Type type in autoDITypes)
+                {
+                    AddAutoDI(type, services);
+                }
+                #endregion
+                processedAssemblies.Add(m.ModuleType.Assembly);
+            });
+            #endregion
+            services.AddAutoMapper(config => config.AllowNullCollections = true, autoMapperAssemblyList);
+            #endregion
+            #region 配置服务之后
             await ConfigServiceAfterAsync(context);
             await RunModuleAsync(async m => await m.ConfigServiceAfterAsync(context));
-            List<Assembly> autoMapperAssemblyList = [];
-            await RunModuleAsync(m =>
+            #endregion
+        }
+        /// <summary>
+        /// 添加自动DI
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="services"></param>
+        private static void AddAutoDI(Type type, IServiceCollection services)
+        {
+            List<Type> allInterfaces = type.GetInterfaces().Where(m => m.IsAssignableTo<IDependencyInjectionService>()).ToList();
+            if (allInterfaces.Any(m => m.IsGenericType))
             {
-                if (!m.ModuleType.Assembly.GetTypes().Any(m => m.IsSubclassOf(typeof(Profile)))) return;
-                autoMapperAssemblyList.Add(m.ModuleType.Assembly);
-            }, false);
-            services.AddAutoMapper(config => config.AllowNullCollections = true, autoMapperAssemblyList);
+                allInterfaces = allInterfaces.Where(m => m.IsGenericType).ToList();
+            }
+            DependencyInjectionAttribute dependencyInjectionAttribute = type.GetCustomAttribute<DependencyInjectionAttribute>() ?? new DependencyInjectionAttribute();
+            foreach (Type interfaceType in allInterfaces)
+            {
+                AddAutoDI(type, interfaceType, dependencyInjectionAttribute, services);
+            }
+        }
+        /// <summary>
+        /// 添加自动DI
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="interfaceType"></param>
+        /// <param name="attribute"></param>
+        /// <param name="services"></param>
+        private static void AddAutoDI(Type type, Type interfaceType, DependencyInjectionAttribute attribute, IServiceCollection services)
+        {
+            if (!interfaceType.IsAssignableTo<IDependencyInjectionService>()) return;
+            Type? serviceType = attribute.ServiceType;
+            if (serviceType is null)
+            {
+                if (interfaceType.IsGenericType)
+                {
+                    serviceType = interfaceType.GetGenericArguments().First();
+                }
+                else
+                {
+                    serviceType = type;
+                }
+            }
+            if (serviceType is null) return;
+            ServiceLifetime serviceLifetime = attribute.ServiceLifetime;
+            if (interfaceType.IsAssignableTo<ISingletonDependencyInjectionService>())
+            {
+                serviceLifetime = ServiceLifetime.Singleton;
+            }
+            else if(interfaceType.IsAssignableTo<ITransientDependencyInjectionService>())
+            {
+                serviceLifetime = ServiceLifetime.Transient;
+            }
+            else if(interfaceType.IsAssignableTo<IScopedDependencyInjectionService>())
+            {
+                serviceLifetime = ServiceLifetime.Scoped;
+            }
+            AddAutoDI(type, serviceType, serviceLifetime, attribute.Type, services);
+        }
+        /// <summary>
+        /// 添加自动DI
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="serviceType"></param>
+        /// <param name="serviceLifetime"></param>
+        /// <param name="dependencyInjectionType"></param>
+        /// <param name="services"></param>
+        private static void AddAutoDI(Type type, Type serviceType, ServiceLifetime serviceLifetime, DependencyInjectionTypeEnum dependencyInjectionType, IServiceCollection services)
+        {
+            ServiceDescriptor serviceDescriptor = type == serviceType ? new ServiceDescriptor(type, serviceLifetime) : new ServiceDescriptor(serviceType, type, serviceLifetime);
+            switch (dependencyInjectionType)
+            {
+                case DependencyInjectionTypeEnum.TryAdd:
+                    services.TryAdd(serviceDescriptor);
+                    break;
+                case DependencyInjectionTypeEnum.Add:
+                    services.Add(serviceDescriptor);
+                    break;
+                case DependencyInjectionTypeEnum.Replace:
+                    services.Replace(serviceDescriptor);
+                    break;
+            }
         }
         /// <summary>
         /// 获得配置服务上下文

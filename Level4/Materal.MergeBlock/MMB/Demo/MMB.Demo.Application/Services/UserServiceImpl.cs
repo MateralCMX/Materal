@@ -3,7 +3,7 @@ using MMB.Demo.Abstractions.Services.Models.User;
 
 namespace MMB.Demo.Application.Services
 {
-    public partial class UserServiceImpl : BaseServiceImpl<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserRepository, User, IDemoUnitOfWork>, IUserService
+    public partial class UserServiceImpl : BaseServiceImpl<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO, IUserRepository, User, IDemoUnitOfWork>, IUserService, IScopedDependencyInjectionService<IUserService>
     {
     }
     /// <summary>

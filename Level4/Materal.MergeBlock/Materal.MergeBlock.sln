@@ -29,9 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.LoggerTe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{2B428A72-D6D4-4C0E-B620-82D2329AA132}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Application", "Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj", "{EC495F83-DD1D-4C9B-A0F5-EE1F17648C14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Application", "Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj", "{EC495F83-DD1D-4C9B-A0F5-EE1F17648C14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Repository", "Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj", "{252C69E8-5F98-47C1-8E2A-41BD2BB7921F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Repository", "Src\Materal.MergeBlock.Repository\Materal.MergeBlock.Repository.csproj", "{252C69E8-5F98-47C1-8E2A-41BD2BB7921F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MMB", "MMB", "{BD6F8DDD-46C8-4B88-8CB5-4D3C865FFA97}"
 EndProject
@@ -45,13 +45,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Core.Repository", "MMB\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{C1194D8E-B1DA-40F6-866F-C7B2ABD87A38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Demo.WebAPI", "MMB\Demo\MMB.Demo.WebAPI\MMB.Demo.WebAPI.csproj", "{F6474947-2D2D-4391-A725-3EF7385A7737}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Demo.WebAPI", "MMB\Demo\MMB.Demo.WebAPI\MMB.Demo.WebAPI.csproj", "{F6474947-2D2D-4391-A725-3EF7385A7737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Demo.Application", "MMB\Demo\MMB.Demo.Application\MMB.Demo.Application.csproj", "{C64663AD-874D-496A-850A-109D0C15B018}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Demo.Application", "MMB\Demo\MMB.Demo.Application\MMB.Demo.Application.csproj", "{C64663AD-874D-496A-850A-109D0C15B018}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Demo.Abstractions", "MMB\Demo\MMB.Demo.Abstractions\MMB.Demo.Abstractions.csproj", "{B9ACA110-B1B8-4079-B232-54569CFBD432}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Demo.Abstractions", "MMB\Demo\MMB.Demo.Abstractions\MMB.Demo.Abstractions.csproj", "{B9ACA110-B1B8-4079-B232-54569CFBD432}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Demo.Repository", "MMB\Demo\MMB.Demo.Repository\MMB.Demo.Repository.csproj", "{A2CA42E6-7010-4064-95E2-6BAA0BC9E303}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MMB.Demo.Repository", "MMB\Demo\MMB.Demo.Repository\MMB.Demo.Repository.csproj", "{A2CA42E6-7010-4064-95E2-6BAA0BC9E303}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Demo.App", "MMB\Demo\MMB.Demo.App\MMB.Demo.App.csproj", "{DEC9B5BA-E703-48EE-9836-3D2A3FD95452}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MMB.Demo.App.Normal", "MMB\Demo\MMB.Demo.App.Normal\MMB.Demo.App.Normal.csproj", "{A221C106-A1DD-49C7-891C-B362244DBA3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +131,14 @@ Global
 		{A2CA42E6-7010-4064-95E2-6BAA0BC9E303}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2CA42E6-7010-4064-95E2-6BAA0BC9E303}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2CA42E6-7010-4064-95E2-6BAA0BC9E303}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEC9B5BA-E703-48EE-9836-3D2A3FD95452}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEC9B5BA-E703-48EE-9836-3D2A3FD95452}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEC9B5BA-E703-48EE-9836-3D2A3FD95452}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEC9B5BA-E703-48EE-9836-3D2A3FD95452}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A221C106-A1DD-49C7-891C-B362244DBA3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A221C106-A1DD-49C7-891C-B362244DBA3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A221C106-A1DD-49C7-891C-B362244DBA3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A221C106-A1DD-49C7-891C-B362244DBA3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,6 +165,8 @@ Global
 		{C64663AD-874D-496A-850A-109D0C15B018} = {C1194D8E-B1DA-40F6-866F-C7B2ABD87A38}
 		{B9ACA110-B1B8-4079-B232-54569CFBD432} = {C1194D8E-B1DA-40F6-866F-C7B2ABD87A38}
 		{A2CA42E6-7010-4064-95E2-6BAA0BC9E303} = {C1194D8E-B1DA-40F6-866F-C7B2ABD87A38}
+		{DEC9B5BA-E703-48EE-9836-3D2A3FD95452} = {C1194D8E-B1DA-40F6-866F-C7B2ABD87A38}
+		{A221C106-A1DD-49C7-891C-B362244DBA3B} = {C1194D8E-B1DA-40F6-866F-C7B2ABD87A38}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {936B17FE-AF26-49C1-8527-F897DDA8C646}

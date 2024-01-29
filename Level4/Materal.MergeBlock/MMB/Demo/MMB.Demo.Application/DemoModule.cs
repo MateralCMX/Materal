@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection.Extensions;
-using MMB.Demo.Application.Services;
-
-namespace MMB.Demo.Application
+﻿namespace MMB.Demo.Application
 {
     /// <summary>
     /// Demo模块
@@ -22,7 +19,6 @@ namespace MMB.Demo.Application
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             context.Services.Configure<ApplicationConfig>(context.Configuration);
-            context.Services.TryAddScoped<IUserService, UserServiceImpl>();
             await base.OnConfigServiceAsync(context);
         }
         /// <summary>
