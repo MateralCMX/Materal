@@ -10,10 +10,8 @@ namespace Materal.TFMS.EventBus
         /// <summary>
         /// 集成事件
         /// </summary>
-        protected IntegrationEvent()
+        protected IntegrationEvent() : this(Guid.NewGuid(), DateTime.UtcNow)
         {
-            ID = Guid.NewGuid();
-            CreateDateTime = DateTime.UtcNow;
         }
         /// <summary>
         /// 集成事件

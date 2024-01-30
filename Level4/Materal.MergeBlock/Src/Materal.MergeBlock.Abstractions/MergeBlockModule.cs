@@ -68,5 +68,14 @@
         /// <param name="context"></param>
         /// <returns></returns>
         public virtual async Task OnConfigServiceBeforeAsync(IConfigServiceContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 使用EventBus
+        /// </summary>
+        /// <param name="queueName"></param>
+        /// <param name="exchangeName"></param>
+        protected void AddEventBus(string queueName, string? exchangeName = null)
+        {
+
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace Materal.TFMS.EventBus
 {
-    /// <inheritdoc />
     /// <summary>
     /// 内存事件总线订阅管理器
     /// </summary>

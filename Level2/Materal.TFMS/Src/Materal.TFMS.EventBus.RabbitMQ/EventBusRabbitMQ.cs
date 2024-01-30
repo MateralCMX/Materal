@@ -20,11 +20,11 @@ namespace Materal.TFMS.EventBus.RabbitMQ
         /// <summary>
         /// 交换机名称
         /// </summary>
-        private readonly string _exchangeName;
+        public string ExchangeName { get; }
         /// <summary>
         /// 队列名称
         /// </summary>
-        private string _queueName;
+        public string QueueName { get; }
         /// <summary>
         /// RabbitMQ持久连接
         /// </summary>
@@ -60,9 +60,9 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             _persistentConnection = persistentConnection ?? throw new ArgumentNullException(nameof(persistentConnection));
             _logger = logger;
             _subsManager = subsManager ?? new InMemoryEventBusSubscriptionsManager();
-            _queueName = queueName;
+            QueueName = queueName;
             _service = service;
-            _exchangeName = exchangeName;
+            ExchangeName = exchangeName;
             _subsManager.OnEventRemoved += SubsManager_OnEventRemoved;
             Task task = Task.Run(async () =>
             {
@@ -90,7 +90,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 });
             _logger?.LogDebug("创建RabbitMQ发布事件通道: {EventName}_{EventId}", eventName, @event.ID);
             IModel channel = await _persistentConnection.CreateModelAsync();
-            channel.ExchangeDeclare(_exchangeName, "direct");
+            channel.ExchangeDeclare(ExchangeName, "direct");
             string message = JsonConvert.SerializeObject(@event);
             byte[] body = Encoding.UTF8.GetBytes(message);
             policy.Execute(() =>
@@ -98,7 +98,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 IBasicProperties properties = channel.CreateBasicProperties();
                 properties.DeliveryMode = 2;
                 _logger?.LogInformation("发布事件: {EventName}_{EventId}", eventName, @event.ID);
-                channel.BasicPublish(_exchangeName, eventName, properties, body);
+                channel.BasicPublish(ExchangeName, eventName, properties, body);
                 channel.Dispose();
             });
         }
@@ -160,8 +160,8 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             }
             _logger?.LogDebug("创建RabbitMQ消费通道...");
             IModel channel = await _persistentConnection.CreateModelAsync();
-            channel.ExchangeDeclare(_exchangeName, "direct");
-            channel.QueueDeclare(_queueName, true, false, false, null);
+            channel.ExchangeDeclare(ExchangeName, "direct");
+            channel.QueueDeclare(QueueName, true, false, false, null);
             channel.CallbackException += async (sender, ea) =>
             {
                 _logger?.LogWarning(ea.Exception, "重新创建RabbitMQ消费通道...");
@@ -180,7 +180,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             {
                 var consumer = new AsyncEventingBasicConsumer(_consumerChannel);
                 consumer.Received += Consumer_ReceivedAsync;
-                _consumerChannel.BasicConsume(_queueName, false, consumer);
+                _consumerChannel.BasicConsume(QueueName, false, consumer);
                 _logger?.LogInformation("TFMS启动完毕");
             }
             else
@@ -366,9 +366,8 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 _persistentConnection.TryConnect();
             }
             using IModel channel = await _persistentConnection.CreateModelAsync();
-            channel.QueueUnbind(_queueName, _exchangeName, eventName);
+            channel.QueueUnbind(QueueName, ExchangeName, eventName);
             if (!_subsManager.IsEmpty) return;
-            _queueName = string.Empty;
             _consumerChannel?.Close();
         }
         /// <summary>
@@ -384,7 +383,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 _persistentConnection.TryConnect();
             }
             using IModel channel = await _persistentConnection.CreateModelAsync();
-            channel.QueueBind(_queueName, _exchangeName, eventName);
+            channel.QueueBind(QueueName, ExchangeName, eventName);
         }
         #endregion
     }

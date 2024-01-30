@@ -28,18 +28,12 @@
         /// </summary>
         /// <param name="handlerType">处理器类型</param>
         /// <returns></returns>
-        public static SubscriptionInfo GetDynamicEventSubscriptionInfo(Type handlerType)
-        {
-            return new SubscriptionInfo(true, handlerType);
-        }
+        public static SubscriptionInfo GetDynamicEventSubscriptionInfo(Type handlerType) => new SubscriptionInfo(true, handlerType);
         /// <summary>
         /// 获得订阅信息
         /// </summary>
         /// <param name="handlerType"></param>
         /// <returns></returns>
-        public static SubscriptionInfo GetEventSubscriptionInfo(Type handlerType)
-        {
-            return new SubscriptionInfo(false, handlerType);
-        }
+        public static SubscriptionInfo GetEventSubscriptionInfo(Type handlerType) => new SubscriptionInfo(false, handlerType);
     }
 }
