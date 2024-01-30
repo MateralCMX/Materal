@@ -52,6 +52,15 @@
         /// <returns></returns>
         public string GetTrueQueueName() => GetName(QueueName);
         /// <summary>
+        /// 获取真实队列名称
+        /// </summary>
+        /// <returns></returns>
+        public string GetTrueQueueName(Type eventHandlerType)
+        {
+            QueueNameAttribute? queueNameAttribute = eventHandlerType.GetCustomAttribute<QueueNameAttribute>(true);
+            return queueNameAttribute is null ? GetTrueQueueName() : GetName(queueNameAttribute.Name);
+        }
+        /// <summary>
         /// 获取名称
         /// </summary>
         /// <param name="name"></param>

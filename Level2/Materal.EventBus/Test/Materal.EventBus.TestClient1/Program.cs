@@ -22,7 +22,7 @@ namespace Materal.EventBus.TestClient1
             eventBus.Subscribe<Event03, Client01Event03Handler>();
             while (Console.ReadLine() != "Exit")
             {
-                eventBus.Publish(new Event02 { Message = "Hello World" });
+                eventBus.Publish(new Event01 { Message = "Hello World" });
             }
             await app.RunAsync();
         }
