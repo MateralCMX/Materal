@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>12.0</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>1701;1702;CA2254</NoWarn>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.Utils" Version="1.1.75" />
+	</ItemGroup>
+</Project>
