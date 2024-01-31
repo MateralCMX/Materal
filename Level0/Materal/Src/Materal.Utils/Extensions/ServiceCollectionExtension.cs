@@ -8,7 +8,6 @@ namespace Materal.Utils.Extensions
     /// ServiceCollection扩展
     /// </summary>
     public static class ServiceCollectionExtension
-
     {
         /// <summary>
         /// 添加所有工具

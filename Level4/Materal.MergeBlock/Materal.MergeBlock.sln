@@ -91,6 +91,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.ConsulTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.ConsulTest2", "Test\Materal.MergeBlock.ConsulTest2\Materal.MergeBlock.ConsulTest2.csproj", "{F5E1AFB7-BB11-4E07-938D-C07AABCE4DB4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Oscillator", "Modules\Materal.MergeBlock.Oscillator\Materal.MergeBlock.Oscillator.csproj", "{89776F69-1373-45C0-8802-04DF35D5ABA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.OscillatorTest", "Test\Materal.MergeBlock.OscillatorTest\Materal.MergeBlock.OscillatorTest.csproj", "{6A6C5F4E-D3AA-4713-B0FD-A8E3F92B678F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -241,6 +245,14 @@ Global
 		{F5E1AFB7-BB11-4E07-938D-C07AABCE4DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5E1AFB7-BB11-4E07-938D-C07AABCE4DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5E1AFB7-BB11-4E07-938D-C07AABCE4DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89776F69-1373-45C0-8802-04DF35D5ABA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89776F69-1373-45C0-8802-04DF35D5ABA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89776F69-1373-45C0-8802-04DF35D5ABA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89776F69-1373-45C0-8802-04DF35D5ABA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A6C5F4E-D3AA-4713-B0FD-A8E3F92B678F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A6C5F4E-D3AA-4713-B0FD-A8E3F92B678F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A6C5F4E-D3AA-4713-B0FD-A8E3F92B678F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A6C5F4E-D3AA-4713-B0FD-A8E3F92B678F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -286,6 +298,8 @@ Global
 		{46139BA2-8C3B-4600-B70F-D63C55C0E038} = {679FA2B4-82C9-4274-9906-00CB64404619}
 		{ECDBABA0-7837-4580-AB5A-C80DDCA1EC73} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
 		{F5E1AFB7-BB11-4E07-938D-C07AABCE4DB4} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
+		{89776F69-1373-45C0-8802-04DF35D5ABA7} = {679FA2B4-82C9-4274-9906-00CB64404619}
+		{6A6C5F4E-D3AA-4713-B0FD-A8E3F92B678F} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {936B17FE-AF26-49C1-8527-F897DDA8C646}

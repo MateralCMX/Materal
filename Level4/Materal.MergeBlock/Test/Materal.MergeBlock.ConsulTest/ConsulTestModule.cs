@@ -1,6 +1,5 @@
 ﻿using Materal.Extensions;
 using Materal.MergeBlock.Abstractions;
-using Materal.Utils.Consul;
 using Microsoft.Extensions.Configuration;
 
 [assembly: MergeBlockAssembly]

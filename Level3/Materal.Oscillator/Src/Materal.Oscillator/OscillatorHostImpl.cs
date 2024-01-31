@@ -387,12 +387,26 @@ namespace Materal.Oscillator
             Schedule schedule = await scheduleRepository.FirstAsync(scheduleID);
             IOscillatorListener? oscillatorListener = serviceProvider.GetService<IOscillatorListener>();
             await StopAsync(oscillatorListener, schedule);
+            unitOfWork.RegisterDelete(schedule);
             IPlanRepository planRepository = unitOfWork.GetRepository<IPlanRepository>();
             List<Plan> plans = await planRepository.FindAsync(m => m.ScheduleID == scheduleID);
+            foreach (Plan plan in plans)
+            {
+                unitOfWork.RegisterDelete(plan);
+            }
             IAnswerRepository answerRepository = unitOfWork.GetRepository<IAnswerRepository>();
             List<Answer> answers = await answerRepository.FindAsync(m => m.ScheduleID == scheduleID);
+            foreach (Answer answer in answers)
+            {
+                unitOfWork.RegisterDelete(answer);
+            }
             IScheduleWorkRepository scheduleWorkRepository = unitOfWork.GetRepository<IScheduleWorkRepository>();
             List<ScheduleWork> scheduleWorks = await scheduleWorkRepository.FindAsync(m => m.ScheduleID == scheduleID);
+            foreach (ScheduleWork scheduleWork in scheduleWorks)
+            {
+                unitOfWork.RegisterDelete(scheduleWork);
+            }
+            await unitOfWork.CommitAsync();
         }
         /// <summary>
         /// 禁用调度器

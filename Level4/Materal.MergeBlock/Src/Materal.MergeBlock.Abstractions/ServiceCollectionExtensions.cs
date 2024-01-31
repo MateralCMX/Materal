@@ -1,4 +1,4 @@
-﻿namespace Materal.Utils.Consul
+﻿namespace Materal.MergeBlock.Abstractions
 {
     /// <summary>
     /// 依赖注入扩展

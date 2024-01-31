@@ -93,12 +93,12 @@ namespace Materal.Oscillator.QuartZExtend
                     .UseDefaultThreadPool(x => x.MaxConcurrency = OscillatorConfig.MaxConcurrency)
                     .BuildScheduler();
             IJobListener? jobListener = OscillatorServices.GetService<IJobListener>();
-            if (jobListener != null)
+            if(jobListener is not null)
             {
                 _scheduler.ListenerManager.AddJobListener(jobListener, GroupMatcher<JobKey>.AnyGroup());
             }
             IOscillatorDR? _oscillatorDR = OscillatorServices.GetService<IOscillatorDR>();
-            if (_oscillatorDR != null)
+            if(_oscillatorDR is not null)
             {
                 await _oscillatorDR.ScheduleStartAsync();
             }

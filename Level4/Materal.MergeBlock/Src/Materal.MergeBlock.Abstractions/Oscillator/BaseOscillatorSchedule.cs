@@ -1,6 +1,8 @@
-﻿using Materal.Oscillator.Abstractions.Models;
+﻿using Materal.Oscillator.Abstractions;
+using Materal.Oscillator.Abstractions.Models;
+using Materal.Oscillator.Abstractions.Works;
 
-namespace Materal.MergeBlock.Oscillator.Abstractions
+namespace Materal.MergeBlock.Abstractions.Oscillator
 {
     /// <summary>
     /// 基础调度器
@@ -36,7 +38,7 @@ namespace Materal.MergeBlock.Oscillator.Abstractions
         public virtual List<AddPlanModel> GetPlans()
         {
             List<AddPlanModel> result = [];
-            AddPlanModel addPlanModel = GetPlan();
+            var addPlanModel = GetPlan();
             addPlanModel.Description ??= addPlanModel.PlanTriggerData.GetDescriptionText();
             result.Add(addPlanModel);
             return result;
@@ -54,13 +56,13 @@ namespace Materal.MergeBlock.Oscillator.Abstractions
         /// <returns></returns>
         public virtual async Task<Guid> AddSchedule(IOscillatorHost host)
         {
-            Guid workID = await host.AddWorkAsync(new AddWorkModel
+            var workID = await host.AddWorkAsync(new AddWorkModel
             {
                 Name = WorkName,
                 Description = WorkDescription,
                 WorkData = new T()
             });
-            Guid scheduleID = await host.AddScheduleAsync(new AddScheduleModel
+            var scheduleID = await host.AddScheduleAsync(new AddScheduleModel
             {
                 Name = ScheduleName,
                 Plans = GetPlans(),

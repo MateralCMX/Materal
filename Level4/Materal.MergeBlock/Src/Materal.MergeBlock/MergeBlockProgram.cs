@@ -94,14 +94,6 @@ namespace Materal.MergeBlock
             await RunModuleAsync(async m => await m.ConfigServiceAfterAsync(context));
             #endregion
         }
-        private static void RemoveDuplicateAssemblies()
-        {
-            List<Assembly> assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(m => m.FullName?.StartsWith("Materal.MergeBlock") ?? false).ToList();
-            foreach (Assembly assembly in assemblies)
-            {
-                AppDomain.CurrentDomain.Load(assembly.GetName());
-            }
-        }
         /// <summary>
         /// 添加自动DI
         /// </summary>
@@ -211,6 +203,7 @@ namespace Materal.MergeBlock
         /// <returns></returns>
         public virtual async Task<TApplicationContext> InitModuleAsync(IServiceProvider serviceProvider)
         {
+            MateralServices.Services = serviceProvider;
             TApplicationContext context = GetApplicationContext();
             await ApplicationInitBeforeAsync(context);
             await RunModuleAsync(async m => await m.ApplicationInitBeforeAsync(context));

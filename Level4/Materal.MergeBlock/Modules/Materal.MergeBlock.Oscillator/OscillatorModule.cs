@@ -10,13 +10,20 @@ namespace Materal.MergeBlock.Oscillator
     public class OscillatorModule : MergeBlockModule, IMergeBlockModule
     {
         /// <summary>
+        /// 构造方法
+        /// </summary>
+        public OscillatorModule():base("调度器模块", "Oscillator")
+        {
+
+        }
+        /// <summary>
         /// 配置服务
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            IEnumerable<Assembly> allAssemblies = context.ModuleInfos.Select(m => m.ModuleAssembly);
+            IEnumerable<Assembly> allAssemblies = MergeBlockHost.ModuleInfos.Select(m => m.ModuleType.Assembly);
             List<Assembly> oscillatorAssemblies = [];
             foreach (Assembly assembly in allAssemblies)
             {

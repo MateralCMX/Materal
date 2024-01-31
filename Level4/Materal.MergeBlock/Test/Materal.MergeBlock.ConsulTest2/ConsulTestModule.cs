@@ -1,5 +1,4 @@
 ﻿using Materal.MergeBlock.Abstractions;
-using Materal.Utils.Consul;
 
 [assembly: MergeBlockAssembly]
 namespace Materal.MergeBlock.ConsulTest
