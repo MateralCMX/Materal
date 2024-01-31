@@ -52,7 +52,6 @@ namespace Materal.MergeBlock
                 if (assembly is null) continue;
                 List<Attribute> attributes = assembly.GetCustomAttributes().ToList();
                 if (!assembly.HasCustomAttribute<MergeBlockAssemblyAttribute>()) continue;
-                var a = assembly.GetTypes();
                 List<Type> moduleTypes = assembly.GetTypes().Where(IsMergeBlockModule).ToList();
                 foreach (Type moduleType in moduleTypes)
                 {

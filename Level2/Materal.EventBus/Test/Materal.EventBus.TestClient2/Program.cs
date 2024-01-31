@@ -17,9 +17,9 @@ namespace Materal.EventBus.TestClient2
             }, typeof(Program).Assembly);
             IHost app = builder.Build();
             IEventBus eventBus = app.Services.GetRequiredService<IEventBus>();
-            eventBus.Subscribe<Event01, Client02Event01Handler>();
-            eventBus.Subscribe<Event02, Client02Event02Handler>();
-            eventBus.Subscribe<Event03, Client02Event03Handler>();
+            //eventBus.Subscribe<Event01, Client02Event01Handler>();
+            //eventBus.Subscribe<Event02, Client02Event02Handler>();
+            //eventBus.Subscribe<Event03, Client02Event03Handler>();
             while (Console.ReadLine() != "Exit")
             {
                 eventBus.Publish(new Event02 { Message = "Hello World" });

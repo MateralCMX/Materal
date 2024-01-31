@@ -75,9 +75,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.AccessLo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.AccessLogTest", "Test\Materal.MergeBlock.AccessLogTest\Materal.MergeBlock.AccessLogTest.csproj", "{1A0A4A89-E470-42FF-BB4C-57E7F29DA9D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.EventBusTest", "Test\Materal.MergeBlock.EventBusTest\Materal.MergeBlock.EventBusTest.csproj", "{FCB430F1-E80E-45CC-8761-A9A90C3D1540}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.EventBusTest", "Test\Materal.MergeBlock.EventBusTest\Materal.MergeBlock.EventBusTest.csproj", "{FCB430F1-E80E-45CC-8761-A9A90C3D1540}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.EventBus", "Modules\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj", "{5813A7DE-07A3-4C11-912E-096184B33C4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{70366D5D-F42B-4061-96DE-B434597CC434}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.EventBusTest2", "Test\Materal.MergeBlock.EventBusTest2\Materal.MergeBlock.EventBusTest2.csproj", "{396DF6CC-1D02-4033-B018-2F48AA8ED5AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.EventBusTest1", "Test\Materal.MergeBlock.EventBusTest1\Materal.MergeBlock.EventBusTest1.csproj", "{BDDD664C-E592-4A20-AC08-A5E85F1780C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.EventBusTest.Abstractions", "Test\Materal.MergeBlock.EventBusTest.Abstractions\Materal.MergeBlock.EventBusTest.Abstractions.csproj", "{35656877-24C0-4563-AC20-5736DF2906DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,6 +213,18 @@ Global
 		{5813A7DE-07A3-4C11-912E-096184B33C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5813A7DE-07A3-4C11-912E-096184B33C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5813A7DE-07A3-4C11-912E-096184B33C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{396DF6CC-1D02-4033-B018-2F48AA8ED5AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{396DF6CC-1D02-4033-B018-2F48AA8ED5AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{396DF6CC-1D02-4033-B018-2F48AA8ED5AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{396DF6CC-1D02-4033-B018-2F48AA8ED5AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDDD664C-E592-4A20-AC08-A5E85F1780C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDDD664C-E592-4A20-AC08-A5E85F1780C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDDD664C-E592-4A20-AC08-A5E85F1780C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDDD664C-E592-4A20-AC08-A5E85F1780C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35656877-24C0-4563-AC20-5736DF2906DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35656877-24C0-4563-AC20-5736DF2906DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35656877-24C0-4563-AC20-5736DF2906DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35656877-24C0-4563-AC20-5736DF2906DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -244,6 +264,9 @@ Global
 		{1A0A4A89-E470-42FF-BB4C-57E7F29DA9D2} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
 		{FCB430F1-E80E-45CC-8761-A9A90C3D1540} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
 		{5813A7DE-07A3-4C11-912E-096184B33C4D} = {679FA2B4-82C9-4274-9906-00CB64404619}
+		{396DF6CC-1D02-4033-B018-2F48AA8ED5AF} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
+		{BDDD664C-E592-4A20-AC08-A5E85F1780C0} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
+		{35656877-24C0-4563-AC20-5736DF2906DE} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {936B17FE-AF26-49C1-8527-F897DDA8C646}

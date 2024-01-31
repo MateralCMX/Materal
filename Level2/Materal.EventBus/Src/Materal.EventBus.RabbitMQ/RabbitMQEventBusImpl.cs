@@ -99,15 +99,32 @@
         {
             if (sender is not AsyncEventingBasicConsumer consumer) throw new EventBusException("获取消费通道失败");
             string eventName = eventArgs.RoutingKey;
+            Logger?.LogDebug($"事件触发: {eventName}");
             string message = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
             try
             {
-                if (message.Contains("throw-fake-exception", StringComparison.InvariantCultureIgnoreCase)) throw new EventBusException($"接收到异常消息: \"{message}\"");
-                SubscriptionInfo? subscriptionInfo = GetSubscriptionInfoForEvent(eventName);
-                if(subscriptionInfo is null || subscriptionInfo.IsEmpty) throw new EventBusException($"未订阅事件{eventName}");
-                object eventObj = message.JsonToObject(subscriptionInfo.EventType);
-                if(eventObj is not IEvent @event) throw new EventBusException("消息不是事件");
-                if (!await TryProcessEvent(@event)) throw new EventBusException("消息处理失败");
+                if (message.Contains("throw-fake-exception")) throw new EventBusException($"接收到异常消息: \"{message}\"");
+                List<SubscriptionInfo> subscriptionInfos = GetSubscriptionInfosForEvent(eventName);
+                if (subscriptionInfos is not null && subscriptionInfos.Count > 0)
+                {
+                    bool result = true;
+                    using IServiceScope serviceScope = ServiceProvider.CreateScope();
+                    IServiceProvider serviceProvider = serviceScope.ServiceProvider;
+                    foreach (SubscriptionInfo subscriptionInfo in subscriptionInfos)
+                    {
+                        try
+                        {
+                            object eventObj = message.JsonToObject(subscriptionInfo.EventType);
+                            if (eventObj is not IEvent @event) throw new EventBusException($"消息不是事件{subscriptionInfo.EventType}");
+                            result = await TryProcessEvent(consumer, serviceProvider, subscriptionInfo, @event) && result;
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new EventBusException($"消息不是事件{subscriptionInfo.EventType}", ex);
+                        }
+                    }
+                    if (!result) throw new EventBusException("消息处理失败");
+                }
                 consumer.Model.BasicAck(eventArgs.DeliveryTag, false);
             }
             catch (Exception exception)
@@ -115,6 +132,72 @@
                 Logger?.LogError(exception, "错误消息: \"{Message}\"", message);
                 consumer.Model.BasicReject(eventArgs.DeliveryTag, !eventBusConfig.CurrentValue.ErrorMeesageDiscard);
             }
+        }
+        /// <summary>
+        /// 处理事件
+        /// </summary>
+        /// <param name="consumer"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="subscriptionInfo"></param>
+        /// <param name="event"></param>
+        /// <returns></returns>
+        private async Task<bool> TryProcessEvent(AsyncEventingBasicConsumer consumer, IServiceProvider serviceProvider, SubscriptionInfo subscriptionInfo, IEvent @event)
+        {
+            try
+            {
+                if (subscriptionInfo.IsEmpty)
+                {
+                    Logger?.LogWarning($"未订阅事件: {subscriptionInfo.EventName}");
+                    return false;
+                }
+                bool result = await HandlerEventAsync(consumer, subscriptionInfo, serviceProvider, Logger, @event);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger?.LogError(ex, "处理事件失败");
+                return false;
+            }
+        }
+        /// <summary>
+        /// 处理事件
+        /// </summary>
+        /// <param name="consumer"></param>
+        /// <param name="subscriptionInfo"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="logger"></param>
+        /// <param name="event"></param>
+        /// <returns></returns>
+        private async Task<bool> HandlerEventAsync(AsyncEventingBasicConsumer consumer, SubscriptionInfo subscriptionInfo, IServiceProvider serviceProvider, ILogger? logger, IEvent @event)
+        {
+            bool result = true;
+            foreach (Type handlerType in subscriptionInfo.HandlerTypes)
+            {
+                result = await HandlerSubscriptionsAsync(consumer, serviceProvider, logger, handlerType, @event) && result;
+            }
+            return result;
+        }
+        /// <summary>
+        /// 处理订阅
+        /// </summary>
+        /// <param name="consumer"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="logger"></param>
+        /// <param name="handlerType"></param>
+        /// <param name="event"></param>
+        /// <returns></returns>
+        private async Task<bool> HandlerSubscriptionsAsync(AsyncEventingBasicConsumer consumer, IServiceProvider serviceProvider, ILogger? logger, Type handlerType, IEvent @event)
+        {
+            if (eventBusConfig.CurrentValue.GetTrueQueueName(handlerType) != consumer.Model.CurrentQueue) return true;
+            Type eventType = @event.GetType();
+            object? handler = serviceProvider.GetService(handlerType);
+            MethodInfo? methodInfo = handlerType.GetMethod(nameof(IEventHandler<IEvent>.HandleAsync), [eventType]);
+            if (methodInfo is null) return true;
+            logger?.LogDebug($"处理器{handlerType.FullName}开始执行");
+            object? handlerResult = methodInfo.Invoke(handler, new[] { @event });
+            logger?.LogDebug($"处理器{handlerType.FullName}执行完毕");
+            if (handlerResult is Task<bool> task) return await task;
+            return true;
         }
         #endregion
     }

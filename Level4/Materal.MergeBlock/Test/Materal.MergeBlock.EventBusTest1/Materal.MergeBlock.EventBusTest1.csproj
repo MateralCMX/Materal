@@ -9,9 +9,4 @@
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj" />
 		<ProjectReference Include="..\Materal.MergeBlock.EventBusTest.Abstractions\Materal.MergeBlock.EventBusTest.Abstractions.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-	  <None Update="EventBusConfig.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
 </Project>

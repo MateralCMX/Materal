@@ -17,7 +17,7 @@ namespace Materal.MergeBlock.WebModule
         /// <returns></returns>
         public Func<ControllerContext, object> CreateActivator(ControllerActionDescriptor descriptor)
         {
-            var activator = _controllerActivatorProvider.CreateActivator(descriptor);
+            Func<ControllerContext, object> activator = _controllerActivatorProvider.CreateActivator(descriptor);
             object result(ControllerContext context)
             {
                 if (context.HttpContext.RequestServices is not MateralServiceProvider)

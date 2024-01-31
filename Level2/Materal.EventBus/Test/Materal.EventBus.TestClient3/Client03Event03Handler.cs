@@ -5,7 +5,7 @@ namespace Materal.EventBus.TestClient3
 {
     public class Client03Event03Handler : IEventHandler<Event03>
     {
-        public async Task HandlerAsync(Event03 @event)
+        public async Task HandleAsync(Event03 @event)
         {
             Console.WriteLine($"------------------{nameof(Client03Event03Handler)}---------------------");
             Console.WriteLine(@event.Message);

@@ -12,6 +12,6 @@
         /// </summary>
         /// <param name="event"></param>
         /// <returns></returns>
-        Task HandlerAsync(T @event);
+        Task HandleAsync(T @event);
     }
 }

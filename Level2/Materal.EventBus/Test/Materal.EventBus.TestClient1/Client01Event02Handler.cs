@@ -7,7 +7,7 @@ namespace Materal.EventBus.TestClient1
     [QueueName("MateralEventBusTestClient1_2Queue")]
     public class Client01Event02Handler : IEventHandler<Event02>
     {
-        public override async Task HandlerAsync(Event02 @event)
+        public async Task HandleAsync(Event02 @event)
         {
             Console.WriteLine($"------------------{nameof(Client01Event02Handler)}---------------------");
             Console.WriteLine(@event.Message);
