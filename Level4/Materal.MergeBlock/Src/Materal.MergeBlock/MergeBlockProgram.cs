@@ -72,7 +72,7 @@ namespace Materal.MergeBlock
                 if(processedAssemblies.Contains(m.ModuleType.Assembly)) return;
                 Type[] allTypes = m.ModuleType.Assembly.GetTypes();
                 #region AutoMapper
-                if (!allTypes.Any(m => m.IsSubclassOf(typeof(Profile))))
+                if (allTypes.Any(m => m.IsSubclassOf(typeof(Profile))))
                 {
                     autoMapperAssemblyList.Add(m.ModuleType.Assembly);
                 }

@@ -20,6 +20,7 @@
         {
             await base.OnConfigServiceAsync(context);
             context.Services.Configure<ApplicationConfig>(context.Configuration.GetSection("MMB.Demo"));
+            context.Services.AddConsulConfig("MMBDemo", ["MMB.Demo"]);
         }
         /// <summary>
         /// 应用程序初始化
