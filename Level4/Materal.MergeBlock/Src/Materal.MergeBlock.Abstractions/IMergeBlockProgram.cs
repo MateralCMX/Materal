@@ -3,7 +3,7 @@
     /// <summary>
     /// MergeBlock程序
     /// </summary>
-    public interface IMergeBlockProgram
+    public interface IMergeBlockProgram<TApplicationContext>
     {
         /// <summary>
         /// 运行
@@ -24,6 +24,6 @@
         /// </summary>
         /// <paramref name="serviceProvider"></paramref>
         /// <returns></returns>
-        Task InitModuleAsync(IServiceProvider serviceProvider);
+        Task<TApplicationContext> InitModuleAsync(IServiceProvider serviceProvider);
     }
 }

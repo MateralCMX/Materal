@@ -69,13 +69,22 @@
         /// <returns></returns>
         public virtual async Task OnConfigServiceBeforeAsync(IConfigServiceContext context) => await Task.CompletedTask;
         /// <summary>
-        /// 使用EventBus
+        /// 应用程序结束之前
         /// </summary>
-        /// <param name="queueName"></param>
-        /// <param name="exchangeName"></param>
-        protected void AddEventBus(string queueName, string? exchangeName = null)
-        {
-
-        }
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task OnApplicationCloseBeforeAsync(IApplicationContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序结束
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task OnApplicationCloseAsync(IApplicationContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序结束之后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task OnApplicationCloseAfterAsync(IApplicationContext context) => await Task.CompletedTask;
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace Materal.MergeBlock.Abstractions.NormalModule
+﻿namespace Materal.MergeBlock.Abstractions.NormalModule
 {
     /// <summary>
     /// MergeBlock普通模块
@@ -48,5 +47,23 @@ namespace Materal.MergeBlock.Abstractions.NormalModule
         /// <param name="context"></param>
         /// <returns></returns>
         public virtual async Task OnConfigServiceAfterAsync(INormalConfigServiceContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序结束之前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task OnApplicationCloseBeforeAsync(INormalApplicationContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序结束
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task OnApplicationCloseAsync(INormalApplicationContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序结束之后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task OnApplicationCloseAfterAsync(INormalApplicationContext context) => await Task.CompletedTask;
     }
 }

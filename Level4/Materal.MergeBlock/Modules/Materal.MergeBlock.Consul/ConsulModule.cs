@@ -1,7 +1,6 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule.Models;
 using Materal.Utils.Consul;
 using Materal.Utils.Consul.ConfigModels;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Materal.MergeBlock.Consul
@@ -42,12 +41,17 @@ namespace Materal.MergeBlock.Consul
             mergeBlockConsulConfig.OnChange(async config => await RegisterConsulAsync(config, context.ServiceProvider));
             await RegisterConsulAsync(mergeBlockConsulConfig.CurrentValue, context.ServiceProvider);
             await _consulService.RegisterAllConsulAsync();
-            AppDomain.CurrentDomain.ProcessExit += async (sender, e) =>
-            {
-                if (_consulService is null) return;
-                await _consulService.UnregisterAllConsulAsync();
-            };
             await base.OnApplicationInitAfterAsync(context);
+        }
+        /// <summary>
+        /// 应用关闭
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task OnApplicationCloseAsync(IWebApplicationContext context)
+        {
+            _consulService ??= context.ServiceProvider.GetRequiredService<IConsulService>();
+            await _consulService.UnregisterAllConsulAsync();
         }
         /// <summary>
         /// 注册Consul

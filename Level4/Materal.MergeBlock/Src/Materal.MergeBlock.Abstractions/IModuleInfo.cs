@@ -69,6 +69,24 @@
         /// <param name="context"></param>
         /// <returns></returns>
         Task ApplicationInitAfterAsync(IApplicationContext context);
+        /// <summary>
+        /// 应用程序关闭前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task ApplicationCloseBeforeAsync(IApplicationContext context);
+        /// <summary>
+        /// 应用程序关闭
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task ApplicationCloseAsync(IApplicationContext context);
+        /// <summary>
+        /// 应用程序关闭后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task ApplicationCloseAfterAsync(IApplicationContext context);
     }
     /// <summary>
     /// 模块信息

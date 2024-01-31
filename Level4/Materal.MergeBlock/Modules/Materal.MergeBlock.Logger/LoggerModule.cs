@@ -1,10 +1,9 @@
-﻿using Materal.Logger.ConfigModels;
+﻿using Materal.Logger;
+using Materal.Logger.ConfigModels;
 using Materal.Logger.Extensions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using System;
 
 namespace Materal.MergeBlock.Logger
 {
@@ -44,5 +43,11 @@ namespace Materal.MergeBlock.Logger
                 MergeBlockHost.Logger = loggerFactory.CreateLogger("MergeBlock");
             }
         }
+        /// <summary>
+        /// 应用程序关闭之后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task OnApplicationCloseAfterAsync(IApplicationContext context) => await LoggerHost.ShutdownAsync();
     }
 }

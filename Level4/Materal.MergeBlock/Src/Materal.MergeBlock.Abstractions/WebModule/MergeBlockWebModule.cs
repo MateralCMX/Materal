@@ -47,5 +47,23 @@
         /// <param name="context"></param>
         /// <returns></returns>
         public virtual async Task OnConfigServiceBeforeAsync(IWebConfigServiceContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序结束之前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task OnApplicationCloseBeforeAsync(IWebApplicationContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序结束
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task OnApplicationCloseAsync(IWebApplicationContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序结束之后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task OnApplicationCloseAfterAsync(IWebApplicationContext context) => await Task.CompletedTask;
     }
 }

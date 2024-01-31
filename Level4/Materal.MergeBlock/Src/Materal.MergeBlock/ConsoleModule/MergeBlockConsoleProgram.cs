@@ -1,5 +1,6 @@
 ﻿using Materal.MergeBlock.Abstractions.ConsoleModule;
 using Microsoft.Extensions.Hosting;
+using Polly;
 
 namespace Materal.MergeBlock.ConsoleModule
 {
@@ -22,8 +23,9 @@ namespace Materal.MergeBlock.ConsoleModule
             _builder.ConfigureContainer(new MateralServiceProviderFactory());//替换服务提供者工厂
             await ConfigModuleAsync(_builder.Services, _builder.Configuration, autoRemoveAssemblies);
             _app = _builder.Build();
-            await InitModuleAsync(_app.Services);
+            IConsoleApplicationContext context = await InitModuleAsync(_app.Services);
             await _app.RunAsync();
+            await CloseModuleAsync(context);
         }
         /// <summary>
         /// 获得配置服务上下文

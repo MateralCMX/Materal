@@ -43,6 +43,24 @@
         /// <param name="context"></param>
         /// <returns></returns>
         Task OnApplicationInitAfterAsync(TApplicationContext context);
+        /// <summary>
+        /// 应用程序结束前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task OnApplicationCloseBeforeAsync(TApplicationContext context);
+        /// <summary>
+        /// 应用程序结束
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task OnApplicationCloseAsync(TApplicationContext context);
+        /// <summary>
+        /// 应用程序结束后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        Task OnApplicationCloseAfterAsync(TApplicationContext context);
     }
     /// <summary>
     /// MergeBlock普通模块

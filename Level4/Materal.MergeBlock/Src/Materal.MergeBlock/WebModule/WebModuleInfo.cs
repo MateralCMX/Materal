@@ -86,5 +86,45 @@ namespace Materal.MergeBlock.WebModule
                 await Instance.OnApplicationInitAfterAsync(webApplicationContext);
             }
         }
+        /// <summary>
+        /// 应用程序关闭之前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task ApplicationCloseBeforeAsync(IApplicationContext context)
+        {
+            await Instance.OnApplicationCloseBeforeAsync(context);
+            if (context is WebApplicationContext webApplicationContext)
+            {
+                await Instance.OnApplicationCloseBeforeAsync(webApplicationContext);
+            }
+
+        }
+        /// <summary>
+        /// 应用程序关闭
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task ApplicationCloseAsync(IApplicationContext context)
+        {
+            await Instance.OnApplicationCloseAsync(context);
+            if (context is WebApplicationContext webApplicationContext)
+            {
+                await Instance.OnApplicationCloseAsync(webApplicationContext);
+            }
+        }
+        /// <summary>
+        /// 应用程序关闭之后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task ApplicationCloseAfterAsync(IApplicationContext context)
+        {
+            await Instance.OnApplicationCloseAfterAsync(context);
+            if (context is WebApplicationContext webApplicationContext)
+            {
+                await Instance.OnApplicationCloseAfterAsync(webApplicationContext);
+            }
+        }
     }
 }

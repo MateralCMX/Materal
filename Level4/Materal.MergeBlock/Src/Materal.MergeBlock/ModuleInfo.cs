@@ -86,6 +86,24 @@
         /// <param name="context"></param>
         /// <returns></returns>
         public virtual async Task ApplicationInitAfterAsync(IApplicationContext context) => await Instance.OnApplicationInitAfterAsync(context);
+        /// <summary>
+        /// 应用程序关闭前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task ApplicationCloseBeforeAsync(IApplicationContext context) => await Instance.OnApplicationCloseBeforeAsync(context);
+        /// <summary>
+        /// 应用程序关闭
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task ApplicationCloseAsync(IApplicationContext context) => await Instance.OnApplicationCloseAsync(context);
+        /// <summary>
+        /// 应用程序关闭后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task ApplicationCloseAfterAsync(IApplicationContext context) => await Instance.OnApplicationCloseAfterAsync(context);
     }
     /// <summary>
     /// 模块信息

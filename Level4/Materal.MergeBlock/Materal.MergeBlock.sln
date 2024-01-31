@@ -79,19 +79,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.EventBus
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.EventBus", "Modules\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj", "{5813A7DE-07A3-4C11-912E-096184B33C4D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{70366D5D-F42B-4061-96DE-B434597CC434}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.EventBusTest2", "Test\Materal.MergeBlock.EventBusTest2\Materal.MergeBlock.EventBusTest2.csproj", "{396DF6CC-1D02-4033-B018-2F48AA8ED5AF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.EventBusTest1", "Test\Materal.MergeBlock.EventBusTest1\Materal.MergeBlock.EventBusTest1.csproj", "{BDDD664C-E592-4A20-AC08-A5E85F1780C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.EventBusTest.Abstractions", "Test\Materal.MergeBlock.EventBusTest.Abstractions\Materal.MergeBlock.EventBusTest.Abstractions.csproj", "{35656877-24C0-4563-AC20-5736DF2906DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Consul", "Modules\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj", "{46139BA2-8C3B-4600-B70F-D63C55C0E038}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Consul", "Modules\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj", "{46139BA2-8C3B-4600-B70F-D63C55C0E038}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.ConsulTest", "Test\Materal.MergeBlock.ConsulTest\Materal.MergeBlock.ConsulTest.csproj", "{ECDBABA0-7837-4580-AB5A-C80DDCA1EC73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.ConsulTest", "Test\Materal.MergeBlock.ConsulTest\Materal.MergeBlock.ConsulTest.csproj", "{ECDBABA0-7837-4580-AB5A-C80DDCA1EC73}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.ConsulTest2", "Test\Materal.MergeBlock.ConsulTest2\Materal.MergeBlock.ConsulTest2.csproj", "{F5E1AFB7-BB11-4E07-938D-C07AABCE4DB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.ConsulTest2", "Test\Materal.MergeBlock.ConsulTest2\Materal.MergeBlock.ConsulTest2.csproj", "{F5E1AFB7-BB11-4E07-938D-C07AABCE4DB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

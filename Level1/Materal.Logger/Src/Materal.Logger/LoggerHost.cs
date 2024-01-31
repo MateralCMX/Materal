@@ -78,6 +78,7 @@ namespace Materal.Logger
         /// </summary>
         public static async Task ShutdownAsync()
         {
+            if(IsClose) return;
             IsClose = true;
             LoggerLog?.LogDebug($"正在关闭[MateralLogger]");
             if(_writeLoggerBlock is not null)

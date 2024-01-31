@@ -86,5 +86,45 @@ namespace Materal.MergeBlock.ConsoleModule
                 await Instance.OnApplicationInitAfterAsync(consoleApplicationContext);
             }
         }
+        /// <summary>
+        /// 应用程序关闭之前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task ApplicationCloseBeforeAsync(IApplicationContext context)
+        {
+            await Instance.OnApplicationCloseBeforeAsync(context);
+            if (context is IConsoleApplicationContext consoleApplicationContext)
+            {
+                await Instance.OnApplicationCloseBeforeAsync(consoleApplicationContext);
+            }
+
+        }
+        /// <summary>
+        /// 应用程序关闭
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task ApplicationCloseAsync(IApplicationContext context)
+        {
+            await Instance.OnApplicationCloseAsync(context);
+            if (context is IConsoleApplicationContext consoleApplicationContext)
+            {
+                await Instance.OnApplicationCloseAsync(consoleApplicationContext);
+            }
+        }
+        /// <summary>
+        /// 应用程序关闭之后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task ApplicationCloseAfterAsync(IApplicationContext context)
+        {
+            await Instance.OnApplicationCloseAfterAsync(context);
+            if (context is IConsoleApplicationContext consoleApplicationContext)
+            {
+                await Instance.OnApplicationCloseAfterAsync(consoleApplicationContext);
+            }
+        }
     }
 }

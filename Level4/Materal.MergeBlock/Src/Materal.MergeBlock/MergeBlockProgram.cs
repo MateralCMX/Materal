@@ -7,7 +7,7 @@ namespace Materal.MergeBlock
     /// <summary>
     /// MergeBlock程序
     /// </summary>
-    public abstract class MergeBlockProgram<TModule, TModuleInfo, TConfigServiceContext, TApplicationContext> : IMergeBlockProgram
+    public abstract class MergeBlockProgram<TModule, TModuleInfo, TConfigServiceContext, TApplicationContext> : IMergeBlockProgram<TApplicationContext>
         where TModule : IMergeBlockModule
         where TModuleInfo : IModuleInfo<TModule>
         where TConfigServiceContext : IConfigServiceContext
@@ -209,7 +209,7 @@ namespace Materal.MergeBlock
         /// 初始化模块
         /// </summary>
         /// <returns></returns>
-        public virtual async Task InitModuleAsync(IServiceProvider serviceProvider)
+        public virtual async Task<TApplicationContext> InitModuleAsync(IServiceProvider serviceProvider)
         {
             TApplicationContext context = GetApplicationContext();
             await ApplicationInitBeforeAsync(context);
@@ -222,6 +222,7 @@ namespace Materal.MergeBlock
             });
             await ApplicationInitAfterAsync(context);
             await RunModuleAsync(async m => await m.ApplicationInitAfterAsync(context));
+            return context;
         }
         /// <summary>
         /// 获得配置服务上下文
@@ -229,23 +230,59 @@ namespace Materal.MergeBlock
         /// <returns></returns>
         protected abstract TApplicationContext GetApplicationContext();
         /// <summary>
-        /// 配置服务之前
+        /// 应用程序初始化之前
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
         protected virtual async Task ApplicationInitBeforeAsync(TApplicationContext context) => await Task.CompletedTask;
         /// <summary>
-        /// 配置服务
+        /// 应用程序初始化
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
         protected virtual async Task ApplicationInitAsync(TApplicationContext context) => await Task.CompletedTask;
         /// <summary>
-        /// 配置服务之后
+        /// 应用程序初始化之后
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
         protected virtual async Task ApplicationInitAfterAsync(TApplicationContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 关闭模块
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public virtual async Task CloseModuleAsync(TApplicationContext context)
+        {
+            await ApplicationCloseBeforeAsync(context);
+            await RunModuleAsync(async m => await m.ApplicationCloseBeforeAsync(context));
+            await ApplicationCloseAsync(context);
+            await RunModuleAsync(async m =>
+            {
+                MergeBlockHost.Logger?.LogDebug($"关闭模块[{m.Name}|{m.Description}]");
+                await m.ApplicationCloseAsync(context);
+            });
+            await ApplicationCloseAfterAsync(context);
+            await RunModuleAsync(async m => await m.ApplicationCloseAfterAsync(context));
+        }
+        /// <summary>
+        /// 应用程序关闭之前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual async Task ApplicationCloseBeforeAsync(TApplicationContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序关闭
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual async Task ApplicationCloseAsync(TApplicationContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序关闭之后
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual async Task ApplicationCloseAfterAsync(TApplicationContext context) => await Task.CompletedTask;
         #region 私有方法
         /// <summary>
         /// 加载模块

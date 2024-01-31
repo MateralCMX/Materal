@@ -24,8 +24,9 @@ namespace Materal.MergeBlock.WebModule
             _builder.Host.UseServiceProviderFactory(new WebModuleMateralServiceProviderFactory());//替换服务提供者工厂
             await ConfigModuleAsync(_builder.Services, _builder.Configuration, autoRemoveAssemblies);
             _app = _builder.Build();
-            await InitModuleAsync(_app.Services);
+            WebApplicationContext context = await InitModuleAsync(_app.Services);
             await _app.RunAsync();
+            await CloseModuleAsync(context);
         }
         /// <summary>
         /// 获得配置服务上下文

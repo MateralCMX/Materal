@@ -5,7 +5,7 @@ namespace Materal.MergeBlock.NormalModule
     /// <summary>
     /// MergeBlock程序
     /// </summary>
-    public class MergeBlockNormalProgram : MergeBlockProgram<IMergeBlockNormalModule, NormalModuleInfo, INormalConfigServiceContext, INormalApplicationContext>, IMergeBlockProgram
+    public class MergeBlockNormalProgram : MergeBlockProgram<IMergeBlockNormalModule, NormalModuleInfo, INormalConfigServiceContext, INormalApplicationContext>
     {
         private IServiceCollection? _services;
         private IServiceProvider? _serviceProvider;
@@ -28,7 +28,8 @@ namespace Materal.MergeBlock.NormalModule
             _services.TryAddSingleton<IConfigurationRoot>(_configuration);
             await ConfigModuleAsync(_services, _configuration, autoRemoveAssemblies);
             _serviceProvider = _services.BuildMateralServiceProvider();
-            await InitModuleAsync(_serviceProvider);
+            INormalApplicationContext context = await InitModuleAsync(_serviceProvider);
+            await CloseModuleAsync(context);
         }
         /// <summary>
         /// 获得配置服务上下文
