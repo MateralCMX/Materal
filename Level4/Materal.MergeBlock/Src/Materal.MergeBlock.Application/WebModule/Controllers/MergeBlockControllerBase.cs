@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.Application.WebModule.Controllers
+﻿using Materal.MergeBlock.Abstractions.WebModule.Controllers;
+
+namespace Materal.MergeBlock.Application.WebModule.Controllers
 {
     /// <summary>
     /// WebAPI控制器基类
@@ -40,7 +42,7 @@
     /// <typeparam name="TDTO"></typeparam>
     /// <typeparam name="TListDTO"></typeparam>
     /// <typeparam name="TService"></typeparam>
-    public abstract class MergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService> : MergeBlockControllerBase
+    public abstract class MergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService> : MergeBlockControllerBase, IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>
         where TAddRequestModel : class, IAddRequestModel, new()
         where TEditRequestModel : class, IEditRequestModel, new()
         where TQueryRequestModel : IQueryRequestModel, new()
