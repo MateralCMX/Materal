@@ -5,7 +5,7 @@ namespace Materal.Utils.Consul.ConfigModels
     /// <summary>
     /// Consul配置模型
     /// </summary>
-    public class ConsulConfigModel
+    public class ConsulConfig
     {
         /// <summary>
         /// 启用标识
@@ -40,11 +40,10 @@ namespace Materal.Utils.Consul.ConfigModels
         /// <summary>
         /// 健康检查
         /// </summary>
-        public HealthConfigModel HealthConfig { get; set; } = new();
+        public HealthConfig Health { get; set; } = new();
         /// <summary>
         /// 获取Consul服务注册信息
         /// </summary>
-        /// <param name="nodeID"></param>
         /// <returns></returns>
         public AgentServiceRegistration GetAgentServiceRegistration(Guid nodeID) => new()
         {
@@ -56,9 +55,9 @@ namespace Materal.Utils.Consul.ConfigModels
             Check = new AgentServiceCheck
             {
                 DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
-                HTTP = $"{HealthConfig.HealthUrl.Url}?id={nodeID}",
-                TLSSkipVerify = HealthConfig.HealthUrl.IsSSL,
-                Interval = TimeSpan.FromSeconds(HealthConfig.HealthInterval),
+                HTTP = $"{Health.Url.Url}?id={nodeID}",
+                TLSSkipVerify = Health.Url.IsSSL,
+                Interval = TimeSpan.FromSeconds(Health.Interval),
                 Timeout = TimeSpan.FromSeconds(5),
             }
         };

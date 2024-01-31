@@ -1,0 +1,24 @@
+﻿{
+  "Consul": {
+    "Enable": true,
+    "Tags": [ "Materal", "Materal.MergeBlock", "Materal.MergeBlock.ModuleTest" ],
+    "ConsulUrl": {
+      "Host": "127.0.0.1",
+      "Port": 8500,
+      "IsSSL": false
+    },
+    "ServiceUrl": {
+      "Host": "localhost",
+      "Port": 5000,
+      "IsSSL": false
+    },
+    "HealthInterval": 10,
+    "HealthUrl": {
+      "Host": "host.docker.internal",
+      "Port": 5000,
+      "IsSSL": false,
+      "Path": "/api/Health"
+    },
+    "ServiceNameSuffix": "_TestAPI"
+  }
+}

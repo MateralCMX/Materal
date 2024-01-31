@@ -29,13 +29,23 @@
         /// 连接RabbitMQ锁
         /// </summary>
         protected static readonly object OnlineRabbitMQLock = new();
+        ConnectionFactory? connectionFactory;
         /// <summary>
         /// 构造方法
         /// </summary>
         public RabbitMQPersistentConnection(IOptionsMonitor<EventBusConfig> eventBusConfig, ILoggerFactory? loggerFactory = null)
         {
             _eventBusConfig = eventBusConfig;
-            _eventBusConfig.OnChange(config => ReConnect());
+            _eventBusConfig.OnChange(config =>
+            {
+                if (connectionFactory is null || (
+                    connectionFactory.HostName == _eventBusConfig.CurrentValue.HostName
+                    && connectionFactory.Port == _eventBusConfig.CurrentValue.Port
+                    && connectionFactory.UserName == _eventBusConfig.CurrentValue.UserName
+                    && connectionFactory.Password == _eventBusConfig.CurrentValue.Password
+                )) return;
+                ReConnect();
+            });
             _logger = loggerFactory?.CreateLogger("EventBus");
         }
         /// <summary>
@@ -93,7 +103,7 @@
                     );
                 policy.Execute(() =>
                 {
-                    ConnectionFactory connectionFactory = new()
+                    connectionFactory = new()
                     {
                         HostName = _eventBusConfig.CurrentValue.HostName,
                         Port = _eventBusConfig.CurrentValue.Port,
@@ -199,7 +209,7 @@
         private void OnConnectionShutdown(object? sender, ShutdownEventArgs reason)
         {
             if (Disposed) return;
-            if(Connection is not null)
+            if (Connection is not null)
             {
                 Connection.ConnectionShutdown -= OnConnectionShutdown;
                 Connection.CallbackException -= OnCallbackException;

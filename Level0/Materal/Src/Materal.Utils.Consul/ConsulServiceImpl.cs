@@ -3,181 +3,225 @@ using Materal.Utils.Consul.ConfigModels;
 using Materal.Utils.Consul.Models;
 using Materal.Utils.Http;
 using Microsoft.Extensions.Logging;
-using Polly;
-using Polly.Retry;
-using System.Text.Json;
-using Policy = Polly.Policy;
 
 namespace Materal.Utils.Consul
 {
     /// <summary>
     /// Consul服务实现
     /// </summary>
-    public class ConsulServiceImpl : IConsulService
+    public class ConsulServiceImpl(IHttpHelper httpHelper, ILoggerFactory? loggerFactory = null) : IConsulService
     {
-        private readonly ILogger<ConsulServiceImpl>? _logger;
-        private readonly Timer _healthTimer;
-        private readonly IHttpHelper _httpHelper;
+        private readonly List<ConsulScope> _consulScopes = [];
+        private readonly ILogger? _logger = loggerFactory?.CreateLogger("ConsulUtils");
         /// <summary>
-        /// 节点唯一标识
+        /// 是否有这个节点
         /// </summary>
-        public Guid NodeID { get; } = Guid.NewGuid();
-        private ConsulConfigModel? _consulConfig;
+        /// <param name="nodeID"></param>
+        /// <returns></returns>
+        public bool HasNode(Guid nodeID) => _consulScopes.Any(m => m.NodeID == nodeID && m.Config.Enable);
         /// <summary>
-        /// 构造方法
-        /// </summary>
-        public ConsulServiceImpl(IHttpHelper httpHelper, ILogger<ConsulServiceImpl>? logger)
-        {
-            _httpHelper = httpHelper;
-            _logger = logger;
-            _healthTimer = new(async _ => await HealthTimerHandlerAsync());
-        }
-        /// <summary>
-        /// 注册Consul服务
+        /// 注册Consul配置
         /// </summary>
         /// <param name="consulConfig"></param>
-        public async Task RegisterConsulAsync(ConsulConfigModel consulConfig)
-        {
-            if (_consulConfig is not null)
-            {
-                await UnregisterConsulAsync();
-            }
-            _consulConfig = consulConfig;
-            await RegisterConsulAsync();
-        }
-        /// <summary>
-        /// 反注册Consul服务
-        /// </summary>
         /// <returns></returns>
-        public async Task UnregisterConsulAsync()
-        {
-            if (_consulConfig is null) return;
-            _logger?.LogInformation($"正在向Consul反注册[{_consulConfig.ServiceName}]服务.....");
-            using ConsulClient consulClient = new(config => config.Address = new Uri(_consulConfig.ConsulUrl.Url));
-            AgentServiceRegistration registration = _consulConfig.GetAgentServiceRegistration(NodeID);
-            try
-            {
-                await consulClient.Agent.ServiceDeregister(registration.ID);
-                _logger?.LogInformation($"服务[{_consulConfig.ServiceName}]反注册成功");
-            }
-            catch (Exception ex)
-            {
-                _logger?.LogWarning(ex, $"服务[{_consulConfig.ServiceName}]反注册失败");
-            }
-            finally
-            {
-                _consulConfig = null;
-            }
-        }
+        public async Task<Guid> RegisterConsulConfigAsync(ConsulConfig consulConfig) => await ChangeConsulConfigAsync(consulConfig.ServiceName, consulConfig);
         /// <summary>
-        /// 获得服务
+        /// 更改Consul配置
         /// </summary>
-        /// <param name="filter"></param>
+        /// <param name="oldConsulConfig"></param>
+        /// <param name="consulConfig"></param>
         /// <returns></returns>
-        public async Task<ConsulServiceModel?> GetServiceInfoAsync(Func<ConsulServiceModel, bool>? filter = null)
-        {
-            List<ConsulServiceModel> consulServices = await GetServiceListAsync(filter);
-            return consulServices.FirstOrDefault();
-        }
+        public async Task<Guid> ChangeConsulConfigAsync(ConsulConfig oldConsulConfig, ConsulConfig consulConfig) => await ChangeConsulConfigAsync(oldConsulConfig.ServiceName, consulConfig);
         /// <summary>
-        /// 获得服务
+        /// 更改Consul配置
         /// </summary>
-        /// <param name="consulUrl"></param>
-        /// <param name="filter"></param>
+        /// <param name="serviceName"></param>
+        /// <param name="consulConfig"></param>
         /// <returns></returns>
-        public async Task<ConsulServiceModel?> GetServiceInfoAsync(string consulUrl, Func<ConsulServiceModel, bool>? filter = null)
+        public async Task<Guid> ChangeConsulConfigAsync(string serviceName, ConsulConfig consulConfig)
         {
-            List<ConsulServiceModel> consulServices = await GetServiceListAsync(consulUrl, filter);
-            return consulServices.FirstOrDefault();
+            ConsulScope? consulScope = _consulScopes.FirstOrDefault(m => m.Config.ServiceName == serviceName);
+            return await ChangeConsulConfigAsync(consulScope, consulConfig);
         }
         /// <summary>
-        /// 获得服务
+        /// 更改Consul配置
         /// </summary>
-        /// <param name="filter"></param>
+        /// <param name="nodeID"></param>
+        /// <param name="consulConfig"></param>
         /// <returns></returns>
-        public async Task<List<ConsulServiceModel>> GetServiceListAsync(Func<ConsulServiceModel, bool>? filter = null)
+        public async Task<Guid> ChangeConsulConfigAsync(Guid nodeID, ConsulConfig consulConfig)
         {
-            if (_consulConfig is null) throw new MateralException("未设置Consul配置对象");
-            return await GetServiceListAsync(_consulConfig.ConsulUrl.Url, filter);
+            ConsulScope? consulScope = _consulScopes.FirstOrDefault(m => m.NodeID == nodeID);
+            return await ChangeConsulConfigAsync(consulScope, consulConfig);
         }
         /// <summary>
-        /// 获得服务
+        /// 更改Consul配置
         /// </summary>
-        /// <param name="consulUrl"></param>
-        /// <param name="filter"></param>
+        /// <param name="consulScope"></param>
+        /// <param name="consulConfig"></param>
         /// <returns></returns>
-        public async Task<List<ConsulServiceModel>> GetServiceListAsync(string consulUrl, Func<ConsulServiceModel, bool>? filter = null)
+        public async Task<Guid> ChangeConsulConfigAsync(ConsulScope? consulScope, ConsulConfig consulConfig)
         {
-            string url = $"{consulUrl}/v1/agent/services";
-            string requestText = await _httpHelper.SendGetAsync(url);
-            JsonDocument jsonDocument = JsonDocument.Parse(requestText);
-            if (jsonDocument.RootElement.ValueKind != JsonValueKind.Object) throw new MateralException("ConsulServices返回错误");
-            JsonElement.ObjectEnumerator element = jsonDocument.RootElement.EnumerateObject();
-            List<JsonProperty> jsonProperties = [.. element];
-            List<string> jsonTexts = jsonProperties.Select(jsonProperty => jsonProperty.Value.ToString()).ToList();
-            List<ConsulServiceModel> result = jsonTexts.Select(jsonText => jsonText.JsonToObject<ConsulServiceModel>()).ToList();
-            if (filter is not null)
+            if (consulScope is null)
             {
-                result = result.Where(filter).ToList();
-            }
-            return result;
-        }
-        /// <summary>
-        /// 注册Consul服务
-        /// </summary>
-        private async Task RegisterConsulAsync()
-        {
-            if (_consulConfig is null) throw new MateralException("未设置Consul配置对象");
-            PolicyBuilder policyBuilder = Policy.Handle<Exception>();
-            AsyncRetryPolicy retryPolicy = policyBuilder.WaitAndRetryForeverAsync(index =>
-            {
-                _logger?.LogWarning($"服务[{_consulConfig.ServiceName}]注册失败,{_consulConfig.HealthConfig.ReconnectionInterval}秒后重试");
-                return TimeSpan.FromSeconds(_consulConfig.HealthConfig.ReconnectionInterval);
-            });
-            await retryPolicy.ExecuteAsync(async () =>
-            {
-                _logger?.LogInformation($"正在向Consul注册[{_consulConfig.ServiceName}]服务.....");
-                using ConsulClient consulClient = new(config => config.Address = new Uri(_consulConfig.ConsulUrl.Url));
-                AgentServiceRegistration registration = _consulConfig.GetAgentServiceRegistration(NodeID);
-                await consulClient.Agent.ServiceRegister(registration);
-                _healthTimer.Change(TimeSpan.FromSeconds(_consulConfig.HealthConfig.HealthInterval), Timeout.InfiniteTimeSpan);
-                _logger?.LogInformation($"服务[{_consulConfig.ServiceName}]注册成功");
-            });
-        }
-        /// <summary>
-        /// 健康检查定时器处理方法
-        /// </summary>
-        /// <returns></returns>
-        private async Task HealthTimerHandlerAsync()
-        {
-            if (_consulConfig is null) return;
-            _logger?.LogDebug("Consul健康检查开始....");
-            if (await SendHealthRequestAsync())
-            {
-                _logger?.LogDebug("Consul健康检查成功");
-                _healthTimer.Change(TimeSpan.FromSeconds(_consulConfig.HealthConfig.HealthInterval), Timeout.InfiniteTimeSpan);
+                consulScope = new(consulConfig, httpHelper, _logger);
+                _consulScopes.Add(consulScope);
             }
             else
             {
-                _logger?.LogWarning("Consul健康检查失败");
-                await RegisterConsulAsync();
+                await consulScope.ChangeConfigAsync(consulConfig);
+            }
+            return consulScope.NodeID;
+        }
+        /// <summary>
+        /// 获得服务信息
+        /// </summary>
+        /// <param name="consulConfig"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public async Task<ConsulServiceModel?> GetServiceInfoAsync(ConsulConfig consulConfig, Func<ConsulServiceModel, bool>? filter = null)
+        {
+            ConsulScope? consulScope = _consulScopes.FirstOrDefault(m => m.Config.ServiceName == consulConfig.ServiceName);
+            if (consulScope is null)
+            {
+                Guid id = await RegisterConsulConfigAsync(consulConfig);
+                return await GetServiceInfoAsync(id, filter);
+            }
+            return await consulScope.GetServiceInfoAsync(filter);
+        }
+        /// <summary>
+        /// 获得服务信息
+        /// </summary>
+        /// <param name="nodeID"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralConsulException"></exception>
+        public async Task<ConsulServiceModel?> GetServiceInfoAsync(Guid nodeID, Func<ConsulServiceModel, bool>? filter = null)
+        {
+            ConsulScope consulScope = _consulScopes.FirstOrDefault(m => m.NodeID == nodeID) ?? throw new MateralConsulException("未找到Consul配置");
+            return await consulScope.GetServiceInfoAsync(filter);
+        }
+        /// <summary>
+        /// 获得服务信息
+        /// </summary>
+        /// <param name="consulUrl"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralConsulException"></exception>
+        public async Task<ConsulServiceModel?> GetServiceInfoAsync(string consulUrl, Func<ConsulServiceModel, bool>? filter = null) => await ConsulScope.GetServiceInfoAsync(consulUrl, httpHelper, filter);
+        /// <summary>
+        /// 获得服务信息列表
+        /// </summary>
+        /// <param name="consulConfig"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<List<ConsulServiceModel>> GetServiceListAsync(ConsulConfig consulConfig, Func<ConsulServiceModel, bool>? filter = null)
+        {
+            ConsulScope? consulScope = _consulScopes.FirstOrDefault(m => m.Config.ServiceName == consulConfig.ServiceName);
+            if (consulScope is null)
+            {
+                Guid id = await RegisterConsulConfigAsync(consulConfig);
+                return await GetServiceListAsync(id, filter);
+            }
+            return await consulScope.GetServiceListAsync(filter);
+        }
+        /// <summary>
+        /// 获得服务信息列表
+        /// </summary>
+        /// <param name="nodeID"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<List<ConsulServiceModel>> GetServiceListAsync(Guid nodeID, Func<ConsulServiceModel, bool>? filter = null)
+        {
+            ConsulScope consulScope = _consulScopes.FirstOrDefault(m => m.NodeID == nodeID) ?? throw new MateralConsulException("未找到Consul配置");
+            return await consulScope.GetServiceListAsync(filter);
+        }
+        /// <summary>
+        /// 获得服务信息列表
+        /// </summary>
+        /// <param name="consulUrl"></param>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        public async Task<List<ConsulServiceModel>> GetServiceListAsync(string consulUrl, Func<ConsulServiceModel, bool>? filter = null) => await ConsulScope.GetServiceListAsync(consulUrl, httpHelper, filter);
+        /// <summary>
+        /// 注册Consul
+        /// </summary>
+        /// <param name="consulConfig"></param>
+        /// <returns></returns>
+        public async Task RegisterConsulAsync(ConsulConfig consulConfig)
+        {
+            ConsulScope? consulScope = _consulScopes.FirstOrDefault(m=> m.Config.ServiceName == consulConfig.ServiceName);
+            if (consulScope is null)
+            {
+                Guid id = await RegisterConsulConfigAsync(consulConfig);
+                await RegisterConsulAsync(id);
+                return;
+            }
+            await consulScope.RegisterConsulAsync();
+        }
+        /// <summary>
+        /// 注册Consul
+        /// </summary>
+        /// <param name="nodeID"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralConsulException"></exception>
+        public async Task RegisterConsulAsync(Guid nodeID)
+        {
+            ConsulScope consulScope = _consulScopes.FirstOrDefault(m => m.NodeID == nodeID) ?? throw new MateralConsulException("未找到Consul配置");
+            await consulScope.RegisterConsulAsync();
+        }
+        /// <summary>
+        /// 注册所有Consul
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="MateralConsulException"></exception>
+        public async Task RegisterAllConsulAsync()
+        {
+            IEnumerable<ConsulScope> consulScopes = _consulScopes.Where(m => !m.IsRegister);
+            foreach (ConsulScope consulScope in consulScopes)
+            {
+                await consulScope.RegisterConsulAsync();
             }
         }
         /// <summary>
-        /// 发送健康检查请求
+        /// 反注册Consul
+        /// </summary>
+        /// <param name="consulConfig"></param>
+        /// <returns></returns>
+        public async Task UnregisterConsulAsync(ConsulConfig consulConfig)
+        {
+            ConsulScope? consulScope = _consulScopes.FirstOrDefault(m => m.Config.ServiceName == consulConfig.ServiceName);
+            if (consulScope is null)
+            {
+                Guid id = await RegisterConsulConfigAsync(consulConfig);
+                await UnregisterConsulAsync(id);
+                return;
+            }
+            await consulScope.UnregisterConsulAsync();
+        }
+        /// <summary>
+        /// 反注册Consul
+        /// </summary>
+        /// <param name="nodeID"></param>
+        /// <returns></returns>
+        /// <exception cref="MateralConsulException"></exception>
+        public async Task UnregisterConsulAsync(Guid nodeID)
+        {
+            ConsulScope consulScope = _consulScopes.FirstOrDefault(m => m.NodeID == nodeID) ?? throw new MateralConsulException("未找到Consul配置");
+            await consulScope.UnregisterConsulAsync();
+        }
+        /// <summary>
+        /// 反注册所有Consul
         /// </summary>
         /// <returns></returns>
-        private async Task<bool> SendHealthRequestAsync()
+        public async Task UnregisterAllConsulAsync()
         {
-            try
+            IEnumerable<ConsulScope> consulScopes = _consulScopes.Where(m => m.IsRegister);
+            foreach (ConsulScope consulScope in consulScopes)
             {
-                ConsulServiceModel? service = await GetServiceInfoAsync(m => m.ID is not null && m.ID == NodeID.ToString());
-                return service is not null;
-            }
-            catch (Exception)
-            {
-                _logger?.LogWarning("Consul健康检查失败");
-                return false;
+                await consulScope.UnregisterConsulAsync();
             }
         }
     }

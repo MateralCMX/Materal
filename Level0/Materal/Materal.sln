@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Utils.Image", "Src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Utils.MongoDB", "Src\Materal.Utils.MongoDB\Materal.Utils.MongoDB.csproj", "{C8F9A8A9-9F7A-4E26-AF61-CF202E8A9661}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Utils.CloudStorage.Tencent", "Src\Materal.Utils.CloudStorage.Tencent\Materal.Utils.CloudStorage.Tencent.csproj", "{4A17004C-20BD-48A8-B069-48C0ECCFF9B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Utils.CloudStorage.Tencent", "Src\Materal.Utils.CloudStorage.Tencent\Materal.Utils.CloudStorage.Tencent.csproj", "{4A17004C-20BD-48A8-B069-48C0ECCFF9B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

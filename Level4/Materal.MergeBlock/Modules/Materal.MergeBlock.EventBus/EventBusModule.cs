@@ -1,5 +1,4 @@
 ﻿using Materal.EventBus.Abstraction;
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Materal.MergeBlock.EventBus

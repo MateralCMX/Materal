@@ -10,7 +10,7 @@ namespace Materal.WebAPITest.Controllers
         [HttpGet]
         public void Health(Guid? id)
         {
-            if (id is null || consulService.NodeID == id.Value) return;
+            if (id is null || consulService.HasNode(id.Value)) return;
             throw new Exception("节点ID不匹配");
         }
     }

@@ -1,4 +1,3 @@
-using Materal.Extensions.DependencyInjection;
 using Materal.Utils.Consul;
 using Materal.Utils.Consul.ConfigModels;
 using Materal.WebAPITest.Services;
@@ -8,6 +7,8 @@ namespace Materal.WebAPITest
     public class Program
     {
         private static IServiceProvider? _serviceProvider;
+        public static Guid ConsulConfigID1;
+        public static Guid ConsulConfigID2;
         public static void Main(string[] args)
         {
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
@@ -31,37 +32,72 @@ namespace Materal.WebAPITest
                 app.UseSwaggerUI();
             }
             IConsulService consulService = app.Services.GetRequiredService<IConsulService>();
-            ConsulConfigModel consulConfigModel = new()
+            ThreadPool.QueueUserWorkItem(async _ =>
             {
-                Enable = false,
-                ConsulUrl = new()
+                ConsulConfig consulConfigModel1 = new()
                 {
-                    Host = "127.0.0.1",
-                    Port = 8500,
-                    IsSSL = false
-                },
-                HealthConfig = new()
-                {
-                    HealthInterval = 10,
-                    HealthUrl = new()
+                    Enable = true,
+                    ServiceName = "MateralWebAPITest",
+                    Tags = ["Materal", "Materal.Utils"],
+                    ConsulUrl = new()
                     {
-                        //Host = "host.docker.internal",
                         Host = "127.0.0.1",
+                        Port = 8500,
+                        IsSSL = false
+                    },
+                    ServiceUrl = new()
+                    {
+                        Host = "localhost",
                         Port = 5000,
-                        IsSSL = false,
-                        Path = "api/Health"
+                        IsSSL = false
+                    },
+                    Health = new()
+                    {
+                        Interval = 10,
+                        Url = new()
+                        {
+                            Host = "host.docker.internal",
+                            //Host = "127.0.0.1",
+                            Port = 5000,
+                            IsSSL = false,
+                            Path = "api/Health"
+                        }
                     }
-                },
-                ServiceName = "MateralWebAPITest",
-                Tags = ["Materal", "Materal.Utils"],
-                ServiceUrl = new()
+                };
+                ConsulConfig consulConfigModel2 = new()
                 {
-                    Host = "localhost",
-                    Port = 5000,
-                    IsSSL = false
-                }
-            };
-            ThreadPool.QueueUserWorkItem(async _ => await consulService.RegisterConsulAsync(consulConfigModel));
+                    Enable = true,
+                    ServiceName = "MateralWebAPITest2",
+                    Tags = ["Materal", "Materal.Utils"],
+                    ConsulUrl = new()
+                    {
+                        Host = "127.0.0.1",
+                        Port = 8500,
+                        IsSSL = false
+                    },
+                    ServiceUrl = new()
+                    {
+                        Host = "localhost",
+                        Port = 5000,
+                        IsSSL = false
+                    },
+                    Health = new()
+                    {
+                        Interval = 10,
+                        Url = new()
+                        {
+                            Host = "host.docker.internal",
+                            //Host = "127.0.0.1",
+                            Port = 5000,
+                            IsSSL = false,
+                            Path = "api/Health"
+                        }
+                    }
+                };
+                ConsulConfigID1 = await consulService.RegisterConsulConfigAsync(consulConfigModel1);
+                ConsulConfigID2 = await consulService.RegisterConsulConfigAsync(consulConfigModel2);
+                await consulService.RegisterAllConsulAsync();
+            });
             app.UseAuthorization();
             app.MapControllers();
             app.Run();
@@ -71,7 +107,7 @@ namespace Materal.WebAPITest
         {
             if (_serviceProvider is null) return;
             IConsulService consulService = _serviceProvider.GetRequiredService<IConsulService>();
-            Task task = consulService.UnregisterConsulAsync();
+            Task task = consulService.UnregisterAllConsulAsync();
             task.Wait();
         }
     }
