@@ -1,0 +1,26 @@
+﻿namespace ${ProjectName}.${ModuleName}.Application
+{
+    /// <summary>
+    /// ${ModuleName}模块
+    /// </summary>
+    public class ${ModuleName}Module : ${ProjectName}Module, IMergeBlockModule
+    {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        public ${ModuleName}Module() : base("${ProjectName}${ModuleName}模块", "${ProjectName}.${ModuleName}", ["${ProjectName}.${ModuleName}.Repository"])
+        {
+        }
+        /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
+        {
+            await base.OnConfigServiceAsync(context);
+            context.Services.Configure<ApplicationConfig>(context.Configuration.GetSection("${ProjectName}.${ModuleName}"));
+            context.Services.AddConsulConfig("${ProjectName}${ModuleName}", ["${ProjectName}.${ModuleName}"]);
+        }
+    }
+}

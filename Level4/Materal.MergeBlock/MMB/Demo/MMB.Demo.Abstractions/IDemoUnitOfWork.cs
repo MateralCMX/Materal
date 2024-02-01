@@ -1,4 +1,4 @@
-﻿namespace MMB.Demo.Repository
+﻿namespace MMB.Demo.Abstractions
 {
     /// <summary>
     /// Demo工作单元

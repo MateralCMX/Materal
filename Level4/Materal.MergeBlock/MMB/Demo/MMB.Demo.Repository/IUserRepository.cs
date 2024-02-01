@@ -1,4 +1,6 @@
-﻿namespace MMB.Demo.Repository
+﻿using MMB.Demo.Abstractions;
+
+namespace MMB.Demo.Repository
 {
     /// <summary>
     /// 用户仓储接口

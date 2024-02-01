@@ -1,4 +1,4 @@
-﻿namespace MMB.Core.Repository
+﻿namespace MMB.Core.Abstractions
 {
     /// <summary>
     /// MMB工作单元

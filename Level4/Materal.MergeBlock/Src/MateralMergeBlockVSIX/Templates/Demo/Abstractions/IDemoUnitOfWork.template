@@ -1,0 +1,9 @@
+﻿namespace ${ProjectName}.Demo.Abstractions
+{
+    /// <summary>
+    /// Demo工作单元
+    /// </summary>
+    public interface IDemoUnitOfWork : I${ProjectName}UnitOfWork
+    {
+    }
+}

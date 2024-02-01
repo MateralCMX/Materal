@@ -1,0 +1,44 @@
+﻿<Window x:Class="CodeToStringCode.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CodeToStringCode"
+        mc:Ignorable="d" Title="CodeToStringCode" Height="450" Width="1200">
+    <Window.DataContext>
+        <local:MainWindowViewModel x:Name="ViewModel" />
+    </Window.DataContext>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="0,0,10,0" />
+                    <Setter Property="Width" Value="100" />
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock Text="项目名称：" />
+            <TextBox Text="{Binding ProjectName, Mode=TwoWay}" />
+            <TextBlock Text="模块名称：" />
+            <TextBox Text="{Binding ModuleName, Mode=TwoWay}"/>
+            <TextBlock Text="Domain名称：" />
+            <TextBox Text="{Binding DomainName, Mode=TwoWay}" />
+            <TextBlock Text="Domain注释：" />
+            <TextBox Text="{Binding DomainAnnotation, Mode=TwoWay}" />
+            <TextBlock Text="CodeContent名称：" />
+            <TextBox Text="{Binding CodeContentName, Mode=TwoWay}" />
+            <Button Content="复制代码" Click="Button_Click" />
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding Code, Mode=TwoWay}" AcceptsReturn="True" />
+            <TextBox Grid.Column="1" Text="{Binding StringCode, Mode=OneWay}" AcceptsReturn="True" IsReadOnly="True" />
+        </Grid>
+    </Grid>
+</Window>

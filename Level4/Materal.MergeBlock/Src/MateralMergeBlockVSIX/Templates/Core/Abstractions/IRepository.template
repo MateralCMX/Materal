@@ -1,0 +1,11 @@
+﻿namespace ${ProjectName}.Core.Abstractions
+{
+    /// <summary>
+    /// ${ProjectName}仓储接口
+    /// </summary>
+    /// <typeparam name="TDomain"></typeparam>
+    public interface I${ProjectName}Repository<TDomain> : IEFRepository<TDomain, Guid>
+        where TDomain : BaseDomain, IDomain, IEntity<Guid>, new()
+    {
+    }
+}

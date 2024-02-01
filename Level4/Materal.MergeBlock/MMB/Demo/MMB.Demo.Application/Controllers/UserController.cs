@@ -1,4 +1,3 @@
-using Materal.MergeBlock.Abstractions.WebModule.Controllers;
 using MMB.Demo.Abstractions.DTO.User;
 using MMB.Demo.Abstractions.RequestModel.User;
 using MMB.Demo.Abstractions.Services.Models.User;
@@ -17,18 +16,6 @@ namespace MMB.Demo.Application.Controllers
     /// </summary>
     public partial class UserController(ITokenService tokenService, IOptionsMonitor<AuthorizationConfig> authorizationConfig)
     {
-        /// <summary>
-        /// 获得用户列表
-        /// </summary>
-        /// <param name="requestModel"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<PageResultModel<UserListDTO>> GetUserListAsync(QueryUserRequestModel requestModel)
-        {
-            QueryUserModel model0 = Mapper.Map<QueryUserModel>(requestModel);
-            (List<UserListDTO>? result, PageModel pageInfo) = await DefaultService.GetUserListAsync(model0);
-            return PageResultModel<UserListDTO>.Success(result, pageInfo);
-        }
         /// <summary>
         /// 重置密码
         /// </summary>

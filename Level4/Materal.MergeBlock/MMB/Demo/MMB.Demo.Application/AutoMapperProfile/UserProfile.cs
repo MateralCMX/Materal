@@ -1,4 +1,3 @@
-using AutoMapper;
 using MMB.Demo.Abstractions.DTO.User;
 using MMB.Demo.Abstractions.RequestModel.User;
 using MMB.Demo.Abstractions.Services.Models.User;
@@ -36,6 +35,12 @@ namespace MMB.Demo.Application.AutoMapperProfile
         {
             Init();
         }
+    }
+    /// <summary>
+    /// 用户AutoMapper映射配置
+    /// </summary>
+    public partial class UserProfile : UserProfileBase
+    {
         /// <summary>
         /// 初始化
         /// </summary>

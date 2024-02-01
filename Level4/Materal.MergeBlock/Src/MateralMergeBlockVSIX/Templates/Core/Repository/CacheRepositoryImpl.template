@@ -1,0 +1,15 @@
+﻿using Materal.Utils.Cache;
+
+namespace ${ProjectName}.Core.Repository
+{
+    /// <summary>
+    /// ${ProjectName}缓存仓储实现
+    /// </summary>
+    /// <typeparam name="TDomain"></typeparam>
+    /// <typeparam name="TDBContext"></typeparam>
+    public abstract class ${ProjectName}CacheRepositoryImpl<TDomain, TDBContext>(TDBContext dbContext, ICacheHelper cacheHelper) : SqliteCacheEFRepositoryImpl<TDomain, Guid, TDBContext>(dbContext, cacheHelper), I${ProjectName}CacheRepository<TDomain>
+        where TDomain : BaseDomain, IDomain, IEntity<Guid>, new()
+        where TDBContext : DbContext
+    {
+    }
+}

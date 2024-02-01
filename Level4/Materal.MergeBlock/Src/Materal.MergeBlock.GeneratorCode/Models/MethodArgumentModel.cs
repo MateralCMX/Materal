@@ -30,13 +30,25 @@
         /// </summary>
         public bool CanNull { get; set; }
         /// <summary>
+        /// 特性组
+        /// </summary>
+        public List<AttributeModel> Attributes { get; set; } = [];
+        /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="code"></param>
         public MethodArgumentModel(string code)
         {
             string residualCode = code;
-            int index = residualCode.IndexOf('=');
+            int index;
+            if (residualCode[0] == '[')
+            {
+                index = residualCode.LastIndexOf(']');
+                string attributeCode = residualCode[..(index + 1)];
+                Attributes = AttributeModel.GetAttributes(attributeCode);
+                residualCode = residualCode[(index + 1)..].Trim();
+            }
+            index = residualCode.IndexOf('=');
             if (index > 0)
             {
                 index = residualCode.IndexOf('=');

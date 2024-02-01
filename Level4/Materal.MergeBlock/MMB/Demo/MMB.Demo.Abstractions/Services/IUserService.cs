@@ -8,12 +8,12 @@ namespace MMB.Demo.Abstractions.Services
     /// </summary>
     public partial interface IUserService : IBaseService<AddUserModel, EditUserModel, QueryUserModel, UserDTO, UserListDTO>
     {
-        /// <summary>
-        /// 获得用户列表
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        Task<(List<UserListDTO> data, PageModel pageInfo)> GetUserListAsync(QueryUserModel model);
+    }
+    /// <summary>
+    /// 用户服务
+    /// </summary>
+    public partial interface IUserService
+    {
         /// <summary>
         /// 登录
         /// </summary>

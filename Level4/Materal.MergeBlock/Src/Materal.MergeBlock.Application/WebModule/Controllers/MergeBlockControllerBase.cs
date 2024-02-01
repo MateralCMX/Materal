@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.Abstractions.WebModule.Controllers;
+﻿using Materal.MergeBlock.Abstractions.WebModule;
+using Materal.MergeBlock.Abstractions.WebModule.Controllers;
 
 namespace Materal.MergeBlock.Application.WebModule.Controllers
 {

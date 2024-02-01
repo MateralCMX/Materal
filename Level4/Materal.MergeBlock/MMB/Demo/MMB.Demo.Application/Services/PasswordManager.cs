@@ -1,6 +1,4 @@
-﻿using Materal.Extensions;
-
-namespace MMB.Demo.Application.Services
+﻿namespace MMB.Demo.Application.Services
 {
     /// <summary>
     /// 密码管理器

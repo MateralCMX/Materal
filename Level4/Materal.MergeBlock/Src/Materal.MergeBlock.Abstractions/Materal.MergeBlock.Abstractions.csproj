@@ -29,7 +29,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="*" />
 		<PackageReference Include="Materal.EventBus.RabbitMQ" Version="1.1.75" />
 		<PackageReference Include="Materal.Logger" Version="1.1.75" />
-		<PackageReference Include="Materal.TTA.Common" Version="1.1.75" />
+		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.75" />
 		<PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.75" />
 		<PackageReference Include="Materal.Utils.Consul" Version="1.1.75" />
 	</ItemGroup>

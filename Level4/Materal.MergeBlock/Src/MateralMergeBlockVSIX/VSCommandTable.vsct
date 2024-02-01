@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<Extern href="stdidcmd.h"/>
+	<Extern href="vsshlids.h"/>
+	<Include href="KnownImageIds.vsct"/>
+	<Include href="VSGlobals.vsct"/>
+	<Commands package="MateralMergeBlockVSIX">
+		<Buttons>
+			<Button guid="MateralMergeBlockVSIX" id="ShowManagerWindowCommand" priority="0x0100" type="Button">
+				<Parent guid="VSMainMenu" id="Extensions.DefaultGroup"/>
+				<Icon guid="ImageCatalogGuid" id="ModulePublic" />
+				<CommandFlag>IconIsMoniker</CommandFlag>
+				<Strings>
+					<ButtonText>MergeBlock管理器</ButtonText>
+					<LocCanonicalName>.Extensions.MergeBlockManagerWindow</LocCanonicalName>
+				</Strings>
+			</Button>
+		</Buttons>
+	</Commands>
+	<Symbols>
+		<GuidSymbol name="MateralMergeBlockVSIX" value="{98128b0e-7190-4626-8342-4a542c4a488d}">
+			<IDSymbol name="ShowManagerWindowCommand" value="0x0100" />
+		</GuidSymbol>
+	</Symbols>
+</CommandTable>

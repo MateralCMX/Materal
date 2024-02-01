@@ -1,0 +1,12 @@
+﻿namespace ${ProjectName}.Core.Repository
+{
+    /// <summary>
+    /// ${ProjectName}工作单元实现
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="serviceProvider"></param>
+    public class ${ProjectName}UnitOfWorkImpl<T>(T context, IServiceProvider serviceProvider) : MergeBlockUnitOfWorkImpl<T>(context, serviceProvider), I${ProjectName}UnitOfWork
+        where T : DbContext
+    {
+    }
+}

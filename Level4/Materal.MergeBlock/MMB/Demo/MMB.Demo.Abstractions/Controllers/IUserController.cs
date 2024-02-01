@@ -15,13 +15,6 @@ namespace MMB.Demo.Abstractions.Controllers
     public partial interface IUserController
     {
         /// <summary>
-        /// 获得用户列表
-        /// </summary>
-        /// <param name="requestModel"></param>
-        /// <returns></returns>
-        [HttpPost]
-        Task<PageResultModel<UserListDTO>> GetUserListAsync(QueryUserRequestModel requestModel);
-        /// <summary>
         /// 重置密码
         /// </summary>
         /// <param name="id"></param>

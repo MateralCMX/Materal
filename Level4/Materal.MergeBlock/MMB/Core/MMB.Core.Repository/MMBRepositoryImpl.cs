@@ -1,4 +1,6 @@
-﻿namespace MMB.Core.Repository
+﻿using MMB.Core.Abstractions;
+
+namespace MMB.Core.Repository
 {
     /// <summary>
     /// MMB仓储实现

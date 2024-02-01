@@ -1,0 +1,11 @@
+﻿namespace ${ProjectName}.${ModuleName}.Repository
+{
+    /// <summary>
+    /// ${ModuleName}工作单元实现
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="serviceProvider"></param>
+    public class ${ModuleName}UnitOfWorkImpl(${ModuleName}DBContext context, IServiceProvider serviceProvider) : ${ProjectName}UnitOfWorkImpl<${ModuleName}DBContext>(context, serviceProvider), I${ModuleName}UnitOfWork, IScopedDependencyInjectionService<I${ModuleName}UnitOfWork>
+    {
+    }
+}

@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.Repository
+﻿using Materal.TTA.EFRepository;
+
+namespace Materal.MergeBlock.Abstractions
 {
     /// <summary>
     /// 核心工作单元

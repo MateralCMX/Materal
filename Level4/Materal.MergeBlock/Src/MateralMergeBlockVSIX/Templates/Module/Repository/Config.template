@@ -1,0 +1,7 @@
+{
+  "${ProjectName}.${ModuleName}": {
+    "DBConfig": {
+      "Source": "${ProjectPath}\\${ProjectName}.${ModuleName}\\${ProjectName}.${ModuleName}.WebAPI\\bin\\${ProjectName}${ModuleName}.db"
+    }
+  }
+}

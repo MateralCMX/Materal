@@ -1,4 +1,5 @@
-﻿using MMB.Demo.Abstractions.DTO.User;
+﻿using MMB.Demo.Abstractions;
+using MMB.Demo.Abstractions.DTO.User;
 using MMB.Demo.Abstractions.Services.Models.User;
 
 namespace MMB.Demo.Application.Services
@@ -11,12 +12,6 @@ namespace MMB.Demo.Application.Services
     /// </summary>
     public partial class UserServiceImpl(IOptionsMonitor<ApplicationConfig> applicationConfig)
     {
-        /// <summary>
-        /// 获得用户列表
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public async Task<(List<UserListDTO> data, PageModel pageInfo)> GetUserListAsync(QueryUserModel model) => await GetListAsync(model);
         /// <summary>
         /// 添加
         /// </summary>

@@ -1,6 +1,8 @@
-﻿global using Materal.Extensions;
+﻿global using AutoMapper;
+global using Materal.Extensions;
 global using Materal.MergeBlock.Abstractions;
 global using Materal.MergeBlock.Abstractions.WebModule.Authorization;
+global using Materal.MergeBlock.Abstractions.WebModule.Controllers;
 global using Materal.MergeBlock.Application.Services;
 global using Materal.MergeBlock.Application.WebModule.Controllers;
 global using Materal.Utils.Model;

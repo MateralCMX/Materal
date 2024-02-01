@@ -1,0 +1,11 @@
+﻿namespace ${ProjectName}.${ModuleName}.Abstractions
+{
+    /// <summary>
+    /// ${ModuleName}仓储接口
+    /// </summary>
+    /// <typeparam name="TDomain"></typeparam>
+    public interface I${ModuleName}Repository<TDomain> : I${ProjectName}Repository<TDomain>
+        where TDomain : BaseDomain, IDomain, IEntity<Guid>, new()
+    {
+    }
+}

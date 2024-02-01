@@ -1,0 +1,11 @@
+﻿namespace ${ProjectName}.${ModuleName}.Repository
+{
+    /// <summary>
+    /// ${ModuleName}仓储实现
+    /// </summary>
+    /// <typeparam name="TDomain"></typeparam>
+    public abstract class ${ModuleName}RepositoryImpl<TDomain>(${ModuleName}DBContext dbContext) : ${ProjectName}RepositoryImpl<TDomain, ${ModuleName}DBContext>(dbContext), I${ModuleName}Repository<TDomain>
+        where TDomain : BaseDomain, IDomain, IEntity<Guid>, new()
+    {
+    }
+}

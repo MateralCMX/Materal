@@ -1,0 +1,11 @@
+﻿global using Materal.MergeBlock.Abstractions;
+global using Materal.MergeBlock.Abstractions.Domain;
+global using Materal.MergeBlock.Repository;
+global using Materal.TTA.Common;
+global using Microsoft.EntityFrameworkCore;
+global using ${ProjectName}.Core.Repository;
+global using ${ProjectName}.Demo.Abstractions;
+global using ${ProjectName}.Demo.Abstractions.Domain;
+global using ${ProjectName}.Demo.Abstractions.Repositories;
+
+[assembly: MergeBlockAssembly]

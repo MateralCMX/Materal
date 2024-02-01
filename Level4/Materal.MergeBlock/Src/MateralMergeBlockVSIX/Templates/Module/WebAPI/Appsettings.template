@@ -1,0 +1,92 @@
+﻿{
+  "AccessLog": {
+    "MaxBodySize": 2048
+  },
+  "AllowedHosts": "*",
+  "Authorization": {
+    "Audience": "WebAPI",
+    "Issuer": "Materal.APP",
+    "Key": "MateralCMXConfig",
+    "ExpiredTime": "18000"
+  },
+  "ApplicationName": "${ProjectName}.${ModuleName}",
+  "BaseUrl": "http://127.0.0.1:5000",
+  "Consul": {
+    "Enable": true,
+    "Tags": [ "Materal", "Materal.MergeBlock", "${ProjectName}" ],
+    "ConsulUrl": {
+      "Host": "127.0.0.1",
+      "Port": 8500,
+      "IsSSL": false
+    },
+    "ServiceUrl": {
+      "Host": "localhost",
+      "Port": 5000,
+      "IsSSL": false
+    },
+    "HealthInterval": 10,
+    "HealthUrl": {
+      //"Host": "localhost",
+      "Host": "host.docker.internal",
+      "Port": 5000,
+      "IsSSL": false,
+      "Path": "/api/Health"
+    },
+    "ServiceNameSuffix": "_ProAPI"
+  },
+  "Exception": {
+    "ShowException": false,
+    "ErrorMessage": "服务器出错了！请联系管理员。"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore": "Warning"
+    },
+    "MateralLogger": {
+      "Application": "${ApplicationName}",
+      "Scopes": {
+        "MergeBlockAccessLog": "None"
+      },
+      "Targets": [
+        {
+          "Name": "ConsoleLog",
+          "Type": "Console",
+          "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}"
+        },
+        {
+          "Name": "AccessLog",
+          "Type": "Console",
+          "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}"
+        }
+      ],
+      "Rules": [
+        {
+          "Name": "配置文件规则",
+          "Targets": [
+            "ConsoleLog"
+          ]
+        },
+        {
+          "Name": "访问日志规则",
+          "Targets": [
+            "AccessLog"
+          ],
+          "Scopes": {
+            "Default": "None",
+            "MergeBlockAccessLog": "Trace"
+          }
+        }
+      ]
+    }
+  },
+  "Swagger": {
+    "Enable": true,
+    "Title": "${ProjectName}应用程序",
+    "Version": "v1",
+    "Description": "提供WebAPI接口",
+    "EnableAuthentication": null
+  },
+  "ModulesDirectories": []
+}

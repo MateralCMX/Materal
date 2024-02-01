@@ -8,14 +8,20 @@
 		<InvariantGlobalization>true</InvariantGlobalization>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
-	  <ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
-	  <ProjectReference Include="..\..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
+		<ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.AccessLog\Materal.MergeBlock.AccessLog.csproj" />
+		<ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.Authorization\Materal.MergeBlock.Authorization.csproj" />
+		<ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj" />
+		<ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
+		<ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.ExceptionInterceptor\Materal.MergeBlock.ExceptionInterceptor.csproj" />
+		<ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
+		<ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.Oscillator\Materal.MergeBlock.Oscillator.csproj" />
+		<ProjectReference Include="..\..\..\Modules\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
+		<ProjectReference Include="..\..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
 	</ItemGroup>
 </Project>

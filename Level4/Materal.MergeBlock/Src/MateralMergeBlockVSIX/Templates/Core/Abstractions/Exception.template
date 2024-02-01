@@ -1,0 +1,30 @@
+﻿namespace ${ProjectName}.Core.Abstractions
+{
+    /// <summary>
+    /// ${ProjectName}异常
+    /// </summary>
+    public class ${ProjectName}Exception : MergeBlockModuleException
+    {
+        /// <summary>
+        /// ${ProjectName}异常
+        /// </summary>
+        public ${ProjectName}Exception()
+        {
+        }
+        /// <summary>
+        /// ${ProjectName}异常
+        /// </summary>
+        /// <param name="message"></param>
+        public ${ProjectName}Exception(string? message) : base(message)
+        {
+        }
+        /// <summary>
+        /// ${ProjectName}异常
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
+        public ${ProjectName}Exception(string? message, Exception? innerException) : base(message, innerException)
+        {
+        }
+    }
+}

@@ -1,10 +1,10 @@
-﻿namespace MMB.Demo.Repository
+﻿namespace MMB.Core.Abstractions
 {
     /// <summary>
-    /// Demo仓储接口
+    /// MMB缓存仓储接口
     /// </summary>
     /// <typeparam name="TDomain"></typeparam>
-    public interface IDemoRepository<TDomain> : IMMBRepository<TDomain>
+    public interface IMMBCacheRepository<TDomain> : ICacheEFRepository<TDomain, Guid>
         where TDomain : BaseDomain, IDomain, IEntity<Guid>, new()
     {
     }
