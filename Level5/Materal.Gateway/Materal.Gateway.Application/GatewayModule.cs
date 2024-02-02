@@ -1,5 +1,6 @@
 ﻿using Materal.Gateway.OcelotExtension;
 using Materal.Gateway.Service;
+using Materal.MergeBlock.Abstractions.WebModule;
 using Materal.Utils.Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,8 +12,12 @@ namespace Materal.Gateway.Application
     /// <summary>
     /// 网关模块
     /// </summary>
-    public class GatewayModule : MergeBlockModule, IMergeBlockModule
+    public class GatewayModule : MergeBlockWebModule, IMergeBlockWebModule
     {
+        public GatewayModule():base("网关模块", "Gateway")
+        {
+
+        }
         public override Task OnConfigServiceBeforeAsync(IConfigServiceContext context)
         {
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ocelot.json");
@@ -40,7 +45,7 @@ namespace Materal.Gateway.Application
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public override async Task OnApplicationInitBeforeAsync(IApplicationContext context)
+        public override async Task OnApplicationInitBeforeAsync(IWebApplicationContext context)
         {
             IOcelotConfigService ocelotConfigService = context.ServiceProvider.GetRequiredService<IOcelotConfigService>();
             await ocelotConfigService.InitAsync();
@@ -56,7 +61,7 @@ namespace Materal.Gateway.Application
                 FileProvider = new PhysicalFileProvider(managementDirectoryInfo.FullName),
                 RequestPath = $"/{managementDirectoryInfo.Name}",
             };
-            context.ApplicationBuilder.UseStaticFiles(staticFileOptions);
+            context.WebApplication.UseStaticFiles(staticFileOptions);
             await base.OnApplicationInitBeforeAsync(context);
         }
         /// <summary>
@@ -64,18 +69,18 @@ namespace Materal.Gateway.Application
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public override async Task OnApplicationInitAsync(IApplicationContext context)
+        public override async Task OnApplicationInitAsync(IWebApplicationContext context)
         {
             IWebHostEnvironment environment = context.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
             if (environment.IsDevelopment())
             {
-                context.ApplicationBuilder.UseSwaggerForOcelotUI(m => m.PathToSwaggerGenerator = "/swagger/docs");
+                context.WebApplication.UseSwaggerForOcelotUI(m => m.PathToSwaggerGenerator = "/swagger/docs");
             }
             else
             {
-                context.ApplicationBuilder.UseSwaggerForOcelotUI();
+                context.WebApplication.UseSwaggerForOcelotUI();
             }
-            await context.ApplicationBuilder.UseOcelotGatewayAsync(true);
+            await context.WebApplication.UseOcelotGatewayAsync(true);
             await base.OnApplicationInitAsync(context);
         }
     }
