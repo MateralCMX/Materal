@@ -6,6 +6,7 @@
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<InvariantGlobalization>true</InvariantGlobalization>
+		<IsPublish>true</IsPublish>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*">
@@ -15,7 +16,7 @@
 		<PackageReference Include="Materal.MergeBlock.AccessLog" Version="1.1.75" />
 		<PackageReference Include="Materal.MergeBlock.Authorization" Version="1.1.75" />
 		<PackageReference Include="Materal.MergeBlock.Consul" Version="1.1.75" />
-		<!--<PackageReference Include="Materal.MergeBlock.EventBus" Version="*" />-->
+		<PackageReference Include="Materal.MergeBlock.EventBus" Version="1.1.75" />
 		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="1.1.75" />
 		<PackageReference Include="Materal.MergeBlock.Logger" Version="1.1.75" />
 		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" Version="*" />-->
@@ -23,10 +24,12 @@
 		<PackageReference Include="Materal.MergeBlock" Version="1.1.75" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\RC.Authority.Application\RC.Authority.Application.csproj" />
+		<ProjectReference Include="..\RC.Core.Abstractions\RC.Core.Abstractions.csproj" />
+		<ProjectReference Include="..\RC.Core.Application\RC.Core.Application.csproj" />
+		<ProjectReference Include="..\RC.Core.Repository\RC.Core.Repository.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<Content Include="..\..\RC.Core\RC.Core.Abstractions\RCConfig.json">
+		<Content Include="..\RC.Core.Abstractions\RCConfig.json">
 			<Link>RCConfig.json</Link>
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>

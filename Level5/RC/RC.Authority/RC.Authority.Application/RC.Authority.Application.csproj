@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsPublish>true</IsPublish>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\RC.Core\RC.Core.Application\RC.Core.Application.csproj" />
