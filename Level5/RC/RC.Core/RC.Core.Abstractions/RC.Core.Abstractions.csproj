@@ -7,17 +7,11 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="RCConfig.json" />
+		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Content Include="RCConfig.json">
+	  <None Update="RCConfig.json">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="1.1.75" />
-		<PackageReference Include="Materal.MergeBlock.Authorization.Abstractions" Version="1.1.75" />
+	  </None>
 	</ItemGroup>
 </Project>

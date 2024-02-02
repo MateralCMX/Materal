@@ -6,14 +6,21 @@
     public class AuthorityModule : RCModule, IMergeBlockModule
     {
         /// <summary>
+        /// 构造函数
+        /// </summary>
+        public AuthorityModule() : base("RCAuthority模块", "RC.Authority", ["RC.Authority.Repository"])
+        {
+        }
+        /// <summary>
         /// 配置服务
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            context.Services.Configure<ApplicationConfig>(context.Configuration);
             await base.OnConfigServiceAsync(context);
+            context.Services.Configure<ApplicationConfig>(context.Configuration.GetSection("RC.Authority"));
+            context.Services.AddConsulConfig("RCAuthority", ["RC.Authority"]);
         }
     }
 }

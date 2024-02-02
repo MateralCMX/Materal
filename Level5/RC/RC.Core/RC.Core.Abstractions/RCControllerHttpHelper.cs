@@ -1,5 +1,4 @@
-﻿using Materal.MergeBlock.Abstractions.Config;
-using Materal.MergeBlock.Authorization.Abstractions;
+﻿using Materal.MergeBlock.Abstractions.WebModule.Authorization;
 using Materal.Utils.Http;
 using Microsoft.Extensions.Options;
 

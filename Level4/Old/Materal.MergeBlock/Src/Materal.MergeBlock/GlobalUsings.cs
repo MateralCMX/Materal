@@ -1,9 +1,0 @@
-﻿global using Materal.Abstractions;
-global using Materal.Extensions;
-global using Materal.MergeBlock.Abstractions;
-global using Materal.Utils.Extensions;
-global using Materal.Utils.Model;
-global using Microsoft.Extensions.Configuration;
-global using Microsoft.Extensions.DependencyInjection;
-global using Microsoft.Extensions.Logging;
-global using System.Reflection;

@@ -1,17 +1,17 @@
-﻿using Materal.MergeBlock;
+﻿using Materal.MergeBlock.WebModule;
 
 namespace RC.Demo.WebAPI
 {
     /// <summary>
-    /// 入口类
+    /// 主程序
     /// </summary>
     public class Program
     {
         /// <summary>
-        /// 入口方法
+        /// 入口
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static async Task Main(string[] args) => await MergeBlockProgram.RunAsync(args);
+        public static async Task Main(string[] args) => await new MergeBlockWebProgram().RunAsync(args);
     }
 }

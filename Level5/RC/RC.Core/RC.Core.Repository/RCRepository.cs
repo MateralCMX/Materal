@@ -1,16 +1,12 @@
-﻿using Materal.TTA.SqliteEFRepository;
-
-namespace RC.Core.Repository
+﻿namespace RC.Core.Repository
 {
     /// <summary>
-    /// RC仓储
+    /// RC仓储实现
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TPrimaryKeyType"></typeparam>
+    /// <typeparam name="TDomain"></typeparam>
     /// <typeparam name="TDBContext"></typeparam>
-    public abstract class RCRepositoryImpl<T, TPrimaryKeyType, TDBContext>(TDBContext dbContext) : SqliteEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>(dbContext), IRCRepository<T, TPrimaryKeyType>
-        where T : class, IEntity<TPrimaryKeyType>, new()
-        where TPrimaryKeyType : struct
+    public abstract class RCRepositoryImpl<TDomain, TDBContext>(TDBContext dbContext) : SqliteEFRepositoryImpl<TDomain, Guid, TDBContext>(dbContext), IRCRepository<TDomain>
+        where TDomain : BaseDomain, IDomain, IEntity<Guid>, new()
         where TDBContext : DbContext
     {
     }

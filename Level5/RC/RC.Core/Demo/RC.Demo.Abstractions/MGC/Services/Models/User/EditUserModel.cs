@@ -20,5 +20,10 @@
         /// </summary>
         [Required(ErrorMessage = "性别为空")]
         public SexEnum Sex { get; set; }
+        /// <summary>
+        /// 账号
+        /// </summary>
+        [Required(ErrorMessage = "账号为空"), StringLength(50, ErrorMessage = "账号过长")]
+        public string Account { get; set; }  = string.Empty;
     }
 }

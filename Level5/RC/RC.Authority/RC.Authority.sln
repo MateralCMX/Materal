@@ -1,5 +1,4 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -10,6 +9,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.Abstractions", "..\RC.Core\RC.Core.Abstractions\RC.Core.Abstractions.csproj", "{DBC822EF-CBB5-47BB-9797-8503C55C300D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.Repository", "..\RC.Core\RC.Core.Repository\RC.Core.Repository.csproj", "{6B625896-D156-48E3-8A1F-A0182DA7A9B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Core.Application", "..\RC.Core\RC.Core.Application\RC.Core.Application.csproj", "{C0186B26-A963-403F-8E6D-915BBAACA132}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Authority.Abstractions", "RC.Authority.Abstractions\RC.Authority.Abstractions.csproj", "{CFDE427E-E8E2-4561-93EB-131DF4C98F9F}"
 EndProject
@@ -35,6 +36,10 @@ Global
 		{6B625896-D156-48E3-8A1F-A0182DA7A9B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B625896-D156-48E3-8A1F-A0182DA7A9B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B625896-D156-48E3-8A1F-A0182DA7A9B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0186B26-A963-403F-8E6D-915BBAACA132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0186B26-A963-403F-8E6D-915BBAACA132}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0186B26-A963-403F-8E6D-915BBAACA132}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0186B26-A963-403F-8E6D-915BBAACA132}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CFDE427E-E8E2-4561-93EB-131DF4C98F9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CFDE427E-E8E2-4561-93EB-131DF4C98F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFDE427E-E8E2-4561-93EB-131DF4C98F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,8 +59,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DBC822EF-CBB5-47BB-9797-8503C55C300D} = {F57D8F82-4DD1-4E5D-A9FC-D9A66F31A80E}
 		{6B625896-D156-48E3-8A1F-A0182DA7A9B1} = {F57D8F82-4DD1-4E5D-A9FC-D9A66F31A80E}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {91D9072E-C5DC-4B45-B60E-C72AFFD3E7FF}
+		{C0186B26-A963-403F-8E6D-915BBAACA132} = {F57D8F82-4DD1-4E5D-A9FC-D9A66F31A80E}
 	EndGlobalSection
 EndGlobal

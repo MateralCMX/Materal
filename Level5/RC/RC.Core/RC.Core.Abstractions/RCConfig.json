@@ -1,20 +1,16 @@
 ﻿{
-  "BaseUrl": "http://127.0.0.1:8700",
+  "AccessLog": {
+    "MaxBodySize": 2048
+  },
+  "AllowedHosts": "*",
   "Authorization": {
     "Audience": "WebAPI",
-    "ExpiredTime": "18000",
     "Issuer": "Materal.APP",
-    "Key": "MateralCMXConfig"
+    "Key": "MateralCMXConfig",
+    "ExpiredTime": "18000"
   },
-  "Exception": {
-    "ShowException": true,
-    "ErrorMessage": "服务器出错了！请联系管理员。"
-  },
-  "Swagger": {
-    "Enable": true,
-    "Version": "v1",
-    "Description": "提供WebAPI接口"
-  },
+  "ApplicationName": "Materal.RC",
+  "BaseUrl": "http://127.0.0.1:8700",
   "Consul": {
     "Enable": true,
     "Tags": [ "Materal", "Materal.MergeBlock", "RC" ],
@@ -24,36 +20,28 @@
       "IsSSL": false
     },
     "ServiceUrl": {
+      "Host": "localhost",
+      "Port": 5000,
       "IsSSL": false
     },
-    "HealthConfig": {
-      "HealthUrl": {
-        "IsSSL": false,
-        "Path": "/api/Health"
-      }
-    }
+    "HealthInterval": 10,
+    "HealthUrl": {
+      //"Host": "localhost",
+      "Host": "host.docker.internal",
+      "Port": 5000,
+      "IsSSL": false,
+      "Path": "/api/Health"
+    },
+    "ServiceNameSuffix": "API"
   },
-  "EventBus": {
-    "HostName": "127.0.0.1",
-    "Port": 5672,
-    "UserName": "admin",
-    "Password": "123456",
-    "ExchangeName": "RCExchange",
-    "RetryNumber": 5,
-    "RetryIntervalSecond": 5,
-    "DiscardErrorMessage": false
-  },
-  "AccessLog": {
-    "MaxBodySize": 2048
+  "Exception": {
+    "ShowException": false,
+    "ErrorMessage": "服务器出错了！请联系管理员。"
   },
   "Logging": {
     "LogLevel": {
       "Default": "Information",
-      "Materal.Utils.Consul": "Warning",
-      "Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware": "None",
-      "Microsoft.AspNetCore.Hosting.Diagnostics": "Warning",
-      "Microsoft.AspNetCore.Mvc.Infrastructure": "Warning",
-      "Microsoft.AspNetCore.Routing.EndpointMiddleware": "Warning",
+      "Microsoft.AspNetCore": "Warning",
       "Microsoft.EntityFrameworkCore": "Warning"
     },
     "MateralLogger": {
@@ -76,7 +64,6 @@
       "Rules": [
         {
           "Name": "配置文件规则",
-          "MinLogLevel": "Information",
           "Targets": [
             "ConsoleLog"
           ]
@@ -93,5 +80,13 @@
         }
       ]
     }
-  }
+  },
+  "Swagger": {
+    "Enable": true,
+    "Title": "RC应用程序",
+    "Version": "v1",
+    "Description": "提供WebAPI接口",
+    "EnableAuthentication": null
+  },
+  "ModulesDirectories": []
 }

@@ -1,34 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<InvariantGlobalization>true</InvariantGlobalization>
+		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<InvariantGlobalization>true</InvariantGlobalization>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Materal.MergeBlock" Version="1.1.75" />
-		<PackageReference Include="Materal.MergeBlock.Logger" Version="1.1.75" />
-		<PackageReference Include="Materal.MergeBlock.Swagger" Version="1.1.75" />
-		<PackageReference Include="Materal.MergeBlock.Authorization" Version="1.1.75" />
-		<PackageReference Include="Materal.MergeBlock.DependencyInjection" Version="1.1.75" />
-		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="1.1.75" />
-		<PackageReference Include="Materal.MergeBlock.AccessLog" Version="1.1.75" />
-		<!--<PackageReference Include="Materal.MergeBlock.Consul" Version="*" />-->
+		<PackageReference Include="Materal.MergeBlock.AccessLog" Version="*" />
+		<PackageReference Include="Materal.MergeBlock.Authorization" Version="*" />
+		<PackageReference Include="Materal.MergeBlock.Consul" Version="*" />
 		<!--<PackageReference Include="Materal.MergeBlock.EventBus" Version="*" />-->
+		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="*" />
+		<PackageReference Include="Materal.MergeBlock.Logger" Version="*" />
 		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" Version="*" />-->
+		<PackageReference Include="Materal.MergeBlock.Swagger" Version="*" />
+		<PackageReference Include="Materal.MergeBlock" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.Demo.Application\RC.Demo.Application.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Update="appsetting.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
 	</ItemGroup>
 </Project>

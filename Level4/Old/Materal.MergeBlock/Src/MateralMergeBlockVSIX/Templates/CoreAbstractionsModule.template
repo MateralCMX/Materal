@@ -1,9 +1,0 @@
-﻿namespace ${ProjectName}.Core.Abstractions
-{
-    /// <summary>
-    /// ${ProjectName}模块
-    /// </summary>
-    public abstract class ${ProjectName}Module() : MergeBlockModule, IMergeBlockModule
-    {
-    }
-}

@@ -1,5 +1,4 @@
-﻿using Materal.MergeBlock.Abstractions.Services;
-using RC.Authority.Abstractions.DTO.User;
+﻿using RC.Authority.Abstractions.DTO.User;
 using RC.Authority.Abstractions.Services.Models.User;
 
 namespace RC.Authority.Abstractions.Services

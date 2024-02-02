@@ -3,7 +3,7 @@
     /// <summary>
     /// 用户仓储
     /// </summary>
-    public partial class UserRepositoryImpl(DemoDBContext dbContext) : RCRepositoryImpl<User, Guid, DemoDBContext>(dbContext), IUserRepository
+    public partial class UserRepositoryImpl(DemoDBContext dbContext) : DemoRepositoryImpl<User>(dbContext), IUserRepository, IScopedDependencyInjectionService<IUserRepository>
     {
     }
 }

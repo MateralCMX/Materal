@@ -1,6 +1,4 @@
-﻿using Materal.MergeBlock.Authorization.Abstractions;
-using Microsoft.Extensions.Options;
-using RC.Authority.Abstractions.DTO.User;
+﻿using RC.Authority.Abstractions.DTO.User;
 using RC.Authority.Abstractions.RequestModel.User;
 using RC.Authority.Abstractions.Services.Models.User;
 
@@ -30,14 +28,21 @@ namespace RC.Authority.Application.Controllers
         [HttpPost, AllowAnonymous]
         public async Task<ResultModel<LoginResultDTO>> LoginAsync(LoginRequestModel requestModel)
         {
-            LoginModel model = Mapper.Map<LoginModel>(requestModel);
-            UserDTO userInfo = await DefaultService.LoginAsync(model);
-            LoginResultDTO result = new()
+            try
             {
-                Token = tokenService.GetToken(userInfo.ID),
-                ExpiredTime = config.CurrentValue.ExpiredTime
-            };
-            return ResultModel<LoginResultDTO>.Success(result, "登录成功");
+                LoginModel model = Mapper.Map<LoginModel>(requestModel);
+                UserDTO userInfo = await DefaultService.LoginAsync(model);
+                LoginResultDTO result = new()
+                {
+                    Token = tokenService.GetToken(userInfo.ID),
+                    ExpiredTime = config.CurrentValue.ExpiredTime
+                };
+                return ResultModel<LoginResultDTO>.Success(result, "登录成功");
+            }
+            catch (RCException ex)
+            {
+                throw new RCException("账号或密码错误", ex);
+            }
         }
     }
 }

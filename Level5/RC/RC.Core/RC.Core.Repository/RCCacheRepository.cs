@@ -1,16 +1,14 @@
-﻿using Materal.TTA.SqliteEFRepository;
+﻿using Materal.Utils.Cache;
 
 namespace RC.Core.Repository
 {
     /// <summary>
-    /// RC缓存仓储
+    /// RC缓存仓储实现
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="TPrimaryKeyType"></typeparam>
+    /// <typeparam name="TDomain"></typeparam>
     /// <typeparam name="TDBContext"></typeparam>
-    public abstract class RCCacheRepositoryImpl<T, TPrimaryKeyType, TDBContext>(TDBContext dbContext, ICacheHelper cacheManager) : SqliteCacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>(dbContext, cacheManager), IRCCacheRepository<T, TPrimaryKeyType>
-        where T : class, IEntity<TPrimaryKeyType>, new()
-        where TPrimaryKeyType : struct
+    public abstract class RCCacheRepositoryImpl<TDomain, TDBContext>(TDBContext dbContext, ICacheHelper cacheHelper) : SqliteCacheEFRepositoryImpl<TDomain, Guid, TDBContext>(dbContext, cacheHelper), IRCCacheRepository<TDomain>
+        where TDomain : BaseDomain, IDomain, IEntity<Guid>, new()
         where TDBContext : DbContext
     {
     }

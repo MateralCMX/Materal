@@ -5,23 +5,23 @@ using ${ProjectName}.Demo.Abstractions.Services.Models.User;
 namespace ${ProjectName}.Demo.Application.Controllers
 {
     /// <summary>
-    /// ÓÃ»§¿ØÖÆÆ÷
+    /// ç”¨æˆ·æ§åˆ¶å™¨
     /// </summary>
     public partial class UserController(ITokenService tokenService, IOptionsMonitor<AuthorizationConfig> authorizationConfig)
     {
         /// <summary>
-        /// ÖØÖÃÃÜÂë
+        /// é‡ç½®å¯†ç 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<ResultModel<string>> ResetPasswordAsync([Required(ErrorMessage = "id²»ÄÜÎª¿Õ")] Guid id)
+        public async Task<ResultModel<string>> ResetPasswordAsync([Required(ErrorMessage = "idä¸èƒ½ä¸ºç©º")] Guid id)
         {
             string result = await DefaultService.ResetPasswordAsync(id);
             return ResultModel<string>.Success(result);
         }
         /// <summary>
-        /// »ñµÃµÇÂ¼ÓÃ»§ĞÅÏ¢
+        /// è·å¾—ç™»å½•ç”¨æˆ·ä¿¡æ¯
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -29,10 +29,10 @@ namespace ${ProjectName}.Demo.Application.Controllers
         {
             Guid id = this.GetLoginUserID();
             UserDTO result = await DefaultService.GetInfoAsync(id);
-            return ResultModel<UserDTO>.Success(result, "²éÑ¯³É¹¦");
+            return ResultModel<UserDTO>.Success(result, "æŸ¥è¯¢æˆåŠŸ");
         }
         /// <summary>
-        /// µÇÂ¼
+        /// ç™»å½•
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
@@ -49,15 +49,15 @@ namespace ${ProjectName}.Demo.Application.Controllers
                     Token = token,
                     ExpiredTime = authorizationConfig.CurrentValue.ExpiredTime
                 };
-                return ResultModel<LoginResultDTO>.Success(result, "µÇÂ¼³É¹¦");
+                return ResultModel<LoginResultDTO>.Success(result, "ç™»å½•æˆåŠŸ");
             }
             catch (${ProjectName}Exception)
             {
-                return ResultModel<LoginResultDTO>.Fail("ÕËºÅ»òÕßÃÜÂë´íÎó");
+                return ResultModel<LoginResultDTO>.Fail("è´¦å·æˆ–è€…å¯†ç é”™è¯¯");
             }
         }
         /// <summary>
-        /// ĞŞ¸ÄÃÜÂë
+        /// ä¿®æ”¹å¯†ç 
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
@@ -67,7 +67,7 @@ namespace ${ProjectName}.Demo.Application.Controllers
             ChangePasswordModel model = Mapper.Map<ChangePasswordModel>(requestModel);
             BindLoginUserID(model);
             await DefaultService.ChangePasswordAsync(model);
-            return ResultModel.Success("ĞŞ¸Ä³É¹¦");
+            return ResultModel.Success("ä¿®æ”¹æˆåŠŸ");
         }
     }
 }

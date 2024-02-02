@@ -3,7 +3,7 @@
     /// <summary>
     /// 用户仓储
     /// </summary>
-    public partial interface IUserRepository : IRCRepository<User, Guid>
+    public partial interface IUserRepository : IDemoRepository<User>
     {
     }
 }

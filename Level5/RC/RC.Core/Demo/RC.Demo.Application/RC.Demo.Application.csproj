@@ -7,9 +7,12 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock.Application" Version="1.1.75" />
+		<ProjectReference Include="..\..\RC.Core.Application\RC.Core.Application.csproj" />
+		<ProjectReference Include="..\RC.Demo.Repository\RC.Demo.Repository.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\RC.Demo.Repository\RC.Demo.Repository.csproj" />
+		<None Update="RC.Demo.Application.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>

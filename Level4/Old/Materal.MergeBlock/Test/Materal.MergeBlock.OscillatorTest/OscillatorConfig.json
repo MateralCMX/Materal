@@ -1,8 +1,0 @@
-﻿{
-  "Logging": {
-    "LogLevel": {
-      "Materal.MergeBlock.Oscillator": "Debug",
-      "Materal.MergeBlock.OscillatorTest": "Trace"
-    }
-  }
-}

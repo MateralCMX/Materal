@@ -1,19 +1,53 @@
-﻿using Materal.TTA.SqliteEFRepository;
-
-namespace RC.Core.Repository
+﻿namespace RC.Core.Repository
 {
     /// <summary>
     /// RC仓储模块
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public abstract class RCRepositoryModule<T> : RepositoryModule<T, SqliteConfigModel>, IMergeBlockModule
-        where T : DbContext
+    public abstract class RCRepositoryModule<TDBContext> : RepositoryModule<TDBContext, SqliteConfigModel>
+        where TDBContext : DbContext
     {
         /// <summary>
-        /// 添加数据库上下文
+        /// 构造方法
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="depends"></param>
+        public RCRepositoryModule(string description, string[]? depends) : base(description, depends)
+        {
+        }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="description"></param>
+        /// <param name="moduleName"></param>
+        /// <param name="depends"></param>
+        public RCRepositoryModule(string description, string? moduleName = null, string[]? depends = null) : base(description, moduleName, depends)
+        {
+        }
+        /// <summary>
+        /// 配置服务
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
+        {
+            var moduleType = GetType();
+            string configFilePath = moduleType.Assembly.GetDirectoryPath();
+            configFilePath = Path.Combine(configFilePath, $"{moduleType.Namespace}.json");
+            context.Configuration.AddJsonFile(configFilePath, optional: true, reloadOnChange: true);
+            await base.OnConfigServiceAsync(context);
+        }
+        /// <summary>
+        /// 添加DBContext
         /// </summary>
         /// <param name="services"></param>
         /// <param name="dBConfig"></param>
-        protected override void AddDBContext(IServiceCollection services, SqliteConfigModel dBConfig) => services.AddTTASqliteEFRepository<T>(dBConfig.ConnectionString, GetType().Assembly);
+        protected override void AddDBContext(IServiceCollection services, SqliteConfigModel dBConfig)
+        {
+            services.AddDbContext<TDBContext>(delegate (DbContextOptionsBuilder options)
+            {
+                options.UseSqlite(dBConfig.ConnectionString, null).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
+            services.TryAddScoped<IMigrateHelper<TDBContext>, MigrateHelper<TDBContext>>();
+        }
     }
 }

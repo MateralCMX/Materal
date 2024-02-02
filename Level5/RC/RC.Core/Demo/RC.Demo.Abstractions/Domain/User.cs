@@ -1,5 +1,3 @@
-﻿using Materal.MergeBlock.GeneratorCode.Attributers;
-
 namespace RC.Demo.Abstractions.Domain
 {
     /// <summary>
@@ -16,6 +14,7 @@ namespace RC.Demo.Abstractions.Domain
         /// <summary>
         /// 性别
         /// </summary>
+        [DTOText]
         [Required(ErrorMessage = "性别为空")]
         [Equal]
         public SexEnum Sex { get; set; }
@@ -24,7 +23,6 @@ namespace RC.Demo.Abstractions.Domain
         /// </summary>
         [Required(ErrorMessage = "账号为空"), StringLength(50, ErrorMessage = "账号过长")]
         [Equal]
-        [NotEdit]
         public string Account { get; set; } = string.Empty;
         /// <summary>
         /// 密码
