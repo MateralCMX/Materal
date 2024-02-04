@@ -1,4 +1,4 @@
-﻿namespace Materal.MergeBlock.Consul
+﻿namespace Materal.MergeBlock.Abstractions.WebModule.Models
 {
     /// <summary>
     /// MergeBlockConsul配置

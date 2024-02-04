@@ -1,4 +1,6 @@
-﻿namespace Materal.EventBus.RabbitMQ
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Materal.EventBus.RabbitMQ
 {
     /// <summary>
     /// 事件总线配置
@@ -51,6 +53,45 @@
         /// </summary>
         /// <returns></returns>
         public string GetTrueQueueName() => GetName(QueueName);
+        /// <summary>
+        /// 获取真实队列名称
+        /// </summary>
+        /// <returns></returns>
+        public string GetTrueQueueName(object eventHandler)
+        {
+            string? queueName = null;
+            if(eventHandler is null) throw new EventBusException("事件处理器不能为空");
+            if (eventHandler is IRabbitMQEventHandler handler)
+            {
+                queueName = handler.QueueName;
+            }
+            if (queueName is null || string.IsNullOrEmpty(queueName))
+            {
+                queueName = GetTrueQueueName(eventHandler.GetType());
+            }
+            return queueName;
+        }
+        /// <summary>
+        /// 获取真实队列名称
+        /// </summary>
+        /// <returns></returns>
+        public string GetTrueQueueName(Type eventHandlerType, IServiceProvider serviceProvider)
+        {
+            string? queueName = null;
+            if (eventHandlerType.IsAssignableTo<IRabbitMQEventHandler>())
+            {
+                object? handlerObj = serviceProvider.GetService(eventHandlerType);
+                if(handlerObj is not null)
+                {
+                    queueName = GetTrueQueueName(handlerObj);
+                }
+            }
+            if(queueName is null || string.IsNullOrEmpty(queueName))
+            {
+                queueName = GetTrueQueueName(eventHandlerType);
+            }
+            return queueName;
+        }
         /// <summary>
         /// 获取真实队列名称
         /// </summary>

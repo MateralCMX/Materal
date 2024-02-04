@@ -8,7 +8,7 @@
         /// <summary>
         /// 构造函数
         /// </summary>
-        public ${ModuleName}Module() : base("${ProjectName}${ModuleName}模块", "${ProjectName}.${ModuleName}", ["${ProjectName}.${ModuleName}.Repository"])
+        public ${ModuleName}Module() : base("${ProjectName}${ModuleName}模块", "${ProjectName}.${ModuleName}", ["${ProjectName}.${ModuleName}.Repository", "Authorization"])
         {
         }
         /// <summary>

@@ -8,7 +8,7 @@
         /// <summary>
         /// 构造函数
         /// </summary>
-        public AuthorityModule() : base("RCAuthority模块", "RC.Authority", ["RC.Authority.Repository"])
+        public AuthorityModule() : base("RCAuthority模块", "RC.Authority", ["RC.Authority.Repository", "Authorization"])
         {
         }
         /// <summary>

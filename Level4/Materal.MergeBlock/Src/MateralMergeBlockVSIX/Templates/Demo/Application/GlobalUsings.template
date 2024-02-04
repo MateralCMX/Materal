@@ -6,6 +6,7 @@ global using Materal.MergeBlock.Abstractions.WebModule.Authorization;
 global using Materal.MergeBlock.Abstractions.WebModule.Controllers;
 global using Materal.MergeBlock.Application.Services;
 global using Materal.MergeBlock.Application.WebModule.Controllers;
+global using Materal.Utils.Enums;
 global using Materal.Utils.Model;
 global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;

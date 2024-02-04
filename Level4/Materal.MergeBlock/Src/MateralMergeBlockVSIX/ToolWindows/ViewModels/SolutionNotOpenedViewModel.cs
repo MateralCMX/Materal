@@ -294,7 +294,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             CreateNewProject(moduleDirectoryInfo, projectName, "Module", "Application", "Project");
             string directoryPath = Path.Combine(moduleDirectoryInfo.FullName, projectName);
             ApplyTemplate(Path.Combine(directoryPath, $"ApplicationConfig.cs"), "Module", "Application", "ApplicationConfig");
-            ApplyTemplate(Path.Combine(directoryPath, $"{ProjectName}.Module.Application.json"), "Module", "Application", "Config");
+            ApplyTemplate(Path.Combine(directoryPath, $"{ProjectName}.{ModuleName}.Application.json"), "Module", "Application", "Config");
             ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "Module", "Application", "GlobalUsings");
             ApplyTemplate(Path.Combine(directoryPath, $"{ModuleName}Module.cs"), "Module", "Application", "Module");
         }

@@ -53,7 +53,8 @@ namespace MateralPublish
             DirectoryInfo[] directoryInfos = nugetDirectoryInfo.GetDirectories();
             foreach (DirectoryInfo directoryInfo in directoryInfos)
             {
-                if (!directoryInfo.Name.StartsWith("materal.")) continue;
+                if (!directoryInfo.Name.StartsWith("materal.") && !directoryInfo.Name.StartsWith("rc.")) continue;
+                ConsoleHelper.WriteLine($"删除文件:{directoryInfo.FullName}");
                 directoryInfo.Delete(true);
             }
         }

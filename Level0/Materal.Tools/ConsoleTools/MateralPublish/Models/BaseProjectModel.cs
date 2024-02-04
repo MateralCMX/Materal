@@ -67,8 +67,19 @@ namespace MateralPublish.Models
         /// <returns></returns>
         protected virtual async Task UpdateVersionAsync(string version, FileInfo csprojFileInfo)
         {
-            const string versionStartCode = "<Version>";
             const string materalPackageStartCode = "<PackageReference Include=\"Materal.";
+            const string rcPackageStartCode = "<PackageReference Include=\"RC.";
+            await UpdateVersionAsync(version, csprojFileInfo, materalPackageStartCode, rcPackageStartCode);
+        }
+        /// <summary>
+        /// 更新版本号
+        /// </summary>
+        /// <param name="version"></param>
+        /// <param name="csprojFileInfo"></param>
+        /// <returns></returns>
+        protected virtual async Task UpdateVersionAsync(string version, FileInfo csprojFileInfo, params string[] packageStartCodes)
+        {
+            const string versionStartCode = "<Version>";
             const string materalPackageVersionStartCode = "\" Version=\"";
             string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
             ConsoleHelper.WriteLine($"正在更新{projectName}版本号...");
@@ -76,36 +87,39 @@ namespace MateralPublish.Models
             for (int i = 0; i < csprojFileContents.Length; i++)
             {
                 string tempCode = csprojFileContents[i].Trim();
-                if (tempCode.StartsWith(materalPackageStartCode))
+                foreach (string packageStartCode in packageStartCodes)
                 {
-                    int versionLength = tempCode.IndexOf(materalPackageVersionStartCode);
-                    if (versionLength > 0)
+                    if (tempCode.StartsWith(packageStartCode))
                     {
-                        string packageName = tempCode[materalPackageStartCode.Length..versionLength];
-                        csprojFileContents[i] = $"\t\t<PackageReference Include=\"Materal.{packageName}\" Version=\"{version}\"";
-                        if (tempCode.EndsWith("/>"))
+                        int versionLength = tempCode.IndexOf(materalPackageVersionStartCode);
+                        if (versionLength > 0)
                         {
-                            csprojFileContents[i] += $" />";
+                            string packageName = tempCode[packageStartCode.Length..versionLength];
+                            csprojFileContents[i] = $"\t\t<PackageReference Include=\"Materal.{packageName}\" Version=\"{version}\"";
+                            if (tempCode.EndsWith("/>"))
+                            {
+                                csprojFileContents[i] += $" />";
+                            }
+                            else
+                            {
+                                csprojFileContents[i] += $">";
+                            }
                         }
                         else
                         {
-                            csprojFileContents[i] += $">";
+                            if (i + 1 >= csprojFileContents.Length) continue;
+                            string nextTempCode = csprojFileContents[i + 1].Trim();
+                            if (nextTempCode.StartsWith(versionStartCode))
+                            {
+                                csprojFileContents[i + 1] = $"\t\t\t<Version>{version}</Version>";
+                                i++;
+                            }
                         }
                     }
-                    else
+                    else if (tempCode.StartsWith(versionStartCode))
                     {
-                        if (i + 1 >= csprojFileContents.Length) continue;
-                        string nextTempCode = csprojFileContents[i + 1].Trim();
-                        if (nextTempCode.StartsWith(versionStartCode))
-                        {
-                            csprojFileContents[i + 1] = $"\t\t\t<Version>{version}</Version>";
-                            i++;
-                        }
+                        csprojFileContents[i] = $"\t\t<Version>{version}</Version>";
                     }
-                }
-                else if (tempCode.StartsWith(versionStartCode))
-                {
-                    csprojFileContents[i] = $"\t\t<Version>{version}</Version>";
                 }
             }
             await File.WriteAllLinesAsync(csprojFileInfo.FullName, csprojFileContents, Encoding.UTF8);

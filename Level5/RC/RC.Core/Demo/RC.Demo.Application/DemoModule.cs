@@ -8,7 +8,7 @@
         /// <summary>
         /// 构造函数
         /// </summary>
-        public DemoModule() : base("RCDemo模块", "RC.Demo", ["RC.Demo.Repository"])
+        public DemoModule() : base("RCDemo模块", "RC.Demo", ["RC.Demo.Repository", "Authorization"])
         {
         }
         /// <summary>

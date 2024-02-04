@@ -38,9 +38,20 @@
     "ShowException": false,
     "ErrorMessage": "服务器出错了！请联系管理员。"
   },
+  "EventBus": {
+    "HostName": "127.0.0.1",
+    "Port": 5672,
+    "UserName": "admin",
+    "Password": "123456",
+    "ExchangeName": "RCExchange",
+    "QueueName": "RCQueue",
+    "NameSuffix": "_Local",
+    "RetryInterval": 5,
+    "ErrorMeesageDiscard": false
+  },
   "Logging": {
     "LogLevel": {
-      "Default": "Information",
+      "Default": "Trace",
       "Microsoft.AspNetCore": "Warning",
       "Microsoft.EntityFrameworkCore": "Warning"
     },

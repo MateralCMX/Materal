@@ -4,9 +4,10 @@ using Materal.EventBus.TestClient.Abstraction;
 
 namespace Materal.EventBus.TestClient1
 {
-    [QueueName("MateralEventBusTestClient1_1Queue")]
-    public class Client01Event01Handler : IEventHandler<Event01>
+    public class Client01Event01Handler : IEventHandler<Event01>, IRabbitMQEventHandler
     {
+        public string? QueueName => "MateralEventBusTestClient1_1Queue";
+
         public async Task HandleAsync(Event01 @event)
         {
             Console.WriteLine($"------------------{nameof(Client01Event01Handler)}---------------------");
