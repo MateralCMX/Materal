@@ -42,7 +42,7 @@
                     <DeploySelect @change="onQueryAsync" />
                 </a-form-item>
                 <a-form-item field="ProjectID" label="应用程序类型">
-                    <a-select v-model="queryData.ApplicationType" allow-clear @change="queryAsync">
+                    <a-select v-model="queryData.ApplicationType" style="width: 90px;" allow-clear @change="queryAsync">
                         <a-option v-for="item in applicationTypeList" :value="item.Key">{{ item.Value }}</a-option>
                     </a-select>
                 </a-form-item>
