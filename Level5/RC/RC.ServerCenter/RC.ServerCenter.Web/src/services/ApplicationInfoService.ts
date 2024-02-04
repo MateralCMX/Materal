@@ -70,6 +70,13 @@ class ApplicationInfoService extends BaseService {
     public async GetMaxConsoleMessageCountAsync(): Promise<number | null> {
         return await this.sendGetAsync("GetMaxConsoleMessageCount", null);
     }
+    public async GetConsoleMessageHubUrlAsync(url: string): Promise<string> {
+        if (!serverManagement.selectedDeploy) throw new Error("没有选中任何目标");
+        const servicename = serverManagement.selectedDeploy.Service;
+        let trueUrl = await this.getUrlAsync(servicename);
+        trueUrl = `${trueUrl}${url}`;
+        return trueUrl;
+    }
 }
 const service = new ApplicationInfoService(async () => {
     if (!serverManagement.selectedDeploy) {

@@ -3,7 +3,7 @@ ul {
     list-style: none;
     background-color: black;
     width: 1380;
-    height: 800px;
+    height: 750px;
     overflow-y: scroll;
 }
 
@@ -76,8 +76,10 @@ async function queryAsync() {
 }
 let connection: HubConnection;
 async function connectSignalRAsync() {
+    const url = await service.GetConsoleMessageHubUrlAsync("/hubs/ConsoleMessage");
+    console.log(url);
     connection = new HubConnectionBuilder()
-        .withUrl("http://127.0.0.1:8720/hubs/ConsoleMessage", {})
+        .withUrl(url, {})
         .withAutomaticReconnect([1000, 4000, 1000, 4000])// 断线自动重连
         .configureLogging(LogLevel.Error)
         .build();
