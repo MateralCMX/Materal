@@ -1,23 +1,27 @@
-//using Materal.MergeBlock.Application.Controllers;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.Extensions.Logging;
+using Materal.MergeBlock.Application.WebModule.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-//namespace Materal.MergeBlock.LoggerTest.Controllers
-//{
-//    /// <summary>
-//    /// Logger≤‚ ‘øÿ÷∆∆˜
-//    /// </summary>
-//    public class LoggerTestController(ILogger<LoggerTestController> logger) : MergeBlockControllerBase
-//    {
-//        [HttpGet]
-//        public void WriteLogger()
-//        {
-//            logger.LogTrace("[Trace]Hello World!");
-//            logger.LogDebug("[Debug]Hello World!");
-//            logger.LogInformation("[Information]Hello World!");
-//            logger.LogWarning("[Warning]Hello World!");
-//            logger.LogError("[Error]Hello World!");
-//            logger.LogCritical("[Critical]Hello World!");
-//        }
-//    }
-//}
+namespace Materal.MergeBlock.LoggerTest.Controllers
+{
+    /// <summary>
+    /// Logger≤‚ ‘øÿ÷∆∆˜
+    /// </summary>
+    [ApiExplorerSettings(GroupName = "LoggerTest")]
+    public class LoggerTestController(ILogger<LoggerTestController> logger) : MergeBlockControllerBase
+    {
+        /// <summary>
+        /// –¥»’÷æ
+        /// </summary>
+        [HttpGet]
+        public void WriteLogger()
+        {
+            logger.LogTrace("[Trace]Hello World!");
+            logger.LogDebug("[Debug]Hello World!");
+            logger.LogInformation("[Information]Hello World!");
+            logger.LogWarning("[Warning]Hello World!");
+            logger.LogError("[Error]Hello World!");
+            logger.LogCritical("[Critical]Hello World!");
+        }
+    }
+}

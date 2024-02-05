@@ -2,7 +2,7 @@
 using Materal.MergeBlock.Abstractions;
 using Microsoft.Extensions.Configuration;
 
-[assembly: MergeBlockAssembly]
+[assembly: MergeBlockAssembly(true)]
 namespace Materal.MergeBlock.SwaggerTest
 {
     /// <summary>
@@ -10,6 +10,9 @@ namespace Materal.MergeBlock.SwaggerTest
     /// </summary>
     public class SwaggerTestModule : MergeBlockModule, IMergeBlockModule
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         public SwaggerTestModule() : base("Swagger测试模块", "SwaggerTest", ["Swagger"])
         {
 

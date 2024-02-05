@@ -2,7 +2,7 @@
 using Materal.MergeBlock.Abstractions;
 using Microsoft.Extensions.Configuration;
 
-[assembly: MergeBlockAssembly]
+[assembly: MergeBlockAssembly(true)]
 namespace Materal.MergeBlock.ExceptionInterceptorTest
 {
     /// <summary>

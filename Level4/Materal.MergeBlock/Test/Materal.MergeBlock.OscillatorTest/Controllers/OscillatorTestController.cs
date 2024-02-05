@@ -10,8 +10,14 @@ namespace Materal.MergeBlock.OscillatorTest.Controllers
     /// <summary>
     /// Oscillator测试控制器
     /// </summary>
+    [ApiExplorerSettings(GroupName = "OscillatorTest")]
     public class OscillatorTestController(IOscillatorHost oscillatorHost) : MergeBlockControllerBase
     {
+        /// <summary>
+        /// 立即运行调度器
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="MergeBlockModuleException"></exception>
         [HttpGet]
         public async Task RunNowScheduleAsync()
         {

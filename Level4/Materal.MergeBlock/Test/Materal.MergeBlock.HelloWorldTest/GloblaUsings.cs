@@ -1,3 +1,3 @@
 ﻿global using Materal.MergeBlock.Abstractions;
 
-[assembly: MergeBlockAssembly]
+[assembly: MergeBlockAssembly(true)]

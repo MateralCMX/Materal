@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj" />

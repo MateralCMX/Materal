@@ -4,9 +4,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Application\Materal.MergeBlock.Application.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="LoggerConfig.json">

@@ -16,6 +16,10 @@ namespace Materal.MergeBlock.Abstractions
         /// </summary>
         AssemblyLoadContext LoadContext { get; }
         /// <summary>
+        /// 程序集
+        /// </summary>
+        List<Assembly> Assemblies { get; }
+        /// <summary>
         /// 模块信息
         /// </summary>
         List<IModuleInfo> ModuleInfos { get; }

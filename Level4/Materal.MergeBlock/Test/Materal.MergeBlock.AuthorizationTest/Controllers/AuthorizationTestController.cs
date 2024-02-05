@@ -9,8 +9,13 @@ namespace Materal.MergeBlock.AuthorizationTest.Controllers
     /// <summary>
     /// Authorization≤‚ ‘øÿ÷∆∆˜
     /// </summary>
+    [ApiExplorerSettings(GroupName = "AuthorizationTest")]
     public class AuthorizationTestController(ITokenService tokenService) : MergeBlockControllerBase
     {
+        /// <summary>
+        /// ªÒ»°Token
+        /// </summary>
+        /// <returns></returns>
         [HttpGet, AllowAnonymous]
         public ResultModel<string> GetToken()
         {

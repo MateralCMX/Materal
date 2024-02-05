@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Materal.MergeBlock.SwaggerTest.Controllers
+namespace Materal.MergeBlock.SwaggerTest
 {
+    /// <summary>
+    /// 测试请求模型
+    /// </summary>
     public class TestRequestModel
     {
         /// <summary>

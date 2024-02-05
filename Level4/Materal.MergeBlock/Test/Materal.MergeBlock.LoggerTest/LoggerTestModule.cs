@@ -2,7 +2,7 @@
 using Materal.MergeBlock.Abstractions;
 using Microsoft.Extensions.Configuration;
 
-[assembly: MergeBlockAssembly]
+[assembly: MergeBlockAssembly(true)]
 namespace Materal.MergeBlock.LoggerTest
 {
     /// <summary>
@@ -10,6 +10,9 @@ namespace Materal.MergeBlock.LoggerTest
     /// </summary>
     public class LoggerTestModule : MergeBlockModule, IMergeBlockModule
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         public LoggerTestModule() : base("Logger测试模块", "LoggerTest", ["Logger"])
         {
         }

@@ -66,7 +66,15 @@ namespace Materal.MergeBlock.WebModule
                     });
             });
             #endregion
-            await RunModuleAsync(m => context.MvcBuilder.AddApplicationPart(m.ModuleType.Assembly), false);//加载控制器与视图
+            List<Assembly> assemblies = [];
+            await RunModuleAsync(m =>
+            {
+                if(assemblies.Any(n => n == m.ModuleType.Assembly)) return;
+                MergeBlockAssemblyAttribute? mergeBlockAssemblyAttribute = m.ModuleType.Assembly.GetCustomAttribute<MergeBlockAssemblyAttribute>();
+                if (mergeBlockAssemblyAttribute is null || !mergeBlockAssemblyAttribute.HasController) return;
+                context.MvcBuilder.AddApplicationPart(m.ModuleType.Assembly);
+                assemblies.Add(m.ModuleType.Assembly);
+            }, false);//加载控制器与视图
             await base.ConfigServiceBeforeAsync(context);
         }
         /// <summary>

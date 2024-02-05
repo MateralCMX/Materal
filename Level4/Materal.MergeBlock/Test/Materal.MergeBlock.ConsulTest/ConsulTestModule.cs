@@ -10,6 +10,9 @@ namespace Materal.MergeBlock.ConsulTest
     /// </summary>
     public class ConsulTestModule : MergeBlockModule, IMergeBlockModule
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         public ConsulTestModule() : base("Consul测试模块", "ConsulTest", ["Consul"])
         {
 

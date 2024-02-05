@@ -20,6 +20,10 @@ namespace Materal.MergeBlock
         /// </summary>
         public List<IModuleInfo> ModuleInfos { get; } = [];
         /// <summary>
+        /// 主程序集
+        /// </summary>
+        public List<Assembly> Assemblies { get; } = [];
+        /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="directoryInfo"></param>
@@ -50,6 +54,7 @@ namespace Materal.MergeBlock
                 if (!dllFileInfo.Exists) continue;
                 Assembly? assembly = LoadContext.LoadFromAssemblyPath(dllFileInfo.FullName);
                 if (assembly is null) continue;
+                Assemblies.Add(assembly);
                 List<Attribute> attributes = assembly.GetCustomAttributes().ToList();
                 if (!assembly.HasCustomAttribute<MergeBlockAssemblyAttribute>()) continue;
                 List<Type> moduleTypes = assembly.GetTypes().Where(IsMergeBlockModule).ToList();

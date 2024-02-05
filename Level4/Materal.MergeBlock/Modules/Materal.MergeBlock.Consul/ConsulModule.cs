@@ -1,7 +1,7 @@
-﻿using Materal.MergeBlock.Abstractions.WebModule.Models;
+﻿using Materal.Extensions;
+using Materal.MergeBlock.Abstractions.WebModule.Models;
 using Materal.Utils.Consul;
 using Materal.Utils.Consul.ConfigModels;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Materal.MergeBlock.Consul
@@ -39,7 +39,16 @@ namespace Materal.MergeBlock.Consul
         {
             _consulService ??= context.ServiceProvider.GetRequiredService<IConsulService>();
             IOptionsMonitor<MergeBlockConsulConfig> mergeBlockConsulConfig = context.ServiceProvider.GetRequiredService<IOptionsMonitor<MergeBlockConsulConfig>>();
-            mergeBlockConsulConfig.OnChange(async config => await RegisterConsulAsync(config, context.ServiceProvider));
+            string configMD5 = mergeBlockConsulConfig.CurrentValue.ToJson().ToMd5_32Encode();
+            mergeBlockConsulConfig.OnChange(async config =>
+            {
+                string newConfigMD5 = config.ToJson().ToMd5_32Encode();
+                if (newConfigMD5 != configMD5)
+                {
+                    await RegisterConsulAsync(config, context.ServiceProvider);
+                    configMD5 = newConfigMD5;
+                }
+            });
             await RegisterConsulAsync(mergeBlockConsulConfig.CurrentValue, context.ServiceProvider);
             await _consulService.RegisterAllConsulAsync();
             await base.OnApplicationInitAfterAsync(context);
