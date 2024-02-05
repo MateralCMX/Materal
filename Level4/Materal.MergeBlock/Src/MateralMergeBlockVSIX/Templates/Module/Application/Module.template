@@ -19,7 +19,7 @@
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             await base.OnConfigServiceAsync(context);
-            context.Services.Configure<ApplicationConfig>(context.Configuration.GetSection("${ProjectName}.${ModuleName}"));
+            context.Services.Configure<ApplicationConfig>(context.Configuration.GetSection("${ModuleName}"));
             context.Services.AddConsulConfig("${ProjectName}${ModuleName}", ["${ProjectName}.${ModuleName}"]);
         }
     }

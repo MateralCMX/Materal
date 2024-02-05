@@ -267,11 +267,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             if (domain.HasAttribute<EmptyServiceAttribute>())
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}Controller : MergeBlockControllerBase, I{domain.Name}Controller");
+                codeContent.AppendLine($"    public partial class {domain.Name}Controller : {_moduleName}Controller, I{domain.Name}Controller");
             }
             else
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}Controller : MergeBlockControllerBase<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Service>, I{domain.Name}Controller");
+                codeContent.AppendLine($"    public partial class {domain.Name}Controller : {_moduleName}Controller<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Service>, I{domain.Name}Controller");
             }
             codeContent.AppendLine($"    {{");
             if (domain.IsIndexDomain)

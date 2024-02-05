@@ -1,5 +1,5 @@
 {
-  "${ProjectName}.Demo": {
+  "Demo": {
     "DBConfig": {
       "Source": "${ProjectPath}\\${ProjectName}.Core\\Demo\\${ProjectName}.Demo.WebAPI\\bin\\${ProjectName}Demo.db"
     }

@@ -14,6 +14,6 @@
         /// <summary>
         /// 配置键
         /// </summary>
-        protected override string ConfigKey => "${ProjectName}.${ModuleName}:DBConfig";
+        protected override string ConfigKey => "${ModuleName}:DBConfig";
     }
 }

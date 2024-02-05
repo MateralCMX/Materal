@@ -1,8 +1,6 @@
-﻿using Materal.MergeBlock.Abstractions;
-using Materal.MergeBlock.Abstractions.WebModule;
+﻿using Materal.MergeBlock.Abstractions.WebModule;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -31,6 +29,10 @@ namespace Materal.MergeBlock.Swagger
             GlobalSwaggerConfig swaggerConfig = GetSwaggerConfig(context.Configuration);
             IOptionsMonitor<MergeBlockConfig> mergeBlockConfig = context.ServiceProvider.GetRequiredService<IOptionsMonitor<MergeBlockConfig>>();
             if (!swaggerConfig.Enable) return;
+            context.Services.AddControllers(options =>
+            {
+                options.Conventions.Add(new MergeBlockControllerModelConvention());
+            });
             context.Services.AddSwaggerGen(m=> ConfigSwagger(m, mergeBlockConfig));
             await base.OnConfigServiceAsync(context);
         }
@@ -44,6 +46,7 @@ namespace Materal.MergeBlock.Swagger
             List<string> xmlFiles = [];
             foreach (IModuleInfo moduleInfo in MergeBlockHost.ModuleInfos)
             {
+                if (!moduleInfo.ModuleType.IsAssignableTo<IMergeBlockWebModule>()) continue;
                 MergeBlockAssemblyAttribute? mergeBlockAssemblyAttribute = moduleInfo.ModuleType.Assembly.GetCustomAttribute<MergeBlockAssemblyAttribute>();
                 if (mergeBlockAssemblyAttribute is null || !mergeBlockAssemblyAttribute.HasController) continue;
                 ConfigSwaggerDoc(moduleInfo, config, mergeBlockConfig);
@@ -129,6 +132,7 @@ namespace Materal.MergeBlock.Swagger
                 {
                     foreach (IModuleInfo moduleInfo in MergeBlockHost.ModuleInfos)
                     {
+                        if (!moduleInfo.ModuleType.IsAssignableTo<IMergeBlockWebModule>()) continue;
                         MergeBlockAssemblyAttribute? mergeBlockAssemblyAttribute = moduleInfo.ModuleType.Assembly.GetCustomAttribute<MergeBlockAssemblyAttribute>();
                         if (mergeBlockAssemblyAttribute is null || !mergeBlockAssemblyAttribute.HasController) continue;
                         m.SwaggerEndpoint($"/swagger/{moduleInfo.Name}/swagger.json", $"{moduleInfo.Name}");

@@ -28,7 +28,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// 枚举控制器");
             codeContent.AppendLine($"    /// </summary>");
             codeContent.AppendLine($"    [AllowAnonymous]");
-            codeContent.AppendLine($"    public partial class EnumController : MergeBlockControllerBase");
+            codeContent.AppendLine($"    public partial class EnumController : {_moduleName}Controller");
             codeContent.AppendLine($"    {{");
             foreach (EnumModel @enum in enums)
             {

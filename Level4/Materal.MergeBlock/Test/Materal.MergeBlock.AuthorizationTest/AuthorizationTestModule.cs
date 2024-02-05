@@ -1,5 +1,6 @@
 ﻿using Materal.Extensions;
 using Materal.MergeBlock.Abstractions;
+using Materal.MergeBlock.Abstractions.WebModule;
 using Microsoft.Extensions.Configuration;
 
 [assembly: MergeBlockAssembly(true)]
@@ -8,7 +9,7 @@ namespace Materal.MergeBlock.AuthorizationTest
     /// <summary>
     /// Authorization模块
     /// </summary>
-    public class AuthorizationTestModule : MergeBlockModule, IMergeBlockModule
+    public class AuthorizationTestModule : MergeBlockWebModule, IMergeBlockWebModule
     {
         /// <summary>
         /// 构造方法

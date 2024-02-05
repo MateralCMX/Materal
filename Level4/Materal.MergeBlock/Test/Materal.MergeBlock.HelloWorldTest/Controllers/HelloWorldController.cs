@@ -7,6 +7,7 @@ namespace Materal.MergeBlock.HelloWorldTest.Controllers
     /// <summary>
     /// HelloWorld控制器
     /// </summary>
+    [HelloWorldDynamicGroup]
     [Route("HelloWorld/api/[controller]/[action]")]
     public class HelloWorldController : MergeBlockControllerBase
     {

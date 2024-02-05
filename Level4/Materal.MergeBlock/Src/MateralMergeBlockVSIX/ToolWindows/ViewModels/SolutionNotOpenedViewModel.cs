@@ -190,6 +190,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             ApplyTemplate(Path.Combine(directoryPath, $"ApplicationConfig.cs"), "Demo", "Application", "ApplicationConfig");
             ApplyTemplate(Path.Combine(directoryPath, $"DemoModule.cs"), "Demo", "Application", "Module");
             ApplyTemplate(Path.Combine(directoryPath, $"{ProjectName}.Demo.Application.json"), "Demo", "Application", "Config");
+            ApplyTemplate(Path.Combine(directoryPath, $"DemoController.cs"), "Demo", "Application", "Controller");
             string autoMapperProfileDirectoryPath = Path.Combine(directoryPath, "AutoMapperProfile");
             ApplyTemplate(Path.Combine(autoMapperProfileDirectoryPath, $"UserProfile.cs"), "Demo", "Application", "AutoMapperProfile", "UserProfile");
             string controllersDirectoryPath = Path.Combine(directoryPath, "Controllers");
@@ -297,6 +298,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             ApplyTemplate(Path.Combine(directoryPath, $"{ProjectName}.{ModuleName}.Application.json"), "Module", "Application", "Config");
             ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "Module", "Application", "GlobalUsings");
             ApplyTemplate(Path.Combine(directoryPath, $"{ModuleName}Module.cs"), "Module", "Application", "Module");
+            ApplyTemplate(Path.Combine(directoryPath, $"{ModuleName}Controller.cs"), "Module", "Application", "Controller");
         }
         /// <summary>
         /// 创建模块仓储项目

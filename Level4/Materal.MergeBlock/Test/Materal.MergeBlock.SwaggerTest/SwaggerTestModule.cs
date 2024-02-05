@@ -1,5 +1,6 @@
 ﻿using Materal.Extensions;
 using Materal.MergeBlock.Abstractions;
+using Materal.MergeBlock.Abstractions.WebModule;
 using Microsoft.Extensions.Configuration;
 
 [assembly: MergeBlockAssembly(true)]
@@ -8,7 +9,7 @@ namespace Materal.MergeBlock.SwaggerTest
     /// <summary>
     /// Swagger模块
     /// </summary>
-    public class SwaggerTestModule : MergeBlockModule, IMergeBlockModule
+    public class SwaggerTestModule : MergeBlockWebModule, IMergeBlockWebModule
     {
         /// <summary>
         /// 构造方法

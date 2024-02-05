@@ -11,7 +11,7 @@ namespace MateralMergeBlockVSIX
         public const string Name = "MateralMergeBlockVSIX";
         public const string Description = @"Empty VSIX Project.";
         public const string Language = "zh-Hans";
-        public const string Version = "1.1.75.3";
+        public const string Version = "1.1.75.5";
         public const string Author = "Materal";
         public const string Tags = "";
     }

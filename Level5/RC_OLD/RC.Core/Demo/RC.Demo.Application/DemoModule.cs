@@ -1,14 +1,14 @@
-﻿namespace ${ProjectName}.Demo.Application
+﻿namespace RC.Demo.Application
 {
     /// <summary>
     /// Demo模块
     /// </summary>
-    public class DemoModule : ${ProjectName}Module, IMergeBlockModule
+    public class DemoModule : RCModule, IMergeBlockModule
     {
         /// <summary>
         /// 构造函数
         /// </summary>
-        public DemoModule() : base("${ProjectName}Demo模块", "${ProjectName}.Demo", ["${ProjectName}.Demo.Repository", "Authorization"])
+        public DemoModule() : base("RCDemo模块", "RC.Demo", ["RC.Demo.Repository", "Authorization"])
         {
         }
         /// <summary>
@@ -20,7 +20,7 @@
         {
             await base.OnConfigServiceAsync(context);
             context.Services.Configure<ApplicationConfig>(context.Configuration.GetSection("Demo"));
-            context.Services.AddConsulConfig("${ProjectName}Demo", ["${ProjectName}.Demo"]);
+            context.Services.AddConsulConfig("RCDemo", ["RC.Demo"]);
         }
         /// <summary>
         /// 应用程序初始化

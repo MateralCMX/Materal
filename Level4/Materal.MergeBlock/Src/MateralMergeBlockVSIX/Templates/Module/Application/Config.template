@@ -1,4 +1,4 @@
 {
-  "${ProjectName}.${ModuleName}": {
+  "${ModuleName}": {
   }
 }

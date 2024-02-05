@@ -1,5 +1,6 @@
 ﻿using Materal.Extensions;
 using Materal.MergeBlock.Abstractions;
+using Materal.MergeBlock.Abstractions.WebModule;
 using Microsoft.Extensions.Configuration;
 
 [assembly: MergeBlockAssembly]
@@ -8,7 +9,7 @@ namespace Materal.MergeBlock.AccessLogTest
     /// <summary>
     /// AccessLog模块
     /// </summary>
-    public class AccessLogTestModule : MergeBlockModule, IMergeBlockModule
+    public class AccessLogTestModule : MergeBlockWebModule, IMergeBlockWebModule
     {
         /// <summary>
         /// 构造方法

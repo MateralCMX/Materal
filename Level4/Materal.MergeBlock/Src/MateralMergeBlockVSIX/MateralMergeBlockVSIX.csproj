@@ -156,6 +156,8 @@
     <EmbeddedResource Include="Templates\Module\WebAPI\Project.template" />
     <EmbeddedResource Include="Templates\Module\WebAPI\Properties\LaunchSettings.template" />
     <EmbeddedResource Include="Templates\Module\Solution.template" />
+    <EmbeddedResource Include="Templates\Module\Application\Controller.template" />
+    <EmbeddedResource Include="Templates\Demo\Application\Controller.template" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="VSCommandTable.vsct">
