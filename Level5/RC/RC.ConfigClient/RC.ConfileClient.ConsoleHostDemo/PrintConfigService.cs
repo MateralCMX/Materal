@@ -7,6 +7,10 @@ namespace RC.ConfileClient.ConsoleHostDemo
     {
         public async Task StartAsync(CancellationToken cancellationToken)
         {
+            config.OnChange(change =>
+            {
+                Console.WriteLine($"[{DateTime.Now:yyyy/MM/dd HH:mm:ss}]配置更改");
+            });
             Console.WriteLine("Print Config Service Start.");
             while (!cancellationToken.IsCancellationRequested)
             {

@@ -16,6 +16,7 @@ namespace RC.ConfigClient
         private readonly TimeSpan _reloadInterval;
         private readonly Timer reloadTimer;
         private ILogger<MateralConfigurationProvider>? _logger;
+        private string? _configMd5;
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -29,7 +30,7 @@ namespace RC.ConfigClient
             _configUrl = configUrl;
             _projectName = projectName;
             _reloadSecondInterval = reloadSecondInterval;
-            LoadConfig();
+            _configMd5 = LoadConfig();
             reloadTimer = new Timer(AutoLoad);
             if (_reloadSecondInterval > 0)
             {
@@ -48,8 +49,12 @@ namespace RC.ConfigClient
         {
             try
             {
-                LoadConfig();
-                OnReload();
+                string? configMD5 = LoadConfig();
+                if(configMD5 != _configMd5)
+                {
+                    _configMd5 = configMD5;
+                    OnReload();
+                }
             }
             catch (Exception ex)
             {
@@ -71,7 +76,7 @@ namespace RC.ConfigClient
         /// <summary>
         /// 加载配置
         /// </summary>
-        private void LoadConfig()
+        private string? LoadConfig()
         {
             ConfigurationItemHttpClient configRepository = new(_configUrl);
             ICollection<ConfigurationItemListDTO>? configurationItems = configRepository.GetDataAsync(new QueryConfigurationItemRequestModel
@@ -81,7 +86,7 @@ namespace RC.ConfigClient
                 ProjectName = _projectName,
                 NamespaceName = _namespaceName
             }).Result;
-            if (configurationItems == null) return;
+            if (configurationItems == null) return null;
             foreach (ConfigurationItemListDTO item in configurationItems)
             {
                 if (item.Value.IsJson())
@@ -94,6 +99,7 @@ namespace RC.ConfigClient
                     Set(item.Key, item.Value);
                 }
             }
+            return configurationItems.ToJson().ToMd5_32Encode();
         }
         /// <summary>
         /// 设置值

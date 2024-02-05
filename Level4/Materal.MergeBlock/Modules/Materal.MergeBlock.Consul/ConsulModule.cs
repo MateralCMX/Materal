@@ -1,6 +1,7 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule.Models;
 using Materal.Utils.Consul;
 using Materal.Utils.Consul.ConfigModels;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Materal.MergeBlock.Consul
