@@ -1,5 +1,4 @@
-﻿using Consul;
-using Materal.Utils.Consul.ConfigModels;
+﻿using Materal.Utils.Consul.ConfigModels;
 using Materal.Utils.Consul.Models;
 using Materal.Utils.Http;
 using Microsoft.Extensions.Logging;

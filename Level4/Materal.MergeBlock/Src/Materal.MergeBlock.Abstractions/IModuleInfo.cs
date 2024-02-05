@@ -70,6 +70,12 @@
         /// <returns></returns>
         Task ApplicationInitAfterAsync(IApplicationContext context);
         /// <summary>
+        /// 应用程序启动
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        Task ApplicationStartdAsync(IServiceProvider serviceProvider);
+        /// <summary>
         /// 应用程序关闭前
         /// </summary>
         /// <param name="context"></param>

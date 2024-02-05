@@ -2,4 +2,4 @@
 global using Materal.MergeBlock.Abstractions.WebModule;
 global using Microsoft.Extensions.DependencyInjection;
 
-[assembly: MergeBlockAssembly]
+[assembly: MergeBlockAssembly(true)]

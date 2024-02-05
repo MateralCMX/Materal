@@ -1,0 +1,7 @@
+﻿{
+  "EnvironmentServer": {
+    "DBConfig": {
+      "Source": "D:\\Project\\Materal\\Materal\\Level5\\RC\\RC.EnvironmentServer\\RC.EnvironmentServer.WebAPI\\bin\\RCEnvironmentServerDEV.db"
+    }
+  }
+}

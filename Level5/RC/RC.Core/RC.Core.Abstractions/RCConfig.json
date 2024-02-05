@@ -1,0 +1,99 @@
+﻿{
+  "AccessLog": {
+    "MaxBodySize": 2048
+  },
+  "AllowedHosts": "*",
+  "Authorization": {
+    "Audience": "WebAPI",
+    "Issuer": "Materal.APP",
+    "Key": "MateralCMXConfig",
+    "ExpiredTime": "18000"
+  },
+  "ApplicationName": "Materal.RC",
+  "BaseUrl": "http://127.0.0.1:8700",
+  "Consul": {
+    "Enable": true,
+    "Tags": [ "Materal", "Materal.MergeBlock", "RC" ],
+    "ConsulUrl": {
+      "Host": "127.0.0.1",
+      "Port": 8500,
+      "IsSSL": false
+    },
+    "ServiceUrl": {
+      "Host": "localhost",
+      "Port": 5000,
+      "IsSSL": false
+    },
+    "HealthInterval": 10,
+    "HealthUrl": {
+      //"Host": "localhost",
+      "Host": "host.docker.internal",
+      "Port": 5000,
+      "IsSSL": false,
+      "Path": "/api/Health"
+    },
+    "ServiceNameSuffix": "API"
+  },
+  "Exception": {
+    "ShowException": false,
+    "ErrorMessage": "服务器出错了！请联系管理员。"
+  },
+  "EventBus": {
+    "HostName": "127.0.0.1",
+    "Port": 5672,
+    "UserName": "admin",
+    "Password": "123456",
+    "ExchangeName": "RCExchange",
+    "QueueName": "RCQueue",
+    "NameSuffix": "_Local",
+    "RetryInterval": 5,
+    "ErrorMeesageDiscard": false
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Trace",
+      "Microsoft.AspNetCore": "Warning",
+      "Microsoft.EntityFrameworkCore": "Warning"
+    },
+    "MateralLogger": {
+      "Application": "${ApplicationName}",
+      "Scopes": {
+        "MergeBlockAccessLog": "None"
+      },
+      "Targets": [
+        {
+          "Name": "ConsoleLog",
+          "Type": "Console",
+          "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}\r\n${Exception}"
+        },
+        {
+          "Name": "AccessLog",
+          "Type": "Console",
+          "Format": "${DateTime}|${Application}|${Level}|${Scope}|${CategoryName}\r\n${Message}"
+        }
+      ],
+      "Rules": [
+        {
+          "Name": "配置文件规则",
+          "Targets": [
+            "ConsoleLog"
+          ]
+        },
+        {
+          "Name": "访问日志规则",
+          "Targets": [
+            "AccessLog"
+          ],
+          "Scopes": {
+            "Default": "None",
+            "MergeBlockAccessLog": "Trace"
+          }
+        }
+      ]
+    }
+  },
+  "Swagger": {
+    "Enable": true
+  },
+  "ModulesDirectories": []
+}

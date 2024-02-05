@@ -1,9 +1,5 @@
 ﻿{
   "Swagger": {
-    "Enable": true,
-    "Title": "MergeBlock应用程序", //null表示使用ApplicationName
-    "Version": "v1",
-    "Description": "提供WebAPI接口",
-    "EnableAuthentication": null //null表示自动识别
+    "Enable": true
   }
 }

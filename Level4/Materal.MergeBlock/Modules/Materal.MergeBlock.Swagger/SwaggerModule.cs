@@ -29,11 +29,7 @@ namespace Materal.MergeBlock.Swagger
             GlobalSwaggerConfig swaggerConfig = GetSwaggerConfig(context.Configuration);
             IOptionsMonitor<MergeBlockConfig> mergeBlockConfig = context.ServiceProvider.GetRequiredService<IOptionsMonitor<MergeBlockConfig>>();
             if (!swaggerConfig.Enable) return;
-            context.Services.AddControllers(options =>
-            {
-                options.Conventions.Add(new MergeBlockControllerModelConvention());
-            });
-            context.Services.AddSwaggerGen(m=> ConfigSwagger(m, mergeBlockConfig));
+            context.Services.AddSwaggerGen(m => ConfigSwagger(m, mergeBlockConfig));
             await base.OnConfigServiceAsync(context);
         }
         /// <summary>
@@ -48,10 +44,13 @@ namespace Materal.MergeBlock.Swagger
             {
                 if (!moduleInfo.ModuleType.IsAssignableTo<IMergeBlockWebModule>()) continue;
                 MergeBlockAssemblyAttribute? mergeBlockAssemblyAttribute = moduleInfo.ModuleType.Assembly.GetCustomAttribute<MergeBlockAssemblyAttribute>();
-                if (mergeBlockAssemblyAttribute is null || !mergeBlockAssemblyAttribute.HasController) continue;
-                ConfigSwaggerDoc(moduleInfo, config, mergeBlockConfig);
-                xmlFiles.AddRange(GetXMLDoc(moduleInfo));
-                if(moduleInfo.Name == "Authorization")
+                if (mergeBlockAssemblyAttribute is null) continue;
+                if (mergeBlockAssemblyAttribute.HasController)
+                {
+                    ConfigSwaggerDoc(moduleInfo, config, mergeBlockConfig);
+                    xmlFiles.AddRange(GetXMLDoc(moduleInfo));
+                }
+                if (moduleInfo.Name == "Authorization")
                 {
                     OpenAuthorization(config);
                 }

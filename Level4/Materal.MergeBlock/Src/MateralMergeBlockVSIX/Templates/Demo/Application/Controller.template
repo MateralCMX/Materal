@@ -1,4 +1,4 @@
-namespace MMB.Demo.Application
+namespace ${ProjectName}.Demo.Application
 {
     /// <summary>
     /// Demo控制器

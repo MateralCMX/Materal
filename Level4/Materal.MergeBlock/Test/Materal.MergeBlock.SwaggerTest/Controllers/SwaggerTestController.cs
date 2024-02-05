@@ -8,7 +8,6 @@ namespace Materal.MergeBlock.SwaggerTest.Controllers
     /// <summary>
     /// Swagger²âÊÔ¿ØÖÆÆ÷
     /// </summary>
-    //[ApiExplorerSettings(GroupName = "SwaggerTest")]
     public class SwaggerTestController() : MergeBlockControllerBase
     {
         /// <summary>

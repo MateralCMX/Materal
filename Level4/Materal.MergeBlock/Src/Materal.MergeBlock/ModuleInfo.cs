@@ -1,4 +1,7 @@
-﻿namespace Materal.MergeBlock
+﻿
+using Polly;
+
+namespace Materal.MergeBlock
 {
     /// <summary>
     /// 模块信息
@@ -86,6 +89,12 @@
         /// <param name="context"></param>
         /// <returns></returns>
         public virtual async Task ApplicationInitAfterAsync(IApplicationContext context) => await Instance.OnApplicationInitAfterAsync(context);
+        /// <summary>
+        /// 应用程序启动后
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        public virtual async Task ApplicationStartdAsync(IServiceProvider serviceProvider) => await Instance.OnApplicationStartdAsync(serviceProvider);
         /// <summary>
         /// 应用程序关闭前
         /// </summary>

@@ -53,6 +53,7 @@ namespace Materal.MergeBlock.WebModule
         /// <returns></returns>
         protected override async Task ConfigServiceBeforeAsync(WebConfigServiceContext context)
         {
+            context.Services.AddHostedService<MergeBlockHostedService>();
             #region 跨域
             context.Services.AddCors(options =>
             {

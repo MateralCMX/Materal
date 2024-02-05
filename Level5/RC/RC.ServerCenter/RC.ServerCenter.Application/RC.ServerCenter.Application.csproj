@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>12.0</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsPublish>true</IsPublish>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\RC.Core\RC.Core.Application\RC.Core.Application.csproj" />
+		<ProjectReference Include="..\RC.ServerCenter.Repository\RC.ServerCenter.Repository.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="RC.ServerCenter.Application.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

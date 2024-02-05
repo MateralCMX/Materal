@@ -29,6 +29,7 @@ namespace Materal.MergeBlock.WebModule
             {
                 options.Filters.Add<ActionPageQueryFilterAttribute>();
                 options.SuppressAsyncSuffixInActionNames = true;
+                options.Conventions.Add(new MergeBlockControllerModelConvention());
             }).AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
             .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }

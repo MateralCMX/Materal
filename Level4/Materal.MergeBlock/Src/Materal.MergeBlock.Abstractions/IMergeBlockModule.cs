@@ -79,5 +79,11 @@
         /// 依赖
         /// </summary>
         string[] Depends { get; }
+        /// <summary>
+        /// 应用程序启动后
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        Task OnApplicationStartdAsync(IServiceProvider serviceProvider);
     }
 }

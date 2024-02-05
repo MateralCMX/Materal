@@ -1,4 +1,5 @@
-﻿namespace Materal.MergeBlock.Abstractions
+﻿
+namespace Materal.MergeBlock.Abstractions
 {
     /// <summary>
     /// MergeBlock模块
@@ -68,6 +69,12 @@
         /// <param name="context"></param>
         /// <returns></returns>
         public virtual async Task OnConfigServiceBeforeAsync(IConfigServiceContext context) => await Task.CompletedTask;
+        /// <summary>
+        /// 应用程序启动之后
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        public virtual async Task OnApplicationStartdAsync(IServiceProvider serviceProvider) => await Task.CompletedTask;
         /// <summary>
         /// 应用程序结束之前
         /// </summary>

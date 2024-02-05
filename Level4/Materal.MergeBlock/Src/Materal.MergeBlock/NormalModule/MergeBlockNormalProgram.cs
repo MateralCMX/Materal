@@ -29,6 +29,10 @@ namespace Materal.MergeBlock.NormalModule
             await ConfigModuleAsync(_services, _configuration, autoRemoveAssemblies);
             _serviceProvider = _services.BuildMateralServiceProvider();
             INormalApplicationContext context = await InitModuleAsync(_serviceProvider);
+            MergeBlockHostedService mergeBlockHostedService = new(_serviceProvider);
+            CancellationToken cancellationToken = new();
+            await mergeBlockHostedService.StartAsync(cancellationToken);
+            await mergeBlockHostedService.StopAsync(cancellationToken);
             await CloseModuleAsync(context);
         }
         /// <summary>

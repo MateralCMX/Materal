@@ -45,5 +45,15 @@ namespace Materal.MergeBlock.ConsoleModule
             if (_app is null) throw new MergeBlockException("未初始化Host");
             return new(_app.Services);
         }
+        /// <summary>
+        /// 配置服务前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected override async Task ConfigServiceBeforeAsync(IConsoleConfigServiceContext context)
+        {
+            context.Services.AddHostedService<MergeBlockHostedService>();
+            await base.ConfigServiceBeforeAsync(context);
+        }
     }
 }
