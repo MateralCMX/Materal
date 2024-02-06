@@ -100,7 +100,7 @@ namespace RC.Deploy.Application.Services
         {
             if (!ApplicationRuntimeHost.ApplicationRuntimes.TryGetValue(id, out ApplicationRuntimeModel? value)) throw new RCException("应用程序不存在");
             ApplicationRuntimeModel application = value;
-            ApplicationInfoDTO result = Mapper.Map<ApplicationInfoDTO>(application);
+            ApplicationInfoDTO result = Mapper.Map<ApplicationInfoDTO>(application) ?? throw new RCException("映射失败");
             DirectoryInfo rarFilesDirectoryInfo = new(application.RarFilesDirectoryPath);
             if (rarFilesDirectoryInfo.Exists)
             {
@@ -127,7 +127,7 @@ namespace RC.Deploy.Application.Services
             ];
             PageModel pageInfo = new(model, allApplications.Count);
             allApplications = allApplications.Skip(model.SkipInt).Take(model.TakeInt).ToList();
-            List<ApplicationInfoListDTO> result = Mapper.Map<List<ApplicationInfoListDTO>>(allApplications);
+            List<ApplicationInfoListDTO> result = Mapper.Map<List<ApplicationInfoListDTO>>(allApplications) ?? throw new RCException("映射失败");
             return Task.FromResult((result, pageInfo));
         }
         /// <summary>
@@ -299,7 +299,7 @@ namespace RC.Deploy.Application.Services
             ApplicationRuntimeModel application = value;
             FileInfo[]? fileInfos = application.GetRarFileNames();
             if (fileInfos == null) return [];
-            List<FileInfoDTO> result = Mapper.Map<List<FileInfoDTO>>(fileInfos);
+            List<FileInfoDTO> result = Mapper.Map<List<FileInfoDTO>>(fileInfos) ?? throw new RCException("映射失败");
             result = [.. result.OrderByDescending(m => m.LastWriteTime)];
             foreach (FileInfoDTO fileInfo in result)
             {

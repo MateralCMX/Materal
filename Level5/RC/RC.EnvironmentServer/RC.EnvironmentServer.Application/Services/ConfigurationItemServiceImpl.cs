@@ -125,8 +125,8 @@ namespace RC.EnvironmentServer.Application.Services
             {
                 Mode = model.Mode,
                 TargetEnvironments = model.TargetEnvironments,
-                ConfigurationItems = Mapper.Map<List<ConfigurationItemListDTO>>(configurationItems)
-            };
+                ConfigurationItems = Mapper.Map<List<ConfigurationItemListDTO>>(configurationItems) ?? throw new RCException("映射失败")
+        };
             eventBus.Publish(@event);
         }
     }

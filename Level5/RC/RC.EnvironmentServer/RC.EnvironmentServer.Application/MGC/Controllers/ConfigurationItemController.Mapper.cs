@@ -17,7 +17,7 @@ namespace RC.EnvironmentServer.Application.Controllers
         [HttpPut]
         public async Task<ResultModel> SyncConfigAsync(SyncConfigRequestModel requestModel)
         {
-            SyncConfigModel model = Mapper.Map<SyncConfigModel>(requestModel);
+            SyncConfigModel model = Mapper.Map<SyncConfigModel>(requestModel) ?? throw new RCException("映射失败");
             BindLoginUserID(model);
             await DefaultService.SyncConfigAsync(model);
             return ResultModel.Success("同步配置成功");

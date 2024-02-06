@@ -30,7 +30,7 @@ namespace RC.Authority.Application.Controllers
         {
             try
             {
-                LoginModel model = Mapper.Map<LoginModel>(requestModel);
+                LoginModel model = Mapper.Map<LoginModel>(requestModel) ?? throw new RCException("映射失败"); ;
                 UserDTO userInfo = await DefaultService.LoginAsync(model);
                 LoginResultDTO result = new()
                 {

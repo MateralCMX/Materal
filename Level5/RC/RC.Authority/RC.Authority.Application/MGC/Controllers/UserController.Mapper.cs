@@ -28,7 +28,7 @@ namespace RC.Authority.Application.Controllers
         [HttpPost]
         public async Task<ResultModel> ChangePasswordAsync(ChangePasswordRequestModel requestModel)
         {
-            ChangePasswordModel model = Mapper.Map<ChangePasswordModel>(requestModel);
+            ChangePasswordModel model = Mapper.Map<ChangePasswordModel>(requestModel) ?? throw new RCException("映射失败");
             BindLoginUserID(model);
             await DefaultService.ChangePasswordAsync(model);
             return ResultModel.Success("修改密码成功");

@@ -50,7 +50,7 @@ namespace RC.EnvironmentServer.Application.EventHandlers
             foreach (ConfigurationItemListDTO item in configurationItems)
             {
                 if (allConfigurationItems.Any(m => m.ProjectID == item.ProjectID && m.NamespaceID == item.NamespaceID && m.Key == item.Key)) continue;
-                ConfigurationItem target = mapper.Map<ConfigurationItem>(item);
+                ConfigurationItem target = mapper.Map<ConfigurationItem>(item) ?? throw new RCException("映射失败");
                 target.ID = Guid.NewGuid();
                 unitOfWork.RegisterAdd(target);
             }

@@ -17,7 +17,7 @@ namespace RC.ServerCenter.WebAPI.Controllers
         public async Task<ResultModel<List<DeployListDTO>>> GetDeployListAsync()
         {
             List<ConsulServiceModel> consulServices = await consulService.GetServiceListAsync(mergeBlockConsulConfig.CurrentValue.ConsulUrl.Url, m => m.Tags != null && m.Tags.Length > 0 && m.Tags.Contains("RC.Deploy"));
-            List<DeployListDTO> result = mapper.Map<List<DeployListDTO>>(consulServices);
+            List<DeployListDTO> result = mapper.Map<List<DeployListDTO>>(consulServices) ?? throw new RCException("映射失败");
             return ResultModel<List<DeployListDTO>>.Success(result, "查询成功");
         }
         /// <summary>
@@ -28,7 +28,7 @@ namespace RC.ServerCenter.WebAPI.Controllers
         public async Task<ResultModel<List<EnvironmentServerListDTO>>> GetEnvironmentServerListAsync()
         {
             List<ConsulServiceModel> consulServices = await consulService.GetServiceListAsync(mergeBlockConsulConfig.CurrentValue.ConsulUrl.Url, m => m.Tags != null && m.Tags.Length > 0 && m.Tags.Contains("RC.EnvironmentServer"));
-            List<EnvironmentServerListDTO> result = mapper.Map<List<EnvironmentServerListDTO>>(consulServices);
+            List<EnvironmentServerListDTO> result = mapper.Map<List<EnvironmentServerListDTO>>(consulServices) ?? throw new RCException("映射失败");
             return ResultModel<List<EnvironmentServerListDTO>>.Success(result, "查询成功");
         }
         /// <summary>

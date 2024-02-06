@@ -51,7 +51,7 @@ namespace RC.Authority.Application.Services
         {
             User domain = await DefaultRepository.FirstOrDefaultAsync(m => m.Account.Equals(model.Account)) ?? throw new RCException("账号错误");
             if (!domain.Password.Equals(EncodePassword(model.Password))) throw new RCException("密码错误");
-            var result = Mapper.Map<UserDTO>(domain);
+            UserDTO result = Mapper.Map<UserDTO>(domain) ?? throw new RCException("映射失败"); ;
             return result;
         }
         /// <summary>
