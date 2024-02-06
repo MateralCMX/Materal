@@ -1,6 +1,8 @@
 ﻿using Materal.Extensions;
 using Materal.MergeBlock.Abstractions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using RC.ConfigClient.Extensions;
 
 namespace Materal.MergeBlock.ConfigCenter
@@ -24,8 +26,16 @@ namespace Materal.MergeBlock.ConfigCenter
         {
             if (context.Configuration is not IConfigurationBuilder configuration) return;
             string? url = context.Configuration.GetValue(_configKey);
-            if (url is null || !url.IsUrl()) throw new MergeBlockException("配置中心地址错误");
+            ILogger? logger = context.ServiceProvider.GetService<ILoggerFactory>()?.CreateLogger("ConfigCenter");
+            if (url is null || !url.IsUrl())
+            {
+                logger?.LogWarning($"配置中心地址错误:[{url}]");
+                return;
+            }
             configuration.AddDefaultNameSpace(url, projectName, reloadSecondInterval).AddNameSpaces(namespaces);
+            string namespacesStr = "Application";
+            if (namespaces.Length > 0) namespacesStr += $",{string.Join(",", namespaces)}";
+            logger?.LogInformation($"已从[{url}]加载{projectName}[{namespacesStr}]配置");
         }
     }
 }

@@ -9,10 +9,10 @@ namespace MateralMergeBlockVSIX
     {
         public const string Id = "MateralMergeBlockVSIX.b1552ba8-4727-4fcf-8258-ef4040604f52";
         public const string Name = "MateralMergeBlockVSIX";
-        public const string Description = @"Empty VSIX Project.";
+        public const string Description = @"Materal.MergeBlock项目专用插件";
         public const string Language = "zh-Hans";
-        public const string Version = "1.1.75.5";
+        public const string Version = "1.1.75.6";
         public const string Author = "Materal";
-        public const string Tags = "";
+        public const string Tags = "Materal.MergeBlock";
     }
 }

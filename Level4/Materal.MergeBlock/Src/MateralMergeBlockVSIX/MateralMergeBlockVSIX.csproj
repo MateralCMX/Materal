@@ -94,6 +94,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Icon.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <EmbeddedResource Include="Templates\Demo\Abstractions\Domain\User.template" />
     <EmbeddedResource Include="Templates\Core\Abstractions\ICacheRepository.template" />
     <EmbeddedResource Include="Templates\Core\Abstractions\IRepository.template" />

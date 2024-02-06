@@ -45,7 +45,7 @@
     "Password": "123456",
     "ExchangeName": "RCExchange",
     "QueueName": "RCQueue",
-    "NameSuffix": "_Local",
+    "NameSuffix": "",
     "RetryInterval": 5,
     "ErrorMeesageDiscard": false
   },
