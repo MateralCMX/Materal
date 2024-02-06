@@ -438,11 +438,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 {
                     if(treeGroupProperty is null)
                     {
-                        codeContent.AppendLine($"            await ServiceImplHelper.ExchangeIndexAndExchangeParentByGroupPropertiesAsync<I{domain.Name}Repository, {domain.Name}>(model, DefaultRepository, UnitOfWork, new string[] {{ nameof({domain.Name}.{indexGroupProperty.Name}) }});");
+                        codeContent.AppendLine($"            await ServiceImplHelper.ExchangeIndexAndExchangeParentByGroupPropertiesAsync<I{domain.Name}Repository, {domain.Name}>(model, DefaultRepository, UnitOfWork, [nameof({domain.Name}.{indexGroupProperty.Name})]);");
                     }
                     else
                     {
-                        codeContent.AppendLine($"            await ServiceImplHelper.ExchangeIndexAndExchangeParentByGroupPropertiesAsync<I{domain.Name}Repository, {domain.Name}>(model, DefaultRepository, UnitOfWork, new string[] {{ nameof({domain.Name}.{indexGroupProperty.Name}) }}, new string[] {{ nameof({domain.Name}.{treeGroupProperty.Name}) }});");
+                        codeContent.AppendLine($"            await ServiceImplHelper.ExchangeIndexAndExchangeParentByGroupPropertiesAsync<I{domain.Name}Repository, {domain.Name}>(model, DefaultRepository, UnitOfWork, [nameof({domain.Name}.{indexGroupProperty.Name})], [nameof({domain.Name}.{treeGroupProperty.Name})]);");
                     }
                 }
                 codeContent.AppendLine($"            OnExchangeIndexAfter(model);");
@@ -526,11 +526,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"                Func<{domain.Name}, object> sortDlegate = sortExpression.Compile();");
                 codeContent.AppendLine($"                if (sortOrder == SortOrderEnum.Ascending)");
                 codeContent.AppendLine($"                {{");
-                codeContent.AppendLine($"                    allInfo = allInfo.Where(searchDlegate).OrderBy(sortDlegate).ToList();");
+                codeContent.AppendLine($"                    allInfo = [.. allInfo.Where(searchDlegate).OrderBy(sortDlegate)];");
                 codeContent.AppendLine($"                }}");
                 codeContent.AppendLine($"                else");
                 codeContent.AppendLine($"                {{");
-                codeContent.AppendLine($"                    allInfo = allInfo.Where(searchDlegate).OrderByDescending(sortDlegate).ToList();");
+                codeContent.AppendLine($"                    allInfo = [.. allInfo.Where(searchDlegate).OrderByDescending(sortDlegate)];");
                 codeContent.AppendLine($"                }}");
                 codeContent.AppendLine($"            }}");
                 codeContent.AppendLine($"            else");

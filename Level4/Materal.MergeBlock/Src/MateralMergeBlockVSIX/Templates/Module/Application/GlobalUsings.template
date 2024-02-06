@@ -2,6 +2,7 @@
 global using Materal.Abstractions;
 global using Materal.Extensions;
 global using Materal.MergeBlock.Abstractions;
+global using Materal.MergeBlock.Abstractions.Domain;
 global using Materal.MergeBlock.Abstractions.WebModule.Authorization;
 global using Materal.MergeBlock.Abstractions.WebModule.Controllers;
 global using Materal.MergeBlock.Abstractions.WebModule.Extensions;
@@ -10,6 +11,7 @@ global using Materal.MergeBlock.Application.WebModule.Controllers;
 global using Materal.MergeBlock.Abstractions.Models;
 global using Materal.MergeBlock.Abstractions.Services;
 global using Materal.MergeBlock.Abstractions.WebModule.Models;
+global using Materal.TTA.EFRepository;
 global using Materal.Utils.Enums;
 global using Materal.Utils.Model;
 global using Microsoft.AspNetCore.Authorization;
@@ -25,5 +27,6 @@ global using ${ProjectName}.${ModuleName}.Abstractions.Services;
 global using ${ProjectName}.${ModuleName}.Abstractions.Repositories;
 global using ${ProjectName}.${ModuleName}.Application;
 global using System.ComponentModel.DataAnnotations;
+global using System.Linq.Expressions;
 
 [assembly: MergeBlockAssembly(true)]

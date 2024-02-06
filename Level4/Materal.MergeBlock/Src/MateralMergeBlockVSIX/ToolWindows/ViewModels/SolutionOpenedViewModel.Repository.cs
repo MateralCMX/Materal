@@ -160,7 +160,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     codeContent.AppendLine($"        /// <summary>");
                     codeContent.AppendLine($"        /// 获取最大位序");
                     codeContent.AppendLine($"        /// </summary>");
-                    codeContent.AppendLine($"        /// <param name=\"{indexGroupPropertyModel.Name}\"></param>");
+                    codeContent.AppendLine($"        /// <param name=\"{indexGroupPropertyModel.Name.FirstLower()}\"></param>");
                     codeContent.AppendLine($"        /// <returns></returns>");
                     codeContent.AppendLine($"        Task<int> GetMaxIndexAsync({indexGroupPropertyModel.PredefinedType} {indexGroupPropertyModel.Name.FirstLower()});");
                 }

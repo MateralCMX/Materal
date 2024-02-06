@@ -158,6 +158,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             CreateNewProject(demoDirectoryInfo, projectName, "Demo", "Abstractions", "Project");
             string directoryPath = Path.Combine(demoDirectoryInfo.FullName, projectName);
             ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "Demo", "Abstractions", "GlobalUsings");
+            ApplyTemplate(Path.Combine(directoryPath, $"IDemoCacheRepository.cs"), "Demo", "Abstractions", "IDemoCacheRepository");
             ApplyTemplate(Path.Combine(directoryPath, $"IDemoRepository.cs"), "Demo", "Abstractions", "IDemoRepository");
             ApplyTemplate(Path.Combine(directoryPath, $"IDemoUnitOfWork.cs"), "Demo", "Abstractions", "IDemoUnitOfWork");
             string controllersDirectoryPath = Path.Combine(directoryPath, "Controllers");
@@ -209,6 +210,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             CreateNewProject(demoDirectoryInfo, projectName, "Demo", "Repository", "Project");
             string directoryPath = Path.Combine(demoDirectoryInfo.FullName, projectName);
             ApplyTemplate(Path.Combine(directoryPath, $"{ProjectName}.Demo.Repository.json"), "Demo", "Repository", "Config");
+            ApplyTemplate(Path.Combine(directoryPath, $"DemoCacheRepositoryImpl.cs"), "Demo", "Repository", "DemoCacheRepositoryImpl");
             ApplyTemplate(Path.Combine(directoryPath, $"DemoRepositoryImpl.cs"), "Demo", "Repository", "DemoRepositoryImpl");
             ApplyTemplate(Path.Combine(directoryPath, $"DemoRepositoryModule.cs"), "Demo", "Repository", "DemoRepositoryModule");
             ApplyTemplate(Path.Combine(directoryPath, $"DemoUnitOfWorkImpl.cs"), "Demo", "Repository", "DemoUnitOfWorkImpl");
@@ -283,6 +285,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             string directoryPath = Path.Combine(moduleDirectoryInfo.FullName, projectName);
             ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "Module", "Abstractions", "GlobalUsings");
             ApplyTemplate(Path.Combine(directoryPath, $"I{ModuleName}Repository.cs"), "Module", "Abstractions", "IRepository");
+            ApplyTemplate(Path.Combine(directoryPath, $"I{ModuleName}CacheRepository.cs"), "Module", "Abstractions", "ICacheRepository");
             ApplyTemplate(Path.Combine(directoryPath, $"I{ModuleName}UnitOfWork.cs"), "Module", "Abstractions", "IUnitOfWork");
         }
         /// <summary>
@@ -312,6 +315,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             ApplyTemplate(Path.Combine(directoryPath, $"{ProjectName}.{ModuleName}.Repository.json"), "Module", "Repository", "Config");
             ApplyTemplate(Path.Combine(directoryPath, $"GlobalUsings.cs"), "Module", "Repository", "GlobalUsings");
             ApplyTemplate(Path.Combine(directoryPath, $"{ModuleName}RepositoryImpl.cs"), "Module", "Repository", "RepositoryImpl");
+            ApplyTemplate(Path.Combine(directoryPath, $"{ModuleName}CacheRepositoryImpl.cs"), "Module", "Repository", "CacheRepositoryImpl");
             ApplyTemplate(Path.Combine(directoryPath, $"{ModuleName}RepositoryModule.cs"), "Module", "Repository", "RepositoryModule");
             ApplyTemplate(Path.Combine(directoryPath, $"{ModuleName}UnitOfWorkImpl.cs"), "Module", "Repository", "UnitOfWorkImpl");
         }

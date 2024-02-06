@@ -162,6 +162,10 @@
     <EmbeddedResource Include="Templates\Module\Solution.template" />
     <EmbeddedResource Include="Templates\Module\Application\Controller.template" />
     <EmbeddedResource Include="Templates\Demo\Application\Controller.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\IDemoCacheRepository.template" />
+    <EmbeddedResource Include="Templates\Module\Abstractions\ICacheRepository.template" />
+    <EmbeddedResource Include="Templates\Demo\Repository\DemoCacheRepositoryImpl.template" />
+    <EmbeddedResource Include="Templates\Module\Repository\CacheRepositoryImpl.template" />
   </ItemGroup>
   <ItemGroup>
     <VSCTCompile Include="VSCommandTable.vsct">

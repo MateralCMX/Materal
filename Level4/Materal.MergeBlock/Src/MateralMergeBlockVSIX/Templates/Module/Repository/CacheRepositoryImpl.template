@@ -1,0 +1,11 @@
+﻿namespace ${ProjectName}.${ModuleName}.Repository
+{
+    /// <summary>
+    /// ${ModuleName}缓存仓储实现
+    /// </summary>
+    /// <typeparam name="TDomain"></typeparam>
+    public abstract class ${ModuleName}CacheRepositoryImpl<TDomain>(${ModuleName}DBContext dbContext, ICacheHelper cacheHelper) : ${ProjectName}CacheRepositoryImpl<TDomain, ${ModuleName}DBContext>(dbContext, cacheHelper), I${ModuleName}CacheRepository<TDomain>
+        where TDomain : BaseDomain, IDomain, IEntity<Guid>, new()
+    {
+    }
+}
