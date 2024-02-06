@@ -62,7 +62,7 @@
         /// <exception cref="MergeBlockException"></exception>
         public virtual async Task<Guid> AddAsync(TAddModel model)
         {
-            TDomain domain = Mapper.Map<TDomain>(model);
+            TDomain domain = Mapper.Map<TDomain>(model) ?? throw new MergeBlockException("映射失败");
             return await AddAsync(domain, model);
         }
         /// <summary>
@@ -170,7 +170,7 @@
         /// <exception cref="MergeBlockException"></exception>
         protected virtual async Task<TDTO> GetInfoAsync(TDomain domain)
         {
-            TDTO result = Mapper.Map<TDTO>(domain);
+            TDTO result = Mapper.Map<TDTO>(domain) ?? throw new MergeBlockException("映射失败");
             return await GetInfoAsync(result);
         }
         /// <summary>
@@ -206,7 +206,7 @@
                 (orderExpression, sortOrder) = GetDefaultOrderInfo<TDomain>(model);
             }
             (List<TDomain> data, PageModel pageModel) = await DefaultRepository.PagingAsync(expression, orderExpression, sortOrder, model);
-            List<TListDTO> result = Mapper.Map<List<TListDTO>>(data);
+            List<TListDTO> result = Mapper.Map<List<TListDTO>>(data) ?? throw new MergeBlockException("映射失败");
             return await GetListAsync(result, pageModel, model);
         }
         /// <summary>
@@ -314,7 +314,7 @@
         /// <exception cref="MergeBlockException"></exception>
         protected virtual async Task<TDTO> GetInfoAsync(TViewDomain domain)
         {
-            TDTO result = Mapper.Map<TDTO>(domain);
+            TDTO result = Mapper.Map<TDTO>(domain) ?? throw new MergeBlockException("映射失败");
             return await GetInfoAsync(result);
         }
         /// <summary>
@@ -343,7 +343,7 @@
                 (orderExpression, sortOrder) = GetDefaultOrderInfo<TViewDomain>(model);
             }
             (List<TViewDomain> data, PageModel pageModel) = await DefaultViewRepository.PagingAsync(expression, orderExpression, sortOrder, model);
-            List<TListDTO> result = Mapper.Map<List<TListDTO>>(data);
+            List<TListDTO> result = Mapper.Map<List<TListDTO>>(data) ?? throw new MergeBlockException("映射失败");
             return await GetListAsync(result, pageModel, model);
         }
         /// <summary>

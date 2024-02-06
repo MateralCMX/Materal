@@ -285,7 +285,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"        [HttpPut]");
                 codeContent.AppendLine($"        public async Task<ResultModel> ExchangeIndexAsync(ExchangeIndexRequestModel requestModel)");
                 codeContent.AppendLine($"        {{");
-                codeContent.AppendLine($"            ExchangeIndexModel model = Mapper.Map<ExchangeIndexModel>(requestModel);");
+                codeContent.AppendLine($"            ExchangeIndexModel model = Mapper.Map<ExchangeIndexModel>(requestModel) ?? throw new {_projectName}Exception(\"映射失败\");");
                 codeContent.AppendLine($"            await DefaultService.ExchangeIndexAsync(model);");
                 codeContent.AppendLine($"            return ResultModel.Success(\"交换位序成功\");");
                 codeContent.AppendLine($"        }}");
@@ -300,7 +300,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"        [HttpPut]");
                 codeContent.AppendLine($"        public async Task<ResultModel> ExchangeParentAsync(ExchangeParentRequestModel requestModel)");
                 codeContent.AppendLine($"        {{");
-                codeContent.AppendLine($"            ExchangeParentModel model = Mapper.Map<ExchangeParentModel>(requestModel);");
+                codeContent.AppendLine($"            ExchangeParentModel model = Mapper.Map<ExchangeParentModel>(requestModel) ?? throw new {_projectName}Exception(\"映射失败\");");
                 codeContent.AppendLine($"            await DefaultService.ExchangeParentAsync(model);");
                 codeContent.AppendLine($"            return ResultModel.Success(\"更改父级成功\");");
                 codeContent.AppendLine($"        }}");
@@ -312,7 +312,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"        [HttpPost]");
                 codeContent.AppendLine($"        public async Task<ResultModel<List<{domain.Name}TreeListDTO>>> GetTreeListAsync(Query{domain.Name}TreeListRequestModel requestModel)");
                 codeContent.AppendLine($"        {{");
-                codeContent.AppendLine($"            Query{domain.Name}TreeListModel model = Mapper.Map<Query{domain.Name}TreeListModel>(requestModel);");
+                codeContent.AppendLine($"            Query{domain.Name}TreeListModel model = Mapper.Map<Query{domain.Name}TreeListModel>(requestModel) ?? throw new {_projectName}Exception(\"映射失败\");");
                 codeContent.AppendLine($"            List<{domain.Name}TreeListDTO> result = await DefaultService.GetTreeListAsync(model);");
                 codeContent.AppendLine($"            return ResultModel<List<{domain.Name}TreeListDTO>>.Success(result, \"查询成功\");");
                 codeContent.AppendLine($"        }}");
@@ -518,7 +518,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     methodArguments.Add($"{methodArgument.RequestPredefinedType} {methodArgument.RequestName}");
                     if (methodArgument.RequestName != methodArgument.Name)
                     {
-                        mapperCodes.Add($"            {methodArgument.PredefinedType} {methodArgument.Name} = Mapper.Map<{methodArgument.PredefinedType}>({methodArgument.RequestName});");
+                        mapperCodes.Add($"            {methodArgument.PredefinedType} {methodArgument.Name} = Mapper.Map<{methodArgument.PredefinedType}>({methodArgument.RequestName}) ?? throw new {_projectName}Exception(\"映射失败\");");
                         mapperArguments.Add(methodArgument.Name);
                     }
                     useArguments.Add(methodArgument.Name);

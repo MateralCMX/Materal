@@ -71,7 +71,7 @@ namespace Materal.MergeBlock.Application.WebModule.Controllers
         [HttpPost]
         public virtual async Task<ResultModel<Guid>> AddAsync(TAddRequestModel requestModel)
         {
-            var model = Mapper.Map<TAddModel>(requestModel);
+            TAddModel model = Mapper.Map<TAddModel>(requestModel) ?? throw new MergeBlockException("映射失败");
             BindLoginUserID(model);
             return await AddAsync(model, requestModel);
         }
@@ -94,7 +94,7 @@ namespace Materal.MergeBlock.Application.WebModule.Controllers
         [HttpPut]
         public virtual async Task<ResultModel> EditAsync(TEditRequestModel requestModel)
         {
-            var model = Mapper.Map<TEditModel>(requestModel);
+            TEditModel model = Mapper.Map<TEditModel>(requestModel) ?? throw new MergeBlockException("映射失败");
             BindLoginUserID(model);
             return await EditAsync(model, requestModel);
         }
@@ -139,7 +139,7 @@ namespace Materal.MergeBlock.Application.WebModule.Controllers
         [HttpPost]
         public virtual async Task<PageResultModel<TListDTO>> GetListAsync(TQueryRequestModel requestModel)
         {
-            var model = Mapper.Map<TQueryModel>(requestModel);
+            TQueryModel model = Mapper.Map<TQueryModel>(requestModel) ?? throw new MergeBlockException("映射失败");
             return await GetListAsync(model, requestModel);
         }
         /// <summary>

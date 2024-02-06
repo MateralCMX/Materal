@@ -52,7 +52,7 @@ namespace ${ProjectName}.Demo.Application.Services
         {
             User domain = await DefaultRepository.FirstOrDefaultAsync(m => m.Account.Equals(model.Account)) ?? throw new ${ProjectName}Exception("账号错误");
             if (!domain.Password.Equals(PasswordManager.EncodePassword(model.Password))) throw new ${ProjectName}Exception("密码错误");
-            UserDTO result = Mapper.Map<UserDTO>(domain);
+            UserDTO result = Mapper.Map<UserDTO>(domain) ?? throw new ${ProjectName}Exception("映射失败");
             return result;
         }
         /// <summary>

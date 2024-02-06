@@ -41,7 +41,7 @@ namespace ${ProjectName}.Demo.Application.Controllers
         {
             try
             {
-                LoginModel model = Mapper.Map<LoginModel>(requestModel);
+                LoginModel model = Mapper.Map<LoginModel>(requestModel) ?? throw new ${ProjectName}Exception("映射失败");
                 UserDTO userInfo = await DefaultService.LoginAsync(model);
                 string token = tokenService.GetToken(userInfo.ID);
                 LoginResultDTO result = new()
@@ -64,7 +64,7 @@ namespace ${ProjectName}.Demo.Application.Controllers
         [HttpPut]
         public async Task<ResultModel> ChangePasswordAsync(ChangePasswordRequestModel requestModel)
         {
-            ChangePasswordModel model = Mapper.Map<ChangePasswordModel>(requestModel);
+            ChangePasswordModel model = Mapper.Map<ChangePasswordModel>(requestModel) ?? throw new ${ProjectName}Exception("映射失败");
             BindLoginUserID(model);
             await DefaultService.ChangePasswordAsync(model);
             return ResultModel.Success("修改成功");
