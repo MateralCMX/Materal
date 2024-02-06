@@ -389,7 +389,7 @@ namespace Materal.Gateway.Service
                     Service = new()
                     {
                         Name = service.Service,
-                        Path = "/swagger/v1/swagger.json"
+                        Path = $"/swagger/{service.Service}/swagger.json"
                     }
                 });
                 ocelotConfigRepository.OcelotConfig.SwaggerEndPoints.Add(swaggerConfig);

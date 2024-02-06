@@ -1,18 +1,159 @@
-﻿{
+﻿//{
+//  "Routes": [
+//    {
+//      "UpstreamPathTemplate": "/MateralWebAPITest/api/{everything}",
+//      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
+//      "DownstreamPathTemplate": "/api/{everything}",
+//      "DownstreamScheme": "http",
+//      "DownstreamHttpVersion": "1.1",
+//      "ServiceName": "MateralWebAPITest",
+//      "LoadBalancerOptions": {
+//        "Type": "LeastConnection"
+//      },
+//      "DangerousAcceptAnyServerCertificateValidator": true,
+//      "SwaggerKey": "MateralWebAPITest",
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    "ServiceDiscoveryProvider": {
+//      "Host": "127.0.0.1",
+//      "Port": 8500,
+//      "Type": "Consul",
+//      "IsSSL": false
+//    }
+//  },
+//  "SwaggerEndPoints": [
+//    {
+//      "Key": "MateralWebAPITest",
+//      "TakeServersFromDownstreamService": true,
+//      "Config": [
+//        {
+//          "Name": "MateralWebAPITest",
+//          "Version": "v1",
+//          "Service": {
+//            "Name": "MateralWebAPITest",
+//            "Path": "/swagger/v1/swagger.json"
+//          }
+//        }
+//      ]
+//    }
+//  ]
+//}
+{
   "Routes": [
     {
-      "UpstreamPathTemplate": "/MateralWebAPITest/api/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ],
-      "DownstreamPathTemplate": "/api/{everything}",
+      "UpstreamPathTemplate": "/RCAuthorityAPI/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/AuthorityAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "MateralWebAPITest",
+      "ServiceName": "RCAuthorityAPI",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "MateralWebAPITest",
-      "Index": 6
+      "SwaggerKey": "RCAuthorityAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployDEVAPI/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/DeployAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployDEVAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCDeployDEVAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployLocalAPI/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/DeployAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployLocalAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCDeployLocalAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCESDEVAPI/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/EnvironmentServerAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCESDEVAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCESDEVAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCESFATAPI/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/EnvironmentServerAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCESFATAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCESFATAPI"
+    },
+    {
+      "UpstreamPathTemplate": "/RCServerCenterAPI/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/ServerCenterAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCServerCenterAPI",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCServerCenterAPI"
     }
   ],
   "GlobalConfiguration": {
@@ -25,15 +166,85 @@
   },
   "SwaggerEndPoints": [
     {
-      "Key": "MateralWebAPITest",
+      "Key": "RCAuthorityAPI",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "MateralWebAPITest",
-          "Version": "v1",
+          "Name": "RCAuthorityAPI",
+          "Version": "latest",
           "Service": {
-            "Name": "MateralWebAPITest",
-            "Path": "/swagger/v1/swagger.json"
+            "Name": "RCAuthorityAPI",
+            "Path": "/swagger/RC.Authority/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCDeployDEVAPI",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCDeployDEVAPI",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCDeployDEVAPI",
+            "Path": "/swagger/RC.Deploy/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCDeployLocalAPI",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCDeployLocalAPI",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCDeployLocalAPI",
+            "Path": "/swagger/RC.Deploy/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCESDEVAPI",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCESDEVAPI",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCESDEVAPI",
+            "Path": "/swagger/RC.EnvironmentServer/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCESFATAPI",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCESFATAPI",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCESFATAPI",
+            "Path": "/swagger/RC.EnvironmentServer/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCServerCenterAPI",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCServerCenterAPI",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCServerCenterAPI",
+            "Path": "/swagger/RC.ServerCenter/swagger.json"
           }
         }
       ]

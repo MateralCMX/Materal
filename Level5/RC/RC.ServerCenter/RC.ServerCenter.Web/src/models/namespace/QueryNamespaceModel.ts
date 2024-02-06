@@ -4,6 +4,10 @@ export default interface QueryNamespaceModel {
      */
     Name: string;
     /**
+     * 描述
+     */
+    Description: string;
+    /**
      * 项目唯一标识
      */
     ProjectID: string;

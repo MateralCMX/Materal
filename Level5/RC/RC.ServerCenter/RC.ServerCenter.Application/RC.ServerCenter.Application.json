@@ -1,4 +1,5 @@
 ﻿{
   "ServerCenter": {
+    "GatewayUrl": "http://localhost:8700"
   }
 }

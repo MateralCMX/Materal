@@ -10,8 +10,11 @@
     <a-spin :loading="isLoading" style="width: 100%;">
         <a-space direction="vertical" fill>
             <a-form :model="queryData" layout="inline" @submit-success="onQueryAsync">
-                <a-form-item field="Key" label="名称">
+                <a-form-item field="Name" label="名称">
                     <a-input v-model="queryData.Name" />
+                </a-form-item>
+                <a-form-item field="Description" label="描述">
+                    <a-input v-model="queryData.Description" />
                 </a-form-item>
                 <a-form-item>
                     <a-button-group>
@@ -31,16 +34,16 @@
                     </template>
                     <template #extra>
                         <a-button-group>
-                        <a-button type="text" @click="openEditPanel(item.ID)" title="编辑">
-                            <template #icon><icon-edit /></template>
-                        </a-button>
-                        <a-popconfirm :content="`是否删除${item.Name}?`" type="warning" ok-text="删除"
-                            @ok="async () => await deleteAsync(item.ID)">
-                            <a-button type="text" title="删除">
-                                <template #icon><icon-delete style="color: red;" /></template>
+                            <a-button type="text" @click="openEditPanel(item.ID)" title="编辑">
+                                <template #icon><icon-edit /></template>
                             </a-button>
-                        </a-popconfirm>
-                    </a-button-group>
+                            <a-popconfirm :content="`是否删除${item.Name}?`" type="warning" ok-text="删除"
+                                @ok="async () => await deleteAsync(item.ID)">
+                                <a-button type="text" title="删除">
+                                    <template #icon><icon-delete style="color: red;" /></template>
+                                </a-button>
+                            </a-popconfirm>
+                        </a-button-group>
                     </template>
                     <div>
                         {{ item.Description }}
@@ -73,6 +76,7 @@ const editPanelVisible = ref(false);
 const projectEditorRef = ref<InstanceType<typeof ProjectEditor>>();
 const queryData = reactive<QueryProjectModel>({
     Name: "",
+    Description: "",
     PageIndex: 1,
     PageSize: 99999
 });

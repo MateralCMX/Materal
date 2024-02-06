@@ -96,7 +96,7 @@ namespace RC.EnvironmentServer.Application.Services
                 if (allNamespaceInfo.Data != null && allNamespaceInfo.Data.Count > 0)
                 {
                     hastIDs = allNamespaceInfo.Data.Select(m => m.ID).ToArray();
-                    removeIDs = allProjectIDs.Except(hastIDs).ToArray();
+                    removeIDs = allNamespaceIDs.Except(hastIDs).ToArray();
                     if (removeIDs.Length > 0)
                     {
                         removeItems.AddRange(configurationItems.Where(m => removeIDs.Contains(m.NamespaceID)).ToList());

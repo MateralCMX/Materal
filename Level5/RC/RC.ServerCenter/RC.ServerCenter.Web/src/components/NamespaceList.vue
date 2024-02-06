@@ -11,12 +11,15 @@
         <a-space direction="vertical" fill>
             <a-form :model="queryData" layout="inline" @submit-success="onQueryAsync">
                 <a-form-item field="ProjectID" label="项目">
-                    <a-select v-model="queryData.ProjectID" @change="onQueryAsync">
-                        <a-option v-for="item in projectList" :value="item.ID">{{ item.Name }}</a-option>
+                    <a-select v-model="queryData.ProjectID" @change="onQueryAsync" style="min-width: 220px;">
+                        <a-option v-for="item in projectList" :value="item.ID">{{ item.Description }}-{{ item.Name }}</a-option>
                     </a-select>
                 </a-form-item>
-                <a-form-item field="Key" label="名称">
+                <a-form-item field="Name" label="名称">
                     <a-input v-model="queryData.Name" />
+                </a-form-item>
+                <a-form-item field="Description" label="描述">
+                    <a-input v-model="queryData.Description" />
                 </a-form-item>
                 <a-form-item>
                     <a-button-group>
@@ -80,6 +83,7 @@ const editPanelVisible = ref(false);
 const namespaceEditorRef = ref<InstanceType<typeof NamespaceEditor>>();
 const queryData = reactive<QueryNamespaceModel>({
     Name: "",
+    Description: "",
     ProjectID: "",
     PageIndex: 1,
     PageSize: 99999
@@ -132,7 +136,7 @@ async function onEditPanelCancelAsync() {
 async function loadAllProjectAsync() {
     isLoading.value = true;
     try {
-        const httpResult = await projectService.GetListAsync({ Name: "", PageIndex: 1, PageSize: 99999 });
+        const httpResult = await projectService.GetListAsync({ Name: "", Description: "", PageIndex: 1, PageSize: 99999 });
         if (!httpResult) return;
         projectList.value = httpResult;
         if (projectList.value.length > 0) {

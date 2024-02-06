@@ -97,7 +97,7 @@ function verifyTargetEnvironments(){
 async function loadAllProjectAsync() {
     isLoading.value = true;
     try {
-        const projectResult = await projectService.GetListAsync({ Name: "", PageIndex: 1, PageSize: 99999 });
+        const projectResult = await projectService.GetListAsync({ Name: "", Description:"", PageIndex: 1, PageSize: 99999 });
         if (!projectResult) return;
         projectList.value = projectResult;
         if (projectList.value.length > 0) {
@@ -113,7 +113,7 @@ async function loadAllProjectAsync() {
 }
 async function loadNamespaceAsync() {
     try {
-        const namespaceResult = await namespaceService.GetListAsync({ ProjectID: syncConfigData.ProjectID, Name: "", PageIndex: 1, PageSize: 99999 });
+        const namespaceResult = await namespaceService.GetListAsync({ ProjectID: syncConfigData.ProjectID, Name: "", Description:"", PageIndex: 1, PageSize: 99999 });
         if (!namespaceResult) return;
         syncConfigData.NamespaceIDs = [];
         namespaceList.value = namespaceResult;

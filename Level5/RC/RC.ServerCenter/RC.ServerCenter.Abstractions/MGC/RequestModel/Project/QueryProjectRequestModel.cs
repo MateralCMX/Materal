@@ -10,6 +10,10 @@
         /// </summary>
         public string? Name { get; set; }
         /// <summary>
+        /// 描述
+        /// </summary>
+        public string? Description { get; set; }
+        /// <summary>
         /// 唯一标识组
         /// </summary>
         public List<Guid>? IDs { get; set; }

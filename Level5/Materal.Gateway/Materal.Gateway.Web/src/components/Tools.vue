@@ -57,8 +57,8 @@
                     <a-form-item field="DangerousAcceptAnyServerCertificateValidator" label="忽略证书">
                         <a-switch v-model="routeFormData.DangerousAcceptAnyServerCertificateValidator" />
                     </a-form-item>
-                    <a-form-item field="DownstreamPathTemplate" label="转发方式">
-                        <a-select v-model="routeFormData.DownstreamPathTemplate">
+                    <a-form-item field="DownstreamScheme" label="转发方式">
+                        <a-select v-model="routeFormData.DownstreamScheme">
                             <a-option value="http">http</a-option>
                             <a-option value="https">https</a-option>
                             <a-option value="ws">ws</a-option>

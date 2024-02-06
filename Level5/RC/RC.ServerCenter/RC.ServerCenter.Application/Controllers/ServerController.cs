@@ -1,15 +1,13 @@
-﻿using Materal.MergeBlock.Abstractions.WebModule.Models;
-using Materal.Utils.Consul;
+﻿using Materal.Utils.Consul;
 using Materal.Utils.Consul.Models;
 using RC.ServerCenter.Abstractions.DTO.Server;
-using RC.ServerCenter.Application;
 
 namespace RC.ServerCenter.WebAPI.Controllers
 {
     /// <summary>
     /// 服务控制器
     /// </summary>
-    public partial class ServerController(IMapper mapper, IConsulService consulService, IOptionsMonitor<ApplicationConfig> applicationConfig, IOptionsMonitor<MergeBlockConsulConfig> mergeBlockConsulConfig) : MergeBlockControllerBase
+    public partial class ServerController(IMapper mapper, IConsulService consulService, IOptionsMonitor<ApplicationConfig> applicationConfig, IOptionsMonitor<MergeBlockConsulConfig> mergeBlockConsulConfig) : ServerCenterController
     {
         /// <summary>
         /// 获得发布程序列表

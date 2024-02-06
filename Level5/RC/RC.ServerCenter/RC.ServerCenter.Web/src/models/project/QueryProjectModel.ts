@@ -4,6 +4,10 @@ export default interface QueryProjectModel {
      */
     Name: string;
     /**
+     * 描述
+     */
+    Description: string;
+    /**
      * 页码
      */
     PageIndex: number;

@@ -77,7 +77,7 @@ export default abstract class BaseService {
     protected async getUrlAsync(serviceName: string): Promise<string> {
         if (this.baseUrl == location.origin) {
             try {
-                const url = `${this.baseUrl}/api/Server/GetGatewayUrl`;
+                const url = `${this.baseUrl}/ServerCenterAPI/Server/GetGatewayUrl`;
                 const httpResult = await axios.get(url, this.getAxiosRequestConfig());
                 const gatewayUrl = this.handlerHttpResult<string>(httpResult);
                 if (gatewayUrl) {

@@ -18,7 +18,7 @@ class ProjectService extends BaseService {
         return await this.sendGetAsync("GetInfo", { id });
     }
     public async GetListAsync(requestModel: QueryProjectModel): Promise<ProjectDTO[] | null> {
-        return await this.sendPostAsync("GetList", null, requestModel);
+        return await this.sendPostAsync("GetList", null, { ...requestModel, SortPropertyName: "Name", IsAsc: true });
     }
 }
 const service = new ProjectService(async () => "RCServerCenterAPI", "Project");

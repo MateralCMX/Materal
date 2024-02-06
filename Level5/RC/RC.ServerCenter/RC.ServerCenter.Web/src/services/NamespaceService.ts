@@ -18,7 +18,7 @@ class NamespaceService extends BaseService {
         return await this.sendGetAsync("GetInfo", { id });
     }
     public async GetListAsync(requestModel: QueryNamespaceModel): Promise<NamespaceDTO[] | null> {
-        return await this.sendPostAsync("GetList", null, requestModel);
+        return await this.sendPostAsync("GetList", null, { ...requestModel, SortPropertyName: "Name", IsAsc: true });
     }
 }
 const service = new NamespaceService(async () => "RCServerCenterAPI", "Namespace");

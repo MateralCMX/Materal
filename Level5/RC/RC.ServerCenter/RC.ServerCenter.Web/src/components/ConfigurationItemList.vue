@@ -20,13 +20,13 @@
                     <EnvironmentServerSelect @change="selectedEnvironmentServerAsync" />
                 </a-form-item>
                 <a-form-item field="ProjectID" label="项目">
-                    <a-select v-model="projectID" @change="onQueryNamespaceAsync">
-                        <a-option v-for="item in projectList" :value="item.ID">{{ item.Name }}</a-option>
+                    <a-select v-model="projectID" @change="onQueryNamespaceAsync" style="min-width: 220px;">
+                        <a-option v-for="item in projectList" :value="item.ID">{{ item.Description }}-{{ item.Name }}</a-option>
                     </a-select>
                 </a-form-item>
                 <a-form-item field="NamespaceID" label="命名空间">
-                    <a-select v-model="queryData.NamespaceID" @change="onQueryAsync">
-                        <a-option v-for="item in namespaceList" :value="item.ID">{{ item.Name }}</a-option>
+                    <a-select v-model="queryData.NamespaceID" @change="onQueryAsync" style="min-width: 220px;">
+                        <a-option v-for="item in namespaceList" :value="item.ID">{{ item.Description }}-{{ item.Name }}</a-option>
                     </a-select>
                 </a-form-item>
                 <a-form-item field="Key" label="键">
@@ -217,7 +217,7 @@ async function onEditPanelCancelAsync() {
 async function loadAllProjectAsync() {
     isLoading.value = true;
     try {
-        const projectResult = await projectService.GetListAsync({ Name: "", PageIndex: 1, PageSize: 99999 });
+        const projectResult = await projectService.GetListAsync({ Name: "", Description:"", PageIndex: 1, PageSize: 99999 });
         if (!projectResult) return;
         projectList.value = projectResult;
         if (projectList.value.length > 0) {
@@ -234,7 +234,7 @@ async function loadAllProjectAsync() {
 }
 async function loadNamespaceAsync() {
     try {
-        const namespaceResult = await namespaceService.GetListAsync({ ProjectID: projectID.value, Name: "", PageIndex: 1, PageSize: 99999 });
+        const namespaceResult = await namespaceService.GetListAsync({ ProjectID: projectID.value, Name: "", Description: "", PageIndex: 1, PageSize: 99999 });
         if (!namespaceResult) return;
         namespaceList.value = namespaceResult;
         if (namespaceList.value.length > 0) {

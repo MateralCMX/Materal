@@ -5,6 +5,7 @@ using Polly;
 using Polly.Retry;
 using RC.ServerCenter.Abstractions.Controllers;
 using RC.ServerCenter.Abstractions.HttpClient;
+using System;
 
 namespace RC.EnvironmentServer.Application
 {
@@ -43,22 +44,23 @@ namespace RC.EnvironmentServer.Application
         /// <returns></returns>
         public override async Task OnApplicationStartdAsync(IServiceProvider serviceProvider)
         {
-            using IServiceScope scope = serviceProvider.CreateScope();
-            ILogger? logger = scope.ServiceProvider.GetService<ILogger<EnvironmentServerModule>>();
-            PolicyBuilder policyBuilder = Policy.Handle<Exception>();
-            AsyncRetryPolicy retryPolicy = policyBuilder.WaitAndRetryAsync(10, index =>
+            ThreadPool.QueueUserWorkItem(async _ =>
             {
-                logger?.LogWarning($"[{index}]初始化失败,5秒后重试");
-                return TimeSpan.FromSeconds(5);
-            }, (ex, timeSpan) =>
-            {
-                logger?.LogError(ex, $"初始化失败");
+                using IServiceScope scope = serviceProvider.CreateScope();
+                ILogger? logger = scope.ServiceProvider.GetService<ILogger<EnvironmentServerModule>>();
+                PolicyBuilder policyBuilder = Policy.Handle<Exception>();
+                AsyncRetryPolicy retryPolicy = policyBuilder.WaitAndRetryForeverAsync(_ => TimeSpan.FromSeconds(5), (ex, index, timeSpan) =>
+                {
+                    logger?.LogWarning(ex, $"[{index}]初始化失败,5秒后重试");
+                });
+                await retryPolicy.ExecuteAsync(async () =>
+                {
+                    IConfigurationItemService configurationItemService = scope.ServiceProvider.GetRequiredService<IConfigurationItemService>();
+                    await configurationItemService.InitAsync();
+                    logger?.LogInformation("初始化完毕");
+                });
             });
-            await retryPolicy.ExecuteAsync(async () =>
-            {
-                IConfigurationItemService configurationItemService = scope.ServiceProvider.GetRequiredService<IConfigurationItemService>();
-                await configurationItemService.InitAsync();
-            });
+            await base.OnApplicationStartdAsync(serviceProvider);
         }
     }
 }
