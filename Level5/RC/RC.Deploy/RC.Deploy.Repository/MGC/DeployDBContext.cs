@@ -8,11 +8,11 @@
         /// <summary>
         /// 应用程序信息
         /// </summary>
-        public DbSet<ApplicationInfo> ApplicationInfo { get; set; }
+        public DbSet<ApplicationInfo>? ApplicationInfo { get; set; }
         /// <summary>
         /// 默认数据
         /// </summary>
-        public DbSet<DefaultData> DefaultData { get; set; }
+        public DbSet<DefaultData>? DefaultData { get; set; }
         /// <summary>
         /// 配置模型
         /// </summary>

@@ -99,7 +99,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// {domain.Annotation}");
                 codeContent.AppendLine($"        /// </summary>");
-                codeContent.AppendLine($"        public DbSet<{domain.Name}> {domain.Name} {{ get; set; }}");
+                codeContent.AppendLine($"        public DbSet<{domain.Name}>? {domain.Name} {{ get; set; }}");
             }
             codeContent.AppendLine($"        /// <summary>");
             codeContent.AppendLine($"        /// 配置模型");

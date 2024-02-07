@@ -1,7 +1,7 @@
 ﻿using Materal.MergeBlock.Abstractions;
 
 [assembly: MergeBlockAssembly]
-namespace Materal.MergeBlock.ConsulTest
+namespace Materal.MergeBlock.ConsulTest2
 {
     /// <summary>
     /// Consul模块

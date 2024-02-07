@@ -8,7 +8,7 @@
         /// <summary>
         /// 配置项
         /// </summary>
-        public DbSet<ConfigurationItem> ConfigurationItem { get; set; }
+        public DbSet<ConfigurationItem>? ConfigurationItem { get; set; }
         /// <summary>
         /// 配置模型
         /// </summary>

@@ -1,10 +1,9 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule;
-using Materal.MergeBlock.AccessLog;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Materal.MergeBlock.ExceptionInterceptor
+namespace Materal.MergeBlock.AccessLog
 {
     /// <summary>
     /// 访问日志模块

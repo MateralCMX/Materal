@@ -8,7 +8,7 @@
         /// <summary>
         /// 用户
         /// </summary>
-        public DbSet<User> User { get; set; }
+        public DbSet<User>? User { get; set; }
         /// <summary>
         /// 配置模型
         /// </summary>
