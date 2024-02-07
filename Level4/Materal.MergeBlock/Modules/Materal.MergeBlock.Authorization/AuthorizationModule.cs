@@ -1,9 +1,14 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule;
 using Materal.MergeBlock.Abstractions.WebModule.Authorization;
+using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace Materal.MergeBlock.Authorization
 {
@@ -34,9 +39,9 @@ namespace Materal.MergeBlock.Authorization
             });
             AuthorizationConfig authorizationConfig = context.Configuration.GetConfigItem<AuthorizationConfig>(AuthorizationConfig.ConfigKey) ?? throw new MergeBlockException($"未找到鉴权配置[{AuthorizationConfig.ConfigKey}]");
             context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                 {
-                    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+                    TokenValidationParameters tokenValidationParameters = new()
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(authorizationConfig.KeyBytes),
@@ -47,6 +52,7 @@ namespace Materal.MergeBlock.Authorization
                         ValidateLifetime = true,
                         ClockSkew = TimeSpan.FromSeconds(authorizationConfig.ExpiredTime)
                     };
+                    options.TokenValidationParameters = tokenValidationParameters;
                 });
             context.Services.TryAddSingleton<ITokenService, TokenServiceImpl>();
             await base.OnConfigServiceAsync(context);
@@ -58,7 +64,8 @@ namespace Materal.MergeBlock.Authorization
         /// <returns></returns>
         public override async Task OnApplicationInitAsync(IWebApplicationContext context)
         {
-            context.WebApplication.UseAuthorization();
+            context.WebApplication.UseAuthentication();//鉴权
+            //context.WebApplication.UseAuthorization();//授权
             await base.OnApplicationInitAsync(context);
         }
     }

@@ -27,12 +27,12 @@ namespace Materal.MergeBlock.Abstractions.WebModule.Authorization
         public string GetToken(params Claim[] claims)
         {
             JwtSecurityTokenHandler tokenHandler = new();
-            var authTime = DateTime.UtcNow;
-            var expiresAt = authTime.AddSeconds(authorizationConfig.CurrentValue.ExpiredTime);
+            DateTime authTime = DateTime.UtcNow;
+            DateTime expiresAt = authTime.AddSeconds(authorizationConfig.CurrentValue.ExpiredTime);
             SymmetricSecurityKey securityKey = new(authorizationConfig.CurrentValue.KeyBytes);
             List<Claim> allClaims =
             [
-                new Claim(JwtRegisteredClaimNames.Aud, authorizationConfig.CurrentValue.Audience),
+                //new Claim(JwtRegisteredClaimNames.Aud, authorizationConfig.CurrentValue.Audience),
                 new Claim(JwtRegisteredClaimNames.Iss, authorizationConfig.CurrentValue.Issuer),
                 .. claims,
             ];
