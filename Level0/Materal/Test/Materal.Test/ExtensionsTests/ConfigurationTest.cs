@@ -16,19 +16,19 @@ namespace Materal.Test.ExtensionsTests
         [TestMethod]
         public void GetValueTest()
         {
-            dynamic? value = _configuration.GetValue("StringValue");
+            dynamic? value = _configuration.GetConfigItemToString("StringValue");
             Assert.AreEqual("Materal", value);
-            value = _configuration.GetValueObject<int>("IntValue");
+            value = _configuration.GetConfigItem<int>("IntValue");
             Assert.AreEqual(123, value);
-            value = _configuration.GetValueObject<int?>("IntValue");
+            value = _configuration.GetConfigItem<int?>("IntValue");
             Assert.AreEqual(123, value);
-            value = _configuration.GetValueObject<TestEnum>("EnumValue");
+            value = _configuration.GetConfigItem<TestEnum>("EnumValue");
             Assert.AreEqual(TestEnum.Enum2, value);
-            value = _configuration.GetValueObject<TestEnum?>("EnumValue");
+            value = _configuration.GetConfigItem<TestEnum?>("EnumValue");
             Assert.AreEqual(TestEnum.Enum2, value);
-            value = _configuration.GetValueObject<TestEnum>("EnumValue2");
+            value = _configuration.GetConfigItem<TestEnum>("EnumValue2");
             Assert.AreEqual(TestEnum.Enum1, value);
-            value = _configuration.GetValueObject<TestEnum?>("EnumValue2");
+            value = _configuration.GetConfigItem<TestEnum?>("EnumValue2");
             Assert.AreEqual(TestEnum.Enum1, value);
         }
     }

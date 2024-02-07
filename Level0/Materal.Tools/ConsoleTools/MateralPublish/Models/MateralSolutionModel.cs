@@ -70,19 +70,25 @@ namespace MateralPublish.Models
                 try
                 {
 #if DEBUG
-                    //if (project is not ProjectModels.Level0.MateralProjectModel) continue;
-                    //if (project is not ProjectModels.Level0.ToolsProjectModel) continue;
-                    //if (project is not ProjectModels.Level1.LoggerProjectModel) continue;
-                    //if (project is not ProjectModels.Level2.TFMSProjectModel) continue;
-                    //if (project is not ProjectModels.Level2.EventBusProjectModel) continue;
-                    //if (project is not ProjectModels.Level2.TTAProjectModel) continue;
-                    //if (project is not ProjectModels.Level3.OscillatorProjectModel) continue;
-                    if (project is not ProjectModels.Level4.BaseCoreProjectModel) continue;
-                    //if (project is not ProjectModels.Level4.MergeBlockProjectModel) continue;
-                    //if (project is not ProjectModels.Level5.GatewayProjectModel) continue;
-                    //if (project is not ProjectModels.Level5.RCProjectModel) continue;
-#endif
+                    if (false
+                        //|| project is ProjectModels.Level0.MateralProjectModel
+                        //|| project is ProjectModels.Level0.ToolsProjectModel
+                        //|| project is ProjectModels.Level1.LoggerProjectModel
+                        //|| project is ProjectModels.Level2.TFMSProjectModel
+                        //|| project is ProjectModels.Level2.EventBusProjectModel
+                        //|| project is ProjectModels.Level2.TTAProjectModel
+                        //|| project is ProjectModels.Level3.OscillatorProjectModel
+                        //|| project is ProjectModels.Level4.BaseCoreProjectModel
+                        //|| project is ProjectModels.Level4.MergeBlockProjectModel
+                        || project is ProjectModels.Level5.GatewayProjectModel
+                        || project is ProjectModels.Level5.RCProjectModel
+                        )
+                    {
+                        await project.PublishAsync(version);
+                    }
+#else
                     await project.PublishAsync(version);
+#endif
                 }
                 catch (Exception ex)
                 {

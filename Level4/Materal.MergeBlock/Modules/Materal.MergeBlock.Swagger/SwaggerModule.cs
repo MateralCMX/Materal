@@ -147,7 +147,7 @@ namespace Materal.MergeBlock.Swagger
         /// <returns></returns>
         private static GlobalSwaggerConfig GetSwaggerConfig(IConfiguration configuration)
         {
-            GlobalSwaggerConfig swaggerConfig = configuration.GetValueObject<GlobalSwaggerConfig>(GlobalSwaggerConfig.ConfigKey) ?? new GlobalSwaggerConfig();
+            GlobalSwaggerConfig swaggerConfig = configuration.GetConfigItem<GlobalSwaggerConfig>(GlobalSwaggerConfig.ConfigKey) ?? new GlobalSwaggerConfig();
             return swaggerConfig;
         }
     }

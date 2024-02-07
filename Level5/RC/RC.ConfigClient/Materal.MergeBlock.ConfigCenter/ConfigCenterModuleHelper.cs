@@ -25,7 +25,7 @@ namespace Materal.MergeBlock.ConfigCenter
         public static void OnConfigServiceBefore(IConfigServiceContext context, string projectName, string[] namespaces, int reloadSecondInterval)
         {
             if (context.Configuration is not IConfigurationBuilder configuration) return;
-            string? url = context.Configuration.GetValue(_configKey);
+            string? url = context.Configuration.GetConfigItemToString(_configKey);
             ILogger? logger = context.ServiceProvider.GetService<ILoggerFactory>()?.CreateLogger("ConfigCenter");
             if (url is null || !url.IsUrl())
             {

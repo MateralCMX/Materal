@@ -15,7 +15,7 @@ namespace MBC.Demo.Common
         {
             get
             {
-                SqliteConfigModel result = MateralCoreConfig.GetValueObject<SqliteConfigModel>(nameof(DBConfig), new SqliteConfigModel {Source = "./Demo.db"});
+                SqliteConfigModel result = MateralCoreConfig.GetConfigItem<SqliteConfigModel>(nameof(DBConfig), new SqliteConfigModel {Source = "./Demo.db"});
                 if (result.Source.StartsWith("./"))
                 {
                     result.Source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, result.Source[2..]);

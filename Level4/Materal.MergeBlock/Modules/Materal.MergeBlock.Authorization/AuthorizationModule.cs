@@ -32,7 +32,7 @@ namespace Materal.MergeBlock.Authorization
             {
                 options.Filters.Add(new AuthorizeFilter());
             });
-            AuthorizationConfig authorizationConfig = context.Configuration.GetValueObject<AuthorizationConfig>(AuthorizationConfig.ConfigKey) ?? throw new MergeBlockException($"未找到鉴权配置[{AuthorizationConfig.ConfigKey}]");
+            AuthorizationConfig authorizationConfig = context.Configuration.GetConfigItem<AuthorizationConfig>(AuthorizationConfig.ConfigKey) ?? throw new MergeBlockException($"未找到鉴权配置[{AuthorizationConfig.ConfigKey}]");
             context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
                 {

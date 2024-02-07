@@ -4,6 +4,7 @@ using COSXML.Model.Bucket;
 using COSXML.Model.Object;
 using COSXML.Model.Tag;
 using COSXML.Transfer;
+using Materal.Abstractions;
 
 namespace Materal.Utils.CloudStorage.Tencent
 {
@@ -178,7 +179,7 @@ namespace Materal.Utils.CloudStorage.Tencent
         /// <exception cref="TencentCloudStorageException"></exception>
         public async Task DownloadObjectAsync(string savePath, string key, string? bucketName = null)
         {
-            string directoryPath = Path.GetDirectoryName(savePath);
+            string directoryPath = Path.GetDirectoryName(savePath) ?? throw new MateralException("获取文件名称失败");
             string fileName = Path.GetFileName(savePath);
             await DownloadObjectAsync(directoryPath, fileName, key, bucketName);
         }

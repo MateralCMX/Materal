@@ -11,7 +11,7 @@ namespace MBC.Demo.Common
         /// <summary>
         /// 默认密码
         /// </summary>
-        public static string DefaultPassword => MateralCoreConfig.GetValue("DefaultPassword");
+        public static string DefaultPassword => MateralCoreConfig.GetConfigItemToString("DefaultPassword");
         /// <summary>
         /// 加密密码
         /// </summary>

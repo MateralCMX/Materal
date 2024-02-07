@@ -24,8 +24,8 @@ namespace RC.Deploy.Application
             context.Services.AddSignalR();
             IConfigurationSection configurationSection = context.Configuration.GetSection("Deploy");
             context.Services.Configure<ApplicationConfig>(configurationSection);
-            string? serviceName = configurationSection.GetValue("ServiceName") ?? "RCDeploy";
-            string? serviceDescription = configurationSection.GetValue("ServiceDescription") ?? "RC发布服务";
+            string? serviceName = configurationSection.GetConfigItemToString("ServiceName") ?? "RCDeploy";
+            string? serviceDescription = configurationSection.GetConfigItemToString("ServiceDescription") ?? "RC发布服务";
             context.Services.AddConsulConfig(serviceName, ["RC.Deploy", serviceDescription]);
         }
     }

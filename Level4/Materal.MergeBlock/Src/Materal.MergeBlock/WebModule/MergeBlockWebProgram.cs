@@ -114,10 +114,10 @@ namespace Materal.MergeBlock.WebModule
             context.WebApplication.MapControllers();
             List<Uri> urlsList = []; //URLS
             IConfiguration configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-            string? urlsValue = configuration.GetValue("URLS");
+            string? urlsValue = configuration.GetConfigItemToString("URLS");
             if (context.WebApplication.Environment.IsDevelopment() && string.IsNullOrWhiteSpace(urlsValue))
             {
-                urlsValue ??= configuration.GetValue("ASPNETCORE_URLS");
+                urlsValue ??= configuration.GetConfigItemToString("ASPNETCORE_URLS");
             }
             urlsValue ??= "http://localhost:5000";
             string[] urls = urlsValue.Split(";");

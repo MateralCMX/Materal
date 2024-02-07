@@ -32,7 +32,7 @@ namespace Materal.Oscillator.Abstractions
             get
             {
                 if (_maxConcurrency != null) return _maxConcurrency.Value;
-                string? enableAsyncString = _configuration?.GetValue(GetTrueKey(nameof(MaxConcurrency)));
+                string? enableAsyncString = _configuration?.GetConfigItemToString(GetTrueKey(nameof(MaxConcurrency)));
                 _maxConcurrency = enableAsyncString == null || string.IsNullOrWhiteSpace(enableAsyncString) || !enableAsyncString.IsNumber() ? 5 : Convert.ToInt32(enableAsyncString);
                 return _maxConcurrency.Value;
             }

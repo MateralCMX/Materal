@@ -104,12 +104,12 @@ namespace Materal.Logger.ConfigModels
             IConfiguration? configuration = serviceProvider.GetService<IConfiguration>();
             if (configuration is not null)
             {
-                DefaultLogLevel = configuration.GetValueObject<Dictionary<string, LogLevelEnum>>("Logging:MateralLogger:LogLevel");
+                DefaultLogLevel = configuration.GetConfigItem<Dictionary<string, LogLevelEnum>>("Logging:MateralLogger:LogLevel");
                 List<ExpandoObject>? targets = GetTargetExpandoObjects(configuration);
                 if (targets is null || targets.Count <= 0) return;
                 foreach (ExpandoObject target in targets)
                 {
-                    string? targetTypeName = target.GetValue<string>(nameof(TargetConfig.Type));
+                    string? targetTypeName = target.GetObjectValue<string>(nameof(TargetConfig.Type));
                     if (targetTypeName is null || string.IsNullOrWhiteSpace(targetTypeName)) continue;
                     if (!TargetTypes.ContainsKey(targetTypeName)) continue;
                     Type targetConfigType = TargetTypes[targetTypeName];
@@ -144,7 +144,7 @@ namespace Materal.Logger.ConfigModels
         /// <returns></returns>
         private static List<ExpandoObject>? GetTargetExpandoObjects(IConfiguration configuration)
         {
-            string? targetsJson = configuration.GetValue("Logging:MateralLogger:Targets");
+            string? targetsJson = configuration.GetConfigItemToString("Logging:MateralLogger:Targets");
             if (targetsJson is null || string.IsNullOrWhiteSpace(targetsJson) || !targetsJson.IsArrayJson()) return null;
             object? targetsObj = targetsJson.ToExpandoObject();
             if (targetsObj is not List<ExpandoObject> targets) return null;

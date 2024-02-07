@@ -15,15 +15,15 @@ namespace Materal.BaseCore.Common
         /// <summary>
         /// 授权配置
         /// </summary>
-        public static JWTConfigModel JWTConfig => GetValueObject<JWTConfigModel>("JWT");
+        public static JWTConfigModel JWTConfig => GetConfigItem<JWTConfigModel>("JWT");
         /// <summary>
         /// 异常配置
         /// </summary>
-        public static ExceptionConfigModel ExceptionConfig => GetValueObject<ExceptionConfigModel>("Exception");
+        public static ExceptionConfigModel ExceptionConfig => GetConfigItem<ExceptionConfigModel>("Exception");
         /// <summary>
         /// 事件总线配置
         /// </summary>
-        public static EventBusConfigModel EventBusConfig => GetValueObject<EventBusConfigModel>(nameof(EventBusConfig));
+        public static EventBusConfigModel EventBusConfig => GetConfigItem<EventBusConfigModel>(nameof(EventBusConfig));
         /// <summary>
         /// 获取配置项
         /// </summary>
@@ -31,13 +31,13 @@ namespace Materal.BaseCore.Common
         /// <param name="name"></param>
         /// <param name="defatuleValue"></param>
         /// <returns></returns>
-        public static T GetValueObject<T>(string name, T? defatuleValue = default)
+        public static T GetConfigItem<T>(string name, T? defatuleValue = default)
             where T : new()
         {
             T? result = default;
             if (Configuration != null)
             {
-                result = Configuration.GetValueObject<T>(name);
+                result = Configuration.GetConfigItem<T>(name);
             }
             if (result != null) return result;
             return defatuleValue ?? new T();
@@ -48,12 +48,12 @@ namespace Materal.BaseCore.Common
         /// <param name="name"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static string GetValue(string name, string? defaultValue = null)
+        public static string GetConfigItemToString(string name, string? defaultValue = null)
         {
             string? result = null;
             if (Configuration != null)
             {
-                result = Configuration.GetValue(name);
+                result = Configuration.GetConfigItemToString(name);
             }
             if (!string.IsNullOrWhiteSpace(result)) return result;
             return defaultValue ?? string.Empty;

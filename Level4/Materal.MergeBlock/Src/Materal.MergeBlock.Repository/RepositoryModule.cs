@@ -44,7 +44,7 @@
         /// <exception cref="MergeBlockException"></exception>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            TDBConfigType dbConfig = context.Configuration.GetValueObject<TDBConfigType>(ConfigKey) ?? throw new MergeBlockException($"获取数据库配置[{ConfigKey}]失败");
+            TDBConfigType dbConfig = context.Configuration.GetConfigItem<TDBConfigType>(ConfigKey) ?? throw new MergeBlockException($"获取数据库配置[{ConfigKey}]失败");
             AddDBContext(context.Services, dbConfig);
             await base.OnConfigServiceAsync(context);
         }

@@ -86,7 +86,7 @@ namespace Materal.Test.ExtensionsTests
             Guid id = Guid.NewGuid();
             var data = new { ID = id.ToByteArray(), Name = "Materal" };
             object? value = data.ToExpandoObject();
-            Assert.AreEqual(id, value?.GetValue<Guid>(nameof(data.ID)));
+            Assert.AreEqual(id, value?.GetObjectValue<Guid>(nameof(data.ID)));
         }
     }
 }

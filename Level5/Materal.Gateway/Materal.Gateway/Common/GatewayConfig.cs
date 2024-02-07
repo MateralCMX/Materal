@@ -26,7 +26,7 @@
             T? result = default;
             if (Configuration != null)
             {
-                result = Configuration.GetValueObject<T>(name);
+                result = Configuration.GetConfigItem<T>(name);
             }
             if (result != null) return result;
             return defatuleValue ?? new T();
@@ -42,7 +42,7 @@
             string? result = null;
             if (Configuration != null)
             {
-                result = Configuration.GetValue(name);
+                result = Configuration.GetConfigItemToString(name);
             }
             if (!string.IsNullOrWhiteSpace(result)) return result;
             return defaultValue ?? string.Empty;

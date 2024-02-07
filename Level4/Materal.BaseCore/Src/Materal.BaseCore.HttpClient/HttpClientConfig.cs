@@ -15,7 +15,7 @@ namespace Materal.BaseCore.HttpClient
             get
             {
                 if (_httpClientConfig != null) return _httpClientConfig;
-                _httpClientConfig = MateralCoreConfig.GetValueObject<HttpClientUrlConfigModel>(nameof(HttpClienUrltConfig));
+                _httpClientConfig = MateralCoreConfig.GetConfigItem<HttpClientUrlConfigModel>(nameof(HttpClienUrltConfig));
                 return _httpClientConfig;
             }
         }

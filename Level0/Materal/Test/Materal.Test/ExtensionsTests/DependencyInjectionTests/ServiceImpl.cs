@@ -4,8 +4,10 @@ namespace Materal.Test.ExtensionsTests.DependencyInjectionTests
 {
     public class ServiceImpl : IService
     {
+#pragma warning disable CS0649
         [PropertyInjection]
         private IRepository? _repository;
+#pragma warning restore CS0649
         public void SayHello() => _repository?.SayHello();
     }
 }

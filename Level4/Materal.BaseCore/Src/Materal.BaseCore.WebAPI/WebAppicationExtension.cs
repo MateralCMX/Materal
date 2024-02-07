@@ -34,7 +34,7 @@ namespace Materal.BaseCore.WebAPI
             }
             if (app.Environment.IsDevelopment() && string.IsNullOrWhiteSpace(WebAPIConfig.BaseUrlConfig.Url))
             {
-                WebAPIConfig.BaseUrlConfig.Url = MateralCoreConfig.GetValue("ASPNETCORE_URLS");
+                WebAPIConfig.BaseUrlConfig.Url = MateralCoreConfig.GetConfigItemToString("ASPNETCORE_URLS");
             }
             if(WebAPIConfig.BaseUrlConfig.IsSSL)
             {

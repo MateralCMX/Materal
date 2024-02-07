@@ -44,7 +44,7 @@ namespace MBC.Core.CodeGenerator
             codeContent.AppendLine($"        {{");
             codeContent.AppendLine($"            get");
             codeContent.AppendLine($"            {{");
-            codeContent.AppendLine($"                SqliteConfigModel result = MateralCoreConfig.GetValueObject<SqliteConfigModel>(nameof(DBConfig), new SqliteConfigModel {{Source = \"./{model.CommonProject.ProjectName}.db\"}});");
+            codeContent.AppendLine($"                SqliteConfigModel result = MateralCoreConfig.GetConfigItem<SqliteConfigModel>(nameof(DBConfig), new SqliteConfigModel {{Source = \"./{model.CommonProject.ProjectName}.db\"}});");
             codeContent.AppendLine($"                if (result.Source.StartsWith(\"./\"))");
             codeContent.AppendLine($"                {{");
             codeContent.AppendLine($"                    result.Source = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, result.Source[2..]);");

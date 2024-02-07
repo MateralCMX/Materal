@@ -428,9 +428,9 @@ namespace System
         /// <param name="obj"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static T? GetValue<T>(this object obj, string name)
+        public static T? GetObjectValue<T>(this object obj, string name)
         {
-            object? resultObj = GetValue(obj, name);
+            object? resultObj = GetObjectValue(obj, name);
             if (resultObj is null || resultObj is not T result) return default;
             return result;
         }
@@ -441,9 +441,9 @@ namespace System
         /// <param name="obj"></param>
         /// <param name="names"></param>
         /// <returns></returns>
-        public static T? GetValue<T>(this object obj, params string[] names)
+        public static T? GetObjectValue<T>(this object obj, params string[] names)
         {
-            object? resultObj = GetValue(obj, names);
+            object? resultObj = GetObjectValue(obj, names);
             if (resultObj is null || resultObj is not T result) return default;
             return result;
         }
@@ -453,14 +453,14 @@ namespace System
         /// <param name="obj"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static object? GetValue(this object obj, string name)
+        public static object? GetObjectValue(this object obj, string name)
         {
             string[] trueNames = name.Split('.');
             if(trueNames.Length == 1)
             {
-                if (obj is ICollection collection) return collection.GetValue(name);
-                if (obj is IDictionary dic) return dic.GetValue(name);
-                if (obj is IDictionary<string, object> dicObj) return dicObj.GetValue(name);
+                if (obj is ICollection collection) return collection.GetObjectValue(name);
+                if (obj is IDictionary dic) return dic.GetObjectValue(name);
+                if (obj is IDictionary<string, object> dicObj) return dicObj.GetObjectValue(name);
                 PropertyInfo? propertyInfo = obj.GetType().GetRuntimeProperty(name);
                 if (propertyInfo is not null && propertyInfo.CanRead)
                 {
@@ -475,7 +475,7 @@ namespace System
             }
             else
             {
-                return obj.GetValue(trueNames);
+                return obj.GetObjectValue(trueNames);
             }
         }
         /// <summary>
@@ -484,12 +484,12 @@ namespace System
         /// <param name="obj"></param>
         /// <param name="names"></param>
         /// <returns></returns>
-        public static object? GetValue(this object obj, params string[] names)
+        public static object? GetObjectValue(this object obj, params string[] names)
         {
             object? currentObj = obj;
             foreach (string name in names)
             {
-                currentObj = currentObj?.GetValue(name);
+                currentObj = currentObj?.GetObjectValue(name);
                 if (currentObj is null) break;
             }
             return currentObj;
@@ -500,7 +500,7 @@ namespace System
         /// <param name="collection"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static object? GetValue(this ICollection collection, string name)
+        public static object? GetObjectValue(this ICollection collection, string name)
         {
             if (!name.IsNumber()) return null;
             int index = 0;
@@ -518,7 +518,7 @@ namespace System
         /// <param name="dic"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static object? GetValue(this IDictionary dic, string name)
+        public static object? GetObjectValue(this IDictionary dic, string name)
         {
             foreach (object? item in dic.Keys)
             {
@@ -532,6 +532,6 @@ namespace System
         /// <param name="dic"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static object? GetValue(this IDictionary<string, object> dic, string name) => dic.TryGetValue(name, out object? value) ? value : null;
+        public static object? GetObjectValue(this IDictionary<string, object> dic, string name) => dic.TryGetValue(name, out object? value) ? value : null;
     }
 }
