@@ -1,7 +1,11 @@
 using Materal.Gateway.OcelotExtension.Middleware;
 using Ocelot.Configuration;
 using Ocelot.DownstreamRouteFinder.UrlMatcher;
+#if NET8_0
 using Ocelot.DownstreamUrlCreator;
+#else
+using Ocelot.DownstreamUrlCreator.UrlTemplateReplacer;
+#endif
 using Ocelot.Logging;
 using Ocelot.Middleware;
 using Ocelot.Request.Middleware;

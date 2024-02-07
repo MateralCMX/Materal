@@ -440,7 +440,7 @@ namespace Materal.Gateway.Service
                 if (!next) continue;
                 if (routeConfigs.Exists(m => !string.IsNullOrWhiteSpace(m.ServiceName) && m.ServiceName == service.Service)) continue;
                 RouteConfigModel? routeConfigModel = ocelotConfigRepository.OcelotConfig.Routes.FirstOrDefault(m => !string.IsNullOrWhiteSpace(m.ServiceName) && m.ServiceName == service.Service);
-                if (routeConfigModel != null)
+                if (routeConfigModel is not null)
                 {
                     if (model.Mode == SyncModeEnum.Replace)
                     {

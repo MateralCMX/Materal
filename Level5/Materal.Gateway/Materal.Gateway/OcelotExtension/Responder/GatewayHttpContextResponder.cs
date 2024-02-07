@@ -37,7 +37,7 @@ namespace Materal.Gateway.OcelotExtension.Responder
             }
             SetStatusCode(context, (int)response.StatusCode);
             IHttpResponseFeature? httpResponseFeature = context.Response.HttpContext.Features.Get<IHttpResponseFeature>();
-            if (httpResponseFeature != null)
+            if (httpResponseFeature is not null)
             {
                 httpResponseFeature.ReasonPhrase = response.ReasonPhrase;
             }
@@ -50,13 +50,13 @@ namespace Materal.Gateway.OcelotExtension.Responder
                 AddHeaderIfDoesntExist(context, new Header(httpResponseHeader.Key, httpResponseHeader.Value));
             }
             var content = await response.Content.ReadAsStreamAsync();
-            if (response.Content.Headers.ContentLength != null)
+            if (response.Content.Headers.ContentLength is not null)
             {
                 AddHeaderIfDoesntExist(context, new Header("Content-Length", new[] { response.Content.Headers.ContentLength.ToString() }));
             }
             if (response is GatewayDownstreamResponse gatewayResponse)
             {
-                if (gatewayResponse.TrailingHeaders != null)
+                if (gatewayResponse.TrailingHeaders is not null)
                 {
                     foreach (KeyValuePair<string, IEnumerable<string>> header in gatewayResponse.TrailingHeaders)
                     {
@@ -87,7 +87,7 @@ namespace Materal.Gateway.OcelotExtension.Responder
         public async Task SetErrorResponseOnContext(HttpContext context, DownstreamResponse response)
         {
             Stream content = await response.Content.ReadAsStreamAsync();
-            if (response.Content.Headers.ContentLength != null)
+            if (response.Content.Headers.ContentLength is not null)
             {
                 AddHeaderIfDoesntExist(context, new Header("Content-Length", new[] { response.Content.Headers.ContentLength.ToString() }));
             }

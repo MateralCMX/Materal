@@ -46,7 +46,7 @@ namespace Materal.Gateway.OcelotExtension.Custom.Middleware
         /// <returns>是否继续执行</returns>
         private static bool UpdateDownstreamResponse(HttpContext httpContext, Response<HttpResponseMessage?> response, string reasonPhrase)
         {
-            if (response.Data != null)
+            if (response.Data is not null)
             {
                 httpContext.Items.UpsertDownstreamResponse(new GatewayDownstreamResponse(response.Data));
                 return false;

@@ -14,10 +14,18 @@ namespace Materal.Gateway.Application
     /// </summary>
     public class GatewayModule : MergeBlockWebModule, IMergeBlockWebModule
     {
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         public GatewayModule():base("网关模块", "Gateway")
         {
 
         }
+        /// <summary>
+        /// 配置服务之前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override Task OnConfigServiceBeforeAsync(IConfigServiceContext context)
         {
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ocelot.json");
@@ -49,7 +57,7 @@ namespace Materal.Gateway.Application
         {
             IOcelotConfigService ocelotConfigService = context.ServiceProvider.GetRequiredService<IOcelotConfigService>();
             await ocelotConfigService.InitAsync();
-            string managementPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Management");
+            string managementPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "GatewayManagement");
             DirectoryInfo managementDirectoryInfo = new(managementPath);
             if (!managementDirectoryInfo.Exists)
             {
@@ -65,11 +73,11 @@ namespace Materal.Gateway.Application
             await base.OnApplicationInitBeforeAsync(context);
         }
         /// <summary>
-        /// 应用程序初始化
+        /// 应用程序初始化之后
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public override async Task OnApplicationInitAsync(IWebApplicationContext context)
+        public override async Task OnApplicationInitAfterAsync(IWebApplicationContext context)
         {
             IWebHostEnvironment environment = context.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
             if (environment.IsDevelopment())

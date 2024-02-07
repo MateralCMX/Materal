@@ -32,7 +32,11 @@ namespace Materal.Gateway.OcelotConsulExtension
         /// 获取服务
         /// </summary>
         /// <returns></returns>
+#if NET8_0
         public async Task<List<Ocelot.Values.Service>> GetAsync()
+#else
+        public async Task<List<Ocelot.Values.Service>> Get()
+#endif
         {
             QueryResult<ServiceEntry[]> queryResult = await _consul.Health.Service(_config.KeyOfServiceInConsul, string.Empty, true);
             List<Ocelot.Values.Service> services = [];
@@ -54,10 +58,9 @@ namespace Materal.Gateway.OcelotConsulExtension
                 }
                 else
                 {
-                    _logger.LogWarning(() => $"Unable to use service address: '{service.Address}' and port: {service.Port} as it is invalid for the service: '{service.Service}'. Address must contain host only e.g. 'localhost', and port must be greater than 0.");
+                    _logger.LogWarning($"Unable to use service address: '{service.Address}' and port: {service.Port} as it is invalid for the service: '{service.Service}'. Address must contain host only e.g. 'localhost', and port must be greater than 0.");
                 }
             }
-
             return [.. services];
         }
         private static Ocelot.Values.Service BuildService(ServiceEntry serviceEntry, Node? serviceNode)

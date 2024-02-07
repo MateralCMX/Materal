@@ -1,7 +1,11 @@
 using Ocelot.Configuration;
 using Ocelot.Logging;
 using Ocelot.Middleware;
+#if NET8_0
 using Ocelot.WebSockets;
+#else
+using Ocelot.WebSockets.Middleware;
+#endif
 using System.Net.WebSockets;
 
 namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
@@ -63,7 +67,7 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
                 if (result.MessageType == WebSocketMessageType.Close)
                 {
                     WebSocketCloseStatus status = WebSocketCloseStatus.NormalClosure;
-                    if (source.CloseStatus != null)
+                    if (source.CloseStatus is not null)
                     {
                         status = source.CloseStatus.Value;
                     }

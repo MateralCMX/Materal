@@ -60,7 +60,7 @@ namespace Materal.Gateway.OcelotExtension.ServiceDiscovery
                 var sfConfig = new ServiceFabricConfiguration(config.Host, config.Port, route.ServiceName);
                 return new OkResponse<IServiceDiscoveryProvider>(new ServiceFabricServiceDiscoveryProvider(sfConfig));
             }
-            if (_delegates != null)
+            if (_delegates is not null)
             {
                 IServiceDiscoveryProvider? provider = _delegates?.Invoke(_provider, config, route);
                 if (provider == null || config.Type == null) throw new GatewayException("Íø¹Ø´íÎó");

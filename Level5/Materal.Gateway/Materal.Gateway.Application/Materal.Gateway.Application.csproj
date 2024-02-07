@@ -1,8 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<LangVersion>12.0</LangVersion>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="1.1.75" />
@@ -13,7 +16,7 @@
 		<ProjectReference Include="..\Materal.Gateway\Materal.Gateway.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="Management\**">
+		<None Update="GatewayManagement\**">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

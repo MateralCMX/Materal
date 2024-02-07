@@ -23,7 +23,7 @@ namespace Materal.Gateway.OcelotExtension.Requester
         {
             _cacheKey = downstreamRoute;
             var httpClient = cacheHandlers.Get(_cacheKey);
-            if (httpClient != null)
+            if (httpClient is not null)
             {
                 _client = httpClient;
                 return httpClient;

@@ -60,7 +60,7 @@ namespace Materal.Gateway.OcelotExtension
         {
             StringBuilder errorMessage = new();
             errorMessage.Append("Ocelot启动失败");
-            if (config != null && config.Errors.Count > 0)
+            if (config is not null && config.Errors.Count > 0)
             {
                 errorMessage.Append($"错误组: {string.Join(",", config.Errors.Select((Error x) => x.ToString()))}");
             }

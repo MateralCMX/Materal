@@ -41,7 +41,7 @@ namespace Materal.Gateway.OcelotExtension.Custom
             {
                 ICustomHandler handler = OcelotService.GetService<ICustomHandler>(handlerType);
                 result = await handler.AfterTransmitAsync(httpContext);
-                if (result.Data != null) return (result, handlerType.Name);
+                if (result.Data is not null) return (result, handlerType.Name);
                 if (result.IsError) return (result, handlerType.Name);
             }
             return (result, nameof(DefaultCustomHandlers));
@@ -58,7 +58,7 @@ namespace Materal.Gateway.OcelotExtension.Custom
             {
                 ICustomHandler handler = OcelotService.GetService<ICustomHandler>(handlerType);
                 result = await handler.BeforeTransmitAsync(httpContext);
-                if (result.Data != null) return (result, handlerType.Name);
+                if (result.Data is not null) return (result, handlerType.Name);
                 if (result.IsError) return (result, handlerType.Name);
             }
             return (result, nameof(DefaultCustomHandlers));

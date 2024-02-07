@@ -30,6 +30,14 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.Utils.Consul" Version="1.1.75" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Ocelot" Version="18.*" />
+		<PackageReference Include="Ocelot.Cache.CacheManager" Version="18.*" />
+		<PackageReference Include="Ocelot.Provider.Consul" Version="18.*" />
+		<PackageReference Include="Ocelot.Provider.Polly" Version="18.*" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
 		<PackageReference Include="Ocelot" Version="*" />
 		<PackageReference Include="Ocelot.Cache.CacheManager" Version="*" />
 		<PackageReference Include="Ocelot.Provider.Consul" Version="*" />
