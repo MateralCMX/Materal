@@ -300,6 +300,12 @@ namespace Materal.MergeBlock
                     LoadModules(moduleBuilders, moduleDirectoryInfo, autoRemoveAssemblies);
                 }
             }
+            foreach (string modulePath in mergeBlockConfig.CurrentValue.Modules)
+            {
+                DirectoryInfo moduleDirectoryInfo = new(modulePath);
+                if (!moduleDirectoryInfo.Exists) continue;
+                LoadModules(moduleBuilders, moduleDirectoryInfo, autoRemoveAssemblies);
+            }
         }
         /// <summary>
         /// 加载模块

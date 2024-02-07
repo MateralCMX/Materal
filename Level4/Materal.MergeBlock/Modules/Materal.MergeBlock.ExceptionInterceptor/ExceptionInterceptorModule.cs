@@ -15,6 +15,7 @@ namespace Materal.MergeBlock.ExceptionInterceptor
         {
 
         }
+#if NET8_0
         /// <summary>
         /// 配置服务前
         /// </summary>
@@ -25,6 +26,7 @@ namespace Materal.MergeBlock.ExceptionInterceptor
             context.Services.AddExceptionHandler<MergeBlockExceptionHandler>();
             return base.OnConfigServiceBeforeAsync(context);
         }
+#endif
         /// <summary>
         /// 配置服务
         /// </summary>

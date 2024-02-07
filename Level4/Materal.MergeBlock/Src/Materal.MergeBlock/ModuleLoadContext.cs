@@ -50,7 +50,7 @@ namespace Materal.MergeBlock
                 if (libraryPath == null) continue;
                 return LoadUnmanagedDllFromPath(libraryPath);
             }
-            return nint.Zero;
+            return 0;
         }
     }
 }

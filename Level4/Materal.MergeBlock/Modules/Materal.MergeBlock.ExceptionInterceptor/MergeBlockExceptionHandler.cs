@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿#if NET8_0
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -31,3 +32,4 @@ namespace Materal.MergeBlock.ExceptionInterceptor
         }
     }
 }
+#endif

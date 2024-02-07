@@ -88,5 +88,6 @@
     "Description": "提供WebAPI接口",
     "EnableAuthentication": null
   },
+  "Modules": [],
   "ModulesDirectories": []
 }

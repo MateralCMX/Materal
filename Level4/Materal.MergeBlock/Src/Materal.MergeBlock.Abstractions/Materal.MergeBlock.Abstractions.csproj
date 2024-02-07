@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<IsPackable>true</IsPackable>
 		<Version>1.1.75</Version>
 		<Company>古典部工作室</Company>
@@ -26,12 +25,17 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.Oscillator" Version="1.1.75" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="*" />
 		<PackageReference Include="Materal.EventBus.RabbitMQ" Version="1.1.75" />
 		<PackageReference Include="Materal.Logger" Version="1.1.75" />
 		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.75" />
 		<PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.75" />
 		<PackageReference Include="Materal.Utils.Consul" Version="1.1.75" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.*" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.MergeBlock.GeneratorCode\Materal.MergeBlock.GeneratorCode.csproj" />
