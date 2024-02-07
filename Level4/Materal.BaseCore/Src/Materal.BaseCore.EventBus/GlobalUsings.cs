@@ -5,4 +5,5 @@ global using Materal.TFMS.EventBus.RabbitMQ;
 global using Materal.TFMS.EventBus.RabbitMQ.Extensions;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
+global using RabbitMQ.Client;
 global using System.Reflection;

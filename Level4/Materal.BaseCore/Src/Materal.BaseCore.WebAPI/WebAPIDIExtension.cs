@@ -135,14 +135,6 @@ namespace Materal.BaseCore.WebAPI
              });
             #endregion
             services.AddEndpointsApiExplorer();
-            services.AddInterceptor<DataValidationInterceptorAttribute>((im, m) =>
-            {
-                string methodName = m.Name;
-                if (methodName.StartsWith("get_") || methodName.StartsWith("set_")) return false;
-                if (m.DeclaringType is null || !m.DeclaringType.IsAssignableTo<IBaseService>()) return false;
-                if (m.GetParameters().Length <= 0) return false;
-                return true;
-            });
             return services;
         }
     }

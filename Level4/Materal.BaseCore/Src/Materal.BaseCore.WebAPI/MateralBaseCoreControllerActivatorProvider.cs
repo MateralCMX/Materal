@@ -13,7 +13,7 @@ namespace Materal.BaseCore.WebAPI
             Func<ControllerContext, object> activator = _controllerActivatorProvider.CreateActivator(descriptor);
             object result(ControllerContext context)
             {
-                context.HttpContext.RequestServices = new MateralServiceProvider(context.HttpContext.RequestServices, MateralServiceProviderFactory.DIFilter);
+                context.HttpContext.RequestServices = new MateralServiceProvider(context.HttpContext.RequestServices);
                 object controller = activator(context);
                 return controller;
             }

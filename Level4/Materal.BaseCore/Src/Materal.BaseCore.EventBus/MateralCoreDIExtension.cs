@@ -1,6 +1,4 @@
-﻿using RabbitMQ.Client;
-
-namespace Materal.BaseCore.EventBus
+﻿namespace Materal.BaseCore.EventBus
 {
     /// <summary>
     /// 发布中心依赖注入扩展
@@ -63,7 +61,7 @@ namespace Materal.BaseCore.EventBus
                 ILogger<EventBusRabbitMQ>? logger = serviceProvider.GetService<ILogger<EventBusRabbitMQ>>();
                 IEventBusSubscriptionsManager eventBusSubscriptionsManager = serviceProvider.GetRequiredService<IEventBusSubscriptionsManager>();
                 EventBusRabbitMQ eventBus = new(rabbitMQPersistentConnection, serviceProvider, eventBusSubscriptionsManager, queueName, MateralCoreConfig.EventBusConfig.ExchangeName, false, logger);
-                if(subscribeHandlers != null)
+                if (subscribeHandlers != null)
                 {
                     while (subscribeHandlers.Count > 0)
                     {
@@ -76,7 +74,7 @@ namespace Materal.BaseCore.EventBus
                             {
                                 eventBus.SubscribeAsync(eventType, handler).Wait();
                             }
-                         }
+                        }
                         subscribeHandlers.RemoveAt(0);
                     }
                     subscribeHandlers = null;

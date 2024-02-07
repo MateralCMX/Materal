@@ -4,6 +4,7 @@ using Materal.BaseCore.DataTransmitModel;
 using Materal.BaseCore.Domain;
 using Materal.BaseCore.EFRepository;
 using Materal.BaseCore.Services;
+using Materal.Utils.Enums;
 
 namespace Materal.BaseCore.ServiceImpl
 {
