@@ -19,7 +19,7 @@ namespace Materal.Gateway.OcelotExtension.Repositories
         /// </summary>
         public OcelotConfigRepositoryImpl()
         {
-            _ocelotFileInfo = new(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Ocelot.json"));
+            _ocelotFileInfo = new(Path.Combine(GetType().Assembly.GetDirectoryPath(), "Ocelot.json"));
             Reload();
         }
         /// <summary>
