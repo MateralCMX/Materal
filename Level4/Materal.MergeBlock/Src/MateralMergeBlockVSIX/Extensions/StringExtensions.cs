@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using Materal.MergeBlock.GeneratorCode;
 using System.IO;
 using System.Text;
 
@@ -39,7 +40,7 @@ namespace MateralMergeBlockVSIX.Extensions
         public static DirectoryInfo GetGeneratorCodeRootDirectory(this SolutionItem solutionItem)
         {
             string path = Path.GetDirectoryName(solutionItem.FullPath);
-            path = Path.Combine(path, "MGC");
+            path = Path.Combine(path, GeneratorCodeContext.MGCDirectoryName);
             DirectoryInfo directoryInfo = new(path);
             if (!directoryInfo.Exists)
             {

@@ -14,6 +14,6 @@ namespace MateralMergeBlockVSIX.ToolWindows
             if (solution is null) return;
             ViewModel.Init(solution);
         }
-        private void GeneratorCodeButton_Click(object sender, System.Windows.RoutedEventArgs e) => ViewModel.GeneratorCode();
+        private void GeneratorCodeButton_Click(object sender, System.Windows.RoutedEventArgs e) => ThreadHelper.JoinableTaskFactory.Run(ViewModel.GeneratorCodeAsync);
     }
 }

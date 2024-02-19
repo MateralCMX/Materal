@@ -5,7 +5,6 @@ using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
 using Microsoft.VisualStudio.PlatformUI;
-using System.CodeDom;
 using System.Collections.Generic;
 using System.Text;
 
