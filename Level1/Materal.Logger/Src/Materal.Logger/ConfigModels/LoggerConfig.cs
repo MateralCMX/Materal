@@ -1,5 +1,4 @@
-﻿using Materal.Logger.ConsoleLogger;
-using System.Dynamic;
+﻿using System.Dynamic;
 using LogLevelEnum = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Materal.Logger.ConfigModels
@@ -40,8 +39,7 @@ namespace Materal.Logger.ConfigModels
                     try
                     {
                         Assembly assembly = Assembly.Load(Path.GetFileNameWithoutExtension(fileInfo.Name));
-                        Type[] targetConfigTypes = assembly.GetTypes().Where(m => !m.IsAbstract && m.IsClass && m.IsAssignableTo<TargetConfig>()).ToArray();
-                        foreach (Type targetConfigType in targetConfigTypes)
+                        foreach (Type targetConfigType in assembly.GetTypes<TargetConfig>())
                         {
                             TargetConfig? targetConfig = targetConfigType.InstantiationOrDefault<TargetConfig>();
                             if (targetConfig is null) continue;

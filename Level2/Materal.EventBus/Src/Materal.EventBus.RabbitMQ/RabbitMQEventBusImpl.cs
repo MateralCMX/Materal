@@ -45,7 +45,7 @@
         public override string Subscribe(Type eventType, Type eventHandlerType)
         {
             string exchangeName = eventBusConfig.CurrentValue.GetTrueExchangeName();
-            string queueName = eventBusConfig.CurrentValue.GetTrueQueueName(eventHandlerType, serviceProvider);
+            string queueName = eventBusConfig.CurrentValue.GetTrueQueueName(eventHandlerType, ServiceProvider);
             string eventName = base.Subscribe(eventType, eventHandlerType);
             IModel channel;
             if (!_consumerChannels.TryGetValue(queueName, out IModel? consumerChannel))
@@ -190,6 +190,11 @@
         {
             Type eventType = @event.GetType();
             object? handler = serviceProvider.GetService(handlerType);
+            if (handler is null)
+            {
+                logger?.LogWarning($"未找到处理器{handlerType.FullName}");
+                return true;
+            }
             if (eventBusConfig.CurrentValue.GetTrueQueueName(handler) != consumer.Model.CurrentQueue) return true;
             MethodInfo? methodInfo = handlerType.GetMethod(nameof(IEventHandler<IEvent>.HandleAsync), [eventType]);
             if (methodInfo is null) return true;

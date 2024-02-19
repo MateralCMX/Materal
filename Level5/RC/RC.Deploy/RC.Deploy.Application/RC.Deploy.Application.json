@@ -1,7 +1,7 @@
 ﻿{
   "Deploy": {
     "ServiceName": "RCDeployDEV",
-    "ServiceDescription": "测试发布服务",
+    "ServiceDescription": "开发发布服务",
     "UploadFilePath": "UploadFiles",
     "WinRarPath": "C:\\Program Files\\WinRAR",
     "RewriteConfig": {

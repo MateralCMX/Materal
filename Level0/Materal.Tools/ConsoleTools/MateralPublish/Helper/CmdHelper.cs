@@ -49,8 +49,9 @@ namespace MateralPublish.Helper
             }
             await process.StandardInput.WriteLineAsync("exit");
             process.StandardInput.AutoFlush = true;
-            process.WaitForExit();
-            process.Close();
+            await process.WaitForExitAsync();
+            //process.CloseMainWindow();
+            //process.Close();
         }
     }
 }

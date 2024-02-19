@@ -291,7 +291,25 @@ namespace MateralPublish.Models
             return fileContent.Contains("<IsPublish>true</IsPublish>");
         }
         #endregion
-        protected void CmdHelper_ErrorDataReceived(object sender, DataReceivedEventArgs e) => ConsoleHelper.WriteLine(e.Data, ConsoleColor.DarkRed);
-        protected void CmdHelper_OutputDataReceived(object sender, DataReceivedEventArgs e) => ConsoleHelper.WriteLine(e.Data, ConsoleColor.DarkGreen);
+        protected void CmdHelper_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if(string.IsNullOrWhiteSpace(e.Data)) return;
+            ConsoleHelper.WriteLine(e.Data, ConsoleColor.DarkRed);
+        }
+
+        protected void CmdHelper_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(e.Data)) return;
+            ConsoleColor consoleColor = ConsoleColor.DarkGreen;
+            if (e.Data.Contains(" error "))
+            {
+                consoleColor = ConsoleColor.DarkRed;
+            }
+            else if (e.Data.Contains(" warning "))
+            {
+                consoleColor = ConsoleColor.DarkYellow;
+            }
+            ConsoleHelper.WriteLine(e.Data, consoleColor);
+        }
     }
 }

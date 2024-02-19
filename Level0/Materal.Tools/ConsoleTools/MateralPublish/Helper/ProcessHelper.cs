@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text;
 
 namespace MateralPublish.Helper
 {
@@ -31,6 +32,7 @@ namespace MateralPublish.Helper
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 UseShellExecute = false,
+                StandardOutputEncoding = Encoding.UTF8,
                 Verb = "RunAs",
                 Arguments = arg
             };

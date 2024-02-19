@@ -52,7 +52,7 @@ namespace Materal.Oscillator.Extensions
         /// <returns></returns>
         public static IServiceCollection AddWorks(this IServiceCollection services, Assembly assembly)
         {
-            services.AddWorks(assembly.GetTypes());
+            services.AddWorks(assembly.GetTypes<IWork>().ToArray());
             return services;
         }
         /// <summary>

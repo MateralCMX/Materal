@@ -57,8 +57,7 @@ namespace Materal.MergeBlock
                 Assemblies.Add(assembly);
                 List<Attribute> attributes = assembly.GetCustomAttributes().ToList();
                 if (!assembly.HasCustomAttribute<MergeBlockAssemblyAttribute>()) continue;
-                List<Type> moduleTypes = assembly.GetTypes().Where(IsMergeBlockModule).ToList();
-                foreach (Type moduleType in moduleTypes)
+                foreach (Type moduleType in assembly.GetTypes<IMergeBlockModule>())
                 {
                     IModuleInfo? moduleInfo = null;
                     foreach (IModuleBuilder moduleBuilder in moduleBuilders)
@@ -69,25 +68,6 @@ namespace Materal.MergeBlock
                     moduleInfo ??= new ModuleInfo(this, moduleType);
                     ModuleInfos.Add(moduleInfo);
                 }
-            }
-        }
-        /// <summary>
-        /// 是否为MergeBlock模块
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        private static bool IsMergeBlockModule(Type type)
-        {
-            try
-            {
-                return type.IsClass && !type.IsAbstract && type.IsAssignableTo<IMergeBlockModule>();
-            }
-            catch (Exception ex)
-            {
-#if DEBUG
-                MergeBlockHost.Logger?.LogWarning(ex, ex.Message);
-#endif
-                return false;
             }
         }
     }

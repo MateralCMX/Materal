@@ -12,9 +12,7 @@
 		<PackageReference Include="Materal.MergeBlock.Authorization" Version="1.1.75" />
 		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="1.1.75" />
 		<PackageReference Include="Materal.MergeBlock.Logger" Version="1.1.75" />
+		<PackageReference Include="Materal.MergeBlock.Swagger" Version="1.1.75" />
 		<PackageReference Include="Materal.MergeBlock" Version="1.1.75" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\Materal.Gateway.Application\Materal.Gateway.Application.csproj" />
 	</ItemGroup>
 </Project>

@@ -27,7 +27,7 @@ namespace Materal.MergeBlock.Oscillator
             List<Assembly> oscillatorAssemblies = [];
             foreach (Assembly assembly in allAssemblies)
             {
-                if (!assembly.GetTypes().Any(m => !m.IsAbstract && m.IsClass && m.IsAssignableTo<IOscillatorSchedule>())) continue;
+                if (!assembly.GetTypes<IOscillatorSchedule>().Any()) continue;
                 oscillatorAssemblies.Add(assembly);
             }
             context.Services.AddOscillator([.. oscillatorAssemblies]);

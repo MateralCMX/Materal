@@ -6,11 +6,25 @@
     public static class AssemblyExtensions
     {
         /// <summary>
+        /// 获取类型 T 及其子类的实现
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetTypes<T>(this Assembly assembly)
+        {
+            if (assembly == null) yield break;
+            foreach (var type in assembly.GetTypes())
+            {
+                if (typeof(T).IsAssignableFrom(type) && type.IsPublic && type.IsClass && !type.IsAbstract) yield return type;
+            }
+        }
+        /// <summary>
         /// 获取所在文件夹路径
         /// </summary>
         /// <param name="assembly"></param>
         /// <returns></returns>
-        public static string GetDirectoryPath(this Assembly assembly) => Path.GetDirectoryName(assembly.Location) ?? throw new MateralException("获取所在文件夹路径");
+        public static string GetDirectoryPath(this Assembly assembly) => Path.GetDirectoryName(assembly.Location) ?? throw new MateralException("获取所在文件夹路径失败");
         /// <summary>
         /// 是否包含指定特性
         /// </summary>

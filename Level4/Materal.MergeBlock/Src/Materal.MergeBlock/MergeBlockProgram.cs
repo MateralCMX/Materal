@@ -70,16 +70,14 @@ namespace Materal.MergeBlock
             {
                 await m.ConfigServiceAsync(context);
                 if(processedAssemblies.Contains(m.ModuleType.Assembly)) return;
-                Type[] allTypes = m.ModuleType.Assembly.GetTypes();
                 #region AutoMapper
-                if (allTypes.Any(m => m.IsSubclassOf(typeof(Profile))))
+                if (m.ModuleType.Assembly.GetTypes<Profile>().Any())
                 {
                     autoMapperAssemblyList.Add(m.ModuleType.Assembly);
                 }
                 #endregion
                 #region 自动DI
-                List<Type> autoDITypes = allTypes.Where(m => m.IsClass && !m.IsAbstract && m.IsAssignableTo<IDependencyInjectionService>()).ToList();
-                foreach (Type type in autoDITypes)
+                foreach (Type type in m.ModuleType.Assembly.GetTypes<IDependencyInjectionService>())
                 {
                     AddAutoDI(type, services);
                 }

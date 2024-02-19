@@ -35,7 +35,7 @@ namespace RC.ServerCenter.Application
         /// <returns></returns>
         public override async Task OnApplicationInitBeforeAsync(IWebApplicationContext context)
         {
-            string managementPath = Path.Combine(GetType().Assembly.GetDirectoryPath(), "Management");
+            string managementPath = Path.Combine(GetType().Assembly.GetDirectoryPath(), "RCManagement");
             DirectoryInfo managementDirectoryInfo = new(managementPath);
             if (!managementDirectoryInfo.Exists)
             {

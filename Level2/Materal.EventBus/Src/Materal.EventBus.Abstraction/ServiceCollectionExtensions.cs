@@ -48,7 +48,7 @@ namespace Materal.EventBus.Abstraction
         /// <returns></returns>
         public static IServiceCollection AddEventBusHandler(this IServiceCollection services, Assembly handlerAssembly, bool autoSubscribe)
         {
-            foreach (Type eventHandlerType in handlerAssembly.GetTypes().Where(m => m.IsClass && !m.IsAbstract))
+            foreach (Type eventHandlerType in handlerAssembly.GetTypes<IEventHandler>())
             {
                 services.AddEventBusHandler(eventHandlerType, autoSubscribe);
             }

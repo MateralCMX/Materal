@@ -49,8 +49,7 @@ namespace Materal.MergeBlock.Oscillator
             List<IOscillatorSchedule> schedules = [];
             foreach (Assembly scheduleAssembly in scheduleAssemblies)
             {
-                Type[] oscillatorScheduleTypes = scheduleAssembly.GetTypes().Where(m => !m.IsAbstract && m.IsClass && m.IsAssignableTo<IOscillatorSchedule>()).ToArray();
-                foreach (Type oscillatorScheduleType in oscillatorScheduleTypes)
+                foreach (Type oscillatorScheduleType in scheduleAssembly.GetTypes<IOscillatorSchedule>())
                 {
                     object obj = oscillatorScheduleType.Instantiation([]);
                     if (obj is not IOscillatorSchedule oscillatorSchedule) continue;

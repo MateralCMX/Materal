@@ -1,22 +1,22 @@
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
-using Ocelot.Configuration;
 using Ocelot.Middleware;
 using Ocelot.Request.Middleware;
 using Ocelot.Requester;
 using Ocelot.Responses;
 using System.Xml;
 using Error = Ocelot.Errors.Error;
-using IHttpClientBuilder = Ocelot.Requester.IHttpClientBuilder;
 
 namespace Materal.Gateway.OcelotExtension.Requester
 {
+#if NET6_0
+    using IHttpClientBuilder = Ocelot.Requester.IHttpClientBuilder;
+    using Ocelot.Configuration;
     /// <summary>
     /// 网关HTTP请求器
     /// </summary>
-    public class GatewayHttpRequester(IExceptionToErrorMapper mapper, IDelegatingHandlerHandlerFactory factory, IHttpClientCache cacheHandlers) : IHttpRequester
+    public partial class GatewayHttpRequester(IExceptionToErrorMapper mapper, IDelegatingHandlerHandlerFactory factory, IHttpClientCache cacheHandlers)
     {
-        private const string RsultTypeKey = "ResultType";
         /// <summary>
         /// 获得响应
         /// </summary>
@@ -44,6 +44,43 @@ namespace Materal.Gateway.OcelotExtension.Requester
                 builder.Save();
             }
         }
+    }
+#else
+    /// <summary>
+    /// 网关HTTP请求器
+    /// </summary>
+    public partial class GatewayHttpRequester(IMessageInvokerPool messageHandlerPool, IExceptionToErrorMapper mapper)
+    {
+        /// <summary>
+        /// 获得响应
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <returns></returns>
+        public async Task<Response<HttpResponseMessage>> GetResponse(HttpContext httpContext)
+        {
+            DownstreamRequest downstreamRequest = httpContext.Items.DownstreamRequest();
+            HttpMessageInvoker messageInvoker = messageHandlerPool.Get(httpContext.Items.DownstreamRoute());
+            try
+            {
+                HttpRequestMessage httpRequestMessage = downstreamRequest.ToHttpRequestMessage();
+                HttpResponseMessage response = await messageInvoker.SendAsync(httpRequestMessage, httpContext.RequestAborted);
+                HttpResponseMessage result = await ConvertResponseAsync(httpContext, response);
+                return new OkResponse<HttpResponseMessage>(response);
+            }
+            catch (Exception exception)
+            {
+                Error error = mapper.Map(exception);
+                return new ErrorResponse<HttpResponseMessage>(error);
+            }
+        }
+    }
+#endif
+    /// <summary>
+    /// 网关HTTP请求器
+    /// </summary>
+    public partial class GatewayHttpRequester : IHttpRequester
+    {
+        private const string RsultTypeKey = "ResultType";
         /// <summary>
         /// 转换Response
         /// </summary>

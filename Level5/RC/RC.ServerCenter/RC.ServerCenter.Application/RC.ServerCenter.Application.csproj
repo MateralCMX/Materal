@@ -12,7 +12,7 @@
 		<ProjectReference Include="..\RC.ServerCenter.Repository\RC.ServerCenter.Repository.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="Management\**">
+		<None Update="RCManagement\**">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

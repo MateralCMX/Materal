@@ -3,8 +3,14 @@
     /// <summary>
     /// 事件处理器
     /// </summary>
+    public interface IEventHandler
+    {
+    }
+    /// <summary>
+    /// 事件处理器
+    /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface IEventHandler<T>
+    public interface IEventHandler<T> : IEventHandler
         where T : IEvent
     {
         /// <summary>

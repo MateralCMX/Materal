@@ -20,7 +20,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="NetCore.AutoRegisterDi" Version="2.2.0" />
+		<PackageReference Include="NetCore.AutoRegisterDi" Version="*" />
 		<PackageReference Include="Materal.Utils" Version="1.1.75" />
 	</ItemGroup>
 </Project>

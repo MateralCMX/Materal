@@ -52,7 +52,7 @@ export default abstract class BaseService {
         if (url.startsWith('/')) {
             url = url.substring(1);
         }
-        let trueUrl = `${config.baseUrl}/api/${this.controllerName}/${url}`;
+        let trueUrl = `${config.baseUrl}/GatewayAPI/${this.controllerName}/${url}`;
         if (data) {
             trueUrl += '?';
             for (const key in data) {

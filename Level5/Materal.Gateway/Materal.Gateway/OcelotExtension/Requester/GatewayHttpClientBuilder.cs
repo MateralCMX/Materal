@@ -1,4 +1,5 @@
-﻿using Ocelot.Configuration;
+﻿#if NET6_0
+using Ocelot.Configuration;
 using Ocelot.Requester;
 using IHttpClientBuilder = Ocelot.Requester.IHttpClientBuilder;
 
@@ -105,3 +106,4 @@ namespace Materal.Gateway.OcelotExtension.Requester
         }
     }
 }
+#endif
