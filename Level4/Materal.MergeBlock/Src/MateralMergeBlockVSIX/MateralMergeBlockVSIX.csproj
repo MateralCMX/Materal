@@ -82,7 +82,7 @@
     </Compile>
     <Compile Include="ToolWindows\ViewModels\SolutionNotOpenedViewModel.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerEnum.cs" />
-    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerHttpHelper.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerAccessors.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Controllers.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.AutoMapperProfile.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Services.cs" />

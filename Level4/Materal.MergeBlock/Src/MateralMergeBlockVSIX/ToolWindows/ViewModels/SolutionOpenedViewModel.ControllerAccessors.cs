@@ -22,6 +22,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             {
                 GeneratorControllerAccessor(controller);
             }
+            GeneratorControllerAccessorServiceCollectionExtensions(controllers);
         }
         /// <summary>
         /// 生成控制器访问器
@@ -33,7 +34,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{controller.DomainName};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{controller.DomainName};");
             codeContent.AppendLine($"");
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.HttpClient");
+            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.ControllerAccessors");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {controller.Annotation}访问器");
@@ -143,6 +144,38 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             codeContent.SaveAs(_moduleAbstractions, "ControllerAccessors", $"{controller.DomainName}ControllerAccessor.cs");
+        }
+        /// <summary>
+        /// 生成控制器访问器
+        /// </summary>
+        /// <param name="controller"></param>
+        private void GeneratorControllerAccessorServiceCollectionExtensions(List<IControllerModel> controllers)
+        {
+            StringBuilder codeContent = new();
+            codeContent.AppendLine($"using Microsoft.Extensions.DependencyInjection;");
+            codeContent.AppendLine($"using Microsoft.Extensions.DependencyInjection.Extensions;");
+            codeContent.AppendLine($"");
+            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.ControllerAccessors");
+            codeContent.AppendLine($"{{");
+            codeContent.AppendLine($"    /// <summary>");
+            codeContent.AppendLine($"    /// 服务集合扩展");
+            codeContent.AppendLine($"    /// </summary>");
+            codeContent.AppendLine($"    public static class ServiceCollectionExtensions");
+            codeContent.AppendLine($"    {{");
+            codeContent.AppendLine($"        /// <summary>");
+            codeContent.AppendLine($"        /// 添加控制器访问器");
+            codeContent.AppendLine($"        /// </summary>");
+            codeContent.AppendLine($"        /// <param name=\"services\"></param>");
+            codeContent.AppendLine($"        public static void Add{_moduleName}ControllerAccessors(this IServiceCollection services)");
+            codeContent.AppendLine($"        {{");
+            foreach (IControllerModel controller in controllers)
+            {
+                codeContent.AppendLine($"            services.TryAddSingleton<I{controller.DomainName}Controller, {controller.DomainName}ControllerAccessor>();");
+            }
+            codeContent.AppendLine($"        }}");
+            codeContent.AppendLine($"    }}");
+            codeContent.AppendLine($"}}");
+            codeContent.SaveAs(_moduleAbstractions, "ControllerAccessors", "ServiceCollectionExtensions.cs");
         }
     }
 }

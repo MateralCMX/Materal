@@ -32,6 +32,31 @@ namespace Materal.MergeBlock.Abstractions.WebModule.Extensions
             return data.Data;
         }
         /// <summary>
+        /// 获取数据
+        /// </summary>
+        /// <typeparam name="TAddRequestModel"></typeparam>
+        /// <typeparam name="TEditRequestModel"></typeparam>
+        /// <typeparam name="TQueryRequestModel"></typeparam>
+        /// <typeparam name="TDTO"></typeparam>
+        /// <typeparam name="TListDTO"></typeparam>
+        /// <param name="controller"></param>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        /// <exception cref="MergeBlockModuleException"></exception>
+        public static async Task<ICollection<TListDTO>> GetDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, IEnumerable<Guid> ids)
+            where TAddRequestModel : class, IAddRequestModel, new()
+            where TEditRequestModel : class, IEditRequestModel, new()
+            where TQueryRequestModel : IQueryRequestModel, new()
+            where TDTO : class, IDTO, new()
+            where TListDTO : class, IListDTO, new()
+        {
+            TQueryRequestModel requestModel = new()
+            {
+                IDs = [.. ids]
+            };
+            return await controller.GetDataAsync(requestModel);
+        }
+        /// <summary>
         /// 获得第一个或默认
         /// </summary>
         /// <typeparam name="TAddRequestModel"></typeparam>
@@ -79,6 +104,79 @@ namespace Materal.MergeBlock.Abstractions.WebModule.Extensions
                 PageSize = 1
             });
             return data.FirstOrDefault();
+        }
+        /// <summary>
+        /// 绑定数据
+        /// </summary>
+        /// <typeparam name="TAddRequestModel"></typeparam>
+        /// <typeparam name="TEditRequestModel"></typeparam>
+        /// <typeparam name="TQueryRequestModel"></typeparam>
+        /// <typeparam name="TDTO"></typeparam>
+        /// <typeparam name="TListDTO"></typeparam>
+        /// <param name="controller"></param>
+        /// <param name="id"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static async Task BindDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, Guid id, Action<TListDTO> action)
+            where TAddRequestModel : class, IAddRequestModel, new()
+            where TEditRequestModel : class, IEditRequestModel, new()
+            where TQueryRequestModel : IQueryRequestModel, new()
+            where TDTO : class, IDTO, new()
+            where TListDTO : class, IListDTO, new()
+        {
+            TListDTO? dto = await controller.FirstOrDefaultAsync(id);
+            if (dto is null) return;
+            action(dto);
+        }
+        /// <summary>
+        /// 绑定数据
+        /// </summary>
+        /// <typeparam name="TAddRequestModel"></typeparam>
+        /// <typeparam name="TEditRequestModel"></typeparam>
+        /// <typeparam name="TQueryRequestModel"></typeparam>
+        /// <typeparam name="TDTO"></typeparam>
+        /// <typeparam name="TListDTO"></typeparam>
+        /// <param name="controller"></param>
+        /// <param name="requestModel"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static async Task BindDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, TQueryRequestModel requestModel, Action<TListDTO> action)
+            where TAddRequestModel : class, IAddRequestModel, new()
+            where TEditRequestModel : class, IEditRequestModel, new()
+            where TQueryRequestModel : IQueryRequestModel, new()
+            where TDTO : class, IDTO, new()
+            where TListDTO : class, IListDTO, new()
+        {
+            ICollection<TListDTO> dtoList = await controller.GetDataAsync(requestModel);
+            foreach (TListDTO dto in dtoList)
+            {
+                action(dto);
+            }
+        }
+        /// <summary>
+        /// 绑定数据
+        /// </summary>
+        /// <typeparam name="TAddRequestModel"></typeparam>
+        /// <typeparam name="TEditRequestModel"></typeparam>
+        /// <typeparam name="TQueryRequestModel"></typeparam>
+        /// <typeparam name="TDTO"></typeparam>
+        /// <typeparam name="TListDTO"></typeparam>
+        /// <param name="controller"></param>
+        /// <param name="ids"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        public static async Task BindDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, IEnumerable<Guid> ids, Action<TListDTO> action)
+            where TAddRequestModel : class, IAddRequestModel, new()
+            where TEditRequestModel : class, IEditRequestModel, new()
+            where TQueryRequestModel : IQueryRequestModel, new()
+            where TDTO : class, IDTO, new()
+            where TListDTO : class, IListDTO, new()
+        {
+            ICollection<TListDTO> dtoList = await controller.GetDataAsync(ids);
+            foreach (TListDTO dto in dtoList)
+            {
+                action(dto);
+            }
         }
     }
 }
