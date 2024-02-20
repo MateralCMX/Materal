@@ -83,7 +83,7 @@
             await unitOfWork.CommitAsync();
         }
         /// <summary>
-        ///根据分组交换位序
+        ///根据分组交换位序与父级
         /// </summary>
         /// <typeparam name="TRepository"></typeparam>
         /// <typeparam name="TDomain"></typeparam>

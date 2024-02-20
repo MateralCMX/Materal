@@ -432,13 +432,13 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"            OnExchangeIndexBefore(model);");
                 if (indexGroupProperty is null)
                 {
-                    codeContent.AppendLine($"            await ServiceImplHelper.ExchangeIndexAndExchangeParentByGroupPropertiesAsync<I{domain.Name}Repository, {domain.Name}>(model, DefaultRepository, UnitOfWork);");
+                    codeContent.AppendLine($"            await ServiceImplHelper.ExchangeIndexByGroupPropertiesAsync<I{domain.Name}Repository, {domain.Name}>(model, DefaultRepository, UnitOfWork);");
                 }
                 else
                 {
                     if(treeGroupProperty is null)
                     {
-                        codeContent.AppendLine($"            await ServiceImplHelper.ExchangeIndexAndExchangeParentByGroupPropertiesAsync<I{domain.Name}Repository, {domain.Name}>(model, DefaultRepository, UnitOfWork, [nameof({domain.Name}.{indexGroupProperty.Name})]);");
+                        codeContent.AppendLine($"            await ServiceImplHelper.ExchangeIndexByGroupPropertiesAsync<I{domain.Name}Repository, {domain.Name}>(model, DefaultRepository, UnitOfWork, [nameof({domain.Name}.{indexGroupProperty.Name})]);");
                     }
                     else
                     {
