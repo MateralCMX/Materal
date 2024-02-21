@@ -21,5 +21,5 @@ class ProjectService extends BaseService {
         return await this.sendPostAsync("GetList", null, { ...requestModel, SortPropertyName: "Name", IsAsc: true });
     }
 }
-const service = new ProjectService(async () => "RCServerCenterAPI", "Project");
+const service = new ProjectService(async () => "RCServerCenter", "Project");
 export default service;

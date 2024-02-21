@@ -2,9 +2,9 @@ import { Message } from '@arco-design/web-vue';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import loginManagement from "../loginManagement";
 
+let baseUrl: string = location.origin;
 export default abstract class BaseService {
     protected controllerName: string;
-    public baseUrl: string = location.origin;
     public getServiceNameAsync: () => Promise<string>;
     constructor(serviceName: () => Promise<string>, controllerName: string) {
         this.controllerName = controllerName;
@@ -75,19 +75,19 @@ export default abstract class BaseService {
         return trueUrl;
     }
     protected async getUrlAsync(serviceName: string): Promise<string> {
-        if (this.baseUrl == location.origin) {
+        if (baseUrl === location.origin) {
             try {
-                const url = `${this.baseUrl}/ServerCenterAPI/Server/GetGatewayUrl`;
+                const url = `${baseUrl}/ServerCenterAPI/Server/GetBaseUrl`;
                 const httpResult = await axios.get(url, this.getAxiosRequestConfig());
                 const gatewayUrl = this.handlerHttpResult<string>(httpResult);
                 if (gatewayUrl) {
-                    this.baseUrl = gatewayUrl;
+                    baseUrl = gatewayUrl;
                 }
             } catch (error) {
-                this.baseUrl = "http://127.0.0.1:8700";
+                baseUrl = "http://127.0.0.1:8700";
             }
         }
-        let trueUrl = `${this.baseUrl}/${serviceName}`;
+        let trueUrl = `${baseUrl}/${serviceName}`;
         return trueUrl;
     }
     private handlerHttpResult<T>(httpResult: AxiosResponse<any, any>): T | null {

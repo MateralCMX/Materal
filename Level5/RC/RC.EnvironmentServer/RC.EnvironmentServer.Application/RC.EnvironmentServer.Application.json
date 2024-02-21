@@ -1,6 +1,6 @@
 ﻿{
   "EnvironmentServer": {
-    "ServiceName": "RCESDEV",
+    "ServiceName": "RCESDev",
     "ServiceDescription": "开发环境"
   }
 }

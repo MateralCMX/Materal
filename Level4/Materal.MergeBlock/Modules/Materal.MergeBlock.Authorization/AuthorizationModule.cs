@@ -1,14 +1,9 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule;
 using Materal.MergeBlock.Abstractions.WebModule.Authorization;
-using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace Materal.MergeBlock.Authorization
 {

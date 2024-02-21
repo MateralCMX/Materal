@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<IsPublish>true</IsPublish>
 	</PropertyGroup>
 	<ItemGroup>

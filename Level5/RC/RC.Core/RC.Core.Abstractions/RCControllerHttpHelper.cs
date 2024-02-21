@@ -29,7 +29,7 @@ namespace RC.Core.Abstractions
             }
             string controller = controllerName;
             controller = controller[1..^10];
-            return $"{Config.CurrentValue.BaseUrl}/RC{moduleName}API/api/{controller}/{action}";
+            return $"{Config.CurrentValue.BaseUrl}/RC{moduleName}/api/{controller}/{action}";
         }
     }
 }

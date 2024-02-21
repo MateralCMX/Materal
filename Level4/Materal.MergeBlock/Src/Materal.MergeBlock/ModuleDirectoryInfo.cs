@@ -52,21 +52,28 @@ namespace Materal.MergeBlock
             foreach (FileInfo dllFileInfo in moduleDllFileInfos)
             {
                 if (!dllFileInfo.Exists) continue;
-                Assembly? assembly = LoadContext.LoadFromAssemblyPath(dllFileInfo.FullName);
-                if (assembly is null) continue;
-                Assemblies.Add(assembly);
-                List<Attribute> attributes = assembly.GetCustomAttributes().ToList();
-                if (!assembly.HasCustomAttribute<MergeBlockAssemblyAttribute>()) continue;
-                foreach (Type moduleType in assembly.GetTypes<IMergeBlockModule>())
+                try
                 {
-                    IModuleInfo? moduleInfo = null;
-                    foreach (IModuleBuilder moduleBuilder in moduleBuilders)
+                    Assembly? assembly = LoadContext.LoadFromAssemblyPath(dllFileInfo.FullName);
+                    if (assembly is null) continue;
+                    Assemblies.Add(assembly);
+                    List<Attribute> attributes = assembly.GetCustomAttributes().ToList();
+                    if (!assembly.HasCustomAttribute<MergeBlockAssemblyAttribute>()) continue;
+                    foreach (Type moduleType in assembly.GetTypes<IMergeBlockModule>())
                     {
-                        moduleInfo = moduleBuilder.GetModuleInfo(this, moduleType);
-                        if (moduleInfo is not null) break;
+                        IModuleInfo? moduleInfo = null;
+                        foreach (IModuleBuilder moduleBuilder in moduleBuilders)
+                        {
+                            moduleInfo = moduleBuilder.GetModuleInfo(this, moduleType);
+                            if (moduleInfo is not null) break;
+                        }
+                        moduleInfo ??= new ModuleInfo(this, moduleType);
+                        ModuleInfos.Add(moduleInfo);
                     }
-                    moduleInfo ??= new ModuleInfo(this, moduleType);
-                    ModuleInfos.Add(moduleInfo);
+                }
+                catch(Exception ex)
+                {
+                    MergeBlockHost.Logger?.LogDebug(ex, $"加载文件[{dllFileInfo.FullName}]失败");
                 }
             }
         }

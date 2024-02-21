@@ -1,8 +1,8 @@
 ﻿{
   "Deploy": {
     "DBConfig": {
-      //"Source": "D:\\Project\\Materal\\Materal\\Level5\\RC\\RC.Deploy\\RC.Deploy.WebAPI\\bin\\RCDeployDEV.db",
-      "Source": "D:\\Project\\Materal\\Application\\DataBase\\RCDeployDEV.db"
+      //"Source": "D:\\Project\\Materal\\Materal\\Level5\\RC\\RC.Deploy\\RC.Deploy.WebAPI\\bin\\RCDeployDev.db",
+      "Source": "D:\\Project\\Materal\\Application\\DataBase\\RCDeployDev.db"
     }
   }
 }

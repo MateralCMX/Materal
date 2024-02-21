@@ -21,5 +21,5 @@ class NamespaceService extends BaseService {
         return await this.sendPostAsync("GetList", null, { ...requestModel, SortPropertyName: "Name", IsAsc: true });
     }
 }
-const service = new NamespaceService(async () => "RCServerCenterAPI", "Namespace");
+const service = new NamespaceService(async () => "RCServerCenter", "Namespace");
 export default service;

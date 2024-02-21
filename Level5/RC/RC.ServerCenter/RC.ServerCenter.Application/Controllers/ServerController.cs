@@ -7,7 +7,7 @@ namespace RC.ServerCenter.WebAPI.Controllers
     /// <summary>
     /// 服务控制器
     /// </summary>
-    public partial class ServerController(IMapper mapper, IConsulService consulService, IOptionsMonitor<ApplicationConfig> applicationConfig, IOptionsMonitor<MergeBlockConsulConfig> mergeBlockConsulConfig) : ServerCenterController
+    public partial class ServerController(IMapper mapper, IConsulService consulService, IOptionsMonitor<MergeBlockConfig> config, IOptionsMonitor<MergeBlockConsulConfig> mergeBlockConsulConfig) : ServerCenterController
     {
         /// <summary>
         /// 获得发布程序列表
@@ -18,6 +18,7 @@ namespace RC.ServerCenter.WebAPI.Controllers
         {
             List<ConsulServiceModel> consulServices = await consulService.GetServiceListAsync(mergeBlockConsulConfig.CurrentValue.ConsulUrl.Url, m => m.Tags != null && m.Tags.Length > 0 && m.Tags.Contains("RC.Deploy"));
             List<DeployListDTO> result = mapper.Map<List<DeployListDTO>>(consulServices) ?? throw new RCException("映射失败");
+            result = [.. result.OrderBy(m => m.Port)];
             return ResultModel<List<DeployListDTO>>.Success(result, "查询成功");
         }
         /// <summary>
@@ -29,13 +30,14 @@ namespace RC.ServerCenter.WebAPI.Controllers
         {
             List<ConsulServiceModel> consulServices = await consulService.GetServiceListAsync(mergeBlockConsulConfig.CurrentValue.ConsulUrl.Url, m => m.Tags != null && m.Tags.Length > 0 && m.Tags.Contains("RC.EnvironmentServer"));
             List<EnvironmentServerListDTO> result = mapper.Map<List<EnvironmentServerListDTO>>(consulServices) ?? throw new RCException("映射失败");
+            result = [.. result.OrderBy(m => m.Port)];
             return ResultModel<List<EnvironmentServerListDTO>>.Success(result, "查询成功");
         }
         /// <summary>
-        /// 获得网关地址
+        /// 获得基础地址
         /// </summary>
         /// <returns></returns>
         [HttpGet, AllowAnonymous]
-        public ResultModel<string> GetGatewayUrl() => ResultModel<string>.Success(applicationConfig.CurrentValue.GatewayUrl, "查询成功");
+        public ResultModel<string> GetBaseUrl() => ResultModel<string>.Success(config.CurrentValue.BaseUrl, "查询成功");
     }
 }

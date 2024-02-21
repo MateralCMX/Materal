@@ -32,7 +32,7 @@
       "IsSSL": false,
       "Path": "/api/Health"
     },
-    "ServiceNameSuffix": "API"
+    "ServiceNameSuffix": ""
   },
   "Exception": {
     "ShowException": false,

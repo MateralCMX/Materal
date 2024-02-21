@@ -10,5 +10,5 @@ class ServerService extends BaseService {
         return await this.sendGetAsync("GetEnvironmentServerList", null);
     }
 }
-const service = new ServerService(async () => "RCServerCenterAPI", "Server");
+const service = new ServerService(async () => "RCServerCenter", "Server");
 export default service;

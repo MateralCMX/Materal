@@ -33,5 +33,5 @@ class UserService extends BaseService {
         return await this.sendPostAsync("ResetPassword", { id }, null);
     }
 }
-const service = new UserService(async () => "RCAuthorityAPI", "User");
+const service = new UserService(async () => "RCAuthority", "User");
 export default service;

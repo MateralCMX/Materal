@@ -30,7 +30,7 @@ namespace RC.EnvironmentServer.Application
             await base.OnConfigServiceAsync(context);
             IConfigurationSection configurationSection = context.Configuration.GetSection("EnvironmentServer");
             context.Services.Configure<ApplicationConfig>(configurationSection);
-            string? serviceName = configurationSection.GetConfigItemToString("ServiceName") ?? "RCESAPI";
+            string? serviceName = configurationSection.GetConfigItemToString("ServiceName") ?? "RCES";
             string? serviceDescription = configurationSection.GetConfigItemToString("ServiceDescription") ?? "RC环境服务";
             context.Services.AddConsulConfig(serviceName, ["RC.EnvironmentServer", serviceDescription]);
             context.Services.TryAddSingleton<IServerController, ServerControllerAccessor>();
