@@ -6,7 +6,7 @@ namespace Materal.MergeBlock.GeneratorCode
     /// <summary>
     /// 生成代码插件上下文
     /// </summary>
-    public class GeneratorCodeContext(string coreAbstractionsPath, string coreRepositoryPath, string moduleAbstractionsPath, string moduleApplicationPath, string moduleRepositoryPath, string moduleWebAPIPath)
+    public class GeneratorCodeContext(string coreAbstractionsPath, string coreRepositoryPath, string moduleAbstractionsPath, string moduleApplicationPath, string moduleRepositoryPath, string moduleWebAPIPath, string projectName, string moduleName)
     {
         /// <summary>
         /// MGC文件夹名称
@@ -60,6 +60,14 @@ namespace Materal.MergeBlock.GeneratorCode
         /// 模块WebAPIMGC路径
         /// </summary>
         public string ModuleWebAPIMGCPath { get; } = Path.Combine(moduleWebAPIPath, MGCDirectoryName);
+        /// <summary>
+        /// 项目名称
+        /// </summary>
+        public string ProjectName { get; } = projectName;
+        /// <summary>
+        /// 模块名称
+        /// </summary>
+        public string ModuleName { get; } = moduleName;
         /// <summary>
         /// 领域
         /// </summary>

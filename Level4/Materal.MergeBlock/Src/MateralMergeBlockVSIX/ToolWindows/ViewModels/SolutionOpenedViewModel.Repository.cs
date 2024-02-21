@@ -205,7 +205,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 if (indexGroupPropertyModel is null)
                 {
                     codeContent.AppendLine($"        /// <returns></returns>");
-                    codeContent.AppendLine($"        Task<int> GetMaxIndexAsync();");
+                    codeContent.AppendLine($"        public async Task<int> GetMaxIndexAsync()");
                     codeContent.AppendLine($"        {{");
                     codeContent.AppendLine($"            if (!await DBSet.AnyAsync()) return -1;");
                     codeContent.AppendLine($"            int result = await DBSet.MaxAsync(m => m.Index);");
