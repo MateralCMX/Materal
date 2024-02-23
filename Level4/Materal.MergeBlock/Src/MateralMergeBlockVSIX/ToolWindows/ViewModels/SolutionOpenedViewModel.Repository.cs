@@ -30,7 +30,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// </summary>
         private void GeneratorEntityConfigCode(DomainModel domain)
         {
-            if (domain.HasAttribute<ViewAttribute>()) return;
             if (domain.HasAttribute<NotEntityConfigAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
@@ -51,6 +50,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"            builder.ToTable(m => m.HasComment(\"{domain.Annotation}\"));");
             foreach (PropertyModel property in domain.Properties)
             {
+                if(property.HasAttribute<NotEntityConfigAttribute>()) continue;
                 codeContent.AppendLine($"            builder.Property(e => e.{property.Name})");
                 if (!property.CanNull)
                 {

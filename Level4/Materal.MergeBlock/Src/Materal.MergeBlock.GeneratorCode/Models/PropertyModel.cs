@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.GeneratorCode.Extensions;
+﻿using Materal.MergeBlock.GeneratorCode.Attributers;
+using Materal.MergeBlock.GeneratorCode.Extensions;
 using System.ComponentModel.DataAnnotations;
 
 namespace Materal.MergeBlock.GeneratorCode.Models
@@ -49,54 +50,59 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// </summary>
         public List<AttributeModel> QueryAttributes { get; set; } = [];
         /// <summary>
+        /// 是否有查询特性
+        /// </summary>
+        public bool HasQueryAttribute => QueryAttributes.Count > 0;
+        /// <summary>
+        /// 更新验证特性
+        /// </summary>
+        public void UpdateValidationAttributes()
+        {
+            string[] validationWhiteList =
+            [
+                nameof(RequiredAttribute).RemoveAttributeSuffix(),
+                nameof(MinLengthAttribute).RemoveAttributeSuffix(),
+                nameof(MaxLengthAttribute).RemoveAttributeSuffix(),
+                nameof(StringLengthAttribute).RemoveAttributeSuffix()
+            ];
+            foreach (AttributeModel attribute in Attributes)
+            {
+                if (!validationWhiteList.Contains(attribute.Name)) continue;
+                VerificationAttributes.Add(attribute);
+            }
+        }
+        /// <summary>
+        /// 更新查询特性
+        /// </summary>
+        public void UpdateQueryAttributes()
+        {
+            string[] queryWhiteList =
+            [
+                nameof(EqualAttribute).RemoveAttributeSuffix(),
+                nameof(NotEqualAttribute).RemoveAttributeSuffix(),
+                nameof(ContainsAttribute).RemoveAttributeSuffix(),
+                nameof(GreaterThanAttribute).RemoveAttributeSuffix(),
+                nameof(GreaterThanOrEqualAttribute).RemoveAttributeSuffix(),
+                nameof(LessThanAttribute).RemoveAttributeSuffix(),
+                nameof(LessThanOrEqualAttribute).RemoveAttributeSuffix(),
+                nameof(StartContainsAttribute).RemoveAttributeSuffix(),
+                nameof(BetweenAttribute).RemoveAttributeSuffix()
+            ];
+            foreach (AttributeModel attribute in Attributes)
+            {
+                if (!queryWhiteList.Contains(attribute.Name)) continue;
+                QueryAttributes.Add(attribute);
+            }
+        }
+        /// <summary>
         /// 获得验证特性代码
         /// </summary>
         /// <returns></returns>
-        public string? GetVerificationAttributesCode()
-        {
-            if (VerificationAttributes.Count <= 0)
-            {
-                string[] validationWhiteList =
-                [
-                    nameof(RequiredAttribute).RemoveAttributeSuffix(),
-                    nameof(MinLengthAttribute).RemoveAttributeSuffix(),
-                    nameof(MaxLengthAttribute).RemoveAttributeSuffix(),
-                    nameof(StringLengthAttribute).RemoveAttributeSuffix()
-                ];
-                foreach (AttributeModel attribute in Attributes)
-                {
-                    if (!validationWhiteList.Contains(attribute.Name)) continue;
-                    VerificationAttributes.Add(attribute);
-                }
-            }
-            return VerificationAttributes.GetCode();
-        }
+        public string? GetVerificationAttributesCode() => VerificationAttributes.GetCode();
         /// <summary>
         /// 获得查询特性代码
         /// </summary>
         /// <returns></returns>
-        public string? GetQueryAttributesCode()
-        {
-            if (QueryAttributes.Count <= 0)
-            {
-                string[] queryWhiteList =
-                [
-                    nameof(EqualAttribute).RemoveAttributeSuffix(),
-                    nameof(NotEqualAttribute).RemoveAttributeSuffix(),
-                    nameof(ContainsAttribute).RemoveAttributeSuffix(),
-                    nameof(GreaterThanAttribute).RemoveAttributeSuffix(),
-                    nameof(GreaterThanOrEqualAttribute).RemoveAttributeSuffix(),
-                    nameof(LessThanAttribute).RemoveAttributeSuffix(),
-                    nameof(LessThanOrEqualAttribute).RemoveAttributeSuffix(),
-                    nameof(StartContainsAttribute).RemoveAttributeSuffix()
-                ];
-                foreach (AttributeModel attribute in Attributes)
-                {
-                    if (!queryWhiteList.Contains(attribute.Name)) continue;
-                    QueryAttributes.Add(attribute);
-                }
-            }
-            return QueryAttributes.GetCode();
-        }
+        public string? GetQueryAttributesCode() => QueryAttributes.GetCode();
     }
 }

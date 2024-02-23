@@ -31,7 +31,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domains"></param>
         private void GeneratorAutoMapperProfile(DomainModel domain, List<DomainModel> domains)
         {
-            if (domain.HasAttribute<NotServiceAttribute, ViewAttribute>()) return;
+            bool isGenerator = false;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
@@ -52,7 +52,8 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             DomainModel targetDomain =  domain.GetQueryDomain(domains);
             if (!domain.HasAttribute<NotAddAttribute>())
             {
-                if(targetDomain != domain)
+                isGenerator = true;
+                if (targetDomain != domain)
                 {
                     codeContent.AppendLine($"            CreateMap<Add{domain.Name}Model, {targetDomain.Name}>();");
                 }
@@ -64,6 +65,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             if (!domain.HasAttribute<NotEditAttribute>())
             {
+                isGenerator = true;
                 if (targetDomain != domain)
                 {
                     codeContent.AppendLine($"            CreateMap<Edit{domain.Name}Model, {targetDomain.Name}>();");
@@ -76,17 +78,28 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             if (!domain.HasAttribute<NotQueryAttribute>() && !domain.HasAttribute<NotControllerAttribute>())
             {
+                isGenerator = true;
                 codeContent.AppendLine($"            CreateMap<Query{domain.Name}RequestModel, Query{domain.Name}Model>();");
             }
             if (targetDomain != domain)
             {
+                isGenerator = true;
                 codeContent.AppendLine($"            CreateMap<{targetDomain.Name}, {domain.Name}ListDTO>();");
                 codeContent.AppendLine($"            CreateMap<{targetDomain.Name}, {domain.Name}DTO>();");
             }
-            codeContent.AppendLine($"            CreateMap<{domain.Name}, {domain.Name}ListDTO>();");
-            codeContent.AppendLine($"            CreateMap<{domain.Name}, {domain.Name}DTO>();");
+            if (!domain.HasAttribute<NotListDTOAttribute>())
+            {
+                isGenerator = true;
+                codeContent.AppendLine($"            CreateMap<{domain.Name}, {domain.Name}ListDTO>();");
+            }
+            if(!domain.HasAttribute<NotDTOAttribute>())
+            {
+                isGenerator = true;
+                codeContent.AppendLine($"            CreateMap<{domain.Name}, {domain.Name}DTO>();");
+            }
             if (domain.IsTreeDomain)
             {
+                isGenerator = true;
                 if (targetDomain != domain)
                 {
                     codeContent.AppendLine($"            CreateMap<{targetDomain.Name}, {domain.Name}TreeListDTO>();");
@@ -113,6 +126,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        }}");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
+            if (!isGenerator) return;
             codeContent.SaveAs(_moduleApplication, "AutoMapperProfile", $"{domain.Name}Profile.cs");
         }
     }

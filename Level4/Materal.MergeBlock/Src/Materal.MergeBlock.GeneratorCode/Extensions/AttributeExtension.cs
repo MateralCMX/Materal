@@ -7,6 +7,7 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
     /// </summary>
     public static class AttributeExtension
     {
+        #region DomainModel
         /// <summary>
         /// 是否拥有特性
         /// </summary>
@@ -51,27 +52,6 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
             where T3 : Attribute
             where T4 : Attribute => domain.Attributes.HasAttribute<T1>() || domain.Attributes.HasAttribute<T2>() || domain.Attributes.HasAttribute<T3>() || domain.Attributes.HasAttribute<T4>();
         /// <summary>
-        /// 是否拥有特性
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="property"></param>
-        /// <returns></returns>
-        public static bool HasAttribute<T>(this PropertyModel property) where T : Attribute => property.Attributes.HasAttribute<T>();
-        /// <summary>
-        /// 是否拥有特性
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="attributes"></param>
-        /// <returns></returns>
-        public static bool HasAttribute<T>(this List<AttributeModel> attributes) where T : Attribute => attributes.GetAttribute<T>() != null;
-        /// <summary>
-        /// 是否拥有特性
-        /// </summary>
-        /// <param name="attributes"></param>
-        /// <param name="attributeName"></param>
-        /// <returns></returns>
-        public static bool HasAttribute(this List<AttributeModel> attributes, string attributeName) => attributes.GetAttribute(attributeName) != null;
-        /// <summary>
         /// 获得特性
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -92,6 +72,51 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
         /// <param name="attributeName"></param>
         /// <returns></returns>
         public static AttributeModel? GetAttribute(this DomainModel domain, string attributeName) => domain.Attributes.GetAttribute(attributeName);
+        #endregion
+        #region PropertyModel
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T>(this PropertyModel property) where T : Attribute => property.Attributes.HasAttribute<T>();
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T1, T2>(this PropertyModel property)
+            where T1 : Attribute
+            where T2 : Attribute => property.Attributes.HasAttribute<T1>() || property.Attributes.HasAttribute<T2>();
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T1, T2, T3>(this PropertyModel property)
+            where T1 : Attribute
+            where T2 : Attribute
+            where T3 : Attribute => property.Attributes.HasAttribute<T1>() || property.Attributes.HasAttribute<T2>() || property.Attributes.HasAttribute<T3>();
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T1, T2, T3, T4>(this PropertyModel property)
+            where T1 : Attribute
+            where T2 : Attribute
+            where T3 : Attribute
+            where T4 : Attribute => property.Attributes.HasAttribute<T1>() || property.Attributes.HasAttribute<T2>() || property.Attributes.HasAttribute<T3>() || property.Attributes.HasAttribute<T4>();
         /// <summary>
         /// 获得特性
         /// </summary>
@@ -102,10 +127,99 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
         /// <summary>
         /// 获得特性
         /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="property"></param>
+        /// <returns></returns>
+        public static AttributeModel[] GetAttributes<T>(this PropertyModel property) where T : Attribute => property.Attributes.GetAttributes<T>();
+        /// <summary>
+        /// 获得特性
+        /// </summary>
         /// <param name="property"></param>
         /// <param name="attributeName"></param>
         /// <returns></returns>
         public static AttributeModel? GetAttribute(this PropertyModel property, string attributeName) => property.Attributes.GetAttribute(attributeName);
+        #endregion
+        #region EnumModel
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enum"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T>(this EnumModel @enum) where T : Attribute => @enum.Attributes.HasAttribute<T>();
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <param name="enum"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T1, T2>(this EnumModel @enum)
+            where T1 : Attribute
+            where T2 : Attribute => @enum.Attributes.HasAttribute<T1>() || @enum.Attributes.HasAttribute<T2>();
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <param name="enum"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T1, T2, T3>(this EnumModel @enum)
+            where T1 : Attribute
+            where T2 : Attribute
+            where T3 : Attribute => @enum.Attributes.HasAttribute<T1>() || @enum.Attributes.HasAttribute<T2>() || @enum.Attributes.HasAttribute<T3>();
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2"></typeparam>
+        /// <typeparam name="T3"></typeparam>
+        /// <typeparam name="T4"></typeparam>
+        /// <param name="enum"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T1, T2, T3, T4>(this EnumModel @enum)
+            where T1 : Attribute
+            where T2 : Attribute
+            where T3 : Attribute
+            where T4 : Attribute => @enum.Attributes.HasAttribute<T1>() || @enum.Attributes.HasAttribute<T2>() || @enum.Attributes.HasAttribute<T3>() || @enum.Attributes.HasAttribute<T4>();
+        /// <summary>
+        /// 获得特性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enum"></param>
+        /// <returns></returns>
+        public static AttributeModel? GetAttribute<T>(this EnumModel @enum) where T : Attribute => @enum.Attributes.GetAttribute<T>();
+        /// <summary>
+        /// 获得特性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enum"></param>
+        /// <returns></returns>
+        public static AttributeModel[] GetAttributes<T>(this EnumModel @enum) where T : Attribute => @enum.Attributes.GetAttributes<T>();
+        /// <summary>
+        /// 获得特性
+        /// </summary>
+        /// <param name="enum"></param>
+        /// <param name="attributeName"></param>
+        /// <returns></returns>
+        public static AttributeModel? GetAttribute(this EnumModel @enum, string attributeName) => @enum.Attributes.GetAttribute(attributeName);
+        #endregion
+        #region AttributeModel
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="attributes"></param>
+        /// <returns></returns>
+        public static bool HasAttribute<T>(this List<AttributeModel> attributes) where T : Attribute => attributes.GetAttribute<T>() != null;
+        /// <summary>
+        /// 是否拥有特性
+        /// </summary>
+        /// <param name="attributes"></param>
+        /// <param name="attributeName"></param>
+        /// <returns></returns>
+        public static bool HasAttribute(this List<AttributeModel> attributes, string attributeName) => attributes.GetAttribute(attributeName) != null;
         /// <summary>
         /// 获得特性
         /// </summary>
@@ -212,5 +326,6 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
             string code = $"[{string.Join(", ", attributeCodes)}]";
             return code;
         }
+        #endregion
     }
 }

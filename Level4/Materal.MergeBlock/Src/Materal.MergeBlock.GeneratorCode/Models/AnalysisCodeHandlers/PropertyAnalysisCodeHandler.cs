@@ -33,6 +33,8 @@
                 property.Initializer = propertyCode["{ get; set; } = ".Length..^1];
             }
             property.Annotation = StringHelper.GetAnnotationSetAttributes(codes, currentLine, property.Attributes);
+            property.UpdateValidationAttributes();
+            property.UpdateQueryAttributes();
             interfaceModel.Properties.Add(property);
             return false;
         }

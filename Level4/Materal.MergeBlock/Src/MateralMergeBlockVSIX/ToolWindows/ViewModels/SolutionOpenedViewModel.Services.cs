@@ -33,7 +33,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorAddModel(DomainModel domain)
         {
-            if (domain.HasAttribute<NotServiceAttribute, ViewAttribute, NotAddAttribute>()) return;
+            if (domain.HasAttribute<NotAddAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -57,7 +57,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorEditModel(DomainModel domain)
         {
-            if (domain.HasAttribute<NotServiceAttribute, ViewAttribute, NotEditAttribute>()) return;
+            if (domain.HasAttribute<NotEditAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -87,7 +87,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domains"></param>
         private void GeneratorQueryModel(DomainModel domain, List<DomainModel> domains)
         {
-            if (domain.HasAttribute<NotServiceAttribute, ViewAttribute, NotQueryAttribute>()) return;
+            if (domain.HasAttribute<NotQueryAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
@@ -99,23 +99,8 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    {{");
             foreach (PropertyModel property in targetDomain.Properties)
             {
-                if (property.HasAttribute<NotQueryAttribute>()) continue;
-                if (!property.HasAttribute<BetweenAttribute>())
-                {
-                    if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
-                    {
-                        codeContent.AppendLine($"        /// <summary>");
-                        codeContent.AppendLine($"        /// {property.Annotation}");
-                        codeContent.AppendLine($"        /// </summary>");
-                    }
-                    string? queryAttributesCode = property.GetQueryAttributesCode();
-                    if (queryAttributesCode is not null && !string.IsNullOrWhiteSpace(queryAttributesCode))
-                    {
-                        codeContent.AppendLine($"        {queryAttributesCode}");
-                    }
-                    codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
-                }
-                else
+                if (domain.HasAttribute<NotQueryAttribute>() || !property.HasQueryAttribute) continue;
+                if (property.HasAttribute<BetweenAttribute>())
                 {
                     if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
                     {
@@ -133,6 +118,21 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     }
                     codeContent.AppendLine($"        [LessThanOrEqual(\"{property.Name}\")]");
                     codeContent.AppendLine($"        public {property.NullPredefinedType} Max{property.Name} {{ get; set; }}");
+                }
+                else
+                {
+                    if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
+                    {
+                        codeContent.AppendLine($"        /// <summary>");
+                        codeContent.AppendLine($"        /// {property.Annotation}");
+                        codeContent.AppendLine($"        /// </summary>");
+                    }
+                    string? queryAttributesCode = property.GetQueryAttributesCode();
+                    if (queryAttributesCode is not null && !string.IsNullOrWhiteSpace(queryAttributesCode))
+                    {
+                        codeContent.AppendLine($"        {queryAttributesCode}");
+                    }
+                    codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
                 }
             }
             codeContent.AppendLine($"        /// <summary>");
@@ -160,8 +160,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorTreeQueryModel(DomainModel domain)
         {
-            if (!domain.IsTreeDomain) return;
-            if (domain.HasAttribute<NotServiceAttribute, ViewAttribute, NotQueryAttribute>()) return;
+            if (!domain.IsTreeDomain || domain.HasAttribute<NotQueryAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -175,7 +174,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        /// </summary>");
             codeContent.AppendLine($"        public Guid? ParentID {{ get; set; }}");
             PropertyModel? treePropertyModel = domain.GetTreeGroupProperty();
-            if(treePropertyModel is not null)
+            if (treePropertyModel is not null)
             {
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// {treePropertyModel.Annotation}");
@@ -208,7 +207,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domains"></param>
         private void GeneratorListDTOModel(DomainModel domain, List<DomainModel> domains)
         {
-            if (domain.HasAttribute<NotServiceAttribute, NotListDTOAttribute>()) return;
+            if (domain.HasAttribute<NotListDTOAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
@@ -244,7 +243,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domains"></param>
         private void GeneratorDTOModel(DomainModel domain, List<DomainModel> domains)
         {
-            if (domain.HasAttribute<NotServiceAttribute, NotDTOAttribute>()) return;
+            if (domain.HasAttribute<NotDTOAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
@@ -269,8 +268,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorTreeListDTOModel(DomainModel domain)
         {
-            if (domain.HasAttribute<NotServiceAttribute>()) return;
-            if (!domain.IsTreeDomain) return;
+            if (!domain.IsTreeDomain || domain.HasAttribute<NotListDTOAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -340,7 +338,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorIServicesCode(DomainModel domain)
         {
-            if (domain.HasAttribute<NotServiceAttribute, ViewAttribute>()) return;
+            if (domain.HasAttribute<NotServiceAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
@@ -393,7 +391,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorServiceImplsCode(DomainModel domain, List<DomainModel> domains)
         {
-            if (domain.HasAttribute<NotServiceAttribute, ViewAttribute>()) return;
+            if (domain.HasAttribute<NotServiceAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
@@ -436,7 +434,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 }
                 else
                 {
-                    if(treeGroupProperty is null)
+                    if (treeGroupProperty is null)
                     {
                         codeContent.AppendLine($"            await ServiceImplHelper.ExchangeIndexByGroupPropertiesAsync<I{domain.Name}Repository, {domain.Name}>(model, DefaultRepository, UnitOfWork, [nameof({domain.Name}.{indexGroupProperty.Name})]);");
                     }

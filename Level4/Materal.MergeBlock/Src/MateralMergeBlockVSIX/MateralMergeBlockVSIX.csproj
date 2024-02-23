@@ -81,10 +81,11 @@
       <DependentUpon>SolutionOpenedControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToolWindows\ViewModels\SolutionNotOpenedViewModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerMapper.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Plug.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerEnum.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerAccessors.cs" />
-    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Controllers.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Controller.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.AutoMapperProfile.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Services.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Repository.cs" />
