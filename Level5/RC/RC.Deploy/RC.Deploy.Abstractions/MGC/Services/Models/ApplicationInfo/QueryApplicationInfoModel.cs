@@ -26,6 +26,11 @@
         [Equal]
         public ApplicationTypeEnum? ApplicationType { get; set; }
         /// <summary>
+        /// 增量更新
+        /// </summary>
+        [Equal]
+        public bool? IsIncrementalUpdating { get; set; }
+        /// <summary>
         /// 唯一标识组
         /// </summary>
         [Contains("ID")]

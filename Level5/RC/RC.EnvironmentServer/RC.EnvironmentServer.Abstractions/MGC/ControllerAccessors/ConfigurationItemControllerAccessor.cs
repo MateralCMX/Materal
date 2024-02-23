@@ -1,7 +1,7 @@
 ﻿using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
 using RC.EnvironmentServer.Abstractions.RequestModel.ConfigurationItem;
 
-namespace RC.EnvironmentServer.Abstractions.HttpClient
+namespace RC.EnvironmentServer.Abstractions.ControllerAccessors
 {
     /// <summary>
     /// 配置项控制器访问器

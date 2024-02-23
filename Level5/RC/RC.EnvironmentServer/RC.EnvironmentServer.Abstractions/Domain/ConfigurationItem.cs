@@ -1,6 +1,4 @@
-﻿using Materal.MergeBlock.GeneratorCode.Attributers;
-
-namespace RC.EnvironmentServer.Abstractions.Domain
+﻿namespace RC.EnvironmentServer.Abstractions.Domain
 {
     /// <summary>
     /// 配置项
@@ -44,13 +42,11 @@ namespace RC.EnvironmentServer.Abstractions.Domain
         /// <summary>
         /// 值
         /// </summary>
-        [NotQuery]
         [Required(ErrorMessage = "值为空")]
         public string Value { get; set; } = string.Empty;
         /// <summary>
         /// 描述
         /// </summary>
-        [NotQuery]
         [Required(ErrorMessage = "描述为空"), StringLength(200, ErrorMessage = "描述过长")]
         public string Description { get; set; } = string.Empty;
     }

@@ -1,6 +1,4 @@
-﻿using Materal.MergeBlock.GeneratorCode.Attributers;
-
-namespace RC.Authority.Abstractions.Domain
+﻿namespace RC.Authority.Abstractions.Domain
 {
     /// <summary>
     /// 用户
@@ -22,7 +20,7 @@ namespace RC.Authority.Abstractions.Domain
         /// <summary>
         /// 密码
         /// </summary>
-        [NotDTO, NotListDTO, NotAdd, NotEdit, NotQuery]
+        [NotDTO, NotListDTO, NotAdd, NotEdit]
         [Required(ErrorMessage = "密码为空"), StringLength(100, ErrorMessage = "密码最多32个字符")]
         public string Password { get; set; } = string.Empty;
     }

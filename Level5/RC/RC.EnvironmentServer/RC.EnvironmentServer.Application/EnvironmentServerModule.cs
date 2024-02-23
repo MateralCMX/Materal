@@ -1,11 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Retry;
-using RC.ServerCenter.Abstractions.Controllers;
-using RC.ServerCenter.Abstractions.HttpClient;
-using System;
+using RC.ServerCenter.Abstractions.ControllerAccessors;
 
 namespace RC.EnvironmentServer.Application
 {
@@ -33,9 +30,7 @@ namespace RC.EnvironmentServer.Application
             string? serviceName = configurationSection.GetConfigItemToString("ServiceName") ?? "RCES";
             string? serviceDescription = configurationSection.GetConfigItemToString("ServiceDescription") ?? "RC环境服务";
             context.Services.AddConsulConfig(serviceName, ["RC.EnvironmentServer", serviceDescription]);
-            context.Services.TryAddSingleton<IServerController, ServerControllerAccessor>();
-            context.Services.TryAddSingleton<IProjectController, ProjectControllerAccessor>();
-            context.Services.TryAddSingleton<INamespaceController, NamespaceControllerAccessor>();
+            context.Services.AddServerCenterControllerAccessors();
         }
         /// <summary>
         /// 应用程序启动完毕

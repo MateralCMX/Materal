@@ -1,7 +1,7 @@
 ﻿using RC.Demo.Abstractions.DTO.User;
 using RC.Demo.Abstractions.RequestModel.User;
 
-namespace RC.Demo.Abstractions.HttpClient
+namespace RC.Demo.Abstractions.ControllerAccessors
 {
     /// <summary>
     /// 用户控制器访问器

@@ -36,12 +36,11 @@ namespace RC.Deploy.Abstractions.Domain
         /// <summary>
         /// 增量更新
         /// </summary>
-        [NotQuery]
+        [Equal]
         public bool IsIncrementalUpdating { get; set; }
         /// <summary>
         /// 运行参数
         /// </summary>
-        [NotQuery]
         public string? RunParams { get; set; }
     }
 }

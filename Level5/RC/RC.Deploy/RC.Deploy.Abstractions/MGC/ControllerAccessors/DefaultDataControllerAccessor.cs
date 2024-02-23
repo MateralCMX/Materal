@@ -1,7 +1,7 @@
 ﻿using RC.Deploy.Abstractions.DTO.DefaultData;
 using RC.Deploy.Abstractions.RequestModel.DefaultData;
 
-namespace RC.Deploy.Abstractions.HttpClient
+namespace RC.Deploy.Abstractions.ControllerAccessors
 {
     /// <summary>
     /// 默认数据控制器访问器

@@ -1,7 +1,7 @@
 ﻿using RC.ServerCenter.Abstractions.DTO.Server;
 using RC.ServerCenter.Abstractions.RequestModel.Server;
 
-namespace RC.ServerCenter.Abstractions.HttpClient
+namespace RC.ServerCenter.Abstractions.ControllerAccessors
 {
     /// <summary>
     /// 服务控制器访问器

@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.EnvironmentServer.Applic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.WebAPI", "..\RC.Core\RC.WebAPI\RC.WebAPI.csproj", "{3B8C042A-E7EC-4265-8A16-E9C978A47277}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServerCentent", "ServerCentent", "{2DC32123-3CE2-4438-BEBC-3E9C5C46F62B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Other", "Other", "{2DC32123-3CE2-4438-BEBC-3E9C5C46F62B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.ServerCenter.Abstractions", "..\RC.ServerCenter\RC.ServerCenter.Abstractions\RC.ServerCenter.Abstractions.csproj", "{7CA8A62A-0A73-4A85-A024-708488E291AC}"
 EndProject

@@ -1,7 +1,7 @@
 ﻿using RC.ServerCenter.Abstractions.DTO.Namespace;
 using RC.ServerCenter.Abstractions.RequestModel.Namespace;
 
-namespace RC.ServerCenter.Abstractions.HttpClient
+namespace RC.ServerCenter.Abstractions.ControllerAccessors
 {
     /// <summary>
     /// 命名空间控制器访问器

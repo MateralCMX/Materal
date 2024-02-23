@@ -1,7 +1,7 @@
 ﻿using RC.Deploy.Abstractions.DTO.ApplicationInfo;
 using RC.Deploy.Abstractions.RequestModel.ApplicationInfo;
 
-namespace RC.Deploy.Abstractions.HttpClient
+namespace RC.Deploy.Abstractions.ControllerAccessors
 {
     /// <summary>
     /// 应用程序信息控制器访问器
