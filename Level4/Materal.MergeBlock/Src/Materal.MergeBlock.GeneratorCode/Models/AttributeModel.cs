@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.GeneratorCode.Extensions;
+﻿using Materal.MergeBlock.GeneratorCode.Attributers;
+using Materal.MergeBlock.GeneratorCode.Extensions;
 using System.Text;
 
 namespace Materal.MergeBlock.GeneratorCode.Models
@@ -16,6 +17,10 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// 特性参数列表
         /// </summary>
         public List<AttributeArgumentModel> AttributeArguments { get; set; } = [];
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public AttributeModel() { }
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -91,5 +96,15 @@ namespace Materal.MergeBlock.GeneratorCode.Models
             }
             return codeContent.ToString();
         }
+        /// <summary>
+        /// 创建特性
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static AttributeModel Creatae<T>()
+            where T : Attribute => new()
+            {
+                Name = typeof(T).Name,
+            };
     }
 }

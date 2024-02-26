@@ -55,9 +55,6 @@
     <Compile Include="VSIXException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\.editorconfig">
-      <Link>.editorconfig</Link>
-    </None>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
@@ -75,7 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Materal.Utils.Windows">
-			<Version>1.1.75</Version>
+      <Version>1.1.75</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.SDK" Version="17.8.37222" ExcludeAssets="runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

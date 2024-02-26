@@ -13,313 +13,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
     public partial class SolutionOpenedViewModel : ObservableObject
     {
         /// <summary>
-        /// 创建操作模型
-        /// </summary>
-        /// <param name="domains"></param>
-        [GeneratorCodeMethod]
-        private void GeneratorOperationalModel(List<DomainModel> domains)
-        {
-            foreach (DomainModel domain in domains)
-            {
-                GeneratorAddModel(domain);
-                GeneratorEditModel(domain);
-                GeneratorQueryModel(domain, domains);
-                GeneratorTreeQueryModel(domain);
-            }
-        }
-        /// <summary>
-        /// 创建添加模型
-        /// </summary>
-        /// <param name="domain"></param>
-        private void GeneratorAddModel(DomainModel domain)
-        {
-            if (domain.HasAttribute<NotAddAttribute>()) return;
-            StringBuilder codeContent = new();
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
-            codeContent.AppendLine($"{{");
-            codeContent.AppendLine($"    /// <summary>");
-            codeContent.AppendLine($"    /// {domain.Annotation}添加模型");
-            codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial class Add{domain.Name}Model : IAddServiceModel");
-            codeContent.AppendLine($"    {{");
-            foreach (PropertyModel property in domain.Properties)
-            {
-                if (property.HasAttribute<NotAddAttribute>()) continue;
-                GeneratorOperationalModelProperty(codeContent, property);
-            }
-            codeContent.AppendLine($"    }}");
-            codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "Services", "Models", domain.Name, $"Add{domain.Name}Model.cs");
-        }
-        /// <summary>
-        /// 创建修改模型
-        /// </summary>
-        /// <param name="domain"></param>
-        private void GeneratorEditModel(DomainModel domain)
-        {
-            if (domain.HasAttribute<NotEditAttribute>()) return;
-            StringBuilder codeContent = new();
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
-            codeContent.AppendLine($"{{");
-            codeContent.AppendLine($"    /// <summary>");
-            codeContent.AppendLine($"    /// {domain.Annotation}修改模型");
-            codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial class Edit{domain.Name}Model : IEditServiceModel");
-            codeContent.AppendLine($"    {{");
-            codeContent.AppendLine($"        /// <summary>");
-            codeContent.AppendLine($"        /// 唯一标识");
-            codeContent.AppendLine($"        /// </summary>");
-            codeContent.AppendLine($"        [Required(ErrorMessage = \"唯一标识为空\")]");
-            codeContent.AppendLine($"        public Guid ID {{ get; set; }}");
-            foreach (PropertyModel property in domain.Properties)
-            {
-                if (property.HasAttribute<NotEditAttribute>()) continue;
-                GeneratorOperationalModelProperty(codeContent, property);
-            }
-            codeContent.AppendLine($"    }}");
-            codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "Services", "Models", domain.Name, $"Edit{domain.Name}Model.cs");
-        }
-        /// <summary>
-        /// 创建查询模型
-        /// </summary>
-        /// <param name="domain"></param>
-        /// <param name="domains"></param>
-        private void GeneratorQueryModel(DomainModel domain, List<DomainModel> domains)
-        {
-            if (domain.HasAttribute<NotQueryAttribute>()) return;
-            DomainModel targetDomain = domain.GetQueryDomain(domains);
-            StringBuilder codeContent = new();
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
-            codeContent.AppendLine($"{{");
-            codeContent.AppendLine($"    /// <summary>");
-            codeContent.AppendLine($"    /// {domain.Annotation}查询模型");
-            codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial class Query{domain.Name}Model : PageRequestModel, IQueryServiceModel");
-            codeContent.AppendLine($"    {{");
-            foreach (PropertyModel property in targetDomain.Properties)
-            {
-                if (domain.HasAttribute<NotQueryAttribute>() || !property.HasQueryAttribute) continue;
-                if (property.HasAttribute<BetweenAttribute>())
-                {
-                    if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
-                    {
-                        codeContent.AppendLine($"        /// <summary>");
-                        codeContent.AppendLine($"        /// 最小{property.Annotation}");
-                        codeContent.AppendLine($"        /// </summary>");
-                    }
-                    codeContent.AppendLine($"        [GreaterThanOrEqual(\"{property.Name}\")]");
-                    codeContent.AppendLine($"        public {property.NullPredefinedType} Min{property.Name} {{ get; set; }}");
-                    if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
-                    {
-                        codeContent.AppendLine($"        /// <summary>");
-                        codeContent.AppendLine($"        /// 最大{property.Annotation}");
-                        codeContent.AppendLine($"        /// </summary>");
-                    }
-                    codeContent.AppendLine($"        [LessThanOrEqual(\"{property.Name}\")]");
-                    codeContent.AppendLine($"        public {property.NullPredefinedType} Max{property.Name} {{ get; set; }}");
-                }
-                else
-                {
-                    if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
-                    {
-                        codeContent.AppendLine($"        /// <summary>");
-                        codeContent.AppendLine($"        /// {property.Annotation}");
-                        codeContent.AppendLine($"        /// </summary>");
-                    }
-                    string? queryAttributesCode = property.GetQueryAttributesCode();
-                    if (queryAttributesCode is not null && !string.IsNullOrWhiteSpace(queryAttributesCode))
-                    {
-                        codeContent.AppendLine($"        {queryAttributesCode}");
-                    }
-                    codeContent.AppendLine($"        public {property.NullPredefinedType} {property.Name} {{ get; set; }}");
-                }
-            }
-            codeContent.AppendLine($"        /// <summary>");
-            codeContent.AppendLine($"        /// 唯一标识组");
-            codeContent.AppendLine($"        /// </summary>");
-            codeContent.AppendLine($"        [Contains(\"ID\")]");
-            codeContent.AppendLine($"        public List<Guid>? IDs {{ get; set; }}");
-            codeContent.AppendLine($"        /// <summary>");
-            codeContent.AppendLine($"        /// 最小创建时间");
-            codeContent.AppendLine($"        /// </summary>");
-            codeContent.AppendLine($"        [GreaterThanOrEqual(\"CreateTime\")]");
-            codeContent.AppendLine($"        public DateTime? MinCreateTime {{ get; set; }}");
-            codeContent.AppendLine($"        /// <summary>");
-            codeContent.AppendLine($"        /// 最大创建时间");
-            codeContent.AppendLine($"        /// </summary>");
-            codeContent.AppendLine($"        [LessThanOrEqual(\"CreateTime\")]");
-            codeContent.AppendLine($"        public DateTime? MaxCreateTime {{ get; set; }}");
-            codeContent.AppendLine($"    }}");
-            codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "Services", "Models", domain.Name, $"Query{domain.Name}Model.cs");
-        }
-        /// <summary>
-        /// 创建树查询模型
-        /// </summary>
-        /// <param name="domain"></param>
-        private void GeneratorTreeQueryModel(DomainModel domain)
-        {
-            if (!domain.IsTreeDomain || domain.HasAttribute<NotQueryAttribute>()) return;
-            StringBuilder codeContent = new();
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name}");
-            codeContent.AppendLine($"{{");
-            codeContent.AppendLine($"    /// <summary>");
-            codeContent.AppendLine($"    /// {domain.Annotation}树查询模型");
-            codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial class Query{domain.Name}TreeListModel : FilterModel");
-            codeContent.AppendLine($"    {{");
-            codeContent.AppendLine($"        /// <summary>");
-            codeContent.AppendLine($"        /// 父级唯一标识");
-            codeContent.AppendLine($"        /// </summary>");
-            codeContent.AppendLine($"        public Guid? ParentID {{ get; set; }}");
-            PropertyModel? treePropertyModel = domain.GetTreeGroupProperty();
-            if (treePropertyModel is not null)
-            {
-                codeContent.AppendLine($"        /// <summary>");
-                codeContent.AppendLine($"        /// {treePropertyModel.Annotation}");
-                codeContent.AppendLine($"        /// </summary>");
-                codeContent.AppendLine($"        [Equal]");
-                codeContent.AppendLine($"        public {treePropertyModel.NullPredefinedType} {treePropertyModel.Name} {{ get; set; }}");
-            }
-            codeContent.AppendLine($"    }}");
-            codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "Services", "Models", domain.Name, $"Query{domain.Name}TreeListModel.cs");
-        }
-        /// <summary>
-        /// 创建列表数据传输模型
-        /// </summary>
-        /// <param name="domains"></param>
-        [GeneratorCodeMethod]
-        private void GeneratorDTOModel(List<DomainModel> domains)
-        {
-            foreach (DomainModel domain in domains)
-            {
-                GeneratorListDTOModel(domain, domains);
-                GeneratorDTOModel(domain, domains);
-                GeneratorTreeListDTOModel(domain);
-            }
-        }
-        /// <summary>
-        /// 创建列表数据传输模型
-        /// </summary>
-        /// <param name="domain"></param>
-        /// <param name="domains"></param>
-        private void GeneratorListDTOModel(DomainModel domain, List<DomainModel> domains)
-        {
-            if (domain.HasAttribute<NotListDTOAttribute>()) return;
-            DomainModel targetDomain = domain.GetQueryDomain(domains);
-            StringBuilder codeContent = new();
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
-            codeContent.AppendLine($"{{");
-            codeContent.AppendLine($"    /// <summary>");
-            codeContent.AppendLine($"    /// {domain.Annotation}列表数据传输模型");
-            codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial class {domain.Name}ListDTO : IListDTO");
-            codeContent.AppendLine($"    {{");
-            codeContent.AppendLine($"        /// <summary>");
-            codeContent.AppendLine($"        /// 唯一标识");
-            codeContent.AppendLine($"        /// </summary>");
-            codeContent.AppendLine($"        [Required(ErrorMessage = \"唯一标识为空\")]");
-            codeContent.AppendLine($"        public Guid ID {{ get; set; }}");
-            codeContent.AppendLine($"        /// <summary>");
-            codeContent.AppendLine($"        /// 创建时间");
-            codeContent.AppendLine($"        /// </summary>");
-            codeContent.AppendLine($"        [Required(ErrorMessage = \"创建时间为空\")]");
-            codeContent.AppendLine($"        public DateTime CreateTime {{ get; set; }}");
-            foreach (PropertyModel property in targetDomain.Properties)
-            {
-                if (property.HasAttribute<NotListDTOAttribute>()) continue;
-                GeneratorDTOModelProperty(codeContent, property);
-            }
-            codeContent.AppendLine($"    }}");
-            codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "DTO", domain.Name, $"{domain.Name}ListDTO.cs");
-        }
-        /// <summary>
-        /// 创建列表数据传输模型
-        /// </summary>
-        /// <param name="domain"></param>
-        /// <param name="domains"></param>
-        private void GeneratorDTOModel(DomainModel domain, List<DomainModel> domains)
-        {
-            if (domain.HasAttribute<NotDTOAttribute>()) return;
-            DomainModel targetDomain = domain.GetQueryDomain(domains);
-            StringBuilder codeContent = new();
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
-            codeContent.AppendLine($"{{");
-            codeContent.AppendLine($"    /// <summary>");
-            codeContent.AppendLine($"    /// {domain.Annotation}数据传输模型");
-            codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial class {domain.Name}DTO : {domain.Name}ListDTO, IDTO");
-            codeContent.AppendLine($"    {{");
-            foreach (PropertyModel property in targetDomain.Properties)
-            {
-                if (property.HasAttribute<NotDTOAttribute>() || !property.HasAttribute<NotListDTOAttribute>()) continue;
-                GeneratorDTOModelProperty(codeContent, property);
-            }
-            codeContent.AppendLine($"    }}");
-            codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "DTO", domain.Name, $"{domain.Name}DTO.cs");
-        }
-        /// <summary>
-        /// 创建树列表数据传输模型
-        /// </summary>
-        /// <param name="domain"></param>
-        private void GeneratorTreeListDTOModel(DomainModel domain)
-        {
-            if (!domain.IsTreeDomain || domain.HasAttribute<NotListDTOAttribute>()) return;
-            StringBuilder codeContent = new();
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
-            codeContent.AppendLine($"{{");
-            codeContent.AppendLine($"    /// <summary>");
-            codeContent.AppendLine($"    /// {domain.Annotation}树列表数据传输模型");
-            codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial class {domain.Name}TreeListDTO: {domain.Name}ListDTO, ITreeDTO<{domain.Name}TreeListDTO>");
-            codeContent.AppendLine($"    {{");
-            codeContent.AppendLine($"        /// <summary>");
-            codeContent.AppendLine($"        /// 子级");
-            codeContent.AppendLine($"        /// </summary>");
-            codeContent.AppendLine($"        public List<{domain.Name}TreeListDTO> Children {{ get; set; }} = [];");
-            codeContent.AppendLine($"    }}");
-            codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "DTO", domain.Name, $"{domain.Name}TreeListDTO.cs");
-        }
-        /// <summary>
-        /// 创建DTO模型属性
-        /// </summary>
-        /// <param name="codeContent"></param>
-        /// <param name="property"></param>
-        private void GeneratorDTOModelProperty(StringBuilder codeContent, PropertyModel property)
-        {
-            if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
-            {
-                codeContent.AppendLine($"        /// <summary>");
-                codeContent.AppendLine($"        /// {property.Annotation}");
-                codeContent.AppendLine($"        /// </summary>");
-            }
-            string? queryAttributesCode = property.GetVerificationAttributesCode();
-            if (queryAttributesCode is not null && !string.IsNullOrWhiteSpace(queryAttributesCode))
-            {
-                codeContent.AppendLine($"        {queryAttributesCode}");
-            }
-            codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }}");
-            if (property.Initializer is not null && !string.IsNullOrWhiteSpace(property.Initializer))
-            {
-                codeContent.Insert(codeContent.Length - 2, $"  = {property.Initializer};");
-            }
-            if (property.HasAttribute<DTOTextAttribute>())
-            {
-                if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
-                {
-                    codeContent.AppendLine($"        /// <summary>");
-                    codeContent.AppendLine($"        /// {property.Annotation}文本");
-                    codeContent.AppendLine($"        /// </summary>");
-                }
-                codeContent.AppendLine($"        public string {property.Name}Text => {property.Name}.GetDescription();");
-            }
-        }
-        /// <summary>
         /// 创建服务代码
         /// </summary>
         /// <param name="domains"></param>
@@ -404,15 +97,32 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             if (domain.HasAttribute<EmptyServiceAttribute>())
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
-            }
-            else if (targetDomain != domain)
-            {
-                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, I{targetDomain.Name}Repository, {domain.Name}, {targetDomain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                if (domain.HasAttribute<NotRepositoryAttribute>())
+                {
+                    codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                }
+                else
+                {
+                    if (targetDomain != domain)
+                    {
+                        codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<I{domain.Name}Repository, I{targetDomain.Name}Repository, {domain.Name}, {targetDomain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                    }
+                    else
+                    {
+                        codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<I{domain.Name}Repository, {domain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                    }
+                }
             }
             else
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, {domain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                if (targetDomain != domain)
+                {
+                    codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, I{targetDomain.Name}Repository, {domain.Name}, {targetDomain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                }
+                else
+                {
+                    codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, {domain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                }
             }
             codeContent.AppendLine($"    {{");
             PropertyModel? treeGroupProperty = null;

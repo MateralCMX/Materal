@@ -31,20 +31,10 @@
     /// <summary>
     /// 基础服务实现
     /// </summary>
-    /// <typeparam name="TAddModel"></typeparam>
-    /// <typeparam name="TEditModel"></typeparam>
-    /// <typeparam name="TQueryModel"></typeparam>
-    /// <typeparam name="TDTO"></typeparam>
-    /// <typeparam name="TListDTO"></typeparam>
     /// <typeparam name="TRepository"></typeparam>
     /// <typeparam name="TDomain"></typeparam>
     /// <typeparam name="TUnitOfWork"></typeparam>
-    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain, TUnitOfWork> : BaseServiceImpl<TUnitOfWork>, IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
-        where TAddModel : class, IAddServiceModel, new()
-        where TEditModel : class, IEditServiceModel, new()
-        where TQueryModel : PageRequestModel, IQueryServiceModel, new()
-        where TDTO : class, IDTO
-        where TListDTO : class, IListDTO
+    public abstract class BaseServiceImpl<TRepository, TDomain, TUnitOfWork> : BaseServiceImpl<TUnitOfWork>, IBaseService
         where TRepository : class, IEFRepository<TDomain, Guid>, IRepository
         where TDomain : class, IDomain, new()
         where TUnitOfWork : IMergeBlockUnitOfWork
@@ -54,6 +44,49 @@
         /// 默认仓储
         /// </summary>
         protected TRepository DefaultRepository => _defaultRepository ??= UnitOfWork.GetRepository<TRepository>();
+    }
+    /// <summary>
+    /// 基础服务实现
+    /// </summary>
+    /// <typeparam name="TRepository"></typeparam>
+    /// <typeparam name="TViewRepository"></typeparam>
+    /// <typeparam name="TDomain"></typeparam>
+    /// <typeparam name="TViewDomain"></typeparam>
+    /// <typeparam name="TUnitOfWork"></typeparam>
+    public abstract class BaseServiceImpl<TRepository, TViewRepository, TDomain, TViewDomain, TUnitOfWork> : BaseServiceImpl<TUnitOfWork>, IBaseService
+        where TRepository : class, IEFRepository<TDomain, Guid>, IRepository
+        where TViewRepository : class, IEFRepository<TViewDomain, Guid>, IRepository
+        where TDomain : class, IDomain, new()
+        where TViewDomain : class, IDomain, new()
+        where TUnitOfWork : IMergeBlockUnitOfWork
+    {
+        private TViewRepository? _defaultViewRepository;
+        /// <summary>
+        /// 默认视图仓储
+        /// </summary>
+        protected TViewRepository DefaultViewRepository => _defaultViewRepository ??= UnitOfWork.GetRepository<TViewRepository>();
+    }
+    /// <summary>
+    /// 基础服务实现
+    /// </summary>
+    /// <typeparam name="TAddModel"></typeparam>
+    /// <typeparam name="TEditModel"></typeparam>
+    /// <typeparam name="TQueryModel"></typeparam>
+    /// <typeparam name="TDTO"></typeparam>
+    /// <typeparam name="TListDTO"></typeparam>
+    /// <typeparam name="TRepository"></typeparam>
+    /// <typeparam name="TDomain"></typeparam>
+    /// <typeparam name="TUnitOfWork"></typeparam>
+    public abstract class BaseServiceImpl<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TRepository, TDomain, TUnitOfWork> : BaseServiceImpl<TRepository, TDomain, TUnitOfWork>, IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
+        where TAddModel : class, IAddServiceModel, new()
+        where TEditModel : class, IEditServiceModel, new()
+        where TQueryModel : PageRequestModel, IQueryServiceModel, new()
+        where TDTO : class, IDTO
+        where TListDTO : class, IListDTO
+        where TRepository : class, IEFRepository<TDomain, Guid>, IRepository
+        where TDomain : class, IDomain, new()
+        where TUnitOfWork : IMergeBlockUnitOfWork
+    {
         /// <summary>
         /// 添加
         /// </summary>

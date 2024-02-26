@@ -10,6 +10,15 @@ namespace ${ProjectName}.Demo.Application
     /// <summary>
     /// Demo控制器
     /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    [Route("DemoAPI/[controller]/[action]")]
+    public abstract class DemoController<TService> : MergeBlockControllerBase<TService>
+        where TService : IBaseService
+    {
+    }
+    /// <summary>
+    /// Demo控制器
+    /// </summary>
     /// <typeparam name="TAddRequestModel"></typeparam>
     /// <typeparam name="TEditRequestModel"></typeparam>
     /// <typeparam name="TQueryRequestModel"></typeparam>

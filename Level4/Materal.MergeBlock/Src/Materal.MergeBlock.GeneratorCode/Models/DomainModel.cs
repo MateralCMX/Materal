@@ -27,6 +27,5 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// </summary>
         /// <returns></returns>
         public PropertyModel? GetIndexGroupProperty() => Properties.FirstOrDefault(m => m.HasAttribute<IndexGroupAttribute>());
-
     }
 }

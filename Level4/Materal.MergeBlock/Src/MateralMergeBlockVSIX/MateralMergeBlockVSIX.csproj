@@ -82,11 +82,14 @@
     </Compile>
     <Compile Include="ToolWindows\ViewModels\SolutionNotOpenedViewModel.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerMapper.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.DTO.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Plug.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerEnum.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerAccessors.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Controller.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.AutoMapperProfile.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.RequesetModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ServicesModel.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Services.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Repository.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.cs" />

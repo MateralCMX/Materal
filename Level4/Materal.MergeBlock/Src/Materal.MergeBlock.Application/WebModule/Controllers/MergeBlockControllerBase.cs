@@ -8,6 +8,11 @@ namespace Materal.MergeBlock.Application.WebModule.Controllers
     [Route("api/[controller]/[action]"), ApiController]
     public abstract class MergeBlockControllerBase : ControllerBase
     {
+        private IMapper? _mapper;
+        /// <summary>
+        /// 自动映射
+        /// </summary>
+        protected IMapper Mapper => _mapper ??= HttpContext.RequestServices.GetRequiredService<IMapper>();
         /// <summary>
         /// 获得客户端IP
         /// </summary>
@@ -33,6 +38,19 @@ namespace Materal.MergeBlock.Application.WebModule.Controllers
     /// <summary>
     /// WebAPI服务控制器基类
     /// </summary>
+    /// <typeparam name="TService"></typeparam>
+    public abstract class MergeBlockControllerBase<TService> : MergeBlockControllerBase
+        where TService : IBaseService
+    {
+        private TService? _defaultService;
+        /// <summary>
+        /// 服务对象
+        /// </summary>
+        protected TService DefaultService => _defaultService ??= HttpContext.RequestServices.GetRequiredService<TService>();
+    }
+    /// <summary>
+    /// WebAPI服务控制器基类
+    /// </summary>
     /// <typeparam name="TAddRequestModel"></typeparam>
     /// <typeparam name="TEditRequestModel"></typeparam>
     /// <typeparam name="TQueryRequestModel"></typeparam>
@@ -42,7 +60,7 @@ namespace Materal.MergeBlock.Application.WebModule.Controllers
     /// <typeparam name="TDTO"></typeparam>
     /// <typeparam name="TListDTO"></typeparam>
     /// <typeparam name="TService"></typeparam>
-    public abstract class MergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService> : MergeBlockControllerBase, IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>
+    public abstract class MergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService> : MergeBlockControllerBase<TService>, IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>
         where TAddRequestModel : class, IAddRequestModel, new()
         where TEditRequestModel : class, IEditRequestModel, new()
         where TQueryRequestModel : IQueryRequestModel, new()
@@ -53,16 +71,6 @@ namespace Materal.MergeBlock.Application.WebModule.Controllers
         where TListDTO : class, IListDTO, new()
         where TService : IBaseService<TAddModel, TEditModel, TQueryModel, TDTO, TListDTO>
     {
-        private IMapper? _mapper;
-        /// <summary>
-        /// 自动映射
-        /// </summary>
-        protected IMapper Mapper => _mapper ??= HttpContext.RequestServices.GetRequiredService<IMapper>();
-        private TService? _defaultService;
-        /// <summary>
-        /// 服务对象
-        /// </summary>
-        protected TService DefaultService => _defaultService ??= HttpContext.RequestServices.GetRequiredService<TService>();
         /// <summary>
         /// 添加
         /// </summary>
