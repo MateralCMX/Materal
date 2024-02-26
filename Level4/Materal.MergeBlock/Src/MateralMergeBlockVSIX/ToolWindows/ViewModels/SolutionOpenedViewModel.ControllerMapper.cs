@@ -146,10 +146,22 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (!service.HasMapperMethod) return;
             StringBuilder codeContent = new();
-            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{service.DomainName};");
-            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{service.DomainName};");
-            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{service.DomainName};");
-            codeContent.AppendLine($"");
+            bool isUsing = false;
+            foreach (string usingCode in service.Usings)
+            {
+                string trueUsingCode = usingCode;
+                if (trueUsingCode.Contains($"{_projectName}.{_moduleName}.Abstractions.Services.Models"))
+                {
+                    codeContent.AppendLine($"using {usingCode};");
+                    trueUsingCode = trueUsingCode.Replace("Services.Models", "RequestModel");
+                }
+                codeContent.AppendLine($"using {trueUsingCode};");
+                isUsing = true;
+            }
+            if (isUsing)
+            {
+                codeContent.AppendLine($"");
+            }
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Application.Controllers");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");

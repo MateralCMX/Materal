@@ -1,5 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions.Oscillator;
-using Materal.MergeBlock.OscillatorTest.Works;
+using Materal.MergeBlock.OscillatorTest.WorkData;
 using Materal.Oscillator.Abstractions.Models;
 using Materal.Oscillator.PlanTriggers;
 

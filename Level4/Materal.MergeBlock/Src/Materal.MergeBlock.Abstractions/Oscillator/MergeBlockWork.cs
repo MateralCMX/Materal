@@ -62,6 +62,5 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
         /// <param name="autoRemove"></param>
         /// <returns></returns>
         protected TData? GetData<TData>(string workName, bool autoRemove = true) => OscillatorDataHelper.GetData<TData>(workName, autoRemove);
-
     }
 }

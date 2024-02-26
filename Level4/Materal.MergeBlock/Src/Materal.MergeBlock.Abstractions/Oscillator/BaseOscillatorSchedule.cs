@@ -47,8 +47,7 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
         /// 获得计划
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public virtual AddPlanModel GetPlan() => throw new NotImplementedException();
+        public abstract AddPlanModel GetPlan();
         /// <summary>
         /// 添加调度器
         /// </summary>

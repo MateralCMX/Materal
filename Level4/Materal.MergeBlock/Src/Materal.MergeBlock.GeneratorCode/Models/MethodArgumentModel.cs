@@ -45,8 +45,13 @@
             {
                 index = residualCode.LastIndexOf(']');
                 string attributeCode = residualCode[..(index + 1)];
+                if (attributeCode.EndsWith("[]"))
+                {
+                    index = attributeCode.LastIndexOf(' ');
+                    attributeCode = attributeCode[..index];
+                }
                 Attributes = AttributeModel.GetAttributes(attributeCode);
-                residualCode = residualCode[(index + 1)..].Trim();
+                residualCode = residualCode[attributeCode.Length..].Trim();
             }
             index = residualCode.IndexOf('=');
             if (index > 0)

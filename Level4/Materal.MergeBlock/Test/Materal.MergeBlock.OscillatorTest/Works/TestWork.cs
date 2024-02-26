@@ -1,4 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions.Oscillator;
+using Materal.MergeBlock.OscillatorTest.WorkData;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Works;
 using Microsoft.Extensions.Logging;
