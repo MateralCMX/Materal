@@ -31,9 +31,16 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         private void GeneratorControllerAccessor(IControllerModel controller)
         {
             StringBuilder codeContent = new();
-            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{controller.DomainName};");
-            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{controller.DomainName};");
-            codeContent.AppendLine($"");
+            bool isUsing = false;
+            foreach (string usingCode in controller.Usings)
+            {
+                codeContent.AppendLine($"using {usingCode};");
+                isUsing = true;
+            }
+            if (isUsing)
+            {
+                codeContent.AppendLine($"");
+            }
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.ControllerAccessors");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
@@ -146,7 +153,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.SaveAs(_moduleAbstractions, "ControllerAccessors", $"{controller.DomainName}ControllerAccessor.cs");
         }
         /// <summary>
-        /// 生成控制器访问器
+        /// 生成控制器访问器服务集合扩展
         /// </summary>
         /// <param name="controller"></param>
         private void GeneratorControllerAccessorServiceCollectionExtensions(List<IControllerModel> controllers)
