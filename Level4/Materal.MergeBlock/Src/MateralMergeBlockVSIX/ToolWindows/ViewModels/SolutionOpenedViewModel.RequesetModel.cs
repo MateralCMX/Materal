@@ -117,7 +117,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                         codeContent.AppendLine($"        /// 最小{property.Annotation}");
                         codeContent.AppendLine($"        /// </summary>");
                     }
-                    codeContent.AppendLine($"        [GreaterThanOrEqual(\"{property.Name}\")]");
                     codeContent.AppendLine($"        public {property.NullPredefinedType} Min{property.Name} {{ get; set; }}");
                     if (property.Annotation is not null && !string.IsNullOrWhiteSpace(property.Annotation))
                     {
@@ -125,7 +124,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                         codeContent.AppendLine($"        /// 最大{property.Annotation}");
                         codeContent.AppendLine($"        /// </summary>");
                     }
-                    codeContent.AppendLine($"        [LessThanOrEqual(\"{property.Name}\")]");
                     codeContent.AppendLine($"        public {property.NullPredefinedType} Max{property.Name} {{ get; set; }}");
                 }
             }
