@@ -137,18 +137,18 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             if (!isGenerator) return;
             if(hasDTO || hasRequestModel || hasServicesModel)
             {
-                codeContent.Insert(0, $"");
+                codeContent.Insert(0, $"\r\n");
                 if (hasDTO)
                 {
-                    codeContent.Insert(0, $"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
+                    codeContent.Insert(0, $"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};\r\n");
                 }
                 if (hasRequestModel)
                 {
-                    codeContent.Insert(0, $"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
+                    codeContent.Insert(0, $"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};\r\n");
                 }
                 if (hasServicesModel)
                 {
-                    codeContent.Insert(0, $"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
+                    codeContent.Insert(0, $"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};\r\n");
                 }
             }
             codeContent.SaveAs(_moduleApplication, "AutoMapperProfile", $"{domain.Name}Profile.cs");
