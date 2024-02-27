@@ -1,6 +1,6 @@
-﻿using RC.Deploy.Abstractions.DTO.DefaultData;
+﻿using RC.Deploy.Abstractions.Services.Models.DefaultData;
 using RC.Deploy.Abstractions.RequestModel.DefaultData;
-using RC.Deploy.Abstractions.Services.Models.DefaultData;
+using RC.Deploy.Abstractions.DTO.DefaultData;
 
 namespace RC.Deploy.Application.AutoMapperProfile
 {

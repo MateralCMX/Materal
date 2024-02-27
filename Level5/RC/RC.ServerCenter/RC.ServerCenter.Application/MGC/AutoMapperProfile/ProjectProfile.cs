@@ -1,6 +1,6 @@
-﻿using RC.ServerCenter.Abstractions.DTO.Project;
+﻿using RC.ServerCenter.Abstractions.Services.Models.Project;
 using RC.ServerCenter.Abstractions.RequestModel.Project;
-using RC.ServerCenter.Abstractions.Services.Models.Project;
+using RC.ServerCenter.Abstractions.DTO.Project;
 
 namespace RC.ServerCenter.Application.AutoMapperProfile
 {

@@ -1,6 +1,6 @@
-﻿using RC.Deploy.Abstractions.DTO.ApplicationInfo;
+﻿using RC.Deploy.Abstractions.Services.Models.ApplicationInfo;
 using RC.Deploy.Abstractions.RequestModel.ApplicationInfo;
-using RC.Deploy.Abstractions.Services.Models.ApplicationInfo;
+using RC.Deploy.Abstractions.DTO.ApplicationInfo;
 
 namespace RC.Deploy.Application.AutoMapperProfile
 {

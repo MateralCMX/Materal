@@ -1,6 +1,6 @@
-﻿using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
+﻿using RC.EnvironmentServer.Abstractions.Services.Models.ConfigurationItem;
 using RC.EnvironmentServer.Abstractions.RequestModel.ConfigurationItem;
-using RC.EnvironmentServer.Abstractions.Services.Models.ConfigurationItem;
+using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
 
 namespace RC.EnvironmentServer.Application.AutoMapperProfile
 {

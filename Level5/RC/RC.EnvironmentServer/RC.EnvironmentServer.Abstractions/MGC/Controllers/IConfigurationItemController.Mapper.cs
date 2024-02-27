@@ -1,4 +1,4 @@
-﻿using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
+﻿using Materal.MergeBlock.GeneratorCode.Attributers;
 using RC.EnvironmentServer.Abstractions.RequestModel.ConfigurationItem;
 
 namespace RC.EnvironmentServer.Abstractions.Controllers

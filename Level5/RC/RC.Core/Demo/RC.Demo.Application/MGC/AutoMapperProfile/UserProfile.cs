@@ -1,6 +1,6 @@
-﻿using RC.Demo.Abstractions.DTO.User;
+﻿using RC.Demo.Abstractions.Services.Models.User;
 using RC.Demo.Abstractions.RequestModel.User;
-using RC.Demo.Abstractions.Services.Models.User;
+using RC.Demo.Abstractions.DTO.User;
 
 namespace RC.Demo.Application.AutoMapperProfile
 {

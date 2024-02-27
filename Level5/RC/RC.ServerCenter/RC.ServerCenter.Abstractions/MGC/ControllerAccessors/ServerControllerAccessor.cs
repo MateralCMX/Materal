@@ -1,5 +1,5 @@
-﻿using RC.ServerCenter.Abstractions.DTO.Server;
-using RC.ServerCenter.Abstractions.RequestModel.Server;
+﻿using Microsoft.AspNetCore.Authorization;
+using RC.ServerCenter.Abstractions.DTO.Server;
 
 namespace RC.ServerCenter.Abstractions.ControllerAccessors
 {
@@ -28,5 +28,11 @@ namespace RC.ServerCenter.Abstractions.ControllerAccessors
         /// <returns></returns>
         public async Task<ResultModel<List<EnvironmentServerListDTO>>> GetEnvironmentServerListAsync()
             => await HttpHelper.SendAsync<IServerController, ResultModel<List<EnvironmentServerListDTO>>>(ProjectName, ModuleName, nameof(GetEnvironmentServerListAsync), []);
+        /// <summary>
+        /// 获得基础地址
+        /// </summary>
+        /// <returns></returns>
+        public ResultModel<string> GetBaseUrl()
+            => HttpHelper.SendAsync<IServerController, ResultModel<string>>(ProjectName, ModuleName, nameof(GetBaseUrl), []).Result;
     }
 }

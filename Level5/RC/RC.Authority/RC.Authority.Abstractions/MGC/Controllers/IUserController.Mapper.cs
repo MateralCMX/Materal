@@ -1,4 +1,5 @@
-﻿using RC.Authority.Abstractions.DTO.User;
+﻿using Materal.MergeBlock.GeneratorCode.Attributers;
+using RC.Authority.Abstractions.DTO.User;
 using RC.Authority.Abstractions.RequestModel.User;
 
 namespace RC.Authority.Abstractions.Controllers

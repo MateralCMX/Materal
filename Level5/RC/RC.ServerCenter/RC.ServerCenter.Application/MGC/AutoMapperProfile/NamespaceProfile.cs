@@ -1,6 +1,6 @@
-﻿using RC.ServerCenter.Abstractions.DTO.Namespace;
+﻿using RC.ServerCenter.Abstractions.Services.Models.Namespace;
 using RC.ServerCenter.Abstractions.RequestModel.Namespace;
-using RC.ServerCenter.Abstractions.Services.Models.Namespace;
+using RC.ServerCenter.Abstractions.DTO.Namespace;
 
 namespace RC.ServerCenter.Application.AutoMapperProfile
 {
