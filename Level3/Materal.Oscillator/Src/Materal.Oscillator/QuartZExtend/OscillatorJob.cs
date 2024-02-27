@@ -8,7 +8,6 @@ using Materal.Oscillator.Abstractions.Helper;
 using Materal.Oscillator.Abstractions.QuartZExtend;
 using Materal.Oscillator.Abstractions.Repositories;
 using Materal.Oscillator.Abstractions.Works;
-using Materal.TTA.Common;
 using Quartz;
 
 namespace Materal.Oscillator.QuartZExtend

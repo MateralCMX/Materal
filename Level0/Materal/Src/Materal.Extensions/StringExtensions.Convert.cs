@@ -49,11 +49,39 @@
         /// 根据类型名称获得对象
         /// </summary>
         /// <param name="typeName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? GetObjectByTypeName(this string typeName, Assembly assembly, params object[] args)
+        {
+            Type? type = typeName.GetTypeByTypeName(assembly, args);
+            if (type is null) return null;
+            return type.Instantiation(args);
+        }
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
         /// <param name="args"></param>
         /// <returns></returns>
         public static T? GetObjectByTypeName<T>(this string typeName, params object[] args)
         {
             Type? type = typeName.GetTypeByTypeName<T>(args);
+            if (type is null) return default;
+            object? typeObject = type.Instantiation(args);
+            if (typeObject is null || typeObject is not T result) return default;
+            return result;
+        }
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T? GetObjectByTypeName<T>(this string typeName, Assembly assembly, params object[] args)
+        {
+            Type? type = typeName.GetTypeByTypeName<T>(assembly, args);
             if (type is null) return default;
             object? typeObject = type.Instantiation(args);
             if (typeObject is null || typeObject is not T result) return default;

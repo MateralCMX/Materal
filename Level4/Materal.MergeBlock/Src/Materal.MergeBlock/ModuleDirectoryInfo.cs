@@ -1,4 +1,5 @@
-﻿using System.Runtime.Loader;
+﻿using System.IO;
+using System.Runtime.Loader;
 
 namespace Materal.MergeBlock
 {
@@ -31,22 +32,8 @@ namespace Materal.MergeBlock
         /// <param name="autoRemoveAssemblies"></param>
         public ModuleDirectoryInfo(DirectoryInfo directoryInfo, IEnumerable<IModuleBuilder> moduleBuilders, bool autoRemoveAssemblies)
         {
+            RemoveRootHasAssemblies(autoRemoveAssemblies, directoryInfo);
             FileInfo[] moduleDllFileInfos = directoryInfo.GetFiles("*.dll");
-            if (autoRemoveAssemblies)
-            {
-                DirectoryInfo rootDirectoryInfo = new(AppDomain.CurrentDomain.BaseDirectory);
-                FileInfo[] rootDllFileInfos = rootDirectoryInfo.GetFiles("*.dll");
-                string[] rootDllFileNames = rootDllFileInfos.Select(m => m.Name).ToArray();
-                foreach (FileInfo fileInfo in moduleDllFileInfos)
-                {
-                    if (rootDllFileNames.Contains(fileInfo.Name))
-                    {
-                        fileInfo.Delete();
-                        fileInfo.Refresh();
-                    }
-                }
-                moduleDllFileInfos = moduleDllFileInfos.Where(m => m.Exists).ToArray();
-            }
             DirectoryInfo = directoryInfo;            
             LoadContext = directoryInfo.FullName != AppDomain.CurrentDomain.BaseDirectory ? new ModuleLoadContext(directoryInfo) : AssemblyLoadContext.Default;
             foreach (FileInfo dllFileInfo in moduleDllFileInfos)
@@ -75,6 +62,45 @@ namespace Materal.MergeBlock
                 {
                     MergeBlockHost.Logger?.LogDebug(ex, $"加载文件[{dllFileInfo.FullName}]失败");
                 }
+            }
+        }
+        /// <summary>
+        /// 移除根目录下重复程序集
+        /// </summary>
+        /// <param name="autoRemoveAssemblies"></param>
+        /// <param name="moduleDirectoryInfo"></param>
+        private void RemoveRootHasAssemblies(bool autoRemoveAssemblies, DirectoryInfo moduleDirectoryInfo)
+        {
+            if (!autoRemoveAssemblies) return;
+            DirectoryInfo rootDirectoryInfo = new(AppDomain.CurrentDomain.BaseDirectory);
+            RemoveRootHasAssemblies(rootDirectoryInfo, moduleDirectoryInfo);
+        }
+        /// <summary>
+        /// 移除根目录下重复程序集
+        /// </summary>
+        /// <param name="rootDirectoryInfo"></param>
+        /// <param name="moduleDirectoryInfo"></param>
+        private static void RemoveRootHasAssemblies(DirectoryInfo rootDirectoryInfo, DirectoryInfo moduleDirectoryInfo)
+        {
+            FileInfo[] rootDllFileInfos = rootDirectoryInfo.GetFiles("*.dll");
+            string[] rootDllFileNames = rootDllFileInfos.Select(m => m.Name).ToArray();
+            FileInfo[] moduleDllFileInfos = moduleDirectoryInfo.GetFiles("*.dll");
+            foreach (FileInfo fileInfo in moduleDllFileInfos)
+            {
+                if (rootDllFileNames.Contains(fileInfo.Name))
+                {
+                    fileInfo.Delete();
+                    fileInfo.Refresh();
+                }
+            }
+            DirectoryInfo[] rootSubDirectoryInfos = rootDirectoryInfo.GetDirectories();
+            DirectoryInfo[] moduleSubDirectoryInfos = moduleDirectoryInfo.GetDirectories();
+            foreach (DirectoryInfo rootSubDirectoryInfo in rootSubDirectoryInfos)
+            {
+                DirectoryInfo? moduleSubDirectoryInfo = moduleSubDirectoryInfos.FirstOrDefault(m => m.Name == rootSubDirectoryInfo.Name);
+                if (moduleSubDirectoryInfo is null) continue;
+                RemoveRootHasAssemblies(rootSubDirectoryInfo, moduleSubDirectoryInfo);
+                if (moduleDirectoryInfo.GetFiles().Length == 0 && moduleDirectoryInfo.GetDirectories().Length == 0) moduleDirectoryInfo.Delete();
             }
         }
     }

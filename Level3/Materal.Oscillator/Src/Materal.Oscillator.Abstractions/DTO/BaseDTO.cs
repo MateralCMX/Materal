@@ -1,5 +1,4 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
-using System.ComponentModel.DataAnnotations;
 
 namespace Materal.Oscillator.Abstractions.DTO
 {

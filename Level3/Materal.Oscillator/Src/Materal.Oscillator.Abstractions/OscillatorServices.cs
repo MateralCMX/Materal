@@ -6,6 +6,10 @@
     public static class OscillatorServices
     {
         /// <summary>
+        /// 任务程序集
+        /// </summary>
+        public static Assembly[] WorkAssemblies { get; set; } = [];
+        /// <summary>
         /// 服务容器
         /// </summary>
         private static IServiceProvider? _services;

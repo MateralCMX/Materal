@@ -45,7 +45,8 @@
         public async Task AnswerFailAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Answer answer, Exception exception)
         {
             string message = await GetMessageTempleteAsync(schedule, scheduleWork, work, answer);
-            message += $"响应执行错误：{exception.Message}";
+            message += $"响应执行错误：\r\n";
+            message += exception.GetErrorMessage();
             ShowMessage(message, LogLevel.Error);
         }
         /// <summary>
@@ -169,7 +170,8 @@
         public async Task WorkErrorAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, Exception exception)
         {
             string message = await GetMessageTempleteAsync(schedule, scheduleWork);
-            message += $"任务错误：{exception.Message}";
+            message += $"任务错误：\r\n";
+            message += exception.GetErrorMessage();
             ShowMessage(message, LogLevel.Error);
         }
         /// <summary>

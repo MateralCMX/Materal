@@ -1,4 +1,6 @@
-﻿using Materal.Oscillator.Abstractions.Works;
+﻿using Dy.Oscillator.Abstractions;
+using Materal.Oscillator.Abstractions.Factories;
+using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.QuartZExtend;
 using Materal.Oscillator.Works;
 using Microsoft.Extensions.Configuration;
@@ -35,11 +37,12 @@ namespace Materal.Oscillator.Extensions
             {
                 OscillatorConfig.Init(configuration);
             }
-            services.AddWorks(typeof(ConsoleWork).Assembly);
-            foreach (Assembly assembly in assemblies)
+            OscillatorServices.WorkAssemblies = [typeof(ConsoleWork).Assembly, .. assemblies];
+            foreach (Assembly assembly in OscillatorServices.WorkAssemblies)
             {
                 services.AddWorks(assembly);
             }
+            services.AddSingleton<IOscillatorConvertFactory, OscillatorConvertFactory>();
             services.TryAddSingleton<IOscillatorHost, OscillatorHostImpl>();
             services.TryAddTransient<IJobListener, JobListener>();
             return services;

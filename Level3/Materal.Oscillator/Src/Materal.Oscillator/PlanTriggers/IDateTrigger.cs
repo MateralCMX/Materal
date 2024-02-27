@@ -1,9 +1,11 @@
-﻿namespace Materal.Oscillator.PlanTriggers
+﻿using Materal.Oscillator.Abstractions.Models;
+
+namespace Materal.Oscillator.PlanTriggers
 {
     /// <summary>
     /// 日期触发器
     /// </summary>
-    public interface IDateTrigger
+    public interface IDateTrigger : IOscillatorOperationModel<IDateTrigger>
     {
         /// <summary>
         /// 获得说明文本
@@ -30,11 +32,5 @@
         /// <param name="everyDayTrigger"></param>
         /// <returns></returns>
         public DateTimeOffset? GetNextRunTime(DateTimeOffset upRunTime, IEveryDayTrigger everyDayTrigger);
-        /// <summary>
-        /// 反序列化
-        /// </summary>
-        /// <param name="dateTriggerData"></param>
-        /// <returns></returns>
-        public IDateTrigger Deserialization(string dateTriggerData);
     }
 }

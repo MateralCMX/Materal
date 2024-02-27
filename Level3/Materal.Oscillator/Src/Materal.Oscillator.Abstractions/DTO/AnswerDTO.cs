@@ -1,7 +1,6 @@
 ﻿using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Helper;
-using System.ComponentModel.DataAnnotations;
 
 namespace Materal.Oscillator.Abstractions.DTO
 {

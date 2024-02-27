@@ -1,9 +1,11 @@
-﻿namespace Materal.Oscillator.PlanTriggers
+﻿using Materal.Oscillator.Abstractions.Models;
+
+namespace Materal.Oscillator.PlanTriggers
 {
     /// <summary>
     /// 每日计划触发器
     /// </summary>
-    public interface IEveryDayTrigger
+    public interface IEveryDayTrigger : IOscillatorOperationModel<IEveryDayTrigger>
     {
         /// <summary>
         /// 获得开始时间
@@ -28,11 +30,5 @@
         /// </summary>
         /// <returns></returns>
         public string GetDescriptionText();
-        /// <summary>
-        /// 反序列化
-        /// </summary>
-        /// <param name="everyDayTriggerData"></param>
-        /// <returns></returns>
-        public IEveryDayTrigger Deserialization(string everyDayTriggerData);
     }
 }
