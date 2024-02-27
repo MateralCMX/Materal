@@ -53,7 +53,7 @@
     /// <typeparam name="TDomain"></typeparam>
     /// <typeparam name="TViewDomain"></typeparam>
     /// <typeparam name="TUnitOfWork"></typeparam>
-    public abstract class BaseServiceImpl<TRepository, TViewRepository, TDomain, TViewDomain, TUnitOfWork> : BaseServiceImpl<TUnitOfWork>, IBaseService
+    public abstract class BaseServiceImpl<TRepository, TViewRepository, TDomain, TViewDomain, TUnitOfWork> : BaseServiceImpl<TRepository, TDomain, TUnitOfWork>, IBaseService
         where TRepository : class, IEFRepository<TDomain, Guid>, IRepository
         where TViewRepository : class, IEFRepository<TViewDomain, Guid>, IRepository
         where TDomain : class, IDomain, new()
