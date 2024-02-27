@@ -8,6 +8,74 @@ namespace Materal.MergeBlock.Abstractions.WebModule.Extensions
     public static class MergeBlockControllerExtensions
     {
         /// <summary>
+        /// 设置分页信息
+        /// </summary>
+        /// <param name="queryModel"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        private static void SetPageInfo(this object queryModel, int pageSize, int pageIndex)
+        {
+            Type queryType = queryModel.GetType();
+            queryType.GetProperty("PageIndex")?.SetValue(queryModel, pageIndex);
+            queryType.GetProperty("PageSize")?.SetValue(queryModel, pageSize);
+        }
+        /// <summary>
+        /// 获得查询模型
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="inputModel"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        private static (bool isQuery, T queryModel) GetQueryModel<T>(this object inputModel, int pageSize = 10, int pageIndex = 1)
+            where T : new()
+        {
+            bool isQuery = false;
+            T queryModel = new();
+            Type inputType = inputModel.GetType();
+            Type queryType = queryModel.GetType();
+            foreach (PropertyInfo inputPropertyInfo in inputType.GetProperties())
+            {
+                QueryPropertyAttribute? queryPropertyAttribute = inputPropertyInfo.GetCustomAttribute<QueryPropertyAttribute>();
+                if (queryPropertyAttribute == null) continue;
+                if (!string.IsNullOrWhiteSpace(queryPropertyAttribute.TypeName) && queryPropertyAttribute.TypeName != queryType.Name) continue;
+                PropertyInfo? queryPropertyInfo = queryType.GetProperty(queryPropertyAttribute.TargetProperty);
+                if (queryPropertyInfo == null) continue;
+                if (queryPropertyInfo.PropertyType != inputPropertyInfo.PropertyType) continue;
+                object? value = inputPropertyInfo.GetValue(inputModel);
+                if (value == null || value.IsNullOrWhiteSpaceString()) continue;
+                queryPropertyInfo.SetValue(queryModel, value);
+                isQuery = true;
+            }
+            if (isQuery)
+            {
+                queryModel.SetPageInfo(pageSize, pageIndex);
+            }
+            return (isQuery, queryModel);
+        }
+        /// <summary>
+        /// 获得数据
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="requestModel"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+        /// <returns></returns>
+        public static async Task<(bool isQuery, ICollection<TListDTO>? data)> GetDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, object requestModel, int pageSize = 10, int pageIndex = 1)
+            where TAddRequestModel : class, IAddRequestModel, new()
+            where TEditRequestModel : class, IEditRequestModel, new()
+            where TQueryRequestModel : IQueryRequestModel, new()
+            where TDTO : class, IDTO, new()
+            where TListDTO : class, IListDTO, new()
+        {
+            (bool isQuery, TQueryRequestModel queryModel) = requestModel.GetQueryModel<TQueryRequestModel>(pageSize, pageIndex);
+            if (isQuery)
+            {
+                return (isQuery, await controller.GetDataAsync(queryModel));
+            }
+            return (false, []);
+        }
+        /// <summary>
         /// 获取数据
         /// </summary>
         /// <typeparam name="TAddRequestModel"></typeparam>
