@@ -5,10 +5,10 @@ using Materal.Oscillator.Abstractions.Works;
 namespace Materal.MergeBlock.Abstractions.Oscillator
 {
     /// <summary>
-    /// 基础调度器
+    /// MergeBlock调度器
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class BaseOscillatorSchedule<T> : IOscillatorSchedule
+    public abstract class MergeBlockSchedule<T> : IOscillatorSchedule
         where T : class, IWorkData, new()
     {
         /// <summary>

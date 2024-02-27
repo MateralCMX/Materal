@@ -8,7 +8,7 @@ namespace Materal.MergeBlock.OscillatorTest.Schedules
     /// <summary>
     /// 测试计划
     /// </summary>
-    public class TestSchedule : BaseOscillatorSchedule<TestWorkData>, IOscillatorSchedule
+    public class TestSchedule : MergeBlockSchedule<TestWorkData>, IOscillatorSchedule
     {
         /// <summary>
         /// 名称
