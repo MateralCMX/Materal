@@ -32,11 +32,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         private void GeneratorAutoMapperProfile(DomainModel domain, List<DomainModel> domains)
         {
             bool isGenerator = false;
+            bool hasDTO = false;
+            bool hasRequestModel = false;
+            bool hasServicesModel = false;
             StringBuilder codeContent = new();
-            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
-            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
-            codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
-            codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Application.AutoMapperProfile");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
@@ -58,9 +57,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     codeContent.AppendLine($"            CreateMap<Add{domain.Name}Model, {targetDomain.Name}>();");
                 }
                 codeContent.AppendLine($"            CreateMap<Add{domain.Name}Model, {domain.Name}>();");
+                hasServicesModel = true;
                 if (!domain.HasAttribute<NotControllerAttribute>())
                 {
                     codeContent.AppendLine($"            CreateMap<Add{domain.Name}RequestModel, Add{domain.Name}Model>();");
+                    hasRequestModel = true;
                 }
             }
             if (!domain.HasAttribute<NotEditAttribute>())
@@ -71,31 +72,38 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     codeContent.AppendLine($"            CreateMap<Edit{domain.Name}Model, {targetDomain.Name}>();");
                 }
                 codeContent.AppendLine($"            CreateMap<Edit{domain.Name}Model, {domain.Name}>();");
+                hasServicesModel = true;
                 if (!domain.HasAttribute<NotControllerAttribute>())
                 {
                     codeContent.AppendLine($"            CreateMap<Edit{domain.Name}RequestModel, Edit{domain.Name}Model>();");
+                    hasRequestModel = true;
                 }
             }
             if (!domain.HasAttribute<NotQueryAttribute>() && !domain.HasAttribute<NotControllerAttribute>())
             {
                 isGenerator = true;
                 codeContent.AppendLine($"            CreateMap<Query{domain.Name}RequestModel, Query{domain.Name}Model>();");
+                hasRequestModel = true;
+                hasServicesModel = true;
             }
             if (targetDomain != domain)
             {
                 isGenerator = true;
                 codeContent.AppendLine($"            CreateMap<{targetDomain.Name}, {domain.Name}ListDTO>();");
                 codeContent.AppendLine($"            CreateMap<{targetDomain.Name}, {domain.Name}DTO>();");
+                hasDTO = true;
             }
             if (!domain.HasAttribute<NotListDTOAttribute>())
             {
                 isGenerator = true;
                 codeContent.AppendLine($"            CreateMap<{domain.Name}, {domain.Name}ListDTO>();");
+                hasDTO = true;
             }
             if(!domain.HasAttribute<NotDTOAttribute>())
             {
                 isGenerator = true;
                 codeContent.AppendLine($"            CreateMap<{domain.Name}, {domain.Name}DTO>();");
+                hasDTO = true;
             }
             if (domain.IsTreeDomain)
             {
@@ -127,6 +135,22 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             if (!isGenerator) return;
+            if(hasDTO || hasRequestModel || hasServicesModel)
+            {
+                codeContent.Insert(0, $"");
+                if (hasDTO)
+                {
+                    codeContent.Insert(0, $"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
+                }
+                if (hasRequestModel)
+                {
+                    codeContent.Insert(0, $"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
+                }
+                if (hasServicesModel)
+                {
+                    codeContent.Insert(0, $"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
+                }
+            }
             codeContent.SaveAs(_moduleApplication, "AutoMapperProfile", $"{domain.Name}Profile.cs");
         }
     }
