@@ -3,9 +3,7 @@
     /// <summary>
     /// 基础服务实现
     /// </summary>
-    /// <typeparam name="TUnitOfWork"></typeparam>
-    public abstract class BaseServiceImpl<TUnitOfWork> : IBaseService
-        where TUnitOfWork : IMergeBlockUnitOfWork
+    public abstract class BaseServiceImpl : IBaseService
     {
         private IMapper? _mapper;
         /// <summary>
@@ -17,6 +15,14 @@
             get => _mapper ?? throw new MergeBlockException("未设置映射器");
             set => _mapper = value;
         }
+    }
+    /// <summary>
+    /// 基础服务实现
+    /// </summary>
+    /// <typeparam name="TUnitOfWork"></typeparam>
+    public abstract class BaseServiceImpl<TUnitOfWork> : BaseServiceImpl, IBaseService
+        where TUnitOfWork : IMergeBlockUnitOfWork
+    {
         private TUnitOfWork? _unitOfWork;
         /// <summary>
         /// 工作单元
