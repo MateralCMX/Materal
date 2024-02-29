@@ -1,6 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions.ConsoleModule;
 using Microsoft.Extensions.Hosting;
-using Polly;
 
 namespace Materal.MergeBlock.ConsoleModule
 {

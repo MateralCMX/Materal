@@ -14,7 +14,7 @@ namespace Materal.MergeBlock.ExceptionInterceptorTest
         /// <summary>
         /// 构造方法
         /// </summary>
-        public ExceptionInterceptorTestModule():base("ExceptionInterceptor测试模块", "ExceptionInterceptorTest", ["ExceptionInterceptor"])
+        public ExceptionInterceptorTestModule() : base("ExceptionInterceptor测试模块", "ExceptionInterceptorTest", ["ExceptionInterceptor"])
         {
 
         }

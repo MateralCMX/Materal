@@ -21,10 +21,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         private List<string> GetAllGeneratorCodePlugPaths()
         {
             List<string> generatorCodePlugPaths = [];
-            if(_solution is null) return generatorCodePlugPaths;
-            foreach(SolutionItem? solutionItem in _solution.Children)
+            if (_solution is null) return generatorCodePlugPaths;
+            foreach (SolutionItem? solutionItem in _solution.Children)
             {
-                if(solutionItem is null) continue;
+                if (solutionItem is null) continue;
                 generatorCodePlugPaths.AddRange(GetAllGeneratorCodePlugPaths(solutionItem));
             }
             return generatorCodePlugPaths;

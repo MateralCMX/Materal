@@ -16,7 +16,7 @@
         }
         public override void RegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
         {
-            if(obj is IDomain domain)
+            if (obj is IDomain domain)
             {
                 domain.CreateTime = DateTime.Now;
             }

@@ -149,14 +149,14 @@
         /// </summary>
         /// <param name="dictionary"></param>
         /// <returns></returns>
-        public static List<KeyValueModel> ToKeyValueModel(this Dictionary<string, string> dictionary) 
+        public static List<KeyValueModel> ToKeyValueModel(this Dictionary<string, string> dictionary)
             => dictionary.Select(item => new KeyValueModel(item.Key, item.Value)).ToList();
         /// <summary>
         /// 转换为键值对模型
         /// </summary>
         /// <param name="dictionary"></param>
         /// <returns></returns>
-        public static List<KeyValueModel<TKey, TValue>> ToKeyValueModel<TKey,TValue>(this Dictionary<TKey, TValue> dictionary)
+        public static List<KeyValueModel<TKey, TValue>> ToKeyValueModel<TKey, TValue>(this Dictionary<TKey, TValue> dictionary)
             where TKey : notnull
             => dictionary.Select(item => new KeyValueModel<TKey, TValue>(item.Key, item.Value)).ToList();
         /// <summary>

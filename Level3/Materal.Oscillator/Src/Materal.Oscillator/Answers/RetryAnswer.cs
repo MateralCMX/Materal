@@ -22,7 +22,7 @@ namespace Materal.Oscillator.Answers
         /// <summary>
         /// 构造方法
         /// </summary>
-        public RetryAnswer():base()
+        public RetryAnswer() : base()
         {
             _listener = ServiceProvider.GetService<IRetryAnswerListener>();
         }

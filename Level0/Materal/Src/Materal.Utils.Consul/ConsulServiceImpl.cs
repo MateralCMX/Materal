@@ -151,7 +151,7 @@ namespace Materal.Utils.Consul
         /// <returns></returns>
         public async Task RegisterConsulAsync(ConsulConfig consulConfig)
         {
-            ConsulScope? consulScope = _consulScopes.FirstOrDefault(m=> m.Config.ServiceName == consulConfig.ServiceName);
+            ConsulScope? consulScope = _consulScopes.FirstOrDefault(m => m.Config.ServiceName == consulConfig.ServiceName);
             if (consulScope is null)
             {
                 Guid id = await RegisterConsulConfigAsync(consulConfig);

@@ -13,7 +13,7 @@ namespace Materal.MergeBlock.Repository
         /// </summary>
         /// <param name="_"></param>
         /// <param name="_2"></param>
-        public static void HasComment(this TableBuilder _,  string _2)
+        public static void HasComment(this TableBuilder _, string _2)
         {
         }
     }

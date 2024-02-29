@@ -38,7 +38,7 @@ namespace Materal.Oscillator.SqliteEFRepository
         /// <param name="obj"></param>
         public override void RegisterEdit<TEntity, TPrimaryKeyType>(TEntity obj)
         {
-            if(obj is IDomain domain)
+            if (obj is IDomain domain)
             {
                 domain.UpdateTime = DateTime.Now;
             }

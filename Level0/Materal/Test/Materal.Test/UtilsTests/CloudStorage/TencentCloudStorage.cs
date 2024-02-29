@@ -1,7 +1,6 @@
 ﻿using Materal.Utils.CloudStorage.Tencent;
 using Materal.Utils.CloudStorage.Tencent.Models;
 using Microsoft.Extensions.Configuration;
-using NPOI.OpenXmlFormats.Spreadsheet;
 
 namespace Materal.Test.UtilsTests.CloudStorage
 {

@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Materal.Utils.Http
+﻿namespace Materal.Utils.Http
 {
     /// <summary>
     /// Http异常
@@ -90,7 +88,7 @@ namespace Materal.Utils.Http
             StringBuilder errorMessage = new();
             errorMessage.AppendLine(Message);
             errorMessage.Append($"{prefix}--- Http详细信息开始 ---");
-            if(HttpRequestMessage is not null)
+            if (HttpRequestMessage is not null)
             {
                 errorMessage.AppendLine();
                 errorMessage.Append($"{prefix}Request:");

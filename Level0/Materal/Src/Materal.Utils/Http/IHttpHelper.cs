@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Materal.Utils.Http
+﻿namespace Materal.Utils.Http
 {
     /// <summary>
     /// Http帮助类

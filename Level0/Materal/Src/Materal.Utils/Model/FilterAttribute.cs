@@ -1,4 +1,6 @@
-﻿namespace Materal.Utils.Model
+﻿using System.Collections;
+
+namespace Materal.Utils.Model
 {
     /// <summary>
     /// 过滤器特性
@@ -187,9 +189,9 @@
             }
             if (result is null)
             {
-                if(methodName == "Contains")
+                if (methodName == nameof(IList.Contains))
                 {
-                    result = GetContainsCallExpression<T>(parameterExpression, propertyInfo, value, targetPropertyInfo);
+                    result = GetContainsCallExpression(parameterExpression, propertyInfo, value, targetPropertyInfo);
                 }
             }
             if (result is null) return null;

@@ -34,7 +34,7 @@
                 await host.StopAsync(dbSchedule);
                 unitOfWork.RegisterDelete(dbSchedule);
             }
-            if(deleteScheduleIDs.Count > 0)
+            if (deleteScheduleIDs.Count > 0)
             {
                 List<Plan> plans = await planRepository.FindAsync(m => deleteScheduleIDs.Contains(m.ScheduleID));
                 foreach (Plan plan in plans)

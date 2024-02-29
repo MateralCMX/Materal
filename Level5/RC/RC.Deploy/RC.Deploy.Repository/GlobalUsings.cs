@@ -1,6 +1,4 @@
-﻿global using Materal.Abstractions;
-global using Materal.Extensions;
-global using Materal.MergeBlock.Abstractions;
+﻿global using Materal.MergeBlock.Abstractions;
 global using Materal.MergeBlock.Abstractions.Domain;
 global using Materal.MergeBlock.Repository;
 global using Materal.TTA.Common;

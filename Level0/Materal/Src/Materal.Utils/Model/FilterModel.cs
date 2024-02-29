@@ -104,7 +104,7 @@
             IQueryable<T> result = values;
             bool isAsc = IsAsc;
             Expression<Func<T, object>>? sortExpression = GetSortExpression<T>();
-            if(sortExpression is null)
+            if (sortExpression is null)
             {
                 if (defaultOrderExpression is null) return result;
                 sortExpression = defaultOrderExpression;

@@ -91,7 +91,7 @@ namespace MateralBaseCoreVSIX.Models
                     Controllers.Add(controllerModel);
                 }
             }
-        }        
+        }
         /// <summary>
         /// 获得Controller模型
         /// </summary>
@@ -122,7 +122,7 @@ namespace MateralBaseCoreVSIX.Models
                 {
                     result = Controllers.FirstOrDefault(m => m.Name == controllerName);
                 }
-                if(result == null)
+                if (result == null)
                 {
                     return new ControllerModel(codes, i);
                 }

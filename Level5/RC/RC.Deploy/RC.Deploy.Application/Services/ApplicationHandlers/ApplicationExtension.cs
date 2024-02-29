@@ -1,6 +1,4 @@
-﻿using RC.Deploy.Abstractions.Enums;
-
-namespace RC.Deploy.Application.Services.ApplicationHandlers
+﻿namespace RC.Deploy.Application.Services.ApplicationHandlers
 {
     /// <summary>
     /// 应用程序扩展类

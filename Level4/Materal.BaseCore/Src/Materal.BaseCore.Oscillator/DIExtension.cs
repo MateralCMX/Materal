@@ -34,11 +34,11 @@ namespace Materal.BaseCore.Oscillator
         public static IServiceCollection AddOscillator(this IServiceCollection services, IDBConfigModel dBConfigModel, params Assembly[] scheduleAssemblies)
         {
             OscillatorDIExtension.AddOscillator(services, scheduleAssemblies);
-            if(dBConfigModel is SqliteConfigModel sqliteConfig)
+            if (dBConfigModel is SqliteConfigModel sqliteConfig)
             {
                 services.AddOscillatorSqliteEFRepository(sqliteConfig);
             }
-            else if(dBConfigModel is SqlServerConfigModel sqlServerConfigModel)
+            else if (dBConfigModel is SqlServerConfigModel sqlServerConfigModel)
             {
                 services.AddOscillatorSqlServerEFRepository(sqlServerConfigModel);
             }

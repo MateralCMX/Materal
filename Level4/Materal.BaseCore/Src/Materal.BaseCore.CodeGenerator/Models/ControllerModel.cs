@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.CodeGenerator.Extensions;
-using System.Text;
 
 namespace Materal.BaseCore.CodeGenerator.Models
 {
@@ -14,7 +13,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 生成代码
         /// </summary>
-        public bool GeneratorCode { get; set;} = false;
+        public bool GeneratorCode { get; set; } = false;
         public string[] TModels { get; set; } = new string[5];
         /// <summary>
         /// 特性组

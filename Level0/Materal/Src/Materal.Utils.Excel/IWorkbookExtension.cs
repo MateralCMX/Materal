@@ -15,7 +15,7 @@ namespace Materal.Utils.Excel
         public static void SaveAs(this IWorkbook workbook, string filePath)
         {
             FileInfo fileInfo = new(filePath);
-            if(fileInfo.Exists)
+            if (fileInfo.Exists)
             {
                 fileInfo.Delete();
             }

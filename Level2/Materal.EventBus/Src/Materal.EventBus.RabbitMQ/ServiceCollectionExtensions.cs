@@ -47,7 +47,7 @@
         {
             services.AddOptions();
             services.Configure<EventBusConfig>(configuration);
-            if(options is not null)
+            if (options is not null)
             {
                 services.Configure(options);
             }

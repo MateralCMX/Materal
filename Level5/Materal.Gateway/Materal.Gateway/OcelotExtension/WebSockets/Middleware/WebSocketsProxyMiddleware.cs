@@ -25,7 +25,7 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
         /// </summary>
         /// <param name="next"></param>
         /// <param name="loggerFactory"></param>
-        public GatewayWebSocketsProxyMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory): base(loggerFactory.CreateLogger<WebSocketsProxyMiddleware>())
+        public GatewayWebSocketsProxyMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory) : base(loggerFactory.CreateLogger<WebSocketsProxyMiddleware>())
         {
             _next = next;
         }

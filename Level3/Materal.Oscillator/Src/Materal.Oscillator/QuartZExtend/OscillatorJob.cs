@@ -119,7 +119,7 @@ namespace Materal.Oscillator.QuartZExtend
                     Type workDataType = workData.GetType();
                     Type workBaseType = typeof(IWork<>);
                     workBaseType = workBaseType.MakeGenericType(workDataType);
-                    object? workObj =  _serviceProvider.GetService(workBaseType);
+                    object? workObj = _serviceProvider.GetService(workBaseType);
                     if (workObj is null || workObj is not IWork workExcute) throw new OscillatorException("获取任务失败");
                     workResult = await workExcute.ExcuteAsync(workData, _workResults, _nowWorkIndex, _schedule, scheduleWork, work);
                     _workResults.Add(new WorkResultModel

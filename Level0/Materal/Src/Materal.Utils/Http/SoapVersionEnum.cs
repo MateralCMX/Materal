@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Materal.Utils.Http
+﻿namespace Materal.Utils.Http
 {
     /// <summary>
     /// Soap版本枚举

@@ -77,10 +77,10 @@ namespace Materal.Logger
         /// </summary>
         public static async Task ShutdownAsync()
         {
-            if(IsClose) return;
+            if (IsClose) return;
             IsClose = true;
             LoggerLog?.LogDebug($"正在关闭[MateralLogger]");
-            if(_writeLoggerBlock is not null)
+            if (_writeLoggerBlock is not null)
             {
                 _writeLoggerBlock.Complete();
                 await _writeLoggerBlock.Completion;
@@ -92,7 +92,7 @@ namespace Materal.Logger
                 await loggerWriter.ShutdownAsync();
             }
             LoggerLog?.LogDebug($"[MateralLogger]关闭成功");
-            if(LoggerLog is not null)
+            if (LoggerLog is not null)
             {
                 await LoggerLog.ShutdownAsync();
             }

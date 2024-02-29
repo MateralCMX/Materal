@@ -94,7 +94,7 @@ namespace MateralBaseCoreVSIX.Models
                 };
             }
             PlugProjectModel plugProjectModel = _plugProjectModels.Projects.FirstOrDefault(m => m.Name == projectPath);
-            if(plugProjectModel == null)
+            if (plugProjectModel == null)
             {
                 plugProjectModel = new PlugProjectModel
                 {

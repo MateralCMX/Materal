@@ -1,5 +1,4 @@
-﻿using Materal.MergeBlock.GeneratorCode.Attributers;
-using Materal.MergeBlock.GeneratorCode.Extensions;
+﻿using Materal.MergeBlock.GeneratorCode.Extensions;
 using System.Text;
 
 namespace Materal.MergeBlock.GeneratorCode.Models
@@ -54,7 +53,7 @@ namespace Materal.MergeBlock.GeneratorCode.Models
             attributeCode = string.Empty;
             foreach (string item in attributeCodes)
             {
-                if(attributeCode is null || string.IsNullOrWhiteSpace(attributeCode))
+                if (attributeCode is null || string.IsNullOrWhiteSpace(attributeCode))
                 {
                     attributeCode = item.Trim();
                 }

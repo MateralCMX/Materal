@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.CodeGenerator.Extensions;
-using System.Text;
 
 namespace Materal.BaseCore.CodeGenerator.Models
 {

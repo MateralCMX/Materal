@@ -1,6 +1,5 @@
 ﻿using RC.Authority.Abstractions.DTO.User;
 using RC.Authority.Abstractions.RequestModel.User;
-using Materal.MergeBlock.GeneratorCode.Attributers;
 
 namespace RC.Authority.Abstractions.ControllerAccessors
 {

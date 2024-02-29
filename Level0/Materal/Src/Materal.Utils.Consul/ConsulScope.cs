@@ -155,7 +155,7 @@ namespace Materal.Utils.Consul
         /// </summary>
         /// <param name="filter"></param>
         /// <returns></returns>
-        public async Task<List<ConsulServiceModel>> GetServiceListAsync(Func<ConsulServiceModel, bool>? filter = null) 
+        public async Task<List<ConsulServiceModel>> GetServiceListAsync(Func<ConsulServiceModel, bool>? filter = null)
             => await GetServiceListAsync(Config.ConsulUrl.Url, _httpHelper, filter);
         /// <summary>
         /// 获得服务

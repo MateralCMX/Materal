@@ -4,7 +4,7 @@
     /// 迁移帮助类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class MigrateHelper<T>: IMigrateHelper<T>, IDisposable
+    public class MigrateHelper<T> : IMigrateHelper<T>, IDisposable
         where T : DbContext
     {
         private readonly T _dbContext;

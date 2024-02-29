@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Materal.Oscillator.PlanTriggers
+﻿namespace Materal.Oscillator.PlanTriggers
 {
     /// <summary>
     /// 每天触发器

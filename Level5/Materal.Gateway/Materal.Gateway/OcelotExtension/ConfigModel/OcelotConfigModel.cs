@@ -47,7 +47,7 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
             encoding ??= Encoding.UTF8;
             string jsonString = this.ToJson();
             FileInfo fileInfo = new(filePath);
-            if(fileInfo.Directory is not null && !fileInfo.Directory.Exists) fileInfo.Directory.Create();
+            if (fileInfo.Directory is not null && !fileInfo.Directory.Exists) fileInfo.Directory.Create();
             await File.WriteAllTextAsync(filePath, jsonString, encoding);
         }
         /// <summary>

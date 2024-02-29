@@ -1,6 +1,4 @@
 ﻿using Materal.BaseCore.CodeGenerator.Extensions;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace Materal.BaseCore.CodeGenerator.Models
 {

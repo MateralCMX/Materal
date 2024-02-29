@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-
-namespace Materal.EventBus.Abstraction
+﻿namespace Materal.EventBus.Abstraction
 {
     /// <summary>
     /// 服务扩展

@@ -10,8 +10,8 @@ using Error = Ocelot.Errors.Error;
 namespace Materal.Gateway.OcelotExtension.Requester
 {
 #if NET6_0
-    using IHttpClientBuilder = Ocelot.Requester.IHttpClientBuilder;
     using Ocelot.Configuration;
+    using IHttpClientBuilder = Ocelot.Requester.IHttpClientBuilder;
     /// <summary>
     /// Íø¹ØHTTPÇëÇóÆ÷
     /// </summary>

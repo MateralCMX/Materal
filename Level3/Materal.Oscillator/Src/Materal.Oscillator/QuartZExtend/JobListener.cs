@@ -19,7 +19,7 @@ namespace Materal.Oscillator.QuartZExtend
         /// <param name="host"></param>
         /// <param name="oscillatorListener"></param>
         /// <param name="oscillatorDR"></param>
-        public JobListener(IOscillatorHost host, IOscillatorListener ? oscillatorListener = null, IOscillatorDR? oscillatorDR = null)
+        public JobListener(IOscillatorHost host, IOscillatorListener? oscillatorListener = null, IOscillatorDR? oscillatorDR = null)
         {
             _host = host;
             _oscillatorListener = oscillatorListener;

@@ -98,7 +98,7 @@ namespace Materal.Utils.MongoDB
         private static int GetSkip(long pageIndex, long pageSize)
         {
             long result = (pageIndex - 1) * pageSize;
-            if(result > int.MaxValue) return int.MaxValue;
+            if (result > int.MaxValue) return int.MaxValue;
             return (int)result;
         }
         /// <summary>

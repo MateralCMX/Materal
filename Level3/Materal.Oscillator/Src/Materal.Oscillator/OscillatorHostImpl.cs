@@ -280,7 +280,7 @@ namespace Materal.Oscillator
             IServiceProvider serviceProvider = serviceScope.ServiceProvider;
             IWorkRepository workRepository = serviceProvider.GetRequiredService<IWorkRepository>();
             (List<Work> works, PageModel pageInfo) = await workRepository.PagingAsync(model);
-            List<WorkDTO> result = works.Select(m=>new WorkDTO(m)).ToList();
+            List<WorkDTO> result = works.Select(m => new WorkDTO(m)).ToList();
             return (result, pageInfo);
         }
         /// <summary>
@@ -723,7 +723,7 @@ namespace Materal.Oscillator
             IPlanRepository repository = unitOfWork.GetRepository<IPlanRepository>();
             Dictionary<Guid, List<PlanDTO>> result = new();
             List<Plan> domains = await repository.FindAsync(m => scheduleIDs.Contains(m.ScheduleID));
-            foreach (IGrouping<Guid, Plan> item in domains.GroupBy(m=>m.ScheduleID))
+            foreach (IGrouping<Guid, Plan> item in domains.GroupBy(m => m.ScheduleID))
             {
                 result.Add(item.Key, item.Select(m => new PlanDTO(m)).ToList());
             }
@@ -789,7 +789,7 @@ namespace Materal.Oscillator
         {
             IAnswerRepository repository = unitOfWork.GetRepository<IAnswerRepository>();
             List<Answer> domains = await repository.FindAsync(m => m.ScheduleID == scheduleID);
-            List<AnswerDTO> result = domains.OrderBy(m=>m.Index).Select(m => new AnswerDTO(m)).ToList();
+            List<AnswerDTO> result = domains.OrderBy(m => m.Index).Select(m => new AnswerDTO(m)).ToList();
             return result;
         }
         /// <summary>

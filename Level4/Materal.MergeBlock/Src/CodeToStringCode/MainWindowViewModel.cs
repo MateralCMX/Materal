@@ -45,7 +45,7 @@ namespace CodeToStringCode
         /// <returns></returns>
         private string GetStringCode()
         {
-            if(Code is null || string.IsNullOrWhiteSpace(Code)) return string.Empty;
+            if (Code is null || string.IsNullOrWhiteSpace(Code)) return string.Empty;
             string[] codes = Code.Split('\n');
             StringBuilder stringBuilder = new();
             foreach (string code in codes)

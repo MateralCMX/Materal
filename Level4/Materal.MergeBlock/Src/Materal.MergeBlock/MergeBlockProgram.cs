@@ -69,7 +69,7 @@ namespace Materal.MergeBlock
             await RunModuleAsync(async m =>
             {
                 await m.ConfigServiceAsync(context);
-                if(processedAssemblies.Contains(m.ModuleType.Assembly)) return;
+                if (processedAssemblies.Contains(m.ModuleType.Assembly)) return;
                 #region AutoMapper
                 if (m.ModuleType.Assembly.GetTypes<Profile>().Any())
                 {
@@ -138,11 +138,11 @@ namespace Materal.MergeBlock
             {
                 serviceLifetime = ServiceLifetime.Singleton;
             }
-            else if(interfaceType.IsAssignableTo<ITransientDependencyInjectionService>())
+            else if (interfaceType.IsAssignableTo<ITransientDependencyInjectionService>())
             {
                 serviceLifetime = ServiceLifetime.Transient;
             }
-            else if(interfaceType.IsAssignableTo<IScopedDependencyInjectionService>())
+            else if (interfaceType.IsAssignableTo<IScopedDependencyInjectionService>())
             {
                 serviceLifetime = ServiceLifetime.Scoped;
             }

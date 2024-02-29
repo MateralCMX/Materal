@@ -91,7 +91,7 @@
         {
             StringBuilder messageBuild = new();
             messageBuild.Append(message);
-            if(exception is not null)
+            if (exception is not null)
             {
                 messageBuild.AppendLine();
                 messageBuild.Append(exception.GetErrorMessage());

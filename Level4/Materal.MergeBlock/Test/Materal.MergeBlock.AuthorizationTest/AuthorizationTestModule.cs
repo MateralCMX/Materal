@@ -14,7 +14,7 @@ namespace Materal.MergeBlock.AuthorizationTest
         /// <summary>
         /// 构造方法
         /// </summary>
-        public AuthorizationTestModule():base("Authorization测试模块", "AuthorizationTest", ["Authorization"])
+        public AuthorizationTestModule() : base("Authorization测试模块", "AuthorizationTest", ["Authorization"])
         {
 
         }

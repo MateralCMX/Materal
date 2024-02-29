@@ -1,11 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography;
-using System.Text;
-using System.Xml;
-using System.Linq;
 using Materal.Utils.Wechat;
 using Materal.Utils.Wechat.Model;
-using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using System.Xml;
 
 namespace WechatServerTest.Controllers
 {
@@ -31,7 +28,7 @@ namespace WechatServerTest.Controllers
         [HttpGet]
         public string Get(string signature, string timestamp, string nonce, string echostr)
         {
-            if (!_helper.IsWechatRequest(timestamp, nonce, signature)) throw new Exception("不是微信的请求"); 
+            if (!_helper.IsWechatRequest(timestamp, nonce, signature)) throw new Exception("不是微信的请求");
             return echostr;
         }
         /// <summary>

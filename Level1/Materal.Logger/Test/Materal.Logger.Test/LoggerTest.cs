@@ -134,9 +134,9 @@ namespace Materal.Logger.Test
         /// </summary>
         /// <returns></returns>
         [TestMethod]
-        public async Task WriteSqliteLogTestAsync() => await WriteLogAsync(option => 
-        { 
-            option.AddSqliteTargetFromPath("SqliteLogger", "${RootPath}\\Logs\\MateralLogger.db", "${Level}Log"); 
+        public async Task WriteSqliteLogTestAsync() => await WriteLogAsync(option =>
+        {
+            option.AddSqliteTargetFromPath("SqliteLogger", "${RootPath}\\Logs\\MateralLogger.db", "${Level}Log");
         });
         /// <summary>
         /// –¥SqlServer»’÷æ

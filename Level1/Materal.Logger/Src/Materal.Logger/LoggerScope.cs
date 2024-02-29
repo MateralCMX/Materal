@@ -73,7 +73,7 @@ namespace Materal.Logger
                 else
                 {
                     objType = obj.GetType();
-                    if(objType.IsClass && obj is not string)
+                    if (objType.IsClass && obj is not string)
                     {
                         result = HandlerText(result, upKey, obj.ToJson());
                     }

@@ -16,7 +16,7 @@ namespace Materal.BaseCore.WebAPI.Filters
             FieldInfo? fieldInfo = context.Controller.GetType().GetRuntimeFields().FirstOrDefault(m => m.Name == "DefaultService");
             if (fieldInfo is null) return;
             object? serviceObj = fieldInfo.GetValue(context.Controller);
-            if(serviceObj is null || serviceObj is not IBaseService service) return;
+            if (serviceObj is null || serviceObj is not IBaseService service) return;
             service.ClientIP = FilterHelper.GetIPAddress(context.HttpContext.Connection);
             if (controller.User.Claims != null)
             {

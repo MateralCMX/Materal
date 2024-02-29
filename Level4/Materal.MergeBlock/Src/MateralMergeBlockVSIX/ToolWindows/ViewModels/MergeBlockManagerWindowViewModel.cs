@@ -19,7 +19,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             VS.Events.SolutionEvents.OnAfterOpenSolution += SolutionEvents_OnAfterOpenSolution;
             VS.Events.SolutionEvents.OnAfterCloseSolution += SolutionEvents_OnAfterCloseSolution;
-            if(await VS.Solutions.IsOpenAsync())
+            if (await VS.Solutions.IsOpenAsync())
             {
                 CurrentControl = GetSolutionOpenedControl();
             }

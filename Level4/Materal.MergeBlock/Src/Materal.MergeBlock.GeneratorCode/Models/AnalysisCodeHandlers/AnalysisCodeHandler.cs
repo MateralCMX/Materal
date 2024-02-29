@@ -19,7 +19,7 @@
         {
             if (currentLine >= codes.Length) return;
             string code = codes[currentLine].Trim();
-            if(code is null || string.IsNullOrWhiteSpace(code)) return;
+            if (code is null || string.IsNullOrWhiteSpace(code)) return;
             if (!AnalysisCodes(cSharpCodeFileModel, code, codes, currentLine)) return;
             NextHandler?.Handler(cSharpCodeFileModel, codes, currentLine);
         }
@@ -48,7 +48,7 @@
         /// <returns></returns>
         protected override bool AnalysisCodes(CSharpCodeFileModel cSharpCodeFileModel, string code, string[] codes, int currentLine)
         {
-            if(cSharpCodeFileModel is not T model) return true;
+            if (cSharpCodeFileModel is not T model) return true;
             return AnalysisCodes(model, code, codes, currentLine);
         }
         /// <summary>

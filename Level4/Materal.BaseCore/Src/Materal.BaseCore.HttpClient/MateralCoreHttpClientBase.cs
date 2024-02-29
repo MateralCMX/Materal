@@ -495,7 +495,7 @@ namespace Materal.BaseCore.HttpClient
             {
                 if (requestModel == null) return result;
                 (List<TListDTO>? data, PageModel pageInfo) = await GetListAsync(requestModel);
-                if(data != null)
+                if (data != null)
                 {
                     result = data;
                 }

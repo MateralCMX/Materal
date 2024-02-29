@@ -5,7 +5,7 @@ namespace Microsoft.EntityFrameworkCore
 {
     public static class TableBuilderExtension
     {
-        public static void HasComment(this TableBuilder _,  string _2)
+        public static void HasComment(this TableBuilder _, string _2)
         {
         }
     }

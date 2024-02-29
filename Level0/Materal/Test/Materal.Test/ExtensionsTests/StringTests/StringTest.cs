@@ -18,13 +18,14 @@ namespace Materal.Test.ExtensionsTests.StringTests
         [TestMethod]
         public void ToJsonTest()
         {
-            string jsonString = new { 
-                IntValue = 1, 
+            string jsonString = new
+            {
+                IntValue = 1,
                 DoubleValue = 2.1,
-                FloatValue = 3.1f, 
+                FloatValue = 3.1f,
                 DecimalValue = 4.1m,
                 StringValue = "Materal",
-                DateTimeValue = new DateTime(1993,4,20,8,30,40),
+                DateTimeValue = new DateTime(1993, 4, 20, 8, 30, 40),
                 GuidValue = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                 ListValue = new List<int>() { 1, 2, 3, 4, 5 },
                 ArrayValue = _arrayValue,

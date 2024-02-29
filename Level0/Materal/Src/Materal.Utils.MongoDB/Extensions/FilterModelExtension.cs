@@ -1,7 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace Materal.Utils.MongoDB.Extensions
 {
@@ -59,7 +57,7 @@ namespace Materal.Utils.MongoDB.Extensions
         /// <returns></returns>
         private static FilterDefinition<T>? GetSearchFilterDefinition<T>(PropertyInfo propertyInfo, FilterModel filterModel)
         {
-            if(!propertyInfo.CanWrite || !propertyInfo.CanRead) return null;
+            if (!propertyInfo.CanWrite || !propertyInfo.CanRead) return null;
             object? value = propertyInfo.GetValue(filterModel);
             if (value is null) return null;
             if (value is string stringValue && string.IsNullOrWhiteSpace(stringValue)) return null;

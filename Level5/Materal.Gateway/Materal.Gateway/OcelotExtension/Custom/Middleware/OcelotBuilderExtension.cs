@@ -1,5 +1,4 @@
 ﻿using Materal.Gateway.OcelotExtension.Custom;
-using Microsoft.Extensions.DependencyInjection;
 using Ocelot.DependencyInjection;
 
 namespace Materal.Gateway.OcelotExtension

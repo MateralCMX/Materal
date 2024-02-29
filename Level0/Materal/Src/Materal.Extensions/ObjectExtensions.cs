@@ -456,7 +456,7 @@ namespace System
         public static object? GetObjectValue(this object obj, string name)
         {
             string[] trueNames = name.Split('.');
-            if(trueNames.Length == 1)
+            if (trueNames.Length == 1)
             {
                 if (obj is ICollection collection) return collection.GetObjectValue(name);
                 if (obj is IDictionary dic) return dic.GetObjectValue(name);

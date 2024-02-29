@@ -48,7 +48,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        /// </summary>");
             codeContent.AppendLine($"        protected virtual void Init()");
             codeContent.AppendLine($"        {{");
-            DomainModel targetDomain =  domain.GetQueryDomain(domains);
+            DomainModel targetDomain = domain.GetQueryDomain(domains);
             if (!domain.HasAttribute<NotAddAttribute>())
             {
                 isGenerator = true;
@@ -99,7 +99,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"            CreateMap<{domain.Name}, {domain.Name}ListDTO>();");
                 hasDTO = true;
             }
-            if(!domain.HasAttribute<NotDTOAttribute>())
+            if (!domain.HasAttribute<NotDTOAttribute>())
             {
                 isGenerator = true;
                 codeContent.AppendLine($"            CreateMap<{domain.Name}, {domain.Name}DTO>();");
@@ -135,7 +135,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
             if (!isGenerator) return;
-            if(hasDTO || hasRequestModel || hasServicesModel)
+            if (hasDTO || hasRequestModel || hasServicesModel)
             {
                 codeContent.Insert(0, $"\r\n");
                 if (hasDTO)

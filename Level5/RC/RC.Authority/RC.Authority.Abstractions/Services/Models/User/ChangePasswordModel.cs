@@ -1,6 +1,4 @@
-﻿using Materal.MergeBlock.GeneratorCode.Attributers;
-
-namespace RC.Authority.Abstractions.Services.Models.User
+﻿namespace RC.Authority.Abstractions.Services.Models.User
 {
     /// <summary>
     /// 更改密码模型

@@ -1,7 +1,7 @@
 ﻿#nullable enable
 using Materal.Extensions;
-using Materal.MergeBlock.GeneratorCode.Extensions;
 using Materal.MergeBlock.GeneratorCode.Attributers;
+using Materal.MergeBlock.GeneratorCode.Extensions;
 using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
@@ -50,7 +50,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"            builder.ToTable(m => m.HasComment(\"{domain.Annotation}\"));");
             foreach (PropertyModel property in domain.Properties)
             {
-                if(property.HasAttribute<NotEntityConfigAttribute>()) continue;
+                if (property.HasAttribute<NotEntityConfigAttribute>()) continue;
                 codeContent.AppendLine($"            builder.Property(e => e.{property.Name})");
                 if (!property.CanNull)
                 {
@@ -144,10 +144,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"    public partial interface I{domain.Name}Repository : I{_moduleName}Repository<{domain.Name}>");
             }
             codeContent.AppendLine($"    {{");
-            if(domain.IsIndexDomain)
+            if (domain.IsIndexDomain)
             {
                 PropertyModel? indexGroupPropertyModel = domain.GetIndexGroupProperty();
-                if(indexGroupPropertyModel is null)
+                if (indexGroupPropertyModel is null)
                 {
                     codeContent.AppendLine($"        /// <summary>");
                     codeContent.AppendLine($"        /// 获取最大位序");

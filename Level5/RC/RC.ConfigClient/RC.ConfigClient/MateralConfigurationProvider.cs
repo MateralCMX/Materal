@@ -50,7 +50,7 @@ namespace RC.ConfigClient
             try
             {
                 string? configMD5 = LoadConfig();
-                if(configMD5 != _configMd5)
+                if (configMD5 != _configMd5)
                 {
                     _configMd5 = configMD5;
                     OnReload();

@@ -3,7 +3,7 @@
     /// <summary>
     /// 默认数据列表数据传输模型
     /// </summary>
-    public partial class DefaultDataListDTO 
+    public partial class DefaultDataListDTO
     {
         /// <summary>
         /// 应用程序类型文本

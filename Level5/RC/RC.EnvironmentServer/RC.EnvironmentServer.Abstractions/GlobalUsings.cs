@@ -1,6 +1,4 @@
-﻿global using Materal.Abstractions;
-global using Materal.Extensions;
-global using Materal.MergeBlock.Abstractions.Domain;
+﻿global using Materal.MergeBlock.Abstractions.Domain;
 global using Materal.MergeBlock.Abstractions.Models;
 global using Materal.MergeBlock.Abstractions.Services;
 global using Materal.MergeBlock.Abstractions.WebModule;
@@ -9,7 +7,6 @@ global using Materal.MergeBlock.Abstractions.WebModule.Models;
 global using Materal.MergeBlock.GeneratorCode.Attributers;
 global using Materal.TTA.Common;
 global using Materal.Utils.Model;
-global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using RC.Core.Abstractions;
 global using RC.EnvironmentServer.Abstractions.Controllers;

@@ -20,7 +20,7 @@ namespace Materal.TTA.Demo
             serviceCollection.AddMateralLogger(config =>
             {
                 config.AddConsoleTarget("LifeConsole")
-                .AddAllTargetsRule(minLevel:LogLevel.Trace);
+                .AddAllTargetsRule(minLevel: LogLevel.Trace);
             });
             serviceCollection.AddTransient<ITTADemoTest, Test00>();
             serviceCollection.AddTransient<ITTADemoTest, Test01>();

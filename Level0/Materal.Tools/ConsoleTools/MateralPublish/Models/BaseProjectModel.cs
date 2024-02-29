@@ -256,7 +256,7 @@ namespace MateralPublish.Models
             }
             stringBuilder.Append(" -c Release");
             List<string> result = [];
-            if(targetFrameworks.Length > 1)
+            if (targetFrameworks.Length > 1)
             {
                 foreach (string targetFramework in targetFrameworks)
                 {
@@ -293,7 +293,7 @@ namespace MateralPublish.Models
         #endregion
         protected void CmdHelper_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(e.Data)) return;
+            if (string.IsNullOrWhiteSpace(e.Data)) return;
             ConsoleHelper.WriteLine(e.Data, ConsoleColor.DarkRed);
         }
 

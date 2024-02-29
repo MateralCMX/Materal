@@ -96,7 +96,7 @@ namespace MateralMergeBlockVSIX.Extensions
         /// <returns></returns>
         public static List<EnumModel> GetAllEnums(this SolutionItem solutionItem)
         {
-            List<EnumModel> models = solutionItem.GetAllCSharpCodeFileModels<EnumModel>(directoryInfo => directoryInfo.Name == "Enums", 
+            List<EnumModel> models = solutionItem.GetAllCSharpCodeFileModels<EnumModel>(directoryInfo => directoryInfo.Name == "Enums",
                 fileInfo => fileInfo.Name.EndsWith(".cs"));
             return models;
         }

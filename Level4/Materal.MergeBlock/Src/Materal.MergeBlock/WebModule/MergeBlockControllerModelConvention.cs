@@ -1,6 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule;
 using Materal.MergeBlock.Abstractions.WebModule.Controllers;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Materal.MergeBlock.WebModule

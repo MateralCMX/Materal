@@ -36,7 +36,7 @@ namespace Materal.BaseCore.WebAPI
             {
                 WebAPIConfig.BaseUrlConfig.Url = MateralCoreConfig.GetConfigItemToString("ASPNETCORE_URLS");
             }
-            if(WebAPIConfig.BaseUrlConfig.IsSSL)
+            if (WebAPIConfig.BaseUrlConfig.IsSSL)
             {
                 app.UseHttpsRedirection();
             }

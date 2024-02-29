@@ -14,7 +14,7 @@ namespace Materal.Utils.Wechat
         /// </summary>
         /// <param name="code">Code</param>
         /// <returns>OpenID</returns>
-        public async Task<string> GetOpenIDByCodeAsync([Required]string code)
+        public async Task<string> GetOpenIDByCodeAsync([Required] string code)
         {
             Dictionary<string, string> queryParams = new()
             {

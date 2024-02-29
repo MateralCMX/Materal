@@ -65,7 +65,7 @@ namespace Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers
                     {
                         argumentCode += $",{item}";
                     }
-                    if(argumentCode.IsFullCodeBlock())
+                    if (argumentCode.IsFullCodeBlock())
                     {
                         MethodArgumentModel argument = new(argumentCode);
                         methodModel.Arguments.Add(argument);

@@ -1,6 +1,5 @@
 ﻿using Materal.Utils.Windows;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Options;
 using RC.Deploy.Application.Hubs;
 using RC.Deploy.Application.Services.ApplicationHandlers;
 using RC.Deploy.ServiceImpl.Models;
@@ -314,7 +313,7 @@ namespace RC.Deploy.Application.Services.Models
                 {
                     await task.TargetTask.Invoke();
                 }
-                 task.TargetAction?.Invoke();
+                task.TargetAction?.Invoke();
             }
             catch (Exception ex)
             {

@@ -7,4 +7,4 @@ namespace CodeToStringCode
         public MainWindow() => InitializeComponent();
         private void Button_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(ViewModel.StringCode);
     }
-}   
+}

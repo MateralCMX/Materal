@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using System.Runtime.Loader;
+﻿using System.Runtime.Loader;
 
 namespace Materal.MergeBlock
 {

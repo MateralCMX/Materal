@@ -38,7 +38,7 @@
         public void ValidationBaseType()
         {
             123.Validation();
-            "123".Validation();   
+            "123".Validation();
         }
     }
 }

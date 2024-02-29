@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Text;
 
 namespace Materal.Utils.Http
 {

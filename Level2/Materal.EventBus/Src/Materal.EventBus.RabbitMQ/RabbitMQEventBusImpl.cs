@@ -70,7 +70,7 @@
         {
             Logger?.LogDebug($"创建RabbitMQ消费通道[{exchangeName}_{queueName}]...");
             IModel channel = persistentConnection.CreateModel(exchangeName, queueName);
-            channel.CallbackException += (sender, args)=>
+            channel.CallbackException += (sender, args) =>
             {
                 Logger?.LogWarning(args.Exception, $"重新创建RabbitMQ消费通道[{exchangeName}_{queueName}]...");
                 if (sender is not IModel model) throw new EventBusException("获取消费通道失败");

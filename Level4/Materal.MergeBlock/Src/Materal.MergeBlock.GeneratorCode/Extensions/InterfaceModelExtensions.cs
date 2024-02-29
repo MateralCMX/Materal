@@ -63,7 +63,7 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
                     else
                     {
                         oldModel.Annotation ??= model.Annotation;
-                        if(oldModel is InterfaceModel oldInterfaceModel && model is InterfaceModel interfaceModel)
+                        if (oldModel is InterfaceModel oldInterfaceModel && model is InterfaceModel interfaceModel)
                         {
                             oldInterfaceModel.Methods.AddRange(interfaceModel.Methods);
                             oldInterfaceModel.Properties.AddRange(interfaceModel.Properties);

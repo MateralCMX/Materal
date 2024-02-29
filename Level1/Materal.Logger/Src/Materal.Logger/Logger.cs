@@ -17,7 +17,7 @@ namespace Materal.Logger
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         {
             const string defaultScope = "PublicScope";
-            if(state is null)
+            if (state is null)
             {
                 _loggerScope = BeginScope(defaultScope);
             }
@@ -31,11 +31,11 @@ namespace Materal.Logger
                 {
                     _loggerScope = BeginScope(advancedScope);
                 }
-                else if(state is Dictionary<string, object?> objDictionary)
+                else if (state is Dictionary<string, object?> objDictionary)
                 {
                     _loggerScope = BeginScope(new AdvancedScope(defaultScope, objDictionary));
                 }
-                else if(state is not IEnumerable collection)
+                else if (state is not IEnumerable collection)
                 {
                     Type stateType = state.GetType();
                     if (stateType.IsClass)

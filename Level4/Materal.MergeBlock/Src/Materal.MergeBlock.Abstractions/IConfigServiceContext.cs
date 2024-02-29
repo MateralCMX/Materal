@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.MergeBlock.Abstractions
+﻿namespace Materal.MergeBlock.Abstractions
 {
     /// <summary>
     /// 配置服务上下文

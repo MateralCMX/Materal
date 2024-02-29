@@ -1,6 +1,5 @@
 ﻿using Materal.Oscillator.Abstractions.DR;
 using Materal.Oscillator.DR;
-using Materal.TTA.Common.Model;
 using Materal.TTA.SqlServerEFRepository;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

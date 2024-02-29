@@ -70,7 +70,7 @@ namespace Materal.MergeBlock.WebModule
             List<Assembly> assemblies = [];
             await RunModuleAsync(m =>
             {
-                if(assemblies.Any(n => n == m.ModuleType.Assembly)) return;
+                if (assemblies.Any(n => n == m.ModuleType.Assembly)) return;
                 MergeBlockAssemblyAttribute? mergeBlockAssemblyAttribute = m.ModuleType.Assembly.GetCustomAttribute<MergeBlockAssemblyAttribute>();
                 if (mergeBlockAssemblyAttribute is null || !mergeBlockAssemblyAttribute.HasController) return;
                 context.MvcBuilder.AddApplicationPart(m.ModuleType.Assembly);

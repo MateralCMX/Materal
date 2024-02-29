@@ -14,7 +14,7 @@ namespace Materal.MergeBlock
         /// <returns></returns>
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            if(serviceProvider is not MateralServiceProvider)
+            if (serviceProvider is not MateralServiceProvider)
             {
                 serviceProvider = new MateralServiceProvider(serviceProvider);
             }

@@ -236,7 +236,7 @@
         /// <param name="pageRequestModel"></param>
         /// <param name="orderExpression"></param>
         /// <returns></returns>
-        public virtual (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression) 
+        public virtual (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression)
             => Paging(pageRequestModel.GetSearchExpression<TEntity>(), orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         /// <summary>
         /// 分页查询
@@ -245,7 +245,7 @@
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public virtual (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder) 
+        public virtual (List<TEntity> data, PageModel pageInfo) Paging(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder)
             => Paging(pageRequestModel.GetSearchExpression<TEntity>(), orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         /// <summary>
         /// 分页查询
@@ -262,7 +262,7 @@
         /// <param name="orderExpression"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, PageRequestModel pageRequestModel) 
+        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, PageRequestModel pageRequestModel)
             => Paging(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         /// <summary>
         /// 分页查询
@@ -272,7 +272,7 @@
         /// <param name="sortOrder"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, PageRequestModel pageRequestModel) 
+        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
             => Paging(filterExpression, orderExpression, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         /// <summary>
         /// 分页查询
@@ -282,7 +282,7 @@
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, long pageIndex, long pageSize) 
+        public virtual (List<TEntity> data, PageModel pageInfo) Paging(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, long pageIndex, long pageSize)
             => Paging(filterExpression, orderExpression, SortOrderEnum.Ascending, pageIndex, pageSize);
         /// <summary>
         /// 分页查询
@@ -319,7 +319,7 @@
         /// <param name="pageRequestModel"></param>
         /// <param name="orderExpression"></param>
         /// <returns></returns>
-        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression) 
+        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(PageRequestModel pageRequestModel, Expression<Func<TEntity, object>> orderExpression)
             => await PagingAsync(pageRequestModel.GetSearchExpression<TEntity>(), orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         /// <summary>
         /// 分页查询
@@ -364,7 +364,7 @@
         /// <param name="orderExpression"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, PageRequestModel pageRequestModel) 
+        public virtual async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, PageRequestModel pageRequestModel)
             => await PagingAsync(filterExpression, orderExpression, pageRequestModel.PageIndex, pageRequestModel.PageSize);
         /// <summary>
         /// 分页查询
@@ -405,7 +405,7 @@
         protected string? GetSortPropertyName(Expression<Func<TEntity, object>> orderExpression)
         {
             Expression propertyExpression = orderExpression.Body;
-            if(propertyExpression is UnaryExpression unaryExpression)
+            if (propertyExpression is UnaryExpression unaryExpression)
             {
                 propertyExpression = unaryExpression.Operand;
             }

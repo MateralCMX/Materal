@@ -1,5 +1,4 @@
-﻿using Consul;
-using Ocelot.Configuration;
+﻿using Ocelot.Configuration;
 using Ocelot.Logging;
 using Ocelot.Provider.Consul;
 using Ocelot.ServiceDiscovery;

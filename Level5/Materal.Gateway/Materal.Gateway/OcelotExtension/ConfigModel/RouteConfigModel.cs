@@ -53,7 +53,7 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// 下游主机和端口
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<HostAndPortModel>? DownstreamHostAndPorts { get; set;}
+        public List<HostAndPortModel>? DownstreamHostAndPorts { get; set; }
         /// <summary>
         /// 服务质量
         /// </summary>

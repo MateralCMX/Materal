@@ -14,7 +14,7 @@ namespace MBC.Core.WebAPI
         /// <param name="configService"></param>
         /// <param name="consulTag"></param>
         /// <returns></returns>
-        public static WebApplication MBCStart(string[] args, Action<IServiceCollection>? configService, string consulTag) 
+        public static WebApplication MBCStart(string[] args, Action<IServiceCollection>? configService, string consulTag)
             => MBCStart(args, configService, null, null, consulTag);
         /// <summary>
         /// 开始

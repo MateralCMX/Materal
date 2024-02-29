@@ -4,8 +4,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using Newtonsoft.Json;
-using System.Reflection;
-using System.Text;
 
 namespace MateralBasePlugBuild
 {

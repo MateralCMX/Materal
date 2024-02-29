@@ -1,5 +1,4 @@
 ﻿using Materal.Oscillator.Abstractions.PlanTriggers;
-using System.ComponentModel.DataAnnotations;
 
 namespace Materal.Oscillator.Abstractions.Models
 {

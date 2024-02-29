@@ -16,7 +16,7 @@
         public static LoggerConfig SetLogLevel(this LoggerConfig loggerConfig, LogLevel minLogLevel, LogLevel? maxLogLevel)
         {
             loggerConfig.MinLogLevel = minLogLevel;
-            if(maxLogLevel is not null)
+            if (maxLogLevel is not null)
             {
                 loggerConfig.MaxLogLevel = maxLogLevel.Value;
             }

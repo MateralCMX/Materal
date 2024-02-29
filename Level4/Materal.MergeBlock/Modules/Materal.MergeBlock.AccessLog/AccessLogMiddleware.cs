@@ -36,8 +36,8 @@ namespace Materal.MergeBlock.AccessLog
                 await memStream.CopyToAsync(originalBody);
                 logLevel = context.Response.StatusCode switch
                 {
-                    StatusCodes.Status200OK or 
-                    StatusCodes.Status401Unauthorized or 
+                    StatusCodes.Status200OK or
+                    StatusCodes.Status401Unauthorized or
                     StatusCodes.Status404NotFound => LogLevel.Information,
                     >= StatusCodes.Status500InternalServerError => LogLevel.Error,
                     _ => LogLevel.Warning,
@@ -52,7 +52,7 @@ namespace Materal.MergeBlock.AccessLog
             }
             finally
             {
-                if(response is not null)
+                if (response is not null)
                 {
                     accessLogService.WriteAccessLog(logLevel, request, response, stopwatch.ElapsedMilliseconds, exception);
                 }

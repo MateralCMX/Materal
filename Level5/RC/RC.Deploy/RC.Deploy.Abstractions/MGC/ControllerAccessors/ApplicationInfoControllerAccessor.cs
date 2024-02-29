@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RC.Deploy.Abstractions.DTO.ApplicationInfo;
 using RC.Deploy.Abstractions.RequestModel.ApplicationInfo;
-using Materal.MergeBlock.GeneratorCode.Attributers;
 
 namespace RC.Deploy.Abstractions.ControllerAccessors
 {

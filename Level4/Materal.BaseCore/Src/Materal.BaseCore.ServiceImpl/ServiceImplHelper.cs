@@ -44,7 +44,7 @@ namespace Materal.BaseCore.ServiceImpl
             if (model.SourceID == model.TargetID) throw new MateralCoreException("不能以自己为排序对象");
             var domains = await repository.FindAsync(m => m.ID == model.SourceID || m.ID == model.TargetID);
             if (domains.Count != 2) throw new MateralCoreException("数据不存在");
-            if(action != null)
+            if (action != null)
             {
                 action.Invoke(domains[0], domains[1]);
                 domains = await repository.FindAsync(m => m.ID == model.SourceID || m.ID == model.TargetID);
@@ -151,7 +151,7 @@ namespace Materal.BaseCore.ServiceImpl
                 TDomain domain = domains.First(m => m.ID == model.SourceID);
                 TDomain targetDomain = domains.First(m => m.ID == model.TargetID);
                 domain.ParentID = targetDomain.ID;
-                if(targetDomain.ParentID == domain.ID) throw new MateralCoreException("父级循环引用");
+                if (targetDomain.ParentID == domain.ID) throw new MateralCoreException("父级循环引用");
                 unitOfWork.RegisterEdit(domain);
             }
             await unitOfWork.CommitAsync();

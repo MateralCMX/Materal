@@ -28,7 +28,7 @@
             index = propertyCode.IndexOf(' ');
             property.Name = propertyCode[..index];
             propertyCode = propertyCode[(index + 1)..];
-            if(propertyCode.StartsWith("{ get; set; } = ") && propertyCode.EndsWith(";"))
+            if (propertyCode.StartsWith("{ get; set; } = ") && propertyCode.EndsWith(";"))
             {
                 property.Initializer = propertyCode["{ get; set; } = ".Length..^1];
             }

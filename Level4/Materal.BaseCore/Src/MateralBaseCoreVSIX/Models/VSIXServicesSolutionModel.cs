@@ -85,7 +85,7 @@ namespace MateralBaseCoreVSIX.Models
                     Services.Add(serviceModel);
                 }
             }
-        }        
+        }
         /// <summary>
         /// 获得Service模型
         /// </summary>
@@ -112,7 +112,7 @@ namespace MateralBaseCoreVSIX.Models
                 {
                     result = Services.FirstOrDefault(m => m.Name == serviceName);
                 }
-                if(result == null)
+                if (result == null)
                 {
                     return new ServiceModel(codes, i);
                 }

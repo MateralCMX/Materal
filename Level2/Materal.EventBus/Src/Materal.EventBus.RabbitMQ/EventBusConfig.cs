@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Materal.EventBus.RabbitMQ
+﻿namespace Materal.EventBus.RabbitMQ
 {
     /// <summary>
     /// 事件总线配置
@@ -60,7 +58,7 @@ namespace Materal.EventBus.RabbitMQ
         public string GetTrueQueueName(object eventHandler)
         {
             string? queueName = null;
-            if(eventHandler is null) throw new EventBusException("事件处理器不能为空");
+            if (eventHandler is null) throw new EventBusException("事件处理器不能为空");
             if (eventHandler is IRabbitMQEventHandler handler)
             {
                 queueName = handler.QueueName;
@@ -81,12 +79,12 @@ namespace Materal.EventBus.RabbitMQ
             if (eventHandlerType.IsAssignableTo<IRabbitMQEventHandler>())
             {
                 object? handlerObj = serviceProvider.GetService(eventHandlerType);
-                if(handlerObj is not null)
+                if (handlerObj is not null)
                 {
                     queueName = GetTrueQueueName(handlerObj);
                 }
             }
-            if(queueName is null || string.IsNullOrEmpty(queueName))
+            if (queueName is null || string.IsNullOrEmpty(queueName))
             {
                 queueName = GetTrueQueueName(eventHandlerType);
             }

@@ -42,7 +42,7 @@
             foreach (Assembly assembly in assemblies)
             {
                 targetType = typeName.GetTypeByTypeName(assembly, filter, argTypes);
-                if(targetType is not null) break;
+                if (targetType is not null) break;
             }
             if (targetType is null) return null;
             return targetType;

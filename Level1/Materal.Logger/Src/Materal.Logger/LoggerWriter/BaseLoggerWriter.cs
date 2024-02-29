@@ -112,7 +112,7 @@
         /// <param name="model"></param>
         /// <param name="logLevels"></param>
         /// <returns></returns>
-        protected virtual bool CanWriteLoggerByLogLevels(LoggerWriterModel model, Dictionary<string, LogLevel>? logLevels) 
+        protected virtual bool CanWriteLoggerByLogLevels(LoggerWriterModel model, Dictionary<string, LogLevel>? logLevels)
             => CanWriteLogger(model, model.CategoryName, logLevels);
         /// <summary>
         /// 是否可以写入日志

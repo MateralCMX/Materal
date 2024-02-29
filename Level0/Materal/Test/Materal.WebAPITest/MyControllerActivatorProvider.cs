@@ -13,7 +13,7 @@ namespace Materal.WebAPITest
             Func<ControllerContext, object> activator = _controllerActivatorProvider.CreateActivator(descriptor);
             object result(ControllerContext context)
             {
-                if(context.HttpContext.RequestServices is not MateralServiceProvider)
+                if (context.HttpContext.RequestServices is not MateralServiceProvider)
                 {
                     context.HttpContext.RequestServices = new MateralServiceProvider(context.HttpContext.RequestServices);
                 }

@@ -43,7 +43,7 @@ namespace WechatServerTest
             {
                 contentBuilder.AppendLine($"[Headers] {header.Key} {header.Value}");
             }
-            if(method != "GET")
+            if (method != "GET")
             {
                 context.Request.Body.Seek(0, SeekOrigin.Begin);
                 using MemoryStream stream = new();

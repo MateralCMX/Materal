@@ -55,7 +55,7 @@ namespace Materal.BaseCore.WebAPI.Filters
         /// <returns></returns>
         private static ResultModel? HandlerException(Exception exception)
         {
-            if(CustomHandlerException is not null)
+            if (CustomHandlerException is not null)
             {
                 return CustomHandlerException?.Invoke(exception);
             }

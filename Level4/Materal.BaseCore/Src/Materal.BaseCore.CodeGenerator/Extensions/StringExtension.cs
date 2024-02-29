@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Materal.BaseCore.CodeGenerator.Extensions
+﻿namespace Materal.BaseCore.CodeGenerator.Extensions
 {
     public static class StringExtension
     {

@@ -169,8 +169,8 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 string moduleApplicationPath = Path.GetDirectoryName(_moduleApplication?.FullPath ?? throw new Exception("获取moduleApplication路径失败"));
                 string moduleRepositoryPath = Path.GetDirectoryName(_moduleRepository?.FullPath ?? throw new Exception("获取moduleRepository路径失败"));
                 string moduleWebAPIPath = Path.GetDirectoryName(_moduleWebAPI?.FullPath ?? throw new Exception("获取moduleWebAPI路径失败"));
-                if(_projectName is null || string.IsNullOrWhiteSpace(_projectName)) throw new Exception("项目名称为空");
-                if(_moduleName is null || string.IsNullOrWhiteSpace(_moduleName)) throw new Exception("模块名称为空");
+                if (_projectName is null || string.IsNullOrWhiteSpace(_projectName)) throw new Exception("项目名称为空");
+                if (_moduleName is null || string.IsNullOrWhiteSpace(_moduleName)) throw new Exception("模块名称为空");
                 GeneratorCodeContext context = new(coreAbstractionsPath, coreRepositoryPath, moduleAbstractionsPath, moduleApplicationPath, moduleRepositoryPath, moduleWebAPIPath, _projectName, _moduleName);
                 context.Refresh(_moduleAbstractions);
                 ExcuteMethodInfoByAttribute<GeneratorCodeBeforMethodAttribute>(allMethodInfos, context);
@@ -180,7 +180,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 ExcuteMethodInfoByAttribute<GeneratorCodeAfterMethodAttribute>(allMethodInfos, context);
                 context.Refresh(_moduleAbstractions);
                 List<string> generatorCodePlugPaths = GetAllGeneratorCodePlugPaths();
-                if(generatorCodePlugPaths.Count > 0)
+                if (generatorCodePlugPaths.Count > 0)
                 {
                     await ExcutePlugAsync(generatorCodePlugPaths, context);
                 }

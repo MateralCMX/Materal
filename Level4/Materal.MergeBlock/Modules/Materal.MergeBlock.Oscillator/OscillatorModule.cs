@@ -1,5 +1,4 @@
-﻿using Dy.Oscillator.Abstractions;
-using Materal.Oscillator.SqliteEFRepository;
+﻿using Materal.Oscillator.SqliteEFRepository;
 using Materal.TTA.Common;
 using Materal.TTA.EFRepository;
 
@@ -13,7 +12,7 @@ namespace Materal.MergeBlock.Oscillator
         /// <summary>
         /// 构造方法
         /// </summary>
-        public OscillatorModule():base("调度器模块", "Oscillator")
+        public OscillatorModule() : base("调度器模块", "Oscillator")
         {
 
         }

@@ -1,6 +1,4 @@
-﻿using Materal.MergeBlock.GeneratorCode.Attributers;
-
-namespace RC.Deploy.Abstractions.Domain
+﻿namespace RC.Deploy.Abstractions.Domain
 {
     /// <summary>
     /// 应用程序信息

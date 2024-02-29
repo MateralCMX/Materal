@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Gateway.Application
+﻿namespace Materal.Gateway.Application
 {
     /// <summary>
     /// 用户实体

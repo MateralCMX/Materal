@@ -15,7 +15,7 @@ namespace MateralMergeBlockVSIX.Extensions
         /// <param name="paths"></param>
         public static void SaveAs(this StringBuilder stringBuilder, SolutionItem? solutionItem, params string[] paths)
         {
-            if(solutionItem is null || paths.Length < 1) return;
+            if (solutionItem is null || paths.Length < 1) return;
             DirectoryInfo directoryInfo = GetGeneratorCodeRootDirectory(solutionItem);
             string filePath = directoryInfo.FullName;
             for (int i = 0; i < paths.Length - 1; i++)

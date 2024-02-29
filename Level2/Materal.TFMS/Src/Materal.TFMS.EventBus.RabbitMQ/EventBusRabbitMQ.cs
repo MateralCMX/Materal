@@ -102,7 +102,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
                 channel.Dispose();
             });
         }
-        public async Task SubscribeAsync<T, THandler>() where T : IntegrationEvent where THandler : IIntegrationEventHandler<T> 
+        public async Task SubscribeAsync<T, THandler>() where T : IntegrationEvent where THandler : IIntegrationEventHandler<T>
             => await SubscribeAsync(typeof(T), typeof(THandler));
         public async Task SubscribeAsync(Type eventType, Type eventHandlerType)
         {
@@ -315,7 +315,7 @@ namespace Materal.TFMS.EventBus.RabbitMQ
             Type concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
             MethodInfo? handlerMethodInfo = concreteType.GetMethod("HandleAsync");
             if (handlerMethodInfo == null || handlerMethodInfo.ReturnType != typeof(Task)) return false;
-            if(integrationEvent is IntegrationEvent @event)
+            if (integrationEvent is IntegrationEvent @event)
             {
                 _logger?.LogInformation("处理事件: {eventName}_{EventId}", eventName, @event.ID);
             }

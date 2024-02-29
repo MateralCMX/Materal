@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Materal.Oscillator.Abstractions.Models
+﻿namespace Materal.Oscillator.Abstractions.Models
 {
     /// <summary>
     /// 添加任务事件模型

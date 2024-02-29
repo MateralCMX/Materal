@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Runtime.Loader;
+﻿using System.Runtime.Loader;
 
 namespace Materal.MergeBlock
 {
@@ -34,7 +33,7 @@ namespace Materal.MergeBlock
         {
             RemoveRootHasAssemblies(autoRemoveAssemblies, directoryInfo);
             FileInfo[] moduleDllFileInfos = directoryInfo.GetFiles("*.dll");
-            DirectoryInfo = directoryInfo;            
+            DirectoryInfo = directoryInfo;
             LoadContext = directoryInfo.FullName != AppDomain.CurrentDomain.BaseDirectory ? new ModuleLoadContext(directoryInfo) : AssemblyLoadContext.Default;
             foreach (FileInfo dllFileInfo in moduleDllFileInfos)
             {
@@ -58,7 +57,7 @@ namespace Materal.MergeBlock
                         ModuleInfos.Add(moduleInfo);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     MergeBlockHost.Logger?.LogDebug(ex, $"加载文件[{dllFileInfo.FullName}]失败");
                 }

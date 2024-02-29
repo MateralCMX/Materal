@@ -1,5 +1,4 @@
 ﻿using MateralVersion.Helper;
-using System;
 using System.CommandLine;
 using System.Text;
 

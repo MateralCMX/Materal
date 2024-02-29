@@ -23,7 +23,7 @@
     /// <typeparam name="TPrimaryKeyType"></typeparam>
     public abstract class SqlServerEFUnitOfWorkImpl<T, TPrimaryKeyType> : EFUnitOfWorkImpl<T, TPrimaryKeyType>, IUnitOfWork
         where T : DbContext
-        where TPrimaryKeyType: struct
+        where TPrimaryKeyType : struct
     {
         /// <summary>
         /// 构造方法

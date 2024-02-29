@@ -26,7 +26,7 @@ namespace Materal.MergeBlock.OscillatorTest.Controllers
                 PageIndex = 1,
                 PageSize = 1
             });
-            if(data.Count <= 0) throw new MergeBlockModuleException("没有找到可用的定时任务");
+            if (data.Count <= 0) throw new MergeBlockModuleException("没有找到可用的定时任务");
             await oscillatorHost.RunNowAsync(data.First().ID);
         }
     }

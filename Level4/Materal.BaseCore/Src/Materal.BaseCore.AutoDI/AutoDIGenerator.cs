@@ -89,7 +89,7 @@ namespace Materal.BaseCore.AutoDI
                 foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
                 {
                     string attributeName = attributeSyntax.Name.ToString();
-                    if(attributeName == "AutoThisDI" || attributeName == "AutoThisDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.AutoThisDI" || attributeName == "Materal.BaseCore.CodeGenerator.AutoThisDIAttribute")
+                    if (attributeName == "AutoThisDI" || attributeName == "AutoThisDIAttribute" || attributeName == "Materal.BaseCore.CodeGenerator.AutoThisDI" || attributeName == "Materal.BaseCore.CodeGenerator.AutoThisDIAttribute")
                     {
                         canThis = true;
                         break;
@@ -108,7 +108,7 @@ namespace Materal.BaseCore.AutoDI
             {
                 if (memberDeclarationSyntax is not FieldDeclarationSyntax fieldDeclarationSyntax) continue;
                 bool canAdd = true;
-                if(fieldDeclarationSyntax.AttributeLists != null && fieldDeclarationSyntax.AttributeLists.Count > 0)
+                if (fieldDeclarationSyntax.AttributeLists != null && fieldDeclarationSyntax.AttributeLists.Count > 0)
                 {
                     foreach (AttributeListSyntax attributeListSyntax in fieldDeclarationSyntax.AttributeLists)
                     {
@@ -165,7 +165,7 @@ namespace Materal.BaseCore.AutoDI
                 {
                     codeContent.AppendLine($"        public {className}(IServiceProvider serviceProvider, {string.Join(", ", args)}) : this(serviceProvider)");
                 }
-                else if(canBase)
+                else if (canBase)
                 {
                     codeContent.AppendLine($"        public {className}(IServiceProvider serviceProvider, {string.Join(", ", args)}) : base(serviceProvider)");
                 }

@@ -37,7 +37,7 @@ namespace Materal.BaseCore.Test
                 dto.Name = data.Name;
                 dto.ParentID = data.ParentID;
             }, false);
-         }
+        }
         public class DataModel : ITreeDomain
         {
             public Guid ID { get; set; }

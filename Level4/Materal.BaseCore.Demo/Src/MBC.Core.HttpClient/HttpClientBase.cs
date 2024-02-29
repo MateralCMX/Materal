@@ -7,7 +7,7 @@ namespace MBC.Core.HttpClient
     public class HttpClientBase : MateralCoreHttpClientBase
     {
         private readonly string _appName;
-        public HttpClientBase(string projectName, IServiceProvider serviceProvider): base(serviceProvider)
+        public HttpClientBase(string projectName, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             string[] temp = projectName.Split('.');
             if (temp.Length > 1)

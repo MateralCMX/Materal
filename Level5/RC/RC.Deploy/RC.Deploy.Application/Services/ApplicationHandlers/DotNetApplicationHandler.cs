@@ -1,5 +1,4 @@
-﻿using Materal.Abstractions;
-using RC.Deploy.Application.Services.Models;
+﻿using RC.Deploy.Application.Services.Models;
 
 namespace RC.Deploy.Application.Services.ApplicationHandlers
 {
@@ -34,7 +33,7 @@ namespace RC.Deploy.Application.Services.ApplicationHandlers
             IDefaultDataRepository defaultDataRepository = scope.ServiceProvider.GetRequiredService<IDefaultDataRepository>();
             List<DefaultData> defaultDatas = await defaultDataRepository.FindAsync(m => m.ApplicationType == ApplicationTypeEnum.DotNet);
             List<string> runParams = [];
-            if(model.ApplicationInfo.RunParams is not null && !string.IsNullOrWhiteSpace(model.ApplicationInfo.RunParams))
+            if (model.ApplicationInfo.RunParams is not null && !string.IsNullOrWhiteSpace(model.ApplicationInfo.RunParams))
             {
                 runParams.Add(model.ApplicationInfo.RunParams);
             }

@@ -25,7 +25,7 @@ namespace Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers
             cSharpCodeFileModel.Name = name;
             #endregion
             #region 父类和接口
-            if(cSharpCodeFileModel is InterfaceModel interfaceModel)
+            if (cSharpCodeFileModel is InterfaceModel interfaceModel)
             {
                 int index = code.LastIndexOf(" : ");
                 if (index > 0)

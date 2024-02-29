@@ -42,7 +42,7 @@ namespace Materal.TTA.EFRepository
             lock (entitiesLockObj)
             {
                 EntityEntry<TEntity> entity = DBContext.Entry(obj);
-                if(entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能添加");
+                if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能添加");
                 entity.State = EntityState.Added;
             }
         }

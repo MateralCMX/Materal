@@ -15,7 +15,7 @@ namespace Materal.MergeBlock.NormalModule
         public override async Task ConfigServiceBeforeAsync(IConfigServiceContext context)
         {
             await Instance.OnConfigServiceBeforeAsync(context);
-            if(context is INormalConfigServiceContext normalConfigServiceContext)
+            if (context is INormalConfigServiceContext normalConfigServiceContext)
             {
                 await Instance.OnConfigServiceBeforeAsync(normalConfigServiceContext);
             }

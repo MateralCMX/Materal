@@ -67,7 +67,7 @@ namespace Materal.BaseCore.Oscillator
         }
         public async Task RunNowAsync<TSchedule, TData>(TData data) where TSchedule : IOscillatorSchedule, new()
         {
-            if(data == null)
+            if (data == null)
             {
                 await RunNowAsync<TSchedule>();
             }

@@ -1,8 +1,6 @@
 ﻿using COSXML;
 using COSXML.Auth;
-using COSXML.Model.Bucket;
 using COSXML.Model.Object;
-using COSXML.Model.Tag;
 using COSXML.Transfer;
 using Materal.Abstractions;
 
@@ -61,7 +59,7 @@ namespace Materal.Utils.CloudStorage.Tencent
                 Dictionary<string, object> credential = STSClient.genCredential(values);
                 if (credential["Credentials"] is not JObject data) throw new TencentCloudStorageException("创建临时秘钥失败");
                 if (credential["Expiration"] is not DateTime expiration) throw new TencentCloudStorageException("获取Expiration失败");
-                if(expiration.Kind != DateTimeKind.Local)
+                if (expiration.Kind != DateTimeKind.Local)
                 {
                     expiration = expiration.ToLocalTime();
                 }

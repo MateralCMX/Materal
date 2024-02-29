@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using System.ComponentModel.DataAnnotations;
 
 namespace RC.Deploy.Application.Controllers
 {

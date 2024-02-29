@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.CodeGenerator.Extensions;
-using System.Text;
 
 namespace Materal.BaseCore.CodeGenerator.Models
 {
@@ -28,10 +27,10 @@ namespace Materal.BaseCore.CodeGenerator.Models
                 string actionCode = codes[i].Trim();
                 if (actionCode.StartsWith("using"))
                 {
-                    if (actionCode == "using Materal.BaseCore.PresentationModel;" || 
+                    if (actionCode == "using Materal.BaseCore.PresentationModel;" ||
                         actionCode == "using Materal.BaseCore.Services.Models;" ||
                         actionCode == "using Materal.Utils.Model;" ||
-                        actionCode == "using Microsoft.AspNetCore.Mvc;" || 
+                        actionCode == "using Microsoft.AspNetCore.Mvc;" ||
                         actionCode == "using System.ComponentModel.DataAnnotations;" ||
                         Usings.Contains(actionCode)) continue;
                     Usings.Add(actionCode);
@@ -93,7 +92,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
             codeContent.AppendLine($"    {{");
             foreach (InterfaceMethodModel model in models)
             {
-                if(model.Annotations.Count > 1)
+                if (model.Annotations.Count > 1)
                 {
                     codeContent.AppendLine($"        /// <summary>");
                     codeContent.AppendLine($"        {model.Annotations[1]}");
@@ -123,7 +122,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
                     string type = string.IsNullOrWhiteSpace(item.RequestModelType) ? item.Type : item.RequestModelType;
                     string name = string.IsNullOrWhiteSpace(item.RequestModelName) ? item.Name : item.RequestModelName;
                     string prefix = string.Empty;
-                    if(type != item.RequestModelType)
+                    if (type != item.RequestModelType)
                     {
                         prefix = type.EndsWith("?") ? "" : $"[Required(ErrorMessage = \"{name}不能为空\")] ";
                         modelNames.Add(name);

@@ -1,6 +1,4 @@
-﻿using Materal.Extensions.DependencyInjection;
-
-namespace Materal.Test.ExtensionsTests.DependencyInjectionTests
+﻿namespace Materal.Test.ExtensionsTests.DependencyInjectionTests
 {
     public class ServiceImpl : IService
     {

@@ -2,8 +2,6 @@
 global using Materal.Extensions;
 global using Materal.Utils.Model;
 global using Microsoft.AspNetCore.Http;
-global using Microsoft.AspNetCore.Mvc;
-global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.DependencyInjection.Extensions;
 global using Microsoft.Extensions.Logging;

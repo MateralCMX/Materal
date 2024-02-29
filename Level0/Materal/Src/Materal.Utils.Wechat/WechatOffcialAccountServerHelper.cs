@@ -63,7 +63,7 @@ namespace Materal.Utils.Wechat
             MethodInfo? methodInfo = eventHandler.GetType().GetMethod("HandlerAsync");
             if (methodInfo is null) return null;
             object? handlerResult = methodInfo.Invoke(eventHandler, new object[] { @event });
-            if(handlerResult is Task<ReplyMessageModel?> task)
+            if (handlerResult is Task<ReplyMessageModel?> task)
             {
                 ReplyMessageModel? result = await task;
                 return result;

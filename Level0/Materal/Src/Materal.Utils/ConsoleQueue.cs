@@ -15,7 +15,7 @@ namespace Materal.Utils
         /// </summary>
         public static void Start()
         {
-            if(_writeBuffer is not null) return;
+            if (_writeBuffer is not null) return;
             _writeBuffer = new(WriteMessage);
         }
         /// <summary>
@@ -24,7 +24,7 @@ namespace Materal.Utils
         /// <returns></returns>
         public static async Task ShutdownAsync()
         {
-            if(_writeBuffer is null) return;
+            if (_writeBuffer is null) return;
             _writeBuffer.Complete();
             await _writeBuffer.Completion;
             _writeBuffer = null;

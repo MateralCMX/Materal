@@ -38,7 +38,7 @@ namespace ConsoleDemo
 
         public void Init(IServiceProvider services)
         {
-            using IServiceScope scope = services.CreateScope();            
+            using IServiceScope scope = services.CreateScope();
             IMigrateHelper migrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<OscillatorDBContext>>();
             migrateHelper.Migrate();
             IMigrateHelper drMigrateHelper = scope.ServiceProvider.GetRequiredService<IMigrateHelper<OscillatorDRDBContext>>();

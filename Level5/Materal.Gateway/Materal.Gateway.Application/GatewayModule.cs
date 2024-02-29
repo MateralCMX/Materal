@@ -17,7 +17,7 @@ namespace Materal.Gateway.Application
         /// <summary>
         /// 构造方法
         /// </summary>
-        public GatewayModule():base("网关模块", "Gateway")
+        public GatewayModule() : base("网关模块", "Gateway")
         {
 
         }
