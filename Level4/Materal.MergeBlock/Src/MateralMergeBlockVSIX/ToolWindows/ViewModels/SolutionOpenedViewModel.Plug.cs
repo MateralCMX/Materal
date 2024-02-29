@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using Community.VisualStudio.Toolkit;
 using Materal.Abstractions;
 using Materal.MergeBlock.GeneratorCode;
 using MateralMergeBlockVSIX.Extensions;
@@ -21,11 +22,33 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         private List<string> GetAllGeneratorCodePlugPaths()
         {
             List<string> generatorCodePlugPaths = [];
-            if (_solution is null) return generatorCodePlugPaths;
-            foreach (SolutionItem? solutionItem in _solution.Children)
+            if (_coreAbstractions is not null)
             {
-                if (solutionItem is null) continue;
-                generatorCodePlugPaths.AddRange(GetAllGeneratorCodePlugPaths(solutionItem));
+                generatorCodePlugPaths.AddRange(GetAllGeneratorCodePlugPaths(_coreAbstractions));
+            }
+            if (_coreRepository is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllGeneratorCodePlugPaths(_coreRepository));
+            }
+            if (_coreApplication is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllGeneratorCodePlugPaths(_coreApplication));
+            }
+            if (_moduleAbstractions is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllGeneratorCodePlugPaths(_moduleAbstractions));
+            }
+            if (_moduleRepository is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllGeneratorCodePlugPaths(_moduleRepository));
+            }
+            if (_moduleApplication is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllGeneratorCodePlugPaths(_moduleApplication));
+            }
+            if (_moduleWebAPI is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllGeneratorCodePlugPaths(_moduleWebAPI));
             }
             return generatorCodePlugPaths;
         }

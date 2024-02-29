@@ -45,9 +45,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CmdHelper.cs" />
     <Compile Include="Extensions\GeneratorCodeContextExtensions.cs" />
     <Compile Include="Extensions\SolutionItemExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="ProcessHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commands\MergeBlockManagerWindowCommand.cs" />
     <Compile Include="MateralMergeBlockVSIXPackage.cs" />
@@ -80,9 +82,11 @@
     <Compile Include="ToolWindows\SolutionOpenedControl.xaml.cs">
       <DependentUpon>SolutionOpenedControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ToolWindows\ViewModels\ModuleViewModel.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionNotOpenedViewModel.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerMapper.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.DTO.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Init.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Plug.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerEnum.cs" />
     <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerAccessors.cs" />

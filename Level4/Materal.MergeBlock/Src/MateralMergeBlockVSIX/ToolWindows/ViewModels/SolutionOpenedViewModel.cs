@@ -8,18 +8,18 @@ using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
 using Microsoft.VisualStudio.PlatformUI;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows;
-using Solution = Community.VisualStudio.Toolkit.Solution;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
 {
     public partial class SolutionOpenedViewModel : ObservableObject
     {
-        private string _solutionName = "不是MergeBlock模块项目";
+        private string _solutionName = "不是MergeBlock项目";
         /// <summary>
         /// 解决方案名称
         /// </summary>
@@ -29,110 +29,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// 显示状态
         /// </summary>
         public Visibility Visibility { get => _visibility; set { _visibility = value; NotifyPropertyChanged(); } }
-        private string? _projectName;
-        private string? _moduleName;
-        private SolutionItem? _coreAbstractions;
-        private SolutionItem? _coreRepository;
-        private SolutionItem? _moduleAbstractions;
-        private SolutionItem? _moduleApplication;
-        private SolutionItem? _moduleRepository;
-        private SolutionItem? _moduleWebAPI;
-        private Solution? _solution;
-        private readonly List<Type> _generatorCodePlugTypes = [];
         /// <summary>
-        /// 初始化
+        /// 模组
         /// </summary>
-        /// <param name="solution"></param>
-        public void Init(Solution solution)
-        {
-            try
-            {
-                _solution = solution;
-                BindingSolutionItems(solution.Children);
-                SolutionName = $"{_projectName}.{_moduleName}";
-                Visibility = Visibility.Visible;
-            }
-            catch
-            {
-                SolutionName = "不是MergeBlock模块项目";
-                Visibility = Visibility.Collapsed;
-                _coreAbstractions = null;
-                _coreRepository = null;
-                _moduleAbstractions = null;
-                _moduleApplication = null;
-                _moduleRepository = null;
-                _moduleWebAPI = null;
-            }
-        }
-        /// <summary>
-        /// 绑定解决方案项
-        /// </summary>
-        /// <param name="solutionItems"></param>
-        private void BindingSolutionItems(IEnumerable<SolutionItem?> solutionItems)
-        {
-            foreach (SolutionItem? solutionItem in solutionItems)
-            {
-                if (solutionItem is null) continue;
-                BindingSolutionItem(solutionItem);
-            }
-        }
-        /// <summary>
-        /// 绑定解决方案项
-        /// </summary>
-        /// <param name="solutionItem"></param>
-        /// <exception cref="Exception"></exception>
-        private void BindingSolutionItem(SolutionItem solutionItem)
-        {
-            if (solutionItem.Type == SolutionItemType.SolutionFolder)
-            {
-                BindingSolutionItems(solutionItem.Children);
-            }
-            else if (solutionItem.Type == SolutionItemType.Project)
-            {
-                string[] projectNames = solutionItem.Name.Split('.');
-                if (projectNames.Length != 3) return;
-                if (_projectName is null)
-                {
-                    _projectName = projectNames[0];
-                }
-                else if (_projectName != projectNames[0]) return;
-                if (projectNames[1] != "Core")
-                {
-                    if (_moduleName is null)
-                    {
-                        _moduleName = projectNames[1];
-                    }
-                    else if (_moduleName != projectNames[1]) return;
-                    switch (projectNames[2])
-                    {
-                        case "WebAPI":
-                            _moduleWebAPI = solutionItem;
-                            break;
-                        case "Abstractions":
-                            _moduleAbstractions = solutionItem;
-                            break;
-                        case "Application":
-                            _moduleApplication = solutionItem;
-                            break;
-                        case "Repository":
-                            _moduleRepository = solutionItem;
-                            break;
-                    }
-                }
-                else
-                {
-                    switch (projectNames[2])
-                    {
-                        case "Abstractions":
-                            _coreAbstractions = solutionItem;
-                            break;
-                        case "Repository":
-                            _coreRepository = solutionItem;
-                            break;
-                    }
-                }
-            }
-        }
+        public ObservableCollection<ModuleViewModel> Modules { get; set; } = [];
         /// <summary>
         /// 生成代码
         /// </summary>

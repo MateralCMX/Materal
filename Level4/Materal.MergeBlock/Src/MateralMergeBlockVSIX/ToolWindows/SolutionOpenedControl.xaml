@@ -11,7 +11,54 @@
         <viewModels:SolutionOpenedViewModel x:Name="ViewModel" />
     </UserControl.DataContext>
     <StackPanel>
-        <TextBlock Text="{Binding SolutionName, Mode=OneWay}"/>
-        <Button x:Name="GeneratorCodeButton" Content="生成代码" Visibility="{Binding Visibility, Mode=OneWay}" Click="GeneratorCodeButton_Click" />
+        <TextBlock HorizontalAlignment="Stretch" TextAlignment="Center" FontWeight="Bold" Margin="0,15,0,10" Text="{Binding SolutionName, Mode=OneWay}"/>
+        <StackPanel Margin="5" Visibility="{Binding Visibility, Mode=OneWay}">
+            <Button Margin="0,0,0,5" Content="生成代码" Click="GeneratorCodeButton_Click" />
+        </StackPanel>
+        <Grid Margin="5" Visibility="{Binding Visibility, Mode=OneWay}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock FontWeight="Bold" Text="其他模块" />
+            <ScrollViewer Grid.Row="1" Margin="5" Height="200">
+                <ItemsControl ItemsSource="{Binding Modules, Mode=OneWay}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical" Margin="0,0,5,0" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="viewModels:ModuleViewModel">
+                            <Grid Margin="0,0,0,5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding ModuleName}" TextAlignment="Right" />
+                                <Button Grid.Column="1" DataContext="{Binding}" Content="打开" Margin="5,0,0,0" Click="OpenModuleSolution_Click" />
+                                <Button Grid.Column="2" DataContext="{Binding}" Content="构建" Margin="5,0,0,0" Click="BuildModuleSolution_Click" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+        <StackPanel Margin="5" Visibility="{Binding Visibility, Mode=OneWay}">
+            <TextBlock FontWeight="Bold" Margin="0,0,0,5" Text="创建新模块" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="ModuleName" Grid.Column="0" Text="NewModule" />
+                <Button Grid.Column="1" Margin="5,0,0,0" Content="创建" Click="CreateNewModuleButton_Click" />
+            </Grid>
+        </StackPanel>
+        <StackPanel Margin="5" Visibility="{Binding Visibility, Mode=OneWay}">
+            <TextBlock FontWeight="Bold" Margin="0,0,0,5" Text="项目功能" />
+            <Button Margin="0,0,0,5" Content="构建所有" Click="BuildAllButton_Click" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

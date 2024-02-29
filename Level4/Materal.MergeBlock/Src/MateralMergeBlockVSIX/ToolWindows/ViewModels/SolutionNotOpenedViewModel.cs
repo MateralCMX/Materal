@@ -11,11 +11,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
     {
         private string? _projectName = "MMB";
         public string? ProjectName { get => _projectName; set { _projectName = value; NotifyPropertyChanged(); } }
-        //private string _moduleName = "NewModule";
-        private string _moduleName = "Authority";
+        private string _moduleName = "NewModule";
+        //private string _moduleName = "Authority";
         public string ModuleName { get => _moduleName; set { _moduleName = value; NotifyPropertyChanged(); } }
-        //private string _projectPath = @"C:\Project";
-        private string _projectPath = @"D:\Project\Test\Materal.MergeBlockTest\MMB";
+        private string _projectPath = @"C:\Project";
+        //private string _projectPath = @"D:\Project\Test\Materal.MergeBlockTest\MMB";
         public string ProjectPath { get => _projectPath; set { _projectPath = value; NotifyPropertyChanged(); } }
         public SolutionNotOpenedViewModel() => PropertyChanged += SolutionNotOpenedControlViewModel_PropertyChanged;
         private void SolutionNotOpenedControlViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
