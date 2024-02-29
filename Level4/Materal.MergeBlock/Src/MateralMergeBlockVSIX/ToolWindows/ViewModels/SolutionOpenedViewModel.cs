@@ -7,6 +7,7 @@ using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
 using Microsoft.VisualStudio.PlatformUI;
+using Microsoft.VisualStudio.Shell.Interop;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -84,11 +85,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 {
                     await ExcutePlugAsync(generatorCodePlugPaths, context);
                 }
-                await VS.MessageBox.ShowAsync("提示", "代码生成完毕", Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_INFO, Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK);
+                await VS.MessageBox.ShowAsync("提示", "代码生成完毕", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
             catch (Exception ex)
             {
-                await VS.MessageBox.ShowAsync("错误", ex.GetErrorMessage(), Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_WARNING, Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK);
+                await VS.MessageBox.ShowAsync("错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
         }
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell.Interop;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -48,6 +49,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// </summary>
         public bool CanOpen { get => _canOpen; set { _canOpen = value; NotifyPropertyChanged(); } }
         /// <summary>
+        /// 构建成功
+        /// </summary>
+        public bool BuildSuccess { get; private set; }
+        /// <summary>
         /// 打开Sln文件
         /// </summary>
         public void Open()
@@ -62,9 +67,17 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// </summary>
         public void Build()
         {
+            BuildSuccess = true;
             CmdHelper cmdHelper = new();
             string[] cmds = [$"dotnet build {_applicationCsprojPath} -c Debug"];
+            cmdHelper.OutputDataReceived += CmdHelper_OutputDataReceived;
+            cmdHelper.ErrorDataReceived += CmdHelper_OutputDataReceived;
             cmdHelper.RunCmdCommands(cmds);
+        }
+        private void CmdHelper_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (!e.Data.Contains(" error ")) return;
+            BuildSuccess = false;
         }
     }
 }
