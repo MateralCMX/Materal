@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.Threading;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace MateralMergeBlockVSIX
 {
@@ -21,7 +22,7 @@ namespace MateralMergeBlockVSIX
         /// </summary>
         /// <param name="commands"></param>
         /// <returns></returns>
-        public void RunCmdCommands(params string[] commands)
+        public async Task RunCmdCommandsAsync(params string[] commands)
         {
             ProcessStartInfo processStartInfo = ProcessHelper.GetProcessStartInfo("cmd.exe", string.Empty);
             using var process = new Process { StartInfo = processStartInfo };
@@ -45,12 +46,12 @@ namespace MateralMergeBlockVSIX
                 }
                 foreach (string command in commands)
                 {
-                    process.StandardInput.WriteLine(command);
+                    await process.StandardInput.WriteLineAsync(command);
                 }
             }
-            process.StandardInput.WriteLine("exit");
+            await process.StandardInput.WriteLineAsync("exit");
             process.StandardInput.AutoFlush = true;
-            process.WaitForExit();
+            await process.WaitForExitAsync();
         }
     }
 }

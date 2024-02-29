@@ -36,57 +36,38 @@ namespace MateralMergeBlockVSIX.ToolWindows
                 VS.MessageBox.Show("错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
         }
-        private void BuildAllButton_Click(object sender, RoutedEventArgs e)
+        private void BuildAllButton_Click(object sender, RoutedEventArgs e) => ThreadHelper.JoinableTaskFactory.Run(async () =>
         {
             try
             {
-                List<string> errorList = [];
                 foreach (ModuleViewModel moduleViewModel in ViewModel.Modules)
                 {
-                    moduleViewModel.Build();
-                    if (!moduleViewModel.BuildSuccess)
-                    {
-                        errorList.Add(moduleViewModel.ModuleName);
-                    }
+                    await moduleViewModel.BuildAsync();
                 }
-                if (errorList.Count == 0)
-                {
-                    VS.MessageBox.Show("提示", "所有模块已构建", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-                }
-                else
-                {
-                    VS.MessageBox.Show("提示", $"模块{string.Join(",", errorList)}构建失败", OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-                }
+                await VS.MessageBox.ShowAsync("提示", "所有模块已构建", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
             catch (Exception ex)
             {
-                VS.MessageBox.Show("错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+                await VS.MessageBox.ShowAsync("错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
-        }
+        });
         private void OpenModuleSolution_Click(object sender, RoutedEventArgs e)
         {
-            if(sender is not Button button || button.DataContext is not ModuleViewModel viewModel) return;
+            if (sender is not Button button || button.DataContext is not ModuleViewModel viewModel) return;
             viewModel.Open();
         }
-        private void BuildModuleSolution_Click(object sender, RoutedEventArgs e)
+        private void BuildModuleSolution_Click(object sender, RoutedEventArgs e) => ThreadHelper.JoinableTaskFactory.Run(async () =>
         {
             try
             {
                 if (sender is not Button button || button.DataContext is not ModuleViewModel viewModel) return;
-                viewModel.Build();
-                if (viewModel.BuildSuccess)
-                {
-                    VS.MessageBox.Show("提示", "项目已构建", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-                }
-                else
-                {
-                    VS.MessageBox.Show("错误", "项目构建失败", OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-                }
+                await viewModel.BuildAsync();
+                await VS.MessageBox.ShowAsync("提示", "项目已构建", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
             catch (Exception ex)
             {
-                VS.MessageBox.Show("错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+                await VS.MessageBox.ShowAsync("错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
-        }
+        });
     }
 }
