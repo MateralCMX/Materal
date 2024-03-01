@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using Community.VisualStudio.Toolkit;
 using Materal.Abstractions;
 using Materal.MergeBlock.GeneratorCode;
 using MateralMergeBlockVSIX.Extensions;
@@ -113,6 +112,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine("using Materal.Abstractions;");
             codeContent.AppendLine("using Materal.Extensions;");
             codeContent.AppendLine("using Materal.Utils;");
+            codeContent.AppendLine("using Materal.Utils;");
+            codeContent.AppendLine("using System.Linq;");
+            codeContent.AppendLine("using System.Linq.Expressions;");
             codeContent.AppendLine(scriptCode);
             scriptCode = codeContent.ToString();
             Assembly[] trueAssemblies =

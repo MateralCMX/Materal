@@ -1,6 +1,4 @@
-﻿using Materal.MergeBlock.GeneratorCode.Extensions;
-
-namespace Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers
+﻿namespace Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers
 {
     /// <summary>
     /// 名称分析代码处理器
@@ -19,7 +17,7 @@ namespace Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers
         {
             if (cSharpCodeFileModel is not EnumModel enumModel || string.IsNullOrWhiteSpace(enumModel.Name)) return true;
             string trueCode = code.Trim();
-            if (trueCode.StartsWith("{") || trueCode.StartsWith("///") || trueCode.StartsWith("[")) return false;
+            if (trueCode.StartsWith("{") || trueCode.StartsWith("///") || trueCode.StartsWith("[") || trueCode.StartsWith("}")) return false;
             if (trueCode.EndsWith(","))
             {
                 trueCode = trueCode[..^1];
