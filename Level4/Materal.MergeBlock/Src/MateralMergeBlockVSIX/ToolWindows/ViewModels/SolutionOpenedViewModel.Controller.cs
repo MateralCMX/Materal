@@ -33,6 +33,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (domain.HasAttribute<NotControllerAttribute>()) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorIControllerCode)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
             codeContent.AppendLine($"");
@@ -89,6 +92,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (domain.HasAttribute<NotControllerAttribute>()) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorControllersCode)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");

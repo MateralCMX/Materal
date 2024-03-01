@@ -33,6 +33,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (domain.HasAttribute<NotServiceAttribute>()) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorIServicesCode)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
             codeContent.AppendLine($"");
@@ -87,6 +90,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             if (domain.HasAttribute<NotServiceAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorServiceImplsCode)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
             codeContent.AppendLine($"");

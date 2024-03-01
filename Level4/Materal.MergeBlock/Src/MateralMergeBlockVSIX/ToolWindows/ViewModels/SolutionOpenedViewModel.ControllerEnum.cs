@@ -21,6 +21,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (enums.Count <= 0) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorEnumController)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"using Microsoft.AspNetCore.Authorization;");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Enums;");
             codeContent.AppendLine($"");

@@ -35,6 +35,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             if (domain.HasAttribute<NotListDTOAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorListDTOModel)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
@@ -71,6 +74,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             if (domain.HasAttribute<NotDTOAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorDTOModel)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
@@ -95,6 +101,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (!domain.IsTreeDomain || domain.HasAttribute<NotListDTOAttribute>()) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorTreeListDTOModel)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");

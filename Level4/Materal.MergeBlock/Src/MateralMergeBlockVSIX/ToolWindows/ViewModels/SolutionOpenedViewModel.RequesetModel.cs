@@ -34,6 +34,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (domain.HasAttribute<NotAddAttribute>()) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorAddRequestModel)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
@@ -58,6 +61,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (domain.HasAttribute<NotEditAttribute>()) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorEditRequestModel)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
@@ -89,6 +95,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             if (domain.HasAttribute<NotQueryAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorQueryRequestModel)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
@@ -151,6 +160,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (!domain.IsTreeDomain || domain.HasAttribute<NotQueryAttribute>()) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorTreeQueryRequestModel)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");

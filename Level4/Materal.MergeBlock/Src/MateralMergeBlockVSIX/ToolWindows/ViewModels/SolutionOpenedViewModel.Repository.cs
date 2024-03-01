@@ -32,6 +32,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (domain.HasAttribute<NotEntityConfigAttribute>()) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorEntityConfigCode)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
             codeContent.AppendLine($"");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.EFRepository.EntityConfigs");
@@ -86,6 +89,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         private void GeneratorDBContextCode(List<DomainModel> domains)
         {
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorDBContextCode)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Repository");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
@@ -130,6 +136,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (domain.HasAttribute<NotRepositoryAttribute>()) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorIRepositoryCode)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Repositories");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
@@ -177,6 +186,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (domain.HasAttribute<NotRepositoryAttribute>()) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorRepositoryImplCode)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Repository.Repositories");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");

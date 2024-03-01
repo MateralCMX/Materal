@@ -5,6 +5,15 @@
     /// </summary>
     public abstract class BaseServiceImpl : IBaseService
     {
+        private Guid? _loginUserID;
+        /// <summary>
+        /// 登录用户唯一标识
+        /// </summary>
+        public Guid LoginUserID
+        {
+            get => _loginUserID ?? throw new MergeBlockException("没有登录用户");
+            set => _loginUserID = value;
+        }
         private IMapper? _mapper;
         /// <summary>
         /// 映射器

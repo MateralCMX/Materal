@@ -17,17 +17,12 @@ namespace MateralMergeBlockVSIX.ToolWindows
             if (solution is null) return;
             ViewModel.Init(solution);
         }
-        private void GeneratorCodeButton_Click(object sender, RoutedEventArgs e)
-        {
-            //TaskScheduler uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
-            //_ = Task.Factory.StartNew(ViewModel.GeneratorCodeAsync);
-            ThreadHelper.JoinableTaskFactory.Run(ViewModel.GeneratorCodeAsync);
-        }
-
+        private void GeneratorCodeButton_Click(object sender, RoutedEventArgs e) => ThreadHelper.JoinableTaskFactory.Run(ViewModel.GeneratorCodeAsync);
         private void CreateNewModuleButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                ThreadHelper.ThrowIfNotOnUIThread();
                 SolutionNotOpenedViewModel viewModel = new()
                 {
                     ModuleName = ModuleName.Text,

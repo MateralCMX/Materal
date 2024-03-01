@@ -28,6 +28,7 @@ namespace Materal.MergeBlock.WebModule
             MvcBuilder = Services.AddControllers(options =>
             {
                 options.Filters.Add<ActionPageQueryFilterAttribute>();
+                options.Filters.Add<InitServiceFilterAttribute>();
                 options.SuppressAsyncSuffixInActionNames = true;
                 options.Conventions.Add(new MergeBlockControllerModelConvention());
             }).AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)

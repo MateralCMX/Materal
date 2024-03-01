@@ -31,11 +31,15 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domains"></param>
         private void GeneratorAutoMapperProfile(DomainModel domain, List<DomainModel> domains)
         {
+            if (domain.HasAttribute<NotAutoMapperAttribute>()) return;
             bool isGenerator = false;
             bool hasDTO = false;
             bool hasRequestModel = false;
             bool hasServicesModel = false;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorAutoMapperProfile)}");
+            codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Application.AutoMapperProfile");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");

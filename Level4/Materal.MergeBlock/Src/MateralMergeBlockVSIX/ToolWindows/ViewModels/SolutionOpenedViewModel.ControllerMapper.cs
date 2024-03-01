@@ -146,6 +146,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (!service.HasMapperMethod) return;
             StringBuilder codeContent = new();
+            codeContent.AppendLine($"/*");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorControllerMapperCode)}");
+            codeContent.AppendLine($" */");
             bool isUsing = false;
             foreach (string usingCode in service.Usings)
             {

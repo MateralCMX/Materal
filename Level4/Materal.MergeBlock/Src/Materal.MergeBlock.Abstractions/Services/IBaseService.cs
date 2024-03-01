@@ -5,6 +5,10 @@
     /// </summary>
     public interface IBaseService
     {
+        /// <summary>
+        /// 登录用户ID
+        /// </summary>
+        Guid LoginUserID { get; set; }
     }
     /// <summary>
     /// 服务
