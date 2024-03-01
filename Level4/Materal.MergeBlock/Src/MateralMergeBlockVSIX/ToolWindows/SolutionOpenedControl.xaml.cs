@@ -2,8 +2,6 @@
 using Materal.Abstractions;
 using MateralMergeBlockVSIX.ToolWindows.ViewModels;
 using Microsoft.VisualStudio.Shell.Interop;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -58,6 +56,7 @@ namespace MateralMergeBlockVSIX.ToolWindows
         private void OpenModuleSolution_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not Button button || button.DataContext is not ModuleViewModel viewModel) return;
+            ThreadHelper.ThrowIfNotOnUIThread();
             viewModel.Open();
         }
         private void BuildModuleSolution_Click(object sender, RoutedEventArgs e)
