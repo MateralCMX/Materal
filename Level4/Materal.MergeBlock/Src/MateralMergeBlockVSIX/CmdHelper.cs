@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.Threading;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace MateralMergeBlockVSIX
 {

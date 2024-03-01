@@ -2,8 +2,8 @@
 using Materal.Abstractions;
 using MateralMergeBlockVSIX.ToolWindows.ViewModels;
 using Microsoft.VisualStudio.Shell.Interop;
-using System.Collections.Generic;
-using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,7 +17,13 @@ namespace MateralMergeBlockVSIX.ToolWindows
             if (solution is null) return;
             ViewModel.Init(solution);
         }
-        private void GeneratorCodeButton_Click(object sender, RoutedEventArgs e) => ThreadHelper.JoinableTaskFactory.Run(ViewModel.GeneratorCodeAsync);
+        private void GeneratorCodeButton_Click(object sender, RoutedEventArgs e)
+        {
+            //TaskScheduler uiScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+            //_ = Task.Factory.StartNew(ViewModel.GeneratorCodeAsync);
+            ThreadHelper.JoinableTaskFactory.Run(ViewModel.GeneratorCodeAsync);
+        }
+
         private void CreateNewModuleButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -36,38 +42,71 @@ namespace MateralMergeBlockVSIX.ToolWindows
                 VS.MessageBox.Show("错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
             }
         }
-        private void BuildAllButton_Click(object sender, RoutedEventArgs e) => ThreadHelper.JoinableTaskFactory.Run(async () =>
+        private void BuildAllButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                IVsThreadedWaitDialogFactory fac = (IVsThreadedWaitDialogFactory)await VS.Services.GetThreadedWaitDialogAsync();
+                IVsThreadedWaitDialog4 twd = fac.CreateInstance();
+                int totalStep = ViewModel.Modules.Count;
+                SetBuildText(twd, totalStep);
+                int index = 1;
                 foreach (ModuleViewModel moduleViewModel in ViewModel.Modules)
                 {
+                    SetBuildText(twd, moduleViewModel, index++, totalStep);
                     await moduleViewModel.BuildAsync();
                 }
-                await VS.MessageBox.ShowAsync("提示", "所有模块已构建", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-            }
-            catch (Exception ex)
-            {
-                await VS.MessageBox.ShowAsync("错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-            }
-        });
+                twd.EndWaitDialog(out _);
+            });
+        }
         private void OpenModuleSolution_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not Button button || button.DataContext is not ModuleViewModel viewModel) return;
             viewModel.Open();
         }
-        private void BuildModuleSolution_Click(object sender, RoutedEventArgs e) => ThreadHelper.JoinableTaskFactory.Run(async () =>
+        private void BuildModuleSolution_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (sender is not Button button || button.DataContext is not ModuleViewModel viewModel) return;
+            ThreadHelper.JoinableTaskFactory.Run(async () =>
             {
-                if (sender is not Button button || button.DataContext is not ModuleViewModel viewModel) return;
+                await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+                IVsThreadedWaitDialogFactory fac = (IVsThreadedWaitDialogFactory)await VS.Services.GetThreadedWaitDialogAsync();
+                IVsThreadedWaitDialog4 twd = fac.CreateInstance();
+                const int totalStep = 1;
+                SetBuildText(twd, totalStep);
+                SetBuildText(twd, viewModel, totalStep, totalStep);
                 await viewModel.BuildAsync();
-                await VS.MessageBox.ShowAsync("提示", "项目已构建", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-            }
-            catch (Exception ex)
-            {
-                await VS.MessageBox.ShowAsync("错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
-            }
-        });
+                twd.EndWaitDialog(out _);
+            });
+        }
+        /// <summary>
+        /// 设置构建文本
+        /// </summary>
+        /// <param name="twd"></param>
+        /// <param name="viewModel"></param>
+        /// <param name="currentStep"></param>
+        /// <param name="totalStep"></param>
+        private void SetBuildText(IVsThreadedWaitDialog4 twd, ModuleViewModel viewModel, int currentStep, int totalStep)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            string message = $"正在构建{viewModel.ModuleName}...";
+            string stepInfo = $"步骤 {currentStep}/{totalStep}";
+            twd.UpdateProgress(message, stepInfo, stepInfo, currentStep, totalStep, true, out _);
+        }
+        /// <summary>
+        /// 设置构建文本
+        /// </summary>
+        /// <param name="twd"></param>
+        /// <param name="viewModel"></param>
+        /// <param name="currentStep"></param>
+        /// <param name="totalStep"></param>
+        private void SetBuildText(IVsThreadedWaitDialog4 twd, int totalStep)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            string message = "准备开始任务...";
+            string stepInfo = $"步骤 1/{totalStep}";
+            twd.StartWaitDialog("MergeBlockBuild", message, stepInfo, null, stepInfo, 1, true, true);
+        }
     }
 }

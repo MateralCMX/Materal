@@ -41,6 +41,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             try
             {
+                await VS.StatusBar.ShowProgressAsync("清理以前生成的文件 1/3", 1, 3);
                 #region 清理旧文件
                 DirectoryInfo? directoryInfo = _moduleAbstractions?.GetGeneratorCodeRootDirectory();
                 if (directoryInfo is not null && directoryInfo.Exists)
@@ -72,6 +73,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 string moduleWebAPIPath = Path.GetDirectoryName(_moduleWebAPI?.FullPath ?? throw new Exception("获取moduleWebAPI路径失败"));
                 if (_projectName is null || string.IsNullOrWhiteSpace(_projectName)) throw new Exception("项目名称为空");
                 if (_moduleName is null || string.IsNullOrWhiteSpace(_moduleName)) throw new Exception("模块名称为空");
+                await VS.StatusBar.ShowProgressAsync("生成预设代码 2/3", 2, 3);
                 GeneratorCodeContext context = new(coreAbstractionsPath, coreRepositoryPath, moduleAbstractionsPath, moduleApplicationPath, moduleRepositoryPath, moduleWebAPIPath, _projectName, _moduleName);
                 context.Refresh(_moduleAbstractions);
                 ExcuteMethodInfoByAttribute<GeneratorCodeBeforMethodAttribute>(allMethodInfos, context);
@@ -83,9 +85,10 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 List<string> generatorCodePlugPaths = GetAllGeneratorCodePlugPaths();
                 if (generatorCodePlugPaths.Count > 0)
                 {
+                    await VS.StatusBar.ShowProgressAsync("生成插件代码 3/3", 3, 3);
                     await ExcutePlugAsync(generatorCodePlugPaths, context);
                 }
-                await VS.MessageBox.ShowAsync("提示", "代码生成完毕", OLEMSGICON.OLEMSGICON_INFO, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+                await VS.StatusBar.ShowMessageAsync("代码生成成功");
             }
             catch (Exception ex)
             {
