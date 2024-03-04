@@ -79,9 +79,9 @@ namespace MateralPublish.Models
                         //|| project is ProjectModels.Level2.TTAProjectModel
                         //|| project is ProjectModels.Level3.OscillatorProjectModel
                         //|| project is ProjectModels.Level4.BaseCoreProjectModel
-                        || project is ProjectModels.Level4.MergeBlockProjectModel
+                        //|| project is ProjectModels.Level4.MergeBlockProjectModel
                         //|| project is ProjectModels.Level5.GatewayProjectModel
-                        //|| project is ProjectModels.Level5.RCProjectModel
+                        || project is ProjectModels.Level5.RCProjectModel
                         )
                     {
                         await project.PublishAsync(version);

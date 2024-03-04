@@ -53,11 +53,11 @@ namespace RC.Deploy.Application.Services.Models
         /// <summary>
         /// 压缩包文件组文件夹路径
         /// </summary>
-        public string RarFilesDirectoryPath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, applicationConfig.CurrentValue.UploadFilePath, ApplicationInfo.Name);
+        public string RarFilesDirectoryPath => Path.Combine(typeof(DeployModule).Assembly.GetDirectoryPath(), applicationConfig.CurrentValue.UploadFilePath, ApplicationInfo.Name);
         /// <summary>
         /// 发布文件夹路径
         /// </summary>
-        public string PublishDirectoryPath => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application", ApplicationInfo.RootPath);
+        public string PublishDirectoryPath => Path.Combine(typeof(DeployModule).Assembly.GetDirectoryPath(), "Application", ApplicationInfo.RootPath);
         /// <summary>
         /// 执行启动任务
         /// </summary>

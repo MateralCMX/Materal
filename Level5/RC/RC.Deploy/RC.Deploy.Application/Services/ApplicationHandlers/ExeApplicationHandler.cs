@@ -14,7 +14,7 @@ namespace RC.Deploy.Application.Services.ApplicationHandlers
         /// <param name="applicationRuntime"></param>
         public override async Task StartApplicationAsync(ApplicationRuntimeModel applicationRuntime)
         {
-            string exePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application", applicationRuntime.ApplicationInfo.RootPath, $"{applicationRuntime.ApplicationInfo.MainModule}");
+            string exePath = Path.Combine(typeof(DeployModule).Assembly.GetDirectoryPath(), "Application", applicationRuntime.ApplicationInfo.RootPath, $"{applicationRuntime.ApplicationInfo.MainModule}");
             await StartApplicationAsync(applicationRuntime, exePath, applicationRuntime.ApplicationInfo.RunParams);
         }
         /// <summary>
@@ -69,7 +69,7 @@ namespace RC.Deploy.Application.Services.ApplicationHandlers
         }
         private static ProcessStartInfo GetProcessStartInfo(ApplicationRuntimeModel applicationRuntime, string processPath, string arg)
         {
-            string workingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application", applicationRuntime.ApplicationInfo.RootPath);
+            string workingDirectory = Path.Combine(typeof(DeployModule).Assembly.GetDirectoryPath(), "Application", applicationRuntime.ApplicationInfo.RootPath);
             ProcessStartInfo processStartInfo = new()
             {
                 FileName = processPath,
