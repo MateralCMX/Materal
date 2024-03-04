@@ -18,7 +18,7 @@ namespace RC.EnvironmentServer.Application.EventHandlers
         /// <returns></returns>
         public override async Task HandleAsync(SyncConfigEvent @event)
         {
-            if (@event.TargetEnvironments.Length == 0 || !@event.TargetEnvironments.Contains($"{AppConfig.CurrentValue.ServiceName}API")) return;
+            if (@event.TargetEnvironments.Length == 0 || !@event.TargetEnvironments.Contains(AppConfig.CurrentValue.ServiceName)) return;
             lock (_syncLockObj)
             {
                 switch (@event.Mode)
