@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorEntityConfigCode
+ */
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace RC.EnvironmentServer.EFRepository.EntityConfigs
 {

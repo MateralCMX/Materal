@@ -4,7 +4,7 @@ global using Materal.MergeBlock.Abstractions;
 global using Materal.MergeBlock.Abstractions.Models;
 global using Materal.MergeBlock.Abstractions.Services;
 global using Materal.MergeBlock.Abstractions.WebModule.Authorization;
-global using Materal.MergeBlock.Abstractions.WebModule.Controllers;
+global using Materal.MergeBlock.Abstractions.WebModule.Authorization.Extensions;
 global using Materal.MergeBlock.Abstractions.WebModule.Models;
 global using Materal.MergeBlock.Application.Services;
 global using Materal.MergeBlock.Application.WebModule.Controllers;

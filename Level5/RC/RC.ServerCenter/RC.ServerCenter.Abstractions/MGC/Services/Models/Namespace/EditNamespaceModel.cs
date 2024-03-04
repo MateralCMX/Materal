@@ -1,4 +1,7 @@
-﻿namespace RC.ServerCenter.Abstractions.Services.Models.Namespace
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorEditModel
+ */
+namespace RC.ServerCenter.Abstractions.Services.Models.Namespace
 {
     /// <summary>
     /// 命名空间修改模型
@@ -14,6 +17,6 @@
         /// 描述
         /// </summary>
         [Required(ErrorMessage = "描述为空"), StringLength(200, ErrorMessage = "描述过长")]
-        public string Description { get; set; }  = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 }

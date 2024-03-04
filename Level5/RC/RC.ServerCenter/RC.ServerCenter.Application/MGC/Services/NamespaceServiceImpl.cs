@@ -1,4 +1,7 @@
-﻿using RC.ServerCenter.Abstractions.DTO.Namespace;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorServiceImplsCode
+ */
+using RC.ServerCenter.Abstractions.DTO.Namespace;
 using RC.ServerCenter.Abstractions.Services.Models.Namespace;
 
 namespace RC.ServerCenter.Application.Services

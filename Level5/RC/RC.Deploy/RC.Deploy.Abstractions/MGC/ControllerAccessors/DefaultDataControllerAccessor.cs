@@ -1,4 +1,7 @@
-﻿using RC.Deploy.Abstractions.DTO.DefaultData;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorControllerAccessor
+ */
+using RC.Deploy.Abstractions.DTO.DefaultData;
 using RC.Deploy.Abstractions.RequestModel.DefaultData;
 
 namespace RC.Deploy.Abstractions.ControllerAccessors

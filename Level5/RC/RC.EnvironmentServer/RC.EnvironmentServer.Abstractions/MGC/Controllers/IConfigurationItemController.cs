@@ -1,4 +1,7 @@
-﻿using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorIControllerCode
+ */
+using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
 using RC.EnvironmentServer.Abstractions.RequestModel.ConfigurationItem;
 
 namespace RC.EnvironmentServer.Abstractions.Controllers

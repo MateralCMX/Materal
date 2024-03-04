@@ -1,4 +1,7 @@
-﻿namespace RC.Deploy.Abstractions.Services.Models.ApplicationInfo
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorQueryModel
+ */
+namespace RC.Deploy.Abstractions.Services.Models.ApplicationInfo
 {
     /// <summary>
     /// 应用程序信息查询模型

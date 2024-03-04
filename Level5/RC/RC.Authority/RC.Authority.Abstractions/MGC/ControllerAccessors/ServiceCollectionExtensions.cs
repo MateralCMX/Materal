@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorControllerAccessorServiceCollectionExtensions
+ */
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace RC.Authority.Abstractions.ControllerAccessors

@@ -109,7 +109,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {domain.Annotation}树列表数据传输模型");
             codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial class {domain.Name}TreeListDTO: {domain.Name}ListDTO, ITreeDTO<{domain.Name}TreeListDTO>");
+            codeContent.AppendLine($"    public partial class {domain.Name}TreeListDTO : {domain.Name}ListDTO, ITreeDTO<{domain.Name}TreeListDTO>");
             codeContent.AppendLine($"    {{");
             codeContent.AppendLine($"        /// <summary>");
             codeContent.AppendLine($"        /// 子级");
@@ -140,7 +140,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }}");
             if (property.Initializer is not null && !string.IsNullOrWhiteSpace(property.Initializer))
             {
-                codeContent.Insert(codeContent.Length - 2, $"  = {property.Initializer};");
+                codeContent.Insert(codeContent.Length - 2, $" = {property.Initializer};");
             }
             if (property.HasAttribute<DTOTextAttribute>())
             {

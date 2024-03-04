@@ -1,4 +1,7 @@
-﻿namespace RC.ServerCenter.Abstractions.RequestModel.Project
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorEditRequestModel
+ */
+namespace RC.ServerCenter.Abstractions.RequestModel.Project
 {
     /// <summary>
     /// 项目修改请求模型
@@ -14,6 +17,6 @@
         /// 描述
         /// </summary>
         [Required(ErrorMessage = "描述为空"), StringLength(200, ErrorMessage = "描述过长")]
-        public string Description { get; set; }  = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
 }

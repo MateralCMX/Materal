@@ -1,4 +1,7 @@
-﻿namespace RC.Authority.Repository
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorDBContextCode
+ */
+namespace RC.Authority.Repository
 {
     /// <summary>
     /// Authority数据库上下文

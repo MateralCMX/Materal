@@ -1,4 +1,7 @@
-﻿namespace RC.Deploy.Abstractions.DTO.DefaultData
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorDTOModel
+ */
+namespace RC.Deploy.Abstractions.DTO.DefaultData
 {
     /// <summary>
     /// 默认数据数据传输模型

@@ -1,4 +1,7 @@
-﻿namespace RC.EnvironmentServer.Abstractions.RequestModel.ConfigurationItem
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorQueryRequestModel
+ */
+namespace RC.EnvironmentServer.Abstractions.RequestModel.ConfigurationItem
 {
     /// <summary>
     /// 配置项查询请求模型

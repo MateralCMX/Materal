@@ -1,4 +1,7 @@
-﻿namespace RC.Authority.Abstractions.DTO.User
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorListDTOModel
+ */
+namespace RC.Authority.Abstractions.DTO.User
 {
     /// <summary>
     /// 用户列表数据传输模型
@@ -19,11 +22,11 @@
         /// 姓名
         /// </summary>
         [Required(ErrorMessage = "姓名为空"), StringLength(100, ErrorMessage = "姓名最多100个字符")]
-        public string Name { get; set; }  = string.Empty;
+        public string Name { get; set; } = string.Empty;
         /// <summary>
         /// 账号
         /// </summary>
         [Required(ErrorMessage = "账号为空"), StringLength(100, ErrorMessage = "账号最多100个字符")]
-        public string Account { get; set; }  = string.Empty;
+        public string Account { get; set; } = string.Empty;
     }
 }

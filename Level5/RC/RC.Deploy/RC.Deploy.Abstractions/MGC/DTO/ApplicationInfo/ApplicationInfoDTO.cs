@@ -1,4 +1,7 @@
-﻿namespace RC.Deploy.Abstractions.DTO.ApplicationInfo
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorDTOModel
+ */
+namespace RC.Deploy.Abstractions.DTO.ApplicationInfo
 {
     /// <summary>
     /// 应用程序信息数据传输模型

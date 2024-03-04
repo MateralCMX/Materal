@@ -1,4 +1,7 @@
-﻿namespace RC.ServerCenter.Abstractions.RequestModel.Namespace
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorQueryRequestModel
+ */
+namespace RC.ServerCenter.Abstractions.RequestModel.Namespace
 {
     /// <summary>
     /// 命名空间查询请求模型

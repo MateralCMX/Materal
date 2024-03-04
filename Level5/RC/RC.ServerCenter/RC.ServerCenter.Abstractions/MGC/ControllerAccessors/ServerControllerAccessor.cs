@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorControllerAccessor
+ */
+using Microsoft.AspNetCore.Authorization;
 using RC.ServerCenter.Abstractions.DTO.Server;
 
 namespace RC.ServerCenter.Abstractions.ControllerAccessors

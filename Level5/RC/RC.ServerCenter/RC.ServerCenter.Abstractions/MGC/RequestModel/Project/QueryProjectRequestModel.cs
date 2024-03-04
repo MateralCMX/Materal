@@ -1,4 +1,7 @@
-﻿namespace RC.ServerCenter.Abstractions.RequestModel.Project
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorQueryRequestModel
+ */
+namespace RC.ServerCenter.Abstractions.RequestModel.Project
 {
     /// <summary>
     /// 项目查询请求模型

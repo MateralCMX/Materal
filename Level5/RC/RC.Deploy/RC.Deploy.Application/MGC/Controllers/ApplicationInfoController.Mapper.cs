@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorControllerMapperCode
+ */
+using Microsoft.AspNetCore.Http;
 using RC.Deploy.Abstractions.DTO.ApplicationInfo;
 
 namespace RC.Deploy.Application.Controllers

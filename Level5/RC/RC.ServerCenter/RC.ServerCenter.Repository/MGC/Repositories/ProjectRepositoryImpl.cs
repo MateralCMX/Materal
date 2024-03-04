@@ -1,4 +1,7 @@
-﻿namespace RC.ServerCenter.Repository.Repositories
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorRepositoryImplCode
+ */
+namespace RC.ServerCenter.Repository.Repositories
 {
     /// <summary>
     /// 项目仓储

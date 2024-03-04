@@ -1,4 +1,7 @@
-﻿namespace RC.EnvironmentServer.Repository
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorDBContextCode
+ */
+namespace RC.EnvironmentServer.Repository
 {
     /// <summary>
     /// EnvironmentServer数据库上下文

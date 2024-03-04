@@ -1,4 +1,7 @@
-﻿namespace RC.Demo.Repository.Repositories
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorRepositoryImplCode
+ */
+namespace RC.Demo.Repository.Repositories
 {
     /// <summary>
     /// 用户仓储

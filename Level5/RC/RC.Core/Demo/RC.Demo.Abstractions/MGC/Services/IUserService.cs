@@ -1,4 +1,7 @@
-﻿using RC.Demo.Abstractions.DTO.User;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorIServicesCode
+ */
+using RC.Demo.Abstractions.DTO.User;
 using RC.Demo.Abstractions.Services.Models.User;
 
 namespace RC.Demo.Abstractions.Services

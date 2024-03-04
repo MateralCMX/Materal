@@ -121,7 +121,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 string dicCode = "[]";
                 if (dicArguments.Count > 0)
                 {
-                    dicCode = $"new() {{{string.Join(", ", dicArguments)}}}";
+                    dicCode = $"new() {{ {string.Join(", ", dicArguments)} }}";
                 }
                 string objCode = string.Empty;
                 if (objArguments.Count > 0)

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorEnumController
+ */
+using Microsoft.AspNetCore.Authorization;
 using RC.Deploy.Abstractions.Enums;
 
 namespace RC.Deploy.Abstractions.HttpClient

@@ -1,4 +1,7 @@
-﻿namespace RC.Deploy.Abstractions.Services.Models.DefaultData
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorQueryModel
+ */
+namespace RC.Deploy.Abstractions.Services.Models.DefaultData
 {
     /// <summary>
     /// 默认数据查询模型

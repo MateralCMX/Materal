@@ -1,4 +1,7 @@
-﻿namespace RC.ServerCenter.Abstractions.DTO.Namespace
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorDTOModel
+ */
+namespace RC.ServerCenter.Abstractions.DTO.Namespace
 {
     /// <summary>
     /// 命名空间数据传输模型

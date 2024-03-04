@@ -1,4 +1,7 @@
-﻿namespace RC.Demo.Abstractions.DTO.User
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorDTOModel
+ */
+namespace RC.Demo.Abstractions.DTO.User
 {
     /// <summary>
     /// 用户数据传输模型

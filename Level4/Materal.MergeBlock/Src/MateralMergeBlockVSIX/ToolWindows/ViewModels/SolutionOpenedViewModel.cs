@@ -159,7 +159,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        public {property.PredefinedType} {property.Name} {{ get; set; }}");
             if (property.Initializer is not null && !string.IsNullOrWhiteSpace(property.Initializer))
             {
-                codeContent.Insert(codeContent.Length - 2, $"  = {property.Initializer};");
+                codeContent.Insert(codeContent.Length - 2, $" = {property.Initializer};");
             }
         }
     }

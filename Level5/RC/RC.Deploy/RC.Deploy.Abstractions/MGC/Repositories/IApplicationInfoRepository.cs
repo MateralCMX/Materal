@@ -1,4 +1,7 @@
-﻿namespace RC.Deploy.Abstractions.Repositories
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorIRepositoryCode
+ */
+namespace RC.Deploy.Abstractions.Repositories
 {
     /// <summary>
     /// 应用程序信息仓储

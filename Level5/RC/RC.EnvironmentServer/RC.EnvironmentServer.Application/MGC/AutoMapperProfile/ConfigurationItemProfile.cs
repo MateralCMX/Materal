@@ -2,6 +2,9 @@
 using RC.EnvironmentServer.Abstractions.RequestModel.ConfigurationItem;
 using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
 
+/*
+ * Generator Code From MateralMergeBlock=>GeneratorAutoMapperProfile
+ */
 namespace RC.EnvironmentServer.Application.AutoMapperProfile
 {
     /// <summary>

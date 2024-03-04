@@ -1,4 +1,7 @@
-﻿namespace RC.Deploy.Abstractions.RequestModel.ApplicationInfo
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorEditRequestModel
+ */
+namespace RC.Deploy.Abstractions.RequestModel.ApplicationInfo
 {
     /// <summary>
     /// 应用程序信息修改请求模型
@@ -14,7 +17,7 @@
         /// 主模块
         /// </summary>
         [Required(ErrorMessage = "主模块为空")]
-        public string MainModule { get; set; }  = string.Empty;
+        public string MainModule { get; set; } = string.Empty;
         /// <summary>
         /// 应用程序类型
         /// </summary>

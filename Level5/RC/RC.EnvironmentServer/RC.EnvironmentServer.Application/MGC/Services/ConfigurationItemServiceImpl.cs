@@ -1,4 +1,7 @@
-﻿using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorServiceImplsCode
+ */
+using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
 using RC.EnvironmentServer.Abstractions.Services.Models.ConfigurationItem;
 
 namespace RC.EnvironmentServer.Application.Services

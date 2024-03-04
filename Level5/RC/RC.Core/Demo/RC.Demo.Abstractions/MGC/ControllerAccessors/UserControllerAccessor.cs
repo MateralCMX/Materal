@@ -1,4 +1,7 @@
-﻿using RC.Demo.Abstractions.DTO.User;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorControllerAccessor
+ */
+using RC.Demo.Abstractions.DTO.User;
 using RC.Demo.Abstractions.RequestModel.User;
 
 namespace RC.Demo.Abstractions.ControllerAccessors
@@ -22,7 +25,7 @@ namespace RC.Demo.Abstractions.ControllerAccessors
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task<ResultModel<string>> ResetPasswordAsync(Guid id)
-            => await HttpHelper.SendAsync<IUserController, ResultModel<string>>(ProjectName, ModuleName, nameof(ResetPasswordAsync), new() {[nameof(id)] = id.ToString()});
+            => await HttpHelper.SendAsync<IUserController, ResultModel<string>>(ProjectName, ModuleName, nameof(ResetPasswordAsync), new() { [nameof(id)] = id.ToString() });
         /// <summary>
         /// 获得登录用户信息
         /// </summary>

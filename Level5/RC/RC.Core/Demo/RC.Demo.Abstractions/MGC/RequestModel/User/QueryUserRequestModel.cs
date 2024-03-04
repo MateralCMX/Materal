@@ -1,4 +1,7 @@
-﻿namespace RC.Demo.Abstractions.RequestModel.User
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorQueryRequestModel
+ */
+namespace RC.Demo.Abstractions.RequestModel.User
 {
     /// <summary>
     /// 用户查询请求模型

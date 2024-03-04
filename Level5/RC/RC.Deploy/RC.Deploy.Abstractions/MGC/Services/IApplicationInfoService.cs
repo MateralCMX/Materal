@@ -1,4 +1,7 @@
-﻿using RC.Deploy.Abstractions.DTO.ApplicationInfo;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorIServicesCode
+ */
+using RC.Deploy.Abstractions.DTO.ApplicationInfo;
 using RC.Deploy.Abstractions.Services.Models.ApplicationInfo;
 
 namespace RC.Deploy.Abstractions.Services

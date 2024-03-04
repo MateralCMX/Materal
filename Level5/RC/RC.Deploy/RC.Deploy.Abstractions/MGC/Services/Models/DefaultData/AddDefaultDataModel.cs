@@ -1,4 +1,7 @@
-﻿namespace RC.Deploy.Abstractions.Services.Models.DefaultData
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorAddModel
+ */
+namespace RC.Deploy.Abstractions.Services.Models.DefaultData
 {
     /// <summary>
     /// 默认数据添加模型
@@ -14,11 +17,11 @@
         /// 键
         /// </summary>
         [Required(ErrorMessage = "数据为空")]
-        public string Key { get; set; }  = string.Empty;
+        public string Key { get; set; } = string.Empty;
         /// <summary>
         /// 数据
         /// </summary>
         [Required(ErrorMessage = "数据为空")]
-        public string Data { get; set; }  = string.Empty;
+        public string Data { get; set; } = string.Empty;
     }
 }

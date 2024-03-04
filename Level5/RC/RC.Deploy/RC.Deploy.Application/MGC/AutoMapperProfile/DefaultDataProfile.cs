@@ -2,6 +2,9 @@
 using RC.Deploy.Abstractions.RequestModel.DefaultData;
 using RC.Deploy.Abstractions.DTO.DefaultData;
 
+/*
+ * Generator Code From MateralMergeBlock=>GeneratorAutoMapperProfile
+ */
 namespace RC.Deploy.Application.AutoMapperProfile
 {
     /// <summary>

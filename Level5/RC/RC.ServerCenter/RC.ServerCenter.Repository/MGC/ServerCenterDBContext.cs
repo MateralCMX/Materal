@@ -1,4 +1,7 @@
-﻿namespace RC.ServerCenter.Repository
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorDBContextCode
+ */
+namespace RC.ServerCenter.Repository
 {
     /// <summary>
     /// ServerCenter数据库上下文

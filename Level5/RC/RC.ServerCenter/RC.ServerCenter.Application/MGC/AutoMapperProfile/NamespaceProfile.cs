@@ -2,6 +2,9 @@
 using RC.ServerCenter.Abstractions.RequestModel.Namespace;
 using RC.ServerCenter.Abstractions.DTO.Namespace;
 
+/*
+ * Generator Code From MateralMergeBlock=>GeneratorAutoMapperProfile
+ */
 namespace RC.ServerCenter.Application.AutoMapperProfile
 {
     /// <summary>

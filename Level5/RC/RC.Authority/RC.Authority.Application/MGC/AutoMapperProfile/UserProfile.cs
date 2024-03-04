@@ -2,6 +2,9 @@
 using RC.Authority.Abstractions.RequestModel.User;
 using RC.Authority.Abstractions.DTO.User;
 
+/*
+ * Generator Code From MateralMergeBlock=>GeneratorAutoMapperProfile
+ */
 namespace RC.Authority.Application.AutoMapperProfile
 {
     /// <summary>

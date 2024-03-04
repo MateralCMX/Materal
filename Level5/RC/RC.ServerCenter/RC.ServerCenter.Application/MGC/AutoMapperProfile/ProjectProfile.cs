@@ -2,6 +2,9 @@
 using RC.ServerCenter.Abstractions.RequestModel.Project;
 using RC.ServerCenter.Abstractions.DTO.Project;
 
+/*
+ * Generator Code From MateralMergeBlock=>GeneratorAutoMapperProfile
+ */
 namespace RC.ServerCenter.Application.AutoMapperProfile
 {
     /// <summary>

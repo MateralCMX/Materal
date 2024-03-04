@@ -1,4 +1,7 @@
-﻿namespace RC.ServerCenter.Abstractions.Repositories
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorIRepositoryCode
+ */
+namespace RC.ServerCenter.Abstractions.Repositories
 {
     /// <summary>
     /// 命名空间仓储

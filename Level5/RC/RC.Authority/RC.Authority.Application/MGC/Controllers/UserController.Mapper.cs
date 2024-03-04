@@ -1,4 +1,7 @@
-﻿using RC.Authority.Abstractions.DTO.User;
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorControllerMapperCode
+ */
+using RC.Authority.Abstractions.DTO.User;
 using RC.Authority.Abstractions.Services.Models.User;
 using RC.Authority.Abstractions.RequestModel.User;
 

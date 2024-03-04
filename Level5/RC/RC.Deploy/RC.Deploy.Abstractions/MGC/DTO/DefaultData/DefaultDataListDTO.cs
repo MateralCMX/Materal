@@ -1,4 +1,7 @@
-﻿namespace RC.Deploy.Abstractions.DTO.DefaultData
+﻿/*
+ * Generator Code From MateralMergeBlock=>GeneratorListDTOModel
+ */
+namespace RC.Deploy.Abstractions.DTO.DefaultData
 {
     /// <summary>
     /// 默认数据列表数据传输模型
@@ -24,11 +27,11 @@
         /// 键
         /// </summary>
         [Required(ErrorMessage = "数据为空")]
-        public string Key { get; set; }  = string.Empty;
+        public string Key { get; set; } = string.Empty;
         /// <summary>
         /// 数据
         /// </summary>
         [Required(ErrorMessage = "数据为空")]
-        public string Data { get; set; }  = string.Empty;
+        public string Data { get; set; } = string.Empty;
     }
 }
