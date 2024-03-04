@@ -7,7 +7,7 @@ namespace RC.ServerCenter.WebAPI.Controllers
     /// <summary>
     /// 服务控制器
     /// </summary>
-    public partial class ServerController(IMapper mapper, IConsulService consulService, IOptionsMonitor<MergeBlockConfig> config, IOptionsMonitor<MergeBlockConsulConfig> mergeBlockConsulConfig) : ServerCenterController
+    public partial class ServerController(IMapper mapper, IConsulService consulService, IOptionsMonitor<MergeBlockConsulConfig> mergeBlockConsulConfig, IOptionsMonitor<ApplicationConfig> applicationConfig) : ServerCenterController
     {
         /// <summary>
         /// 获得发布程序列表
@@ -38,6 +38,6 @@ namespace RC.ServerCenter.WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet, AllowAnonymous]
-        public ResultModel<string> GetBaseUrl() => ResultModel<string>.Success(config.CurrentValue.BaseUrl, "查询成功");
+        public ResultModel<string> GetBaseUrl() => ResultModel<string>.Success(applicationConfig.CurrentValue.GatewayUrl, "查询成功");
     }
 }
