@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RC.Deploy.Abstractions.DTO.ApplicationInfo;
+using RC.Deploy.Abstractions.Services.Models;
 using RC.Deploy.Abstractions.Services.Models.ApplicationInfo;
 using RC.Deploy.Application.Services.Models;
+using System.IO;
 
 namespace RC.Deploy.Application.Services
 {
@@ -206,7 +208,6 @@ namespace RC.Deploy.Application.Services
         /// 启动
         /// </summary>
         /// <param name="id"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void Start([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
             if (!ApplicationRuntimeHost.ApplicationRuntimes.TryGetValue(id, out ApplicationRuntimeModel? value)) throw new RCException("应用程序信息不存在");
@@ -216,7 +217,6 @@ namespace RC.Deploy.Application.Services
         /// 停止
         /// </summary>
         /// <param name="id"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public void Stop([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
             if (!ApplicationRuntimeHost.ApplicationRuntimes.TryGetValue(id, out ApplicationRuntimeModel? value)) throw new RCException("应用程序信息不存在");
@@ -234,7 +234,6 @@ namespace RC.Deploy.Application.Services
         /// <summary>
         /// 启动所有
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
         public void StartAll()
         {
             foreach (KeyValuePair<Guid, ApplicationRuntimeModel> item in ApplicationRuntimeHost.ApplicationRuntimes)
@@ -246,7 +245,6 @@ namespace RC.Deploy.Application.Services
         /// <summary>
         /// 停止所有
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
         public void StopAll()
         {
             foreach (KeyValuePair<Guid, ApplicationRuntimeModel> item in ApplicationRuntimeHost.ApplicationRuntimes)
@@ -260,7 +258,6 @@ namespace RC.Deploy.Application.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public ICollection<string> GetConsoleMessages([Required(ErrorMessage = "唯一标识为空")] Guid id)
         {
             if (!ApplicationRuntimeHost.ApplicationRuntimes.TryGetValue(id, out ApplicationRuntimeModel? value)) throw new RCException("应用程序信息不存在");
@@ -286,6 +283,16 @@ namespace RC.Deploy.Application.Services
             ApplicationRuntimeModel? runtimeModel = ApplicationRuntimeHost.ApplicationRuntimes.Select(m => m.Value).FirstOrDefault(m => m.ApplicationInfo.RootPath.Equals(path, StringComparison.OrdinalIgnoreCase));
             if (runtimeModel == null) return false;
             return runtimeModel.ApplicationStatus == ApplicationStatusEnum.Runing;
+        }
+        /// <summary>
+        /// 获得应用程序信息
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public IApplicationRuntimeModel? GetApplicationRuntimeModel(string path)
+        {
+            ApplicationRuntimeModel? result = ApplicationRuntimeHost.ApplicationRuntimes.Select(m => m.Value).FirstOrDefault(m => m.ApplicationInfo.RootPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+            return result;
         }
         /// <summary>
         /// 获得上传文件列表

@@ -1,5 +1,6 @@
 ﻿using Materal.Utils.Windows;
 using Microsoft.AspNetCore.SignalR;
+using RC.Deploy.Abstractions.Services.Models;
 using RC.Deploy.Application.Hubs;
 using RC.Deploy.Application.Services.ApplicationHandlers;
 using RC.Deploy.ServiceImpl.Models;
@@ -11,7 +12,7 @@ namespace RC.Deploy.Application.Services.Models
     /// <summary>
     /// 应用程序模型
     /// </summary>
-    public class ApplicationRuntimeModel(IServiceProvider serviceProvider, ApplicationInfo applicationInfo, IOptionsMonitor<ApplicationConfig> applicationConfig)
+    public class ApplicationRuntimeModel(IServiceProvider serviceProvider, ApplicationInfo applicationInfo, IOptionsMonitor<ApplicationConfig> applicationConfig) : IApplicationRuntimeModel
     {
         /// <summary>
         /// 任务队列

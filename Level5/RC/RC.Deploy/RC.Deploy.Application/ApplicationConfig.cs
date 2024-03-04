@@ -31,16 +31,5 @@ namespace RC.Deploy.Application
         /// 重写配置
         /// </summary>
         public RewriteConfigModel RewriteConfig { get; set; } = new();
-        /// <summary>
-        /// 应用程序白名单
-        /// </summary>
-        public static string[] ApplicationNameWhiteList { get; } =
-        [
-            "api",
-            "hubs",
-            "swagger",
-            "Deploy",
-            "UploadFiles"
-        ];
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RC.Deploy.Abstractions.DTO.ApplicationInfo;
+using RC.Deploy.Abstractions.Services.Models;
 
 namespace RC.Deploy.Abstractions.Services
 {
@@ -91,6 +92,12 @@ namespace RC.Deploy.Abstractions.Services
         /// <param name="path"></param>
         /// <returns></returns>
         bool IsRunningApplication(string path);
+        /// <summary>
+        /// 获得应用程序信息
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        IApplicationRuntimeModel? GetApplicationRuntimeModel(string path);
         /// <summary>
         /// 获得上传文件列表
         /// </summary>

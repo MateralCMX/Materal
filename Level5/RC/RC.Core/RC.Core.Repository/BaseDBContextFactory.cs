@@ -13,7 +13,6 @@ namespace RC.Core.Repository
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public TDBContext CreateDbContext(string[] args)
         {
             DbContextOptionsBuilder<TDBContext> optionsBuilder = new();
