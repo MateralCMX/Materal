@@ -4,7 +4,7 @@
     /// 工作单元
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class MergeBlockUnitOfWorkImpl<T>(T context, IServiceProvider serviceProvider) : EFUnitOfWorkImpl<T, Guid>(context, serviceProvider), IMergeBlockUnitOfWork
+    public abstract class MergeBlockUnitOfWorkImpl<T>(T context, IServiceProvider serviceProvider) : EFUnitOfWorkImpl<T>(context, serviceProvider), IMergeBlockUnitOfWork
         where T : DbContext
     {
         /// <summary>

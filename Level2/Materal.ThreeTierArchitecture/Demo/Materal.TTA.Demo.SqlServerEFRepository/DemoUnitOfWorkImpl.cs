@@ -3,7 +3,7 @@ using Materal.TTA.EFRepository;
 
 namespace Materal.TTA.Demo.SqlServerEFRepository
 {
-    public class DemoUnitOfWorkImpl : EFUnitOfWorkImpl<TTADemoDBContext, Guid>, IDemoUnitOfWork
+    public class DemoUnitOfWorkImpl : EFUnitOfWorkImpl<TTADemoDBContext>, IDemoUnitOfWork
     {
         public DemoUnitOfWorkImpl(TTADemoDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
         {

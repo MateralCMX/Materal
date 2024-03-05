@@ -7,16 +7,8 @@ namespace Materal.Oscillator.DRSqlServerEFRepository
     /// <summary>
     /// 容灾工作单元
     /// </summary>
-    public class OscillatorDRUnitOfWorkImpl : SqlServerEFUnitOfWorkImpl<OscillatorDRDBContext, Guid>, IOscillatorDRUnitOfWork
+    public class OscillatorDRUnitOfWorkImpl(OscillatorDRDBContext context, IServiceProvider serviceProvider) : SqlServerEFUnitOfWorkImpl<OscillatorDRDBContext>(context, serviceProvider), IOscillatorDRUnitOfWork
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="serviceProvider"></param>
-        public OscillatorDRUnitOfWorkImpl(OscillatorDRDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
-        {
-        }
         /// <summary>
         /// 注册添加
         /// </summary>

@@ -1,4 +1,4 @@
-﻿namespace Dy.Oscillator.Abstractions
+﻿namespace Materal.Oscillator.Abstractions
 {
     /// <summary>
     /// Oscillator服务

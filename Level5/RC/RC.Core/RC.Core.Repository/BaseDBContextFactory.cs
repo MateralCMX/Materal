@@ -18,7 +18,7 @@ namespace RC.Core.Repository
             DbContextOptionsBuilder<TDBContext> optionsBuilder = new();
             SqliteConfigModel sqliteConfigModel = GetSqliteConfigModel();
             optionsBuilder.UseSqlite(sqliteConfigModel.ConnectionString);
-            return typeof(TDBContext).Instantiation<TDBContext>(optionsBuilder.Options);
+            return typeof(TDBContext).Instantiation<TDBContext>([optionsBuilder.Options]);
         }
         /// <summary>
         /// 获取Sqlite配置模型

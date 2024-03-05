@@ -1,5 +1,4 @@
-﻿using Dy.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Domain;
+﻿using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.QuartZExtend;
 
 namespace Materal.Oscillator.Abstractions.Answers

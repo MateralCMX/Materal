@@ -5,8 +5,17 @@
     /// </summary>
     public static partial class StringExtensions
     {
+        #region 私有方法
         /// <summary>
-        /// 获得类型
+        /// 获得参数类型数组
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private static Type[] GetArgTypes(this object[] args) => args.Select(m => m.GetType()).ToArray();
+        #endregion
+        #region 根据过滤条件筛选
+        /// <summary>
+        /// 根据类型名称在指定程序集中获得类型
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="assembly"></param>
@@ -28,7 +37,7 @@
             return targetType;
         }
         /// <summary>
-        /// 获得类型
+        /// 根据类型名称获得类型
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="filter">过滤器</param>
@@ -48,20 +57,52 @@
             return targetType;
         }
         /// <summary>
-        /// 获得类型
+        /// 根据类型名称在指定程序集中获得类型
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="filter">过滤器</param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static Type? GetTypeByTypeName(this string typeName, Assembly assembly, Func<Type, bool> filter, object[] args) 
+            => GetTypeByTypeName(typeName, assembly, filter, args.GetArgTypes());
+        /// <summary>
+        /// 根据类型名称获得类型
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="filter">过滤器</param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static Type? GetTypeByTypeName(this string typeName, Func<Type, bool> filter, object[] args)
+            => GetTypeByTypeName(typeName, filter, args.GetArgTypes());
+        #endregion
+        #region 名称相同、是类、不是抽象类
+        /// <summary>
+        /// 是否是类并且不是抽象类
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private static bool IsClassAndNotAbstract(string typeName, Type type) => type.Name == typeName && type.IsClass && !type.IsAbstract;
+        /// <summary>
+        /// 根据类型名称在指定程序集中获得类型
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="argTypes"></param>
+        /// <returns></returns>
+        public static Type? GetTypeByTypeName(this string typeName, Assembly assembly, Type[]? argTypes = null)
+            => typeName.GetTypeByTypeName(assembly, m => IsClassAndNotAbstract(typeName, m), argTypes);
+        /// <summary>
+        /// 根据类型名称获得类型
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="argTypes"></param>
         /// <returns></returns>
-        public static Type? GetTypeByTypeName(this string typeName, Type[] argTypes) => typeName.GetTypeByTypeName(m => m.Name == typeName && m.IsClass && !m.IsAbstract, argTypes);
+        public static Type? GetTypeByTypeName(this string typeName, Type[]? argTypes = null)
+            => typeName.GetTypeByTypeName(m => IsClassAndNotAbstract(typeName, m), argTypes);
         /// <summary>
-        /// 获得类型
-        /// </summary>
-        /// <param name="typeName"></param>
-        /// <returns></returns>
-        public static Type? GetTypeByTypeName(this string typeName) => typeName.GetTypeByTypeName(m => m.Name == typeName && m.IsClass && !m.IsAbstract);
-        /// <summary>
-        /// 获得类型
+        /// 根据类型名称在指定程序集中获得类型
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="assembly"></param>
@@ -69,39 +110,50 @@
         /// <returns></returns>
         /// <exception cref="ExtensionException"></exception>
         public static Type? GetTypeByTypeName(this string typeName, Assembly assembly, object[] args)
-        {
-            Type[] argTypes = args.Select(m => m.GetType()).ToArray();
-            return GetTypeByTypeName(typeName, assembly, m => m.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase) && m.IsClass && !m.IsAbstract, argTypes);
-        }
+            => typeName.GetTypeByTypeName(assembly, args.GetArgTypes());
         /// <summary>
-        /// 获得类型
+        /// 根据类型名称获得类型
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="ExtensionException"></exception>
         public static Type? GetTypeByTypeName(this string typeName, object[] args)
-        {
-            Type[] argTypes = args.Select(m => m.GetType()).ToArray();
-            return GetTypeByTypeName(typeName, m => m.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase) && m.IsClass && !m.IsAbstract, argTypes);
-        }
+            => typeName.GetTypeByTypeName(args.GetArgTypes());
+        #endregion
+        #region 名称相同、是类、不是抽象类、继承自指定类型
         /// <summary>
-        /// 获得类型
+        /// 是否是类并且不是抽象类、继承自指定类型
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="type"></param>
+        /// <param name="targetType"></param>
+        /// <returns></returns>
+        private static bool IsClassAndNotAbstractAndInheritance(string typeName, Type type, Type targetType)
+            => IsClassAndNotAbstract(typeName, type) && type.IsAssignableTo(targetType);
+        /// <summary>
+        /// 根据类型名称在指定程序集中获得类型
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="targetType"></param>
+        /// <param name="argTypes"></param>
+        /// <returns></returns>
+        /// <exception cref="ExtensionException"></exception>
+        public static Type? GetTypeByTypeName(this string typeName, Assembly assembly, Type targetType, Type[]? argTypes = null)
+            => typeName.GetTypeByTypeName(assembly, m => IsClassAndNotAbstractAndInheritance(typeName, m, targetType), argTypes);
+        /// <summary>
+        /// 根据类型名称获得类型
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="targetType"></param>
-        /// <param name="args"></param>
+        /// <param name="argTypes"></param>
         /// <returns></returns>
         /// <exception cref="ExtensionException"></exception>
-        public static Type? GetTypeByTypeName(this string typeName, Type targetType, object[] args)
-        {
-            if (string.IsNullOrWhiteSpace(typeName)) return null;
-            Type? result = GetTypeByTypeName(typeName, args);
-            if (result is null || !result.IsAssignableTo(targetType)) return null;
-            return result;
-        }
+        public static Type? GetTypeByTypeName(this string typeName, Type targetType, Type[]? argTypes = null)
+            => typeName.GetTypeByTypeName(m => IsClassAndNotAbstractAndInheritance(typeName, m, targetType), argTypes);
         /// <summary>
-        /// 获得类型
+        /// 根据类型名称在指定程序集中获得类型
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="assembly"></param>
@@ -110,14 +162,40 @@
         /// <returns></returns>
         /// <exception cref="ExtensionException"></exception>
         public static Type? GetTypeByTypeName(this string typeName, Assembly assembly, Type targetType, object[] args)
-        {
-            if (string.IsNullOrWhiteSpace(typeName)) return null;
-            Type? result = GetTypeByTypeName(typeName, assembly, args);
-            if (result is null || !result.IsAssignableTo(targetType)) return null;
-            return result;
-        }
+            => typeName.GetTypeByTypeName(assembly, targetType, args.GetArgTypes());
         /// <summary>
-        /// 获得类型
+        /// 根据类型名称获得类型
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="targetType"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        /// <exception cref="ExtensionException"></exception>
+        public static Type? GetTypeByTypeName(this string typeName, Type targetType, object[] args)
+            => typeName.GetTypeByTypeName(targetType, args.GetArgTypes());
+        /// <summary>
+        /// 根据类型名称在指定程序集中获得类型
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="typeName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="argTypes"></param>
+        /// <returns></returns>
+        /// <exception cref="ExtensionException"></exception>
+        public static Type? GetTypeByTypeName<T>(this string typeName, Assembly assembly, Type[]? argTypes = null)
+            => typeName.GetTypeByTypeName(assembly, m => IsClassAndNotAbstractAndInheritance(typeName, m, typeof(T)), argTypes);
+        /// <summary>
+        /// 根据类型名称获得类型
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="typeName"></param>
+        /// <param name="argTypes"></param>
+        /// <returns></returns>
+        /// <exception cref="ExtensionException"></exception>
+        public static Type? GetTypeByTypeName<T>(this string typeName, Type[]? argTypes = null)
+            => typeName.GetTypeByTypeName(m => IsClassAndNotAbstractAndInheritance(typeName, m, typeof(T)), argTypes);
+        /// <summary>
+        /// 根据类型名称在指定程序集中获得类型
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="typeName"></param>
@@ -125,47 +203,19 @@
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="ExtensionException"></exception>
-        public static Type? GetTypeByTypeName<T>(this string typeName, Assembly assembly, object[] args) => GetTypeByTypeName(typeName, assembly, typeof(T), args);
+        public static Type? GetTypeByTypeName<T>(this string typeName, Assembly assembly, object[] args)
+            => typeName.GetTypeByTypeName(assembly, typeof(T), args.GetArgTypes());
         /// <summary>
-        /// 获得类型
+        /// 根据类型名称获得类型
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="typeName"></param>
         /// <param name="args"></param>
         /// <returns></returns>
         /// <exception cref="ExtensionException"></exception>
-        public static Type? GetTypeByTypeName<T>(this string typeName, object[] args) => GetTypeByTypeName(typeName, typeof(T), args);
-        /// <summary>
-        /// 获得类型
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="typeName"></param>
-        /// <returns></returns>
-        /// <exception cref="ExtensionException"></exception>
-        public static Type? GetTypeByTypeName<T>(this string typeName) => GetTypeByParentType(typeName, typeof(T));
-        /// <summary>
-        /// 根据类型名称获得对象
-        /// </summary>
-        /// <param name="typeName"></param>
-        /// <param name="parentType"></param>
-        /// <param name="argTypes"></param>
-        /// <returns></returns>
-        public static Type? GetTypeByParentType(this string typeName, Type parentType, Type[] argTypes) => typeName.GetTypeByTypeName((m => m.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase) && m.IsClass && !m.IsAbstract && m.IsAssignableTo(parentType)), argTypes);
-        /// <summary>
-        /// 根据类型名称获得对象
-        /// </summary>
-        /// <param name="typeName"></param>
-        /// <param name="parentType"></param>
-        /// <returns></returns>
-        public static Type? GetTypeByParentType(this string typeName, Type parentType) => typeName.GetTypeByTypeName((m => m.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase) && m.IsClass && !m.IsAbstract && m.IsAssignableTo(parentType)));
-        /// <summary>
-        /// 根据类型名称获得对象
-        /// </summary>
-        /// <typeparam name="T">父级类型</typeparam>
-        /// <param name="typeName"></param>
-        /// <param name="argTypes"></param>
-        /// <returns></returns>
-        public static Type? GetTypeByParentType<T>(this string typeName, Type[] argTypes) => typeName.GetTypeByParentType(parentType: typeof(T), argTypes);
+        public static Type? GetTypeByTypeName<T>(this string typeName, object[] args)
+            => typeName.GetTypeByTypeName(typeof(T), args.GetArgTypes());
+        #endregion
 #if NETSTANDARD
         /// <summary>
         /// 以inputChar开始

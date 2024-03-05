@@ -1,5 +1,4 @@
-﻿using Dy.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Models;
+﻿using Materal.Oscillator.Abstractions.Models;
 
 namespace Materal.Oscillator.Abstractions.Factories
 {
@@ -21,7 +20,7 @@ namespace Materal.Oscillator.Abstractions.Factories
             T? result = default;
             foreach (Assembly assembly in OscillatorServices.WorkAssemblies)
             {
-                result = type.GetObjectByTypeName<T>(assembly);
+                result = type.GetObjectByTypeName<T>(assembly, OscillatorServices.Services);
                 if (result is not null) break;
             }
             if (result is null || result is not IOscillatorOperationModel<T> t) return default;

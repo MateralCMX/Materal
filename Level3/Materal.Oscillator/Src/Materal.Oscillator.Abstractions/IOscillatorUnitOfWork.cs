@@ -3,7 +3,7 @@
     /// <summary>
     /// Oscillator工作单元
     /// </summary>
-    public interface IOscillatorUnitOfWork : IUnitOfWork<Guid>
+    public interface IOscillatorUnitOfWork : IUnitOfWork
     {
     }
 }

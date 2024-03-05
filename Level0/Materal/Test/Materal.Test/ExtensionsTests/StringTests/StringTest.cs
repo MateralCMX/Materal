@@ -11,7 +11,7 @@ namespace Materal.Test.ExtensionsTests.StringTests
         {
             Type? studentType = nameof(Student).GetTypeByTypeName<User>(["1234", 22]);
             if (studentType is null) return;
-            User model = studentType.Instantiation<User>("1234", 22);
+            User model = studentType.Instantiation<User>(["1234", 22]);
             User model2 = model.CopyProperties<User>();
         }
         private static readonly string[] _arrayValue = ["1", "2", "3", "4", "5"];

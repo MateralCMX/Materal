@@ -6,16 +6,8 @@ namespace Materal.Oscillator.SqliteEFRepository
     /// <summary>
     /// Oscillator工作单元
     /// </summary>
-    public class OscillatorUnitOfWorkImpl : SqliteEFUnitOfWorkImpl<OscillatorDBContext, Guid>, IOscillatorUnitOfWork
+    public class OscillatorUnitOfWorkImpl(OscillatorDBContext context, IServiceProvider serviceProvider) : SqliteEFUnitOfWorkImpl<OscillatorDBContext>(context, serviceProvider), IOscillatorUnitOfWork
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="serviceProvider"></param>
-        public OscillatorUnitOfWorkImpl(OscillatorDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
-        {
-        }
         /// <summary>
         /// 注册添加
         /// </summary>

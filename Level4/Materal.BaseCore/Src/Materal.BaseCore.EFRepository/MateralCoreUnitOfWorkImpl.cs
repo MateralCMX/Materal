@@ -4,16 +4,9 @@
     /// 工作单元
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class MateralCoreUnitOfWorkImpl<T> : EFUnitOfWorkImpl<T, Guid>, IMateralCoreUnitOfWork
+    public abstract class MateralCoreUnitOfWorkImpl<T>(T context, IServiceProvider serviceProvider) : EFUnitOfWorkImpl<T>(context, serviceProvider), IMateralCoreUnitOfWork
         where T : DbContext
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="context"></param>
-        public MateralCoreUnitOfWorkImpl(T context, IServiceProvider serviceProvider) : base(context, serviceProvider)
-        {
-        }
         public override void RegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
         {
             if (obj is IDomain domain)

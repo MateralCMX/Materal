@@ -1,4 +1,4 @@
-﻿using Dy.Oscillator.Abstractions;
+﻿using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.SqliteEFRepository.Extensions;
 using Materal.TTA.SqliteEFRepository;
 

@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Data;
 
 namespace Materal.Extensions
 {
@@ -26,83 +28,28 @@ namespace Materal.Extensions
             }
             throw new ExtensionException("未找到该描述的枚举");
         }
+        #region 类型实例化
         /// <summary>
         /// 实例化对象
         /// </summary>
         /// <param name="type"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static object Instantiation(this Type type, params object[] args) => type.InstantiationOrDefault(args) ?? throw new ExtensionException("实例化失败");
-        /// <summary>
-        /// 实例化对象
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="serviceProvider"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static object Instantiation(this Type type, IServiceProvider serviceProvider, params object[] args) => type.InstantiationOrDefault(serviceProvider, args) ?? throw new ExtensionException("实例化失败");
-        /// <summary>
-        /// 实例化对象
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static object? InstantiationOrDefault(this Type type, params object[] args)
+        public static object? InstantiationOrDefault(this Type type, object[]? args = null)
         {
-            Type[] argTypes = args.Select(m => m.GetType()).ToArray();
-            ConstructorInfo? constructorInfo = type.GetConstructor(argTypes);
-            if (constructorInfo is null) return null;
-            object result = constructorInfo.Invoke(args);
-            return result;
-        }
-        /// <summary>
-        /// 实例化对象
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="serviceProvider"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static object? InstantiationOrDefault(this Type type, IServiceProvider serviceProvider, params object[] args)
-        {
-            ConstructorInfo[] constructorInfos = [.. type.GetConstructors().OrderByDescending(m => m.GetParameters().Length)];
-            List<object> argList = [.. args];
-            foreach (ConstructorInfo constructorInfo in constructorInfos)
+            args ??= [];
+            try
             {
-                ParameterInfo[] argumentInfos = constructorInfo.GetParameters();
-                List<object> trueArguments = [];
-                foreach (ParameterInfo argumentInfo in argumentInfos)
-                {
-                    bool isOK = false;
-                    for (int i = 0; i < argList.Count; i++)
-                    {
-                        if (argList[i].GetType() != argumentInfo.ParameterType) continue;
-                        trueArguments.Add(argList[i]);
-                        argList.RemoveAt(i);
-                        isOK = true;
-                        break;
-                    }
-                    if (isOK) continue;
-                    object? argument = serviceProvider.GetService(argumentInfo.ParameterType);
-                    if (argument is null) break;
-                    trueArguments.Add(argument);
-                }
-                if (trueArguments.Count != argumentInfos.Length) continue;
-                object result = constructorInfo.Invoke([.. trueArguments]);
+                return Activator.CreateInstance(type, [.. args]);
+            }
+            catch
+            {
+                Type[] argTypes = args.Select(m => m.GetType()).ToArray();
+                ConstructorInfo? constructorInfo = type.GetConstructor(argTypes);
+                if (constructorInfo is null) return null;
+                object result = constructorInfo.Invoke(args);
                 return result;
             }
-            return null;
-        }
-        /// <summary>
-        /// 实例化对象
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static T Instantiation<T>(this Type type, params object[] args)
-        {
-            object? obj = type.InstantiationOrDefault(args);
-            if (obj is null || obj is not T result) throw new ExtensionException("实例化失败");
-            return result;
         }
         /// <summary>
         /// 实例化对象
@@ -111,11 +58,43 @@ namespace Materal.Extensions
         /// <param name="serviceProvider"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static T Instantiation<T>(this Type type, IServiceProvider serviceProvider, params object[] args)
+        public static object? InstantiationOrDefault(this Type type, IServiceProvider serviceProvider, object[]? args = null)
         {
-            object? obj = type.InstantiationOrDefault(serviceProvider, args);
-            if (obj is null || obj is not T result) throw new ExtensionException("实例化失败");
-            return result;
+            args ??= [];
+            try
+            {
+                return ActivatorUtilities.CreateInstance(serviceProvider, type, [.. args]);
+            }
+            catch
+            {
+                ConstructorInfo[] constructorInfos = [.. type.GetConstructors().OrderByDescending(m => m.GetParameters().Length)];
+                foreach (ConstructorInfo constructorInfo in constructorInfos)
+                {
+                    List<object> argList = [.. args];
+                    List<object> trueArguments = [];
+                    ParameterInfo[] argumentInfos = constructorInfo.GetParameters();
+                    foreach (ParameterInfo argumentInfo in argumentInfos)
+                    {
+                        bool isOK = false;
+                        for (int i = 0; i < argList.Count; i++)
+                        {
+                            if (argList[i].GetType() != argumentInfo.ParameterType) continue;
+                            trueArguments.Add(argList[i]);
+                            argList.RemoveAt(i);
+                            isOK = true;
+                            break;
+                        }
+                        if (isOK) continue;
+                        object? argument = serviceProvider.GetService(argumentInfo.ParameterType);
+                        if (argument is null) break;
+                        trueArguments.Add(argument);
+                    }
+                    if (trueArguments.Count != argumentInfos.Length) continue;
+                    object result = constructorInfo.Invoke([.. trueArguments]);
+                    return result;
+                }
+                return null;
+            }
         }
         /// <summary>
         /// 实例化对象
@@ -123,7 +102,24 @@ namespace Materal.Extensions
         /// <param name="type"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static T? InstantiationOrDefault<T>(this Type type, params object[] args)
+        public static object Instantiation(this Type type, object[]? args = null)
+            => type.InstantiationOrDefault(args) ?? throw new ExtensionException("实例化失败");
+        /// <summary>
+        /// 实例化对象
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object Instantiation(this Type type, IServiceProvider serviceProvider, object[]? args = null)
+            => type.InstantiationOrDefault(serviceProvider, args) ?? throw new ExtensionException("实例化失败");
+        /// <summary>
+        /// 实例化对象
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T? InstantiationOrDefault<T>(this Type type, object[]? args = null)
         {
             object? obj = type.InstantiationOrDefault(args);
             if (obj is null || obj is not T result) return default;
@@ -136,12 +132,30 @@ namespace Materal.Extensions
         /// <param name="serviceProvider"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static T? InstantiationOrDefault<T>(this Type type, IServiceProvider serviceProvider, params object[] args)
+        public static T? InstantiationOrDefault<T>(this Type type, IServiceProvider serviceProvider, object[]? args = null)
         {
             object? obj = type.InstantiationOrDefault(serviceProvider, args);
             if (obj is null || obj is not T result) return default;
             return result;
         }
+        /// <summary>
+        /// 实例化对象
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T Instantiation<T>(this Type type, object[]? args = null)
+            => type.InstantiationOrDefault<T>(args) ?? throw new ExtensionException("实例化失败");
+        /// <summary>
+        /// 实例化对象
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T Instantiation<T>(this Type type, IServiceProvider serviceProvider, object[]? args = null)
+            => type.InstantiationOrDefault<T>(serviceProvider, args) ?? throw new ExtensionException("实例化失败");
+        #endregion
         /// <summary>
         /// 是否可作为类型使用
         /// </summary>

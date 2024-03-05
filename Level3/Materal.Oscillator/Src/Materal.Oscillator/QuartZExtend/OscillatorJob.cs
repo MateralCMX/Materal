@@ -1,5 +1,4 @@
-﻿using Dy.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Answers;
+﻿using Materal.Oscillator.Abstractions.Answers;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.DR;
 using Materal.Oscillator.Abstractions.DR.Domain;
@@ -60,7 +59,7 @@ namespace Materal.Oscillator.QuartZExtend
         /// <summary>
         /// 任务结果
         /// </summary>
-        private readonly List<WorkResultModel> _workResults = new();
+        private readonly List<WorkResultModel> _workResults = [];
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -206,9 +205,9 @@ namespace Materal.Oscillator.QuartZExtend
             _schedule = schedule;
             if (dataMap[WorksDataMapKey] is not ScheduleWork[] scheduleWorks || scheduleWorks.Length <= 0) return;
             if (scheduleWorks.Any(m => m.ScheduleID != _schedule.ID)) return;
-            _scheduleWorks = scheduleWorks.OrderBy(m => m.Index).ToArray();
+            _scheduleWorks = [.. scheduleWorks.OrderBy(m => m.Index)];
             Guid[] workIDs = _scheduleWorks.Select(m => m.WorkID).Distinct().ToArray();
-            _works = (await _workRepository.FindAsync(m => workIDs.Contains(m.ID))).ToArray();
+            _works = [.. (await _workRepository.FindAsync(m => workIDs.Contains(m.ID)))];
             if (dataMap.ContainsKey(FlowMapKey) && dataMap[FlowMapKey] is Flow flow)
             {
                 _flow = flow;

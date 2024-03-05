@@ -22,7 +22,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 值
         /// </summary>
-        public List<EnumValueModel> Values { get; set; } = new();
+        public List<EnumValueModel> Values { get; set; } = [];
         /// <summary>
         /// 生成代码
         /// </summary>
@@ -30,7 +30,7 @@ namespace Materal.BaseCore.CodeGenerator.Models
         /// <summary>
         /// 特性组
         /// </summary>
-        public List<AttributeModel> Attributes { get; set; } = new List<AttributeModel>();
+        public List<AttributeModel> Attributes { get; set; } = [];
         public EnumModel() { }
         /// <summary>
         /// 枚举模型

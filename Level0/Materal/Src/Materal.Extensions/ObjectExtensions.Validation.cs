@@ -44,8 +44,13 @@ namespace System
         /// 验证
         /// </summary>
         /// <param name="model"></param>
+        public static void Validation(this object model) => model.Validation("");
+        /// <summary>
+        /// 验证
+        /// </summary>
+        /// <param name="model"></param>
         /// <param name="prefix"></param>
-        public static void Validation(this object model, string prefix = "")
+        public static void Validation(this object model, string prefix)
         {
             Type modelType = model.GetType();
             List<MemberInfo> memberInfos = [.. modelType.GetProperties(), .. modelType.GetFields()];
@@ -84,26 +89,37 @@ namespace System
         public static void Validation(this object model, MemberInfo memberInfo, string prefix = "")
         {
             if (IsDefaultType(model)) return;
-            object? memberValue = memberInfo.GetValue(model);
-            Validation(memberValue, memberInfo.GetCustomAttributes<ValidationAttribute>(), validationAttribute => NewException(validationAttribute, prefix, memberInfo, memberValue));
-            if (memberValue is null || IsDefaultType(memberValue)) return;
-            string nextPrefix = memberInfo.Name;
-            if (!string.IsNullOrWhiteSpace(prefix))
+            object? memberValue;
+            try
             {
-                nextPrefix = $"{prefix}.{nextPrefix}";
-            }
-            if (memberValue is ICollection collection)
-            {
-                int index = 0;
-                foreach (object? item in collection)
+                memberValue = memberInfo.GetValue(model);
+                Validation(memberValue, memberInfo.GetCustomAttributes<ValidationAttribute>(), validationAttribute => NewException(validationAttribute, prefix, memberInfo, memberValue));
+                if (memberValue is null || IsDefaultType(memberValue)) return;
+                string nextPrefix = memberInfo.Name;
+                if (!string.IsNullOrWhiteSpace(prefix))
                 {
-                    if (memberValue is null || IsDefaultType(item)) continue;
-                    item.Validation($"{nextPrefix}[{index}]");
+                    nextPrefix = $"{prefix}.{nextPrefix}";
+                }
+                if (memberValue is ICollection collection)
+                {
+                    int index = 0;
+                    foreach (object? item in collection)
+                    {
+                        if (memberValue is null || IsDefaultType(item)) continue;
+                        item.Validation($"{nextPrefix}[{index}]");
+                    }
+                }
+                else
+                {
+                    memberValue.Validation($"{nextPrefix}");
                 }
             }
-            else
+            catch (ValidationException)
             {
-                memberValue.Validation($"{nextPrefix}");
+                throw;
+            }
+            catch
+            {
             }
         }
         /// <summary>

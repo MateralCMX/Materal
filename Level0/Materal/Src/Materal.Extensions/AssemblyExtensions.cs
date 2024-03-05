@@ -14,7 +14,16 @@
         public static IEnumerable<Type> GetTypes<T>(this Assembly assembly)
         {
             if (assembly == null) yield break;
-            foreach (var type in assembly.GetTypes())
+            Type[] types;
+            try
+            {
+                types = assembly.GetTypes();
+            }
+            catch
+            {
+                yield break;
+            }
+            foreach (var type in types)
             {
                 if (typeof(T).IsAssignableFrom(type) && type.IsPublic && type.IsClass && !type.IsAbstract) yield return type;
             }

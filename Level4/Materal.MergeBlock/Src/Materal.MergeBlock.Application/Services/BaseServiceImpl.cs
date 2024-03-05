@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.Application.Services
+﻿using AspectCore.DependencyInjection;
+
+namespace Materal.MergeBlock.Application.Services
 {
     /// <summary>
     /// 基础服务实现
@@ -18,7 +20,7 @@
         /// <summary>
         /// 映射器
         /// </summary>
-        [PropertyInjection]
+        [FromServiceContext]
         protected IMapper Mapper
         {
             get => _mapper ?? throw new MergeBlockException("未设置映射器");
@@ -36,7 +38,7 @@
         /// <summary>
         /// 工作单元
         /// </summary>
-        [PropertyInjection]
+        [FromServiceContext]
         protected TUnitOfWork UnitOfWork
         {
             get => _unitOfWork ?? throw new MergeBlockException("未设置工作单元");

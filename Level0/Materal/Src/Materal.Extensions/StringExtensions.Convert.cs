@@ -1,7 +1,7 @@
 ﻿namespace Materal.Extensions
 {
     /// <summary>
-    /// 字符串转行扩展类
+    /// 字符串转换扩展类
     /// </summary>
     public static partial class StringExtensions
     {
@@ -33,30 +33,27 @@
             if (string.IsNullOrWhiteSpace(inputString)) return inputString;
             return inputString[0].ToString().ToUpper() + inputString[1..];
         }
+        #region 根据类型名称获得对象
         /// <summary>
-        /// 根据类型名称获得对象
-        /// </summary>
-        /// <param name="typeName"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static object? GetObjectByTypeName(this string typeName, params object[] args)
-        {
-            Type? type = typeName.GetTypeByTypeName(args);
-            if (type is null) return null;
-            return type.Instantiation(args);
-        }
-        /// <summary>
-        /// 根据类型名称获得对象
+        /// 根据类型名称在指定程序集获得对象
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="assembly"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static object? GetObjectByTypeName(this string typeName, Assembly assembly, params object[] args)
+        public static object? GetObjectByTypeName(this string typeName, Assembly assembly, object[]? args = null)
         {
-            Type? type = typeName.GetTypeByTypeName(assembly, args);
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName(assembly);
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName(assembly, args);
+            }
             if (type is null) return null;
-            return type.Instantiation(args);
+            return type.InstantiationOrDefault(args);
         }
         /// <summary>
         /// 根据类型名称获得对象
@@ -64,42 +61,171 @@
         /// <param name="typeName"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static T? GetObjectByTypeName<T>(this string typeName, params object[] args)
+        public static object? GetObjectByTypeName(this string typeName, object[]? args = null)
         {
-            Type? type = typeName.GetTypeByTypeName<T>(args);
-            if (type is null) return default;
-            object? typeObject = type.Instantiation(args);
-            if (typeObject is null || typeObject is not T result) return default;
-            return result;
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName();
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName(args);
+            }
+            if (type is null) return null;
+            return type.InstantiationOrDefault(args);
+        }
+        /// <summary>
+        /// 根据类型名称在指定程序集获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? GetObjectByTypeName(this string typeName, Assembly assembly, IServiceProvider serviceProvider, object[]? args = null)
+        {
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName(assembly);
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName(assembly, args);
+            }
+            if (type is null) return null;
+            return type.InstantiationOrDefault(serviceProvider, args);
         }
         /// <summary>
         /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? GetObjectByTypeName(this string typeName, IServiceProvider serviceProvider, object[]? args = null)
+        {
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName();
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName(args);
+            }
+            if (type is null) return null;
+            return type.InstantiationOrDefault(serviceProvider, args);
+        }
+        /// <summary>
+        /// 根据类型名称在指定程序集获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="targetType"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? GetObjectByTypeName(this string typeName, Assembly assembly, Type targetType, object[]? args = null)
+        {
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName(assembly, targetType);
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName(assembly, targetType, args);
+            }
+            if (type is null) return null;
+            return type.InstantiationOrDefault(args);
+        }
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="targetType"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? GetObjectByTypeName(this string typeName, Type targetType, object[]? args = null)
+        {
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName(targetType);
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName(targetType, args);
+            }
+            if (type is null) return null;
+            return type.InstantiationOrDefault(args);
+        }
+        /// <summary>
+        /// 根据类型名称在指定程序集获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="targetType"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? GetObjectByTypeName(this string typeName, Assembly assembly, Type targetType, IServiceProvider serviceProvider, object[]? args = null)
+        {
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName(assembly, targetType);
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName(assembly, targetType, args);
+            }
+            if (type is null) return null;
+            return type.InstantiationOrDefault(serviceProvider, args);
+        }
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="targetType"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static object? GetObjectByTypeName(this string typeName, Type targetType, IServiceProvider serviceProvider, object[]? args = null)
+        {
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName(targetType);
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName(targetType, args);
+            }
+            if (type is null) return null;
+            return type.InstantiationOrDefault(serviceProvider, args);
+        }
+        /// <summary>
+        /// 根据类型名称在指定程序集获得对象
         /// </summary>
         /// <param name="typeName"></param>
         /// <param name="assembly"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static T? GetObjectByTypeName<T>(this string typeName, Assembly assembly, params object[] args)
+        public static T? GetObjectByTypeName<T>(this string typeName, Assembly assembly, object[]? args = null)
         {
-            Type? type = typeName.GetTypeByTypeName<T>(assembly, args);
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName<T>(assembly);
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName<T>(assembly, args);
+            }
             if (type is null) return default;
-            object? typeObject = type.Instantiation(args);
-            if (typeObject is null || typeObject is not T result) return default;
-            return result;
-        }
-        /// <summary>
-        /// 根据类型名称获得对象
-        /// </summary>
-        /// <param name="typeName"></param>
-        /// <param name="parentType"></param>
-        /// <param name="args"></param>
-        /// <returns></returns>
-        public static object? GetObjectByParentType(this string typeName, Type parentType, params object[] args)
-        {
-            Type[] argTypes = args.Select(m => m.GetType()).ToArray();
-            Type? type = typeName.GetTypeByParentType(parentType, argTypes);
-            if (type is null) return null;
-            return type.Instantiation(args);
+            return type.InstantiationOrDefault<T>(args);
         }
         /// <summary>
         /// 根据类型名称获得对象
@@ -107,11 +233,64 @@
         /// <param name="typeName"></param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static T? GetObjectByParentType<T>(this string typeName, params object[] args)
+        public static T? GetObjectByTypeName<T>(this string typeName, object[]? args = null)
         {
-            object? obj = typeName.GetObjectByParentType(parentType: typeof(T), args);
-            if (obj is null || obj is not T result) return default;
-            return result;
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName<T>();
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName<T>(args);
+            }
+            if (type is null) return default;
+            return type.InstantiationOrDefault<T>(args);
         }
+        /// <summary>
+        /// 根据类型名称在指定程序集获得对象
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="assembly"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T? GetObjectByTypeName<T>(this string typeName, Assembly assembly, IServiceProvider serviceProvider, object[]? args = null)
+        {
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName<T>(assembly);
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName<T>(assembly, args);
+            }
+            if (type is null) return default;
+            return type.InstantiationOrDefault<T>(serviceProvider, args);
+        }
+        /// <summary>
+        /// 根据类型名称获得对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="typeName"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public static T? GetObjectByTypeName<T>(this string typeName, IServiceProvider serviceProvider, object[]? args = null)
+        {
+            Type? type;
+            if (args is null || args.Length == 0)
+            {
+                type = typeName.GetTypeByTypeName<T>();
+            }
+            else
+            {
+                type = typeName.GetTypeByTypeName<T>(args);
+            }
+            if (type is null) return default;
+            return type.InstantiationOrDefault<T>(serviceProvider, args);
+        }
+        #endregion
     }
 }

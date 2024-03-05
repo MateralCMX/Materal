@@ -32,7 +32,7 @@
             {
                 try
                 {
-                    TRepository repository = typeof(TRepository).Instantiation<TRepository>(item.Key);
+                    TRepository repository = typeof(TRepository).Instantiation<TRepository>([item.Key]);
                     repository.Inserts([.. item]);
                 }
                 catch (Exception exception)

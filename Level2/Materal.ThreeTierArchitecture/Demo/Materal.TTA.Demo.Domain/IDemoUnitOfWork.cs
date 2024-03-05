@@ -2,7 +2,7 @@
 
 namespace Materal.TTA.Demo.Domain
 {
-    public interface IDemoUnitOfWork : IUnitOfWork<Guid>
+    public interface IDemoUnitOfWork : IUnitOfWork
     {
     }
 }

@@ -19,7 +19,7 @@ namespace Materal.MergeBlock.ConsoleModule
         public override async Task RunAsync(string[] args, bool autoRemoveAssemblies = true)
         {
             _builder = Host.CreateApplicationBuilder(args);
-            _builder.ConfigureContainer(new MateralServiceProviderFactory());//替换服务提供者工厂
+            _builder.UseMateralServiceProvider();//替换服务提供者工厂
             await ConfigModuleAsync(_builder.Services, _builder.Configuration, autoRemoveAssemblies);
             _app = _builder.Build();
             IConsoleApplicationContext context = await InitModuleAsync(_app.Services);

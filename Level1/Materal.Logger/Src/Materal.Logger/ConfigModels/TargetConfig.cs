@@ -34,6 +34,6 @@
         /// 获得日志写入器
         /// </summary>
         /// <param name="serviceProvider"></param>
-        public override ILoggerWriter GetLoggerWriter(IServiceProvider serviceProvider) => _loggerWriter ??= typeof(TLoggerWriter).Instantiation<TLoggerWriter>(serviceProvider, this);
+        public override ILoggerWriter GetLoggerWriter(IServiceProvider serviceProvider) => _loggerWriter ??= typeof(TLoggerWriter).Instantiation<TLoggerWriter>(serviceProvider, [this]);
     }
 }

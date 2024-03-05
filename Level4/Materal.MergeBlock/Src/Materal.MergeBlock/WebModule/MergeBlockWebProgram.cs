@@ -21,7 +21,7 @@ namespace Materal.MergeBlock.WebModule
         public override async Task RunAsync(string[] args, bool autoRemoveAssemblies = true)
         {
             _builder = WebApplication.CreateBuilder(args);
-            _builder.Host.UseServiceProviderFactory(new WebModuleMateralServiceProviderFactory());//替换服务提供者工厂
+            _builder.Host.UseMateralServiceProvider();
             await ConfigModuleAsync(_builder.Services, _builder.Configuration, autoRemoveAssemblies);
             _app = _builder.Build();
             WebApplicationContext context = await InitModuleAsync(_app.Services);

@@ -1,4 +1,7 @@
-﻿namespace Materal.Test.ExtensionsTests.DependencyInjectionTests
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
+
+namespace Materal.Test.ExtensionsTests.DependencyInjectionTests
 {
     [TestClass]
     public class DependencyInjectionTest : BaseTest
@@ -13,6 +16,27 @@
         {
             IService service = GetRequiredService<IService>();
             service.SayHello();
+            service.Test(new TestModel { Message = "12345" });
+            try
+            {
+                service.Test(new TestModel { Message = string.Empty });
+                Assert.Fail("验证失败");
+            }
+            catch (ValidationException ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            service.Test();
+            service.Test("12345");
+            try
+            {
+                service.Test(string.Empty);
+                Assert.Fail("验证失败");
+            }
+            catch (ValidationException ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }

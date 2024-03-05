@@ -1,4 +1,5 @@
-﻿using Materal.Logger.ConfigModels;
+﻿using Materal.Extensions.DependencyInjection;
+using Materal.Logger.ConfigModels;
 using Materal.Logger.ConsoleLogger;
 using Materal.Logger.Extensions;
 using Materal.TTA.Common;
@@ -34,7 +35,7 @@ namespace Materal.TTA.Demo
             //serviceCollection.AddSqlServerEFTTA();
             //static async Task MigrateAsync(IServiceProvider serviceProvider) => await SqlServerEFHelper.MigrateAsync(serviceProvider);
 
-            IServiceProvider services = serviceCollection.BuildServiceProvider();
+            IServiceProvider services = serviceCollection.BuildMateralServiceProvider();
             await services.UseMateralLoggerAsync();
             ILoggerExtension.TSQLLogLevel = LogLevel.Trace;
 

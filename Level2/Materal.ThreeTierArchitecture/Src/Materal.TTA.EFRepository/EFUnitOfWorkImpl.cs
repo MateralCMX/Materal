@@ -31,19 +31,42 @@ namespace Materal.TTA.EFRepository
         /// <summary>
         /// 注册添加
         /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="MateralException"></exception>
+        public virtual void RegisterAdd(object obj)
+        {
+            lock (entitiesLockObj)
+            {
+                EntityEntry entity = DBContext.Entry(obj);
+                if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能添加");
+                entity.State = EntityState.Added;
+            }
+        }
+        /// <summary>
+        /// 注册添加
+        /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TPrimaryKeyType"></typeparam>
         /// <param name="obj"></param>
         /// <exception cref="MateralException"></exception>
         public virtual void RegisterAdd<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
-            where TPrimaryKeyType : struct
+            where TPrimaryKeyType : struct => RegisterAdd(obj);
+        /// <summary>
+        /// 注册添加
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public virtual bool TryRegisterAdd(object obj)
         {
-            lock (entitiesLockObj)
+            try
             {
-                EntityEntry<TEntity> entity = DBContext.Entry(obj);
-                if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能添加");
-                entity.State = EntityState.Added;
+                RegisterAdd(obj);
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
         /// <summary>
@@ -70,19 +93,42 @@ namespace Materal.TTA.EFRepository
         /// <summary>
         /// 注册修改
         /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="MateralException"></exception>
+        public virtual void RegisterEdit(object obj)
+        {
+            lock (entitiesLockObj)
+            {
+                EntityEntry entity = DBContext.Entry(obj);
+                if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能修改");
+                entity.State = EntityState.Modified;
+            }
+        }
+        /// <summary>
+        /// 注册修改
+        /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TPrimaryKeyType"></typeparam>
         /// <param name="obj"></param>
         /// <exception cref="MateralException"></exception>
         public virtual void RegisterEdit<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
-            where TPrimaryKeyType : struct
+            where TPrimaryKeyType : struct => RegisterEdit(obj);
+        /// <summary>
+        /// 注册修改
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public virtual bool TryRegisterEdit(object obj)
         {
-            lock (entitiesLockObj)
+            try
             {
-                EntityEntry<TEntity> entity = DBContext.Entry(obj);
-                if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能修改");
-                entity.State = EntityState.Modified;
+                RegisterEdit(obj);
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
         /// <summary>
@@ -109,19 +155,42 @@ namespace Materal.TTA.EFRepository
         /// <summary>
         /// 注册删除
         /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="MateralException"></exception>
+        public virtual void RegisterDelete(object obj)
+        {
+            lock (entitiesLockObj)
+            {
+                EntityEntry entity = DBContext.Entry(obj);
+                if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能删除");
+                entity.State = EntityState.Deleted;
+            }
+        }
+        /// <summary>
+        /// 注册删除
+        /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TPrimaryKeyType"></typeparam>
         /// <param name="obj"></param>
         /// <exception cref="MateralException"></exception>
         public virtual void RegisterDelete<TEntity, TPrimaryKeyType>(TEntity obj)
             where TEntity : class, IEntity<TPrimaryKeyType>
-            where TPrimaryKeyType : struct
+            where TPrimaryKeyType : struct => RegisterDelete(obj);
+        /// <summary>
+        /// 注册删除
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public virtual bool TryRegisterDelete(object obj)
         {
-            lock (entitiesLockObj)
+            try
             {
-                EntityEntry<TEntity> entity = DBContext.Entry(obj);
-                if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能删除");
-                entity.State = EntityState.Deleted;
+                RegisterDelete(obj);
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
         /// <summary>
@@ -205,84 +274,6 @@ namespace Materal.TTA.EFRepository
                 if (entity == null) return;
                 entity.State = EntityState.Detached;
             });
-        }
-    }
-    /// <summary>
-    /// EF工作单元
-    /// </summary>
-    /// <typeparam name="TDBContext"></typeparam>
-    /// <typeparam name="TPrimaryKeyType"></typeparam>
-    public abstract class EFUnitOfWorkImpl<TDBContext, TPrimaryKeyType> : EFUnitOfWorkImpl<TDBContext>, IEFUnitOfWork<TPrimaryKeyType>
-        where TPrimaryKeyType : struct
-        where TDBContext : DbContext
-    {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="serviceProvider"></param>
-        protected EFUnitOfWorkImpl(TDBContext context, IServiceProvider serviceProvider) : base(context, serviceProvider)
-        {
-        }
-        /// <summary>
-        /// 注册添加
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="obj"></param>
-        public virtual void RegisterAdd<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<TPrimaryKeyType>
-        {
-            RegisterAdd<TEntity, TPrimaryKeyType>(obj);
-        }
-        /// <summary>
-        /// 注册添加
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="obj"></param>
-        public virtual bool TryRegisterAdd<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<TPrimaryKeyType>
-        {
-            return TryRegisterAdd<TEntity, TPrimaryKeyType>(obj);
-        }
-        /// <summary>
-        /// 注册修改
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="obj"></param>
-        public virtual void RegisterEdit<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<TPrimaryKeyType>
-        {
-            RegisterEdit<TEntity, TPrimaryKeyType>(obj);
-        }
-        /// <summary>
-        /// 注册修改
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="obj"></param>
-        public virtual bool TryRegisterEdit<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<TPrimaryKeyType>
-        {
-            return TryRegisterEdit<TEntity, TPrimaryKeyType>(obj);
-        }
-        /// <summary>
-        /// 注册删除
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="obj"></param>
-        public virtual void RegisterDelete<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<TPrimaryKeyType>
-        {
-            RegisterDelete<TEntity, TPrimaryKeyType>(obj);
-        }
-        /// <summary>
-        /// 注册删除
-        /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="obj"></param>
-        public virtual bool TryRegisterDelete<TEntity>(TEntity obj)
-            where TEntity : class, IEntity<TPrimaryKeyType>
-        {
-            return TryRegisterDelete<TEntity, TPrimaryKeyType>(obj);
         }
     }
 }

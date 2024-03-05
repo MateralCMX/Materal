@@ -1,6 +1,6 @@
-﻿namespace Materal.WebAPITest.Services
+﻿namespace Materal.WebAPITest.Repository
 {
-    public interface ITestService
+    public interface ITestRepository
     {
         string SayHello();
         Task<string> SayHelloAsync();

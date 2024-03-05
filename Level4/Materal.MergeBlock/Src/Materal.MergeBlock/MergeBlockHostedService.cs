@@ -14,10 +14,6 @@ namespace Materal.MergeBlock
         /// <returns></returns>
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            if (serviceProvider is not MateralServiceProvider)
-            {
-                serviceProvider = new MateralServiceProvider(serviceProvider);
-            }
             foreach (IModuleInfo moduleInfo in MergeBlockHost.ModuleInfos)
             {
                 await moduleInfo.ApplicationStartdAsync(serviceProvider);

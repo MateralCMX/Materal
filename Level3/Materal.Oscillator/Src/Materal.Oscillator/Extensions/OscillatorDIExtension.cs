@@ -1,5 +1,4 @@
-﻿using Dy.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.Factories;
+﻿using Materal.Oscillator.Abstractions.Factories;
 using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.QuartZExtend;
 using Materal.Oscillator.Works;

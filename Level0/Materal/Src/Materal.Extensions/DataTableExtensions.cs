@@ -16,7 +16,7 @@ namespace Materal.Extensions
         public static DataTable ToDataTable<T>(this IEnumerable<T> listM)
             where T : new()
         {
-            listM ??= new List<T>();
+            listM ??= [];
             Type type = typeof(T);
             DataTable dt = type.ToDataTable();
             foreach (T item in listM)

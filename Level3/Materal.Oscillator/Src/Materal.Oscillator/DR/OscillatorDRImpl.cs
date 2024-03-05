@@ -11,18 +11,8 @@ namespace Materal.Oscillator.DR
     /// <summary>
     /// 调度器容灾
     /// </summary>
-    public class OscillatorDRImpl : IOscillatorDR
+    public class OscillatorDRImpl(IServiceProvider serviceProvider, IOscillatorHost host) : IOscillatorDR
     {
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IOscillatorHost _host;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public OscillatorDRImpl(IServiceProvider serviceProvider, IOscillatorHost host)
-        {
-            _serviceProvider = serviceProvider;
-            _host = host;
-        }
         /// <summary>
         /// 调度器执行
         /// </summary>
@@ -30,7 +20,7 @@ namespace Materal.Oscillator.DR
         /// <returns></returns>
         public async Task ScheduleExecuteAsync(Schedule schedule)
         {
-            using IServiceScope scope = _serviceProvider.CreateScope();
+            using IServiceScope scope = serviceProvider.CreateScope();
             IOscillatorDRUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IOscillatorDRUnitOfWork>();
             ScheduleFlowModel scheduleFlow = GetScheduleFlowModel(schedule);
             JobKey jobKey = OscillatorQuartZManager.GetJobKey(scheduleFlow);
@@ -58,7 +48,7 @@ namespace Materal.Oscillator.DR
         /// <exception cref="NotImplementedException"></exception>
         public async Task ScheduleExecutedAsync(Schedule schedule)
         {
-            using IServiceScope scope = _serviceProvider.CreateScope();
+            using IServiceScope scope = serviceProvider.CreateScope();
             IOscillatorDRUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IOscillatorDRUnitOfWork>();
             ScheduleFlowModel scheduleFlow = GetScheduleFlowModel(schedule);
             Flow? flow = await GetFlowBySchedultAsync(unitOfWork, scheduleFlow);
@@ -72,7 +62,7 @@ namespace Materal.Oscillator.DR
         /// <returns></returns>
         public async Task ScheduleExecutedAsync(Flow flow)
         {
-            using IServiceScope scope = _serviceProvider.CreateScope();
+            using IServiceScope scope = serviceProvider.CreateScope();
             IOscillatorDRUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IOscillatorDRUnitOfWork>();
             await ScheduleExecutedAsync(unitOfWork, flow);
         }
@@ -82,13 +72,13 @@ namespace Materal.Oscillator.DR
         /// <returns></returns>
         public async Task ScheduleStartAsync()
         {
-            using IServiceScope scope = _serviceProvider.CreateScope();
+            using IServiceScope scope = serviceProvider.CreateScope();
             IOscillatorDRUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IOscillatorDRUnitOfWork>();
             IFlowRepository flowRepository = unitOfWork.GetRepository<IFlowRepository>();
             IList<Flow> allFlow = await flowRepository.FindAsync(m => true);
             foreach (Flow flow in allFlow)
             {
-                await _host.DRRunAsync(flow);
+                await host.DRRunAsync(flow);
             }
         }
         /// <summary>
@@ -99,7 +89,7 @@ namespace Materal.Oscillator.DR
         /// <returns></returns>
         public async Task WorkExecuteAsync(Schedule schedule, ScheduleWork scheduleWork)
         {
-            using IServiceScope scope = _serviceProvider.CreateScope();
+            using IServiceScope scope = serviceProvider.CreateScope();
             IOscillatorDRUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IOscillatorDRUnitOfWork>();
             ScheduleFlowModel scheduleFlow = GetScheduleFlowModel(schedule);
             Flow? flow = await GetFlowBySchedultAsync(unitOfWork, scheduleFlow);
@@ -114,7 +104,7 @@ namespace Materal.Oscillator.DR
         /// <returns></returns>
         public async Task WorkExecuteAsync(Flow flow, ScheduleWork scheduleWork)
         {
-            using IServiceScope scope = _serviceProvider.CreateScope();
+            using IServiceScope scope = serviceProvider.CreateScope();
             IOscillatorDRUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IOscillatorDRUnitOfWork>();
             await SaveEditAsync(unitOfWork, flow, scheduleWork);
         }
@@ -127,7 +117,7 @@ namespace Materal.Oscillator.DR
         /// <returns></returns>
         public async Task WorkExecutedAsync(Schedule schedule, ScheduleWork scheduleWork, string? workResult)
         {
-            using IServiceScope scope = _serviceProvider.CreateScope();
+            using IServiceScope scope = serviceProvider.CreateScope();
             IOscillatorDRUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IOscillatorDRUnitOfWork>();
             ScheduleFlowModel scheduleFlow = GetScheduleFlowModel(schedule);
             Flow? flow = await GetFlowBySchedultAsync(unitOfWork, scheduleFlow);
@@ -143,7 +133,7 @@ namespace Materal.Oscillator.DR
         /// <returns></returns>
         public async Task WorkExecutedAsync(Flow flow, ScheduleWork scheduleWork, string? workResult)
         {
-            using IServiceScope scope = _serviceProvider.CreateScope();
+            using IServiceScope scope = serviceProvider.CreateScope();
             IOscillatorDRUnitOfWork unitOfWork = scope.ServiceProvider.GetRequiredService<IOscillatorDRUnitOfWork>();
             await SaveEditAsync(unitOfWork, flow, scheduleWork, workResult);
         }
@@ -175,7 +165,7 @@ namespace Materal.Oscillator.DR
             List<string?> workResults;
             if (flow.WorkResults == null || string.IsNullOrWhiteSpace(flow.WorkResults))
             {
-                workResults = new List<string?> { workResult };
+                workResults = [workResult];
             }
             else
             {
