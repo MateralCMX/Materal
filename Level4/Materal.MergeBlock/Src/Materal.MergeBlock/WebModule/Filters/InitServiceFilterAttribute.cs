@@ -2,6 +2,7 @@
 using Materal.MergeBlock.Abstractions.WebModule.Authorization.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Reflection;
 
 namespace Materal.MergeBlock.WebModule.Filters
 {
@@ -22,14 +23,27 @@ namespace Materal.MergeBlock.WebModule.Filters
             if(context.Controller is ControllerBase controller)
             {
                 Type controllerType = controller.GetType();
+                foreach (MemberInfo memberInfo in controllerType.GetRuntimeProperties().Where(m => m.PropertyType.IsAssignableTo<IBaseService>()))
+                {
+                    BindService(memberInfo, controller);
+                }
                 foreach (MemberInfo memberInfo in controllerType.GetRuntimeFields().Where(m => m.FieldType.IsAssignableTo<IBaseService>()))
                 {
-                    object? serviceObj = memberInfo.GetValue(controller);
-                    if (serviceObj is null || serviceObj is not IBaseService service) continue;
-                    service.LoginUserID = controller.GetLoginUserID();
+                    BindService(memberInfo, controller);
                 }
             }
             await base.OnActionExecutionAsync(context, next);
+        }
+        /// <summary>
+        /// 绑定服务
+        /// </summary>
+        /// <param name="memberInfo"></param>
+        /// <param name="controller"></param>
+        private static void BindService(MemberInfo memberInfo, ControllerBase controller)
+        {
+            object? serviceObj = memberInfo.GetValue(controller);
+            if (serviceObj is null || serviceObj is not IBaseService service) return;
+            service.LoginUserID = controller.GetLoginUserID();
         }
     }
 }
