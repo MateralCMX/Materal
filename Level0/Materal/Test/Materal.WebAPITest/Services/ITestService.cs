@@ -4,5 +4,6 @@
     {
         string SayHello();
         Task<string> SayHelloAsync();
+        string SayHello(string name);
     }
 }

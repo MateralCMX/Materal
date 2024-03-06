@@ -1,5 +1,6 @@
 ﻿using Materal.BaseCore.Common;
 using Materal.BaseCore.WebAPI.Common;
+using Materal.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 
@@ -42,11 +43,11 @@ namespace Materal.BaseCore.WebAPI
         {
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             WebApplicationBuilder builder = WebApplication.CreateBuilder(applicationOptions);
+            builder.Host.UseMateralServiceProvider();
             configBuilder?.Invoke(builder);
             initConfig?.Invoke(builder.Configuration);
             MateralCoreConfig.Configuration = builder.Configuration;
             configService?.Invoke(builder.Services);
-            builder.Host.UseServiceProviderFactory(new MateralServiceProviderFactory());//使用AOP
             WebApplication app = builder.Build();
             configApp?.Invoke(app);
             app.WebApplicationConfig(consulTag);

@@ -43,7 +43,14 @@ namespace Materal.MergeBlock.WebModule.Filters
         {
             object? serviceObj = memberInfo.GetValue(controller);
             if (serviceObj is null || serviceObj is not IBaseService service) return;
-            service.LoginUserID = controller.GetLoginUserID();
+            try
+            {
+                service.LoginUserID = controller.GetLoginUserID();
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }
