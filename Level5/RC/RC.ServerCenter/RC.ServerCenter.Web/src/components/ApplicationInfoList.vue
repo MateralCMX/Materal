@@ -397,15 +397,21 @@ function uploadFile(url: string, option: RequestOption): UploadRequest {
         };
     }
     xhr.onerror = function error(e) {
+        debugger;
         option.onError(e);
         Message.error("上传失败");
         isLoading.value = false;
         ladingTip.value = "";
     };
     xhr.onload = function onload() {
-        if (xhr.status < 200 || xhr.status >= 300) return option.onError(xhr.responseText);
-        option.onSuccess(xhr.response);
-        Message.success(JSON.parse(xhr.response).Message);
+        if (xhr.status < 200 || xhr.status >= 300) {
+            option.onError(xhr.responseText);
+            Message.error(JSON.parse(xhr.response).Message ?? "上传失败");
+        }
+        else {
+            option.onSuccess(xhr.response);
+            Message.success(JSON.parse(xhr.response).Message);
+        }
         isLoading.value = false;
         ladingTip.value = "";
     };

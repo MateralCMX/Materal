@@ -57,8 +57,8 @@ class ApplicationInfoService extends BaseService {
     }
     public async GetUploadFileUrlAsync(id: string): Promise<string> {
         if (!serverManagement.selectedDeploy) throw new Error("没有选中任何目标");
-        const servicename = serverManagement.selectedDeploy.Service;
-        return await this.getApiUrlByServiceNameAsync("UploadNewFile", servicename, { id });
+        const url = `//${serverManagement.selectedDeploy.Host}:${serverManagement.selectedDeploy.Port}/DeployAPI/ApplicationInfo/UploadNewFile?id=${id}`;
+        return url;
     }
     public async GetGetDownloadUrlAsync(url: string): Promise<string> {
         if (!serverManagement.selectedDeploy) throw new Error("没有选中任何目标");
