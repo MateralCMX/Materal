@@ -35,7 +35,7 @@
 }
 </style>
 <template>
-    <a-spin :loading="isLoading" style="width: 100%;">
+    <a-spin :tip="ladingTip" :loading="isLoading" style="width: 100%;">
         <a-space direction="vertical" fill>
             <a-form :model="queryData" layout="inline" @submit-success="onQueryAsync">
                 <a-form-item field="EnvironmentServer" label="目标">
@@ -100,15 +100,15 @@
                                 <template #icon><icon-poweroff /></template>
                             </a-button>
                             <a-upload class="upload-button" v-if="item.ApplicationStatus === 3" draggable
-                                :custom-request="(option) => customRequest(item.UploadFileUrl, option)">
+                                :custom-request="(option) => uploadFile(item.UploadFileUrl, option)">
                                 <template #upload-button>
                                     <div style="line-height: 32px;">
                                         <icon-upload />
                                     </div>
                                 </template>
                             </a-upload>
-                            <a-button v-if="item.ApplicationStatus === 3" type="text" @click="applyLasetFileAsync(item.ID)"
-                                title="使用最后一次上传的文件">
+                            <a-button v-if="item.ApplicationStatus === 3" type="text"
+                                @click="applyLasetFileAsync(item.ID)" title="使用最后一次上传的文件">
                                 <template #icon><icon-copy /></template>
                             </a-button>
                             <a-button type="text" @click="openFileListPanel(item.ID)" title="文件列表">
@@ -118,8 +118,8 @@
                                 title="编辑">
                                 <template #icon><icon-edit /></template>
                             </a-button>
-                            <a-popconfirm v-if="item.ApplicationStatus === 3" :content="`是否删除${item.Name}?`" type="warning"
-                                ok-text="删除" @ok="async () => await deleteAsync(item.ID)">
+                            <a-popconfirm v-if="item.ApplicationStatus === 3" :content="`是否删除${item.Name}?`"
+                                type="warning" ok-text="删除" @ok="async () => await deleteAsync(item.ID)">
                                 <a-button type="text" title="删除">
                                     <template #icon><icon-delete style="color: red;" /></template>
                                 </a-button>
@@ -149,7 +149,7 @@
                             </a-col>
                             <a-col :span="12">
                                 状态：<span :class="getClassByApplicationStatus(item.ApplicationStatus)">{{
-                                    item.ApplicationStatusTxt }}</span>
+        item.ApplicationStatusTxt }}</span>
                             </a-col>
                         </a-row>
                         <a-row>
@@ -202,6 +202,7 @@ import DeploySelect from './DeploySelect.vue';
  * 加载数据标识
  */
 const isLoading = ref(false);
+const ladingTip = ref("");
 const editPanelVisible = ref(false);
 const fileListPanelVisible = ref(false);
 const consolePanelVisible = ref(false);
@@ -376,7 +377,8 @@ function openConsolePanel(id: string) {
 async function onConsolePanelCancelAsync() {
     consolePanelVisible.value = false;
 }
-function customRequest(url: string, option: RequestOption): UploadRequest {
+function uploadFile(url: string, option: RequestOption): UploadRequest {
+    isLoading.value = true;
     const xhr = new XMLHttpRequest();
     if (xhr.upload) {
         xhr.upload.onprogress = function (event) {
@@ -385,14 +387,27 @@ function customRequest(url: string, option: RequestOption): UploadRequest {
                 percent = event.loaded / event.total;
             }
             option.onProgress(percent, event);
+            if (percent === 1) {
+                ladingTip.value = `上传完毕，正在合并文件...`;
+            }
+            else {
+                let percentStr = (percent * 100).toFixed(2);
+                ladingTip.value = `${percentStr}%`;
+            }
         };
     }
     xhr.onerror = function error(e) {
         option.onError(e);
+        Message.error("上传失败");
+        isLoading.value = false;
+        ladingTip.value = "";
     };
     xhr.onload = function onload() {
         if (xhr.status < 200 || xhr.status >= 300) return option.onError(xhr.responseText);
         option.onSuccess(xhr.response);
+        Message.success(JSON.parse(xhr.response).Message);
+        isLoading.value = false;
+        ladingTip.value = "";
     };
     const formData = new FormData();
     formData.append("file", option.fileItem.file as File);

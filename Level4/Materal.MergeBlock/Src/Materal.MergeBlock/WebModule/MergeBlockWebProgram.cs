@@ -1,6 +1,8 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Materal.MergeBlock.WebModule
@@ -88,6 +90,16 @@ namespace Materal.MergeBlock.WebModule
             context.Services.AddResponseCompression();//添加响应压缩
             context.Services.AddEndpointsApiExplorer();//添加API探索器
             await base.ConfigServiceAfterAsync(context);
+            IOptionsMonitor<MergeBlockConfig> mergeBlockConfig = context.ServiceProvider.GetRequiredService<IOptionsMonitor<MergeBlockConfig>>();
+            #region 请求体大小
+            if (mergeBlockConfig.CurrentValue.HttpBodyMaxSize is not null)
+            {
+                context.Services.Configure<KestrelServerOptions>(options =>
+                {
+                    options.Limits.MaxRequestBodySize = mergeBlockConfig.CurrentValue.HttpBodyMaxSize.Value;
+                });
+            }
+            #endregion
         }
         /// <summary>
         /// 应用程序初始化前

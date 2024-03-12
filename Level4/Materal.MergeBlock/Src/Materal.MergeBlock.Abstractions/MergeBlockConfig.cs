@@ -14,6 +14,10 @@
         /// </summary>
         public string BaseUrl { get; set; } = "http://127.0.0.1:5000";
         /// <summary>
+        /// HttpBody最大大小
+        /// </summary>
+        public long? HttpBodyMaxSize { get; set; }
+        /// <summary>
         /// 模块路径
         /// </summary>
         public string[] Modules { get; set; } = [];

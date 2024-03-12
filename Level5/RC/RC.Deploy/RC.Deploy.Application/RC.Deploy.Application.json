@@ -1,4 +1,5 @@
 ﻿{
+  "HttpBodyMaxSize": 125829120,
   "Deploy": {
     "ServiceName": "RCDeployDev",
     "ServiceDescription": "开发发布服务",
