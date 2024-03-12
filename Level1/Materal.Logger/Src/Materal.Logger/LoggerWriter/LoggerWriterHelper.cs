@@ -21,6 +21,7 @@ namespace Materal.Logger.LoggerWriter
         /// 计算机名称
         /// </summary>
         public static string MachineName => Environment.MachineName;
+        private static string? _rootPath;
         /// <summary>
         /// 根路径
         /// </summary>
@@ -28,12 +29,15 @@ namespace Materal.Logger.LoggerWriter
         {
             get
             {
-                string result = AppDomain.CurrentDomain.BaseDirectory;
-                if (result.EndsWith('\\') || result.EndsWith('/'))
+                if (string.IsNullOrWhiteSpace(_rootPath))
                 {
-                    result = result[0..^1];
+                    _rootPath = typeof(Logger).Assembly.GetDirectoryPath();
+                    if (_rootPath.EndsWith('\\') || _rootPath.EndsWith('/'))
+                    {
+                        _rootPath = _rootPath[..^1];
+                    }
                 }
-                return result;
+                return _rootPath;
             }
         }
         /// <summary>

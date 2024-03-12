@@ -1,5 +1,4 @@
-﻿using Consul;
-using Materal.MergeBlock.Abstractions.WebModule;
+﻿using Materal.MergeBlock.Abstractions.WebModule;
 using Materal.MergeBlock.Application.WebModule;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
