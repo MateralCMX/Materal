@@ -77,7 +77,6 @@ async function queryAsync() {
 let connection: HubConnection;
 async function connectSignalRAsync() {
     const url = await service.GetConsoleMessageHubUrlAsync("/hubs/ConsoleMessage");
-    console.log(url);
     connection = new HubConnectionBuilder()
         .withUrl(url, {})
         .withAutomaticReconnect([1000, 4000, 1000, 4000])// 断线自动重连
@@ -96,9 +95,6 @@ async function connectSignalRAsync() {
         if (!props.id || props.id != id) return;
         messageList.value = [];
     });
-    connection.onreconnected((connectionId) => {
-        console.log(connectionId, '自动重新连接成功')
-    })
     await connection.start();
 }
 async function scrollToBottomAsync() {
