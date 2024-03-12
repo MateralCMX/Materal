@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
 namespace System
@@ -447,6 +448,14 @@ namespace System
             if (resultObj is null || resultObj is not T result) return default;
             return result;
         }
+#if NET8_0_OR_GREATER
+        /// <summary>
+        /// 模版表达式
+        /// </summary>
+        /// <returns></returns>
+        [GeneratedRegex(@"\[\d+\]")]
+        private static partial Regex ExpressionRegex();
+#endif
         /// <summary>
         /// 获得值
         /// </summary>
@@ -455,18 +464,37 @@ namespace System
         /// <returns></returns>
         public static object? GetObjectValue(this object obj, string name)
         {
-            string[] trueNames = name.Split('.');
-            if (trueNames.Length == 1)
+            ICollection<string> trueNames = name.Split('.');
+            if (trueNames.Count == 1)
             {
-                if (obj is ICollection collection) return collection.GetObjectValue(name);
-                if (obj is IDictionary dic) return dic.GetObjectValue(name);
-                if (obj is IDictionary<string, object> dicObj) return dicObj.GetObjectValue(name);
-                PropertyInfo? propertyInfo = obj.GetType().GetRuntimeProperty(name);
+#if NETSTANDARD
+                Regex regex = new(@"\[\d+\]");
+#else
+                Regex regex = ExpressionRegex();
+#endif
+                string trueName = name;
+                MatchCollection matchCollection = regex.Matches(trueName);
+                if(matchCollection.Count > 0)
+                {
+                    List<string> tempNames = [];
+                    foreach (object? matchItem in matchCollection)
+                    {
+                        if (matchItem is not Match match) continue;
+                        tempNames.Add(match.Value[1..^1]);
+                        trueName = trueName.Replace(match.Value, string.Empty);
+                    }
+                    tempNames.Insert(0, trueName);
+                    return obj.GetObjectValue(tempNames);
+                }
+                if (obj is IDictionary<string, object> dicObj) return dicObj.GetObjectValue(trueName);
+                if (obj is ICollection collection) return collection.GetObjectValue(trueName);
+                if (obj is IDictionary dic) return dic.GetObjectValue(trueName);
+                PropertyInfo? propertyInfo = obj.GetType().GetRuntimeProperty(trueName);
                 if (propertyInfo is not null && propertyInfo.CanRead)
                 {
                     return propertyInfo.GetValue(obj);
                 }
-                FieldInfo? fieldInfo = obj.GetType().GetRuntimeField(name);
+                FieldInfo? fieldInfo = obj.GetType().GetRuntimeField(trueName);
                 if (fieldInfo is not null)
                 {
                     return fieldInfo.GetValue(obj);
@@ -484,7 +512,7 @@ namespace System
         /// <param name="obj"></param>
         /// <param name="names"></param>
         /// <returns></returns>
-        public static object? GetObjectValue(this object obj, params string[] names)
+        public static object? GetObjectValue(this object obj, ICollection<string> names)
         {
             object? currentObj = obj;
             foreach (string name in names)
