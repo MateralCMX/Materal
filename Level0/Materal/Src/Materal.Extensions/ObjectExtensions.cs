@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
 using System.Xml.Serialization;
@@ -483,12 +485,18 @@ namespace System
                         tempNames.Add(match.Value[1..^1]);
                         trueName = trueName.Replace(match.Value, string.Empty);
                     }
-                    tempNames.Insert(0, trueName);
+                    if (!string.IsNullOrWhiteSpace(trueName))
+                    {
+                        tempNames.Insert(0, trueName);
+                    }
                     return obj.GetObjectValue(tempNames);
                 }
                 if (obj is IDictionary<string, object> dicObj) return dicObj.GetObjectDictionaryValue(trueName);
-                if (obj is ICollection collection) return collection.GetObjectValue(trueName);
                 if (obj is IDictionary dic) return dic.GetObjectValue(trueName);
+                if (obj is IList list) return list.GetObjectValue(trueName);
+                if (obj is ICollection collection) return collection.GetObjectValue(trueName);
+                if (obj is DataTable dt) return dt.GetObjectValue(trueName);
+                if (obj is DataRow dr) return dr.GetObjectValue(trueName);
                 PropertyInfo? propertyInfo = obj.GetType().GetRuntimeProperty(trueName);
                 if (propertyInfo is not null && propertyInfo.CanRead)
                 {
@@ -525,18 +533,57 @@ namespace System
         /// <summary>
         /// 获得值
         /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private static DataRow? GetObjectValue(this DataTable dt, string name) 
+            => int.TryParse(name, out int targetIndex) && targetIndex >= 0 && targetIndex < dt.Rows.Count ? dt.Rows[targetIndex] : null;
+        /// <summary>
+        /// 获得值
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private static object? GetObjectValue(this DataRow dr, string name)
+        {
+            if (dr.Table.Columns.Contains(name))
+            {
+                return dr[name];
+            }
+            else if (int.TryParse(name, out int targetIndex) && targetIndex >= 0 && targetIndex < dr.ItemArray?.Length)
+            {
+                return dr[targetIndex];
+            }
+            return null;
+        }
+        /// <summary>
+        /// 获得值
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private static object? GetObjectValue(this IList list, string name)
+        {
+            if (!int.TryParse(name, out int targetIndex)) return null;
+            return targetIndex >= 0 && targetIndex < list.Count ? list[targetIndex] : null;
+        }
+        /// <summary>
+        /// 获得值
+        /// </summary>
         /// <param name="collection"></param>
         /// <param name="name"></param>
         /// <returns></returns>
         private static object? GetObjectValue(this ICollection collection, string name)
         {
-            if (!name.IsNumber()) return null;
-            int index = 0;
-            int targetIndex = Convert.ToInt32(name);
-            foreach (object? item in collection)
+            if (!int.TryParse(name, out int targetIndex)) return null;
+            if(targetIndex >= 0 && targetIndex < collection.Count)
             {
-                if (index == targetIndex) return item;
-                index++;
+                int index = 0;
+                foreach (object? item in collection)
+                {
+                    if (index++ != targetIndex) continue;
+                    return item;
+                }
             }
             return null;
         }
