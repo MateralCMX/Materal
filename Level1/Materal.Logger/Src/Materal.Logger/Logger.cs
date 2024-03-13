@@ -35,7 +35,7 @@ namespace Materal.Logger
                 {
                     _loggerScope = BeginScope(new AdvancedScope(defaultScope, objDictionary));
                 }
-                else if (state is not IEnumerable collection)
+                else if (state is not IEnumerable)
                 {
                     Type stateType = state.GetType();
                     if (stateType.IsClass)

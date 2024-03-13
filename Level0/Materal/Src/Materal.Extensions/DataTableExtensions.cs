@@ -198,8 +198,9 @@ namespace Materal.Extensions
         /// 转换为字典
         /// </summary>
         /// <param name="dataTable"></param>
+        /// <param name="customFunc"></param>
         /// <returns></returns>
-        public static List<Dictionary<string, object?>> ToDictionaries(this DataTable dataTable)
+        public static List<Dictionary<string, object?>> ToDictionaries(this DataTable dataTable, Func<object?, object?>? customFunc = null)
         {
             List<Dictionary<string, object?>> list = [];
             foreach (DataRow row in dataTable.Rows)
@@ -207,7 +208,12 @@ namespace Materal.Extensions
                 Dictionary<string, object?> dictionary = [];
                 for (int i = 0; i < dataTable.Columns.Count; i++)
                 {
-                    dictionary.Add(dataTable.Columns[i].ColumnName, row[i]);
+                    object? value = row[i];
+                    if(customFunc is not null)
+                    {
+                        value = customFunc(value);
+                    }
+                    dictionary.Add(dataTable.Columns[i].ColumnName, value);
                 }
                 list.Add(dictionary);
             }
