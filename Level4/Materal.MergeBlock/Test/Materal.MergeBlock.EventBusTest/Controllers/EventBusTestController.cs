@@ -8,7 +8,6 @@ namespace Materal.MergeBlock.EventBusTest.Controllers
     /// <summary>
     /// EventBus²âÊÔ¿ØÖÆÆ÷
     /// </summary>
-    [ApiExplorerSettings(GroupName = "EventBusTest")]
     public class EventBusTestController(IEventBus eventBus) : MergeBlockControllerBase
     {
         /// <summary>

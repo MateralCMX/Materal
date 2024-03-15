@@ -9,7 +9,6 @@ namespace Materal.MergeBlock.AuthorizationTest.Controllers
     /// <summary>
     /// Authorization²âÊÔ¿ØÖÆÆ÷
     /// </summary>
-    [ApiExplorerSettings(GroupName = "AuthorizationTest")]
     public class AuthorizationTestController(ITokenService tokenService) : MergeBlockControllerBase
     {
         /// <summary>

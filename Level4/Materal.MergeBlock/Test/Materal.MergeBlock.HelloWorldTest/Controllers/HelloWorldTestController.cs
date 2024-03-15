@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace Materal.MergeBlock.HelloWorldTest.Controllers
 {
     /// <summary>
-    /// HelloWorld控制器
+    /// HelloWorldTest控制器
     /// </summary>
-    [Route("HelloWorld/api/[controller]/[action]")]
-    public class HelloWorldController : MergeBlockControllerBase
+    [ApiExplorerSettings(GroupName = "HelloWorldTest")]
+    [Route("HelloWorldTestAPI/[controller]/[action]")]
+    public class HelloWorldTestController : MergeBlockControllerBase
     {
         /// <summary>
         /// 说Hello

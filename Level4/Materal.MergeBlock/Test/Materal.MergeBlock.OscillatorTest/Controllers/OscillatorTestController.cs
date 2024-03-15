@@ -10,7 +10,6 @@ namespace Materal.MergeBlock.OscillatorTest.Controllers
     /// <summary>
     /// Oscillator²âÊÔ¿ØÖÆÆ÷
     /// </summary>
-    [ApiExplorerSettings(GroupName = "OscillatorTest")]
     public class OscillatorTestController(IOscillatorHost oscillatorHost) : MergeBlockControllerBase
     {
         /// <summary>

@@ -136,6 +136,11 @@ namespace Materal.MergeBlock.Swagger
                         if (mergeBlockAssemblyAttribute is null || !mergeBlockAssemblyAttribute.HasController) continue;
                         m.SwaggerEndpoint($"/swagger/{moduleInfo.Name}/swagger.json", $"{moduleInfo.Name}");
                     }
+                    IEnumerable<ISwaggerConfigService> swaggerConfigServices = context.ServiceProvider.GetServices<ISwaggerConfigService>();
+                    foreach (ISwaggerConfigService swaggerConfigService in swaggerConfigServices)
+                    {
+                        swaggerConfigService.ConfigSwagger(m);
+                    }
                 });
             }
             await base.OnApplicationInitAsync(context);

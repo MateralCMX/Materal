@@ -1,4 +1,7 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule;
+using Materal.MergeBlock.Abstractions.WebModule.Extensions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace Materal.MergeBlock.HelloWorldTest
 {
@@ -31,6 +34,7 @@ namespace Materal.MergeBlock.HelloWorldTest
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             Console.WriteLine($"[{nameof(OnConfigServiceAsync)}](Web)Hello World!");
+            context.Services.AddSwaggerGroup("HelloWorldTest", "HelloWorld测试控制器");
             await base.OnConfigServiceAsync(context);
         }
         /// <summary>

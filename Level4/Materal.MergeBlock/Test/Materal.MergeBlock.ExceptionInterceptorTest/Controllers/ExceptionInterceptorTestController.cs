@@ -6,7 +6,6 @@ namespace Materal.MergeBlock.ExceptionInterceptorTest.Controllers
     /// <summary>
     /// ExceptionInterceptor²âÊÔ¿ØÖÆÆ÷
     /// </summary>
-    [ApiExplorerSettings(GroupName = "ExceptionInterceptorTest")]
     public class ExceptionInterceptorTestController : MergeBlockControllerBase
     {
         /// <summary>

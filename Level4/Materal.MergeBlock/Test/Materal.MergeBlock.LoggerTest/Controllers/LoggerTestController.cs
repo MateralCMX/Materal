@@ -7,7 +7,6 @@ namespace Materal.MergeBlock.LoggerTest.Controllers
     /// <summary>
     /// Logger²âÊÔ¿ØÖÆÆ÷
     /// </summary>
-    [ApiExplorerSettings(GroupName = "LoggerTest")]
     public class LoggerTestController(ILogger<LoggerTestController> logger) : MergeBlockControllerBase
     {
         /// <summary>
