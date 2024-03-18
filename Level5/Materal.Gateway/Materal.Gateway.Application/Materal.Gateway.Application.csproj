@@ -10,8 +10,8 @@
 		<NoWarn>CA2254</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="1.1.75" />
-		<PackageReference Include="Materal.Utils.Consul" Version="1.1.75" />
+		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="1.1.76" />
+		<PackageReference Include="Materal.Utils.Consul" Version="1.1.76" />
 		<PackageReference Include="MMLib.SwaggerForOcelot" Version="*" />
 	</ItemGroup>
 	<ItemGroup>

@@ -6,7 +6,7 @@
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.75</Version>
+		<Version>1.1.76</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.ReleaseCenter</Product>
 		<Authors>Materal</Authors>
@@ -27,7 +27,7 @@
 		<Compile Include="../../RC.EnvironmentServer/RC.EnvironmentServer.Abstractions/MGC/DTO/ConfigurationItem/ConfigurationItemListDTO.cs" Link="DTO\MGC\ConfigurationItemListDTO.cs" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="1.1.75" />
-		<PackageReference Include="Materal.Utils" Version="1.1.75" />
+		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="1.1.76" />
+		<PackageReference Include="Materal.Utils" Version="1.1.76" />
 	</ItemGroup>
 </Project>

@@ -9,7 +9,7 @@
 		<Product>Materal.ThreeTierArchitecture</Product>
 		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<Version>1.1.75</Version>
+		<Version>1.1.76</Version>
 		<Copyright>Materal</Copyright>
 		<Description>Materal.TTA.Common</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -21,6 +21,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="NetCore.AutoRegisterDi" Version="*" />
-		<PackageReference Include="Materal.Utils" Version="1.1.75" />
+		<PackageReference Include="Materal.Utils" Version="1.1.76" />
 	</ItemGroup>
 </Project>

@@ -64,7 +64,7 @@
             PredefinedType = residualCode[0..index].Trim();
             CanNull = PredefinedType.EndsWith('?');
             Name = residualCode[(index + 1)..];
-            if (PredefinedType.EndsWith("Model"))
+            if (PredefinedType.EndsWith("Model") && !PredefinedType.EndsWith("RequestModel"))
             {
                 RequestPredefinedType = PredefinedType[0..^5] + "RequestModel";
                 RequestName = $"request{Name.FirstUpper()}";

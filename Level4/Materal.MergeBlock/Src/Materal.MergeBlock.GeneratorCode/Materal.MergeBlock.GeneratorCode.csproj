@@ -6,7 +6,7 @@
 		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.75</Version>
+		<Version>1.1.76</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.MergeBlock.GeneratorCode</Product>
 		<Authors>Materal</Authors>
@@ -21,6 +21,6 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.75" />
+		<PackageReference Include="Materal.Utils" Version="1.1.76" />
 	</ItemGroup>
 </Project>

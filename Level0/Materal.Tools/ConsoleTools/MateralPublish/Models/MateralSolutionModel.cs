@@ -73,9 +73,9 @@ namespace MateralPublish.Models
                     if (false
                         //|| project is ProjectModels.Level0.MateralProjectModel
                         //|| project is ProjectModels.Level0.ToolsProjectModel
-                        || project is ProjectModels.Level1.LoggerProjectModel
+                        //|| project is ProjectModels.Level1.LoggerProjectModel
                         //|| project is ProjectModels.Level2.TFMSProjectModel
-                        //|| project is ProjectModels.Level2.EventBusProjectModel
+                        || project is ProjectModels.Level2.EventBusProjectModel
                         //|| project is ProjectModels.Level2.TTAProjectModel
                         //|| project is ProjectModels.Level3.OscillatorProjectModel
                         //|| project is ProjectModels.Level4.BaseCoreProjectModel

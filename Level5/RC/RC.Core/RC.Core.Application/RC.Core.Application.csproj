@@ -7,7 +7,7 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock.Application" Version="1.1.75" />
+		<PackageReference Include="Materal.MergeBlock.Application" Version="1.1.76" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.Core.Abstractions\RC.Core.Abstractions.csproj" />

@@ -6,7 +6,7 @@
 		<LangVersion>12.0</LangVersion>
 		<IsPackable>true</IsPackable>
 		<OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
-		<Version>1.1.75</Version>
+		<Version>1.1.76</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -28,7 +28,7 @@
 		<ProjectReference Include="..\Materal.BaseCore.ServiceImpl\Materal.BaseCore.ServiceImpl.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Logger.SqlServerLogger" Version="1.1.75" />
+		<PackageReference Include="Materal.Logger.SqlServerLogger" Version="1.1.76" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 		<PackageReference Include="Consul" Version="*" />
 		<PackageReference Include="Polly" Version="*" />

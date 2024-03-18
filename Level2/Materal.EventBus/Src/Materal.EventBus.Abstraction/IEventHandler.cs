@@ -5,6 +5,12 @@
     /// </summary>
     public interface IEventHandler
     {
+        /// <summary>
+        /// 处理事件
+        /// </summary>
+        /// <param name="event"></param>
+        /// <returns></returns>
+        Task HandleEventAsync(IEvent @event);
     }
     /// <summary>
     /// 事件处理器

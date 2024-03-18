@@ -7,6 +7,6 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="1.1.75" />
+		<PackageReference Include="Materal.MergeBlock.Abstractions" Version="1.1.76" />
 	</ItemGroup>
 </Project>

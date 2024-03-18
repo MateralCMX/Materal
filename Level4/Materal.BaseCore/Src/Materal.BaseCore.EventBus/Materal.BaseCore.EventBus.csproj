@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.75</Version>
+		<Version>1.1.76</Version>
 		<Company>古典部工作室</Company>
 		<Product>Materal.BaseCore</Product>
 		<Authors>Materal</Authors>
@@ -20,7 +20,7 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.TFMS.EventBus.RabbitMQ" Version="1.1.75" />
+		<PackageReference Include="Materal.TFMS.EventBus.RabbitMQ" Version="1.1.76" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.BaseCore.Common\Materal.BaseCore.Common.csproj" />

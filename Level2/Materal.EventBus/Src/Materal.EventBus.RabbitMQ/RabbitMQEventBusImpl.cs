@@ -188,7 +188,6 @@
         /// <returns></returns>
         private async Task<bool> HandlerSubscriptionsAsync(AsyncEventingBasicConsumer consumer, IServiceProvider serviceProvider, ILogger? logger, Type handlerType, IEvent @event)
         {
-            Type eventType = @event.GetType();
             object? handler = serviceProvider.GetService(handlerType);
             if (handler is null)
             {
@@ -196,12 +195,10 @@
                 return true;
             }
             if (eventBusConfig.CurrentValue.GetTrueQueueName(handler) != consumer.Model.CurrentQueue) return true;
-            MethodInfo? methodInfo = handlerType.GetMethod(nameof(IEventHandler<IEvent>.HandleAsync), [eventType]);
-            if (methodInfo is null) return true;
+            if(handler is not IEventHandler eventHandler) throw new EventBusException($"处理器{handlerType.FullName}未实现接口{typeof(IEventHandler<IEvent>).FullName}");
             logger?.LogDebug($"处理器{handlerType.FullName}开始执行");
-            object? handlerResult = methodInfo.Invoke(handler, new[] { @event });
+            await eventHandler.HandleEventAsync(@event);
             logger?.LogDebug($"处理器{handlerType.FullName}执行完毕");
-            if (handlerResult is Task<bool> task) return await task;
             return true;
         }
         #endregion

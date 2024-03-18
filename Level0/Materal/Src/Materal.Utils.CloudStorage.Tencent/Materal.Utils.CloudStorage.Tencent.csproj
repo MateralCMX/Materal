@@ -10,7 +10,7 @@
 		<Company>Materal</Company>
 		<Product>Materal</Product>
 		<Authors>Materal</Authors>
-		<Version>1.1.75</Version>
+		<Version>1.1.76</Version>
 		<Description>Materal腾讯云存储服务工具包</Description>
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>

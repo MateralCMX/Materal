@@ -7,8 +7,8 @@
 		<LangVersion>12.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.75" />
-		<PackageReference Include="Materal.Logger" Version="1.1.75" />
+		<PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.76" />
+		<PackageReference Include="Materal.Logger" Version="1.1.76" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.*">
