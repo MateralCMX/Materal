@@ -63,7 +63,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"        [HttpPut]");
                 codeContent.AppendLine($"        Task<ResultModel> ExchangeIndexAsync(ExchangeIndexRequestModel requestModel);");
             }
-            if (domain.IsTreeDomain)
+            if (domain.IsTreeDomain && !domain.HasAttribute<EmptyTreeAttribute>())
             {
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 更改父级");
@@ -135,7 +135,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"            return ResultModel.Success(\"交换位序成功\");");
                 codeContent.AppendLine($"        }}");
             }
-            if (domain.IsTreeDomain)
+            if (domain.IsTreeDomain && !domain.HasAttribute<EmptyTreeAttribute>())
             {
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 更改父级");

@@ -99,7 +99,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorTreeListDTOModel(DomainModel domain)
         {
-            if (!domain.IsTreeDomain || domain.HasAttribute<NotListDTOAttribute>()) return;
+            if (!(domain.IsTreeDomain && !domain.HasAttribute<EmptyTreeAttribute>()) || domain.HasAttribute<NotListDTOAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
             codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorTreeListDTOModel)}");

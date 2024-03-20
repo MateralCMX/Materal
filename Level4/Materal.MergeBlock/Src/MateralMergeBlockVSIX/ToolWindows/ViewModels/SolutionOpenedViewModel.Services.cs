@@ -63,7 +63,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"        Task ExchangeIndexAsync(ExchangeIndexModel model);");
 
             }
-            if (domain.IsTreeDomain)
+            if (domain.IsTreeDomain && !domain.HasAttribute<EmptyTreeAttribute>())
             {
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 更改父级");
@@ -174,7 +174,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"        /// <returns></returns>");
                 codeContent.AppendLine($"        partial void OnExchangeIndexAfter(ExchangeIndexModel model);");
             }
-            if (domain.IsTreeDomain)
+            if (domain.IsTreeDomain && !domain.HasAttribute<EmptyTreeAttribute>())
             {
                 treeGroupProperty ??= domain.GetTreeGroupProperty();
                 codeContent.AppendLine($"        /// <summary>");

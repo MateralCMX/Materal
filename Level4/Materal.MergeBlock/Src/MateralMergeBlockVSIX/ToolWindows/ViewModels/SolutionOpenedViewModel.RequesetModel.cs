@@ -158,7 +158,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <param name="domain"></param>
         private void GeneratorTreeQueryRequestModel(DomainModel domain)
         {
-            if (!domain.IsTreeDomain || domain.HasAttribute<NotQueryAttribute>()) return;
+            if (!(domain.IsTreeDomain && !domain.HasAttribute<EmptyTreeAttribute>()) || domain.HasAttribute<NotQueryAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
             codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorTreeQueryRequestModel)}");

@@ -109,7 +109,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"            CreateMap<{domain.Name}, {domain.Name}DTO>();");
                 hasDTO = true;
             }
-            if (domain.IsTreeDomain)
+            if (domain.IsTreeDomain && !domain.HasAttribute<EmptyTreeAttribute>())
             {
                 isGenerator = true;
                 if (targetDomain != domain)
