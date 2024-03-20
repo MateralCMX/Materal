@@ -53,7 +53,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"    public partial interface I{domain.Name}Controller : IMergeBlockControllerBase<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, {domain.Name}DTO, {domain.Name}ListDTO>");
             }
             codeContent.AppendLine($"    {{");
-            if (domain.IsIndexDomain)
+            if (domain.IsIndexDomain && !domain.HasAttribute<EmptyIndexAttribute>())
             {
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 交换位序");
@@ -120,7 +120,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"    public partial class {domain.Name}Controller : {_moduleName}Controller<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Service>, I{domain.Name}Controller");
             }
             codeContent.AppendLine($"    {{");
-            if (domain.IsIndexDomain)
+            if (domain.IsIndexDomain && !domain.HasAttribute<EmptyIndexAttribute>())
             {
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 交换位序");

@@ -224,13 +224,13 @@
       <Version>1.0.3</Version>
     </PackageReference>
     <PackageReference Include="Materal.Abstractions">
-      <Version>1.1.75</Version>
+      <Version>1.1.76</Version>
     </PackageReference>
     <PackageReference Include="Materal.Extensions">
-      <Version>1.1.75</Version>
+      <Version>1.1.76</Version>
     </PackageReference>
     <PackageReference Include="Materal.Utils">
-      <Version>1.1.75</Version>
+      <Version>1.1.76</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
       <Version>4.9.2</Version>
@@ -247,7 +247,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.Scripting.Common">
       <Version>4.9.2</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.9.3168">
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.9.3174">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>

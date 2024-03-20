@@ -153,7 +153,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"    public partial interface I{domain.Name}Repository : I{_moduleName}Repository<{domain.Name}>");
             }
             codeContent.AppendLine($"    {{");
-            if (domain.IsIndexDomain)
+            if (domain.IsIndexDomain && !domain.HasAttribute<EmptyIndexAttribute>())
             {
                 PropertyModel? indexGroupPropertyModel = domain.GetIndexGroupProperty();
                 if (indexGroupPropertyModel is null)
@@ -208,7 +208,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext) : {_moduleName}RepositoryImpl<{domain.Name}>(dbContext), I{domain.Name}Repository, IScopedDependencyInjectionService<I{domain.Name}Repository>");
                 codeContent.AppendLine($"    {{");
             }
-            if (domain.IsIndexDomain)
+            if (domain.IsIndexDomain && !domain.HasAttribute<EmptyIndexAttribute>())
             {
                 PropertyModel? indexGroupPropertyModel = domain.GetIndexGroupProperty();
                 codeContent.AppendLine($"        /// <summary>");

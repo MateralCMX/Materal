@@ -53,7 +53,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.AppendLine($"    public partial interface I{domain.Name}Service : IBaseService<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO>");
             }
             codeContent.AppendLine($"    {{");
-            if (domain.IsIndexDomain)
+            if (domain.IsIndexDomain && !domain.HasAttribute<EmptyIndexAttribute>())
             {
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 交换位序");
@@ -132,7 +132,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    {{");
             PropertyModel? treeGroupProperty = null;
-            if (domain.IsIndexDomain)
+            if (domain.IsIndexDomain && !domain.HasAttribute<EmptyIndexAttribute>())
             {
                 PropertyModel? indexGroupProperty = domain.GetIndexGroupProperty();
                 treeGroupProperty ??= domain.GetTreeGroupProperty();
