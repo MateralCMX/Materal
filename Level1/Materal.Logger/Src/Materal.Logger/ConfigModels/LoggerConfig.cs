@@ -97,7 +97,7 @@ namespace Materal.Logger.ConfigModels
         /// <summary>
         /// 真实规则配置
         /// </summary>
-        public IEnumerable<RuleConfig> TrueRules => Rules.Distinct((m, n) => m.Name == m.Name);
+        public IEnumerable<RuleConfig> TrueRules => Rules.Distinct((m, n) => m.Name == n.Name);
         /// <summary>
         /// 更新配置
         /// </summary>
