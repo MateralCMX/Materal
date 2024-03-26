@@ -58,7 +58,7 @@ namespace Materal.Logger.WebSocketLogger
         /// <param name="config"></param>
         public void UpdateWebSocketServer(LoggerConfig config)
         {
-            if (CanRun(config.Rules))
+            if (CanRun(config.TrueRules))
             {
                 if (_webSocketServer is null)
                 {
@@ -79,7 +79,7 @@ namespace Materal.Logger.WebSocketLogger
         /// </summary>
         /// <param name="rules"></param>
         /// <returns></returns>
-        private bool CanRun(List<RuleConfig> rules)
+        private bool CanRun(IEnumerable<RuleConfig> rules)
         {
             if (!Target.Enable) return false;
             foreach (RuleConfig rule in rules)

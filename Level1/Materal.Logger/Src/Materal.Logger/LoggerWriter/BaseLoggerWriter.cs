@@ -55,7 +55,7 @@
             if (!model.Config.Enable) return false;
             if (!target.Enable) return false;
             if (model.LogLevel < model.Config.MinLogLevel || model.LogLevel > model.Config.MaxLogLevel) return false;
-            foreach (RuleConfig rule in model.Config.Rules)
+            foreach (RuleConfig rule in model.Config.TrueRules)
             {
                 if (CanWriteLoggerByRules(model, rule)) return true;
             }

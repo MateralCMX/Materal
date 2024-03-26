@@ -243,6 +243,7 @@
         /// <returns></returns>
         public static LoggerConfig AddRule(this LoggerConfig loggerConfig, RuleConfig ruleConfig)
         {
+            if (loggerConfig.Rules.Any(m => m.Name == ruleConfig.Name)) throw new LoggerException("已存在相同名称的规则");
             loggerConfig.Rules.Add(ruleConfig);
             return loggerConfig;
         }

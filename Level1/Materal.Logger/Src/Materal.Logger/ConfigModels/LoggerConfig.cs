@@ -95,6 +95,10 @@ namespace Materal.Logger.ConfigModels
         /// </summary>
         public List<RuleConfig> Rules { get; set; } = [];
         /// <summary>
+        /// 真实规则配置
+        /// </summary>
+        public IEnumerable<RuleConfig> TrueRules => Rules.Distinct((m, n) => m.Name == m.Name);
+        /// <summary>
         /// 更新配置
         /// </summary>
         public async Task UpdateConfigAsync(IServiceProvider serviceProvider)

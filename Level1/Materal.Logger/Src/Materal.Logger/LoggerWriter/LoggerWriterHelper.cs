@@ -29,7 +29,7 @@ namespace Materal.Logger.LoggerWriter
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(_rootPath))
+                if (_rootPath is null || string.IsNullOrWhiteSpace(_rootPath))
                 {
                     _rootPath = typeof(Logger).Assembly.GetDirectoryPath();
                     if (_rootPath.EndsWith('\\') || _rootPath.EndsWith('/'))
