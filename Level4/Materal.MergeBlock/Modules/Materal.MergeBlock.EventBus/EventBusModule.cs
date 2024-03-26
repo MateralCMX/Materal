@@ -6,15 +6,8 @@ namespace Materal.MergeBlock.EventBus
     /// <summary>
     /// 事件总线模块
     /// </summary>
-    public class EventBusModule : MergeBlockModule, IMergeBlockModule
+    public class EventBusModule() : MergeBlockModule("事件总线模块", "EventBus")
     {
-        private readonly List<Type> _eventHandlerTypes = [];
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public EventBusModule() : base("事件总线模块", "EventBus")
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

@@ -9,15 +9,8 @@ namespace Materal.MergeBlock.AccessLogTest
     /// <summary>
     /// AccessLog模块
     /// </summary>
-    public class AccessLogTestModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class AccessLogTestModule() : MergeBlockWebModule("AccessLog测试模块", "AccessLogTest", ["AccessLog"])
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public AccessLogTestModule() : base("AccessLog测试模块", "AccessLogTest", ["AccessLog"])
-        {
-
-        }
         /// <summary>
         /// 配置服务之前
         /// </summary>

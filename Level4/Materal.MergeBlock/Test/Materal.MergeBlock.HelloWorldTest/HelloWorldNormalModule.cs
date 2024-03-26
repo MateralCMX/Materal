@@ -5,14 +5,8 @@ namespace Materal.MergeBlock.HelloWorldTest
     /// <summary>
     /// HelloWorld模块
     /// </summary>
-    public class HelloWorldNormalModule : MergeBlockNormalModule, IMergeBlockNormalModule
+    public class HelloWorldNormalModule() : MergeBlockNormalModule("HelloWorld普通模块")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public HelloWorldNormalModule() : base("HelloWorld普通模块")
-        {
-        }
         /// <summary>
         /// 配置服务之前
         /// </summary>

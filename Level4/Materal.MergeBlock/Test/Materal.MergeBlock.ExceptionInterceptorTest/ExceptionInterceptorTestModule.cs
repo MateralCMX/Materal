@@ -9,15 +9,8 @@ namespace Materal.MergeBlock.ExceptionInterceptorTest
     /// <summary>
     /// ExceptionInterceptor模块
     /// </summary>
-    public class ExceptionInterceptorTestModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class ExceptionInterceptorTestModule() : MergeBlockWebModule("ExceptionInterceptor测试模块", "ExceptionInterceptorTest", ["ExceptionInterceptor"])
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public ExceptionInterceptorTestModule() : base("ExceptionInterceptor测试模块", "ExceptionInterceptorTest", ["ExceptionInterceptor"])
-        {
-
-        }
         /// <summary>
         /// 配置服务之前
         /// </summary>

@@ -11,14 +11,8 @@ namespace Materal.MergeBlock.Swagger
     /// <summary>
     /// Swagger模块
     /// </summary>
-    public class SwaggerModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class SwaggerModule() : MergeBlockWebModule("Swagger模块", "Swagger")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public SwaggerModule() : base("Swagger模块", "Swagger")
-        {
-        }
         /// <summary>
         /// 配置服务之后
         /// </summary>

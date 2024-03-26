@@ -9,14 +9,8 @@ namespace Materal.MergeBlock.EventBusTest
     /// <summary>
     /// EventBus测试模块
     /// </summary>
-    public class EventBusTestModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class EventBusTestModule() : MergeBlockWebModule("EventBus测试模块", "EventBusTest", ["EventBus"])
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public EventBusTestModule() : base("EventBus测试模块", "EventBusTest", ["EventBus"])
-        {
-        }
         /// <summary>
         /// 配置服务之前
         /// </summary>

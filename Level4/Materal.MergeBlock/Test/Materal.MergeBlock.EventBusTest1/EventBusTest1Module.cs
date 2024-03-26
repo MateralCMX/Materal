@@ -6,13 +6,7 @@ namespace Materal.MergeBlock.EventBusTest1
     /// <summary>
     /// EventBus测试模块1
     /// </summary>
-    public class EventBusTest1Module : MergeBlockModule
+    public class EventBusTest1Module() : MergeBlockModule("EventBus测试模块1", "EventBusTest1", ["EventBusTest", "EventBus"])
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public EventBusTest1Module() : base("EventBus测试模块1", "EventBusTest1", ["EventBusTest", "EventBus"])
-        {
-        }
     }
 }

@@ -3,14 +3,8 @@
     /// <summary>
     /// ${ModuleName}仓储模块
     /// </summary>
-    public class ${ModuleName}RepositoryModule : ${ProjectName}RepositoryModule<${ModuleName}DBContext>
+    public class ${ModuleName}RepositoryModule() : ${ProjectName}RepositoryModule<${ModuleName}DBContext>("${ProjectName}.${ModuleName}仓储模块", "${ProjectName}.${ModuleName}.Repository")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public ${ModuleName}RepositoryModule() : base("${ProjectName}.${ModuleName}仓储模块", "${ProjectName}.${ModuleName}.Repository")
-        {
-        }
         /// <summary>
         /// 配置键
         /// </summary>

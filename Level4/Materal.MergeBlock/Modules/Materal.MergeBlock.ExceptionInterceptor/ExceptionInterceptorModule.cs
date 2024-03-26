@@ -6,15 +6,8 @@ namespace Materal.MergeBlock.ExceptionInterceptor
     /// <summary>
     /// 异常拦截器模块
     /// </summary>
-    public class ExceptionInterceptorModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class ExceptionInterceptorModule() : MergeBlockWebModule("异常拦截模块", "ExceptionInterceptor")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public ExceptionInterceptorModule() : base("异常拦截模块", "ExceptionInterceptor")
-        {
-
-        }
 #if NET8_0
         /// <summary>
         /// 配置服务前

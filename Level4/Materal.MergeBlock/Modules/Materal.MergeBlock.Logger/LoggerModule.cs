@@ -10,14 +10,8 @@ namespace Materal.MergeBlock.Logger
     /// <summary>
     /// 日志模块
     /// </summary>
-    public class LoggerModule : MergeBlockModule, IMergeBlockModule
+    public class LoggerModule() : MergeBlockModule("日志模块", "Logger")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public LoggerModule() : base("日志模块", "Logger")
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>
@@ -26,7 +20,10 @@ namespace Materal.MergeBlock.Logger
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             IOptionsMonitor<MergeBlockConfig> mergeBlockConfig = context.ServiceProvider.GetRequiredService<IOptionsMonitor<MergeBlockConfig>>();
-            context.Services.AddMateralLogger(context.Configuration, config => config.AddCustomConfig(nameof(MergeBlockConfig.ApplicationName), mergeBlockConfig.CurrentValue.ApplicationName));
+            context.Services.AddMateralLogger(context.Configuration, config =>
+            {
+                config.AddCustomConfig(nameof(MergeBlockConfig.ApplicationName), mergeBlockConfig.CurrentValue.ApplicationName);
+            });
             await base.OnConfigServiceAsync(context);
         }
         /// <summary>
@@ -38,10 +35,8 @@ namespace Materal.MergeBlock.Logger
         {
             await context.ServiceProvider.UseMateralLoggerAsync();
             ILoggerFactory? loggerFactory = context.ServiceProvider.GetService<ILoggerFactory>();
-            if (loggerFactory is not null)
-            {
-                MergeBlockHost.Logger = loggerFactory.CreateLogger("MergeBlock");
-            }
+            if (loggerFactory is null) return;
+            MergeBlockHost.Logger = loggerFactory.CreateLogger("MergeBlock");
         }
         /// <summary>
         /// 应用程序关闭之后

@@ -9,16 +9,10 @@ namespace Materal.MergeBlock.Consul
     /// <summary>
     /// Consul模块
     /// </summary>
-    public class ConsulModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class ConsulModule() : MergeBlockWebModule("服务发现模块", "Consul")
     {
         private readonly Dictionary<Guid, Guid> _configIDs = [];
         private IConsulService? _consulService;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public ConsulModule() : base("服务发现模块", "Consul")
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

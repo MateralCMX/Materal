@@ -10,15 +10,8 @@ namespace Materal.MergeBlock.Authorization
     /// <summary>
     /// 鉴权模块
     /// </summary>
-    public class AuthorizationModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class AuthorizationModule() : MergeBlockWebModule("鉴权模块", "Authorization")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public AuthorizationModule() : base("鉴权模块", "Authorization")
-        {
-
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

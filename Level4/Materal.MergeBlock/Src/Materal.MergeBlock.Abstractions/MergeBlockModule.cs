@@ -9,15 +9,15 @@ namespace Materal.MergeBlock.Abstractions
         /// <summary>
         /// 模块描述
         /// </summary>
-        public string Description { get; }
+        public string Description { get; init; }
         /// <summary>
         /// 模块
         /// </summary>
-        public string ModuleName { get; }
+        public string ModuleName { get; init; }
         /// <summary>
         /// 依赖
         /// </summary>
-        public string[] Depends { get; }
+        public string[] Depends { get; init; }
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -26,12 +26,6 @@ namespace Materal.MergeBlock.Abstractions
             Description = description;
             ModuleName = moduleName ?? GetType().Name;
             Depends = depends ?? [];
-        }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public MergeBlockModule(string description, string[]? depends) : this(description, null, depends)
-        {
         }
         /// <summary>
         /// 应用程序初始化之后

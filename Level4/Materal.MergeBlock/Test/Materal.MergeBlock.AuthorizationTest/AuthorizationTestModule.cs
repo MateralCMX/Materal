@@ -9,15 +9,8 @@ namespace Materal.MergeBlock.AuthorizationTest
     /// <summary>
     /// Authorization模块
     /// </summary>
-    public class AuthorizationTestModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class AuthorizationTestModule() : MergeBlockWebModule("Authorization测试模块", "AuthorizationTest", ["Authorization"])
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public AuthorizationTestModule() : base("Authorization测试模块", "AuthorizationTest", ["Authorization"])
-        {
-
-        }
         /// <summary>
         /// 配置服务之前
         /// </summary>

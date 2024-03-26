@@ -9,14 +9,8 @@ namespace Materal.MergeBlock.LoggerTest
     /// <summary>
     /// Logger模块
     /// </summary>
-    public class LoggerTestModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class LoggerTestModule() : MergeBlockWebModule("Logger测试模块", "LoggerTest", ["Logger"])
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public LoggerTestModule() : base("Logger测试模块", "LoggerTest", ["Logger"])
-        {
-        }
         /// <summary>
         /// 配置服务之前
         /// </summary>

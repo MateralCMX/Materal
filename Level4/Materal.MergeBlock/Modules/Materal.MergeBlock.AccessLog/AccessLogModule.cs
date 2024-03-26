@@ -8,14 +8,8 @@ namespace Materal.MergeBlock.AccessLog
     /// <summary>
     /// 访问日志模块
     /// </summary>
-    public class AccessLogModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class AccessLogModule() : MergeBlockWebModule("访问日志模块", "AccessLog", ["Logger"])
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public AccessLogModule() : base("访问日志模块", "AccessLog", ["Logger"])
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

@@ -1,21 +1,13 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule;
 using Materal.MergeBlock.Abstractions.WebModule.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 
 namespace Materal.MergeBlock.HelloWorldTest
 {
     /// <summary>
     /// HelloWorld模块
     /// </summary>
-    public class HelloWorldWebModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class HelloWorldWebModule() : MergeBlockWebModule("HelloWorld普通模块")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public HelloWorldWebModule() : base("HelloWorld普通模块")
-        {
-        }
         /// <summary>
         /// 配置服务之前
         /// </summary>

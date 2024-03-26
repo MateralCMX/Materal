@@ -7,15 +7,8 @@ namespace Materal.MergeBlock.Oscillator
     /// <summary>
     /// 调度器模块
     /// </summary>
-    public class OscillatorModule : MergeBlockModule, IMergeBlockModule
+    public class OscillatorModule() : MergeBlockModule("调度器模块", "Oscillator")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public OscillatorModule() : base("调度器模块", "Oscillator")
-        {
-
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

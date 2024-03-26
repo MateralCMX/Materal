@@ -5,14 +5,8 @@ namespace Materal.MergeBlock.HelloWorldTest
     /// <summary>
     /// HelloWorld模块
     /// </summary>
-    public class HelloWorldConsoleModule : MergeBlockConsoleModule, IMergeBlockConsoleModule
+    public class HelloWorldConsoleModule() : MergeBlockConsoleModule("HelloWorld控制台模块")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public HelloWorldConsoleModule() : base("HelloWorld控制台模块")
-        {
-        }
         /// <summary>
         /// 配置服务之前
         /// </summary>

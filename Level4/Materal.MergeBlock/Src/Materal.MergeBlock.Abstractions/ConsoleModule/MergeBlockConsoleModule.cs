@@ -6,12 +6,6 @@
     public abstract class MergeBlockConsoleModule(string description, string? moduleName = null, string[]? depends = null) : MergeBlockModule(description, moduleName, depends), IMergeBlockConsoleModule
     {
         /// <summary>
-        /// 构造方法
-        /// </summary>
-        public MergeBlockConsoleModule(string description, string[]? depends) : this(description, null, depends)
-        {
-        }
-        /// <summary>
         /// 应用程序初始化之前
         /// </summary>
         /// <param name="context"></param>

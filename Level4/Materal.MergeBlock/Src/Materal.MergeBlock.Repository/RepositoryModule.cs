@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TDBConfigType"></typeparam>
-    public abstract class RepositoryModule<T, TDBConfigType> : MergeBlockModule, IMergeBlockModule
+    public abstract class RepositoryModule<T, TDBConfigType>(string description, string? moduleName = null, string[]? depends = null) : MergeBlockModule(description, moduleName, depends), IMergeBlockModule
         where T : DbContext
         where TDBConfigType : IDBConfigModel
     {
@@ -13,23 +13,6 @@
         /// 配置键
         /// </summary>
         protected abstract string ConfigKey { get; }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="description"></param>
-        /// <param name="moduleName"></param>
-        /// <param name="depends"></param>
-        protected RepositoryModule(string description, string? moduleName = null, string[]? depends = null) : base(description, moduleName, depends)
-        {
-        }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="description"></param>
-        /// <param name="depends"></param>
-        protected RepositoryModule(string description, string[]? depends) : base(description, depends)
-        {
-        }
         /// <summary>
         /// 添加数据库上下文
         /// </summary>

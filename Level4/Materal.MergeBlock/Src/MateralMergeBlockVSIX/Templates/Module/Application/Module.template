@@ -3,14 +3,8 @@
     /// <summary>
     /// ${ModuleName}模块
     /// </summary>
-    public class ${ModuleName}Module : ${ProjectName}Module, IMergeBlockModule
+    public class ${ModuleName}Module() : ${ProjectName}Module("${ProjectName}${ModuleName}模块", "${ProjectName}.${ModuleName}", ["${ProjectName}.${ModuleName}.Repository", "Authorization"])
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public ${ModuleName}Module() : base("${ProjectName}${ModuleName}模块", "${ProjectName}.${ModuleName}", ["${ProjectName}.${ModuleName}.Repository", "Authorization"])
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

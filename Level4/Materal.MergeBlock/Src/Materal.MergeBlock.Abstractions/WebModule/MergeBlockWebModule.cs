@@ -6,12 +6,6 @@
     public abstract class MergeBlockWebModule(string description, string? moduleName = null, string[]? depends = null) : MergeBlockModule(description, moduleName, depends), IMergeBlockWebModule
     {
         /// <summary>
-        /// 构造方法
-        /// </summary>
-        public MergeBlockWebModule(string description, string[]? depends) : this(description, null, depends)
-        {
-        }
-        /// <summary>
         /// 应用程序初始化之后
         /// </summary>
         /// <param name="context"></param>

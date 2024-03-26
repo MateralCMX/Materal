@@ -3,14 +3,8 @@
     /// <summary>
     /// Demo模块
     /// </summary>
-    public class DemoModule : ${ProjectName}Module, IMergeBlockModule
+    public class DemoModule() : ${ProjectName}Module("${ProjectName}Demo模块", "${ProjectName}.Demo", ["${ProjectName}.Demo.Repository", "Authorization"])
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public DemoModule() : base("${ProjectName}Demo模块", "${ProjectName}.Demo", ["${ProjectName}.Demo.Repository", "Authorization"])
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

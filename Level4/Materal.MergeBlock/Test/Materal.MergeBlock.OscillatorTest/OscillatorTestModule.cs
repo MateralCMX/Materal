@@ -7,14 +7,7 @@ namespace Materal.MergeBlock.OscillatorTest
     /// <summary>
     /// Oscillator模块
     /// </summary>
-    public class OscillatorTestModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class OscillatorTestModule() : MergeBlockWebModule("Oscillator测试模块", "OscillatorTest", ["Oscillator"])
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public OscillatorTestModule() : base("Oscillator测试模块", "OscillatorTest", ["Oscillator"])
-        {
-
-        }
     }
 }

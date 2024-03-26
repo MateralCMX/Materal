@@ -3,14 +3,8 @@
     /// <summary>
     /// HelloWorld模块
     /// </summary>
-    public class HelloWorldModule : MergeBlockModule, IMergeBlockModule
+    public class HelloWorldModule() : MergeBlockModule("HelloWorld模块")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public HelloWorldModule() : base("HelloWorld模块")
-        {
-        }
         /// <summary>
         /// 配置服务之前
         /// </summary>

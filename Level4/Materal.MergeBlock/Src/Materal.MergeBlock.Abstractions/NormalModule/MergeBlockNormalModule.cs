@@ -6,12 +6,6 @@
     public class MergeBlockNormalModule(string description, string? moduleName = null, string[]? depends = null) : MergeBlockModule(description, moduleName, depends), IMergeBlockNormalModule
     {
         /// <summary>
-        /// 构造方法
-        /// </summary>
-        public MergeBlockNormalModule(string description, string[]? depends) : this(description, null, depends)
-        {
-        }
-        /// <summary>
         /// 应用程序初始化之前
         /// </summary>
         /// <param name="context"></param>
