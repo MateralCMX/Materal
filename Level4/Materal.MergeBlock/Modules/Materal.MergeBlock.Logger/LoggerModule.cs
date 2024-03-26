@@ -2,7 +2,9 @@
 using Materal.Logger.ConfigModels;
 using Materal.Logger.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Materal.MergeBlock.Logger
@@ -20,7 +22,7 @@ namespace Materal.MergeBlock.Logger
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             IOptionsMonitor<MergeBlockConfig> mergeBlockConfig = context.ServiceProvider.GetRequiredService<IOptionsMonitor<MergeBlockConfig>>();
-            context.Services.AddMateralLogger(context.Configuration, config =>
+            context.Services.AddMateralLogger(config =>
             {
                 config.AddCustomConfig(nameof(MergeBlockConfig.ApplicationName), mergeBlockConfig.CurrentValue.ApplicationName);
             });
