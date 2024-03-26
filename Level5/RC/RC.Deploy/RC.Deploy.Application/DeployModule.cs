@@ -14,14 +14,8 @@ namespace RC.Deploy.Application
     /// <summary>
     /// Deploy模块
     /// </summary>
-    public class DeployModule : RCModule, IMergeBlockModule
+    public class DeployModule() : RCModule("RCDeploy模块", "RC.Deploy", ["RC.Deploy.Repository", "Authorization"])
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public DeployModule() : base("RCDeploy模块", "RC.Deploy", ["RC.Deploy.Repository", "Authorization"])
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

@@ -3,14 +3,8 @@
     /// <summary>
     /// Authority模块
     /// </summary>
-    public class AuthorityModule : RCModule, IMergeBlockModule
+    public class AuthorityModule() : RCModule("RCAuthority模块", "RC.Authority", ["RC.Authority.Repository", "Authorization"])
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public AuthorityModule() : base("RCAuthority模块", "RC.Authority", ["RC.Authority.Repository", "Authorization"])
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

@@ -3,14 +3,8 @@
     /// <summary>
     /// Demo模块
     /// </summary>
-    public class DemoModule : RCModule, IMergeBlockModule
+    public class DemoModule() : RCModule("RCDemo模块", "RC.Demo", ["RC.Demo.Repository", "Authorization"])
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public DemoModule() : base("RCDemo模块", "RC.Demo", ["RC.Demo.Repository", "Authorization"])
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

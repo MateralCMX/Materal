@@ -3,14 +3,8 @@
     /// <summary>
     /// Demo仓储模块
     /// </summary>
-    public class DemoRepositoryModule : RCRepositoryModule<DemoDBContext>
+    public class DemoRepositoryModule() : RCRepositoryModule<DemoDBContext>("RC.Demo仓储模块", "RC.Demo.Repository")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public DemoRepositoryModule() : base("RC.Demo仓储模块", "RC.Demo.Repository")
-        {
-        }
         /// <summary>
         /// 配置键
         /// </summary>

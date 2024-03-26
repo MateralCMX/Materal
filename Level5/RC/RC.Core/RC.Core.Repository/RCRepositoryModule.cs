@@ -3,26 +3,9 @@
     /// <summary>
     /// RC仓储模块
     /// </summary>
-    public abstract class RCRepositoryModule<TDBContext> : RepositoryModule<TDBContext, SqliteConfigModel>
+    public abstract class RCRepositoryModule<TDBContext>(string description, string? moduleName = null, string[]? depends = null) : RepositoryModule<TDBContext, SqliteConfigModel>(description, moduleName, depends)
         where TDBContext : DbContext
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="description"></param>
-        /// <param name="depends"></param>
-        public RCRepositoryModule(string description, string[]? depends) : base(description, depends)
-        {
-        }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="description"></param>
-        /// <param name="moduleName"></param>
-        /// <param name="depends"></param>
-        public RCRepositoryModule(string description, string? moduleName = null, string[]? depends = null) : base(description, moduleName, depends)
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

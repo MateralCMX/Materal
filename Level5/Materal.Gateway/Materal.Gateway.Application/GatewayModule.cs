@@ -12,15 +12,8 @@ namespace Materal.Gateway.Application
     /// <summary>
     /// 网关模块
     /// </summary>
-    public class GatewayModule : MergeBlockWebModule, IMergeBlockWebModule
+    public class GatewayModule() : MergeBlockWebModule("网关模块", "Gateway")
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public GatewayModule() : base("网关模块", "Gateway")
-        {
-
-        }
         /// <summary>
         /// 配置服务之前
         /// </summary>

@@ -9,14 +9,8 @@ namespace RC.EnvironmentServer.Application
     /// <summary>
     /// EnvironmentServer模块
     /// </summary>
-    public class EnvironmentServerModule : RCModule, IMergeBlockModule
+    public class EnvironmentServerModule() : RCModule("RCEnvironmentServer模块", "RC.EnvironmentServer", ["RC.EnvironmentServer.Repository", "Authorization"])
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public EnvironmentServerModule() : base("RCEnvironmentServer模块", "RC.EnvironmentServer", ["RC.EnvironmentServer.Repository", "Authorization"])
-        {
-        }
         /// <summary>
         /// 配置服务
         /// </summary>

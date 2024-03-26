@@ -11,25 +11,8 @@ namespace RC.Core.Application
     /// <summary>
     /// RC模块
     /// </summary>
-    public abstract class RCModule : MergeBlockWebModule
+    public abstract class RCModule(string description, string? moduleName = null, string[]? depends = null) : MergeBlockWebModule(description, moduleName, depends)
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="description"></param>
-        /// <param name="depends"></param>
-        protected RCModule(string description, string[]? depends) : base(description, depends)
-        {
-        }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="description"></param>
-        /// <param name="moduleName"></param>
-        /// <param name="depends"></param>
-        protected RCModule(string description, string? moduleName = null, string[]? depends = null) : base(description, moduleName, depends)
-        {
-        }
         /// <summary>
         /// 配置服务前
         /// </summary>
