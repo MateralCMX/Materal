@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using RC.Deploy.Abstractions.DTO.ApplicationInfo;
+using RC.Deploy.Abstractions.RequestModel;
 
 namespace RC.Deploy.Abstractions.Controllers
 {

@@ -10,7 +10,7 @@ namespace RC.Demo.Abstractions.HttpClient
     /// 枚举控制器
     /// </summary>
     [AllowAnonymous]
-    public partial class EnumController : DemoController
+    public partial class EnumsController : DemoController
     {
         /// <summary>
         /// 获取所有性别枚举

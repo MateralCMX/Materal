@@ -33,7 +33,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// 枚举控制器");
             codeContent.AppendLine($"    /// </summary>");
             codeContent.AppendLine($"    [AllowAnonymous]");
-            codeContent.AppendLine($"    public partial class EnumController : {_moduleName}Controller");
+            codeContent.AppendLine($"    public partial class EnumsController : {_moduleName}Controller");
             codeContent.AppendLine($"    {{");
             foreach (EnumModel @enum in enums)
             {
@@ -56,7 +56,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleApplication, "Controllers", $"EnumController.cs");
+            codeContent.SaveAs(_moduleApplication, "Controllers", $"EnumsController.cs");
         }
     }
 }

@@ -10,7 +10,7 @@ namespace RC.EnvironmentServer.Abstractions.HttpClient
     /// 枚举控制器
     /// </summary>
     [AllowAnonymous]
-    public partial class EnumController : EnvironmentServerController
+    public partial class EnumsController : EnvironmentServerController
     {
         /// <summary>
         /// 获取所有同步模式枚举

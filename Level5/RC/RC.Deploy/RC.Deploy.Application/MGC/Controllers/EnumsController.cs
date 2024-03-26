@@ -10,7 +10,7 @@ namespace RC.Deploy.Abstractions.HttpClient
     /// 枚举控制器
     /// </summary>
     [AllowAnonymous]
-    public partial class EnumController : DeployController
+    public partial class EnumsController : DeployController
     {
         /// <summary>
         /// 获取所有应用程序状态枚举

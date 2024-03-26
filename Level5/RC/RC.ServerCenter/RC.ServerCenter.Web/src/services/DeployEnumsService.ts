@@ -16,5 +16,5 @@ const service = new DeployEnumsService(async () => {
     }
     if (!serverManagement.selectedDeploy) throw new Error("没有选中任何目标");
     return serverManagement.selectedDeploy.Service;
-}, "Enum");
+}, "Enums");
 export default service;
