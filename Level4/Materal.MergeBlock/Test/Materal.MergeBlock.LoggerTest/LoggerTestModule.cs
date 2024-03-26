@@ -1,7 +1,10 @@
 ﻿using Materal.Extensions;
+using Materal.Logger.ConfigModels;
 using Materal.MergeBlock.Abstractions;
 using Materal.MergeBlock.Abstractions.WebModule;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 [assembly: MergeBlockAssembly(true)]
 namespace Materal.MergeBlock.LoggerTest
