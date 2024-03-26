@@ -9,14 +9,14 @@ namespace Materal.MergeBlock.EventBusTest2.EventHandlers
     /// 我的事件处理器
     /// </summary>
     [QueueName("MergeBlockEventBusTest2Queue")]
-    public class MyEventHandler : IEventHandler<MyEvent>
+    public class MyEventHandler : BaseEventHandler<MyEvent>, IEventHandler<MyEvent>
     {
         /// <summary>
         /// 处理事件
         /// </summary>
         /// <param name="event"></param>
         /// <returns></returns>
-        public async Task HandleAsync(MyEvent @event)
+        public override async Task HandleAsync(MyEvent @event)
         {
             ConsoleQueue.WriteLine("------------------Test2-1------------------");
             ConsoleQueue.WriteLine(@event.Message);
