@@ -5,7 +5,7 @@ namespace Materal.MergeBlock.ConfigCenter
     /// <summary>
     /// 配置中心模块
     /// </summary>
-    public abstract class ConfigCenterModule : MergeBlockModule, IMergeBlockModule, IConfigCenterModule
+    public abstract class ConfigCenterModule(string description, string? moduleName = null, string[]? depends = null) : MergeBlockModule(description, moduleName, depends), IConfigCenterModule
     {
         /// <summary>
         /// 项目名称
@@ -19,23 +19,6 @@ namespace Materal.MergeBlock.ConfigCenter
         /// 重载配置时间
         /// </summary>
         public virtual int ReloadSecondInterval { get; } = 60;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="description"></param>
-        /// <param name="depends"></param>
-        protected ConfigCenterModule(string description, string[]? depends) : base(description, depends)
-        {
-        }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="description"></param>
-        /// <param name="moduleName"></param>
-        /// <param name="depends"></param>
-        protected ConfigCenterModule(string description, string? moduleName = null, string[]? depends = null) : base(description, moduleName, depends)
-        {
-        }
         /// <summary>
         /// 配置服务前
         /// </summary>
