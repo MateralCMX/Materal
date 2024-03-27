@@ -15,7 +15,7 @@ namespace MateralPublish.Models
         /// </summary>
         private readonly List<BaseProjectModel> _projects;
         /// <summary>
-        /// Materal解决方案模型
+        /// 构造方法
         /// </summary>
         /// <param name="path"></param>
         public MateralSolutionModel(string path)
@@ -34,6 +34,35 @@ namespace MateralPublish.Models
                 _projects.Add(projectModel);
             }
             _projects = [.. _projects.OrderBy(m => m.Level).ThenBy(m => m.Index).ThenBy(m => m.Name)];
+        }
+        /// <summary>
+        /// 是否可以发布
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        public static bool CanPublish(BaseProjectModel project)
+        {
+#if DEBUG
+            if (false
+                //|| project is ProjectModels.Level0.MateralProjectModel
+                //|| project is ProjectModels.Level0.ToolsProjectModel
+                //|| project is ProjectModels.Level1.LoggerProjectModel
+                //|| project is ProjectModels.Level2.TFMSProjectModel
+                //|| project is ProjectModels.Level2.EventBusProjectModel
+                //|| project is ProjectModels.Level2.TTAProjectModel
+                //|| project is ProjectModels.Level3.OscillatorProjectModel
+                //|| project is ProjectModels.Level4.BaseCoreProjectModel
+                || project is ProjectModels.Level4.MergeBlockProjectModel
+                //|| project is ProjectModels.Level5.GatewayProjectModel
+                //|| project is ProjectModels.Level5.RCProjectModel
+                )
+            {
+                return true;
+            }
+            return false;
+#else
+            return true;
+#endif
         }
         /// <summary>
         /// 获得下一个版本号
@@ -69,26 +98,8 @@ namespace MateralPublish.Models
             {
                 try
                 {
-#if DEBUG
-                    if (false
-                        //|| project is ProjectModels.Level0.MateralProjectModel
-                        //|| project is ProjectModels.Level0.ToolsProjectModel
-                        //|| project is ProjectModels.Level1.LoggerProjectModel
-                        //|| project is ProjectModels.Level2.TFMSProjectModel
-                        //|| project is ProjectModels.Level2.EventBusProjectModel
-                        //|| project is ProjectModels.Level2.TTAProjectModel
-                        //|| project is ProjectModels.Level3.OscillatorProjectModel
-                        //|| project is ProjectModels.Level4.BaseCoreProjectModel
-                        || project is ProjectModels.Level4.MergeBlockProjectModel
-                        //|| project is ProjectModels.Level5.GatewayProjectModel
-                        //|| project is ProjectModels.Level5.RCProjectModel
-                        )
-                    {
-                        await project.PublishAsync(version);
-                    }
-#else
+                    if (!CanPublish(project)) continue;
                     await project.PublishAsync(version);
-#endif
                 }
                 catch (Exception ex)
                 {

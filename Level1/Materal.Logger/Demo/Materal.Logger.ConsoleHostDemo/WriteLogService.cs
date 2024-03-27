@@ -1,4 +1,6 @@
-﻿using Materal.Utils;
+﻿using Materal.Logger.BusLogger;
+using Materal.Logger.Extensions;
+using Materal.Utils;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -9,6 +11,7 @@ namespace Materal.Logger.ConsoleHostDemo
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             ConsoleQueue.WriteLine("WriteLogService Start.");
+            logger.SubscribeLogger(WriteLog);
             while (!cancellationToken.IsCancellationRequested)
             {
                 logger.LogTrace("Trace");
@@ -20,11 +23,18 @@ namespace Materal.Logger.ConsoleHostDemo
                 await Task.Delay(1000);
             }
         }
-
         public async Task StopAsync(CancellationToken cancellationToken)
         {
             ConsoleQueue.WriteLine("WriteLogService Stop.");
+            logger.UnsubscribeLogger(WriteLog);
             await Task.CompletedTask;
+        }
+        private static void WriteLog(BusLoggerWriterModel[] models)
+        {
+            foreach (BusLoggerWriterModel loggerModel in models)
+            {
+                ConsoleQueue.WriteLine($"[{loggerModel.ID}_{loggerModel.LogLevel}]:{loggerModel.Message}", ConsoleColor.DarkMagenta);
+            }
         }
     }
 }

@@ -19,13 +19,11 @@ namespace Materal.Logger.LoggerWriter
         /// 清空定时器执行中
         /// </summary>
         private bool _isClearTimerExecution = false;
-        private readonly TTarget _targetConfig;
         /// <summary>
         /// 构造方法
         /// </summary>
         public BatchLoggerWriter(TTarget targetConfig) : base(targetConfig)
         {
-            _targetConfig = targetConfig;
             _writeLoggersBlock = new(WriteBatchLoggerAsync);
             _writeLoggerBlock = GetNewBatchBlock();
             ClearTimer = new(ClearTimerElapsed);
@@ -53,7 +51,7 @@ namespace Materal.Logger.LoggerWriter
         /// <returns></returns>
         protected virtual BatchBlock<TModel> GetNewBatchBlock()
         {
-            BatchBlock<TModel> result = new(_targetConfig.Batch.BatchSize);
+            BatchBlock<TModel> result = new(Target.Batch.BatchSize);
             result.LinkTo(_writeLoggersBlock);
             return result;
         }
@@ -70,9 +68,22 @@ namespace Materal.Logger.LoggerWriter
             oldBlock.Completion.Wait();
             if (!IsClose)
             {
-                ClearTimer.Change(TimeSpan.FromSeconds(_targetConfig.Batch.PushInterval), Timeout.InfiniteTimeSpan);
+                ClearTimer.Change(TimeSpan.FromSeconds(Target.Batch.PushInterval), Timeout.InfiniteTimeSpan);
             }
             _isClearTimerExecution = false;
+        }
+        /// <summary>
+        /// 关闭批量日志写入器
+        /// </summary>
+        /// <returns></returns>
+        protected async Task ShutdownBatchLoggerWriterAsync()
+        {
+            IsClose = true;
+            while (_isClearTimerExecution) { await Task.Delay(1000); }
+            _writeLoggerBlock.Complete();
+            await _writeLoggerBlock.Completion;
+            _writeLoggersBlock.Complete();
+            await _writeLoggersBlock.Completion;
         }
         /// <summary>
         /// 关闭
@@ -80,14 +91,9 @@ namespace Materal.Logger.LoggerWriter
         /// <returns></returns>
         public override async Task ShutdownAsync()
         {
-            IsClose = true;
-            LoggerHost.LoggerLog?.LogDebug($"正在关闭[{_targetConfig.Name}]");
-            while (_isClearTimerExecution) { await Task.Delay(1000); }
-            _writeLoggerBlock.Complete();
-            await _writeLoggerBlock.Completion;
-            _writeLoggersBlock.Complete();
-            await _writeLoggersBlock.Completion;
-            LoggerHost.LoggerLog?.LogDebug($"[{_targetConfig.Name}]关闭成功");
+            LoggerHost.LoggerLog?.LogDebug($"正在关闭[{Target.Name}]");
+            await ShutdownBatchLoggerWriterAsync();
+            LoggerHost.LoggerLog?.LogDebug($"[{Target.Name}]关闭成功");
         }
     }
 }
