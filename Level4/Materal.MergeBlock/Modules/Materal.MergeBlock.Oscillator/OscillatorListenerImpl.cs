@@ -47,7 +47,7 @@
             string message = await GetMessageTempleteAsync(schedule, scheduleWork, work, answer);
             message += $"响应执行错误：\r\n";
             message += exception.GetErrorMessage();
-            ShowMessage(message, LogLevel.Error);
+            ShowMessage(message, LogLevel.Error, exception);
         }
         /// <summary>
         /// 任务事件触发
@@ -88,8 +88,8 @@
         {
             string message = await GetMessageTempleteAsync(schedule);
             message += $"调度器错误：\r\n";
-            message += exception.GetErrorMessage();
-            ShowMessage(message, LogLevel.Error);
+            message += exception.Message;
+            ShowMessage(message, LogLevel.Error, exception);
         }
         /// <summary>
         /// 调度器执行
@@ -171,8 +171,8 @@
         {
             string message = await GetMessageTempleteAsync(schedule, scheduleWork);
             message += $"任务错误：\r\n";
-            message += exception.GetErrorMessage();
-            ShowMessage(message, LogLevel.Error);
+            message += exception.Message;
+            ShowMessage(message, LogLevel.Error, exception);
         }
         /// <summary>
         /// 任务开始执行
@@ -215,8 +215,15 @@
         public async Task WorkFailAsync(Schedule schedule, ScheduleWork scheduleWork, Work work, string workEvent, string? workResult)
         {
             string message = await GetMessageTempleteAsync(schedule, scheduleWork);
-            message += $"任务执行失败，返回事件[{workEvent}],";
-            message += $"返回结果[{workResult}],";
+            message += $"任务执行失败，返回事件[{workEvent}]";
+            if (!string.IsNullOrWhiteSpace(workResult))
+            {
+                message += $",返回结果[{workResult}],";
+            }
+            else
+            {
+                message += $",返回空结果";
+            }
             ShowMessage(message, LogLevel.Error);
         }
         /// <summary>
@@ -240,7 +247,8 @@
         /// </summary>
         /// <param name="message"></param>
         /// <param name="logLevel"></param>
-        private void ShowMessage(string message, LogLevel logLevel = LogLevel.Debug) => logger.Log(logLevel, message);
+        /// <param name="exception"></param>
+        private void ShowMessage(string message, LogLevel logLevel = LogLevel.Debug, Exception? exception = null) => logger.Log(logLevel, exception, message);
         /// <summary>
         /// 获得消息模版
         /// </summary>
