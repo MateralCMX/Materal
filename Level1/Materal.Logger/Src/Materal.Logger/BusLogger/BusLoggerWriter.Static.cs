@@ -1,121 +1,135 @@
 ﻿namespace Materal.Logger.BusLogger
 {
     /// <summary>
-    /// 总线日志写入器模型
+    /// 总线日志写入器
     /// </summary>
     public partial class BusLoggerWriter
     {
-        private readonly static List<WeakReference<Action<LogModel>>> _globalHandlers = [];
-        private readonly static List<WeakReference<Func<LogModel, Task>>> _globalAsyncHandlers = [];
-        private readonly static Dictionary<string, List<WeakReference<Action<LogModel>>>> _handlers = [];
-        private readonly static Dictionary<string, List<WeakReference<Func<LogModel, Task>>>> _asyncHandlers = [];
+        private readonly static List<WeakReference<ILogMonitor>> _globalHandlers = [];
+        private readonly static Dictionary<string, List<WeakReference<ILogMonitor>>> _handlers = [];
         /// <summary>
-        /// 订阅日志
+        /// 订阅
         /// </summary>
-        /// <param name="handler"></param>
-        /// <param name="busWriterName"></param>
-        public static void Subscribe(Action<LogModel> handler, string? busWriterName = null)
-            => SubscribeLogger(handler, _globalHandlers, _handlers, busWriterName);
+        /// <param name="monitor"></param>
+        /// <param name="busName"></param>
+        public static void Subscribe(ILogMonitor monitor, string? busName = null)
+        {
+            if (busName is null || string.IsNullOrWhiteSpace(busName))
+            {
+                Subscribe(monitor, _globalHandlers);
+            }
+            else
+            {
+                if (!_handlers.TryGetValue(busName, out List<WeakReference<ILogMonitor>>? handlers))
+                {
+                    _handlers.Add(busName, [new(monitor)]);
+                }
+                else
+                {
+                    Subscribe(monitor, handlers);
+                }
+            }
+        }
         /// <summary>
-        /// 订阅日志
+        /// 订阅
         /// </summary>
-        /// <param name="handler"></param>
-        /// <param name="busWriterName"></param>
-        public static void Subscribe(Func<LogModel, Task> handler, string? busWriterName = null)
-            => SubscribeLogger(handler, _globalAsyncHandlers, _asyncHandlers, busWriterName);
+        /// <param name="monitor"></param>
+        /// <param name="handlers"></param>
+        private static void Subscribe(ILogMonitor monitor, List<WeakReference<ILogMonitor>> handlers)
+        {
+            if (!CanSubscribe(monitor, handlers)) return;
+            handlers.Add(new(monitor));
+        }
         /// <summary>
-        /// 取消订阅日志
+        /// 取消订阅
         /// </summary>
-        /// <param name="handler"></param>
-        /// <param name="busWriterName"></param>
-        public static void Unsubscribe(Action<LogModel> handler, string? busWriterName = null)
-            => UnsubscribeLogger(handler, _globalHandlers, _handlers, busWriterName);
+        /// <param name="monitor"></param>
+        /// <param name="busName"></param>
+        public static void Unsubscribe(ILogMonitor monitor, string? busName = null)
+        {
+            if (busName is null || string.IsNullOrWhiteSpace(busName))
+            {
+                Unsubscribe(monitor, _globalHandlers);
+            }
+            else
+            {
+                if (!_handlers.TryGetValue(busName, out List<WeakReference<ILogMonitor>>? handlers)) return;
+                Unsubscribe(monitor, handlers);
+            }
+        }
         /// <summary>
-        /// 取消订阅日志
+        /// 取消订阅
         /// </summary>
-        /// <param name="handler"></param>
-        /// <param name="busWriterName"></param>
-        public static void Unsubscribe(Func<LogModel, Task> handler, string? busWriterName = null)
-            => UnsubscribeLogger(handler, _globalAsyncHandlers, _asyncHandlers, busWriterName);
+        /// <param name="monitor"></param>
+        /// <param name="handlers"></param>
+        private static void Unsubscribe(ILogMonitor monitor, List<WeakReference<ILogMonitor>> handlers)
+        {
+            for (int i = 0; i < handlers.Count; i++)
+            {
+                WeakReference<ILogMonitor> item = handlers[i];
+                if (!item.TryGetTarget(out ILogMonitor? target)) continue;
+                if (!target.Equals(monitor)) continue;
+                handlers.Remove(item);
+                return;
+            }
+        }
         /// <summary>
-        /// 取消订阅所有日志
+        /// 取消所有订阅
+        /// </summary>
+        /// <param name="monitor"></param>
+        public static void UnsubscribeAll(ILogMonitor monitor)
+        {
+            Unsubscribe(monitor, _globalHandlers);
+            foreach (KeyValuePair<string, List<WeakReference<ILogMonitor>>> handlers in _handlers)
+            {
+                Unsubscribe(monitor, handlers.Value);
+            }
+        }
+        /// <summary>
+        /// 取消所有订阅
         /// </summary>
         public static void UnsubscribeAll()
         {
             _globalHandlers.Clear();
-            _globalAsyncHandlers.Clear();
             _handlers.Clear();
-            _asyncHandlers.Clear();
         }
         /// <summary>
-        /// 订阅日志
+        /// 是否可以订阅
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="handler"></param>
-        /// <param name="globalHandlers"></param>
-        /// <param name="handlers"></param>
-        /// <param name="busWriterName"></param>
-        private static void SubscribeLogger<T>(T handler, List<WeakReference<T>> globalHandlers, Dictionary<string, List<WeakReference<T>>> handlers, string? busWriterName)
-            where T : class
+        /// <param name="monitor"></param>
+        /// <param name="busName"></param>
+        /// <returns></returns>
+        public static bool CanSubscribe(ILogMonitor monitor, string? busName = null)
         {
-            if (busWriterName is null || string.IsNullOrWhiteSpace(busWriterName))
+            if (busName is null || string.IsNullOrWhiteSpace(busName))
             {
-                foreach (WeakReference<T> item in globalHandlers)
-                {
-                    if (!item.TryGetTarget(out T? target)) continue;
-                    if (target == handler) return;
-                }
-                globalHandlers.Add(new(handler));
+                return CanSubscribe(monitor, _globalHandlers);
             }
             else
             {
-                if (!handlers.TryGetValue(busWriterName, out List<WeakReference<T>>? value))
+                if (!_handlers.TryGetValue(busName, out List<WeakReference<ILogMonitor>>? handlers))
                 {
-                    handlers.Add(busWriterName, [new(handler)]);
+                    return true;
                 }
                 else
                 {
-                    foreach (WeakReference<T> item in value)
-                    {
-                        if (!item.TryGetTarget(out T? target)) continue;
-                        if (target == handler) return;
-                    }
-                    value.Add(new(handler));
+                    return CanSubscribe(monitor, handlers);
                 }
             }
         }
         /// <summary>
-        /// 订阅日志
+        /// 是否可以订阅
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="handler"></param>
-        /// <param name="globalHandlers"></param>
+        /// <param name="monitor"></param>
         /// <param name="handlers"></param>
-        /// <param name="busWriterName"></param>
-        private static void UnsubscribeLogger<T>(T handler, List<WeakReference<T>> globalHandlers, Dictionary<string, List<WeakReference<T>>> handlers, string? busWriterName)
-            where T : class
+        private static bool CanSubscribe(ILogMonitor monitor, List<WeakReference<ILogMonitor>> handlers)
         {
-            if (busWriterName is null || string.IsNullOrWhiteSpace(busWriterName))
+            foreach (WeakReference<ILogMonitor> item in handlers)
             {
-                for (int i = 0; i < globalHandlers.Count; i++)
-                {
-                    WeakReference<T> item = globalHandlers[i];
-                    if (!item.TryGetTarget(out T? target) || target != handler) continue;
-                    globalHandlers.Remove(item);
-                    return;
-                }
+                if (!item.TryGetTarget(out ILogMonitor? target)) continue;
+                if (target.Equals(monitor)) return false;
             }
-            else
-            {
-                if (!handlers.ContainsKey(busWriterName)) return;
-                for (int i = 0; i < handlers[busWriterName].Count; i++)
-                {
-                    WeakReference<T> item = handlers[busWriterName][i];
-                    if (!item.TryGetTarget(out T? target) || target != handler) continue;
-                    globalHandlers.Remove(item);
-                    return;
-                }
-            }
+            return true;
         }
     }
 }

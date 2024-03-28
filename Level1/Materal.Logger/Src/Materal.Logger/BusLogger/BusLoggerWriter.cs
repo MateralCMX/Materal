@@ -2,7 +2,7 @@
 namespace Materal.Logger.BusLogger
 {
     /// <summary>
-    /// 总线日志写入器模型
+    /// 总线日志写入器
     /// </summary>
     public partial class BusLoggerWriter(BusLoggerTargetConfig targetConfig) : BaseLoggerWriter<BusLoggerWriterModel, BusLoggerTargetConfig>(targetConfig), ILoggerWriter
     {
@@ -13,61 +13,25 @@ namespace Materal.Logger.BusLogger
         /// <returns></returns>
         public override async Task WriteLoggerAsync(BusLoggerWriterModel model)
         {
-            foreach (WeakReference<Action<LogModel>> handler in _globalHandlers)
+            WriteLoggerAsync(model, _globalHandlers);
+            if (!_handlers.TryGetValue(Target.Name, out List<WeakReference<ILogMonitor>>? handlers) || handlers is null || handlers.Count <= 0) return;
+            WriteLoggerAsync(model, handlers);
+            await Task.CompletedTask;
+        }
+        /// <summary>
+        /// 写日志
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="handlers"></param>
+        /// <returns></returns>
+        public static async void WriteLoggerAsync(BusLoggerWriterModel model, List<WeakReference<ILogMonitor>> handlers)
+        {
+            if (handlers.Count <= 0) return;
+            for (int i = 0; i < handlers.Count; i++)
             {
-                try
-                {
-                    if (!handler.TryGetTarget(out Action<LogModel>? action) || action is null) continue;
-                    action.Invoke(model);
-                }
-                catch(Exception ex)
-                {
-                    LoggerHost.LoggerLog?.LogWarning("BusLogger处理失败", ex);
-                }
-            }
-            foreach (WeakReference<Func<LogModel, Task>>? handler in _globalAsyncHandlers)
-            {
-                if (handler is null) continue;
-                try
-                {
-                    if (!handler.TryGetTarget(out Func<LogModel, Task>? action) || action is null) continue;
-                    await action.Invoke(model);
-                }
-                catch (Exception ex)
-                {
-                    LoggerHost.LoggerLog?.LogWarning("BusLogger处理失败", ex);
-                }
-            }
-            if (_handlers.ContainsKey(Target.Name))
-            {
-                foreach (WeakReference<Action<LogModel>> handler in _handlers[Target.Name])
-                {
-                    try
-                    {
-                        if (!handler.TryGetTarget(out Action<LogModel>? action) || action is null) continue;
-                        action.Invoke(model);
-                    }
-                    catch (Exception ex)
-                    {
-                        LoggerHost.LoggerLog?.LogWarning("BusLogger处理失败", ex);
-                    }
-                }
-            }
-            if (_asyncHandlers.ContainsKey(Target.Name))
-            {
-                foreach (WeakReference<Func<LogModel, Task>>? handler in _asyncHandlers[Target.Name])
-                {
-                    if (handler is null) continue;
-                    try
-                    {
-                        if (!handler.TryGetTarget(out Func<LogModel, Task>? action) || action is null) continue;
-                        await action.Invoke(model);
-                    }
-                    catch (Exception ex)
-                    {
-                        LoggerHost.LoggerLog?.LogWarning("BusLogger处理失败", ex);
-                    }
-                }
+                WeakReference<ILogMonitor> handler = handlers[i];
+                if (!handler.TryGetTarget(out ILogMonitor? monitor) || monitor is null) return;
+                await monitor.HandlerNewLogInfoAsync(model);
             }
         }
         /// <summary>
@@ -78,10 +42,7 @@ namespace Materal.Logger.BusLogger
         {
             LoggerHost.LoggerLog?.LogDebug($"正在关闭[{Target.Name}]");
             IsClose = true;
-            _globalHandlers.Clear();
-            _globalAsyncHandlers.Clear();
-            _handlers.Clear();
-            _asyncHandlers.Clear();
+            UnsubscribeAll();
             LoggerHost.LoggerLog?.LogDebug($"[{Target.Name}]关闭成功");
             await Task.CompletedTask;
         }
