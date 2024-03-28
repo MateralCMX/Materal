@@ -34,10 +34,13 @@ namespace Materal.Extensions
         /// <param name="source"></param>
         /// <param name="comparer"></param>
         /// <returns></returns>
-        public static IEnumerable<T> Distinct<T>(this IEnumerable<T> source, Func<T, T, bool> comparer) where T : class
-        {
-            return source.Distinct(new DynamicEqualityComparer<T>(comparer));
-        }
+        public static IEnumerable<T> Distinct<T>(this IEnumerable<T> source, Func<T, T, bool> comparer) where T : class 
+            => source.Distinct(new DynamicEqualityComparer<T>(comparer));
+        /// <summary>
+        /// 动态比较器
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="func"></param>
         private sealed class DynamicEqualityComparer<T>(Func<T, T, bool> func) : IEqualityComparer<T> where T : class
         {
             public bool Equals(T? x, T? y)

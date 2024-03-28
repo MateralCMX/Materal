@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.ConsoleModule;
+﻿using Materal.MergeBlock.AutoMapperProfile;
+using Materal.MergeBlock.ConsoleModule;
 using Materal.MergeBlock.NormalModule;
 using Materal.MergeBlock.WebModule;
 
@@ -62,7 +63,7 @@ namespace Materal.MergeBlock
             await RunModuleAsync(async m => await m.ConfigServiceBeforeAsync(context));
             #endregion
             #region 配置服务
-            List<Assembly> autoMapperAssemblyList = [];
+            List<Assembly> autoMapperAssemblyList = [typeof(MergeBlockProfile).Assembly];
             List<Assembly> processedAssemblies = [];
             #region 模块
             await ConfigServiceAsync(context);
