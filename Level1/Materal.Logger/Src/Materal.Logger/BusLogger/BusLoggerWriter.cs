@@ -4,37 +4,69 @@ namespace Materal.Logger.BusLogger
     /// <summary>
     /// 总线日志写入器模型
     /// </summary>
-    public partial class BusLoggerWriter(BusLoggerTargetConfig targetConfig) : BatchLoggerWriter<BusLoggerWriterModel, BusLoggerTargetConfig>(targetConfig), ILoggerWriter
+    public partial class BusLoggerWriter(BusLoggerTargetConfig targetConfig) : BaseLoggerWriter<BusLoggerWriterModel, BusLoggerTargetConfig>(targetConfig), ILoggerWriter
     {
         /// <summary>
-        /// 写入批量日志
+        /// 写日志
         /// </summary>
-        /// <param name="models"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
-        public override async Task WriteBatchLoggerAsync(BusLoggerWriterModel[] models)
+        public override async Task WriteLoggerAsync(BusLoggerWriterModel model)
         {
-            foreach (Action<BusLoggerWriterModel[]> handler in _globalHandlers)
+            foreach (WeakReference<Action<LogModel>> handler in _globalHandlers)
             {
-                handler?.Invoke(models);
+                try
+                {
+                    if (!handler.TryGetTarget(out Action<LogModel>? action) || action is null) continue;
+                    action.Invoke(model);
+                }
+                catch(Exception ex)
+                {
+                    LoggerHost.LoggerLog?.LogWarning("BusLogger处理失败", ex);
+                }
             }
-            foreach (Func<BusLoggerWriterModel[], Task> handler in _globalAsyncHandlers)
+            foreach (WeakReference<Func<LogModel, Task>>? handler in _globalAsyncHandlers)
             {
                 if (handler is null) continue;
-                await handler.Invoke(models);
+                try
+                {
+                    if (!handler.TryGetTarget(out Func<LogModel, Task>? action) || action is null) continue;
+                    await action.Invoke(model);
+                }
+                catch (Exception ex)
+                {
+                    LoggerHost.LoggerLog?.LogWarning("BusLogger处理失败", ex);
+                }
             }
             if (_handlers.ContainsKey(Target.Name))
             {
-                foreach (Action<BusLoggerWriterModel[]> handler in _handlers[Target.Name])
+                foreach (WeakReference<Action<LogModel>> handler in _handlers[Target.Name])
                 {
-                    handler?.Invoke(models);
+                    try
+                    {
+                        if (!handler.TryGetTarget(out Action<LogModel>? action) || action is null) continue;
+                        action.Invoke(model);
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggerHost.LoggerLog?.LogWarning("BusLogger处理失败", ex);
+                    }
                 }
             }
             if (_asyncHandlers.ContainsKey(Target.Name))
             {
-                foreach (Func<BusLoggerWriterModel[], Task> handler in _asyncHandlers[Target.Name])
+                foreach (WeakReference<Func<LogModel, Task>>? handler in _asyncHandlers[Target.Name])
                 {
                     if (handler is null) continue;
-                    await handler.Invoke(models);
+                    try
+                    {
+                        if (!handler.TryGetTarget(out Func<LogModel, Task>? action) || action is null) continue;
+                        await action.Invoke(model);
+                    }
+                    catch (Exception ex)
+                    {
+                        LoggerHost.LoggerLog?.LogWarning("BusLogger处理失败", ex);
+                    }
                 }
             }
         }
@@ -45,12 +77,13 @@ namespace Materal.Logger.BusLogger
         public override async Task ShutdownAsync()
         {
             LoggerHost.LoggerLog?.LogDebug($"正在关闭[{Target.Name}]");
-            await ShutdownBatchLoggerWriterAsync();
+            IsClose = true;
             _globalHandlers.Clear();
             _globalAsyncHandlers.Clear();
             _handlers.Clear();
             _asyncHandlers.Clear();
             LoggerHost.LoggerLog?.LogDebug($"[{Target.Name}]关闭成功");
+            await Task.CompletedTask;
         }
     }
 }

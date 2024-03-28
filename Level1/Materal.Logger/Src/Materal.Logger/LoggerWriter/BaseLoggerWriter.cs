@@ -24,8 +24,8 @@
         /// <returns></returns>
         public virtual async Task ShutdownAsync()
         {
-            IsClose = true;
             LoggerHost.LoggerLog?.LogDebug($"正在关闭[{Target.Name}]");
+            IsClose = true;
             await Task.CompletedTask;
             LoggerHost.LoggerLog?.LogDebug($"[{Target.Name}]关闭成功");
         }

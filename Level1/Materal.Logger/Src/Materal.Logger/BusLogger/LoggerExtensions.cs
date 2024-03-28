@@ -13,9 +13,9 @@ namespace Materal.Logger.Extensions
         /// <param name="logger"></param>
         /// <param name="handler"></param>
         /// <param name="busWriterName"></param>
-        public static ILogger SubscribeLogger(this ILogger logger, Action<BusLoggerWriterModel[]> handler, string? busWriterName = null)
+        public static ILogger Subscribe(this ILogger logger, Action<LogModel> handler, string? busWriterName = null)
         {
-            BusLoggerWriter.SubscribeLogger(handler, busWriterName);
+            BusLoggerWriter.Subscribe(handler, busWriterName);
             return logger;
         }
         /// <summary>
@@ -24,9 +24,9 @@ namespace Materal.Logger.Extensions
         /// <param name="logger"></param>
         /// <param name="handler"></param>
         /// <param name="busWriterName"></param>
-        public static ILogger SubscribeLogger(this ILogger logger, Func<BusLoggerWriterModel[], Task> handler, string? busWriterName = null)
+        public static ILogger Subscribe(this ILogger logger, Func<LogModel, Task> handler, string? busWriterName = null)
         {
-            BusLoggerWriter.SubscribeLogger(handler, busWriterName);
+            BusLoggerWriter.Subscribe(handler, busWriterName);
             return logger;
         }
         /// <summary>
@@ -35,9 +35,9 @@ namespace Materal.Logger.Extensions
         /// <param name="logger"></param>
         /// <param name="handler"></param>
         /// <param name="busWriterName"></param>
-        public static ILogger UnsubscribeLogger(this ILogger logger, Action<BusLoggerWriterModel[]> handler, string? busWriterName = null)
+        public static ILogger Unsubscribe(this ILogger logger, Action<LogModel> handler, string? busWriterName = null)
         {
-            BusLoggerWriter.UnsubscribeLogger(handler, busWriterName);
+            BusLoggerWriter.Unsubscribe(handler, busWriterName);
             return logger;
         }
         /// <summary>
@@ -46,18 +46,18 @@ namespace Materal.Logger.Extensions
         /// <param name="logger"></param>
         /// <param name="handler"></param>
         /// <param name="busWriterName"></param>
-        public static ILogger UnsubscribeLogger(this ILogger logger, Func<BusLoggerWriterModel[], Task> handler, string? busWriterName = null)
+        public static ILogger Unsubscribe(this ILogger logger, Func<LogModel, Task> handler, string? busWriterName = null)
         {
-            BusLoggerWriter.UnsubscribeLogger(handler, busWriterName);
+            BusLoggerWriter.Unsubscribe(handler, busWriterName);
             return logger;
         }
         /// <summary>
         /// 订阅日志
         /// </summary>
         /// <param name="logger"></param>
-        public static ILogger UnsubscribeAllLogger(this ILogger logger)
+        public static ILogger UnsubscribeAll(this ILogger logger)
         {
-            BusLoggerWriter.UnsubscribeAllLogger();
+            BusLoggerWriter.UnsubscribeAll();
             return logger;
         }
     }

@@ -3,7 +3,7 @@
     /// <summary>
     /// 总线日志写入器模型
     /// </summary>
-    public class BusLoggerWriterModel(LoggerWriterModel model) : BatchLoggerWriterModel(model)
+    public class BusLoggerWriterModel(LoggerWriterModel model) : LoggerWriterModel(model)
     {
     }
 }
