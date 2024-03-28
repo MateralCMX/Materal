@@ -5,7 +5,7 @@ namespace RC.EnvironmentServer.Abstractions.Controllers
     /// <summary>
     /// 控制器
     /// </summary>
-    public partial interface IConfigurationItemController
+    public partial interface IConfigurationItemController : IMergeBlockControllerBase
     {
         /// <summary>
         /// 同步配置

@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper
+﻿using Materal.MergeBlock.Abstractions.WebModule.Controllers;
+
+namespace Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper
 {
     /// <summary>
     /// 控制器Http帮助类
@@ -25,7 +27,8 @@
         /// <param name="queryArgs"></param>
         /// <param name="datas"></param>
         /// <returns></returns>
-        Task<TResult> SendAsync<TController, TResult>(string projectName, string moduleName, string methodName, Dictionary<string, string> queryArgs, params object[] datas);
+        Task<TResult> SendAsync<TController, TResult>(string projectName, string moduleName, string methodName, Dictionary<string, string> queryArgs, params object[] datas)
+            where TController : IMergeBlockControllerBase;
         /// <summary>
         /// 获取请求头
         /// </summary>

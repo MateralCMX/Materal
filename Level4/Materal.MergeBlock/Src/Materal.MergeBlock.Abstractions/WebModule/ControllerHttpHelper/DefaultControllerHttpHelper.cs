@@ -1,6 +1,8 @@
-﻿using Materal.Utils.Http;
+﻿using Materal.MergeBlock.Abstractions.WebModule.Controllers;
+using Materal.Utils.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper
@@ -8,16 +10,32 @@ namespace Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper
     /// <summary>
     /// 默认控制器Http帮助类
     /// </summary>
-    public class DefaultControllerHttpHelper(IHttpHelper httpHelper, IOptionsMonitor<MergeBlockConfig> config) : IControllerHttpHelper
+    public class DefaultControllerHttpHelper : IControllerHttpHelper
     {
         /// <summary>
         /// MergeBlock配置
         /// </summary>
-        protected readonly IHttpHelper HttpHelper = httpHelper;
+        protected readonly IHttpHelper HttpHelper;
         /// <summary>
         /// MergeBlock配置
         /// </summary>
-        protected readonly IOptionsMonitor<MergeBlockConfig> Config = config;
+        protected readonly IOptionsMonitor<MergeBlockConfig> Config;
+        /// <summary>
+        /// 日志
+        /// </summary>
+        protected readonly ILogger? Logger;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="httpHelper"></param>
+        /// <param name="config"></param>
+        /// <param name="loggerFactory"></param>
+        public DefaultControllerHttpHelper(IHttpHelper httpHelper, IOptionsMonitor<MergeBlockConfig> config, ILoggerFactory? loggerFactory = null)
+        {
+            HttpHelper = httpHelper;
+            Config = config;
+            Logger = loggerFactory?.CreateLogger(GetType());
+        }
         /// <summary>
         /// 发送请求
         /// </summary>
@@ -31,6 +49,7 @@ namespace Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper
         /// <returns></returns>
         /// <exception cref="MergeBlockModuleException"></exception>
         public virtual async Task<TResult> SendAsync<TController, TResult>(string projectName, string moduleName, string methodName, Dictionary<string, string> queryArgs, params object[] datas)
+            where TController : IMergeBlockControllerBase
         {
             var controllerType = typeof(TController);
             var methodInfo = controllerType.GetMethods().FirstOrDefault(m => m.Name == methodName);
@@ -79,19 +98,39 @@ namespace Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper
             }
             string url = GetUrl(projectName, moduleName, controllerType.Name, methodName);
             var headers = GetHeaders(hasToken);
-            TResult result;
-            if (datas.Length == 0)
+            string message = $"向{typeof(TController).FullName}发送Http[{url}]请求失败";
+            TResult? result = default;
+            try
             {
-                result = await HttpHelper.SendAsync<TResult>(url, httpMethod, queryArgs, null, headers);
+                if (datas.Length == 0)
+                {
+                    result = await HttpHelper.SendAsync<TResult>(url, httpMethod, queryArgs, null, headers);
+                }
+                else if (datas.Length == 1)
+                {
+                    result = await HttpHelper.SendAsync<TResult>(url, httpMethod, queryArgs, datas[0], headers);
+                }
+                else
+                {
+                    result = await HttpHelper.SendAsync<TResult>(url, httpMethod, queryArgs, datas.ToExpandoObject(), headers);
+                }
             }
-            else if (datas.Length == 1)
+            catch (Exception ex)
             {
-                result = await HttpHelper.SendAsync<TResult>(url, httpMethod, queryArgs, datas[0], headers);
+                Logger?.LogWarning(ex, message);
+                Type tType = typeof(TResult);
+                if (tType.IsAssignableTo<ResultModel>())
+                {
+                    ResultModel resultModel = tType.Instantiation<ResultModel>();
+                    resultModel.ResultType = ResultTypeEnum.Fail;
+                    resultModel.Message = message;
+                    if(resultModel is TResult tResult)
+                    {
+                        result = tResult;
+                    }
+                }
             }
-            else
-            {
-                result = await HttpHelper.SendAsync<TResult>(url, httpMethod, queryArgs, datas.ToExpandoObject(), headers);
-            }
+            if(result is null) throw new MergeBlockException(message);
             return result;
         }
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper;
 using Materal.Utils.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Materal.MergeBlock.Abstractions.WebModule.Authorization
@@ -7,7 +8,7 @@ namespace Materal.MergeBlock.Abstractions.WebModule.Authorization
     /// <summary>
     /// 默认控制器Http帮助类
     /// </summary>
-    public class AuthorizationControllerHttpHelper(IHttpHelper httpHelper, ITokenService tokenService, IOptionsMonitor<MergeBlockConfig> config) : DefaultControllerHttpHelper(httpHelper, config), IControllerHttpHelper
+    public class AuthorizationControllerHttpHelper(IHttpHelper httpHelper, ITokenService tokenService, IOptionsMonitor<MergeBlockConfig> config, ILoggerFactory? loggerFactory = null) : DefaultControllerHttpHelper(httpHelper, config, loggerFactory), IControllerHttpHelper
     {
         /// <summary>
         /// 获取请求头

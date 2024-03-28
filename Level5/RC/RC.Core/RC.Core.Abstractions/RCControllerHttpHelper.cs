@@ -1,5 +1,6 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule.Authorization;
 using Materal.Utils.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace RC.Core.Abstractions
@@ -7,10 +8,7 @@ namespace RC.Core.Abstractions
     /// <summary>
     /// RC控制器HTTP帮助类
     /// </summary>
-    /// <param name="httpHelper"></param>
-    /// <param name="tokenService"></param>
-    /// <param name="config"></param>
-    public class RCControllerHttpHelper(IHttpHelper httpHelper, ITokenService tokenService, IOptionsMonitor<MergeBlockConfig> config) : AuthorizationControllerHttpHelper(httpHelper, tokenService, config)
+    public class RCControllerHttpHelper(IHttpHelper httpHelper, ITokenService tokenService, IOptionsMonitor<MergeBlockConfig> config, ILoggerFactory? loggerFactory = null) : AuthorizationControllerHttpHelper(httpHelper, tokenService, config, loggerFactory)
     {
         /// <summary>
         /// 获取URL

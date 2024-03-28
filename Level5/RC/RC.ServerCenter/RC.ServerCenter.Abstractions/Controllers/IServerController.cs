@@ -6,7 +6,7 @@ namespace RC.ServerCenter.Abstractions.Controllers
     /// <summary>
     /// 服务控制器
     /// </summary>
-    public partial interface IServerController
+    public partial interface IServerController : IMergeBlockControllerBase
     {
         /// <summary>
         /// 获得发布程序列表

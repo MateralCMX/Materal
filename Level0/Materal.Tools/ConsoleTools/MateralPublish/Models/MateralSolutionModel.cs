@@ -15,27 +15,6 @@ namespace MateralPublish.Models
         /// </summary>
         private readonly List<BaseProjectModel> _projects;
         /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="path"></param>
-        public MateralSolutionModel(string path)
-        {
-            ProjectDirectoryInfo = GetProjectDirectoryInfo(path);
-            NugetServerHelper.NugetDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "Nupkgs").GetNewDirectoryInfo();
-            PublishHelper.PublishDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "Publish").GetNewDirectoryInfo();
-            Type baseProjectType = typeof(BaseProjectModel);
-            List<Type> allProjectTypes = baseProjectType.Assembly.GetTypes().Where(m => !m.IsAbstract && m.IsAssignableTo(baseProjectType)).ToList();
-            _projects = [];
-            foreach (Type projectType in allProjectTypes)
-            {
-                ConstructorInfo? constructorInfo = projectType.GetConstructor([typeof(string)]) ?? throw new MateralPublishException("未找到构造函数");
-                object projectObj = constructorInfo.Invoke(new[] { ProjectDirectoryInfo.FullName });
-                if (projectObj is not BaseProjectModel projectModel) throw new MateralPublishException("类型不是BaseProjectModel");
-                _projects.Add(projectModel);
-            }
-            _projects = [.. _projects.OrderBy(m => m.Level).ThenBy(m => m.Index).ThenBy(m => m.Name)];
-        }
-        /// <summary>
         /// 是否可以发布
         /// </summary>
         /// <param name="project"></param>
@@ -63,6 +42,27 @@ namespace MateralPublish.Models
 #else
             return true;
 #endif
+        }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="path"></param>
+        public MateralSolutionModel(string path)
+        {
+            ProjectDirectoryInfo = GetProjectDirectoryInfo(path);
+            NugetServerHelper.NugetDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "Nupkgs").GetNewDirectoryInfo();
+            PublishHelper.PublishDirectoryInfo = Path.Combine(ProjectDirectoryInfo.FullName, "Publish").GetNewDirectoryInfo();
+            Type baseProjectType = typeof(BaseProjectModel);
+            List<Type> allProjectTypes = baseProjectType.Assembly.GetTypes().Where(m => !m.IsAbstract && m.IsAssignableTo(baseProjectType)).ToList();
+            _projects = [];
+            foreach (Type projectType in allProjectTypes)
+            {
+                ConstructorInfo? constructorInfo = projectType.GetConstructor([typeof(string)]) ?? throw new MateralPublishException("未找到构造函数");
+                object projectObj = constructorInfo.Invoke(new[] { ProjectDirectoryInfo.FullName });
+                if (projectObj is not BaseProjectModel projectModel) throw new MateralPublishException("类型不是BaseProjectModel");
+                _projects.Add(projectModel);
+            }
+            _projects = [.. _projects.OrderBy(m => m.Level).ThenBy(m => m.Index).ThenBy(m => m.Name)];
         }
         /// <summary>
         /// 获得下一个版本号

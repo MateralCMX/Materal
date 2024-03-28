@@ -7,7 +7,7 @@ namespace RC.Deploy.Abstractions.Controllers
     /// <summary>
     /// 应用程序服务控制器
     /// </summary>
-    public partial interface IApplicationInfoController
+    public partial interface IApplicationInfoController : IMergeBlockControllerBase
     {
         /// <summary>
         /// 应用最后一个文件

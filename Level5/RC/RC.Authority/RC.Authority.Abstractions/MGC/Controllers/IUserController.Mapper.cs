@@ -6,7 +6,7 @@ namespace RC.Authority.Abstractions.Controllers
     /// <summary>
     /// 用户服务控制器
     /// </summary>
-    public partial interface IUserController
+    public partial interface IUserController : IMergeBlockControllerBase
     {
         /// <summary>
         /// 重置密码

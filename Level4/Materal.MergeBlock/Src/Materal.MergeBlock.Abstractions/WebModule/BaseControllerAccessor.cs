@@ -1,5 +1,6 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper;
 using Materal.MergeBlock.Abstractions.WebModule.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Materal.MergeBlock.Abstractions.WebModule
 {
@@ -31,6 +32,7 @@ namespace Materal.MergeBlock.Abstractions.WebModule
     /// </summary>
     /// <param name="serviceProvider"></param>
     public abstract class BaseControllerAccessor<TController, TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(IServiceProvider serviceProvider) : BaseControllerAccessor(serviceProvider), IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>
+        where TController : IMergeBlockControllerBase
         where TAddRequestModel : class, IAddRequestModel, new()
         where TEditRequestModel : class, IEditRequestModel, new()
         where TQueryRequestModel : IQueryRequestModel, new()
