@@ -1,5 +1,7 @@
-﻿using Materal.Oscillator.Abstractions.Domain;
+﻿using Materal.Abstractions;
+using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Works;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.MergeBlock.Abstractions.Oscillator
 {
@@ -10,6 +12,19 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
     public abstract class MergeBlockWork<TWorkData> : BaseWork<TWorkData>, IWork<TWorkData>
         where TWorkData : class, IWorkData
     {
+        /// <summary>
+        /// 日志
+        /// </summary>
+        protected ILogger? Logger { get; }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="loggerFactory"></param>
+        public MergeBlockWork(ILoggerFactory? loggerFactory = null)
+        {
+            loggerFactory ??= MateralServices.GetService<ILoggerFactory>();
+            Logger = loggerFactory?.CreateLogger(GetType());
+        }
         /// <summary>
         /// 执行
         /// </summary>
@@ -26,6 +41,11 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
             {
                 if (OscillatorDataHelper.IsInit(work.Name)) return await InitAsync(workData, jobResults, nowIndex, schedule, scheduleWork, work);
                 return await WorkExcuteAsync(workData, jobResults, nowIndex, schedule, scheduleWork, work);
+            }
+            catch(MergeBlockModuleException ex)
+            {
+                Logger?.LogWarning(ex, ex.Message);
+                return null;
             }
             finally
             {

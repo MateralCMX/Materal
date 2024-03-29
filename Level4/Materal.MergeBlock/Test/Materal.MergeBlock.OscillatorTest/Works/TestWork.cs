@@ -1,6 +1,4 @@
-﻿using AspectCore.DependencyInjection;
-using Materal.MergeBlock.Abstractions;
-using Materal.MergeBlock.Abstractions.Oscillator;
+﻿using Materal.MergeBlock.Abstractions.Oscillator;
 using Materal.MergeBlock.OscillatorTest.WorkData;
 using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Works;
@@ -11,7 +9,7 @@ namespace Materal.MergeBlock.OscillatorTest.Works
     /// <summary>
     /// 测试作业
     /// </summary>
-    public partial class TestWork(ILogger<TestWork> logger) : MergeBlockWork<TestWorkData>
+    public partial class TestWork(ILoggerFactory loggerFactory) : MergeBlockWork<TestWorkData>(loggerFactory)
     {
         /// <summary>
         /// 作业执行
@@ -25,7 +23,7 @@ namespace Materal.MergeBlock.OscillatorTest.Works
         /// <returns></returns>
         protected override async Task<string?> WorkExcuteAsync(TestWorkData workData, List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork, Work work)
         {
-            logger.LogInformation("--------------------------------\r\n测试作业\r\n--------------------------------");
+            Logger?.LogInformation("--------------------------------\r\n测试作业\r\n--------------------------------");
             await Task.CompletedTask;
             return null;
         }
