@@ -2,13 +2,14 @@
 using Materal.MergeBlock.Application.WebModule;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.FileProviders;
 using RC.Deploy.Abstractions.Services.Models;
 using RC.Deploy.Application.Hubs;
+using System.Linq;
 
 namespace RC.Deploy.Application
 {
@@ -25,6 +26,7 @@ namespace RC.Deploy.Application
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
             await base.OnConfigServiceAsync(context);
+            context.Services.TryAddSingleton<IContentTypeProvider, FileExtensionContentTypeProvider>();
             context.Services.AddSignalR();
             IConfigurationSection configurationSection = context.Configuration.GetSection("Deploy");
             context.Services.Configure<ApplicationConfig>(configurationSection);
@@ -53,54 +55,41 @@ namespace RC.Deploy.Application
             }
             #endregion
             #region 处理静态文件
-            context.WebApplication.Use(async (httpContext, next) =>
-            {
-                if (!httpContext.Request.Path.HasValue || string.IsNullOrWhiteSpace(httpContext.Request.Path.Value)) return;
-                IApplicationInfoService applicationInfoService = context.ServiceProvider.GetRequiredService<IApplicationInfoService>();
-                string[] paths = httpContext.Request.Path.Value.Split("/");
-                IApplicationRuntimeModel? applicationRuntimeModel = applicationInfoService.GetApplicationRuntimeModel(paths[1]);
-                if (applicationRuntimeModel is null ||
-                    applicationRuntimeModel.ApplicationInfo.ApplicationType != ApplicationTypeEnum.StaticDocument ||
-                    applicationRuntimeModel.ApplicationStatus == ApplicationStatusEnum.Runing)
-                {
-                    await next();
-                }
-                else
-                {
-                    httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-                }
-            });
+            context.WebApplication.UseMiddleware<DeployMiddleware>();
+            context.WebApplication.UseMiddleware<BrotliStaticFilesMiddleware>();
             string basePath = typeof(DeployModule).Assembly.GetDirectoryPath();
             string path = Path.Combine(basePath, "Application");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-            context.WebApplication.UseStaticFiles(GetStaticFileOptions(path, ""));
+            StaticFileOptions applicationStaticFileOptions = GetStaticFileOptions(path, "");
+            context.WebApplication.UseStaticFiles(applicationStaticFileOptions);
             path = Path.Combine(basePath, "UploadFiles");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
-            context.WebApplication.UseStaticFiles(GetStaticFileOptions(path, "/UploadFiles"));
+            StaticFileOptions uploadFilesStaticFileOptions = GetStaticFileOptions(path, "/UploadFiles");
+            context.WebApplication.UseStaticFiles(uploadFilesStaticFileOptions);
             #endregion
             await base.OnApplicationInitAsync(context);
         }
-        private StaticFileOptions GetStaticFileOptions(string path, string requestPath)
+        private StaticFileOptions GetStaticFileOptions(string path, string requestPath, IFileProvider? fileProvider = null)
         {
             FileExtensionContentTypeProvider provider = new();
             provider.Mappings[".json"] = "application/json";
             provider.Mappings[".woff"] = "application/font-woff";
             provider.Mappings[".woff2"] = "application/font-woff";
+            fileProvider ??= new PhysicalFileProvider(path);
             return new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(path),
+                FileProvider = fileProvider,
                 OnPrepareResponse = OnPrepareResponse,
                 RequestPath = requestPath,
                 ContentTypeProvider = provider,
                 ServeUnknownFileTypes = true,
-                DefaultContentType = "application/octet-stream",
-                HttpsCompression = HttpsCompressionMode.Compress,
+                DefaultContentType = "application/octet-stream"
             };
         }
         private void OnPrepareResponse(StaticFileResponseContext context)
