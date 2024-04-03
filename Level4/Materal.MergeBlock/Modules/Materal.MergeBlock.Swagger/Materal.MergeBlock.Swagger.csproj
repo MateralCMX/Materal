@@ -14,7 +14,7 @@
 		<Authors>Materal</Authors>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal.MergeBlock.Swagger</Title>
-		<Description>Materal.MergeBlock Swagger模组</Description>
+		<Description>Materal.MergeBlock Swagger模块</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>

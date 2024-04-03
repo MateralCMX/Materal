@@ -1,9 +1,11 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.IO.Compression;
 
 namespace Materal.MergeBlock.WebModule
 {
@@ -88,6 +90,10 @@ namespace Materal.MergeBlock.WebModule
         protected override async Task ConfigServiceAfterAsync(WebConfigServiceContext context)
         {
             context.Services.AddResponseCompression();//添加响应压缩
+            //context.Services.Configure<BrotliCompressionProviderOptions>(options =>
+            //{
+            //    options.Level = CompressionLevel.Optimal;
+            //});
             context.Services.AddEndpointsApiExplorer();//添加API探索器
             await base.ConfigServiceAfterAsync(context);
             IOptionsMonitor<MergeBlockConfig> mergeBlockConfig = context.ServiceProvider.GetRequiredService<IOptionsMonitor<MergeBlockConfig>>();
@@ -114,6 +120,7 @@ namespace Materal.MergeBlock.WebModule
                 await next.Invoke(context);
             });
             context.WebApplication.UseCors();//跨域
+            context.WebApplication.UseResponseCompression();//启用响应压缩
             return base.ApplicationInitBeforeAsync(context);
         }
         /// <summary>

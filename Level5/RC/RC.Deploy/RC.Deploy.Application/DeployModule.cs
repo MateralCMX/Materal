@@ -2,6 +2,7 @@
 using Materal.MergeBlock.Application.WebModule;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
@@ -98,7 +99,8 @@ namespace RC.Deploy.Application
                 RequestPath = requestPath,
                 ContentTypeProvider = provider,
                 ServeUnknownFileTypes = true,
-                DefaultContentType = "application/octet-stream"
+                DefaultContentType = "application/octet-stream",
+                HttpsCompression = HttpsCompressionMode.Compress,
             };
         }
         private void OnPrepareResponse(StaticFileResponseContext context)

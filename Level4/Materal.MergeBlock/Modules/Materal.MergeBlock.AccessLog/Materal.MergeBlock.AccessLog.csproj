@@ -13,7 +13,7 @@
 		<Authors>Materal</Authors>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal.MergeBlock.AccessLog</Title>
-		<Description>Materal.MergeBlock访问日志模组</Description>
+		<Description>Materal.MergeBlock访问日志模块</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>

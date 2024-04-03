@@ -14,7 +14,7 @@
 		<Authors>Materal</Authors>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal.MergeBlock.ExceptionInterceptor</Title>
-		<Description>Materal.MergeBlock异常拦截器模组</Description>
+		<Description>Materal.MergeBlock异常拦截器模块</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>

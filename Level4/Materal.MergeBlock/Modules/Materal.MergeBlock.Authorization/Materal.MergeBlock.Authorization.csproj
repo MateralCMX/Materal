@@ -13,7 +13,7 @@
 		<Authors>Materal</Authors>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal.MergeBlock.Authorization</Title>
-		<Description>Materal.MergeBlock鉴权模组</Description>
+		<Description>Materal.MergeBlock鉴权模块</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>

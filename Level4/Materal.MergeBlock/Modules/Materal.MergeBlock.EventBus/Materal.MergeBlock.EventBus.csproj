@@ -13,7 +13,7 @@
 		<Authors>Materal</Authors>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal.MergeBlock.EventBus</Title>
-		<Description>Materal.MergeBlock事件总线模组</Description>
+		<Description>Materal.MergeBlock事件总线模块</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>

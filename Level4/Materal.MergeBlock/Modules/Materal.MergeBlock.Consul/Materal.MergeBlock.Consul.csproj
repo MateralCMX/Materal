@@ -13,7 +13,7 @@
 		<Authors>Materal</Authors>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal.MergeBlock.Consul</Title>
-		<Description>Materal.MergeBlock服务发现模组</Description>
+		<Description>Materal.MergeBlock服务发现模块</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>

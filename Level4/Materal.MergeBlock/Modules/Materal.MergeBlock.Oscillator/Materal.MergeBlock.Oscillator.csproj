@@ -13,7 +13,7 @@
 		<Authors>Materal</Authors>
 		<NeutralLanguage>zh-CN</NeutralLanguage>
 		<Title>Materal.MergeBlock.Oscillator</Title>
-		<Description>Materal.MergeBlock调度器模组</Description>
+		<Description>Materal.MergeBlock调度器模块</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<NoWarn>1701;1702;CA2254</NoWarn>

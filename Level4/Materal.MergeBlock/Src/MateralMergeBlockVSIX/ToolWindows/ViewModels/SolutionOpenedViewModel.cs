@@ -31,7 +31,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// </summary>
         public Visibility Visibility { get => _visibility; set { _visibility = value; NotifyPropertyChanged(); } }
         /// <summary>
-        /// 模组
+        /// 模块
         /// </summary>
         public ObservableCollection<ModuleViewModel> Modules { get; set; } = [];
         /// <summary>
