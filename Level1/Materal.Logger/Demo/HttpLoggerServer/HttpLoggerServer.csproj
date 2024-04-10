@@ -9,4 +9,7 @@
 		<PackageReference Include="Materal.Utils" Version="1.1.76" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="../../Src/Materal.Logger/LogMessageModel.cs" Link="LogMessageModel.cs" />
+	</ItemGroup>
 </Project>

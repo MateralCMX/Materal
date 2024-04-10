@@ -88,7 +88,6 @@ namespace Materal.Logger.Test
                 }
             };
             using IDisposable? scope = logger.BeginScope(new AdvancedScope("CustomScope", data));
-#pragma warning disable CA2017 // 参数计数不匹配。
             logger.LogInformation("${ObjectValue.DictionaryValue}");
             logger.LogInformation("${NullValue}");
             logger.LogInformation("${DictionaryValue.NullValue}");
@@ -100,7 +99,6 @@ namespace Materal.Logger.Test
             logger.LogInformation("${ArrayValue[0]}|${ArrayValue[1]}|${ArrayValue[2]}");
             logger.LogInformation("${DictionaryValue.StringValue}|${DictionaryValue.IntValue}|${DictionaryValue.DecimalValue}|${DictionaryValue.DateTimeValue}|${DictionaryValue.GuidValue}");
             logger.LogInformation("${ObjectValue.StringValue}|${ObjectValue.IntValue}|${ObjectValue.DecimalValue}|${ObjectValue.DateTimeValue}|${ObjectValue.GuidValue}");
-#pragma warning restore CA2017 // 参数计数不匹配。
         });
         /// <summary>
         /// 写控制台日志
@@ -165,7 +163,7 @@ namespace Materal.Logger.Test
         [TestMethod]
         public async Task WriteOracleLogTestAsync() => await WriteLogAsync(option =>
         {
-            const string connectionString = "user id=dy; Password=dy123; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =192.168.1.181)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = YXEYORCL)));VALIDATE CONNECTION=True;";
+            const string connectionString = "user id=MATERAL; Password=Materal1234; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =127.0.0.1)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = ORCL)));VALIDATE CONNECTION=True;";
             option.AddOracleTarget("OracleLogger", connectionString, "TestLogger");
         });
         /// <summary>
@@ -194,7 +192,7 @@ namespace Materal.Logger.Test
         [TestMethod]
         public async Task WriteConfigFileLogTestAsync() => await WriteLogAsync(option =>
         {
-            option.AddCustomConfig("ApplicationName", "DyLoggerTest");
+            option.AddCustomConfig("ApplicationName", "MateralLoggerTest");
         }, true);
         #region 便捷方法
         /// <summary>

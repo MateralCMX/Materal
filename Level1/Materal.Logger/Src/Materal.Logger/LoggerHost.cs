@@ -63,6 +63,12 @@ namespace Materal.Logger
                     await LoggerLog.StartAsync();
                 }
                 LoggerLog?.LogDebug($"正在启动[MateralLogger]");
+                foreach (TargetConfig targetConfig in LoggerConfig.Targets)
+                {
+                    if (!targetConfig.Enable || _serviceProvider is null) continue;
+                    ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter(_serviceProvider);
+                    await loggerWriter.StartAsync();
+                }
                 _writeLoggerBlock = new(AsyncWriteLogger);
                 LoggerLog?.LogDebug($"[MateralLogger]启动成功");
             }

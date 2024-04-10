@@ -5,7 +5,7 @@ namespace Materal.Logger.WebSocketLogger
     /// <summary>
     /// WebSocket日志写入器
     /// </summary>
-    public class WebSocketLoggerWriter(WebSocketLoggerTargetConfig target) : BaseLoggerWriter<WebSocketLoggerWriterModel, WebSocketLoggerTargetConfig>(target), ILoggerWriter
+    public class WebSocketLoggerWriter(IOptionsMonitor<LoggerConfig> config, WebSocketLoggerTargetConfig target) : BaseLoggerWriter<WebSocketLoggerWriterModel, WebSocketLoggerTargetConfig>(target), ILoggerWriter
     {
         private WebSocketServer? _webSocketServer = null;
         private readonly List<IWebSocketConnection> _webSocketConnections = [];
@@ -32,13 +32,22 @@ namespace Materal.Logger.WebSocketLogger
                 }
                 try
                 {
-                    await connection.Send(new LogMessageModel(model).ToJson());
+                    await connection.Send(LogMessageModel.Pass(model).ToJson());
                 }
                 catch (Exception ex)
                 {
                     LoggerHost.LoggerLog?.LogError($"[{Target.Name}]发送日志[{connection.ConnectionInfo.ClientIpAddress}:{connection.ConnectionInfo.ClientPort}]失败", ex);
                 }
             }
+        }
+        /// <summary>
+        /// 启动
+        /// </summary>
+        /// <returns></returns>
+        public override async Task StartAsync()
+        {
+            UpdateWebSocketServer(config.CurrentValue);
+            await base.StartAsync();
         }
         /// <summary>
         /// 关闭
@@ -58,7 +67,7 @@ namespace Materal.Logger.WebSocketLogger
         /// <param name="config"></param>
         public void UpdateWebSocketServer(LoggerConfig config)
         {
-            if (CanRun(config.TrueRules))
+            if (CanRun(config.Rules))
             {
                 if (_webSocketServer is null)
                 {
@@ -79,7 +88,7 @@ namespace Materal.Logger.WebSocketLogger
         /// </summary>
         /// <param name="rules"></param>
         /// <returns></returns>
-        private bool CanRun(IEnumerable<RuleConfig> rules)
+        private bool CanRun(List<RuleConfig> rules)
         {
             if (!Target.Enable) return false;
             foreach (RuleConfig rule in rules)

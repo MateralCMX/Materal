@@ -1,5 +1,4 @@
-﻿
-namespace Materal.Logger.BusLogger
+﻿namespace Materal.Logger.BusLogger
 {
     /// <summary>
     /// 总线日志写入器

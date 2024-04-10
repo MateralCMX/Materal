@@ -19,6 +19,11 @@
         /// </summary>
         public virtual Action<LoggerConfig>? OnLoggerConfigChanged => null;
         /// <summary>
+        /// 启动
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task StartAsync() => await Task.CompletedTask;
+        /// <summary>
         /// 关闭
         /// </summary>
         /// <returns></returns>

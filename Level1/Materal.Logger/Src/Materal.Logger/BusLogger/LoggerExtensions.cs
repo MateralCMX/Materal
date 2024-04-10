@@ -22,7 +22,7 @@
         /// <param name="_"></param>
         /// <param name="monitor"></param>
         /// <param name="busName"></param>
-        public static bool CanSubscribe(this ILogger _, ILogMonitor monitor, string? busName = null)
+        public static bool CanSubscribe(this ILogger _, ILogMonitor monitor, string? busName = null) 
             => BusLoggerWriter.CanSubscribe(monitor, busName);
         /// <summary>
         /// 取消订阅

@@ -276,7 +276,7 @@
           "Enable": true, //启用标识
           "Name": "OracleLog", //目标名称
           "Type": "Oracle", //MySql日志类型
-          "ConnectionString": "user id=dy; Password=dy123; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =192.168.1.181)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = YXEYORCL)));VALIDATE CONNECTION=True;", //Oracle数据库连接字符串
+          "ConnectionString": "user id=MATERAL; Password=Materal1234; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =127.0.0.1)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = ORCL)));VALIDATE CONNECTION=True;", //Oracle数据库连接字符串
           "TableName": "${Level}Logs", //日志表名称，默认为MateralLogger
           "Fileds": [ //字段组，默认不配置时如下
             {

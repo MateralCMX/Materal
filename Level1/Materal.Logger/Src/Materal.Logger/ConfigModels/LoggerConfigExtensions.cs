@@ -184,9 +184,16 @@
         /// <exception cref="LoggerException"></exception>
         public static LoggerConfig AddTarget(this LoggerConfig loggerConfig, TargetConfig target)
         {
-            if (LoggerConfig.Targets.Any(m => m.Name == target.Name)) throw new LoggerException("已存在相同名称的目标");
+            TargetConfig? oldTarget = LoggerConfig.Targets.FirstOrDefault(m => m.Name == target.Name);
+            if(oldTarget is not null)
+            {
+                LoggerConfig.Targets.Remove(oldTarget);
+            }
+            if (!LoggerConfig.CodeConfigTargetNames.Contains(target.Name))
+            {
+                LoggerConfig.CodeConfigTargetNames.Add(target.Name);
+            }
             LoggerConfig.Targets.Add(target);
-            LoggerConfig.CodeConfigTargetNames.Add(target.Name);
             return loggerConfig;
         }
         #endregion

@@ -1,5 +1,4 @@
-﻿using Materal.Logger.LoggerTrace.Models;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.Net.WebSockets;
 using System.Text;
 
@@ -29,7 +28,7 @@ namespace Materal.Logger.LoggerTrace
             Option<string> ignoreOption = new("--Ignore", "指定忽略日志等级[Trace,Debug,Information,Warning,Error,Critical]");
             ignoreOption.AddAlias("-i");
             ignoreOption.IsRequired = false;
-            RootCommand rootCommand = new("DyLogger远程追踪器");
+            RootCommand rootCommand = new("MateralLogger远程追踪器");
             rootCommand.AddOption(urlOption);
             rootCommand.AddOption(targetOption);
             rootCommand.AddOption(ignoreOption);

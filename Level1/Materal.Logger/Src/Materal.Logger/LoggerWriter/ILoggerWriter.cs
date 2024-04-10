@@ -11,6 +11,11 @@
         /// <param name="model"></param>
         Task WriteLoggerAsync(LoggerWriterModel model);
         /// <summary>
+        /// 启动
+        /// </summary>
+        /// <returns></returns>
+        Task StartAsync();
+        /// <summary>
         /// 关闭
         /// </summary>
         Task ShutdownAsync();

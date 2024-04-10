@@ -23,14 +23,15 @@ namespace Materal.Logger.HttpLogger
                     HttpLoggerWriterModel model = item.First();
                     switch (model.HttpMethod.Method)
                     {
-                        case "GET":
-                        case "DELETE":
-                            LoggerHost.LoggerLog?.LogWarning("Http日志处理器不支持GET和DELETE方法");
-                            //_httpHelper.SendAsync($"{model.Url}?{data}", model.HttpMethod).Wait();
+                        case "POST":
+                        case "PATCH":
+                        case "PUT":
+                            string data = item.Select(m => LogMessageModel.Pass(m)).ToJson();
+                            _httpHelper.SendAsync(model.Url, model.HttpMethod, null, data).Wait();
                             break;
                         default:
-                            string data = item.Select(m => new LogMessageModel(m)).ToJson();
-                            _httpHelper.SendAsync(model.Url, model.HttpMethod, null, data).Wait();
+                            LoggerHost.LoggerLog?.LogWarning($"Http日志处理器不支持{model.HttpMethod.Method}方法");
+                            //_httpHelper.SendAsync($"{model.Url}?{data}", model.HttpMethod).Wait();
                             break;
                     }
                 }

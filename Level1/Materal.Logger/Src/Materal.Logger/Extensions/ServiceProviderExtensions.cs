@@ -8,7 +8,7 @@ namespace Materal.Logger.Extensions
     public static class ServiceProviderExtensions
     {
         /// <summary>
-        /// 使用Dy日志
+        /// 使用Materal日志
         /// </summary>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
