@@ -15,21 +15,10 @@
 		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
-	  <NoWarn>1701;1702;CA1512</NoWarn>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
-	  <NoWarn>1701;1702;CA1512</NoWarn>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
-	  <NoWarn>1701;1702;CA1512</NoWarn>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
-	  <NoWarn>1701;1702;CA1512</NoWarn>
+		<NoWarn>1701;1702;CA1512</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils.Consul" Version="1.1.76" />
+		<PackageReference Include="Materal.Utils.Consul" Version="*" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
 		<PackageReference Include="Ocelot" Version="18.*" />

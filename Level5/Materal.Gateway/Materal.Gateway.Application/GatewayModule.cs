@@ -1,11 +1,11 @@
-﻿using Materal.Gateway.OcelotExtension;
+﻿using Materal.Gateway.Application.Extensions;
+using Materal.Gateway.OcelotExtension;
 using Materal.Gateway.Service;
 using Materal.MergeBlock.Abstractions.WebModule;
 using Materal.Utils.Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Hosting;
 
 namespace Materal.Gateway.Application
 {
@@ -39,7 +39,6 @@ namespace Materal.Gateway.Application
             context.Services.AddMateralConsulUtils();
             context.Services.AddSwaggerForOcelot(context.Configuration);
             context.Services.AddOcelotGateway();
-            //context.MvcBuilder.AddApplicationPart(typeof(GlobalRateLimitOptionsController).Assembly);
             await base.OnConfigServiceAsync(context);
         }
         /// <summary>
@@ -75,14 +74,7 @@ namespace Materal.Gateway.Application
         public override async Task OnApplicationInitAfterAsync(IWebApplicationContext context)
         {
             IWebHostEnvironment environment = context.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
-            if (environment.IsDevelopment())
-            {
-                context.WebApplication.UseSwaggerForOcelotUI(m => m.PathToSwaggerGenerator = "/swagger/docs");
-            }
-            else
-            {
-                context.WebApplication.UseSwaggerForOcelotUI();
-            }
+            context.WebApplication.UseMateralGatewaySwaggerUI();
             await context.WebApplication.UseOcelotGatewayAsync(true);
             await base.OnApplicationInitAsync(context);
         }
