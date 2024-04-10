@@ -18,7 +18,7 @@
 		<NoWarn>1701;1702;CA1512</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils.Consul" Version="*" />
+		<PackageReference Include="Materal.Utils.Consul" Version="1.1.76" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
 		<PackageReference Include="Ocelot" Version="18.*" />

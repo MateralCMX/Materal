@@ -3,17 +3,17 @@
 namespace RC.Deploy.Application
 {
     /// <summary>
-    /// Brotli静态文件中间件
+    /// GZip静态文件中间件
     /// </summary>
-    public class BrotliStaticFilesMiddleware(RequestDelegate next) : StaticFilesMiddlewareBase(next)
+    public class GZipStaticFilesMiddleware(RequestDelegate next) : StaticFilesMiddlewareBase(next)
     {
         /// <summary>
         /// 接受编码
         /// </summary>
-        protected override string AcceptEncoding => "br";
+        protected override string AcceptEncoding => "gzip";
         /// <summary>
         /// 文件扩展名
         /// </summary>
-        protected override string FileExtension => "br";
+        protected override string FileExtension => "zp";
     }
 }

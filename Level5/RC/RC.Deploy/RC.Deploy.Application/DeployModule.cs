@@ -57,6 +57,7 @@ namespace RC.Deploy.Application
             #region 处理静态文件
             context.WebApplication.UseMiddleware<DeployMiddleware>();
             context.WebApplication.UseMiddleware<BrotliStaticFilesMiddleware>();
+            context.WebApplication.UseMiddleware<GZipStaticFilesMiddleware>();
             string basePath = typeof(DeployModule).Assembly.GetDirectoryPath();
             string path = Path.Combine(basePath, "Application");
             if (!Directory.Exists(path))
