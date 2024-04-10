@@ -15,10 +15,12 @@
 		<PackageReference Include="Materal.MergeBlock.AccessLog" Version="*" />
 		<PackageReference Include="Materal.MergeBlock.Authorization" Version="*" />
 		<PackageReference Include="Materal.MergeBlock.Consul" Version="*" />
+		<PackageReference Include="Materal.MergeBlock.Cors" Version="*" />
 		<!--<PackageReference Include="Materal.MergeBlock.EventBus" Version="*" />-->
 		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="*" />
 		<PackageReference Include="Materal.MergeBlock.Logger" Version="*" />
 		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" Version="*" />-->
+		<!--<PackageReference Include="Materal.MergeBlock.ResponseCompression" Version="*" />-->
 		<PackageReference Include="Materal.MergeBlock.Swagger" Version="*" />
 		<PackageReference Include="Materal.MergeBlock" Version="*" />
 	</ItemGroup>

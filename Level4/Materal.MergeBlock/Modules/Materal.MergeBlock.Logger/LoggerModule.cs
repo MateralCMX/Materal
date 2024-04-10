@@ -2,9 +2,7 @@
 using Materal.Logger.ConfigModels;
 using Materal.Logger.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Materal.MergeBlock.Logger

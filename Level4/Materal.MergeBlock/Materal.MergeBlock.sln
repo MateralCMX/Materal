@@ -75,6 +75,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MateralMergeBlockVSIX", "Sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeToStringCode", "Src\CodeToStringCode\CodeToStringCode.csproj", "{D1D62502-69BC-4E79-97E1-7CDD0CB3AF85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.ResponseCompression", "Modules\Materal.MergeBlock.ResponseCompression\Materal.MergeBlock.ResponseCompression.csproj", "{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Cors", "Modules\Materal.MergeBlock.Cors\Materal.MergeBlock.Cors.csproj", "{40C07513-F36B-418E-992F-F42FA189FFA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -457,6 +461,30 @@ Global
 		{D1D62502-69BC-4E79-97E1-7CDD0CB3AF85}.Release|arm64.Build.0 = Release|Any CPU
 		{D1D62502-69BC-4E79-97E1-7CDD0CB3AF85}.Release|x86.ActiveCfg = Release|Any CPU
 		{D1D62502-69BC-4E79-97E1-7CDD0CB3AF85}.Release|x86.Build.0 = Release|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Debug|arm64.Build.0 = Debug|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Release|arm64.ActiveCfg = Release|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Release|arm64.Build.0 = Release|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}.Release|x86.Build.0 = Release|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Debug|arm64.ActiveCfg = Debug|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Debug|arm64.Build.0 = Debug|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Debug|x86.Build.0 = Debug|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Release|arm64.ActiveCfg = Release|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Release|arm64.Build.0 = Release|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Release|x86.ActiveCfg = Release|Any CPU
+		{40C07513-F36B-418E-992F-F42FA189FFA5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -495,6 +523,8 @@ Global
 		{6A6C5F4E-D3AA-4713-B0FD-A8E3F92B678F} = {2354F88E-E154-469D-B3A8-F9B9CA8ED874}
 		{6183EBF3-6406-4BA3-AC93-D5D5B0B29B76} = {94FA1E62-851C-4248-BCEF-571C481FC598}
 		{D1D62502-69BC-4E79-97E1-7CDD0CB3AF85} = {94FA1E62-851C-4248-BCEF-571C481FC598}
+		{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC} = {679FA2B4-82C9-4274-9906-00CB64404619}
+		{40C07513-F36B-418E-992F-F42FA189FFA5} = {679FA2B4-82C9-4274-9906-00CB64404619}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {936B17FE-AF26-49C1-8527-F897DDA8C646}

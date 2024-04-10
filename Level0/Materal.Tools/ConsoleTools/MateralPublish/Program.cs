@@ -47,7 +47,7 @@ namespace MateralPublish
         }
         private static void ClearNugetPackages()
         {
-            string nugetPackagesPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
+            string nugetPackagesPath = Environment.GetEnvironmentVariable("NUGET_PACKAGES") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
             DirectoryInfo nugetDirectoryInfo = new(nugetPackagesPath);
             if (!nugetDirectoryInfo.Exists) return;
             DirectoryInfo[] directoryInfos = nugetDirectoryInfo.GetDirectories();

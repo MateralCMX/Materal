@@ -15,35 +15,6 @@ namespace MateralPublish.Models
         /// </summary>
         private readonly List<BaseProjectModel> _projects;
         /// <summary>
-        /// 是否可以发布
-        /// </summary>
-        /// <param name="project"></param>
-        /// <returns></returns>
-        public static bool CanPublish(BaseProjectModel project)
-        {
-#if DEBUG
-            if (false
-                //|| project is ProjectModels.Level0.MateralProjectModel
-                //|| project is ProjectModels.Level0.ToolsProjectModel
-                //|| project is ProjectModels.Level1.LoggerProjectModel
-                //|| project is ProjectModels.Level2.TFMSProjectModel
-                //|| project is ProjectModels.Level2.EventBusProjectModel
-                //|| project is ProjectModels.Level2.TTAProjectModel
-                //|| project is ProjectModels.Level3.OscillatorProjectModel
-                //|| project is ProjectModels.Level4.BaseCoreProjectModel
-                || project is ProjectModels.Level4.MergeBlockProjectModel
-                || project is ProjectModels.Level5.GatewayProjectModel
-                || project is ProjectModels.Level5.RCProjectModel
-                )
-            {
-                return true;
-            }
-            return false;
-#else
-            return true;
-#endif
-        }
-        /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="path"></param>
@@ -98,7 +69,9 @@ namespace MateralPublish.Models
             {
                 try
                 {
-                    if (!CanPublish(project)) continue;
+#if DEBUG
+                    if (!PublishFilter.CanPublish(project)) continue;
+#endif
                     await project.PublishAsync(version);
                 }
                 catch (Exception ex)
