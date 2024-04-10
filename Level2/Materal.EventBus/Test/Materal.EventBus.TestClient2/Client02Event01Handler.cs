@@ -3,9 +3,9 @@ using Materal.EventBus.TestClient.Abstraction;
 
 namespace Materal.EventBus.TestClient2
 {
-    public class Client02Event01Handler : IEventHandler<Event01>
+    public class Client02Event01Handler : BaseEventHandler<Event01>, IEventHandler<Event01>
     {
-        public async Task HandleAsync(Event01 @event)
+        public override async Task HandleAsync(Event01 @event)
         {
             Console.WriteLine($"------------------{nameof(Client02Event01Handler)}---------------------");
             Console.WriteLine(@event.Message);
