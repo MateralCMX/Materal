@@ -8,7 +8,7 @@ namespace Materal.TTA.Demo
     {
         public static SqliteConfigModel SqliteConfig { get; set; } = new()
         {
-            Source = "D:\\Project\\Materal\\DataBase\\Materal.ThreeTierArchitecture\\TTATestDB.db"
+            Source = "E:\\Project\\Materal\\DataBase\\Materal.ThreeTierArchitecture\\TTATestDB.db"
         };
         public static SqlServerConfigModel SqlServerConfig { get; set; } = new()
         {

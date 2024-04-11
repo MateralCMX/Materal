@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Threading;
 
 namespace Materal.TTA.EFRepository
 {
@@ -9,7 +10,7 @@ namespace Materal.TTA.EFRepository
     public abstract class EFUnitOfWorkImpl<TDBContext> : IEFUnitOfWork
         where TDBContext : DbContext
     {
-        private readonly object entitiesLockObj = new();
+        private readonly SemaphoreSlim _semaphoreSlim = new(0, 1);
         /// <summary>
         /// 数据库上下文
         /// </summary>
@@ -27,6 +28,7 @@ namespace Materal.TTA.EFRepository
         {
             DBContext = context;
             ServiceProvider = serviceProvider;
+            _semaphoreSlim.Release();
         }
         /// <summary>
         /// 注册添加
@@ -35,11 +37,16 @@ namespace Materal.TTA.EFRepository
         /// <exception cref="MateralException"></exception>
         public virtual void RegisterAdd(object obj)
         {
-            lock (entitiesLockObj)
+            _semaphoreSlim.Wait();
+            try
             {
                 EntityEntry entity = DBContext.Entry(obj);
                 if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能添加");
                 entity.State = EntityState.Added;
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
             }
         }
         /// <summary>
@@ -97,11 +104,16 @@ namespace Materal.TTA.EFRepository
         /// <exception cref="MateralException"></exception>
         public virtual void RegisterEdit(object obj)
         {
-            lock (entitiesLockObj)
+            _semaphoreSlim.Wait();
+            try
             {
                 EntityEntry entity = DBContext.Entry(obj);
                 if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能修改");
                 entity.State = EntityState.Modified;
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
             }
         }
         /// <summary>
@@ -159,11 +171,16 @@ namespace Materal.TTA.EFRepository
         /// <exception cref="MateralException"></exception>
         public virtual void RegisterDelete(object obj)
         {
-            lock (entitiesLockObj)
+            _semaphoreSlim.Wait();
+            try
             {
                 EntityEntry entity = DBContext.Entry(obj);
                 if (entity.State != EntityState.Detached) throw new MateralException($"实体已被标记为{entity.State},不能删除");
                 entity.State = EntityState.Deleted;
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
             }
         }
         /// <summary>
@@ -220,6 +237,7 @@ namespace Materal.TTA.EFRepository
         /// <param name="setDetached"></param>
         public void Commit(bool setDetached = true)
         {
+            _semaphoreSlim.Wait();
             try
             {
                 DBContext.SaveChanges();
@@ -233,6 +251,10 @@ namespace Materal.TTA.EFRepository
                     entry.Reload();
                 }
             }
+            finally
+            {
+                _semaphoreSlim.Release();
+            }
         }
         /// <summary>
         /// 提交
@@ -241,6 +263,7 @@ namespace Materal.TTA.EFRepository
         /// <returns></returns>
         public virtual async Task CommitAsync(bool setDetached = true)
         {
+            await _semaphoreSlim.WaitAsync();
             try
             {
                 await DBContext.SaveChangesAsync();
@@ -253,6 +276,10 @@ namespace Materal.TTA.EFRepository
                 {
                     await entry.ReloadAsync();
                 }
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
             }
         }
         /// <summary>
