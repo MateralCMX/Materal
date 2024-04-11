@@ -23,15 +23,13 @@ namespace Materal.MergeBlock.Application.WebModule.Controllers
         /// </summary>
         protected void BindLoginUserID(object model)
         {
-            var propertyInfos = model.GetType().GetProperties();
+            PropertyInfo[] propertyInfos = model.GetType().GetProperties();
             foreach (var propertyInfo in propertyInfos)
             {
-                if (!propertyInfo.CanWrite || propertyInfo.GetCustomAttribute<LoginUserIDAttribute>() is null) return;
+                if (!propertyInfo.CanWrite || propertyInfo.GetCustomAttribute<LoginUserIDAttribute>() is null) continue;
                 Guid? loginUserID = FilterHelper.GetOperatingUserID(User);
-                if (propertyInfo.PropertyType == typeof(Guid) && loginUserID is not null || propertyInfo.PropertyType == typeof(Guid?))
-                {
-                    propertyInfo.SetValue(model, loginUserID);
-                }
+                if ((loginUserID is null || propertyInfo.PropertyType != typeof(Guid)) && propertyInfo.PropertyType != typeof(Guid?)) continue;
+                propertyInfo.SetValue(model, loginUserID);
             }
         }
     }
