@@ -3,16 +3,20 @@
     /// <summary>
     /// 控制台日志写入器
     /// </summary>
-    public class ConsoleLoggerWriter(ConsoleLoggerTargetConfig targetConfig) : BaseLoggerWriter<ConsoleLoggerWriterModel, ConsoleLoggerTargetConfig>(targetConfig), ILoggerWriter
+    public class ConsoleLoggerWriter : BaseLoggerWriter<ConsoleLoggerTargetOptions>
     {
         /// <summary>
-        /// 写日志
+        /// 写入日志
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="log"></param>
+        /// <param name="ruleOptions"></param>
+        /// <param name="targetOptions"></param>
         /// <returns></returns>
-        public override async Task WriteLoggerAsync(ConsoleLoggerWriterModel model)
+        public override async Task LogAsync(Log log, LoggerRuleOptions ruleOptions, ConsoleLoggerTargetOptions targetOptions)
         {
-            ConsoleQueue.WriteLine(model.WriteContent, model.WriteColor);
+            log.Message = log.ApplyText(log.Message);
+            ConsoleColor color = targetOptions.Colors.GetConsoleColor(log.Level);
+            ConsoleQueue.WriteLine(log.Message, color);
             await Task.CompletedTask;
         }
     }

@@ -87,7 +87,7 @@ namespace Materal.MergeBlock.Consul
         /// <param name="mergeBlockConsulConfig"></param>
         /// <param name="webModuleConsulConfig"></param>
         /// <returns></returns>
-        private ConsulConfig GetConsulConfig(MergeBlockConsulConfig mergeBlockConsulConfig, WebModuleConsulConfig webModuleConsulConfig)
+        private static ConsulConfig GetConsulConfig(MergeBlockConsulConfig mergeBlockConsulConfig, WebModuleConsulConfig webModuleConsulConfig)
         {
             ConsulConfig result = new()
             {

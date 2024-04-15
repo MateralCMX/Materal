@@ -3,42 +3,76 @@
 namespace Materal.Logger
 {
     /// <summary>
-    /// 日志域
+    /// 日志作用域
     /// </summary>
-    public partial class LoggerScope(string scopeName) : IDisposable
+    public partial class LoggerScope
     {
-        private readonly Logger? _logger;
         /// <summary>
-        /// 域
+        /// 域名称
         /// </summary>
-        public string ScopeName { get; set; } = scopeName;
+        public string ScopeName { get; } = "PublicScope";
         /// <summary>
-        /// 是否为高级域
+        /// 域数据
         /// </summary>
-        public bool IsAdvancedScope => AdvancedScope != null;
-        /// <summary>
-        /// 高级域对象
-        /// </summary>
-        public AdvancedScope? AdvancedScope { get; set; }
+        public Dictionary<string, object?> ScopeData { get; } = [];
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="scope"></param>
-        public LoggerScope(AdvancedScope scope) : this(scope.ScopeName) => AdvancedScope = scope;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="scopeName"></param>
-        /// <param name="logger"></param>
-        public LoggerScope(string scopeName, Logger logger) : this(scopeName) => _logger = logger;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="scope"></param>
-        /// <param name="logger"></param>
-        public LoggerScope(AdvancedScope scope, Logger logger) : this(scope.ScopeName, logger)
+        public LoggerScope(string name, Dictionary<string, object?> scopeData)
         {
-            AdvancedScope = scope;
+            ScopeName = name;
+            ScopeData = scopeData;
+        }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public LoggerScope(object? scope)
+        {
+            if (scope is null) return;
+            switch (scope)
+            {
+                case LoggerScope self:
+                    ScopeName = self.ScopeName;
+                    ScopeData = self.ScopeData;
+                    break;
+                case string stringScope:
+                    ScopeName = stringScope;
+                    break;
+                case Dictionary<string, object?> scopeData:
+                    ScopeData = scopeData;
+                    break;
+                default:
+                    ScopeName = scope.GetType().Name;
+                    break;
+            }
+        }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public LoggerScope(IExternalScopeProvider externalScopeProvider)
+        {
+            List<string> scopeNames = [];
+            externalScopeProvider.ForEachScope((m, scope) =>
+            {
+                if(m is not LoggerScope loggerScope) return;
+                scopeNames.Add(loggerScope.ScopeName);
+                foreach (KeyValuePair<string, object?> item in loggerScope.ScopeData)
+                {
+                    if (ScopeData.ContainsKey(item.Key))
+                    {
+                        ScopeData[item.Key] = item.Value;
+                    }
+                    else
+                    {
+                        ScopeData.Add(item.Key, item.Value);
+                    }
+                }
+            }, this);
+            scopeNames = scopeNames.Distinct().ToList();
+            if(scopeNames.Count > 0)
+            {
+                ScopeName = string.Join(".", scopeNames);
+            }
         }
 #if NET8_0_OR_GREATER
         /// <summary>
@@ -49,14 +83,15 @@ namespace Materal.Logger
         private static partial Regex ExpressionRegex();
 #endif
         /// <summary>
-        /// 处理文本
+        /// 应用文本
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public string HandlerText(string text)
+        public string ApplyText(string text)
         {
-            if (AdvancedScope is null || AdvancedScope.ScopeData is null || string.IsNullOrWhiteSpace(text)) return text;
+            if (ScopeData.Count <= 0) return text;
             string result = text;
+            result = Regex.Replace(result, @"\$\{Scope\}", ScopeName);
 #if NETSTANDARD
             Regex regex = new(@"\$\{[^\}]+\}");
 #else
@@ -67,8 +102,9 @@ namespace Materal.Logger
             {
                 if (matchItem is not Match match) continue;
                 string valueName = match.Value[2..^1];
-                object? value = AdvancedScope.ScopeData.GetObjectValue(valueName);
-                if (value is string strinvValue)
+                object? value = ScopeData.GetObjectValue(valueName);
+                if (value is null) continue;
+                else if (value is string strinvValue)
                 {
                     result = result.Replace(match.Value, strinvValue);
                 }
@@ -78,32 +114,6 @@ namespace Materal.Logger
                 }
             }
             return result;
-        }
-        /// <summary>
-        /// 释放
-        /// </summary>
-        public void Dispose()
-        {
-            AdvancedScope = null;
-            _logger?.ExitScope();
-            GC.SuppressFinalize(this);
-        }
-        /// <summary>
-        /// 克隆域
-        /// </summary>
-        /// <returns></returns>
-        public LoggerScope CloneScope()
-        {
-            AdvancedScope? advancedScope = null;
-            if (AdvancedScope is not null)
-            {
-                advancedScope = new(AdvancedScope.ScopeName);
-                foreach (KeyValuePair<string, object?> item in AdvancedScope.ScopeData)
-                {
-                    advancedScope.ScopeData.Add(item.Key, item.Value);
-                }
-            }
-            return advancedScope is null ? new LoggerScope(ScopeName) : new LoggerScope(advancedScope);
         }
     }
 }

@@ -1,106 +1,149 @@
-﻿using Materal.Logger.LoggerLogs;
-using System.Threading.Tasks.Dataflow;
+﻿using System.Threading.Tasks.Dataflow;
 
 namespace Materal.Logger
 {
     /// <summary>
     /// 日志主机
     /// </summary>
-    public static class LoggerHost
+    public class LoggerHost : ILoggerHost
     {
-        private static ActionBlock<LoggerWriterModel>? _writeLoggerBlock;
-        private static IServiceProvider? _serviceProvider;
+        private readonly SemaphoreSlim _semaphore = new(0, 1);
+        private readonly IEnumerable<ILoggerWriter> _logWriters;
+        private readonly ActionBlock<Log> _writeLoggerBlock;
         /// <summary>
         /// 日志自身日志
         /// </summary>
-        public static ILoggerLog? LoggerLog { get; set; }
+        public IHostLogger HostLogger { get; set; }
+        private readonly Dictionary<LoggerRuleOptions, List<LoggerTargetOptions>> _targets = [];
         /// <summary>
         /// 是否关闭
         /// </summary>
-        public static bool IsClose { get; private set; } = true;
+        public bool Runing { get; private set; } = false;
+        private LoggerOptions? _options;
         /// <summary>
-        ///  写入日志
+        /// 配置
         /// </summary>
-        /// <param name="model"></param>
-        public static void WriteLogger(LoggerWriterModel model)
+        public LoggerOptions Options
         {
-            if (IsClose) return;
-            _writeLoggerBlock?.Post(model);
-        }
-        /// <summary>
-        ///  写入日志
-        /// </summary>
-        /// <param name="model"></param>
-        private static async Task AsyncWriteLogger(LoggerWriterModel model)
-        {
-            if (!model.Config.Enable || _serviceProvider is null) return;
-            foreach (TargetConfig targetConfig in LoggerConfig.Targets)
+            get => _options ?? throw new LoggerException("获取日志选项失败");
+            set
             {
-                if (!targetConfig.Enable) continue;
-                ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter(_serviceProvider);
+                _semaphore.Wait();
                 try
                 {
-                    await loggerWriter.WriteLoggerAsync(model);
+                    _options = value;
+                    _targets.Clear();
+                    foreach (LoggerRuleOptions ruleOptions in _options.Rules)
+                    {
+                        foreach (LoggerTargetOptions targetOptions in Options.Targets)
+                        {
+                            if (!ruleOptions.Targets.Contains(targetOptions.Name)) continue;
+                            if (!_targets.ContainsKey(ruleOptions))
+                            {
+                                _targets[ruleOptions] = [targetOptions];
+                            }
+                            else
+                            {
+                                _targets[ruleOptions].Add(targetOptions);
+                            }
+                        }
+                    }
+                    HostLogger.Options = _options;
                 }
-                catch (Exception ex)
+                finally
                 {
-                    LoggerLog?.LogError($"写入日志失败", ex);
+                    _semaphore.Release();
+                }
+            }
+        }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public LoggerHost(IEnumerable<ILoggerWriter> logWriters, IHostLogger? hostLogger = null)
+        {
+            HostLogger = hostLogger ?? new ConsoleHostLogger();
+            _logWriters = logWriters;
+            _writeLoggerBlock = new(LoggerWriterHandlerAsync);
+            _semaphore.Release();
+        }
+        /// <summary>
+        /// 写日志
+        /// </summary>
+        /// <param name="log"></param>
+        public void Log(Log log)
+        {
+            if (!Runing) return;
+            _writeLoggerBlock.Post(log);
+        }
+        /// <summary>
+        /// 日志写入处理
+        /// </summary>
+        /// <param name="log"></param>
+        public async Task LoggerWriterHandlerAsync(Log log)
+        {
+            foreach (KeyValuePair<LoggerRuleOptions, List<LoggerTargetOptions>> item in _targets)
+            {
+                foreach (LoggerTargetOptions targetOptions in item.Value)
+                {
+                    foreach (ILoggerWriter logWriter in _logWriters)
+                    {
+                        if (!await logWriter.CanLogAsync(log, item.Key, targetOptions)) continue;
+                        await logWriter.LogAsync(log, item.Key, targetOptions);
+                    }
                 }
             }
         }
         /// <summary>
         /// 启动
         /// </summary>
-        public static async Task StartAsync(IServiceProvider serviceProvider)
+        /// <returns></returns>
+        public async Task StartAsync()
         {
-            if (!IsClose) return;
+            await _semaphore.WaitAsync();
             try
             {
-                IsClose = false;
-                _serviceProvider = serviceProvider;
-                if (LoggerLog is not null)
+                if (Runing) return;
+                Runing = true;
+                await HostLogger.StartAsync();
+                HostLogger.LogDebug($"正在启动...");
+                foreach (var item in _logWriters)
                 {
-                    await LoggerLog.StartAsync();
+                    await item.StartAsync(HostLogger);
                 }
-                LoggerLog?.LogDebug($"正在启动[MateralLogger]");
-                foreach (TargetConfig targetConfig in LoggerConfig.Targets)
-                {
-                    if (!targetConfig.Enable || _serviceProvider is null) continue;
-                    ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter(_serviceProvider);
-                    await loggerWriter.StartAsync();
-                }
-                _writeLoggerBlock = new(AsyncWriteLogger);
-                LoggerLog?.LogDebug($"[MateralLogger]启动成功");
+                HostLogger.LogDebug($"已启动");
             }
-            catch (Exception ex)
+            finally
             {
-                IsClose = true;
-                LoggerLog?.LogError($"[MateralLogger]启动失败", ex);
+                _semaphore.Release();
             }
         }
         /// <summary>
-        /// 关闭
+        /// 停止
         /// </summary>
-        public static async Task ShutdownAsync()
+        /// <returns></returns>
+        public async Task StopAsync()
         {
-            if (IsClose) return;
-            IsClose = true;
-            LoggerLog?.LogDebug($"正在关闭[MateralLogger]");
-            if (_writeLoggerBlock is not null)
+            await _semaphore.WaitAsync();
+            try
             {
-                _writeLoggerBlock.Complete();
-                await _writeLoggerBlock.Completion;
+                if (!Runing) return;
+                Runing = false;
+                HostLogger.LogDebug($"正在关闭...");
+                if (_writeLoggerBlock is not null)
+                {
+                    _writeLoggerBlock.Complete();
+                    await _writeLoggerBlock.Completion;
+                }
+                foreach (var item in _logWriters)
+                {
+                    await item.StopAsync(HostLogger);
+                }
+                HostLogger.LogDebug($"已关闭");
+                await HostLogger.StopAsync();
             }
-            foreach (TargetConfig targetConfig in LoggerConfig.Targets)
+            finally
             {
-                if (!targetConfig.Enable || _serviceProvider is null) continue;
-                ILoggerWriter loggerWriter = targetConfig.GetLoggerWriter(_serviceProvider);
-                await loggerWriter.ShutdownAsync();
-            }
-            LoggerLog?.LogDebug($"[MateralLogger]关闭成功");
-            if (LoggerLog is not null)
-            {
-                await LoggerLog.ShutdownAsync();
+                _semaphore.Release();
             }
         }
     }

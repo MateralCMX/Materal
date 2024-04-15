@@ -1,0 +1,88 @@
+﻿using Materal.Logger.ConsoleLogger;
+using System.Dynamic;
+
+namespace Materal.Logger
+{
+    /// <summary>
+    /// 自定义日志配置
+    /// </summary>
+    public class LoggerOptions
+    {
+        /// <summary>
+        /// 日志目标选项类型
+        /// </summary>
+        public static ICollection<Type> LoggerTargetOptionTypes { get; set; } = [];
+        private static IConfiguration? _configuration;
+        /// <summary>
+        /// 服务提供者
+        /// </summary>
+        public static IConfiguration Configuration { get => _configuration ?? throw new LoggerException("获取服务容器失败"); set => _configuration = value; }
+        /// <summary>
+        /// 最小等级
+        /// </summary>
+        public LogLevel MinLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Trace;
+        /// <summary>
+        /// 最大等级
+        /// </summary>
+        public LogLevel MaxLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Critical;
+        /// <summary>
+        /// 最小日志主机日志等级
+        /// </summary>
+        public LogLevel MinLogHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Trace;
+        /// <summary>
+        /// 最大日志主机日志等级
+        /// </summary>
+        public LogLevel MaxLogHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Critical;
+        /// <summary>
+        /// 作用域组
+        /// </summary>
+        public Dictionary<string, LogLevel>? Scopes { get; set; }
+        /// <summary>
+        /// 日志等级组
+        /// </summary>
+        public Dictionary<string, LogLevel>? LogLevel { get; set; }
+        /// <summary>
+        /// 目标选项
+        /// </summary>
+        public List<LoggerTargetOptions> Targets { get; } = [];
+        /// <summary>
+        /// 规则
+        /// </summary>
+        public List<LoggerRuleOptions> Rules { get; set; } = [];
+        private readonly SemaphoreSlim _semaphore = new(0, 1);
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public LoggerOptions() => _semaphore.Release();
+        /// <summary>
+        /// 更新目标选项
+        /// </summary>
+        public void UpdateTargetOptions()
+        {
+            try
+            {
+                _semaphore.Wait();
+                Rules = Rules.Distinct((m, n) => m.Name == n.Name).ToList();
+                Targets.Clear();
+                string? targetConfigs = Configuration.GetConfigItemToString("Logging:MateralLogger:Targets");
+                if (targetConfigs is null || string.IsNullOrWhiteSpace(targetConfigs)) return;
+                List<ExpandoObject> targets = targetConfigs.JsonToObject<List<ExpandoObject>>();
+                foreach (ExpandoObject target in targets)
+                {
+                    string? typeName = target.GetObjectValue<string>(nameof(LoggerTargetOptions.Type));
+                    if (string.IsNullOrWhiteSpace(typeName)) continue;
+                    string targetOptionsTypeName = $"{typeName}LoggerTargetOptions";
+                    Type? type = LoggerTargetOptionTypes.FirstOrDefault(m => m.Name == targetOptionsTypeName);
+                    if (type is null) continue;
+                    ConsoleLoggerTargetOptions targetOptions = target.ToJson().JsonToObject<ConsoleLoggerTargetOptions>();
+                    if (Targets.Any(m => m.Name == targetOptions.Name)) continue;
+                    Targets.Add(targetOptions);
+                }
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
+        }
+    }
+}

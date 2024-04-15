@@ -1,4 +1,5 @@
-﻿using Materal.Logger.Extensions;
+﻿using Materal.Logger.ConsoleHostDemo.Services;
+using Materal.Logger.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -9,13 +10,9 @@ namespace Materal.Logger.ConsoleHostDemo
         public static async Task Main(string[] args)
         {
             HostApplicationBuilder applicationBuilder = Host.CreateApplicationBuilder(args);
-            applicationBuilder.AddMateralLogger();
-            //applicationBuilder.Logging.AddMateralLogger();
-            //applicationBuilder.Services.AddLogging(builder => builder.AddMateralLogger());
-            //applicationBuilder.Services.AddMateralLogger();
-            applicationBuilder.Services.AddHostedService<WriteLogService>();
+            applicationBuilder.AddMateralLogger(true);
+            applicationBuilder.Services.AddHostedService<HelloWorldService>();
             IHost host = applicationBuilder.Build();
-            await host.UseMateralLoggerAsync();
             await host.RunAsync();
         }
     }

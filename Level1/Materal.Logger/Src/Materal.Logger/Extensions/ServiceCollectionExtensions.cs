@@ -9,48 +9,40 @@
         /// 添加Materal日志
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="configure"></param>
+        /// <param name="configuration"></param>
+        /// <param name="options"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true)
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration? configuration = null, Action<LoggerOptions>? options = null, bool clearOtherProvider = false)
         {
-            services.AddLogging(bulider => bulider.AddMateralLogger(configure, clearOtherProvider));
+            services.AddLogging(bulider => bulider.AddMateralLogger(configuration, options, clearOtherProvider));
             return services;
         }
+        /// <summary>
+        /// 添加Materal日志
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="options"></param>
+        /// <param name="clearOtherProvider"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerOptions>? options, bool clearOtherProvider = false)
+            => services.AddMateralLogger(null, options, clearOtherProvider);
         /// <summary>
         /// 添加Materal日志
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
-        /// <param name="configure"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration? configuration, Action<LoggerConfig>? configure = null, bool clearOtherProvider = true)
-        {
-            services.AddLogging(bulider => bulider.AddMateralLogger(configuration, configure, clearOtherProvider));
-            return services;
-        }
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration? configuration,  bool clearOtherProvider = false)
+            => services.AddMateralLogger(configuration, null, clearOtherProvider);
         /// <summary>
         /// 添加Materal日志
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="configure"></param>
+        /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerConfig> configure)
-        {
-            services.AddLogging(bulider => bulider.AddMateralLogger(configure));
-            return services;
-        }
-        /// <summary>
-        /// 添加Materal日志
-        /// </summary>
-        /// <param name="services"></param>
-        /// <param name="configure"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddMateralLoggerConfig(this IServiceCollection services, Action<LoggerConfig> configure)
-        {
-            services.AddLogging(bulider => bulider.AddMateralLoggerConfig(configure));
-            return services;
-        }
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, bool clearOtherProvider)
+            => services.AddMateralLogger(null, null, clearOtherProvider);
     }
 }
