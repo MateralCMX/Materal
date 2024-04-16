@@ -13,7 +13,7 @@
             string message = formatter(state, exception);
             int threadID = Environment.CurrentManagedThreadId;
             LoggerScope loggerScope = new(_scopeProvider);
-            loggerHost.Log(new(Options.Application, logLevel, eventId, categoryName, message, exception, threadID, loggerScope));
+            loggerHost.Log(new(logLevel, eventId, categoryName, message, exception, threadID, loggerScope));
         }
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull => state switch
         {

@@ -1,12 +1,11 @@
 ﻿using System.Diagnostics;
-using System.Text.RegularExpressions;
 
 namespace Materal.Logger
 {
     /// <summary>
     /// 日志
     /// </summary>
-    public class Log(string application, LogLevel level, EventId eventId, string categoryName, string message, Exception? exception, int threadID, LoggerScope scopeData) : ILog
+    public class Log(LogLevel level, EventId eventId, string categoryName, string message, Exception? exception, int threadID, LoggerScope scope) : ILog
     {
         /// <summary>
         /// 获得进程ID
@@ -40,10 +39,6 @@ namespace Materal.Logger
                 return _rootPath;
             }
         }
-        /// <summary>
-        /// 应用程序名称
-        /// </summary>
-        public string Application { get; } = application;
         /// <summary>
         /// 唯一标识
         /// </summary>
@@ -79,37 +74,49 @@ namespace Materal.Logger
         /// <summary>
         /// 作用域提供者
         /// </summary>
-        public LoggerScope ScopeData { get; } = scopeData;
+        public LoggerScope Scope { get; } = scope;
         /// <summary>
         /// 应用域
         /// </summary>
         /// <param name="messages"></param>
-        public string ApplyText(string messages)
+        /// <param name="options"></param>
+        public string ApplyText(string messages, LoggerOptions options)
         {
             string result = messages;
-            result = Regex.Replace(result, @"\$\{Application\}", Application);
-            result = Regex.Replace(result, @"\$\{LogID\}", ID.ToString());
-            result = Regex.Replace(result, @"\$\{Time\}", CreateTime.ToString("HH:mm:ss"));
-            result = Regex.Replace(result, @"\$\{DateTime\}", CreateTime.ToString("yyyy-MM-dd HH:mm:ss"));
-            result = Regex.Replace(result, @"\$\{RootPath\}", RootPath);
-            result = Regex.Replace(result, @"\$\{Date\}", CreateTime.ToString("yyyyMMdd"));
-            result = Regex.Replace(result, @"\$\{Year\}", CreateTime.Year.ToString());
-            result = Regex.Replace(result, @"\$\{Month\}", CreateTime.Month.ToString());
-            result = Regex.Replace(result, @"\$\{Day\}", CreateTime.Day.ToString());
-            result = Regex.Replace(result, @"\$\{Hour\}", CreateTime.Hour.ToString());
-            result = Regex.Replace(result, @"\$\{Minute\}", CreateTime.Minute.ToString());
-            result = Regex.Replace(result, @"\$\{Second\}", CreateTime.Second.ToString());
-            result = Regex.Replace(result, @"\$\{Level\}", Level.ToString());
+            Dictionary<string, object?> data = [];
+            AddData(data, "Application", options.Application);
+            AddData(data, "LogID", ID);
+            AddData(data, "Time", CreateTime.ToString("HH:mm:ss"));
+            AddData(data, "DateTime", CreateTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            AddData(data, "RootPath", RootPath);
+            AddData(data, "Date", CreateTime.ToString("yyyyMMdd"));
+            AddData(data, "Year", CreateTime.Year);
+            AddData(data, "Month", CreateTime.Month);
+            AddData(data, "Day", CreateTime.Day);
+            AddData(data, "Hour", CreateTime.Hour);
+            AddData(data, "Minute", CreateTime.Minute);
+            AddData(data, "Second", CreateTime.Second);
+            AddData(data, "Level", Level);
             if (!string.IsNullOrWhiteSpace(CategoryName))
             {
-                result = Regex.Replace(result, @"\$\{CategoryName\}", CategoryName);
+                AddData(data, "CategoryName", CategoryName);
             }
             string progressID = GetProgressID();
-            result = Regex.Replace(result, @"\$\{ProgressID\}", progressID);
-            result = Regex.Replace(result, @"\$\{ThreadID\}", ThreadID.ToString());
-            result = Regex.Replace(result, @"\$\{MachineName\}", MachineName);
-            result = ScopeData.ApplyText(result);
+            AddData(data, "ProgressID", progressID);
+            AddData(data, "ThreadID", ThreadID);
+            AddData(data, "MachineName", MachineName);
+            data = data.Concat(options.CustomData).ToDictionary(k => k.Key, v => v.Value);
+            AddData(data, "Scope", Scope.ScopeName);
+            data = data.Concat(Scope.ScopeData).ToDictionary(k => k.Key, v => v.Value);
+            result = LoggerHelper.ApplyText(result, data);
             return result;
+        }
+        private static void AddData(Dictionary<string, object?> data, string key, object? value)
+        {
+            if (!data.TryAdd(key, value))
+            {
+                data[key] = value;
+            }
         }
     }
 }
