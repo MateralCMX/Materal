@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
-using System;
+﻿using Materal.Utils.MongoDB.Extensions;
 
 namespace Materal.Logger.Test
 {
@@ -85,6 +84,7 @@ namespace Materal.Logger.Test
         private IServiceProvider Init(Action<LoggerOptions>? action, bool loadConfigFile = false)
         {
             IServiceCollection serviceCollection = new ServiceCollection();
+            serviceCollection.AddMongoUtils();
             if (loadConfigFile)
             {
                 serviceCollection.AddMateralLogger(_configuration);

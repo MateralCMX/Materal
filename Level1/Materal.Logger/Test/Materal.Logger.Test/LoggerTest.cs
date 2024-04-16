@@ -75,16 +75,16 @@ namespace Materal.Logger.Test
             const string connectionString = "user id=MATERAL; Password=Materal1234; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =127.0.0.1)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = ORCL)));VALIDATE CONNECTION=True;";
             option.AddOracleTarget("OracleLogger", connectionString, "${Level}Log");
         });
-        ///// <summary>
-        ///// 写Mongo日志
-        ///// </summary>
-        ///// <returns></returns>
-        //[TestMethod]
-        //public async Task WriteMongoLogTestAsync() => await WriteLogAsync(option =>
-        //{
-        //    const string connectionString = "mongodb://localhost:27017/";
-        //    option.AddMongoTarget("MongoLogger", connectionString);
-        //});
+        /// <summary>
+        /// 写Mongo日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteMongoLogTestAsync() => await WriteLogAsync(option =>
+        {
+            const string connectionString = "mongodb://localhost:27017/";
+            option.AddMongoTarget("MongoLogger", connectionString);
+        });
         ///// <summary>
         ///// 写WebSocket日志
         ///// </summary>

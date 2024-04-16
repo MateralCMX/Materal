@@ -19,11 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpLoggerServer", "Test\Ht
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.SqliteLogger", "Src\Materal.Logger.SqliteLogger\Materal.Logger.SqliteLogger.csproj", "{29B2DC5F-AAAB-4EE8-B63F-3770FE62DA1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.SqlServer", "Src\Materal.Logger.SqlServer\Materal.Logger.SqlServer.csproj", "{836BDC4F-37AE-4EDB-8C23-ED3268BF63F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.SqlServer", "Src\Materal.Logger.SqlServer\Materal.Logger.SqlServer.csproj", "{836BDC4F-37AE-4EDB-8C23-ED3268BF63F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.MySqlLogger", "Src\Materal.Logger.MySqlLogger\Materal.Logger.MySqlLogger.csproj", "{E8576E9C-9487-400E-8D58-8FF059D73791}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.MySqlLogger", "Src\Materal.Logger.MySqlLogger\Materal.Logger.MySqlLogger.csproj", "{E8576E9C-9487-400E-8D58-8FF059D73791}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.OracleLogger", "Src\Materal.Logger.OracleLogger\Materal.Logger.OracleLogger.csproj", "{F42743DC-E4EB-45FC-892B-51A0214202CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.OracleLogger", "Src\Materal.Logger.OracleLogger\Materal.Logger.OracleLogger.csproj", "{F42743DC-E4EB-45FC-892B-51A0214202CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.MongoLogger", "Src\Materal.Logger.MongoLogger\Materal.Logger.MongoLogger.csproj", "{9CB53A36-7945-4C92-8CCA-F29A996C5D73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{F42743DC-E4EB-45FC-892B-51A0214202CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F42743DC-E4EB-45FC-892B-51A0214202CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F42743DC-E4EB-45FC-892B-51A0214202CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CB53A36-7945-4C92-8CCA-F29A996C5D73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CB53A36-7945-4C92-8CCA-F29A996C5D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CB53A36-7945-4C92-8CCA-F29A996C5D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CB53A36-7945-4C92-8CCA-F29A996C5D73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{836BDC4F-37AE-4EDB-8C23-ED3268BF63F4} = {D50FB148-416F-44CA-A048-615560E26524}
 		{E8576E9C-9487-400E-8D58-8FF059D73791} = {D50FB148-416F-44CA-A048-615560E26524}
 		{F42743DC-E4EB-45FC-892B-51A0214202CF} = {D50FB148-416F-44CA-A048-615560E26524}
+		{9CB53A36-7945-4C92-8CCA-F29A996C5D73} = {D50FB148-416F-44CA-A048-615560E26524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BDC3165-1789-4856-909F-812A91617D4C}
