@@ -13,10 +13,10 @@
         /// <summary>
         /// 构造函数
         /// </summary>
-        public LoggerProvider(IOptionsMonitor<LoggerOptions> options, ILoggerHost loggerHost, IConfiguration configuration)
+        public LoggerProvider(IOptionsMonitor<LoggerOptions> options, ILoggerHost loggerHost, IConfiguration? configuration = null)
         {
-            LoggerOptions.Configuration = configuration;
             _options = options;
+            _options.CurrentValue.Configuration = configuration;
             _loggerHost = loggerHost;
             ReloadLoggerOptions(_options.CurrentValue);
             _optionsReloadToken = _options.OnChange(ReloadLoggerOptions);

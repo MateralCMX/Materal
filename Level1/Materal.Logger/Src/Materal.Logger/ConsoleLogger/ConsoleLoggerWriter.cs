@@ -14,9 +14,11 @@
         /// <returns></returns>
         public override async Task LogAsync(Log log, LoggerRuleOptions ruleOptions, ConsoleLoggerTargetOptions targetOptions)
         {
-            log.Message = log.ApplyText(log.Message, options.CurrentValue);
+            Dictionary<string, object?> data = [];
+            data.Add("Message", log.Message);
+            string logInfo = log.ApplyText(targetOptions.Format, options.CurrentValue, data);
             ConsoleColor color = targetOptions.Colors.GetConsoleColor(log.Level);
-            ConsoleQueue.WriteLine(log.Message, color);
+            ConsoleQueue.WriteLine(logInfo, color);
             await Task.CompletedTask;
         }
     }

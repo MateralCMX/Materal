@@ -25,7 +25,7 @@
         /// <param name="options"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerOptions>? options, bool clearOtherProvider = false)
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, Action<LoggerOptions>? options, bool clearOtherProvider)
             => services.AddMateralLogger(null, options, clearOtherProvider);
         /// <summary>
         /// 添加Materal日志
@@ -34,7 +34,7 @@
         /// <param name="configuration"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration? configuration,  bool clearOtherProvider = false)
+        public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration? configuration,  bool clearOtherProvider)
             => services.AddMateralLogger(configuration, null, clearOtherProvider);
         /// <summary>
         /// 添加Materal日志

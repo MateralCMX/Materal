@@ -21,7 +21,7 @@ namespace Materal.Logger.Test
         [TestMethod]
         public void WriteConsoleLogTest() => WriteLog(option =>
         {
-            option.AddConsoleTarget("ConsoleLogger", _textFormat);
+            option.AddConsoleTarget("ConsoleLog", _textFormat);
         });
         #region ±ã½Ý·½·¨
         /// <summary>
@@ -73,24 +73,21 @@ namespace Materal.Logger.Test
         private IServiceProvider Init(Action<LoggerOptions>? action, bool loadConfigFile = false)
         {
             IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddLogging(builder =>
+            if (loadConfigFile)
             {
-                if (loadConfigFile)
+                serviceCollection.AddMateralLogger(_configuration);
+            }
+            else
+            {
+                serviceCollection.AddMateralLogger();
+            }
+            serviceCollection.Configure<LoggerOptions>(option =>
+            {
+                action?.Invoke(option);
+                if (!loadConfigFile)
                 {
-                    builder.AddMateralLogger(_configuration);
+                    option.AddAllTargetsRule();
                 }
-                else
-                {
-                    builder.AddMateralLogger();
-                }
-                builder.Services.Configure<LoggerOptions>(option =>
-                {
-                    action?.Invoke(option);
-                    if (!loadConfigFile)
-                    {
-                        //option.AddAllTargetsRule();
-                    }
-                });
             });
             IServiceProvider services = serviceCollection.BuildServiceProvider();
             return services;

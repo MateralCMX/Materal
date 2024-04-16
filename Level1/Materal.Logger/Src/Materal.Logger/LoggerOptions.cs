@@ -12,11 +12,10 @@ namespace Materal.Logger
         /// 日志目标选项类型
         /// </summary>
         public static ICollection<Type> LoggerTargetOptionTypes { get; set; } = [];
-        private static IConfiguration? _configuration;
         /// <summary>
         /// 服务提供者
         /// </summary>
-        public static IConfiguration Configuration { get => _configuration ?? throw new LoggerException("获取服务容器失败"); set => _configuration = value; }
+        public IConfiguration? Configuration { get; set; }
         /// <summary>
         /// 应用程序名称
         /// </summary>
@@ -71,6 +70,7 @@ namespace Materal.Logger
         /// </summary>
         public void UpdateTargetOptions()
         {
+            if (Configuration is null) return;
             try
             {
                 _semaphore.Wait();

@@ -24,6 +24,7 @@
             LoggerProviderOptions.RegisterProviderOptions<LoggerOptions, LoggerProvider>(builder.Services);
             if (configuration is not null)
             {
+                builder.Services.AddSingleton(configuration);
                 builder.AddConfiguration(configuration);
                 IConfigurationSection configurationSection = configuration.GetSection("Logging:MateralLogger");
                 if(configurationSection is not null)

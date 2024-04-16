@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Microsoft.Extensions.Primitives;
+using System.Text.RegularExpressions;
 
 namespace Materal.Logger
 {
@@ -37,15 +38,16 @@ namespace Materal.Logger
                 if (matchItem is not Match match) continue;
                 string valueName = match.Value[2..^1];
                 object? value = data.GetObjectValue(valueName);
-                if (value is null) continue;
-                else if (value is string strinvValue)
+                string stringValue = string.Empty;
+                if (value is string str)
                 {
-                    result = result.Replace(match.Value, strinvValue);
+                    stringValue = str;
                 }
-                else
+                else if(value is not null)
                 {
-                    result = result.Replace(match.Value, value?.ToJson());
+                    stringValue = value.ToJson();
                 }
+                result = result.Replace(match.Value, stringValue);
             }
             return result;
         }

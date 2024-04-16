@@ -80,10 +80,11 @@ namespace Materal.Logger
         /// </summary>
         /// <param name="messages"></param>
         /// <param name="options"></param>
-        public string ApplyText(string messages, LoggerOptions options)
+        /// <param name="data"></param>
+        public string ApplyText(string messages, LoggerOptions options, Dictionary<string, object?>? data = null)
         {
             string result = messages;
-            Dictionary<string, object?> data = [];
+            data ??= [];
             AddData(data, "Application", options.Application);
             AddData(data, "LogID", ID);
             AddData(data, "Time", CreateTime.ToString("HH:mm:ss"));
@@ -96,7 +97,7 @@ namespace Materal.Logger
             AddData(data, "Hour", CreateTime.Hour);
             AddData(data, "Minute", CreateTime.Minute);
             AddData(data, "Second", CreateTime.Second);
-            AddData(data, "Level", Level);
+            AddData(data, "Level", Level.ToString());
             if (!string.IsNullOrWhiteSpace(CategoryName))
             {
                 AddData(data, "CategoryName", CategoryName);
