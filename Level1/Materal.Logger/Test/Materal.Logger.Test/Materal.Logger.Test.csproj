@@ -15,6 +15,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.Logger.MySqlLogger\Materal.Logger.MySqlLogger.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.Logger.OracleLogger\Materal.Logger.OracleLogger.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger.SqliteLogger\Materal.Logger.SqliteLogger.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger.SqlServer\Materal.Logger.SqlServer.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger\Materal.Logger.csproj" />

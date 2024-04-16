@@ -48,7 +48,7 @@ namespace Materal.Logger.DBLogger.Repositories
         /// <summary>
         /// 添加
         /// </summary>
-        /// <param name="models"></param>
-        public abstract void Inserts(TDBLog[] models);
+        /// <param name="logs"></param>
+        public abstract void Inserts(TDBLog[] logs);
     }
 }

@@ -27,14 +27,14 @@ namespace Materal.Logger.SqliteLogger
         /// <summary>
         /// 添加
         /// </summary>
-        /// <param name="models"></param>
-        public override void Inserts(SqliteLog[] models)
+        /// <param name="logs"></param>
+        public override void Inserts(SqliteLog[] logs)
         {
             DBConnection ??= GetDBConnection();
             OpenDBConnection();
             try
             {
-                foreach (IGrouping<string, SqliteLog> item in models.GroupBy(m => m.TableName))
+                foreach (IGrouping<string, SqliteLog> item in logs.GroupBy(m => m.TableName))
                 {
                     List<IDBFiled> firstFileds = item.First().Fileds;
                     CreateTable(item.Key, firstFileds);
