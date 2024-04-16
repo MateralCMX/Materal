@@ -96,8 +96,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 }
                 codeContent.AppendLine($"]");
                 List<string> methodArguments = [];
-                List<string> mapperCodes = [];
-                List<string> useArguments = [];
                 for (int i = 0; i < method.Arguments.Count; i++)
                 {
                     MethodArgumentModel methodArgument = method.Arguments[i];

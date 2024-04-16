@@ -18,6 +18,10 @@ namespace Materal.Logger
         /// </summary>
         public static IConfiguration Configuration { get => _configuration ?? throw new LoggerException("获取服务容器失败"); set => _configuration = value; }
         /// <summary>
+        /// 应用程序名称
+        /// </summary>
+        public string Application { get; set; } = "LoggerApplication";
+        /// <summary>
         /// 最小等级
         /// </summary>
         public LogLevel MinLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Trace;
@@ -28,11 +32,11 @@ namespace Materal.Logger
         /// <summary>
         /// 最小日志主机日志等级
         /// </summary>
-        public LogLevel MinLogHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Trace;
+        public LogLevel MinLoggerHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Trace;
         /// <summary>
         /// 最大日志主机日志等级
         /// </summary>
-        public LogLevel MaxLogHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Critical;
+        public LogLevel MaxLoggerHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Critical;
         /// <summary>
         /// 作用域组
         /// </summary>
@@ -42,9 +46,17 @@ namespace Materal.Logger
         /// </summary>
         public Dictionary<string, LogLevel>? LogLevel { get; set; }
         /// <summary>
+        /// 自定义数据
+        /// </summary>
+        public Dictionary<string, object?> CustomData { get; set; } = [];
+        /// <summary>
         /// 目标选项
         /// </summary>
         public List<LoggerTargetOptions> Targets { get; } = [];
+        /// <summary>
+        /// 代码配置目标名称
+        /// </summary>
+        public List<string> CodeConfigTargetNames { get; } = [];
         /// <summary>
         /// 规则
         /// </summary>
@@ -63,7 +75,11 @@ namespace Materal.Logger
             {
                 _semaphore.Wait();
                 Rules = Rules.Distinct((m, n) => m.Name == n.Name).ToList();
-                Targets.Clear();
+                List<LoggerTargetOptions> configFileTargets = Targets.Where(m => !CodeConfigTargetNames.Contains(m.Name)).ToList();
+                foreach (LoggerTargetOptions configFileTarget in configFileTargets)
+                {
+                    Targets.Remove(configFileTarget);
+                }
                 string? targetConfigs = Configuration.GetConfigItemToString("Logging:MateralLogger:Targets");
                 if (targetConfigs is null || string.IsNullOrWhiteSpace(targetConfigs)) return;
                 List<ExpandoObject> targets = targetConfigs.JsonToObject<List<ExpandoObject>>();

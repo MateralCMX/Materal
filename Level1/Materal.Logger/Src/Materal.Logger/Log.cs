@@ -6,7 +6,7 @@ namespace Materal.Logger
     /// <summary>
     /// 日志
     /// </summary>
-    public class Log(LogLevel level, EventId eventId, string categoryName, string message, Exception? exception, int threadID, LoggerScope scopeData) : ILog
+    public class Log(string application, LogLevel level, EventId eventId, string categoryName, string message, Exception? exception, int threadID, LoggerScope scopeData) : ILog
     {
         /// <summary>
         /// 获得进程ID
@@ -40,6 +40,10 @@ namespace Materal.Logger
                 return _rootPath;
             }
         }
+        /// <summary>
+        /// 应用程序名称
+        /// </summary>
+        public string Application { get; } = application;
         /// <summary>
         /// 唯一标识
         /// </summary>
@@ -83,6 +87,7 @@ namespace Materal.Logger
         public string ApplyText(string messages)
         {
             string result = messages;
+            result = Regex.Replace(result, @"\$\{Application\}", Application);
             result = Regex.Replace(result, @"\$\{LogID\}", ID.ToString());
             result = Regex.Replace(result, @"\$\{Time\}", CreateTime.ToString("HH:mm:ss"));
             result = Regex.Replace(result, @"\$\{DateTime\}", CreateTime.ToString("yyyy-MM-dd HH:mm:ss"));

@@ -12,6 +12,6 @@
         /// <summary>
         /// 颜色配置
         /// </summary>
-        public ColorsOptions Colors { get; set; } = new();
+        public LoggerColorsOptions Colors { get; set; } = new();
     }
 }

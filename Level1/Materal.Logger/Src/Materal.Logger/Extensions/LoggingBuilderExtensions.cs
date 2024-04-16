@@ -54,7 +54,7 @@
         /// <param name="options"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, Action<LoggerOptions>? options, bool clearOtherProvider = false)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, Action<LoggerOptions>? options, bool clearOtherProvider)
             => builder.AddMateralLogger(null, options, clearOtherProvider);
         /// <summary>
         /// 添加Materal日志
@@ -63,7 +63,7 @@
         /// <param name="configuration"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, IConfiguration? configuration, bool clearOtherProvider = false)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, IConfiguration? configuration, bool clearOtherProvider)
             => builder.AddMateralLogger(configuration, null, clearOtherProvider);
         /// <summary>
         /// 添加Materal日志

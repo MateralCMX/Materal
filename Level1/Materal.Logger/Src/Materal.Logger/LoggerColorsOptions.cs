@@ -3,7 +3,7 @@
     /// <summary>
     /// 颜色配置
     /// </summary>
-    public class ColorsOptions
+    public class LoggerColorsOptions
     {
         /// <summary>
         /// 默认颜色
@@ -36,11 +36,11 @@
         /// <summary>
         /// 构造方法
         /// </summary>
-        public ColorsOptions() { }
+        public LoggerColorsOptions() { }
         /// <summary>
         /// 构造方法
         /// </summary>
-        public ColorsOptions(Dictionary<LogLevel, ConsoleColor> colors)
+        public LoggerColorsOptions(Dictionary<LogLevel, ConsoleColor> colors)
         {
             foreach (KeyValuePair<LogLevel, ConsoleColor> color in colors)
             {

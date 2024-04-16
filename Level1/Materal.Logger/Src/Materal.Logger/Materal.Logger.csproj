@@ -15,7 +15,7 @@
 		<Description>包含日志所需的基本内容</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<NoWarn>1701;1702;SYSLIB1045;C1816A;</NoWarn>
+		<NoWarn>1701;1702;SYSLIB1045;CA1816;</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="../../../../README.md" Pack="true" PackagePath="" />
