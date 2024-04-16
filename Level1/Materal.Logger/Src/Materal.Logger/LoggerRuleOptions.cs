@@ -16,11 +16,11 @@
         /// <summary>
         /// 最小等级
         /// </summary>
-        public LogLevel MinLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Trace;
+        public LogLevel MinLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Trace;
         /// <summary>
         /// 最大等级
         /// </summary>
-        public LogLevel MaxLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Critical;
+        public LogLevel MaxLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Critical;
         /// <summary>
         /// 目标组
         /// </summary>

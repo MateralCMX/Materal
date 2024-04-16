@@ -218,8 +218,8 @@
             {
                 Name = name,
                 Targets = targets.ToList(),
-                MinLogLevel = minLevel.Value,
-                MaxLogLevel = maxLevel.Value
+                MinLevel = minLevel.Value,
+                MaxLevel = maxLevel.Value
             };
             if (logLevels is not null && logLevels.Count > 0)
             {

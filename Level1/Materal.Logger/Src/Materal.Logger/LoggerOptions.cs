@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using Microsoft.Extensions.Configuration;
+using System.Dynamic;
 
 namespace Materal.Logger
 {
@@ -67,6 +68,10 @@ namespace Materal.Logger
         /// 规则
         /// </summary>
         public List<LoggerRuleOptions> Rules { get; set; } = [];
+        /// <summary>
+        /// 默认日志等级组
+        /// </summary>
+        public static Dictionary<string, LogLevel>? DefaultLogLevel { get; set; }
         private readonly SemaphoreSlim _semaphore = new(0, 1);
         /// <summary>
         /// 构造方法
@@ -81,6 +86,7 @@ namespace Materal.Logger
             try
             {
                 _semaphore.Wait();
+                DefaultLogLevel = Configuration.GetConfigItem<Dictionary<string, LogLevel>>("Logging:MateralLogger:LogLevel");
                 Rules = Rules.Distinct((m, n) => m.Name == n.Name).ToList();
                 List<LoggerTargetOptions> configFileTargets = Targets.Where(m => !CodeConfigTargetNames.Contains(m.Name)).ToList();
                 foreach (LoggerTargetOptions configFileTarget in configFileTargets)
