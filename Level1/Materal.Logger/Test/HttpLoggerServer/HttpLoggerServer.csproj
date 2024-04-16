@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.Extensions" Version="1.1.76" />
+		<PackageReference Include="Materal.Utils" Version="1.1.76" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="../../Src/Materal.Logger/Log.cs" Link="Log.cs" />
+	</ItemGroup>
+</Project>

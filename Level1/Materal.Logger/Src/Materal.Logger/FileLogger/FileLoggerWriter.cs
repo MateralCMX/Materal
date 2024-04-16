@@ -65,11 +65,11 @@
             /// <summary>
             /// 路径
             /// </summary>
-            public string Path { get; set; }
+            public string Path { get; }
             /// <summary>
             /// 文件内容
             /// </summary>
-            public string FileContent { get; set; }
+            public string FileContent { get; }
             /// <summary>
             /// 构造方法
             /// </summary>
