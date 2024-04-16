@@ -1,4 +1,5 @@
 //global using Materal.Logger.ConfigModels;
+global using Materal.Logger.BusLogger;
 global using Materal.Logger.ConsoleLogger;
 global using Materal.Logger.Extensions;
 //global using Materal.Logger.FileLogger;

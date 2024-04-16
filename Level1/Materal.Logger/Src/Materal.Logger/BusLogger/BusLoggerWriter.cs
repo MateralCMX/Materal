@@ -3,7 +3,7 @@
     /// <summary>
     /// 总线日志写入器
     /// </summary>
-    public partial class BusLoggerWriter : BaseLoggerWriter<BusLoggerTargetOptions>, ILoggerWriter
+    public partial class BusLoggerWriter(IOptionsMonitor<LoggerOptions> options) : BaseLoggerWriter<BusLoggerTargetOptions>, ILoggerWriter
     {
         /// <summary>
         /// 写日志
@@ -14,6 +14,7 @@
         /// <returns></returns>
         public override async Task LogAsync(Log log, LoggerRuleOptions ruleOptions, BusLoggerTargetOptions targetOptions)
         {
+            log.Message = log.ApplyText(log.Message, options.CurrentValue);
             WriteLoggerAsync(log, _globalHandlers);
             if (!_handlers.TryGetValue(targetOptions.Name, out List<WeakReference<ILogMonitor>>? handlers) || handlers is null || handlers.Count <= 0) return;
             WriteLoggerAsync(log, handlers);
