@@ -38,13 +38,13 @@ namespace Materal.Logger
                         foreach (LoggerTargetOptions targetOptions in Options.Targets)
                         {
                             if (!ruleOptions.Targets.Contains(targetOptions.Name)) continue;
-                            if (!_targets.ContainsKey(ruleOptions))
+                            if (!_targets.TryGetValue(ruleOptions, out List<LoggerTargetOptions>? loggerTargetOptions))
                             {
                                 _targets[ruleOptions] = [targetOptions];
                             }
                             else
                             {
-                                _targets[ruleOptions].Add(targetOptions);
+                                loggerTargetOptions.Add(targetOptions);
                             }
                         }
                     }
@@ -59,9 +59,9 @@ namespace Materal.Logger
         /// <summary>
         /// 构造方法
         /// </summary>
-        public LoggerHost(IEnumerable<ILoggerWriter> logWriters, IHostLogger? hostLogger = null)
+        public LoggerHost(IEnumerable<ILoggerWriter> logWriters, IHostLogger hostLogger)
         {
-            HostLogger = hostLogger ?? new ConsoleHostLogger();
+            HostLogger = hostLogger;
             _logWriters = logWriters;
             _writeLoggerBlock = new(LoggerWriterHandlerAsync);
             _semaphore.Release();

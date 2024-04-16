@@ -1,6 +1,4 @@
-﻿using Materal.Logger.Extensions;
-
-namespace Materal.Logger.BusLogger
+﻿namespace Materal.Logger.BusLogger
 {
     /// <summary>
     /// 自定义日志配置

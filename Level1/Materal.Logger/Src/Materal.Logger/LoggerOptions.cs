@@ -1,5 +1,4 @@
-﻿using Materal.Logger.ConsoleLogger;
-using System.Dynamic;
+﻿using System.Dynamic;
 
 namespace Materal.Logger
 {
@@ -36,6 +35,14 @@ namespace Materal.Logger
         /// 最大日志主机日志等级
         /// </summary>
         public LogLevel MaxLoggerHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Critical;
+        /// <summary>
+        /// 批量处理大小
+        /// </summary>
+        public int BatchSize { get; set; } = 2000;
+        /// <summary>
+        /// 批量处理推送间隔(秒)
+        /// </summary>
+        public int BatchPushInterval { get; set; } = 2;
         /// <summary>
         /// 作用域组
         /// </summary>
@@ -90,8 +97,8 @@ namespace Materal.Logger
                     string targetOptionsTypeName = $"{typeName}LoggerTargetOptions";
                     Type? type = LoggerTargetOptionTypes.FirstOrDefault(m => m.Name == targetOptionsTypeName);
                     if (type is null) continue;
-                    ConsoleLoggerTargetOptions targetOptions = target.ToJson().JsonToObject<ConsoleLoggerTargetOptions>();
-                    if (Targets.Any(m => m.Name == targetOptions.Name)) continue;
+                    object targetOptionsObj = target.ToJson().JsonToObject(type);
+                    if (targetOptionsObj is not LoggerTargetOptions targetOptions || Targets.Any(m => m.Name == targetOptions.Name)) continue;
                     Targets.Add(targetOptions);
                 }
             }

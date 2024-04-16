@@ -3,7 +3,7 @@
     /// <summary>
     /// 控制台日志写入器
     /// </summary>
-    public class ConsoleLoggerWriter(IOptionsMonitor<LoggerOptions> options) : BaseLoggerWriter<ConsoleLoggerTargetOptions>
+    public class ConsoleLoggerWriter(IOptionsMonitor<LoggerOptions> options) : BaseLoggerWriter<ConsoleLoggerTargetOptions>(options)
     {
         /// <summary>
         /// 写入日志
@@ -14,11 +14,16 @@
         /// <returns></returns>
         public override async Task LogAsync(Log log, LoggerRuleOptions ruleOptions, ConsoleLoggerTargetOptions targetOptions)
         {
+            string message = log.ApplyText(log.Message, Options.CurrentValue);
             Dictionary<string, object?> data = [];
-            data.Add("Message", log.Message);
-            string logInfo = log.ApplyText(targetOptions.Format, options.CurrentValue, data);
+            data.Add("Message", message);
+            string result = log.ApplyText(targetOptions.Format, Options.CurrentValue, data);
+            if (result.EndsWith("\r\n"))
+            {
+                result = result[1..^2];
+            }
             ConsoleColor color = targetOptions.Colors.GetConsoleColor(log.Level);
-            ConsoleQueue.WriteLine(logInfo, color);
+            ConsoleQueue.WriteLine(result, color);
             await Task.CompletedTask;
         }
     }

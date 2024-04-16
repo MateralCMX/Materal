@@ -25,7 +25,7 @@
         {
             WriteLogs(services, 10);
             WriteThreadLogs(services, 100);
-            WriteLargeLogs(services, LogLevel.Information, 10000);
+            WriteLargeLogs(services, 10000);
         }, loadConfigFile);
         /// <summary>
         /// 写日志
@@ -160,13 +160,23 @@
         /// 写大量日志
         /// </summary>
         /// <param name="services"></param>
-        /// <param name="logLevel"></param>
         /// <param name="count"></param>
-        public static void WriteLargeLogs(IServiceProvider services, LogLevel logLevel = LogLevel.Information, int count = 10000)
+        public static void WriteLargeLogs(IServiceProvider services, int count = 10000)
         {
             ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
+            Random random = new();
             for (int i = 1; i <= count; i++)
             {
+                LogLevel logLevel = random.Next(0, 6) switch
+                {
+                    0 => LogLevel.Trace,
+                    1 => LogLevel.Debug,
+                    2 => LogLevel.Information,
+                    3 => LogLevel.Warning,
+                    4 => LogLevel.Error,
+                    5 => LogLevel.Critical,
+                    _ => LogLevel.None
+                };
                 logger.Log(logLevel, $"[{i:00000}]这是一条大量记录的日志");
             }
         }

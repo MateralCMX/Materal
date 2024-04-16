@@ -4,9 +4,17 @@
     /// 日志写入器基类
     /// </summary>
     /// <typeparam name="TLoggerTargetOptions"></typeparam>
-    public abstract class BaseLoggerWriter<TLoggerTargetOptions> : ILoggerWriter, ILoggerWriter<TLoggerTargetOptions>
+    public abstract class BaseLoggerWriter<TLoggerTargetOptions>(IOptionsMonitor<LoggerOptions> options) : ILoggerWriter, ILoggerWriter<TLoggerTargetOptions>
         where TLoggerTargetOptions : LoggerTargetOptions
     {
+        /// <summary>
+        /// 日志配置
+        /// </summary>
+        protected IOptionsMonitor<LoggerOptions> Options { get; } = options;
+        /// <summary>
+        /// 是否关闭
+        /// </summary>
+        protected bool IsClose { get; set; } = false;
         /// <summary>
         /// 写日志
         /// </summary>
@@ -53,17 +61,11 @@
         /// <returns></returns>
         public virtual async Task StartAsync(IHostLogger hostLogger)
         {
-            WriteStartInfo(hostLogger);
-            await Task.CompletedTask;
-        }
-        /// <summary>
-        /// 写启动信息
-        /// </summary>
-        /// <param name="hostLogger"></param>
-        protected virtual void WriteStartInfo(IHostLogger hostLogger)
-        {
             string name = GetType().Name;
             hostLogger.LogDebug($"正在启动{name}");
+            IsClose = false;
+            await Task.CompletedTask;
+            hostLogger.LogDebug($"{name}启动成功");
         }
         /// <summary>
         /// 停止
@@ -72,17 +74,11 @@
         /// <returns></returns>
         public virtual async Task StopAsync(IHostLogger hostLogger)
         {
-            WriteStopInfo(hostLogger);
-            await Task.CompletedTask;
-        }
-        /// <summary>
-        /// 写关闭信息
-        /// </summary>
-        /// <param name="hostLogger"></param>
-        protected virtual void WriteStopInfo(IHostLogger hostLogger)
-        {
             string name = GetType().Name;
             hostLogger.LogDebug($"正在关闭{name}");
+            IsClose = true;
+            await Task.CompletedTask;
+            hostLogger.LogDebug($"{name}关闭成功");
         }
     }
 }

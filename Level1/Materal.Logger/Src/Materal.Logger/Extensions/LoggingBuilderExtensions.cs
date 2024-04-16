@@ -18,9 +18,10 @@
             if (clearOtherProvider)
             {
                 builder.ClearProviders();
-                builder.SetMinimumLevel(LogLevel.Trace);
             }
+            builder.SetMinimumLevel(LogLevel.Trace);
             builder.Services.AddSingleton<ILoggerProvider, LoggerProvider>();
+            builder.Services.AddSingleton<IHostLogger, ConsoleHostLogger>();
             LoggerProviderOptions.RegisterProviderOptions<LoggerOptions, LoggerProvider>(builder.Services);
             if (configuration is not null)
             {

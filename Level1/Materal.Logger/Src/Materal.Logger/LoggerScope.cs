@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Materal.Logger
+﻿namespace Materal.Logger
 {
     /// <summary>
     /// 日志作用域

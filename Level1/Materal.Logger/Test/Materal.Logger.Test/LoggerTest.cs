@@ -1,3 +1,4 @@
+using Materal.Logger.FileLogger;
 using Materal.Utils;
 
 namespace Materal.Logger.Test
@@ -19,6 +20,15 @@ namespace Materal.Logger.Test
             [LogLevel.Error] = ConsoleColor.DarkRed,
             [LogLevel.Critical] = ConsoleColor.Red
         }));
+        /// <summary>
+        /// 写文件日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteFileLogTestAsync() => await WriteLogAsync(option =>
+        {
+            option.AddFileTarget("FileLogger", "${RootPath}\\Logs\\${Level}.log", _textFormat);
+        });
         /// <summary>
         /// 写总线日志
         /// </summary>
