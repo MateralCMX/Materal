@@ -1,4 +1,6 @@
-﻿namespace Materal.Logger.FileLogger
+﻿using Materal.Logger.BatchLogger;
+
+namespace Materal.Logger.FileLogger
 {
     /// <summary>
     /// 文件日志写入器
@@ -76,10 +78,8 @@
             public FileLog(BatchLog<FileLoggerTargetOptions> batchLog, LoggerOptions options)
             {
                 Path = batchLog.Log.ApplyText(batchLog.TargetOptions.Path, options);
-                string message = batchLog.Log.ApplyText(batchLog.Log.Message, options);
-                Dictionary<string, object?> data = [];
-                data.Add("Message", message);
-                FileContent = batchLog.Log.ApplyText(batchLog.TargetOptions.Format, options, data);
+                batchLog.Log.Message = batchLog.Log.ApplyText(batchLog.Log.Message, options);
+                FileContent = batchLog.Log.ApplyText(batchLog.TargetOptions.Format, options);
             }
         }
     }

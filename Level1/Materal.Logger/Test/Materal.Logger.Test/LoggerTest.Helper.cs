@@ -1,4 +1,7 @@
-﻿namespace Materal.Logger.Test
+﻿using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using System;
+
+namespace Materal.Logger.Test
 {
     public partial class LoggerTest
     {
@@ -27,6 +30,22 @@
             WriteThreadLogs(services, 100);
             WriteLargeLogs(services, 10000);
         }, loadConfigFile);
+        /// <summary>
+        /// 写日志
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private async Task WriteLogAsync(Action<LoggerOptions>? action, int count) => await WriteLogAsync(action, services =>
+        {
+            ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
+            Random random = new();
+            for (int i = 1; i <= count; i++)
+            {
+                WriteRandomLog(logger, $"[{i:00000}]这是一条随机日志", random);
+            }
+        }, false);
         /// <summary>
         /// 写日志
         /// </summary>
@@ -92,12 +111,28 @@
         /// <param name="message"></param>
         private static void WriteLogs(ILogger logger, string message)
         {
-            logger.LogTrace(message);
-            logger.LogDebug(message);
-            logger.LogInformation(message);
-            logger.LogWarning(message);
-            logger.LogError(message);
-            logger.LogCritical(message);
+            WriteLog(logger, LogLevel.Trace, message);
+            WriteLog(logger, LogLevel.Debug, message);
+            WriteLog(logger, LogLevel.Information, message);
+            WriteLog(logger, LogLevel.Warning, message);
+            WriteLog(logger, LogLevel.Error, message);
+            WriteLog(logger, LogLevel.Critical, message);
+        }
+        /// <summary>
+        /// 写日志
+        /// </summary>
+        /// <param name="message"></param>
+        private static void WriteLog(ILogger logger, LogLevel logLevel, string message)
+        {
+            if(logLevel >= LogLevel.Error)
+            {
+                Exception exception = new LoggerException("测试异常");
+                logger.Log(logLevel, exception, message);
+            }
+            else
+            {
+                logger.Log(logLevel, message);
+            }
         }
         /// <summary>
         /// 写日志
@@ -106,14 +141,14 @@
         private static void WriteLog(IServiceProvider services, LogLevel logLevel, string message)
         {
             ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
-            logger.Log(logLevel, message);
+            WriteLog(logger, logLevel, message);
         }
         /// <summary>
         /// 写日志
         /// </summary>
         /// <param name="services"></param>
         /// <param name="count"></param>
-        public static void WriteLogs(IServiceProvider services, int count = 1)
+        private static void WriteLogs(IServiceProvider services, int count = 1)
         {
             ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
             for (int i = 0; i < count; i++)
@@ -147,7 +182,7 @@
         /// <param name="loopCount"></param>
         /// <param name="interval"></param>
         /// <returns></returns>
-        public static async Task WriteLoopLogsAsync(IServiceProvider services, int loopCount = 10, int interval = 1000)
+        private static async Task WriteLoopLogsAsync(IServiceProvider services, int loopCount = 10, int interval = 1000)
         {
             ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
             for (int i = 0; i < loopCount; i++)
@@ -161,31 +196,42 @@
         /// </summary>
         /// <param name="services"></param>
         /// <param name="count"></param>
-        public static void WriteLargeLogs(IServiceProvider services, int count = 10000)
+        private static void WriteLargeLogs(IServiceProvider services, int count = 10000)
         {
             ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
             Random random = new();
             for (int i = 1; i <= count; i++)
             {
-                LogLevel logLevel = random.Next(0, 6) switch
-                {
-                    0 => LogLevel.Trace,
-                    1 => LogLevel.Debug,
-                    2 => LogLevel.Information,
-                    3 => LogLevel.Warning,
-                    4 => LogLevel.Error,
-                    5 => LogLevel.Critical,
-                    _ => LogLevel.None
-                };
-                logger.Log(logLevel, $"[{i:00000}]这是一条大量记录的日志");
+                WriteRandomLog(logger, $"[{i:00000}]这是一条大量记录的日志", random);
             }
+        }
+        /// <summary>
+        /// 写随机日志
+        /// </summary>
+        /// <param name="logger"></param>
+        /// <param name="message"></param>
+        /// <param name="random"></param>
+        private static void WriteRandomLog(ILogger logger, string message, Random? random = null)
+        {
+            random ??= new();
+            LogLevel logLevel = random.Next(0, 6) switch
+            {
+                0 => LogLevel.Trace,
+                1 => LogLevel.Debug,
+                2 => LogLevel.Information,
+                3 => LogLevel.Warning,
+                4 => LogLevel.Error,
+                5 => LogLevel.Critical,
+                _ => LogLevel.None
+            };
+            WriteLog(logger, logLevel, message);
         }
         /// <summary>
         /// 写多线程日志
         /// </summary>
         /// <param name="services"></param>
         /// <param name="threadCount"></param>
-        public static void WriteThreadLogs(IServiceProvider services, int threadCount = 100)
+        private static void WriteThreadLogs(IServiceProvider services, int threadCount = 100)
         {
             ILoggerFactory loggerFactory = services.GetRequiredService<ILoggerFactory>();
             List<Task> tasks = [];

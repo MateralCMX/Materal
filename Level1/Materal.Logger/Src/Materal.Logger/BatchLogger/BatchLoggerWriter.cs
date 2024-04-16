@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks.Dataflow;
 
-namespace Materal.Logger
+namespace Materal.Logger.BatchLogger
 {
     /// <summary>
     /// 批量日志写入器

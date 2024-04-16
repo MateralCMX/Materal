@@ -83,8 +83,13 @@ namespace Materal.Logger
 			string progressID = GetProgressID();
 			AddData(data, "ProgressID", progressID);
 			AddData(data, "ThreadID", ThreadID);
-			AddData(data, "MachineName", MachineName);
-			data = data.Concat(options.CustomData).ToDictionary(k => k.Key, v => v.Value);
+            AddData(data, "MachineName", MachineName);
+            AddData(data, "Message", Message);
+			if (Exception is not null)
+            {
+                AddData(data, "Exception", Exception.GetErrorMessage());
+            }
+            data = data.Concat(options.CustomData).ToDictionary(k => k.Key, v => v.Value);
 			AddData(data, "Scope", ScopeName);
 			data = data.Concat(ScopeData).ToDictionary(k => k.Key, v => v.Value);
 			result = ApplyText(result, data);

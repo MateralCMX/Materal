@@ -1,4 +1,4 @@
-﻿namespace Materal.Logger
+﻿namespace Materal.Logger.BatchLogger
 {
     /// <summary>
     /// 批量日志模型
@@ -18,6 +18,6 @@
         /// <summary>
         /// 目标选项
         /// </summary>
-        public TLoggerTargetOptions TargetOptions { get; } = targetOptions;        
+        public TLoggerTargetOptions TargetOptions { get; } = targetOptions;
     }
 }

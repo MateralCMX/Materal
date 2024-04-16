@@ -14,6 +14,7 @@
 		<PackageReference Include="coverlet.collector" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.Logger.SqliteLogger\Materal.Logger.SqliteLogger.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Logger\Materal.Logger.csproj" />
 	</ItemGroup>
 	<ItemGroup>

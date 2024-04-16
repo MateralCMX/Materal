@@ -14,10 +14,8 @@
         /// <returns></returns>
         public override async Task LogAsync(Log log, LoggerRuleOptions ruleOptions, ConsoleLoggerTargetOptions targetOptions)
         {
-            string message = log.ApplyText(log.Message, Options.CurrentValue);
-            Dictionary<string, object?> data = [];
-            data.Add("Message", message);
-            string result = log.ApplyText(targetOptions.Format, Options.CurrentValue, data);
+            log.Message = log.ApplyText(log.Message, Options.CurrentValue);
+            string result = log.ApplyText(targetOptions.Format, Options.CurrentValue);
             if (result.EndsWith("\r\n"))
             {
                 result = result[1..^2];
