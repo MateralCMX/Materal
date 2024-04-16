@@ -55,5 +55,15 @@ namespace Materal.Logger.Test
             const string connectionString = "Data Source=127.0.0.1;Database=MateralLoggerTestDB; User ID=sa; Password=Materal@1234;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;";
             option.AddSqlServerTarget("SqlServerLogger", connectionString, "${Level}Log");
         });
+        /// <summary>
+        /// –¥MySql»’÷æ
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteMySqlLogTestAsync() => await WriteLogAsync(option =>
+        {
+            const string connectionString = "Server=127.0.0.1;Port=3306;Database=MateralLoggerTestDB;Uid=root;Pwd=Materal@1234;AllowLoadLocalInfile=true;";
+            option.AddMySqlTarget("MySqlLogger", connectionString, "${Level}Log");
+        });
     }
 }
