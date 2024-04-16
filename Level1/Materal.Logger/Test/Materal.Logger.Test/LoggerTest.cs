@@ -40,7 +40,20 @@ namespace Materal.Logger.Test
         /// </summary>
         /// <returns></returns>
         [TestMethod]
-        public async Task WriteSqliteLogTestAsync() => await WriteLogAsync(option
-            => option.AddSqliteTargetFromPath("SqliteLogger", "${RootPath}\\Logs\\MateralLogger.db", "${Level}Log"));
+        public async Task WriteSqliteLogTestAsync() => await WriteLogAsync(option =>
+        {
+            const string path = "${RootPath}\\Logs\\MateralLogger.db";
+            option.AddSqliteTargetFromPath("SqliteLogger", path, "${Level}Log");
+        });
+        /// <summary>
+        /// –¥SqlServer»’÷æ
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteSqlServerLogTestAsync() => await WriteLogAsync(option =>
+        {
+            const string connectionString = "Data Source=127.0.0.1;Database=MateralLoggerTestDB; User ID=sa; Password=Materal@1234;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;";
+            option.AddSqlServerTarget("SqlServerLogger", connectionString, "${Level}Log");
+        });
     }
 }
