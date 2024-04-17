@@ -2,7 +2,7 @@
 using Materal.BaseCore.WebAPI.Common;
 using Materal.BaseCore.WebAPI.Controllers;
 using Materal.BaseCore.WebAPI.Filters;
-using Materal.Logger.ConfigModels;
+using Materal.Logger;
 using Materal.Logger.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -30,9 +30,9 @@ namespace Materal.BaseCore.WebAPI
         /// <param name="otherControlesAssemblys"></param>
         public static IServiceCollection AddWebAPIService(this IServiceCollection services, Action<SwaggerGenOptions> swaggerGenConfig, Action<MvcOptions>? mvcAction, params Assembly[] otherControlesAssemblys)
         {
-            services.AddMateralLogger(config =>
+            services.AddMateralLogger(options =>
             {
-                config.AddCustomConfig("ApplicationName", WebAPIConfig.AppName);
+                options.TryAddCustomData("ApplicationName", WebAPIConfig.AppName);
             });
             #region MVC
             IMvcBuilder mvcBuild = services.AddControllers(mvcOptions =>

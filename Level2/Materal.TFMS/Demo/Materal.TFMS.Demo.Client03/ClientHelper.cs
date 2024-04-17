@@ -1,5 +1,4 @@
-﻿using Materal.Logger.ConfigModels;
-using Materal.Logger.ConsoleLogger;
+﻿using Materal.Logger.ConsoleLogger;
 using Materal.Logger.Extensions;
 using Materal.TFMS.Demo.Client03.EventHandlers;
 using Materal.TFMS.Demo.Core;
@@ -17,13 +16,12 @@ namespace Materal.TFMS.Demo.Client03
         {
             _serviceCollection.AddMateralLogger(config =>
             {
-                config.AddCustomConfig("ApplicationName", AppName);
+                config.AddCustomData("ApplicationName", AppName);
                 config.AddConsoleTarget("LifeConsole");
                 config.AddAllTargetsRule();
             });
             RegisterServices();
             _serviceProvider = _serviceCollection.BuildServiceProvider();
-            _serviceProvider.UseMateralLoggerAsync().Wait();
         }
         /// <summary>
         /// 注册依赖注入

@@ -1,5 +1,4 @@
-﻿using Materal.Logger.ConfigModels;
-using Materal.Logger.ConsoleLogger;
+﻿using Materal.Logger.ConsoleLogger;
 using Materal.Logger.Extensions;
 using Materal.TFMS.EventBus;
 using Materal.TFMS.EventBus.RabbitMQ;
@@ -17,7 +16,7 @@ namespace Materal.TFMS.TestClient
             IServiceCollection services = new ServiceCollection();
             services.AddMateralLogger(config =>
             {
-                config.AddCustomConfig("ApplicationName", "TestClient");
+                config.AddCustomData("ApplicationName", "TestClient");
                 config.AddConsoleTarget("LifeConsole");
                 config.AddAllTargetsRule();
             });
@@ -42,7 +41,6 @@ namespace Materal.TFMS.TestClient
             });
             services.AddTransient<NewRegistrationFormEventHandler>();
             IServiceProvider serviceProvider = services.BuildServiceProvider();
-            await serviceProvider.UseMateralLoggerAsync();
             IEventBus eventBus = serviceProvider.GetRequiredService<IEventBus>();
             await eventBus.SubscribeAsync<NewRegistrationFormEvent, NewRegistrationFormEventHandler>();
             eventBus.StartListening();

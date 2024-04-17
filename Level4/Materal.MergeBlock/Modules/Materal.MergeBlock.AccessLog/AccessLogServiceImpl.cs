@@ -107,13 +107,13 @@ namespace Materal.MergeBlock.AccessLog
             {
                 model.Response.Body = _bigAccessLogInterceptor.Handler(model.Response.Body);
             }
-            AdvancedScope advancedScope = new(ConstData.AccessLogScopeName, new Dictionary<string, object?>
+            LoggerScope loggerScope = new(ConstData.AccessLogScopeName, new Dictionary<string, object?>
             {
                 [nameof(model.Request)] = model.Request,
                 [nameof(model.Response)] = model.Response,
                 [nameof(model.ElapsedMilliseconds)] = model.ElapsedMilliseconds
             });
-            using IDisposable? scope = _logger.BeginScope(advancedScope);
+            using IDisposable? scope = _logger.BeginScope(loggerScope);
             _logger.Log(model.Level, model.Exception, model.LogMessage);
         }
     }

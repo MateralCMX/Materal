@@ -1,5 +1,4 @@
 ﻿using Materal.BaseCore.Common;
-using Materal.Logger.ConfigModels;
 using Materal.Logger.ConsoleLogger;
 using Materal.Logger.Extensions;
 using Materal.TFMS.EventBus;
@@ -15,12 +14,12 @@ namespace Materal.BaseCore.EventBus.TestClient
             IServiceCollection services = new ServiceCollection();
             services.AddMateralLogger(config =>
             {
-                config.AddCustomConfig("ApplicationName", "TestClient");
+                config.AddCustomData("ApplicationName", "TestClient");
                 config.AddConsoleTarget("LifeConsole");
                 config.AddAllTargetsRule();
             });
             const string queueName = "Educational_FatQueue";
-            IConfigurationBuilder builder = new ConfigurationBuilder();
+            ConfigurationBuilder builder = new();
             builder.AddJsonFile(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "appsettings.json"), optional: false, reloadOnChange: true);
             MateralCoreConfig.Configuration = builder.Build();
             services.AddEventBus(queueName, typeof(NewRegistrationFormEventHandler).Assembly);

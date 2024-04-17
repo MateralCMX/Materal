@@ -15,7 +15,7 @@ namespace Materal.Logger.Extensions
         /// <param name="options"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static IHostApplicationBuilder AddMateralLogger(this IHostApplicationBuilder builder, IConfiguration? configuration = null, Action<LoggerOptions>? options = null, bool clearOtherProvider = false)
+        public static IHostApplicationBuilder AddMateralLogger(this IHostApplicationBuilder builder, IConfiguration? configuration, Action<LoggerOptions>? options, bool clearOtherProvider = false)
         {
             builder.Services.AddMateralLogger(configuration, options, clearOtherProvider);
             return builder;
@@ -44,7 +44,7 @@ namespace Materal.Logger.Extensions
         /// <param name="builder"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static IHostApplicationBuilder AddMateralLogger(this IHostApplicationBuilder builder, bool clearOtherProvider)
+        public static IHostApplicationBuilder AddMateralLogger(this IHostApplicationBuilder builder, bool clearOtherProvider = false)
             => builder.AddMateralLogger(null, null, clearOtherProvider);
     }
 }

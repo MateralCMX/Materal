@@ -13,7 +13,7 @@
         /// <param name="options"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, IConfiguration? configuration = null, Action<LoggerOptions>? options = null, bool clearOtherProvider = false)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, IConfiguration? configuration, Action<LoggerOptions>? options, bool clearOtherProvider = false)
         {
             if (clearOtherProvider)
             {
@@ -57,7 +57,7 @@
         /// <param name="options"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, Action<LoggerOptions>? options, bool clearOtherProvider)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, Action<LoggerOptions>? options, bool clearOtherProvider = false)
             => builder.AddMateralLogger(null, options, clearOtherProvider);
         /// <summary>
         /// 添加Materal日志
@@ -66,7 +66,7 @@
         /// <param name="configuration"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, IConfiguration? configuration, bool clearOtherProvider)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, IConfiguration? configuration, bool clearOtherProvider = false)
             => builder.AddMateralLogger(configuration, null, clearOtherProvider);
         /// <summary>
         /// 添加Materal日志
@@ -74,7 +74,7 @@
         /// <param name="builder"></param>
         /// <param name="clearOtherProvider"></param>
         /// <returns></returns>
-        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, bool clearOtherProvider)
+        public static ILoggingBuilder AddMateralLogger(this ILoggingBuilder builder, bool clearOtherProvider = false)
             => builder.AddMateralLogger(null, null, clearOtherProvider);
         /// <summary>
         /// 添加日志写入器

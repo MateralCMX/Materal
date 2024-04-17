@@ -34,7 +34,7 @@
           "Microsoft.Extensions.Configuration.Json": "8.0.0",
           "Microsoft.Extensions.Options.DataAnnotations": "8.0.0",
           "Newtonsoft.Json": "13.0.3",
-          "System.Drawing.Common": "8.0.3"
+          "System.Drawing.Common": "8.0.4"
         },
         "runtime": {
           "lib/net8.0/Materal.Extensions.dll": {
@@ -232,14 +232,14 @@
       },
       "System.Collections.Immutable/8.0.0": {},
       "System.ComponentModel.Annotations/5.0.0": {},
-      "System.Drawing.Common/8.0.3": {
+      "System.Drawing.Common/8.0.4": {
         "dependencies": {
           "Microsoft.Win32.SystemEvents": "8.0.0"
         },
         "runtime": {
           "lib/net8.0/System.Drawing.Common.dll": {
             "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.324.11603"
+            "fileVersion": "8.0.424.16911"
           }
         }
       },
@@ -280,14 +280,14 @@
     "Materal.Abstractions/1.1.76": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-0qIHEnPlELP2YOJNroPQ2De12NSEfPoKryuzJ80fFnoWCN08CruGJ6TfE+hE93yX10ViRWEdjjmz6jLxPTx9jA==",
+      "sha512": "sha512-Uiwjmg4+AY/SyLkS5gX8DCqiFh+ztKXtVQQUeE/cKFtkiEm4nyWCkoTnwvSGU5IhN31GHh/ua6PKXXEhdtJBlg==",
       "path": "materal.abstractions/1.1.76",
       "hashPath": "materal.abstractions.1.1.76.nupkg.sha512"
     },
     "Materal.Extensions/1.1.76": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-rpEaTTC0Fle2jiPxWGNEwEzCtUm3MgU3GMg/CMKkCaupyt2mT5ZbSzqB+5EDtmvNeTs9HIzYVMmWGXcnfASrqw==",
+      "sha512": "sha512-fPRb64Imabp1HY4flKNo60yhnTLz11czCqUKZMTha/fzlQdoRK/nJo6pIa9M++dodqsJCRIG5M6GxF8LLhSQXg==",
       "path": "materal.extensions/1.1.76",
       "hashPath": "materal.extensions.1.1.76.nupkg.sha512"
     },
@@ -424,12 +424,12 @@
       "path": "system.componentmodel.annotations/5.0.0",
       "hashPath": "system.componentmodel.annotations.5.0.0.nupkg.sha512"
     },
-    "System.Drawing.Common/8.0.3": {
+    "System.Drawing.Common/8.0.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-oDE9duAtHhxYJM2bsOlZCLBKdorU9DTV1tw7Mlc+VIT7HgwO5ddfOHk/An8C+fAS9oKdmn2PaIA5t1b484uz8g==",
-      "path": "system.drawing.common/8.0.3",
-      "hashPath": "system.drawing.common.8.0.3.nupkg.sha512"
+      "sha512": "sha512-3G4xpa8mUYGzEF0HlswlBArAFywHJIzsZoB5hU4yMlnYHaabj/lg019BwbyyYBxj0aoM7Cz+jdlgUemeno9LOQ==",
+      "path": "system.drawing.common/8.0.4",
+      "hashPath": "system.drawing.common.8.0.4.nupkg.sha512"
     },
     "System.Reflection.Metadata/6.0.1": {
       "type": "package",

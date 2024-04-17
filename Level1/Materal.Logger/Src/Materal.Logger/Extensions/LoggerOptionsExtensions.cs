@@ -138,14 +138,14 @@
             return options;
         }
         #endregion
-        #region CustomConfig
+        #region CustomData
         /// <summary>
         /// 设置自定义配置
         /// </summary>
         /// <param name="options"></param>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public static LoggerOptions TryAddCustomConfig(this LoggerOptions options, string key, object? value)
+        public static LoggerOptions TryAddCustomData(this LoggerOptions options, string key, object? value)
         {
             options.CustomData.TryAdd(key, value);
             return options;
@@ -156,7 +156,7 @@
         /// <param name="options"></param>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public static LoggerOptions AddCustomConfig(this LoggerOptions options, string key, object? value)
+        public static LoggerOptions AddCustomData(this LoggerOptions options, string key, object? value)
         {
             if (options.CustomData.TryAdd(key, value)) return options;
             options.CustomData[key] = value;
@@ -167,7 +167,7 @@
         /// </summary>
         /// <param name="options"></param>
         /// <param name="key"></param>
-        public static LoggerOptions RemoveCustomConfig(this LoggerOptions options, string key)
+        public static LoggerOptions RemoveCustomData(this LoggerOptions options, string key)
         {
             if (!options.CustomData.ContainsKey(key)) return options;
             options.CustomData.Remove(key);
