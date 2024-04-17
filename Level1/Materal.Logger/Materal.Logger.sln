@@ -19,13 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpLoggerServer", "Test\Ht
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.SqliteLogger", "Src\Materal.Logger.SqliteLogger\Materal.Logger.SqliteLogger.csproj", "{29B2DC5F-AAAB-4EE8-B63F-3770FE62DA1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.SqlServer", "Src\Materal.Logger.SqlServer\Materal.Logger.SqlServer.csproj", "{836BDC4F-37AE-4EDB-8C23-ED3268BF63F4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.MySqlLogger", "Src\Materal.Logger.MySqlLogger\Materal.Logger.MySqlLogger.csproj", "{E8576E9C-9487-400E-8D58-8FF059D73791}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.OracleLogger", "Src\Materal.Logger.OracleLogger\Materal.Logger.OracleLogger.csproj", "{F42743DC-E4EB-45FC-892B-51A0214202CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.MongoLogger", "Src\Materal.Logger.MongoLogger\Materal.Logger.MongoLogger.csproj", "{9CB53A36-7945-4C92-8CCA-F29A996C5D73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.MongoLogger", "Src\Materal.Logger.MongoLogger\Materal.Logger.MongoLogger.csproj", "{9CB53A36-7945-4C92-8CCA-F29A996C5D73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.SqlServerLogger", "Src\Materal.Logger.SqlServerLogger\Materal.Logger.SqlServerLogger.csproj", "{A5D4FA4C-DC66-4849-9A2F-505B43A3FC7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,6 @@ Global
 		{29B2DC5F-AAAB-4EE8-B63F-3770FE62DA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29B2DC5F-AAAB-4EE8-B63F-3770FE62DA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29B2DC5F-AAAB-4EE8-B63F-3770FE62DA1E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{836BDC4F-37AE-4EDB-8C23-ED3268BF63F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{836BDC4F-37AE-4EDB-8C23-ED3268BF63F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{836BDC4F-37AE-4EDB-8C23-ED3268BF63F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{836BDC4F-37AE-4EDB-8C23-ED3268BF63F4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8576E9C-9487-400E-8D58-8FF059D73791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E8576E9C-9487-400E-8D58-8FF059D73791}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8576E9C-9487-400E-8D58-8FF059D73791}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +65,10 @@ Global
 		{9CB53A36-7945-4C92-8CCA-F29A996C5D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CB53A36-7945-4C92-8CCA-F29A996C5D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CB53A36-7945-4C92-8CCA-F29A996C5D73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5D4FA4C-DC66-4849-9A2F-505B43A3FC7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D4FA4C-DC66-4849-9A2F-505B43A3FC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D4FA4C-DC66-4849-9A2F-505B43A3FC7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D4FA4C-DC66-4849-9A2F-505B43A3FC7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,10 +79,10 @@ Global
 		{26BE9320-7753-440D-B4D5-C192EAAEABD5} = {AED144EE-59F4-498C-A127-566AA44DD8A9}
 		{9C6B5233-A942-493D-A0E8-48B2E8A84DFE} = {AED144EE-59F4-498C-A127-566AA44DD8A9}
 		{29B2DC5F-AAAB-4EE8-B63F-3770FE62DA1E} = {D50FB148-416F-44CA-A048-615560E26524}
-		{836BDC4F-37AE-4EDB-8C23-ED3268BF63F4} = {D50FB148-416F-44CA-A048-615560E26524}
 		{E8576E9C-9487-400E-8D58-8FF059D73791} = {D50FB148-416F-44CA-A048-615560E26524}
 		{F42743DC-E4EB-45FC-892B-51A0214202CF} = {D50FB148-416F-44CA-A048-615560E26524}
 		{9CB53A36-7945-4C92-8CCA-F29A996C5D73} = {D50FB148-416F-44CA-A048-615560E26524}
+		{A5D4FA4C-DC66-4849-9A2F-505B43A3FC7A} = {D50FB148-416F-44CA-A048-615560E26524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BDC3165-1789-4856-909F-812A91617D4C}

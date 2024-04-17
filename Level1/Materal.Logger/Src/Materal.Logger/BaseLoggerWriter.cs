@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.Reflection;
-
-namespace Materal.Logger
+﻿namespace Materal.Logger
 {
     /// <summary>
     /// 日志写入器基类
