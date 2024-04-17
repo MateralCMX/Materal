@@ -29,7 +29,7 @@
         /// <param name="minLogLevel"></param>
         /// <param name="maxLogLevel"></param>
         /// <returns></returns>
-        public static LoggerOptions SetLoggerHostLogLevel(this LoggerOptions options, LogLevel minLogLevel, LogLevel? maxLogLevel)
+        public static LoggerOptions SetLoggerHostLogLevel(this LoggerOptions options, LogLevel minLogLevel, LogLevel? maxLogLevel = null)
         {
             options.MinLoggerHostLogLevel = minLogLevel;
             if (maxLogLevel is not null)

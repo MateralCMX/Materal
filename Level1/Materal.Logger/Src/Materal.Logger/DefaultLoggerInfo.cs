@@ -1,9 +1,9 @@
 ﻿namespace Materal.Logger
 {
     /// <summary>
-    /// 日志主机控制台日志记录器
+    /// 默认日志信息
     /// </summary>
-    public class ConsoleHostLogger : IHostLogger
+    public class DefaultLoggerInfo : ILoggerInfo
     {
         private LoggerOptions? _options;
         /// <summary>

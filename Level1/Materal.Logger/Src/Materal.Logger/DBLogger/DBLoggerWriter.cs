@@ -10,7 +10,7 @@ namespace Materal.Logger.DBLogger
     /// <typeparam name="TDBFiled"></typeparam>
     /// <typeparam name="TDBLog"></typeparam>
     /// <typeparam name="TRepository"></typeparam>
-    public abstract class DBLoggerWriter<TLoggerTargetOptions, TDBFiled, TDBLog, TRepository>(IOptionsMonitor<LoggerOptions> options, IHostLogger hostLogger) : BatchLoggerWriter<TLoggerTargetOptions>(options)
+    public abstract class DBLoggerWriter<TLoggerTargetOptions, TDBFiled, TDBLog, TRepository>(IOptionsMonitor<LoggerOptions> options, ILoggerInfo loggerInfo) : BatchLoggerWriter<TLoggerTargetOptions>(options, loggerInfo)
         where TLoggerTargetOptions : DBLoggerTargetOptions<TDBFiled>
         where TDBFiled : IDBFiled, new()
         where TDBLog : DBLog<TLoggerTargetOptions, TDBFiled>
@@ -39,7 +39,7 @@ namespace Materal.Logger.DBLogger
                 }
                 catch (Exception exception)
                 {
-                    hostLogger.LogError($"日志记录到{DBName}[{item.Key}]失败：", exception);
+                    LoggerInfo.LogError($"日志记录到{DBName}[{item.Key}]失败：", exception);
                 }
             });
             await Task.CompletedTask;

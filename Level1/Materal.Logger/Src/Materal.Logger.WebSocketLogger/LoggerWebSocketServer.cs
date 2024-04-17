@@ -15,13 +15,13 @@ namespace Materal.Logger.WebSocketLogger
         private WebSocketServer? _webSocketServer;
         private readonly List<IWebSocketConnection> _connections = [];
         private readonly SemaphoreSlim _webSocketSemaphore = new(0, 1);
-        private readonly IHostLogger _hostLogger;
+        private readonly ILoggerInfo _loggerInfo;
         /// <summary>
         /// 构造方法
         /// </summary>
-        public LoggerWebSocketServer(int port, IHostLogger hostLogger)
+        public LoggerWebSocketServer(int port, ILoggerInfo loggerInfo)
         {
-            _hostLogger = hostLogger;
+            _loggerInfo = loggerInfo;
             Port = port;
             _webSocketSemaphore.Release();
         }
@@ -56,7 +56,7 @@ namespace Materal.Logger.WebSocketLogger
                     connection.OnClose = () => OnClose(connection);
                     connection.OnError = (exception) => OnError(exception, connection);
                 });
-                _hostLogger.LogDebug($"WebSocket日志服务器启动:ws://0.0.0.0:{Port}");
+                _loggerInfo.LogDebug($"WebSocket日志服务器启动:ws://0.0.0.0:{Port}");
             }
             finally
             {
@@ -82,7 +82,7 @@ namespace Materal.Logger.WebSocketLogger
                 _webSocketServer.ListenerSocket.Close();
                 _webSocketServer.Dispose();
                 _webSocketServer = null;
-                _hostLogger.LogDebug($"WebSocket日志服务器关闭:ws://0.0.0.0:{Port}");
+                _loggerInfo.LogDebug($"WebSocket日志服务器关闭:ws://0.0.0.0:{Port}");
             }
             finally
             {
@@ -95,7 +95,7 @@ namespace Materal.Logger.WebSocketLogger
         /// <param name="connection"></param>
         private void OnOpen(IWebSocketConnection connection)
         {
-            _hostLogger.LogDebug($"新链接:{connection.ConnectionInfo.ClientIpAddress}");
+            _loggerInfo.LogDebug($"新链接:{connection.ConnectionInfo.ClientIpAddress}");
             _connections.Add(connection);
         }
         /// <summary>
@@ -105,7 +105,7 @@ namespace Materal.Logger.WebSocketLogger
         /// <param name="connection"></param>
         private void OnError(Exception exception, IWebSocketConnection connection)
         {
-            _hostLogger.LogError($"链接错误:{connection.ConnectionInfo.ClientIpAddress}", exception);
+            _loggerInfo.LogError($"链接错误:{connection.ConnectionInfo.ClientIpAddress}", exception);
         }
         /// <summary>
         /// 链接关闭
@@ -113,7 +113,7 @@ namespace Materal.Logger.WebSocketLogger
         /// <param name="connection"></param>
         private void OnClose(IWebSocketConnection connection)
         {
-            _hostLogger.LogDebug($"链接关闭:{connection.ConnectionInfo.ClientIpAddress}");
+            _loggerInfo.LogDebug($"链接关闭:{connection.ConnectionInfo.ClientIpAddress}");
             _connections.Remove(connection);
             if (_connections.Count > 0) return;
             Stop();

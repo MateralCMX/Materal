@@ -4,13 +4,17 @@
     /// 日志写入器基类
     /// </summary>
     /// <typeparam name="TLoggerTargetOptions"></typeparam>
-    public abstract class BaseLoggerWriter<TLoggerTargetOptions>(IOptionsMonitor<LoggerOptions> options) : ILoggerWriter, ILoggerWriter<TLoggerTargetOptions>
+    public abstract class BaseLoggerWriter<TLoggerTargetOptions>(IOptionsMonitor<LoggerOptions> options, ILoggerInfo loggerInfo) : ILoggerWriter, ILoggerWriter<TLoggerTargetOptions>
         where TLoggerTargetOptions : LoggerTargetOptions
     {
         /// <summary>
         /// 日志配置
         /// </summary>
         protected IOptionsMonitor<LoggerOptions> Options { get; } = options;
+        /// <summary>
+        /// 日志记录器信息
+        /// </summary>
+        protected ILoggerInfo LoggerInfo { get; } = loggerInfo;
         /// <summary>
         /// 是否关闭
         /// </summary>
@@ -144,28 +148,26 @@
         /// <summary>
         /// 启动
         /// </summary>
-        /// <param name="hostLogger"></param>
         /// <returns></returns>
-        public virtual async Task StartAsync(IHostLogger hostLogger)
+        public virtual async Task StartAsync()
         {
             string name = GetType().Name;
-            hostLogger.LogDebug($"正在启动{name}");
+            LoggerInfo.LogDebug($"正在启动{name}");
             IsClose = false;
             await Task.CompletedTask;
-            hostLogger.LogDebug($"{name}启动成功");
+            LoggerInfo.LogDebug($"{name}启动成功");
         }
         /// <summary>
         /// 停止
         /// </summary>
-        /// <param name="hostLogger"></param>
         /// <returns></returns>
-        public virtual async Task StopAsync(IHostLogger hostLogger)
+        public virtual async Task StopAsync()
         {
             string name = GetType().Name;
-            hostLogger.LogDebug($"正在关闭{name}");
+            LoggerInfo.LogDebug($"正在关闭{name}");
             IsClose = true;
             await Task.CompletedTask;
-            hostLogger.LogDebug($"{name}关闭成功");
+            LoggerInfo.LogDebug($"{name}关闭成功");
         }
     }
 }

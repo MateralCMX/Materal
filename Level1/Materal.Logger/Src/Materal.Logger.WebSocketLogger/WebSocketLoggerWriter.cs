@@ -5,7 +5,7 @@ namespace Materal.Logger.WebSocketLogger
     /// <summary>
     /// WebSocket日志写入器
     /// </summary>
-    public class WebSocketLoggerWriter(IOptionsMonitor<LoggerOptions> options, IHostLogger hostLogger) : BaseLoggerWriter<WebSocketLoggerTargetOptions>(options)
+    public class WebSocketLoggerWriter(IOptionsMonitor<LoggerOptions> options, ILoggerInfo loggerInfo) : BaseLoggerWriter<WebSocketLoggerTargetOptions>(options, loggerInfo)
     {
         private readonly ConcurrentDictionary<int, LoggerWebSocketServer> _webSocketServers = [];
         /// <summary>
@@ -23,18 +23,17 @@ namespace Materal.Logger.WebSocketLogger
         /// <summary>
         /// 停止
         /// </summary>
-        /// <param name="hostLogger"></param>
         /// <returns></returns>
-        public override async Task StopAsync(IHostLogger hostLogger)
+        public override async Task StopAsync()
         {
             string name = GetType().Name;
-            hostLogger.LogDebug($"正在关闭{name}");
+            LoggerInfo.LogDebug($"正在关闭{name}");
             IsClose = true;
             foreach (KeyValuePair<int, LoggerWebSocketServer> item in _webSocketServers)
             {
                 item.Value.Stop();
             }
-            hostLogger.LogDebug($"{name}关闭成功");
+            LoggerInfo.LogDebug($"{name}关闭成功");
             await Task.CompletedTask;
         }
         /// <summary>
@@ -45,7 +44,7 @@ namespace Materal.Logger.WebSocketLogger
         private LoggerWebSocketServer GetLoggerWebSocketServer(int port)
         {
             if (_webSocketServers.TryGetValue(port, out LoggerWebSocketServer? result)) return result;
-            result = new LoggerWebSocketServer(port, hostLogger);
+            result = new LoggerWebSocketServer(port, LoggerInfo);
             _webSocketServers.TryAdd(port, result);
             return result;
         }

@@ -6,7 +6,7 @@ namespace Materal.Logger.HttpLogger
     /// <summary>
     /// Http日志写入器
     /// </summary>
-    public class HttpLoggerWriter(IOptionsMonitor<LoggerOptions> options, IHostLogger hostLogger) : BatchLoggerWriter<HttpLoggerTargetOptions>(options)
+    public class HttpLoggerWriter(IOptionsMonitor<LoggerOptions> options, ILoggerInfo loggerInfo) : BatchLoggerWriter<HttpLoggerTargetOptions>(options, loggerInfo)
     {
         private readonly HttpHelper _httpHelper = new();
         /// <summary>
@@ -29,7 +29,7 @@ namespace Materal.Logger.HttpLogger
                 }
                 catch (Exception exception)
                 {
-                    hostLogger.LogError($"发送Http日志[{item.Key}]失败", exception);
+                    LoggerInfo.LogError($"发送Http日志[{item.Key}]失败", exception);
                 }
             });
             await Task.CompletedTask;

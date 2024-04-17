@@ -5,7 +5,7 @@ namespace Materal.Logger.SqlServerLogger
     /// <summary>
     /// SqlServer日志写入器
     /// </summary>
-    public class SqlServerLoggerWriter(IOptionsMonitor<LoggerOptions> options, IHostLogger hostLogger) : DBLoggerWriter<SqlServerLoggerTargetOptions, SqlServerFiled, SqlServerLog, SqlServerRepository>(options, hostLogger)
+    public class SqlServerLoggerWriter(IOptionsMonitor<LoggerOptions> options, ILoggerInfo loggerInfo) : DBLoggerWriter<SqlServerLoggerTargetOptions, SqlServerFiled, SqlServerLog, SqlServerRepository>(options, loggerInfo)
     {
         /// <summary>
         /// 数据库名称

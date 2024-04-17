@@ -18,7 +18,7 @@ namespace Materal.Logger.BatchLogger
         /// <summary>
         /// 构造方法
         /// </summary>
-        public BatchLoggerWriter(IOptionsMonitor<LoggerOptions> options) : base(options)
+        public BatchLoggerWriter(IOptionsMonitor<LoggerOptions> options, ILoggerInfo loggerInfo) : base(options, loggerInfo)
         {
             _logsBlock = new(LogAsync);
             _logBlock = GetNewBatchBlock();
@@ -82,21 +82,20 @@ namespace Materal.Logger.BatchLogger
         /// <summary>
         /// 停止
         /// </summary>
-        /// <param name="hostLogger"></param>
         /// <returns></returns>
-        public override async Task StopAsync(IHostLogger hostLogger)
+        public override async Task StopAsync()
         {
             await _clearTimerSemaphore.WaitAsync();
             try
             {
                 string name = GetType().Name;
-                hostLogger.LogDebug($"正在关闭{name}");
+                LoggerInfo.LogDebug($"正在关闭{name}");
                 IsClose = true;
                 _logBlock.Complete();
                 await _logBlock.Completion;
                 _logsBlock.Complete();
                 await _logsBlock.Completion;
-                hostLogger.LogDebug($"{name}关闭成功");
+                LoggerInfo.LogDebug($"{name}关闭成功");
             }
             finally
             {

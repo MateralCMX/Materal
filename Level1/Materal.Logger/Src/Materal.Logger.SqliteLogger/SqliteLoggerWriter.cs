@@ -5,7 +5,7 @@ namespace Materal.Logger.SqliteLogger
     /// <summary>
     /// Sqlite日志写入器
     /// </summary>
-    public class SqliteLoggerWriter(IOptionsMonitor<LoggerOptions> options, IHostLogger hostLogger) : DBLoggerWriter<SqliteLoggerTargetOptions, SqliteFiled, SqliteLog, SqliteRepository>(options, hostLogger)
+    public class SqliteLoggerWriter(IOptionsMonitor<LoggerOptions> options, ILoggerInfo loggerInfo) : DBLoggerWriter<SqliteLoggerTargetOptions, SqliteFiled, SqliteLog, SqliteRepository>(options, loggerInfo)
     {
         /// <summary>
         /// 数据库名称

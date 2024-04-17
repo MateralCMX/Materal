@@ -3,7 +3,7 @@
     /// <summary>
     /// 控制台日志写入器
     /// </summary>
-    public class ConsoleLoggerWriter(IOptionsMonitor<LoggerOptions> options) : BaseLoggerWriter<ConsoleLoggerTargetOptions>(options)
+    public class ConsoleLoggerWriter(IOptionsMonitor<LoggerOptions> options, ILoggerInfo loggerInfo) : BaseLoggerWriter<ConsoleLoggerTargetOptions>(options, loggerInfo)
     {
         /// <summary>
         /// 写入日志

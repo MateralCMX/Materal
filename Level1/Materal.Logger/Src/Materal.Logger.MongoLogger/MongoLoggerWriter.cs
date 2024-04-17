@@ -13,13 +13,13 @@ namespace Materal.Logger.MongoLogger
     public class MongoLoggerWriter : BatchLoggerWriter<MongoLoggerTargetOptions>
     {
         private readonly IMongoRepository _mongoRepository;
-        private readonly IHostLogger _hostLogger;
+        private readonly ILoggerInfo _loggerInfo;
         /// <summary>
         /// 构造方法
         /// </summary>
-        public MongoLoggerWriter(IOptionsMonitor<LoggerOptions> options, IMongoRepository mongoRepository, IHostLogger hostLogger) : base(options)
+        public MongoLoggerWriter(IOptionsMonitor<LoggerOptions> options, IMongoRepository mongoRepository, ILoggerInfo loggerInfo) : base(options, loggerInfo)
         {
-            _hostLogger = hostLogger;
+            _loggerInfo = loggerInfo;
             _mongoRepository = mongoRepository;
             _mongoRepository.CollectionOptions = new() { TimeSeriesOptions = new TimeSeriesOptions("CreateTime") };
         }
@@ -53,14 +53,14 @@ namespace Materal.Logger.MongoLogger
                     }
                     catch (Exception exception)
                     {
-                        _hostLogger.LogError($"日志记录到Mongo[{data.Key}]失败：", exception);
+                        _loggerInfo.LogError($"日志记录到Mongo[{data.Key}]失败：", exception);
                     }
                 }
                 await Task.CompletedTask;
             }
             catch (Exception exception)
             {
-                _hostLogger.LogError($"日志记录到Mongo失败：", exception);
+                _loggerInfo.LogError($"日志记录到Mongo失败：", exception);
             }
         }
         private static List<BsonDocument> GetBsonDocument(IGrouping<string, MongoLog>[] data)
@@ -93,12 +93,12 @@ namespace Materal.Logger.MongoLogger
             /// 集合名
             /// </summary>
             public string CollectionName { get; } = batchLog.Log.ApplyText(batchLog.TargetOptions.CollectionName, options);
-            public Dictionary<string, object> Data { get; } = SetData(batchLog, options);
+            public Dictionary<string, object> Data { get; } = SetData(batchLog);
             /// <summary>
             /// 获取键值对
             /// </summary>
             /// <returns></returns>
-            private static Dictionary<string, object> SetData(BatchLog<MongoLoggerTargetOptions> batchLog, LoggerOptions options)
+            private static Dictionary<string, object> SetData(BatchLog<MongoLoggerTargetOptions> batchLog)
             {
                 Dictionary<string, object> result = new()
                 {

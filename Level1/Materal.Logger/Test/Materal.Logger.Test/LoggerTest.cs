@@ -1,12 +1,11 @@
-
 using Materal.Utils;
-using System.DirectoryServices.Protocols;
 
 namespace Materal.Logger.Test
 {
     [TestClass]
     public partial class LoggerTest
     {
+        private const LogLevel _minLoggerInfoLevel = LogLevel.Trace;
         /// <summary>
         /// 写控制台日志
         /// </summary>
@@ -99,8 +98,9 @@ namespace Materal.Logger.Test
             {
                 ConsoleQueue.WriteLine(log.Message);
             });
-            WriteLog(services, LogLevel.Information, "Hello World!");
-            observer.Dispose();
+            WriteLogs(services, 10);
+            WriteThreadLogs(services, 100);
+            WriteLargeLogs(services, 10000);
         });
     }
 }

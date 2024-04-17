@@ -5,7 +5,7 @@ namespace Materal.Logger.FileLogger
     /// <summary>
     /// 文件日志写入器
     /// </summary>
-    public class FileLoggerWriter(IOptionsMonitor<LoggerOptions> options, IHostLogger hostLogger) : BatchLoggerWriter<FileLoggerTargetOptions>(options)
+    public class FileLoggerWriter(IOptionsMonitor<LoggerOptions> options, ILoggerInfo loggerInfo) : BatchLoggerWriter<FileLoggerTargetOptions>(options, loggerInfo)
     {
         /// <summary>
         /// 写入日志
@@ -26,7 +26,7 @@ namespace Materal.Logger.FileLogger
                 }
                 catch (Exception exception)
                 {
-                    hostLogger.LogError($"保存日志文件[{item.Key}]失败", exception);
+                    LoggerInfo.LogError($"保存日志文件[{item.Key}]失败", exception);
                 }
             });
             await Task.CompletedTask;

@@ -8,15 +8,13 @@
         /// <summary>
         /// 启动
         /// </summary>
-        /// <param name="hostLogger"></param>
         /// <returns></returns>
-        Task StartAsync(IHostLogger hostLogger);
+        Task StartAsync();
         /// <summary>
         /// 停止
         /// </summary>
-        /// <param name="hostLogger"></param>
         /// <returns></returns>
-        Task StopAsync(IHostLogger hostLogger);
+        Task StopAsync();
         /// <summary>
         /// 写日志
         /// </summary>

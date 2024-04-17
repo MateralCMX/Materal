@@ -10,11 +10,8 @@ namespace Materal.Logger
         private readonly SemaphoreSlim _semaphore = new(0, 1);
         private readonly IEnumerable<ILoggerWriter> _logWriters;
         private readonly ActionBlock<Log> _writeLoggerBlock;
-        /// <summary>
-        /// 日志自身日志
-        /// </summary>
-        public IHostLogger HostLogger { get; set; }
         private readonly Dictionary<LoggerRuleOptions, List<LoggerTargetOptions>> _targets = [];
+        private readonly ILoggerInfo _loggerInfo;
         /// <summary>
         /// 是否关闭
         /// </summary>
@@ -48,7 +45,7 @@ namespace Materal.Logger
                             }
                         }
                     }
-                    HostLogger.Options = _options;
+                    _loggerInfo.Options = _options;
                 }
                 finally
                 {
@@ -59,9 +56,9 @@ namespace Materal.Logger
         /// <summary>
         /// 构造方法
         /// </summary>
-        public LoggerHost(IEnumerable<ILoggerWriter> logWriters, IHostLogger hostLogger)
+        public LoggerHost(IEnumerable<ILoggerWriter> logWriters, ILoggerInfo loggerInfo)
         {
-            HostLogger = hostLogger;
+            _loggerInfo = loggerInfo;
             _logWriters = logWriters;
             _writeLoggerBlock = new(LoggerWriterHandlerAsync);
             _semaphore.Release();
@@ -104,13 +101,13 @@ namespace Materal.Logger
             {
                 if (Runing) return;
                 Runing = true;
-                await HostLogger.StartAsync();
-                HostLogger.LogDebug($"正在启动...");
+                await _loggerInfo.StartAsync();
+                _loggerInfo.LogDebug($"正在启动...");
                 foreach (var item in _logWriters)
                 {
-                    await item.StartAsync(HostLogger);
+                    await item.StartAsync();
                 }
-                HostLogger.LogDebug($"已启动");
+                _loggerInfo.LogDebug($"已启动");
             }
             finally
             {
@@ -128,7 +125,7 @@ namespace Materal.Logger
             {
                 if (!Runing) return;
                 Runing = false;
-                HostLogger.LogDebug($"正在关闭...");
+                _loggerInfo.LogDebug($"正在关闭...");
                 if (_writeLoggerBlock is not null)
                 {
                     _writeLoggerBlock.Complete();
@@ -136,10 +133,10 @@ namespace Materal.Logger
                 }
                 foreach (var item in _logWriters)
                 {
-                    await item.StopAsync(HostLogger);
+                    await item.StopAsync();
                 }
-                HostLogger.LogDebug($"已关闭");
-                await HostLogger.StopAsync();
+                _loggerInfo.LogDebug($"已关闭");
+                await _loggerInfo.StopAsync();
             }
             finally
             {

@@ -3,7 +3,7 @@
     /// <summary>
     /// 日志主机日志记录器
     /// </summary>
-    public interface IHostLogger
+    public interface ILoggerInfo
     {
         /// <summary>
         /// 日志选项
