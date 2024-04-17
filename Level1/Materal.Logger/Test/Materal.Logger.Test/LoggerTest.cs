@@ -1,3 +1,7 @@
+
+using Materal.Utils;
+using System.DirectoryServices.Protocols;
+
 namespace Materal.Logger.Test
 {
     [TestClass]
@@ -94,5 +98,20 @@ namespace Materal.Logger.Test
         {
             option.AddWebSocketTarget("WebSocketLogger", 5002);
         }, async services => await WriteLoopLogsAsync(services, 10, 1000));
+        /// <summary>
+        /// –¥WebSocket»’÷æ
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteLoggerListenerLogTestAsync() => await WriteLogAsync(null, services =>
+        {
+            ILoggerListener loggerListener = services.GetRequiredService<ILoggerListener>();
+            using IDisposable observer = loggerListener.Subscribe(log =>
+            {
+                ConsoleQueue.WriteLine(log.Message);
+            });
+            WriteLog(services, LogLevel.Information, "Hello World!");
+            observer.Dispose();
+        });
     }
 }

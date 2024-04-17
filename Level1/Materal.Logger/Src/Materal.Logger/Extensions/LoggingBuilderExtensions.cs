@@ -22,6 +22,7 @@
             builder.SetMinimumLevel(LogLevel.Trace);
             builder.Services.AddSingleton<ILoggerProvider, LoggerProvider>();
             builder.Services.AddSingleton<IHostLogger, ConsoleHostLogger>();
+            builder.Services.AddSingleton<ILoggerListener, LoggerListener>();
             LoggerProviderOptions.RegisterProviderOptions<LoggerOptions, LoggerProvider>(builder.Services);
             if (configuration is not null)
             {

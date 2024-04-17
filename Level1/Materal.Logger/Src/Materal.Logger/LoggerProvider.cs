@@ -10,14 +10,16 @@
         private readonly IDisposable? _optionsReloadToken;
         private readonly ConcurrentDictionary<string, Logger> _loggers = [];
         private readonly ILoggerHost _loggerHost;
+        private readonly ILoggerListener _loggerListener;
         /// <summary>
         /// 构造函数
         /// </summary>
-        public LoggerProvider(IOptionsMonitor<LoggerOptions> options, ILoggerHost loggerHost, IConfiguration? configuration = null)
+        public LoggerProvider(IOptionsMonitor<LoggerOptions> options, ILoggerHost loggerHost, ILoggerListener loggerListener, IConfiguration? configuration = null)
         {
             _options = options;
             _options.CurrentValue.Configuration = configuration;
             _loggerHost = loggerHost;
+            _loggerListener = loggerListener;
             ReloadLoggerOptions(_options.CurrentValue);
             _optionsReloadToken = _options.OnChange(ReloadLoggerOptions);
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
@@ -34,7 +36,7 @@
         {
             if (!_loggers.TryGetValue(categoryName, out Logger? value))
             {
-                value = _loggers.GetOrAdd(categoryName, new Logger(categoryName, _options.CurrentValue, _loggerHost));
+                value = _loggers.GetOrAdd(categoryName, new Logger(categoryName, _options.CurrentValue, _loggerHost, _loggerListener));
             }
             return value;
         }
@@ -45,6 +47,7 @@
         {
             _loggers.Clear();
             _optionsReloadToken?.Dispose();
+            _loggerListener?.Dispose();
         }
         /// <summary>
         /// 重新加载日志配置

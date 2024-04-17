@@ -95,6 +95,7 @@ namespace Materal.Logger.Test
             }
             serviceCollection.Configure<LoggerOptions>(option =>
             {
+                option.SetLoggerHostLogLevel(LogLevel.Information, LogLevel.Critical);
                 action?.Invoke(option);
                 if (!loadConfigFile)
                 {

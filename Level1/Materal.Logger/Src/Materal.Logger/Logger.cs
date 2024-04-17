@@ -3,7 +3,7 @@
     /// <summary>
     /// 日志
     /// </summary>
-    internal class Logger(string categoryName, LoggerOptions options, ILoggerHost loggerHost) : ILogger
+    internal class Logger(string categoryName, LoggerOptions options, ILoggerHost loggerHost, ILoggerListener loggerListener) : ILogger
     {
         internal LoggerOptions Options { get; set; } = options;
         private readonly LoggerExternalScopeProvider _scopeProvider = new();
@@ -13,7 +13,9 @@
             string message = formatter(state, exception);
             int threadID = Environment.CurrentManagedThreadId;
             LoggerScope loggerScope = new(_scopeProvider);
-            loggerHost.Log(new(logLevel, eventId, categoryName, message, exception, threadID, loggerScope));
+            Log log = new(logLevel, eventId, categoryName, message, exception, threadID, loggerScope);
+            loggerHost.Log(log);
+            loggerListener.Log(log);
         }
         public IDisposable? BeginScope<TState>(TState state) where TState : notnull => state switch
         {
