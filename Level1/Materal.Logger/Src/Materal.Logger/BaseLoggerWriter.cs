@@ -23,6 +23,7 @@
         /// <param name="targetOptions"></param>
         public virtual async Task LogAsync(Log log, LoggerRuleOptions ruleOptions, LoggerTargetOptions targetOptions)
         {
+            if (!await CanLogAsync(log, ruleOptions, targetOptions)) return;
             if (targetOptions is not TLoggerTargetOptions loggerTargetOptions) return;
             await LogAsync(log, ruleOptions, loggerTargetOptions);
         }
@@ -33,8 +34,9 @@
         /// <param name="ruleOptions"></param>
         /// <param name="targetOptions"></param>
         /// <returns></returns>
-        public virtual async Task<bool> CanLogAsync(Log log, LoggerRuleOptions ruleOptions, LoggerTargetOptions targetOptions)
+        protected virtual async Task<bool> CanLogAsync(Log log, LoggerRuleOptions ruleOptions, LoggerTargetOptions targetOptions)
         {
+            if (IsClose) return false;
             if (log.Level == LogLevel.None) return false;
             if (!ruleOptions.Enable) return false;
             if (!targetOptions.Enable) return false;
@@ -58,7 +60,7 @@
         /// <param name="ruleOptions"></param>
         /// <param name="targetOptions"></param>
         /// <returns></returns>
-        public virtual async Task<bool> CanLogAsync(Log log, LoggerRuleOptions ruleOptions, TLoggerTargetOptions targetOptions)
+        protected virtual async Task<bool> CanLogAsync(Log log, LoggerRuleOptions ruleOptions, TLoggerTargetOptions targetOptions)
         {
             #region 验证作用域
             if (ruleOptions.Scopes is not null && ruleOptions.Scopes.Count > 0)

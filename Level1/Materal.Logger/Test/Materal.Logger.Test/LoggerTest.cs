@@ -85,14 +85,14 @@ namespace Materal.Logger.Test
             const string connectionString = "mongodb://localhost:27017/";
             option.AddMongoTarget("MongoLogger", connectionString);
         });
-        ///// <summary>
-        ///// 写WebSocket日志
-        ///// </summary>
-        ///// <returns></returns>
-        //[TestMethod]
-        //public async Task WriteWebSocketLogTestAsync() => await WriteLogAsync(option =>
-        //{
-        //    option.AddWebSocketTarget("WebSocketLogger", 5002);
-        //}, async services => await WriteLoopLogsAsync(services, 10, 1000));
+        /// <summary>
+        /// 写WebSocket日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteWebSocketLogTestAsync() => await WriteLogAsync(option =>
+        {
+            option.AddWebSocketTarget("WebSocketLogger", 5002);
+        }, async services => await WriteLoopLogsAsync(services, 10, 1000));
     }
 }

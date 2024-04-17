@@ -24,14 +24,6 @@
         /// <param name="ruleOptions"></param>
         /// <param name="targetOptions"></param>
         Task LogAsync(Log log, LoggerRuleOptions ruleOptions, LoggerTargetOptions targetOptions);
-        /// <summary>
-        /// 是否可以写日志
-        /// </summary>
-        /// <param name="log"></param>
-        /// <param name="ruleOptions"></param>
-        /// <param name="targetOptions"></param>
-        /// <returns></returns>
-        Task<bool> CanLogAsync(Log log, LoggerRuleOptions ruleOptions, LoggerTargetOptions targetOptions);
     }
     /// <summary>
     /// 日志写入器
@@ -46,13 +38,5 @@
         /// <param name="ruleOptions"></param>
         /// <param name="targetOptions"></param>
         Task LogAsync(Log log, LoggerRuleOptions ruleOptions, TLoggerTargetOptions targetOptions);
-        /// <summary>
-        /// 是否可以写日志
-        /// </summary>
-        /// <param name="log"></param>
-        /// <param name="ruleOptions"></param>
-        /// <param name="targetOptions"></param>
-        /// <returns></returns>
-        Task<bool> CanLogAsync(Log log, LoggerRuleOptions ruleOptions, TLoggerTargetOptions targetOptions);
     }
 }

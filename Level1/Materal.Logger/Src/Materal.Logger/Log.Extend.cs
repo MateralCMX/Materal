@@ -10,15 +10,11 @@ namespace Materal.Logger
         /// 获得进程ID
         /// </summary>
         /// <returns></returns>
-        public static string GetProgressID()
+        private static string GetProgressID()
         {
             Process processes = Process.GetCurrentProcess();
             return processes.Id.ToString();
         }
-        /// <summary>
-        /// 计算机名称
-        /// </summary>
-        public static string MachineName => Environment.MachineName;
         private static string? _rootPath;
         /// <summary>
         /// 根路径
@@ -52,6 +48,8 @@ namespace Materal.Logger
             ThreadID = threadID;
             ScopeName = scope.ScopeName;
             ScopeData = scope.ScopeData;
+            MachineName = Environment.MachineName;
+            ProgressID = GetProgressID();
         }
         /// <summary>
         /// 应用域

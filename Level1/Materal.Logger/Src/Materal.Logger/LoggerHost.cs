@@ -87,7 +87,6 @@ namespace Materal.Logger
                 {
                     foreach (ILoggerWriter logWriter in _logWriters)
                     {
-                        if (!await logWriter.CanLogAsync(log, item.Key, targetOptions)) continue;
                         await logWriter.LogAsync(log, item.Key, targetOptions);
                     }
                 }

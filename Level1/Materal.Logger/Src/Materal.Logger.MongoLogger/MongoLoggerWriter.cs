@@ -63,7 +63,7 @@ namespace Materal.Logger.MongoLogger
                 _hostLogger.LogError($"日志记录到Mongo失败：", exception);
             }
         }
-        private List<BsonDocument> GetBsonDocument(IGrouping<string, MongoLog>[] data)
+        private static List<BsonDocument> GetBsonDocument(IGrouping<string, MongoLog>[] data)
         {
             List<BsonDocument> result = [];
             foreach (IGrouping<string, MongoLog> item in data)
@@ -79,36 +79,26 @@ namespace Materal.Logger.MongoLogger
             return bsonElements;
         }
         private static IEnumerable<Dictionary<string, object>> GetKeyValuePairs(IGrouping<string, MongoLog> data) => data.Select(m => m.Data);
-        private class MongoLog
+        private class MongoLog(BatchLog<MongoLoggerTargetOptions> batchLog, LoggerOptions options)
         {
             /// <summary>
             /// 链接字符串
             /// </summary>
-            public string ConnectionString { get; }
+            public string ConnectionString { get; } = batchLog.Log.ApplyText(batchLog.TargetOptions.ConnectionString, options);
             /// <summary>
             /// 数据库名
             /// </summary>
-            public string DBName { get; }
+            public string DBName { get; } = batchLog.Log.ApplyText(batchLog.TargetOptions.DBName, options);
             /// <summary>
             /// 集合名
             /// </summary>
-            public string CollectionName { get; }
-            public Dictionary<string, object> Data { get; }
-            /// <summary>
-            /// 构造方法
-            /// </summary>
-            public MongoLog(BatchLog<MongoLoggerTargetOptions> batchLog, LoggerOptions options)
-            {
-                ConnectionString = batchLog.Log.ApplyText(batchLog.TargetOptions.ConnectionString, options);
-                DBName = batchLog.Log.ApplyText(batchLog.TargetOptions.DBName, options);
-                CollectionName = batchLog.Log.ApplyText(batchLog.TargetOptions.CollectionName, options);
-                Data = SetData(batchLog, options);
-            }
+            public string CollectionName { get; } = batchLog.Log.ApplyText(batchLog.TargetOptions.CollectionName, options);
+            public Dictionary<string, object> Data { get; } = SetData(batchLog, options);
             /// <summary>
             /// 获取键值对
             /// </summary>
             /// <returns></returns>
-            private Dictionary<string, object> SetData(BatchLog<MongoLoggerTargetOptions> batchLog, LoggerOptions options)
+            private static Dictionary<string, object> SetData(BatchLog<MongoLoggerTargetOptions> batchLog, LoggerOptions options)
             {
                 Dictionary<string, object> result = new()
                 {
@@ -117,11 +107,11 @@ namespace Materal.Logger.MongoLogger
                     [nameof(Log.Level)] = batchLog.Log.Level,
                     ["LevelText"] = batchLog.Log.Level.GetDescription(),
                     [nameof(Log.CreateTime)] = batchLog.Log.CreateTime,
-                    ["ProgressID"] = Log.GetProgressID(),
+                    ["ProgressID"] = batchLog.Log.ProgressID,
                     [nameof(Log.ThreadID)] = batchLog.Log.ThreadID,
                     [nameof(Log.Message)] = batchLog.Log.ApplyText(batchLog.Log.Message, options),
                     ["Scope"] = batchLog.Log.ScopeName,
-                    [nameof(Log.MachineName)] = Log.MachineName
+                    [nameof(Log.MachineName)] = batchLog.Log.MachineName
                 };
                 SetNotNullKeyVlueToDictionary(result, nameof(Log.Exception), batchLog.Log.Exception?.GetErrorMessage());
                 SetNotNullKeyVlueToDictionary(result, nameof(Log.CategoryName), batchLog.Log.CategoryName);

@@ -10,6 +10,18 @@
         /// </summary>
         public Guid ID { get; set; } = Guid.NewGuid();
         /// <summary>
+        /// 应用程序名称
+        /// </summary>
+        public string Application { get; set; } = string.Empty;
+        /// <summary>
+        /// 计算机名称
+        /// </summary>
+        public string MachineName { get; set; } = string.Empty;
+        /// <summary>
+        /// 进程ID
+        /// </summary>
+        public string ProgressID { get; set; } = string.Empty;
+        /// <summary>
         /// 创建时间
         /// </summary>
         public DateTime CreateTime { get; set; } = DateTime.UtcNow;
@@ -28,11 +40,11 @@
         /// <summary>
         /// 分类名称
         /// </summary>
-        public string CategoryName { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
         /// <summary>
         /// 状态
         /// </summary>
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
         /// <summary>
         /// 异常
         /// </summary>
@@ -40,7 +52,7 @@
         /// <summary>
         /// 作用域提供者
         /// </summary>
-        public string ScopeName { get; set; }
+        public string ScopeName { get; set; } = string.Empty;
         /// <summary>
         /// 域数据
         /// </summary>
