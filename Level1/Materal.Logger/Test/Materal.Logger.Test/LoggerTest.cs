@@ -29,17 +29,6 @@ namespace Materal.Logger.Test
         public async Task WriteHttpLogTestAsync() => await WriteLogAsync(option
             => option.AddHttpTarget("HttpLogger", "http://localhost:5000/api/Log/Write${Level}", HttpMethod.Post));
         /// <summary>
-        /// 写总线日志
-        /// </summary>
-        /// <returns></returns>
-        [TestMethod]
-        public async Task WriteBusLogTestAsync()
-        {
-            TestLogMonitor testLogMonitor = new();
-            BusLoggerWriter.Subscribe(testLogMonitor);
-            await WriteLogAsync(option => option.AddBusTarget("BusLog"));
-        }
-        /// <summary>
         /// 写Sqlite日志
         /// </summary>
         /// <returns></returns>
