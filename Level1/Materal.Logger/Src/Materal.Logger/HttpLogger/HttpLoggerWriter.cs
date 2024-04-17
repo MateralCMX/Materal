@@ -34,33 +34,20 @@ namespace Materal.Logger.HttpLogger
             });
             await Task.CompletedTask;
         }
-        /// <summary>
-        /// Http日志
-        /// </summary>
-        private class HttpLog
+        private class HttpLog(BatchLog<HttpLoggerTargetOptions> batchLog, LoggerOptions options)
         {
             /// <summary>
             /// 日志
             /// </summary>
-            public Log Log { get; }
+            public Log Log { get; } = batchLog.Log;
             /// <summary>
             /// 地址
             /// </summary>
-            public string Url { get; }
+            public string Url { get; } = batchLog.Log.ApplyText(batchLog.TargetOptions.Url, options);
             /// <summary>
             /// Http方法
             /// </summary>
-            public HttpMethod HttpMethod { get; }
-            /// <summary>
-            /// 构造方法
-            /// </summary>
-            public HttpLog(BatchLog<HttpLoggerTargetOptions> batchLog, LoggerOptions options)
-            {
-                Log = batchLog.Log;
-                Log.Message = Log.ApplyText(batchLog.Log.Message, options);
-                Url = Log.ApplyText(batchLog.TargetOptions.Url, options);
-                HttpMethod = batchLog.TargetOptions.GetHttpMethod();
-            }
+            public HttpMethod HttpMethod { get; } = batchLog.TargetOptions.GetHttpMethod();
         }
     }
 }

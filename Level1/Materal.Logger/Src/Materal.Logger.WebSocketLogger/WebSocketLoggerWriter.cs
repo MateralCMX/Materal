@@ -18,7 +18,6 @@ namespace Materal.Logger.WebSocketLogger
         public override async Task LogAsync(Log log, LoggerRuleOptions ruleOptions, WebSocketLoggerTargetOptions targetOptions)
         {
             LoggerWebSocketServer server = GetLoggerWebSocketServer(targetOptions.Port);
-            log.Message = log.ApplyText(log.Message, Options.CurrentValue);
             await server.LogAsync(log);
         }
         /// <summary>

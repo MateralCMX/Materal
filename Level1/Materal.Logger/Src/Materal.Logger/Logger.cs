@@ -13,7 +13,7 @@
             string message = formatter(state, exception);
             int threadID = Environment.CurrentManagedThreadId;
             LoggerScope loggerScope = new(_scopeProvider);
-            Log log = new(logLevel, eventId, categoryName, message, exception, threadID, loggerScope);
+            Log log = new(Options.Application, logLevel, eventId, categoryName, message, exception, threadID, loggerScope);
             loggerHost.Log(log);
             loggerListener.Log(log);
         }

@@ -36,7 +36,6 @@ namespace Materal.Logger.DBLogger
         public DBLog(BatchLog<TLoggerTargetOptions> batchLog, LoggerOptions options)
         {
             Log = batchLog.Log;
-            Log.Message = Log.ApplyText(Log.Message, options);
             ConnectionString = Log.ApplyText(batchLog.TargetOptions.ConnectionString, options);
             TableName = Log.ApplyText(batchLog.TargetOptions.TableName, options);
             Fileds = batchLog.TargetOptions.Fileds.Count <= 0

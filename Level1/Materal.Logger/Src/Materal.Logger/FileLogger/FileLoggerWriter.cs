@@ -62,25 +62,16 @@ namespace Materal.Logger.FileLogger
                 File.AppendAllText(path, fileContent, defaultEncoding);
             }
         }
-        private class FileLog
+        private class FileLog(BatchLog<FileLoggerTargetOptions> batchLog, LoggerOptions options)
         {
             /// <summary>
             /// 路径
             /// </summary>
-            public string Path { get; }
+            public string Path { get; } = batchLog.Log.ApplyText(batchLog.TargetOptions.Path, options);
             /// <summary>
             /// 文件内容
             /// </summary>
-            public string FileContent { get; }
-            /// <summary>
-            /// 构造方法
-            /// </summary>
-            public FileLog(BatchLog<FileLoggerTargetOptions> batchLog, LoggerOptions options)
-            {
-                Path = batchLog.Log.ApplyText(batchLog.TargetOptions.Path, options);
-                batchLog.Log.Message = batchLog.Log.ApplyText(batchLog.Log.Message, options);
-                FileContent = batchLog.Log.ApplyText(batchLog.TargetOptions.Format, options);
-            }
+            public string FileContent { get; } = batchLog.Log.ApplyText(batchLog.TargetOptions.Format, options);
         }
     }
 }

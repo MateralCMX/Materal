@@ -38,8 +38,9 @@ namespace Materal.Logger
         /// 构造方法
         /// </summary>
         [SuppressMessage("Style", "IDE0290:使用主构造函数", Justification = "<挂起>")]
-        public Log(LogLevel level, EventId eventID, string categoryName, string message, Exception? exception, int threadID, LoggerScope scope)
+        public Log(string application, LogLevel level, EventId eventID, string categoryName, string message, Exception? exception, int threadID, LoggerScope scope)
         {
+            Application = application;
             Level = level;
             EventID = eventID;
             CategoryName = categoryName;

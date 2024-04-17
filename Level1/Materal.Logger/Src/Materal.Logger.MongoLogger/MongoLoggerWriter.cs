@@ -103,13 +103,13 @@ namespace Materal.Logger.MongoLogger
                 Dictionary<string, object> result = new()
                 {
                     [nameof(Log.ID)] = batchLog.Log.ID,
-                    [nameof(LoggerOptions.Application)] = batchLog.Log.ApplyText(options.Application, options),
+                    [nameof(LoggerOptions.Application)] = batchLog.Log.Application,
                     [nameof(Log.Level)] = batchLog.Log.Level,
                     ["LevelText"] = batchLog.Log.Level.GetDescription(),
                     [nameof(Log.CreateTime)] = batchLog.Log.CreateTime,
                     ["ProgressID"] = batchLog.Log.ProgressID,
                     [nameof(Log.ThreadID)] = batchLog.Log.ThreadID,
-                    [nameof(Log.Message)] = batchLog.Log.ApplyText(batchLog.Log.Message, options),
+                    [nameof(Log.Message)] = batchLog.Log.Message,
                     ["Scope"] = batchLog.Log.ScopeName,
                     [nameof(Log.MachineName)] = batchLog.Log.MachineName
                 };

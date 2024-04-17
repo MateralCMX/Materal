@@ -81,6 +81,7 @@ namespace Materal.Logger
         /// <param name="log"></param>
         public async Task LoggerWriterHandlerAsync(Log log)
         {
+            log.Message = log.ApplyText(log.Message, Options);
             foreach (KeyValuePair<LoggerRuleOptions, List<LoggerTargetOptions>> item in _targets)
             {
                 foreach (LoggerTargetOptions targetOptions in item.Value)
