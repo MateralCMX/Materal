@@ -151,11 +151,8 @@
         /// <returns></returns>
         public virtual async Task StartAsync()
         {
-            string name = GetType().Name;
-            LoggerInfo.LogDebug($"正在启动{name}");
             IsClose = false;
             await Task.CompletedTask;
-            LoggerInfo.LogDebug($"{name}启动成功");
         }
         /// <summary>
         /// 停止
@@ -163,11 +160,8 @@
         /// <returns></returns>
         public virtual async Task StopAsync()
         {
-            string name = GetType().Name;
-            LoggerInfo.LogDebug($"正在关闭{name}");
             IsClose = true;
             await Task.CompletedTask;
-            LoggerInfo.LogDebug($"{name}关闭成功");
         }
     }
 }

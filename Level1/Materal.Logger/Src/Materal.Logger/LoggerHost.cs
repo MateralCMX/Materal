@@ -103,9 +103,12 @@ namespace Materal.Logger
                 Runing = true;
                 await _loggerInfo.StartAsync();
                 _loggerInfo.LogDebug($"正在启动...");
-                foreach (var item in _logWriters)
+                foreach (ILoggerWriter writer in _logWriters)
                 {
-                    await item.StartAsync();
+                    string name = writer.GetType().Name;
+                    _loggerInfo.LogDebug($"{name}正在启动");
+                    await writer.StartAsync();
+                    _loggerInfo.LogDebug($"{name}启动成功");
                 }
                 _loggerInfo.LogDebug($"已启动");
             }
@@ -131,9 +134,12 @@ namespace Materal.Logger
                     _writeLoggerBlock.Complete();
                     await _writeLoggerBlock.Completion;
                 }
-                foreach (var item in _logWriters)
+                foreach (ILoggerWriter writer in _logWriters)
                 {
-                    await item.StopAsync();
+                    string name = writer.GetType().Name;
+                    _loggerInfo.LogDebug($"{name}正在关闭");
+                    await writer.StopAsync();
+                    _loggerInfo.LogDebug($"{name}启关闭成功");
                 }
                 _loggerInfo.LogDebug($"已关闭");
                 await _loggerInfo.StopAsync();

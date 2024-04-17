@@ -31,7 +31,7 @@ namespace Materal.Logger
         /// <summary>
         /// 最小日志主机日志等级
         /// </summary>
-        public LogLevel MinLoggerHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Trace;
+        public LogLevel MinLoggerHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Information;
         /// <summary>
         /// 最大日志主机日志等级
         /// </summary>

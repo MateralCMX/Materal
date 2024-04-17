@@ -88,14 +88,11 @@ namespace Materal.Logger.BatchLogger
             await _clearTimerSemaphore.WaitAsync();
             try
             {
-                string name = GetType().Name;
-                LoggerInfo.LogDebug($"正在关闭{name}");
-                IsClose = true;
+                await base.StopAsync();
                 _logBlock.Complete();
                 await _logBlock.Completion;
                 _logsBlock.Complete();
                 await _logsBlock.Completion;
-                LoggerInfo.LogDebug($"{name}关闭成功");
             }
             finally
             {

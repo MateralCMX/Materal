@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using Fleck;
+using System.Collections.Concurrent;
 
 namespace Materal.Logger.WebSocketLogger
 {
@@ -21,20 +22,26 @@ namespace Materal.Logger.WebSocketLogger
             await server.LogAsync(log);
         }
         /// <summary>
+        /// 启动
+        /// </summary>
+        /// <returns></returns>
+        public override async Task StartAsync()
+        {
+            await base.StartAsync();
+            FleckLog.LogAction = (level, message, exception) => { };
+            await Task.CompletedTask;
+        }
+        /// <summary>
         /// 停止
         /// </summary>
         /// <returns></returns>
         public override async Task StopAsync()
         {
-            string name = GetType().Name;
-            LoggerInfo.LogDebug($"正在关闭{name}");
-            IsClose = true;
+            await base.StopAsync();
             foreach (KeyValuePair<int, LoggerWebSocketServer> item in _webSocketServers)
             {
                 item.Value.Stop();
             }
-            LoggerInfo.LogDebug($"{name}关闭成功");
-            await Task.CompletedTask;
         }
         /// <summary>
         /// 获取日志WebSocket服务器
