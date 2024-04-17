@@ -111,7 +111,7 @@ namespace Materal.Logger.MySqlLogger
         /// <param name="tableName">表名</param>
         /// <param name="fileds">字段</param>
         /// <returns></returns>
-        private string GetCreateTableTSQL(string tableName, List<IDBFiled> fileds)
+        private static string GetCreateTableTSQL(string tableName, List<IDBFiled> fileds)
         {
             StringBuilder setPrimaryKeyTSQL = new();
             StringBuilder createTableTSQL = new();

@@ -12,7 +12,7 @@
         /// <summary>
         /// 数据库名
         /// </summary>
-        public string DBName { get; set; } = "MateralLogger";
+        public string DBName { get; set; } = "Logs";
         /// <summary>
         /// 集合名
         /// </summary>

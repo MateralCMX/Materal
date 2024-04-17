@@ -139,7 +139,7 @@ namespace Materal.Logger
                     string name = writer.GetType().Name;
                     _loggerInfo.LogDebug($"{name}正在关闭");
                     await writer.StopAsync();
-                    _loggerInfo.LogDebug($"{name}启关闭成功");
+                    _loggerInfo.LogDebug($"{name}关闭成功");
                 }
                 _loggerInfo.LogDebug($"已关闭");
                 await _loggerInfo.StopAsync();

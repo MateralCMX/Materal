@@ -34,6 +34,22 @@ namespace Materal.Logger.Test
         /// </summary>
         /// <param name="action"></param>
         /// <param name="count"></param>
+        /// <param name="logLevel"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private async Task WriteLogAsync(Action<LoggerOptions>? action, int count, LogLevel logLevel) => await WriteLogAsync(action, services =>
+        {
+            ILogger<LoggerTest> logger = services.GetRequiredService<ILogger<LoggerTest>>();
+            for (int i = 1; i <= count; i++)
+            {
+                WriteLog(logger, logLevel, $"[{i:00000}]这是一条随机日志");
+            }
+        }, false);
+        /// <summary>
+        /// 写日志
+        /// </summary>
+        /// <param name="action"></param>
+        /// <param name="count"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         private async Task WriteLogAsync(Action<LoggerOptions>? action, int count) => await WriteLogAsync(action, services =>

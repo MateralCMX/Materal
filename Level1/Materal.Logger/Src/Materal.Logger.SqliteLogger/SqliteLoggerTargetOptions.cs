@@ -30,7 +30,7 @@ namespace Materal.Logger.SqliteLogger
         }
         private static readonly List<SqliteFiled> _defaultFileds =
         [
-            new() { Name = "ID", Type = "TEXT", Value = "${LogID}", PK = true },
+            new() { Name = "ID", Type = "TEXT(36)", Value = "${LogID}", PK = true },
             new() { Name = "CreateTime", Type = "DATE", Value = "${DateTime}", Index = "DESC", IsNull = false },
             new() { Name = "Level", Type = "TEXT", Value = "${Level}" },
             new() { Name = "ProgressID", Type = "TEXT", Value = "${ProgressID}" },

@@ -31,11 +31,11 @@ namespace Materal.Logger
         /// <summary>
         /// 最小日志主机日志等级
         /// </summary>
-        public LogLevel MinLoggerHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Information;
+        public LogLevel MinLoggerInfoLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Information;
         /// <summary>
         /// 最大日志主机日志等级
         /// </summary>
-        public LogLevel MaxLoggerHostLogLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Critical;
+        public LogLevel MaxLoggerInfoLevel { get; set; } = Microsoft.Extensions.Logging.LogLevel.Critical;
         /// <summary>
         /// 批量处理大小
         /// </summary>

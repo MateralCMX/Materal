@@ -44,11 +44,12 @@ namespace Materal.Logger.MongoLogger
                         {
                             _mongoRepository.DatabaseName = dbNameItem.Key;
                             IGrouping<string, MongoLog>[] groupCollection = dbNameItem.GroupBy(m => m.CollectionName).ToArray();
-                            if (groupCollection.Length <= 0) continue;
-                            string collectionName = groupCollection.First().Key;
-                            _mongoRepository.CollectionName = collectionName;
-                            IEnumerable<BsonDocument> documents = GetBsonDocument(groupCollection);
-                            await _mongoRepository.InsertAsync(documents);
+                            foreach (IGrouping<string, MongoLog> collection in groupCollection)
+                            {
+                                _mongoRepository.CollectionName = collection.Key;
+                                IEnumerable<BsonDocument> documents = GetBsonDocuments(collection);
+                                await _mongoRepository.InsertAsync(documents);
+                            }
                         }
                     }
                     catch (Exception exception)
@@ -56,21 +57,11 @@ namespace Materal.Logger.MongoLogger
                         _loggerInfo.LogError($"日志记录到Mongo[{data.Key}]失败：", exception);
                     }
                 }
-                await Task.CompletedTask;
             }
             catch (Exception exception)
             {
                 _loggerInfo.LogError($"日志记录到Mongo失败：", exception);
             }
-        }
-        private static List<BsonDocument> GetBsonDocument(IGrouping<string, MongoLog>[] data)
-        {
-            List<BsonDocument> result = [];
-            foreach (IGrouping<string, MongoLog> item in data)
-            {
-                result.AddRange(GetBsonDocuments(item));
-            }
-            return result;
         }
         private static IEnumerable<BsonDocument> GetBsonDocuments(IGrouping<string, MongoLog> data)
         {

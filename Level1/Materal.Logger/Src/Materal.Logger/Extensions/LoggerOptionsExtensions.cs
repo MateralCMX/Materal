@@ -31,10 +31,10 @@
         /// <returns></returns>
         public static LoggerOptions SetLoggerHostLogLevel(this LoggerOptions options, LogLevel minLogLevel, LogLevel? maxLogLevel = null)
         {
-            options.MinLoggerHostLogLevel = minLogLevel;
+            options.MinLoggerInfoLevel = minLogLevel;
             if (maxLogLevel is not null)
             {
-                options.MaxLoggerHostLogLevel = maxLogLevel.Value;
+                options.MaxLoggerInfoLevel = maxLogLevel.Value;
             }
             return options;
         }

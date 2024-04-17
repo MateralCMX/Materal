@@ -17,11 +17,11 @@
         /// <summary>
         /// 最小等级
         /// </summary>
-        public LogLevel MinLogLevel => Options.MinLoggerHostLogLevel;
+        public LogLevel MinLogLevel => Options.MinLoggerInfoLevel;
         /// <summary>
         /// 最大等级
         /// </summary>
-        public LogLevel MaxLogLevel => Options.MaxLoggerHostLogLevel;
+        public LogLevel MaxLogLevel => Options.MaxLoggerInfoLevel;
         /// <summary>
         /// 启动
         /// </summary>

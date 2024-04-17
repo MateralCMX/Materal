@@ -34,7 +34,7 @@ namespace Materal.Logger.Test
         [TestMethod]
         public async Task WriteSqliteLogTestAsync() => await WriteLogAsync(option =>
         {
-            const string path = "${RootPath}\\Logs\\MateralLogger.db";
+            const string path = "${RootPath}\\Logs\\Logs.db";
             option.AddSqliteTargetFromPath("SqliteLogger", path, "${Level}Log");
         });
         /// <summary>
@@ -44,7 +44,7 @@ namespace Materal.Logger.Test
         [TestMethod]
         public async Task WriteSqlServerLogTestAsync() => await WriteLogAsync(option =>
         {
-            const string connectionString = "Data Source=127.0.0.1;Database=MateralLoggerTestDB; User ID=sa; Password=Materal@1234;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;";
+            const string connectionString = "Data Source=127.0.0.1;Database=Logs; User ID=sa; Password=Materal@1234;MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=True;";
             option.AddSqlServerTarget("SqlServerLogger", connectionString, "${Level}Log");
         });
         /// <summary>
@@ -54,7 +54,7 @@ namespace Materal.Logger.Test
         [TestMethod]
         public async Task WriteMySqlLogTestAsync() => await WriteLogAsync(option =>
         {
-            const string connectionString = "Server=127.0.0.1;Port=3306;Database=MateralLoggerTestDB;Uid=root;Pwd=Materal@1234;AllowLoadLocalInfile=true;";
+            const string connectionString = "Server=127.0.0.1;Port=3306;Database=Logs;Uid=root;Pwd=Materal@1234;AllowLoadLocalInfile=true;";
             option.AddMySqlTarget("MySqlLogger", connectionString, "${Level}Log");
         });
         /// <summary>
@@ -75,7 +75,7 @@ namespace Materal.Logger.Test
         public async Task WriteMongoLogTestAsync() => await WriteLogAsync(option =>
         {
             const string connectionString = "mongodb://localhost:27017/";
-            option.AddMongoTarget("MongoLogger", connectionString);
+            option.AddMongoTarget("MongoLogger", connectionString, "Logs", "${Level}Logs");
         });
         /// <summary>
         /// 写WebSocket日志
@@ -102,5 +102,11 @@ namespace Materal.Logger.Test
             WriteThreadLogs(services, 100);
             WriteLargeLogs(services, 10000);
         });
+        /// <summary>
+        /// 写WebSocket日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WriteConfigLogTestAsync() => await WriteLogAsync(null, true);
     }
 }
