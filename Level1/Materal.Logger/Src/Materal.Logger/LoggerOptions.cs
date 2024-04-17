@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System.Dynamic;
 
 namespace Materal.Logger
@@ -95,7 +96,7 @@ namespace Materal.Logger
                 }
                 string? targetConfigs = Configuration.GetConfigItemToString("Logging:MateralLogger:Targets");
                 if (targetConfigs is null || string.IsNullOrWhiteSpace(targetConfigs)) return;
-                List<ExpandoObject> targets = targetConfigs.JsonToObject<List<ExpandoObject>>();
+                List<ExpandoObject> targets = JsonConvert.DeserializeObject<List<ExpandoObject>>(targetConfigs) ?? [];
                 foreach (ExpandoObject target in targets)
                 {
                     string? typeName = target.GetObjectValue<string>(nameof(LoggerTargetOptions.Type));
