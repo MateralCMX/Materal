@@ -1,5 +1,6 @@
 ﻿using Materal.Oscillator.Abstractions.Domain;
 using Materal.Oscillator.Abstractions.Works;
+using Materal.Utils;
 
 namespace Materal.Oscillator.Works
 {
@@ -20,9 +21,7 @@ namespace Materal.Oscillator.Works
         /// <returns></returns>
         public override Task<string?> ExcuteAsync(ConsoleWorkData workData, List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork, Work work)
         {
-            Console.WriteLine("--------------------------------------------------------");
-            Console.WriteLine(workData.Message);
-            Console.WriteLine("--------------------------------------------------------");
+            ConsoleQueue.WriteLine(workData.Message);
             return Task.FromResult((string?)null);
         }
     }
