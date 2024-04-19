@@ -1,7 +1,9 @@
 ﻿using Materal.Gateway.Application.Extensions;
+using Materal.Gateway.Service;
 using Materal.MergeBlock.Abstractions.WebModule;
 using Materal.Utils.Consul;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.FileProviders;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
@@ -41,6 +43,29 @@ namespace Materal.Gateway.Application
             await base.OnConfigServiceAsync(context);
         }
         /// <summary>
+        /// 应用程序初始化之前
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public override async Task OnApplicationInitBeforeAsync(IWebApplicationContext context)
+        {
+            string managementPath = Path.Combine(GetType().Assembly.GetDirectoryPath(), "GatewayManagement");
+            DirectoryInfo managementDirectoryInfo = new(managementPath);
+            if (!managementDirectoryInfo.Exists)
+            {
+                managementDirectoryInfo.Create();
+                managementDirectoryInfo.Refresh();
+            }
+            StaticFileOptions staticFileOptions = new()
+            {
+                FileProvider = new PhysicalFileProvider(managementDirectoryInfo.FullName),
+                RequestPath = $"/{managementDirectoryInfo.Name}",
+            };
+            context.WebApplication.UseStaticFiles(staticFileOptions);
+            context.ServiceProvider.GetService<ILogger<GatewayModule>>()?.LogInformation($"已启用网关管理界面:/{managementDirectoryInfo.Name}/Index.html");
+            await base.OnApplicationInitBeforeAsync(context);
+        }
+        /// <summary>
         /// 应用初始化
         /// </summary>
         /// <param name="context"></param>
@@ -49,6 +74,8 @@ namespace Materal.Gateway.Application
         {
             context.WebApplication.UseMateralGatewaySwaggerUI();
             await context.WebApplication.UseMateralGatewayAsync();
+            IOcelotConfigService ocelotConfigService = context.ServiceProvider.GetRequiredService<IOcelotConfigService>();
+            await ocelotConfigService.InitAsync();
             await base.OnApplicationInitAsync(context);
         }
     }

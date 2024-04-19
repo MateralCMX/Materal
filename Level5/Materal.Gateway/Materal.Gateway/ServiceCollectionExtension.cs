@@ -1,6 +1,7 @@
 ﻿using Materal.Gateway.OcelotConsulExtension;
+using Materal.Gateway.OcelotExtension.Repositories;
+using Materal.Gateway.Service;
 using Ocelot.DependencyInjection;
-using Ocelot.Provider.Consul;
 
 namespace Materal.Gateway
 {
@@ -16,6 +17,8 @@ namespace Materal.Gateway
         /// <returns></returns>
         public static IOcelotBuilder AddMateralGateway(this IServiceCollection services)
         {
+            services.TryAddSingleton<IOcelotConfigRepository, OcelotConfigRepositoryImpl>();
+            services.TryAddSingleton<IOcelotConfigService, OcelotConfigServiceImpl>();
             IOcelotBuilder result = services.AddOcelot();
             result.AddGatewayConsul();
             return result;

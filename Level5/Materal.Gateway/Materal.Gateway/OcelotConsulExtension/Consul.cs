@@ -32,10 +32,10 @@ namespace Materal.Gateway.OcelotConsulExtension
         /// 获取服务
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Service>> GetAsync()
+        public async Task<List<Ocelot.Values.Service>> GetAsync()
         {
             QueryResult<ServiceEntry[]> queryResult = await _consul.Health.Service(_config.KeyOfServiceInConsul, string.Empty, true);
-            List<Service> services = [];
+            List<Ocelot.Values.Service> services = [];
             foreach (ServiceEntry serviceEntry in queryResult.Response)
             {
                 AgentService service = serviceEntry.Service;
@@ -59,12 +59,12 @@ namespace Materal.Gateway.OcelotConsulExtension
             }
             return [.. services];
         }
-        private static Service BuildService(ServiceEntry serviceEntry, Node? serviceNode)
+        private static Ocelot.Values.Service BuildService(ServiceEntry serviceEntry, Node? serviceNode)
         {
             AgentService service = serviceEntry.Service;
             string host = serviceNode is null ? service.Address : serviceNode.Address;
             ServiceHostAndPort serviceHostAndPort = new(host, service.Port);
-            return new Service(
+            return new Ocelot.Values.Service(
                 service.Service,
                 serviceHostAndPort,
                 service.ID,
