@@ -1,11 +1,8 @@
-﻿using Materal.Gateway.Application.Extensions;
-using Materal.Gateway.OcelotExtension;
-using Materal.Gateway.Service;
-using Materal.MergeBlock.Abstractions.WebModule;
-using Materal.Utils.Consul;
+﻿using Materal.MergeBlock.Abstractions.WebModule;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.FileProviders;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
+using Ocelot.Provider.Consul;
 
 namespace Materal.Gateway.Application
 {
@@ -15,67 +12,39 @@ namespace Materal.Gateway.Application
     public class GatewayModule() : MergeBlockWebModule("网关模块", "Gateway")
     {
         /// <summary>
-        /// 配置服务之前
+        /// 配置服务前
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public override Task OnConfigServiceBeforeAsync(IConfigServiceContext context)
+        public override async Task OnConfigServiceBeforeAsync(IWebConfigServiceContext context)
         {
             string filePath = Path.Combine(GetType().Assembly.GetDirectoryPath(), "Ocelot.json");
             if (context.Configuration is ConfigurationManager configuration)
             {
                 configuration.AddJsonFile(filePath, false, true);
             }
-            return base.OnConfigServiceBeforeAsync(context);
+            await base.OnConfigServiceBeforeAsync(context);
         }
         /// <summary>
         /// 配置服务
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public override async Task OnConfigServiceAsync(IWebConfigServiceContext context)
+        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
-            context.Services.Configure<ApplicationConfig>(context.Configuration);
-            context.Services.AddMateralConsulUtils();
             context.Services.AddSwaggerForOcelot(context.Configuration);
-            context.Services.AddOcelotGateway();
+            context.Services.AddMateralGateway();
             await base.OnConfigServiceAsync(context);
         }
         /// <summary>
-        /// 应用程序初始化之前
+        /// 应用初始化
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public override async Task OnApplicationInitBeforeAsync(IWebApplicationContext context)
+        public override async Task OnApplicationInitAsync(IWebApplicationContext context)
         {
-            IOcelotConfigService ocelotConfigService = context.ServiceProvider.GetRequiredService<IOcelotConfigService>();
-            await ocelotConfigService.InitAsync();
-            string managementPath = Path.Combine(GetType().Assembly.GetDirectoryPath(), "GatewayManagement");
-            DirectoryInfo managementDirectoryInfo = new(managementPath);
-            if (!managementDirectoryInfo.Exists)
-            {
-                managementDirectoryInfo.Create();
-                managementDirectoryInfo.Refresh();
-            }
-            StaticFileOptions staticFileOptions = new()
-            {
-                FileProvider = new PhysicalFileProvider(managementDirectoryInfo.FullName),
-                RequestPath = $"/{managementDirectoryInfo.Name}",
-            };
-            context.WebApplication.UseStaticFiles(staticFileOptions);
-            context.ServiceProvider.GetService<ILogger<GatewayModule>>()?.LogInformation($"已启用网关管理界面:/{managementDirectoryInfo.Name}/Index.html");
-            await base.OnApplicationInitBeforeAsync(context);
-        }
-        /// <summary>
-        /// 应用程序初始化之后
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override async Task OnApplicationInitAfterAsync(IWebApplicationContext context)
-        {
-            IWebHostEnvironment environment = context.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
-            context.WebApplication.UseMateralGatewaySwaggerUI();
-            await context.WebApplication.UseOcelotGatewayAsync(true);
+            context.WebApplication.UseSwaggerForOcelotUI();
+            await context.WebApplication.UseMateralGatewayAsync();
             await base.OnApplicationInitAsync(context);
         }
     }

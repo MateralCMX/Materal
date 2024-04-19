@@ -1,6 +1,6 @@
-﻿using Ocelot.Configuration.Repository;
-using Ocelot.DependencyInjection;
+﻿using Ocelot.DependencyInjection;
 using Ocelot.Provider.Consul;
+using Ocelot.ServiceDiscovery;
 
 namespace Materal.Gateway.OcelotConsulExtension
 {
@@ -16,11 +16,8 @@ namespace Materal.Gateway.OcelotConsulExtension
         /// <returns></returns>
         public static IOcelotBuilder AddGatewayConsul(this IOcelotBuilder builder)
         {
-            builder.Services
-                .AddSingleton(GatewayConsulProviderFactory.Get)
-                .AddSingleton<IConsulClientFactory, ConsulClientFactory>()
-                .RemoveAll(typeof(IFileConfigurationPollerOptions))
-                .AddSingleton<IFileConfigurationPollerOptions, ConsulFileConfigurationPollerOption>();
+            builder.AddConsul();
+            builder.Services.Replace(new ServiceDescriptor(typeof(ServiceDiscoveryFinderDelegate), GatewayConsulProviderFactory.Get));
             return builder;
         }
     }

@@ -10,7 +10,7 @@ namespace Materal.Gateway.OcelotConsulExtension
     /// <summary>
     /// 网关Consul
     /// </summary>
-    public class GatewayConsul : IServiceDiscoveryProvider
+    public class Consul : IServiceDiscoveryProvider
     {
         private const string VersionPrefix = "version-";
         private readonly ConsulRegistryConfiguration _config;
@@ -22,24 +22,20 @@ namespace Materal.Gateway.OcelotConsulExtension
         /// <param name="config"></param>
         /// <param name="factory"></param>
         /// <param name="clientFactory"></param>
-        public GatewayConsul(ConsulRegistryConfiguration config, IOcelotLoggerFactory factory, IConsulClientFactory clientFactory)
+        public Consul(ConsulRegistryConfiguration config, IOcelotLoggerFactory factory, IConsulClientFactory clientFactory)
         {
             _config = config;
             _consul = clientFactory.Get(_config);
-            _logger = factory.CreateLogger<GatewayConsul>();
+            _logger = factory.CreateLogger<Consul>();
         }
         /// <summary>
         /// 获取服务
         /// </summary>
         /// <returns></returns>
-#if NET8_0
-        public async Task<List<Ocelot.Values.Service>> GetAsync()
-#else
-        public async Task<List<Ocelot.Values.Service>> Get()
-#endif
+        public async Task<List<Service>> GetAsync()
         {
             QueryResult<ServiceEntry[]> queryResult = await _consul.Health.Service(_config.KeyOfServiceInConsul, string.Empty, true);
-            List<Ocelot.Values.Service> services = [];
+            List<Service> services = [];
             foreach (ServiceEntry serviceEntry in queryResult.Response)
             {
                 AgentService service = serviceEntry.Service;
@@ -63,12 +59,12 @@ namespace Materal.Gateway.OcelotConsulExtension
             }
             return [.. services];
         }
-        private static Ocelot.Values.Service BuildService(ServiceEntry serviceEntry, Node? serviceNode)
+        private static Service BuildService(ServiceEntry serviceEntry, Node? serviceNode)
         {
             AgentService service = serviceEntry.Service;
             string host = serviceNode is null ? service.Address : serviceNode.Address;
             ServiceHostAndPort serviceHostAndPort = new(host, service.Port);
-            return new Ocelot.Values.Service(
+            return new Service(
                 service.Service,
                 serviceHostAndPort,
                 service.ID,
