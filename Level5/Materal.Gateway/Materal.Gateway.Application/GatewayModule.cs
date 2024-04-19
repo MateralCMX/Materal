@@ -1,4 +1,6 @@
-﻿using Materal.MergeBlock.Abstractions.WebModule;
+﻿using Materal.Gateway.Application.Extensions;
+using Materal.MergeBlock.Abstractions.WebModule;
+using Materal.Utils.Consul;
 using Microsoft.AspNetCore.Builder;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -32,6 +34,8 @@ namespace Materal.Gateway.Application
         /// <returns></returns>
         public override async Task OnConfigServiceAsync(IConfigServiceContext context)
         {
+            context.Services.Configure<ApplicationConfig>(context.Configuration);
+            context.Services.AddMateralConsulUtils();
             context.Services.AddSwaggerForOcelot(context.Configuration);
             context.Services.AddMateralGateway();
             await base.OnConfigServiceAsync(context);
@@ -43,7 +47,7 @@ namespace Materal.Gateway.Application
         /// <returns></returns>
         public override async Task OnApplicationInitAsync(IWebApplicationContext context)
         {
-            context.WebApplication.UseSwaggerForOcelotUI();
+            context.WebApplication.UseMateralGatewaySwaggerUI();
             await context.WebApplication.UseMateralGatewayAsync();
             await base.OnApplicationInitAsync(context);
         }
