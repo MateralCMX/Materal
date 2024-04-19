@@ -10,7 +10,7 @@ namespace Materal.Gateway.OcelotConsulExtension
     /// <summary>
     /// 网关Consul
     /// </summary>
-    public class Consul : IServiceDiscoveryProvider
+    public class GatewayConsul : IServiceDiscoveryProvider
     {
         private const string VersionPrefix = "version-";
         private readonly ConsulRegistryConfiguration _config;
@@ -22,17 +22,21 @@ namespace Materal.Gateway.OcelotConsulExtension
         /// <param name="config"></param>
         /// <param name="factory"></param>
         /// <param name="clientFactory"></param>
-        public Consul(ConsulRegistryConfiguration config, IOcelotLoggerFactory factory, IConsulClientFactory clientFactory)
+        public GatewayConsul(ConsulRegistryConfiguration config, IOcelotLoggerFactory factory, IConsulClientFactory clientFactory)
         {
             _config = config;
             _consul = clientFactory.Get(_config);
-            _logger = factory.CreateLogger<Consul>();
+            _logger = factory.CreateLogger<GatewayConsul>();
         }
         /// <summary>
         /// 获取服务
         /// </summary>
         /// <returns></returns>
+#if NET8_0
         public async Task<List<Ocelot.Values.Service>> GetAsync()
+#else
+        public async Task<List<Ocelot.Values.Service>> Get()
+#endif
         {
             QueryResult<ServiceEntry[]> queryResult = await _consul.Health.Service(_config.KeyOfServiceInConsul, string.Empty, true);
             List<Ocelot.Values.Service> services = [];
