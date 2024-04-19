@@ -11,6 +11,20 @@ namespace Materal.Logger.Test
         /// </summary>
         /// <returns></returns>
         [TestMethod]
+        public async Task TestAsync() => await WriteLogAsync(option =>
+        {
+            option.AddConsoleTarget("ConsoleLog", _textFormat);
+            option.AddCustomData("ApplicationName", "TestApplication");
+            option.Application = "${ApplicationName}";
+        }, services =>
+        {
+            WriteLog(services, LogLevel.Information, "Hello World!");
+        });
+        /// <summary>
+        /// 写控制台日志
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
         public async Task WriteConsoleLogTestAsync() => await WriteLogAsync(option
             => option.AddConsoleTarget("ConsoleLog", _textFormat));
         /// <summary>

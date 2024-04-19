@@ -62,7 +62,7 @@ namespace Materal.Logger
         {
             string result = messages;
             data ??= [];
-            AddData(data, "Application", options.Application);
+            AddData(data, "Application", Application);
             AddData(data, "LogID", ID);
             AddData(data, "Time", CreateTime.ToString("HH:mm:ss"));
             AddData(data, "DateTime", CreateTime.ToString("yyyy-MM-dd HH:mm:ss"));
