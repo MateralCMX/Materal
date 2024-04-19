@@ -30,6 +30,7 @@ namespace Materal.MergeBlock
         /// <returns></returns>
         public virtual async Task ConfigModuleAsync(IServiceCollection services, ConfigurationManager configuration, bool autoRemoveAssemblies)
         {
+            MergeBlockHost.Logger = new MergeBlockLogger();
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, ConsoleModuleBuilder>());
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, WebModuleBuilder>());
             services.TryAddEnumerable(ServiceDescriptor.Singleton<IModuleBuilder, NormalModuleBuilder>());
@@ -69,6 +70,7 @@ namespace Materal.MergeBlock
             await ConfigServiceAsync(context);
             await RunModuleAsync(async m =>
             {
+                MergeBlockHost.Logger?.LogDebug($"配置模块[{m.Name}|{m.Description}]");
                 await m.ConfigServiceAsync(context);
                 if (processedAssemblies.Contains(m.ModuleType.Assembly)) return;
                 #region AutoMapper

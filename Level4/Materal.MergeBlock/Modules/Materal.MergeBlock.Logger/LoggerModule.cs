@@ -21,7 +21,7 @@ namespace Materal.MergeBlock.Logger
             context.Services.AddMateralLogger(config =>
             {
                 config.TryAddCustomData(nameof(MergeBlockConfig.ApplicationName), mergeBlockConfig.CurrentValue.ApplicationName);
-            });
+            }, true);
             await base.OnConfigServiceAsync(context);
         }
         /// <summary>
