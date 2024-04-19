@@ -67,7 +67,7 @@ namespace Materal.Logger
             AddData(data, "Time", CreateTime.ToString("HH:mm:ss"));
             AddData(data, "DateTime", CreateTime.ToString("yyyy-MM-dd HH:mm:ss"));
             AddData(data, "RootPath", RootPath);
-            AddData(data, "Date", CreateTime.ToString("yyyyMMdd"));
+            AddData(data, "Date", CreateTime.ToString("yyyy-MM-dd"));
             AddData(data, "Year", CreateTime.Year);
             AddData(data, "Month", CreateTime.Month);
             AddData(data, "Day", CreateTime.Day);
@@ -79,8 +79,7 @@ namespace Materal.Logger
             {
                 AddData(data, "CategoryName", CategoryName);
             }
-            string progressID = GetProgressID();
-            AddData(data, "ProgressID", progressID);
+            AddData(data, "ProgressID", ProgressID);
             AddData(data, "ThreadID", ThreadID);
             AddData(data, "MachineName", MachineName);
             AddData(data, "Message", Message);

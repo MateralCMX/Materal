@@ -17,7 +17,7 @@
             string result = log.ApplyText(targetOptions.Format, Options.CurrentValue);
             if (result.EndsWith("\r\n"))
             {
-                result = result[1..^2];
+                result = result[..^2];
             }
             ConsoleColor color = targetOptions.Colors.GetConsoleColor(log.Level);
             ConsoleQueue.WriteLine(result, color);
