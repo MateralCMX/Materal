@@ -107,9 +107,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     {
                         codeContent.AppendLine($"        Task<ResultModel> {method.Name}({string.Join(", ", methodArguments)});");
                     }
-                    else if (IsPageReturnType(method.NotTaskReturnType))
+                    else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                     {
-                        codeContent.AppendLine($"        Task<PageResultModel<{GetPageReulstListType(method.NotTaskReturnType)}>> {method.Name}({string.Join(", ", methodArguments)});");
+                        codeContent.AppendLine($"        Task<PageResultModel<{pageReturn.PageResultListType}>> {method.Name}({string.Join(", ", methodArguments)});");
                     }
                     else
                     {
@@ -122,9 +122,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     {
                         codeContent.AppendLine($"        ResultModel {method.Name}({string.Join(", ", methodArguments)});");
                     }
-                    else if (IsPageReturnType(method.NotTaskReturnType))
+                    else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                     {
-                        codeContent.AppendLine($"        PageResultModel<{GetPageReulstListType(method.NotTaskReturnType)}> {method.Name}({string.Join(", ", methodArguments)});");
+                        codeContent.AppendLine($"        PageResultModel<{pageReturn.PageResultListType}> {method.Name}({string.Join(", ", methodArguments)});");
                     }
                     else
                     {
@@ -232,9 +232,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     {
                         codeContent.AppendLine($"        public async Task<ResultModel> {method.Name}({string.Join(", ", methodArguments)})");
                     }
-                    else if (IsPageReturnType(method.NotTaskReturnType))
+                    else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                     {
-                        codeContent.AppendLine($"        public async Task<PageResultModel<{GetPageReulstListType(method.NotTaskReturnType)}>> {method.Name}({string.Join(", ", methodArguments)})");
+                        codeContent.AppendLine($"        public async Task<PageResultModel<{pageReturn.PageResultListType}>> {method.Name}({string.Join(", ", methodArguments)})");
                     }
                     else
                     {
@@ -247,9 +247,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     {
                         codeContent.AppendLine($"        public ResultModel {method.Name}({string.Join(", ", methodArguments)})");
                     }
-                    else if (IsPageReturnType(method.NotTaskReturnType))
+                    else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                     {
-                        codeContent.AppendLine($"        public PageResultModel<{GetPageReulstListType(method.NotTaskReturnType)}> {method.Name}({string.Join(", ", methodArguments)})");
+                        codeContent.AppendLine($"        public PageResultModel<{pageReturn.PageResultListType}> {method.Name}({string.Join(", ", methodArguments)})");
                     }
                     else
                     {
@@ -268,9 +268,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 codeContent.Append($"            ");
                 if (method.NotTaskReturnType != "void")
                 {
-                    if (IsPageReturnType(method.NotTaskReturnType))
+                    if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                     {
-                        codeContent.Append($"(List<{GetPageReulstListType(method.NotTaskReturnType)}> data, PageModel pageModel) = ");
+                        codeContent.Append($"({pageReturn.LeftType} {pageReturn.LeftName}, {pageReturn.RightType} {pageReturn.RightName}) = ");
                     }
                     else
                     {
@@ -286,9 +286,9 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 {
                     codeContent.AppendLine($"            return ResultModel.Success(\"{method.Annotation}成功\");");
                 }
-                else if (IsPageReturnType(method.NotTaskReturnType))
+                else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                 {
-                    codeContent.AppendLine($"            return PageResultModel<{GetPageReulstListType(method.NotTaskReturnType)}>.Success(data, pageModel, \"{method.Annotation}成功\");");
+                    codeContent.AppendLine($"            return PageResultModel<{pageReturn.PageResultListType}>.Success(data, pageModel, \"{method.Annotation}成功\");");
                 }
                 else
                 {
@@ -301,16 +301,58 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.SaveAs(_moduleApplication, "Controllers", $"{service.DomainName}Controller.Mapper.cs");
         }
         /// <summary>
-        /// 获得分页返回列表类型
-        /// </summary>
-        /// <param name="notTaskReturnType"></param>
-        /// <returns></returns>
-        private string GetPageReulstListType(string notTaskReturnType) => notTaskReturnType[6..^28];
-        /// <summary>
         /// 是分页返回类型
         /// </summary>
-        /// <param name="notTaskReturnType"></param>
+        /// <param name="code"></param>
         /// <returns></returns>
-        private bool IsPageReturnType(string notTaskReturnType) => notTaskReturnType.StartsWith("(List<") && notTaskReturnType.EndsWith("> data, PageModel pageModel)");
+        private bool IsPageReturnType(string notTaskReturnType, out PageReturnTypeModel pageReturn)
+        {
+            try
+            {
+                string code = notTaskReturnType;
+                pageReturn = new();
+                if (!code.StartsWith("(List<") || !code.EndsWith(")")) return false;
+                code = code[1..^1];
+                string[] temps = code.Split(',');
+                if (temps.Length != 2) return false;
+                string left = temps[0].Trim();
+                string right = temps[1].Trim();
+                pageReturn.LeftType = left[..left.IndexOf(' ')].Trim();
+                pageReturn.LeftName = left[left.IndexOf(' ')..].Trim();
+                pageReturn.RightType = right[..right.IndexOf(' ')].Trim();
+                pageReturn.RightName = right[right.IndexOf(' ')..].Trim();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"解析代码失败:\r\n{notTaskReturnType}", ex);
+            }
+        }
+        /// <summary>
+        /// 分页返回类型
+        /// </summary>
+        private class PageReturnTypeModel
+        {
+            /// <summary>
+            /// 左侧类型
+            /// </summary>
+            public string LeftType { get; set; } = string.Empty;
+            /// <summary>
+            /// 分页返回列表类型
+            /// </summary>
+            public string PageResultListType => LeftType[5..^1];
+            /// <summary>
+            /// 左侧名称
+            /// </summary>
+            public string LeftName { get; set; } = string.Empty;
+            /// <summary>
+            /// 右侧类型
+            /// </summary>
+            public string RightType { get; set; } = string.Empty;
+            /// <summary>
+            /// 右侧名称
+            /// </summary>
+            public string RightName { get; set; } = string.Empty;
+        }
     }
 }
