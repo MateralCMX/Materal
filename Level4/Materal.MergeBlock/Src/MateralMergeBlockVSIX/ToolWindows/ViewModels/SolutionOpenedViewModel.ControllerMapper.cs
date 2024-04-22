@@ -288,7 +288,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 }
                 else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                 {
-                    codeContent.AppendLine($"            return PageResultModel<{pageReturn.PageResultListType}>.Success(data, pageModel, \"{method.Annotation}成功\");");
+                    codeContent.AppendLine($"            return PageResultModel<{pageReturn.PageResultListType}>.Success({pageReturn.LeftName}, {pageReturn.RightName}, \"{method.Annotation}成功\");");
                 }
                 else
                 {
