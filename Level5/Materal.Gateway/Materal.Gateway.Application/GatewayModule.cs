@@ -1,10 +1,16 @@
-﻿using Materal.Gateway.Application.Extensions;
-using Materal.Gateway.OcelotExtension;
+﻿using Materal.Gateway.OcelotExtension;
+using Materal.Gateway.OcelotExtension.ConfigModel;
 using Materal.Gateway.Service;
+using Materal.Gateway.Service.Models.Route;
 using Materal.MergeBlock.Abstractions.WebModule;
 using Materal.Utils.Consul;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.FileProviders;
+using MMLib.SwaggerForOcelot.Configuration;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Text.RegularExpressions;
 
 namespace Materal.Gateway.Application
 {
@@ -37,9 +43,60 @@ namespace Materal.Gateway.Application
             context.Services.Configure<ApplicationConfig>(context.Configuration);
             context.Services.AddMateralConsulUtils();
             context.Services.AddSwaggerForOcelot(context.Configuration);
+            context.Services.Configure<SwaggerForOcelotUIOptions>(options =>
+            {
+                options.ReConfigureUpstreamSwaggerJson = ReConfigureUpstreamSwaggerJson;
+            });
             context.Services.AddOcelotGateway();
             await base.OnConfigServiceAsync(context);
         }
+        private string ReConfigureUpstreamSwaggerJson(HttpContext context, string jsonDocument)
+        {
+            string key = context.Request.Path.ToString().Split('/').Last();
+            IOcelotConfigService ocelotConfigService = context.RequestServices.GetRequiredService<IOcelotConfigService>();
+            List<RouteConfigModel> routeConfigs = ocelotConfigService.GetRouteList(new QueryRouteModel
+            {
+                SwaggerKey = key
+            });
+            if (routeConfigs.Count == 0) return jsonDocument;
+            RouteConfigModel configModel = routeConfigs.First();
+            string upstreamPathTemplate = configModel.UpstreamPathTemplate;
+            Match match = Regex.Match(upstreamPathTemplate, "\\{.+\\}");
+            upstreamPathTemplate = match.Success ? upstreamPathTemplate[..match.Index] : upstreamPathTemplate;
+            if (upstreamPathTemplate[0] == '/')
+            {
+                upstreamPathTemplate = upstreamPathTemplate[1..];
+            }
+            if (upstreamPathTemplate.Last() == '/')
+            {
+                upstreamPathTemplate = upstreamPathTemplate[..^1];
+            }
+            JToken jToken = JToken.Parse(jsonDocument);
+            if (jToken["paths"] is JObject paths)
+            {
+                Dictionary<string, JToken?> newPaths = [];
+                foreach (KeyValuePair<string, JToken?> path in paths)
+                {
+                    string[] pathUrls = path.Key.Split('/');
+                    if (pathUrls.Length <= 1)
+                    {
+                        newPaths.Add(path.Key, path.Value);
+                    }
+                    else
+                    {
+                        pathUrls[1] = upstreamPathTemplate;
+                        newPaths.Add(string.Join('/', pathUrls), path.Value);
+                    }
+                }
+                paths.RemoveAll();
+                foreach (KeyValuePair<string, JToken?> newPath in newPaths)
+                {
+                    paths.Add(newPath.Key, newPath.Value);
+                }
+            }
+            string result = JsonConvert.SerializeObject(jToken);
+            return result;
+        } 
         /// <summary>
         /// 应用程序初始化之前
         /// </summary>
@@ -70,7 +127,7 @@ namespace Materal.Gateway.Application
         /// <returns></returns>
         public override async Task OnApplicationInitAsync(IWebApplicationContext context)
         {
-            context.WebApplication.UseMateralGatewaySwaggerUI();
+            context.WebApplication.UseSwaggerForOcelotUI();
             await context.WebApplication.UseOcelotGatewayAsync(true);
             IOcelotConfigService ocelotConfigService = context.ServiceProvider.GetRequiredService<IOcelotConfigService>();
             await ocelotConfigService.InitAsync();

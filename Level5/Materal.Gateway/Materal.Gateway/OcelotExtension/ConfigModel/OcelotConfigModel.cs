@@ -10,7 +10,7 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// <summary>
         /// 路由配置组
         /// </summary>
-        public List<RouteConfigModel> Routes { get; set; } = new();
+        public List<RouteConfigModel> Routes { get; set; } = [];
         /// <summary>
         /// 全局配置项
         /// </summary>
@@ -18,7 +18,7 @@ namespace Materal.Gateway.OcelotExtension.ConfigModel
         /// <summary>
         /// Swagger配置
         /// </summary>
-        public List<SwaggerConfigModel> SwaggerEndPoints { get; set; } = new();
+        public List<SwaggerConfigModel> SwaggerEndPoints { get; set; } = [];
         /// <summary>
         /// 构造方法
         /// </summary>
