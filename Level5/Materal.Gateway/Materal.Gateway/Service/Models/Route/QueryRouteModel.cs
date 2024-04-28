@@ -23,7 +23,7 @@
         /// <summary>
         /// Swagger标识
         /// </summary>
-        [Contains]
+        [Equal]
         public string? SwaggerKey { get; set; }
         /// <summary>
         /// 启用缓存

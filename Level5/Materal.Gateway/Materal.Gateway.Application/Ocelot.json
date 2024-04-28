@@ -39,7 +39,7 @@
       "SwaggerKey": "RCServerCenter"
     },
     {
-      "UpstreamPathTemplate": "/RCDeployDev/api/{everything}",
+      "UpstreamPathTemplate": "/RCDeployXMJ/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -50,15 +50,15 @@
       "DownstreamPathTemplate": "/DeployAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "RCDeployDev",
+      "ServiceName": "RCDeployXMJ",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "RCDeployDev"
+      "SwaggerKey": "RCDeployXMJ"
     },
     {
-      "UpstreamPathTemplate": "/RCDeployDev/UploadFiles/{everything}",
+      "UpstreamPathTemplate": "/RCDeployXMJ/UploadFiles/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "OPTIONS"
@@ -66,7 +66,7 @@
       "DownstreamPathTemplate": "/UploadFiles/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "RCDeployDev",
+      "ServiceName": "RCDeployXMJ",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
@@ -74,7 +74,7 @@
       "SwaggerKey": ""
     },
     {
-      "UpstreamPathTemplate": "/RCDeployDev/hubs/{everything}",
+      "UpstreamPathTemplate": "/RCDeployXMJ/hubs/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -85,7 +85,7 @@
       "DownstreamPathTemplate": "/DeployHubs/{everything}",
       "DownstreamScheme": "ws",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "RCDeployDev",
+      "ServiceName": "RCDeployXMJ",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
@@ -93,7 +93,7 @@
       "SwaggerKey": ""
     },
     {
-      "UpstreamPathTemplate": "/RCDeployLocal/api/{everything}",
+      "UpstreamPathTemplate": "/RCDeployXMJDB/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -104,15 +104,15 @@
       "DownstreamPathTemplate": "/DeployAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "RCDeployLocal",
+      "ServiceName": "RCDeployXMJDB",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "RCDeployLocal"
+      "SwaggerKey": "RCDeployXMJDB"
     },
     {
-      "UpstreamPathTemplate": "/RCDeployLocal/UploadFiles/{everything}",
+      "UpstreamPathTemplate": "/RCDeployXMJDB/UploadFiles/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "OPTIONS"
@@ -120,7 +120,7 @@
       "DownstreamPathTemplate": "/UploadFiles/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "RCDeployLocal",
+      "ServiceName": "RCDeployXMJDB",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
@@ -128,7 +128,7 @@
       "SwaggerKey": ""
     },
     {
-      "UpstreamPathTemplate": "/RCDeployLocal/hubs/{everything}",
+      "UpstreamPathTemplate": "/RCDeployXMJDB/hubs/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -139,7 +139,7 @@
       "DownstreamPathTemplate": "/DeployHubs/{everything}",
       "DownstreamScheme": "ws",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "RCDeployLocal",
+      "ServiceName": "RCDeployXMJDB",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
@@ -147,7 +147,115 @@
       "SwaggerKey": ""
     },
     {
-      "UpstreamPathTemplate": "/RCESDev/api/{everything}",
+      "UpstreamPathTemplate": "/RCDeployGDBFat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/DeployAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployGDBFat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCDeployGDBFat"
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployGDBFat/UploadFiles/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/UploadFiles/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployGDBFat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": ""
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployGDBFat/hubs/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/DeployHubs/{everything}",
+      "DownstreamScheme": "ws",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployGDBFat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": ""
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployGDB/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/DeployAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployGDB",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCDeployGDB"
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployGDB/UploadFiles/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/UploadFiles/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployGDB",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": ""
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployGDB/hubs/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/DeployHubs/{everything}",
+      "DownstreamScheme": "ws",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployGDB",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": ""
+    },
+    {
+      "UpstreamPathTemplate": "/RCESPro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -158,12 +266,12 @@
       "DownstreamPathTemplate": "/EnvironmentServerAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "RCESDev",
+      "ServiceName": "RCESPro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "RCESDev"
+      "SwaggerKey": "RCESPro"
     },
     {
       "UpstreamPathTemplate": "/RCESFat/api/{everything}",
@@ -185,7 +293,26 @@
       "SwaggerKey": "RCESFat"
     },
     {
-      "UpstreamPathTemplate": "/XMJAuthority_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/RCESDev/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/EnvironmentServerAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCESDev",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCESDev"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJAuthority_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -196,15 +323,14 @@
       "DownstreamPathTemplate": "/AuthorityAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJAuthority_Dev",
+      "ServiceName": "XMJAuthority_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJAuthority_Dev"
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/XMJAdv_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJAdv_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -215,15 +341,14 @@
       "DownstreamPathTemplate": "/AdvAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJAdv_Dev",
+      "ServiceName": "XMJAdv_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJAdv_Dev"
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/XMJArticleServer_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJArticleServer_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -234,15 +359,14 @@
       "DownstreamPathTemplate": "/ArticleServerAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJArticleServer_Dev",
+      "ServiceName": "XMJArticleServer_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJArticleServer_Dev"
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/XMJBaseData_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJBaseData_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -253,15 +377,14 @@
       "DownstreamPathTemplate": "/BaseDataAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJBaseData_Dev",
+      "ServiceName": "XMJBaseData_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJBaseData_Dev"
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/XMJCourseware_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJCourseware_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -272,15 +395,14 @@
       "DownstreamPathTemplate": "/CoursewareAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJCourseware_Dev",
+      "ServiceName": "XMJCourseware_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJCourseware_Dev"
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/XMJEducational_Dev/{everything}",
+      "UpstreamPathTemplate": "/XMJEducational_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -291,15 +413,15 @@
       "DownstreamPathTemplate": "/EducationalAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJEducational_Dev",
+      "ServiceName": "XMJEducational_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJEducational_Dev"
+      "SwaggerKey": ""
     },
     {
-      "UpstreamPathTemplate": "/XMJFileServer_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJFileServer_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -310,19 +432,15 @@
       "DownstreamPathTemplate": "/FileServerAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "FileCacheOptions": {
-        "TtlSeconds": 180,
-        "Region": "XMJFileServer_Dev"
-      },
-      "ServiceName": "XMJFileServer_Dev",
+      "ServiceName": "XMJFileServer_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJFileServer_Dev"
+      "SwaggerKey": ""
     },
     {
-      "UpstreamPathTemplate": "/XMJFinancial_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJFinancial_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -333,15 +451,14 @@
       "DownstreamPathTemplate": "/FinancialAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJFinancial_Dev",
+      "ServiceName": "XMJFinancial_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJFinancial_Dev"
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/XMJLogger_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJLogger_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -352,15 +469,14 @@
       "DownstreamPathTemplate": "/LoggerAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJLogger_Dev",
+      "ServiceName": "XMJLogger_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJLogger_Dev"
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/XMJMarket_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJMarket_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -371,15 +487,14 @@
       "DownstreamPathTemplate": "/MarketAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJMarket_Dev",
+      "ServiceName": "XMJMarket_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJMarket_Dev"
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/XMJOperate_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJOperate_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -390,15 +505,14 @@
       "DownstreamPathTemplate": "/OperateAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJOperate_Dev",
+      "ServiceName": "XMJOperate_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJOperate_Dev"
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/XMJQuestionBank_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJQuestionBank_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -409,15 +523,14 @@
       "DownstreamPathTemplate": "/QuestionBankAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJQuestionBank_Dev",
+      "ServiceName": "XMJQuestionBank_Pro",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
-      "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJQuestionBank_Dev"
+      "DangerousAcceptAnyServerCertificateValidator": true
     },
     {
-      "UpstreamPathTemplate": "/XMJStudyingAbroad_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/XMJStudyingAbroad_Pro/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -428,17 +541,263 @@
       "DownstreamPathTemplate": "/StudyingAbroadAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "XMJStudyingAbroad_Dev",
+      "ServiceName": "XMJStudyingAbroad_Pro",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/XMJAuthority_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/AuthorityAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJAuthority_Fat",
       "LoadBalancerOptions": {
         "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "XMJStudyingAbroad_Dev"
+      "SwaggerKey": "XMJAuthority_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJAdv_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/AdvAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJAdv_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJAdv_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJArticleServer_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/ArticleServerAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJArticleServer_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJArticleServer_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJBaseData_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/BaseDataAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJBaseData_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJBaseData_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJCourseware_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/CoursewareAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJCourseware_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJCourseware_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJEducational_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/EducationalAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJEducational_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJEducational_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJFileServer_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/FileServerAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJFileServer_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJFileServer_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJFinancial_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/FinancialAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJFinancial_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJFinancial_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJLogger_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/LoggerAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJLogger_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJLogger_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJMarket_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/MarketAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJMarket_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJMarket_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJOperate_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/OperateAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJOperate_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJOperate_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJQuestionBank_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/QuestionBankAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJQuestionBank_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJQuestionBank_Fat"
+    },
+    {
+      "UpstreamPathTemplate": "/XMJStudyingAbroad_Fat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/StudyingAbroadAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "XMJStudyingAbroad_Fat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "XMJStudyingAbroad_Fat"
     }
   ],
   "GlobalConfiguration": {
     "ServiceDiscoveryProvider": {
-      "Host": "127.0.0.1",
+      "Host": "175.27.194.19",
       "Port": 8500,
       "Type": "Consul",
       "IsSSL": false
@@ -460,42 +819,84 @@
       ]
     },
     {
-      "Key": "RCDeployDev",
+      "Key": "RCServerCenter",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "RCDeployDev",
+          "Name": "RCServerCenter",
           "Version": "latest",
           "Service": {
-            "Name": "RCDeployDev",
+            "Name": "RCServerCenter",
+            "Path": "/swagger/RC.ServerCenter/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCDeployXMJ",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCDeployXMJ",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCDeployXMJ",
             "Path": "/swagger/RC.Deploy/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "RCDeployLocal",
+      "Key": "RCDeployXMJDB",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "RCDeployLocal",
+          "Name": "RCDeployXMJDB",
           "Version": "latest",
           "Service": {
-            "Name": "RCDeployLocal",
+            "Name": "RCDeployXMJDB",
             "Path": "/swagger/RC.Deploy/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "RCESDev",
+      "Key": "RCDeployGDBFat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "RCESDev",
+          "Name": "RCDeployGDBFat",
           "Version": "latest",
           "Service": {
-            "Name": "RCESDev",
+            "Name": "RCDeployGDBFat",
+            "Path": "/swagger/RC.Deploy/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCDeployGDB",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCDeployGDB",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCDeployGDB",
+            "Path": "/swagger/RC.Deploy/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCESPro",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCESPro",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCESPro",
             "Path": "/swagger/RC.EnvironmentServer/swagger.json"
           }
         }
@@ -516,197 +917,196 @@
       ]
     },
     {
-      "Key": "RCServerCenter",
+      "Key": "RCESDev",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "RCServerCenter",
+          "Name": "RCESDev",
           "Version": "latest",
           "Service": {
-            "Name": "RCServerCenter",
-            "Path": "/swagger/RC.ServerCenter/swagger.json"
+            "Name": "RCESDev",
+            "Path": "/swagger/RC.EnvironmentServer/swagger.json"
           }
         }
       ]
     },
-
     {
-      "Key": "XMJAuthority_Dev",
+      "Key": "XMJAuthority_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJAuthority_Dev",
+          "Name": "XMJAuthority_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJAuthority_Dev",
+            "Name": "XMJAuthority_Fat",
             "Path": "/swagger/XMJ.Authority/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJAdv_Dev",
+      "Key": "XMJAdv_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJAdv_Dev",
+          "Name": "XMJAdv_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJAdv_Dev",
+            "Name": "XMJAdv_Fat",
             "Path": "/swagger/XMJ.Adv/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJArticleServer_Dev",
+      "Key": "XMJArticleServer_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJArticleServer_Dev",
+          "Name": "XMJArticleServer_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJArticleServer_Dev",
+            "Name": "XMJArticleServer_Fat",
             "Path": "/swagger/XMJ.ArticleServer/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJBaseData_Dev",
+      "Key": "XMJBaseData_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJBaseData_Dev",
+          "Name": "XMJBaseData_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJBaseData_Dev",
+            "Name": "XMJBaseData_Fat",
             "Path": "/swagger/XMJ.BaseData/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJCourseware_Dev",
+      "Key": "XMJCourseware_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJCourseware_Dev",
+          "Name": "XMJCourseware_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJCourseware_Dev",
+            "Name": "XMJCourseware_Fat",
             "Path": "/swagger/XMJ.Courseware/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJEducational_Dev",
+      "Key": "XMJEducational_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJEducational_Dev",
+          "Name": "XMJEducational_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJEducational_Dev",
+            "Name": "XMJEducational_Fat",
             "Path": "/swagger/XMJ.Educational/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJFileServer_Dev",
+      "Key": "XMJFileServer_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJFileServer_Dev",
+          "Name": "XMJFileServer_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJFileServer_Dev",
+            "Name": "XMJFileServer_Fat",
             "Path": "/swagger/XMJ.FileServer/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJFinancial_Dev",
+      "Key": "XMJFinancial_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJFinancial_Dev",
+          "Name": "XMJFinancial_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJFinancial_Dev",
+            "Name": "XMJFinancial_Fat",
             "Path": "/swagger/XMJ.Financial/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJLogger_Dev",
+      "Key": "XMJLogger_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJLogger_Dev",
+          "Name": "XMJLogger_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJLogger_Dev",
+            "Name": "XMJLogger_Fat",
             "Path": "/swagger/XMJ.Logger/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJMarket_Dev",
+      "Key": "XMJMarket_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJMarket_Dev",
+          "Name": "XMJMarket_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJMarket_Dev",
+            "Name": "XMJMarket_Fat",
             "Path": "/swagger/XMJ.Market/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJOperate_Dev",
+      "Key": "XMJOperate_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJOperate_Dev",
+          "Name": "XMJOperate_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJOperate_Dev",
+            "Name": "XMJOperate_Fat",
             "Path": "/swagger/XMJ.Operate/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJQuestionBank_Dev",
+      "Key": "XMJQuestionBank_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJQuestionBank_Dev",
+          "Name": "XMJQuestionBank_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJQuestionBank_Dev",
+            "Name": "XMJQuestionBank_Fat",
             "Path": "/swagger/XMJ.QuestionBank/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "XMJStudyingAbroad_Dev",
+      "Key": "XMJStudyingAbroad_Fat",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "XMJStudyingAbroad_Dev",
+          "Name": "XMJStudyingAbroad_Fat",
           "Version": "latest",
           "Service": {
-            "Name": "XMJStudyingAbroad_Dev",
+            "Name": "XMJStudyingAbroad_Fat",
             "Path": "/swagger/XMJ.StudyingAbroad/swagger.json"
           }
         }
