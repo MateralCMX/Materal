@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Gateway.Abstraction
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Materal.Gateway.Web", "Materal.Gateway.Web\", "{43259A55-4EE2-495A-81A8-96F204DBF3AD}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8.1"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_55483"
 		Debug.AspNetCompiler.PhysicalPath = "Materal.Gateway.Web\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55483\"

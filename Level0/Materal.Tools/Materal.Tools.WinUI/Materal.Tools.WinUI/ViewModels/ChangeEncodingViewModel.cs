@@ -19,7 +19,7 @@ namespace MateralTools.ViewModels
         /// 路径
         /// </summary>
         [ObservableProperty]
-        private string _path = "E:\\Project\\古典部\\新明解\\XMJ\\XMJ.Financial\\XMJ.Financial.Application\\Services";
+        private string _path = "E:\\Project";
         /// <summary>
         /// 编码
         /// </summary>
