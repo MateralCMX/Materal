@@ -103,7 +103,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         {
             if (!codeFilePath.EndsWith(".cs")) throw new Exception("不是C#文件");
             string codeFileName = Path.GetFileNameWithoutExtension(codeFilePath);
-            string scriptCode = File.ReadAllText(codeFilePath);
+            string scriptCode = File.ReadAllText(codeFilePath, Encoding.UTF8);
             StringBuilder codeContent = new();
             codeContent.AppendLine("using System;");
             codeContent.AppendLine("using System.IO;");
@@ -111,7 +111,6 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine("using System.Threading.Tasks;");
             codeContent.AppendLine("using Materal.Abstractions;");
             codeContent.AppendLine("using Materal.Extensions;");
-            codeContent.AppendLine("using Materal.Utils;");
             codeContent.AppendLine("using Materal.Utils;");
             codeContent.AppendLine("using System.Linq;");
             codeContent.AppendLine("using System.Linq.Expressions;");
