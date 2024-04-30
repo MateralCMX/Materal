@@ -122,6 +122,7 @@ namespace Materal.MergeBlock.Abstractions.WebModule.Extensions
             {
                 IDs = [.. ids]
             };
+            requestModel.SetPageInfo(requestModel.IDs.Count, 1);
             return await controller.GetDataAsync(requestModel);
         }
         /// <summary>

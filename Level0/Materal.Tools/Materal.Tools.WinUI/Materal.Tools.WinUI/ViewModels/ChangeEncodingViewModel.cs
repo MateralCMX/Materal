@@ -19,7 +19,7 @@ namespace MateralTools.ViewModels
         /// 路径
         /// </summary>
         [ObservableProperty]
-        private string _path = "D:\\Test";
+        private string _path = "E:\\Project\\古典部\\新明解\\XMJ\\XMJ.Financial\\XMJ.Financial.Application\\Services";
         /// <summary>
         /// 编码
         /// </summary>
@@ -78,7 +78,7 @@ namespace MateralTools.ViewModels
             };
             if (ForcedRead)
             {
-                options.ReadEncoding = Encoding.GetEncoding(EncodingName);
+                options.ReadEncoding = Encoding.GetEncoding(ReadEncodingName);
             }
             await _changeEncodingService.ChangeEncodingAsync(Path, options);
         }

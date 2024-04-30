@@ -74,7 +74,7 @@ namespace Materal.Tools.Core.ChangeEncoding
         private async Task ChangeEncodingAsync(FileInfo fileInfo, ChangeEncodingOptions options)
         {
             logger?.LogInformation($"正在检测文件{fileInfo.FullName}");
-            Encoding fileEncoding = options.ReadEncoding ?? GetFileEncoding(fileInfo);
+            Encoding fileEncoding = GetFileEncoding(fileInfo);
             if (fileEncoding == options.WriteEncoding)
             {
                 logger?.LogInformation($"编码为:{fileEncoding.EncodingName},无需转换");
@@ -82,7 +82,8 @@ namespace Materal.Tools.Core.ChangeEncoding
             }
             else
             {
-                string text = await File.ReadAllTextAsync(fileInfo.FullName, fileEncoding);
+                Encoding readEncoding = options.ReadEncoding ?? fileEncoding;
+                string text = await File.ReadAllTextAsync(fileInfo.FullName, readEncoding);
                 await File.WriteAllTextAsync(fileInfo.FullName, text, options.WriteEncoding);
                 logger?.LogInformation($"编码已从{fileEncoding.EncodingName}转换为:{options.WriteEncoding.EncodingName}");
             }
