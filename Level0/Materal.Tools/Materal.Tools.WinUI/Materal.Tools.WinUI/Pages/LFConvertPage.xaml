@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="Materal.Tools.WinUI.Pages.LFConvertPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Materal.Tools.WinUI.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="10">
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <TextBox Header="路径" Text="{x:Bind ViewModel.Path, Mode=TwoWay}" CornerRadius="4,0,0,4" MinWidth="100" />
+            <TextBox Header="文件名正则" Text="{x:Bind ViewModel.FileNameFilter, Mode=TwoWay}" />
+            <ToggleButton VerticalAlignment="Bottom" IsChecked="{x:Bind ViewModel.Recursive, Mode=TwoWay}" Content="递归转换" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <Button Content="LF转换为CRLF" Width="200" Command="{x:Bind ViewModel.LFToCRLFCommand}" />
+            <Button Content="CRLF转换为LF" Width="200" Command="{x:Bind ViewModel.CRLFToLFCommand}" />
+        </StackPanel>
+        <ScrollViewer Height="560">
+            <ItemsControl ItemsSource="{x:Bind ViewModel.LogMessages, Mode=OneWay}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <TextBlock IsTextSelectionEnabled="True" Text="{Binding}" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </StackPanel>
+</Page>

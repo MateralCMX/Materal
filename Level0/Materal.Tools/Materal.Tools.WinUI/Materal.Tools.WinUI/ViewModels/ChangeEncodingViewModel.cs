@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MateralTools.ViewModels
 {
-    public partial class ChageFileEncodingViewModel : ObservableObject
+    public partial class ChangeEncodingViewModel : ObservableObject
     {
         /// <summary>
         /// 路径
@@ -51,7 +51,7 @@ namespace MateralTools.ViewModels
         public ObservableCollection<string> LogMessages { get; } = [];
         private readonly ILoggerListener _loggerListener;
         private readonly IChangeEncodingService _changeEncodingService;
-        public ChageFileEncodingViewModel()
+        public ChangeEncodingViewModel()
         {
             _loggerListener = App.ServiceProvider.GetRequiredService<ILoggerListener>();
             _loggerListener.Subscribe(OnLog);

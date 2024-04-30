@@ -1,4 +1,5 @@
 ﻿using Materal.Tools.Core.ChangeEncoding;
+using Materal.Tools.Core.LFConvert;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -17,6 +18,7 @@ namespace Materal.Tools.Core
         public static IServiceCollection AddMaateralTools(this IServiceCollection services)
         {
             services.TryAddSingleton<IChangeEncodingService, ChangeEncodingService>();
+            services.TryAddSingleton<ILFConvertService, LFConvertService>();
             return services;
         }
     }
