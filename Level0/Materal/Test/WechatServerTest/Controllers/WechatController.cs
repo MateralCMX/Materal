@@ -1,4 +1,4 @@
-using Materal.Utils.Wechat;
+ï»¿using Materal.Utils.Wechat;
 using Materal.Utils.Wechat.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
@@ -18,30 +18,30 @@ namespace WechatServerTest.Controllers
             _helper = new(_token, serviceProvider);
         }
         /// <summary>
-        /// ´¦ÀíÎ¢ĞÅ·şÎñÆ÷µÄÑéÖ¤ÇëÇó
+        /// å¤„ç†å¾®ä¿¡æœåŠ¡å™¨çš„éªŒè¯è¯·æ±‚
         /// </summary>
-        /// <param name="signature">Î¢ĞÅ¼ÓÃÜÇ©Ãû</param>
-        /// <param name="timestamp">Ê±¼ä´Á</param>
-        /// <param name="nonce">Ëæ»úÊı</param>
-        /// <param name="echostr">Ëæ»ú×Ö·û´®</param>
+        /// <param name="signature">å¾®ä¿¡åŠ å¯†ç­¾å</param>
+        /// <param name="timestamp">æ—¶é—´æˆ³</param>
+        /// <param name="nonce">éšæœºæ•°</param>
+        /// <param name="echostr">éšæœºå­—ç¬¦ä¸²</param>
         /// <returns></returns>
         [HttpGet]
         public string Get(string signature, string timestamp, string nonce, string echostr)
         {
-            if (!_helper.IsWechatRequest(timestamp, nonce, signature)) throw new Exception("²»ÊÇÎ¢ĞÅµÄÇëÇó");
+            if (!_helper.IsWechatRequest(timestamp, nonce, signature)) throw new Exception("ä¸æ˜¯å¾®ä¿¡çš„è¯·æ±‚");
             return echostr;
         }
         /// <summary>
-        /// ´¦Àí
+        /// å¤„ç†
         /// </summary>
-        /// <param name="signature">Î¢ĞÅ¼ÓÃÜÇ©Ãû</param>
-        /// <param name="timestamp">Ê±¼ä´Á</param>
-        /// <param name="nonce">Ëæ»úÊı</param>
+        /// <param name="signature">å¾®ä¿¡åŠ å¯†ç­¾å</param>
+        /// <param name="timestamp">æ—¶é—´æˆ³</param>
+        /// <param name="nonce">éšæœºæ•°</param>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromQuery] string signature, [FromQuery] string timestamp, [FromQuery] string nonce)
         {
-            if (!_helper.IsWechatRequest(timestamp, nonce, signature)) throw new Exception("²»ÊÇÎ¢ĞÅµÄÇëÇó");
+            if (!_helper.IsWechatRequest(timestamp, nonce, signature)) throw new Exception("ä¸æ˜¯å¾®ä¿¡çš„è¯·æ±‚");
             try
             {
                 XmlDocument xmlDocument = await GetBodyXmlAsync();
@@ -58,7 +58,7 @@ namespace WechatServerTest.Controllers
             return Content("success");
         }
         /// <summary>
-        /// »ñµÃBodyXml×Ö·û´®
+        /// è·å¾—BodyXmlå­—ç¬¦ä¸²
         /// </summary>
         /// <returns></returns>
         private async Task<string> GetBodyXmlStringAsync()
@@ -72,7 +72,7 @@ namespace WechatServerTest.Controllers
             return bodyString;
         }
         /// <summary>
-        /// »ñµÃBodyXml¶ÔÏó
+        /// è·å¾—BodyXmlå¯¹è±¡
         /// </summary>
         /// <returns></returns>
         private async Task<XmlDocument> GetBodyXmlAsync()

@@ -1,14 +1,14 @@
-using Materal.MergeBlock.WebModule;
+ï»¿using Materal.MergeBlock.WebModule;
 
 namespace RC.WebAPI
 {
     /// <summary>
-    /// Ö÷³ÌĞò
+    /// ä¸»ç¨‹åº
     /// </summary>
     public class Program
     {
         /// <summary>
-        /// Èë¿Ú
+        /// å…¥å£
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>

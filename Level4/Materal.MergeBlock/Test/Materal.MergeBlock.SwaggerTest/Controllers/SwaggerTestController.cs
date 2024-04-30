@@ -1,4 +1,4 @@
-using Materal.MergeBlock.Application.WebModule.Controllers;
+ï»¿using Materal.MergeBlock.Application.WebModule.Controllers;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -6,19 +6,19 @@ using System.ComponentModel.DataAnnotations;
 namespace Materal.MergeBlock.SwaggerTest.Controllers
 {
     /// <summary>
-    /// Swagger²âÊÔ¿ØÖÆÆ÷
+    /// Swaggeræµ‹è¯•æŽ§åˆ¶å™¨
     /// </summary>
     public class SwaggerTestController() : MergeBlockControllerBase
     {
         /// <summary>
-        /// HttpGet²âÊÔ
+        /// HttpGetæµ‹è¯•
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         [HttpGet]
         public ResultModel HttpGetTest([FromQuery, Required] string name) => ResultModel.Success($"[HttpGet]Hello {name}!");
         /// <summary>
-        /// HttpPost²âÊÔ
+        /// HttpPostæµ‹è¯•
         /// </summary>
         /// <param name="name"></param>
         /// <param name="requestModel"></param>
@@ -26,7 +26,7 @@ namespace Materal.MergeBlock.SwaggerTest.Controllers
         [HttpPost]
         public ResultModel HttpPost([FromQuery, Required] string name, [FromBody, Required] TestRequestModel requestModel) => ResultModel.Success($"[HttpPost]Hello {name}!Hello {requestModel.Name}!");
         /// <summary>
-        /// HttpPut²âÊÔ
+        /// HttpPutæµ‹è¯•
         /// </summary>
         /// <param name="name"></param>
         /// <param name="requestModel"></param>
@@ -34,14 +34,14 @@ namespace Materal.MergeBlock.SwaggerTest.Controllers
         [HttpPut]
         public ResultModel HttpPut([FromQuery, Required] string name, [FromBody, Required] TestRequestModel requestModel) => ResultModel.Success($"[HttpPut]Hello {name}!Hello {requestModel.Name}!");
         /// <summary>
-        /// HttpDelete²âÊÔ
+        /// HttpDeleteæµ‹è¯•
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         [HttpDelete]
         public ResultModel HttpDelete([FromQuery, Required] string name) => ResultModel.Success($"[HttpDelete]Hello {name}!");
         /// <summary>
-        /// HttpPatch²âÊÔ
+        /// HttpPatchæµ‹è¯•
         /// </summary>
         /// <param name="name"></param>
         /// <param name="requestModel"></param>

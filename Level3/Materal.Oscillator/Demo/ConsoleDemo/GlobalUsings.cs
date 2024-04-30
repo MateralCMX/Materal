@@ -1,4 +1,4 @@
-global using Materal.Abstractions;
+﻿global using Materal.Abstractions;
 global using Materal.Oscillator.Extensions;
 global using Materal.TTA.Common;
 global using Materal.TTA.EFRepository;

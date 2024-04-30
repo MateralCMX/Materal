@@ -1,4 +1,4 @@
-using Materal.BaseCore.EFRepository;
+﻿using Materal.BaseCore.EFRepository;
 
 namespace MBC.Demo.EFRepository
 {

@@ -1,4 +1,4 @@
-using Materal.MergeBlock.Abstractions;
+ï»¿using Materal.MergeBlock.Abstractions;
 using Materal.MergeBlock.Application.WebModule.Controllers;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.DTO;
@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Materal.MergeBlock.OscillatorTest.Controllers
 {
     /// <summary>
-    /// Oscillator²âÊÔ¿ØÖÆÆ÷
+    /// Oscillatoræµ‹è¯•æ§åˆ¶å™¨
     /// </summary>
     public class OscillatorTestController(IOscillatorHost oscillatorHost) : MergeBlockControllerBase
     {
         /// <summary>
-        /// Á¢¼´ÔËĞĞµ÷¶ÈÆ÷
+        /// ç«‹å³è¿è¡Œè°ƒåº¦å™¨
         /// </summary>
         /// <returns></returns>
         /// <exception cref="MergeBlockModuleException"></exception>
@@ -25,7 +25,7 @@ namespace Materal.MergeBlock.OscillatorTest.Controllers
                 PageIndex = 1,
                 PageSize = 1
             });
-            if (data.Count <= 0) throw new MergeBlockModuleException("Ã»ÓĞÕÒµ½¿ÉÓÃµÄ¶¨Ê±ÈÎÎñ");
+            if (data.Count <= 0) throw new MergeBlockModuleException("æ²¡æœ‰æ‰¾åˆ°å¯ç”¨çš„å®šæ—¶ä»»åŠ¡");
             await oscillatorHost.RunNowAsync(data.First().ID);
         }
     }

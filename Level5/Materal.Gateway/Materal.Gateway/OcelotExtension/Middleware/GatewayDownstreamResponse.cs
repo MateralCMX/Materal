@@ -1,15 +1,15 @@
-using Ocelot.Middleware;
+ï»¿using Ocelot.Middleware;
 using System.Net.Http.Headers;
 
 namespace Materal.Gateway.OcelotExtension.Middleware
 {
     /// <summary>
-    /// Íø¹ØÏÂÓÎÏìÓ¦
+    /// ç½‘å…³ä¸‹æ¸¸å“åº”
     /// </summary>
     public class GatewayDownstreamResponse : DownstreamResponse
     {
         /// <summary>
-        /// ¹¹Ôì·½·¨
+        /// æ„é€ æ–¹æ³•
         /// </summary>
         /// <param name="content"></param>
         /// <param name="statusCode"></param>
@@ -19,7 +19,7 @@ namespace Materal.Gateway.OcelotExtension.Middleware
         {
         }
         /// <summary>
-        /// ¹¹Ôì·½·¨
+        /// æ„é€ æ–¹æ³•
         /// </summary>
         /// <param name="response"></param>
         public GatewayDownstreamResponse(HttpResponseMessage response) : this(response.Content, response.StatusCode, response.Headers.Select(x => new Header(x.Key, x.Value)).ToList(), response.ReasonPhrase ?? string.Empty)
@@ -27,7 +27,7 @@ namespace Materal.Gateway.OcelotExtension.Middleware
             TrailingHeaders = response.TrailingHeaders;
         }
         /// <summary>
-        /// Î²²¿ÏìÓ¦Í·
+        /// å°¾éƒ¨å“åº”å¤´
         /// </summary>
         public HttpResponseHeaders? TrailingHeaders { get; }
     }

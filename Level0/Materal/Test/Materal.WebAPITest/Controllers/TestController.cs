@@ -1,4 +1,4 @@
-using Materal.Utils.Model;
+锘縰sing Materal.Utils.Model;
 using Materal.WebAPITest.Models;
 using Materal.WebAPITest.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,27 +13,27 @@ namespace Materal.WebAPITest.Controllers
         public ResultModel<string> SayHello()
         {
             string message = testService.SayHello();
-            return ResultModel<string>.Success(message, "获取成功");
+            return ResultModel<string>.Success(message, "鑾峰彇鎴愬姛");
         }
         [HttpGet]
         public async Task<ResultModel<string>> SayHello2Async()
         {
             string message = await testService.SayHelloAsync();
-            return ResultModel<string>.Success(message, "获取成功");
+            return ResultModel<string>.Success(message, "鑾峰彇鎴愬姛");
         }
         [HttpPost]
         public ResultModel<string> SayHello3(User user)
         {
             string message = testService.SayHello(user.Name);
-            return ResultModel<string>.Success(message, "获取成功");
+            return ResultModel<string>.Success(message, "鑾峰彇鎴愬姛");
         }
         [HttpGet]
-        public ResultModel TestError() => throw new NotImplementedException("测试异常");
+        public ResultModel TestError() => throw new NotImplementedException("娴嬭瘯寮傚父");
         [HttpGet]
         public async Task<ResultModel> TestAsyncErrorAsync()
         {
             await Task.CompletedTask;
-            throw new NotImplementedException("测试异常");
+            throw new NotImplementedException("娴嬭瘯寮傚父");
         }
     }
 }

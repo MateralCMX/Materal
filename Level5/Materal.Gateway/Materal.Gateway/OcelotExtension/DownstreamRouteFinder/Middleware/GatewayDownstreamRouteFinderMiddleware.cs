@@ -1,4 +1,4 @@
-using Materal.Gateway.Common;
+ï»¿using Materal.Gateway.Common;
 using Microsoft.Extensions.Primitives;
 using Ocelot.Configuration;
 using Ocelot.DownstreamRouteFinder;
@@ -12,15 +12,15 @@ using Ocelot.Responses;
 namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
 {
     /// <summary>
-    /// Íø¹ØÏÂÓÎÂ·ÓÉ²éÕÒÖÐ¼ä¼þ
+    /// ç½‘å…³ä¸‹æ¸¸è·¯ç”±æŸ¥æ‰¾ä¸­é—´ä»¶
     /// </summary>
     /// <remarks>
-    /// ¹¹Ôì·½·¨
+    /// æž„é€ æ–¹æ³•
     /// </remarks>
     public class GatewayDownstreamRouteFinderMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory, IDownstreamRouteProviderFactory downstreamRouteFinder) : OcelotMiddleware(loggerFactory.CreateLogger<DownstreamRouteFinderMiddleware>())
     {
         /// <summary>
-        /// ÖÐ¼ä¼þÖ´ÐÐ
+        /// ä¸­é—´ä»¶æ‰§è¡Œ
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
@@ -29,13 +29,13 @@ namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
             string upstreamUrlPath = httpContext.Request.Path.ToString();
             string upstreamQueryString = httpContext.Request.QueryString.ToString();
             StringValues upstreamHost = httpContext.Request.Headers["Host"];
-            Logger.LogDebug($"ÉÏÓÎUrlÂ·¾¶Îª:{upstreamUrlPath}");
+            Logger.LogDebug($"ä¸Šæ¸¸Urlè·¯å¾„ä¸º:{upstreamUrlPath}");
             IInternalConfiguration internalConfiguration = httpContext.Items.IInternalConfiguration();
             IDownstreamRouteProvider provider = downstreamRouteFinder.Get(internalConfiguration);
             Response<DownstreamRouteHolder> response = provider.Get(upstreamUrlPath, upstreamQueryString, httpContext.Request.Method, internalConfiguration, upstreamHost);
             if (response.IsError)
             {
-                Logger.LogDebug($"²éÕÒÏÂÓÎÂ·ÓÉ´íÎó:{response.Errors.ToErrorString()}");
+                Logger.LogDebug($"æŸ¥æ‰¾ä¸‹æ¸¸è·¯ç”±é”™è¯¯:{response.Errors.ToErrorString()}");
                 httpContext.Items.UpsertErrors(response.Errors);
                 if (!GatewayConfig.IgnoreUnableToFindDownstreamRouteError) return;
                 await next.Invoke(httpContext);
@@ -43,7 +43,7 @@ namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
             else
             {
                 string downstreamPathTemplates = string.Join(", ", response.Data.Route.DownstreamRoute.Select(r => r.DownstreamPathTemplate.Value));
-                Logger.LogDebug($"ÏÂÓÎÄ£°æÊÇ:{downstreamPathTemplates}");
+                Logger.LogDebug($"ä¸‹æ¸¸æ¨¡ç‰ˆæ˜¯:{downstreamPathTemplates}");
                 httpContext.Items.UpsertTemplatePlaceholderNameAndValues(response.Data.TemplatePlaceholderNameAndValues);
                 httpContext.Items.UpsertDownstreamRoute(response.Data);
                 await next.Invoke(httpContext);

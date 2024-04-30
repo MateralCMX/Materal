@@ -1,4 +1,4 @@
-using Materal.Utils;
+﻿using Materal.Utils;
 
 namespace Materal.Logger.Test
 {
@@ -7,7 +7,7 @@ namespace Materal.Logger.Test
     {
         private const LogLevel _minLoggerInfoLevel = LogLevel.Trace;
         /// <summary>
-        /// д����̨��־
+        /// 写控制台日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -21,28 +21,28 @@ namespace Materal.Logger.Test
             WriteLog(services, LogLevel.Information, "Hello World!");
         });
         /// <summary>
-        /// д����̨��־
+        /// 写控制台日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
         public async Task WriteConsoleLogTestAsync() => await WriteLogAsync(option
             => option.AddConsoleTarget("ConsoleLog", _textFormat));
         /// <summary>
-        /// д�ļ���־
+        /// 写文件日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
         public async Task WriteFileLogTestAsync() => await WriteLogAsync(option
             => option.AddFileTarget("FileLogger", "${RootPath}\\Logs\\${Level}.log", _textFormat));
         /// <summary>
-        /// дHttp��־
+        /// 写Http日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
         public async Task WriteHttpLogTestAsync() => await WriteLogAsync(option
             => option.AddHttpTarget("HttpLogger", "http://localhost:5000/api/Log/Write${Level}", HttpMethod.Post));
         /// <summary>
-        /// дSqlite��־
+        /// 写Sqlite日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -52,7 +52,7 @@ namespace Materal.Logger.Test
             option.AddSqliteTargetFromPath("SqliteLogger", path, "${Level}Log");
         });
         /// <summary>
-        /// дSqlServer��־
+        /// 写SqlServer日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -62,7 +62,7 @@ namespace Materal.Logger.Test
             option.AddSqlServerTarget("SqlServerLogger", connectionString, "${Level}Log");
         });
         /// <summary>
-        /// дMySql��־
+        /// 写MySql日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -72,7 +72,7 @@ namespace Materal.Logger.Test
             option.AddMySqlTarget("MySqlLogger", connectionString, "${Level}Log");
         });
         /// <summary>
-        /// дOracle��־
+        /// 写Oracle日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -82,7 +82,7 @@ namespace Materal.Logger.Test
             option.AddOracleTarget("OracleLogger", connectionString, "${Level}Log");
         });
         /// <summary>
-        /// дMongo��־
+        /// 写Mongo日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -92,7 +92,7 @@ namespace Materal.Logger.Test
             option.AddMongoTarget("MongoLogger", connectionString, "Logs", "${Level}Logs");
         });
         /// <summary>
-        /// дWebSocket��־
+        /// 写WebSocket日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -101,7 +101,7 @@ namespace Materal.Logger.Test
             option.AddWebSocketTarget("WebSocketLogger", 5002);
         }, async services => await WriteLoopLogsAsync(services, 10, 1000));
         /// <summary>
-        /// дWebSocket��־
+        /// 写WebSocket日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -117,7 +117,7 @@ namespace Materal.Logger.Test
             WriteLargeLogs(services, 10000);
         });
         /// <summary>
-        /// дWebSocket��־
+        /// 写WebSocket日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]

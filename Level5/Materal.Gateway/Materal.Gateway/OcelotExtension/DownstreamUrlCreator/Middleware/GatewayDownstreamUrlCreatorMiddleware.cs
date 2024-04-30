@@ -1,4 +1,4 @@
-using Materal.Gateway.OcelotExtension.Middleware;
+ï»¿using Materal.Gateway.OcelotExtension.Middleware;
 using Ocelot.Configuration;
 using Ocelot.DownstreamRouteFinder.UrlMatcher;
 #if NET8_0
@@ -16,12 +16,12 @@ using System.Text.RegularExpressions;
 namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
 {
     /// <summary>
-    /// Íø¹ØÏÂÓÎURL´´½¨ÖĞ¼ä¼ş
+    /// ç½‘å…³ä¸‹æ¸¸URLåˆ›å»ºä¸­é—´ä»¶
     /// </summary>
     public class GatewayDownstreamUrlCreatorMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory, IDownstreamPathPlaceholderReplacer replacer) : OcelotMiddleware(loggerFactory.CreateLogger<GatewayDownstreamUrlCreatorMiddleware>())
     {
         /// <summary>
-        /// ÖĞ¼ä¼şÖ´ĞĞ
+        /// ä¸­é—´ä»¶æ‰§è¡Œ
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
@@ -73,7 +73,7 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
             await next.Invoke(httpContext);
         }
         /// <summary>
-        /// ÒÆ³ıÒÑ¾­ÔÚÄ£°åÖĞÊ¹ÓÃµÄ²éÑ¯×Ö·û´®²ÎÊı
+        /// ç§»é™¤å·²ç»åœ¨æ¨¡æ¿ä¸­ä½¿ç”¨çš„æŸ¥è¯¢å­—ç¬¦ä¸²å‚æ•°
         /// </summary>
         /// <param name="downstreamRequest"></param>
         /// <param name="templatePlaceholderNameAndValues"></param>
@@ -96,25 +96,25 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
             }
         }
         /// <summary>
-        /// »ñÈ¡Â·¾¶
+        /// è·å–è·¯å¾„
         /// </summary>
         /// <param name="dsPath"></param>
         /// <returns></returns>
         private static string GetPath(DownstreamPath dsPath) => dsPath.Value[..dsPath.Value.IndexOf("?", StringComparison.Ordinal)];
         /// <summary>
-        /// »ñÈ¡²éÑ¯×Ö·û´®
+        /// è·å–æŸ¥è¯¢å­—ç¬¦ä¸²
         /// </summary>
         /// <param name="dsPath"></param>
         /// <returns></returns>
         private static string GetQueryString(DownstreamPath dsPath) => dsPath.Value[dsPath.Value.IndexOf("?", StringComparison.Ordinal)..];
         /// <summary>
-        /// ÊÇ·ñ°üº¬²éÑ¯×Ö·û´®
+        /// æ˜¯å¦åŒ…å«æŸ¥è¯¢å­—ç¬¦ä¸²
         /// </summary>
         /// <param name="dsPath"></param>
         /// <returns></returns>
         private static bool ContainsQueryString(DownstreamPath dsPath) => dsPath.Value.Contains('?');
         /// <summary>
-        /// ´´½¨ServiceFabricUri
+        /// åˆ›å»ºServiceFabricUri
         /// </summary>
         /// <param name="downstreamRequest"></param>
         /// <param name="downstreamRoute"></param>
@@ -129,7 +129,7 @@ namespace Materal.Gateway.OcelotExtension.DownstreamUrlCreator.Middleware
             return (pathTemplate, query);
         }
         /// <summary>
-        /// ÊÇ·ñÊÇServiceFabricÇëÇó
+        /// æ˜¯å¦æ˜¯ServiceFabricè¯·æ±‚
         /// </summary>
         /// <param name="config"></param>
         /// <param name="downstreamRoute"></param>

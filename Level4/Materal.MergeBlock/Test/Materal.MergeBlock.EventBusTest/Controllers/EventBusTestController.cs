@@ -1,4 +1,4 @@
-using Materal.EventBus.Abstraction;
+ï»¿using Materal.EventBus.Abstraction;
 using Materal.MergeBlock.Application.WebModule.Controllers;
 using Materal.MergeBlock.EventBusTest.Abstractions;
 using Microsoft.AspNetCore.Mvc;
@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Materal.MergeBlock.EventBusTest.Controllers
 {
     /// <summary>
-    /// EventBus²âÊÔ¿ØÖÆÆ÷
+    /// EventBusæµ‹è¯•æ§åˆ¶å™¨
     /// </summary>
     public class EventBusTestController(IEventBus eventBus) : MergeBlockControllerBase
     {
         /// <summary>
-        /// ·¢ËÍÏûÏ¢
+        /// å‘é€æ¶ˆæ¯
         /// </summary>
         [HttpGet]
         public void SendMessage() => eventBus.Publish(new MyEvent { Message = "Hello World!" });

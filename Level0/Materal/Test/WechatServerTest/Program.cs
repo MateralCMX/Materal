@@ -1,4 +1,4 @@
-using Materal.Utils.Wechat.ServerEventHandler;
+﻿using Materal.Utils.Wechat.ServerEventHandler;
 using Microsoft.Extensions.Primitives;
 using System.Text;
 using WechatServerTest.EventHandlers;

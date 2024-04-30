@@ -1,14 +1,14 @@
-using Microsoft.AspNetCore.Builder;
+ï»¿using Microsoft.AspNetCore.Builder;
 
 namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
 {
     /// <summary>
-    /// Íø¹ØWebSockets´úÀíÖĞ¼ä¼şÀ©Õ¹
+    /// ç½‘å…³WebSocketsä»£ç†ä¸­é—´ä»¶æ‰©å±•
     /// </summary>
     public static class WebSocketsProxyMiddlewareExtensions
     {
         /// <summary>
-        /// Ê¹ÓÃÍø¹ØWebSockets´úÀíÖĞ¼ä¼ş
+        /// ä½¿ç”¨ç½‘å…³WebSocketsä»£ç†ä¸­é—´ä»¶
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>

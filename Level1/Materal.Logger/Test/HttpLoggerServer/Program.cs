@@ -1,4 +1,4 @@
-namespace HttpLoggerServer
+﻿namespace HttpLoggerServer
 {
     public class Program
     {

@@ -1,14 +1,14 @@
-using Microsoft.AspNetCore.Builder;
+ï»¿using Microsoft.AspNetCore.Builder;
 
 namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
 {
     /// <summary>
-    /// ÏÂÓÎÂ·ÓÉ²éÕÒÖĞ¼ä¼şÀ©Õ¹
+    /// ä¸‹æ¸¸è·¯ç”±æŸ¥æ‰¾ä¸­é—´ä»¶æ‰©å±•
     /// </summary>
     public static class DownstreamRouteFinderMiddlewareExtensions
     {
         /// <summary>
-        /// Ê¹ÓÃÏÂÓÎÂ·ÓÉ²éÕÒÖĞ¼ä¼ş
+        /// ä½¿ç”¨ä¸‹æ¸¸è·¯ç”±æŸ¥æ‰¾ä¸­é—´ä»¶
         /// </summary>
         /// <param name="builder"></param>
         /// <returns></returns>

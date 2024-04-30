@@ -1,4 +1,4 @@
-using Materal.Gateway.Common;
+ï»¿using Materal.Gateway.Common;
 using Materal.Gateway.OcelotExtension.Middleware;
 using Ocelot.Configuration;
 using Ocelot.Responses;
@@ -10,24 +10,24 @@ using Ocelot.Values;
 namespace Materal.Gateway.OcelotExtension.ServiceDiscovery
 {
     /// <summary>
-    /// Íø¹Ø·şÎñ·¢ÏÖÌá¹©Õß¹¤³§
+    /// ç½‘å…³æœåŠ¡å‘ç°æä¾›è€…å·¥å‚
     /// </summary>
     public class GatewayServiceDiscoveryProviderFactory : IServiceDiscoveryProviderFactory
     {
         private readonly ServiceDiscoveryFinderDelegate? _delegates;
         private readonly IServiceProvider _provider;
         /// <summary>
-        /// ¹¹Ôì·½·¨
+        /// æ„é€ æ–¹æ³•
         /// </summary>
         /// <exception cref="GatewayException"></exception>
         public GatewayServiceDiscoveryProviderFactory()
         {
-            if (OcelotService.Service == null) throw new GatewayException("·şÎñ²»´æÔÚ");
+            if (OcelotService.Service == null) throw new GatewayException("æœåŠ¡ä¸å­˜åœ¨");
             _provider = OcelotService.Service;
             _delegates = OcelotService.GetServiceOrDefault<ServiceDiscoveryFinderDelegate>();
         }
         /// <summary>
-        /// »ñÈ¡·şÎñ·¢ÏÖÌá¹©Õß
+        /// è·å–æœåŠ¡å‘ç°æä¾›è€…
         /// </summary>
         /// <param name="serviceConfig"></param>
         /// <param name="route"></param>
@@ -47,7 +47,7 @@ namespace Materal.Gateway.OcelotExtension.ServiceDiscovery
             return new OkResponse<IServiceDiscoveryProvider>(new ConfigurationServiceProvider(services));
         }
         /// <summary>
-        /// »ñÈ¡·şÎñ·¢ÏÖÌá¹©Õß
+        /// è·å–æœåŠ¡å‘ç°æä¾›è€…
         /// </summary>
         /// <param name="config"></param>
         /// <param name="route"></param>
@@ -63,7 +63,7 @@ namespace Materal.Gateway.OcelotExtension.ServiceDiscovery
             if (_delegates is not null)
             {
                 IServiceDiscoveryProvider? provider = _delegates?.Invoke(_provider, config, route);
-                if (provider == null || config.Type == null) throw new GatewayException("Íø¹Ø´íÎó");
+                if (provider == null || config.Type == null) throw new GatewayException("ç½‘å…³é”™è¯¯");
                 string providerTypeName = provider.GetType().Name.ToLower();
                 if (providerTypeName.StartsWith("gateway"))
                 {

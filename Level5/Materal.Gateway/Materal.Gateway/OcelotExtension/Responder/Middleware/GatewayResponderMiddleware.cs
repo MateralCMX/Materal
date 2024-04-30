@@ -1,4 +1,4 @@
-using Ocelot.Errors;
+ï»¿using Ocelot.Errors;
 using Ocelot.Logging;
 using Ocelot.Middleware;
 using Ocelot.Responder;
@@ -6,12 +6,12 @@ using Ocelot.Responder;
 namespace Materal.Gateway.OcelotExtension.Responder.Middleware
 {
     /// <summary>
-    /// Íø¹ØÏìÓ¦ÖĞ¼ä¼ş
+    /// ç½‘å…³å“åº”ä¸­é—´ä»¶
     /// </summary>
     public class GatewayResponderMiddleware(RequestDelegate next, IHttpResponder responder, IOcelotLoggerFactory loggerFactory, IErrorsToHttpStatusCodeMapper codeMapper) : OcelotMiddleware(loggerFactory.CreateLogger<GatewayResponderMiddleware>())
     {
         /// <summary>
-        /// ÖĞ¼ä¼şÖ´ĞĞ
+        /// ä¸­é—´ä»¶æ‰§è¡Œ
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
@@ -30,7 +30,7 @@ namespace Materal.Gateway.OcelotExtension.Responder.Middleware
             }
         }
         /// <summary>
-        /// ÉèÖÃ´íÎóÏìÓ¦
+        /// è®¾ç½®é”™è¯¯å“åº”
         /// </summary>
         /// <param name="context"></param>
         /// <param name="errors"></param>

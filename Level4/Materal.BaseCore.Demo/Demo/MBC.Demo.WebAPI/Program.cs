@@ -1,16 +1,16 @@
-using Materal.BaseCore.EventBus;
+ï»¿using Materal.BaseCore.EventBus;
 using Materal.BaseCore.WebAPI.Common;
 using MBC.Demo.Services;
 
 namespace MBC.Demo.WebAPI
 {
     /// <summary>
-    /// Ö÷³ÌĞò
+    /// ä¸»ç¨‹åº
     /// </summary>
     public partial class Program
     {
         /// <summary>
-        /// ÅäÖÃ·şÎñ
+        /// é…ç½®æœåŠ¡
         /// </summary>
         /// <param name="services"></param>
         public override void ConfigService(IServiceCollection services)
@@ -19,7 +19,7 @@ namespace MBC.Demo.WebAPI
             services.AddEventBus($"{WebAPIConfig.AppName}Queue", true);
         }
         /// <summary>
-        /// ³õÊ¼»¯
+        /// åˆå§‹åŒ–
         /// </summary>
         /// <param name="args"></param>
         /// <param name="services"></param>
@@ -27,14 +27,14 @@ namespace MBC.Demo.WebAPI
         /// <returns></returns>
         public override async Task InitAsync(string[] args, IServiceProvider services, WebApplication app)
         {
-            #region Ìí¼ÓÄ¬ÈÏÓÃ»§
+            #region æ·»åŠ é»˜è®¤ç”¨æˆ·
             IUserService? userService = services.GetRequiredService<IUserService>();
             await userService.AddDefaultUserAsync();
             #endregion
             await base.InitAsync(args, services, app);
         }
         /// <summary>
-        /// ÅäÖÃ¹¹½¨Æ÷
+        /// é…ç½®æ„å»ºå™¨
         /// </summary>
         /// <param name="builder"></param>
         public override void ConfigBuilder(WebApplicationBuilder builder)

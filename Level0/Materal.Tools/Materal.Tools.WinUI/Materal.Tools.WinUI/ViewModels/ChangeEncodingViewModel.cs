@@ -29,7 +29,7 @@ namespace MateralTools.ViewModels
         /// 文件名过滤器
         /// </summary>
         [ObservableProperty]
-        private string _fileNameFilter = ".+\\.cs";
+        private string _fileNameFilter = "^.+\\.cs$";
         /// <summary>
         /// 强制读取
         /// </summary>

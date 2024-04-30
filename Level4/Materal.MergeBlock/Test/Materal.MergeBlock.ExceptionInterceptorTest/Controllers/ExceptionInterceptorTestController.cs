@@ -1,38 +1,38 @@
-using Materal.MergeBlock.Application.WebModule.Controllers;
+ï»¿using Materal.MergeBlock.Application.WebModule.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Materal.MergeBlock.ExceptionInterceptorTest.Controllers
 {
     /// <summary>
-    /// ExceptionInterceptor²âÊÔ¿ØÖÆÆ÷
+    /// ExceptionInterceptoræµ‹è¯•æ§åˆ¶å™¨
     /// </summary>
     public class ExceptionInterceptorTestController : MergeBlockControllerBase
     {
         /// <summary>
-        /// Ä£¿éÒì³£²âÊÔ
+        /// æ¨¡å—å¼‚å¸¸æµ‹è¯•
         /// </summary>
         /// <exception cref="TestException"></exception>
         [HttpGet]
-        public void ModuleExceptionTest() => throw new TestException("²âÊÔÄ£¿éÒì³£");
+        public void ModuleExceptionTest() => throw new TestException("æµ‹è¯•æ¨¡å—å¼‚å¸¸");
         /// <summary>
-        /// Òì³£²âÊÔ
+        /// å¼‚å¸¸æµ‹è¯•
         /// </summary>
         /// <exception cref="NotImplementedException"></exception>
         [HttpGet]
-        public void ExceptionTest() => throw new NotImplementedException("²âÊÔÒì³£");
+        public void ExceptionTest() => throw new NotImplementedException("æµ‹è¯•å¼‚å¸¸");
         /// <summary>
-        /// Òì²½Ä£¿éÒì³£²âÊÔ
+        /// å¼‚æ­¥æ¨¡å—å¼‚å¸¸æµ‹è¯•
         /// </summary>
         /// <returns></returns>
         /// <exception cref="TestException"></exception>
         [HttpGet]
-        public Task AsyncModuleExceptionTestAsync() => throw new TestException("²âÊÔÄ£¿éÒì³£");
+        public Task AsyncModuleExceptionTestAsync() => throw new TestException("æµ‹è¯•æ¨¡å—å¼‚å¸¸");
         /// <summary>
-        /// Òì²½Òì³£²âÊÔ
+        /// å¼‚æ­¥å¼‚å¸¸æµ‹è¯•
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
         [HttpGet]
-        public Task AsyncExceptionTestAsync() => throw new NotImplementedException("²âÊÔÒì³£");
+        public Task AsyncExceptionTestAsync() => throw new NotImplementedException("æµ‹è¯•å¼‚å¸¸");
     }
 }

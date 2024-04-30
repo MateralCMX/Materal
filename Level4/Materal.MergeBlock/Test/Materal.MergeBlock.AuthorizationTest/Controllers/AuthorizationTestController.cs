@@ -1,4 +1,4 @@
-using Materal.MergeBlock.Abstractions.WebModule.Authorization;
+ï»¿using Materal.MergeBlock.Abstractions.WebModule.Authorization;
 using Materal.MergeBlock.Application.WebModule.Controllers;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Authorization;
@@ -7,19 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace Materal.MergeBlock.AuthorizationTest.Controllers
 {
     /// <summary>
-    /// Authorization²âÊÔ¿ØÖÆÆ÷
+    /// Authorizationæµ‹è¯•æ§åˆ¶å™¨
     /// </summary>
     public class AuthorizationTestController(ITokenService tokenService) : MergeBlockControllerBase
     {
         /// <summary>
-        /// »ñÈ¡Token
+        /// è·å–Token
         /// </summary>
         /// <returns></returns>
         [HttpGet, AllowAnonymous]
         public ResultModel<string> GetToken()
         {
             string token = tokenService.GetToken(Guid.NewGuid());
-            return ResultModel<string>.Success($"Bearer {token}", "»ñÈ¡³É¹¦");
+            return ResultModel<string>.Success($"Bearer {token}", "è·å–æˆåŠŸ");
         }
     }
 }

@@ -1,16 +1,16 @@
-using Materal.MergeBlock.Application.WebModule.Controllers;
+ï»¿using Materal.MergeBlock.Application.WebModule.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace Materal.MergeBlock.LoggerTest.Controllers
 {
     /// <summary>
-    /// Logger²âÊÔ¿ØÖÆÆ÷
+    /// Loggeræµ‹è¯•æŽ§åˆ¶å™¨
     /// </summary>
     public class LoggerTestController(ILogger<LoggerTestController> logger) : MergeBlockControllerBase
     {
         /// <summary>
-        /// Ð´ÈÕÖ¾
+        /// å†™æ—¥å¿—
         /// </summary>
         [HttpGet]
         public void WriteLogger()

@@ -1,4 +1,4 @@
-using Microsoft.Extensions.Primitives;
+ï»¿using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Ocelot.Middleware;
 using Ocelot.Request.Middleware;
@@ -13,12 +13,12 @@ namespace Materal.Gateway.OcelotExtension.Requester
     using Ocelot.Configuration;
     using IHttpClientBuilder = Ocelot.Requester.IHttpClientBuilder;
     /// <summary>
-    /// Íø¹ØHTTPÇëÇóÆ÷
+    /// ç½‘å…³HTTPè¯·æ±‚å™¨
     /// </summary>
     public partial class GatewayHttpRequester(IExceptionToErrorMapper mapper, IDelegatingHandlerHandlerFactory factory, IHttpClientCache cacheHandlers)
     {
         /// <summary>
-        /// »ñµÃÏìÓ¦
+        /// è·å¾—å“åº”
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
@@ -47,12 +47,12 @@ namespace Materal.Gateway.OcelotExtension.Requester
     }
 #else
     /// <summary>
-    /// Íø¹ØHTTPÇëÇóÆ÷
+    /// ç½‘å…³HTTPè¯·æ±‚å™¨
     /// </summary>
     public partial class GatewayHttpRequester(IMessageInvokerPool messageHandlerPool, IExceptionToErrorMapper mapper)
     {
         /// <summary>
-        /// »ñµÃÏìÓ¦
+        /// è·å¾—å“åº”
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
@@ -76,13 +76,13 @@ namespace Materal.Gateway.OcelotExtension.Requester
     }
 #endif
     /// <summary>
-    /// Íø¹ØHTTPÇëÇóÆ÷
+    /// ç½‘å…³HTTPè¯·æ±‚å™¨
     /// </summary>
     public partial class GatewayHttpRequester : IHttpRequester
     {
         private const string RsultTypeKey = "ResultType";
         /// <summary>
-        /// ×ª»»Response
+        /// è½¬æ¢Response
         /// </summary>
         /// <param name="httpContext"></param>
         /// <param name="response"></param>
@@ -112,7 +112,7 @@ namespace Materal.Gateway.OcelotExtension.Requester
             return response;
         }
         /// <summary>
-        /// »ñµÃ×ª»»ºóµÄÏìÓ¦ÏûÏ¢
+        /// è·å¾—è½¬æ¢åçš„å“åº”æ¶ˆæ¯
         /// </summary>
         /// <param name="response"></param>
         /// <param name="convertFunc"></param>
@@ -163,7 +163,7 @@ namespace Materal.Gateway.OcelotExtension.Requester
             return result;
         }
         /// <summary>
-        /// Json×ª»»ÎªXml
+        /// Jsonè½¬æ¢ä¸ºXml
         /// </summary>
         /// <param name="response"></param>
         /// <returns></returns>
@@ -180,7 +180,7 @@ namespace Materal.Gateway.OcelotExtension.Requester
             });
         }
         /// <summary>
-        /// Xml×ª»»ÎªJson
+        /// Xmlè½¬æ¢ä¸ºJson
         /// </summary>
         /// <param name="response"></param>
         /// <returns></returns>

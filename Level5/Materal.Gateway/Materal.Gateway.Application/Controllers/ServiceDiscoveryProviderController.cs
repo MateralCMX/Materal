@@ -1,15 +1,15 @@
-using Materal.Gateway.OcelotExtension.ConfigModel;
+锘縰sing Materal.Gateway.OcelotExtension.ConfigModel;
 using Materal.Gateway.Service;
 
 namespace Materal.Gateway.Controllers
 {
     /// <summary>
-    /// 服务发现提供者控制器
+    /// 鏈嶅姟鍙戠幇鎻愪緵鑰呮帶鍒跺櫒
     /// </summary>
     public class ServiceDiscoveryProviderController(IOcelotConfigService ocelotConfigService) : GatewayControllerBase
     {
         /// <summary>
-        /// 设置数据
+        /// 璁剧疆鏁版嵁
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -17,17 +17,17 @@ namespace Materal.Gateway.Controllers
         public async Task<ResultModel> SetConfigAsync(ServiceDiscoveryProviderModel? model)
         {
             await ocelotConfigService.SetServiceDiscoveryProviderAsync(model);
-            return ResultModel.Success("设置成功");
+            return ResultModel.Success("璁剧疆鎴愬姛");
         }
         /// <summary>
-        /// 获取数据
+        /// 鑾峰彇鏁版嵁
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public ResultModel<ServiceDiscoveryProviderModel?> GetConfig()
         {
             ServiceDiscoveryProviderModel? result = ocelotConfigService.GetServiceDiscoveryProviderConfig();
-            return ResultModel<ServiceDiscoveryProviderModel?>.Success(result, "获取成功");
+            return ResultModel<ServiceDiscoveryProviderModel?>.Success(result, "鑾峰彇鎴愬姛");
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace SignalRClientWeb
+﻿namespace SignalRClientWeb
 {
     public class Program
     {

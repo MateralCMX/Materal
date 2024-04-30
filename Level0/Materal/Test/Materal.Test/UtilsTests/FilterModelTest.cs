@@ -1,4 +1,4 @@
-namespace Materal.Test.UtilsTests
+ï»¿namespace Materal.Test.UtilsTests
 {
     [TestClass]
     public class FilterModelTest : BaseTest
@@ -23,11 +23,11 @@ namespace Materal.Test.UtilsTests
             users = queryModel.Sort(users);
             if (queryModel.IsAsc)
             {
-                Assert.IsTrue(users.First().Name == "A", "ÅÅĞò´íÎó");
+                Assert.IsTrue(users.First().Name == "A", "æ’åºé”™è¯¯");
             }
             else
             {
-                Assert.IsTrue(users.First().Name == "E", "ÅÅĞò´íÎó");
+                Assert.IsTrue(users.First().Name == "E", "æ’åºé”™è¯¯");
             }
         }
         [TestMethod]

@@ -1,4 +1,4 @@
-using Materal.Utils.Http;
+﻿using Materal.Utils.Http;
 
 namespace Materal.Test.UtilsTests
 {

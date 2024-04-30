@@ -1,4 +1,4 @@
-using Materal.Gateway.Common;
+ï»¿using Materal.Gateway.Common;
 using Materal.Gateway.Controllers;
 using Materal.MergeBlock.Abstractions.WebModule.Authorization;
 using Microsoft.AspNetCore.Authorization;
@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 namespace Materal.Gateway.Application.Controllers
 {
     /// <summary>
-    /// ÓÃ»§¿ØÖÆÆ÷
+    /// ç”¨æˆ·æ§åˆ¶å™¨
     /// </summary>
     public class GatewayUserController(IOptionsMonitor<ApplicationConfig> config, ITokenService tokenService, IOptionsMonitor<AuthorizationConfig> authorizationConfig) : GatewayControllerBase
     {
         /// <summary>
-        /// µÇÂ¼
+        /// ç™»å½•
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
@@ -20,18 +20,18 @@ namespace Materal.Gateway.Application.Controllers
         {
             try
             {
-                UserEntity user = config.CurrentValue.Users.FirstOrDefault(m => m.Account == requestModel.Account && m.Password == requestModel.Password) ?? throw new GatewayException("ÓÃ»§Ãû»òÃÜÂë´íÎó");
+                UserEntity user = config.CurrentValue.Users.FirstOrDefault(m => m.Account == requestModel.Account && m.Password == requestModel.Password) ?? throw new GatewayException("ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯");
                 string token = tokenService.GetToken(Guid.NewGuid());
                 var result = new LoginResultDTO
                 {
                     Token = token,
                     ExpiredTime = authorizationConfig.CurrentValue.ExpiredTime
                 };
-                return ResultModel<LoginResultDTO>.Success(result, "µÇÂ¼³É¹¦");
+                return ResultModel<LoginResultDTO>.Success(result, "ç™»å½•æˆåŠŸ");
             }
             catch (GatewayException)
             {
-                return ResultModel<LoginResultDTO>.Fail("ÓÃ»§Ãû»òÃÜÂë´íÎó");
+                return ResultModel<LoginResultDTO>.Fail("ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯");
             }
         }
     }

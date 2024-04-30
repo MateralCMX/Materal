@@ -1,4 +1,4 @@
-using Materal.Oscillator.Abstractions;
+ï»¿using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.DTO;
 using Materal.Oscillator.Abstractions.Models;
 using Materal.Oscillator.Abstractions.Repositories;
@@ -15,7 +15,7 @@ namespace Materal.Oscillator.Test
         {
         }
         /// <summary>
-        /// ³õÊ¼»¯Ö÷»ú²âÊÔ
+        /// åˆå§‹åŒ–ä¸»æœºæµ‹è¯•
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -25,34 +25,34 @@ namespace Materal.Oscillator.Test
             Guid workID;
             Guid work2ID;
             Guid scheduleID;
-            #region ÈÎÎñ
-            #region Ìí¼Ó
+            #region ä»»åŠ¡
+            #region æ·»åŠ 
             {
                 AddWorkModel model = new()
                 {
                     Name = "TestWork",
-                    Description = "²âÊÔÈÎÎñ",
-                    WorkData = new ConsoleWorkData() { Message = "ß÷ß÷ß÷" }
+                    Description = "æµ‹è¯•ä»»åŠ¡",
+                    WorkData = new ConsoleWorkData() { Message = "å–µå–µå–µ" }
                 };
                 workID = await host.AddWorkAsync(model);
-                if (workID == Guid.Empty) Assert.Fail("Ìí¼ÓÈÎÎñÊ§°Ü");
+                if (workID == Guid.Empty) Assert.Fail("æ·»åŠ ä»»åŠ¡å¤±è´¥");
                 model = new()
                 {
                     Name = "TestWork2",
-                    Description = "²âÊÔÈÎÎñ2",
-                    WorkData = new ConsoleWorkData() { Message = "ÍôÍôÍô" }
+                    Description = "æµ‹è¯•ä»»åŠ¡2",
+                    WorkData = new ConsoleWorkData() { Message = "æ±ªæ±ªæ±ª" }
                 };
                 work2ID = await host.AddWorkAsync(model);
-                if (work2ID == Guid.Empty) Assert.Fail("Ìí¼ÓÈÎÎñ2Ê§°Ü");
+                if (work2ID == Guid.Empty) Assert.Fail("æ·»åŠ ä»»åŠ¡2å¤±è´¥");
             }
             #endregion
-            #region ĞŞ¸Ä
+            #region ä¿®æ”¹
             {
                 (List<WorkDTO> dataList, _) = await host.GetWorkListAsync(new QueryWorkModel { Name = "TestWork", PageIndex = 1, PageSize = 10 });
-                if (dataList.Count <= 0) Assert.Fail("²éÑ¯ÈÎÎñÊ§°Ü");
+                if (dataList.Count <= 0) Assert.Fail("æŸ¥è¯¢ä»»åŠ¡å¤±è´¥");
                 WorkDTO dataInfo = await host.GetWorkInfoAsync(dataList.First().ID);
                 dataInfo.Validation();
-                if (dataInfo == null) Assert.Fail("²éÑ¯ÈÎÎñÊ§°Ü");
+                if (dataInfo == null) Assert.Fail("æŸ¥è¯¢ä»»åŠ¡å¤±è´¥");
                 EditWorkModel model = new()
                 {
                     ID = dataInfo.ID,
@@ -63,23 +63,23 @@ namespace Materal.Oscillator.Test
                 await host.EditWorkAsync(model);
                 dataInfo = await host.GetWorkInfoAsync(dataList.First().ID);
                 dataInfo.Validation();
-                if (dataInfo == null) Assert.Fail("²éÑ¯ÈÎÎñÊ§°Ü");
+                if (dataInfo == null) Assert.Fail("æŸ¥è¯¢ä»»åŠ¡å¤±è´¥");
             }
             #endregion
             #endregion
-            #region µ÷¶ÈÆ÷
-            #region Ìí¼Ó
+            #region è°ƒåº¦å™¨
+            #region æ·»åŠ 
             {
                 AddScheduleModel model = new()
                 {
                     Name = "TestSchedule",
-                    Description = "²âÊÔµ÷¶È",
+                    Description = "æµ‹è¯•è°ƒåº¦",
                     Answers =
                     [
                         new()
                         {
-                            Name = "²âÊÔÈÎÎñÏìÓ¦",
-                            AnswerData = new ConsoleAnswer() { Message = "²âÊÔÈÎÎñÏìÓ¦Êä³ö" },
+                            Name = "æµ‹è¯•ä»»åŠ¡å“åº”",
+                            AnswerData = new ConsoleAnswer() { Message = "æµ‹è¯•ä»»åŠ¡å“åº”è¾“å‡º" },
                             WorkEvent = "Success"
                         }
                     ],
@@ -87,8 +87,8 @@ namespace Materal.Oscillator.Test
                     [
                         new()
                         {
-                            Name = "Ö´ĞĞÒ»´Î",
-                            Description = "Ö´ĞĞÒ»´Î",
+                            Name = "æ‰§è¡Œä¸€æ¬¡",
+                            Description = "æ‰§è¡Œä¸€æ¬¡",
                             PlanTriggerData = new OneTimePlanTrigger { StartTime = DateTime.Now.AddSeconds(5) }
                         }
                     ],
@@ -98,16 +98,16 @@ namespace Materal.Oscillator.Test
                     ]
                 };
                 scheduleID = await host.AddScheduleAsync(model);
-                if (scheduleID == Guid.Empty) Assert.Fail("Ìí¼Óµ÷¶ÈÆ÷Ê§°Ü");
+                if (scheduleID == Guid.Empty) Assert.Fail("æ·»åŠ è°ƒåº¦å™¨å¤±è´¥");
             }
             #endregion
-            #region ĞŞ¸Ä
+            #region ä¿®æ”¹
             {
                 (List<ScheduleDTO> dataList, _) = await host.GetScheduleListAsync(new QueryScheduleModel { Name = "TestSchedule", PageIndex = 1, PageSize = 10 });
-                if (dataList.Count <= 0) Assert.Fail("²éÑ¯µ÷¶ÈÆ÷Ê§°Ü");
+                if (dataList.Count <= 0) Assert.Fail("æŸ¥è¯¢è°ƒåº¦å™¨å¤±è´¥");
                 ScheduleDTO dataInfo = await host.GetScheduleInfoAsync(dataList.First().ID);
                 dataInfo.Validation();
-                if (dataInfo == null) Assert.Fail("²éÑ¯µ÷¶ÈÆ÷Ê§°Ü");
+                if (dataInfo == null) Assert.Fail("æŸ¥è¯¢è°ƒåº¦å™¨å¤±è´¥");
                 EditScheduleModel model = new()
                 {
                     ID = dataInfo.ID,
@@ -119,14 +119,14 @@ namespace Materal.Oscillator.Test
                     [
                         new()
                         {
-                            Name = "²âÊÔÈÎÎñÏìÓ¦",
-                            AnswerData = new ConsoleAnswer() { Message = "²âÊÔÈÎÎñÏìÓ¦Êä³ö" },
+                            Name = "æµ‹è¯•ä»»åŠ¡å“åº”",
+                            AnswerData = new ConsoleAnswer() { Message = "æµ‹è¯•ä»»åŠ¡å“åº”è¾“å‡º" },
                             WorkEvent = "Success"
                         },
                         new()
                         {
-                            Name = "²âÊÔÈÎÎñÏìÓ¦2",
-                            AnswerData = new ConsoleAnswer() { Message = "²âÊÔÈÎÎñÏìÓ¦Êä³ö2" },
+                            Name = "æµ‹è¯•ä»»åŠ¡å“åº”2",
+                            AnswerData = new ConsoleAnswer() { Message = "æµ‹è¯•ä»»åŠ¡å“åº”è¾“å‡º2" },
                             WorkEvent = "Success"
                         }
                     ],
@@ -134,8 +134,8 @@ namespace Materal.Oscillator.Test
                     [
                         new()
                         {
-                            Name = "Ö´ĞĞÒ»´Î",
-                            Description = "Ö´ĞĞÒ»´Î",
+                            Name = "æ‰§è¡Œä¸€æ¬¡",
+                            Description = "æ‰§è¡Œä¸€æ¬¡",
                             PlanTriggerData = new OneTimePlanTrigger { StartTime = DateTime.Now.AddSeconds(5) }
                         }
                     ],
@@ -148,13 +148,13 @@ namespace Materal.Oscillator.Test
                 await host.EditScheduleAsync(model);
                 dataInfo = await host.GetScheduleInfoAsync(dataList.First().ID);
                 dataInfo.Validation();
-                if (dataInfo == null) Assert.Fail("²éÑ¯µ÷¶ÈÆ÷Ê§°Ü");
+                if (dataInfo == null) Assert.Fail("æŸ¥è¯¢è°ƒåº¦å™¨å¤±è´¥");
             }
             #endregion
             #endregion
         }
         /// <summary>
-        /// ³õÊ¼»¯²Ö´¢²âÊÔ
+        /// åˆå§‹åŒ–ä»“å‚¨æµ‹è¯•
         /// </summary>
         [TestMethod]
         public void InitRepositoryTest()

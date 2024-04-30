@@ -1,4 +1,4 @@
-using Ocelot.Configuration;
+ï»¿using Ocelot.Configuration;
 using Ocelot.Logging;
 using Ocelot.Middleware;
 #if NET8_0
@@ -11,7 +11,7 @@ using System.Net.WebSockets;
 namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
 {
     /// <summary>
-    /// Íø¹ØWebSockets´úÀíÖĞ¼ä¼ş
+    /// ç½‘å…³WebSocketsä»£ç†ä¸­é—´ä»¶
     /// </summary>
     public class GatewayWebSocketsProxyMiddleware : OcelotMiddleware
     {
@@ -21,7 +21,7 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
         private static readonly string[] ServerNames = new string[] { "Materal.Gateway" };
 
         /// <summary>
-        /// ¹¹Ôì·½·¨
+        /// æ„é€ æ–¹æ³•
         /// </summary>
         /// <param name="next"></param>
         /// <param name="loggerFactory"></param>
@@ -30,7 +30,7 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
             _next = next;
         }
         /// <summary>
-        /// ´ÓÒ»¸öWebSocket¸´ÖÆµ½ÁíÒ»¸öWebSocket
+        /// ä»ä¸€ä¸ªWebSocketå¤åˆ¶åˆ°å¦ä¸€ä¸ªWebSocket
         /// </summary>
         /// <param name="source"></param>
         /// <param name="destination"></param>
@@ -79,7 +79,7 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
             }
         }
         /// <summary>
-        /// Ö´ĞĞÖĞ¼ä¼ş
+        /// æ‰§è¡Œä¸­é—´ä»¶
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
@@ -89,7 +89,7 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
             await Proxy(httpContext, uri);
         }
         /// <summary>
-        /// ´úÀí
+        /// ä»£ç†
         /// </summary>
         /// <param name="context"></param>
         /// <param name="serverEndpoint"></param>
@@ -148,7 +148,7 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
                 {
                     new Header("Server", ServerNames)
                 };
-                HttpContent content = new StringContent($"websocketÁ¬½ÓÊ§°Ü:{ex.Message}", Encoding.UTF8, "text/plain");
+                HttpContent content = new StringContent($"websocketè¿æ¥å¤±è´¥:{ex.Message}", Encoding.UTF8, "text/plain");
                 DownstreamResponse downstreamResponse = new(content, HttpStatusCode.BadGateway, headers, "GatewayWebSocketsProxyMiddleware");
                 context.Items.UpsertDownstreamResponse(downstreamResponse);
                 _next?.Invoke(context);
