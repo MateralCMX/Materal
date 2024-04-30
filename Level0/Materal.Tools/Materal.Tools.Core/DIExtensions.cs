@@ -15,7 +15,7 @@ namespace Materal.Tools.Core
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddMaateralTools(this IServiceCollection services)
+        public static IServiceCollection AddMateralTools(this IServiceCollection services)
         {
             services.TryAddSingleton<IChangeEncodingService, ChangeEncodingService>();
             services.TryAddSingleton<ILFConvertService, LFConvertService>();

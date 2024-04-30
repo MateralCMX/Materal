@@ -3,16 +3,13 @@ using Materal.Logger.Extensions;
 using Materal.Tools.Core;
 using Materal.Utils.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
-using System;
 
-namespace Materal.Tools.WinUI
+namespace Materal.Tools.Test
 {
-    public partial class App : Application
+    public abstract class BaseTest
     {
-        private Window? m_window;
-        public static IServiceProvider ServiceProvider { get; }
-        static App()
+        protected readonly IServiceProvider ServiceProvider;
+        public BaseTest()
         {
             IServiceCollection services = new ServiceCollection();
             services.AddMateralUtils();
@@ -21,13 +18,9 @@ namespace Materal.Tools.WinUI
                 options.AddConsoleTarget("ConsoleLogger").AddAllTargetsRule();
             }, true);
             services.AddMateralTools();
+            OnConfig(services);
             ServiceProvider = services.BuildServiceProvider();
         }
-        public App() => InitializeComponent();
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
-        {
-            m_window = new MainWindow();
-            m_window.Activate();
-        }
+        protected virtual void OnConfig(IServiceCollection services) { }
     }
 }
