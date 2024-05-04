@@ -89,10 +89,9 @@ namespace Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper
             {
                 httpMethod = methodName switch
                 {
-                    "AddAsync" => HttpMethod.Put,
+                    "EditAsync" => HttpMethod.Put,
                     "DeleteAsync" => HttpMethod.Delete,
                     "GetInfoAsync" => HttpMethod.Get,
-                    "GetListAsync" => HttpMethod.Post,
                     _ => HttpMethod.Post,
                 };
             }
@@ -124,13 +123,13 @@ namespace Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper
                     ResultModel resultModel = tType.Instantiation<ResultModel>();
                     resultModel.ResultType = ResultTypeEnum.Fail;
                     resultModel.Message = message;
-                    if(resultModel is TResult tResult)
+                    if (resultModel is TResult tResult)
                     {
                         result = tResult;
                     }
                 }
             }
-            if(result is null) throw new MergeBlockException(message);
+            if (result is null) throw new MergeBlockException(message);
             return result;
         }
         /// <summary>
