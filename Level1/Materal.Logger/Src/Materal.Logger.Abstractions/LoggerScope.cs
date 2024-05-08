@@ -1,4 +1,4 @@
-﻿namespace Materal.Logger
+﻿namespace Materal.Logger.Abstractions
 {
     /// <summary>
     /// 日志作用域
@@ -52,7 +52,7 @@
             List<string> scopeNames = [];
             externalScopeProvider.ForEachScope((m, scope) =>
             {
-                if(m is not LoggerScope loggerScope) return;
+                if (m is not LoggerScope loggerScope) return;
                 scopeNames.Add(loggerScope.ScopeName);
                 foreach (KeyValuePair<string, object?> item in loggerScope.ScopeData)
                 {
@@ -67,7 +67,7 @@
                 }
             }, this);
             scopeNames = scopeNames.Distinct().ToList();
-            if(scopeNames.Count > 0)
+            if (scopeNames.Count > 0)
             {
                 ScopeName = string.Join(".", scopeNames);
             }

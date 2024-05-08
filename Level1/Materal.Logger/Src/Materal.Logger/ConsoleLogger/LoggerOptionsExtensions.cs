@@ -1,4 +1,6 @@
-﻿namespace Materal.Logger.ConsoleLogger
+﻿using Materal.Logger.Abstractions.Extensions;
+
+namespace Materal.Logger.ConsoleLogger
 {
     /// <summary>
     /// 自定义日志配置

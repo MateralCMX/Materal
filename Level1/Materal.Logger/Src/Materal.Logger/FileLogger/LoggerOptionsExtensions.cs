@@ -1,4 +1,6 @@
-﻿namespace Materal.Logger.FileLogger
+﻿using Materal.Logger.Abstractions.Extensions;
+
+namespace Materal.Logger.FileLogger
 {
     /// <summary>
     /// 自定义日志配置

@@ -1,6 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.Extensions;
-using Materal.Logger.BatchLogger;
+﻿using Materal.Logger.BatchLogger;
 using Materal.Utils.MongoDB;
 using MongoDB.Bson;
 using MongoDB.Driver;

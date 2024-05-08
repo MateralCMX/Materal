@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
-namespace Materal.Logger
+namespace Materal.Logger.Abstractions
 {
     public partial class Log
     {
@@ -25,7 +25,7 @@ namespace Materal.Logger
             {
                 if (_rootPath is null || string.IsNullOrWhiteSpace(_rootPath))
                 {
-                    _rootPath = typeof(Logger).Assembly.GetDirectoryPath();
+                    _rootPath = typeof(Log).Assembly.GetDirectoryPath();
                     if (_rootPath.EndsWith('\\') || _rootPath.EndsWith('/'))
                     {
                         _rootPath = _rootPath[..^1];

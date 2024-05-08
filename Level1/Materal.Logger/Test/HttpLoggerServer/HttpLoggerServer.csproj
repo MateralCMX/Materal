@@ -10,6 +10,6 @@
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Include="../../Src/Materal.Logger/Log.cs" Link="Log.cs" />
+		<Compile Include="../../Src/Materal.Logger.Abstractions/Log.cs" Link="Log.cs" />
 	</ItemGroup>
 </Project>

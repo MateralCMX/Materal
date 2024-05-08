@@ -12,7 +12,7 @@
         /// <param name="scopeName"></param>
         /// <param name="scopeData"></param>
         /// <returns></returns>
-        public static IDisposable? BeginScope(this ILogger logger, string scopeName, Dictionary<string, object?> scopeData) 
+        public static IDisposable? BeginScope(this ILogger logger, string scopeName, Dictionary<string, object?> scopeData)
             => logger.BeginScope(new LoggerScope(scopeName, scopeData));
     }
 }

@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.WebSocketLog
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.Logger.LoggerTrace", "Src\Materal.Logger.LoggerTrace\Materal.Logger.LoggerTrace.csproj", "{E3A8BBD8-0F5D-49C8-8A9A-C54B3C86F1E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.Logger.Abstractions", "Src\Materal.Logger.Abstractions\Materal.Logger.Abstractions.csproj", "{FA815691-41FF-4847-B43D-E02C5B5C347E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{E3A8BBD8-0F5D-49C8-8A9A-C54B3C86F1E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3A8BBD8-0F5D-49C8-8A9A-C54B3C86F1E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3A8BBD8-0F5D-49C8-8A9A-C54B3C86F1E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA815691-41FF-4847-B43D-E02C5B5C347E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA815691-41FF-4847-B43D-E02C5B5C347E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA815691-41FF-4847-B43D-E02C5B5C347E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA815691-41FF-4847-B43D-E02C5B5C347E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{A5D4FA4C-DC66-4849-9A2F-505B43A3FC7A} = {D50FB148-416F-44CA-A048-615560E26524}
 		{9C1536A8-8A25-4790-AB7D-4F5422F5DD90} = {D50FB148-416F-44CA-A048-615560E26524}
 		{E3A8BBD8-0F5D-49C8-8A9A-C54B3C86F1E7} = {D50FB148-416F-44CA-A048-615560E26524}
+		{FA815691-41FF-4847-B43D-E02C5B5C347E} = {D50FB148-416F-44CA-A048-615560E26524}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7BDC3165-1789-4856-909F-812A91617D4C}

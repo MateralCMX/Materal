@@ -1,4 +1,4 @@
-﻿namespace Materal.Logger
+﻿namespace Materal.Logger.Abstractions
 {
     /// <summary>
     /// 日志规则配置

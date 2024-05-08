@@ -1,6 +1,4 @@
-﻿using static System.Net.Mime.MediaTypeNames;
-
-namespace Materal.Logger
+﻿namespace Materal.Logger.Abstractions
 {
     public partial class Log
     {

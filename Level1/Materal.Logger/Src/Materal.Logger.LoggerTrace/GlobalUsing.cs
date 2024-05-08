@@ -1,1 +1,2 @@
-﻿global using Microsoft.Extensions.Logging;
+﻿global using Materal.Logger.Abstractions;
+global using Microsoft.Extensions.Logging;

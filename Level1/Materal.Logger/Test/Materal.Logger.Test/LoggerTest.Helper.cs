@@ -1,4 +1,6 @@
-﻿using Materal.Utils.MongoDB.Extensions;
+﻿using Materal.Logger.Abstractions;
+using Materal.Logger.Abstractions.Extensions;
+using Materal.Utils.MongoDB.Extensions;
 
 namespace Materal.Logger.Test
 {
@@ -141,7 +143,7 @@ namespace Materal.Logger.Test
         /// <param name="message"></param>
         private static void WriteLog(ILogger logger, LogLevel logLevel, string message)
         {
-            if(logLevel >= LogLevel.Error)
+            if (logLevel >= LogLevel.Error)
             {
                 Exception exception = new LoggerException("测试异常");
                 logger.Log(logLevel, exception, message);

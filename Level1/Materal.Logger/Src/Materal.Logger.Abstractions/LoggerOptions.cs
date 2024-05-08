@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Dynamic;
 
-namespace Materal.Logger
+namespace Materal.Logger.Abstractions
 {
     /// <summary>
     /// 自定义日志配置

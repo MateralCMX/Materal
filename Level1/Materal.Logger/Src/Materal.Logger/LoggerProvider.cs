@@ -25,7 +25,7 @@
             AppDomain.CurrentDomain.ProcessExit += CurrentDomain_ProcessExit;
             _loggerHost.StartAsync().Wait();
         }
-        private void CurrentDomain_ProcessExit(object? sender, EventArgs e) 
+        private void CurrentDomain_ProcessExit(object? sender, EventArgs e)
             => _loggerHost.StopAsync().Wait();
         /// <summary>
         /// 创建日志

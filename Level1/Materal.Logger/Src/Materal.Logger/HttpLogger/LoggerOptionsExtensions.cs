@@ -1,4 +1,6 @@
-﻿namespace Materal.Logger.HttpLogger
+﻿using Materal.Logger.Abstractions.Extensions;
+
+namespace Materal.Logger.HttpLogger
 {
     /// <summary>
     /// 自定义日志配置
