@@ -27,17 +27,17 @@ namespace ProjectClear
         /// <param name="canAll"></param>
         private static void Clear(bool canAll)
         {
-            Console.Write("将清理：.vs文件夹");
+            Console.Write("将清理：");
+            List<string> message = [];
             _dictionaryWhiteList.Add(".vs");
-            if (canAll)
-            {
-                Console.Write("、obj文件夹、bin、node_modules文件夹");
-                _dictionaryWhiteList.Add("obj");
-                _dictionaryWhiteList.Add("bin");
-                _dictionaryWhiteList.Add("node_modules");
-            }
-            //Console.WriteLine("、*.nupkg文件");
-            //_filesWhiteList.Add(".nupkg");
+            message.Add(".vs文件夹");
+            _dictionaryWhiteList.Add("bin");
+            message.Add("bin文件夹");
+            _dictionaryWhiteList.Add("obj");
+            message.Add("obj文件夹");
+            _dictionaryWhiteList.Add("node_modules");
+            message.Add("node_modules文件夹");
+            Console.WriteLine(string.Join("、", message));
             Console.WriteLine("开始清理....");
             ClearByNameList();
             Console.WriteLine("清理完毕");
@@ -58,7 +58,14 @@ namespace ProjectClear
             if (_dictionaryWhiteList.Contains(directoryInfo.Name))
             {
                 Console.WriteLine($"移除文件夹:{directoryInfo.FullName}");
-                directoryInfo.Delete(true);
+                try
+                {
+                    directoryInfo.Delete(true);
+                }
+                catch (Exception ex)
+                {
+                    WriteError($"移除文件夹失败:{directoryInfo.FullName}", ex);
+                }
                 return;
             }
             foreach (DirectoryInfo item in directoryInfo.GetDirectories())
@@ -69,13 +76,38 @@ namespace ProjectClear
             {
                 if (!_filesWhiteList.Contains(item.Extension)) continue;
                 Console.WriteLine($"移除文件:{item.FullName}");
-                item.Delete();
+                try
+                {
+                    item.Delete();
+                }
+                catch (Exception ex)
+                {
+                    WriteError($"移除文件失败:{directoryInfo.FullName}", ex);
+                }
             }
             if (directoryInfo.GetFiles().Length <= 0 && directoryInfo.GetDirectories().Length <= 0)//空文件夹
             {
                 Console.WriteLine($"移除文件夹:{directoryInfo.FullName}");
-                directoryInfo.Delete(true);
+                try
+                {
+                    directoryInfo.Delete(true);
+                }
+                catch (Exception ex)
+                {
+                    WriteError($"移除文件夹失败:{directoryInfo.FullName}", ex);
+                }
             }
+        }
+        private static void WriteError(string message, Exception? exception = null)
+        {
+            ConsoleColor originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            if (exception is not null)
+            {
+                Console.WriteLine(exception.Message);
+            }
+            Console.ForegroundColor = originalColor;
         }
     }
 }

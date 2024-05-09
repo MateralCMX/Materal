@@ -8,7 +8,7 @@
 		<NoWarn>CA2254;</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Materal.Utils" Version="1.1.76" />
+		<PackageReference Include="Materal.Utils" Version="1.1.76" />
 	  <PackageReference Include="Ude.NetStandard" Version="1.2.0" />
 	</ItemGroup>
 </Project>
