@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<Extern href="stdidcmd.h"/>
+	<Extern href="vsshlids.h"/>
+	<Include href="KnownImageIds.vsct"/>
+	<Include href="VSGlobals.vsct"/>
+	<Commands package="ProjectClear">
+		<Groups>
+			<Group guid="ProjectClear" id="MyMenuGroup" priority="0x0600">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNNODE" />
+			</Group>
+		</Groups>
+		<Buttons>
+			<Button guid="ProjectClear" id="ProjectClearCommand" priority="0x0100" type="Button">
+				<Parent guid="ProjectClear" id="MyMenuGroup"/>
+				<Icon guid="ImageCatalogGuid" id="ModulePublic" />
+				<CommandFlag>IconIsMoniker</CommandFlag>
+				<Strings>
+					<ButtonText>清理bin、obj</ButtonText>
+					<LocCanonicalName>.ProjectClear.ProjectClearCommand</LocCanonicalName>
+				</Strings>
+			</Button>
+		</Buttons>
+	</Commands>
+	<Symbols>
+		<GuidSymbol name="ProjectClear" value="{7f65f586-0359-4e86-819e-a89b428afb6b}">
+			<IDSymbol name="MyMenuGroup" value="0x0001" />
+			<IDSymbol name="ProjectClearCommand" value="0x0100" />
+		</GuidSymbol>
+	</Symbols>
+</CommandTable>

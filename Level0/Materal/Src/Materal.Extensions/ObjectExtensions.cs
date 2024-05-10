@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Data;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.RegularExpressions;
@@ -78,7 +77,7 @@ namespace System
         /// <param name="target">复制目标对象</param>
         /// <param name="isCopy">是否复制</param>
         /// <returns>复制的对象</returns>
-        public static void CopyProperties<T>(this object source, T target, Func<PropertyInfo, object?, bool> isCopy)
+        public static void CopyProperties<T>(this object source, T target, Func<string, bool> isCopy)
         {
             if (source is null || target is null) return;
             PropertyInfo[] t1Props = source.GetType().GetProperties();
@@ -86,9 +85,8 @@ namespace System
             foreach (PropertyInfo prop in t1Props)
             {
                 PropertyInfo? tempProp = t2Props.FirstOrDefault(m => m.Name == prop.Name);
-                if (tempProp is null || !tempProp.CanWrite) continue;
+                if (tempProp is null || !tempProp.CanWrite || !isCopy(tempProp.Name)) continue;
                 object? value = prop.GetValue(source, null);
-                if (!isCopy(tempProp, value)) continue;
                 tempProp.SetValue(target, value, null);
             }
         }
@@ -99,7 +97,7 @@ namespace System
         /// <param name="source">复制源头对象</param>
         /// <param name="isCopy">是否复制</param>
         /// <returns>复制的对象</returns>
-        public static T CopyProperties<T>(this object source, Func<PropertyInfo, object?, bool> isCopy)
+        public static T CopyProperties<T>(this object source, Func<string, bool> isCopy)
         {
             T result = typeof(T).Instantiation<T>();
             source.CopyProperties(result, isCopy);
@@ -114,7 +112,7 @@ namespace System
         /// <param name="notCopyPropertyNames">不复制的属性名称</param>
         /// <returns>复制的对象</returns>
         public static void CopyProperties<T>(this object source, T target, params string[] notCopyPropertyNames)
-            => CopyProperties(source, target, (prop, _) => !notCopyPropertyNames.Contains(prop.Name));
+            => CopyProperties(source, target, (prop) => !notCopyPropertyNames.Contains(prop));
         /// <summary>
         /// 属性复制
         /// </summary>
@@ -476,7 +474,7 @@ namespace System
 #endif
                 string trueName = name;
                 MatchCollection matchCollection = regex.Matches(trueName);
-                if(matchCollection.Count > 0)
+                if (matchCollection.Count > 0)
                 {
                     List<string> tempNames = [];
                     foreach (object? matchItem in matchCollection)
@@ -536,7 +534,7 @@ namespace System
         /// <param name="dt"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        private static DataRow? GetObjectValue(this DataTable dt, string name) 
+        private static DataRow? GetObjectValue(this DataTable dt, string name)
             => int.TryParse(name, out int targetIndex) && targetIndex >= 0 && targetIndex < dt.Rows.Count ? dt.Rows[targetIndex] : null;
         /// <summary>
         /// 获得值
@@ -576,7 +574,7 @@ namespace System
         private static object? GetObjectValue(this ICollection collection, string name)
         {
             if (!int.TryParse(name, out int targetIndex)) return null;
-            if(targetIndex >= 0 && targetIndex < collection.Count)
+            if (targetIndex >= 0 && targetIndex < collection.Count)
             {
                 int index = 0;
                 foreach (object? item in collection)
