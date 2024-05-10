@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Data;
 
 namespace Materal.Extensions
@@ -264,5 +263,25 @@ namespace Materal.Extensions
             Attribute? attr = type.GetCustomAttribute<T>();
             return attr is not null;
         }
+        /// <summary>
+        /// 是否可空类型
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsNullableType(this Type type) => !type.IsClass && type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+        /// <summary>
+        /// 是否可空类型
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="genericType"></param>
+        /// <returns></returns>
+        public static bool IsNullableType(this Type type, Type genericType) => IsNullableType(type) && type == typeof(Nullable<>).MakeGenericType(genericType);
+        /// <summary>
+        /// 是否可空类型
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsNullableType<T>(this Type type) => IsNullableType(type, typeof(T));
     }
 }

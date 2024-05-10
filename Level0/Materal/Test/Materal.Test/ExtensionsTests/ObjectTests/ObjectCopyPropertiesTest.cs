@@ -7,15 +7,22 @@
         public void CopyPropertiesTest1()
         {
             TestModel1 testModel1 = new();
-            BaseTestModel testModel2 = new TestModel2();
-            testModel1.CopyProperties(testModel2);
+            TestModel2 testModel21 = testModel1.CopyProperties<TestModel2>();
+            Assert.AreEqual(testModel1.GuidValue, testModel21.GuidValue);
+            TestModel2 testModel22 = testModel1.CopyProperties<TestModel2>();
+            Assert.AreEqual(testModel1.GuidValue, testModel22.GuidValue);
+            TestModel3 testModel31 = testModel1.CopyProperties<TestModel3>();
+            Assert.IsNotNull(testModel31.GuidValue);
+            Assert.AreEqual(testModel1.GuidValue, testModel31.GuidValue.Value);
+            TestModel3 testModel32 = testModel1.CopyProperties<TestModel3>();
+            Assert.IsNotNull(testModel32.GuidValue);
+            Assert.AreEqual(testModel1.GuidValue, testModel32.GuidValue.Value);
+            TestModel1 testModel41 = testModel31.CopyProperties<TestModel1>();
+            Assert.AreEqual(testModel41.GuidValue, testModel31.GuidValue.Value);
+            TestModel1 testModel42 = testModel31.CopyProperties<TestModel1>();
+            Assert.AreEqual(testModel42.GuidValue, testModel31.GuidValue.Value);
         }
-        public abstract class BaseTestModel
-        {
-            public TestModel3 TestModel2Value { get; set; } = new();
-            public List<TestModel3> TestModel2ListValue { get; set; } = new() { new TestModel3(), new TestModel3() };
-        }
-        public class TestModel1 : BaseTestModel
+        public class TestModel1
         {
             public Guid GuidValue { get; set; } = Guid.NewGuid();
             public string StringValue { get; set; } = "Materal";
@@ -23,21 +30,21 @@
             public DateTime DateTimeValue { get; set; } = DateTime.Now;
             public bool BoolValue { get; set; } = true;
         }
-        public class TestModel2 : BaseTestModel
+        public class TestModel2
         {
-            public Guid? GuidValue { get; set; } = Guid.NewGuid();
-            public string? StringValue { get; set; } = "Materal";
-            public int? IntValue { get; set; } = 1;
-            public DateTime? DateTimeValue { get; set; } = DateTime.Now;
-            public bool? BoolValue { get; set; } = true;
+            public Guid GuidValue { get; set; } = Guid.NewGuid();
+            public string StringValue { get; set; } = "Materal2";
+            public int IntValue { get; set; } = 2;
+            public DateTime DateTimeValue { get; set; } = DateTime.Now;
+            public bool BoolValue { get; set; } = true;
         }
         public class TestModel3
         {
-            public Guid GuidValue { get; set; } = Guid.NewGuid();
-            public string StringValue { get; set; } = "Materal";
-            public int IntValue { get; set; } = 1;
-            public DateTime DateTimeValue { get; set; } = DateTime.Now;
-            public bool BoolValue { get; set; } = true;
+            public Guid? GuidValue { get; set; }
+            public string? StringValue { get; set; }
+            public int? IntValue { get; set; }
+            public DateTime? DateTimeValue { get; set; }
+            public bool? BoolValue { get; set; }
         }
     }
 }
