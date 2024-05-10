@@ -47,11 +47,11 @@ namespace Materal.Extensions
             if (stringValue is null) return null;
             if (stringValue.IsArrayJson())
             {
-                return (object)stringValue.JsonToDeserializeObject<List<ExpandoObject>>() ?? stringValue;
+                return (object)stringValue.JsonToObject<List<ExpandoObject>>() ?? stringValue;
             }
             else if (stringValue.IsObjectJson())
             {
-                return (object)stringValue.JsonToDeserializeObject<ExpandoObject>() ?? stringValue;
+                return (object)stringValue.JsonToObject<ExpandoObject>() ?? stringValue;
             }
             else if (stringValue.IsXml())
             {

@@ -783,7 +783,7 @@ namespace Materal.Utils.Redis
             }
             catch (Exception)
             {
-                result = stringResult.JsonToDeserializeObject<T>();
+                result = stringResult.JsonToObject<T>();
             }
             return result;
         }

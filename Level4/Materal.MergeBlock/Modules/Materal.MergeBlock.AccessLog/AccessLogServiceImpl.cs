@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.AccessLog.Models;
+﻿using Materal.Logger.Abstractions;
+using Materal.MergeBlock.AccessLog.Models;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks.Dataflow;
 

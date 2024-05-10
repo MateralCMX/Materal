@@ -1,4 +1,5 @@
 ﻿using Materal.Abstractions;
+using Materal.Extensions;
 using System.Drawing;
 using System.Drawing.Imaging;
 using ImageClass = System.Drawing.Image;

@@ -25,18 +25,20 @@
         public class TestModel1
         {
             public Guid GuidValue { get; set; } = Guid.NewGuid();
-            public string StringValue { get; set; } = "Materal";
+            public string StringValue { get; set; } = "Hello World!";
             public int IntValue { get; set; } = 1;
             public DateTime DateTimeValue { get; set; } = DateTime.Now;
             public bool BoolValue { get; set; } = true;
+            public SubClass SubClassValue { get; set; } = new();
         }
         public class TestModel2
         {
             public Guid GuidValue { get; set; } = Guid.NewGuid();
-            public string StringValue { get; set; } = "Materal2";
+            public string StringValue { get; set; } = "Hello World!2";
             public int IntValue { get; set; } = 2;
             public DateTime DateTimeValue { get; set; } = DateTime.Now;
             public bool BoolValue { get; set; } = true;
+            public SubClass SubClassValue { get; set; } = new();
         }
         public class TestModel3
         {
@@ -45,6 +47,11 @@
             public int? IntValue { get; set; }
             public DateTime? DateTimeValue { get; set; }
             public bool? BoolValue { get; set; }
+            public SubClass? SubClassValue { get; set; }
+        }
+        public class SubClass
+        {
+            public Guid GuidValue { get; set; } = Guid.NewGuid();
         }
     }
 }

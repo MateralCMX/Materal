@@ -14,7 +14,7 @@ namespace MateralPublish
         {
             if (false
                 //|| project is Models.ProjectModels.Level0.MateralProjectModel
-                || project is Models.ProjectModels.Level0.ToolsProjectModel
+                //|| project is Models.ProjectModels.Level0.ToolsProjectModel
                 //|| project is Models.ProjectModels.Level1.LoggerProjectModel
                 //|| project is Models.ProjectModels.Level2.TFMSProjectModel
                 //|| project is Models.ProjectModels.Level2.EventBusProjectModel
@@ -22,8 +22,8 @@ namespace MateralPublish
                 //|| project is Models.ProjectModels.Level3.OscillatorProjectModel
                 //|| project is Models.ProjectModels.Level4.BaseCoreProjectModel
                 //|| project is Models.ProjectModels.Level4.MergeBlockProjectModel
-                //|| project is Models.ProjectModels.Level5.GatewayProjectModel
-                //|| project is Models.ProjectModels.Level5.RCProjectModel
+                || project is Models.ProjectModels.Level5.GatewayProjectModel
+                || project is Models.ProjectModels.Level5.RCProjectModel
                 )
             {
                 return true;

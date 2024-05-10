@@ -44,7 +44,7 @@
             }
             else if (value.IsJson())
             {
-                result = value.JsonToDeserializeObject<T>();
+                result = value.JsonToObject<T>();
             }
             else
             {

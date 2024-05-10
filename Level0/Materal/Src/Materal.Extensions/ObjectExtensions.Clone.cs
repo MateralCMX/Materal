@@ -17,7 +17,7 @@ namespace Materal.Extensions
             where T : notnull
         {
             string jsonStr = inputObj.ToJson();
-            return jsonStr.JsonToDeserializeObject<T>();
+            return jsonStr.JsonToObject<T>();
         }
         /// <summary>
         /// 克隆对象(XML序列化)

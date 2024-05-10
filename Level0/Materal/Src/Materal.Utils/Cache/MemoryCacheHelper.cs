@@ -98,7 +98,7 @@ namespace Materal.Utils.Cache
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public List<string> GetCacheKeys() => allKey.ToJson().JsonToDeserializeObject<List<string>>() ?? [];
+        public List<string> GetCacheKeys() => allKey.ToJson().JsonToObject<List<string>>() ?? [];
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -108,7 +108,7 @@ namespace Materal.Utils.Cache
         /// </summary>
         public void Clear()
         {
-            string[]? tempAllKey = allKey.ToJson().JsonToDeserializeObject<string[]>();
+            string[]? tempAllKey = allKey.ToJson().JsonToObject<string[]>();
             if (tempAllKey is null || tempAllKey.Length <= 0) return;
             foreach (var item in tempAllKey)
             {

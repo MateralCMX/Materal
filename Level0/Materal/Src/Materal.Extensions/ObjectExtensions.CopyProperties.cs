@@ -42,15 +42,32 @@ namespace Materal.Extensions
                 }
                 else if (sourcePropertyInfo.PropertyType.IsNullableType(targetPropertyInfo.PropertyType))
                 {
-                    index = WriteILTheSourceNullType(ilGenerator, sourcePropertyInfo.Name, getMethod, setMethod, sourcePropertyInfo, targetPropertyInfo, index);
+                    index = WriteILTheSourceNullType(ilGenerator, sourcePropertyInfo.Name, getMethod, setMethod, sourcePropertyInfo, index);
                 }
             }
             // 返回
             ilGenerator.Emit(OpCodes.Ret);
             return dynamicMethod;
         }
-        private static int WriteILTheSourceNullType(ILGenerator ilGenerator, string name, MethodInfo getMethod, MethodInfo setMethod, PropertyInfo sourcePropertyInfo, PropertyInfo targetPropertyInfo, int index)
+        /// <summary>
+        /// 写入IL-源是可空类型
+        /// </summary>
+        /// <param name="ilGenerator"></param>
+        /// <param name="name"></param>
+        /// <param name="getMethod"></param>
+        /// <param name="setMethod"></param>
+        /// <param name="sourcePropertyInfo"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private static int WriteILTheSourceNullType(ILGenerator ilGenerator, string name, MethodInfo getMethod, MethodInfo setMethod, PropertyInfo sourcePropertyInfo, int index)
         {
+            /*
+            if ((isCopy == null || isCopy("Age")) && source.Age.HasValue)
+            {
+                target.Age = source.Age.Value;
+            }
+             */
             // 定义本地变量
             ilGenerator.DeclareLocal(sourcePropertyInfo.PropertyType);
             // 加载第三个参数（isCopy）到计算堆栈
@@ -111,6 +128,12 @@ namespace Materal.Extensions
         /// <returns></returns>
         private static void WriteILTheTargetNullType(ILGenerator ilGenerator, string name, MethodInfo getMethod, MethodInfo setMethod, PropertyInfo sourcePropertyInfo, PropertyInfo targetPropertyInfo)
         {
+            /*
+            if (isCopy == null || isCopy("Age"))
+            {
+                target.Age = new int?(source.Age);
+            }
+             */
             // 加载第三个参数（isCopy）到计算堆栈
             ilGenerator.Emit(OpCodes.Ldarg_2);
             // 如果isCopy为null，跳转到指定标签
@@ -149,6 +172,12 @@ namespace Materal.Extensions
         /// <returns></returns>
         private static void WriteILTheSameType(ILGenerator ilGenerator, string name, MethodInfo getMethod, MethodInfo setMethod)
         {
+            /*
+            if (isCopy == null || isCopy("Age"))
+            {
+                target.Age = source.Age;
+            }
+             */
             // 加载第三个参数（isCopy）到计算堆栈
             ilGenerator.Emit(OpCodes.Ldarg_2);
             // 如果isCopy为null，跳转到指定标签

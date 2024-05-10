@@ -54,11 +54,11 @@ namespace Materal.Test.ExtensionsTests.StringTests
                     }
                 }
             }.ToJson();
-            JObject jObject = jsonString.JsonToDeserializeObject<JObject>();
+            JObject jObject = jsonString.JsonToObject<JObject>();
             Assert.IsNotNull(jObject);
-            ExpandoObject expandoObject = jsonString.JsonToDeserializeObject<ExpandoObject>();
+            ExpandoObject expandoObject = jsonString.JsonToObject<ExpandoObject>();
             Assert.IsNotNull(expandoObject);
-            dynamic dynamicObject = jsonString.JsonToDeserializeObject<dynamic>();
+            dynamic dynamicObject = jsonString.JsonToObject<dynamic>();
             Assert.IsNotNull(dynamicObject);
 
         }

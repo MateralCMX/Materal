@@ -18,63 +18,13 @@ namespace Materal.Extensions
         /// Json字符串转换对象
         /// </summary>
         /// <param name="jsonStr">Json字符串</param>
-        /// <returns>转换后的对象</returns>
-        public static object JsonToObject(this string jsonStr)
-        {
-            try
-            {
-                var model = new object();
-                JsonConvert.PopulateObject(jsonStr, model);
-                return model;
-            }
-            catch (Exception ex)
-            {
-                throw new ExtensionException("Json字符串有误", ex);
-            }
-        }
-        /// <summary>
-        /// Json字符串转换对象
-        /// </summary>
-        /// <param name="jsonStr"></param>
-        /// <param name="typeName"></param>
-        /// <returns></returns>
-        public static object JsonToObject(this string jsonStr, string typeName)
-        {
-            Type triggerDataType = typeName.GetTypeByTypeName(Array.Empty<object>()) ?? throw new ExtensionException("转换失败");
-            object result = jsonStr.JsonToObject(triggerDataType) ?? throw new ExtensionException("转换失败");
-            return result;
-        }
-        /// <summary>
-        /// Json字符串转换对象
-        /// </summary>
-        /// <param name="jsonStr"></param>
         /// <param name="type"></param>
-        /// <returns></returns>
+        /// <returns>转换后的对象</returns>
         public static object JsonToObject(this string jsonStr, Type type)
         {
             try
             {
-                object model = Activator.CreateInstance(type) ?? throw new ExtensionException("创建实体失败");
-                JsonConvert.PopulateObject(jsonStr, model);
-                return model;
-            }
-            catch (Exception ex)
-            {
-                throw new ExtensionException("Json字符串有误", ex);
-            }
-        }
-        /// <summary>
-        /// Json字符串转换对象
-        /// </summary>
-        /// <typeparam name="T">目标对象类型</typeparam>
-        /// <param name="jsonStr">Json字符串</param>
-        /// <returns>转换后的对象</returns>
-        public static T JsonToObject<T>(this string jsonStr)
-        {
-            try
-            {
-                T model = typeof(T).Instantiation<T>() ?? throw new ExtensionException("转换失败");
-                JsonConvert.PopulateObject(jsonStr, model);
+                object model = JsonConvert.DeserializeObject(jsonStr, type) ?? throw new ExtensionException("转换失败");
                 return model;
             }
             catch (Exception ex)
@@ -87,7 +37,7 @@ namespace Materal.Extensions
         /// </summary>
         /// <param name="jsonStr">Json字符串</param>
         /// <returns>转换后的对象</returns>
-        public static object JsonToDeserializeObject(this string jsonStr)
+        public static object JsonToObject(this string jsonStr)
         {
             try
             {
@@ -105,7 +55,7 @@ namespace Materal.Extensions
         /// <typeparam name="T">目标对象类型</typeparam>
         /// <param name="jsonStr">Json字符串</param>
         /// <returns>转换后的对象</returns>
-        public static T JsonToDeserializeObject<T>(this string jsonStr)
+        public static T JsonToObject<T>(this string jsonStr)
         {
             try
             {

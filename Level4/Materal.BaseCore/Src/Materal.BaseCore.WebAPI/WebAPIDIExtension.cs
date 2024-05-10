@@ -2,7 +2,7 @@
 using Materal.BaseCore.WebAPI.Common;
 using Materal.BaseCore.WebAPI.Controllers;
 using Materal.BaseCore.WebAPI.Filters;
-using Materal.Logger;
+using Materal.Logger.Abstractions.Extensions;
 using Materal.Logger.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;

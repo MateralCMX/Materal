@@ -486,7 +486,7 @@ namespace Materal.Utils.Http
         /// <exception cref="MateralHttpException"></exception>
         private static T GetResultObject<T>(string httpResult)
         {
-            if (httpResult.IsJson()) return httpResult.JsonToDeserializeObject<T>();
+            if (httpResult.IsJson()) return httpResult.JsonToObject<T>();
             throw new MateralHttpException("暂不支持非Json返回转换");
         }
         #endregion

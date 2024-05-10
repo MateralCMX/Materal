@@ -1,4 +1,5 @@
 ﻿using Materal.BaseCore.Common;
+using Materal.Logger.Abstractions.Extensions;
 using Materal.Logger.ConsoleLogger;
 using Materal.Logger.Extensions;
 using Materal.TFMS.EventBus;
