@@ -22,6 +22,20 @@
             TestModel1 testModel42 = testModel31.CopyProperties<TestModel1>();
             Assert.AreEqual(testModel42.GuidValue, testModel31.GuidValue.Value);
         }
+        [TestMethod]
+        public void CopyPropertiesTest2()
+        {
+            List<TestModel1> testModel1s = [];
+            for (int i = 0; i < 10000; i++)
+            {
+                testModel1s.Add(new());
+            }
+            List<TestModel2> testModel2s = [];
+            foreach (TestModel1 item in testModel1s)
+            {
+                testModel2s.Add(item.CopyProperties<TestModel2>());
+            }
+        }
         public class TestModel1
         {
             public Guid GuidValue { get; set; } = Guid.NewGuid();

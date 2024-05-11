@@ -1,4 +1,5 @@
-﻿using System.Reflection.Emit;
+﻿using System.Collections.Concurrent;
+using System.Reflection.Emit;
 
 namespace Materal.Extensions
 {
@@ -7,7 +8,7 @@ namespace Materal.Extensions
     /// </summary>
     public static partial class ObjectExtensions
     {
-        private readonly static Dictionary<Type, Delegate> _copyPropertiesFunc = [];
+        private readonly static ConcurrentDictionary<Type, Delegate> _copyPropertiesFunc = [];
         private const string _copyPropertiesFuncName = "CopyPropertiesByIL";
         private static readonly Type _isCopyFuncType = typeof(Func<string, bool>);
         private static readonly MethodInfo _isCopyFuncInvokeMethodInfo = _isCopyFuncType.GetMethod("Invoke") ?? throw new MateralException("获取Invoke方法失败");
@@ -241,7 +242,7 @@ namespace Materal.Extensions
             {
                 action = CreateCopyPropertiesDelegate(sourceType, targetType);
                 if (action.GetType() != actionType) throw new InvalidOperationException("创建的委托类型不正确");
-                _copyPropertiesFunc.Add(actionType, action);
+                _copyPropertiesFunc.TryAdd(actionType, action);
             }
             if (action is null) return;
             action.DynamicInvoke(source, target, isCopy);
