@@ -137,6 +137,44 @@
             return this;
         }
         /// <summary>
+        /// 转换为DateTime
+        /// </summary>
+        /// <returns></returns>
+        public readonly DateTime ToDateTime() => new(Year, Month, Day);
+        /// <summary>
+        /// 转换为DateTime
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public readonly DateTime ToDateTime(Time time) => ToDateTime(time.Hour, time.Minute, time.Second);
+        /// <summary>
+        /// 转换为DateTime
+        /// </summary>
+        /// <param name="hour"></param>
+        /// <param name="minute"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public readonly DateTime ToDateTime(int hour, int minute, int second) => new(Year, Month, Day, hour, minute, second);
+        /// <summary>
+        /// 转换为DateTimeOffset
+        /// </summary>
+        /// <returns></returns>
+        public readonly DateTimeOffset ToDateTimeOffset() => new(ToDateTime());
+        /// <summary>
+        /// 转换为DateTimeOffset
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public readonly DateTimeOffset ToDateTimeOffset(Time time) => ToDateTimeOffset(time.Hour, time.Minute, time.Second);
+        /// <summary>
+        /// 转换为DateTimeOffset
+        /// </summary>
+        /// <param name="hour"></param>
+        /// <param name="minute"></param>
+        /// <param name="second"></param>
+        /// <returns></returns>
+        public readonly DateTimeOffset ToDateTimeOffset(int hour, int minute, int second) => new(ToDateTime(hour, minute, second));
+        /// <summary>
         /// 相等
         /// </summary>
         /// <param name="a"></param>

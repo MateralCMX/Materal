@@ -118,6 +118,48 @@
             return this;
         }
         /// <summary>
+        /// 转换为DateTime
+        /// </summary>
+        /// <returns></returns>
+        public readonly DateTime ToDateTime()
+        {
+            DateTime nowDate = DateTime.Now;
+            return ToDateTime(nowDate.Year, nowDate.Month, nowDate.Day);
+        }
+        /// <summary>
+        /// 转换为DateTime
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public readonly DateTime ToDateTime(Date day) => ToDateTime(day.Year, day.Month, day.Day);
+        /// <summary>
+        /// 转换为DateTime
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public readonly DateTime ToDateTime(int year, int month, int day) => new(year, month, day, Hour, Minute, Second);
+        /// <summary>
+        /// 转换为DateTimeOffset
+        /// </summary>
+        /// <returns></returns>
+        public readonly DateTimeOffset ToDateTimeOffset() => new(ToDateTime());
+        /// <summary>
+        /// 转换为DateTimeOffset
+        /// </summary>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public readonly DateTimeOffset ToDateTimeOffset(Date day) => ToDateTimeOffset(day.Year, day.Month, day.Day);
+        /// <summary>
+        /// 转换为DateTimeOffset
+        /// </summary>
+        /// <param name="year"></param>
+        /// <param name="month"></param>
+        /// <param name="day"></param>
+        /// <returns></returns>
+        public readonly DateTimeOffset ToDateTimeOffset(int year, int month, int day) => new(ToDateTime(year, month, day));
+        /// <summary>
         /// 转换为字符串
         /// </summary>
         /// <returns></returns>
