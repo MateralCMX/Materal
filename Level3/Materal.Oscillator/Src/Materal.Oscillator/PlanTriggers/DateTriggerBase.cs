@@ -25,8 +25,8 @@
         public virtual DateTimeOffset? GetDateEndTime(IEveryDayTrigger everyDayTrigger)
         {
             if (Interval <= 0) return null;
-            if (EndDate == null) return null;
-            DateTimeOffset? result = everyDayTrigger.GetTriggerEndTime(EndDate);
+            if (EndDate is null) return null;
+            DateTimeOffset? result = everyDayTrigger.GetTriggerEndTime(EndDate.Value);
             return result;
         }
         /// <summary>
@@ -82,9 +82,9 @@
             DateTimeOffset? result = everyDayTrigger.GetNextRunTime(upRunTime);
             if (result != null) return result;
             Date? nextRunDate = GetNextRunDate(upRunTime);
-            if (nextRunDate == null) return null;
+            if (nextRunDate is null) return null;
             if (EndDate != null && nextRunDate > EndDate) return null;
-            result = everyDayTrigger.GetTriggerStartTime(nextRunDate);
+            result = everyDayTrigger.GetTriggerStartTime(nextRunDate.Value);
             return result;
         }
         /// <summary>

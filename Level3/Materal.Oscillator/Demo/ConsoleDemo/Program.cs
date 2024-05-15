@@ -1,5 +1,6 @@
 ﻿using ConsoleDemo.Works;
 using Materal.Extensions.DependencyInjection;
+using Materal.Logger.Abstractions.Extensions;
 using Materal.Logger.ConsoleLogger;
 using Materal.Logger.Extensions;
 using Materal.Oscillator.Abstractions;
