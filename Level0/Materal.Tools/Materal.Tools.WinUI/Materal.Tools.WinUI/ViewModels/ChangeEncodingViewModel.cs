@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Materal.Abstractions;
-using Materal.Logger;
+using Materal.Logger.Abstractions;
 using Materal.Tools.Core.ChangeEncoding;
 using Materal.Tools.WinUI;
 using Microsoft.Extensions.DependencyInjection;
