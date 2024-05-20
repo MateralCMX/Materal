@@ -1,6 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper;
 using Materal.MergeBlock.Abstractions.WebModule.Controllers;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Materal.MergeBlock.Abstractions.WebModule
 {
@@ -72,7 +71,7 @@ namespace Materal.MergeBlock.Abstractions.WebModule
         /// </summary>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        public async Task<PageResultModel<TListDTO>> GetListAsync(TQueryRequestModel requestModel)
-            => await HttpHelper.SendAsync<TController, PageResultModel<TListDTO>>(ProjectName, ModuleName, nameof(GetListAsync), [], requestModel);
+        public async Task<CollectionResultModel<TListDTO>> GetListAsync(TQueryRequestModel requestModel)
+            => await HttpHelper.SendAsync<TController, CollectionResultModel<TListDTO>>(ProjectName, ModuleName, nameof(GetListAsync), [], requestModel);
     }
 }

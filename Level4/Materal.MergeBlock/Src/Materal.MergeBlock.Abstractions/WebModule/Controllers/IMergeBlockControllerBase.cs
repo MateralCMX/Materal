@@ -57,6 +57,6 @@ namespace Materal.MergeBlock.Abstractions.WebModule.Controllers
         /// <param name="requestModel"></param>
         /// <returns></returns>
         [HttpPost]
-        Task<PageResultModel<TListDTO>> GetListAsync(TQueryRequestModel requestModel);
+        Task<CollectionResultModel<TListDTO>> GetListAsync(TQueryRequestModel requestModel);
     }
 }

@@ -143,7 +143,7 @@ namespace Materal.MergeBlock.Application.WebModule.Controllers
         /// <param name="requestModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public virtual async Task<PageResultModel<TListDTO>> GetListAsync(TQueryRequestModel requestModel)
+        public virtual async Task<CollectionResultModel<TListDTO>> GetListAsync(TQueryRequestModel requestModel)
         {
             TQueryModel model = Mapper.Map<TQueryModel>(requestModel) ?? throw new MergeBlockException("映射失败");
             return await GetListAsync(model, requestModel);
@@ -154,10 +154,10 @@ namespace Materal.MergeBlock.Application.WebModule.Controllers
         /// <param name="model"></param>
         /// <param name="requestModel"></param>
         /// <returns></returns>
-        protected virtual async Task<PageResultModel<TListDTO>> GetListAsync(TQueryModel model, TQueryRequestModel requestModel)
+        protected virtual async Task<CollectionResultModel<TListDTO>> GetListAsync(TQueryModel model, TQueryRequestModel requestModel)
         {
-            (var data, var pageInfo) = await DefaultService.GetListAsync(model);
-            return PageResultModel<TListDTO>.Success(data, pageInfo, "获取成功");
+            (List<TListDTO>? data, RangeModel? pageInfo) = await DefaultService.GetListAsync(model);
+            return CollectionResultModel<TListDTO>.Success(data, pageInfo, "获取成功");
         }
     }
 }

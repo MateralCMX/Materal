@@ -54,6 +54,6 @@
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(TQueryModel model);
+        Task<(List<TListDTO> data, RangeModel rangeInfo)> GetListAsync(TQueryModel model);
     }
 }

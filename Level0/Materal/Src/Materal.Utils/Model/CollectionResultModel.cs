@@ -35,6 +35,10 @@
         {
             Data = data;
             PageModel = pageModel;
+            if (pageModel is not null)
+            {
+                RangeModel = new RangeModel(pageModel.Skip, pageModel.Take, pageModel.DataCount);
+            }
         }
         /// <summary>
         /// 成功
@@ -85,6 +89,10 @@
         {
             Data = data;
             RangeModel = rangeModel;
+            if (rangeModel is not null)
+            {
+                PageModel = new(rangeModel.Skip / rangeModel.Take + PageRequestModel.PageStartNumber, rangeModel.Take, rangeModel.DataCount);
+            }
         }
         /// <summary>
         /// 成功

@@ -235,7 +235,7 @@ namespace Materal.MergeBlock.Application.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public virtual async Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(TQueryModel model)
+        public virtual async Task<(List<TListDTO> data, RangeModel rangeInfo)> GetListAsync(TQueryModel model)
         {
             Expression<Func<TDomain, bool>> expression = model.GetSearchExpression<TDomain>();
             expression = ServiceImplHelper.GetSearchTreeDomainExpression(expression, model);
@@ -249,13 +249,13 @@ namespace Materal.MergeBlock.Application.Services
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        protected virtual async Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<TDomain, bool>> expression, TQueryModel model, Expression<Func<TDomain, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
+        protected virtual async Task<(List<TListDTO> data, RangeModel rangeInfo)> GetListAsync(Expression<Func<TDomain, bool>> expression, TQueryModel model, Expression<Func<TDomain, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
         {
             if (orderExpression == null)
             {
                 (orderExpression, sortOrder) = GetDefaultOrderInfo<TDomain>(model);
             }
-            (List<TDomain> data, PageModel pageModel) = await DefaultRepository.PagingAsync(expression, orderExpression, sortOrder, model);
+            (List<TDomain> data, RangeModel pageModel) = await DefaultRepository.RangeAsync(expression, orderExpression, sortOrder, model.Skip, model.Take);
             List<TListDTO> result = Mapper.Map<List<TListDTO>>(data) ?? throw new MergeBlockException("映射失败");
             return await GetListAsync(result, pageModel, model);
         }
@@ -292,10 +292,10 @@ namespace Materal.MergeBlock.Application.Services
         /// 获得列表
         /// </summary>
         /// <param name="listDto"></param>
-        /// <param name="pageInfo"></param>
+        /// <param name="rangeInfo"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        protected virtual Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(List<TListDTO> listDto, PageModel pageInfo, TQueryModel model) => Task.FromResult((listDto, pageInfo));
+        protected virtual Task<(List<TListDTO> data, RangeModel rangeInfo)> GetListAsync(List<TListDTO> listDto, RangeModel rangeInfo, TQueryModel model) => Task.FromResult((listDto, rangeInfo));
         /// <summary>
         /// 清空缓存
         /// </summary>
@@ -372,7 +372,7 @@ namespace Materal.MergeBlock.Application.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public override async Task<(List<TListDTO> data, PageModel pageInfo)> GetListAsync(TQueryModel model)
+        public override async Task<(List<TListDTO> data, RangeModel rangeInfo)> GetListAsync(TQueryModel model)
         {
             Expression<Func<TViewDomain, bool>> expression = model.GetSearchExpression<TViewDomain>();
             expression = ServiceImplHelper.GetSearchTreeDomainExpression(expression, model);
@@ -386,15 +386,15 @@ namespace Materal.MergeBlock.Application.Services
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        protected virtual async Task<(List<TListDTO> data, PageModel pageInfo)> GetViewListAsync(Expression<Func<TViewDomain, bool>> expression, TQueryModel model, Expression<Func<TViewDomain, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
+        protected virtual async Task<(List<TListDTO> data, RangeModel rangeInfo)> GetViewListAsync(Expression<Func<TViewDomain, bool>> expression, TQueryModel model, Expression<Func<TViewDomain, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
         {
             if (orderExpression == null)
             {
                 (orderExpression, sortOrder) = GetDefaultOrderInfo<TViewDomain>(model);
             }
-            (List<TViewDomain> data, PageModel pageModel) = await DefaultViewRepository.PagingAsync(expression, orderExpression, sortOrder, model);
+            (List<TViewDomain> data, RangeModel rangeModel) = await DefaultViewRepository.RangeAsync(expression, orderExpression, sortOrder, model.SkipInt, model.TakeInt);
             List<TListDTO> result = Mapper.Map<List<TListDTO>>(data) ?? throw new MergeBlockException("映射失败");
-            return await GetListAsync(result, pageModel, model);
+            return await GetListAsync(result, rangeModel, model);
         }
         /// <summary>
         /// 清空缓存

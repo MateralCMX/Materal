@@ -14,6 +14,18 @@
         /// </summary>
         public long PageIndex { get; set; }
         /// <summary>
+        /// 分页跳过数量
+        /// </summary>
+        public long PageSkip { get; }
+        /// <summary>
+        /// 跳过数量
+        /// </summary>
+        public long Skip { get; set; }
+        /// <summary>
+        /// 获取数量
+        /// </summary>
+        public long Take { get; set; }
+        /// <summary>
         /// 唯一标识组
         /// </summary>
         public List<Guid>? IDs { get; set; }

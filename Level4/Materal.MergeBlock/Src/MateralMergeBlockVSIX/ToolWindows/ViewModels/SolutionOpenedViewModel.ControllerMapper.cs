@@ -109,7 +109,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     }
                     else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                     {
-                        codeContent.AppendLine($"        Task<PageResultModel<{pageReturn.PageResultListType}>> {method.Name}({string.Join(", ", methodArguments)});");
+                        codeContent.AppendLine($"        Task<CollectionResultModel<{pageReturn.PageResultListType}>> {method.Name}({string.Join(", ", methodArguments)});");
                     }
                     else
                     {
@@ -124,7 +124,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     }
                     else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                     {
-                        codeContent.AppendLine($"        PageResultModel<{pageReturn.PageResultListType}> {method.Name}({string.Join(", ", methodArguments)});");
+                        codeContent.AppendLine($"        CollectionResultModel<{pageReturn.PageResultListType}> {method.Name}({string.Join(", ", methodArguments)});");
                     }
                     else
                     {
@@ -234,7 +234,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     }
                     else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                     {
-                        codeContent.AppendLine($"        public async Task<PageResultModel<{pageReturn.PageResultListType}>> {method.Name}({string.Join(", ", methodArguments)})");
+                        codeContent.AppendLine($"        public async Task<CollectionResultModel<{pageReturn.PageResultListType}>> {method.Name}({string.Join(", ", methodArguments)})");
                     }
                     else
                     {
@@ -249,7 +249,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     }
                     else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                     {
-                        codeContent.AppendLine($"        public PageResultModel<{pageReturn.PageResultListType}> {method.Name}({string.Join(", ", methodArguments)})");
+                        codeContent.AppendLine($"        public CollectionResultModel<{pageReturn.PageResultListType}> {method.Name}({string.Join(", ", methodArguments)})");
                     }
                     else
                     {
@@ -288,7 +288,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 }
                 else if (IsPageReturnType(method.NotTaskReturnType, out PageReturnTypeModel pageReturn))
                 {
-                    codeContent.AppendLine($"            return PageResultModel<{pageReturn.PageResultListType}>.Success({pageReturn.LeftName}, {pageReturn.RightName}, \"{method.Annotation}成功\");");
+                    codeContent.AppendLine($"            return CollectionResultModel<{pageReturn.PageResultListType}>.Success({pageReturn.LeftName}, {pageReturn.RightName}, \"{method.Annotation}成功\");");
                 }
                 else
                 {

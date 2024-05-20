@@ -94,7 +94,7 @@ namespace Materal.MergeBlock.Abstractions.WebModule.Extensions
             where TDTO : class, IDTO, new()
             where TListDTO : class, IListDTO, new()
         {
-            PageResultModel<TListDTO> data = await controller.GetListAsync(queryModel);
+            CollectionResultModel<TListDTO> data = await controller.GetListAsync(queryModel);
             if (data.ResultType != ResultTypeEnum.Success) return [];
             if (data.Data is null) return [];
             return data.Data;
