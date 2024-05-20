@@ -5,7 +5,7 @@ namespace Materal.Utils.Model
     /// <summary>
     /// 分页请求模型
     /// </summary>
-    public abstract class PageRequestModel : RangeRequestModel
+    public abstract class PageRequestModel : FilterModel
     {
         /// <summary>
         /// 起始页码
@@ -21,8 +21,8 @@ namespace Materal.Utils.Model
         /// </summary>
         public long PageIndex
         {
-            get => _pageIndex >= PageStartNumber ? _pageIndex : PageStartNumber;
-            set => _pageIndex = value;
+            get => _pageIndex;
+            set => _pageIndex = _pageIndex >= PageStartNumber ? _pageIndex : PageStartNumber;
         }
         /// <summary>
         /// 页面位序
@@ -35,8 +35,8 @@ namespace Materal.Utils.Model
         /// </summary>
         public long PageSize
         {
-            get => pageSize > 0 ? pageSize : 1;
-            set => pageSize = value;
+            get => pageSize;
+            set => pageSize = value > 0 ? value : 1;
         }
         /// <summary>
         /// 显示数量
@@ -44,15 +44,42 @@ namespace Materal.Utils.Model
         [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
         public int PageSizeInt => PageSize > int.MaxValue ? int.MaxValue : (int)PageSize;
         /// <summary>
+        /// 分页跳过数量
+        /// </summary>
+        [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
+        public long PageSkip => (PageIndex - PageStartNumber) * PageSize;
+        /// <summary>
+        /// 分页跳过数量
+        /// </summary>
+        [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
+        public int PageSkipInt => PageSkip > int.MaxValue ? int.MaxValue : (int)PageSkip;
+        private long? _skip;
+        /// <summary>
+        /// 跳过数量
+        /// </summary>
+        public long Skip
+        {
+            get => _skip ?? PageSkip;
+            set
+            {
+                _skip = value;
+                PageIndex = value / PageSize + PageStartNumber;
+            }
+        }
+        /// <summary>
         /// 跳过数量
         /// </summary>
         [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
-        public override long Skip => (PageIndex - PageStartNumber) * PageSize;
+        public int SkipInt => Skip > int.MaxValue ? int.MaxValue : (int)Skip;
         /// <summary>
         /// 获取数量
         /// </summary>
+        public long Take => PageSize;
+        /// <summary>
+        /// 跳过数量
+        /// </summary>
         [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
-        public override long Take => PageSize;
+        public int TakeInt => Take > int.MaxValue ? int.MaxValue : (int)Take;
         /// <summary>
         /// 构造方法
         /// </summary>

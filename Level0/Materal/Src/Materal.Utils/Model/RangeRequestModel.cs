@@ -28,13 +28,13 @@ namespace Materal.Utils.Model
         /// <summary>
         /// 构造方法
         /// </summary>
-        public RangeRequestModel() { }
+        protected RangeRequestModel() { }
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="skip"></param>
         /// <param name="take"></param>
-        public RangeRequestModel(long skip, long take)
+        protected RangeRequestModel(long skip, long take)
         {
             Skip = skip;
             Take = take;
